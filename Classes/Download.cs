@@ -23,8 +23,8 @@ namespace youtube_dl_gui {
         /// <summary>
         /// Argument for best Audio quality downloads
         /// </summary>
-        public static string bestAudio = " -x --audio-format best  --audio-quality best";
-        public static string myAudio = " -x --audio-format mp3 --audio-quality best";
+        public static string bestAudio = " -x --audio-format best  --audio-quality 320K";
+        public static string myAudio = " -x --audio-format mp3 --audio-quality 256K";
 
         /// <summary>
         /// Tooltip
@@ -56,11 +56,11 @@ namespace youtube_dl_gui {
 
                 if (downloadType == 0 && Settings.Default.sortDownloads) {
                     // Video
-                    setArgs =  URL + " -f \"bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best\" " + outputFolder;
+                    setArgs =  URL + " -f \"bestvideo[ext=mp4]/best\" " + outputFolder;
                 }
                 else if (downloadType == 1 && Settings.Default.sortDownloads) {
                     // Audio
-                    setArgs = URL + " -x --audio-format best  --audio-quality best " + outputFolder;
+                    setArgs = URL + " -x --audio-format mp3  --audio-quality 256K " + outputFolder;
                 }
                 else if (downloadType == 2 && Settings.Default.sortDownloads) {
                     // Custom
@@ -88,32 +88,53 @@ namespace youtube_dl_gui {
             }
         }
 
+        /// <summary>
+        /// Downloads with custom formatting & quality options. Must be specified.
+        /// </summary>
+        /// <param name="URL">The URL of the video to download.</param>
+        /// <param name="downloadDir">The directory where it'll be saved to.</param>
+        /// <param name="downloadType">The download type (0 = Video, 1 = Audio)</param>
+        /// <param name="args">Custom arguments to pass.</param>
+        /// <param name="format">The format you want the download to be.</param>
+        /// <param name="quality">The quality you want the download to be.</param>
+        /// <returns></returns>
         public static bool downloadCustom(string URL, string downloadDir, int downloadType, string args = null, string format = "best", string quality = "best") {
-            if (downloadType != 1) {
-                MessageBox.Show("Custom downloads are only limited to audio formats for the time being.");
-                return false;
+            //if (downloadType != 1) {
+            //    MessageBox.Show("Custom downloads are only limited to audio formats for the time being.");
+            //    return false;
+            //}
+            Process Downloader = new Process();
+            Downloader.StartInfo.FileName = Settings.Default.youtubedlDir;
+            string dl = Settings.Default.youtubedlDir;
+
+            switch (downloadType) {
+                case 0:
+                    if (format != "best") {
+                        args = URL + "bestVideo,bestAudio -f " + format + " -o \"" + downloadDir + "/%(title)s-%(id)s.%(ext)s\"";
+                    }
+                    else {
+                        args = URL  + bestVideo + " -o \"" + downloadDir + "/%(title)s-%(id)s.%(ext)s\"";
+                    }
+                    break;
+                case 1:
+                    if (quality != "best")
+                        quality += "K";
+                    else
+                        quality = "320K";
+
+                    args = URL + " -x --audio-format " + format + " --audio-quality " + quality + " -o \"" + downloadDir + "/%(title)s-%(id)s.%(ext)s\"";
+                    break;
+                case 2:
+                    break;
             }
 
+            Downloader.StartInfo.Arguments = args;
+            Downloader.Start();
+
+            GC.Collect();
+            return true;
             try {
-                Process Downloader = new Process();
-                Downloader.StartInfo.FileName = Settings.Default.youtubedlDir;
-
-                switch (downloadType) {
-                    case 0:
-                        args = bestVideo;
-                        break;
-                    case 1:
-                        args = " -x --audio-format " + format + " --audio-quality " + quality + "K";
-                        break;
-                    case 2:
-                        break;
-                }
-
-                Downloader.StartInfo.Arguments = args;
-                Downloader.Start();
-
-                GC.Collect();
-                return true;
+                
             }
             catch (Exception ex) {
                 if (Settings.Default.logErrorFiles)

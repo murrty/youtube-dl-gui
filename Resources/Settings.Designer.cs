@@ -310,5 +310,17 @@ namespace youtube_dl_gui {
                 this["convVidBit"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int dlType {
+            get {
+                return ((int)(this["dlType"]));
+            }
+            set {
+                this["dlType"] = value;
+            }
+        }
     }
 }

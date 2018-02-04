@@ -31,13 +31,13 @@ namespace youtube_dl_gui {
             try {
                 if (filename.EndsWith(".log")) { filename = filename.Replace(".log", ""); }
                 if (Settings.Default.logErrorFiles) { 
-                    if (File.Exists(Application.StartupPath + @"\YChanEx Errors\" + filename + ".log"))
-                        File.Delete(Application.StartupPath + @"\YChanEx Errors\" + filename + ".log");
+                    if (File.Exists(Application.StartupPath + @"\youtube-dl-gui Errors\" + filename + ".log"))
+                        File.Delete(Application.StartupPath + @"\youtube-dl-gui Errors\" + filename + ".log");
 
-                    File.Create(Application.StartupPath + @"\YChanEx Errors\" + filename + ".log").Dispose();
-                    File.WriteAllText(Application.StartupPath + @"\YChanEx Errors\" + filename + ".log", errMessage);
+                    File.Create(Application.StartupPath + @"\youtube-dl-gui Errors\" + filename + ".log").Dispose();
+                    File.WriteAllText(Application.StartupPath + @"\youtube-dl-gui Errors\" + filename + ".log", errMessage);
 
-                    MessageBox.Show("An error has occured and has been logged. Check \"\\YChanEx Errors\\\"" + filename + ".log for information.");
+                    MessageBox.Show("An error has occured and has been logged. Check \"\\youtube-dl-gui Errors\\\"" + filename + ".log for information.");
                 }
                 else { MessageBox.Show("An error has occured.\n\n" + errMessage.ToString(), filename); }
                 return true;

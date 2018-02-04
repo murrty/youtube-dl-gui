@@ -122,6 +122,13 @@ namespace youtube_dl_gui {
 
             cbBit.SelectedIndex = 18;
 
+            if (Settings.Default.dlType == 0)
+                rbVideo.Checked = true;
+            else if (Settings.Default.dlType == 1)
+                rbAudio.Checked = true;
+            else
+                rbCustom.Checked = true;
+
             txtArgs.Text = Settings.Default.savedArgs;
         }
         private void frmMain_SizeChanged(object sender, EventArgs e) {
@@ -182,11 +189,10 @@ namespace youtube_dl_gui {
 
             cbFormat.Items.Clear();
             cbFormat.Items.Add("best");
-            //cbFormat.Items.Add("avi");
-            //cbFormat.Items.Add("flv");
-            //cbFormat.Items.Add("mp4");
-            //cbFormat.Items.Add("mkv");
-            //cbFormat.Items.Add("webm");
+            cbFormat.Items.Add("3gp");
+            cbFormat.Items.Add("flv");
+            cbFormat.Items.Add("mp4");
+            cbFormat.Items.Add("webm");
         }
 
         private void reloadConvAudio() {
@@ -249,7 +255,7 @@ namespace youtube_dl_gui {
         private void rbVideo_CheckedChanged(object sender, EventArgs e) {
             if (rbVideo.Checked) {
                 cbQuality.Enabled = false;
-                cbFormat.Enabled = false;
+                cbFormat.Enabled = true;
                 txtArgs.ReadOnly = true;
                 reloadVideoParams();
                 txtArgs.Clear();
@@ -307,23 +313,31 @@ namespace youtube_dl_gui {
             else if (rbCustom.Checked)
                 dlType = 2;
 
-            if (Download.downloadCustom("\"" + txtURL.Text + "\"", Settings.Default.DownloadDir, dlType, null, cbFormat.Text, cbQuality.Text))
+            if (Download.downloadCustom(txtURL.Text, Settings.Default.DownloadDir, dlType, null, cbFormat.Text, cbQuality.Text))
                 if (Settings.Default.ClearURL == true) {
                     txtURL.Clear();
                     Clipboard.Clear();
                 }
-            if (Settings.Default.saveDlParams)
-                if (rbVideo.Checked) {
+
+            if (rbVideo.Checked) {
+                if (Settings.Default.saveDlParams) {
                     Settings.Default.vidFormat = cbFormat.SelectedIndex;
                     Settings.Default.vidQuality = cbQuality.SelectedIndex;
                 }
-                else if (rbAudio.Checked) {
+                Settings.Default.dlType = 0;
+            }
+            else if (rbAudio.Checked) {
+                if (Settings.Default.saveDlParams) {
                     Settings.Default.audFormat = cbFormat.SelectedIndex;
                     Settings.Default.audQuality = cbQuality.SelectedIndex;
                 }
-
-            if (Settings.Default.saveArgs)
-                Settings.Default.savedArgs = txtArgs.Text;
+                Settings.Default.dlType = 1;
+            }
+            else {
+                if (Settings.Default.saveArgs)
+                    Settings.Default.savedArgs = txtArgs.Text;
+                Settings.Default.dlType = 2;
+            }
 
             Settings.Default.Save();
         }

@@ -6,7 +6,7 @@
       <Value Profile="(Default)">2017.09.01</Value>
     </Setting>
     <Setting Name="currentVersion" Type="System.Decimal" Scope="Application">
-      <Value Profile="(Default)">1.6</Value>
+      <Value Profile="(Default)">1.61</Value>
     </Setting>
     <Setting Name="runningUpdate" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>

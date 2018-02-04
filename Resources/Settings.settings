@@ -74,5 +74,8 @@
     <Setting Name="convVidBit" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">18</Value>
     </Setting>
+    <Setting Name="dlType" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
