@@ -1,0 +1,15 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="youtube_dl_gui.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="ytDLVersion" Type="System.String" Scope="User">
+      <Value Profile="(Default)">2017.09.01</Value>
+    </Setting>
+    <Setting Name="currentVersion" Type="System.Decimal" Scope="Application">
+      <Value Profile="(Default)">1.6</Value>
+    </Setting>
+    <Setting Name="runningUpdate" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
