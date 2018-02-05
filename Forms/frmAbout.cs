@@ -13,6 +13,7 @@ using System.Windows.Forms;
 
 namespace youtube_dl_gui {
     public partial class frmAbout : Form {
+        Thread checkUpdates;
 
         public frmAbout() {
             InitializeComponent();
@@ -22,7 +23,7 @@ namespace youtube_dl_gui {
         }
 
         private void llbCheckForUpdates_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
-            Thread checkUpdates = new Thread(() => {
+            checkUpdates = new Thread(() => {
                 decimal cV = Updater.getCloudVersion();
                 if (Updater.isUpdateAvailable(cV)) {
                     if (MessageBox.Show("An update is available.\nNew verison: " + cV.ToString() + " | Your version: " + Properties.Settings.Default.currentVersion.ToString() + "\n\nWould you like to update?", "youtube-dl-gui", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes) {
@@ -30,7 +31,12 @@ namespace youtube_dl_gui {
                         Updater.runUpdater();
                     }
                 }
+                else {
+                    MessageBox.Show("No update is available at this time.");
+                }
+                this.Invoke((MethodInvoker)(() => checkUpdates.Abort()));
             });
+            checkUpdates.Start();
         }
         private void pbIcon_Click(object sender, EventArgs e) {
             Process.Start("https://github.com/murrty/youtube-dl-gui/");

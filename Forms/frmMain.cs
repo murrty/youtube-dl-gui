@@ -20,8 +20,9 @@ namespace youtube_dl_gui {
 
         #region Variables
         bool hasUpdated = false;
-        //bool networkAvailable = true;
         string ytdl = "";
+
+        Thread checkUpdates;
         #endregion
 
         #region Form
@@ -35,8 +36,8 @@ namespace youtube_dl_gui {
             if (File.Exists(System.Windows.Forms.Application.StartupPath + @"\ydgu.bat"))
                 hasUpdated = true;
 
-            if (!Settings.Default.updateCheck) {
-                Thread checkUpdates = new Thread(() => {
+            if (Settings.Default.updateCheck) {
+                checkUpdates = new Thread(() => {
                     decimal cV = Updater.getCloudVersion();
                     if (Updater.isUpdateAvailable(cV)) {
                         if (MessageBox.Show("An update is available.\nNew verison: " + cV.ToString() + " | Your version: " + Properties.Settings.Default.currentVersion.ToString() + "\n\nWould you like to update?", "youtube-dl-gui", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes) {
@@ -44,7 +45,9 @@ namespace youtube_dl_gui {
                             Updater.runUpdater();
                         }
                     }
+                    this.Invoke((MethodInvoker)(() => checkUpdates.Abort()));
                 });
+                checkUpdates.Start();
             }
 
             if (String.IsNullOrWhiteSpace(Settings.Default.DownloadDir)) {
