@@ -6,10 +6,13 @@
       <Value Profile="(Default)">2017.09.01</Value>
     </Setting>
     <Setting Name="currentVersion" Type="System.Decimal" Scope="Application">
-      <Value Profile="(Default)">1.61</Value>
+      <Value Profile="(Default)">1.63</Value>
     </Setting>
     <Setting Name="runningUpdate" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="cloudVersion" Type="System.Decimal" Scope="User">
+      <Value Profile="(Default)">-1</Value>
     </Setting>
   </Settings>
 </SettingsFile>

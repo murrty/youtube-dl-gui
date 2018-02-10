@@ -74,6 +74,7 @@
             this.mFrmMainSupported = new System.Windows.Forms.MenuItem();
             this.mFrmMainSep = new System.Windows.Forms.MenuItem();
             this.mFrmMainAbout = new System.Windows.Forms.MenuItem();
+            this.mUpdate = new System.Windows.Forms.MenuItem();
             this.MainTabs.SuspendLayout();
             this.tabDownloader.SuspendLayout();
             this.gbDownloadAs.SuspendLayout();
@@ -143,7 +144,7 @@
             this.MainTabs.Controls.Add(this.tabDownloader);
             this.MainTabs.Controls.Add(this.tabConvert);
             this.MainTabs.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.MainTabs.Location = new System.Drawing.Point(0, 73);
+            this.MainTabs.Location = new System.Drawing.Point(0, 32);
             this.MainTabs.Name = "MainTabs";
             this.MainTabs.SelectedIndex = 0;
             this.MainTabs.Size = new System.Drawing.Size(248, 233);
@@ -528,7 +529,8 @@
             // 
             this.mFrmMain.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.mFrmMainSettings,
-            this.mFrmMainHelp});
+            this.mFrmMainHelp,
+            this.mUpdate});
             // 
             // mFrmMainSettings
             // 
@@ -562,11 +564,20 @@
             this.mFrmMainAbout.Text = "About";
             this.mFrmMainAbout.Click += new System.EventHandler(this.mFrmMainAbout_Click);
             // 
+            // mUpdate
+            // 
+            this.mUpdate.Enabled = false;
+            this.mUpdate.Index = 2;
+            this.mUpdate.ShowShortcut = false;
+            this.mUpdate.Text = "Update Available";
+            this.mUpdate.Visible = false;
+            this.mUpdate.Click += new System.EventHandler(this.mUpdate_Click);
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(248, 306);
+            this.ClientSize = new System.Drawing.Size(248, 265);
             this.Controls.Add(this.lblVideoURL);
             this.Controls.Add(this.MainTabs);
             this.Controls.Add(this.txtURL);
@@ -640,6 +651,7 @@
         private System.Windows.Forms.MenuItem cmTrayDownloadCustom;
         private System.Windows.Forms.Label lbVid;
         private System.Windows.Forms.ComboBox cbBit;
+        private System.Windows.Forms.MenuItem mUpdate;
     }
 }
 

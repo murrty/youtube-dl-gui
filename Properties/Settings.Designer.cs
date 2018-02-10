@@ -37,7 +37,7 @@ namespace youtube_dl_gui.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1.61")]
+        [global::System.Configuration.DefaultSettingValueAttribute("1.63")]
         public decimal currentVersion {
             get {
                 return ((decimal)(this["currentVersion"]));
@@ -53,6 +53,18 @@ namespace youtube_dl_gui.Properties {
             }
             set {
                 this["runningUpdate"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("-1")]
+        public decimal cloudVersion {
+            get {
+                return ((decimal)(this["cloudVersion"]));
+            }
+            set {
+                this["cloudVersion"] = value;
             }
         }
     }

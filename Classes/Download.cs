@@ -73,16 +73,14 @@ namespace youtube_dl_gui {
 
                 Downloader.StartInfo.Arguments = setArgs;
                 Downloader.Start();
+                Downloader.WaitForExit();
+                MessageBox.Show(URL + " has finished downloading.");
 
                 GC.Collect();
                 return true;
             }
             catch (Exception ex) {
-                if (Settings.Default.logErrorFiles)
-                    ErrorLog.logError(ex.ToString(), "ydgDownload.download");
-                else
-                    ErrorLog.throwError(ex.ToString());
-
+                ErrorLog.reportError(ex.ToString());
                 GC.Collect();
                 return false;
             }
@@ -103,45 +101,40 @@ namespace youtube_dl_gui {
             //    MessageBox.Show("Custom downloads are only limited to audio formats for the time being.");
             //    return false;
             //}
-            Process Downloader = new Process();
-            Downloader.StartInfo.FileName = Settings.Default.youtubedlDir;
-            string dl = Settings.Default.youtubedlDir;
-
-            switch (downloadType) {
-                case 0:
-                    if (format != "best") {
-                        args = URL + "bestVideo,bestAudio -f " + format + " -o \"" + downloadDir + "/%(title)s-%(id)s.%(ext)s\"";
-                    }
-                    else {
-                        args = URL  + bestVideo + " -o \"" + downloadDir + "/%(title)s-%(id)s.%(ext)s\"";
-                    }
-                    break;
-                case 1:
-                    if (quality != "best")
-                        quality += "K";
-                    else
-                        quality = "320K";
-
-                    args = URL + " -x --audio-format " + format + " --audio-quality " + quality + " -o \"" + downloadDir + "/%(title)s-%(id)s.%(ext)s\"";
-                    break;
-                case 2:
-                    break;
-            }
-
-            Downloader.StartInfo.Arguments = args;
-            Downloader.Start();
-
-            GC.Collect();
-            return true;
             try {
-                
+                Process Downloader = new Process();
+                Downloader.StartInfo.FileName = Settings.Default.youtubedlDir;
+                string dl = Settings.Default.youtubedlDir;
+
+                switch (downloadType) {
+                    case 0:
+                        if (format != "best") {
+                            args = URL + "bestVideo,bestAudio -f " + format + " -o \"" + downloadDir + "/%(title)s-%(id)s.%(ext)s\"";
+                        }
+                        else {
+                            args = URL + bestVideo + " -o \"" + downloadDir + "/%(title)s-%(id)s.%(ext)s\"";
+                        }
+                        break;
+                    case 1:
+                        if (quality != "best")
+                            quality += "K";
+                        else
+                            quality = "320K";
+
+                        args = URL + " -x --audio-format " + format + " --audio-quality " + quality + " -o \"" + downloadDir + "/%(title)s-%(id)s.%(ext)s\"";
+                        break;
+                    case 2:
+                        break;
+                }
+
+                Downloader.StartInfo.Arguments = args;
+                Downloader.Start();
+
+                GC.Collect();
+                return true;
             }
             catch (Exception ex) {
-                if (Settings.Default.logErrorFiles)
-                    ErrorLog.logError(ex.ToString(), "ydgDownload.downloadCustom");
-                else
-                    ErrorLog.throwError(ex.ToString());
-
+                ErrorLog.reportError(ex.ToString());
                 GC.Collect();
                 return false;
             }
@@ -152,6 +145,7 @@ namespace youtube_dl_gui {
         /// </summary>
         /// <param name="downloadDir"></param>
         public static bool downloadYoutubeDL(string downloadDir) {
+            string YtDl = "";
             try {
                 string xml = Updater.getJSON("https://api.github.com/repos/rg3/youtube-dl/releases/latest");
                 XmlDocument doc = new XmlDocument();
@@ -163,7 +157,7 @@ namespace youtube_dl_gui {
                     return false;
                 }
 
-                string YtDl = "https://github.com/rg3/youtube-dl/releases/download/" + xmlTag[0].InnerText + "/youtube-dl.exe";
+                YtDl = "https://github.com/rg3/youtube-dl/releases/download/" + xmlTag[0].InnerText + "/youtube-dl.exe";
 
                 if (File.Exists(System.Windows.Forms.Application.StartupPath + @"\youtube-dl.exe"))
                     File.Delete(System.Windows.Forms.Application.StartupPath + @"\youtube-dl.exe");
@@ -178,12 +172,12 @@ namespace youtube_dl_gui {
                 return true;
 
             }
+            catch (WebException WebE) {
+                ErrorLog.reportWebError(WebE, YtDl);
+                return false;
+            }
             catch (Exception ex) {
-                if (Settings.Default.logErrorFiles)
-                    ErrorLog.logError(ex.ToString(), "ydgDownload.downloadYoutubeDL");
-                else
-                    ErrorLog.throwError(ex.ToString());
-
+                ErrorLog.reportError(ex.ToString());
                 return false;
             }
         }

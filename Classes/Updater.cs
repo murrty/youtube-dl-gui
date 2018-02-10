@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -38,13 +39,13 @@ namespace youtube_dl_gui {
             }
             catch (WebException WebE) {
                 Debug.Print(WebE.ToString());
-                MessageBox.Show(WebE.ToString());
+                ErrorLog.reportWebError(WebE, url);
                 return null;
                 throw WebE;
             }
             catch (Exception ex) {
                 Debug.Print(ex.ToString());
-                MessageBox.Show(ex.ToString());
+                ErrorLog.reportError(ex.ToString());
                 return null;
                 throw ex;
             }
@@ -60,17 +61,11 @@ namespace youtube_dl_gui {
                 doc.LoadXml(xml);
                 XmlNodeList xmlTag = doc.DocumentElement.SelectNodes("/root/tag_name");
 
-                return decimal.Parse(xmlTag[0].InnerText);
-
-            }
-            catch (WebException wEx) {
-                Debug.Print(wEx.ToString());
-                ErrorLog.logError(wEx.ToString(), "UpdateCheckError");
-                return -1;
+                return decimal.Parse(xmlTag[0].InnerText.Replace(".", CultureInfo.InvariantCulture.NumberFormat.NumberDecimalSeparator), NumberStyles.Any, CultureInfo.InvariantCulture);
             }
             catch (Exception ex) {
                 Debug.Print(ex.ToString());
-                ErrorLog.logError(ex.ToString(), "UpdateCheckError");
+                ErrorLog.reportError(ex.ToString());
                 return -1;
             }
         }
@@ -83,7 +78,7 @@ namespace youtube_dl_gui {
             }
             catch (Exception ex) {
                 Debug.Print(ex.ToString());
-                ErrorLog.logError(ex.ToString(), "UpdateCheckError");
+                ErrorLog.reportError(ex.ToString());
                 return false;
             }
         }
@@ -123,7 +118,7 @@ namespace youtube_dl_gui {
             }
             catch (Exception ex) {
                 Debug.Print(ex.ToString());
-                ErrorLog.logError(ex.ToString(), "UpdaterError");
+                ErrorLog.reportError(ex.ToString());
             }
         }
         public static void runUpdater() {
@@ -138,7 +133,7 @@ namespace youtube_dl_gui {
             }
             catch (Exception ex) {
                 Debug.Print(ex.ToString());
-                ErrorLog.logError(ex.ToString(), "UpdaterError");
+                ErrorLog.reportError(ex.ToString());
                 return;
             }
         }

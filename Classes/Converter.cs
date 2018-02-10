@@ -49,11 +49,7 @@ namespace youtube_dl_gui {
                 return true;
             }
             catch (Exception ex) {
-                if (Settings.Default.logErrorFiles)
-                    ErrorLog.logError(ex.ToString(), "ydgConvert.convert");
-                else
-                    ErrorLog.throwError(ex.ToString());
-
+                ErrorLog.reportError(ex.ToString());
                 return false;
             }
         }

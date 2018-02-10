@@ -44,6 +44,8 @@ namespace youtube_dl_gui {
                             Updater.createUpdaterStub(cV);
                             Updater.runUpdater();
                         }
+                        this.Invoke((MethodInvoker)(() => mUpdate.Visible = true));
+                        this.Invoke((MethodInvoker)(() => mUpdate.Enabled = true));
                     }
                     this.Invoke((MethodInvoker)(() => checkUpdates.Abort()));
                 });
@@ -308,15 +310,24 @@ namespace youtube_dl_gui {
 
             int dlType = -1;
             string args = txtArgs.Text;
+            string suffix = "";
 
-            if (rbVideo.Checked)
+
+            if (rbVideo.Checked) {
+                if (Settings.Default.sortDownloads)
+                    suffix = "\\Video";
                 dlType = 0;
-            else if (rbAudio.Checked)
+            }
+            else if (rbAudio.Checked) {
+                if (Settings.Default.sortDownloads)
+                    suffix = "\\Audio";
                 dlType = 1;
-            else if (rbCustom.Checked)
+            }
+            else if (rbCustom.Checked) {
                 dlType = 2;
+            }
 
-            if (Download.downloadCustom(txtURL.Text, Settings.Default.DownloadDir, dlType, null, cbFormat.Text, cbQuality.Text))
+            if (Download.downloadCustom(txtURL.Text, Settings.Default.DownloadDir + suffix, dlType, null, cbFormat.Text, cbQuality.Text))
                 if (Settings.Default.ClearURL == true) {
                     txtURL.Clear();
                     Clipboard.Clear();
@@ -502,5 +513,15 @@ namespace youtube_dl_gui {
                 txtURL.Enabled = false;
         }
         #endregion
+
+        private void mUpdate_Click(object sender, EventArgs e) {
+            if (Properties.Settings.Default.cloudVersion == -1)
+                return;
+
+            if (MessageBox.Show("Would you like to update to version " + Properties.Settings.Default.cloudVersion.ToString() + "?") == System.Windows.Forms.DialogResult.Yes) {
+                Updater.createUpdaterStub(Properties.Settings.Default.cloudVersion);
+                Updater.runUpdater();
+            }
+        }
     }
 }
