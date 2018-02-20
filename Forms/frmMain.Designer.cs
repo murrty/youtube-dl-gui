@@ -49,7 +49,6 @@
             this.rbAudio = new System.Windows.Forms.RadioButton();
             this.rbVideo = new System.Windows.Forms.RadioButton();
             this.cbFormat = new System.Windows.Forms.ComboBox();
-            this.lblCustomArgs = new System.Windows.Forms.Label();
             this.txtArgs = new System.Windows.Forms.TextBox();
             this.btnDownload = new System.Windows.Forms.Button();
             this.tabConvert = new System.Windows.Forms.TabPage();
@@ -158,7 +157,6 @@
             this.tabDownloader.Controls.Add(this.cbQuality);
             this.tabDownloader.Controls.Add(this.gbDownloadAs);
             this.tabDownloader.Controls.Add(this.cbFormat);
-            this.tabDownloader.Controls.Add(this.lblCustomArgs);
             this.tabDownloader.Controls.Add(this.txtArgs);
             this.tabDownloader.Controls.Add(this.btnDownload);
             this.tabDownloader.Location = new System.Drawing.Point(4, 22);
@@ -254,27 +252,18 @@
             this.cbFormat.Size = new System.Drawing.Size(66, 21);
             this.cbFormat.TabIndex = 12;
             // 
-            // lblCustomArgs
-            // 
-            this.lblCustomArgs.AutoSize = true;
-            this.lblCustomArgs.Location = new System.Drawing.Point(9, 125);
-            this.lblCustomArgs.Name = "lblCustomArgs";
-            this.lblCustomArgs.Size = new System.Drawing.Size(66, 13);
-            this.lblCustomArgs.TabIndex = 5;
-            this.lblCustomArgs.Text = "Custom Args";
-            // 
             // txtArgs
             // 
-            this.txtArgs.Location = new System.Drawing.Point(6, 143);
+            this.txtArgs.Location = new System.Drawing.Point(18, 129);
             this.txtArgs.Name = "txtArgs";
             this.txtArgs.ReadOnly = true;
-            this.txtArgs.Size = new System.Drawing.Size(222, 20);
+            this.txtArgs.Size = new System.Drawing.Size(204, 20);
             this.txtArgs.TabIndex = 6;
             this.txtArgs.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // btnDownload
             // 
-            this.btnDownload.Location = new System.Drawing.Point(149, 176);
+            this.btnDownload.Location = new System.Drawing.Point(149, 172);
             this.btnDownload.Name = "btnDownload";
             this.btnDownload.Size = new System.Drawing.Size(76, 24);
             this.btnDownload.TabIndex = 7;
@@ -626,7 +615,6 @@
         internal System.Windows.Forms.ComboBox cbFormat;
         internal System.Windows.Forms.ComboBox cbQuality;
         internal System.Windows.Forms.Label lblAudioQuality;
-        internal System.Windows.Forms.Label lblCustomArgs;
         internal System.Windows.Forms.TextBox txtArgs;
         internal System.Windows.Forms.TextBox txtURL;
         internal System.Windows.Forms.Button btnDownload;

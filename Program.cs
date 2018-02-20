@@ -3,41 +3,25 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace youtube_dl_gui
-{
-    static class Program
-    {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
-
+namespace youtube_dl_gui {
+    static class Program {
+        static Mutex mtx = new Mutex(true, "{youtube-dl-gui-69-420-ayylmao}");
 
         [STAThread]
-        static void Main()
-        {
-            if (PriorProcess() != null)
-            {
-                MessageBox.Show("Another instance of youtube-dl-gui is already running.");
-                return;
+        static void Main() {
+            if (mtx.WaitOne(TimeSpan.Zero, true)) {
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
+                Application.Run(new frmMain());
+                mtx.ReleaseMutex();
             }
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new frmMain());
-        }
-        public static Process PriorProcess()
-        {
-            Process currentProc = Process.GetCurrentProcess();
-            Process[] listProcess = Process.GetProcessesByName(currentProc.ProcessName);
-            foreach (Process retProcess in listProcess)
-            {
-                if ((retProcess.Id != currentProc.Id) &&
-                    (retProcess.MainModule.FileName == currentProc.MainModule.FileName))
-                    return retProcess;
+            else {
+                Controller.PostMessage((IntPtr)Controller.HWND_BROADCAST, Controller.WM_SHOWFORM, IntPtr.Zero, IntPtr.Zero);
             }
-            return null;
         }
     }
 }

@@ -25,9 +25,33 @@ namespace youtube_dl_gui {
         Thread checkUpdates;
         #endregion
 
-        #region Form
+        //TextBox Hint
+        [DllImport("user32.dll", CharSet = CharSet.Unicode)]
+        private static extern IntPtr SendMessage(IntPtr hWnd, int msg, IntPtr wp, string lp);
+        /// <summary>
+        /// Set a hint for a Textbox.
+        /// </summary>
+        /// <param name="TextboxHandle">The handle for the text box. (Usually TextBox.Handle)</param>
+        /// <param name="Hint">The string that should be set as the hint.</param>
+        private void SetTextBoxHint(IntPtr TextboxHandle, string Hint) {
+            SendMessage(TextboxHandle, 0x1501, (IntPtr)1, Hint);
+        }
+
+        protected override void WndProc(ref Message m) {
+            if (m.Msg == Controller.WM_SHOWFORM) {
+                this.Show();
+                if (this.WindowState != FormWindowState.Normal)
+                    this.WindowState = FormWindowState.Normal;
+                this.Activate();
+            }
+            base.WndProc(ref m);
+        }
+
+        #region Form Methods
         public frmMain() {
             InitializeComponent();
+            SetTextBoxHint(txtURL.Handle, "Enter URL...");
+            SetTextBoxHint(txtArgs.Handle, "Custom arguments...");
         }
 
         private void frmMain_Load(object sender, EventArgs e) {
