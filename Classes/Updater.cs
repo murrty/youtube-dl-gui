@@ -5,7 +5,9 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Security;
 using System.Runtime.Serialization.Json;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -17,12 +19,13 @@ namespace youtube_dl_gui {
     class Updater {
         public static string rawURL = "https://raw.githubusercontent.com/murrty/youtube-dl-gui";
         public static string githubURL = "https://github.com/murrty/youtube-dl-gui";
-        public static string githubJSON = "https://api.github.com/repos/murrty/youtube-dl-gui/releases/latest";
+        public static string githubJSON = "http://api.github.com/repos/murrty/youtube-dl-gui/releases/latest";
         public static string downloadURL = "https://github.com/murrty/youtube-dl-gui/releases/download/%upVersion%/youtube-dl-gui.exe";
         public static string updateFile = @"\ydgu.bat";
 
         public static string getJSON(string url) {
             try {
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
                 using (WebClient wc = new WebClient()) {
                     wc.Headers.Add("User-Agent: " + Advanced.Default.UserAgent);
                     string json = wc.DownloadString(url);
