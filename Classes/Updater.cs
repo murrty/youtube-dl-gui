@@ -25,7 +25,6 @@ namespace youtube_dl_gui {
 
         public static string getJSON(string url) {
             try {
-                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
                 using (WebClient wc = new WebClient()) {
                     wc.Headers.Add("User-Agent: " + Advanced.Default.UserAgent);
                     string json = wc.DownloadString(url);

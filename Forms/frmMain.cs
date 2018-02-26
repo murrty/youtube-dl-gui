@@ -100,7 +100,7 @@ namespace youtube_dl_gui {
                 if (MessageBox.Show("Would you like to use a static youtube-dl.exe path? Select \"No\" to keep youtube-dl.exe with youtube-dl-gui.exe.", "youtube-dl-gui", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes) {
                     FolderBrowserDialog fbd = new FolderBrowserDialog { Description = "Select a folder to store youtube-dl.exe" };
                     if (fbd.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
-                        Settings.Default.youtubedlDir = fbd.SelectedPath;
+                        Settings.Default.youtubedlDir = fbd.SelectedPath + @"\youtube-dl.exe";
                     }
                 }
                 else {
@@ -110,15 +110,17 @@ namespace youtube_dl_gui {
             }
 
             if (Settings.Default.staticYTD) {
-                ytdl = Settings.Default.youtubedlDir + @"\youtube-dl.exe";
+                ytdl = Settings.Default.youtubedlDir;
             }
             else {
                 ytdl = System.Windows.Forms.Application.StartupPath + @"\youtube-dl.exe";
                 Settings.Default.youtubedlDir = System.Windows.Forms.Application.StartupPath + @"\youtube-dl.exe";
             }
             // Downloads the youtube-dl application if it does not exist, otherwise it checks for updates.
-            if (!File.Exists(ytdl))
+            if (!File.Exists(ytdl)) {
+                MessageBox.Show("youtube-dl will now be downloaded.");
                 Download.downloadYoutubeDL(ytdl);
+            }
         }
         private void frmMain_Shown(object sender, EventArgs e) {
             if (hasUpdated) {

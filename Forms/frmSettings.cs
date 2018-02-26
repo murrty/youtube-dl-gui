@@ -33,7 +33,7 @@ namespace youtube_dl_gui {
             chkSaveConvParams.Checked = Settings.Default.saveConvParams;
             chkSeperateDownloads.Checked = Settings.Default.sortDownloads;
             chkStaticYTDL.Checked = Settings.Default.staticYTD;
-            txtYtDl.Text = Settings.Default.youtubedlDir + @"\youtube-dl.exe";
+            txtYtDl.Text = Settings.Default.youtubedlDir;
 
             if (chkStaticYTDL.Checked) {
                 btnYtDl.Enabled = true;
@@ -87,7 +87,7 @@ namespace youtube_dl_gui {
                 txtYtDl.Text = fbd.SelectedPath;
             }
             else {
-                txtYtDl.Text = Settings.Default.youtubedlDir;
+                txtYtDl.Text = Settings.Default.youtubedlDir + @"\youtube-dl.exe";
             }
         }
         private void chkStaticYTDL_CheckedChanged(object sender, EventArgs e) {
@@ -95,7 +95,7 @@ namespace youtube_dl_gui {
                 FolderBrowserDialog fbd = new FolderBrowserDialog { Description = "Select a folder to store youtube-dl.exe" };
                 if (fbd.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
                     btnYtDl.Enabled = true;
-                    txtYtDl.Text = fbd.SelectedPath;
+                    txtYtDl.Text = fbd.SelectedPath + "\\youtube-dl.exe";
                 }
                 else {
                     btnYtDl.Enabled = false;

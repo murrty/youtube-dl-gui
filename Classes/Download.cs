@@ -157,14 +157,17 @@ namespace youtube_dl_gui {
                     return false;
                 }
 
+                if (!downloadDir.EndsWith(@"\youtube-dl.exe"))
+                    downloadDir += @"\youtube-dl.exe";
+
                 YtDl = "https://github.com/rg3/youtube-dl/releases/download/" + xmlTag[0].InnerText + "/youtube-dl.exe";
 
-                if (File.Exists(System.Windows.Forms.Application.StartupPath + @"\youtube-dl.exe"))
-                    File.Delete(System.Windows.Forms.Application.StartupPath + @"\youtube-dl.exe");
+                if (File.Exists(downloadDir))
+                    File.Delete(downloadDir);
 
                 using (WebClient wc = new WebClient()) {
                     wc.Headers.Add("User-Agent: " + Advanced.Default.UserAgent);
-                    wc.DownloadFile(YtDl, System.Windows.Forms.Application.StartupPath + @"\youtube-dl.exe");
+                    wc.DownloadFile(YtDl, downloadDir);
                 }
 
                 Settings.Default.DateLastUpdated = DateTime.Now;
