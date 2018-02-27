@@ -4,7 +4,7 @@ GUI for [youtube-dl](https://rg3.github.io/youtube-dl) + [FFmpeg](https://ffmpeg
 It is what youtube visual downloaders should be, not bloated with adware or viruses like other places and it downloads from Google's servers so it's (technically) safer than a 3rd party site that could leak your information.
 
 # Prerequisites
-Requires .NET 4.0.
+Requires .NET 4.5.
 
 # Usage
 
