@@ -1,3 +1,5 @@
+Not actively maintained anymore. Requires recoding and I'm just too lazy to pursue that at this time. Check back later.
+
 # youtube-dl-gui
 GUI for [youtube-dl](https://rg3.github.io/youtube-dl) + [FFmpeg](https://ffmpeg.org/) (which is used for converting).
 
@@ -18,4 +20,4 @@ https://rg3.github.io/youtube-dl/supportedsites.html
 
 # Future plans
 
-QoL updates
+nothing.
