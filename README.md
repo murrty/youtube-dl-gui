@@ -22,7 +22,7 @@ The static paths for youtube-dl and ffmpeg may be set, which will allow you to s
 
 When using custom arguments, the url and save directory are automatically passed, url being the first thing passed, followed by custom arguments, and the save-to directory being the final one passed.
 
-This applies to downloads and vonersions.
+This applies to downloads and conversions.
 
 # Compatible sites
 
