@@ -55,5 +55,14 @@ namespace youtube_dl_gui.Properties {
                 this["jsonSupport"] = value;
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public decimal stubVersion {
+            get {
+                return ((decimal)(this["stubVersion"]));
+            }
+        }
     }
 }

@@ -71,7 +71,7 @@ namespace youtube_dl_gui {
             }
             catch (Exception ex) {
                 Debug.Print(ex.ToString());
-                //ErrorLog.reportError(ex.ToString());
+                ErrorLog.reportError(ex);
                 return -1;
             }
         }
@@ -84,7 +84,7 @@ namespace youtube_dl_gui {
             }
             catch (Exception ex) {
                 Debug.Print(ex.ToString());
-                //ErrorLog.reportError(ex.ToString());
+                ErrorLog.reportError(ex);
                 return false;
             }
         }
@@ -122,6 +122,27 @@ namespace youtube_dl_gui {
             writeApp.WriteLine("%programName%");
             writeApp.WriteLine("exit");
             writeApp.Close();
+        }
+
+        public static bool updateStub() {
+            try {
+                if (File.Exists(Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe")) {
+                    FileVersionInfo stubVersion = FileVersionInfo.GetVersionInfo(Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe");
+                    if (stubVersion.ProductMajorPart > 1) {
+                        File.Delete(Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe");
+
+                        File.Create(Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe");
+                    }
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            }
+            catch (Exception ex) {
+                ErrorLog.reportError(ex);
+                return false;
+            }
         }
     }
 }
