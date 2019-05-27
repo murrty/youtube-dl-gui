@@ -13,11 +13,11 @@ namespace youtube_dl_gui {
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "12.0.0.0")]
-    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
+    internal sealed partial class Errors : global::System.Configuration.ApplicationSettingsBase {
         
-        private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
+        private static Errors defaultInstance = ((Errors)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Errors())));
         
-        public static Settings Default {
+        public static Errors Default {
             get {
                 return defaultInstance;
             }
@@ -25,25 +25,37 @@ namespace youtube_dl_gui {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string extensionsName {
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool detailedErrors {
             get {
-                return ((string)(this["extensionsName"]));
+                return ((bool)(this["detailedErrors"]));
             }
             set {
-                this["extensionsName"] = value;
+                this["detailedErrors"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string extensionsShort {
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool logErrors {
             get {
-                return ((string)(this["extensionsShort"]));
+                return ((bool)(this["logErrors"]));
             }
             set {
-                this["extensionsShort"] = value;
+                this["logErrors"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool suppressErrors {
+            get {
+                return ((bool)(this["suppressErrors"]));
+            }
+            set {
+                this["suppressErrors"] = value;
             }
         }
     }

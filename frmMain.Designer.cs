@@ -29,6 +29,7 @@
             this.lbDownloadURL = new System.Windows.Forms.Label();
             this.tcMain = new System.Windows.Forms.TabControl();
             this.tabDownload = new System.Windows.Forms.TabPage();
+            this.lbDownloadStatus = new System.Windows.Forms.Label();
             this.btnDownload = new System.Windows.Forms.Button();
             this.lbDownloadArgs = new System.Windows.Forms.Label();
             this.txtArgs = new System.Windows.Forms.TextBox();
@@ -50,6 +51,7 @@
             this.btnConvertInput = new System.Windows.Forms.Button();
             this.lbConvertInput = new System.Windows.Forms.Label();
             this.txtConvertInput = new System.Windows.Forms.TextBox();
+            this.tabMerge = new System.Windows.Forms.TabPage();
             this.menu = new System.Windows.Forms.MainMenu(this.components);
             this.mSettings = new System.Windows.Forms.MenuItem();
             this.mHelp = new System.Windows.Forms.MenuItem();
@@ -77,8 +79,8 @@
             this.cmSep = new System.Windows.Forms.MenuItem();
             this.cmExit = new System.Windows.Forms.MenuItem();
             this.trayIcon = new System.Windows.Forms.NotifyIcon(this.components);
-            this.tmrToggleLabel = new System.Windows.Forms.Timer(this.components);
-            this.tabMerge = new System.Windows.Forms.TabPage();
+            this.tmrConvertLabel = new System.Windows.Forms.Timer(this.components);
+            this.tmrDownloadLabel = new System.Windows.Forms.Timer(this.components);
             this.tcMain.SuspendLayout();
             this.tabDownload.SuspendLayout();
             this.gbDownloadType.SuspendLayout();
@@ -92,7 +94,7 @@
             this.txtUrl.Location = new System.Drawing.Point(22, 27);
             this.txtUrl.Name = "txtUrl";
             this.txtUrl.Size = new System.Drawing.Size(200, 20);
-            this.txtUrl.TabIndex = 0;
+            this.txtUrl.TabIndex = 1;
             this.txtUrl.MouseEnter += new System.EventHandler(this.txtUrl_MouseEnter);
             // 
             // lbDownloadURL
@@ -113,11 +115,12 @@
             this.tcMain.Location = new System.Drawing.Point(0, 0);
             this.tcMain.Name = "tcMain";
             this.tcMain.SelectedIndex = 0;
-            this.tcMain.Size = new System.Drawing.Size(252, 270);
-            this.tcMain.TabIndex = 2;
+            this.tcMain.Size = new System.Drawing.Size(252, 249);
+            this.tcMain.TabIndex = 1;
             // 
             // tabDownload
             // 
+            this.tabDownload.Controls.Add(this.lbDownloadStatus);
             this.tabDownload.Controls.Add(this.btnDownload);
             this.tabDownload.Controls.Add(this.lbDownloadArgs);
             this.tabDownload.Controls.Add(this.lbDownloadURL);
@@ -127,17 +130,28 @@
             this.tabDownload.Location = new System.Drawing.Point(4, 22);
             this.tabDownload.Name = "tabDownload";
             this.tabDownload.Padding = new System.Windows.Forms.Padding(3);
-            this.tabDownload.Size = new System.Drawing.Size(244, 244);
+            this.tabDownload.Size = new System.Drawing.Size(244, 223);
             this.tabDownload.TabIndex = 0;
             this.tabDownload.Text = "Download";
             this.tabDownload.UseVisualStyleBackColor = true;
+            // 
+            // lbDownloadStatus
+            // 
+            this.lbDownloadStatus.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbDownloadStatus.Location = new System.Drawing.Point(3, 195);
+            this.lbDownloadStatus.Name = "lbDownloadStatus";
+            this.lbDownloadStatus.Size = new System.Drawing.Size(238, 20);
+            this.lbDownloadStatus.TabIndex = 17;
+            this.lbDownloadStatus.Text = "waiting";
+            this.lbDownloadStatus.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lbDownloadStatus.Visible = false;
             // 
             // btnDownload
             // 
             this.btnDownload.Location = new System.Drawing.Point(83, 170);
             this.btnDownload.Name = "btnDownload";
             this.btnDownload.Size = new System.Drawing.Size(79, 25);
-            this.btnDownload.TabIndex = 3;
+            this.btnDownload.TabIndex = 4;
             this.btnDownload.Text = "Download";
             this.btnDownload.UseVisualStyleBackColor = true;
             this.btnDownload.Click += new System.EventHandler(this.btnDownload_Click);
@@ -157,7 +171,7 @@
             this.txtArgs.Name = "txtArgs";
             this.txtArgs.ReadOnly = true;
             this.txtArgs.Size = new System.Drawing.Size(200, 20);
-            this.txtArgs.TabIndex = 1;
+            this.txtArgs.TabIndex = 3;
             // 
             // gbDownloadType
             // 
@@ -167,7 +181,7 @@
             this.gbDownloadType.Location = new System.Drawing.Point(26, 59);
             this.gbDownloadType.Name = "gbDownloadType";
             this.gbDownloadType.Size = new System.Drawing.Size(192, 40);
-            this.gbDownloadType.TabIndex = 0;
+            this.gbDownloadType.TabIndex = 2;
             this.gbDownloadType.TabStop = false;
             this.gbDownloadType.Text = "Download type";
             // 
@@ -177,7 +191,7 @@
             this.rbCustom.Location = new System.Drawing.Point(125, 15);
             this.rbCustom.Name = "rbCustom";
             this.rbCustom.Size = new System.Drawing.Size(59, 17);
-            this.rbCustom.TabIndex = 2;
+            this.rbCustom.TabIndex = 3;
             this.rbCustom.TabStop = true;
             this.rbCustom.Text = "Custom";
             this.rbCustom.UseVisualStyleBackColor = true;
@@ -189,7 +203,7 @@
             this.rbAudio.Location = new System.Drawing.Point(67, 15);
             this.rbAudio.Name = "rbAudio";
             this.rbAudio.Size = new System.Drawing.Size(51, 17);
-            this.rbAudio.TabIndex = 1;
+            this.rbAudio.TabIndex = 2;
             this.rbAudio.TabStop = true;
             this.rbAudio.Text = "Audio";
             this.rbAudio.UseVisualStyleBackColor = true;
@@ -200,7 +214,7 @@
             this.rbVideo.Location = new System.Drawing.Point(8, 15);
             this.rbVideo.Name = "rbVideo";
             this.rbVideo.Size = new System.Drawing.Size(51, 17);
-            this.rbVideo.TabIndex = 0;
+            this.rbVideo.TabIndex = 1;
             this.rbVideo.TabStop = true;
             this.rbVideo.Text = "Video";
             this.rbVideo.UseVisualStyleBackColor = true;
@@ -223,7 +237,7 @@
             this.tabConvert.Location = new System.Drawing.Point(4, 22);
             this.tabConvert.Name = "tabConvert";
             this.tabConvert.Padding = new System.Windows.Forms.Padding(3);
-            this.tabConvert.Size = new System.Drawing.Size(244, 244);
+            this.tabConvert.Size = new System.Drawing.Size(244, 223);
             this.tabConvert.TabIndex = 1;
             this.tabConvert.Text = "Convert";
             this.tabConvert.UseVisualStyleBackColor = true;
@@ -234,7 +248,7 @@
             this.rbConvertCustom.Location = new System.Drawing.Point(151, 112);
             this.rbConvertCustom.Name = "rbConvertCustom";
             this.rbConvertCustom.Size = new System.Drawing.Size(59, 17);
-            this.rbConvertCustom.TabIndex = 19;
+            this.rbConvertCustom.TabIndex = 7;
             this.rbConvertCustom.TabStop = true;
             this.rbConvertCustom.Text = "Custom";
             this.rbConvertCustom.UseVisualStyleBackColor = true;
@@ -245,7 +259,7 @@
             this.rbConvertAutoFFmpeg.Location = new System.Drawing.Point(120, 135);
             this.rbConvertAutoFFmpeg.Name = "rbConvertAutoFFmpeg";
             this.rbConvertAutoFFmpeg.Size = new System.Drawing.Size(81, 17);
-            this.rbConvertAutoFFmpeg.TabIndex = 18;
+            this.rbConvertAutoFFmpeg.TabIndex = 9;
             this.rbConvertAutoFFmpeg.TabStop = true;
             this.rbConvertAutoFFmpeg.Text = "Auto ffmpeg";
             this.rbConvertAutoFFmpeg.UseVisualStyleBackColor = true;
@@ -256,7 +270,7 @@
             this.rbConvertAuto.Location = new System.Drawing.Point(43, 135);
             this.rbConvertAuto.Name = "rbConvertAuto";
             this.rbConvertAuto.Size = new System.Drawing.Size(71, 17);
-            this.rbConvertAuto.TabIndex = 17;
+            this.rbConvertAuto.TabIndex = 8;
             this.rbConvertAuto.TabStop = true;
             this.rbConvertAuto.Text = "Automatic";
             this.rbConvertAuto.UseVisualStyleBackColor = true;
@@ -265,7 +279,7 @@
             // 
             this.lbConvStatus.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.lbConvStatus.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbConvStatus.Location = new System.Drawing.Point(3, 219);
+            this.lbConvStatus.Location = new System.Drawing.Point(3, 198);
             this.lbConvStatus.Name = "lbConvStatus";
             this.lbConvStatus.Size = new System.Drawing.Size(238, 22);
             this.lbConvStatus.TabIndex = 16;
@@ -279,7 +293,7 @@
             this.btnConvert.Location = new System.Drawing.Point(83, 170);
             this.btnConvert.Name = "btnConvert";
             this.btnConvert.Size = new System.Drawing.Size(79, 25);
-            this.btnConvert.TabIndex = 14;
+            this.btnConvert.TabIndex = 10;
             this.btnConvert.Text = "Convert";
             this.btnConvert.UseVisualStyleBackColor = true;
             this.btnConvert.Click += new System.EventHandler(this.btnConvert_Click);
@@ -290,7 +304,7 @@
             this.rbConvertVideo.Location = new System.Drawing.Point(35, 112);
             this.rbConvertVideo.Name = "rbConvertVideo";
             this.rbConvertVideo.Size = new System.Drawing.Size(51, 17);
-            this.rbConvertVideo.TabIndex = 0;
+            this.rbConvertVideo.TabIndex = 5;
             this.rbConvertVideo.TabStop = true;
             this.rbConvertVideo.Text = "Video";
             this.rbConvertVideo.UseVisualStyleBackColor = true;
@@ -301,7 +315,7 @@
             this.rbConvertAudio.Location = new System.Drawing.Point(94, 112);
             this.rbConvertAudio.Name = "rbConvertAudio";
             this.rbConvertAudio.Size = new System.Drawing.Size(51, 17);
-            this.rbConvertAudio.TabIndex = 1;
+            this.rbConvertAudio.TabIndex = 6;
             this.rbConvertAudio.TabStop = true;
             this.rbConvertAudio.Text = "Audio";
             this.rbConvertAudio.UseVisualStyleBackColor = true;
@@ -312,7 +326,7 @@
             this.btnConvertOutput.Location = new System.Drawing.Point(193, 72);
             this.btnConvertOutput.Name = "btnConvertOutput";
             this.btnConvertOutput.Size = new System.Drawing.Size(29, 23);
-            this.btnConvertOutput.TabIndex = 8;
+            this.btnConvertOutput.TabIndex = 4;
             this.btnConvertOutput.Text = "...";
             this.btnConvertOutput.UseVisualStyleBackColor = true;
             this.btnConvertOutput.Click += new System.EventHandler(this.btnConvertOutput_Click);
@@ -334,14 +348,14 @@
             this.txtConvertOutput.Name = "txtConvertOutput";
             this.txtConvertOutput.ReadOnly = true;
             this.txtConvertOutput.Size = new System.Drawing.Size(161, 20);
-            this.txtConvertOutput.TabIndex = 6;
+            this.txtConvertOutput.TabIndex = 3;
             // 
             // btnConvertInput
             // 
             this.btnConvertInput.Location = new System.Drawing.Point(193, 25);
             this.btnConvertInput.Name = "btnConvertInput";
             this.btnConvertInput.Size = new System.Drawing.Size(29, 23);
-            this.btnConvertInput.TabIndex = 5;
+            this.btnConvertInput.TabIndex = 2;
             this.btnConvertInput.Text = "...";
             this.btnConvertInput.UseVisualStyleBackColor = true;
             this.btnConvertInput.Click += new System.EventHandler(this.btnConvertInput_Click);
@@ -363,7 +377,17 @@
             this.txtConvertInput.Name = "txtConvertInput";
             this.txtConvertInput.ReadOnly = true;
             this.txtConvertInput.Size = new System.Drawing.Size(161, 20);
-            this.txtConvertInput.TabIndex = 2;
+            this.txtConvertInput.TabIndex = 1;
+            // 
+            // tabMerge
+            // 
+            this.tabMerge.Location = new System.Drawing.Point(4, 22);
+            this.tabMerge.Name = "tabMerge";
+            this.tabMerge.Padding = new System.Windows.Forms.Padding(3);
+            this.tabMerge.Size = new System.Drawing.Size(244, 223);
+            this.tabMerge.TabIndex = 2;
+            this.tabMerge.Text = "Merge";
+            this.tabMerge.UseVisualStyleBackColor = true;
             // 
             // menu
             // 
@@ -404,7 +428,7 @@
             this.lbDebug.Name = "lbDebug";
             this.lbDebug.Size = new System.Drawing.Size(61, 13);
             this.lbDebug.TabIndex = 3;
-            this.lbDebug.Text = "2019-05-25";
+            this.lbDebug.Text = "2019-05-26";
             // 
             // cmTray
             // 
@@ -549,27 +573,22 @@
             this.trayIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("trayIcon.Icon")));
             this.trayIcon.Text = "youtube-dl-gui";
             // 
-            // tmrToggleLabel
+            // tmrConvertLabel
             // 
-            this.tmrToggleLabel.Interval = 5000;
-            this.tmrToggleLabel.Tick += new System.EventHandler(this.tmrToggleLabel_Tick);
+            this.tmrConvertLabel.Interval = 5000;
+            this.tmrConvertLabel.Tick += new System.EventHandler(this.tmrConvertLabel_Tick);
             // 
-            // tabMerge
+            // tmrDownloadLabel
             // 
-            this.tabMerge.Location = new System.Drawing.Point(4, 22);
-            this.tabMerge.Name = "tabMerge";
-            this.tabMerge.Padding = new System.Windows.Forms.Padding(3);
-            this.tabMerge.Size = new System.Drawing.Size(244, 244);
-            this.tabMerge.TabIndex = 2;
-            this.tabMerge.Text = "Merge";
-            this.tabMerge.UseVisualStyleBackColor = true;
+            this.tmrDownloadLabel.Interval = 5000;
+            this.tmrDownloadLabel.Tick += new System.EventHandler(this.tmrDownloadLabel_Tick);
             // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(252, 270);
+            this.ClientSize = new System.Drawing.Size(252, 249);
             this.Controls.Add(this.lbDebug);
             this.Controls.Add(this.tcMain);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -637,7 +656,7 @@
         private System.Windows.Forms.RadioButton rbConvertVideo;
         private System.Windows.Forms.Button btnConvert;
         private System.Windows.Forms.Label lbConvStatus;
-        private System.Windows.Forms.Timer tmrToggleLabel;
+        private System.Windows.Forms.Timer tmrConvertLabel;
         private System.Windows.Forms.RadioButton rbConvertAuto;
         private System.Windows.Forms.RadioButton rbConvertAutoFFmpeg;
         private System.Windows.Forms.RadioButton rbConvertCustom;
@@ -650,6 +669,8 @@
         private System.Windows.Forms.MenuItem mConvertAutomatic;
         private System.Windows.Forms.MenuItem mConvertAutoFFmpeg;
         private System.Windows.Forms.TabPage tabMerge;
+        private System.Windows.Forms.Label lbDownloadStatus;
+        private System.Windows.Forms.Timer tmrDownloadLabel;
     }
 }
 

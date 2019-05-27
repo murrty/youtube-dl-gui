@@ -57,30 +57,47 @@
             this.txtSaveto = new System.Windows.Forms.TextBox();
             this.lbDownloadPath = new System.Windows.Forms.Label();
             this.tbConverter = new System.Windows.Forms.TabPage();
+            this.chkConvertHideFFmpeg = new System.Windows.Forms.CheckBox();
+            this.tcConverter = new System.Windows.Forms.TabControl();
+            this.tabConvertVideo = new System.Windows.Forms.TabPage();
+            this.chkVideoFastStart = new System.Windows.Forms.CheckBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.numConvertVideoCRF = new System.Windows.Forms.NumericUpDown();
+            this.lbConvertVideoProfile = new System.Windows.Forms.Label();
+            this.cbConvertVideoProfile = new System.Windows.Forms.ComboBox();
+            this.lbConvertVideoPreset = new System.Windows.Forms.Label();
+            this.cbConvertVideoPreset = new System.Windows.Forms.ComboBox();
+            this.lbConvertVideoBitrate = new System.Windows.Forms.Label();
+            this.numConvertVideoBitrate = new System.Windows.Forms.NumericUpDown();
+            this.lbConvertVideoThousands = new System.Windows.Forms.Label();
+            this.tabConvertAudio = new System.Windows.Forms.TabPage();
+            this.label4 = new System.Windows.Forms.Label();
+            this.numConvertAudioBitrate = new System.Windows.Forms.NumericUpDown();
             this.lbidkwhatsup = new System.Windows.Forms.Label();
+            this.lbConvertAudioThousands = new System.Windows.Forms.Label();
+            this.tabConvertCustom = new System.Windows.Forms.TabPage();
+            this.txtConvertCustom = new System.Windows.Forms.TextBox();
+            this.lbConverterCustom = new System.Windows.Forms.Label();
+            this.chkConvClearInput = new System.Windows.Forms.CheckBox();
+            this.chkConvClearOutput = new System.Windows.Forms.CheckBox();
             this.chkConvertDetectFiletype = new System.Windows.Forms.CheckBox();
+            this.tabExtensions = new System.Windows.Forms.TabPage();
+            this.btnRemoveExtension = new System.Windows.Forms.Button();
+            this.listExtensions = new System.Windows.Forms.ListBox();
+            this.lbExtensionShortName = new System.Windows.Forms.Label();
+            this.txtExtensionsShort = new System.Windows.Forms.TextBox();
+            this.lbExtensionFull = new System.Windows.Forms.Label();
+            this.txtExtensionsName = new System.Windows.Forms.TextBox();
+            this.lbExtensions = new System.Windows.Forms.Label();
+            this.tabError = new System.Windows.Forms.TabPage();
+            this.chkErrorsLogFile = new System.Windows.Forms.CheckBox();
+            this.chkErrorsDetailed = new System.Windows.Forms.CheckBox();
+            this.chkErrorsSuppressed = new System.Windows.Forms.CheckBox();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
             this.tipSettings = new System.Windows.Forms.ToolTip(this.components);
-            this.chkConvClearOutput = new System.Windows.Forms.CheckBox();
-            this.chkConvClearInput = new System.Windows.Forms.CheckBox();
-            this.tcConverter = new System.Windows.Forms.TabControl();
-            this.tabConvertVideo = new System.Windows.Forms.TabPage();
-            this.tabConvertAudio = new System.Windows.Forms.TabPage();
-            this.numConvertVideoBitrate = new System.Windows.Forms.NumericUpDown();
-            this.lbConvertVideoBitrate = new System.Windows.Forms.Label();
-            this.lbConvertVideoThousands = new System.Windows.Forms.Label();
-            this.cbConvertVideoPreset = new System.Windows.Forms.ComboBox();
-            this.lbConvertVideoPreset = new System.Windows.Forms.Label();
-            this.lbConvertVideoProfile = new System.Windows.Forms.Label();
-            this.cbConvertVideoProfile = new System.Windows.Forms.ComboBox();
-            this.numConvertVideoCRF = new System.Windows.Forms.NumericUpDown();
-            this.label1 = new System.Windows.Forms.Label();
-            this.chkVideoFastStart = new System.Windows.Forms.CheckBox();
-            this.tabConvertCustom = new System.Windows.Forms.TabPage();
-            this.label2 = new System.Windows.Forms.Label();
-            this.txtConvertCustom = new System.Windows.Forms.TextBox();
-            this.chkConvertHideFFmpeg = new System.Windows.Forms.CheckBox();
+            this.btnAddExtension = new System.Windows.Forms.Button();
+            this.lbFileExtension = new System.Windows.Forms.Label();
             this.tcMain.SuspendLayout();
             this.tbGeneral.SuspendLayout();
             this.gbArguments.SuspendLayout();
@@ -88,10 +105,13 @@
             this.tbConverter.SuspendLayout();
             this.tcConverter.SuspendLayout();
             this.tabConvertVideo.SuspendLayout();
-            this.tabConvertAudio.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numConvertVideoBitrate)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numConvertVideoCRF)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numConvertVideoBitrate)).BeginInit();
+            this.tabConvertAudio.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numConvertAudioBitrate)).BeginInit();
             this.tabConvertCustom.SuspendLayout();
+            this.tabExtensions.SuspendLayout();
+            this.tabError.SuspendLayout();
             this.SuspendLayout();
             // 
             // tcMain
@@ -99,6 +119,8 @@
             this.tcMain.Controls.Add(this.tbGeneral);
             this.tcMain.Controls.Add(this.tbDownloads);
             this.tcMain.Controls.Add(this.tbConverter);
+            this.tcMain.Controls.Add(this.tabExtensions);
+            this.tcMain.Controls.Add(this.tabError);
             this.tcMain.Dock = System.Windows.Forms.DockStyle.Top;
             this.tcMain.Location = new System.Drawing.Point(0, 0);
             this.tcMain.Name = "tcMain";
@@ -140,6 +162,7 @@
             this.gbArguments.TabIndex = 12;
             this.gbArguments.TabStop = false;
             this.gbArguments.Text = "Custom arguments (saves on download)";
+            this.tipSettings.SetToolTip(this.gbArguments, "Controls how custom arguments for youtube-dl will be saved");
             // 
             // rbArgsAsSettings
             // 
@@ -227,6 +250,7 @@
             this.btnBrwsFF.Size = new System.Drawing.Size(33, 23);
             this.btnBrwsFF.TabIndex = 7;
             this.btnBrwsFF.Text = "...";
+            this.tipSettings.SetToolTip(this.btnBrwsFF, "Browse for the folder that contains ffmpeg.exe & ffprobe.exe");
             this.btnBrwsFF.UseVisualStyleBackColor = true;
             this.btnBrwsFF.Click += new System.EventHandler(this.btnBrwsFF_Click);
             // 
@@ -237,6 +261,7 @@
             this.btnBrwsYtdl.Size = new System.Drawing.Size(33, 23);
             this.btnBrwsYtdl.TabIndex = 6;
             this.btnBrwsYtdl.Text = "...";
+            this.tipSettings.SetToolTip(this.btnBrwsYtdl, "Browse for youtube-dl.exe");
             this.btnBrwsYtdl.UseVisualStyleBackColor = true;
             this.btnBrwsYtdl.Click += new System.EventHandler(this.btnBrwsYtdl_Click);
             // 
@@ -279,6 +304,8 @@
             this.lbFFmpegPath.Size = new System.Drawing.Size(82, 13);
             this.lbFFmpegPath.TabIndex = 2;
             this.lbFFmpegPath.Text = "ffmpeg directory";
+            this.tipSettings.SetToolTip(this.lbFFmpegPath, "Static ffmpeg directory\r\n\r\nStatic ffmpeg means ffmpeg will always be located in t" +
+        "hat one directory.");
             // 
             // txtYtdl
             // 
@@ -297,6 +324,8 @@
             this.lbYtdlPath.Size = new System.Drawing.Size(80, 13);
             this.lbYtdlPath.TabIndex = 0;
             this.lbYtdlPath.Text = "youtube-dl path";
+            this.tipSettings.SetToolTip(this.lbYtdlPath, "Static youtube-dl directory\r\n\r\nStatic youtube-dl means youtube-dl will always be " +
+        "located in that one directory.\r\n");
             // 
             // tbDownloads
             // 
@@ -339,8 +368,8 @@
             this.txtFileNameSchema.Size = new System.Drawing.Size(260, 20);
             this.txtFileNameSchema.TabIndex = 20;
             this.txtFileNameSchema.Text = "%(title)s-%(id)s.%(ext)s";
-            this.tipSettings.SetToolTip(this.txtFileNameSchema, "The file name schema\r\nThis basically replaces words that are abnormally used with" +
-        " useful information for a custom file name.");
+            this.tipSettings.SetToolTip(this.txtFileNameSchema, "The file name schema\r\n\r\nThis basically replaces sequences with video information " +
+        "for a custom file name.");
             // 
             // lbFileSchema
             // 
@@ -353,12 +382,12 @@
             // 
             // btnRedownloadYtdl
             // 
-            this.btnRedownloadYtdl.Location = new System.Drawing.Point(91, 218);
+            this.btnRedownloadYtdl.Location = new System.Drawing.Point(90, 218);
             this.btnRedownloadYtdl.Name = "btnRedownloadYtdl";
-            this.btnRedownloadYtdl.Size = new System.Drawing.Size(139, 23);
+            this.btnRedownloadYtdl.Size = new System.Drawing.Size(140, 23);
             this.btnRedownloadYtdl.TabIndex = 18;
-            this.btnRedownloadYtdl.Text = "redownload youtube-dl";
-            this.tipSettings.SetToolTip(this.btnRedownloadYtdl, "redownloads youtube-dl");
+            this.btnRedownloadYtdl.Text = "(re)download youtube-dl";
+            this.tipSettings.SetToolTip(this.btnRedownloadYtdl, "Redownloads youtube-dl if one is already present, otherwise, updates youtube-dl");
             this.btnRedownloadYtdl.UseVisualStyleBackColor = true;
             this.btnRedownloadYtdl.Click += new System.EventHandler(this.btnRedownloadYtdl_Click);
             // 
@@ -372,7 +401,7 @@
             this.chkSeparate.Size = new System.Drawing.Size(209, 17);
             this.chkSeparate.TabIndex = 17;
             this.chkSeparate.Text = "Separate downloads to different folders";
-            this.tipSettings.SetToolTip(this.chkSeparate, "Separates downloads into their own folder based on the download type");
+            this.tipSettings.SetToolTip(this.chkSeparate, resources.GetString("chkSeparate.ToolTip"));
             this.chkSeparate.UseVisualStyleBackColor = true;
             // 
             // chkSaveParams
@@ -420,6 +449,7 @@
             this.lbSepDownloads.Size = new System.Drawing.Size(270, 2);
             this.lbSepDownloads.TabIndex = 11;
             this.lbSepDownloads.Text = "HELLO WORLD";
+            this.tipSettings.SetToolTip(this.lbSepDownloads, "this is not an easter egg");
             // 
             // btnBrowseSaveto
             // 
@@ -428,6 +458,7 @@
             this.btnBrowseSaveto.Size = new System.Drawing.Size(33, 23);
             this.btnBrowseSaveto.TabIndex = 10;
             this.btnBrowseSaveto.Text = "...";
+            this.tipSettings.SetToolTip(this.btnBrowseSaveto, "Browse for a folder to save downloaded files");
             this.btnBrowseSaveto.UseVisualStyleBackColor = true;
             this.btnBrowseSaveto.Click += new System.EventHandler(this.btnBrowseSaveto_Click);
             // 
@@ -438,7 +469,7 @@
             this.txtSaveto.ReadOnly = true;
             this.txtSaveto.Size = new System.Drawing.Size(233, 20);
             this.txtSaveto.TabIndex = 8;
-            this.tipSettings.SetToolTip(this.txtSaveto, "The path where downloads will be saved to");
+            this.tipSettings.SetToolTip(this.txtSaveto, "The path of the folder where files will be downloaded to");
             // 
             // lbDownloadPath
             // 
@@ -448,6 +479,7 @@
             this.lbDownloadPath.Size = new System.Drawing.Size(77, 13);
             this.lbDownloadPath.TabIndex = 7;
             this.lbDownloadPath.Text = "download path";
+            this.tipSettings.SetToolTip(this.lbDownloadPath, "The path of the folder where files will be downloaded to");
             // 
             // tbConverter
             // 
@@ -464,80 +496,16 @@
             this.tbConverter.Text = "Converter";
             this.tbConverter.UseVisualStyleBackColor = true;
             // 
-            // lbidkwhatsup
+            // chkConvertHideFFmpeg
             // 
-            this.lbidkwhatsup.AutoSize = true;
-            this.lbidkwhatsup.Cursor = System.Windows.Forms.Cursors.Default;
-            this.lbidkwhatsup.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbidkwhatsup.Location = new System.Drawing.Point(72, 69);
-            this.lbidkwhatsup.Name = "lbidkwhatsup";
-            this.lbidkwhatsup.Size = new System.Drawing.Size(153, 17);
-            this.lbidkwhatsup.TabIndex = 15;
-            this.lbidkwhatsup.Text = "nothing but us empties";
-            this.lbidkwhatsup.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            // 
-            // chkConvertDetectFiletype
-            // 
-            this.chkConvertDetectFiletype.AutoSize = true;
-            this.chkConvertDetectFiletype.Checked = true;
-            this.chkConvertDetectFiletype.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkConvertDetectFiletype.Location = new System.Drawing.Point(182, 12);
-            this.chkConvertDetectFiletype.Name = "chkConvertDetectFiletype";
-            this.chkConvertDetectFiletype.Size = new System.Drawing.Size(126, 17);
-            this.chkConvertDetectFiletype.TabIndex = 0;
-            this.chkConvertDetectFiletype.Text = "Detect output filetype";
-            this.tipSettings.SetToolTip(this.chkConvertDetectFiletype, "If Automatic is checked on converting, this will attempt to detect the output fil" +
-        "e type.\r\nDisable this if you want a simple conversion. The quality may suffer as" +
-        " a result.");
-            this.chkConvertDetectFiletype.UseVisualStyleBackColor = true;
-            // 
-            // btnCancel
-            // 
-            this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCancel.Location = new System.Drawing.Point(241, 289);
-            this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(75, 23);
-            this.btnCancel.TabIndex = 1;
-            this.btnCancel.Text = "Cancel";
-            this.btnCancel.UseVisualStyleBackColor = true;
-            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
-            // 
-            // btnSave
-            // 
-            this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSave.Location = new System.Drawing.Point(158, 289);
-            this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(75, 23);
-            this.btnSave.TabIndex = 2;
-            this.btnSave.Text = "Save";
-            this.btnSave.UseVisualStyleBackColor = true;
-            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
-            // 
-            // tipSettings
-            // 
-            this.tipSettings.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
-            // 
-            // chkConvClearOutput
-            // 
-            this.chkConvClearOutput.AutoSize = true;
-            this.chkConvClearOutput.Location = new System.Drawing.Point(17, 12);
-            this.chkConvClearOutput.Name = "chkConvClearOutput";
-            this.chkConvClearOutput.Size = new System.Drawing.Size(159, 17);
-            this.chkConvClearOutput.TabIndex = 16;
-            this.chkConvClearOutput.Text = "Clear output after converting";
-            this.tipSettings.SetToolTip(this.chkConvClearOutput, "Clears the output file after a successful conversion\r\n");
-            this.chkConvClearOutput.UseVisualStyleBackColor = true;
-            // 
-            // chkConvClearInput
-            // 
-            this.chkConvClearInput.AutoSize = true;
-            this.chkConvClearInput.Location = new System.Drawing.Point(17, 35);
-            this.chkConvClearInput.Name = "chkConvClearInput";
-            this.chkConvClearInput.Size = new System.Drawing.Size(152, 17);
-            this.chkConvClearInput.TabIndex = 17;
-            this.chkConvClearInput.Text = "Clear input after converting";
-            this.tipSettings.SetToolTip(this.chkConvClearInput, "Clears the input file after a successful conversion");
-            this.chkConvClearInput.UseVisualStyleBackColor = true;
+            this.chkConvertHideFFmpeg.AutoSize = true;
+            this.chkConvertHideFFmpeg.Location = new System.Drawing.Point(175, 35);
+            this.chkConvertHideFFmpeg.Name = "chkConvertHideFFmpeg";
+            this.chkConvertHideFFmpeg.Size = new System.Drawing.Size(141, 17);
+            this.chkConvertHideFFmpeg.TabIndex = 19;
+            this.chkConvertHideFFmpeg.Text = "Hide ffmpeg compile info";
+            this.tipSettings.SetToolTip(this.chkConvertHideFFmpeg, "Enabling this will hide some compilation information of ffmpeg.");
+            this.chkConvertHideFFmpeg.UseVisualStyleBackColor = true;
             // 
             // tcConverter
             // 
@@ -559,9 +527,9 @@
             this.tabConvertVideo.Controls.Add(this.cbConvertVideoProfile);
             this.tabConvertVideo.Controls.Add(this.lbConvertVideoPreset);
             this.tabConvertVideo.Controls.Add(this.cbConvertVideoPreset);
-            this.tabConvertVideo.Controls.Add(this.lbConvertVideoThousands);
             this.tabConvertVideo.Controls.Add(this.lbConvertVideoBitrate);
             this.tabConvertVideo.Controls.Add(this.numConvertVideoBitrate);
+            this.tabConvertVideo.Controls.Add(this.lbConvertVideoThousands);
             this.tabConvertVideo.Location = new System.Drawing.Point(4, 22);
             this.tabConvertVideo.Name = "tabConvertVideo";
             this.tabConvertVideo.Padding = new System.Windows.Forms.Padding(3);
@@ -570,89 +538,45 @@
             this.tabConvertVideo.Text = "Video";
             this.tabConvertVideo.UseVisualStyleBackColor = true;
             // 
-            // tabConvertAudio
+            // chkVideoFastStart
             // 
-            this.tabConvertAudio.Controls.Add(this.lbidkwhatsup);
-            this.tabConvertAudio.Location = new System.Drawing.Point(4, 22);
-            this.tabConvertAudio.Name = "tabConvertAudio";
-            this.tabConvertAudio.Padding = new System.Windows.Forms.Padding(3);
-            this.tabConvertAudio.Size = new System.Drawing.Size(296, 154);
-            this.tabConvertAudio.TabIndex = 1;
-            this.tabConvertAudio.Text = "Audio";
-            this.tabConvertAudio.UseVisualStyleBackColor = true;
+            this.chkVideoFastStart.AutoSize = true;
+            this.chkVideoFastStart.Location = new System.Drawing.Point(117, 123);
+            this.chkVideoFastStart.Name = "chkVideoFastStart";
+            this.chkVideoFastStart.Size = new System.Drawing.Size(62, 17);
+            this.chkVideoFastStart.TabIndex = 9;
+            this.chkVideoFastStart.Text = "faststart";
+            this.tipSettings.SetToolTip(this.chkVideoFastStart, "Faststart moves the metadata to the front of the file.\r\n\r\nEnabling this allows vi" +
+        "deos to be played before they are fully downloaded.");
+            this.chkVideoFastStart.UseVisualStyleBackColor = true;
             // 
-            // numConvertVideoBitrate
+            // label1
             // 
-            this.numConvertVideoBitrate.Location = new System.Drawing.Point(124, 14);
-            this.numConvertVideoBitrate.Maximum = new decimal(new int[] {
-            99999999,
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(88, 96);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(28, 13);
+            this.label1.TabIndex = 8;
+            this.label1.Text = "CRF";
+            this.tipSettings.SetToolTip(this.label1, "CRF is constant rate factor.\r\n\r\nLower = Higher quality");
+            // 
+            // numConvertVideoCRF
+            // 
+            this.numConvertVideoCRF.Location = new System.Drawing.Point(124, 94);
+            this.numConvertVideoCRF.Maximum = new decimal(new int[] {
+            51,
             0,
             0,
             0});
-            this.numConvertVideoBitrate.Name = "numConvertVideoBitrate";
-            this.numConvertVideoBitrate.Size = new System.Drawing.Size(79, 20);
-            this.numConvertVideoBitrate.TabIndex = 0;
-            this.numConvertVideoBitrate.ThousandsSeparator = true;
-            this.tipSettings.SetToolTip(this.numConvertVideoBitrate, resources.GetString("numConvertVideoBitrate.ToolTip"));
-            this.numConvertVideoBitrate.Value = new decimal(new int[] {
-            7500,
+            this.numConvertVideoCRF.Name = "numConvertVideoCRF";
+            this.numConvertVideoCRF.Size = new System.Drawing.Size(39, 20);
+            this.numConvertVideoCRF.TabIndex = 7;
+            this.tipSettings.SetToolTip(this.numConvertVideoCRF, "CRF is constant rate factor.\r\n\r\nLower = Higher quality");
+            this.numConvertVideoCRF.Value = new decimal(new int[] {
+            8,
             0,
             0,
             0});
-            // 
-            // lbConvertVideoBitrate
-            // 
-            this.lbConvertVideoBitrate.AutoSize = true;
-            this.lbConvertVideoBitrate.Location = new System.Drawing.Point(79, 16);
-            this.lbConvertVideoBitrate.Name = "lbConvertVideoBitrate";
-            this.lbConvertVideoBitrate.Size = new System.Drawing.Size(37, 13);
-            this.lbConvertVideoBitrate.TabIndex = 1;
-            this.lbConvertVideoBitrate.Text = "Bitrate";
-            this.tipSettings.SetToolTip(this.lbConvertVideoBitrate, resources.GetString("lbConvertVideoBitrate.ToolTip"));
-            // 
-            // lbConvertVideoThousands
-            // 
-            this.lbConvertVideoThousands.AutoSize = true;
-            this.lbConvertVideoThousands.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbConvertVideoThousands.Location = new System.Drawing.Point(202, 14);
-            this.lbConvertVideoThousands.Name = "lbConvertVideoThousands";
-            this.lbConvertVideoThousands.Size = new System.Drawing.Size(16, 17);
-            this.lbConvertVideoThousands.TabIndex = 2;
-            this.lbConvertVideoThousands.Text = "K";
-            this.tipSettings.SetToolTip(this.lbConvertVideoThousands, "If you were to input \"10,000\" as the bitrate, it would be interpreted as \"10,000," +
-        "000\" bits per second.");
-            // 
-            // cbConvertVideoPreset
-            // 
-            this.cbConvertVideoPreset.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbConvertVideoPreset.FormattingEnabled = true;
-            this.cbConvertVideoPreset.Items.AddRange(new object[] {
-            "ultrafast",
-            "superfast",
-            "veryfast",
-            "faster",
-            "fast",
-            "medium",
-            "slow",
-            "slower",
-            "veryslow"});
-            this.cbConvertVideoPreset.Location = new System.Drawing.Point(124, 40);
-            this.cbConvertVideoPreset.Name = "cbConvertVideoPreset";
-            this.cbConvertVideoPreset.Size = new System.Drawing.Size(94, 21);
-            this.cbConvertVideoPreset.TabIndex = 3;
-            this.tipSettings.SetToolTip(this.cbConvertVideoPreset, "The video preset of the conversion\r\n\r\nultrafast = fastest, but lower quality\r\nver" +
-        "yslow = slowest, but higher quality");
-            // 
-            // lbConvertVideoPreset
-            // 
-            this.lbConvertVideoPreset.AutoSize = true;
-            this.lbConvertVideoPreset.Location = new System.Drawing.Point(79, 43);
-            this.lbConvertVideoPreset.Name = "lbConvertVideoPreset";
-            this.lbConvertVideoPreset.Size = new System.Drawing.Size(37, 13);
-            this.lbConvertVideoPreset.TabIndex = 4;
-            this.lbConvertVideoPreset.Text = "Preset";
-            this.tipSettings.SetToolTip(this.lbConvertVideoPreset, "The video preset of the conversion\r\n\r\nultrafast = fastest, but lower quality\r\nver" +
-        "yslow = slowest, but higher quality");
             // 
             // lbConvertVideoProfile
             // 
@@ -681,52 +605,154 @@
             this.cbConvertVideoProfile.Size = new System.Drawing.Size(94, 21);
             this.cbConvertVideoProfile.TabIndex = 5;
             this.tipSettings.SetToolTip(this.cbConvertVideoProfile, "The encoder profile to be used during conversion. It affects the compression of t" +
-        "he video.\r\nIt\'s generally a good idea to stick with the main profile");
+        "he video.\r\n\r\nIt\'s generally a good idea to stick with the main profile\r\n\r\nThis w" +
+        "ill not effect certain conversions.");
             // 
-            // numConvertVideoCRF
+            // lbConvertVideoPreset
             // 
-            this.numConvertVideoCRF.Location = new System.Drawing.Point(124, 94);
-            this.numConvertVideoCRF.Maximum = new decimal(new int[] {
-            51,
+            this.lbConvertVideoPreset.AutoSize = true;
+            this.lbConvertVideoPreset.Location = new System.Drawing.Point(79, 43);
+            this.lbConvertVideoPreset.Name = "lbConvertVideoPreset";
+            this.lbConvertVideoPreset.Size = new System.Drawing.Size(37, 13);
+            this.lbConvertVideoPreset.TabIndex = 4;
+            this.lbConvertVideoPreset.Text = "Preset";
+            this.tipSettings.SetToolTip(this.lbConvertVideoPreset, "The video preset of the conversion\r\n\r\nultrafast = fastest, but lower quality\r\nver" +
+        "yslow = slowest, but higher quality");
+            // 
+            // cbConvertVideoPreset
+            // 
+            this.cbConvertVideoPreset.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbConvertVideoPreset.FormattingEnabled = true;
+            this.cbConvertVideoPreset.Items.AddRange(new object[] {
+            "ultrafast",
+            "superfast",
+            "veryfast",
+            "faster",
+            "fast",
+            "medium",
+            "slow",
+            "slower",
+            "veryslow"});
+            this.cbConvertVideoPreset.Location = new System.Drawing.Point(124, 40);
+            this.cbConvertVideoPreset.Name = "cbConvertVideoPreset";
+            this.cbConvertVideoPreset.Size = new System.Drawing.Size(94, 21);
+            this.cbConvertVideoPreset.TabIndex = 3;
+            this.tipSettings.SetToolTip(this.cbConvertVideoPreset, "The video preset of the conversion\r\n\r\nultrafast = fastest, but lower quality\r\nver" +
+        "yslow = slowest, but higher quality");
+            // 
+            // lbConvertVideoBitrate
+            // 
+            this.lbConvertVideoBitrate.AutoSize = true;
+            this.lbConvertVideoBitrate.Location = new System.Drawing.Point(79, 16);
+            this.lbConvertVideoBitrate.Name = "lbConvertVideoBitrate";
+            this.lbConvertVideoBitrate.Size = new System.Drawing.Size(37, 13);
+            this.lbConvertVideoBitrate.TabIndex = 1;
+            this.lbConvertVideoBitrate.Text = "Bitrate";
+            this.tipSettings.SetToolTip(this.lbConvertVideoBitrate, resources.GetString("lbConvertVideoBitrate.ToolTip"));
+            // 
+            // numConvertVideoBitrate
+            // 
+            this.numConvertVideoBitrate.Location = new System.Drawing.Point(124, 14);
+            this.numConvertVideoBitrate.Maximum = new decimal(new int[] {
+            99999999,
             0,
             0,
             0});
-            this.numConvertVideoCRF.Name = "numConvertVideoCRF";
-            this.numConvertVideoCRF.Size = new System.Drawing.Size(39, 20);
-            this.numConvertVideoCRF.TabIndex = 7;
-            this.tipSettings.SetToolTip(this.numConvertVideoCRF, "CRF is constant rate factor.\r\n\r\nLower = Higher quality");
-            this.numConvertVideoCRF.Value = new decimal(new int[] {
-            8,
+            this.numConvertVideoBitrate.Name = "numConvertVideoBitrate";
+            this.numConvertVideoBitrate.Size = new System.Drawing.Size(79, 20);
+            this.numConvertVideoBitrate.TabIndex = 0;
+            this.numConvertVideoBitrate.ThousandsSeparator = true;
+            this.tipSettings.SetToolTip(this.numConvertVideoBitrate, resources.GetString("numConvertVideoBitrate.ToolTip"));
+            this.numConvertVideoBitrate.Value = new decimal(new int[] {
+            7500,
             0,
             0,
             0});
             // 
-            // label1
+            // lbConvertVideoThousands
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(88, 96);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(28, 13);
-            this.label1.TabIndex = 8;
-            this.label1.Text = "CRF";
-            this.tipSettings.SetToolTip(this.label1, "CRF is constant rate factor.\r\n\r\nLower = Higher quality");
+            this.lbConvertVideoThousands.AutoSize = true;
+            this.lbConvertVideoThousands.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbConvertVideoThousands.Location = new System.Drawing.Point(201, 14);
+            this.lbConvertVideoThousands.Name = "lbConvertVideoThousands";
+            this.lbConvertVideoThousands.Size = new System.Drawing.Size(16, 17);
+            this.lbConvertVideoThousands.TabIndex = 2;
+            this.lbConvertVideoThousands.Text = "K";
+            this.tipSettings.SetToolTip(this.lbConvertVideoThousands, "If you were to input \"10,000\" as the bitrate, it would be interpreted as \"10,000," +
+        "000\" bits per second.");
             // 
-            // chkVideoFastStart
+            // tabConvertAudio
             // 
-            this.chkVideoFastStart.AutoSize = true;
-            this.chkVideoFastStart.Location = new System.Drawing.Point(117, 123);
-            this.chkVideoFastStart.Name = "chkVideoFastStart";
-            this.chkVideoFastStart.Size = new System.Drawing.Size(62, 17);
-            this.chkVideoFastStart.TabIndex = 9;
-            this.chkVideoFastStart.Text = "faststart";
-            this.tipSettings.SetToolTip(this.chkVideoFastStart, "Faststart moves the metadata to the front of the file.\r\nThis allows videos to be " +
-        "played before they are fully downloaded.");
-            this.chkVideoFastStart.UseVisualStyleBackColor = true;
+            this.tabConvertAudio.Controls.Add(this.label4);
+            this.tabConvertAudio.Controls.Add(this.numConvertAudioBitrate);
+            this.tabConvertAudio.Controls.Add(this.lbidkwhatsup);
+            this.tabConvertAudio.Controls.Add(this.lbConvertAudioThousands);
+            this.tabConvertAudio.Location = new System.Drawing.Point(4, 22);
+            this.tabConvertAudio.Name = "tabConvertAudio";
+            this.tabConvertAudio.Padding = new System.Windows.Forms.Padding(3);
+            this.tabConvertAudio.Size = new System.Drawing.Size(296, 154);
+            this.tabConvertAudio.TabIndex = 1;
+            this.tabConvertAudio.Text = "Audio";
+            this.tabConvertAudio.UseVisualStyleBackColor = true;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(94, 30);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(37, 13);
+            this.label4.TabIndex = 17;
+            this.label4.Text = "Bitrate";
+            this.tipSettings.SetToolTip(this.label4, resources.GetString("label4.ToolTip"));
+            // 
+            // numConvertAudioBitrate
+            // 
+            this.numConvertAudioBitrate.Location = new System.Drawing.Point(139, 28);
+            this.numConvertAudioBitrate.Maximum = new decimal(new int[] {
+            99999999,
+            0,
+            0,
+            0});
+            this.numConvertAudioBitrate.Name = "numConvertAudioBitrate";
+            this.numConvertAudioBitrate.Size = new System.Drawing.Size(49, 20);
+            this.numConvertAudioBitrate.TabIndex = 16;
+            this.numConvertAudioBitrate.ThousandsSeparator = true;
+            this.tipSettings.SetToolTip(this.numConvertAudioBitrate, resources.GetString("numConvertAudioBitrate.ToolTip"));
+            this.numConvertAudioBitrate.Value = new decimal(new int[] {
+            256,
+            0,
+            0,
+            0});
+            // 
+            // lbidkwhatsup
+            // 
+            this.lbidkwhatsup.AutoSize = true;
+            this.lbidkwhatsup.Cursor = System.Windows.Forms.Cursors.Default;
+            this.lbidkwhatsup.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbidkwhatsup.Location = new System.Drawing.Point(72, 120);
+            this.lbidkwhatsup.Name = "lbidkwhatsup";
+            this.lbidkwhatsup.Size = new System.Drawing.Size(153, 17);
+            this.lbidkwhatsup.TabIndex = 15;
+            this.lbidkwhatsup.Text = "nothing but us empties";
+            this.lbidkwhatsup.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.tipSettings.SetToolTip(this.lbidkwhatsup, "No settings for converting audio has been implemented at this time");
+            // 
+            // lbConvertAudioThousands
+            // 
+            this.lbConvertAudioThousands.AutoSize = true;
+            this.lbConvertAudioThousands.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbConvertAudioThousands.Location = new System.Drawing.Point(186, 29);
+            this.lbConvertAudioThousands.Name = "lbConvertAudioThousands";
+            this.lbConvertAudioThousands.Size = new System.Drawing.Size(16, 17);
+            this.lbConvertAudioThousands.TabIndex = 18;
+            this.lbConvertAudioThousands.Text = "K";
+            this.tipSettings.SetToolTip(this.lbConvertAudioThousands, "If you were to input \"256\" as the bitrate, it would be interpreted as \"256,000\" b" +
+        "its per second.");
             // 
             // tabConvertCustom
             // 
             this.tabConvertCustom.Controls.Add(this.txtConvertCustom);
-            this.tabConvertCustom.Controls.Add(this.label2);
+            this.tabConvertCustom.Controls.Add(this.lbConverterCustom);
             this.tabConvertCustom.Location = new System.Drawing.Point(4, 22);
             this.tabConvertCustom.Name = "tabConvertCustom";
             this.tabConvertCustom.Padding = new System.Windows.Forms.Padding(3);
@@ -735,35 +761,241 @@
             this.tabConvertCustom.Text = "Custom";
             this.tabConvertCustom.UseVisualStyleBackColor = true;
             // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(33, 37);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(231, 26);
-            this.label2.TabIndex = 0;
-            this.label2.Text = "Don\'t pass input or output directories/files,\r\nit\'s automatically handled by the " +
-    "program";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // txtConvertCustom
             // 
             this.txtConvertCustom.Location = new System.Drawing.Point(36, 97);
             this.txtConvertCustom.Name = "txtConvertCustom";
             this.txtConvertCustom.Size = new System.Drawing.Size(228, 20);
             this.txtConvertCustom.TabIndex = 1;
+            this.tipSettings.SetToolTip(this.txtConvertCustom, "Custom arguments that will be passed through ffmpeg instead of built-in arguments" +
+        "");
             // 
-            // chkConvertHideFFmpeg
+            // lbConverterCustom
             // 
-            this.chkConvertHideFFmpeg.AutoSize = true;
-            this.chkConvertHideFFmpeg.Location = new System.Drawing.Point(175, 35);
-            this.chkConvertHideFFmpeg.Name = "chkConvertHideFFmpeg";
-            this.chkConvertHideFFmpeg.Size = new System.Drawing.Size(141, 17);
-            this.chkConvertHideFFmpeg.TabIndex = 19;
-            this.chkConvertHideFFmpeg.Text = "Hide ffmpeg compile info";
-            this.tipSettings.SetToolTip(this.chkConvertHideFFmpeg, "Enabling this will hide some compilation information of ffmpeg.");
-            this.chkConvertHideFFmpeg.UseVisualStyleBackColor = true;
+            this.lbConverterCustom.AutoSize = true;
+            this.lbConverterCustom.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbConverterCustom.Location = new System.Drawing.Point(33, 37);
+            this.lbConverterCustom.Name = "lbConverterCustom";
+            this.lbConverterCustom.Size = new System.Drawing.Size(231, 26);
+            this.lbConverterCustom.TabIndex = 0;
+            this.lbConverterCustom.Text = "Don\'t pass input or output directories/files,\r\nit\'s automatically handled by the " +
+    "program";
+            this.lbConverterCustom.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // chkConvClearInput
+            // 
+            this.chkConvClearInput.AutoSize = true;
+            this.chkConvClearInput.Location = new System.Drawing.Point(17, 35);
+            this.chkConvClearInput.Name = "chkConvClearInput";
+            this.chkConvClearInput.Size = new System.Drawing.Size(152, 17);
+            this.chkConvClearInput.TabIndex = 17;
+            this.chkConvClearInput.Text = "Clear input after converting";
+            this.tipSettings.SetToolTip(this.chkConvClearInput, "Clears the input file after a successful conversion");
+            this.chkConvClearInput.UseVisualStyleBackColor = true;
+            // 
+            // chkConvClearOutput
+            // 
+            this.chkConvClearOutput.AutoSize = true;
+            this.chkConvClearOutput.Location = new System.Drawing.Point(17, 12);
+            this.chkConvClearOutput.Name = "chkConvClearOutput";
+            this.chkConvClearOutput.Size = new System.Drawing.Size(159, 17);
+            this.chkConvClearOutput.TabIndex = 16;
+            this.chkConvClearOutput.Text = "Clear output after converting";
+            this.tipSettings.SetToolTip(this.chkConvClearOutput, "Clears the output file after a successful conversion\r\n");
+            this.chkConvClearOutput.UseVisualStyleBackColor = true;
+            // 
+            // chkConvertDetectFiletype
+            // 
+            this.chkConvertDetectFiletype.AutoSize = true;
+            this.chkConvertDetectFiletype.Checked = true;
+            this.chkConvertDetectFiletype.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkConvertDetectFiletype.Location = new System.Drawing.Point(182, 12);
+            this.chkConvertDetectFiletype.Name = "chkConvertDetectFiletype";
+            this.chkConvertDetectFiletype.Size = new System.Drawing.Size(126, 17);
+            this.chkConvertDetectFiletype.TabIndex = 0;
+            this.chkConvertDetectFiletype.Text = "Detect output filetype";
+            this.tipSettings.SetToolTip(this.chkConvertDetectFiletype, "If Automatic is checked on converting, this will attempt to detect the output fil" +
+        "e type.\r\n\r\nDisable this if you want a simple conversion. The quality may suffer " +
+        "as a result.");
+            this.chkConvertDetectFiletype.UseVisualStyleBackColor = true;
+            // 
+            // tabExtensions
+            // 
+            this.tabExtensions.Controls.Add(this.lbFileExtension);
+            this.tabExtensions.Controls.Add(this.btnAddExtension);
+            this.tabExtensions.Controls.Add(this.btnRemoveExtension);
+            this.tabExtensions.Controls.Add(this.listExtensions);
+            this.tabExtensions.Controls.Add(this.lbExtensionShortName);
+            this.tabExtensions.Controls.Add(this.txtExtensionsShort);
+            this.tabExtensions.Controls.Add(this.lbExtensionFull);
+            this.tabExtensions.Controls.Add(this.txtExtensionsName);
+            this.tabExtensions.Controls.Add(this.lbExtensions);
+            this.tabExtensions.Location = new System.Drawing.Point(4, 22);
+            this.tabExtensions.Name = "tabExtensions";
+            this.tabExtensions.Padding = new System.Windows.Forms.Padding(3);
+            this.tabExtensions.Size = new System.Drawing.Size(320, 253);
+            this.tabExtensions.TabIndex = 4;
+            this.tabExtensions.Text = "Extensions";
+            this.tabExtensions.UseVisualStyleBackColor = true;
+            // 
+            // btnRemoveExtension
+            // 
+            this.btnRemoveExtension.Location = new System.Drawing.Point(192, 222);
+            this.btnRemoveExtension.Name = "btnRemoveExtension";
+            this.btnRemoveExtension.Size = new System.Drawing.Size(100, 23);
+            this.btnRemoveExtension.TabIndex = 7;
+            this.btnRemoveExtension.Text = "Remove selected";
+            this.btnRemoveExtension.UseVisualStyleBackColor = true;
+            this.btnRemoveExtension.Click += new System.EventHandler(this.btnRemoveExtension_Click);
+            // 
+            // listExtensions
+            // 
+            this.listExtensions.FormattingEnabled = true;
+            this.listExtensions.Location = new System.Drawing.Point(31, 96);
+            this.listExtensions.Name = "listExtensions";
+            this.listExtensions.Size = new System.Drawing.Size(261, 121);
+            this.listExtensions.TabIndex = 6;
+            this.listExtensions.SelectedIndexChanged += new System.EventHandler(this.listExtensions_SelectedIndexChanged);
+            // 
+            // lbExtensionShortName
+            // 
+            this.lbExtensionShortName.AutoSize = true;
+            this.lbExtensionShortName.Location = new System.Drawing.Point(178, 49);
+            this.lbExtensionShortName.Name = "lbExtensionShortName";
+            this.lbExtensionShortName.Size = new System.Drawing.Size(79, 13);
+            this.lbExtensionShortName.TabIndex = 5;
+            this.lbExtensionShortName.Text = "Extension short";
+            // 
+            // txtExtensionsShort
+            // 
+            this.txtExtensionsShort.Location = new System.Drawing.Point(181, 65);
+            this.txtExtensionsShort.Name = "txtExtensionsShort";
+            this.txtExtensionsShort.Size = new System.Drawing.Size(57, 20);
+            this.txtExtensionsShort.TabIndex = 4;
+            // 
+            // lbExtensionFull
+            // 
+            this.lbExtensionFull.AutoSize = true;
+            this.lbExtensionFull.Location = new System.Drawing.Point(28, 49);
+            this.lbExtensionFull.Name = "lbExtensionFull";
+            this.lbExtensionFull.Size = new System.Drawing.Size(98, 13);
+            this.lbExtensionFull.TabIndex = 3;
+            this.lbExtensionFull.Text = "Extension full name";
+            // 
+            // txtExtensionsName
+            // 
+            this.txtExtensionsName.Location = new System.Drawing.Point(31, 65);
+            this.txtExtensionsName.Name = "txtExtensionsName";
+            this.txtExtensionsName.Size = new System.Drawing.Size(144, 20);
+            this.txtExtensionsName.TabIndex = 2;
+            // 
+            // lbExtensions
+            // 
+            this.lbExtensions.AutoSize = true;
+            this.lbExtensions.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbExtensions.Location = new System.Drawing.Point(40, 10);
+            this.lbExtensions.Name = "lbExtensions";
+            this.lbExtensions.Size = new System.Drawing.Size(240, 26);
+            this.lbExtensions.TabIndex = 1;
+            this.lbExtensions.Text = "This allows you to input your own extensions\r\nto be used with this application";
+            this.lbExtensions.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // tabError
+            // 
+            this.tabError.Controls.Add(this.chkErrorsLogFile);
+            this.tabError.Controls.Add(this.chkErrorsDetailed);
+            this.tabError.Controls.Add(this.chkErrorsSuppressed);
+            this.tabError.Location = new System.Drawing.Point(4, 22);
+            this.tabError.Name = "tabError";
+            this.tabError.Padding = new System.Windows.Forms.Padding(3);
+            this.tabError.Size = new System.Drawing.Size(320, 253);
+            this.tabError.TabIndex = 3;
+            this.tabError.Text = "Errors";
+            this.tabError.UseVisualStyleBackColor = true;
+            // 
+            // chkErrorsLogFile
+            // 
+            this.chkErrorsLogFile.AutoSize = true;
+            this.chkErrorsLogFile.Location = new System.Drawing.Point(93, 129);
+            this.chkErrorsLogFile.Name = "chkErrorsLogFile";
+            this.chkErrorsLogFile.Size = new System.Drawing.Size(134, 17);
+            this.chkErrorsLogFile.TabIndex = 2;
+            this.chkErrorsLogFile.Text = "Save errors as error.log";
+            this.tipSettings.SetToolTip(this.chkErrorsLogFile, "Saves the latest error as error.log in the exeucting directory of youtube-dl-gui");
+            this.chkErrorsLogFile.UseVisualStyleBackColor = true;
+            // 
+            // chkErrorsDetailed
+            // 
+            this.chkErrorsDetailed.AutoSize = true;
+            this.chkErrorsDetailed.Location = new System.Drawing.Point(93, 106);
+            this.chkErrorsDetailed.Name = "chkErrorsDetailed";
+            this.chkErrorsDetailed.Size = new System.Drawing.Size(121, 17);
+            this.chkErrorsDetailed.TabIndex = 1;
+            this.chkErrorsDetailed.Text = "Show detailed errors";
+            this.tipSettings.SetToolTip(this.chkErrorsDetailed, "Shows more details in errors");
+            this.chkErrorsDetailed.UseVisualStyleBackColor = true;
+            // 
+            // chkErrorsSuppressed
+            // 
+            this.chkErrorsSuppressed.AutoSize = true;
+            this.chkErrorsSuppressed.Location = new System.Drawing.Point(111, 213);
+            this.chkErrorsSuppressed.Name = "chkErrorsSuppressed";
+            this.chkErrorsSuppressed.Size = new System.Drawing.Size(98, 17);
+            this.chkErrorsSuppressed.TabIndex = 0;
+            this.chkErrorsSuppressed.Text = "Suppress errors";
+            this.tipSettings.SetToolTip(this.chkErrorsSuppressed, "This will silence any errors and will not save any error.log files.\r\n\r\nThis basic" +
+        "ally overrides all error settings. Use at your own risk.");
+            this.chkErrorsSuppressed.UseVisualStyleBackColor = true;
+            // 
+            // btnCancel
+            // 
+            this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCancel.Location = new System.Drawing.Point(241, 289);
+            this.btnCancel.Name = "btnCancel";
+            this.btnCancel.Size = new System.Drawing.Size(75, 23);
+            this.btnCancel.TabIndex = 1;
+            this.btnCancel.Text = "Cancel";
+            this.tipSettings.SetToolTip(this.btnCancel, "Discard any changed settings");
+            this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
+            // 
+            // btnSave
+            // 
+            this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSave.Location = new System.Drawing.Point(158, 289);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(75, 23);
+            this.btnSave.TabIndex = 2;
+            this.btnSave.Text = "Save";
+            this.tipSettings.SetToolTip(this.btnSave, "Save all configured settings");
+            this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            // 
+            // tipSettings
+            // 
+            this.tipSettings.AutoPopDelay = 25000;
+            this.tipSettings.InitialDelay = 500;
+            this.tipSettings.ReshowDelay = 100;
+            this.tipSettings.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            // 
+            // btnAddExtension
+            // 
+            this.btnAddExtension.Location = new System.Drawing.Point(242, 63);
+            this.btnAddExtension.Name = "btnAddExtension";
+            this.btnAddExtension.Size = new System.Drawing.Size(50, 23);
+            this.btnAddExtension.TabIndex = 8;
+            this.btnAddExtension.Text = "Add";
+            this.btnAddExtension.UseVisualStyleBackColor = true;
+            this.btnAddExtension.Click += new System.EventHandler(this.btnAddExtension_Click);
+            // 
+            // lbFileExtension
+            // 
+            this.lbFileExtension.AutoSize = true;
+            this.lbFileExtension.Location = new System.Drawing.Point(30, 226);
+            this.lbFileExtension.Name = "lbFileExtension";
+            this.lbFileExtension.Size = new System.Drawing.Size(68, 13);
+            this.lbFileExtension.TabIndex = 9;
+            this.lbFileExtension.Text = "FileName.ext";
             // 
             // frmSettings
             // 
@@ -791,12 +1023,17 @@
             this.tcConverter.ResumeLayout(false);
             this.tabConvertVideo.ResumeLayout(false);
             this.tabConvertVideo.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numConvertVideoCRF)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numConvertVideoBitrate)).EndInit();
             this.tabConvertAudio.ResumeLayout(false);
             this.tabConvertAudio.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numConvertVideoBitrate)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numConvertVideoCRF)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numConvertAudioBitrate)).EndInit();
             this.tabConvertCustom.ResumeLayout(false);
             this.tabConvertCustom.PerformLayout();
+            this.tabExtensions.ResumeLayout(false);
+            this.tabExtensions.PerformLayout();
+            this.tabError.ResumeLayout(false);
+            this.tabError.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -857,7 +1094,24 @@
         private System.Windows.Forms.CheckBox chkVideoFastStart;
         private System.Windows.Forms.TabPage tabConvertCustom;
         private System.Windows.Forms.TextBox txtConvertCustom;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label lbConverterCustom;
         private System.Windows.Forms.CheckBox chkConvertHideFFmpeg;
+        private System.Windows.Forms.TabPage tabError;
+        private System.Windows.Forms.CheckBox chkErrorsLogFile;
+        private System.Windows.Forms.CheckBox chkErrorsDetailed;
+        private System.Windows.Forms.CheckBox chkErrorsSuppressed;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.NumericUpDown numConvertAudioBitrate;
+        private System.Windows.Forms.Label lbConvertAudioThousands;
+        private System.Windows.Forms.TabPage tabExtensions;
+        private System.Windows.Forms.Label lbExtensions;
+        private System.Windows.Forms.Button btnRemoveExtension;
+        private System.Windows.Forms.ListBox listExtensions;
+        private System.Windows.Forms.Label lbExtensionShortName;
+        private System.Windows.Forms.TextBox txtExtensionsShort;
+        private System.Windows.Forms.Label lbExtensionFull;
+        private System.Windows.Forms.TextBox txtExtensionsName;
+        private System.Windows.Forms.Button btnAddExtension;
+        private System.Windows.Forms.Label lbFileExtension;
     }
 }

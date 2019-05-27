@@ -2,7 +2,7 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="youtube_dl_gui.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="appVersion" Type="System.Decimal" Scope="User">
+    <Setting Name="appVersion" Type="System.Decimal" Scope="Application">
       <Value Profile="(Default)">2</Value>
     </Setting>
     <Setting Name="firstTime" Type="System.Boolean" Scope="User">

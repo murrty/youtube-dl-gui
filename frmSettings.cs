@@ -6,20 +6,33 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace youtube_dl_gui {
     public partial class frmSettings : Form {
+        #region const
         public bool ffmpegAvailabled = false;
         public bool ytdlAvailable = false;
 
-        public string ffmpegPath = string.Empty;
+        List<string> extensionsName = new List<string>();
+        List<string> extensionsShort = new List<string>();
+        #endregion
+
+        [DllImport("user32.dll", CharSet = CharSet.Unicode)]
+        private static extern IntPtr SendMessage(IntPtr hWnd, int msg, IntPtr wp, string lp);
+        private void SetTextBoxHint(IntPtr TextboxHandle, string Hint) {
+            SendMessage(TextboxHandle, 0x1501, (IntPtr)1, Hint);
+        }
 
         public frmSettings() {
             InitializeComponent();
             loadSettings();
+
+            SetTextBoxHint(txtExtensionsName.Handle, "Example Extension");
+            SetTextBoxHint(txtExtensionsShort.Handle, "ex");
         }
         private void frmSettings_Load(object sender, EventArgs e) {
 
@@ -110,8 +123,16 @@ namespace youtube_dl_gui {
             numConvertVideoCRF.Value = Converts.Default.videoCRF;
             chkVideoFastStart.Checked = Converts.Default.videoFastStart;
 
+            numConvertAudioBitrate.Value = Converts.Default.audioBitrate;
+
             txtConvertCustom.Text = Saved.Default.convertCustom;
-            
+
+            loadExtensions();
+
+            chkErrorsDetailed.Checked = Errors.Default.detailedErrors;
+            chkErrorsLogFile.Checked = Errors.Default.logErrors;
+            chkErrorsSuppressed.Checked = Errors.Default.suppressErrors;
+
         }
         private void saveSettings() {
             General.Default.useStaticYtdl = chkStaticYtdl.Checked;
@@ -119,8 +140,8 @@ namespace youtube_dl_gui {
                 General.Default.ytdlPath = txtYtdl.Text;
             }
             General.Default.useStaticFFmpeg = chkStaticFF.Checked;
-            if (chkStaticFF.Checked && !string.IsNullOrEmpty(ffmpegPath)) {
-                General.Default.ffmpegPath = ffmpegPath;
+            if (chkStaticFF.Checked && !string.IsNullOrEmpty(txtFFmpeg.Text)) {
+                General.Default.ffmpegPath = txtFFmpeg.Text;
             }
             General.Default.checkForUpdates = chkUpdates.Checked;
             General.Default.hoverURL = chkHover.Checked;
@@ -150,18 +171,32 @@ namespace youtube_dl_gui {
             Converts.Default.videoCRF = Decimal.ToInt32(numConvertVideoCRF.Value);
             Converts.Default.videoFastStart = chkVideoFastStart.Checked;
 
+            Converts.Default.audioBitrate = Decimal.ToInt32(numConvertAudioBitrate.Value);
+
             Saved.Default.convertCustom = txtConvertCustom.Text;
+
+            saveExtensions();
+
+            Errors.Default.detailedErrors = chkErrorsDetailed.Checked;
+            Errors.Default.logErrors = chkErrorsLogFile.Checked;
+            Errors.Default.suppressErrors = chkErrorsSuppressed.Checked;
 
             General.Default.Save();
             Downloads.Default.Save();
             Converts.Default.Save();
+            Settings.Default.Save();
+            Errors.Default.Save();
         }
 
-        private void llSchema_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
-            Process.Start("https://github.com/ytdl-org/youtube-dl/blob/master/README.md#output-template");
+        private void btnSave_Click(object sender, EventArgs e) {
+            saveSettings();
+            this.Dispose();
+        }
+        private void btnCancel_Click(object sender, EventArgs e) {
+            this.Dispose();
         }
 
-
+        #region General
         private void btnBrwsYtdl_Click(object sender, EventArgs e) {
             using (OpenFileDialog ofd = new OpenFileDialog()) {
                 ofd.Title = "Select youtube-dl.exe";
@@ -174,7 +209,6 @@ namespace youtube_dl_gui {
                 }
             }
         }
-
         private void btnBrwsFF_Click(object sender, EventArgs e) {
             using (OpenFileDialog ofd = new OpenFileDialog()) {
                 ofd.Title = "Select ffmpeg.exe and ffprobe.exe";
@@ -187,7 +221,9 @@ namespace youtube_dl_gui {
                 }
             }
         }
+        #endregion
 
+        #region Downloads
         private void btnBrowseSaveto_Click(object sender, EventArgs e) {
             using (FolderBrowserDialog fbd = new FolderBrowserDialog()) {
                 fbd.Description = "Select a destionation where downloads will be saved to";
@@ -198,23 +234,117 @@ namespace youtube_dl_gui {
                 }
             }
         }
-
-        private void btnSave_Click(object sender, EventArgs e) {
-            saveSettings();
-            this.Dispose();
+        private void llSchema_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
+            Process.Start("https://github.com/ytdl-org/youtube-dl/blob/master/README.md#output-template");
         }
-        private void btnCancel_Click(object sender, EventArgs e) {
-            this.Dispose();
-        }
-
+        
         private void btnRedownloadYtdl_Click(object sender, EventArgs e) {
-            if (General.Default.useStaticYtdl && !string.IsNullOrEmpty(General.Default.ytdlPath)) {
+            string ytdlPath = string.Empty;
 
+            if (General.Default.useStaticYtdl && !string.IsNullOrEmpty(General.Default.ytdlPath)) {
+                if (File.Exists(General.Default.ytdlPath)) {
+                    // update
+                    if (Downloads.Default.useYtdlUpdater) {
+                        Process updateYtdl = new Process();
+                        updateYtdl.StartInfo.FileName = General.Default.ytdlPath;
+                        updateYtdl.StartInfo.Arguments = "-U";
+                        updateYtdl.Start();
+                        updateYtdl.WaitForExit();
+                        MessageBox.Show("Youtube-dl is update, as far as i know");
+                    }
+                    else {
+                        File.Delete(General.Default.ytdlPath);
+                        if (Download.downloadYoutubeDL(General.Default.ytdlPath)) {
+                            MessageBox.Show("Youtube-dl has been update.");
+                        }
+                        else {
+                            MessageBox.Show("Youtube-dl has not been updated.");
+                        }
+                    }
+                }
+                else {
+                    Download.downloadYoutubeDL(General.Default.ytdlPath);
+                }
             }
             else {
+                switch (Verification.ytdlFullCheck()) {
+                    case 0:
+                        // static
+                        break;
+                    case 1:
+                        //current directory
+                        break;
+                    case 2:
+                        //path
+                        break;
+                    case 3:
+                        //cmd, can't find it though. default to current directory.
+                        break;
+                    default:
+                        //none, so download
+                        break;
+                }
+            }
+        }
+        #endregion
+
+        #region Extensions
+        private void loadExtensions() {
+            if (!string.IsNullOrEmpty(Settings.Default.extensionsName)) {
+                extensionsShort.AddRange(Settings.Default.extensionsShort.Split('|').ToList());
+                extensionsName.AddRange(Settings.Default.extensionsName.Split('|').ToList());
+                for (int i = 0; i < extensionsShort.Count; i++) {
+                    listExtensions.Items.Add(extensionsName[i] + " (*." + extensionsShort[i] + ")");
+                }
+            }
+        }
+        private void saveExtensions() {
+            if (extensionsName.Count > 0) {
+                string ext = string.Empty;
+                string shrt = string.Empty;
+                for (int i = 0; i < extensionsName.Count; i++) {
+                    ext += extensionsName[i] + '|';
+                    shrt += extensionsShort[i] + '|';
+                }
+                ext = ext.TrimEnd('|');
+                shrt = shrt.TrimEnd('|');
+
+                Settings.Default.extensionsName = ext;
+                Settings.Default.extensionsShort = shrt;
+            }
+        }
+
+        private void btnAddExtension_Click(object sender, EventArgs e) {
+            if (txtExtensionsName.Text.Length == 0) {
+                MessageBox.Show("Enter an extension name");
+                return;
+            }
+
+            if (txtExtensionsShort.Text.Length == 0) {
+                MessageBox.Show("Enter an extension");
+                return;
+            }
+
+            extensionsName.Add(txtExtensionsName.Text);
+            extensionsShort.Add(txtExtensionsShort.Text);
+
+            listExtensions.Items.Add(txtExtensionsName.Text + " (*." + txtExtensionsShort.Text + ")");
+            txtExtensionsName.Clear();
+            txtExtensionsShort.Clear();
+        }
+        private void listExtensions_SelectedIndexChanged(object sender, EventArgs e) {
+            if (listExtensions.SelectedIndex > -1) {
+                lbFileExtension.Text = "FileName." + extensionsShort[listExtensions.SelectedIndex];
+            }
+        }
+        private void btnRemoveExtension_Click(object sender, EventArgs e) {
+            if (MessageBox.Show("Do you really want to remove the extension ") == DialogResult.Yes) {
 
             }
         }
+        #endregion
+
+
 
     }
 }

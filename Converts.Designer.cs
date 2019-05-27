@@ -130,5 +130,17 @@ namespace youtube_dl_gui {
                 this["hideFFmpegCompile"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("256")]
+        public int audioBitrate {
+            get {
+                return ((int)(this["audioBitrate"]));
+            }
+            set {
+                this["audioBitrate"] = value;
+            }
+        }
     }
 }

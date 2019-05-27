@@ -29,6 +29,7 @@ namespace youtube_dl_gui {
 
             try {
                 using (WebClient wc = new WebClient()) {
+                    ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
                     wc.Headers.Add("User-Agent: " + Program.UserAgent);
                     string json = wc.DownloadString(url);
                     byte[] bytes = Encoding.ASCII.GetBytes(json);
@@ -44,13 +45,13 @@ namespace youtube_dl_gui {
             }
             catch (WebException WebE) {
                 Debug.Print(WebE.ToString());
-                //ErrorLog.reportWebError(WebE, url);
+                ErrorLog.reportWebError(WebE, url);
                 return null;
                 throw WebE;
             }
             catch (Exception ex) {
                 Debug.Print(ex.ToString());
-                //ErrorLog.reportError(ex.ToString());
+                ErrorLog.reportError(ex);
                 return null;
                 throw ex;
             }
@@ -100,9 +101,11 @@ namespace youtube_dl_gui {
                 }
             }
             catch (WebException webe) {
+                ErrorLog.reportWebError(webe, "https://github.com/murrty/youtube-dl-gui/releases/download/this-is-the-detected-updated-version/youtube-dl-gui.exe");
                 return false;
             }
             catch (Exception ex) {
+                ErrorLog.reportError(ex);
                 return false;
             }
         }

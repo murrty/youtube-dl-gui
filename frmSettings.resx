@@ -120,6 +120,16 @@
   <metadata name="tipSettings.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
+  <metadata name="tipSettings.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
+  <data name="chkSeparate.ToolTip" xml:space="preserve">
+    <value>Separates downloads into their own folder based on the download type
+
+Videos would be &lt;download directory&gt;\Video
+Audio would be &lt;download directory&gt;\Audio
+Custom would be &lt;download directory&gt;\Custom</value>
+  </data>
   <data name="lbConvertVideoBitrate.ToolTip" xml:space="preserve">
     <value>The bitrate of the video
 A bitrate is how many bits per second are streamed to the player
@@ -130,11 +140,29 @@ If you were to input "10,000" as the bitrate, it would be interpreted as "10,000
   </data>
   <data name="numConvertVideoBitrate.ToolTip" xml:space="preserve">
     <value>The bitrate of the video
+
 A bitrate is how many bits per second are streamed to the player
 
 higher = better, at the cost of file size
 
 If you were to input "10,000" as the bitrate, it would be interpreted as "10,000,000" bits per second.</value>
+  </data>
+  <data name="label4.ToolTip" xml:space="preserve">
+    <value>The bitrate of the audio file
+A bitrate is how many bits per second are streamed to the player
+
+higher = better, at the cost of file size
+
+If you were to input "256" as the bitrate, it would be interpreted as "256,000" bits per second.</value>
+  </data>
+  <data name="numConvertAudioBitrate.ToolTip" xml:space="preserve">
+    <value>The bitrate of the audio file
+A bitrate is how many bits per second are streamed to the player
+
+higher = better, at the cost of file size
+
+If you were to input "256" as the bitrate, it would be interpreted as "256,000" bits per second.
+</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">

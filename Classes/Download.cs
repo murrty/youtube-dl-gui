@@ -17,24 +17,26 @@ namespace youtube_dl_gui {
         // 2 = Custom // Unsortable
 
         /// <summary>
-        /// Argument for best Video quality downloads
+        /// Built-in best quality for video downloads
         /// </summary>
         public static string bestVideo = " -f \"bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best\"";
         /// <summary>
-        /// Argument for best Audio quality downloads
+        /// Built-in best quality for audio downloads
         /// </summary>
         public static string bestAudio = " -f bestaudio --extract-audio --audio-format best --audio-quality 0";
         public static string goodAudio = " -x --audio-format mp3 --audio-quality 256K";
+        /// <summary>
+        /// The default file-name schema used
+        /// </summary>
         public static string defaultSchema = "%(title)s-%(id)s.%(ext)s";
 
         /// <summary>
-        /// Tooltip
+        /// Downloads files using the best preset available.
         /// </summary>
-        /// <param name="URL">The URL of the video (or otherwise) to download</param>
-        /// <param name="downloadDir">The directory where the file will be downloaded to</param>
-        /// <param name="downloadType">The type of download (0 = Video, 1 = Audio, 2 = Custom Arguments, any other will attempt a download without any arguments.</param>
-        /// <param name="args">(Optional) custom arguments to pass to Youtube-DL</param>
-        /// <returns></returns>
+        /// <param name="URL">URL of the file</param>
+        /// <param name="downloadType">Download type; (0) Video, (1) Audio, (2) Custom</param>
+        /// <param name="args">Custom arguments passed to the application</param>
+        /// <returns>A boolean based on the success of the download</returns>
         public static bool downloadBest(string URL, int downloadType, string args = "") {
             if (string.IsNullOrWhiteSpace(URL)) {
                 MessageBox.Show("Please enter a URL before trying to download.");
@@ -85,7 +87,7 @@ namespace youtube_dl_gui {
                 switch (downloadType) {
                     case 0: // video
                         if (Downloads.Default.separateDownloads)
-                            outputFolder += "\\Videos\\" + Downloads.Default.fileNameSchema + "\"";
+                            outputFolder += "\\Video\\" + Downloads.Default.fileNameSchema + "\"";
                         else
                             outputFolder += "\\" + Downloads.Default.fileNameSchema + "\"";
 
@@ -118,7 +120,7 @@ namespace youtube_dl_gui {
                 return true;
             }
             catch (Exception ex) {
-                ErrorLog.reportError(ex.ToString());
+                ErrorLog.reportError(ex);
                 GC.Collect();
                 return false;
             }
@@ -130,9 +132,10 @@ namespace youtube_dl_gui {
         }
 
         /// <summary>
-        /// Downloads the youtube-dl.exe from Github.
+        /// Downloads the latest version of youtube-dl
         /// </summary>
-        /// <param name="downloadDir"></param>
+        /// <param name="downloadDir">The directory\File to save youtube-dl to</param>
+        /// <returns>A boolean based on the success of the download</returns>
         public static bool downloadYoutubeDL(string downloadDir) {
             string YtDl = string.Empty;
             string ytSig = string.Empty;
@@ -152,6 +155,7 @@ namespace youtube_dl_gui {
                     File.Delete(downloadDir);
 
                 using (WebClient wc = new WebClient()) {
+                    ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
                     wc.Headers.Add("User-Agent: " + Program.UserAgent);
                     wc.DownloadFile(YtDl, downloadDir);
                 }
@@ -165,11 +169,15 @@ namespace youtube_dl_gui {
                 return false;
             }
             catch (Exception ex) {
-                ErrorLog.reportError(ex.ToString());
+                ErrorLog.reportError(ex);
                 return false;
             }
         }
 
+        /// <summary>
+        /// Updates youtube-dl
+        /// </summary>
+        /// <returns>A boolean based on the success of the update...?</returns>
         public static bool updateYoutubeDL() {
             try {
                 if (Downloads.Default.useYtdlUpdater) {
@@ -206,7 +214,6 @@ namespace youtube_dl_gui {
 
                     Downloader.Start();
                     Downloader.WaitForExit();
-                    MessageBox.Show("youtube-dl has been downloaded");
                     return true;
                 }
                 else {

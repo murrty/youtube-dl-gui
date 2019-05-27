@@ -31,6 +31,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Resources\youtube-dl-gui.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -59,6 +62,11 @@
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Downloads.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Errors.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Errors.settings</DependentUpon>
     </Compile>
     <Compile Include="frmAbout.cs">
       <SubType>Form</SubType>
@@ -122,6 +130,10 @@
     <None Include="Downloads.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Downloads.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Errors.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Errors.Designer.cs</LastGenOutput>
     </None>
     <None Include="General.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

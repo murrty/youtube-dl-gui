@@ -12,6 +12,9 @@ namespace youtube_dl_gui {
 
         [STAThread]
         static void Main() {
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+
             // boot determines if the application can proceed.
             bool boot = false;
             if (Properties.Settings.Default.firstTime) {
@@ -19,10 +22,14 @@ namespace youtube_dl_gui {
                     Properties.Settings.Default.firstTime = false;
 
                     if (MessageBox.Show("Downloads are saved to your downloads folder by default, would you like to specify a different location now?\n(You can change this in the settings at any time)", "youtube-dl-gui", MessageBoxButtons.YesNo) == DialogResult.Yes) {
-                        FolderBrowserDialog FBD = new FolderBrowserDialog();
-                        FBD.Description = "Select a location to save downloads to";
-                        FBD.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Downloads";
-                        Downloads.Default.downloadPath = FBD.SelectedPath;
+                        using (FolderBrowserDialog fbd = new FolderBrowserDialog()) {
+                            fbd.Description = "Select a location to save downloads to";
+                            fbd.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Downloads";
+                            if (fbd.ShowDialog() == DialogResult.OK) {
+                                Downloads.Default.downloadPath = fbd.SelectedPath;
+                                Downloads.Default.Save();
+                            }
+                        }
                     }
                     else {
                         Downloads.Default.downloadPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Downloads";
@@ -38,8 +45,6 @@ namespace youtube_dl_gui {
 
             if (boot) {
                 if (mtx.WaitOne(TimeSpan.Zero, true)) {
-                    Application.EnableVisualStyles();
-                    Application.SetCompatibleTextRenderingDefault(false);
                     Application.Run(new frmMain());
                     mtx.ReleaseMutex();
                 }
