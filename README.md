@@ -25,8 +25,8 @@ The static paths for youtube-dl and ffmpeg may be set, which will allow you to s
 When using custom arguments, the url and save directory are automatically passed, url being the first thing passed, followed by custom arguments, and the save-to directory being the final one passed.
 
 Ex:  
-* youtube-dl.exe https://awebsite.tld/video.html <custom arguments> -o "C:\Users\User\Downloads\"  
-* ffmpeg.exe -i "C:\Users\User\Downloads\VideoToConvert.ext" <custom arguments> "C:\Users\User\Downloads\FileOutput.ext"
+* youtube-dl.exe https://awebsite.tld/video.html \<custom arguments> -o "C:\Users\User\Downloads\"  
+* ffmpeg.exe -i "C:\Users\User\Downloads\VideoToConvert.ext" \<custom arguments> "C:\Users\User\Downloads\FileOutput.ext"
 
 # Compatible sites
 
