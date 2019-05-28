@@ -150,20 +150,26 @@ namespace youtube_dl_gui {
                 string convertArguments = "-i \"" + input + "\"";
                 switch (convType) {
                     case 0:
-                        convertArguments += " -preset " + getVideoPreset(Converts.Default.videoPreset) +
-                                            " -crf " + Converts.Default.videoCRF.ToString() +
-                                            " -b:v " + Converts.Default.videoBitrate.ToString() + "k";
+                        if (Converts.Default.videoUseBitrate)
+                            convertArguments += " -b:v " + Converts.Default.videoBitrate.ToString() + "k";
 
-                        if (!output.EndsWith(".wmv"))
+                        if (Converts.Default.videoUsePreset)
+                            convertArguments += " -preset " + getVideoPreset(Converts.Default.videoPreset);
+
+                        if (Converts.Default.videoUseCRF)
+                            convertArguments += " -crf " + Converts.Default.videoCRF.ToString();
+
+                        if (!output.EndsWith(".wmv") && Converts.Default.videoUseProfile)
                             convertArguments += " -profile:v " + getVideoProfile(Converts.Default.videoProfile);
 
-                        if (Converts.Default.videoFastStart) {
+                        if (Converts.Default.videoFastStart)
                             convertArguments += " -faststart";
-                        }
 
                         break;
                     case 1:
-                        convertArguments += " -preset slow -ab " + (Converts.Default.audioBitrate * 1000);//-b:a " + (Converts.Default.audioBitrate * 1000);
+                        if (Converts.Default.audioUseBitrate)
+                            convertArguments += " -ab " + (Converts.Default.audioBitrate * 1000);
+
                         break;
                     case 2:
                         convertArguments += " " + Saved.Default.convertCustom;
@@ -175,26 +181,33 @@ namespace youtube_dl_gui {
                         if (Converts.Default.detectFiletype) {
                             switch (getFiletype(output)) {
                                 case 0:
-                                    if (!output.EndsWith(".wmv"))
+                                    if (Converts.Default.videoUseBitrate)
+                                        convertArguments += " -b:v " + Converts.Default.videoBitrate.ToString() + "k";
+
+                                    if (Converts.Default.videoUsePreset)
+                                        convertArguments += " -preset " + getVideoPreset(Converts.Default.videoPreset);
+
+                                    if (Converts.Default.videoUseCRF)
+                                        convertArguments += " -crf " + Converts.Default.videoCRF.ToString();
+
+                                    if (!output.EndsWith(".wmv") && Converts.Default.videoUseProfile)
                                         convertArguments += " -profile:v " + getVideoProfile(Converts.Default.videoProfile);
 
-                                    convertArguments += " -preset " + getVideoPreset(Converts.Default.videoPreset) +
-                                                        " -crf " + Converts.Default.videoCRF.ToString() +
-                                                        " -b:v " + Converts.Default.videoBitrate.ToString() + "k";
-                                    if (Converts.Default.videoFastStart) {
+                                    if (Converts.Default.videoFastStart)
                                         convertArguments += " -faststart";
-                                    }
                                     break;
                                 case 1:
-                                    convertArguments += " -preset slow -ab " + (Converts.Default.audioBitrate * 1000);//-b:a " + (Converts.Default.audioBitrate * 1000);
+                                    if (Converts.Default.audioUseBitrate)
+                                        convertArguments += " -ab " + (Converts.Default.audioBitrate * 1000);
+
                                     break;
                                 default:
-                                    convertArguments += " -preset slow -b 3000k";
+                                    convertArguments += " -preset fast -b 3000k";
                                     break;
                             }
                         }
                         else {
-                            convertArguments += " -preset slow -b 3000k";
+                            convertArguments += " -preset fast -b 3000k";
                         }
                         break;
                 }

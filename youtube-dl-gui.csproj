@@ -114,7 +114,7 @@
       <DependentUpon>frmSettings.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -161,6 +161,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\youtube-dl-gui-updater.exe" />
     <Content Include="Resources\youtube-dl-gui.ico" />
     <Content Include="Resources\youtube-dl-gui32.png" />
   </ItemGroup>

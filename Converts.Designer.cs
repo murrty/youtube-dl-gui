@@ -142,5 +142,65 @@ namespace youtube_dl_gui {
                 this["audioBitrate"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool videoUseBitrate {
+            get {
+                return ((bool)(this["videoUseBitrate"]));
+            }
+            set {
+                this["videoUseBitrate"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool videoUsePreset {
+            get {
+                return ((bool)(this["videoUsePreset"]));
+            }
+            set {
+                this["videoUsePreset"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool videoUseProfile {
+            get {
+                return ((bool)(this["videoUseProfile"]));
+            }
+            set {
+                this["videoUseProfile"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool videoUseCRF {
+            get {
+                return ((bool)(this["videoUseCRF"]));
+            }
+            set {
+                this["videoUseCRF"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool audioUseBitrate {
+            get {
+                return ((bool)(this["audioUseBitrate"]));
+            }
+            set {
+                this["audioUseBitrate"] = value;
+            }
+        }
     }
 }

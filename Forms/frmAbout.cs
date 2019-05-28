@@ -49,5 +49,13 @@ namespace youtube_dl_gui {
         private void pbIcon_Click(object sender, EventArgs e) {
             Process.Start("https://github.com/murrty/youtube-dl-gui/");
         }
+
+        private void llbGithub_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
+            Process.Start("https://github.com/murrty/youtube-dl-gui");
+        }
+
+        private void llbGitlab_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
+            Process.Start("https://gitlab.com/murrty/youtube-dl-gui");
+        }
     }
 }

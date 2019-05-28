@@ -77,9 +77,7 @@ namespace youtube_dl_gui {
         }
         public static bool isUpdateAvailable(decimal cloudVersion) {
             try {
-                if (Properties.Settings.Default.appVersion < cloudVersion) {
-                    return true;
-                }
+                if (Properties.Settings.Default.appVersion < cloudVersion) { return true; }
                 else { return false; }
             }
             catch (Exception ex) {
@@ -95,8 +93,9 @@ namespace youtube_dl_gui {
 
             try {
                 using (WebClient wc = new WebClient()) {
+                    ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
                     wc.Headers.Add("User-Agent: " + Program.UserAgent);
-                    wc.DownloadFile("https://github.com/murrty/youtube-dl-gui/releases/download/" + (cloudVersion) + "/youtube-dl-gui.exe", Environment.CurrentDirectory + "\\ydg.exe");
+                    wc.DownloadFile("https://github.com/murrty/youtube-dl-gui/releases/download/" + (cloudVersion) + "/youtube-dl-gui.exe", Environment.CurrentDirectory + "\\youtube-dl-gui.exe.part");
                     return true;
                 }
             }
@@ -110,18 +109,11 @@ namespace youtube_dl_gui {
             }
         }
         public static void runMerge() {
-            if (File.Exists(Application.StartupPath + updateFile))
-                File.Delete(Application.StartupPath + updateFile);
-
-            File.Create(Application.StartupPath + updateFile).Dispose();
-            System.IO.StreamWriter writeApp = new System.IO.StreamWriter(Application.StartupPath + updateFile);
-            writeApp.WriteLine("@echo off");
-            writeApp.WriteLine("set programName=" + System.AppDomain.CurrentDomain.FriendlyName);
-            writeApp.WriteLine("del %programName%");
-            writeApp.WriteLine("REN " + Environment.CurrentDirectory + "\\ydg.exe %programName%");
-            writeApp.WriteLine("%programName%");
-            writeApp.WriteLine("exit");
-            writeApp.Close();
+            Process runUpdater = new Process();
+            runUpdater.StartInfo.FileName = Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe";
+            runUpdater.StartInfo.Arguments = System.AppDomain.CurrentDomain.FriendlyName;
+            runUpdater.Start();
+            Environment.Exit(0);
         }
 
         public static bool updateStub() {
@@ -130,14 +122,15 @@ namespace youtube_dl_gui {
                     FileVersionInfo stubVersion = FileVersionInfo.GetVersionInfo(Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe");
                     if (stubVersion.ProductMajorPart > 1) {
                         File.Delete(Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe");
-
-                        File.Create(Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe");
                     }
-                    return true;
+                    else {
+                        return true;
+                    }
                 }
-                else {
-                    return false;
-                }
+
+                File.WriteAllBytes(Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe", Properties.Resources.youtube_dl_gui_updater);
+
+                return true;
             }
             catch (Exception ex) {
                 ErrorLog.reportError(ex);

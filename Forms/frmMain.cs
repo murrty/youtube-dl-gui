@@ -16,6 +16,7 @@ namespace youtube_dl_gui {
         int ffmpegAvailable = -1;
 
         Thread checkUpdates;
+        bool updateChecked = false;
 
         //TextBox Hint
         [DllImport("user32.dll", CharSet = CharSet.Unicode)]
@@ -36,6 +37,11 @@ namespace youtube_dl_gui {
                     this.WindowState = FormWindowState.Normal;
                 this.Activate();
             }
+
+            if (updateChecked) {
+                checkUpdates.Abort();
+                updateChecked = false;
+            }
             base.WndProc(ref m);
         }
         public frmMain() {
@@ -52,15 +58,23 @@ namespace youtube_dl_gui {
         }
 
         private void frmMain_Load(object sender, EventArgs e) {
-            //if (General.Default.checkForUpdates) {
-            //    checkUpdates = new Thread(() => {
-            //        decimal cloudVersion = Updater.getCloudVersion();
-            //        if (Updater.isUpdateAvailable(cloudVersion)) {
+            if (General.Default.checkForUpdates) {
+                checkUpdates = new Thread(() => {
+                    decimal cloudVersion = Updater.getCloudVersion();
+                    if (Updater.isUpdateAvailable(cloudVersion)) {
+                        if (MessageBox.Show("An update is available. Would you like to update?", "youtube-dl-gui", MessageBoxButtons.YesNo) == DialogResult.Yes) {
+                            if (Updater.downloadNewVersion(cloudVersion)) {
+                                if (Updater.updateStub()) {
+                                    Updater.runMerge();
+                                }
+                            }
+                        }
+                    }
 
-            //        }
-            //    });
-            //    checkUpdates.Start();
-            //}
+                    updateChecked = true;
+                });
+                checkUpdates.Start();
+            }
 
             if (Saved.Default.formTrue0) {
                 this.Location = new Point(Saved.Default.formLocationX, Saved.Default.formLocationY);
@@ -267,7 +281,7 @@ namespace youtube_dl_gui {
                 if (Download.downloadBest(txtUrl.Text, 0)) {
                     if (General.Default.clearURL) {
                         txtUrl.Clear();
-                        Clipboard.SetText("");
+                        Clipboard.Clear();
                     }
                     lbDownloadStatus.Text = "Download completed";
                     tmrDownloadLabel.Enabled = true;
@@ -283,7 +297,7 @@ namespace youtube_dl_gui {
                 if (Download.downloadBest(txtUrl.Text, 1)) {
                     if (General.Default.clearURL) {
                         txtUrl.Clear();
-                        Clipboard.SetText("");
+                        Clipboard.Clear();
                     }
                     lbDownloadStatus.Text = "Download completed";
                     tmrDownloadLabel.Enabled = true;
@@ -299,7 +313,7 @@ namespace youtube_dl_gui {
                 if (Download.downloadBest(txtUrl.Text, 2, txtArgs.Text)) {
                     if (General.Default.clearURL) {
                         txtUrl.Clear();
-                        Clipboard.SetText("");
+                        Clipboard.Clear();
                     }
 
                     lbDownloadStatus.Text = "Download completed";
@@ -314,7 +328,7 @@ namespace youtube_dl_gui {
                 if (Download.downloadBest(txtUrl.Text, 0)) {
                     if (General.Default.clearURL) {
                         txtUrl.Clear();
-                        Clipboard.SetText("");
+                        Clipboard.Clear();
                     }
                     lbDownloadStatus.Text = "Download completed";
                     tmrDownloadLabel.Enabled = true;
@@ -338,41 +352,44 @@ namespace youtube_dl_gui {
 
                 ofd.Filter = filter;
                 ofd.FilterIndex = 4;
+                if (!string.IsNullOrEmpty(txtConvertOutput.Text))
+                    btnConvert.Enabled = true;
+
                 if (ofd.ShowDialog() == DialogResult.OK) {
-                    btnConvertOutput_Click(null, null);
-                    //txtConvertInput.Text = ofd.FileName;
-                    //string fileWithoutExt  = System.IO.Path.GetFileNameWithoutExtension(ofd.FileName);
-                    //btnConvertOutput.Enabled = true;
+                    txtConvertInput.Text = ofd.FileName;
+                    btnConvertOutput.Enabled = true;
 
-                    //SaveFileDialog sfd = new SaveFileDialog();
-                    //sfd.Title = "Save ouput to...";
-                    //sfd.FileName = fileWithoutExt;
-                    //if (rbConvertVideo.Checked) {
-                    //    sfd.Filter = Convert.allVideoFormats + "|" + Convert.allAudioFormats + "|" + Convert.allMediaFormats + "|" + Convert.videoFormatsFilter;
-                    //    if (Saved.Default.convertSaveVideoIndex > -1 && Converts.Default.detectFiletype)
-                    //        sfd.FilterIndex = Saved.Default.convertSaveVideoIndex;
-                    //    else
-                    //        sfd.FilterIndex = 7;
-                    //}
-                    //else if (rbConvertAudio.Checked) {
-                    //    sfd.Filter = Convert.allVideoFormats + "|" + Convert.allAudioFormats + "|" + Convert.allMediaFormats + "|" + Convert.audioFormatsFilter;
-                    //    if (Saved.Default.convertSaveAudioIndex > -1 && Converts.Default.detectFiletype)
-                    //        sfd.FilterIndex = Saved.Default.convertSaveAudioIndex;
-                    //    else
-                    //        sfd.FilterIndex = 7;
-                    //}
-                    //else {
-                    //    sfd.Filter = Convert.allVideoFormats + "|" + Convert.allAudioFormats + "|" + Convert.allMediaFormats + "|" + "All File Formats (*.*)|(*.*)";
-                    //}
-                    //if (sfd.ShowDialog() == DialogResult.OK) {
-                    //    txtConvertOutput.Text = sfd.FileName;
-                    //    if (rbConvertVideo.Checked && Converts.Default.detectFiletype)
-                    //        Saved.Default.convertSaveAudioIndex = sfd.FilterIndex;
-                    //    else if (rbConvertAudio.Checked && Converts.Default.detectFiletype)
-                    //        Saved.Default.convertSaveVideoIndex = sfd.FilterIndex;
+                    string fileWithoutExt  = System.IO.Path.GetFileNameWithoutExtension(ofd.FileName);
+                    using (SaveFileDialog sfd = new SaveFileDialog()) { 
+                        sfd.Title = "Save ouput to...";
+                        sfd.FileName = fileWithoutExt;
+                        if (rbConvertVideo.Checked) {
+                            sfd.Filter = Convert.allVideoFormats + "|" + Convert.allAudioFormats + "|" + Convert.allMediaFormats + "|" + Convert.videoFormatsFilter;
+                            if (Saved.Default.convertSaveVideoIndex > -1 && Converts.Default.detectFiletype)
+                                sfd.FilterIndex = Saved.Default.convertSaveVideoIndex;
+                            else
+                                sfd.FilterIndex = 7;
+                        }
+                        else if (rbConvertAudio.Checked) {
+                            sfd.Filter = Convert.allVideoFormats + "|" + Convert.allAudioFormats + "|" + Convert.allMediaFormats + "|" + Convert.audioFormatsFilter;
+                            if (Saved.Default.convertSaveAudioIndex > -1 && Converts.Default.detectFiletype)
+                                sfd.FilterIndex = Saved.Default.convertSaveAudioIndex;
+                            else
+                                sfd.FilterIndex = 7;
+                        }
+                        else {
+                            sfd.Filter = Convert.allVideoFormats + "|" + Convert.allAudioFormats + "|" + Convert.allMediaFormats + "|" + "All File Formats (*.*)|(*.*)";
+                        }
+                        if (sfd.ShowDialog() == DialogResult.OK) {
+                            txtConvertOutput.Text = sfd.FileName;
+                            if (rbConvertVideo.Checked && Converts.Default.detectFiletype)
+                                Saved.Default.convertSaveAudioIndex = sfd.FilterIndex;
+                            else if (rbConvertAudio.Checked && Converts.Default.detectFiletype)
+                                Saved.Default.convertSaveVideoIndex = sfd.FilterIndex;
 
-                    //    btnConvert.Enabled = true;
-                    //}
+                            btnConvert.Enabled = true;
+                        }
+                    }
                 }
             }
         }
@@ -449,10 +466,14 @@ namespace youtube_dl_gui {
             if (Convert.convertFile(txtConvertInput.Text, txtConvertOutput.Text, convType)) {
                 lbConvStatus.Text = "Finished converting";
                 tmrConvertLabel.Enabled = true;
-                if (Converts.Default.clearOutput)
+                if (Converts.Default.clearOutput) {
                     txtConvertOutput.Clear();
-                if (Converts.Default.clearInput)
+                    btnConvert.Enabled = false;
+                }
+                if (Converts.Default.clearInput) {
                     txtConvertInput.Clear();
+                    btnConvert.Enabled = false;
+                }
             }
             else {
                 lbConvStatus.Text = "Conversion failed";

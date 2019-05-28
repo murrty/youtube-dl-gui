@@ -71,7 +71,6 @@
             this.numConvertVideoBitrate = new System.Windows.Forms.NumericUpDown();
             this.lbConvertVideoThousands = new System.Windows.Forms.Label();
             this.tabConvertAudio = new System.Windows.Forms.TabPage();
-            this.label4 = new System.Windows.Forms.Label();
             this.numConvertAudioBitrate = new System.Windows.Forms.NumericUpDown();
             this.lbidkwhatsup = new System.Windows.Forms.Label();
             this.lbConvertAudioThousands = new System.Windows.Forms.Label();
@@ -82,6 +81,8 @@
             this.chkConvClearOutput = new System.Windows.Forms.CheckBox();
             this.chkConvertDetectFiletype = new System.Windows.Forms.CheckBox();
             this.tabExtensions = new System.Windows.Forms.TabPage();
+            this.lbFileExtension = new System.Windows.Forms.Label();
+            this.btnAddExtension = new System.Windows.Forms.Button();
             this.btnRemoveExtension = new System.Windows.Forms.Button();
             this.listExtensions = new System.Windows.Forms.ListBox();
             this.lbExtensionShortName = new System.Windows.Forms.Label();
@@ -96,8 +97,12 @@
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
             this.tipSettings = new System.Windows.Forms.ToolTip(this.components);
-            this.btnAddExtension = new System.Windows.Forms.Button();
-            this.lbFileExtension = new System.Windows.Forms.Label();
+            this.chkUseVideoBitrate = new System.Windows.Forms.CheckBox();
+            this.chkUseVideoPreset = new System.Windows.Forms.CheckBox();
+            this.chkUseVideoProfile = new System.Windows.Forms.CheckBox();
+            this.chkUseVideoCRF = new System.Windows.Forms.CheckBox();
+            this.chkUseAudioBitrate = new System.Windows.Forms.CheckBox();
+            this.lbAudioBitrate = new System.Windows.Forms.Label();
             this.tcMain.SuspendLayout();
             this.tbGeneral.SuspendLayout();
             this.gbArguments.SuspendLayout();
@@ -520,6 +525,10 @@
             // 
             // tabConvertVideo
             // 
+            this.tabConvertVideo.Controls.Add(this.chkUseVideoCRF);
+            this.tabConvertVideo.Controls.Add(this.chkUseVideoProfile);
+            this.tabConvertVideo.Controls.Add(this.chkUseVideoPreset);
+            this.tabConvertVideo.Controls.Add(this.chkUseVideoBitrate);
             this.tabConvertVideo.Controls.Add(this.chkVideoFastStart);
             this.tabConvertVideo.Controls.Add(this.label1);
             this.tabConvertVideo.Controls.Add(this.numConvertVideoCRF);
@@ -541,7 +550,7 @@
             // chkVideoFastStart
             // 
             this.chkVideoFastStart.AutoSize = true;
-            this.chkVideoFastStart.Location = new System.Drawing.Point(117, 123);
+            this.chkVideoFastStart.Location = new System.Drawing.Point(117, 126);
             this.chkVideoFastStart.Name = "chkVideoFastStart";
             this.chkVideoFastStart.Size = new System.Drawing.Size(62, 17);
             this.chkVideoFastStart.TabIndex = 9;
@@ -553,7 +562,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(88, 96);
+            this.label1.Location = new System.Drawing.Point(95, 96);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(28, 13);
             this.label1.TabIndex = 8;
@@ -562,7 +571,7 @@
             // 
             // numConvertVideoCRF
             // 
-            this.numConvertVideoCRF.Location = new System.Drawing.Point(124, 94);
+            this.numConvertVideoCRF.Location = new System.Drawing.Point(131, 94);
             this.numConvertVideoCRF.Maximum = new decimal(new int[] {
             51,
             0,
@@ -581,7 +590,7 @@
             // lbConvertVideoProfile
             // 
             this.lbConvertVideoProfile.AutoSize = true;
-            this.lbConvertVideoProfile.Location = new System.Drawing.Point(80, 70);
+            this.lbConvertVideoProfile.Location = new System.Drawing.Point(87, 70);
             this.lbConvertVideoProfile.Name = "lbConvertVideoProfile";
             this.lbConvertVideoProfile.Size = new System.Drawing.Size(36, 13);
             this.lbConvertVideoProfile.TabIndex = 6;
@@ -600,7 +609,7 @@
             "high10",
             "high442",
             "high444"});
-            this.cbConvertVideoProfile.Location = new System.Drawing.Point(124, 67);
+            this.cbConvertVideoProfile.Location = new System.Drawing.Point(131, 67);
             this.cbConvertVideoProfile.Name = "cbConvertVideoProfile";
             this.cbConvertVideoProfile.Size = new System.Drawing.Size(94, 21);
             this.cbConvertVideoProfile.TabIndex = 5;
@@ -611,7 +620,7 @@
             // lbConvertVideoPreset
             // 
             this.lbConvertVideoPreset.AutoSize = true;
-            this.lbConvertVideoPreset.Location = new System.Drawing.Point(79, 43);
+            this.lbConvertVideoPreset.Location = new System.Drawing.Point(86, 43);
             this.lbConvertVideoPreset.Name = "lbConvertVideoPreset";
             this.lbConvertVideoPreset.Size = new System.Drawing.Size(37, 13);
             this.lbConvertVideoPreset.TabIndex = 4;
@@ -633,7 +642,7 @@
             "slow",
             "slower",
             "veryslow"});
-            this.cbConvertVideoPreset.Location = new System.Drawing.Point(124, 40);
+            this.cbConvertVideoPreset.Location = new System.Drawing.Point(131, 40);
             this.cbConvertVideoPreset.Name = "cbConvertVideoPreset";
             this.cbConvertVideoPreset.Size = new System.Drawing.Size(94, 21);
             this.cbConvertVideoPreset.TabIndex = 3;
@@ -643,7 +652,7 @@
             // lbConvertVideoBitrate
             // 
             this.lbConvertVideoBitrate.AutoSize = true;
-            this.lbConvertVideoBitrate.Location = new System.Drawing.Point(79, 16);
+            this.lbConvertVideoBitrate.Location = new System.Drawing.Point(86, 16);
             this.lbConvertVideoBitrate.Name = "lbConvertVideoBitrate";
             this.lbConvertVideoBitrate.Size = new System.Drawing.Size(37, 13);
             this.lbConvertVideoBitrate.TabIndex = 1;
@@ -652,7 +661,7 @@
             // 
             // numConvertVideoBitrate
             // 
-            this.numConvertVideoBitrate.Location = new System.Drawing.Point(124, 14);
+            this.numConvertVideoBitrate.Location = new System.Drawing.Point(131, 14);
             this.numConvertVideoBitrate.Maximum = new decimal(new int[] {
             99999999,
             0,
@@ -673,7 +682,7 @@
             // 
             this.lbConvertVideoThousands.AutoSize = true;
             this.lbConvertVideoThousands.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbConvertVideoThousands.Location = new System.Drawing.Point(201, 14);
+            this.lbConvertVideoThousands.Location = new System.Drawing.Point(208, 14);
             this.lbConvertVideoThousands.Name = "lbConvertVideoThousands";
             this.lbConvertVideoThousands.Size = new System.Drawing.Size(16, 17);
             this.lbConvertVideoThousands.TabIndex = 2;
@@ -683,7 +692,8 @@
             // 
             // tabConvertAudio
             // 
-            this.tabConvertAudio.Controls.Add(this.label4);
+            this.tabConvertAudio.Controls.Add(this.chkUseAudioBitrate);
+            this.tabConvertAudio.Controls.Add(this.lbAudioBitrate);
             this.tabConvertAudio.Controls.Add(this.numConvertAudioBitrate);
             this.tabConvertAudio.Controls.Add(this.lbidkwhatsup);
             this.tabConvertAudio.Controls.Add(this.lbConvertAudioThousands);
@@ -695,19 +705,9 @@
             this.tabConvertAudio.Text = "Audio";
             this.tabConvertAudio.UseVisualStyleBackColor = true;
             // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(94, 30);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(37, 13);
-            this.label4.TabIndex = 17;
-            this.label4.Text = "Bitrate";
-            this.tipSettings.SetToolTip(this.label4, resources.GetString("label4.ToolTip"));
-            // 
             // numConvertAudioBitrate
             // 
-            this.numConvertAudioBitrate.Location = new System.Drawing.Point(139, 28);
+            this.numConvertAudioBitrate.Location = new System.Drawing.Point(145, 19);
             this.numConvertAudioBitrate.Maximum = new decimal(new int[] {
             99999999,
             0,
@@ -741,7 +741,7 @@
             // 
             this.lbConvertAudioThousands.AutoSize = true;
             this.lbConvertAudioThousands.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbConvertAudioThousands.Location = new System.Drawing.Point(186, 29);
+            this.lbConvertAudioThousands.Location = new System.Drawing.Point(192, 20);
             this.lbConvertAudioThousands.Name = "lbConvertAudioThousands";
             this.lbConvertAudioThousands.Size = new System.Drawing.Size(16, 17);
             this.lbConvertAudioThousands.TabIndex = 18;
@@ -837,6 +837,25 @@
             this.tabExtensions.TabIndex = 4;
             this.tabExtensions.Text = "Extensions";
             this.tabExtensions.UseVisualStyleBackColor = true;
+            // 
+            // lbFileExtension
+            // 
+            this.lbFileExtension.AutoSize = true;
+            this.lbFileExtension.Location = new System.Drawing.Point(30, 226);
+            this.lbFileExtension.Name = "lbFileExtension";
+            this.lbFileExtension.Size = new System.Drawing.Size(68, 13);
+            this.lbFileExtension.TabIndex = 9;
+            this.lbFileExtension.Text = "FileName.ext";
+            // 
+            // btnAddExtension
+            // 
+            this.btnAddExtension.Location = new System.Drawing.Point(242, 63);
+            this.btnAddExtension.Name = "btnAddExtension";
+            this.btnAddExtension.Size = new System.Drawing.Size(50, 23);
+            this.btnAddExtension.TabIndex = 8;
+            this.btnAddExtension.Text = "Add";
+            this.btnAddExtension.UseVisualStyleBackColor = true;
+            this.btnAddExtension.Click += new System.EventHandler(this.btnAddExtension_Click);
             // 
             // btnRemoveExtension
             // 
@@ -978,24 +997,64 @@
             this.tipSettings.ReshowDelay = 100;
             this.tipSettings.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
             // 
-            // btnAddExtension
+            // chkUseVideoBitrate
             // 
-            this.btnAddExtension.Location = new System.Drawing.Point(242, 63);
-            this.btnAddExtension.Name = "btnAddExtension";
-            this.btnAddExtension.Size = new System.Drawing.Size(50, 23);
-            this.btnAddExtension.TabIndex = 8;
-            this.btnAddExtension.Text = "Add";
-            this.btnAddExtension.UseVisualStyleBackColor = true;
-            this.btnAddExtension.Click += new System.EventHandler(this.btnAddExtension_Click);
+            this.chkUseVideoBitrate.AutoSize = true;
+            this.chkUseVideoBitrate.Location = new System.Drawing.Point(72, 16);
+            this.chkUseVideoBitrate.Name = "chkUseVideoBitrate";
+            this.chkUseVideoBitrate.Size = new System.Drawing.Size(14, 13);
+            this.chkUseVideoBitrate.TabIndex = 10;
+            this.chkUseVideoBitrate.UseVisualStyleBackColor = true;
             // 
-            // lbFileExtension
+            // chkUseVideoPreset
             // 
-            this.lbFileExtension.AutoSize = true;
-            this.lbFileExtension.Location = new System.Drawing.Point(30, 226);
-            this.lbFileExtension.Name = "lbFileExtension";
-            this.lbFileExtension.Size = new System.Drawing.Size(68, 13);
-            this.lbFileExtension.TabIndex = 9;
-            this.lbFileExtension.Text = "FileName.ext";
+            this.chkUseVideoPreset.AutoSize = true;
+            this.chkUseVideoPreset.Location = new System.Drawing.Point(72, 43);
+            this.chkUseVideoPreset.Name = "chkUseVideoPreset";
+            this.chkUseVideoPreset.Size = new System.Drawing.Size(14, 13);
+            this.chkUseVideoPreset.TabIndex = 11;
+            this.chkUseVideoPreset.UseVisualStyleBackColor = true;
+            // 
+            // chkUseVideoProfile
+            // 
+            this.chkUseVideoProfile.AutoSize = true;
+            this.chkUseVideoProfile.Location = new System.Drawing.Point(72, 70);
+            this.chkUseVideoProfile.Name = "chkUseVideoProfile";
+            this.chkUseVideoProfile.Size = new System.Drawing.Size(14, 13);
+            this.chkUseVideoProfile.TabIndex = 12;
+            this.chkUseVideoProfile.UseVisualStyleBackColor = true;
+            // 
+            // chkUseVideoCRF
+            // 
+            this.chkUseVideoCRF.AutoSize = true;
+            this.chkUseVideoCRF.Checked = true;
+            this.chkUseVideoCRF.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkUseVideoCRF.Location = new System.Drawing.Point(72, 96);
+            this.chkUseVideoCRF.Name = "chkUseVideoCRF";
+            this.chkUseVideoCRF.Size = new System.Drawing.Size(14, 13);
+            this.chkUseVideoCRF.TabIndex = 13;
+            this.chkUseVideoCRF.UseVisualStyleBackColor = true;
+            // 
+            // chkUseAudioBitrate
+            // 
+            this.chkUseAudioBitrate.AutoSize = true;
+            this.chkUseAudioBitrate.Checked = true;
+            this.chkUseAudioBitrate.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkUseAudioBitrate.Location = new System.Drawing.Point(88, 21);
+            this.chkUseAudioBitrate.Name = "chkUseAudioBitrate";
+            this.chkUseAudioBitrate.Size = new System.Drawing.Size(14, 13);
+            this.chkUseAudioBitrate.TabIndex = 20;
+            this.chkUseAudioBitrate.UseVisualStyleBackColor = true;
+            // 
+            // lbAudioBitrate
+            // 
+            this.lbAudioBitrate.AutoSize = true;
+            this.lbAudioBitrate.Location = new System.Drawing.Point(102, 21);
+            this.lbAudioBitrate.Name = "lbAudioBitrate";
+            this.lbAudioBitrate.Size = new System.Drawing.Size(37, 13);
+            this.lbAudioBitrate.TabIndex = 19;
+            this.lbAudioBitrate.Text = "Bitrate";
+            this.tipSettings.SetToolTip(this.lbAudioBitrate, resources.GetString("lbAudioBitrate.ToolTip"));
             // 
             // frmSettings
             // 
@@ -1100,7 +1159,6 @@
         private System.Windows.Forms.CheckBox chkErrorsLogFile;
         private System.Windows.Forms.CheckBox chkErrorsDetailed;
         private System.Windows.Forms.CheckBox chkErrorsSuppressed;
-        private System.Windows.Forms.Label label4;
         private System.Windows.Forms.NumericUpDown numConvertAudioBitrate;
         private System.Windows.Forms.Label lbConvertAudioThousands;
         private System.Windows.Forms.TabPage tabExtensions;
@@ -1113,5 +1171,11 @@
         private System.Windows.Forms.TextBox txtExtensionsName;
         private System.Windows.Forms.Button btnAddExtension;
         private System.Windows.Forms.Label lbFileExtension;
+        private System.Windows.Forms.CheckBox chkUseVideoCRF;
+        private System.Windows.Forms.CheckBox chkUseVideoProfile;
+        private System.Windows.Forms.CheckBox chkUseVideoPreset;
+        private System.Windows.Forms.CheckBox chkUseVideoBitrate;
+        private System.Windows.Forms.CheckBox chkUseAudioBitrate;
+        private System.Windows.Forms.Label lbAudioBitrate;
     }
 }

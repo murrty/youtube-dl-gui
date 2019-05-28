@@ -32,7 +32,7 @@ namespace youtube_dl_gui {
             loadSettings();
 
             SetTextBoxHint(txtExtensionsName.Handle, "Example Extension");
-            SetTextBoxHint(txtExtensionsShort.Handle, "ex");
+            SetTextBoxHint(txtExtensionsShort.Handle, "ext");
         }
         private void frmSettings_Load(object sender, EventArgs e) {
 
@@ -117,12 +117,18 @@ namespace youtube_dl_gui {
             chkConvClearInput.Checked = Converts.Default.clearInput;
             chkConvertHideFFmpeg.Checked = Converts.Default.hideFFmpegCompile;
 
+            chkUseVideoBitrate.Checked = Converts.Default.videoUseBitrate;
             numConvertVideoBitrate.Value = Converts.Default.videoBitrate;
+            chkUseVideoPreset.Checked = Converts.Default.videoUsePreset;
             cbConvertVideoPreset.SelectedIndex = Converts.Default.videoPreset;
+            chkUseVideoProfile.Checked = Converts.Default.videoUseProfile;
             cbConvertVideoProfile.SelectedIndex = Converts.Default.videoProfile;
+            chkUseVideoCRF.Checked = Converts.Default.videoUseCRF;
             numConvertVideoCRF.Value = Converts.Default.videoCRF;
+
             chkVideoFastStart.Checked = Converts.Default.videoFastStart;
 
+            chkUseAudioBitrate.Checked = Converts.Default.audioUseBitrate;
             numConvertAudioBitrate.Value = Converts.Default.audioBitrate;
 
             txtConvertCustom.Text = Saved.Default.convertCustom;
@@ -165,12 +171,17 @@ namespace youtube_dl_gui {
             Converts.Default.clearInput = chkConvClearInput.Checked;
             Converts.Default.hideFFmpegCompile = chkConvertHideFFmpeg.Checked;
 
+            Converts.Default.videoUseBitrate = chkUseVideoBitrate.Checked;
             Converts.Default.videoBitrate = Decimal.ToInt32(numConvertVideoBitrate.Value);
+            Converts.Default.videoUsePreset = chkUseVideoPreset.Checked;
             Converts.Default.videoPreset = cbConvertVideoPreset.SelectedIndex;
+            Converts.Default.videoUseProfile = chkUseVideoProfile.Checked;
             Converts.Default.videoProfile = cbConvertVideoProfile.SelectedIndex;
+            Converts.Default.videoUseCRF = chkUseVideoCRF.Checked;
             Converts.Default.videoCRF = Decimal.ToInt32(numConvertVideoCRF.Value);
             Converts.Default.videoFastStart = chkVideoFastStart.Checked;
 
+            Converts.Default.audioUseBitrate = chkUseAudioBitrate.Checked;
             Converts.Default.audioBitrate = Decimal.ToInt32(numConvertAudioBitrate.Value);
 
             Saved.Default.convertCustom = txtConvertCustom.Text;
@@ -343,8 +354,5 @@ namespace youtube_dl_gui {
             }
         }
         #endregion
-
-
-
     }
 }

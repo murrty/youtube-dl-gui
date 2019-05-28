@@ -428,7 +428,7 @@
             this.lbDebug.Name = "lbDebug";
             this.lbDebug.Size = new System.Drawing.Size(61, 13);
             this.lbDebug.TabIndex = 3;
-            this.lbDebug.Text = "2019-05-26";
+            this.lbDebug.Text = "2019-05-28";
             // 
             // cmTray
             // 
