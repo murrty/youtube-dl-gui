@@ -117,9 +117,56 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="ttHelp.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+  <metadata name="tipSettings.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
+  <data name="chkFixReddit.ToolTip" xml:space="preserve">
+    <value>Fixes visual corruptions on v.redd.it/reddit.com links using ffmpeg's HTTP Live Streaming (HLS)
+
+Recommended to stay on.
+This requires FFMPEG to be installed and available, it will fallback to youtube-dl's default.</value>
+  </data>
+  <data name="chkSeparate.ToolTip" xml:space="preserve">
+    <value>Separates downloads into their own folder based on the download type
+
+Videos would be &lt;download directory&gt;\Video
+Audio would be &lt;download directory&gt;\Audio
+Custom would be &lt;download directory&gt;\Custom</value>
+  </data>
+  <data name="lbConvertVideoBitrate.ToolTip" xml:space="preserve">
+    <value>The bitrate of the video
+A bitrate is how many bits per second are streamed to the player
+
+higher = better, at the cost of file size
+
+If you were to input "10,000" as the bitrate, it would be interpreted as "10,000,000" bits per second.</value>
+  </data>
+  <data name="numConvertVideoBitrate.ToolTip" xml:space="preserve">
+    <value>The bitrate of the video
+
+A bitrate is how many bits per second are streamed to the player
+
+higher = better, at the cost of file size
+
+If you were to input "10,000" as the bitrate, it would be interpreted as "10,000,000" bits per second.</value>
+  </data>
+  <data name="lbAudioBitrate.ToolTip" xml:space="preserve">
+    <value>The bitrate of the video
+A bitrate is how many bits per second are streamed to the player
+
+higher = better, at the cost of file size
+
+If you were to input "10,000" as the bitrate, it would be interpreted as "10,000,000" bits per second.</value>
+  </data>
+  <data name="numConvertAudioBitrate.ToolTip" xml:space="preserve">
+    <value>The bitrate of the audio file
+A bitrate is how many bits per second are streamed to the player
+
+higher = better, at the cost of file size
+
+If you were to input "256" as the bitrate, it would be interpreted as "256,000" bits per second.
+</value>
+  </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>

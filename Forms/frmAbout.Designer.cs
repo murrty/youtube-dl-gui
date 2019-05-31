@@ -34,6 +34,8 @@
             this.lbHeader = new System.Windows.Forms.Label();
             this.lbBody = new System.Windows.Forms.Label();
             this.pbIcon = new System.Windows.Forms.PictureBox();
+            this.llbGithub = new System.Windows.Forms.LinkLabel();
+            this.llbGitlab = new System.Windows.Forms.LinkLabel();
             ((System.ComponentModel.ISupportInitialize)(this.pbIcon)).BeginInit();
             this.SuspendLayout();
             // 
@@ -73,8 +75,8 @@
             this.lbBody.Name = "lbBody";
             this.lbBody.Size = new System.Drawing.Size(240, 79);
             this.lbBody.TabIndex = 3;
-            this.lbBody.Text = "youtube-dl by rg3\r\nyoutube-dl-gui by murrty\r\nOctokit (c) Github\r\ncoded in VisualS" +
-    "tudio 2013\r\n\r\nlikulau best boye.";
+            this.lbBody.Text = "youtube-dl by rg3\r\nyoutube-dl-gui by murrty\r\ncoded in VisualStudio 2013\r\ndebugged" +
+    " 2019-05-30\r\n\r\nlikulau best boye.";
             this.lbBody.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // pbIcon
@@ -89,12 +91,39 @@
             this.pbIcon.TabStop = false;
             this.pbIcon.Click += new System.EventHandler(this.pbIcon_Click);
             // 
+            // llbGithub
+            // 
+            this.llbGithub.AutoSize = true;
+            this.llbGithub.LinkColor = System.Drawing.Color.Blue;
+            this.llbGithub.Location = new System.Drawing.Point(222, 110);
+            this.llbGithub.Name = "llbGithub";
+            this.llbGithub.Size = new System.Drawing.Size(38, 13);
+            this.llbGithub.TabIndex = 5;
+            this.llbGithub.TabStop = true;
+            this.llbGithub.Text = "Github";
+            this.llbGithub.Visible = false;
+            this.llbGithub.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llbGithub_LinkClicked);
+            // 
+            // llbGitlab
+            // 
+            this.llbGitlab.AutoSize = true;
+            this.llbGitlab.Location = new System.Drawing.Point(226, 128);
+            this.llbGitlab.Name = "llbGitlab";
+            this.llbGitlab.Size = new System.Drawing.Size(34, 13);
+            this.llbGitlab.TabIndex = 6;
+            this.llbGitlab.TabStop = true;
+            this.llbGitlab.Text = "Gitlab";
+            this.llbGitlab.Visible = false;
+            this.llbGitlab.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llbGitlab_LinkClicked);
+            // 
             // frmAbout
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(272, 150);
+            this.Controls.Add(this.llbGitlab);
+            this.Controls.Add(this.llbGithub);
             this.Controls.Add(this.pbIcon);
             this.Controls.Add(this.lbBody);
             this.Controls.Add(this.lbHeader);
@@ -106,6 +135,7 @@
             this.MinimumSize = new System.Drawing.Size(280, 180);
             this.Name = "frmAbout";
             this.ShowIcon = false;
+            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "About youtube-dl-gui";
             this.Shown += new System.EventHandler(this.frmAbout_Shown);
@@ -122,5 +152,7 @@
         private System.Windows.Forms.Label lbHeader;
         private System.Windows.Forms.Label lbBody;
         private System.Windows.Forms.PictureBox pbIcon;
+        private System.Windows.Forms.LinkLabel llbGithub;
+        private System.Windows.Forms.LinkLabel llbGitlab;
     }
 }

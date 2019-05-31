@@ -59,5 +59,15 @@ namespace youtube_dl_gui.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] youtube_dl_gui_updater {
+            get {
+                object obj = ResourceManager.GetObject("youtube_dl_gui_updater", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
     }
 }

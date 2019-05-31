@@ -1,7 +1,5 @@
-﻿namespace youtube_dl_gui
-{
-    partial class frmMain
-    {
+﻿namespace youtube_dl_gui {
+    partial class frmMain {
         /// <summary>
         /// Required designer variable.
         /// </summary>
@@ -11,10 +9,8 @@
         /// Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing && (components != null))
-            {
+        protected override void Dispose(bool disposing) {
+            if (disposing && (components != null)) {
                 components.Dispose();
             }
             base.Dispose(disposing);
@@ -26,567 +22,591 @@
         /// Required method for Designer support - do not modify
         /// the contents of this method with the code editor.
         /// </summary>
-        private void InitializeComponent()
-        {
+        private void InitializeComponent() {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
-            this.niTray = new System.Windows.Forms.NotifyIcon(this.components);
-            this.cmTray = new System.Windows.Forms.ContextMenu();
-            this.cmTrayShow = new System.Windows.Forms.MenuItem();
-            this.cmTrayClipboard = new System.Windows.Forms.MenuItem();
-            this.cmTrayDownloadAudio = new System.Windows.Forms.MenuItem();
-            this.cmTrayDownloadVideo = new System.Windows.Forms.MenuItem();
-            this.cmTrayDownloadCustom = new System.Windows.Forms.MenuItem();
-            this.cmTraySep = new System.Windows.Forms.MenuItem();
-            this.cmTrayExit = new System.Windows.Forms.MenuItem();
-            this.MainTabs = new System.Windows.Forms.TabControl();
-            this.tabDownloader = new System.Windows.Forms.TabPage();
-            this.lblAudioQuality = new System.Windows.Forms.Label();
-            this.lblAudioFormat = new System.Windows.Forms.Label();
-            this.cbQuality = new System.Windows.Forms.ComboBox();
-            this.gbDownloadAs = new System.Windows.Forms.GroupBox();
+            this.txtUrl = new System.Windows.Forms.TextBox();
+            this.lbDownloadURL = new System.Windows.Forms.Label();
+            this.tcMain = new System.Windows.Forms.TabControl();
+            this.tabDownload = new System.Windows.Forms.TabPage();
+            this.lbDownloadStatus = new System.Windows.Forms.Label();
+            this.btnDownload = new System.Windows.Forms.Button();
+            this.lbDownloadArgs = new System.Windows.Forms.Label();
+            this.txtArgs = new System.Windows.Forms.TextBox();
+            this.gbDownloadType = new System.Windows.Forms.GroupBox();
             this.rbCustom = new System.Windows.Forms.RadioButton();
             this.rbAudio = new System.Windows.Forms.RadioButton();
             this.rbVideo = new System.Windows.Forms.RadioButton();
-            this.cbFormat = new System.Windows.Forms.ComboBox();
-            this.txtArgs = new System.Windows.Forms.TextBox();
-            this.btnDownload = new System.Windows.Forms.Button();
             this.tabConvert = new System.Windows.Forms.TabPage();
-            this.cbBit = new System.Windows.Forms.ComboBox();
-            this.lbVid = new System.Windows.Forms.Label();
-            this.rbConvVideo = new System.Windows.Forms.RadioButton();
-            this.rbConvAudio = new System.Windows.Forms.RadioButton();
+            this.rbConvertCustom = new System.Windows.Forms.RadioButton();
+            this.rbConvertAutoFFmpeg = new System.Windows.Forms.RadioButton();
+            this.rbConvertAuto = new System.Windows.Forms.RadioButton();
+            this.lbConvStatus = new System.Windows.Forms.Label();
             this.btnConvert = new System.Windows.Forms.Button();
-            this.cbConvQuality = new System.Windows.Forms.ComboBox();
-            this.lblConvertAudioQuality = new System.Windows.Forms.Label();
-            this.btnBrowseConvSaveFile = new System.Windows.Forms.Button();
-            this.btnBrowseConvFile = new System.Windows.Forms.Button();
-            this.txtConvFile = new System.Windows.Forms.TextBox();
-            this.lblFileToConvert = new System.Windows.Forms.Label();
-            this.txtConvSave = new System.Windows.Forms.TextBox();
-            this.lblSaveAs = new System.Windows.Forms.Label();
-            this.lblVideoURL = new System.Windows.Forms.Label();
-            this.txtURL = new System.Windows.Forms.TextBox();
-            this.mFrmMain = new System.Windows.Forms.MainMenu(this.components);
-            this.mFrmMainSettings = new System.Windows.Forms.MenuItem();
-            this.mFrmMainHelp = new System.Windows.Forms.MenuItem();
-            this.mFrmMainSupported = new System.Windows.Forms.MenuItem();
-            this.mFrmMainSep = new System.Windows.Forms.MenuItem();
-            this.mFrmMainAbout = new System.Windows.Forms.MenuItem();
-            this.mUpdate = new System.Windows.Forms.MenuItem();
-            this.MainTabs.SuspendLayout();
-            this.tabDownloader.SuspendLayout();
-            this.gbDownloadAs.SuspendLayout();
+            this.rbConvertVideo = new System.Windows.Forms.RadioButton();
+            this.rbConvertAudio = new System.Windows.Forms.RadioButton();
+            this.btnConvertOutput = new System.Windows.Forms.Button();
+            this.lbConvertOutput = new System.Windows.Forms.Label();
+            this.txtConvertOutput = new System.Windows.Forms.TextBox();
+            this.btnConvertInput = new System.Windows.Forms.Button();
+            this.lbConvertInput = new System.Windows.Forms.Label();
+            this.txtConvertInput = new System.Windows.Forms.TextBox();
+            this.tabMerge = new System.Windows.Forms.TabPage();
+            this.menu = new System.Windows.Forms.MainMenu(this.components);
+            this.mSettings = new System.Windows.Forms.MenuItem();
+            this.mHelp = new System.Windows.Forms.MenuItem();
+            this.mSites = new System.Windows.Forms.MenuItem();
+            this.mAbout = new System.Windows.Forms.MenuItem();
+            this.lbDebug = new System.Windows.Forms.Label();
+            this.cmTray = new System.Windows.Forms.ContextMenu();
+            this.cmShow = new System.Windows.Forms.MenuItem();
+            this.mDownloader = new System.Windows.Forms.MenuItem();
+            this.cmClipboardDownload = new System.Windows.Forms.MenuItem();
+            this.cmDownloadVideo = new System.Windows.Forms.MenuItem();
+            this.cmDownloadAudio = new System.Windows.Forms.MenuItem();
+            this.cmDownloadCustom = new System.Windows.Forms.MenuItem();
+            this.cmCustomTxtBox = new System.Windows.Forms.MenuItem();
+            this.cmCustomSep = new System.Windows.Forms.MenuItem();
+            this.cmCustomTxt = new System.Windows.Forms.MenuItem();
+            this.cmCustomSettings = new System.Windows.Forms.MenuItem();
+            this.mConverter = new System.Windows.Forms.MenuItem();
+            this.mConvertTo = new System.Windows.Forms.MenuItem();
+            this.mConvertVideo = new System.Windows.Forms.MenuItem();
+            this.mConvertAudio = new System.Windows.Forms.MenuItem();
+            this.mConvertCustom = new System.Windows.Forms.MenuItem();
+            this.mConvertAutomatic = new System.Windows.Forms.MenuItem();
+            this.mConvertAutoFFmpeg = new System.Windows.Forms.MenuItem();
+            this.cmSep = new System.Windows.Forms.MenuItem();
+            this.cmExit = new System.Windows.Forms.MenuItem();
+            this.trayIcon = new System.Windows.Forms.NotifyIcon(this.components);
+            this.tmrConvertLabel = new System.Windows.Forms.Timer(this.components);
+            this.tmrDownloadLabel = new System.Windows.Forms.Timer(this.components);
+            this.tcMain.SuspendLayout();
+            this.tabDownload.SuspendLayout();
+            this.gbDownloadType.SuspendLayout();
             this.tabConvert.SuspendLayout();
             this.SuspendLayout();
             // 
-            // niTray
+            // txtUrl
             // 
-            this.niTray.Icon = ((System.Drawing.Icon)(resources.GetObject("niTray.Icon")));
-            this.niTray.Text = "youtube-dl-gui";
-            this.niTray.Visible = true;
-            this.niTray.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.niTray_MouseDoubleClick);
+            this.txtUrl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtUrl.Location = new System.Drawing.Point(22, 27);
+            this.txtUrl.Name = "txtUrl";
+            this.txtUrl.Size = new System.Drawing.Size(200, 20);
+            this.txtUrl.TabIndex = 1;
+            this.txtUrl.MouseEnter += new System.EventHandler(this.txtUrl_MouseEnter);
             // 
-            // cmTray
+            // lbDownloadURL
             // 
-            this.cmTray.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.cmTrayShow,
-            this.cmTrayClipboard,
-            this.cmTraySep,
-            this.cmTrayExit});
+            this.lbDownloadURL.AutoSize = true;
+            this.lbDownloadURL.Location = new System.Drawing.Point(15, 8);
+            this.lbDownloadURL.Name = "lbDownloadURL";
+            this.lbDownloadURL.Size = new System.Drawing.Size(29, 13);
+            this.lbDownloadURL.TabIndex = 1;
+            this.lbDownloadURL.Text = "URL";
             // 
-            // cmTrayShow
+            // tcMain
             // 
-            this.cmTrayShow.Index = 0;
-            this.cmTrayShow.Text = "Show";
-            this.cmTrayShow.Click += new System.EventHandler(this.cmTrayShow_Click);
+            this.tcMain.Controls.Add(this.tabDownload);
+            this.tcMain.Controls.Add(this.tabConvert);
+            this.tcMain.Controls.Add(this.tabMerge);
+            this.tcMain.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tcMain.Location = new System.Drawing.Point(0, 0);
+            this.tcMain.Name = "tcMain";
+            this.tcMain.SelectedIndex = 0;
+            this.tcMain.Size = new System.Drawing.Size(252, 270);
+            this.tcMain.TabIndex = 1;
             // 
-            // cmTrayClipboard
+            // tabDownload
             // 
-            this.cmTrayClipboard.Index = 1;
-            this.cmTrayClipboard.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.cmTrayDownloadAudio,
-            this.cmTrayDownloadVideo,
-            this.cmTrayDownloadCustom});
-            this.cmTrayClipboard.Text = "Download from Clipboard...";
+            this.tabDownload.Controls.Add(this.lbDownloadStatus);
+            this.tabDownload.Controls.Add(this.btnDownload);
+            this.tabDownload.Controls.Add(this.lbDownloadArgs);
+            this.tabDownload.Controls.Add(this.lbDownloadURL);
+            this.tabDownload.Controls.Add(this.txtArgs);
+            this.tabDownload.Controls.Add(this.gbDownloadType);
+            this.tabDownload.Controls.Add(this.txtUrl);
+            this.tabDownload.Location = new System.Drawing.Point(4, 22);
+            this.tabDownload.Name = "tabDownload";
+            this.tabDownload.Padding = new System.Windows.Forms.Padding(3);
+            this.tabDownload.Size = new System.Drawing.Size(244, 244);
+            this.tabDownload.TabIndex = 0;
+            this.tabDownload.Text = "Download";
+            this.tabDownload.UseVisualStyleBackColor = true;
             // 
-            // cmTrayDownloadAudio
+            // lbDownloadStatus
             // 
-            this.cmTrayDownloadAudio.Index = 0;
-            this.cmTrayDownloadAudio.Text = "Audio (Best)";
-            this.cmTrayDownloadAudio.Click += new System.EventHandler(this.cmTrayDownloadAudio_Click);
+            this.lbDownloadStatus.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbDownloadStatus.Location = new System.Drawing.Point(3, 195);
+            this.lbDownloadStatus.Name = "lbDownloadStatus";
+            this.lbDownloadStatus.Size = new System.Drawing.Size(238, 20);
+            this.lbDownloadStatus.TabIndex = 17;
+            this.lbDownloadStatus.Text = "waiting";
+            this.lbDownloadStatus.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lbDownloadStatus.Visible = false;
             // 
-            // cmTrayDownloadVideo
+            // btnDownload
             // 
-            this.cmTrayDownloadVideo.Index = 1;
-            this.cmTrayDownloadVideo.Text = "Video (Best)";
-            this.cmTrayDownloadVideo.Click += new System.EventHandler(this.cmTrayDownloadVideo_Click);
+            this.btnDownload.Location = new System.Drawing.Point(83, 170);
+            this.btnDownload.Name = "btnDownload";
+            this.btnDownload.Size = new System.Drawing.Size(79, 25);
+            this.btnDownload.TabIndex = 4;
+            this.btnDownload.Text = "Download";
+            this.btnDownload.UseVisualStyleBackColor = true;
+            this.btnDownload.Click += new System.EventHandler(this.btnDownload_Click);
             // 
-            // cmTrayDownloadCustom
+            // lbDownloadArgs
             // 
-            this.cmTrayDownloadCustom.Index = 2;
-            this.cmTrayDownloadCustom.Text = "Custom (Saved args)";
+            this.lbDownloadArgs.AutoSize = true;
+            this.lbDownloadArgs.Location = new System.Drawing.Point(15, 111);
+            this.lbDownloadArgs.Name = "lbDownloadArgs";
+            this.lbDownloadArgs.Size = new System.Drawing.Size(94, 13);
+            this.lbDownloadArgs.TabIndex = 2;
+            this.lbDownloadArgs.Text = "Custom arguments";
             // 
-            // cmTraySep
+            // txtArgs
             // 
-            this.cmTraySep.Index = 2;
-            this.cmTraySep.Text = "-";
+            this.txtArgs.Location = new System.Drawing.Point(22, 131);
+            this.txtArgs.Name = "txtArgs";
+            this.txtArgs.ReadOnly = true;
+            this.txtArgs.Size = new System.Drawing.Size(200, 20);
+            this.txtArgs.TabIndex = 3;
             // 
-            // cmTrayExit
+            // gbDownloadType
             // 
-            this.cmTrayExit.Index = 3;
-            this.cmTrayExit.Text = "Exit";
-            this.cmTrayExit.Click += new System.EventHandler(this.cmTrayExit_Click);
-            // 
-            // MainTabs
-            // 
-            this.MainTabs.Controls.Add(this.tabDownloader);
-            this.MainTabs.Controls.Add(this.tabConvert);
-            this.MainTabs.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.MainTabs.Location = new System.Drawing.Point(0, 32);
-            this.MainTabs.Name = "MainTabs";
-            this.MainTabs.SelectedIndex = 0;
-            this.MainTabs.Size = new System.Drawing.Size(248, 233);
-            this.MainTabs.TabIndex = 16;
-            this.MainTabs.SelectedIndexChanged += new System.EventHandler(this.MainTabs_SelectedIndexChanged);
-            // 
-            // tabDownloader
-            // 
-            this.tabDownloader.Controls.Add(this.lblAudioQuality);
-            this.tabDownloader.Controls.Add(this.lblAudioFormat);
-            this.tabDownloader.Controls.Add(this.cbQuality);
-            this.tabDownloader.Controls.Add(this.gbDownloadAs);
-            this.tabDownloader.Controls.Add(this.cbFormat);
-            this.tabDownloader.Controls.Add(this.txtArgs);
-            this.tabDownloader.Controls.Add(this.btnDownload);
-            this.tabDownloader.Location = new System.Drawing.Point(4, 22);
-            this.tabDownloader.Name = "tabDownloader";
-            this.tabDownloader.Padding = new System.Windows.Forms.Padding(3);
-            this.tabDownloader.Size = new System.Drawing.Size(240, 207);
-            this.tabDownloader.TabIndex = 0;
-            this.tabDownloader.Text = "Downloader";
-            this.tabDownloader.UseVisualStyleBackColor = true;
-            // 
-            // lblAudioQuality
-            // 
-            this.lblAudioQuality.AutoSize = true;
-            this.lblAudioQuality.Location = new System.Drawing.Point(59, 68);
-            this.lblAudioQuality.Name = "lblAudioQuality";
-            this.lblAudioQuality.Size = new System.Drawing.Size(39, 13);
-            this.lblAudioQuality.TabIndex = 4;
-            this.lblAudioQuality.Text = "Quality";
-            // 
-            // lblAudioFormat
-            // 
-            this.lblAudioFormat.AutoSize = true;
-            this.lblAudioFormat.Location = new System.Drawing.Point(59, 95);
-            this.lblAudioFormat.Name = "lblAudioFormat";
-            this.lblAudioFormat.Size = new System.Drawing.Size(39, 13);
-            this.lblAudioFormat.TabIndex = 13;
-            this.lblAudioFormat.Text = "Format";
-            // 
-            // cbQuality
-            // 
-            this.cbQuality.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbQuality.Enabled = false;
-            this.cbQuality.FormattingEnabled = true;
-            this.cbQuality.Location = new System.Drawing.Point(104, 65);
-            this.cbQuality.Name = "cbQuality";
-            this.cbQuality.Size = new System.Drawing.Size(66, 21);
-            this.cbQuality.TabIndex = 3;
-            // 
-            // gbDownloadAs
-            // 
-            this.gbDownloadAs.Controls.Add(this.rbCustom);
-            this.gbDownloadAs.Controls.Add(this.rbAudio);
-            this.gbDownloadAs.Controls.Add(this.rbVideo);
-            this.gbDownloadAs.Location = new System.Drawing.Point(9, 9);
-            this.gbDownloadAs.Name = "gbDownloadAs";
-            this.gbDownloadAs.Size = new System.Drawing.Size(215, 39);
-            this.gbDownloadAs.TabIndex = 2;
-            this.gbDownloadAs.TabStop = false;
-            this.gbDownloadAs.Text = "Download type";
+            this.gbDownloadType.Controls.Add(this.rbCustom);
+            this.gbDownloadType.Controls.Add(this.rbAudio);
+            this.gbDownloadType.Controls.Add(this.rbVideo);
+            this.gbDownloadType.Location = new System.Drawing.Point(26, 59);
+            this.gbDownloadType.Name = "gbDownloadType";
+            this.gbDownloadType.Size = new System.Drawing.Size(192, 40);
+            this.gbDownloadType.TabIndex = 2;
+            this.gbDownloadType.TabStop = false;
+            this.gbDownloadType.Text = "Download type";
             // 
             // rbCustom
             // 
             this.rbCustom.AutoSize = true;
-            this.rbCustom.Location = new System.Drawing.Point(146, 15);
+            this.rbCustom.Location = new System.Drawing.Point(125, 15);
             this.rbCustom.Name = "rbCustom";
             this.rbCustom.Size = new System.Drawing.Size(59, 17);
-            this.rbCustom.TabIndex = 2;
+            this.rbCustom.TabIndex = 3;
+            this.rbCustom.TabStop = true;
             this.rbCustom.Text = "Custom";
-            this.rbCustom.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.rbCustom.UseVisualStyleBackColor = true;
             this.rbCustom.CheckedChanged += new System.EventHandler(this.rbCustom_CheckedChanged);
             // 
             // rbAudio
             // 
             this.rbAudio.AutoSize = true;
-            this.rbAudio.Location = new System.Drawing.Point(77, 15);
+            this.rbAudio.Location = new System.Drawing.Point(67, 15);
             this.rbAudio.Name = "rbAudio";
             this.rbAudio.Size = new System.Drawing.Size(51, 17);
-            this.rbAudio.TabIndex = 1;
+            this.rbAudio.TabIndex = 2;
+            this.rbAudio.TabStop = true;
             this.rbAudio.Text = "Audio";
             this.rbAudio.UseVisualStyleBackColor = true;
-            this.rbAudio.CheckedChanged += new System.EventHandler(this.rbAudio_CheckedChanged);
             // 
             // rbVideo
             // 
             this.rbVideo.AutoSize = true;
-            this.rbVideo.Checked = true;
             this.rbVideo.Location = new System.Drawing.Point(8, 15);
             this.rbVideo.Name = "rbVideo";
             this.rbVideo.Size = new System.Drawing.Size(51, 17);
-            this.rbVideo.TabIndex = 0;
+            this.rbVideo.TabIndex = 1;
             this.rbVideo.TabStop = true;
             this.rbVideo.Text = "Video";
             this.rbVideo.UseVisualStyleBackColor = true;
-            this.rbVideo.CheckedChanged += new System.EventHandler(this.rbVideo_CheckedChanged);
-            // 
-            // cbFormat
-            // 
-            this.cbFormat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbFormat.FormattingEnabled = true;
-            this.cbFormat.Location = new System.Drawing.Point(104, 92);
-            this.cbFormat.Name = "cbFormat";
-            this.cbFormat.Size = new System.Drawing.Size(66, 21);
-            this.cbFormat.TabIndex = 12;
-            // 
-            // txtArgs
-            // 
-            this.txtArgs.Location = new System.Drawing.Point(18, 129);
-            this.txtArgs.Name = "txtArgs";
-            this.txtArgs.ReadOnly = true;
-            this.txtArgs.Size = new System.Drawing.Size(204, 20);
-            this.txtArgs.TabIndex = 6;
-            this.txtArgs.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // btnDownload
-            // 
-            this.btnDownload.Location = new System.Drawing.Point(149, 172);
-            this.btnDownload.Name = "btnDownload";
-            this.btnDownload.Size = new System.Drawing.Size(76, 24);
-            this.btnDownload.TabIndex = 7;
-            this.btnDownload.Text = "Download";
-            this.btnDownload.UseVisualStyleBackColor = true;
-            this.btnDownload.Click += new System.EventHandler(this.btnDownload_Click);
             // 
             // tabConvert
             // 
-            this.tabConvert.Controls.Add(this.cbBit);
-            this.tabConvert.Controls.Add(this.lbVid);
-            this.tabConvert.Controls.Add(this.rbConvVideo);
-            this.tabConvert.Controls.Add(this.rbConvAudio);
+            this.tabConvert.Controls.Add(this.rbConvertCustom);
+            this.tabConvert.Controls.Add(this.rbConvertAutoFFmpeg);
+            this.tabConvert.Controls.Add(this.rbConvertAuto);
+            this.tabConvert.Controls.Add(this.lbConvStatus);
             this.tabConvert.Controls.Add(this.btnConvert);
-            this.tabConvert.Controls.Add(this.cbConvQuality);
-            this.tabConvert.Controls.Add(this.lblConvertAudioQuality);
-            this.tabConvert.Controls.Add(this.btnBrowseConvSaveFile);
-            this.tabConvert.Controls.Add(this.btnBrowseConvFile);
-            this.tabConvert.Controls.Add(this.txtConvFile);
-            this.tabConvert.Controls.Add(this.lblFileToConvert);
-            this.tabConvert.Controls.Add(this.txtConvSave);
-            this.tabConvert.Controls.Add(this.lblSaveAs);
+            this.tabConvert.Controls.Add(this.rbConvertVideo);
+            this.tabConvert.Controls.Add(this.rbConvertAudio);
+            this.tabConvert.Controls.Add(this.btnConvertOutput);
+            this.tabConvert.Controls.Add(this.lbConvertOutput);
+            this.tabConvert.Controls.Add(this.txtConvertOutput);
+            this.tabConvert.Controls.Add(this.btnConvertInput);
+            this.tabConvert.Controls.Add(this.lbConvertInput);
+            this.tabConvert.Controls.Add(this.txtConvertInput);
             this.tabConvert.Location = new System.Drawing.Point(4, 22);
             this.tabConvert.Name = "tabConvert";
             this.tabConvert.Padding = new System.Windows.Forms.Padding(3);
-            this.tabConvert.Size = new System.Drawing.Size(240, 207);
+            this.tabConvert.Size = new System.Drawing.Size(244, 244);
             this.tabConvert.TabIndex = 1;
-            this.tabConvert.Text = "Converter";
+            this.tabConvert.Text = "Convert";
             this.tabConvert.UseVisualStyleBackColor = true;
             // 
-            // cbBit
+            // rbConvertCustom
             // 
-            this.cbBit.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbBit.Enabled = false;
-            this.cbBit.FormattingEnabled = true;
-            this.cbBit.Items.AddRange(new object[] {
-            "0",
-            "1",
-            "2",
-            "3",
-            "4",
-            "5",
-            "6",
-            "7",
-            "8",
-            "9",
-            "10",
-            "11",
-            "12",
-            "13",
-            "14",
-            "15",
-            "16",
-            "17",
-            "18",
-            "19",
-            "20",
-            "21",
-            "22",
-            "23",
-            "24",
-            "25",
-            "26",
-            "27",
-            "28",
-            "29",
-            "30",
-            "31",
-            "32",
-            "33",
-            "34",
-            "35",
-            "36",
-            "37",
-            "38",
-            "39",
-            "40",
-            "41",
-            "42",
-            "43",
-            "44",
-            "45",
-            "46",
-            "47",
-            "48",
-            "49",
-            "50",
-            "51"});
-            this.cbBit.Location = new System.Drawing.Point(133, 147);
-            this.cbBit.Name = "cbBit";
-            this.cbBit.Size = new System.Drawing.Size(55, 21);
-            this.cbBit.TabIndex = 22;
+            this.rbConvertCustom.AutoSize = true;
+            this.rbConvertCustom.Location = new System.Drawing.Point(151, 112);
+            this.rbConvertCustom.Name = "rbConvertCustom";
+            this.rbConvertCustom.Size = new System.Drawing.Size(59, 17);
+            this.rbConvertCustom.TabIndex = 7;
+            this.rbConvertCustom.TabStop = true;
+            this.rbConvertCustom.Text = "Custom";
+            this.rbConvertCustom.UseVisualStyleBackColor = true;
             // 
-            // lbVid
+            // rbConvertAutoFFmpeg
             // 
-            this.lbVid.AutoSize = true;
-            this.lbVid.Location = new System.Drawing.Point(52, 144);
-            this.lbVid.Name = "lbVid";
-            this.lbVid.Size = new System.Drawing.Size(77, 26);
-            this.lbVid.TabIndex = 21;
-            this.lbVid.Text = "Video bitrate\r\n(lower = better)";
+            this.rbConvertAutoFFmpeg.AutoSize = true;
+            this.rbConvertAutoFFmpeg.Location = new System.Drawing.Point(120, 135);
+            this.rbConvertAutoFFmpeg.Name = "rbConvertAutoFFmpeg";
+            this.rbConvertAutoFFmpeg.Size = new System.Drawing.Size(81, 17);
+            this.rbConvertAutoFFmpeg.TabIndex = 9;
+            this.rbConvertAutoFFmpeg.TabStop = true;
+            this.rbConvertAutoFFmpeg.Text = "Auto ffmpeg";
+            this.rbConvertAutoFFmpeg.UseVisualStyleBackColor = true;
             // 
-            // rbConvVideo
+            // rbConvertAuto
             // 
-            this.rbConvVideo.AutoSize = true;
-            this.rbConvVideo.Location = new System.Drawing.Point(124, 98);
-            this.rbConvVideo.Name = "rbConvVideo";
-            this.rbConvVideo.Size = new System.Drawing.Size(51, 17);
-            this.rbConvVideo.TabIndex = 20;
-            this.rbConvVideo.Text = "Video";
-            this.rbConvVideo.UseVisualStyleBackColor = true;
-            this.rbConvVideo.CheckedChanged += new System.EventHandler(this.rbConvVideo_CheckedChanged);
+            this.rbConvertAuto.AutoSize = true;
+            this.rbConvertAuto.Location = new System.Drawing.Point(43, 135);
+            this.rbConvertAuto.Name = "rbConvertAuto";
+            this.rbConvertAuto.Size = new System.Drawing.Size(71, 17);
+            this.rbConvertAuto.TabIndex = 8;
+            this.rbConvertAuto.TabStop = true;
+            this.rbConvertAuto.Text = "Automatic";
+            this.rbConvertAuto.UseVisualStyleBackColor = true;
             // 
-            // rbConvAudio
+            // lbConvStatus
             // 
-            this.rbConvAudio.AutoSize = true;
-            this.rbConvAudio.Checked = true;
-            this.rbConvAudio.Location = new System.Drawing.Point(66, 98);
-            this.rbConvAudio.Name = "rbConvAudio";
-            this.rbConvAudio.Size = new System.Drawing.Size(51, 17);
-            this.rbConvAudio.TabIndex = 19;
-            this.rbConvAudio.TabStop = true;
-            this.rbConvAudio.Text = "Audio";
-            this.rbConvAudio.UseVisualStyleBackColor = true;
-            this.rbConvAudio.CheckedChanged += new System.EventHandler(this.rbConvAudio_CheckedChanged);
+            this.lbConvStatus.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.lbConvStatus.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbConvStatus.Location = new System.Drawing.Point(3, 219);
+            this.lbConvStatus.Name = "lbConvStatus";
+            this.lbConvStatus.Size = new System.Drawing.Size(238, 22);
+            this.lbConvStatus.TabIndex = 16;
+            this.lbConvStatus.Text = "waiting";
+            this.lbConvStatus.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.lbConvStatus.Visible = false;
             // 
             // btnConvert
             // 
             this.btnConvert.Enabled = false;
-            this.btnConvert.Location = new System.Drawing.Point(82, 174);
+            this.btnConvert.Location = new System.Drawing.Point(83, 170);
             this.btnConvert.Name = "btnConvert";
-            this.btnConvert.Size = new System.Drawing.Size(76, 24);
-            this.btnConvert.TabIndex = 18;
+            this.btnConvert.Size = new System.Drawing.Size(79, 25);
+            this.btnConvert.TabIndex = 10;
             this.btnConvert.Text = "Convert";
             this.btnConvert.UseVisualStyleBackColor = true;
             this.btnConvert.Click += new System.EventHandler(this.btnConvert_Click);
             // 
-            // cbConvQuality
+            // rbConvertVideo
             // 
-            this.cbConvQuality.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbConvQuality.FormattingEnabled = true;
-            this.cbConvQuality.Items.AddRange(new object[] {
-            "8K",
-            "16K",
-            "24K",
-            "32K",
-            "40K",
-            "48K",
-            "56K",
-            "64K",
-            "80K",
-            "96K",
-            "112K",
-            "128K",
-            "144K",
-            "160K",
-            "192K",
-            "224K",
-            "256K",
-            "320K"});
-            this.cbConvQuality.Location = new System.Drawing.Point(95, 120);
-            this.cbConvQuality.Name = "cbConvQuality";
-            this.cbConvQuality.Size = new System.Drawing.Size(93, 21);
-            this.cbConvQuality.TabIndex = 14;
-            this.cbConvQuality.SelectedIndexChanged += new System.EventHandler(this.cbConvQuality_SelectedIndexChanged);
+            this.rbConvertVideo.AutoSize = true;
+            this.rbConvertVideo.Location = new System.Drawing.Point(35, 112);
+            this.rbConvertVideo.Name = "rbConvertVideo";
+            this.rbConvertVideo.Size = new System.Drawing.Size(51, 17);
+            this.rbConvertVideo.TabIndex = 5;
+            this.rbConvertVideo.TabStop = true;
+            this.rbConvertVideo.Text = "Video";
+            this.rbConvertVideo.UseVisualStyleBackColor = true;
             // 
-            // lblConvertAudioQuality
+            // rbConvertAudio
             // 
-            this.lblConvertAudioQuality.AutoSize = true;
-            this.lblConvertAudioQuality.Location = new System.Drawing.Point(54, 123);
-            this.lblConvertAudioQuality.Name = "lblConvertAudioQuality";
-            this.lblConvertAudioQuality.Size = new System.Drawing.Size(39, 13);
-            this.lblConvertAudioQuality.TabIndex = 15;
-            this.lblConvertAudioQuality.Text = "Quality";
+            this.rbConvertAudio.AutoSize = true;
+            this.rbConvertAudio.Location = new System.Drawing.Point(94, 112);
+            this.rbConvertAudio.Name = "rbConvertAudio";
+            this.rbConvertAudio.Size = new System.Drawing.Size(51, 17);
+            this.rbConvertAudio.TabIndex = 6;
+            this.rbConvertAudio.TabStop = true;
+            this.rbConvertAudio.Text = "Audio";
+            this.rbConvertAudio.UseVisualStyleBackColor = true;
             // 
-            // btnBrowseConvSaveFile
+            // btnConvertOutput
             // 
-            this.btnBrowseConvSaveFile.Enabled = false;
-            this.btnBrowseConvSaveFile.Location = new System.Drawing.Point(195, 70);
-            this.btnBrowseConvSaveFile.Name = "btnBrowseConvSaveFile";
-            this.btnBrowseConvSaveFile.Size = new System.Drawing.Size(28, 23);
-            this.btnBrowseConvSaveFile.TabIndex = 6;
-            this.btnBrowseConvSaveFile.Text = "...";
-            this.btnBrowseConvSaveFile.UseVisualStyleBackColor = true;
-            this.btnBrowseConvSaveFile.Click += new System.EventHandler(this.btnBrowseConvSaveFile_Click);
+            this.btnConvertOutput.Enabled = false;
+            this.btnConvertOutput.Location = new System.Drawing.Point(193, 72);
+            this.btnConvertOutput.Name = "btnConvertOutput";
+            this.btnConvertOutput.Size = new System.Drawing.Size(29, 23);
+            this.btnConvertOutput.TabIndex = 4;
+            this.btnConvertOutput.Text = "...";
+            this.btnConvertOutput.UseVisualStyleBackColor = true;
+            this.btnConvertOutput.Click += new System.EventHandler(this.btnConvertOutput_Click);
             // 
-            // btnBrowseConvFile
+            // lbConvertOutput
             // 
-            this.btnBrowseConvFile.Location = new System.Drawing.Point(195, 26);
-            this.btnBrowseConvFile.Name = "btnBrowseConvFile";
-            this.btnBrowseConvFile.Size = new System.Drawing.Size(28, 23);
-            this.btnBrowseConvFile.TabIndex = 5;
-            this.btnBrowseConvFile.Text = "...";
-            this.btnBrowseConvFile.UseVisualStyleBackColor = true;
-            this.btnBrowseConvFile.Click += new System.EventHandler(this.btnBrowseConvFile_Click);
+            this.lbConvertOutput.AutoSize = true;
+            this.lbConvertOutput.Location = new System.Drawing.Point(19, 54);
+            this.lbConvertOutput.Name = "lbConvertOutput";
+            this.lbConvertOutput.Size = new System.Drawing.Size(39, 13);
+            this.lbConvertOutput.TabIndex = 7;
+            this.lbConvertOutput.Text = "Output";
             // 
-            // txtConvFile
+            // txtConvertOutput
             // 
-            this.txtConvFile.Location = new System.Drawing.Point(8, 28);
-            this.txtConvFile.Name = "txtConvFile";
-            this.txtConvFile.ReadOnly = true;
-            this.txtConvFile.Size = new System.Drawing.Size(181, 20);
-            this.txtConvFile.TabIndex = 4;
-            // 
-            // lblFileToConvert
-            // 
-            this.lblFileToConvert.AutoSize = true;
-            this.lblFileToConvert.Location = new System.Drawing.Point(7, 9);
-            this.lblFileToConvert.Name = "lblFileToConvert";
-            this.lblFileToConvert.Size = new System.Drawing.Size(77, 13);
-            this.lblFileToConvert.TabIndex = 3;
-            this.lblFileToConvert.Text = "File to convert:";
-            // 
-            // txtConvSave
-            // 
-            this.txtConvSave.Location = new System.Drawing.Point(8, 72);
-            this.txtConvSave.Name = "txtConvSave";
-            this.txtConvSave.ReadOnly = true;
-            this.txtConvSave.Size = new System.Drawing.Size(181, 20);
-            this.txtConvSave.TabIndex = 2;
-            // 
-            // lblSaveAs
-            // 
-            this.lblSaveAs.AutoSize = true;
-            this.lblSaveAs.Location = new System.Drawing.Point(7, 53);
-            this.lblSaveAs.Name = "lblSaveAs";
-            this.lblSaveAs.Size = new System.Drawing.Size(46, 13);
-            this.lblSaveAs.TabIndex = 1;
-            this.lblSaveAs.Text = "Save as";
-            // 
-            // lblVideoURL
-            // 
-            this.lblVideoURL.AutoSize = true;
-            this.lblVideoURL.Location = new System.Drawing.Point(4, 3);
-            this.lblVideoURL.Name = "lblVideoURL";
-            this.lblVideoURL.Size = new System.Drawing.Size(80, 13);
-            this.lblVideoURL.TabIndex = 0;
-            this.lblVideoURL.Text = "Download URL";
-            // 
-            // txtURL
-            // 
-            this.txtURL.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.txtConvertOutput.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtURL.Location = new System.Drawing.Point(10, 19);
-            this.txtURL.Name = "txtURL";
-            this.txtURL.Size = new System.Drawing.Size(220, 20);
-            this.txtURL.TabIndex = 8;
-            this.txtURL.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.txtURL.MouseEnter += new System.EventHandler(this.txtURL_MouseEnter);
+            this.txtConvertOutput.Location = new System.Drawing.Point(26, 74);
+            this.txtConvertOutput.Name = "txtConvertOutput";
+            this.txtConvertOutput.ReadOnly = true;
+            this.txtConvertOutput.Size = new System.Drawing.Size(161, 20);
+            this.txtConvertOutput.TabIndex = 3;
             // 
-            // mFrmMain
+            // btnConvertInput
             // 
-            this.mFrmMain.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.mFrmMainSettings,
-            this.mFrmMainHelp,
-            this.mUpdate});
+            this.btnConvertInput.Location = new System.Drawing.Point(193, 25);
+            this.btnConvertInput.Name = "btnConvertInput";
+            this.btnConvertInput.Size = new System.Drawing.Size(29, 23);
+            this.btnConvertInput.TabIndex = 2;
+            this.btnConvertInput.Text = "...";
+            this.btnConvertInput.UseVisualStyleBackColor = true;
+            this.btnConvertInput.Click += new System.EventHandler(this.btnConvertInput_Click);
             // 
-            // mFrmMainSettings
+            // lbConvertInput
             // 
-            this.mFrmMainSettings.Index = 0;
-            this.mFrmMainSettings.Text = "Settings";
-            this.mFrmMainSettings.Click += new System.EventHandler(this.mFrmMainSettings_Click);
+            this.lbConvertInput.AutoSize = true;
+            this.lbConvertInput.Location = new System.Drawing.Point(19, 7);
+            this.lbConvertInput.Name = "lbConvertInput";
+            this.lbConvertInput.Size = new System.Drawing.Size(31, 13);
+            this.lbConvertInput.TabIndex = 3;
+            this.lbConvertInput.Text = "Input";
             // 
-            // mFrmMainHelp
+            // txtConvertInput
             // 
-            this.mFrmMainHelp.Index = 1;
-            this.mFrmMainHelp.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.mFrmMainSupported,
-            this.mFrmMainSep,
-            this.mFrmMainAbout});
-            this.mFrmMainHelp.Text = "Help";
+            this.txtConvertInput.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtConvertInput.Location = new System.Drawing.Point(26, 27);
+            this.txtConvertInput.Name = "txtConvertInput";
+            this.txtConvertInput.ReadOnly = true;
+            this.txtConvertInput.Size = new System.Drawing.Size(161, 20);
+            this.txtConvertInput.TabIndex = 1;
             // 
-            // mFrmMainSupported
+            // tabMerge
             // 
-            this.mFrmMainSupported.Index = 0;
-            this.mFrmMainSupported.Text = "Supported Sites";
-            this.mFrmMainSupported.Click += new System.EventHandler(this.mFrmMainSupported_Click);
+            this.tabMerge.Location = new System.Drawing.Point(4, 22);
+            this.tabMerge.Name = "tabMerge";
+            this.tabMerge.Padding = new System.Windows.Forms.Padding(3);
+            this.tabMerge.Size = new System.Drawing.Size(244, 244);
+            this.tabMerge.TabIndex = 2;
+            this.tabMerge.Text = "Merge";
+            this.tabMerge.UseVisualStyleBackColor = true;
             // 
-            // mFrmMainSep
+            // menu
             // 
-            this.mFrmMainSep.Index = 1;
-            this.mFrmMainSep.Text = "-";
+            this.menu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+            this.mSettings,
+            this.mHelp,
+            this.mAbout});
             // 
-            // mFrmMainAbout
+            // mSettings
             // 
-            this.mFrmMainAbout.Index = 2;
-            this.mFrmMainAbout.Text = "About";
-            this.mFrmMainAbout.Click += new System.EventHandler(this.mFrmMainAbout_Click);
+            this.mSettings.Index = 0;
+            this.mSettings.Text = "Settings";
+            this.mSettings.Click += new System.EventHandler(this.mSettings_Click);
             // 
-            // mUpdate
+            // mHelp
             // 
-            this.mUpdate.Enabled = false;
-            this.mUpdate.Index = 2;
-            this.mUpdate.ShowShortcut = false;
-            this.mUpdate.Text = "Update Available";
-            this.mUpdate.Visible = false;
-            this.mUpdate.Click += new System.EventHandler(this.mUpdate_Click);
+            this.mHelp.Index = 1;
+            this.mHelp.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+            this.mSites});
+            this.mHelp.Text = "Help";
+            // 
+            // mSites
+            // 
+            this.mSites.Index = 0;
+            this.mSites.Text = "Supported sites";
+            this.mSites.Click += new System.EventHandler(this.mSites_Click);
+            // 
+            // mAbout
+            // 
+            this.mAbout.Index = 2;
+            this.mAbout.Text = "About";
+            this.mAbout.Click += new System.EventHandler(this.mAbout_Click);
+            // 
+            // lbDebug
+            // 
+            this.lbDebug.AutoSize = true;
+            this.lbDebug.Location = new System.Drawing.Point(179, 3);
+            this.lbDebug.Name = "lbDebug";
+            this.lbDebug.Size = new System.Drawing.Size(61, 13);
+            this.lbDebug.TabIndex = 3;
+            this.lbDebug.Text = "2019-05-30";
+            this.lbDebug.Visible = false;
+            // 
+            // cmTray
+            // 
+            this.cmTray.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+            this.cmShow,
+            this.mDownloader,
+            this.mConverter,
+            this.cmSep,
+            this.cmExit});
+            // 
+            // cmShow
+            // 
+            this.cmShow.Index = 0;
+            this.cmShow.Text = "Show";
+            this.cmShow.Click += new System.EventHandler(this.cmShow_Click);
+            // 
+            // mDownloader
+            // 
+            this.mDownloader.Index = 1;
+            this.mDownloader.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+            this.cmClipboardDownload});
+            this.mDownloader.Text = "Downloader";
+            // 
+            // cmClipboardDownload
+            // 
+            this.cmClipboardDownload.Index = 0;
+            this.cmClipboardDownload.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+            this.cmDownloadVideo,
+            this.cmDownloadAudio,
+            this.cmDownloadCustom});
+            this.cmClipboardDownload.Text = "Clipboard...";
+            // 
+            // cmDownloadVideo
+            // 
+            this.cmDownloadVideo.Index = 0;
+            this.cmDownloadVideo.Text = "Download Best Video";
+            this.cmDownloadVideo.Click += new System.EventHandler(this.cmDownloadVideo_Click);
+            // 
+            // cmDownloadAudio
+            // 
+            this.cmDownloadAudio.Index = 1;
+            this.cmDownloadAudio.Text = "Download Best Audio";
+            this.cmDownloadAudio.Click += new System.EventHandler(this.cmDownloadAudio_Click);
+            // 
+            // cmDownloadCustom
+            // 
+            this.cmDownloadCustom.Index = 2;
+            this.cmDownloadCustom.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+            this.cmCustomTxtBox,
+            this.cmCustomSep,
+            this.cmCustomTxt,
+            this.cmCustomSettings});
+            this.cmDownloadCustom.Text = "Download Custom";
+            // 
+            // cmCustomTxtBox
+            // 
+            this.cmCustomTxtBox.Index = 0;
+            this.cmCustomTxtBox.Text = "From form textbox";
+            this.cmCustomTxtBox.Click += new System.EventHandler(this.cmCustomTxtBox_Click);
+            // 
+            // cmCustomSep
+            // 
+            this.cmCustomSep.Index = 1;
+            this.cmCustomSep.Text = "-";
+            // 
+            // cmCustomTxt
+            // 
+            this.cmCustomTxt.Index = 2;
+            this.cmCustomTxt.Text = "From args.txt";
+            this.cmCustomTxt.Click += new System.EventHandler(this.cmCustomTxt_Click);
+            // 
+            // cmCustomSettings
+            // 
+            this.cmCustomSettings.Index = 3;
+            this.cmCustomSettings.Text = "From settings";
+            this.cmCustomSettings.Click += new System.EventHandler(this.cmCustomSettings_Click);
+            // 
+            // mConverter
+            // 
+            this.mConverter.Index = 2;
+            this.mConverter.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+            this.mConvertTo});
+            this.mConverter.Text = "Converter";
+            // 
+            // mConvertTo
+            // 
+            this.mConvertTo.Index = 0;
+            this.mConvertTo.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+            this.mConvertVideo,
+            this.mConvertAudio,
+            this.mConvertCustom,
+            this.mConvertAutomatic,
+            this.mConvertAutoFFmpeg});
+            this.mConvertTo.Text = "Convert to...";
+            // 
+            // mConvertVideo
+            // 
+            this.mConvertVideo.Index = 0;
+            this.mConvertVideo.Text = "Video";
+            this.mConvertVideo.Click += new System.EventHandler(this.mConvertVideo_Click);
+            // 
+            // mConvertAudio
+            // 
+            this.mConvertAudio.Index = 1;
+            this.mConvertAudio.Text = "Audio";
+            this.mConvertAudio.Click += new System.EventHandler(this.mConvertAudio_Click);
+            // 
+            // mConvertCustom
+            // 
+            this.mConvertCustom.Index = 2;
+            this.mConvertCustom.Text = "Custom";
+            this.mConvertCustom.Click += new System.EventHandler(this.mConvertCustom_Click);
+            // 
+            // mConvertAutomatic
+            // 
+            this.mConvertAutomatic.Index = 3;
+            this.mConvertAutomatic.Text = "Automatic";
+            this.mConvertAutomatic.Click += new System.EventHandler(this.mConvertAutomatic_Click);
+            // 
+            // mConvertAutoFFmpeg
+            // 
+            this.mConvertAutoFFmpeg.Index = 4;
+            this.mConvertAutoFFmpeg.Text = "Auto ffmpeg";
+            this.mConvertAutoFFmpeg.Click += new System.EventHandler(this.mConvertAutoFFmpeg_Click);
+            // 
+            // cmSep
+            // 
+            this.cmSep.Index = 3;
+            this.cmSep.Text = "-";
+            // 
+            // cmExit
+            // 
+            this.cmExit.Index = 4;
+            this.cmExit.Text = "Exit";
+            this.cmExit.Click += new System.EventHandler(this.cmExit_Click);
+            // 
+            // trayIcon
+            // 
+            this.trayIcon.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            this.trayIcon.BalloonTipText = "You click this thing, and BADA-BOOM, you\'re back in it again";
+            this.trayIcon.BalloonTipTitle = "Unseen easter egg";
+            this.trayIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("trayIcon.Icon")));
+            this.trayIcon.Text = "youtube-dl-gui";
+            // 
+            // tmrConvertLabel
+            // 
+            this.tmrConvertLabel.Interval = 5000;
+            this.tmrConvertLabel.Tick += new System.EventHandler(this.tmrConvertLabel_Tick);
+            // 
+            // tmrDownloadLabel
+            // 
+            this.tmrDownloadLabel.Interval = 5000;
+            this.tmrDownloadLabel.Tick += new System.EventHandler(this.tmrDownloadLabel_Tick);
             // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(248, 265);
-            this.Controls.Add(this.lblVideoURL);
-            this.Controls.Add(this.MainTabs);
-            this.Controls.Add(this.txtURL);
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.ClientSize = new System.Drawing.Size(252, 270);
+            this.Controls.Add(this.lbDebug);
+            this.Controls.Add(this.tcMain);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(256, 336);
-            this.Menu = this.mFrmMain;
-            this.MinimumSize = new System.Drawing.Size(256, 336);
+            this.MaximumSize = new System.Drawing.Size(260, 300);
+            this.Menu = this.menu;
+            this.MinimumSize = new System.Drawing.Size(260, 300);
             this.Name = "frmMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "youtube-dl GUI";
+            this.Text = "youtube-dl-gui";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmMain_FormClosing);
             this.Load += new System.EventHandler(this.frmMain_Load);
-            this.Shown += new System.EventHandler(this.frmMain_Shown);
-            this.SizeChanged += new System.EventHandler(this.frmMain_SizeChanged);
-            this.MainTabs.ResumeLayout(false);
-            this.tabDownloader.ResumeLayout(false);
-            this.tabDownloader.PerformLayout();
-            this.gbDownloadAs.ResumeLayout(false);
-            this.gbDownloadAs.PerformLayout();
+            this.tcMain.ResumeLayout(false);
+            this.tabDownload.ResumeLayout(false);
+            this.tabDownload.PerformLayout();
+            this.gbDownloadType.ResumeLayout(false);
+            this.gbDownloadType.PerformLayout();
             this.tabConvert.ResumeLayout(false);
             this.tabConvert.PerformLayout();
             this.ResumeLayout(false);
@@ -596,50 +616,62 @@
 
         #endregion
 
-        private System.Windows.Forms.NotifyIcon niTray;
+        private System.Windows.Forms.TextBox txtUrl;
+        private System.Windows.Forms.Label lbDownloadURL;
+        private System.Windows.Forms.TabControl tcMain;
+        private System.Windows.Forms.TabPage tabDownload;
+        private System.Windows.Forms.TabPage tabConvert;
+        private System.Windows.Forms.MainMenu menu;
+        private System.Windows.Forms.MenuItem mSettings;
+        private System.Windows.Forms.MenuItem mHelp;
+        private System.Windows.Forms.Label lbDebug;
+        private System.Windows.Forms.GroupBox gbDownloadType;
+        private System.Windows.Forms.RadioButton rbCustom;
+        private System.Windows.Forms.RadioButton rbAudio;
+        private System.Windows.Forms.RadioButton rbVideo;
+        private System.Windows.Forms.Label lbDownloadArgs;
+        private System.Windows.Forms.TextBox txtArgs;
+        private System.Windows.Forms.Button btnDownload;
+        private System.Windows.Forms.MenuItem mAbout;
         private System.Windows.Forms.ContextMenu cmTray;
-        private System.Windows.Forms.MenuItem cmTrayShow;
-        private System.Windows.Forms.MenuItem cmTrayClipboard;
-        private System.Windows.Forms.MenuItem cmTrayDownloadAudio;
-        private System.Windows.Forms.MenuItem cmTrayDownloadVideo;
-        private System.Windows.Forms.MenuItem cmTraySep;
-        private System.Windows.Forms.MenuItem cmTrayExit;
-        internal System.Windows.Forms.TabControl MainTabs;
-        internal System.Windows.Forms.TabPage tabDownloader;
-        internal System.Windows.Forms.Label lblVideoURL;
-        internal System.Windows.Forms.Label lblAudioFormat;
-        internal System.Windows.Forms.GroupBox gbDownloadAs;
-        internal System.Windows.Forms.RadioButton rbCustom;
-        internal System.Windows.Forms.RadioButton rbAudio;
-        internal System.Windows.Forms.RadioButton rbVideo;
-        internal System.Windows.Forms.ComboBox cbFormat;
-        internal System.Windows.Forms.ComboBox cbQuality;
-        internal System.Windows.Forms.Label lblAudioQuality;
-        internal System.Windows.Forms.TextBox txtArgs;
-        internal System.Windows.Forms.TextBox txtURL;
-        internal System.Windows.Forms.Button btnDownload;
-        internal System.Windows.Forms.TabPage tabConvert;
-        internal System.Windows.Forms.Button btnConvert;
-        internal System.Windows.Forms.ComboBox cbConvQuality;
-        internal System.Windows.Forms.Label lblConvertAudioQuality;
-        internal System.Windows.Forms.Button btnBrowseConvSaveFile;
-        internal System.Windows.Forms.Button btnBrowseConvFile;
-        internal System.Windows.Forms.TextBox txtConvFile;
-        internal System.Windows.Forms.Label lblFileToConvert;
-        internal System.Windows.Forms.TextBox txtConvSave;
-        internal System.Windows.Forms.Label lblSaveAs;
-        private System.Windows.Forms.MainMenu mFrmMain;
-        private System.Windows.Forms.MenuItem mFrmMainSettings;
-        private System.Windows.Forms.MenuItem mFrmMainHelp;
-        private System.Windows.Forms.MenuItem mFrmMainSupported;
-        private System.Windows.Forms.MenuItem mFrmMainSep;
-        private System.Windows.Forms.MenuItem mFrmMainAbout;
-        private System.Windows.Forms.RadioButton rbConvVideo;
-        private System.Windows.Forms.RadioButton rbConvAudio;
-        private System.Windows.Forms.MenuItem cmTrayDownloadCustom;
-        private System.Windows.Forms.Label lbVid;
-        private System.Windows.Forms.ComboBox cbBit;
-        private System.Windows.Forms.MenuItem mUpdate;
+        private System.Windows.Forms.MenuItem cmShow;
+        private System.Windows.Forms.MenuItem cmClipboardDownload;
+        private System.Windows.Forms.MenuItem cmDownloadAudio;
+        private System.Windows.Forms.MenuItem cmDownloadVideo;
+        private System.Windows.Forms.MenuItem cmDownloadCustom;
+        private System.Windows.Forms.MenuItem cmCustomTxtBox;
+        private System.Windows.Forms.MenuItem cmCustomSep;
+        private System.Windows.Forms.MenuItem cmCustomTxt;
+        private System.Windows.Forms.MenuItem cmCustomSettings;
+        private System.Windows.Forms.MenuItem cmSep;
+        private System.Windows.Forms.MenuItem cmExit;
+        private System.Windows.Forms.NotifyIcon trayIcon;
+        private System.Windows.Forms.MenuItem mSites;
+        private System.Windows.Forms.Button btnConvertOutput;
+        private System.Windows.Forms.Label lbConvertOutput;
+        private System.Windows.Forms.TextBox txtConvertOutput;
+        private System.Windows.Forms.Button btnConvertInput;
+        private System.Windows.Forms.Label lbConvertInput;
+        private System.Windows.Forms.TextBox txtConvertInput;
+        private System.Windows.Forms.RadioButton rbConvertAudio;
+        private System.Windows.Forms.RadioButton rbConvertVideo;
+        private System.Windows.Forms.Button btnConvert;
+        private System.Windows.Forms.Label lbConvStatus;
+        private System.Windows.Forms.Timer tmrConvertLabel;
+        private System.Windows.Forms.RadioButton rbConvertAuto;
+        private System.Windows.Forms.RadioButton rbConvertAutoFFmpeg;
+        private System.Windows.Forms.RadioButton rbConvertCustom;
+        private System.Windows.Forms.MenuItem mDownloader;
+        private System.Windows.Forms.MenuItem mConverter;
+        private System.Windows.Forms.MenuItem mConvertTo;
+        private System.Windows.Forms.MenuItem mConvertVideo;
+        private System.Windows.Forms.MenuItem mConvertAudio;
+        private System.Windows.Forms.MenuItem mConvertCustom;
+        private System.Windows.Forms.MenuItem mConvertAutomatic;
+        private System.Windows.Forms.MenuItem mConvertAutoFFmpeg;
+        private System.Windows.Forms.TabPage tabMerge;
+        private System.Windows.Forms.Label lbDownloadStatus;
+        private System.Windows.Forms.Timer tmrDownloadLabel;
     }
 }
 

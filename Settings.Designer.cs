@@ -13,11 +13,11 @@ namespace youtube_dl_gui {
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "12.0.0.0")]
-    internal sealed partial class Advanced : global::System.Configuration.ApplicationSettingsBase {
+    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
-        private static Advanced defaultInstance = ((Advanced)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Advanced())));
+        private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
         
-        public static Advanced Default {
+        public static Settings Default {
             get {
                 return defaultInstance;
             }
@@ -25,25 +25,25 @@ namespace youtube_dl_gui {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool disableErrors {
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string extensionsName {
             get {
-                return ((bool)(this["disableErrors"]));
+                return ((string)(this["extensionsName"]));
             }
             set {
-                this["disableErrors"] = value;
+                this["extensionsName"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Mozilla/5.0 (Windows NT 6.1; WOW64; rv:55.0) Gecko/20100101 Firefox/55.0")]
-        public string UserAgent {
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string extensionsShort {
             get {
-                return ((string)(this["UserAgent"]));
+                return ((string)(this["extensionsShort"]));
             }
             set {
-                this["UserAgent"] = value;
+                this["extensionsShort"] = value;
             }
         }
     }

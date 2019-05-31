@@ -24,9 +24,13 @@ namespace youtube_dl_gui {
         public static string updateFile = @"\ydgu.bat";
 
         public static string getJSON(string url) {
+            if (!Properties.Settings.Default.jsonSupport)
+                return null;
+
             try {
                 using (WebClient wc = new WebClient()) {
-                    wc.Headers.Add("User-Agent: " + Advanced.Default.UserAgent);
+                    ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+                    wc.Headers.Add("User-Agent: " + Program.UserAgent);
                     string json = wc.DownloadString(url);
                     byte[] bytes = Encoding.ASCII.GetBytes(json);
                     using (var stream = new MemoryStream(bytes)) {
@@ -47,7 +51,7 @@ namespace youtube_dl_gui {
             }
             catch (Exception ex) {
                 Debug.Print(ex.ToString());
-                ErrorLog.reportError(ex.ToString());
+                ErrorLog.reportError(ex);
                 return null;
                 throw ex;
             }
@@ -67,76 +71,70 @@ namespace youtube_dl_gui {
             }
             catch (Exception ex) {
                 Debug.Print(ex.ToString());
-                ErrorLog.reportError(ex.ToString());
+                ErrorLog.reportError(ex);
                 return -1;
             }
         }
         public static bool isUpdateAvailable(decimal cloudVersion) {
             try {
-                if (Properties.Settings.Default.currentVersion < cloudVersion) {
-                    return true;
-                }
+                if (Properties.Settings.Default.appVersion < cloudVersion) { return true; }
                 else { return false; }
             }
             catch (Exception ex) {
                 Debug.Print(ex.ToString());
-                ErrorLog.reportError(ex.ToString());
+                ErrorLog.reportError(ex);
                 return false;
             }
         }
 
-        public static void createUpdaterStub(decimal cloudVersion) {
-            /*
-             * This is the entire code for the updater, it is designed to be light-weight and so is batch-based.
-             
-                "@echo off"
-                "echo Updating youtube-dl-gui..."
-                "set upVersion=" + updVersion
-                "set programName=" + System.AppDomain.CurrentDomain.FriendlyName;
-                "timeout /t 5 /nobreak"
-                "del %programName%"
-                "powershell -Command "(New-Object Net.WebClient).DownloadFile(upateURL + '/%upVersion%/youtube-dl-gui.exe', '%programName%')""
-                "%programName%"
-                 "exit"
-             
-             */
+        public static bool downloadNewVersion(decimal cloudVersion) {
+            if (!Properties.Settings.Default.jsonSupport)
+                return false;
 
             try {
-                if (File.Exists(Application.StartupPath + updateFile))
-                    File.Delete(Application.StartupPath + updateFile);
-
-                File.Create(Application.StartupPath + updateFile).Dispose();
-                System.IO.StreamWriter writeApp = new System.IO.StreamWriter(Application.StartupPath + updateFile);
-                writeApp.WriteLine("@echo off");
-                writeApp.WriteLine("echo Updating youtube-dl-gui...");
-                writeApp.WriteLine("set upVersion=" + cloudVersion);
-                writeApp.WriteLine("set programName=" + System.AppDomain.CurrentDomain.FriendlyName);
-                writeApp.WriteLine("timeout /t 5 /nobreak");
-                writeApp.WriteLine("del %programName%");
-                writeApp.WriteLine("powershell -Command \"(New-Object Net.WebClient).DownloadFile('" + downloadURL + "', '%programName%')\"");
-                writeApp.WriteLine("%programName%");
-                writeApp.WriteLine("eixt");
-                writeApp.Close();
+                using (WebClient wc = new WebClient()) {
+                    ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+                    wc.Headers.Add("User-Agent: " + Program.UserAgent);
+                    wc.DownloadFile("https://github.com/murrty/youtube-dl-gui/releases/download/" + (cloudVersion) + "/youtube-dl-gui.exe", Environment.CurrentDirectory + "\\youtube-dl-gui.exe.part");
+                    return true;
+                }
+            }
+            catch (WebException webe) {
+                ErrorLog.reportWebError(webe, "https://github.com/murrty/youtube-dl-gui/releases/download/this-is-the-detected-updated-version/youtube-dl-gui.exe");
+                return false;
             }
             catch (Exception ex) {
-                Debug.Print(ex.ToString());
-                ErrorLog.reportError(ex.ToString());
+                ErrorLog.reportError(ex);
+                return false;
             }
         }
-        public static void runUpdater() {
+        public static void runMerge() {
+            Process runUpdater = new Process();
+            runUpdater.StartInfo.FileName = Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe";
+            runUpdater.StartInfo.Arguments = System.AppDomain.CurrentDomain.FriendlyName;
+            runUpdater.Start();
+            Environment.Exit(0);
+        }
+
+        public static bool updateStub() {
             try {
-                Process Updater = new Process();
-                Updater.StartInfo.FileName = System.Windows.Forms.Application.StartupPath + updateFile;
-                Updater.StartInfo.UseShellExecute = false;
-                Updater.StartInfo.CreateNoWindow = false;
-                Properties.Settings.Default.runningUpdate = true;
-                Updater.Start();
-                Environment.Exit(0);
+                if (File.Exists(Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe")) {
+                    FileVersionInfo stubVersion = FileVersionInfo.GetVersionInfo(Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe");
+                    if (stubVersion.ProductMajorPart > 1) {
+                        File.Delete(Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe");
+                    }
+                    else {
+                        return true;
+                    }
+                }
+
+                File.WriteAllBytes(Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe", Properties.Resources.youtube_dl_gui_updater);
+
+                return true;
             }
             catch (Exception ex) {
-                Debug.Print(ex.ToString());
-                ErrorLog.reportError(ex.ToString());
-                return;
+                ErrorLog.reportError(ex);
+                return false;
             }
         }
     }

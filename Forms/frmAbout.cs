@@ -19,16 +19,24 @@ namespace youtube_dl_gui {
             InitializeComponent();
         }
         private void frmAbout_Shown(object sender, EventArgs e) {
-            lbVersion.Text = "v" + Properties.Settings.Default.currentVersion.ToString();
+            if (!Properties.Settings.Default.jsonSupport)
+                llbCheckForUpdates.Enabled = false;
+
+            lbVersion.Text = "v" + Properties.Settings.Default.appVersion.ToString();
         }
 
         private void llbCheckForUpdates_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
+            if (!Properties.Settings.Default.jsonSupport)
+                return;
+
             checkUpdates = new Thread(() => {
                 decimal cV = Updater.getCloudVersion();
                 if (Updater.isUpdateAvailable(cV)) {
-                    if (MessageBox.Show("An update is available.\nNew verison: " + cV.ToString() + " | Your version: " + Properties.Settings.Default.currentVersion.ToString() + "\n\nWould you like to update?", "youtube-dl-gui", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes) {
-                        Updater.createUpdaterStub(cV);
-                        Updater.runUpdater();
+                    if (MessageBox.Show("An update is available.\nNew verison: " + cV.ToString() + " | Your version: " + Properties.Settings.Default.appVersion.ToString() + "\n\nWould you like to update?", "youtube-dl-gui", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes) {
+                        if (Updater.downloadNewVersion(cV)) {
+                            Updater.runMerge();
+                            Environment.Exit(0);
+                        }
                     }
                 }
                 else {
@@ -40,6 +48,14 @@ namespace youtube_dl_gui {
         }
         private void pbIcon_Click(object sender, EventArgs e) {
             Process.Start("https://github.com/murrty/youtube-dl-gui/");
+        }
+
+        private void llbGithub_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
+            Process.Start("https://github.com/murrty/youtube-dl-gui");
+        }
+
+        private void llbGitlab_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
+            //Process.Start("https://gitlab.com/murrty/youtube-dl-gui");
         }
     }
 }

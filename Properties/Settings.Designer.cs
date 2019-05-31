@@ -23,48 +23,45 @@ namespace youtube_dl_gui.Properties {
             }
         }
         
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("2.0")]
+        public decimal appVersion {
+            get {
+                return ((decimal)(this["appVersion"]));
+            }
+        }
+        
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("2017.09.01")]
-        public string ytDLVersion {
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool firstTime {
             get {
-                return ((string)(this["ytDLVersion"]));
+                return ((bool)(this["firstTime"]));
             }
             set {
-                this["ytDLVersion"] = value;
+                this["firstTime"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool jsonSupport {
+            get {
+                return ((bool)(this["jsonSupport"]));
+            }
+            set {
+                this["jsonSupport"] = value;
             }
         }
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1.651")]
-        public decimal currentVersion {
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public decimal stubVersion {
             get {
-                return ((decimal)(this["currentVersion"]));
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool runningUpdate {
-            get {
-                return ((bool)(this["runningUpdate"]));
-            }
-            set {
-                this["runningUpdate"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("-1")]
-        public decimal cloudVersion {
-            get {
-                return ((decimal)(this["cloudVersion"]));
-            }
-            set {
-                this["cloudVersion"] = value;
+                return ((decimal)(this["stubVersion"]));
             }
         }
     }
