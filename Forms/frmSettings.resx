@@ -120,6 +120,12 @@
   <metadata name="tipSettings.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
+  <data name="chkFixReddit.ToolTip" xml:space="preserve">
+    <value>Fixes visual corruptions on v.redd.it/reddit.com links using ffmpeg's HTTP Live Streaming (HLS)
+
+Recommended to stay on.
+This requires FFMPEG to be installed and available, it will fallback to youtube-dl's default.</value>
+  </data>
   <data name="chkSeparate.ToolTip" xml:space="preserve">
     <value>Separates downloads into their own folder based on the download type
 

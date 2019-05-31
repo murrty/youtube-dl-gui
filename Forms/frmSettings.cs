@@ -111,6 +111,7 @@ namespace youtube_dl_gui {
             chkConvertDetectFiletype.Checked = Downloads.Default.saveParams;
             chkAutomaticallyDelete.Checked = Downloads.Default.deleteYtdlOnClose;
             chkYtdlUpdate.Checked = Downloads.Default.useYtdlUpdater;
+            chkFixReddit.Checked = Downloads.Default.fixReddit;
 
             chkConvertDetectFiletype.Checked = Converts.Default.detectFiletype;
             chkConvClearOutput.Checked = Converts.Default.clearOutput;
@@ -165,6 +166,7 @@ namespace youtube_dl_gui {
             Downloads.Default.separateDownloads = chkSeparate.Checked;
             Downloads.Default.deleteYtdlOnClose = chkAutomaticallyDelete.Checked;
             Downloads.Default.useYtdlUpdater = chkYtdlUpdate.Checked;
+            Downloads.Default.fixReddit = chkFixReddit.Checked;
 
             Converts.Default.detectFiletype = chkConvertDetectFiletype.Checked;
             Converts.Default.clearOutput = chkConvClearOutput.Checked;
@@ -323,6 +325,10 @@ namespace youtube_dl_gui {
                 Settings.Default.extensionsName = ext;
                 Settings.Default.extensionsShort = shrt;
             }
+            else {
+                Settings.Default.extensionsName = string.Empty;
+                Settings.Default.extensionsShort = string.Empty;
+            }
         }
 
         private void btnAddExtension_Click(object sender, EventArgs e) {
@@ -336,8 +342,8 @@ namespace youtube_dl_gui {
                 return;
             }
 
-            extensionsName.Add(txtExtensionsName.Text);
-            extensionsShort.Add(txtExtensionsShort.Text);
+            extensionsName.Add(txtExtensionsName.Text.Replace("|", "/"));
+            extensionsShort.Add(txtExtensionsShort.Text.Replace("|","/"));
 
             listExtensions.Items.Add(txtExtensionsName.Text + " (*." + txtExtensionsShort.Text + ")");
             txtExtensionsName.Clear();
@@ -349,9 +355,11 @@ namespace youtube_dl_gui {
             }
         }
         private void btnRemoveExtension_Click(object sender, EventArgs e) {
-            if (MessageBox.Show("Do you really want to remove the extension ") == DialogResult.Yes) {
-
-            }
+            extensionsName.RemoveAt(listExtensions.SelectedIndex);
+            extensionsShort.RemoveAt(listExtensions.SelectedIndex);
+            listExtensions.Items.RemoveAt(listExtensions.SelectedIndex);
+            listExtensions.SelectedIndex = -1;
+            lbFileExtension.Text = "FileName.ext";
         }
         #endregion
     }

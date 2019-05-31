@@ -94,5 +94,17 @@ namespace youtube_dl_gui {
                 this["fileNameSchema"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool fixReddit {
+            get {
+                return ((bool)(this["fixReddit"]));
+            }
+            set {
+                this["fixReddit"] = value;
+            }
+        }
     }
 }

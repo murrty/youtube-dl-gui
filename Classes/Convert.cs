@@ -220,7 +220,7 @@ namespace youtube_dl_gui {
 
                 startConvert.StartInfo.Arguments = convertArguments;
                 startConvert.Start();
-                startConvert.WaitForExit();
+                //startConvert.WaitForExit();
 
                 return true;
             }

@@ -20,5 +20,8 @@
     <Setting Name="fileNameSchema" Type="System.String" Scope="User">
       <Value Profile="(Default)">%(title)s-%(id)s.%(ext)s</Value>
     </Setting>
+    <Setting Name="fixReddit" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

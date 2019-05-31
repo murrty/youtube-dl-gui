@@ -55,7 +55,7 @@ namespace youtube_dl_gui {
         }
 
         private void llbGitlab_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
-            Process.Start("https://gitlab.com/murrty/youtube-dl-gui");
+            //Process.Start("https://gitlab.com/murrty/youtube-dl-gui");
         }
     }
 }

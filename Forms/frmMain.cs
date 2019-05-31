@@ -283,7 +283,7 @@ namespace youtube_dl_gui {
                         txtUrl.Clear();
                         Clipboard.Clear();
                     }
-                    lbDownloadStatus.Text = "Download completed";
+                    lbDownloadStatus.Text = "Download started";
                     tmrDownloadLabel.Enabled = true;
                 }
                 else {
@@ -299,7 +299,7 @@ namespace youtube_dl_gui {
                         txtUrl.Clear();
                         Clipboard.Clear();
                     }
-                    lbDownloadStatus.Text = "Download completed";
+                    lbDownloadStatus.Text = "Download started";
                     tmrDownloadLabel.Enabled = true;
                 }
                 else {
@@ -316,7 +316,7 @@ namespace youtube_dl_gui {
                         Clipboard.Clear();
                     }
 
-                    lbDownloadStatus.Text = "Download completed";
+                    lbDownloadStatus.Text = "Download started";
                     tmrDownloadLabel.Enabled = true;
                 }
                 else {
@@ -330,7 +330,7 @@ namespace youtube_dl_gui {
                         txtUrl.Clear();
                         Clipboard.Clear();
                     }
-                    lbDownloadStatus.Text = "Download completed";
+                    lbDownloadStatus.Text = "Download started";
                     tmrDownloadLabel.Enabled = true;
                 }
                 else {
@@ -464,7 +464,7 @@ namespace youtube_dl_gui {
                 convType = 6;
 
             if (Convert.convertFile(txtConvertInput.Text, txtConvertOutput.Text, convType)) {
-                lbConvStatus.Text = "Finished converting";
+                lbConvStatus.Text = "Conversion started";
                 tmrConvertLabel.Enabled = true;
                 if (Converts.Default.clearOutput) {
                     txtConvertOutput.Clear();

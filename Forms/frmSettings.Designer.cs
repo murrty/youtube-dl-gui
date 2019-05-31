@@ -44,6 +44,7 @@
             this.txtYtdl = new System.Windows.Forms.TextBox();
             this.lbYtdlPath = new System.Windows.Forms.Label();
             this.tbDownloads = new System.Windows.Forms.TabPage();
+            this.chkFixReddit = new System.Windows.Forms.CheckBox();
             this.llSchema = new System.Windows.Forms.LinkLabel();
             this.txtFileNameSchema = new System.Windows.Forms.TextBox();
             this.lbFileSchema = new System.Windows.Forms.Label();
@@ -60,6 +61,10 @@
             this.chkConvertHideFFmpeg = new System.Windows.Forms.CheckBox();
             this.tcConverter = new System.Windows.Forms.TabControl();
             this.tabConvertVideo = new System.Windows.Forms.TabPage();
+            this.chkUseVideoCRF = new System.Windows.Forms.CheckBox();
+            this.chkUseVideoProfile = new System.Windows.Forms.CheckBox();
+            this.chkUseVideoPreset = new System.Windows.Forms.CheckBox();
+            this.chkUseVideoBitrate = new System.Windows.Forms.CheckBox();
             this.chkVideoFastStart = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
             this.numConvertVideoCRF = new System.Windows.Forms.NumericUpDown();
@@ -71,6 +76,8 @@
             this.numConvertVideoBitrate = new System.Windows.Forms.NumericUpDown();
             this.lbConvertVideoThousands = new System.Windows.Forms.Label();
             this.tabConvertAudio = new System.Windows.Forms.TabPage();
+            this.chkUseAudioBitrate = new System.Windows.Forms.CheckBox();
+            this.lbAudioBitrate = new System.Windows.Forms.Label();
             this.numConvertAudioBitrate = new System.Windows.Forms.NumericUpDown();
             this.lbidkwhatsup = new System.Windows.Forms.Label();
             this.lbConvertAudioThousands = new System.Windows.Forms.Label();
@@ -97,12 +104,6 @@
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
             this.tipSettings = new System.Windows.Forms.ToolTip(this.components);
-            this.chkUseVideoBitrate = new System.Windows.Forms.CheckBox();
-            this.chkUseVideoPreset = new System.Windows.Forms.CheckBox();
-            this.chkUseVideoProfile = new System.Windows.Forms.CheckBox();
-            this.chkUseVideoCRF = new System.Windows.Forms.CheckBox();
-            this.chkUseAudioBitrate = new System.Windows.Forms.CheckBox();
-            this.lbAudioBitrate = new System.Windows.Forms.Label();
             this.tcMain.SuspendLayout();
             this.tbGeneral.SuspendLayout();
             this.gbArguments.SuspendLayout();
@@ -334,6 +335,7 @@
             // 
             // tbDownloads
             // 
+            this.tbDownloads.Controls.Add(this.chkFixReddit);
             this.tbDownloads.Controls.Add(this.llSchema);
             this.tbDownloads.Controls.Add(this.txtFileNameSchema);
             this.tbDownloads.Controls.Add(this.lbFileSchema);
@@ -353,6 +355,19 @@
             this.tbDownloads.TabIndex = 1;
             this.tbDownloads.Text = "Downloads";
             this.tbDownloads.UseVisualStyleBackColor = true;
+            // 
+            // chkFixReddit
+            // 
+            this.chkFixReddit.AutoSize = true;
+            this.chkFixReddit.Checked = true;
+            this.chkFixReddit.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkFixReddit.Location = new System.Drawing.Point(190, 193);
+            this.chkFixReddit.Name = "chkFixReddit";
+            this.chkFixReddit.Size = new System.Drawing.Size(79, 17);
+            this.chkFixReddit.TabIndex = 22;
+            this.chkFixReddit.Text = "Fix v.redd.it";
+            this.tipSettings.SetToolTip(this.chkFixReddit, resources.GetString("chkFixReddit.ToolTip"));
+            this.chkFixReddit.UseVisualStyleBackColor = true;
             // 
             // llSchema
             // 
@@ -547,6 +562,44 @@
             this.tabConvertVideo.Text = "Video";
             this.tabConvertVideo.UseVisualStyleBackColor = true;
             // 
+            // chkUseVideoCRF
+            // 
+            this.chkUseVideoCRF.AutoSize = true;
+            this.chkUseVideoCRF.Checked = true;
+            this.chkUseVideoCRF.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkUseVideoCRF.Location = new System.Drawing.Point(72, 96);
+            this.chkUseVideoCRF.Name = "chkUseVideoCRF";
+            this.chkUseVideoCRF.Size = new System.Drawing.Size(14, 13);
+            this.chkUseVideoCRF.TabIndex = 13;
+            this.chkUseVideoCRF.UseVisualStyleBackColor = true;
+            // 
+            // chkUseVideoProfile
+            // 
+            this.chkUseVideoProfile.AutoSize = true;
+            this.chkUseVideoProfile.Location = new System.Drawing.Point(72, 70);
+            this.chkUseVideoProfile.Name = "chkUseVideoProfile";
+            this.chkUseVideoProfile.Size = new System.Drawing.Size(14, 13);
+            this.chkUseVideoProfile.TabIndex = 12;
+            this.chkUseVideoProfile.UseVisualStyleBackColor = true;
+            // 
+            // chkUseVideoPreset
+            // 
+            this.chkUseVideoPreset.AutoSize = true;
+            this.chkUseVideoPreset.Location = new System.Drawing.Point(72, 43);
+            this.chkUseVideoPreset.Name = "chkUseVideoPreset";
+            this.chkUseVideoPreset.Size = new System.Drawing.Size(14, 13);
+            this.chkUseVideoPreset.TabIndex = 11;
+            this.chkUseVideoPreset.UseVisualStyleBackColor = true;
+            // 
+            // chkUseVideoBitrate
+            // 
+            this.chkUseVideoBitrate.AutoSize = true;
+            this.chkUseVideoBitrate.Location = new System.Drawing.Point(72, 16);
+            this.chkUseVideoBitrate.Name = "chkUseVideoBitrate";
+            this.chkUseVideoBitrate.Size = new System.Drawing.Size(14, 13);
+            this.chkUseVideoBitrate.TabIndex = 10;
+            this.chkUseVideoBitrate.UseVisualStyleBackColor = true;
+            // 
             // chkVideoFastStart
             // 
             this.chkVideoFastStart.AutoSize = true;
@@ -704,6 +757,27 @@
             this.tabConvertAudio.TabIndex = 1;
             this.tabConvertAudio.Text = "Audio";
             this.tabConvertAudio.UseVisualStyleBackColor = true;
+            // 
+            // chkUseAudioBitrate
+            // 
+            this.chkUseAudioBitrate.AutoSize = true;
+            this.chkUseAudioBitrate.Checked = true;
+            this.chkUseAudioBitrate.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkUseAudioBitrate.Location = new System.Drawing.Point(88, 21);
+            this.chkUseAudioBitrate.Name = "chkUseAudioBitrate";
+            this.chkUseAudioBitrate.Size = new System.Drawing.Size(14, 13);
+            this.chkUseAudioBitrate.TabIndex = 20;
+            this.chkUseAudioBitrate.UseVisualStyleBackColor = true;
+            // 
+            // lbAudioBitrate
+            // 
+            this.lbAudioBitrate.AutoSize = true;
+            this.lbAudioBitrate.Location = new System.Drawing.Point(102, 21);
+            this.lbAudioBitrate.Name = "lbAudioBitrate";
+            this.lbAudioBitrate.Size = new System.Drawing.Size(37, 13);
+            this.lbAudioBitrate.TabIndex = 19;
+            this.lbAudioBitrate.Text = "Bitrate";
+            this.tipSettings.SetToolTip(this.lbAudioBitrate, resources.GetString("lbAudioBitrate.ToolTip"));
             // 
             // numConvertAudioBitrate
             // 
@@ -997,74 +1071,19 @@
             this.tipSettings.ReshowDelay = 100;
             this.tipSettings.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
             // 
-            // chkUseVideoBitrate
-            // 
-            this.chkUseVideoBitrate.AutoSize = true;
-            this.chkUseVideoBitrate.Location = new System.Drawing.Point(72, 16);
-            this.chkUseVideoBitrate.Name = "chkUseVideoBitrate";
-            this.chkUseVideoBitrate.Size = new System.Drawing.Size(14, 13);
-            this.chkUseVideoBitrate.TabIndex = 10;
-            this.chkUseVideoBitrate.UseVisualStyleBackColor = true;
-            // 
-            // chkUseVideoPreset
-            // 
-            this.chkUseVideoPreset.AutoSize = true;
-            this.chkUseVideoPreset.Location = new System.Drawing.Point(72, 43);
-            this.chkUseVideoPreset.Name = "chkUseVideoPreset";
-            this.chkUseVideoPreset.Size = new System.Drawing.Size(14, 13);
-            this.chkUseVideoPreset.TabIndex = 11;
-            this.chkUseVideoPreset.UseVisualStyleBackColor = true;
-            // 
-            // chkUseVideoProfile
-            // 
-            this.chkUseVideoProfile.AutoSize = true;
-            this.chkUseVideoProfile.Location = new System.Drawing.Point(72, 70);
-            this.chkUseVideoProfile.Name = "chkUseVideoProfile";
-            this.chkUseVideoProfile.Size = new System.Drawing.Size(14, 13);
-            this.chkUseVideoProfile.TabIndex = 12;
-            this.chkUseVideoProfile.UseVisualStyleBackColor = true;
-            // 
-            // chkUseVideoCRF
-            // 
-            this.chkUseVideoCRF.AutoSize = true;
-            this.chkUseVideoCRF.Checked = true;
-            this.chkUseVideoCRF.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkUseVideoCRF.Location = new System.Drawing.Point(72, 96);
-            this.chkUseVideoCRF.Name = "chkUseVideoCRF";
-            this.chkUseVideoCRF.Size = new System.Drawing.Size(14, 13);
-            this.chkUseVideoCRF.TabIndex = 13;
-            this.chkUseVideoCRF.UseVisualStyleBackColor = true;
-            // 
-            // chkUseAudioBitrate
-            // 
-            this.chkUseAudioBitrate.AutoSize = true;
-            this.chkUseAudioBitrate.Checked = true;
-            this.chkUseAudioBitrate.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkUseAudioBitrate.Location = new System.Drawing.Point(88, 21);
-            this.chkUseAudioBitrate.Name = "chkUseAudioBitrate";
-            this.chkUseAudioBitrate.Size = new System.Drawing.Size(14, 13);
-            this.chkUseAudioBitrate.TabIndex = 20;
-            this.chkUseAudioBitrate.UseVisualStyleBackColor = true;
-            // 
-            // lbAudioBitrate
-            // 
-            this.lbAudioBitrate.AutoSize = true;
-            this.lbAudioBitrate.Location = new System.Drawing.Point(102, 21);
-            this.lbAudioBitrate.Name = "lbAudioBitrate";
-            this.lbAudioBitrate.Size = new System.Drawing.Size(37, 13);
-            this.lbAudioBitrate.TabIndex = 19;
-            this.lbAudioBitrate.Text = "Bitrate";
-            this.tipSettings.SetToolTip(this.lbAudioBitrate, resources.GetString("lbAudioBitrate.ToolTip"));
-            // 
             // frmSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(328, 324);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.tcMain);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
+            this.MaximumSize = new System.Drawing.Size(336, 354);
+            this.MinimumSize = new System.Drawing.Size(336, 354);
             this.Name = "frmSettings";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -1177,5 +1196,6 @@
         private System.Windows.Forms.CheckBox chkUseVideoBitrate;
         private System.Windows.Forms.CheckBox chkUseAudioBitrate;
         private System.Windows.Forms.Label lbAudioBitrate;
+        private System.Windows.Forms.CheckBox chkFixReddit;
     }
 }

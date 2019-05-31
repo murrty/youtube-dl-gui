@@ -43,6 +43,9 @@ namespace youtube_dl_gui {
                 return false;
             }
 
+            if (URL.StartsWith("http://"))
+                URL = "https" + URL.Substring(4);
+
             try {
                 Process Downloader = new Process();
                 if (General.Default.useStaticYtdl && File.Exists(General.Default.ytdlPath)) {
@@ -80,9 +83,24 @@ namespace youtube_dl_gui {
                 //Downloader.StartInfo.RedirectStandardOutput = true;
                 //Downloader.StartInfo.CreateNoWindow = true;
 
-
                 string outputFolder = " -o \"" + Downloads.Default.downloadPath;  // The folder where it will be downloaded
                 string setArgs = string.Empty;                                    // Arguments to pass.
+                string hlsFF = string.Empty;
+
+
+                if (URL.StartsWith("https://v.redd.it") || URL.StartsWith("https://reddit.com/") || URL.StartsWith("https://www.reddit.com/") && downloadType != 2 && Downloads.Default.fixReddit) {
+                    switch (Verification.ffmpegFullCheck()) {
+                        case 0:
+                            hlsFF += " --ffmpeg-location \"" + General.Default.ffmpegPath + "\\ffmpeg.exe\" --hls-prefer-ffmpeg ";
+                            break;
+                        case 1:
+                            hlsFF += " --ffmpeg-location \"" + Environment.CurrentDirectory + "\\ffmpeg.exe\" --hls-prefer-ffmpeg ";
+                            break;
+                        case 2:
+                            hlsFF += " --ffmpeg-location \"" + Verification.ffmpegPathLocation() + "\\ffmpeg.exe\"  --hls-prefer-ffmpeg ";
+                            break;
+                    }
+                }
 
                 switch (downloadType) {
                     case 0: // video
@@ -91,7 +109,7 @@ namespace youtube_dl_gui {
                         else
                             outputFolder += "\\" + Downloads.Default.fileNameSchema + "\"";
 
-                        setArgs += URL + bestVideo + outputFolder;
+                        setArgs += URL + bestVideo + hlsFF + outputFolder;
                         break;
                     case 1: // audio
                         if (Downloads.Default.separateDownloads)
@@ -99,7 +117,7 @@ namespace youtube_dl_gui {
                         else
                             outputFolder += "\\" + Downloads.Default.fileNameSchema + "\"";
 
-                        setArgs = URL + bestAudio + outputFolder;
+                        setArgs = URL + bestAudio + hlsFF + outputFolder;
                         break;
                     case 2: // custom
                         if (Downloads.Default.separateDownloads)
@@ -113,8 +131,8 @@ namespace youtube_dl_gui {
 
                 Downloader.StartInfo.Arguments = setArgs;
                 Downloader.Start();
-                Downloader.WaitForExit();
-                MessageBox.Show(URL + " has finished downloading.");
+                //Downloader.WaitForExit();
+                //MessageBox.Show(URL + " has finished downloading.");
 
                 GC.Collect();
                 return true;
