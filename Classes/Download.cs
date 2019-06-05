@@ -83,21 +83,22 @@ namespace youtube_dl_gui {
                 //Downloader.StartInfo.RedirectStandardOutput = true;
                 //Downloader.StartInfo.CreateNoWindow = true;
 
-                string outputFolder = " -o \"" + Downloads.Default.downloadPath;  // The folder where it will be downloaded
-                string setArgs = string.Empty;                                    // Arguments to pass.
-                string hlsFF = string.Empty;
+                string outputFolder = string.Empty;             // The folder where it will be downloaded
+                string setArgs = string.Empty;                  // Arguments to pass.
+                string hlsFF = string.Empty;                    // an empty string, will fill up with hls on ffmpeg.
+                bool usehlsFF = Downloads.Default.fixReddit;    // a boolean to set the arg to hlsFF only if it's enabled
 
 
-                if (URL.StartsWith("https://v.redd.it") || URL.StartsWith("https://reddit.com/") || URL.StartsWith("https://www.reddit.com/") && downloadType != 2 && Downloads.Default.fixReddit) {
+                if (URL.StartsWith("https://v.redd.it") || URL.StartsWith("https://reddit.com/") || URL.StartsWith("https://www.reddit.com/") && downloadType != 2 && usehlsFF) {
                     switch (Verification.ffmpegFullCheck()) {
                         case 0:
-                            hlsFF += " --ffmpeg-location \"" + General.Default.ffmpegPath + "\\ffmpeg.exe\" --hls-prefer-ffmpeg ";
+                            hlsFF = " --ffmpeg-location \"" + General.Default.ffmpegPath + "\\ffmpeg.exe\" --hls-prefer-ffmpeg ";
                             break;
                         case 1:
-                            hlsFF += " --ffmpeg-location \"" + Environment.CurrentDirectory + "\\ffmpeg.exe\" --hls-prefer-ffmpeg ";
+                            hlsFF = " --ffmpeg-location \"" + Environment.CurrentDirectory + "\\ffmpeg.exe\" --hls-prefer-ffmpeg ";
                             break;
                         case 2:
-                            hlsFF += " --ffmpeg-location \"" + Verification.ffmpegPathLocation() + "\\ffmpeg.exe\"  --hls-prefer-ffmpeg ";
+                            hlsFF = " --ffmpeg-location \"" + Verification.ffmpegPathLocation() + "\\ffmpeg.exe\"  --hls-prefer-ffmpeg ";
                             break;
                     }
                 }
@@ -105,25 +106,31 @@ namespace youtube_dl_gui {
                 switch (downloadType) {
                     case 0: // video
                         if (Downloads.Default.separateDownloads)
-                            outputFolder += "\\Video\\" + Downloads.Default.fileNameSchema + "\"";
+                            outputFolder = " -o \"" + Downloads.Default.downloadPath + "\\Video\\" + Downloads.Default.fileNameSchema + "\"";
                         else
-                            outputFolder += "\\" + Downloads.Default.fileNameSchema + "\"";
+                            outputFolder = " -o \"" + Downloads.Default.downloadPath + "\\" + Downloads.Default.fileNameSchema + "\"";
 
-                        setArgs += URL + bestVideo + hlsFF + outputFolder;
+                        if (usehlsFF)
+                            setArgs = URL + hlsFF + outputFolder;
+                        else
+                            setArgs = URL + bestVideo + hlsFF + outputFolder;
                         break;
                     case 1: // audio
                         if (Downloads.Default.separateDownloads)
-                            outputFolder += "\\Audio\\" + Downloads.Default.fileNameSchema + "\"";
+                            outputFolder = " -o \"" + Downloads.Default.downloadPath + "\\Audio\\" + Downloads.Default.fileNameSchema + "\"";
                         else
-                            outputFolder += "\\" + Downloads.Default.fileNameSchema + "\"";
+                            outputFolder = " -o \"" + Downloads.Default.downloadPath + "\\" + Downloads.Default.fileNameSchema + "\"";
 
-                        setArgs = URL + bestAudio + hlsFF + outputFolder;
+                        if (usehlsFF)
+                            setArgs = URL + hlsFF + outputFolder;
+                        else
+                            setArgs = URL + bestAudio + hlsFF + outputFolder;
                         break;
                     case 2: // custom
                         if (Downloads.Default.separateDownloads)
-                            outputFolder += "\\Custom\\" + Downloads.Default.fileNameSchema + "\"";
+                            outputFolder = " -o \"" + Downloads.Default.downloadPath + "\\Custom\\" + Downloads.Default.fileNameSchema + "\"";
                         else
-                            outputFolder += "\\\"";
+                            outputFolder = " -o \"" + Downloads.Default.downloadPath + "\\\"";
 
                         setArgs = URL + args + outputFolder;
                         break;
