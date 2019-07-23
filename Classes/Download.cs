@@ -17,32 +17,57 @@ namespace youtube_dl_gui {
         // 2 = Custom // Unsortable
 
         /// <summary>
-        /// Built-in best quality for video downloads
+        /// Built-in video qualities
         /// </summary>
-        public static string bestVideo = " -f \"bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best\"";
+        public static string[] videoQualities = {
+                                                    " -f \"bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best\"", // 0 best
+                                                    " -f \"bestvideo[height=2160][fps>=48]\"",                 // 1  2160p60
+                                                    " -f \"bestvideo[height=2160][fps<=32]\"",                 // 2  2160p30
+                                                    " -f \"bestvideo[height=1440][fps>=48]\"",                 // 3  1440p60
+                                                    " -f \"bestvideo[height=1440][fps<=32]\"",                 // 4  1440p30
+                                                    " -f \"bestvideo[height=1080][fps>=48]\"",                 // 5  1080p60
+                                                    " -f \"bestvideo[height=1080][fps<=32]\"",                 // 6  1080p30
+                                                    " -f \"bestvideo[height=720][fps>=48]\"",                  // 7  720p60
+                                                    " -f \"bestvideo[height=720][fps<=32]\"",                  // 8  720p30
+                                                    " -f \"bestvideo[height=480]\"",                          // 9  480p
+                                                    " -f \"bestvideo[height=360]\"",                          // 10 360p
+                                                    " -f \"bestvideo[height=240]\"",                          // 11 240p
+                                                    " -f \"bestvideo[height=144]\"",                          // 12 144p
+                                                    " -f \"bestvideo[height=4320][fps>=48]\"",                 // 13 4320p60
+                                                    " -f \"bestvideo[height=4320][fps<=32]\""                  // 14 4320p30
+                                                };
         /// <summary>
-        /// Built-in best quality for audio downloads
+        /// Built-in audio qualities
         /// </summary>
-        public static string bestAudio = " -f bestaudio --extract-audio --audio-format best --audio-quality 0";
-        public static string goodAudio = " -x --audio-format mp3 --audio-quality 256K";
+        public static string[] audioQualities = { 
+                                                    " -f bestaudio --extract-audio --audio-format best --audio-quality 0", // 0
+                                                    " -x --audio-format mp3 --audio-quality 320K", // 1
+                                                    " -x --audio-format mp3 --audio-quality 256K", // 2
+                                                    " -x --audio-format mp3 --audio-quality 224K", // 3
+                                                    " -x --audio-format mp3 --audio-quality 192K", // 4
+                                                    " -x --audio-format mp3 --audio-quality 160K", // 5
+                                                    " -x --audio-format mp3 --audio-quality 128K", // 6
+                                                    " -x --audio-format mp3 --audio-quality 96K",  // 7
+                                                    " -x --audio-format mp3 --audio-quality 64K"   // 8
+                                                };
         /// <summary>
         /// The default file-name schema used
         /// </summary>
         public static string defaultSchema = "%(title)s-%(id)s.%(ext)s";
 
         /// <summary>
-        /// Downloads files using the best preset available.
+        /// Begins the download sequence
         /// </summary>
-        /// <param name="URL">URL of the file</param>
-        /// <param name="downloadType">Download type; (0) Video, (1) Audio, (2) Custom</param>
-        /// <param name="args">Custom arguments passed to the application</param>
-        /// <returns>A boolean based on the success of the download</returns>
-        public static bool downloadBest(string URL, int downloadType, string args = "") {
+        /// <param name="URL">The URL of the video/audio/whatever to download</param>
+        /// <param name="downloadType">Int for the type, 0 = video, 1 = audio, 2 = custom</param>
+        /// <param name="downloadQuality">Int for the quality</param>
+        /// <param name="args">Arugments for custom downloads</param>
+        /// <returns></returns>
+        public static bool startDownload(string URL, int downloadType, int downloadQuality, string args) {
             if (string.IsNullOrWhiteSpace(URL)) {
                 MessageBox.Show("Please enter a URL before trying to download.");
                 return false;
             }
-
             if (URL.StartsWith("http://"))
                 URL = "https" + URL.Substring(4);
 
@@ -110,10 +135,10 @@ namespace youtube_dl_gui {
                         else
                             outputFolder = " -o \"" + Downloads.Default.downloadPath + "\\" + Downloads.Default.fileNameSchema + "\"";
 
-                        if (usehlsFF)
+                        if (usehlsFF && isReddit(URL))
                             setArgs = URL + hlsFF + outputFolder;
                         else
-                            setArgs = URL + bestVideo + hlsFF + outputFolder;
+                            setArgs = URL + videoQualities[downloadQuality] + hlsFF + outputFolder;
                         break;
                     case 1: // audio
                         if (Downloads.Default.separateDownloads)
@@ -121,10 +146,10 @@ namespace youtube_dl_gui {
                         else
                             outputFolder = " -o \"" + Downloads.Default.downloadPath + "\\" + Downloads.Default.fileNameSchema + "\"";
 
-                        if (usehlsFF)
+                        if (usehlsFF && isReddit(URL))
                             setArgs = URL + hlsFF + outputFolder;
                         else
-                            setArgs = URL + bestAudio + hlsFF + outputFolder;
+                            setArgs = URL + audioQualities[downloadQuality] + hlsFF + outputFolder;
                         break;
                     case 2: // custom
                         if (Downloads.Default.separateDownloads)
@@ -134,6 +159,9 @@ namespace youtube_dl_gui {
 
                         setArgs = URL + args + outputFolder;
                         break;
+                    default:
+                        MessageBox.Show("Wow, this is weird. Your download was classified as 'default'. Let me know how this happened, please");
+                        return false;
                 }
 
                 Downloader.StartInfo.Arguments = setArgs;
@@ -149,11 +177,6 @@ namespace youtube_dl_gui {
                 GC.Collect();
                 return false;
             }
-        }
-
-        public static bool downloadCustom() {
-            MessageBox.Show("wip");
-            return false;
         }
 
         /// <summary>
@@ -256,6 +279,20 @@ namespace youtube_dl_gui {
                 }
             }
             catch {
+                return false;
+            }
+        }
+
+        public static bool isReddit(string url) {
+            if (url.StartsWith("http://"))
+                url = url.Replace("http://", "https://");
+            if (url.StartsWith("https://www."))
+                url = url.Replace("https://www.", "https://");
+
+            if (url.StartsWith("https://redd.it") || url.StartsWith("https://www.reddit.com")) {
+                return true;
+            }
+            else {
                 return false;
             }
         }

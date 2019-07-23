@@ -362,5 +362,49 @@ namespace youtube_dl_gui {
             lbFileExtension.Text = "FileName.ext";
         }
         #endregion
+
+        private void tcDownloads_SelectedIndexChanged(object sender, EventArgs e) {
+
+        }
+
+        private void chkFixReddit_CheckedChanged(object sender, EventArgs e) {
+
+        }
+
+        private void txtFileNameSchema_TextChanged(object sender, EventArgs e) {
+
+        }
+
+        private void lbFileSchema_Click(object sender, EventArgs e) {
+
+        }
+
+        private void chkSeparate_CheckedChanged(object sender, EventArgs e) {
+
+        }
+
+        private void chkSaveParams_CheckedChanged(object sender, EventArgs e) {
+
+        }
+
+        private void chkAutomaticallyDelete_CheckedChanged(object sender, EventArgs e) {
+
+        }
+
+        private void chkYtdlUpdate_CheckedChanged(object sender, EventArgs e) {
+
+        }
+
+        private void lbSepDownloads_Click(object sender, EventArgs e) {
+
+        }
+
+        private void txtSaveto_TextChanged(object sender, EventArgs e) {
+
+        }
+
+        private void lbDownloadPath_Click(object sender, EventArgs e) {
+
+        }
     }
 }

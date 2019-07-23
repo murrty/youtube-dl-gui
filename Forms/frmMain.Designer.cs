@@ -29,6 +29,8 @@
             this.lbDownloadURL = new System.Windows.Forms.Label();
             this.tcMain = new System.Windows.Forms.TabControl();
             this.tabDownload = new System.Windows.Forms.TabPage();
+            this.cbQuality = new System.Windows.Forms.ComboBox();
+            this.lbQuality = new System.Windows.Forms.Label();
             this.lbDownloadStatus = new System.Windows.Forms.Label();
             this.btnDownload = new System.Windows.Forms.Button();
             this.lbDownloadArgs = new System.Windows.Forms.Label();
@@ -120,6 +122,8 @@
             // 
             // tabDownload
             // 
+            this.tabDownload.Controls.Add(this.cbQuality);
+            this.tabDownload.Controls.Add(this.lbQuality);
             this.tabDownload.Controls.Add(this.lbDownloadStatus);
             this.tabDownload.Controls.Add(this.btnDownload);
             this.tabDownload.Controls.Add(this.lbDownloadArgs);
@@ -135,10 +139,42 @@
             this.tabDownload.Text = "Download";
             this.tabDownload.UseVisualStyleBackColor = true;
             // 
+            // cbQuality
+            // 
+            this.cbQuality.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbQuality.FormattingEnabled = true;
+            this.cbQuality.Items.AddRange(new object[] {
+            "best",
+            "2160p60",
+            "2160p",
+            "1440p60",
+            "1440p",
+            "1080p60",
+            "1080p",
+            "720p60",
+            "720p",
+            "480p",
+            "360p",
+            "240p",
+            "144p"});
+            this.cbQuality.Location = new System.Drawing.Point(105, 103);
+            this.cbQuality.Name = "cbQuality";
+            this.cbQuality.Size = new System.Drawing.Size(80, 21);
+            this.cbQuality.TabIndex = 19;
+            // 
+            // lbQuality
+            // 
+            this.lbQuality.AutoSize = true;
+            this.lbQuality.Location = new System.Drawing.Point(60, 106);
+            this.lbQuality.Name = "lbQuality";
+            this.lbQuality.Size = new System.Drawing.Size(39, 13);
+            this.lbQuality.TabIndex = 18;
+            this.lbQuality.Text = "Quality";
+            // 
             // lbDownloadStatus
             // 
             this.lbDownloadStatus.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbDownloadStatus.Location = new System.Drawing.Point(3, 195);
+            this.lbDownloadStatus.Location = new System.Drawing.Point(3, 200);
             this.lbDownloadStatus.Name = "lbDownloadStatus";
             this.lbDownloadStatus.Size = new System.Drawing.Size(238, 20);
             this.lbDownloadStatus.TabIndex = 17;
@@ -148,7 +184,7 @@
             // 
             // btnDownload
             // 
-            this.btnDownload.Location = new System.Drawing.Point(83, 170);
+            this.btnDownload.Location = new System.Drawing.Point(83, 172);
             this.btnDownload.Name = "btnDownload";
             this.btnDownload.Size = new System.Drawing.Size(79, 25);
             this.btnDownload.TabIndex = 4;
@@ -159,7 +195,7 @@
             // lbDownloadArgs
             // 
             this.lbDownloadArgs.AutoSize = true;
-            this.lbDownloadArgs.Location = new System.Drawing.Point(15, 111);
+            this.lbDownloadArgs.Location = new System.Drawing.Point(15, 128);
             this.lbDownloadArgs.Name = "lbDownloadArgs";
             this.lbDownloadArgs.Size = new System.Drawing.Size(94, 13);
             this.lbDownloadArgs.TabIndex = 2;
@@ -167,7 +203,7 @@
             // 
             // txtArgs
             // 
-            this.txtArgs.Location = new System.Drawing.Point(22, 131);
+            this.txtArgs.Location = new System.Drawing.Point(22, 148);
             this.txtArgs.Name = "txtArgs";
             this.txtArgs.ReadOnly = true;
             this.txtArgs.Size = new System.Drawing.Size(200, 20);
@@ -178,7 +214,7 @@
             this.gbDownloadType.Controls.Add(this.rbCustom);
             this.gbDownloadType.Controls.Add(this.rbAudio);
             this.gbDownloadType.Controls.Add(this.rbVideo);
-            this.gbDownloadType.Location = new System.Drawing.Point(26, 59);
+            this.gbDownloadType.Location = new System.Drawing.Point(26, 54);
             this.gbDownloadType.Name = "gbDownloadType";
             this.gbDownloadType.Size = new System.Drawing.Size(192, 40);
             this.gbDownloadType.TabIndex = 2;
@@ -207,6 +243,7 @@
             this.rbAudio.TabStop = true;
             this.rbAudio.Text = "Audio";
             this.rbAudio.UseVisualStyleBackColor = true;
+            this.rbAudio.CheckedChanged += new System.EventHandler(this.rbAudio_CheckedChanged);
             // 
             // rbVideo
             // 
@@ -218,6 +255,7 @@
             this.rbVideo.TabStop = true;
             this.rbVideo.Text = "Video";
             this.rbVideo.UseVisualStyleBackColor = true;
+            this.rbVideo.CheckedChanged += new System.EventHandler(this.rbVideo_CheckedChanged);
             // 
             // tabConvert
             // 
@@ -428,7 +466,7 @@
             this.lbDebug.Name = "lbDebug";
             this.lbDebug.Size = new System.Drawing.Size(61, 13);
             this.lbDebug.TabIndex = 3;
-            this.lbDebug.Text = "2019-05-30";
+            this.lbDebug.Text = "2019-07-23";
             this.lbDebug.Visible = false;
             // 
             // cmTray
@@ -573,6 +611,7 @@
             this.trayIcon.BalloonTipTitle = "Unseen easter egg";
             this.trayIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("trayIcon.Icon")));
             this.trayIcon.Text = "youtube-dl-gui";
+            this.trayIcon.Visible = true;
             // 
             // tmrConvertLabel
             // 
@@ -672,6 +711,8 @@
         private System.Windows.Forms.TabPage tabMerge;
         private System.Windows.Forms.Label lbDownloadStatus;
         private System.Windows.Forms.Timer tmrDownloadLabel;
+        private System.Windows.Forms.ComboBox cbQuality;
+        private System.Windows.Forms.Label lbQuality;
     }
 }
 

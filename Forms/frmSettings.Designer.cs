@@ -44,19 +44,19 @@
             this.txtYtdl = new System.Windows.Forms.TextBox();
             this.lbYtdlPath = new System.Windows.Forms.Label();
             this.tbDownloads = new System.Windows.Forms.TabPage();
-            this.chkFixReddit = new System.Windows.Forms.CheckBox();
-            this.llSchema = new System.Windows.Forms.LinkLabel();
-            this.txtFileNameSchema = new System.Windows.Forms.TextBox();
-            this.lbFileSchema = new System.Windows.Forms.Label();
-            this.btnRedownloadYtdl = new System.Windows.Forms.Button();
-            this.chkSeparate = new System.Windows.Forms.CheckBox();
-            this.chkSaveParams = new System.Windows.Forms.CheckBox();
-            this.chkAutomaticallyDelete = new System.Windows.Forms.CheckBox();
-            this.chkYtdlUpdate = new System.Windows.Forms.CheckBox();
-            this.lbSepDownloads = new System.Windows.Forms.Label();
-            this.btnBrowseSaveto = new System.Windows.Forms.Button();
-            this.txtSaveto = new System.Windows.Forms.TextBox();
             this.lbDownloadPath = new System.Windows.Forms.Label();
+            this.chkFixReddit = new System.Windows.Forms.CheckBox();
+            this.txtSaveto = new System.Windows.Forms.TextBox();
+            this.chkSaveParams = new System.Windows.Forms.CheckBox();
+            this.llSchema = new System.Windows.Forms.LinkLabel();
+            this.chkSeparate = new System.Windows.Forms.CheckBox();
+            this.btnBrowseSaveto = new System.Windows.Forms.Button();
+            this.chkAutomaticallyDelete = new System.Windows.Forms.CheckBox();
+            this.txtFileNameSchema = new System.Windows.Forms.TextBox();
+            this.btnRedownloadYtdl = new System.Windows.Forms.Button();
+            this.lbSepDownloads = new System.Windows.Forms.Label();
+            this.chkYtdlUpdate = new System.Windows.Forms.CheckBox();
+            this.lbFileSchema = new System.Windows.Forms.Label();
             this.tbConverter = new System.Windows.Forms.TabPage();
             this.chkConvertHideFFmpeg = new System.Windows.Forms.CheckBox();
             this.tcConverter = new System.Windows.Forms.TabControl();
@@ -66,7 +66,7 @@
             this.chkUseVideoPreset = new System.Windows.Forms.CheckBox();
             this.chkUseVideoBitrate = new System.Windows.Forms.CheckBox();
             this.chkVideoFastStart = new System.Windows.Forms.CheckBox();
-            this.label1 = new System.Windows.Forms.Label();
+            this.lbConvertVideoCRF = new System.Windows.Forms.Label();
             this.numConvertVideoCRF = new System.Windows.Forms.NumericUpDown();
             this.lbConvertVideoProfile = new System.Windows.Forms.Label();
             this.cbConvertVideoProfile = new System.Windows.Forms.ComboBox();
@@ -335,19 +335,19 @@
             // 
             // tbDownloads
             // 
-            this.tbDownloads.Controls.Add(this.chkFixReddit);
-            this.tbDownloads.Controls.Add(this.llSchema);
-            this.tbDownloads.Controls.Add(this.txtFileNameSchema);
-            this.tbDownloads.Controls.Add(this.lbFileSchema);
-            this.tbDownloads.Controls.Add(this.btnRedownloadYtdl);
-            this.tbDownloads.Controls.Add(this.chkSeparate);
-            this.tbDownloads.Controls.Add(this.chkSaveParams);
-            this.tbDownloads.Controls.Add(this.chkAutomaticallyDelete);
-            this.tbDownloads.Controls.Add(this.chkYtdlUpdate);
-            this.tbDownloads.Controls.Add(this.lbSepDownloads);
-            this.tbDownloads.Controls.Add(this.btnBrowseSaveto);
-            this.tbDownloads.Controls.Add(this.txtSaveto);
             this.tbDownloads.Controls.Add(this.lbDownloadPath);
+            this.tbDownloads.Controls.Add(this.chkFixReddit);
+            this.tbDownloads.Controls.Add(this.txtSaveto);
+            this.tbDownloads.Controls.Add(this.chkSaveParams);
+            this.tbDownloads.Controls.Add(this.llSchema);
+            this.tbDownloads.Controls.Add(this.chkSeparate);
+            this.tbDownloads.Controls.Add(this.btnBrowseSaveto);
+            this.tbDownloads.Controls.Add(this.chkAutomaticallyDelete);
+            this.tbDownloads.Controls.Add(this.txtFileNameSchema);
+            this.tbDownloads.Controls.Add(this.btnRedownloadYtdl);
+            this.tbDownloads.Controls.Add(this.lbSepDownloads);
+            this.tbDownloads.Controls.Add(this.chkYtdlUpdate);
+            this.tbDownloads.Controls.Add(this.lbFileSchema);
             this.tbDownloads.Location = new System.Drawing.Point(4, 22);
             this.tbDownloads.Name = "tbDownloads";
             this.tbDownloads.Padding = new System.Windows.Forms.Padding(3);
@@ -355,6 +355,17 @@
             this.tbDownloads.TabIndex = 1;
             this.tbDownloads.Text = "Downloads";
             this.tbDownloads.UseVisualStyleBackColor = true;
+            // 
+            // lbDownloadPath
+            // 
+            this.lbDownloadPath.AutoSize = true;
+            this.lbDownloadPath.Location = new System.Drawing.Point(19, 12);
+            this.lbDownloadPath.Name = "lbDownloadPath";
+            this.lbDownloadPath.Size = new System.Drawing.Size(77, 13);
+            this.lbDownloadPath.TabIndex = 7;
+            this.lbDownloadPath.Text = "download path";
+            this.tipSettings.SetToolTip(this.lbDownloadPath, "The path of the folder where files will be downloaded to");
+            this.lbDownloadPath.Click += new System.EventHandler(this.lbDownloadPath_Click);
             // 
             // chkFixReddit
             // 
@@ -368,6 +379,30 @@
             this.chkFixReddit.Text = "Fix v.redd.it";
             this.tipSettings.SetToolTip(this.chkFixReddit, resources.GetString("chkFixReddit.ToolTip"));
             this.chkFixReddit.UseVisualStyleBackColor = true;
+            this.chkFixReddit.CheckedChanged += new System.EventHandler(this.chkFixReddit_CheckedChanged);
+            // 
+            // txtSaveto
+            // 
+            this.txtSaveto.Location = new System.Drawing.Point(30, 32);
+            this.txtSaveto.Name = "txtSaveto";
+            this.txtSaveto.ReadOnly = true;
+            this.txtSaveto.Size = new System.Drawing.Size(233, 20);
+            this.txtSaveto.TabIndex = 8;
+            this.tipSettings.SetToolTip(this.txtSaveto, "The path of the folder where files will be downloaded to");
+            this.txtSaveto.TextChanged += new System.EventHandler(this.txtSaveto_TextChanged);
+            // 
+            // chkSaveParams
+            // 
+            this.chkSaveParams.AutoSize = true;
+            this.chkSaveParams.Enabled = false;
+            this.chkSaveParams.Location = new System.Drawing.Point(42, 147);
+            this.chkSaveParams.Name = "chkSaveParams";
+            this.chkSaveParams.Size = new System.Drawing.Size(124, 17);
+            this.chkSaveParams.TabIndex = 15;
+            this.chkSaveParams.Text = "Save format && quality";
+            this.tipSettings.SetToolTip(this.chkSaveParams, "Save format & quality of downloads on download");
+            this.chkSaveParams.UseVisualStyleBackColor = true;
+            this.chkSaveParams.CheckedChanged += new System.EventHandler(this.chkSaveParams_CheckedChanged);
             // 
             // llSchema
             // 
@@ -381,36 +416,6 @@
             this.tipSettings.SetToolTip(this.llSchema, "Click this to show a list of replaceable words");
             this.llSchema.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llSchema_LinkClicked);
             // 
-            // txtFileNameSchema
-            // 
-            this.txtFileNameSchema.Location = new System.Drawing.Point(30, 79);
-            this.txtFileNameSchema.Name = "txtFileNameSchema";
-            this.txtFileNameSchema.Size = new System.Drawing.Size(260, 20);
-            this.txtFileNameSchema.TabIndex = 20;
-            this.txtFileNameSchema.Text = "%(title)s-%(id)s.%(ext)s";
-            this.tipSettings.SetToolTip(this.txtFileNameSchema, "The file name schema\r\n\r\nThis basically replaces sequences with video information " +
-        "for a custom file name.");
-            // 
-            // lbFileSchema
-            // 
-            this.lbFileSchema.AutoSize = true;
-            this.lbFileSchema.Location = new System.Drawing.Point(19, 59);
-            this.lbFileSchema.Name = "lbFileSchema";
-            this.lbFileSchema.Size = new System.Drawing.Size(89, 13);
-            this.lbFileSchema.TabIndex = 19;
-            this.lbFileSchema.Text = "file name schema";
-            // 
-            // btnRedownloadYtdl
-            // 
-            this.btnRedownloadYtdl.Location = new System.Drawing.Point(90, 218);
-            this.btnRedownloadYtdl.Name = "btnRedownloadYtdl";
-            this.btnRedownloadYtdl.Size = new System.Drawing.Size(140, 23);
-            this.btnRedownloadYtdl.TabIndex = 18;
-            this.btnRedownloadYtdl.Text = "(re)download youtube-dl";
-            this.tipSettings.SetToolTip(this.btnRedownloadYtdl, "Redownloads youtube-dl if one is already present, otherwise, updates youtube-dl");
-            this.btnRedownloadYtdl.UseVisualStyleBackColor = true;
-            this.btnRedownloadYtdl.Click += new System.EventHandler(this.btnRedownloadYtdl_Click);
-            // 
             // chkSeparate
             // 
             this.chkSeparate.AutoSize = true;
@@ -423,18 +428,18 @@
             this.chkSeparate.Text = "Separate downloads to different folders";
             this.tipSettings.SetToolTip(this.chkSeparate, resources.GetString("chkSeparate.ToolTip"));
             this.chkSeparate.UseVisualStyleBackColor = true;
+            this.chkSeparate.CheckedChanged += new System.EventHandler(this.chkSeparate_CheckedChanged);
             // 
-            // chkSaveParams
+            // btnBrowseSaveto
             // 
-            this.chkSaveParams.AutoSize = true;
-            this.chkSaveParams.Enabled = false;
-            this.chkSaveParams.Location = new System.Drawing.Point(42, 147);
-            this.chkSaveParams.Name = "chkSaveParams";
-            this.chkSaveParams.Size = new System.Drawing.Size(124, 17);
-            this.chkSaveParams.TabIndex = 15;
-            this.chkSaveParams.Text = "Save format && quality";
-            this.tipSettings.SetToolTip(this.chkSaveParams, "Save format & quality of downloads on download");
-            this.chkSaveParams.UseVisualStyleBackColor = true;
+            this.btnBrowseSaveto.Location = new System.Drawing.Point(269, 30);
+            this.btnBrowseSaveto.Name = "btnBrowseSaveto";
+            this.btnBrowseSaveto.Size = new System.Drawing.Size(33, 23);
+            this.btnBrowseSaveto.TabIndex = 10;
+            this.btnBrowseSaveto.Text = "...";
+            this.tipSettings.SetToolTip(this.btnBrowseSaveto, "Browse for a folder to save downloaded files");
+            this.btnBrowseSaveto.UseVisualStyleBackColor = true;
+            this.btnBrowseSaveto.Click += new System.EventHandler(this.btnBrowseSaveto_Click);
             // 
             // chkAutomaticallyDelete
             // 
@@ -446,6 +451,40 @@
             this.chkAutomaticallyDelete.Text = "Automatically delete youtube-dl when closing";
             this.tipSettings.SetToolTip(this.chkAutomaticallyDelete, "Automatically delete youtube-dl.exe when closing youtube-dl-gui");
             this.chkAutomaticallyDelete.UseVisualStyleBackColor = true;
+            this.chkAutomaticallyDelete.CheckedChanged += new System.EventHandler(this.chkAutomaticallyDelete_CheckedChanged);
+            // 
+            // txtFileNameSchema
+            // 
+            this.txtFileNameSchema.Location = new System.Drawing.Point(30, 79);
+            this.txtFileNameSchema.Name = "txtFileNameSchema";
+            this.txtFileNameSchema.Size = new System.Drawing.Size(260, 20);
+            this.txtFileNameSchema.TabIndex = 20;
+            this.txtFileNameSchema.Text = "%(title)s-%(id)s.%(ext)s";
+            this.tipSettings.SetToolTip(this.txtFileNameSchema, "The file name schema\r\n\r\nThis basically replaces sequences with video information " +
+        "for a custom file name.");
+            this.txtFileNameSchema.TextChanged += new System.EventHandler(this.txtFileNameSchema_TextChanged);
+            // 
+            // btnRedownloadYtdl
+            // 
+            this.btnRedownloadYtdl.Location = new System.Drawing.Point(90, 218);
+            this.btnRedownloadYtdl.Name = "btnRedownloadYtdl";
+            this.btnRedownloadYtdl.Size = new System.Drawing.Size(140, 23);
+            this.btnRedownloadYtdl.TabIndex = 18;
+            this.btnRedownloadYtdl.Text = "(re)download youtube-dl";
+            this.tipSettings.SetToolTip(this.btnRedownloadYtdl, "Redownloads youtube-dl if one is already present, otherwise, updates youtube-dl");
+            this.btnRedownloadYtdl.UseVisualStyleBackColor = true;
+            this.btnRedownloadYtdl.Click += new System.EventHandler(this.btnRedownloadYtdl_Click);
+            // 
+            // lbSepDownloads
+            // 
+            this.lbSepDownloads.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lbSepDownloads.Location = new System.Drawing.Point(25, 107);
+            this.lbSepDownloads.Name = "lbSepDownloads";
+            this.lbSepDownloads.Size = new System.Drawing.Size(270, 2);
+            this.lbSepDownloads.TabIndex = 11;
+            this.lbSepDownloads.Text = "HELLO WORLD";
+            this.tipSettings.SetToolTip(this.lbSepDownloads, "this is not an easter egg");
+            this.lbSepDownloads.Click += new System.EventHandler(this.lbSepDownloads_Click);
             // 
             // chkYtdlUpdate
             // 
@@ -460,46 +499,17 @@
             this.chkYtdlUpdate.Text = "Use youtube-dl\'s updater";
             this.tipSettings.SetToolTip(this.chkYtdlUpdate, "Use youtube-dl\'s internal updater instead of this application\'s updater");
             this.chkYtdlUpdate.UseVisualStyleBackColor = true;
+            this.chkYtdlUpdate.CheckedChanged += new System.EventHandler(this.chkYtdlUpdate_CheckedChanged);
             // 
-            // lbSepDownloads
+            // lbFileSchema
             // 
-            this.lbSepDownloads.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lbSepDownloads.Location = new System.Drawing.Point(25, 107);
-            this.lbSepDownloads.Name = "lbSepDownloads";
-            this.lbSepDownloads.Size = new System.Drawing.Size(270, 2);
-            this.lbSepDownloads.TabIndex = 11;
-            this.lbSepDownloads.Text = "HELLO WORLD";
-            this.tipSettings.SetToolTip(this.lbSepDownloads, "this is not an easter egg");
-            // 
-            // btnBrowseSaveto
-            // 
-            this.btnBrowseSaveto.Location = new System.Drawing.Point(269, 30);
-            this.btnBrowseSaveto.Name = "btnBrowseSaveto";
-            this.btnBrowseSaveto.Size = new System.Drawing.Size(33, 23);
-            this.btnBrowseSaveto.TabIndex = 10;
-            this.btnBrowseSaveto.Text = "...";
-            this.tipSettings.SetToolTip(this.btnBrowseSaveto, "Browse for a folder to save downloaded files");
-            this.btnBrowseSaveto.UseVisualStyleBackColor = true;
-            this.btnBrowseSaveto.Click += new System.EventHandler(this.btnBrowseSaveto_Click);
-            // 
-            // txtSaveto
-            // 
-            this.txtSaveto.Location = new System.Drawing.Point(30, 32);
-            this.txtSaveto.Name = "txtSaveto";
-            this.txtSaveto.ReadOnly = true;
-            this.txtSaveto.Size = new System.Drawing.Size(233, 20);
-            this.txtSaveto.TabIndex = 8;
-            this.tipSettings.SetToolTip(this.txtSaveto, "The path of the folder where files will be downloaded to");
-            // 
-            // lbDownloadPath
-            // 
-            this.lbDownloadPath.AutoSize = true;
-            this.lbDownloadPath.Location = new System.Drawing.Point(19, 12);
-            this.lbDownloadPath.Name = "lbDownloadPath";
-            this.lbDownloadPath.Size = new System.Drawing.Size(77, 13);
-            this.lbDownloadPath.TabIndex = 7;
-            this.lbDownloadPath.Text = "download path";
-            this.tipSettings.SetToolTip(this.lbDownloadPath, "The path of the folder where files will be downloaded to");
+            this.lbFileSchema.AutoSize = true;
+            this.lbFileSchema.Location = new System.Drawing.Point(19, 59);
+            this.lbFileSchema.Name = "lbFileSchema";
+            this.lbFileSchema.Size = new System.Drawing.Size(89, 13);
+            this.lbFileSchema.TabIndex = 19;
+            this.lbFileSchema.Text = "file name schema";
+            this.lbFileSchema.Click += new System.EventHandler(this.lbFileSchema_Click);
             // 
             // tbConverter
             // 
@@ -545,7 +555,7 @@
             this.tabConvertVideo.Controls.Add(this.chkUseVideoPreset);
             this.tabConvertVideo.Controls.Add(this.chkUseVideoBitrate);
             this.tabConvertVideo.Controls.Add(this.chkVideoFastStart);
-            this.tabConvertVideo.Controls.Add(this.label1);
+            this.tabConvertVideo.Controls.Add(this.lbConvertVideoCRF);
             this.tabConvertVideo.Controls.Add(this.numConvertVideoCRF);
             this.tabConvertVideo.Controls.Add(this.lbConvertVideoProfile);
             this.tabConvertVideo.Controls.Add(this.cbConvertVideoProfile);
@@ -612,15 +622,15 @@
         "deos to be played before they are fully downloaded.");
             this.chkVideoFastStart.UseVisualStyleBackColor = true;
             // 
-            // label1
+            // lbConvertVideoCRF
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(95, 96);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(28, 13);
-            this.label1.TabIndex = 8;
-            this.label1.Text = "CRF";
-            this.tipSettings.SetToolTip(this.label1, "CRF is constant rate factor.\r\n\r\nLower = Higher quality");
+            this.lbConvertVideoCRF.AutoSize = true;
+            this.lbConvertVideoCRF.Location = new System.Drawing.Point(95, 96);
+            this.lbConvertVideoCRF.Name = "lbConvertVideoCRF";
+            this.lbConvertVideoCRF.Size = new System.Drawing.Size(28, 13);
+            this.lbConvertVideoCRF.TabIndex = 8;
+            this.lbConvertVideoCRF.Text = "CRF";
+            this.tipSettings.SetToolTip(this.lbConvertVideoCRF, "CRF is constant rate factor.\r\n\r\nLower = Higher quality");
             // 
             // numConvertVideoCRF
             // 
@@ -1167,7 +1177,7 @@
         private System.Windows.Forms.Label lbConvertVideoPreset;
         private System.Windows.Forms.Label lbConvertVideoProfile;
         private System.Windows.Forms.ComboBox cbConvertVideoProfile;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lbConvertVideoCRF;
         private System.Windows.Forms.NumericUpDown numConvertVideoCRF;
         private System.Windows.Forms.CheckBox chkVideoFastStart;
         private System.Windows.Forms.TabPage tabConvertCustom;

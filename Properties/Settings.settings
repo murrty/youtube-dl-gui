@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="appVersion" Type="System.Decimal" Scope="Application">
-      <Value Profile="(Default)">2.0</Value>
+      <Value Profile="(Default)">2.1</Value>
     </Setting>
     <Setting Name="firstTime" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>

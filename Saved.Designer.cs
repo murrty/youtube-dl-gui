@@ -130,5 +130,29 @@ namespace youtube_dl_gui {
                 this["convertCustom"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int videoQuality {
+            get {
+                return ((int)(this["videoQuality"]));
+            }
+            set {
+                this["videoQuality"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int audioQuality {
+            get {
+                return ((int)(this["audioQuality"]));
+            }
+            set {
+                this["audioQuality"] = value;
+            }
+        }
     }
 }

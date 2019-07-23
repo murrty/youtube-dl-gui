@@ -14,6 +14,34 @@ namespace youtube_dl_gui {
     public partial class frmMain : Form {
         int ytDlAvailable = -1;
         int ffmpegAvailable = -1;
+        string[] videoQuality = {
+                                    "best",
+                                    "2160p60",
+                                    "2160p",
+                                    "1440p60",
+                                    "1440p",
+                                    "1080p60",
+                                    "1080p",
+                                    "720p60",
+                                    "720p",
+                                    "480p",
+                                    "360p",
+                                    "240p",
+                                    "144p",
+                                    "4320p60",
+                                    "4320p"
+                                };
+        string[] audioQuality = {
+                                    "best",
+                                    "320k",
+                                    "256k",
+                                    "224k",
+                                    "192k",
+                                    "160k",
+                                    "128k",
+                                    "96k",
+                                    "64k"
+                                };
 
         Thread checkUpdates;
         bool updateChecked = false;
@@ -188,12 +216,12 @@ namespace youtube_dl_gui {
             this.Show();
         }
 
-        private void cmDownloadAudio_Click(object sender, EventArgs e) {
-            Download.downloadBest(Clipboard.GetText(), 1);
+        private void cmDownloadVideo_Click(object sender, EventArgs e) {
+            Download.startDownload(Clipboard.GetText(), 0, Saved.Default.videoQuality, string.Empty);
         }
 
-        private void cmDownloadVideo_Click(object sender, EventArgs e) {
-            Download.downloadBest(Clipboard.GetText(), 0);
+        private void cmDownloadAudio_Click(object sender, EventArgs e) {
+            Download.startDownload(Clipboard.GetText(), 1, Saved.Default.audioQuality, string.Empty);
         }
 
         private void cmCustomTxtBox_Click(object sender, EventArgs e) {
@@ -202,7 +230,7 @@ namespace youtube_dl_gui {
                 return;
             }
             else {
-                Download.downloadBest(Clipboard.GetText(), 2, txtArgs.Text);
+                Download.startDownload(Clipboard.GetText(), 2, -1, txtArgs.Text);
             }
         }
         private void cmCustomTxt_Click(object sender, EventArgs e) {
@@ -215,7 +243,7 @@ namespace youtube_dl_gui {
                 return;
             }
             else {
-                Download.downloadBest(Clipboard.GetText(), 2, System.IO.File.ReadAllText(Environment.CurrentDirectory + "\\args.txt"));
+                Download.startDownload(Clipboard.GetText(), 2, -1, System.IO.File.ReadAllText(Environment.CurrentDirectory + "\\args.txt"));
             }
         }
         private void cmCustomSettings_Click(object sender, EventArgs e) {
@@ -225,7 +253,7 @@ namespace youtube_dl_gui {
             }
             else
             {
-                Download.downloadBest(Clipboard.GetText(), 2, Saved.Default.downloadArgs);
+                Download.startDownload(Clipboard.GetText(), 2, -1, Saved.Default.downloadArgs);
             }
         }
 
@@ -251,9 +279,26 @@ namespace youtube_dl_gui {
         #endregion
 
         #region downloader
+        private void rbVideo_CheckedChanged(object sender, EventArgs e) {
+            if (rbVideo.Checked) {
+                cbQuality.SelectedIndex = -1;
+                cbQuality.Items.Clear();
+                cbQuality.Items.AddRange(videoQuality);
+                cbQuality.SelectedIndex = Saved.Default.videoQuality;
+            }
+        }
+        private void rbAudio_CheckedChanged(object sender, EventArgs e) {
+            if (rbAudio.Checked) {
+                cbQuality.SelectedIndex = -1;
+                cbQuality.Items.Clear();
+                cbQuality.Items.Add(audioQuality);
+                cbQuality.SelectedIndex = Saved.Default.audioQuality;
+            }
+        }
         private void rbCustom_CheckedChanged(object sender, EventArgs e) {
             if (rbCustom.Checked) {
                 txtArgs.ReadOnly = false;
+                cbQuality.Enabled = false;
             }
             else {
                 txtArgs.ReadOnly = true;
@@ -278,7 +323,7 @@ namespace youtube_dl_gui {
         private void btnDownload_Click(object sender, EventArgs e) {
             if (rbVideo.Checked) {
                 Saved.Default.downloadType = 0;
-                if (Download.downloadBest(txtUrl.Text, 0)) {
+                if (Download.startDownload(txtUrl.Text, 0, cbQuality.SelectedIndex, string.Empty)) {
                     if (General.Default.clearURL) {
                         txtUrl.Clear();
                         Clipboard.Clear();
@@ -290,11 +335,12 @@ namespace youtube_dl_gui {
                     lbDownloadStatus.Text = "Error downloading";
                     tmrDownloadLabel.Enabled = true;
                 }
+                Saved.Default.videoQuality = cbQuality.SelectedIndex;
             }
             else if (rbAudio.Checked) {
                 Saved.Default.downloadType = 1;
 
-                if (Download.downloadBest(txtUrl.Text, 1)) {
+                if (Download.startDownload(txtUrl.Text, 1, cbQuality.SelectedIndex, string.Empty)) {
                     if (General.Default.clearURL) {
                         txtUrl.Clear();
                         Clipboard.Clear();
@@ -306,11 +352,12 @@ namespace youtube_dl_gui {
                     lbDownloadStatus.Text = "Error downloading";
                     tmrDownloadLabel.Enabled = true;
                 }
+                Saved.Default.audioQuality = cbQuality.SelectedIndex;
             }
             else if (rbCustom.Checked) {
                 Saved.Default.downloadType = 2;
 
-                if (Download.downloadBest(txtUrl.Text, 2, txtArgs.Text)) {
+                if (Download.startDownload(txtUrl.Text, 2, -1, txtArgs.Text)) {
                     if (General.Default.clearURL) {
                         txtUrl.Clear();
                         Clipboard.Clear();
@@ -325,7 +372,7 @@ namespace youtube_dl_gui {
                 }
             }
             else {
-                if (Download.downloadBest(txtUrl.Text, 0)) {
+                if (Download.startDownload(txtUrl.Text, 0, -1, string.Empty)) {
                     if (General.Default.clearURL) {
                         txtUrl.Clear();
                         Clipboard.Clear();
@@ -566,5 +613,6 @@ namespace youtube_dl_gui {
             Convert.convertFile(inputFile, outputFile, conversionType);
         }
         #endregion
+
     }
 }
