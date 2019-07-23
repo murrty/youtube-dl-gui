@@ -291,7 +291,7 @@ namespace youtube_dl_gui {
             if (rbAudio.Checked) {
                 cbQuality.SelectedIndex = -1;
                 cbQuality.Items.Clear();
-                cbQuality.Items.Add(audioQuality);
+                cbQuality.Items.AddRange(audioQuality);
                 cbQuality.SelectedIndex = Saved.Default.audioQuality;
             }
         }
