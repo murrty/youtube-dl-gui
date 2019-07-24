@@ -21,20 +21,20 @@ namespace youtube_dl_gui {
         /// </summary>
         public static string[] videoQualities = {
                                                     " -f \"bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best\"", // 0 best
-                                                    " -f \"bestvideo[height=2160][fps>=48]\"",                 // 1  2160p60
-                                                    " -f \"bestvideo[height=2160][fps<=32]\"",                 // 2  2160p30
-                                                    " -f \"bestvideo[height=1440][fps>=48]\"",                 // 3  1440p60
-                                                    " -f \"bestvideo[height=1440][fps<=32]\"",                 // 4  1440p30
-                                                    " -f \"bestvideo[height=1080][fps>=48]\"",                 // 5  1080p60
-                                                    " -f \"bestvideo[height=1080][fps<=32]\"",                 // 6  1080p30
-                                                    " -f \"bestvideo[height=720][fps>=48]\"",                  // 7  720p60
-                                                    " -f \"bestvideo[height=720][fps<=32]\"",                  // 8  720p30
-                                                    " -f \"bestvideo[height=480]\"",                          // 9  480p
-                                                    " -f \"bestvideo[height=360]\"",                          // 10 360p
-                                                    " -f \"bestvideo[height=240]\"",                          // 11 240p
-                                                    " -f \"bestvideo[height=144]\"",                          // 12 144p
-                                                    " -f \"bestvideo[height=4320][fps>=48]\"",                 // 13 4320p60
-                                                    " -f \"bestvideo[height=4320][fps<=32]\""                  // 14 4320p30
+                                                    " -f \"bestvideo[height<=4320][fps>=48]\"",  // 1  4320p60
+                                                    " -f \"bestvideo[height<=4320][fps<=32]\"",  // 2  4320p30
+                                                    " -f \"bestvideo[height<=2160][fps>=48]\"",  // 3  2160p60
+                                                    " -f \"bestvideo[height<=2160][fps<=32]\"",  // 4  2160p30
+                                                    " -f \"bestvideo[height<=1440][fps>=48]\"",  // 5  1440p60
+                                                    " -f \"bestvideo[height<=1440][fps<=32]\"",  // 6  1440p30
+                                                    " -f \"bestvideo[height<=1080][fps>=48]\"",  // 7  1080p60
+                                                    " -f \"bestvideo[height<=1080][fps<=32]\"",  // 8  1080p30
+                                                    " -f \"bestvideo[height<=720][fps>=48]\"",   // 9  720p60
+                                                    " -f \"bestvideo[height<=720][fps<=32]\"",   // 10 720p30
+                                                    " -f \"bestvideo[height<=480]\"",            // 11 480p
+                                                    " -f \"bestvideo[height<=360]\"",            // 12 360p
+                                                    " -f \"bestvideo[height<=240]\"",            // 13 240p
+                                                    " -f \"bestvideo[height<=144]\""             // 14 144p
                                                 };
         /// <summary>
         /// Built-in audio qualities
