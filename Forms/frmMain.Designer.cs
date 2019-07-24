@@ -29,6 +29,7 @@
             this.lbDownloadURL = new System.Windows.Forms.Label();
             this.tcMain = new System.Windows.Forms.TabControl();
             this.tabDownload = new System.Windows.Forms.TabPage();
+            this.btnBatchDownload = new System.Windows.Forms.Button();
             this.cbQuality = new System.Windows.Forms.ComboBox();
             this.lbQuality = new System.Windows.Forms.Label();
             this.lbDownloadStatus = new System.Windows.Forms.Label();
@@ -54,6 +55,18 @@
             this.lbConvertInput = new System.Windows.Forms.Label();
             this.txtConvertInput = new System.Windows.Forms.TextBox();
             this.tabMerge = new System.Windows.Forms.TabPage();
+            this.chkMergeDeleteInput = new System.Windows.Forms.CheckBox();
+            this.chkMergeAudio = new System.Windows.Forms.CheckBox();
+            this.btnMerge = new System.Windows.Forms.Button();
+            this.btnBrwsMergeOutput = new System.Windows.Forms.Button();
+            this.txtMergeOutput = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.btnBrwsMergeInput2 = new System.Windows.Forms.Button();
+            this.txtMergeInput2 = new System.Windows.Forms.TextBox();
+            this.btnBrwsMergeInput1 = new System.Windows.Forms.Button();
+            this.txtMergeInput1 = new System.Windows.Forms.TextBox();
+            this.lbMergeInput2 = new System.Windows.Forms.Label();
+            this.lbMergeInput1 = new System.Windows.Forms.Label();
             this.menu = new System.Windows.Forms.MainMenu(this.components);
             this.mSettings = new System.Windows.Forms.MenuItem();
             this.mHelp = new System.Windows.Forms.MenuItem();
@@ -87,6 +100,7 @@
             this.tabDownload.SuspendLayout();
             this.gbDownloadType.SuspendLayout();
             this.tabConvert.SuspendLayout();
+            this.tabMerge.SuspendLayout();
             this.SuspendLayout();
             // 
             // txtUrl
@@ -122,6 +136,7 @@
             // 
             // tabDownload
             // 
+            this.tabDownload.Controls.Add(this.btnBatchDownload);
             this.tabDownload.Controls.Add(this.cbQuality);
             this.tabDownload.Controls.Add(this.lbQuality);
             this.tabDownload.Controls.Add(this.lbDownloadStatus);
@@ -139,12 +154,25 @@
             this.tabDownload.Text = "Download";
             this.tabDownload.UseVisualStyleBackColor = true;
             // 
+            // btnBatchDownload
+            // 
+            this.btnBatchDownload.Location = new System.Drawing.Point(168, 172);
+            this.btnBatchDownload.Name = "btnBatchDownload";
+            this.btnBatchDownload.Size = new System.Drawing.Size(68, 25);
+            this.btnBatchDownload.TabIndex = 20;
+            this.btnBatchDownload.Text = "Batch...";
+            this.btnBatchDownload.UseVisualStyleBackColor = true;
+            this.btnBatchDownload.Visible = false;
+            this.btnBatchDownload.Click += new System.EventHandler(this.btnBatchDownload_Click);
+            // 
             // cbQuality
             // 
             this.cbQuality.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbQuality.FormattingEnabled = true;
             this.cbQuality.Items.AddRange(new object[] {
             "best",
+            "4320p60",
+            "4320p",
             "2160p60",
             "2160p",
             "1440p60",
@@ -419,6 +447,18 @@
             // 
             // tabMerge
             // 
+            this.tabMerge.Controls.Add(this.chkMergeDeleteInput);
+            this.tabMerge.Controls.Add(this.chkMergeAudio);
+            this.tabMerge.Controls.Add(this.btnMerge);
+            this.tabMerge.Controls.Add(this.btnBrwsMergeOutput);
+            this.tabMerge.Controls.Add(this.txtMergeOutput);
+            this.tabMerge.Controls.Add(this.label1);
+            this.tabMerge.Controls.Add(this.btnBrwsMergeInput2);
+            this.tabMerge.Controls.Add(this.txtMergeInput2);
+            this.tabMerge.Controls.Add(this.btnBrwsMergeInput1);
+            this.tabMerge.Controls.Add(this.txtMergeInput1);
+            this.tabMerge.Controls.Add(this.lbMergeInput2);
+            this.tabMerge.Controls.Add(this.lbMergeInput1);
             this.tabMerge.Location = new System.Drawing.Point(4, 22);
             this.tabMerge.Name = "tabMerge";
             this.tabMerge.Padding = new System.Windows.Forms.Padding(3);
@@ -426,6 +466,126 @@
             this.tabMerge.TabIndex = 2;
             this.tabMerge.Text = "Merge";
             this.tabMerge.UseVisualStyleBackColor = true;
+            // 
+            // chkMergeDeleteInput
+            // 
+            this.chkMergeDeleteInput.AutoSize = true;
+            this.chkMergeDeleteInput.Location = new System.Drawing.Point(64, 170);
+            this.chkMergeDeleteInput.Name = "chkMergeDeleteInput";
+            this.chkMergeDeleteInput.Size = new System.Drawing.Size(103, 17);
+            this.chkMergeDeleteInput.TabIndex = 15;
+            this.chkMergeDeleteInput.Text = "Delete input files";
+            this.chkMergeDeleteInput.UseVisualStyleBackColor = true;
+            // 
+            // chkMergeAudio
+            // 
+            this.chkMergeAudio.AutoSize = true;
+            this.chkMergeAudio.Location = new System.Drawing.Point(64, 147);
+            this.chkMergeAudio.Name = "chkMergeAudio";
+            this.chkMergeAudio.Size = new System.Drawing.Size(116, 17);
+            this.chkMergeAudio.TabIndex = 14;
+            this.chkMergeAudio.Text = "Merge audio tracks";
+            this.chkMergeAudio.UseVisualStyleBackColor = true;
+            // 
+            // btnMerge
+            // 
+            this.btnMerge.Enabled = false;
+            this.btnMerge.Location = new System.Drawing.Point(83, 190);
+            this.btnMerge.Name = "btnMerge";
+            this.btnMerge.Size = new System.Drawing.Size(79, 25);
+            this.btnMerge.TabIndex = 13;
+            this.btnMerge.Text = "Merge";
+            this.btnMerge.UseVisualStyleBackColor = true;
+            this.btnMerge.Click += new System.EventHandler(this.btnMerge_Click);
+            // 
+            // btnBrwsMergeOutput
+            // 
+            this.btnBrwsMergeOutput.Enabled = false;
+            this.btnBrwsMergeOutput.Location = new System.Drawing.Point(193, 119);
+            this.btnBrwsMergeOutput.Name = "btnBrwsMergeOutput";
+            this.btnBrwsMergeOutput.Size = new System.Drawing.Size(29, 23);
+            this.btnBrwsMergeOutput.TabIndex = 11;
+            this.btnBrwsMergeOutput.Text = "...";
+            this.btnBrwsMergeOutput.UseVisualStyleBackColor = true;
+            this.btnBrwsMergeOutput.Click += new System.EventHandler(this.btnBrwsMergeOutput_Click);
+            // 
+            // txtMergeOutput
+            // 
+            this.txtMergeOutput.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtMergeOutput.Location = new System.Drawing.Point(26, 121);
+            this.txtMergeOutput.Name = "txtMergeOutput";
+            this.txtMergeOutput.ReadOnly = true;
+            this.txtMergeOutput.Size = new System.Drawing.Size(161, 20);
+            this.txtMergeOutput.TabIndex = 10;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(19, 101);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(39, 13);
+            this.label1.TabIndex = 9;
+            this.label1.Text = "Output";
+            // 
+            // btnBrwsMergeInput2
+            // 
+            this.btnBrwsMergeInput2.Enabled = false;
+            this.btnBrwsMergeInput2.Location = new System.Drawing.Point(193, 72);
+            this.btnBrwsMergeInput2.Name = "btnBrwsMergeInput2";
+            this.btnBrwsMergeInput2.Size = new System.Drawing.Size(29, 23);
+            this.btnBrwsMergeInput2.TabIndex = 8;
+            this.btnBrwsMergeInput2.Text = "...";
+            this.btnBrwsMergeInput2.UseVisualStyleBackColor = true;
+            this.btnBrwsMergeInput2.Click += new System.EventHandler(this.btnBrwsMergeInput2_Click);
+            // 
+            // txtMergeInput2
+            // 
+            this.txtMergeInput2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtMergeInput2.Location = new System.Drawing.Point(26, 74);
+            this.txtMergeInput2.Name = "txtMergeInput2";
+            this.txtMergeInput2.ReadOnly = true;
+            this.txtMergeInput2.Size = new System.Drawing.Size(161, 20);
+            this.txtMergeInput2.TabIndex = 7;
+            // 
+            // btnBrwsMergeInput1
+            // 
+            this.btnBrwsMergeInput1.Location = new System.Drawing.Point(193, 25);
+            this.btnBrwsMergeInput1.Name = "btnBrwsMergeInput1";
+            this.btnBrwsMergeInput1.Size = new System.Drawing.Size(29, 23);
+            this.btnBrwsMergeInput1.TabIndex = 6;
+            this.btnBrwsMergeInput1.Text = "...";
+            this.btnBrwsMergeInput1.UseVisualStyleBackColor = true;
+            this.btnBrwsMergeInput1.Click += new System.EventHandler(this.btnBrwsMergeInput1_Click);
+            // 
+            // txtMergeInput1
+            // 
+            this.txtMergeInput1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtMergeInput1.Location = new System.Drawing.Point(26, 27);
+            this.txtMergeInput1.Name = "txtMergeInput1";
+            this.txtMergeInput1.ReadOnly = true;
+            this.txtMergeInput1.Size = new System.Drawing.Size(161, 20);
+            this.txtMergeInput1.TabIndex = 5;
+            // 
+            // lbMergeInput2
+            // 
+            this.lbMergeInput2.AutoSize = true;
+            this.lbMergeInput2.Location = new System.Drawing.Point(19, 54);
+            this.lbMergeInput2.Name = "lbMergeInput2";
+            this.lbMergeInput2.Size = new System.Drawing.Size(40, 13);
+            this.lbMergeInput2.TabIndex = 1;
+            this.lbMergeInput2.Text = "Input 2";
+            // 
+            // lbMergeInput1
+            // 
+            this.lbMergeInput1.AutoSize = true;
+            this.lbMergeInput1.Location = new System.Drawing.Point(19, 7);
+            this.lbMergeInput1.Name = "lbMergeInput1";
+            this.lbMergeInput1.Size = new System.Drawing.Size(40, 13);
+            this.lbMergeInput1.TabIndex = 0;
+            this.lbMergeInput1.Text = "Input 1";
             // 
             // menu
             // 
@@ -466,7 +626,7 @@
             this.lbDebug.Name = "lbDebug";
             this.lbDebug.Size = new System.Drawing.Size(61, 13);
             this.lbDebug.TabIndex = 3;
-            this.lbDebug.Text = "2019-07-23";
+            this.lbDebug.Text = "2019-07-24";
             this.lbDebug.Visible = false;
             // 
             // cmTray
@@ -648,6 +808,8 @@
             this.gbDownloadType.PerformLayout();
             this.tabConvert.ResumeLayout(false);
             this.tabConvert.PerformLayout();
+            this.tabMerge.ResumeLayout(false);
+            this.tabMerge.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -713,6 +875,19 @@
         private System.Windows.Forms.Timer tmrDownloadLabel;
         private System.Windows.Forms.ComboBox cbQuality;
         private System.Windows.Forms.Label lbQuality;
+        private System.Windows.Forms.Button btnBatchDownload;
+        private System.Windows.Forms.Button btnMerge;
+        private System.Windows.Forms.Button btnBrwsMergeOutput;
+        private System.Windows.Forms.TextBox txtMergeOutput;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button btnBrwsMergeInput2;
+        private System.Windows.Forms.TextBox txtMergeInput2;
+        private System.Windows.Forms.Button btnBrwsMergeInput1;
+        private System.Windows.Forms.TextBox txtMergeInput1;
+        private System.Windows.Forms.Label lbMergeInput2;
+        private System.Windows.Forms.Label lbMergeInput1;
+        private System.Windows.Forms.CheckBox chkMergeAudio;
+        private System.Windows.Forms.CheckBox chkMergeDeleteInput;
     }
 }
 

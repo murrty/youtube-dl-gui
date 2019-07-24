@@ -16,6 +16,8 @@ namespace youtube_dl_gui {
         int ffmpegAvailable = -1;
         string[] videoQuality = {
                                     "best",
+                                    "4320p60",
+                                    "4320p",
                                     "2160p60",
                                     "2160p",
                                     "1440p60",
@@ -27,9 +29,7 @@ namespace youtube_dl_gui {
                                     "480p",
                                     "360p",
                                     "240p",
-                                    "144p",
-                                    "4320p60",
-                                    "4320p"
+                                    "144p"
                                 };
         string[] audioQuality = {
                                     "best",
@@ -613,6 +613,52 @@ namespace youtube_dl_gui {
             Convert.convertFile(inputFile, outputFile, conversionType);
         }
         #endregion
+
+        private void btnBatchDownload_Click(object sender, EventArgs e) {
+            frmBatch batchDl = new frmBatch();
+            batchDl.Show();
+        }
+
+        private void btnBrwsMergeInput1_Click(object sender, EventArgs e) {
+            using (OpenFileDialog ofd = new OpenFileDialog()) {
+                ofd.Title = "Browsing for file to convert";
+                ofd.Filter = Convert.allMediaFormats;
+                if (ofd.ShowDialog() == DialogResult.OK) {
+                    txtMergeInput1.Text = ofd.FileName;
+                    btnBrwsMergeInput2.Enabled = true;
+                    txtMergeOutput.Text = System.IO.Path.GetDirectoryName(ofd.FileName) + "\\" + System.IO.Path.GetFileNameWithoutExtension(ofd.FileName) + "-merged" + System.IO.Path.GetExtension(ofd.FileName);
+                }
+            }
+        }
+
+        private void btnBrwsMergeInput2_Click(object sender, EventArgs e) {
+            using (OpenFileDialog ofd = new OpenFileDialog()) {
+                ofd.Title = "Browsing for file to convert";
+                ofd.Filter = Convert.allMediaFormats;
+                if (ofd.ShowDialog() == DialogResult.OK) {
+                    txtMergeInput2.Text = ofd.FileName;
+                    btnBrwsMergeOutput.Enabled = true;
+                    if (!string.IsNullOrEmpty(txtMergeOutput.Text)) {
+                        btnMerge.Enabled = true;
+                    }
+                }
+            }
+        }
+
+        private void btnBrwsMergeOutput_Click(object sender, EventArgs e) {
+            using (SaveFileDialog sfd = new SaveFileDialog()) {
+                sfd.Title = "Browsing for file to convert";
+                sfd.Filter = Convert.allMediaFormats;
+                if (sfd.ShowDialog() == DialogResult.OK) {
+                    txtMergeOutput.Text = sfd.FileName;
+                    btnMerge.Enabled = true;
+                }
+            }
+        }
+
+        private void btnMerge_Click(object sender, EventArgs e) {
+            Convert.mergeFiles(txtMergeInput1.Text, txtMergeInput2.Text, txtMergeOutput.Text, chkMergeAudio.Checked, chkMergeDeleteInput.Checked);
+        }
 
     }
 }

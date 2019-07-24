@@ -25,7 +25,7 @@ namespace youtube_dl_gui.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("2.1")]
+        [global::System.Configuration.DefaultSettingValueAttribute("2.11")]
         public decimal appVersion {
             get {
                 return ((decimal)(this["appVersion"]));

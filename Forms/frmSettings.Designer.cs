@@ -365,7 +365,6 @@
             this.lbDownloadPath.TabIndex = 7;
             this.lbDownloadPath.Text = "download path";
             this.tipSettings.SetToolTip(this.lbDownloadPath, "The path of the folder where files will be downloaded to");
-            this.lbDownloadPath.Click += new System.EventHandler(this.lbDownloadPath_Click);
             // 
             // chkFixReddit
             // 
@@ -379,7 +378,6 @@
             this.chkFixReddit.Text = "Fix v.redd.it";
             this.tipSettings.SetToolTip(this.chkFixReddit, resources.GetString("chkFixReddit.ToolTip"));
             this.chkFixReddit.UseVisualStyleBackColor = true;
-            this.chkFixReddit.CheckedChanged += new System.EventHandler(this.chkFixReddit_CheckedChanged);
             // 
             // txtSaveto
             // 
@@ -389,7 +387,6 @@
             this.txtSaveto.Size = new System.Drawing.Size(233, 20);
             this.txtSaveto.TabIndex = 8;
             this.tipSettings.SetToolTip(this.txtSaveto, "The path of the folder where files will be downloaded to");
-            this.txtSaveto.TextChanged += new System.EventHandler(this.txtSaveto_TextChanged);
             // 
             // chkSaveParams
             // 
@@ -402,7 +399,6 @@
             this.chkSaveParams.Text = "Save format && quality";
             this.tipSettings.SetToolTip(this.chkSaveParams, "Save format & quality of downloads on download");
             this.chkSaveParams.UseVisualStyleBackColor = true;
-            this.chkSaveParams.CheckedChanged += new System.EventHandler(this.chkSaveParams_CheckedChanged);
             // 
             // llSchema
             // 
@@ -428,7 +424,6 @@
             this.chkSeparate.Text = "Separate downloads to different folders";
             this.tipSettings.SetToolTip(this.chkSeparate, resources.GetString("chkSeparate.ToolTip"));
             this.chkSeparate.UseVisualStyleBackColor = true;
-            this.chkSeparate.CheckedChanged += new System.EventHandler(this.chkSeparate_CheckedChanged);
             // 
             // btnBrowseSaveto
             // 
@@ -451,7 +446,6 @@
             this.chkAutomaticallyDelete.Text = "Automatically delete youtube-dl when closing";
             this.tipSettings.SetToolTip(this.chkAutomaticallyDelete, "Automatically delete youtube-dl.exe when closing youtube-dl-gui");
             this.chkAutomaticallyDelete.UseVisualStyleBackColor = true;
-            this.chkAutomaticallyDelete.CheckedChanged += new System.EventHandler(this.chkAutomaticallyDelete_CheckedChanged);
             // 
             // txtFileNameSchema
             // 
@@ -462,7 +456,6 @@
             this.txtFileNameSchema.Text = "%(title)s-%(id)s.%(ext)s";
             this.tipSettings.SetToolTip(this.txtFileNameSchema, "The file name schema\r\n\r\nThis basically replaces sequences with video information " +
         "for a custom file name.");
-            this.txtFileNameSchema.TextChanged += new System.EventHandler(this.txtFileNameSchema_TextChanged);
             // 
             // btnRedownloadYtdl
             // 
@@ -484,7 +477,6 @@
             this.lbSepDownloads.TabIndex = 11;
             this.lbSepDownloads.Text = "HELLO WORLD";
             this.tipSettings.SetToolTip(this.lbSepDownloads, "this is not an easter egg");
-            this.lbSepDownloads.Click += new System.EventHandler(this.lbSepDownloads_Click);
             // 
             // chkYtdlUpdate
             // 
@@ -499,7 +491,6 @@
             this.chkYtdlUpdate.Text = "Use youtube-dl\'s updater";
             this.tipSettings.SetToolTip(this.chkYtdlUpdate, "Use youtube-dl\'s internal updater instead of this application\'s updater");
             this.chkYtdlUpdate.UseVisualStyleBackColor = true;
-            this.chkYtdlUpdate.CheckedChanged += new System.EventHandler(this.chkYtdlUpdate_CheckedChanged);
             // 
             // lbFileSchema
             // 
@@ -509,7 +500,6 @@
             this.lbFileSchema.Size = new System.Drawing.Size(89, 13);
             this.lbFileSchema.TabIndex = 19;
             this.lbFileSchema.Text = "file name schema";
-            this.lbFileSchema.Click += new System.EventHandler(this.lbFileSchema_Click);
             // 
             // tbConverter
             // 
