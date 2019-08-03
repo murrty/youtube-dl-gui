@@ -69,7 +69,12 @@ namespace youtube_dl_gui {
             listLink.Items.RemoveAt(currentIndex);
             listType.Items.RemoveAt(currentIndex);
             listArgs.Items.RemoveAt(currentIndex);
-            listLink.SelectedIndex = currentIndex;
+            if (currentIndex + 1 > listLink.Items.Count) {
+                listLink.SelectedIndex = currentIndex - 1;
+            }
+            else {
+                listLink.SelectedIndex = currentIndex;
+            }
         }
 
         private void btnStart_Click(object sender, EventArgs e) {

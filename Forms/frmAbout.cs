@@ -23,6 +23,7 @@ namespace youtube_dl_gui {
                 llbCheckForUpdates.Enabled = false;
 
             lbVersion.Text = "v" + Properties.Settings.Default.appVersion.ToString();
+            lbBody.Text = lbBody.Text.Replace("{DEBUG}", Properties.Settings.Default.debugDate);
         }
 
         private void llbCheckForUpdates_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {

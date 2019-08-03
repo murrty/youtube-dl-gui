@@ -12,6 +12,7 @@ using System.Windows.Forms;
 
 namespace youtube_dl_gui {
     public partial class frmMain : Form {
+        #region const
         int ytDlAvailable = -1;
         int ffmpegAvailable = -1;
         string[] videoQuality = {
@@ -57,25 +58,28 @@ namespace youtube_dl_gui {
         private void SetTextBoxHint(IntPtr TextboxHandle, string Hint) {
             SendMessage(TextboxHandle, 0x1501, (IntPtr)1, Hint);
         }
+        #endregion
 
-        protected override void WndProc(ref Message m) {
-            if (m.Msg == Controller.WM_SHOWYTDLGUIFORM) {
-                this.Show();
-                if (this.WindowState != FormWindowState.Normal)
-                    this.WindowState = FormWindowState.Normal;
-                this.Activate();
-            }
+        #region form
+        //protected override void WndProc(ref Message m) {
+        //    if (m.Msg == Controller.WM_SHOWYTDLGUIFORM) {
+        //        this.Show();
+        //        if (this.WindowState != FormWindowState.Normal)
+        //            this.WindowState = FormWindowState.Normal;
+        //        this.Activate();
+        //    }
 
-            if (updateChecked) {
-                checkUpdates.Abort();
-                updateChecked = false;
-            }
-            base.WndProc(ref m);
-        }
+        //    if (updateChecked) {
+        //        checkUpdates.Abort();
+        //        updateChecked = false;
+        //    }
+        //    base.WndProc(ref m);
+        //}
         public frmMain() {
             InitializeComponent();
+            lbDebug.Text = Properties.Settings.Default.debugDate;
 
-            tcMain.TabPages.RemoveAt(2);
+            //tcMain.TabPages.RemoveAt(2);
 
             ytDlAvailable = Verification.ytdlFullCheck();
             ffmpegAvailable = Verification.ffmpegFullCheck();
@@ -193,7 +197,9 @@ namespace youtube_dl_gui {
             Saved.Default.formLocationY = this.Location.Y;
 
             Saved.Default.Save();
+            trayIcon.Visible = false;
         }
+        #endregion
 
         #region main menu
         private void mSettings_Click(object sender, EventArgs e) {
@@ -201,9 +207,20 @@ namespace youtube_dl_gui {
             settings.ShowDialog();
             settings.Dispose();
         }
+
+        private void mBatch_Click(object sender, EventArgs e) {
+            frmBatch batch = new frmBatch();
+            batch.Show();
+        }
+        private void mMiscTools_Click(object sender, EventArgs e) {
+            frmTools tools = new frmTools();
+            tools.Show();
+        }
+
         private void mSites_Click(object sender, EventArgs e) {
             System.Diagnostics.Process.Start("https://ytdl-org.github.io/youtube-dl/supportedsites.html");
         }
+
         private void mAbout_Click(object sender, EventArgs e) {
             frmAbout about = new frmAbout();
             about.ShowDialog();
@@ -285,6 +302,8 @@ namespace youtube_dl_gui {
                 cbQuality.Items.Clear();
                 cbQuality.Items.AddRange(videoQuality);
                 cbQuality.SelectedIndex = Saved.Default.videoQuality;
+                cbQuality.Enabled = true;
+                chkDownloadSound.Enabled = true;
             }
         }
         private void rbAudio_CheckedChanged(object sender, EventArgs e) {
@@ -293,12 +312,16 @@ namespace youtube_dl_gui {
                 cbQuality.Items.Clear();
                 cbQuality.Items.AddRange(audioQuality);
                 cbQuality.SelectedIndex = Saved.Default.audioQuality;
+                cbQuality.Enabled = true;
+                chkDownloadSound.Enabled = false;
             }
         }
         private void rbCustom_CheckedChanged(object sender, EventArgs e) {
             if (rbCustom.Checked) {
                 txtArgs.ReadOnly = false;
+                cbQuality.SelectedIndex = -1;
                 cbQuality.Enabled = false;
+                chkDownloadSound.Enabled = false;
             }
             else {
                 txtArgs.ReadOnly = true;
@@ -322,8 +345,13 @@ namespace youtube_dl_gui {
 
         private void btnDownload_Click(object sender, EventArgs e) {
             if (rbVideo.Checked) {
+                string videoArguments = string.Empty;
+                if (!chkDownloadSound.Checked) {
+                    videoArguments += "-nosound";
+                }
+
                 Saved.Default.downloadType = 0;
-                if (Download.startDownload(txtUrl.Text, 0, cbQuality.SelectedIndex, string.Empty)) {
+                if (Download.startDownload(txtUrl.Text, 0, cbQuality.SelectedIndex, videoArguments)) {
                     if (General.Default.clearURL) {
                         txtUrl.Clear();
                         Clipboard.Clear();
@@ -614,11 +642,7 @@ namespace youtube_dl_gui {
         }
         #endregion
 
-        private void btnBatchDownload_Click(object sender, EventArgs e) {
-            frmBatch batchDl = new frmBatch();
-            batchDl.Show();
-        }
-
+        #region merger
         private void btnBrwsMergeInput1_Click(object sender, EventArgs e) {
             using (OpenFileDialog ofd = new OpenFileDialog()) {
                 ofd.Title = "Browsing for file to convert";
@@ -630,7 +654,6 @@ namespace youtube_dl_gui {
                 }
             }
         }
-
         private void btnBrwsMergeInput2_Click(object sender, EventArgs e) {
             using (OpenFileDialog ofd = new OpenFileDialog()) {
                 ofd.Title = "Browsing for file to convert";
@@ -644,7 +667,6 @@ namespace youtube_dl_gui {
                 }
             }
         }
-
         private void btnBrwsMergeOutput_Click(object sender, EventArgs e) {
             using (SaveFileDialog sfd = new SaveFileDialog()) {
                 sfd.Title = "Browsing for file to convert";
@@ -659,6 +681,6 @@ namespace youtube_dl_gui {
         private void btnMerge_Click(object sender, EventArgs e) {
             Convert.mergeFiles(txtMergeInput1.Text, txtMergeInput2.Text, txtMergeOutput.Text, chkMergeAudio.Checked, chkMergeDeleteInput.Checked);
         }
-
+        #endregion
     }
 }

@@ -23,6 +23,7 @@
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmBatch));
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.frmLink = new System.Windows.Forms.Label();
@@ -168,11 +169,13 @@
             this.Controls.Add(this.frmLink);
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.textBox1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(656, 312);
             this.MinimumSize = new System.Drawing.Size(656, 312);
             this.Name = "frmBatch";
-            this.Text = "Batch Downloader";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Batch downloader";
             this.ResumeLayout(false);
             this.PerformLayout();
 

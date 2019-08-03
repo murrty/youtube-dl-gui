@@ -230,14 +230,23 @@ namespace youtube_dl_gui {
             }
         }
 
-        public static bool mergeFiles(string input1, string input2, string output, bool mergeAudio, bool delete) {
+        /// <summary>
+        /// Merges 2 files together
+        /// </summary>
+        /// <param name="input1">An input to merge</param>
+        /// <param name="input2">The second input to merge</param>
+        /// <param name="output">The file to produce</param>
+        /// <param name="mergeAudio">Should audio be merged?</param>
+        /// <param name="deleteAfterMerge">Should the inputs be deleted after merge?</param>
+        /// <returns></returns>
+        public static bool mergeFiles(string input1, string input2, string output, bool mergeAudio, bool deleteAfterMerge) {
             try {
                 string[] formatsV = { ".avi", ".flv", ".mkv", ".mov", ".mp4", ".webm", ".wmv" };
                 bool input1IsVideo = false; // is input1 video?
 
-                Process merger = new Process();
-                merger.StartInfo.UseShellExecute = true;
-                merger.StartInfo.FileName = "ffmpeg.exe";
+                Process ffMerge = new Process();
+                ffMerge.StartInfo.UseShellExecute = true;
+                ffMerge.StartInfo.FileName = "ffmpeg.exe";
                 for (int i = 0; i < formatsV.Length; i++) {
                     if (input1.EndsWith(formatsV[i])) {
                         input1IsVideo = true;
@@ -247,47 +256,52 @@ namespace youtube_dl_gui {
 
                 if (mergeAudio) {
                     if (input1IsVideo) {
-                        merger.StartInfo.Arguments = " -i \"" + input1 + "\" \"" + Path.GetDirectoryName(input1) + "\\tempaudio.mp3\"";
+                        ffMerge.StartInfo.Arguments = " -i \"" + input1 + "\" \"" + Path.GetDirectoryName(input1) + "\\tempaudio.mp3\"";
                     }
                     else {
-                        merger.StartInfo.Arguments = " -i \"" + input2 + "\" \"" + Path.GetDirectoryName(input2) + "\\tempaudio.mp3\"";
+                        ffMerge.StartInfo.Arguments = " -i \"" + input2 + "\" \"" + Path.GetDirectoryName(input2) + "\\tempaudio.mp3\"";
                     }
 
-                    merger.Start();
-                    merger.WaitForExit();
+                    ffMerge.Start();
+                    ffMerge.WaitForExit();
 
                     
                     if (input1IsVideo) {
-                        merger.StartInfo.Arguments = " -i \"" + input2 + "\" -i \"" + Path.GetDirectoryName(input1) + "\\tempaudio.mp3\" -filter_complex amix=inputs=2:duration=longest \"" + Path.GetDirectoryName(input1) + "\\final.mp3\"";
+                        ffMerge.StartInfo.Arguments = " -i \"" + input2 + "\" -i \"" + Path.GetDirectoryName(input1) + "\\tempaudio.mp3\" -filter_complex amix=inputs=2:duration=longest \"" + Path.GetDirectoryName(input1) + "\\final.mp3\"";
                     }
                     else {
-                        merger.StartInfo.Arguments = " -i \"" + input1 + "\" -i \"" + Path.GetDirectoryName(input2) + "\\tempaudio.mp3\" -filter_complex amix=inputs=2:duration=longest \"" + Path.GetDirectoryName(input2) + "\\final.mp3\"";
+                        ffMerge.StartInfo.Arguments = " -i \"" + input1 + "\" -i \"" + Path.GetDirectoryName(input2) + "\\tempaudio.mp3\" -filter_complex amix=inputs=2:duration=longest \"" + Path.GetDirectoryName(input2) + "\\final.mp3\"";
                     }
-                    merger.Start();
-                    merger.WaitForExit();
+                    ffMerge.Start();
+                    ffMerge.WaitForExit();
 
                     if (input1IsVideo) {
-                        merger.StartInfo.Arguments = " -i \"" + input1 + "\" -i \"" + Path.GetDirectoryName(input1) + "\\final.mp3\" -map 0:v -map 1:a -longest -c copy -y \"" + output + "\"";
+                        ffMerge.StartInfo.Arguments = " -i \"" + input1 + "\" -i \"" + Path.GetDirectoryName(input1) + "\\final.mp3\" -map 0:v -map 1:a -longest -c copy -y \"" + output + "\"";
                     }
                     else {
-                        merger.StartInfo.Arguments = " -i \"" + input2 + "\" -i \"" + Path.GetDirectoryName(input2) + "\\final.mp3\" -map 0:v -map 1:a -longest -c copy -y \"" + output + "\"";
+                        ffMerge.StartInfo.Arguments = " -i \"" + input2 + "\" -i \"" + Path.GetDirectoryName(input2) + "\\final.mp3\" -map 0:v -map 1:a -longest -c copy -y \"" + output + "\"";
                     }
 
-                    merger.Start();
-                    merger.WaitForExit();
+                    ffMerge.Start();
+                    ffMerge.WaitForExit();
                 }
                 else {
                     if (input1IsVideo) {
-                        merger.StartInfo.Arguments = " -i \"" + input1 + "\" -i \"" + input2 + "\" -map 0:v -map 1:a -c copy -y \"" + output + "\"";
+                        ffMerge.StartInfo.Arguments = " -i \"" + input1 + "\" -i \"" + input2 + "\" -map 0:v -map 1:a -c copy -y \"" + output + "\"";
                     }
                     else {
-                        merger.StartInfo.Arguments = " -i \"" + input1 + "\" -i \"" + input2 + "\" -map 1:v -map 0:a -c copy -y \"" + output + "\"";
+                        ffMerge.StartInfo.Arguments = " -i \"" + input1 + "\" -i \"" + input2 + "\" -map 1:v -map 0:a -c copy -y \"" + output + "\"";
                     }
 
-                    merger.Start();
+                    ffMerge.Start();
+                    ffMerge.WaitForExit();
                 }
 
-                //merger.StartInfo.Arguments = " -i \"" + videoFile + "\" -i \"" + audioFile + "\" -codec copy \"" + Settings.Default.DownloadDir + "\\Merged\\" + Path.GetFileName(videoFile) + "\"";
+                if (deleteAfterMerge) {
+                    File.Delete(input1);
+                    File.Delete(input2);
+                }
+
                 return true;
             }
             catch (Exception ex) {

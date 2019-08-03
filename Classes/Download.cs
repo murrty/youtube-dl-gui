@@ -16,6 +16,7 @@ namespace youtube_dl_gui {
         // 1 = Audio
         // 2 = Custom // Unsortable
 
+        #region constants
         /// <summary>
         /// Built-in video qualities
         /// </summary>
@@ -54,6 +55,7 @@ namespace youtube_dl_gui {
         /// The default file-name schema used
         /// </summary>
         public static string defaultSchema = "%(title)s-%(id)s.%(ext)s";
+        #endregion
 
         /// <summary>
         /// Begins the download sequence
@@ -62,7 +64,11 @@ namespace youtube_dl_gui {
         /// <param name="downloadType">Int for the type, 0 = video, 1 = audio, 2 = custom</param>
         /// <param name="downloadQuality">Int for the quality</param>
         /// <param name="args">Arugments for custom downloads</param>
-        /// <returns></returns>
+        /// 
+        /// Custom arguments are available for downloads:
+        ///     -nosound, -ns = Downloads videos without sound
+        /// 
+        /// <returns>A boolean based on the success of the download</returns>
         public static bool startDownload(string URL, int downloadType, int downloadQuality, string args) {
             if (string.IsNullOrWhiteSpace(URL)) {
                 MessageBox.Show("Please enter a URL before trying to download.");
@@ -139,6 +145,16 @@ namespace youtube_dl_gui {
                             setArgs = URL + hlsFF + outputFolder;
                         else
                             setArgs = URL + videoQualities[downloadQuality] + hlsFF + outputFolder;
+
+                        if (!string.IsNullOrEmpty(args)) {
+                            string[] arguments = args.Split(';');
+                            for (int i = 0; i < arguments.Length; i++) {
+                                if (arguments[i] == "-nosound" || arguments[i] == "-ns") {
+                                    setArgs = setArgs.Replace("+bestaudio[ext=m4a]", "");
+                                }
+                            }
+                        }
+
                         break;
                     case 1: // audio
                         if (Downloads.Default.separateDownloads)

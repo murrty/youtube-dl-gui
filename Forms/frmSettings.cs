@@ -107,6 +107,7 @@ namespace youtube_dl_gui {
                 txtSaveto.Text = Downloads.Default.downloadPath;
             }
 
+            txtFileNameSchema.Text = Downloads.Default.fileNameSchema;
             chkSeparate.Checked = Downloads.Default.separateDownloads;
             chkConvertDetectFiletype.Checked = Downloads.Default.saveParams;
             chkAutomaticallyDelete.Checked = Downloads.Default.deleteYtdlOnClose;
@@ -162,6 +163,7 @@ namespace youtube_dl_gui {
             else
                 General.Default.saveCustomArgs = 0;
 
+            Downloads.Default.fileNameSchema = txtFileNameSchema.Text;
             Downloads.Default.downloadPath = txtSaveto.Text;
             Downloads.Default.separateDownloads = chkSeparate.Checked;
             Downloads.Default.deleteYtdlOnClose = chkAutomaticallyDelete.Checked;
