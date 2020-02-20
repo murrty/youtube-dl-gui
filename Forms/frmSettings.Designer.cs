@@ -31,34 +31,34 @@
             this.rbSettingsGeneralCustomArgumentsSaveInSettings = new System.Windows.Forms.RadioButton();
             this.rbSettingsGeneralCustomArgumentsSaveAsArgsText = new System.Windows.Forms.RadioButton();
             this.rbSettingsGeneralCustomArgumentsDontSave = new System.Windows.Forms.RadioButton();
+            this.lbSepGeneral = new System.Windows.Forms.Label();
+            this.btnSettingsGeneralBrowseFFmpeg = new System.Windows.Forms.Button();
+            this.btnSettingsGeneralBrowseYoutubeDl = new System.Windows.Forms.Button();
+            this.chkSettingsGeneralUseStaticYoutubeDl = new System.Windows.Forms.CheckBox();
+            this.chkSettingsGeneralUseStaticFFmpeg = new System.Windows.Forms.CheckBox();
+            this.txtSettingsGeneralFFmpegPath = new System.Windows.Forms.TextBox();
+            this.lbSettingsGeneralFFmpegDirectory = new System.Windows.Forms.Label();
+            this.txtSettingsGeneralYoutubeDlPath = new System.Windows.Forms.TextBox();
+            this.lbSettingsGeneralYoutubeDlPath = new System.Windows.Forms.Label();
             this.chkSettingsGeneralClearUrlClipboardOnDownload = new System.Windows.Forms.CheckBox();
             this.chkSettingsGeneralHoverOverUrlToPasteClipboard = new System.Windows.Forms.CheckBox();
             this.chkSettingsGeneralCheckForUpdatesOnLaunch = new System.Windows.Forms.CheckBox();
-            this.lbSepGeneral = new System.Windows.Forms.Label();
-            this.btnBrwsFF = new System.Windows.Forms.Button();
-            this.btnBrwsYtdl = new System.Windows.Forms.Button();
-            this.chkSettingsGeneralUseStaticYoutubeDl = new System.Windows.Forms.CheckBox();
-            this.chkSettingsGeneralUseStaticFFmpeg = new System.Windows.Forms.CheckBox();
-            this.txtFFmpeg = new System.Windows.Forms.TextBox();
-            this.lbSettingsGeneralFFmpegDirectory = new System.Windows.Forms.Label();
-            this.txtYtdl = new System.Windows.Forms.TextBox();
-            this.lbSettingsGeneralYoutubeDlPath = new System.Windows.Forms.Label();
-            this.tbSettingsDownloads = new System.Windows.Forms.TabPage();
+            this.tabSettingsDownloads = new System.Windows.Forms.TabPage();
+            this.llSettingsDownloadsSchemaHelp = new System.Windows.Forms.LinkLabel();
             this.txtSubtitlesLanguages = new System.Windows.Forms.TextBox();
-            this.chkSettingsDownloadsDownloadSubtitles = new System.Windows.Forms.CheckBox();
             this.chkSettingsDownloadsSeparateIntoWebsiteUrl = new System.Windows.Forms.CheckBox();
             this.lbSettingsDownloadsDownloadPath = new System.Windows.Forms.Label();
             this.chkSettingsDownloadsFixVReddIt = new System.Windows.Forms.CheckBox();
-            this.txtSaveto = new System.Windows.Forms.TextBox();
-            this.chkSettingsDownloadsSaveFormatQuality = new System.Windows.Forms.CheckBox();
-            this.llSchema = new System.Windows.Forms.LinkLabel();
-            this.chkSettingsDownloadsSeparateDownloadsToDifferentFolders = new System.Windows.Forms.CheckBox();
-            this.btnBrowseSaveto = new System.Windows.Forms.Button();
-            this.chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing = new System.Windows.Forms.CheckBox();
-            this.txtFileNameSchema = new System.Windows.Forms.TextBox();
+            this.txtSettingsDownloadsSavePath = new System.Windows.Forms.TextBox();
+            this.btnSettingsDownloadsBrowseSavePath = new System.Windows.Forms.Button();
+            this.txtSettingsDownloadsFileNameSchema = new System.Windows.Forms.TextBox();
             this.lbSepDownloads = new System.Windows.Forms.Label();
-            this.chksettingsDownloadsUseYoutubeDlsUpdater = new System.Windows.Forms.CheckBox();
             this.lbSettingsDownloadsFileNameSchema = new System.Windows.Forms.Label();
+            this.chkSettingsDownloadsDownloadSubtitles = new System.Windows.Forms.CheckBox();
+            this.chkSettingsDownloadsSaveFormatQuality = new System.Windows.Forms.CheckBox();
+            this.chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing = new System.Windows.Forms.CheckBox();
+            this.chksettingsDownloadsUseYoutubeDlsUpdater = new System.Windows.Forms.CheckBox();
+            this.chkSettingsDownloadsSeparateDownloadsToDifferentFolders = new System.Windows.Forms.CheckBox();
             this.tabSettingsConverter = new System.Windows.Forms.TabPage();
             this.chkSettingsConverterHideFFmpegCompileInfo = new System.Windows.Forms.CheckBox();
             this.chkSettingsConverterDetectOutputFileType = new System.Windows.Forms.CheckBox();
@@ -75,7 +75,7 @@
             this.numConvertVideoBitrate = new System.Windows.Forms.NumericUpDown();
             this.lbConvertVideoThousands = new System.Windows.Forms.Label();
             this.lbSettingsConverterVideoBitrate = new System.Windows.Forms.Label();
-            this.lbkSettingsConverterVideoPreset = new System.Windows.Forms.Label();
+            this.lbSettingsConverterVideoPreset = new System.Windows.Forms.Label();
             this.lbSettingsConverterVideoProfile = new System.Windows.Forms.Label();
             this.lbSettingsConverterVideoCRF = new System.Windows.Forms.Label();
             this.tcSettingsConverterAudio = new System.Windows.Forms.TabPage();
@@ -83,7 +83,7 @@
             this.numConvertAudioBitrate = new System.Windows.Forms.NumericUpDown();
             this.lbidkwhatsup = new System.Windows.Forms.Label();
             this.lbConvertAudioThousands = new System.Windows.Forms.Label();
-            this.chkSettingsConverterAudioBitrate = new System.Windows.Forms.Label();
+            this.lbSettingsConverterAudioBitrate = new System.Windows.Forms.Label();
             this.tcSettingsConverterCustom = new System.Windows.Forms.TabPage();
             this.txtSettingsConverterCustomArguments = new System.Windows.Forms.TextBox();
             this.lbSettingsConverterCustomHeader = new System.Windows.Forms.Label();
@@ -95,9 +95,9 @@
             this.btnSettingsExtensionsRemoveSelected = new System.Windows.Forms.Button();
             this.listExtensions = new System.Windows.Forms.ListBox();
             this.lbSettingsExtensionsExtensionShort = new System.Windows.Forms.Label();
-            this.txtExtensionsShort = new System.Windows.Forms.TextBox();
+            this.txtSettingsExtensionsExtensionShort = new System.Windows.Forms.TextBox();
             this.lbSettingsExtensionsExtensionFullName = new System.Windows.Forms.Label();
-            this.txtExtensionsName = new System.Windows.Forms.TextBox();
+            this.txtSettingsExtensionsExtensionFullName = new System.Windows.Forms.TextBox();
             this.lbSettingsExtensionsHeader = new System.Windows.Forms.Label();
             this.tabSettingsErrors = new System.Windows.Forms.TabPage();
             this.chkSettingsErrorsSaveErrorsAsErrorLog = new System.Windows.Forms.CheckBox();
@@ -110,7 +110,7 @@
             this.tcMain.SuspendLayout();
             this.tabSettingsGeneral.SuspendLayout();
             this.gbSettingsGeneralCustomArguments.SuspendLayout();
-            this.tbSettingsDownloads.SuspendLayout();
+            this.tabSettingsDownloads.SuspendLayout();
             this.tabSettingsConverter.SuspendLayout();
             this.tcConverter.SuspendLayout();
             this.tcSettingsConverterVideo.SuspendLayout();
@@ -126,7 +126,7 @@
             // tcMain
             // 
             this.tcMain.Controls.Add(this.tabSettingsGeneral);
-            this.tcMain.Controls.Add(this.tbSettingsDownloads);
+            this.tcMain.Controls.Add(this.tabSettingsDownloads);
             this.tcMain.Controls.Add(this.tabSettingsConverter);
             this.tcMain.Controls.Add(this.tabSettingsExtensions);
             this.tcMain.Controls.Add(this.tabSettingsErrors);
@@ -141,13 +141,13 @@
             // 
             this.tabSettingsGeneral.Controls.Add(this.gbSettingsGeneralCustomArguments);
             this.tabSettingsGeneral.Controls.Add(this.lbSepGeneral);
-            this.tabSettingsGeneral.Controls.Add(this.btnBrwsFF);
-            this.tabSettingsGeneral.Controls.Add(this.btnBrwsYtdl);
+            this.tabSettingsGeneral.Controls.Add(this.btnSettingsGeneralBrowseFFmpeg);
+            this.tabSettingsGeneral.Controls.Add(this.btnSettingsGeneralBrowseYoutubeDl);
             this.tabSettingsGeneral.Controls.Add(this.chkSettingsGeneralUseStaticYoutubeDl);
             this.tabSettingsGeneral.Controls.Add(this.chkSettingsGeneralUseStaticFFmpeg);
-            this.tabSettingsGeneral.Controls.Add(this.txtFFmpeg);
+            this.tabSettingsGeneral.Controls.Add(this.txtSettingsGeneralFFmpegPath);
             this.tabSettingsGeneral.Controls.Add(this.lbSettingsGeneralFFmpegDirectory);
-            this.tabSettingsGeneral.Controls.Add(this.txtYtdl);
+            this.tabSettingsGeneral.Controls.Add(this.txtSettingsGeneralYoutubeDlPath);
             this.tabSettingsGeneral.Controls.Add(this.lbSettingsGeneralYoutubeDlPath);
             this.tabSettingsGeneral.Controls.Add(this.chkSettingsGeneralClearUrlClipboardOnDownload);
             this.tabSettingsGeneral.Controls.Add(this.chkSettingsGeneralHoverOverUrlToPasteClipboard);
@@ -157,7 +157,7 @@
             this.tabSettingsGeneral.Padding = new System.Windows.Forms.Padding(3);
             this.tabSettingsGeneral.Size = new System.Drawing.Size(320, 253);
             this.tabSettingsGeneral.TabIndex = 0;
-            this.tabSettingsGeneral.Text = "General";
+            this.tabSettingsGeneral.Text = "tabSettingsGeneral";
             this.tabSettingsGeneral.UseVisualStyleBackColor = true;
             // 
             // gbSettingsGeneralCustomArguments
@@ -171,7 +171,7 @@
             this.gbSettingsGeneralCustomArguments.TabIndex = 12;
             this.gbSettingsGeneralCustomArguments.TabStop = false;
             this.gbSettingsGeneralCustomArguments.Text = "gbSettingsGeneralCustomArguments";
-            this.tipSettings.SetToolTip(this.gbSettingsGeneralCustomArguments, "Controls how custom arguments for youtube-dl will be saved");
+            this.tipSettings.SetToolTip(this.gbSettingsGeneralCustomArguments, "gbSettingsGeneralCustomArguments");
             // 
             // rbSettingsGeneralCustomArgumentsSaveInSettings
             // 
@@ -183,7 +183,7 @@
             this.rbSettingsGeneralCustomArgumentsSaveInSettings.TabIndex = 2;
             this.rbSettingsGeneralCustomArgumentsSaveInSettings.TabStop = true;
             this.rbSettingsGeneralCustomArgumentsSaveInSettings.Text = "rbSettingsGeneralCustomArgumentsSaveInSettings";
-            this.tipSettings.SetToolTip(this.rbSettingsGeneralCustomArgumentsSaveInSettings, "Saves custom arguments in the application settings");
+            this.tipSettings.SetToolTip(this.rbSettingsGeneralCustomArgumentsSaveInSettings, "rbSettingsGeneralCustomArgumentsSaveInSettings");
             this.rbSettingsGeneralCustomArgumentsSaveInSettings.UseVisualStyleBackColor = true;
             // 
             // rbSettingsGeneralCustomArgumentsSaveAsArgsText
@@ -194,7 +194,7 @@
             this.rbSettingsGeneralCustomArgumentsSaveAsArgsText.Size = new System.Drawing.Size(272, 17);
             this.rbSettingsGeneralCustomArgumentsSaveAsArgsText.TabIndex = 1;
             this.rbSettingsGeneralCustomArgumentsSaveAsArgsText.Text = "rbSettingsGeneralCustomArgumentsSaveAsArgsText";
-            this.tipSettings.SetToolTip(this.rbSettingsGeneralCustomArgumentsSaveAsArgsText, "Saves custom arguments as args.txt in youtube-dl-gui\'s directory");
+            this.tipSettings.SetToolTip(this.rbSettingsGeneralCustomArgumentsSaveAsArgsText, "rbSettingsGeneralCustomArgumentsSaveAsArgsText");
             this.rbSettingsGeneralCustomArgumentsSaveAsArgsText.UseVisualStyleBackColor = true;
             // 
             // rbSettingsGeneralCustomArgumentsDontSave
@@ -205,8 +205,99 @@
             this.rbSettingsGeneralCustomArgumentsDontSave.Size = new System.Drawing.Size(241, 17);
             this.rbSettingsGeneralCustomArgumentsDontSave.TabIndex = 0;
             this.rbSettingsGeneralCustomArgumentsDontSave.Text = "rbSettingsGeneralCustomArgumentsDontSave";
-            this.tipSettings.SetToolTip(this.rbSettingsGeneralCustomArgumentsDontSave, "Doesn\'t save any custom arguments");
+            this.tipSettings.SetToolTip(this.rbSettingsGeneralCustomArgumentsDontSave, "rbSettingsGeneralCustomArgumentsDontSave");
             this.rbSettingsGeneralCustomArgumentsDontSave.UseVisualStyleBackColor = true;
+            // 
+            // lbSepGeneral
+            // 
+            this.lbSepGeneral.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lbSepGeneral.Location = new System.Drawing.Point(25, 107);
+            this.lbSepGeneral.Name = "lbSepGeneral";
+            this.lbSepGeneral.Size = new System.Drawing.Size(270, 2);
+            this.lbSepGeneral.TabIndex = 8;
+            this.lbSepGeneral.Text = "HELLO WORLD";
+            // 
+            // btnSettingsGeneralBrowseFFmpeg
+            // 
+            this.btnSettingsGeneralBrowseFFmpeg.Location = new System.Drawing.Point(269, 77);
+            this.btnSettingsGeneralBrowseFFmpeg.Name = "btnSettingsGeneralBrowseFFmpeg";
+            this.btnSettingsGeneralBrowseFFmpeg.Size = new System.Drawing.Size(33, 23);
+            this.btnSettingsGeneralBrowseFFmpeg.TabIndex = 7;
+            this.btnSettingsGeneralBrowseFFmpeg.Text = "...";
+            this.tipSettings.SetToolTip(this.btnSettingsGeneralBrowseFFmpeg, "btnBrwsFF");
+            this.btnSettingsGeneralBrowseFFmpeg.UseVisualStyleBackColor = true;
+            this.btnSettingsGeneralBrowseFFmpeg.Click += new System.EventHandler(this.btnSettingsGeneralBrowseFFmpeg_Click);
+            // 
+            // btnSettingsGeneralBrowseYoutubeDl
+            // 
+            this.btnSettingsGeneralBrowseYoutubeDl.Location = new System.Drawing.Point(269, 30);
+            this.btnSettingsGeneralBrowseYoutubeDl.Name = "btnSettingsGeneralBrowseYoutubeDl";
+            this.btnSettingsGeneralBrowseYoutubeDl.Size = new System.Drawing.Size(33, 23);
+            this.btnSettingsGeneralBrowseYoutubeDl.TabIndex = 6;
+            this.btnSettingsGeneralBrowseYoutubeDl.Text = "...";
+            this.tipSettings.SetToolTip(this.btnSettingsGeneralBrowseYoutubeDl, "btnBrwsYtdl");
+            this.btnSettingsGeneralBrowseYoutubeDl.UseVisualStyleBackColor = true;
+            this.btnSettingsGeneralBrowseYoutubeDl.Click += new System.EventHandler(this.btnSettingsGeneralBrowseYoutubeDl_Click);
+            // 
+            // chkSettingsGeneralUseStaticYoutubeDl
+            // 
+            this.chkSettingsGeneralUseStaticYoutubeDl.AutoSize = true;
+            this.chkSettingsGeneralUseStaticYoutubeDl.Location = new System.Drawing.Point(122, 11);
+            this.chkSettingsGeneralUseStaticYoutubeDl.Name = "chkSettingsGeneralUseStaticYoutubeDl";
+            this.chkSettingsGeneralUseStaticYoutubeDl.Size = new System.Drawing.Size(214, 17);
+            this.chkSettingsGeneralUseStaticYoutubeDl.TabIndex = 5;
+            this.chkSettingsGeneralUseStaticYoutubeDl.Text = "chkSettingsGeneralUseStaticYoutubeDl";
+            this.tipSettings.SetToolTip(this.chkSettingsGeneralUseStaticYoutubeDl, "chkSettingsGeneralUseStaticYoutubeDl");
+            this.chkSettingsGeneralUseStaticYoutubeDl.UseVisualStyleBackColor = true;
+            // 
+            // chkSettingsGeneralUseStaticFFmpeg
+            // 
+            this.chkSettingsGeneralUseStaticFFmpeg.AutoSize = true;
+            this.chkSettingsGeneralUseStaticFFmpeg.Location = new System.Drawing.Point(122, 58);
+            this.chkSettingsGeneralUseStaticFFmpeg.Name = "chkSettingsGeneralUseStaticFFmpeg";
+            this.chkSettingsGeneralUseStaticFFmpeg.Size = new System.Drawing.Size(202, 17);
+            this.chkSettingsGeneralUseStaticFFmpeg.TabIndex = 4;
+            this.chkSettingsGeneralUseStaticFFmpeg.Text = "chkSettingsGeneralUseStaticFFmpeg";
+            this.tipSettings.SetToolTip(this.chkSettingsGeneralUseStaticFFmpeg, "chkSettingsGeneralUseStaticFFmpeg");
+            this.chkSettingsGeneralUseStaticFFmpeg.UseVisualStyleBackColor = true;
+            // 
+            // txtSettingsGeneralFFmpegPath
+            // 
+            this.txtSettingsGeneralFFmpegPath.Location = new System.Drawing.Point(30, 79);
+            this.txtSettingsGeneralFFmpegPath.Name = "txtSettingsGeneralFFmpegPath";
+            this.txtSettingsGeneralFFmpegPath.ReadOnly = true;
+            this.txtSettingsGeneralFFmpegPath.Size = new System.Drawing.Size(233, 20);
+            this.txtSettingsGeneralFFmpegPath.TabIndex = 3;
+            this.tipSettings.SetToolTip(this.txtSettingsGeneralFFmpegPath, "txtFFmpeg");
+            // 
+            // lbSettingsGeneralFFmpegDirectory
+            // 
+            this.lbSettingsGeneralFFmpegDirectory.AutoSize = true;
+            this.lbSettingsGeneralFFmpegDirectory.Location = new System.Drawing.Point(19, 59);
+            this.lbSettingsGeneralFFmpegDirectory.Name = "lbSettingsGeneralFFmpegDirectory";
+            this.lbSettingsGeneralFFmpegDirectory.Size = new System.Drawing.Size(170, 13);
+            this.lbSettingsGeneralFFmpegDirectory.TabIndex = 2;
+            this.lbSettingsGeneralFFmpegDirectory.Text = "lbSettingsGeneralFFmpegDirectory";
+            this.tipSettings.SetToolTip(this.lbSettingsGeneralFFmpegDirectory, "lbSettingsGeneralFFmpegDirectory");
+            // 
+            // txtSettingsGeneralYoutubeDlPath
+            // 
+            this.txtSettingsGeneralYoutubeDlPath.Location = new System.Drawing.Point(30, 32);
+            this.txtSettingsGeneralYoutubeDlPath.Name = "txtSettingsGeneralYoutubeDlPath";
+            this.txtSettingsGeneralYoutubeDlPath.ReadOnly = true;
+            this.txtSettingsGeneralYoutubeDlPath.Size = new System.Drawing.Size(233, 20);
+            this.txtSettingsGeneralYoutubeDlPath.TabIndex = 1;
+            this.tipSettings.SetToolTip(this.txtSettingsGeneralYoutubeDlPath, "txtYtdl");
+            // 
+            // lbSettingsGeneralYoutubeDlPath
+            // 
+            this.lbSettingsGeneralYoutubeDlPath.AutoSize = true;
+            this.lbSettingsGeneralYoutubeDlPath.Location = new System.Drawing.Point(19, 12);
+            this.lbSettingsGeneralYoutubeDlPath.Name = "lbSettingsGeneralYoutubeDlPath";
+            this.lbSettingsGeneralYoutubeDlPath.Size = new System.Drawing.Size(162, 13);
+            this.lbSettingsGeneralYoutubeDlPath.TabIndex = 0;
+            this.lbSettingsGeneralYoutubeDlPath.Text = "lbSettingsGeneralYoutubeDlPath";
+            this.tipSettings.SetToolTip(this.lbSettingsGeneralYoutubeDlPath, "lbSettingsGeneralYoutubeDlPath");
             // 
             // chkSettingsGeneralClearUrlClipboardOnDownload
             // 
@@ -216,7 +307,7 @@
             this.chkSettingsGeneralClearUrlClipboardOnDownload.Size = new System.Drawing.Size(261, 17);
             this.chkSettingsGeneralClearUrlClipboardOnDownload.TabIndex = 11;
             this.chkSettingsGeneralClearUrlClipboardOnDownload.Text = "chkSettingsGeneralClearUrlClipboardOnDownload";
-            this.tipSettings.SetToolTip(this.chkSettingsGeneralClearUrlClipboardOnDownload, "Clears the URL from the textbox and clipboard on video download");
+            this.tipSettings.SetToolTip(this.chkSettingsGeneralClearUrlClipboardOnDownload, "chkSettingsGeneralClearUrlClipboardOnDownload");
             this.chkSettingsGeneralClearUrlClipboardOnDownload.UseVisualStyleBackColor = true;
             // 
             // chkSettingsGeneralHoverOverUrlToPasteClipboard
@@ -229,7 +320,7 @@
             this.chkSettingsGeneralHoverOverUrlToPasteClipboard.Size = new System.Drawing.Size(267, 17);
             this.chkSettingsGeneralHoverOverUrlToPasteClipboard.TabIndex = 10;
             this.chkSettingsGeneralHoverOverUrlToPasteClipboard.Text = "chkSettingsGeneralHoverOverUrlToPasteClipboard";
-            this.tipSettings.SetToolTip(this.chkSettingsGeneralHoverOverUrlToPasteClipboard, "Hover over the URL textbox to paste the URL from the clipboard");
+            this.tipSettings.SetToolTip(this.chkSettingsGeneralHoverOverUrlToPasteClipboard, "chkSettingsGeneralHoverOverUrlToPasteClipboard");
             this.chkSettingsGeneralHoverOverUrlToPasteClipboard.UseVisualStyleBackColor = true;
             // 
             // chkSettingsGeneralCheckForUpdatesOnLaunch
@@ -240,126 +331,45 @@
             this.chkSettingsGeneralCheckForUpdatesOnLaunch.Size = new System.Drawing.Size(254, 17);
             this.chkSettingsGeneralCheckForUpdatesOnLaunch.TabIndex = 9;
             this.chkSettingsGeneralCheckForUpdatesOnLaunch.Text = "chkSettingsGeneralCheckForUpdatesOnLaunch";
-            this.tipSettings.SetToolTip(this.chkSettingsGeneralCheckForUpdatesOnLaunch, "Check for updates on launch of youtube-dl-gui");
+            this.tipSettings.SetToolTip(this.chkSettingsGeneralCheckForUpdatesOnLaunch, "chkSettingsGeneralCheckForUpdatesOnLaunch");
             this.chkSettingsGeneralCheckForUpdatesOnLaunch.UseVisualStyleBackColor = true;
             // 
-            // lbSepGeneral
+            // tabSettingsDownloads
             // 
-            this.lbSepGeneral.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lbSepGeneral.Location = new System.Drawing.Point(25, 107);
-            this.lbSepGeneral.Name = "lbSepGeneral";
-            this.lbSepGeneral.Size = new System.Drawing.Size(270, 2);
-            this.lbSepGeneral.TabIndex = 8;
-            this.lbSepGeneral.Text = "HELLO WORLD";
+            this.tabSettingsDownloads.Controls.Add(this.llSettingsDownloadsSchemaHelp);
+            this.tabSettingsDownloads.Controls.Add(this.txtSubtitlesLanguages);
+            this.tabSettingsDownloads.Controls.Add(this.chkSettingsDownloadsSeparateIntoWebsiteUrl);
+            this.tabSettingsDownloads.Controls.Add(this.lbSettingsDownloadsDownloadPath);
+            this.tabSettingsDownloads.Controls.Add(this.chkSettingsDownloadsFixVReddIt);
+            this.tabSettingsDownloads.Controls.Add(this.txtSettingsDownloadsSavePath);
+            this.tabSettingsDownloads.Controls.Add(this.btnSettingsDownloadsBrowseSavePath);
+            this.tabSettingsDownloads.Controls.Add(this.txtSettingsDownloadsFileNameSchema);
+            this.tabSettingsDownloads.Controls.Add(this.lbSepDownloads);
+            this.tabSettingsDownloads.Controls.Add(this.lbSettingsDownloadsFileNameSchema);
+            this.tabSettingsDownloads.Controls.Add(this.chkSettingsDownloadsDownloadSubtitles);
+            this.tabSettingsDownloads.Controls.Add(this.chkSettingsDownloadsSaveFormatQuality);
+            this.tabSettingsDownloads.Controls.Add(this.chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing);
+            this.tabSettingsDownloads.Controls.Add(this.chksettingsDownloadsUseYoutubeDlsUpdater);
+            this.tabSettingsDownloads.Controls.Add(this.chkSettingsDownloadsSeparateDownloadsToDifferentFolders);
+            this.tabSettingsDownloads.Location = new System.Drawing.Point(4, 22);
+            this.tabSettingsDownloads.Name = "tabSettingsDownloads";
+            this.tabSettingsDownloads.Padding = new System.Windows.Forms.Padding(3);
+            this.tabSettingsDownloads.Size = new System.Drawing.Size(320, 253);
+            this.tabSettingsDownloads.TabIndex = 1;
+            this.tabSettingsDownloads.Text = "tabSettingsDownloads";
+            this.tabSettingsDownloads.UseVisualStyleBackColor = true;
             // 
-            // btnBrwsFF
+            // llSettingsDownloadsSchemaHelp
             // 
-            this.btnBrwsFF.Location = new System.Drawing.Point(269, 77);
-            this.btnBrwsFF.Name = "btnBrwsFF";
-            this.btnBrwsFF.Size = new System.Drawing.Size(33, 23);
-            this.btnBrwsFF.TabIndex = 7;
-            this.btnBrwsFF.Text = "...";
-            this.tipSettings.SetToolTip(this.btnBrwsFF, "Browse for the folder that contains ffmpeg.exe & ffprobe.exe");
-            this.btnBrwsFF.UseVisualStyleBackColor = true;
-            this.btnBrwsFF.Click += new System.EventHandler(this.btnBrwsFF_Click);
-            // 
-            // btnBrwsYtdl
-            // 
-            this.btnBrwsYtdl.Location = new System.Drawing.Point(269, 30);
-            this.btnBrwsYtdl.Name = "btnBrwsYtdl";
-            this.btnBrwsYtdl.Size = new System.Drawing.Size(33, 23);
-            this.btnBrwsYtdl.TabIndex = 6;
-            this.btnBrwsYtdl.Text = "...";
-            this.tipSettings.SetToolTip(this.btnBrwsYtdl, "Browse for youtube-dl.exe");
-            this.btnBrwsYtdl.UseVisualStyleBackColor = true;
-            this.btnBrwsYtdl.Click += new System.EventHandler(this.btnBrwsYtdl_Click);
-            // 
-            // chkSettingsGeneralUseStaticYoutubeDl
-            // 
-            this.chkSettingsGeneralUseStaticYoutubeDl.AutoSize = true;
-            this.chkSettingsGeneralUseStaticYoutubeDl.Location = new System.Drawing.Point(122, 11);
-            this.chkSettingsGeneralUseStaticYoutubeDl.Name = "chkSettingsGeneralUseStaticYoutubeDl";
-            this.chkSettingsGeneralUseStaticYoutubeDl.Size = new System.Drawing.Size(214, 17);
-            this.chkSettingsGeneralUseStaticYoutubeDl.TabIndex = 5;
-            this.chkSettingsGeneralUseStaticYoutubeDl.Text = "chkSettingsGeneralUseStaticYoutubeDl";
-            this.tipSettings.SetToolTip(this.chkSettingsGeneralUseStaticYoutubeDl, "Use a static placed youtube-dl.exe file");
-            this.chkSettingsGeneralUseStaticYoutubeDl.UseVisualStyleBackColor = true;
-            // 
-            // chkSettingsGeneralUseStaticFFmpeg
-            // 
-            this.chkSettingsGeneralUseStaticFFmpeg.AutoSize = true;
-            this.chkSettingsGeneralUseStaticFFmpeg.Location = new System.Drawing.Point(122, 58);
-            this.chkSettingsGeneralUseStaticFFmpeg.Name = "chkSettingsGeneralUseStaticFFmpeg";
-            this.chkSettingsGeneralUseStaticFFmpeg.Size = new System.Drawing.Size(202, 17);
-            this.chkSettingsGeneralUseStaticFFmpeg.TabIndex = 4;
-            this.chkSettingsGeneralUseStaticFFmpeg.Text = "chkSettingsGeneralUseStaticFFmpeg";
-            this.tipSettings.SetToolTip(this.chkSettingsGeneralUseStaticFFmpeg, "Use a static placed ffmpeg.exe and ffprobe.exe files");
-            this.chkSettingsGeneralUseStaticFFmpeg.UseVisualStyleBackColor = true;
-            // 
-            // txtFFmpeg
-            // 
-            this.txtFFmpeg.Location = new System.Drawing.Point(30, 79);
-            this.txtFFmpeg.Name = "txtFFmpeg";
-            this.txtFFmpeg.ReadOnly = true;
-            this.txtFFmpeg.Size = new System.Drawing.Size(233, 20);
-            this.txtFFmpeg.TabIndex = 3;
-            this.tipSettings.SetToolTip(this.txtFFmpeg, "The path of ffmpeg");
-            // 
-            // lbSettingsGeneralFFmpegDirectory
-            // 
-            this.lbSettingsGeneralFFmpegDirectory.AutoSize = true;
-            this.lbSettingsGeneralFFmpegDirectory.Location = new System.Drawing.Point(19, 59);
-            this.lbSettingsGeneralFFmpegDirectory.Name = "lbSettingsGeneralFFmpegDirectory";
-            this.lbSettingsGeneralFFmpegDirectory.Size = new System.Drawing.Size(170, 13);
-            this.lbSettingsGeneralFFmpegDirectory.TabIndex = 2;
-            this.lbSettingsGeneralFFmpegDirectory.Text = "lbSettingsGeneralFFmpegDirectory";
-            this.tipSettings.SetToolTip(this.lbSettingsGeneralFFmpegDirectory, "Static ffmpeg directory\r\n\r\nStatic ffmpeg means ffmpeg will always be located in t" +
-        "hat one directory.");
-            // 
-            // txtYtdl
-            // 
-            this.txtYtdl.Location = new System.Drawing.Point(30, 32);
-            this.txtYtdl.Name = "txtYtdl";
-            this.txtYtdl.ReadOnly = true;
-            this.txtYtdl.Size = new System.Drawing.Size(233, 20);
-            this.txtYtdl.TabIndex = 1;
-            this.tipSettings.SetToolTip(this.txtYtdl, "The path of youtube-dl.exe");
-            // 
-            // lbSettingsGeneralYoutubeDlPath
-            // 
-            this.lbSettingsGeneralYoutubeDlPath.AutoSize = true;
-            this.lbSettingsGeneralYoutubeDlPath.Location = new System.Drawing.Point(19, 12);
-            this.lbSettingsGeneralYoutubeDlPath.Name = "lbSettingsGeneralYoutubeDlPath";
-            this.lbSettingsGeneralYoutubeDlPath.Size = new System.Drawing.Size(162, 13);
-            this.lbSettingsGeneralYoutubeDlPath.TabIndex = 0;
-            this.lbSettingsGeneralYoutubeDlPath.Text = "lbSettingsGeneralYoutubeDlPath";
-            this.tipSettings.SetToolTip(this.lbSettingsGeneralYoutubeDlPath, "Static youtube-dl directory\r\n\r\nStatic youtube-dl means youtube-dl will always be " +
-        "located in that one directory.\r\n");
-            // 
-            // tbSettingsDownloads
-            // 
-            this.tbSettingsDownloads.Controls.Add(this.txtSubtitlesLanguages);
-            this.tbSettingsDownloads.Controls.Add(this.chkSettingsDownloadsSeparateIntoWebsiteUrl);
-            this.tbSettingsDownloads.Controls.Add(this.lbSettingsDownloadsDownloadPath);
-            this.tbSettingsDownloads.Controls.Add(this.chkSettingsDownloadsFixVReddIt);
-            this.tbSettingsDownloads.Controls.Add(this.txtSaveto);
-            this.tbSettingsDownloads.Controls.Add(this.llSchema);
-            this.tbSettingsDownloads.Controls.Add(this.btnBrowseSaveto);
-            this.tbSettingsDownloads.Controls.Add(this.txtFileNameSchema);
-            this.tbSettingsDownloads.Controls.Add(this.lbSepDownloads);
-            this.tbSettingsDownloads.Controls.Add(this.lbSettingsDownloadsFileNameSchema);
-            this.tbSettingsDownloads.Controls.Add(this.chkSettingsDownloadsDownloadSubtitles);
-            this.tbSettingsDownloads.Controls.Add(this.chkSettingsDownloadsSaveFormatQuality);
-            this.tbSettingsDownloads.Controls.Add(this.chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing);
-            this.tbSettingsDownloads.Controls.Add(this.chksettingsDownloadsUseYoutubeDlsUpdater);
-            this.tbSettingsDownloads.Controls.Add(this.chkSettingsDownloadsSeparateDownloadsToDifferentFolders);
-            this.tbSettingsDownloads.Location = new System.Drawing.Point(4, 22);
-            this.tbSettingsDownloads.Name = "tbSettingsDownloads";
-            this.tbSettingsDownloads.Padding = new System.Windows.Forms.Padding(3);
-            this.tbSettingsDownloads.Size = new System.Drawing.Size(320, 253);
-            this.tbSettingsDownloads.TabIndex = 1;
-            this.tbSettingsDownloads.Text = "Downloads";
-            this.tbSettingsDownloads.UseVisualStyleBackColor = true;
+            this.llSettingsDownloadsSchemaHelp.AutoSize = true;
+            this.llSettingsDownloadsSchemaHelp.Location = new System.Drawing.Point(6, 59);
+            this.llSettingsDownloadsSchemaHelp.Name = "llSettingsDownloadsSchemaHelp";
+            this.llSettingsDownloadsSchemaHelp.Size = new System.Drawing.Size(13, 13);
+            this.llSettingsDownloadsSchemaHelp.TabIndex = 21;
+            this.llSettingsDownloadsSchemaHelp.TabStop = true;
+            this.llSettingsDownloadsSchemaHelp.Text = "?";
+            this.tipSettings.SetToolTip(this.llSettingsDownloadsSchemaHelp, "llSchema");
+            this.llSettingsDownloadsSchemaHelp.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llSettingsDownloadsSchemaHelp_LinkClicked);
             // 
             // txtSubtitlesLanguages
             // 
@@ -367,18 +377,7 @@
             this.txtSubtitlesLanguages.Name = "txtSubtitlesLanguages";
             this.txtSubtitlesLanguages.Size = new System.Drawing.Size(116, 20);
             this.txtSubtitlesLanguages.TabIndex = 25;
-            this.tipSettings.SetToolTip(this.txtSubtitlesLanguages, "Download subtitles in the languages entered in the text box");
-            // 
-            // chkSettingsDownloadsDownloadSubtitles
-            // 
-            this.chkSettingsDownloadsDownloadSubtitles.AutoSize = true;
-            this.chkSettingsDownloadsDownloadSubtitles.Location = new System.Drawing.Point(42, 221);
-            this.chkSettingsDownloadsDownloadSubtitles.Name = "chkSettingsDownloadsDownloadSubtitles";
-            this.chkSettingsDownloadsDownloadSubtitles.Size = new System.Drawing.Size(222, 17);
-            this.chkSettingsDownloadsDownloadSubtitles.TabIndex = 24;
-            this.chkSettingsDownloadsDownloadSubtitles.Text = "chkSettingsDownloadsDownloadSubtitles";
-            this.tipSettings.SetToolTip(this.chkSettingsDownloadsDownloadSubtitles, "Download subtitles in the languages entered in the text box");
-            this.chkSettingsDownloadsDownloadSubtitles.UseVisualStyleBackColor = true;
+            this.tipSettings.SetToolTip(this.txtSubtitlesLanguages, "txtSubtitlesLanguages");
             // 
             // chkSettingsDownloadsSeparateIntoWebsiteUrl
             // 
@@ -390,8 +389,7 @@
             this.chkSettingsDownloadsSeparateIntoWebsiteUrl.Size = new System.Drawing.Size(247, 17);
             this.chkSettingsDownloadsSeparateIntoWebsiteUrl.TabIndex = 23;
             this.chkSettingsDownloadsSeparateIntoWebsiteUrl.Text = "chkSettingsDownloadsSeparateIntoWebsiteUrl";
-            this.tipSettings.SetToolTip(this.chkSettingsDownloadsSeparateIntoWebsiteUrl, "Downloaded files will be saved to the download path with the URL of the website a" +
-        "ppended at the end\r\nEx: C:\\Users\\YourName\\Videos\\youtube.com\\Video.mp4");
+            this.tipSettings.SetToolTip(this.chkSettingsDownloadsSeparateIntoWebsiteUrl, "chkSettingsDownloadsSeparateIntoWebsiteUrl");
             this.chkSettingsDownloadsSeparateIntoWebsiteUrl.UseVisualStyleBackColor = true;
             // 
             // lbSettingsDownloadsDownloadPath
@@ -402,7 +400,7 @@
             this.lbSettingsDownloadsDownloadPath.Size = new System.Drawing.Size(176, 13);
             this.lbSettingsDownloadsDownloadPath.TabIndex = 7;
             this.lbSettingsDownloadsDownloadPath.Text = "lbSettingsDownloadsDownloadPath";
-            this.tipSettings.SetToolTip(this.lbSettingsDownloadsDownloadPath, "The path of the folder where files will be downloaded to");
+            this.tipSettings.SetToolTip(this.lbSettingsDownloadsDownloadPath, "lbSettingsDownloadsDownloadPath");
             // 
             // chkSettingsDownloadsFixVReddIt
             // 
@@ -414,86 +412,37 @@
             this.chkSettingsDownloadsFixVReddIt.Size = new System.Drawing.Size(186, 17);
             this.chkSettingsDownloadsFixVReddIt.TabIndex = 22;
             this.chkSettingsDownloadsFixVReddIt.Text = "chkSettingsDownloadsFixVReddIt";
-            this.tipSettings.SetToolTip(this.chkSettingsDownloadsFixVReddIt, resources.GetString("chkSettingsDownloadsFixVReddIt.ToolTip"));
+            this.tipSettings.SetToolTip(this.chkSettingsDownloadsFixVReddIt, "chkSettingsDownloadsFixVReddIt");
             this.chkSettingsDownloadsFixVReddIt.UseVisualStyleBackColor = true;
             // 
-            // txtSaveto
+            // txtSettingsDownloadsSavePath
             // 
-            this.txtSaveto.Location = new System.Drawing.Point(30, 32);
-            this.txtSaveto.Name = "txtSaveto";
-            this.txtSaveto.ReadOnly = true;
-            this.txtSaveto.Size = new System.Drawing.Size(233, 20);
-            this.txtSaveto.TabIndex = 8;
-            this.tipSettings.SetToolTip(this.txtSaveto, "The path of the folder where files will be downloaded to");
+            this.txtSettingsDownloadsSavePath.Location = new System.Drawing.Point(30, 32);
+            this.txtSettingsDownloadsSavePath.Name = "txtSettingsDownloadsSavePath";
+            this.txtSettingsDownloadsSavePath.ReadOnly = true;
+            this.txtSettingsDownloadsSavePath.Size = new System.Drawing.Size(233, 20);
+            this.txtSettingsDownloadsSavePath.TabIndex = 8;
+            this.tipSettings.SetToolTip(this.txtSettingsDownloadsSavePath, "txtSaveto");
             // 
-            // chkSettingsDownloadsSaveFormatQuality
+            // btnSettingsDownloadsBrowseSavePath
             // 
-            this.chkSettingsDownloadsSaveFormatQuality.AutoSize = true;
-            this.chkSettingsDownloadsSaveFormatQuality.Enabled = false;
-            this.chkSettingsDownloadsSaveFormatQuality.Location = new System.Drawing.Point(42, 147);
-            this.chkSettingsDownloadsSaveFormatQuality.Name = "chkSettingsDownloadsSaveFormatQuality";
-            this.chkSettingsDownloadsSaveFormatQuality.Size = new System.Drawing.Size(223, 17);
-            this.chkSettingsDownloadsSaveFormatQuality.TabIndex = 15;
-            this.chkSettingsDownloadsSaveFormatQuality.Text = "chkSettingsDownloadsSaveFormatQuality";
-            this.tipSettings.SetToolTip(this.chkSettingsDownloadsSaveFormatQuality, "Save format & quality of downloads on download");
-            this.chkSettingsDownloadsSaveFormatQuality.UseVisualStyleBackColor = true;
+            this.btnSettingsDownloadsBrowseSavePath.Location = new System.Drawing.Point(269, 30);
+            this.btnSettingsDownloadsBrowseSavePath.Name = "btnSettingsDownloadsBrowseSavePath";
+            this.btnSettingsDownloadsBrowseSavePath.Size = new System.Drawing.Size(33, 23);
+            this.btnSettingsDownloadsBrowseSavePath.TabIndex = 10;
+            this.btnSettingsDownloadsBrowseSavePath.Text = "...";
+            this.tipSettings.SetToolTip(this.btnSettingsDownloadsBrowseSavePath, "btnSettingsDownloadsBrowseSavePath");
+            this.btnSettingsDownloadsBrowseSavePath.UseVisualStyleBackColor = true;
+            this.btnSettingsDownloadsBrowseSavePath.Click += new System.EventHandler(this.btnSettingsDownloadsBrowseSavePath_Click);
             // 
-            // llSchema
+            // txtSettingsDownloadsFileNameSchema
             // 
-            this.llSchema.AutoSize = true;
-            this.llSchema.Location = new System.Drawing.Point(6, 59);
-            this.llSchema.Name = "llSchema";
-            this.llSchema.Size = new System.Drawing.Size(13, 13);
-            this.llSchema.TabIndex = 21;
-            this.llSchema.TabStop = true;
-            this.llSchema.Text = "?";
-            this.tipSettings.SetToolTip(this.llSchema, "Click this to show a list of replaceable words");
-            this.llSchema.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llSchema_LinkClicked);
-            // 
-            // chkSettingsDownloadsSeparateDownloadsToDifferentFolders
-            // 
-            this.chkSettingsDownloadsSeparateDownloadsToDifferentFolders.AutoSize = true;
-            this.chkSettingsDownloadsSeparateDownloadsToDifferentFolders.Checked = true;
-            this.chkSettingsDownloadsSeparateDownloadsToDifferentFolders.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkSettingsDownloadsSeparateDownloadsToDifferentFolders.Location = new System.Drawing.Point(42, 124);
-            this.chkSettingsDownloadsSeparateDownloadsToDifferentFolders.Name = "chkSettingsDownloadsSeparateDownloadsToDifferentFolders";
-            this.chkSettingsDownloadsSeparateDownloadsToDifferentFolders.Size = new System.Drawing.Size(317, 17);
-            this.chkSettingsDownloadsSeparateDownloadsToDifferentFolders.TabIndex = 17;
-            this.chkSettingsDownloadsSeparateDownloadsToDifferentFolders.Text = "chkSettingsDownloadsSeparateDownloadsToDifferentFolders";
-            this.tipSettings.SetToolTip(this.chkSettingsDownloadsSeparateDownloadsToDifferentFolders, resources.GetString("chkSettingsDownloadsSeparateDownloadsToDifferentFolders.ToolTip"));
-            this.chkSettingsDownloadsSeparateDownloadsToDifferentFolders.UseVisualStyleBackColor = true;
-            // 
-            // btnBrowseSaveto
-            // 
-            this.btnBrowseSaveto.Location = new System.Drawing.Point(269, 30);
-            this.btnBrowseSaveto.Name = "btnBrowseSaveto";
-            this.btnBrowseSaveto.Size = new System.Drawing.Size(33, 23);
-            this.btnBrowseSaveto.TabIndex = 10;
-            this.btnBrowseSaveto.Text = "...";
-            this.tipSettings.SetToolTip(this.btnBrowseSaveto, "Browse for a folder to save downloaded files");
-            this.btnBrowseSaveto.UseVisualStyleBackColor = true;
-            this.btnBrowseSaveto.Click += new System.EventHandler(this.btnBrowseSaveto_Click);
-            // 
-            // chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing
-            // 
-            this.chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing.AutoSize = true;
-            this.chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing.Location = new System.Drawing.Point(42, 170);
-            this.chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing.Name = "chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing";
-            this.chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing.Size = new System.Drawing.Size(340, 17);
-            this.chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing.TabIndex = 14;
-            this.chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing.Text = "chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing";
-            this.tipSettings.SetToolTip(this.chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing, "Automatically delete youtube-dl.exe when closing youtube-dl-gui");
-            this.chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing.UseVisualStyleBackColor = true;
-            // 
-            // txtFileNameSchema
-            // 
-            this.txtFileNameSchema.Location = new System.Drawing.Point(30, 79);
-            this.txtFileNameSchema.Name = "txtFileNameSchema";
-            this.txtFileNameSchema.Size = new System.Drawing.Size(260, 20);
-            this.txtFileNameSchema.TabIndex = 20;
-            this.txtFileNameSchema.Text = "%(title)s-%(id)s.%(ext)s";
-            this.tipSettings.SetToolTip(this.txtFileNameSchema, "The file name schema\r\n\r\nThis basically replaces sequences with video information " +
-        "for a custom file name.");
+            this.txtSettingsDownloadsFileNameSchema.Location = new System.Drawing.Point(30, 79);
+            this.txtSettingsDownloadsFileNameSchema.Name = "txtSettingsDownloadsFileNameSchema";
+            this.txtSettingsDownloadsFileNameSchema.Size = new System.Drawing.Size(260, 20);
+            this.txtSettingsDownloadsFileNameSchema.TabIndex = 20;
+            this.txtSettingsDownloadsFileNameSchema.Text = "%(title)s-%(id)s.%(ext)s";
+            this.tipSettings.SetToolTip(this.txtSettingsDownloadsFileNameSchema, "txtSettingsDownloadsFileNameSchema");
             // 
             // lbSepDownloads
             // 
@@ -504,6 +453,49 @@
             this.lbSepDownloads.TabIndex = 11;
             this.lbSepDownloads.Text = "HELLO WORLD";
             this.tipSettings.SetToolTip(this.lbSepDownloads, "this is not an easter egg");
+            // 
+            // lbSettingsDownloadsFileNameSchema
+            // 
+            this.lbSettingsDownloadsFileNameSchema.AutoSize = true;
+            this.lbSettingsDownloadsFileNameSchema.Location = new System.Drawing.Point(19, 59);
+            this.lbSettingsDownloadsFileNameSchema.Name = "lbSettingsDownloadsFileNameSchema";
+            this.lbSettingsDownloadsFileNameSchema.Size = new System.Drawing.Size(189, 13);
+            this.lbSettingsDownloadsFileNameSchema.TabIndex = 19;
+            this.lbSettingsDownloadsFileNameSchema.Text = "lbSettingsDownloadsFileNameSchema";
+            // 
+            // chkSettingsDownloadsDownloadSubtitles
+            // 
+            this.chkSettingsDownloadsDownloadSubtitles.AutoSize = true;
+            this.chkSettingsDownloadsDownloadSubtitles.Location = new System.Drawing.Point(42, 221);
+            this.chkSettingsDownloadsDownloadSubtitles.Name = "chkSettingsDownloadsDownloadSubtitles";
+            this.chkSettingsDownloadsDownloadSubtitles.Size = new System.Drawing.Size(222, 17);
+            this.chkSettingsDownloadsDownloadSubtitles.TabIndex = 24;
+            this.chkSettingsDownloadsDownloadSubtitles.Text = "chkSettingsDownloadsDownloadSubtitles";
+            this.tipSettings.SetToolTip(this.chkSettingsDownloadsDownloadSubtitles, "chkSettingsDownloadsDownloadSubtitles");
+            this.chkSettingsDownloadsDownloadSubtitles.UseVisualStyleBackColor = true;
+            // 
+            // chkSettingsDownloadsSaveFormatQuality
+            // 
+            this.chkSettingsDownloadsSaveFormatQuality.AutoSize = true;
+            this.chkSettingsDownloadsSaveFormatQuality.Enabled = false;
+            this.chkSettingsDownloadsSaveFormatQuality.Location = new System.Drawing.Point(42, 147);
+            this.chkSettingsDownloadsSaveFormatQuality.Name = "chkSettingsDownloadsSaveFormatQuality";
+            this.chkSettingsDownloadsSaveFormatQuality.Size = new System.Drawing.Size(223, 17);
+            this.chkSettingsDownloadsSaveFormatQuality.TabIndex = 15;
+            this.chkSettingsDownloadsSaveFormatQuality.Text = "chkSettingsDownloadsSaveFormatQuality";
+            this.tipSettings.SetToolTip(this.chkSettingsDownloadsSaveFormatQuality, "chkSettingsDownloadsSaveFormatQuality");
+            this.chkSettingsDownloadsSaveFormatQuality.UseVisualStyleBackColor = true;
+            // 
+            // chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing
+            // 
+            this.chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing.AutoSize = true;
+            this.chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing.Location = new System.Drawing.Point(42, 170);
+            this.chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing.Name = "chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing";
+            this.chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing.Size = new System.Drawing.Size(340, 17);
+            this.chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing.TabIndex = 14;
+            this.chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing.Text = "chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing";
+            this.tipSettings.SetToolTip(this.chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing, "chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing");
+            this.chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing.UseVisualStyleBackColor = true;
             // 
             // chksettingsDownloadsUseYoutubeDlsUpdater
             // 
@@ -516,17 +508,21 @@
             this.chksettingsDownloadsUseYoutubeDlsUpdater.Size = new System.Drawing.Size(244, 17);
             this.chksettingsDownloadsUseYoutubeDlsUpdater.TabIndex = 13;
             this.chksettingsDownloadsUseYoutubeDlsUpdater.Text = "chksettingsDownloadsUseYoutubeDlsUpdater";
-            this.tipSettings.SetToolTip(this.chksettingsDownloadsUseYoutubeDlsUpdater, "Use youtube-dl\'s internal updater instead of this application\'s updater");
+            this.tipSettings.SetToolTip(this.chksettingsDownloadsUseYoutubeDlsUpdater, "chksettingsDownloadsUseYoutubeDlsUpdater");
             this.chksettingsDownloadsUseYoutubeDlsUpdater.UseVisualStyleBackColor = true;
             // 
-            // lbSettingsDownloadsFileNameSchema
+            // chkSettingsDownloadsSeparateDownloadsToDifferentFolders
             // 
-            this.lbSettingsDownloadsFileNameSchema.AutoSize = true;
-            this.lbSettingsDownloadsFileNameSchema.Location = new System.Drawing.Point(19, 59);
-            this.lbSettingsDownloadsFileNameSchema.Name = "lbSettingsDownloadsFileNameSchema";
-            this.lbSettingsDownloadsFileNameSchema.Size = new System.Drawing.Size(189, 13);
-            this.lbSettingsDownloadsFileNameSchema.TabIndex = 19;
-            this.lbSettingsDownloadsFileNameSchema.Text = "lbSettingsDownloadsFileNameSchema";
+            this.chkSettingsDownloadsSeparateDownloadsToDifferentFolders.AutoSize = true;
+            this.chkSettingsDownloadsSeparateDownloadsToDifferentFolders.Checked = true;
+            this.chkSettingsDownloadsSeparateDownloadsToDifferentFolders.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkSettingsDownloadsSeparateDownloadsToDifferentFolders.Location = new System.Drawing.Point(42, 124);
+            this.chkSettingsDownloadsSeparateDownloadsToDifferentFolders.Name = "chkSettingsDownloadsSeparateDownloadsToDifferentFolders";
+            this.chkSettingsDownloadsSeparateDownloadsToDifferentFolders.Size = new System.Drawing.Size(317, 17);
+            this.chkSettingsDownloadsSeparateDownloadsToDifferentFolders.TabIndex = 17;
+            this.chkSettingsDownloadsSeparateDownloadsToDifferentFolders.Text = "chkSettingsDownloadsSeparateDownloadsToDifferentFolders";
+            this.tipSettings.SetToolTip(this.chkSettingsDownloadsSeparateDownloadsToDifferentFolders, "chkSettingsDownloadsSeparateDownloadsToDifferentFolders");
+            this.chkSettingsDownloadsSeparateDownloadsToDifferentFolders.UseVisualStyleBackColor = true;
             // 
             // tabSettingsConverter
             // 
@@ -540,7 +536,7 @@
             this.tabSettingsConverter.Padding = new System.Windows.Forms.Padding(3);
             this.tabSettingsConverter.Size = new System.Drawing.Size(320, 253);
             this.tabSettingsConverter.TabIndex = 2;
-            this.tabSettingsConverter.Text = "Converter";
+            this.tabSettingsConverter.Text = "tabSettingsConverterConverter";
             this.tabSettingsConverter.UseVisualStyleBackColor = true;
             // 
             // chkSettingsConverterHideFFmpegCompileInfo
@@ -551,7 +547,7 @@
             this.chkSettingsConverterHideFFmpegCompileInfo.Size = new System.Drawing.Size(242, 17);
             this.chkSettingsConverterHideFFmpegCompileInfo.TabIndex = 19;
             this.chkSettingsConverterHideFFmpegCompileInfo.Text = "chkSettingsConverterHideFFmpegCompileInfo";
-            this.tipSettings.SetToolTip(this.chkSettingsConverterHideFFmpegCompileInfo, "Enabling this will hide some compilation information of ffmpeg.");
+            this.tipSettings.SetToolTip(this.chkSettingsConverterHideFFmpegCompileInfo, "chkSettingsConverterHideFFmpegCompileInfo");
             this.chkSettingsConverterHideFFmpegCompileInfo.UseVisualStyleBackColor = true;
             // 
             // chkSettingsConverterDetectOutputFileType
@@ -564,9 +560,7 @@
             this.chkSettingsConverterDetectOutputFileType.Size = new System.Drawing.Size(231, 17);
             this.chkSettingsConverterDetectOutputFileType.TabIndex = 0;
             this.chkSettingsConverterDetectOutputFileType.Text = "chkSettingsConverterDetectOutputFileType";
-            this.tipSettings.SetToolTip(this.chkSettingsConverterDetectOutputFileType, "If Automatic is checked on converting, this will attempt to detect the output fil" +
-        "e type.\r\n\r\nDisable this if you want a simple conversion. The quality may suffer " +
-        "as a result.");
+            this.tipSettings.SetToolTip(this.chkSettingsConverterDetectOutputFileType, "chkSettingsConverterDetectOutputFileType");
             this.chkSettingsConverterDetectOutputFileType.UseVisualStyleBackColor = true;
             // 
             // tcConverter
@@ -593,7 +587,7 @@
             this.tcSettingsConverterVideo.Controls.Add(this.numConvertVideoBitrate);
             this.tcSettingsConverterVideo.Controls.Add(this.lbConvertVideoThousands);
             this.tcSettingsConverterVideo.Controls.Add(this.lbSettingsConverterVideoBitrate);
-            this.tcSettingsConverterVideo.Controls.Add(this.lbkSettingsConverterVideoPreset);
+            this.tcSettingsConverterVideo.Controls.Add(this.lbSettingsConverterVideoPreset);
             this.tcSettingsConverterVideo.Controls.Add(this.lbSettingsConverterVideoProfile);
             this.tcSettingsConverterVideo.Controls.Add(this.lbSettingsConverterVideoCRF);
             this.tcSettingsConverterVideo.Location = new System.Drawing.Point(4, 22);
@@ -650,8 +644,7 @@
             this.chkSettingsConverterVideoFastStart.Size = new System.Drawing.Size(196, 17);
             this.chkSettingsConverterVideoFastStart.TabIndex = 9;
             this.chkSettingsConverterVideoFastStart.Text = "chkSettingsConverterVideoFastStart";
-            this.tipSettings.SetToolTip(this.chkSettingsConverterVideoFastStart, "Faststart moves the metadata to the front of the file.\r\n\r\nEnabling this allows vi" +
-        "deos to be played before they are fully downloaded.");
+            this.tipSettings.SetToolTip(this.chkSettingsConverterVideoFastStart, "chkSettingsConverterVideoFastStart");
             this.chkSettingsConverterVideoFastStart.UseVisualStyleBackColor = true;
             // 
             // numConvertVideoCRF
@@ -665,7 +658,6 @@
             this.numConvertVideoCRF.Name = "numConvertVideoCRF";
             this.numConvertVideoCRF.Size = new System.Drawing.Size(39, 20);
             this.numConvertVideoCRF.TabIndex = 7;
-            this.tipSettings.SetToolTip(this.numConvertVideoCRF, "CRF is constant rate factor.\r\n\r\nLower = Higher quality");
             this.numConvertVideoCRF.Value = new decimal(new int[] {
             8,
             0,
@@ -687,9 +679,6 @@
             this.cbConvertVideoProfile.Name = "cbConvertVideoProfile";
             this.cbConvertVideoProfile.Size = new System.Drawing.Size(94, 21);
             this.cbConvertVideoProfile.TabIndex = 5;
-            this.tipSettings.SetToolTip(this.cbConvertVideoProfile, "The encoder profile to be used during conversion. It affects the compression of t" +
-        "he video.\r\n\r\nIt\'s generally a good idea to stick with the main profile\r\n\r\nThis w" +
-        "ill not effect certain conversions.");
             // 
             // cbConvertVideoPreset
             // 
@@ -709,8 +698,6 @@
             this.cbConvertVideoPreset.Name = "cbConvertVideoPreset";
             this.cbConvertVideoPreset.Size = new System.Drawing.Size(94, 21);
             this.cbConvertVideoPreset.TabIndex = 3;
-            this.tipSettings.SetToolTip(this.cbConvertVideoPreset, "The video preset of the conversion\r\n\r\nultrafast = fastest, but lower quality\r\nver" +
-        "yslow = slowest, but higher quality");
             // 
             // numConvertVideoBitrate
             // 
@@ -724,7 +711,6 @@
             this.numConvertVideoBitrate.Size = new System.Drawing.Size(79, 20);
             this.numConvertVideoBitrate.TabIndex = 0;
             this.numConvertVideoBitrate.ThousandsSeparator = true;
-            this.tipSettings.SetToolTip(this.numConvertVideoBitrate, resources.GetString("numConvertVideoBitrate.ToolTip"));
             this.numConvertVideoBitrate.Value = new decimal(new int[] {
             7500,
             0,
@@ -740,8 +726,6 @@
             this.lbConvertVideoThousands.Size = new System.Drawing.Size(16, 17);
             this.lbConvertVideoThousands.TabIndex = 2;
             this.lbConvertVideoThousands.Text = "K";
-            this.tipSettings.SetToolTip(this.lbConvertVideoThousands, "If you were to input \"10,000\" as the bitrate, it would be interpreted as \"10,000," +
-        "000\" bits per second.");
             // 
             // lbSettingsConverterVideoBitrate
             // 
@@ -751,18 +735,17 @@
             this.lbSettingsConverterVideoBitrate.Size = new System.Drawing.Size(156, 13);
             this.lbSettingsConverterVideoBitrate.TabIndex = 1;
             this.lbSettingsConverterVideoBitrate.Text = "lbSettingsConverterVideoBitrate";
-            this.tipSettings.SetToolTip(this.lbSettingsConverterVideoBitrate, resources.GetString("lbSettingsConverterVideoBitrate.ToolTip"));
+            this.tipSettings.SetToolTip(this.lbSettingsConverterVideoBitrate, "lbSettingsConverterVideoBitrate");
             // 
-            // lbkSettingsConverterVideoPreset
+            // lbSettingsConverterVideoPreset
             // 
-            this.lbkSettingsConverterVideoPreset.AutoSize = true;
-            this.lbkSettingsConverterVideoPreset.Location = new System.Drawing.Point(86, 43);
-            this.lbkSettingsConverterVideoPreset.Name = "lbkSettingsConverterVideoPreset";
-            this.lbkSettingsConverterVideoPreset.Size = new System.Drawing.Size(162, 13);
-            this.lbkSettingsConverterVideoPreset.TabIndex = 4;
-            this.lbkSettingsConverterVideoPreset.Text = "lbkSettingsConverterVideoPreset";
-            this.tipSettings.SetToolTip(this.lbkSettingsConverterVideoPreset, "The video preset of the conversion\r\n\r\nultrafast = fastest, but lower quality\r\nver" +
-        "yslow = slowest, but higher quality");
+            this.lbSettingsConverterVideoPreset.AutoSize = true;
+            this.lbSettingsConverterVideoPreset.Location = new System.Drawing.Point(86, 43);
+            this.lbSettingsConverterVideoPreset.Name = "lbSettingsConverterVideoPreset";
+            this.lbSettingsConverterVideoPreset.Size = new System.Drawing.Size(162, 13);
+            this.lbSettingsConverterVideoPreset.TabIndex = 4;
+            this.lbSettingsConverterVideoPreset.Text = "lbkSettingsConverterVideoPreset";
+            this.tipSettings.SetToolTip(this.lbSettingsConverterVideoPreset, "lbSettingsConverterVideoPreset");
             // 
             // lbSettingsConverterVideoProfile
             // 
@@ -772,8 +755,7 @@
             this.lbSettingsConverterVideoProfile.Size = new System.Drawing.Size(155, 13);
             this.lbSettingsConverterVideoProfile.TabIndex = 6;
             this.lbSettingsConverterVideoProfile.Text = "lbSettingsConverterVideoProfile";
-            this.tipSettings.SetToolTip(this.lbSettingsConverterVideoProfile, "The encoder profile to be used during conversion. It affects the compression of t" +
-        "he video.\r\nIt\'s generally a good idea to stick with the main profile");
+            this.tipSettings.SetToolTip(this.lbSettingsConverterVideoProfile, "lbSettingsConverterVideoProfile");
             // 
             // lbSettingsConverterVideoCRF
             // 
@@ -783,7 +765,7 @@
             this.lbSettingsConverterVideoCRF.Size = new System.Drawing.Size(147, 13);
             this.lbSettingsConverterVideoCRF.TabIndex = 8;
             this.lbSettingsConverterVideoCRF.Text = "lbSettingsConverterVideoCRF";
-            this.tipSettings.SetToolTip(this.lbSettingsConverterVideoCRF, "CRF is constant rate factor.\r\n\r\nLower = Higher quality");
+            this.tipSettings.SetToolTip(this.lbSettingsConverterVideoCRF, "lbSettingsConverterVideoCRF");
             // 
             // tcSettingsConverterAudio
             // 
@@ -791,7 +773,7 @@
             this.tcSettingsConverterAudio.Controls.Add(this.numConvertAudioBitrate);
             this.tcSettingsConverterAudio.Controls.Add(this.lbidkwhatsup);
             this.tcSettingsConverterAudio.Controls.Add(this.lbConvertAudioThousands);
-            this.tcSettingsConverterAudio.Controls.Add(this.chkSettingsConverterAudioBitrate);
+            this.tcSettingsConverterAudio.Controls.Add(this.lbSettingsConverterAudioBitrate);
             this.tcSettingsConverterAudio.Location = new System.Drawing.Point(4, 22);
             this.tcSettingsConverterAudio.Name = "tcSettingsConverterAudio";
             this.tcSettingsConverterAudio.Padding = new System.Windows.Forms.Padding(3);
@@ -823,7 +805,6 @@
             this.numConvertAudioBitrate.Size = new System.Drawing.Size(49, 20);
             this.numConvertAudioBitrate.TabIndex = 16;
             this.numConvertAudioBitrate.ThousandsSeparator = true;
-            this.tipSettings.SetToolTip(this.numConvertAudioBitrate, resources.GetString("numConvertAudioBitrate.ToolTip"));
             this.numConvertAudioBitrate.Value = new decimal(new int[] {
             256,
             0,
@@ -852,18 +833,16 @@
             this.lbConvertAudioThousands.Size = new System.Drawing.Size(16, 17);
             this.lbConvertAudioThousands.TabIndex = 18;
             this.lbConvertAudioThousands.Text = "K";
-            this.tipSettings.SetToolTip(this.lbConvertAudioThousands, "If you were to input \"256\" as the bitrate, it would be interpreted as \"256,000\" b" +
-        "its per second.");
             // 
-            // chkSettingsConverterAudioBitrate
+            // lbSettingsConverterAudioBitrate
             // 
-            this.chkSettingsConverterAudioBitrate.AutoSize = true;
-            this.chkSettingsConverterAudioBitrate.Location = new System.Drawing.Point(102, 21);
-            this.chkSettingsConverterAudioBitrate.Name = "chkSettingsConverterAudioBitrate";
-            this.chkSettingsConverterAudioBitrate.Size = new System.Drawing.Size(166, 13);
-            this.chkSettingsConverterAudioBitrate.TabIndex = 19;
-            this.chkSettingsConverterAudioBitrate.Text = "chkSettingsConverterAudioBitrate";
-            this.tipSettings.SetToolTip(this.chkSettingsConverterAudioBitrate, resources.GetString("chkSettingsConverterAudioBitrate.ToolTip"));
+            this.lbSettingsConverterAudioBitrate.AutoSize = true;
+            this.lbSettingsConverterAudioBitrate.Location = new System.Drawing.Point(102, 21);
+            this.lbSettingsConverterAudioBitrate.Name = "lbSettingsConverterAudioBitrate";
+            this.lbSettingsConverterAudioBitrate.Size = new System.Drawing.Size(166, 13);
+            this.lbSettingsConverterAudioBitrate.TabIndex = 19;
+            this.lbSettingsConverterAudioBitrate.Text = "chkSettingsConverterAudioBitrate";
+            this.tipSettings.SetToolTip(this.lbSettingsConverterAudioBitrate, "lbSettingsConverterAudioBitrate");
             // 
             // tcSettingsConverterCustom
             // 
@@ -883,8 +862,7 @@
             this.txtSettingsConverterCustomArguments.Name = "txtSettingsConverterCustomArguments";
             this.txtSettingsConverterCustomArguments.Size = new System.Drawing.Size(228, 20);
             this.txtSettingsConverterCustomArguments.TabIndex = 1;
-            this.tipSettings.SetToolTip(this.txtSettingsConverterCustomArguments, "Custom arguments that will be passed through ffmpeg instead of built-in arguments" +
-        "");
+            this.tipSettings.SetToolTip(this.txtSettingsConverterCustomArguments, "txtSettingsConverterCustomArguments");
             // 
             // lbSettingsConverterCustomHeader
             // 
@@ -904,7 +882,7 @@
             this.chkSettingsConverterClearInputAfterConverting.Size = new System.Drawing.Size(248, 17);
             this.chkSettingsConverterClearInputAfterConverting.TabIndex = 17;
             this.chkSettingsConverterClearInputAfterConverting.Text = "chkSettingsConverterClearInputAfterConverting";
-            this.tipSettings.SetToolTip(this.chkSettingsConverterClearInputAfterConverting, "Clears the input file after a successful conversion");
+            this.tipSettings.SetToolTip(this.chkSettingsConverterClearInputAfterConverting, "chkSettingsConverterClearInputAfterConverting");
             this.chkSettingsConverterClearInputAfterConverting.UseVisualStyleBackColor = true;
             // 
             // chkSettingsConverterClearOutputAfterConverting
@@ -915,7 +893,7 @@
             this.chkSettingsConverterClearOutputAfterConverting.Size = new System.Drawing.Size(256, 17);
             this.chkSettingsConverterClearOutputAfterConverting.TabIndex = 16;
             this.chkSettingsConverterClearOutputAfterConverting.Text = "chkSettingsConverterClearOutputAfterConverting";
-            this.tipSettings.SetToolTip(this.chkSettingsConverterClearOutputAfterConverting, "Clears the output file after a successful conversion\r\n");
+            this.tipSettings.SetToolTip(this.chkSettingsConverterClearOutputAfterConverting, "chkSettingsConverterClearOutputAfterConverting");
             this.chkSettingsConverterClearOutputAfterConverting.UseVisualStyleBackColor = true;
             // 
             // tabSettingsExtensions
@@ -925,16 +903,16 @@
             this.tabSettingsExtensions.Controls.Add(this.btnSettingsExtensionsRemoveSelected);
             this.tabSettingsExtensions.Controls.Add(this.listExtensions);
             this.tabSettingsExtensions.Controls.Add(this.lbSettingsExtensionsExtensionShort);
-            this.tabSettingsExtensions.Controls.Add(this.txtExtensionsShort);
+            this.tabSettingsExtensions.Controls.Add(this.txtSettingsExtensionsExtensionShort);
             this.tabSettingsExtensions.Controls.Add(this.lbSettingsExtensionsExtensionFullName);
-            this.tabSettingsExtensions.Controls.Add(this.txtExtensionsName);
+            this.tabSettingsExtensions.Controls.Add(this.txtSettingsExtensionsExtensionFullName);
             this.tabSettingsExtensions.Controls.Add(this.lbSettingsExtensionsHeader);
             this.tabSettingsExtensions.Location = new System.Drawing.Point(4, 22);
             this.tabSettingsExtensions.Name = "tabSettingsExtensions";
             this.tabSettingsExtensions.Padding = new System.Windows.Forms.Padding(3);
             this.tabSettingsExtensions.Size = new System.Drawing.Size(320, 253);
             this.tabSettingsExtensions.TabIndex = 4;
-            this.tabSettingsExtensions.Text = "Extensions";
+            this.tabSettingsExtensions.Text = "tabSettingsExtensions";
             this.tabSettingsExtensions.UseVisualStyleBackColor = true;
             // 
             // lbSettingsExtensionsFileName
@@ -985,12 +963,12 @@
             this.lbSettingsExtensionsExtensionShort.TabIndex = 5;
             this.lbSettingsExtensionsExtensionShort.Text = "lbSettingsExtensionsExtensionShort";
             // 
-            // txtExtensionsShort
+            // txtSettingsExtensionsExtensionShort
             // 
-            this.txtExtensionsShort.Location = new System.Drawing.Point(181, 65);
-            this.txtExtensionsShort.Name = "txtExtensionsShort";
-            this.txtExtensionsShort.Size = new System.Drawing.Size(57, 20);
-            this.txtExtensionsShort.TabIndex = 4;
+            this.txtSettingsExtensionsExtensionShort.Location = new System.Drawing.Point(181, 65);
+            this.txtSettingsExtensionsExtensionShort.Name = "txtSettingsExtensionsExtensionShort";
+            this.txtSettingsExtensionsExtensionShort.Size = new System.Drawing.Size(57, 20);
+            this.txtSettingsExtensionsExtensionShort.TabIndex = 4;
             // 
             // lbSettingsExtensionsExtensionFullName
             // 
@@ -1001,12 +979,12 @@
             this.lbSettingsExtensionsExtensionFullName.TabIndex = 3;
             this.lbSettingsExtensionsExtensionFullName.Text = "lbSettingsExtensionsExtensionFullName";
             // 
-            // txtExtensionsName
+            // txtSettingsExtensionsExtensionFullName
             // 
-            this.txtExtensionsName.Location = new System.Drawing.Point(31, 65);
-            this.txtExtensionsName.Name = "txtExtensionsName";
-            this.txtExtensionsName.Size = new System.Drawing.Size(144, 20);
-            this.txtExtensionsName.TabIndex = 2;
+            this.txtSettingsExtensionsExtensionFullName.Location = new System.Drawing.Point(31, 65);
+            this.txtSettingsExtensionsExtensionFullName.Name = "txtSettingsExtensionsExtensionFullName";
+            this.txtSettingsExtensionsExtensionFullName.Size = new System.Drawing.Size(144, 20);
+            this.txtSettingsExtensionsExtensionFullName.TabIndex = 2;
             // 
             // lbSettingsExtensionsHeader
             // 
@@ -1028,7 +1006,7 @@
             this.tabSettingsErrors.Padding = new System.Windows.Forms.Padding(3);
             this.tabSettingsErrors.Size = new System.Drawing.Size(320, 253);
             this.tabSettingsErrors.TabIndex = 3;
-            this.tabSettingsErrors.Text = "Errors";
+            this.tabSettingsErrors.Text = "tabSettingsErrors";
             this.tabSettingsErrors.UseVisualStyleBackColor = true;
             // 
             // chkSettingsErrorsSaveErrorsAsErrorLog
@@ -1039,7 +1017,7 @@
             this.chkSettingsErrorsSaveErrorsAsErrorLog.Size = new System.Drawing.Size(212, 17);
             this.chkSettingsErrorsSaveErrorsAsErrorLog.TabIndex = 2;
             this.chkSettingsErrorsSaveErrorsAsErrorLog.Text = "chkSettingsErrorsSaveErrorsAsErrorLog";
-            this.tipSettings.SetToolTip(this.chkSettingsErrorsSaveErrorsAsErrorLog, "Saves the latest error as error.log in the exeucting directory of youtube-dl-gui");
+            this.tipSettings.SetToolTip(this.chkSettingsErrorsSaveErrorsAsErrorLog, "chkSettingsErrorsSaveErrorsAsErrorLog");
             this.chkSettingsErrorsSaveErrorsAsErrorLog.UseVisualStyleBackColor = true;
             // 
             // chkSettingsErrorsShowDetailedErrors
@@ -1050,7 +1028,7 @@
             this.chkSettingsErrorsShowDetailedErrors.Size = new System.Drawing.Size(201, 17);
             this.chkSettingsErrorsShowDetailedErrors.TabIndex = 1;
             this.chkSettingsErrorsShowDetailedErrors.Text = "chkSettingsErrorsShowDetailedErrors";
-            this.tipSettings.SetToolTip(this.chkSettingsErrorsShowDetailedErrors, "Shows more details in errors");
+            this.tipSettings.SetToolTip(this.chkSettingsErrorsShowDetailedErrors, "chkSettingsErrorsShowDetailedErrors");
             this.chkSettingsErrorsShowDetailedErrors.UseVisualStyleBackColor = true;
             // 
             // chkSettingsErrorsSuppressErrors
@@ -1061,8 +1039,7 @@
             this.chkSettingsErrorsSuppressErrors.Size = new System.Drawing.Size(179, 17);
             this.chkSettingsErrorsSuppressErrors.TabIndex = 0;
             this.chkSettingsErrorsSuppressErrors.Text = "chkSettingsErrorsSuppressErrors";
-            this.tipSettings.SetToolTip(this.chkSettingsErrorsSuppressErrors, "This will silence any errors and will not save any error.log files.\r\n\r\nThis basic" +
-        "ally overrides all error settings. Use at your own risk.");
+            this.tipSettings.SetToolTip(this.chkSettingsErrorsSuppressErrors, "chkSettingsErrorsSuppressErrors");
             this.chkSettingsErrorsSuppressErrors.UseVisualStyleBackColor = true;
             // 
             // btnSettingsRedownloadYoutubeDl
@@ -1072,7 +1049,7 @@
             this.btnSettingsRedownloadYoutubeDl.Size = new System.Drawing.Size(140, 23);
             this.btnSettingsRedownloadYoutubeDl.TabIndex = 18;
             this.btnSettingsRedownloadYoutubeDl.Text = "btnSettingsRedownloadYoutubeDl";
-            this.tipSettings.SetToolTip(this.btnSettingsRedownloadYoutubeDl, "Redownloads youtube-dl if one is already present, otherwise, updates youtube-dl");
+            this.tipSettings.SetToolTip(this.btnSettingsRedownloadYoutubeDl, "btnSettingsRedownloadYoutubeDl");
             this.btnSettingsRedownloadYoutubeDl.UseVisualStyleBackColor = true;
             this.btnSettingsRedownloadYoutubeDl.Click += new System.EventHandler(this.btnSettingsRedownloadYoutubeDl_Click);
             // 
@@ -1084,7 +1061,7 @@
             this.btnSettingsCancel.Size = new System.Drawing.Size(75, 23);
             this.btnSettingsCancel.TabIndex = 1;
             this.btnSettingsCancel.Text = "btnSettingsCancel";
-            this.tipSettings.SetToolTip(this.btnSettingsCancel, "Discard any changed settings");
+            this.tipSettings.SetToolTip(this.btnSettingsCancel, "btnSettingsCancel");
             this.btnSettingsCancel.UseVisualStyleBackColor = true;
             this.btnSettingsCancel.Click += new System.EventHandler(this.btnSettingsCancel_Click);
             // 
@@ -1096,7 +1073,7 @@
             this.btnSettingsSave.Size = new System.Drawing.Size(75, 23);
             this.btnSettingsSave.TabIndex = 2;
             this.btnSettingsSave.Text = "btnSettingsSave";
-            this.tipSettings.SetToolTip(this.btnSettingsSave, "Save all configured settings");
+            this.tipSettings.SetToolTip(this.btnSettingsSave, "btnSettingsSave");
             this.btnSettingsSave.UseVisualStyleBackColor = true;
             this.btnSettingsSave.Click += new System.EventHandler(this.btnSettingsSave_Click);
             // 
@@ -1131,8 +1108,8 @@
             this.tabSettingsGeneral.PerformLayout();
             this.gbSettingsGeneralCustomArguments.ResumeLayout(false);
             this.gbSettingsGeneralCustomArguments.PerformLayout();
-            this.tbSettingsDownloads.ResumeLayout(false);
-            this.tbSettingsDownloads.PerformLayout();
+            this.tabSettingsDownloads.ResumeLayout(false);
+            this.tabSettingsDownloads.PerformLayout();
             this.tabSettingsConverter.ResumeLayout(false);
             this.tabSettingsConverter.PerformLayout();
             this.tcConverter.ResumeLayout(false);
@@ -1158,15 +1135,15 @@
         private System.Windows.Forms.TabControl tcMain;
         private System.Windows.Forms.TabPage tabSettingsGeneral;
         private System.Windows.Forms.Label lbSepGeneral;
-        private System.Windows.Forms.Button btnBrwsFF;
-        private System.Windows.Forms.Button btnBrwsYtdl;
+        private System.Windows.Forms.Button btnSettingsGeneralBrowseFFmpeg;
+        private System.Windows.Forms.Button btnSettingsGeneralBrowseYoutubeDl;
         private System.Windows.Forms.CheckBox chkSettingsGeneralUseStaticYoutubeDl;
         private System.Windows.Forms.CheckBox chkSettingsGeneralUseStaticFFmpeg;
-        private System.Windows.Forms.TextBox txtFFmpeg;
+        private System.Windows.Forms.TextBox txtSettingsGeneralFFmpegPath;
         private System.Windows.Forms.Label lbSettingsGeneralFFmpegDirectory;
-        private System.Windows.Forms.TextBox txtYtdl;
+        private System.Windows.Forms.TextBox txtSettingsGeneralYoutubeDlPath;
         private System.Windows.Forms.Label lbSettingsGeneralYoutubeDlPath;
-        private System.Windows.Forms.TabPage tbSettingsDownloads;
+        private System.Windows.Forms.TabPage tabSettingsDownloads;
         private System.Windows.Forms.TabPage tabSettingsConverter;
         private System.Windows.Forms.Button btnSettingsCancel;
         private System.Windows.Forms.Button btnSettingsSave;
@@ -1178,8 +1155,8 @@
         private System.Windows.Forms.CheckBox chkSettingsGeneralHoverOverUrlToPasteClipboard;
         private System.Windows.Forms.CheckBox chkSettingsGeneralCheckForUpdatesOnLaunch;
         private System.Windows.Forms.CheckBox chksettingsDownloadsUseYoutubeDlsUpdater;
-        private System.Windows.Forms.Button btnBrowseSaveto;
-        private System.Windows.Forms.TextBox txtSaveto;
+        private System.Windows.Forms.Button btnSettingsDownloadsBrowseSavePath;
+        private System.Windows.Forms.TextBox txtSettingsDownloadsSavePath;
         private System.Windows.Forms.Label lbSettingsDownloadsDownloadPath;
         private System.Windows.Forms.Label lbSepDownloads;
         private System.Windows.Forms.CheckBox chkSettingsDownloadsSeparateDownloadsToDifferentFolders;
@@ -1187,9 +1164,9 @@
         private System.Windows.Forms.CheckBox chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing;
         private System.Windows.Forms.Button btnSettingsRedownloadYoutubeDl;
         private System.Windows.Forms.CheckBox chkSettingsConverterDetectOutputFileType;
-        private System.Windows.Forms.TextBox txtFileNameSchema;
+        private System.Windows.Forms.TextBox txtSettingsDownloadsFileNameSchema;
         private System.Windows.Forms.Label lbSettingsDownloadsFileNameSchema;
-        private System.Windows.Forms.LinkLabel llSchema;
+        private System.Windows.Forms.LinkLabel llSettingsDownloadsSchemaHelp;
         private System.Windows.Forms.Label lbidkwhatsup;
         private System.Windows.Forms.ToolTip tipSettings;
         private System.Windows.Forms.CheckBox chkSettingsConverterClearInputAfterConverting;
@@ -1201,7 +1178,7 @@
         private System.Windows.Forms.Label lbConvertVideoThousands;
         private System.Windows.Forms.Label lbSettingsConverterVideoBitrate;
         private System.Windows.Forms.ComboBox cbConvertVideoPreset;
-        private System.Windows.Forms.Label lbkSettingsConverterVideoPreset;
+        private System.Windows.Forms.Label lbSettingsConverterVideoPreset;
         private System.Windows.Forms.Label lbSettingsConverterVideoProfile;
         private System.Windows.Forms.ComboBox cbConvertVideoProfile;
         private System.Windows.Forms.Label lbSettingsConverterVideoCRF;
@@ -1222,9 +1199,9 @@
         private System.Windows.Forms.Button btnSettingsExtensionsRemoveSelected;
         private System.Windows.Forms.ListBox listExtensions;
         private System.Windows.Forms.Label lbSettingsExtensionsExtensionShort;
-        private System.Windows.Forms.TextBox txtExtensionsShort;
+        private System.Windows.Forms.TextBox txtSettingsExtensionsExtensionShort;
         private System.Windows.Forms.Label lbSettingsExtensionsExtensionFullName;
-        private System.Windows.Forms.TextBox txtExtensionsName;
+        private System.Windows.Forms.TextBox txtSettingsExtensionsExtensionFullName;
         private System.Windows.Forms.Button btnSettingsExtensionsAdd;
         private System.Windows.Forms.Label lbSettingsExtensionsFileName;
         private System.Windows.Forms.CheckBox chkUseVideoCRF;
@@ -1232,7 +1209,7 @@
         private System.Windows.Forms.CheckBox chkSettingsConverterVideoPreset;
         private System.Windows.Forms.CheckBox chkUseVideoBitrate;
         private System.Windows.Forms.CheckBox chkUseAudioBitrate;
-        private System.Windows.Forms.Label chkSettingsConverterAudioBitrate;
+        private System.Windows.Forms.Label lbSettingsConverterAudioBitrate;
         private System.Windows.Forms.CheckBox chkSettingsDownloadsFixVReddIt;
         private System.Windows.Forms.CheckBox chkSettingsDownloadsSeparateIntoWebsiteUrl;
         private System.Windows.Forms.TextBox txtSubtitlesLanguages;

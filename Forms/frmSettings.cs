@@ -13,7 +13,8 @@ using System.Windows.Forms;
 
 namespace youtube_dl_gui {
     public partial class frmSettings : Form {
-        #region const
+        #region vars
+        Language lang = Language.GetInstance();
         public bool ffmpegAvailabled = false;
         public bool ytdlAvailable = false;
 
@@ -29,54 +30,168 @@ namespace youtube_dl_gui {
 
         public frmSettings() {
             InitializeComponent();
+            LoadLanguage();
             loadSettings();
-
-            SetTextBoxHint(txtExtensionsName.Handle, "Example Extension");
-            SetTextBoxHint(txtExtensionsShort.Handle, "ext");
         }
         private void frmSettings_Load(object sender, EventArgs e) {
 
         }
 
+        void LoadLanguage() {
+            btnSettingsRedownloadYoutubeDl.Text = lang.btnSettingsRedownloadYoutubeDl;
+            tipSettings.SetToolTip(btnSettingsRedownloadYoutubeDl, lang.btnSettingsRedownloadYoutubeDlHint);
+            btnSettingsCancel.Text = lang.btnSettingsCancel;
+            tipSettings.SetToolTip(btnSettingsCancel, lang.btnSettingsCancelHint);
+            btnSettingsSave.Text = lang.btnSettingsSave;
+            tipSettings.SetToolTip(btnSettingsSave, lang.btnSettingsSaveHint);
+
+            tabSettingsGeneral.Text = lang.tabSettingsGeneral;
+            tabSettingsDownloads.Text = lang.tabSettingsDownloads;
+            tabSettingsConverter.Text = lang.tabSettingsConverter;
+            tabSettingsExtensions.Text = lang.tabSettingsExtensions;
+            tabSettingsErrors.Text = lang.tabSettingsErrors;
+
+            lbSettingsGeneralYoutubeDlPath.Text = lang.lbSettingsGeneralYoutubeDlPath;
+            tipSettings.SetToolTip(lbSettingsGeneralYoutubeDlPath, lang.lbSettingsGeneralYoutubeDlPathHint);
+            chkSettingsGeneralUseStaticYoutubeDl.Text = lang.chkSettingsGeneralUseStaticYoutubeDl;
+            tipSettings.SetToolTip(chkSettingsGeneralUseStaticYoutubeDl, lang.chkSettingsGeneralUseStaticYoutubeDlHint);
+            tipSettings.SetToolTip(txtSettingsGeneralYoutubeDlPath, lang.txtSettingsGeneralYoutubeDlPathHint);
+            tipSettings.SetToolTip(btnSettingsGeneralBrowseYoutubeDl, lang.btnSettingsGeneralBrowseYoutubeDlHint);
+            lbSettingsGeneralFFmpegDirectory.Text = lang.lbSettingsGeneralFFmpegDirectory;
+            tipSettings.SetToolTip(lbSettingsGeneralFFmpegDirectory, lang.lbSettingsGeneralFFmpegDirectoryHint);
+            chkSettingsGeneralUseStaticFFmpeg.Text = lang.chkSettingsGeneralUseStaticFFmpeg;
+            tipSettings.SetToolTip(chkSettingsGeneralUseStaticFFmpeg, lang.chkSettingsGeneralUseStaticFFmpegHint);
+            tipSettings.SetToolTip(txtSettingsGeneralFFmpegPath, lang.txtSettingsGeneralFFmpegPathHint);
+            tipSettings.SetToolTip(btnSettingsGeneralBrowseFFmpeg, lang.btnSettingsGeneralBrowseFFmpegHint);
+            chkSettingsGeneralCheckForUpdatesOnLaunch.Text = lang.chkSettingsGeneralCheckForUpdatesOnLaunch;
+            tipSettings.SetToolTip(chkSettingsGeneralCheckForUpdatesOnLaunch, lang.chkSettingsGeneralCheckForUpdatesOnLaunchHint);
+            chkSettingsGeneralHoverOverUrlToPasteClipboard.Text = lang.chkSettingsGeneralHoverOverUrlToPasteClipboard;
+            tipSettings.SetToolTip(chkSettingsGeneralHoverOverUrlToPasteClipboard, lang.chkSettingsGeneralHoverOverUrlToPasteClipboardHint);
+            chkSettingsGeneralClearUrlClipboardOnDownload.Text = lang.chkSettingsGeneralClearUrlClipboardOnDownload;
+            tipSettings.SetToolTip(chkSettingsGeneralClearUrlClipboardOnDownload, lang.chkSettingsGeneralClearUrlClipboardOnDownloadHint);
+            gbSettingsGeneralCustomArguments.Text = lang.gbSettingsGeneralCustomArguments;
+            tipSettings.SetToolTip(gbSettingsGeneralCustomArguments, lang.gbSettingsGeneralCustomArgumentsHint);
+            rbSettingsGeneralCustomArgumentsDontSave.Text = lang.rbSettingsGeneralCustomArgumentsDontSave;
+            tipSettings.SetToolTip(rbSettingsGeneralCustomArgumentsDontSave, lang.rbSettingsGeneralCustomArgumentsDontSaveHint);
+            rbSettingsGeneralCustomArgumentsSaveAsArgsText.Text = lang.rbSettingsGeneralCustomArgumentsSaveAsArgsText;
+            tipSettings.SetToolTip(rbSettingsGeneralCustomArgumentsSaveAsArgsText, lang.rbSettingsGeneralCustomArgumentsSaveAsArgsTextHint);
+            rbSettingsGeneralCustomArgumentsSaveInSettings.Text = lang.rbSettingsGeneralCustomArgumentsSaveInSettings;
+            tipSettings.SetToolTip(rbSettingsGeneralCustomArgumentsSaveInSettings, lang.rbSettingsGeneralCustomArgumentsSaveInSettingsHint);
+
+            lbSettingsDownloadsDownloadPath.Text = lang.lbSettingsDownloadsDownloadPath;
+            tipSettings.SetToolTip(lbSettingsDownloadsDownloadPath, lang.lbSettingsDownloadsDownloadPathHint);
+            tipSettings.SetToolTip(txtSettingsDownloadsSavePath, lang.txtSettingsDownloadsSavePathHint);
+            tipSettings.SetToolTip(btnSettingsDownloadsBrowseSavePath, lang.btnSettingsDownloadsBrowseSavePathHint);
+            tipSettings.SetToolTip(llSettingsDownloadsSchemaHelp, lang.llSettingsDownloadsSchemaHelpHint);
+            lbSettingsDownloadsFileNameSchema.Text = lang.lbSettingsDownloadsFileNameSchema;
+            tipSettings.SetToolTip(lbSettingsDownloadsFileNameSchema, lang.lbSettingsDownloadsFileNameSchemaHint);
+            tipSettings.SetToolTip(txtSettingsDownloadsFileNameSchema, lang.txtSettingsDownloadsFileNameSchemaHint);
+            chkSettingsDownloadsSeparateDownloadsToDifferentFolders.Text = lang.chkSettingsDownloadsSeparateDownloadsToDifferentFolders;
+            tipSettings.SetToolTip(chkSettingsDownloadsSeparateDownloadsToDifferentFolders, lang.chkSettingsDownloadsSeparateDownloadsToDifferentFoldersHint);
+            chkSettingsDownloadsSaveFormatQuality.Text = lang.chkSettingsDownloadsSaveFormatQuality;
+            tipSettings.SetToolTip(chkSettingsDownloadsSaveFormatQuality, lang.chkSettingsDownloadsSaveFormatQualityHint);
+            chkSettingsDownloadsSeparateIntoWebsiteUrl.Text = lang.chkSettingsDownloadsSeparateIntoWebsiteUrl;
+            tipSettings.SetToolTip(chkSettingsDownloadsSeparateIntoWebsiteUrl, lang.chkSettingsDownloadsSeparateIntoWebsiteUrlHint);
+            chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing.Text = lang.chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing;
+            tipSettings.SetToolTip(chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing, lang.chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosingHint);
+            chksettingsDownloadsUseYoutubeDlsUpdater.Text = lang.chksettingsDownloadsUseYoutubeDlsUpdater;
+            tipSettings.SetToolTip(chksettingsDownloadsUseYoutubeDlsUpdater, lang.chksettingsDownloadsUseYoutubeDlsUpdaterHint);
+            chkSettingsDownloadsFixVReddIt.Text = lang.chkSettingsDownloadsFixVReddIt;
+            tipSettings.SetToolTip(chkSettingsDownloadsFixVReddIt, lang.chkSettingsDownloadsFixVReddItHint);
+            chkSettingsDownloadsDownloadSubtitles.Text = lang.chkSettingsDownloadsDownloadSubtitles;
+            tipSettings.SetToolTip(chkSettingsDownloadsDownloadSubtitles, lang.chkSettingsDownloadsDownloadSubtitlesHint);
+
+            chkSettingsConverterClearOutputAfterConverting.Text = lang.chkSettingsConverterClearOutputAfterConverting;
+            tipSettings.SetToolTip(chkSettingsConverterClearOutputAfterConverting, lang.chkSettingsConverterClearOutputAfterConvertingHint);
+            chkSettingsConverterDetectOutputFileType.Text = lang.chkSettingsConverterDetectOutputFileType;
+            tipSettings.SetToolTip(chkSettingsConverterDetectOutputFileType, lang.chkSettingsConverterDetectOutputFileTypeHint);
+            chkSettingsConverterClearInputAfterConverting.Text = lang.chkSettingsConverterClearInputAfterConverting;
+            tipSettings.SetToolTip(chkSettingsConverterClearInputAfterConverting, lang.chkSettingsConverterClearInputAfterConvertingHint);
+            chkSettingsConverterHideFFmpegCompileInfo.Text = lang.chkSettingsConverterHideFFmpegCompileInfo;
+            tipSettings.SetToolTip(chkSettingsConverterHideFFmpegCompileInfo, lang.chkSettingsConverterHideFFmpegCompileInfoHint);
+
+            tcSettingsConverterVideo.Text = lang.tcSettingsConverterVideo;
+            tcSettingsConverterAudio.Text = lang.tcSettingsConverterAudio;
+            tcSettingsConverterCustom.Text = lang.tcSettingsConverterCustom;
+
+            lbSettingsConverterVideoBitrate.Text = lang.lbSettingsConverterVideoBitrate;
+            tipSettings.SetToolTip(lbSettingsConverterVideoBitrate, lang.lbSettingsConverterVideoBitrateHint);
+            lbSettingsConverterVideoPreset.Text = lang.lbSettingsConverterVideoPreset;
+            tipSettings.SetToolTip(lbSettingsConverterVideoPreset, lang.lbSettingsConverterVideoPresetHint);
+            lbSettingsConverterVideoProfile.Text = lang.lbSettingsConverterVideoProfile;
+            tipSettings.SetToolTip(lbSettingsConverterVideoProfile, lang.lbSettingsConverterVideoProfileHint);
+            lbSettingsConverterVideoCRF.Text = lang.lbSettingsConverterVideoCRF;
+            tipSettings.SetToolTip(lbSettingsConverterVideoCRF, lang.lbSettingsConverterVideoCRFHint);
+            chkSettingsConverterVideoFastStart.Text = lang.chkSettingsConverterVideoFastStart;
+            tipSettings.SetToolTip(chkSettingsConverterVideoFastStart, lang.chkSettingsConverterVideoFastStartHint);
+            lbSettingsConverterAudioBitrate.Text = lang.lbSettingsConverterAudioBitrate;
+            tipSettings.SetToolTip(lbSettingsConverterAudioBitrate, lang.lbSettingsConverterAudioBitrateHint);
+            lbSettingsConverterCustomHeader.Text = lang.lbSettingsConverterCustomHeader;
+            tipSettings.SetToolTip(txtSettingsConverterCustomArguments, lang.txtSettingsConverterCustomArgumentsHint);
+
+            lbSettingsExtensionsHeader.Text = lang.lbSettingsExtensionsHeader;
+            //tipSettings.SetToolTip(lbSettingsExtensionsHeader, lang.lbSettingsExtensionsHeaderHint);
+            lbSettingsExtensionsExtensionFullName.Text = lang.lbSettingsExtensionsExtensionFullName;
+            SetTextBoxHint(txtSettingsExtensionsExtensionFullName.Handle, lang.txtSettingsExtensionsExtensionFullName);
+            //tipSettings.SetToolTip(lbSettingsExtensionsExtensionFullName, lang.lbSettingsExtensionsExtensionFullNameHint);
+            lbSettingsExtensionsExtensionShort.Text = lang.lbSettingsExtensionsExtensionShort;
+            SetTextBoxHint(txtSettingsExtensionsExtensionShort.Handle, lang.txtSettingsExtensionsExtensionShort);
+            //tipSettings.SetToolTip(lbSettingsExtensionsExtensionShort, lang.lbSettingsExtensionsExtensionShortHint);
+            btnSettingsExtensionsAdd.Text = lang.btnSettingsExtensionsAdd;
+            //tipSettings.SetToolTip(btnSettingsExtensionsAdd, lang.btnSettingsExtensionsAddHint);
+            lbSettingsExtensionsFileName.Text = lang.lbSettingsExtensionsFileName;
+            //tipSettings.SetToolTip(lbSettingsExtensionsFileName, lang.lbSettingsExtensionsFileNameHint);
+            btnSettingsExtensionsRemoveSelected.Text = lang.btnSettingsExtensionsRemoveSelected;
+            //tipSettings.SetToolTip(btnSettingsExtensionsRemoveSelected, lang.btnSettingsExtensionsRemoveSelectedHint);
+
+            chkSettingsErrorsShowDetailedErrors.Text = lang.chkSettingsErrorsShowDetailedErrors;
+            tipSettings.SetToolTip(chkSettingsErrorsShowDetailedErrors, lang.chkSettingsErrorsShowDetailedErrorsHint);
+            chkSettingsErrorsSaveErrorsAsErrorLog.Text = lang.chkSettingsErrorsSaveErrorsAsErrorLog;
+            tipSettings.SetToolTip(chkSettingsErrorsSaveErrorsAsErrorLog, lang.chkSettingsErrorsSaveErrorsAsErrorLogHint);
+            chkSettingsErrorsSuppressErrors.Text = lang.chkSettingsErrorsSuppressErrors;
+            tipSettings.SetToolTip(chkSettingsErrorsSuppressErrors, lang.chkSettingsErrorsSuppressErrorsHint);
+
+        }
+
         private void loadSettings() {
             if (General.Default.useStaticYtdl && !string.IsNullOrEmpty(General.Default.ytdlPath)) {
-                txtYtdl.Text = General.Default.ytdlPath;
+                txtSettingsGeneralYoutubeDlPath.Text = General.Default.ytdlPath;
                 chkSettingsGeneralUseStaticYoutubeDl.Checked = General.Default.useStaticYtdl;
             }
             else {
                 switch (Verification.ytdlFullCheck()) {
                     case 1:
-                        txtYtdl.Text = Environment.CurrentDirectory + "\\youtube-dl.exe";
+                        txtSettingsGeneralYoutubeDlPath.Text = Environment.CurrentDirectory + "\\youtube-dl.exe";
                         break;
                     case 2:
-                        txtYtdl.Text = Verification.ytdlPathLocation() + "\\youtube-dl.exe";
+                        txtSettingsGeneralYoutubeDlPath.Text = Verification.ytdlPathLocation() + "\\youtube-dl.exe";
                         break;
                     case 3:
-                        txtYtdl.Text = "CommandLine";
+                        txtSettingsGeneralYoutubeDlPath.Text = "CommandLine";
                         break;
                     case 0:
-                        txtYtdl.Text = General.Default.ytdlPath;
+                        txtSettingsGeneralYoutubeDlPath.Text = General.Default.ytdlPath;
                         break;
                 }
             }
 
             if (General.Default.useStaticFFmpeg && !string.IsNullOrEmpty(General.Default.ffmpegPath)) {
-                txtFFmpeg.Text = General.Default.ffmpegPath;
+                txtSettingsGeneralFFmpegPath.Text = General.Default.ffmpegPath;
                 chkSettingsGeneralUseStaticFFmpeg.Checked = General.Default.useStaticFFmpeg;
             }
             else {
                 switch (Verification.ffmpegFullCheck()) {
                     case 1:
-                        txtFFmpeg.Text = Environment.CurrentDirectory;
+                        txtSettingsGeneralFFmpegPath.Text = Environment.CurrentDirectory;
                         break;
                     case 2:
-                        txtFFmpeg.Text = Verification.ffmpegPathLocation();
+                        txtSettingsGeneralFFmpegPath.Text = Verification.ffmpegPathLocation();
                         break;
                     case 3:
-                        txtFFmpeg.Text = "CommandLine";
+                        txtSettingsGeneralFFmpegPath.Text = "CommandLine";
                         break;
                     case 0:
-                        txtFFmpeg.Text = General.Default.ffmpegPath;
+                        txtSettingsGeneralFFmpegPath.Text = General.Default.ffmpegPath;
                         break;
                 }
             }
@@ -101,13 +216,13 @@ namespace youtube_dl_gui {
 
 
             if (Downloads.Default.downloadPath == string.Empty) {
-                txtSaveto.Text = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Downloads";
+                txtSettingsDownloadsSavePath.Text = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Downloads";
             }
             else {
-                txtSaveto.Text = Downloads.Default.downloadPath;
+                txtSettingsDownloadsSavePath.Text = Downloads.Default.downloadPath;
             }
 
-            txtFileNameSchema.Text = Downloads.Default.fileNameSchema;
+            txtSettingsDownloadsFileNameSchema.Text = Downloads.Default.fileNameSchema;
             chkSettingsDownloadsSeparateDownloadsToDifferentFolders.Checked = Downloads.Default.separateDownloads;
             chkSettingsDownloadsSeparateIntoWebsiteUrl.Checked = Downloads.Default.separateIntoWebsiteURL;
             chkSettingsConverterDetectOutputFileType.Checked = Downloads.Default.saveParams;
@@ -146,11 +261,11 @@ namespace youtube_dl_gui {
         private void saveSettings() {
             General.Default.useStaticYtdl = chkSettingsGeneralUseStaticYoutubeDl.Checked;
             if (chkSettingsGeneralUseStaticYoutubeDl.Checked) {
-                General.Default.ytdlPath = txtYtdl.Text;
+                General.Default.ytdlPath = txtSettingsGeneralYoutubeDlPath.Text;
             }
             General.Default.useStaticFFmpeg = chkSettingsGeneralUseStaticFFmpeg.Checked;
-            if (chkSettingsGeneralUseStaticFFmpeg.Checked && !string.IsNullOrEmpty(txtFFmpeg.Text)) {
-                General.Default.ffmpegPath = txtFFmpeg.Text;
+            if (chkSettingsGeneralUseStaticFFmpeg.Checked && !string.IsNullOrEmpty(txtSettingsGeneralFFmpegPath.Text)) {
+                General.Default.ffmpegPath = txtSettingsGeneralFFmpegPath.Text;
             }
             General.Default.checkForUpdates = chkSettingsGeneralCheckForUpdatesOnLaunch.Checked;
             General.Default.hoverURL = chkSettingsGeneralHoverOverUrlToPasteClipboard.Checked;
@@ -164,8 +279,8 @@ namespace youtube_dl_gui {
             else
                 General.Default.saveCustomArgs = 0;
 
-            Downloads.Default.fileNameSchema = txtFileNameSchema.Text;
-            Downloads.Default.downloadPath = txtSaveto.Text;
+            Downloads.Default.fileNameSchema = txtSettingsDownloadsFileNameSchema.Text;
+            Downloads.Default.downloadPath = txtSettingsDownloadsSavePath.Text;
             Downloads.Default.separateDownloads = chkSettingsDownloadsSeparateDownloadsToDifferentFolders.Checked;
             Downloads.Default.separateIntoWebsiteURL = chkSettingsDownloadsSeparateIntoWebsiteUrl.Checked;
             Downloads.Default.deleteYtdlOnClose = chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing.Checked;
@@ -263,7 +378,7 @@ namespace youtube_dl_gui {
         }
 
         #region General
-        private void btnBrwsYtdl_Click(object sender, EventArgs e) {
+        private void btnSettingsGeneralBrowseYoutubeDl_Click(object sender, EventArgs e) {
             using (OpenFileDialog ofd = new OpenFileDialog()) {
                 ofd.Title = "Select youtube-dl.exe";
                 ofd.Filter = "youtube-dl executable (*.EXE)|*.exe";
@@ -271,11 +386,11 @@ namespace youtube_dl_gui {
                 ofd.Multiselect = false;
 
                 if (ofd.ShowDialog() == DialogResult.OK) {
-                    txtYtdl.Text = ofd.FileName;
+                    txtSettingsGeneralYoutubeDlPath.Text = ofd.FileName;
                 }
             }
         }
-        private void btnBrwsFF_Click(object sender, EventArgs e) {
+        private void btnSettingsGeneralBrowseFFmpeg_Click(object sender, EventArgs e) {
             using (OpenFileDialog ofd = new OpenFileDialog()) {
                 ofd.Title = "Select ffmpeg.exe and ffprobe.exe";
                 ofd.Filter = "ffmpeg & ffprobe executable (*.EXE)|*.exe";
@@ -283,24 +398,24 @@ namespace youtube_dl_gui {
                 ofd.Multiselect = false;
 
                 if (ofd.ShowDialog() == DialogResult.OK) {
-                    txtFFmpeg.Text = Path.GetDirectoryName(ofd.FileName);
+                    txtSettingsGeneralFFmpegPath.Text = Path.GetDirectoryName(ofd.FileName);
                 }
             }
         }
         #endregion
 
         #region Downloads
-        private void btnBrowseSaveto_Click(object sender, EventArgs e) {
+        private void btnSettingsDownloadsBrowseSavePath_Click(object sender, EventArgs e) {
             using (FolderBrowserDialog fbd = new FolderBrowserDialog()) {
                 fbd.Description = "Select a destionation where downloads will be saved to";
                 fbd.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Downloads";
 
                 if (fbd.ShowDialog() == DialogResult.OK) {
-                    txtSaveto.Text = fbd.SelectedPath;
+                    txtSettingsDownloadsSavePath.Text = fbd.SelectedPath;
                 }
             }
         }
-        private void llSchema_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
+        private void llSettingsDownloadsSchemaHelp_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
             Process.Start("https://github.com/ytdl-org/youtube-dl/blob/master/README.md#output-template");
         }
         #endregion
@@ -336,22 +451,22 @@ namespace youtube_dl_gui {
         }
 
         private void btnSettingsExtensionsAdd_Click(object sender, EventArgs e) {
-            if (txtExtensionsName.Text.Length == 0) {
+            if (txtSettingsExtensionsExtensionFullName.Text.Length == 0) {
                 MessageBox.Show("Enter an extension name");
                 return;
             }
 
-            if (txtExtensionsShort.Text.Length == 0) {
+            if (txtSettingsExtensionsExtensionShort.Text.Length == 0) {
                 MessageBox.Show("Enter an extension");
                 return;
             }
 
-            extensionsName.Add(txtExtensionsName.Text.Replace("|", "/"));
-            extensionsShort.Add(txtExtensionsShort.Text.Replace("|","/"));
+            extensionsName.Add(txtSettingsExtensionsExtensionFullName.Text.Replace("|", "/"));
+            extensionsShort.Add(txtSettingsExtensionsExtensionShort.Text.Replace("|","/"));
 
-            listExtensions.Items.Add(txtExtensionsName.Text + " (*." + txtExtensionsShort.Text + ")");
-            txtExtensionsName.Clear();
-            txtExtensionsShort.Clear();
+            listExtensions.Items.Add(txtSettingsExtensionsExtensionFullName.Text + " (*." + txtSettingsExtensionsExtensionShort.Text + ")");
+            txtSettingsExtensionsExtensionFullName.Clear();
+            txtSettingsExtensionsExtensionShort.Clear();
         }
         private void listExtensions_SelectedIndexChanged(object sender, EventArgs e) {
             if (listExtensions.SelectedIndex > -1) {

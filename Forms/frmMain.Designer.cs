@@ -46,7 +46,7 @@
             this.rbConvertAudio = new System.Windows.Forms.RadioButton();
             this.rbConvertAutoFFmpeg = new System.Windows.Forms.RadioButton();
             this.rbConvertAuto = new System.Windows.Forms.RadioButton();
-            this.lbConvStatus = new System.Windows.Forms.Label();
+            this.lbConvertStatus = new System.Windows.Forms.Label();
             this.btnConvert = new System.Windows.Forms.Button();
             this.rbConvertVideo = new System.Windows.Forms.RadioButton();
             this.btnConvertOutput = new System.Windows.Forms.Button();
@@ -138,7 +138,7 @@
             this.tcMain.Location = new System.Drawing.Point(0, 0);
             this.tcMain.Name = "tcMain";
             this.tcMain.SelectedIndex = 0;
-            this.tcMain.Size = new System.Drawing.Size(252, 270);
+            this.tcMain.Size = new System.Drawing.Size(252, 229);
             this.tcMain.TabIndex = 1;
             // 
             // tabDownload
@@ -156,7 +156,7 @@
             this.tabDownload.Location = new System.Drawing.Point(4, 22);
             this.tabDownload.Name = "tabDownload";
             this.tabDownload.Padding = new System.Windows.Forms.Padding(3);
-            this.tabDownload.Size = new System.Drawing.Size(244, 244);
+            this.tabDownload.Size = new System.Drawing.Size(244, 203);
             this.tabDownload.TabIndex = 0;
             this.tabDownload.Text = "tabDownload";
             this.tabDownload.UseVisualStyleBackColor = true;
@@ -300,7 +300,7 @@
             this.tabConvert.Controls.Add(this.rbConvertAudio);
             this.tabConvert.Controls.Add(this.rbConvertAutoFFmpeg);
             this.tabConvert.Controls.Add(this.rbConvertAuto);
-            this.tabConvert.Controls.Add(this.lbConvStatus);
+            this.tabConvert.Controls.Add(this.lbConvertStatus);
             this.tabConvert.Controls.Add(this.btnConvert);
             this.tabConvert.Controls.Add(this.rbConvertVideo);
             this.tabConvert.Controls.Add(this.btnConvertOutput);
@@ -312,7 +312,7 @@
             this.tabConvert.Location = new System.Drawing.Point(4, 22);
             this.tabConvert.Name = "tabConvert";
             this.tabConvert.Padding = new System.Windows.Forms.Padding(3);
-            this.tabConvert.Size = new System.Drawing.Size(244, 203);
+            this.tabConvert.Size = new System.Drawing.Size(244, 244);
             this.tabConvert.TabIndex = 1;
             this.tabConvert.Text = "tabConvert";
             this.tabConvert.UseVisualStyleBackColor = true;
@@ -361,17 +361,17 @@
             this.rbConvertAuto.Text = "rbConvertAuto";
             this.rbConvertAuto.UseVisualStyleBackColor = true;
             // 
-            // lbConvStatus
+            // lbConvertStatus
             // 
-            this.lbConvStatus.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.lbConvStatus.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbConvStatus.Location = new System.Drawing.Point(3, 178);
-            this.lbConvStatus.Name = "lbConvStatus";
-            this.lbConvStatus.Size = new System.Drawing.Size(238, 22);
-            this.lbConvStatus.TabIndex = 16;
-            this.lbConvStatus.Text = "waiting";
-            this.lbConvStatus.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.lbConvStatus.Visible = false;
+            this.lbConvertStatus.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.lbConvertStatus.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbConvertStatus.Location = new System.Drawing.Point(3, 219);
+            this.lbConvertStatus.Name = "lbConvertStatus";
+            this.lbConvertStatus.Size = new System.Drawing.Size(238, 22);
+            this.lbConvertStatus.TabIndex = 16;
+            this.lbConvertStatus.Text = "waiting";
+            this.lbConvertStatus.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.lbConvertStatus.Visible = false;
             // 
             // btnConvert
             // 
@@ -471,7 +471,7 @@
             this.tabMerge.Location = new System.Drawing.Point(4, 22);
             this.tabMerge.Name = "tabMerge";
             this.tabMerge.Padding = new System.Windows.Forms.Padding(3);
-            this.tabMerge.Size = new System.Drawing.Size(244, 203);
+            this.tabMerge.Size = new System.Drawing.Size(244, 244);
             this.tabMerge.TabIndex = 2;
             this.tabMerge.Text = "tabMerge";
             this.tabMerge.UseVisualStyleBackColor = true;
@@ -651,6 +651,7 @@
             // 
             this.mLanguage.Index = 0;
             this.mLanguage.Text = "mLanguage";
+            this.mLanguage.Click += new System.EventHandler(this.mLanguage_Click);
             // 
             // mSupportedSites
             // 
@@ -766,36 +767,36 @@
             this.cmTrayConvertCustom,
             this.cmTrayConvertAutomatic,
             this.cmTrayConvertAutoFFmpeg});
-            this.cmTrayConvertTo.Text = "Convert to...";
+            this.cmTrayConvertTo.Text = "cmTrayConvertTo";
             // 
             // cmTrayConvertVideo
             // 
             this.cmTrayConvertVideo.Index = 0;
-            this.cmTrayConvertVideo.Text = "Video";
+            this.cmTrayConvertVideo.Text = "cmTrayConvertVideo";
             this.cmTrayConvertVideo.Click += new System.EventHandler(this.cmTrayConvertVideo_Click);
             // 
             // cmTrayConvertAudio
             // 
             this.cmTrayConvertAudio.Index = 1;
-            this.cmTrayConvertAudio.Text = "Audio";
+            this.cmTrayConvertAudio.Text = "cmTrayConvertAudio";
             this.cmTrayConvertAudio.Click += new System.EventHandler(this.cmTrayConvertAudio_Click);
             // 
             // cmTrayConvertCustom
             // 
             this.cmTrayConvertCustom.Index = 2;
-            this.cmTrayConvertCustom.Text = "Custom";
+            this.cmTrayConvertCustom.Text = "cmTrayConvertCustom";
             this.cmTrayConvertCustom.Click += new System.EventHandler(this.cmTrayConvertCustom_Click);
             // 
             // cmTrayConvertAutomatic
             // 
             this.cmTrayConvertAutomatic.Index = 3;
-            this.cmTrayConvertAutomatic.Text = "Automatic";
+            this.cmTrayConvertAutomatic.Text = "cmTrayConvertAutomatic";
             this.cmTrayConvertAutomatic.Click += new System.EventHandler(this.cmTrayConvertAutomatic_Click);
             // 
             // cmTrayConvertAutoFFmpeg
             // 
             this.cmTrayConvertAutoFFmpeg.Index = 4;
-            this.cmTrayConvertAutoFFmpeg.Text = "Auto ffmpeg";
+            this.cmTrayConvertAutoFFmpeg.Text = "cmTrayConvertAutoFFmpeg";
             this.cmTrayConvertAutoFFmpeg.Click += new System.EventHandler(this.cmTrayConvertAutoFFmpeg_Click);
             // 
             // cmTraySep
@@ -845,7 +846,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(252, 270);
+            this.ClientSize = new System.Drawing.Size(252, 229);
             this.Controls.Add(this.lbDebug);
             this.Controls.Add(this.tcMain);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -913,7 +914,7 @@
         private System.Windows.Forms.RadioButton rbConvertAudio;
         private System.Windows.Forms.RadioButton rbConvertVideo;
         private System.Windows.Forms.Button btnConvert;
-        private System.Windows.Forms.Label lbConvStatus;
+        private System.Windows.Forms.Label lbConvertStatus;
         private System.Windows.Forms.Timer tmrConvertLabel;
         private System.Windows.Forms.RadioButton rbConvertAuto;
         private System.Windows.Forms.RadioButton rbConvertAutoFFmpeg;

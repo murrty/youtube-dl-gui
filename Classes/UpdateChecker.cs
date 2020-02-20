@@ -60,7 +60,9 @@ namespace youtube_dl_gui {
         public static string GetJSON(string url) {
             if (!Properties.Settings.Default.jsonSupport)
                 return null;
+#if debug
             url = "http://localhost/latest.json";
+#endif
             try {
                 using (WebClient wc = new WebClient()) {
                     ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;

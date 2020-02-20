@@ -27,9 +27,9 @@
             this.txtBatchDownloadLink = new System.Windows.Forms.TextBox();
             this.cbBatchDownloadType = new System.Windows.Forms.ComboBox();
             this.lbBatchDownloadLink = new System.Windows.Forms.Label();
-            this.lbDownloadType = new System.Windows.Forms.Label();
+            this.lbBatchDownloadType = new System.Windows.Forms.Label();
             this.txtBatchDownloadVideoSpecificArgument = new System.Windows.Forms.TextBox();
-            this.lbArg = new System.Windows.Forms.Label();
+            this.lbBatchVideoSpecificArgument = new System.Windows.Forms.Label();
             this.listLink = new System.Windows.Forms.ListBox();
             this.listType = new System.Windows.Forms.ListBox();
             this.listArgs = new System.Windows.Forms.ListBox();
@@ -65,18 +65,18 @@
             this.lbBatchDownloadLink.AutoSize = true;
             this.lbBatchDownloadLink.Location = new System.Drawing.Point(9, 9);
             this.lbBatchDownloadLink.Name = "lbBatchDownloadLink";
-            this.lbBatchDownloadLink.Size = new System.Drawing.Size(74, 13);
+            this.lbBatchDownloadLink.Size = new System.Drawing.Size(111, 13);
             this.lbBatchDownloadLink.TabIndex = 2;
-            this.lbBatchDownloadLink.Text = "Download link";
+            this.lbBatchDownloadLink.Text = "lbBatchDownloadLink";
             // 
-            // lbDownloadType
+            // lbBatchDownloadType
             // 
-            this.lbDownloadType.AutoSize = true;
-            this.lbDownloadType.Location = new System.Drawing.Point(275, 9);
-            this.lbDownloadType.Name = "lbDownloadType";
-            this.lbDownloadType.Size = new System.Drawing.Size(78, 13);
-            this.lbDownloadType.TabIndex = 3;
-            this.lbDownloadType.Text = "Download type";
+            this.lbBatchDownloadType.AutoSize = true;
+            this.lbBatchDownloadType.Location = new System.Drawing.Point(275, 9);
+            this.lbBatchDownloadType.Name = "lbBatchDownloadType";
+            this.lbBatchDownloadType.Size = new System.Drawing.Size(115, 13);
+            this.lbBatchDownloadType.TabIndex = 3;
+            this.lbBatchDownloadType.Text = "lbBatchDownloadType";
             // 
             // txtBatchDownloadVideoSpecificArgument
             // 
@@ -85,14 +85,14 @@
             this.txtBatchDownloadVideoSpecificArgument.Size = new System.Drawing.Size(154, 20);
             this.txtBatchDownloadVideoSpecificArgument.TabIndex = 4;
             // 
-            // lbArg
+            // lbBatchVideoSpecificArgument
             // 
-            this.lbArg.AutoSize = true;
-            this.lbArg.Location = new System.Drawing.Point(406, 9);
-            this.lbArg.Name = "lbArg";
-            this.lbArg.Size = new System.Drawing.Size(120, 13);
-            this.lbArg.TabIndex = 5;
-            this.lbArg.Text = "Video-specific argument";
+            this.lbBatchVideoSpecificArgument.AutoSize = true;
+            this.lbBatchVideoSpecificArgument.Location = new System.Drawing.Point(406, 9);
+            this.lbBatchVideoSpecificArgument.Name = "lbBatchVideoSpecificArgument";
+            this.lbBatchVideoSpecificArgument.Size = new System.Drawing.Size(153, 13);
+            this.lbBatchVideoSpecificArgument.TabIndex = 5;
+            this.lbBatchVideoSpecificArgument.Text = "lbBatchVideoSpecificArgument";
             // 
             // listLink
             // 
@@ -127,7 +127,7 @@
             this.btnBatchDownloadAdd.Name = "btnBatchDownloadAdd";
             this.btnBatchDownloadAdd.Size = new System.Drawing.Size(75, 23);
             this.btnBatchDownloadAdd.TabIndex = 9;
-            this.btnBatchDownloadAdd.Text = "Add";
+            this.btnBatchDownloadAdd.Text = "btnBatchDownloadAdd";
             this.btnBatchDownloadAdd.UseVisualStyleBackColor = true;
             this.btnBatchDownloadAdd.Click += new System.EventHandler(this.btnBatchDownloadAdd_Click);
             // 
@@ -137,7 +137,7 @@
             this.btnBatchDownloadRemoveSelected.Name = "btnBatchDownloadRemoveSelected";
             this.btnBatchDownloadRemoveSelected.Size = new System.Drawing.Size(75, 37);
             this.btnBatchDownloadRemoveSelected.TabIndex = 10;
-            this.btnBatchDownloadRemoveSelected.Text = "Remove selected";
+            this.btnBatchDownloadRemoveSelected.Text = "btnBatchDownloadRemoveSelected";
             this.btnBatchDownloadRemoveSelected.UseVisualStyleBackColor = true;
             this.btnBatchDownloadRemoveSelected.Click += new System.EventHandler(this.btnBatchDownloadRemoveSelected_Click);
             // 
@@ -147,11 +147,11 @@
             this.btnBatchDownloadStart.Name = "btnBatchDownloadStart";
             this.btnBatchDownloadStart.Size = new System.Drawing.Size(75, 23);
             this.btnBatchDownloadStart.TabIndex = 11;
-            this.btnBatchDownloadStart.Text = "Start";
+            this.btnBatchDownloadStart.Text = "btnBatchDownloadStart";
             this.btnBatchDownloadStart.UseVisualStyleBackColor = true;
             this.btnBatchDownloadStart.Click += new System.EventHandler(this.btnBatchDownloadStart_Click);
             // 
-            // frmBatch
+            // frmBatchDownloader
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -163,9 +163,9 @@
             this.Controls.Add(this.listArgs);
             this.Controls.Add(this.listType);
             this.Controls.Add(this.listLink);
-            this.Controls.Add(this.lbArg);
+            this.Controls.Add(this.lbBatchVideoSpecificArgument);
             this.Controls.Add(this.txtBatchDownloadVideoSpecificArgument);
-            this.Controls.Add(this.lbDownloadType);
+            this.Controls.Add(this.lbBatchDownloadType);
             this.Controls.Add(this.lbBatchDownloadLink);
             this.Controls.Add(this.cbBatchDownloadType);
             this.Controls.Add(this.txtBatchDownloadLink);
@@ -173,9 +173,9 @@
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(656, 312);
             this.MinimumSize = new System.Drawing.Size(656, 312);
-            this.Name = "frmBatch";
+            this.Name = "frmBatchDownloader";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Batch downloader";
+            this.Text = "frmBatchDownloader";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -186,9 +186,9 @@
         private System.Windows.Forms.TextBox txtBatchDownloadLink;
         private System.Windows.Forms.ComboBox cbBatchDownloadType;
         private System.Windows.Forms.Label lbBatchDownloadLink;
-        private System.Windows.Forms.Label lbDownloadType;
+        private System.Windows.Forms.Label lbBatchDownloadType;
         private System.Windows.Forms.TextBox txtBatchDownloadVideoSpecificArgument;
-        private System.Windows.Forms.Label lbArg;
+        private System.Windows.Forms.Label lbBatchVideoSpecificArgument;
         private System.Windows.Forms.ListBox listLink;
         private System.Windows.Forms.ListBox listType;
         private System.Windows.Forms.ListBox listArgs;

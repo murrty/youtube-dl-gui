@@ -13,9 +13,8 @@ using System.Windows.Forms;
 
 namespace youtube_dl_gui {
     public partial class frmAbout : Form {
-        Thread checkUpdates;
         Language lang = Language.GetInstance();
-        CloudData CloudVersion = CloudData.GetInstance();
+        CloudData GitCloud = CloudData.GetInstance();
 
         public frmAbout() {
             InitializeComponent();

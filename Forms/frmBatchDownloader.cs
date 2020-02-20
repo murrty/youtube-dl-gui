@@ -10,10 +10,12 @@ using System.Windows.Forms;
 
 namespace youtube_dl_gui {
     public partial class frmBatchDownloader : Form {
+        Language lang = Language.GetInstance();
         public string argsText = string.Empty;
 
         public frmBatchDownloader() {
             InitializeComponent();
+            LoadLanguage();
             if (System.IO.File.Exists(Environment.CurrentDirectory + "\\args.txt")) {
                 argsText = System.IO.File.ReadAllText(Environment.CurrentDirectory + "\\args.txt");
 
@@ -23,6 +25,16 @@ namespace youtube_dl_gui {
             else {
                 argsText = "<args.txt unavailable>";
             }
+        }
+
+        void LoadLanguage() {
+            this.Text = lang.frmBatchDownload;
+            lbBatchDownloadLink.Text = lang.lbBatchDownloadLink;
+            lbBatchDownloadType.Text = lang.lbBatchDownloadType;
+            lbBatchVideoSpecificArgument.Text = lang.lbBatchDownloadVideoSpecificArgument;
+            btnBatchDownloadAdd.Text = lang.btnBatchDownloadAdd;
+            btnBatchDownloadRemoveSelected.Text = lang.btnBatchDownloadRemoveSelected;
+            btnBatchDownloadStart.Text = lang.btnBatchDownloadStart;
         }
 
         private void btnBatchDownloadAdd_Click(object sender, EventArgs e) {
