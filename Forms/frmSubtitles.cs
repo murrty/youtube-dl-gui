@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace youtube_dl_gui {
     public partial class frmSubtitles : Form {
-        Language lang = Language.GetLanguageInstance();
+        Language lang = Language.GetInstance();
         public frmSubtitles() {
             InitializeComponent();
             LoadLanguage();

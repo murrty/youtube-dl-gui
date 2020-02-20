@@ -37,7 +37,7 @@
             this.btnMiscToolsRemoveAudio.Name = "btnMiscToolsRemoveAudio";
             this.btnMiscToolsRemoveAudio.Size = new System.Drawing.Size(102, 26);
             this.btnMiscToolsRemoveAudio.TabIndex = 0;
-            this.btnMiscToolsRemoveAudio.Text = "Remove audio...";
+            this.btnMiscToolsRemoveAudio.Text = "btnMiscToolsRemoveAudio";
             this.miscTips.SetToolTip(this.btnMiscToolsRemoveAudio, "Removes audio from a selected file");
             this.btnMiscToolsRemoveAudio.UseVisualStyleBackColor = true;
             this.btnMiscToolsRemoveAudio.Click += new System.EventHandler(this.btnMiscToolsRemoveAudio_Click);
@@ -54,7 +54,7 @@
             this.btnMiscToolsExtractAudio.Name = "btnMiscToolsExtractAudio";
             this.btnMiscToolsExtractAudio.Size = new System.Drawing.Size(102, 26);
             this.btnMiscToolsExtractAudio.TabIndex = 1;
-            this.btnMiscToolsExtractAudio.Text = "Extract audio...";
+            this.btnMiscToolsExtractAudio.Text = "btnMiscToolsExtractAudio";
             this.miscTips.SetToolTip(this.btnMiscToolsExtractAudio, "Extracts the audio from a video file");
             this.btnMiscToolsExtractAudio.UseVisualStyleBackColor = true;
             this.btnMiscToolsExtractAudio.Click += new System.EventHandler(this.btnMiscToolsExtractAudio_Click);
@@ -65,7 +65,7 @@
             this.btnMiscToolsVideoToGif.Name = "btnMiscToolsVideoToGif";
             this.btnMiscToolsVideoToGif.Size = new System.Drawing.Size(102, 26);
             this.btnMiscToolsVideoToGif.TabIndex = 2;
-            this.btnMiscToolsVideoToGif.Text = "Video to gif...";
+            this.btnMiscToolsVideoToGif.Text = "btnMiscToolsVideoToGif";
             this.miscTips.SetToolTip(this.btnMiscToolsVideoToGif, "Convert videos to gif, requires ImageMagick");
             this.btnMiscToolsVideoToGif.UseVisualStyleBackColor = true;
             this.btnMiscToolsVideoToGif.Click += new System.EventHandler(this.btnMiscToolsVideoToGif_Click);

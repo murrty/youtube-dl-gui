@@ -25,7 +25,7 @@ namespace youtube_dl_gui.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("2.2")]
+        [global::System.Configuration.DefaultSettingValueAttribute("2.0")]
         public decimal appVersion {
             get {
                 return ((decimal)(this["appVersion"]));
@@ -67,13 +67,25 @@ namespace youtube_dl_gui.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("2019-08-02")]
+        [global::System.Configuration.DefaultSettingValueAttribute("2020-02-20")]
         public string debugDate {
             get {
                 return ((string)(this["debugDate"]));
             }
             set {
                 this["debugDate"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("-1")]
+        public decimal SkippedVersion {
+            get {
+                return ((decimal)(this["SkippedVersion"]));
+            }
+            set {
+                this["SkippedVersion"] = value;
             }
         }
     }

@@ -6,11 +6,13 @@ namespace youtube_dl_gui {
         private static Language LangInstance = new Language();
         private static volatile string LoadedFileString = null;
 
+        #region Language identifier
         // Language identifier
         private static volatile string CurrentLanguageLongString = "CurrentLanguageLong";
         private static volatile string CurrentLanguageShortString = "CurrentLanguageShort";
         private static volatile string CurrentLanguageHintString = "CurrentLanguageHint";
         private static volatile string CurrentLanguageVersionString = "1";
+        #endregion
 
         #region frmBatch
         private static volatile string frmBatchDownloadString = "frmBatchDownload";
@@ -36,7 +38,7 @@ namespace youtube_dl_gui {
         // frmMain / menu
         private static volatile string mSettingsString = "mSettings";
         private static volatile string mToolsString = "mTools";
-        private static volatile string mBatchString = "mBatchDownload";
+        private static volatile string mBatchDownloadString = "mBatchDownload";
         private static volatile string mDownloadSubtitlesString = "mDownloadSubtitles";
         private static volatile string mMiscToolsString = "mMiscTools";
         private static volatile string mHelpString = "mHelp";
@@ -191,11 +193,11 @@ namespace youtube_dl_gui {
         private static volatile string chkSettingsConverterClearInputAfterConvertingHintString = "";
         private static volatile string chkSettingsConverterHideFFmpegCompileInfoHintString = "";
         private static volatile string lbSettingsConverterVideoBitrateHintString = "";
-        private static volatile string lbkSettingsConverterVideoPresetHintString = "";
+        private static volatile string lbSettingsConverterVideoPresetHintString = "";
         private static volatile string lbSettingsConverterVideoProfileHintString = "";
         private static volatile string lbSettingsConverterVideoCRFHintString = "";
         private static volatile string chkSettingsConverterVideoFastStartHintString = "";
-        private static volatile string chkSettingsConverterAudioBitrateHintString = "";
+        private static volatile string lbSettingsConverterAudioBitrateHintString = "";
         private static volatile string txtSettingsConverterCustomArgumentsHintString = "";
 
         private static volatile string chkSettingsErrorsShowDetailedErrorsHintString = "";
@@ -219,8 +221,19 @@ namespace youtube_dl_gui {
         // frmTools
         private static volatile string frmToolsString = "frmTools";
         private static volatile string btnMiscToolsRemoveAudioString = "btnMiscToolsRemoveAudio";
-        private static volatile string btnMiscToolsExtractAudio = "btnExtractAudio";
-        private static volatile string btnMiscToolsVideoToGif = "btnVideoToGif";
+        private static volatile string btnMiscToolsExtractAudioString = "btnExtractAudio";
+        private static volatile string btnMiscToolsVideoToGifString = "btnVideoToGif";
+        #endregion
+
+        #region frmUpdateAvailable
+        private static volatile string frmUpdateAvailableString = "frmUpdateAvailable";
+        private static volatile string lbUpdateAvailableHeaderString = "lbUpdateAvailableHeader";
+        private static volatile string lbUpdateAvailableUpdateVersionString = "lbUpdateAvailableUpdateVersion";
+        private static volatile string lbUpdateAvailableCurrentVersionString = "lbUpdateAvailableCurrentVersion";
+        private static volatile string lbUpdateAvailableChangelogString = "lbUpdateAvailableChangelog";
+        private static volatile string btnUpdateAvailableSkipVersionString = "btnUpdateAvailableSkipVersion";
+        private static volatile string btnUpdateAvailableUpdateString = "btnUpdateAvailableUpdate";
+        private static volatile string btnUpdateAvailableOkString = "btnUpdateAvailableOk";
         #endregion
         #endregion
 
@@ -315,9 +328,9 @@ namespace youtube_dl_gui {
             get { return mToolsString; }
             private set{ mToolsString = value; }
         }
-        public string mBatch {
-            get { return mBatchString; }
-            private set{ mBatchString = value; }
+        public string mBatchDownload {
+            get { return mBatchDownloadString; }
+            private set{ mBatchDownloadString = value; }
         }
         public string mDownloadSubtitles {
             get { return mDownloadSubtitlesString; }
@@ -377,7 +390,7 @@ namespace youtube_dl_gui {
             get { return rbAudioString; }
             private set{ rbAudioString = value; }
         }
-        public string rbCustom {
+		public string rbCustom {
             get { return rbCustomString; }
             private set{ rbCustomString = value; }
         }
@@ -875,9 +888,9 @@ namespace youtube_dl_gui {
             get { return lbSettingsConverterVideoBitrateHintString; }
             private set { lbSettingsConverterVideoBitrateHintString = value; }
         }
-        public string lbkSettingsConverterVideoPresetHint  {
-            get { return lbkSettingsConverterVideoPresetHintString; }
-            private set { lbkSettingsConverterVideoPresetHintString = value; }
+        public string lbSettingsConverterVideoPresetHint  {
+            get { return lbSettingsConverterVideoPresetHintString; }
+            private set { lbSettingsConverterVideoPresetHintString = value; }
         }
         public string lbSettingsConverterVideoProfileHint  {
             get { return lbSettingsConverterVideoProfileHintString; }
@@ -891,9 +904,9 @@ namespace youtube_dl_gui {
             get { return chkSettingsConverterVideoFastStartHintString; }
             private set { chkSettingsConverterVideoFastStartHintString = value; }
         }
-        public string chkSettingsConverterAudioBitrateHint  {
-            get { return chkSettingsConverterAudioBitrateHintString; }
-            private set { chkSettingsConverterAudioBitrateHintString = value; }
+        public string lbSettingsConverterAudioBitrateHint  {
+            get { return lbSettingsConverterAudioBitrateHintString; }
+            private set { lbSettingsConverterAudioBitrateHintString = value; }
         }
         public string txtSettingsConverterCustomArgumentsHint  {
             get { return txtSettingsConverterCustomArgumentsHintString; }
@@ -957,13 +970,49 @@ namespace youtube_dl_gui {
             get { return btnMiscToolsRemoveAudioString; }
             private set { btnMiscToolsRemoveAudioString = value; }
         }
-        public string btnExtractAudio {
-            get { return btnMiscToolsExtractAudio; }
-            private set { btnMiscToolsExtractAudio = value; }
+        public string btnMiscToolsExtractAudio {
+            get { return btnMiscToolsExtractAudioString; }
+            private set { btnMiscToolsExtractAudioString = value; }
         }
-        public string btnVideoToGif {
-            get { return btnMiscToolsVideoToGif; }
-            private set { btnMiscToolsVideoToGif = value; }
+        public string btnMiscToolsVideoToGif {
+            get { return btnMiscToolsVideoToGifString; }
+            private set { btnMiscToolsVideoToGifString = value; }
+        }
+        #endregion
+
+//////////////// frmUpdateAvailable \\\\\\\\\\\\\\\\
+        #region frmUpdateAvailable
+        public string frmUpdateAvailable {
+            get { return frmUpdateAvailableString; }
+            private set { frmUpdateAvailableString = value; }
+        }
+        public string lbUpdateAvailableHeader {
+            get { return lbUpdateAvailableHeaderString; }
+            private set { lbUpdateAvailableHeaderString = value; }
+        }
+        public string lbUpdateAvailableUpdateVersion {
+            get { return lbUpdateAvailableUpdateVersionString; }
+            private set { lbUpdateAvailableUpdateVersionString = value; }
+        }
+        public string lbUpdateAvailableCurrentVersion {
+            get { return lbUpdateAvailableCurrentVersionString; }
+            private set { lbUpdateAvailableCurrentVersionString = value; }
+        }
+        public string lbUpdateAvailableChangelog {
+            get { return lbUpdateAvailableChangelogString; }
+            private set { lbUpdateAvailableChangelogString = value; }
+        }
+        public string btnUpdateAvailableSkipVersion {
+            get { return btnUpdateAvailableSkipVersionString; }
+            private set { btnUpdateAvailableSkipVersionString = value; }
+        }
+        public string btnUpdateAvailableUpdate {
+            get { return btnUpdateAvailableUpdateString; }
+            private set { btnUpdateAvailableUpdateString = value; }
+        }
+        public string btnUpdateAvailableOk {
+            get { return btnUpdateAvailableOkString; }
+            private set { btnUpdateAvailableOkString = value; }
         }
         #endregion
 
@@ -973,7 +1022,7 @@ namespace youtube_dl_gui {
             get { return LoadedFileString; }
             private set { LoadedFileString = value; }
         }
-        public static Language GetLanguageInstance() {
+        public static Language GetInstance() {
             return LangInstance;
         }
         #endregion
@@ -1148,11 +1197,11 @@ namespace youtube_dl_gui {
             public static readonly string tcSettingsConverterAudio = "Audio";
             public static readonly string tcSettingsConverterCustom = "Custom";
             public static readonly string lbSettingsConverterVideoBitrate = "Bitrate";
-            public static readonly string lbkSettingsConverterVideoPreset = "Preset";
+            public static readonly string lbSettingsConverterVideoPreset = "Preset";
             public static readonly string lbSettingsConverterVideoProfile = "Profile";
             public static readonly string lbSettingsConverterVideoCRF = "CRF";
             public static readonly string chkSettingsConverterVideoFastStart = "faststart";
-            public static readonly string chkSettingsConverterAudioBitrate = "Bitrate";
+            public static readonly string lbSettingsConverterAudioBitrate = "Bitrate";
             public static readonly string lbSettingsConverterCustomHeader = "Don't pass input or output directories/fies,\nit's automatically handled by the program";
 
             public static readonly string chkSettingsConverterClearOutputAfterConvertingHint = "Clears the output file after a successful conversion";
@@ -1163,7 +1212,7 @@ namespace youtube_dl_gui {
                                                                 "A bitrate is how many bits per second are streamed to the player\n\n"+
                                                                 "higher = better, at the cost of file size\n\n"+
                                                                 "If you were to input \"10,000\" as the bitrate, it would be interpreted as \"10,000,000\" bits per second.";
-            public static readonly string lbkSettingsConverterVideoPresetHint = "The video preset of the conversion\n\n"+
+            public static readonly string lbSettingsConverterVideoPresetHint = "The video preset of the conversion\n\n"+
                                                                                 "ultrafast = fastest, but lower quality\n"+
                                                                                 "veryslow = slowest, but higher quality";
             public static readonly string lbSettingsConverterVideoProfileHint = "The encoder profile to be used during conversion. It affects the compression of the video.\n"+
@@ -1172,7 +1221,7 @@ namespace youtube_dl_gui {
                                                                              "Lower = Higher quality";
             public static readonly string chkSettingsConverterVideoFastStartHint = "Faststart moves the metadata to the front of the file.\n\n"+
                                                                                    "Enabling this allows videos to be played before they are fully downloaded.";
-            public static readonly string chkSettingsConverterAudioBitrateHint = "Bitrate";
+            public static readonly string lbSettingsConverterAudioBitrateHint = "Bitrate";
             public static readonly string txtSettingsConverterCustomArgumentsHint = "Custom arguments that will be passed through ffmpeg instead of built-in arguments";
             // frmSettings / tcMain / tabExtensions
             public static readonly string lbSettingsExtensionsHeader = "This allows you to input your own extensions\nto be used with this application";
@@ -1208,6 +1257,17 @@ namespace youtube_dl_gui {
             public static readonly string btnMiscToolsRemoveAudio = "Remove audio...";
             public static readonly string btnMiscToolsExtractAudio = "Extract audio...";
             public static readonly string btnMiscToolsVideoToGif = "Video to gif...";
+            #endregion
+
+            #region frmUpdateAvailable
+            public static readonly string frmUpdateAvailable = "Update available";
+            public static readonly string lbUpdateAvailableHeader = "An update is available";
+            public static readonly string lbUpdateAvailableUpdateVersion = "Update version:";
+            public static readonly string lbUpdateAvailableCurrentVersion = "Current version:";
+            public static readonly string lbUpdateAvailableChangelog = "Changelog:";
+            public static readonly string btnUpdateAvailableSkipVersion = "Skip version";
+            public static readonly string btnUpdateAvailableUpdate = "Update";
+            public static readonly string btnUpdateAvailableOk = "OK";
             #endregion
         }
 
@@ -1245,378 +1305,899 @@ namespace youtube_dl_gui {
             // frmTools
             frmTools = InternalEnglish.frmTools;
             btnMiscToolsRemoveAudio = InternalEnglish.btnMiscToolsRemoveAudio;
-            btnMiscToolsExtractAudio = InternalEnglish.btnMiscToolsExtractAudio;
-            btnMiscToolsVideoToGif = InternalEnglish.btnMiscToolsVideoToGif;
+            btnMiscToolsExtractAudioString = InternalEnglish.btnMiscToolsExtractAudio;
+            btnMiscToolsVideoToGifString = InternalEnglish.btnMiscToolsVideoToGif;
+
+            // frmUpdateAvailable
+            frmUpdateAvailable = InternalEnglish.frmUpdateAvailable;
+            lbUpdateAvailableHeader = InternalEnglish.lbUpdateAvailableHeader;
+            lbUpdateAvailableUpdateVersion = InternalEnglish.lbUpdateAvailableUpdateVersion;
+            lbUpdateAvailableCurrentVersion = InternalEnglish.lbUpdateAvailableCurrentVersion;
+            lbUpdateAvailableChangelog = InternalEnglish.lbUpdateAvailableChangelog;
+            btnUpdateAvailableSkipVersion = InternalEnglish.btnUpdateAvailableSkipVersion;
+            btnUpdateAvailableUpdate = InternalEnglish.btnUpdateAvailableUpdate;
+            btnUpdateAvailableOk = InternalEnglish.btnUpdateAvailableOk;
+
             return true;
         }
         #endregion
 
         #region LoadLanguage
-        public bool LoadLanguage(string LanguageFileName) {
-            if (LanguageFileName == LoadedFile || LanguageFileName == null || LanguageFileName == string.Empty) { return false; }
+        public bool LoadLanguage(string LanguageFile = null) {
+            try {
+                if (LanguageFile == null || LanguageFile == string.Empty) {
+                    LoadInternalEnglish();
+                    return true;
+                }
+                else {
+                    if (!LanguageFile.EndsWith(".ini")) { LanguageFile += ".ini"; }
 
-            if (!LanguageFileName.EndsWith(".ini")) { LanguageFileName += ".ini"; }
+                    if (System.IO.File.Exists(LanguageFile)) {
+                        string[] ReadFile = System.IO.File.ReadAllLines(LanguageFile);
 
-            if (System.IO.File.Exists(Environment.CurrentDirectory + "\\lang\\" + LanguageFileName)) {
-                try {
-                    string[] ReadFile = System.IO.File.ReadAllLines(Environment.CurrentDirectory + "\\lang\\" + LanguageFileName);
+                        for (int i = 0; i < ReadFile.Length; i++) {
+                            string ReadLine = ReadFile[i];
+                            string ReadControl = null;
+                            string ReadValue = null;
+                            string ReadHeader = null;
+                            if (ReadLine.StartsWith("//")) { continue; }
 
-                    for (int i = 0; i < ReadFile.Length; i++) {
-                        string ReadLine = ReadFile[i].Trim(' ');
-                        string ReadControl = string.Empty;
-                        if (ReadLine.StartsWith("//") || ReadLine == (""))
-                            continue;
+                            if (ReadLine.StartsWith("[")) {
+                                ReadHeader = ReadHeaderValue(ReadLine);
 
-                        if (ReadLine.StartsWith("[")) {
-                            if (ReadLine.Contains("//")) {
-                                int CountedForwardSlashes = 0;
-                                int CountedLength = 0;
-                                for (int j = 0; j < ReadLine.Length; j++) {
-                                    CountedLength++;
-                                    if (ReadLine[j] == '/') {
-                                        CountedForwardSlashes++;
-                                        if (CountedForwardSlashes == 2) { break; }
-                                        continue;
-                                    }
-                                }
-                                CountedLength = CountedLength - 2;
-                                ReadLine = ReadLine.Substring(0, CountedLength);
-                            }
-                            CurrentLanguageLong = ReadLine.Trim(' ').Trim('[').Trim(']');
-                            continue;
-                        }
-                        else {
-                            if (ReadLine.Split('=').Length > 2) {
-                                ReadControl = ReadLine.Split('=')[0];
-                                string ReadLineBuffer = string.Empty;
-                                for (int j = 1; j < ReadLine.Split('=').Length; j++) {
-                                    ReadLineBuffer += ReadLine.Split('=')[j] + "=";
-                                }
-                                if (!ReadLine.EndsWith("=")) {
-                                    ReadLineBuffer = ReadLineBuffer.TrimEnd('=');
+                                if (ReadHeader == null) {
+                                    throw new Exception("Unable to read the language ini header\nReadValue returned null.");
                                 }
                                 else {
-                                    ReadLineBuffer = ReadLineBuffer.Substring(0, ReadLineBuffer.Length - 1);
-                                }
-                                ReadLine = ReadLineBuffer;
-                            }
-                            else if (ReadLine.Split('=').Length < 2) {
-                                continue;
-                            }
-                            else {
-                                ReadControl = ReadLine.Split('=')[0];
-                                ReadLine = ReadLine.Split('=')[1];
-                            }
-                        }
-
-                        if (ReadLine.Contains("//")) {
-                            int CountedForwardSlashes = 0;
-                            int CountedLength = 0;
-                            for (int j = 0; j < ReadLine.Length; j++) {
-                                CountedLength++;
-                                if (ReadLine[j] == '/') {
-                                    CountedForwardSlashes++;
-                                    if (CountedForwardSlashes == 2) { break; }
+                                    CurrentLanguageLong = ReadHeader;
                                     continue;
                                 }
                             }
-                            CountedLength = CountedLength - 2;
-                            ReadLine = ReadLine.Substring(0, CountedLength).Trim(' ');
+                            else {
+                                if (ReadLine == null || ReadLine.Split('=').Length < 2) { continue; }
+                                ReadControl = GetControlName(ReadLine).ToLower();
+                                ReadValue = GetControlValue(ReadLine);
+                            }
+
+                            #region Language File
+                            if (ReadControl == "currentlanguageshort") {
+                                CurrentLanguageShort = ReadValue;
+                                continue;
+                            }
+                            else if (ReadControl == "currentlanguagehint") {
+                                CurrentLanguageHint = ReadValue;
+                                continue;
+                            }
+                            else if (ReadControl == "currentlanguageversion") {
+                                CurrentLanguageVersion = ReadValue;
+                                continue;
+                            }
+                            #endregion
+
+                            #region frmBatch
+                            // frmBatch
+                            if (ReadControl == "frmbatchdownload") {
+                                frmBatchDownload = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "lbbatchdownloadlink") {
+                                lbBatchDownloadLink = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "lbbatchdownloadtype") {
+                                lbBatchDownloadType = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "lbbatchdownloadvideospecificargument") {
+                                lbBatchDownloadVideoSpecificArgument = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "btnbatchdownloadadd") {
+                                btnBatchDownloadAdd = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "btnbatchdownloadremoveselected") {
+                                btnBatchDownloadRemoveSelected = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "btnbatchdownloadstart") {
+                                btnBatchDownloadStart = ReadValue;
+                                continue;
+                            }
+                            #endregion
+
+                            #region frmException
+                            else if (ReadControl == "frmexception") {
+                                frmException = ReadValue;
+                                continue;
+                            }
+                            else if (ReadControl == "lbexceptionheader") {
+                                lbExceptionHeader = ReadValue;
+                                continue;
+                            }
+                            else if (ReadControl == "lbexceptiondescription") {
+                                lbExceptionDescription = ReadValue;
+                                continue;
+                            }
+                            else if (ReadControl == "rtbexceptiondetails") {
+                                rtbExceptionDetails = ReadValue;
+                                continue;
+                            }
+                            else if (ReadControl == "btnexceptiongithub") {
+                                btnExceptionGithub = ReadValue;
+                                continue;
+                            }
+                            else if (ReadControl == "btnexceptionok") {
+                                btnExceptionOk = ReadValue;
+                                continue;
+                            }
+                            #endregion
+
+                            #region frmMain
+                            // frmMain / menu
+                            if (ReadControl == "msettings") {
+                                mSettings = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "mtools") {
+                                mTools = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "mbatchdownload") {
+                                mBatchDownload = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "mdownloadsubtitles") {
+                                mDownloadSubtitles = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "mmisctools") {
+                                mMiscTools = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "mhelp") {
+                                mHelp = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "mlanguage") {
+                                mLanguage = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "msupportedsites") {
+                                mSupportedSites = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "mabout") {
+                                mAbout = ReadValue;
+                                continue;
+                            }
+                            // frmMain / tcMain
+                            if (ReadControl == "tabdownload") {
+                                tabDownload = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "tabconvert") {
+                                tabConvert = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "tabmerge") {
+                                tabMerge = ReadValue;
+                                continue;
+                            }
+                            // frmMain / tcMain / Download
+                            if (ReadControl == "lburl") {
+                                lbURL = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "txturlhint") {
+                                txtUrlHint = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "gbdownloadtype") {
+                                gbDownloadType = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "rbvideo") {
+                                rbVideo = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "rbaudio") {
+                                rbAudio = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "rbcustom") {
+                                rbCustom = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "lbquality") {
+                                lbQuality = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "chkdownloadsound") {
+                                chkDownloadSound = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "lbcustomarguments") {
+                                lbCustomArguments = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "txtargshint") {
+                                txtArgsHint = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "sbdownload") {
+                                sbDownload = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "mbatchdownloadfromfile") {
+                                mBatchDownloadFromFile = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "lbdownloadstatusstarted") {
+                                lbDownloadStatusStarted = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "lbdownloadstatuserror") {
+                                lbDownloadStatusError = ReadValue;
+                                continue;
+                            }
+                            // frmMain / tcMain / Convert
+                            if (ReadControl == "lbconvertinput") {
+                                lbConvertInput = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "lbconvertoutput") {
+                                lbConvertOutput = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "rbconvertvideo") {
+                                rbConvertVideo = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "rbconvertcustom") {
+                                rbConvertCustom = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "rbconvertauto") {
+                                rbConvertAuto = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "rbconvertautoffmpeg") {
+                                rbConvertAutoFFmpeg = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "btnconvert") {
+                                btnConvert = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "lbconvertstarted") {
+                                lbConvertStarted = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "lbconvertfailed") {
+                                lbConvertFailed = ReadValue;
+                                continue;
+                            }
+                            // frmMain / tcMain / Merge
+                            if (ReadControl == "lbmergeinput1") {
+                                lbMergeInput1 = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "lbmergeinput2") {
+                                lbMergeInput2 = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "lbmergeoutput") {
+                                lbMergeOutput = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "chkmergeaudiotracks") {
+                                chkMergeAudioTracks = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "chkmergedeleteinputfiles") {
+                                chkMergeDeleteInputFiles = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "btnmerge") {
+                                btnMerge = ReadValue;
+                                continue;
+                            }
+                            // frmMain / tcMain / cmTray
+                            if (ReadControl == "cmtrayshow") {
+                                cmTrayShow = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "cmtraydownloader") {
+                                cmTrayDownloader = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "cmtraydownloadclipboard") {
+                                cmTrayDownloadClipboard = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "cmtraydownloadbestvideo") {
+                                cmTrayDownloadBestVideo = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "cmtraydownloadbestaudio") {
+                                cmTrayDownloadBestAudio = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "cmtraydownloadcustom") {
+                                cmTrayDownloadCustom = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "cmtraydownloadcustomtxtbox") {
+                                cmTrayDownloadCustomTxtBox = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "cmtraydownloadcustomtxt") {
+                                cmTrayDownloadCustomTxt = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "cmtraydownloadcustomsettings") {
+                                cmTrayDownloadCustomSettings = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "cmtrayconverter") {
+                                cmTrayConverter = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "cmtrayconvertto") {
+                                cmTrayConvertTo = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "cmtrayconvertvideo") {
+                                cmTrayConvertVideo = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "cmtrayconvertaudio") {
+                                cmTrayConvertAudio = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "cmtrayconvertcustom") {
+                                cmTrayConvertCustom = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "cmtrayconvertautomatic") {
+                                cmTrayConvertAutomatic = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "cmtrayconvertautoffmpeg") {
+                                cmTrayConvertAutoFFmpeg = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "cmtrayexit") {
+                                cmTrayExit = ReadValue;
+                                continue;
+                            }
+                            #endregion
+
+                            #region frmSettings
+                            // frmSettings
+                            if (ReadControl == "btnsettingsredownloadyoutubedl") {
+                                btnSettingsRedownloadYoutubeDl = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "btnsettingscancel") {
+                                btnSettingsCancel = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "btnsettingssave") {
+                                btnSettingsSave = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "btnsettingsredownloadyoutubedlhint") {
+                                btnSettingsRedownloadYoutubeDlHint = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "btnsettingscancelhint") {
+                                btnSettingsCancelHint = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "btnsettingssavehint") {
+                                btnSettingsSaveHint = ReadValue;
+                                continue;
+                            }
+                            // frmSettings / tcMain
+                            if (ReadControl == "tabsettingsgeneral") {
+                                tabSettingsGeneral = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "tabsettingsdownloads") {
+                                tabSettingsDownloads = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "tabsettingsconverter") {
+                                tabSettingsConverter = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "tabsettingsextensions") {
+                                tabSettingsExtensions = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "tabsettingserrors") {
+                                tabSettingsErrors = ReadValue;
+                                continue;
+                            }
+                            //frmSettings / tcMain / tabGeneral
+                            if (ReadControl == "lbsettingsgeneralyoutubedlpath") {
+                                lbSettingsGeneralYoutubeDlPath = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "chksettingsgeneralusestaticyoutubedl") {
+                                chkSettingsGeneralUseStaticYoutubeDl = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "lbsettingsgeneralffmpegdirectory") {
+                                lbSettingsGeneralFFmpegDirectory = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "chksettingsgeneralusestaticffmpeg") {
+                                chkSettingsGeneralUseStaticFFmpeg = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "chksettingsgeneralcheckforupdatesonlaunch") {
+                                chkSettingsGeneralCheckForUpdatesOnLaunch = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "chksettingsgeneralhoveroverurltopasteclipboard") {
+                                chkSettingsGeneralHoverOverUrlToPasteClipboard = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "chksettingsgeneralclearurlclipboardondownload") {
+                                chkSettingsGeneralClearUrlClipboardOnDownload = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "gbsettingsgeneralcustomarguments") {
+                                gbSettingsGeneralCustomArguments = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "rbsettingsgeneralcustomargumentsdontsave") {
+                                rbSettingsGeneralCustomArgumentsDontSave = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "rbsettingsgeneralcustomargumentssaveasargstext") {
+                                rbSettingsGeneralCustomArgumentsSaveAsArgsText = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "rbsettingsgeneralcustomargumentssaveinsettings") {
+                                rbSettingsGeneralCustomArgumentsSaveInSettings = ReadValue;
+                                continue;
+                            }
+
+                            if (ReadControl == "lbsettingsgeneralyoutubedlpathhint") {
+                                lbSettingsGeneralYoutubeDlPathHint = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "chksettingsgeneralusestaticyoutubedlhint") {
+                                chkSettingsGeneralUseStaticYoutubeDlHint = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "lbsettingsgeneralffmpegdirectoryhint") {
+                                lbSettingsGeneralFFmpegDirectoryHint = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "chksettingsgeneralusestaticffmpeghint") {
+                                chkSettingsGeneralUseStaticFFmpegHint = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "chksettingsgeneralcheckforupdatesonlaunchhint") {
+                                chkSettingsGeneralCheckForUpdatesOnLaunchHint = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "chksettingsgeneralhoveroverurltopasteclipboardhint") {
+                                chkSettingsGeneralHoverOverUrlToPasteClipboardHint = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "chksettingsgeneralclearurlclipboardondownloadhint") {
+                                chkSettingsGeneralClearUrlClipboardOnDownloadHint = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "gbsettingsgeneralcustomargumentshint") {
+                                gbSettingsGeneralCustomArgumentsHint = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "rbsettingsgeneralcustomargumentsdontsavehint") {
+                                rbSettingsGeneralCustomArgumentsDontSaveHint = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "rbsettingsgeneralcustomargumentssaveasargstexthint") {
+                                rbSettingsGeneralCustomArgumentsSaveAsArgsTextHint = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "rbsettingsgeneralcustomargumentssaveinsettingshint") {
+                                rbSettingsGeneralCustomArgumentsSaveInSettingsHint = ReadValue;
+                                continue;
+                            }
+                            // frmSettings / tcMain / tabDownloads
+                            if (ReadControl == "lbsettingsdownloadsdownloadpath") {
+                                lbSettingsDownloadsDownloadPath = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "lbsettingsdownloadsfilenameschema") {
+                                lbSettingsDownloadsFileNameSchema = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "chksettingsdownloadsseparatedownloadstodifferentfolders") {
+                                chkSettingsDownloadsSeparateDownloadsToDifferentFolders = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "chksettingsdownloadssaveformatquality") {
+                                chkSettingsDownloadsSaveFormatQuality = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "chksettingsdownloadsseparateintowebsiteurl") {
+                                chkSettingsDownloadsSeparateIntoWebsiteUrl = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "chksettingsdownloadsautomaticallydeleteyoutubedlwhenclosing") {
+                                chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "chksettingsdownloadsuseyoutubedlsupdater") {
+                                chksettingsDownloadsUseYoutubeDlsUpdater = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "chksettingsdownloadsfixvreddit") {
+                                chkSettingsDownloadsFixVReddIt = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "chksettingsdownloadsdownloadsubtitles") {
+                                chkSettingsDownloadsDownloadSubtitles = ReadValue;
+                                continue;
+                            }
+
+                            if (ReadControl == "lbsettingsdownloadsdownloadpathhint") {
+                                lbSettingsDownloadsDownloadPathHint = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "lbsettingsdownloadsfilenameschemahint") {
+                                lbSettingsDownloadsFileNameSchemaHint = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "chksettingsdownloadsseparatedownloadstodifferentfoldershint") {
+                                chkSettingsDownloadsSeparateDownloadsToDifferentFoldersHint = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "chksettingsdownloadssaveformatqualityhint") {
+                                chkSettingsDownloadsSaveFormatQualityHint = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "chksettingsdownloadsseparateintowebsiteurlhint") {
+                                chkSettingsDownloadsSeparateIntoWebsiteUrlHint = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "chksettingsdownloadsautomaticallydeleteyoutubedlwhenclosinghint") {
+                                chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosingHint = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "chksettingsdownloadsuseyoutubedlsupdaterhint") {
+                                chksettingsDownloadsUseYoutubeDlsUpdaterHint = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "chksettingsdownloadsfixvreddithint") {
+                                chkSettingsDownloadsFixVReddItHint = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "chksettingsdownloadsdownloadsubtitleshint") {
+                                chkSettingsDownloadsDownloadSubtitlesHint = ReadValue;
+                                continue;
+                            }
+                            // frmSettings / tcMain / tabConverter
+                            if (ReadControl == "chksettingsconverterclearoutputafterconverting") {
+                                chkSettingsConverterClearOutputAfterConverting = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "chksettingsconverterdetectoutputfiletype") {
+                                chkSettingsConverterDetectOutputFileType = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "chksettingsconverterclearinputafterconverting") {
+                                chkSettingsConverterClearInputAfterConverting = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "chksettingsconverterhideffmpegcompileinfo") {
+                                chkSettingsConverterHideFFmpegCompileInfo = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "tcsettingsconvertervideo") {
+                                tcSettingsConverterVideo = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "tcsettingsconverteraudio") {
+                                tcSettingsConverterAudio = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "tcsettingsconvertercustom") {
+                                tcSettingsConverterCustom = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "lbsettingsconvertervideobitrate") {
+                                lbSettingsConverterVideoBitrate = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "lbsettingsconvertervideopreset") {
+                                lbSettingsConverterVideoPreset = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "lbsettingsconvertervideoprofile") {
+                                lbSettingsConverterVideoProfile = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "lbsettingsconvertervideocrf") {
+                                lbSettingsConverterVideoCRF = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "chksettingsconvertervideofaststart") {
+                                chkSettingsConverterVideoFastStart = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "lbSettingsConverterAudioBitrate") {
+                                lbSettingsConverterAudioBitrate = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "lbsettingsconvertercustomheader") {
+                                lbSettingsConverterCustomHeader = ReadValue;
+                                continue;
+                            }
+
+                            if (ReadControl == "chksettingsconverterclearoutputafterconvertinghint") {
+                                chkSettingsConverterClearOutputAfterConvertingHint = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "chksettingsconverterdetectoutputfiletypehint") {
+                                chkSettingsConverterDetectOutputFileTypeHint = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "chksettingsconverterclearinputafterconvertinghint") {
+                                chkSettingsConverterClearInputAfterConvertingHint = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "chksettingsconverterhideffmpegcompileinfohint") {
+                                chkSettingsConverterHideFFmpegCompileInfoHint = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "lbsettingsconvertervideobitratehint") {
+                                lbSettingsConverterVideoBitrateHint = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "lbsettingsconvertervideopresethint") {
+                                lbSettingsConverterVideoPresetHint = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "lbsettingsconvertervideoprofilehint") {
+                                lbSettingsConverterVideoProfileHint = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "lbsettingsconvertervideocrfhint") {
+                                lbSettingsConverterVideoCRFHint = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "chksettingsconvertervideofaststarthint") {
+                                chkSettingsConverterVideoFastStartHint = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "lbSettingsConverterAudioBitratehint") {
+                                lbSettingsConverterAudioBitrateHint = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "txtsettingsconvertercustomargumentshint") {
+                                txtSettingsConverterCustomArgumentsHint = ReadValue;
+                                continue;
+                            }
+                            // frmSettings / tcMain / tabExtensions
+                            if (ReadControl == "lbsettingsextensionsheader") {
+                                lbSettingsExtensionsHeader = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "lbsettingsextensionsextensionfullname") {
+                                lbSettingsExtensionsExtensionFullName = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "lbsettingsextensionsextensionshort") {
+                                lbSettingsExtensionsExtensionShort = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "btnsettingsextensionsadd") {
+                                btnSettingsExtensionsAdd = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "lbsettingsextensionsfilename") {
+                                lbSettingsExtensionsFileName = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "btnsettingsextensionsremoveselected") {
+                                btnSettingsExtensionsRemoveSelected = ReadValue;
+                                continue;
+                            }
+                            // frmSettings / tcMain / tabErrors
+                            if (ReadControl == "chksettingserrorsshowdetailederrors") {
+                                chkSettingsErrorsShowDetailedErrors = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "chksettingserrorssaveerrorsaserrorlog") {
+                                chkSettingsErrorsSaveErrorsAsErrorLog = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "chksettingserrorssuppresserrors") {
+                                chkSettingsErrorsSuppressErrors = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "chksettingserrorsshowdetailederrorshint") {
+                                chkSettingsErrorsShowDetailedErrorsHint = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "chksettingserrorssaveerrorsaserrorloghint") {
+                                chkSettingsErrorsSaveErrorsAsErrorLogHint = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "chksettingserrorssuppresserrorshint") {
+                                chkSettingsErrorsSuppressErrorsHint = ReadValue;
+                                continue;
+                            }
+                            #endregion
+
+                            #region frmSubtitles
+                            // frmSubtitles
+                            if (ReadControl == "frmsubtitles") {
+                                frmSubtitles = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "lbsubtitlesheader") {
+                                lbSubtitlesHeader = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "lbsubtitlesurl") {
+                                lbSubtitlesUrl = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "lbsubtitleslanguages") {
+                                lbSubtitlesLanguages = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "btnsubtitlesaddlanguage") {
+                                btnSubtitlesAddLanguage = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "btnsubtitlesclearlanguages") {
+                                btnSubtitlesClearLanguages = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "btnsubtitlesdownload") {
+                                btnSubtitlesDownload = ReadValue;
+                                continue;
+                            }
+                            #endregion
+
+                            #region frmTools
+                            // frmTools
+                            if (ReadControl == "frmtools") {
+                                frmTools = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "btnmisctoolsremoveaudio") {
+                                btnMiscToolsRemoveAudio = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "btnmisctoolsextractaudio") {
+                                btnMiscToolsExtractAudioString = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "btnmisctoolsvideotogif") {
+                                btnMiscToolsVideoToGifString = ReadValue;
+                                continue;
+                            }
+                            #endregion
+
+                            #region frmUpdateAvailable
+                            if (ReadControl == "frmupdateavailable") {
+                                frmUpdateAvailable = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "lbupdateavailableheader") {
+                                lbUpdateAvailableHeader = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "lbupdateavailableupdateversion") {
+                                lbUpdateAvailableUpdateVersion = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "lbupdateavailablecurrentversion") {
+                                lbUpdateAvailableCurrentVersion = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "lbupdateavailablechangelog") {
+                                lbUpdateAvailableChangelog = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "btnupdateavailableskipversion") {
+                                btnUpdateAvailableSkipVersion = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "btnupdateavailableupdate") {
+                                btnUpdateAvailableUpdate = ReadValue;
+                                continue;
+                            }
+                            if (ReadControl == "btnupdateavailableok") {
+                                btnUpdateAvailableOk = ReadValue;
+                                continue;
+                            }
+                            #endregion
                         }
 
-                        if (ReadControl == "CurrentLanguageShort") {
-                            CurrentLanguageShort = ReadLine;
-                            continue;
-                        }
-                        else if (ReadControl == "CurrentLanguageHint") {
-                            CurrentLanguageHint = ReadLine;
-                            continue;
-                        }
-                        else if (ReadControl == "CurrentLanguageVersion") {
-                            CurrentLanguageVersion = ReadLine;
-                            continue;
-                        }
-
-                        else if (ReadControl == "frmError") {
-                            frmException = ReadLine;
-                            continue;
-                        }
-                        else if (ReadControl == "lbExceptionHeader") {
-                            lbExceptionHeader = ReadLine;
-                            continue;
-                        }
-                        else if (ReadControl == "lbExceptionDescription") {
-                            lbExceptionDescription = ReadLine;
-                            continue;
-                        }
-                        else if (ReadControl == "rtbExceptionDetails") {
-                            rtbExceptionDetails = ReadLine;
-                            continue;
-                        }
-                        else if (ReadControl == "btnExceptionGithub") {
-                            btnExceptionGithub = ReadLine;
-                            continue;
-                        }
-                        else if (ReadControl == "btnExceptionOk") {
-                            btnExceptionOk = ReadLine;
-                            continue;
-                        }
-
+                        return true;
                     }
-                    LoadedFile = LanguageFileName;
-
-                    return true;
-                }
-                catch (Exception ex) {
-                    frmException error = new frmException();
-                    error.reportedException = ex;
-                    error.FromLanguage = true;
-                    error.ShowDialog();
-                    return false;
+                    else {
+                        throw new Exception("LangaugeFile does not exist.");
+                    }
                 }
             }
-            else {
+            catch (Exception ex) {
+                frmException error = new frmException();
+                error.ReportedException = ex;
+                error.FromLanguage = true;
+                error.ShowDialog();
                 return false;
             }
         }
 
-        public bool SetManualLanguage(string ControlName, string ReplacementString) {
-            LoadedFile = null;
-
-            switch (ControlName.ToLower()) {
-                //case "0":
-                //case "currentlanguagelongstring":
-                //case "currentlanguagelong":
-                //    CurrentLanguageLong = ReplacementString;
-                //    return true;
-                //case "1":
-                //case "currentlanguageshortstring":
-                //case "currentlanguageshort":
-                //    CurrentLanguageShort = ReplacementString;
-                //    return true;
-                //case "2":
-                //case "currentlanguagehintstring":
-                //case "currentlanguagehint":
-                //    CurrentLanguageHint = ReplacementString;
-                //    return true;
-
-
-                //case "3":
-                //case "hotkeytogglestring":
-                //case "hotkeytoggle":
-                //    HotkeyToggle = ReplacementString;
-                //    return true;
-                //case "4":
-                //case "hotkeydisabledstring":
-                //case "hotkeydisabled":
-                //    HotkeyDisabled = ReplacementString;
-                //    return true;
-                //case "5":
-                //case "hotkeyunavailablestring":
-                //case "hotkeyunavailable":
-                //    HotkeyUnavailable = ReplacementString;
-                //    return true;
-
-
-                //case "6":
-                //case "frmmainadminstring":
-                //case "frmmainadmin":
-                //    frmMainAdmin = ReplacementString;
-                //    return true;
-                //case "7":
-                //case "frmmainnoadminstring":
-                //case "frmmainnoadmin":
-                //    frmMainNoAdmin = ReplacementString;
-                //    return true;
-                //case "8":
-                //case "lbdestinyoffstring":
-                //case "lbdestinyoff":
-                //    lbDestinyOff = ReplacementString;
-                //    return true;
-                //case "9":
-                //case "lbdestinyonstring":
-                //case "lbdestinyon":
-                //    lbDestinyOn = ReplacementString;
-                //    return true;
-                //case "10":
-                //case "lbrockstaroffstring":
-                //case "lbrockstaroff":
-                //    lbRockstarOff = ReplacementString;
-                //    return true;
-                //case "11":
-                //case "lbrockstaronstring":
-                //case "lbrockstaron":
-                //    lbRockstarOn = ReplacementString;
-                //    return true;
-                //case "12":
-                //case "tsmiselectlanguagestring":
-                //case "tsmiselectlanguage":
-                //    tsmiSelectLanguage = ReplacementString;
-                //    return true;
-
-
-
-                //case "13":
-                //case "tabdestinystring":
-                //case "tabdestiny":
-                //    tabDestiny = ReplacementString;
-                //    return true;
-                //case "14":
-                //case "tabrockstarstring":
-                //case "tabrockstar":
-                //    tabRockstar = ReplacementString;
-                //    return true;
-                //case "15":
-                //case "tabdebugstring":
-                //case "tabdebug":
-                //    tabDebug = ReplacementString;
-                //    return true;
-
-
-
-                //case "16":
-                //case "chkenabledestinyhotkeystring":
-                //case "chkenabledestinyhotkey":
-                //    chkEnableDestinyHotkey = ReplacementString;
-                //    return true;
-                //case "17":
-                //case "btntoggledestinyoffstring":
-                //case "btntoggledestinyoff":
-                //    btnToggleDestinyOff = ReplacementString;
-                //    return true;
-                //case "18":
-                //case "btntoggledestinyonstring":
-                //case "btntoggledestinyon":
-                //    btnToggleDestinyOn = ReplacementString;
-                //    return true;
-                //case "19":
-                //case "ttmainchangedestinyhotkeystring":
-                //case "ttmainchangedestinyhotkey":
-                //    ttMainChangeDestinyHotkey = ReplacementString;
-                //    return true;
-
-
-
-                //case "20":
-                //case "chkenablerockstarhotkeystring":
-                //case "chkenablerockstarhotkey":
-                //    chkEnableDestinyHotkey = ReplacementString;
-                //    return true;
-                //case "21":
-                //case "btnaddrockstarrangestring":
-                //case "btnaddrockstarrange":
-                //    btnAddRockstarRange = ReplacementString;
-                //    return true;
-                //case "22":
-                //case "btnremoverockstarrangestring":
-                //case "btnremoverockstarrange":
-                //    btnRemoveRockstarRange = ReplacementString;
-                //    return true;
-                //case "23":
-                //case "txtrockstarrangestring":
-                //case "txtrockstarrange":
-                //    txtRockstarRange = ReplacementString;
-                //    return true;
-                //case "24":
-                //case "btntogglerockstaroffstring":
-                //case "btntogglerockstaroff":
-                //    btnToggleRockstarOff = ReplacementString;
-                //    return true;
-                //case "25":
-                //case "btntogglerockstaronstring":
-                //case "btntogglerockstaron":
-                //    btnToggleRockstarOn = ReplacementString;
-                //    return true;
-                //case "26":
-                //case "ttmainchangerockstarhotkeystring":
-                //case "ttmainchangerockstarhotkey":
-                //    ttMainChangeRockstarHotkey = ReplacementString;
-                //    return true;
-                //case "27":
-                //case "rtbrockstarinfostring":
-                //case "rtbrockstarinfo":
-                //    rtbRockstarInfo = ReplacementString;
-                //    return true;
-
-
-
-                //case "28":
-                //case "frmexceptionstring":
-                //case "frmexception":
-                //    frmException = ReplacementString;
-                //    return true;
-                //case "29":
-                //case "lbexceptionheaderstring":
-                //case "lbexceptionheader":
-                //    lbExceptionHeader = ReplacementString;
-                //    return true;
-                //case "30":
-                //case "lbexceptiondescriptionstring":
-                //case "lbexceptiondescription":
-                //    lbExceptionDescription = ReplacementString;
-                //    return true;
-                //case "31":
-                //case "rtbexceptiondetailsstring":
-                //case "rtbexceptiondetails":
-                //    rtbExceptionDetails = ReplacementString;
-                //    return true;
-                //case "32":
-                //case "btnexceptiongithubstring":
-                //case "btnexceptiongithub":
-                //    btnExceptionGithub = ReplacementString;
-                //    return true;
-                //case "33":
-                //case "btnexceptionokstring":
-                //case "btnexceptionok":
-                //    btnExceptionOk = ReplacementString;
-                //    return true;
-
-
-
-                //case "34":
-                //case "frmnewhotkeystring":
-                //case "frmnewhotkey":
-                //    frmNewHotkey = ReplacementString;
-                //    return true;
-                //case "35":
-                //case "lbnewhotkeyheaderstring":
-                //case "lbnewhotkeyheader":
-                //    lbNewHotkeyHeader = ReplacementString;
-                //    return true;
-                //case "36":
-                //case "lbnewhotkeydescriptionstring":
-                //case "lbnewhotkeydescription":
-                //    lbNewHotkeyDescription = ReplacementString;
-                //    return true;
-                //case "37":
-                //case "lbnewhotkeymodifierstring":
-                //case "lbnewhotkeymodifier":
-                //    lbNewHotkeyModifier = ReplacementString;
-                //    return true;
-                //case "38":
-                //case "lbnewhotkeykeystring":
-                //case "lbnewhotkeykey":
-                //    lbNewHotkeyKey = ReplacementString;
-                //    return true;
-                //case "39":
-                //case "btnnewhotkeyresettodefaultstring":
-                //case "btnnewhotkeyresettodefault":
-                //    btnNewHotkeyResetToDefault = ReplacementString;
-                //    return true;
-                //case "40":
-                //case "btnnewhotkeycancelstring":
-                //case "btnnewhotkeycancel":
-                //    btnNewHotkeyCancel = ReplacementString;
-                //    return true;
-                //case "41":
-                //case "btnnewhotkeysavestring":
-                //case "btnnewhotkeysave":
-                //    btnNewHotkeySave = ReplacementString;
-                //    return true;
-
-                default:
-                    return false;
+        private string ReadHeaderValue(string Input) {
+            string ReadValue = null;
+            if (Input.Contains("//")) {
+                int CountedForwardSlashes = 0;
+                int CountedLength = 0;
+                for (int j = 0; j < Input.Length; j++) {
+                    CountedLength++;
+                    if (Input[j] == '/') {
+                        CountedForwardSlashes++;
+                        if (CountedForwardSlashes == 2) { break; }
+                        continue;
+                    }
+                }
+                CountedLength = CountedLength - 2;
+                ReadValue = Input.Substring(0, CountedLength);
             }
+            return ReadValue.Trim(' ').Trim('[').Trim(']');
+        }
+        private string GetControlName(string Input) {
+            if (Input.Split('=').Length > 1) {
+                return Input.Split('=')[0].Trim(' ');
+            }
+            else { return null; }
+        }
+        private string GetControlValue(string Input) {
+            if (Input.Split('=').Length > 2) {
+                string OutputBuffer = null;
+
+                if (Input.Contains("//")) {
+                    int CountedForwardSlashes = 0;
+                    int CountedLength = 0;
+                    for (int i = 1; i < Input.Length; i++) {
+                        CountedLength++;
+                        if (Input[i] == '/') {
+                            CountedForwardSlashes++;
+                            if (CountedForwardSlashes == 2) { break; }
+                            else { continue; }
+                        }
+                    }
+                    CountedLength = CountedLength - 2;
+                    OutputBuffer = Input.Substring(0, CountedLength).Trim(' ');
+                }
+                for (int i = 0; i < Input.Split('=').Length; i++) {
+                    OutputBuffer += Input.Split('=')[i] + "=";
+                }
+                if (!Input.EndsWith("=")) {
+                    OutputBuffer = OutputBuffer.Trim('=');
+                }
+                else {
+                    OutputBuffer = OutputBuffer.Substring(0, OutputBuffer.Length - 1);
+                }
+                return OutputBuffer;
+            }
+            else if (Input.Split('=').Length == 2) { return Input.Split('=')[1]; }
+            else { return null; }
         }
         #endregion
     }

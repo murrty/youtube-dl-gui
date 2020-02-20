@@ -23,6 +23,7 @@
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmSubtitles));
             this.txtURL = new System.Windows.Forms.TextBox();
             this.lbSubtitlesHeader = new System.Windows.Forms.Label();
             this.lbSubtitlesUrl = new System.Windows.Forms.Label();
@@ -238,6 +239,7 @@
             this.Controls.Add(this.lbSubtitlesUrl);
             this.Controls.Add(this.lbSubtitlesHeader);
             this.Controls.Add(this.txtURL);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximumSize = new System.Drawing.Size(320, 200);
             this.MinimumSize = new System.Drawing.Size(320, 200);
             this.Name = "frmSubtitles";

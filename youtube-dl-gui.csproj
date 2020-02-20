@@ -55,7 +55,7 @@
     <Compile Include="Classes\SplitButton.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Classes\Updater.cs" />
+    <Compile Include="Classes\UpdateChecker.cs" />
     <Compile Include="Classes\ErrorLog.cs" />
     <Compile Include="Converts.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -114,6 +114,12 @@
     <Compile Include="Forms\frmTools.Designer.cs">
       <DependentUpon>frmTools.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\frmUpdateAvailable.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmUpdateAvailable.Designer.cs">
+      <DependentUpon>frmUpdateAvailable.cs</DependentUpon>
+    </Compile>
     <Compile Include="General.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -138,6 +144,9 @@
     <EmbeddedResource Include="Forms\frmBatchDownloader.resx">
       <DependentUpon>frmBatchDownloader.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmException.resx">
+      <DependentUpon>frmException.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>
     </EmbeddedResource>
@@ -149,6 +158,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmTools.resx">
       <DependentUpon>frmTools.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmUpdateAvailable.resx">
+      <DependentUpon>frmUpdateAvailable.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
@@ -199,7 +211,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\youtube-dl-gui-updater.exe" />
+    <EmbeddedResource Include="Resources\youtube-dl-gui-updater.exe" />
     <Content Include="Resources\youtube-dl-gui.ico" />
     <Content Include="Resources\youtube-dl-gui32.png" />
   </ItemGroup>

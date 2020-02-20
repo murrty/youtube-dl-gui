@@ -113,7 +113,6 @@
             this.llbGitlab.TabStop = true;
             this.llbGitlab.Text = "Gitlab";
             this.llbGitlab.Visible = false;
-            this.llbGitlab.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llbGitlab_LinkClicked);
             // 
             // frmAbout
             // 

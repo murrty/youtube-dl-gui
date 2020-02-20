@@ -44,11 +44,10 @@ namespace youtube_dl_gui {
                                     "64k"
                                 };
 
-        Thread checkUpdates;
-        bool updateChecked = false;
+        bool Debug = false;
         List<Thread> BatchDownloads = new List<Thread>();   // List of batch download threads
         List<int> BatchCount = new List<int>();             // Int list of positions of the batch download threads
-        Language lang = Language.GetLanguageInstance();
+        Language lang = Language.GetInstance();
 
         //TextBox Hint
         [DllImport("user32.dll", CharSet = CharSet.Unicode)]
@@ -64,26 +63,30 @@ namespace youtube_dl_gui {
         #endregion
 
         #region form
-        protected override void WndProc(ref Message m) {
-            if (m.Msg == Controller.WM_SHOWYTDLGUIFORM) {
-                this.Show();
-                if (this.WindowState != FormWindowState.Normal)
-                    this.WindowState = FormWindowState.Normal;
-                this.Activate();
-            }
-
-            if (updateChecked) {
-                checkUpdates.Abort();
-                updateChecked = false;
-            }
-            base.WndProc(ref m);
-        }
+        //protected override void WndProc(ref Message m) {
+        //    if (m.Msg == Controller.WM_SHOWYTDLGUIFORM) {
+        //        this.Show();
+        //        if (this.WindowState != FormWindowState.Normal)
+        //            this.WindowState = FormWindowState.Normal;
+        //        this.Activate();
+        //    }
+        //    base.WndProc(ref m);
+        //}
         public frmMain() {
             InitializeComponent();
-            LoadLanguage();
-            lbDebug.Text = Properties.Settings.Default.debugDate;
+            lang.LoadLanguage();
+            Debug = Environment.GetCommandLineArgs().Contains("-debug") ? Debug = true : Debug = false;
 
-            //tcMain.TabPages.RemoveAt(2);
+            LoadLanguage();
+
+            if (Debug) {
+                lbDebug.Text = Properties.Settings.Default.debugDate;
+                lbDebug.Visible = true;
+            }
+            else {
+                tcMain.TabPages.RemoveAt(2);
+                lbDebug.Visible = false;
+            }
 
             ytDlAvailable = Verification.ytdlFullCheck();
             ffmpegAvailable = Verification.ffmpegFullCheck();
@@ -94,23 +97,10 @@ namespace youtube_dl_gui {
         }
 
         private void frmMain_Load(object sender, EventArgs e) {
-            if (General.Default.checkForUpdates) {
-                checkUpdates = new Thread(() => {
-                    decimal cloudVersion = Updater.getCloudVersion();
-                    if (Updater.isUpdateAvailable(cloudVersion)) {
-                        if (MessageBox.Show("An update is available. Would you like to update?", "youtube-dl-gui", MessageBoxButtons.YesNo) == DialogResult.Yes) {
-                            if (Updater.downloadNewVersion(cloudVersion)) {
-                                if (Updater.updateStub()) {
-                                    Updater.runMerge();
-                                }
-                            }
-                        }
-                    }
-
-                    updateChecked = true;
-                });
-                checkUpdates.Start();
+            if (!Debug) {
+                UpdateChecker.CheckForUpdate();
             }
+
 
             if (Saved.Default.formTrue0) {
                 this.Location = new Point(Saved.Default.formLocationX, Saved.Default.formLocationY);
@@ -738,6 +728,5 @@ namespace youtube_dl_gui {
             Convert.mergeFiles(txtMergeInput1.Text, txtMergeInput2.Text, txtMergeOutput.Text, chkMergeAudioTracks.Checked, chkMergeDeleteInputFiles.Checked);
         }
         #endregion
-
     }
 }

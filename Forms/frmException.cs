@@ -1,17 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Net;
 using System.Windows.Forms;
 
 namespace youtube_dl_gui {
     public partial class frmException : Form {
-        public Exception reportedException;
-        Language lang = Language.GetLanguageInstance();
+        public Exception ReportedException = null;
+        public WebException ReportedWebException = null;
+        public string WebAddress = string.Empty;
+        Language lang = Language.GetInstance();
         public bool FromLanguage = false;
 
         public frmException() {
@@ -39,7 +35,36 @@ namespace youtube_dl_gui {
         }
 
         private void frmError_Load(object sender, EventArgs e) {
-            string outputBuffer = lang.rtbExceptionDetails + "\n\nVersion: " + Properties.Settings.Default.appVersion + "\nReported Exception: " + reportedException.ToString();
+            string Exception = string.Empty;
+
+            if (ReportedException != null) {
+                Exception += "An exception occured" + "\n";
+                Exception += "Message: " + ReportedException.Message + "\n";
+                Exception += "Stacktrace: " + ReportedException.StackTrace + "\n";
+                Exception += "Source: " + ReportedException.Source + "\n";
+                Exception += "TargetSite: " + ReportedException.TargetSite + "\n";
+
+
+                Exception += "Full report:\n" + ReportedException.ToString();
+            }
+            else if (ReportedWebException != null) {
+                Exception += "A web exception occured" + "\n";
+                Exception += "Message: " + ReportedWebException.Message + "\n";
+                Exception += "Stacktrace: " + ReportedWebException.StackTrace + "\n";
+                Exception += "Source: " + ReportedWebException.Source + "\n";
+                Exception += "TargetSite: " + ReportedWebException.TargetSite + "\n";
+                Exception += "InnerException: " + ReportedWebException.InnerException + "\n";
+                Exception += "Response: " + ReportedWebException.Response + "\n";
+                Exception += "WebAddress: " + WebAddress + "\n";
+
+
+                Exception += "Full report:\n" + ReportedWebException.ToString();
+            }
+            else {
+                Exception = "An exception occured, but it didn't parse properly.\nCreate a new issue and tell me how you got here.";
+            }
+
+            string outputBuffer = lang.rtbExceptionDetails + "\n\nVersion: " + Properties.Settings.Default.appVersion + "\nReported Exception: " + Exception;
             rtbExceptionDetails.Text = outputBuffer;
             lbVersion.Text = "v" + Properties.Settings.Default.appVersion.ToString();
             System.Media.SystemSounds.Hand.Play();

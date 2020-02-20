@@ -10,27 +10,20 @@ namespace youtube_dl_gui {
         /// <summary>
         /// Reports any web errors that are caught
         /// </summary>
-        /// <param name="WebE">The WebException that was caught</param>
+        /// <param name="WebException">The WebException that was caught</param>
         /// <param name="url">The URL that (might-have) caused the problem</param>
-        public static void reportWebError(WebException WebE, string url) {
+        public static void reportWebError(WebException WebException, string WebsiteAddress) {
             if (Errors.Default.suppressErrors)
                 return;
 
-            string outputMessage = "A WebException occured while downloading " + url + "\n\n" +
-                                   "Inner Exception: " + WebE.InnerException +
-                                   "\nStacktrace:" + WebE.StackTrace +
-                                   "\n" + WebE.Message +
-                                   "\n\n" + WebE.HResult;
-
-            if (Errors.Default.detailedErrors) {
-                System.Windows.Forms.MessageBox.Show(outputMessage, "youtube-dl-gui");
-            }
-            else {
-                System.Windows.Forms.MessageBox.Show("An exception occured while downloading " + url + "\n\n" + WebE.ToString(), "youtube-dl-gui");
-            }
+            frmException ExceptionDisplay = new frmException();
+            ExceptionDisplay.ReportedWebException = WebException;
+            ExceptionDisplay.FromLanguage = false;
+            ExceptionDisplay.ShowDialog();
+            ExceptionDisplay.Dispose();
 
             if (Errors.Default.logErrors) {
-                System.IO.File.WriteAllText(Environment.CurrentDirectory + "\\error.log", outputMessage);
+                System.IO.File.WriteAllText(Environment.CurrentDirectory + "\\error.log", WebException.ToString());
             }
         }
         /// <summary>
@@ -41,20 +34,14 @@ namespace youtube_dl_gui {
             if (Errors.Default.suppressErrors)
                 return;
 
-            string outputMessage = "A general exception has occured.\n\n" +
-                                   "Inner Exception: " + Exception.InnerException +
-                                   "\nStacktrace:" + Exception.StackTrace +
-                                   "\n" + Exception.Message;
-
-            if (Errors.Default.detailedErrors) {
-                System.Windows.Forms.MessageBox.Show(outputMessage, "youtube-dl-gui");
-            }
-            else {
-                System.Windows.Forms.MessageBox.Show("An exception occured\n\n" + Exception.ToString(), "youtube-dl-gui");
-            }
+            frmException ExceptionDisplay = new frmException();
+            ExceptionDisplay.ReportedException = Exception;
+            ExceptionDisplay.ShowDialog();
+            ExceptionDisplay.FromLanguage = false;
+            ExceptionDisplay.Dispose();
 
             if (Errors.Default.logErrors) {
-                System.IO.File.WriteAllText(Environment.CurrentDirectory + "\\error.log", outputMessage);
+                System.IO.File.WriteAllText(Environment.CurrentDirectory + "\\error.log", Exception.ToString());
             }
         }
     }

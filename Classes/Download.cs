@@ -207,7 +207,7 @@ namespace youtube_dl_gui {
             string YtDl = string.Empty;
             string ytSig = string.Empty;
             try {
-                string xml = Updater.getJSON("https://api.github.com/repos/rg3/youtube-dl/releases/latest");
+                string xml = UpdateChecker.GetJSON("https://api.github.com/repos/rg3/youtube-dl/releases/latest");
                 XmlDocument doc = new XmlDocument();
                 doc.LoadXml(xml);
                 XmlNodeList xmlTag = doc.DocumentElement.SelectNodes("/root/tag_name");

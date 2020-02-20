@@ -23,6 +23,7 @@
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmException));
             this.lbExceptionHeader = new System.Windows.Forms.Label();
             this.lbExceptionDescription = new System.Windows.Forms.Label();
             this.rtbExceptionDetails = new System.Windows.Forms.RichTextBox();
@@ -89,7 +90,7 @@
             this.btnExceptionGithub.UseVisualStyleBackColor = true;
             this.btnExceptionGithub.Click += new System.EventHandler(this.btnGithub_Click);
             // 
-            // frmError
+            // frmException
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -101,9 +102,10 @@
             this.Controls.Add(this.rtbExceptionDetails);
             this.Controls.Add(this.lbExceptionDescription);
             this.Controls.Add(this.lbExceptionHeader);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "frmError";
+            this.Name = "frmException";
             this.ShowIcon = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

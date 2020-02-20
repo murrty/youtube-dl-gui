@@ -12,8 +12,14 @@ using System.Windows.Forms;
 
 namespace youtube_dl_gui {
     public partial class frmTools : Form {
+        Language lang = Language.GetInstance();
+
         public frmTools() {
             InitializeComponent();
+            this.Text = lang.frmTools;
+            btnMiscToolsRemoveAudio.Text = lang.btnMiscToolsRemoveAudio;
+            btnMiscToolsExtractAudio.Text = lang.btnMiscToolsExtractAudio;
+            btnMiscToolsVideoToGif.Text = lang.btnMiscToolsVideoToGif;
         }
         private void frmTools_FormClosing(object sender, FormClosingEventArgs e) {
             this.Dispose();
