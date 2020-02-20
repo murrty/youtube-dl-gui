@@ -20,6 +20,7 @@ namespace youtube_dl_gui {
         public static CloudData GitData = CloudData.GetInstance();
 
         public static void CheckForUpdate(bool ForceCheck = false) {
+            if (!General.Default.checkForUpdates && !ForceCheck) { return; }
             Thread checkUpdates = new Thread(() => {
                 if (GitData.UpdateVersion == "-1" || ForceCheck) {
                     decimal GitVersion = UpdateChecker.GetGitVersion();
@@ -60,9 +61,11 @@ namespace youtube_dl_gui {
         public static string GetJSON(string url) {
             if (!Properties.Settings.Default.jsonSupport)
                 return null;
-#if debug
-            url = "http://localhost/latest.json";
-#endif
+
+            if (Program.IsDebug) {
+                url = "http://localhost/latest.json";
+            }
+
             try {
                 using (WebClient wc = new WebClient()) {
                     ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;

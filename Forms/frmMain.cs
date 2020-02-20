@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -15,54 +16,39 @@ namespace youtube_dl_gui {
         #region variables
         int ytDlAvailable = -1;
         int ffmpegAvailable = -1;
-        string[] videoQuality = {
-                                    "best",
-                                    "4320p60",
-                                    "4320p",
-                                    "2160p60",
-                                    "2160p",
-                                    "1440p60",
-                                    "1440p",
-                                    "1080p60",
-                                    "1080p",
-                                    "720p60",
-                                    "720p",
-                                    "480p",
-                                    "360p",
-                                    "240p",
-                                    "144p"
-                                };
-        string[] audioQuality = {
-                                    "best",
-                                    "320k",
-                                    "256k",
-                                    "224k",
-                                    "192k",
-                                    "160k",
-                                    "128k",
-                                    "96k",
-                                    "64k"
-                                };
-
-        bool Debug = false;
+        string[] videoQuality = { "best",
+                                  "4320p60", "4320p",
+                                  "2160p60", "2160p",
+                                  "1440p60", "1440p",
+                                  "1080p60", "1080p",
+                                  "720p60", "720p",
+                                  "480p",
+                                  "360p",
+                                  "240p",
+                                  "144p" };
+        string[] audioQuality = { "best",
+                                  "320k",
+                                  "256k",
+                                  "224k",
+                                  "192k",
+                                  "160k",
+                                  "128k",
+                                  "96k",
+                                  "64k" };
         List<Thread> BatchDownloads = new List<Thread>();   // List of batch download threads
         List<int> BatchCount = new List<int>();             // Int list of positions of the batch download threads
         Language lang = Language.GetInstance();
 
-        //TextBox Hint
+
         [DllImport("user32.dll", CharSet = CharSet.Unicode)]
         private static extern IntPtr SendMessage(IntPtr hWnd, int msg, IntPtr wp, string lp);
-        /// <summary>
-        /// Set a hint for a Textbox.
-        /// </summary>
-        /// <param name="TextboxHandle">The handle for the text box. (Usually TextBox.Handle)</param>
-        /// <param name="Hint">The string that should be set as the hint.</param>
         private void SetTextBoxHint(IntPtr TextboxHandle, string Hint) {
             SendMessage(TextboxHandle, 0x1501, (IntPtr)1, Hint);
         }
         #endregion
 
         #region form
+        [DebuggerStepThrough]
         protected override void WndProc(ref Message m) {
             if (m.Msg == Controller.WM_SHOWYTDLGUIFORM) {
                 this.Show();
@@ -74,17 +60,9 @@ namespace youtube_dl_gui {
         }
         public frmMain() {
             InitializeComponent();
-            Debug = Environment.GetCommandLineArgs().Contains("-debug") ? Debug = true : Debug = false;
+            LoadLanguage();
 
-            bool SkipLanguage = false;
-
-            if (!SkipLanguage) {
-                LoadLanguage();
-            }
-
-
-
-            if (Debug) {
+            if (Program.IsDebug) {
                 lbDebug.Text = Properties.Settings.Default.debugDate;
                 lbDebug.Visible = true;
             }
@@ -99,9 +77,7 @@ namespace youtube_dl_gui {
         }
 
         private void frmMain_Load(object sender, EventArgs e) {
-            if (!Debug) {
-                UpdateChecker.CheckForUpdate();
-            }
+            UpdateChecker.CheckForUpdate();
 
 
             if (Saved.Default.formTrue0) {
@@ -310,7 +286,8 @@ namespace youtube_dl_gui {
             frmLanguage language = new frmLanguage();
             switch (language.ShowDialog()) {
                 case System.Windows.Forms.DialogResult.Yes:
-                    Settings.Default.LanguageFile = language.LanguageFile;
+                    if (language.LanguageFile == null) { Settings.Default.LanguageFile = string.Empty; }
+                    else { Settings.Default.LanguageFile = language.LanguageFile; }
                     Settings.Default.Save();
                     LoadLanguage(true);
                     break;

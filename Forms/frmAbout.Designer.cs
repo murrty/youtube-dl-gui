@@ -26,6 +26,7 @@
         /// Required method for Designer support - do not modify
         /// the contents of this method with the code editor.
         /// </summary>
+        [System.Diagnostics.DebuggerStepThrough]
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmAbout));
@@ -35,7 +36,6 @@
             this.lbBody = new System.Windows.Forms.Label();
             this.pbIcon = new System.Windows.Forms.PictureBox();
             this.llbGithub = new System.Windows.Forms.LinkLabel();
-            this.llbGitlab = new System.Windows.Forms.LinkLabel();
             ((System.ComponentModel.ISupportInitialize)(this.pbIcon)).BeginInit();
             this.SuspendLayout();
             // 
@@ -95,7 +95,7 @@
             // 
             this.llbGithub.AutoSize = true;
             this.llbGithub.LinkColor = System.Drawing.Color.Blue;
-            this.llbGithub.Location = new System.Drawing.Point(222, 110);
+            this.llbGithub.Location = new System.Drawing.Point(222, 120);
             this.llbGithub.Name = "llbGithub";
             this.llbGithub.Size = new System.Drawing.Size(38, 13);
             this.llbGithub.TabIndex = 5;
@@ -103,24 +103,12 @@
             this.llbGithub.Text = "Github";
             this.llbGithub.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llbGithub_LinkClicked);
             // 
-            // llbGitlab
-            // 
-            this.llbGitlab.AutoSize = true;
-            this.llbGitlab.Location = new System.Drawing.Point(226, 128);
-            this.llbGitlab.Name = "llbGitlab";
-            this.llbGitlab.Size = new System.Drawing.Size(34, 13);
-            this.llbGitlab.TabIndex = 6;
-            this.llbGitlab.TabStop = true;
-            this.llbGitlab.Text = "Gitlab";
-            this.llbGitlab.Visible = false;
-            // 
             // frmAbout
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(272, 150);
-            this.Controls.Add(this.llbGitlab);
             this.Controls.Add(this.llbGithub);
             this.Controls.Add(this.pbIcon);
             this.Controls.Add(this.lbBody);
@@ -151,6 +139,5 @@
         private System.Windows.Forms.Label lbBody;
         private System.Windows.Forms.PictureBox pbIcon;
         private System.Windows.Forms.LinkLabel llbGithub;
-        private System.Windows.Forms.LinkLabel llbGitlab;
     }
 }

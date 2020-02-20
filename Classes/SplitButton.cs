@@ -10,6 +10,7 @@ namespace youtube_dl_gui {
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         public static extern IntPtr SendMessage(IntPtr hWnd, int msg, int wParam, int lParam);
 
+        [System.Diagnostics.DebuggerStepThrough]
         public SplitButton() {
             this.FlatStyle = FlatStyle.System;
             this.DropDown_Clicked += new youtube_dl_gui.DropDownClicked(this.LaunchMenu);

@@ -9,12 +9,12 @@ namespace youtube_dl_gui {
     static class Program {
         static Mutex mtx = new Mutex(true, "{youtube-dl-gui-2019-05-13}");
         public static readonly string UserAgent = "User-Agent: youtube-dl-gui/" + Properties.Settings.Default.appVersion;
+        public static volatile bool IsDebug = false;
 
         [STAThread]
         static void Main() {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-
             // boot determines if the application can proceed.
             bool boot = false;
             if (Properties.Settings.Default.firstTime) {
@@ -45,6 +45,11 @@ namespace youtube_dl_gui {
 
             if (boot) {
                 if (mtx.WaitOne(TimeSpan.Zero, true)) {
+                #if DEBUG
+                    IsDebug = true;
+                #else 
+                    IsDebug = false;
+                #endif
                     Application.Run(new frmMain());
                     mtx.ReleaseMutex();
                 }

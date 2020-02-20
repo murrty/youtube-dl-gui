@@ -1377,7 +1377,6 @@ namespace youtube_dl_gui {
         }
 
         public bool LoadInternalEnglish() {
-            return false;
             LoadedFile = null;
 
             // Langauge identifier

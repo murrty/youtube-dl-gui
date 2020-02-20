@@ -13,6 +13,7 @@ namespace youtube_dl_gui {
     public partial class frmLanguage : Form {
         Language lang = Language.GetInstance();
         public string LanguageFile = null;
+
         public frmLanguage() {
             InitializeComponent();
             LoadLanguage();
@@ -23,6 +24,9 @@ namespace youtube_dl_gui {
             btnLanguageRefresh.Text = lang.btnLanguageRefresh;
             btnLanguageCancel.Text = lang.btnLanguageCancel;
             btnLanguageSave.Text = lang.btnLanguageSave;
+
+            lbCurrentLanguageShort.Text = lang.CurrentLanguageShort;
+            ttLanguage.SetToolTip(lbCurrentLanguageShort, lang.CurrentLanguageLong + " (" + lang.CurrentLanguageShort + ")\nLang version " + lang.CurrentLanguageVersion);
         }
 
         public void LoadFiles() {
@@ -51,7 +55,8 @@ namespace youtube_dl_gui {
             this.DialogResult = DialogResult.Cancel;
         }
         private void btnLanguageSave_Click(object sender, EventArgs e) {
-            LanguageFile = cbLanguages.GetItemText(cbLanguages.SelectedItem);
+            if (cbLanguages.SelectedIndex > 0) { LanguageFile = cbLanguages.GetItemText(cbLanguages.SelectedItem); }
+            else { LanguageFile = null; }
             this.DialogResult = DialogResult.Yes;
         }
     }
