@@ -25,7 +25,7 @@ namespace youtube_dl_gui.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("2.12")]
+        [global::System.Configuration.DefaultSettingValueAttribute("2.13")]
         public decimal appVersion {
             get {
                 return ((decimal)(this["appVersion"]));
@@ -74,6 +74,18 @@ namespace youtube_dl_gui.Properties {
             }
             set {
                 this["debugDate"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool LanguageUpdate {
+            get {
+                return ((bool)(this["LanguageUpdate"]));
+            }
+            set {
+                this["LanguageUpdate"] = value;
             }
         }
     }
