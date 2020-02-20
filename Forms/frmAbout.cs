@@ -14,6 +14,7 @@ using System.Windows.Forms;
 namespace youtube_dl_gui {
     public partial class frmAbout : Form {
         Thread checkUpdates;
+        Language lang = Language.GetLanguageInstance();
 
         public frmAbout() {
             InitializeComponent();

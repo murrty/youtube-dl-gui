@@ -51,6 +51,10 @@
     <Compile Include="Classes\Controller.cs" />
     <Compile Include="Classes\Convert.cs" />
     <Compile Include="Classes\Download.cs" />
+    <Compile Include="Classes\Language.cs" />
+    <Compile Include="Classes\SplitButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Classes\Updater.cs" />
     <Compile Include="Classes\ErrorLog.cs" />
     <Compile Include="Converts.Designer.cs">
@@ -74,11 +78,17 @@
     <Compile Include="Forms\frmAbout.Designer.cs">
       <DependentUpon>frmAbout.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\frmBatch.cs">
+    <Compile Include="Forms\frmBatchDownloader.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmBatch.Designer.cs">
-      <DependentUpon>frmBatch.cs</DependentUpon>
+    <Compile Include="Forms\frmBatchDownloader.Designer.cs">
+      <DependentUpon>frmBatchDownloader.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmException.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmException.Designer.cs">
+      <DependentUpon>frmException.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\frmMain.cs">
       <SubType>Form</SubType>
@@ -91,6 +101,12 @@
     </Compile>
     <Compile Include="Forms\frmSettings.Designer.cs">
       <DependentUpon>frmSettings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmSubtitles.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmSubtitles.Designer.cs">
+      <DependentUpon>frmSubtitles.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\frmTools.cs">
       <SubType>Form</SubType>
@@ -119,14 +135,17 @@
     <EmbeddedResource Include="Forms\frmAbout.resx">
       <DependentUpon>frmAbout.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmBatch.resx">
-      <DependentUpon>frmBatch.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\frmBatchDownloader.resx">
+      <DependentUpon>frmBatchDownloader.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmSettings.resx">
       <DependentUpon>frmSettings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmSubtitles.resx">
+      <DependentUpon>frmSubtitles.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmTools.resx">
       <DependentUpon>frmTools.cs</DependentUpon>
@@ -157,6 +176,7 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>General.Designer.cs</LastGenOutput>
     </None>
+    <None Include="lang\English.ini" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -183,6 +203,7 @@
     <Content Include="Resources\youtube-dl-gui.ico" />
     <Content Include="Resources\youtube-dl-gui32.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -69,7 +69,7 @@ namespace youtube_dl_gui {
         ///     -nosound, -ns = Downloads videos without sound
         /// 
         /// <returns>A boolean based on the success of the download</returns>
-        public static bool startDownload(string URL, int downloadType, int downloadQuality, string args) {
+        public static bool startDownload(string URL, int downloadType, int downloadQuality, string args, bool WaitForExit = false) {
             if (string.IsNullOrWhiteSpace(URL)) {
                 MessageBox.Show("Please enter a URL before trying to download.");
                 return false;
@@ -117,8 +117,12 @@ namespace youtube_dl_gui {
                 string outputFolder = string.Empty;             // The folder where it will be downloaded
                 string setArgs = string.Empty;                  // Arguments to pass.
                 string hlsFF = string.Empty;                    // an empty string, will fill up with hls on ffmpeg.
+                string webFolder = string.Empty;                // The string of the website address to use as the folder
                 bool usehlsFF = Downloads.Default.fixReddit;    // a boolean to set the arg to hlsFF only if it's enabled
 
+                if (Downloads.Default.separateIntoWebsiteURL) {
+                    webFolder = getUrlBase(URL) + "\\";
+                }
 
                 if (URL.StartsWith("https://v.redd.it") || URL.StartsWith("https://reddit.com/") || URL.StartsWith("https://www.reddit.com/") && downloadType != 2 && usehlsFF) {
                     switch (Verification.ffmpegFullCheck()) {
@@ -137,9 +141,9 @@ namespace youtube_dl_gui {
                 switch (downloadType) {
                     case 0: // video
                         if (Downloads.Default.separateDownloads)
-                            outputFolder = " -o \"" + Downloads.Default.downloadPath + "\\Video\\" + Downloads.Default.fileNameSchema + "\"";
+                            outputFolder = " -o \"" + Downloads.Default.downloadPath + "\\" + webFolder + "Video\\" + Downloads.Default.fileNameSchema + "\"";
                         else
-                            outputFolder = " -o \"" + Downloads.Default.downloadPath + "\\" + Downloads.Default.fileNameSchema + "\"";
+                            outputFolder = " -o \"" + Downloads.Default.downloadPath + "\\" + webFolder + Downloads.Default.fileNameSchema + "\"";
 
                         if (usehlsFF && isReddit(URL))
                             setArgs = URL + hlsFF + outputFolder;
@@ -158,9 +162,9 @@ namespace youtube_dl_gui {
                         break;
                     case 1: // audio
                         if (Downloads.Default.separateDownloads)
-                            outputFolder = " -o \"" + Downloads.Default.downloadPath + "\\Audio\\" + Downloads.Default.fileNameSchema + "\"";
+                            outputFolder = " -o \"" + Downloads.Default.downloadPath + "\\" + webFolder + "Audio\\" + Downloads.Default.fileNameSchema + "\"";
                         else
-                            outputFolder = " -o \"" + Downloads.Default.downloadPath + "\\" + Downloads.Default.fileNameSchema + "\"";
+                            outputFolder = " -o \"" + Downloads.Default.downloadPath + "\\" + webFolder + Downloads.Default.fileNameSchema + "\"";
 
                         if (usehlsFF && isReddit(URL))
                             setArgs = URL + hlsFF + outputFolder;
@@ -169,9 +173,9 @@ namespace youtube_dl_gui {
                         break;
                     case 2: // custom
                         if (Downloads.Default.separateDownloads)
-                            outputFolder = " -o \"" + Downloads.Default.downloadPath + "\\Custom\\" + Downloads.Default.fileNameSchema + "\"";
+                            outputFolder = " -o \"" + Downloads.Default.downloadPath + "\\" + webFolder + "Custom\\" + Downloads.Default.fileNameSchema + "\"";
                         else
-                            outputFolder = " -o \"" + Downloads.Default.downloadPath + "\\\"";
+                            outputFolder = " -o \"" + Downloads.Default.downloadPath + "\\" + webFolder + "\"";
 
                         setArgs = URL + args + outputFolder;
                         break;
@@ -182,8 +186,7 @@ namespace youtube_dl_gui {
 
                 Downloader.StartInfo.Arguments = setArgs;
                 Downloader.Start();
-                //Downloader.WaitForExit();
-                //MessageBox.Show(URL + " has finished downloading.");
+                if (WaitForExit) { Downloader.WaitForExit(); }
 
                 GC.Collect();
                 return true;
@@ -311,6 +314,22 @@ namespace youtube_dl_gui {
             else {
                 return false;
             }
+        }
+
+        public static string getUrlBase(string url) {
+            if (url.StartsWith("https://")) {
+                if (url.StartsWith("https://www.")) url = url.Substring(12);
+                else url = url.Substring(8);
+            }
+            else if (url.StartsWith("http://")){
+                if (url.StartsWith("http://www.")) url = url.Substring(11);
+                else url = url.Substring(7);
+            }
+            else {
+                if (url.StartsWith("www.")) url = url.Substring(4);
+            }
+
+            return url.Split('/')[0];
         }
     }
 }

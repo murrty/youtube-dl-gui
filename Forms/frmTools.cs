@@ -19,7 +19,7 @@ namespace youtube_dl_gui {
             this.Dispose();
         }
 
-        private void btnRemoveAudio_Click(object sender, EventArgs e) {
+        private void btnMiscToolsRemoveAudio_Click(object sender, EventArgs e) {
             using (OpenFileDialog ofd = new OpenFileDialog()) {
                 ofd.Title = "Select a file to remove the audio from";
                 ofd.Filter = Convert.videoFormatsFilter;
@@ -44,7 +44,7 @@ namespace youtube_dl_gui {
             }
         }
 
-        private void btnExtractAudio_Click(object sender, EventArgs e) {
+        private void btnMiscToolsExtractAudio_Click(object sender, EventArgs e) {
             using (OpenFileDialog ofd = new OpenFileDialog()) {
                 ofd.Title = "Select a file to remove the audio from";
                 ofd.Filter = Convert.videoFormatsFilter;
@@ -74,7 +74,7 @@ namespace youtube_dl_gui {
             }
         }
 
-        private void btnVideoToGif_Click(object sender, EventArgs e) {
+        private void btnMiscToolsVideoToGif_Click(object sender, EventArgs e) {
             using (OpenFileDialog ofd = new OpenFileDialog()) {
                 if (ofd.ShowDialog() == DialogResult.OK) {
                     Process ffmpeg = new Process() {

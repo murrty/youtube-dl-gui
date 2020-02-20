@@ -101,7 +101,6 @@
             this.llbGithub.TabIndex = 5;
             this.llbGithub.TabStop = true;
             this.llbGithub.Text = "Github";
-            this.llbGithub.Visible = false;
             this.llbGithub.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llbGithub_LinkClicked);
             // 
             // llbGitlab

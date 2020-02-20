@@ -33,7 +33,6 @@ namespace youtube_dl_gui {
                 System.IO.File.WriteAllText(Environment.CurrentDirectory + "\\error.log", outputMessage);
             }
         }
-
         /// <summary>
         /// Reports any general exceptions that are caught
         /// </summary>

@@ -106,5 +106,41 @@ namespace youtube_dl_gui {
                 this["fixReddit"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool separateIntoWebsiteURL {
+            get {
+                return ((bool)(this["separateIntoWebsiteURL"]));
+            }
+            set {
+                this["separateIntoWebsiteURL"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool downloadSubtitles {
+            get {
+                return ((bool)(this["downloadSubtitles"]));
+            }
+            set {
+                this["downloadSubtitles"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("en")]
+        public string subtitlesLanguages {
+            get {
+                return ((string)(this["subtitlesLanguages"]));
+            }
+            set {
+                this["subtitlesLanguages"] = value;
+            }
+        }
     }
 }

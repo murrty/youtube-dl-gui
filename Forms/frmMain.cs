@@ -12,7 +12,7 @@ using System.Windows.Forms;
 
 namespace youtube_dl_gui {
     public partial class frmMain : Form {
-        #region const
+        #region variables
         int ytDlAvailable = -1;
         int ffmpegAvailable = -1;
         string[] videoQuality = {
@@ -46,7 +46,9 @@ namespace youtube_dl_gui {
 
         Thread checkUpdates;
         bool updateChecked = false;
-        bool Debug = true;
+        List<Thread> BatchDownloads = new List<Thread>();   // List of batch download threads
+        List<int> BatchCount = new List<int>();             // Int list of positions of the batch download threads
+        Language lang = Language.GetLanguageInstance();
 
         //TextBox Hint
         [DllImport("user32.dll", CharSet = CharSet.Unicode)]
@@ -78,9 +80,10 @@ namespace youtube_dl_gui {
         }
         public frmMain() {
             InitializeComponent();
+            LoadLanguage();
             lbDebug.Text = Properties.Settings.Default.debugDate;
 
-            tcMain.TabPages.RemoveAt(2);
+            //tcMain.TabPages.RemoveAt(2);
 
             ytDlAvailable = Verification.ytdlFullCheck();
             ffmpegAvailable = Verification.ffmpegFullCheck();
@@ -91,14 +94,7 @@ namespace youtube_dl_gui {
         }
 
         private void frmMain_Load(object sender, EventArgs e) {
-            string[] args = Environment.GetCommandLineArgs();
-            for (int i = 0; i < args.Length; i++) {
-                if (args[i] == "-debug") {
-                    Debug = true;
-                }
-            }
-
-            if (General.Default.checkForUpdates && !Debug) {
+            if (General.Default.checkForUpdates) {
                 checkUpdates = new Thread(() => {
                     decimal cloudVersion = Updater.getCloudVersion();
                     if (Updater.isUpdateAvailable(cloudVersion)) {
@@ -114,18 +110,6 @@ namespace youtube_dl_gui {
                     updateChecked = true;
                 });
                 checkUpdates.Start();
-            }
-
-            if (!Properties.Settings.Default.LanguageUpdate) {
-                switch (MessageBox.Show("An update is being prepared, but I have a request:\nIf you can speak any other language than English, please consider helping me translate it into other languages.\nA ini file is available on the github page, and it's a base for translations.\nWould you like to go there? (Cancel = Don't remind me)", "youtube-dl-gui", MessageBoxButtons.YesNoCancel)) {
-                    case DialogResult.Yes:
-                        System.Diagnostics.Process.Start("https://raw.githubusercontent.com/murrty/youtube-dl-gui/master/lang/English.ini");
-                        break;
-                    case DialogResult.Cancel:
-                        Properties.Settings.Default.LanguageUpdate = true;
-                        Properties.Settings.Default.Save();
-                        break;
-                }
             }
 
             if (Saved.Default.formTrue0) {
@@ -177,6 +161,11 @@ namespace youtube_dl_gui {
 
         }
         private void frmMain_FormClosing(object sender, FormClosingEventArgs e) {
+            if (BatchDownloads.Count > 0) {
+                if (MessageBox.Show("A batch job is in progress. Really exit?", "youtube-dl-gui", MessageBoxButtons.YesNoCancel) == System.Windows.Forms.DialogResult.No) {
+                    e.Cancel = true;
+                }
+            }
             if (this.Location.X == 0 || this.Location.Y == 0) {
                 Saved.Default.formTrue0 = true;
             }
@@ -217,7 +206,16 @@ namespace youtube_dl_gui {
             Saved.Default.formLocationY = this.Location.Y;
 
             Saved.Default.Save();
+            if (BatchDownloads.Count > 0) {
+                for (int i = 0; i < BatchDownloads.Count; i++) {
+                    BatchDownloads[i].Abort();
+                }
+            }
             trayIcon.Visible = false;
+        }
+
+        void LoadLanguage() {
+            lang.LoadInternalEnglish();
         }
         #endregion
 
@@ -228,16 +226,21 @@ namespace youtube_dl_gui {
             settings.Dispose();
         }
 
-        private void mBatch_Click(object sender, EventArgs e) {
-            frmBatch batch = new frmBatch();
+        private void mBatchDownload_Click(object sender, EventArgs e) {
+            frmBatchDownloader batch = new frmBatchDownloader();
             batch.Show();
+        }
+        private void mDownloadSubtitles_Click(object sender, EventArgs e) {
+            frmSubtitles downloadSubtitles = new frmSubtitles();
+            downloadSubtitles.ShowDialog();
+            downloadSubtitles.Dispose();
         }
         private void mMiscTools_Click(object sender, EventArgs e) {
             frmTools tools = new frmTools();
             tools.Show();
         }
 
-        private void mSites_Click(object sender, EventArgs e) {
+        private void mSupportedSites_Click(object sender, EventArgs e) {
             System.Diagnostics.Process.Start("https://ytdl-org.github.io/youtube-dl/supportedsites.html");
         }
 
@@ -249,19 +252,19 @@ namespace youtube_dl_gui {
         #endregion
 
         #region tray menu
-        private void cmShow_Click(object sender, EventArgs e) {
+        private void cmTrayShowForm_Click(object sender, EventArgs e) {
             this.Show();
         }
 
-        private void cmDownloadVideo_Click(object sender, EventArgs e) {
+        private void cmTrayDownloadBestVideo_Click(object sender, EventArgs e) {
             Download.startDownload(Clipboard.GetText(), 0, Saved.Default.videoQuality, string.Empty);
         }
 
-        private void cmDownloadAudio_Click(object sender, EventArgs e) {
+        private void cmTrayDownloadBestAudio_Click(object sender, EventArgs e) {
             Download.startDownload(Clipboard.GetText(), 1, Saved.Default.audioQuality, string.Empty);
         }
 
-        private void cmCustomTxtBox_Click(object sender, EventArgs e) {
+        private void cmTrayDownloadCustomTxtBox_Click(object sender, EventArgs e) {
             if (string.IsNullOrEmpty(txtArgs.Text)) {
                 MessageBox.Show("No arguments are currently in memory. Enter in custom arguments in the arguments text box on the main form.");
                 return;
@@ -270,7 +273,7 @@ namespace youtube_dl_gui {
                 Download.startDownload(Clipboard.GetText(), 2, -1, txtArgs.Text);
             }
         }
-        private void cmCustomTxt_Click(object sender, EventArgs e) {
+        private void cmTrayDownloadCustomTxt_Click(object sender, EventArgs e) {
             if (!System.IO.File.Exists(Environment.CurrentDirectory + "\\args.txt")) {
                 MessageBox.Show("args.txt does not exist, create it and put in arguments to use this command");
                 return;
@@ -283,7 +286,7 @@ namespace youtube_dl_gui {
                 Download.startDownload(Clipboard.GetText(), 2, -1, System.IO.File.ReadAllText(Environment.CurrentDirectory + "\\args.txt"));
             }
         }
-        private void cmCustomSettings_Click(object sender, EventArgs e) {
+        private void cmTrayDownloadCustomSettings_Click(object sender, EventArgs e) {
             if (string.IsNullOrEmpty(Saved.Default.downloadArgs)) {
                 MessageBox.Show("No arguments are saved in the application settings, save arguments to the settings to use this command");
                 return;
@@ -294,23 +297,23 @@ namespace youtube_dl_gui {
             }
         }
 
-        private void mConvertVideo_Click(object sender, EventArgs e) {
+        private void cmTrayConvertVideo_Click(object sender, EventArgs e) {
             convertFromTray(0);
         }
-        private void mConvertAudio_Click(object sender, EventArgs e) {
+        private void cmTrayConvertAudio_Click(object sender, EventArgs e) {
             convertFromTray(1);
         }
-        private void mConvertCustom_Click(object sender, EventArgs e) {
+        private void cmTrayConvertCustom_Click(object sender, EventArgs e) {
             convertFromTray(2);
         }
-        private void mConvertAutomatic_Click(object sender, EventArgs e) {
+        private void cmTrayConvertAutomatic_Click(object sender, EventArgs e) {
             convertFromTray();
         }
-        private void mConvertAutoFFmpeg_Click(object sender, EventArgs e) {
+        private void cmTrayConvertAutoFFmpeg_Click(object sender, EventArgs e) {
             convertFromTray(6);
         }
 
-        private void cmExit_Click(object sender, EventArgs e) {
+        private void cmTrayExit_Click(object sender, EventArgs e) {
             Environment.Exit(0);
         }
         #endregion
@@ -363,7 +366,7 @@ namespace youtube_dl_gui {
             }
         }
 
-        private void btnDownload_Click(object sender, EventArgs e) {
+        private void sbDownload_Click(object sender, EventArgs e) {
             if (rbVideo.Checked) {
                 string videoArguments = string.Empty;
                 if (!chkDownloadSound.Checked) {
@@ -435,6 +438,39 @@ namespace youtube_dl_gui {
             }
 
             Saved.Default.Save();
+        }
+
+        private void mBatchDownloadFromFile_Click(object sender, EventArgs e) {
+            MessageBox.Show("Create a text file and put all the videos you want to download into it.\nOne URL per line.");
+            string TextFile = string.Empty;
+            using (OpenFileDialog ofd = new OpenFileDialog()){
+                ofd.Filter = "Text Document (*.txt)|*.txt";
+                ofd.Title = "Select a file with URLs...";
+                ofd.Multiselect = false;
+                ofd.CheckFileExists = true;
+                ofd.CheckPathExists = true;
+                if (ofd.ShowDialog() == DialogResult.OK) {
+                    TextFile = ofd.FileName;
+                }
+                else {
+                    return;
+                }
+            }
+            MessageBox.Show("Batch download will now begin. It may take some time.\nyoutube-dl-gui will reappear when it's finished.");
+
+            if (System.IO.File.Exists(TextFile)) {
+                string[] ReadFile = System.IO.File.ReadAllLines(TextFile);
+                for (int i = 0; i < ReadFile.Length; i++) {
+                    if (rbVideo.Checked) {
+                        string videoArguments = string.Empty;
+                        if (!chkDownloadSound.Checked) { videoArguments += "-nosound"; }
+                        if (Download.startDownload(ReadFile[i], 0, cbQuality.SelectedIndex, videoArguments, true)) { }
+                    }
+                    else if (rbAudio.Checked) { if (Download.startDownload(ReadFile[i], 1, cbQuality.SelectedIndex, string.Empty, true)) { } }
+                    else if (rbCustom.Checked) { if (Download.startDownload(ReadFile[i], 2, -1, txtArgs.Text, true)) { } }
+                    else { if (Download.startDownload(ReadFile[i], 0, -1, string.Empty, true)) { } }
+                }
+            }
         }
         #endregion
 
@@ -699,8 +735,9 @@ namespace youtube_dl_gui {
         }
 
         private void btnMerge_Click(object sender, EventArgs e) {
-            Convert.mergeFiles(txtMergeInput1.Text, txtMergeInput2.Text, txtMergeOutput.Text, chkMergeAudio.Checked, chkMergeDeleteInput.Checked);
+            Convert.mergeFiles(txtMergeInput1.Text, txtMergeInput2.Text, txtMergeOutput.Text, chkMergeAudioTracks.Checked, chkMergeDeleteInputFiles.Checked);
         }
         #endregion
+
     }
 }

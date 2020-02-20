@@ -26,15 +26,16 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             this.txtUrl = new System.Windows.Forms.TextBox();
-            this.lbDownloadURL = new System.Windows.Forms.Label();
+            this.lbURL = new System.Windows.Forms.Label();
             this.tcMain = new System.Windows.Forms.TabControl();
             this.tabDownload = new System.Windows.Forms.TabPage();
+            this.cmDownload = new System.Windows.Forms.ContextMenu();
+            this.mBatchDownloadFromFile = new System.Windows.Forms.MenuItem();
             this.chkDownloadSound = new System.Windows.Forms.CheckBox();
             this.cbQuality = new System.Windows.Forms.ComboBox();
             this.lbQuality = new System.Windows.Forms.Label();
             this.lbDownloadStatus = new System.Windows.Forms.Label();
-            this.btnDownload = new System.Windows.Forms.Button();
-            this.lbDownloadArgs = new System.Windows.Forms.Label();
+            this.lbCustomArguments = new System.Windows.Forms.Label();
             this.txtArgs = new System.Windows.Forms.TextBox();
             this.gbDownloadType = new System.Windows.Forms.GroupBox();
             this.rbCustom = new System.Windows.Forms.RadioButton();
@@ -55,12 +56,12 @@
             this.lbConvertInput = new System.Windows.Forms.Label();
             this.txtConvertInput = new System.Windows.Forms.TextBox();
             this.tabMerge = new System.Windows.Forms.TabPage();
-            this.chkMergeDeleteInput = new System.Windows.Forms.CheckBox();
-            this.chkMergeAudio = new System.Windows.Forms.CheckBox();
+            this.chkMergeDeleteInputFiles = new System.Windows.Forms.CheckBox();
+            this.chkMergeAudioTracks = new System.Windows.Forms.CheckBox();
             this.btnMerge = new System.Windows.Forms.Button();
             this.btnBrwsMergeOutput = new System.Windows.Forms.Button();
             this.txtMergeOutput = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
+            this.lbMergeOutput = new System.Windows.Forms.Label();
             this.btnBrwsMergeInput2 = new System.Windows.Forms.Button();
             this.txtMergeInput2 = new System.Windows.Forms.TextBox();
             this.btnBrwsMergeInput1 = new System.Windows.Forms.Button();
@@ -70,35 +71,38 @@
             this.menu = new System.Windows.Forms.MainMenu(this.components);
             this.mSettings = new System.Windows.Forms.MenuItem();
             this.mTools = new System.Windows.Forms.MenuItem();
-            this.mBatch = new System.Windows.Forms.MenuItem();
+            this.mBatchDownload = new System.Windows.Forms.MenuItem();
+            this.mDownloadSubtitles = new System.Windows.Forms.MenuItem();
             this.mMiscTools = new System.Windows.Forms.MenuItem();
             this.mHelp = new System.Windows.Forms.MenuItem();
-            this.mSites = new System.Windows.Forms.MenuItem();
+            this.mSupportedSites = new System.Windows.Forms.MenuItem();
             this.mAbout = new System.Windows.Forms.MenuItem();
             this.lbDebug = new System.Windows.Forms.Label();
             this.cmTray = new System.Windows.Forms.ContextMenu();
-            this.cmShow = new System.Windows.Forms.MenuItem();
-            this.mDownloader = new System.Windows.Forms.MenuItem();
-            this.cmClipboardDownload = new System.Windows.Forms.MenuItem();
-            this.cmDownloadVideo = new System.Windows.Forms.MenuItem();
-            this.cmDownloadAudio = new System.Windows.Forms.MenuItem();
-            this.cmDownloadCustom = new System.Windows.Forms.MenuItem();
-            this.cmCustomTxtBox = new System.Windows.Forms.MenuItem();
-            this.cmCustomSep = new System.Windows.Forms.MenuItem();
-            this.cmCustomTxt = new System.Windows.Forms.MenuItem();
-            this.cmCustomSettings = new System.Windows.Forms.MenuItem();
-            this.mConverter = new System.Windows.Forms.MenuItem();
-            this.mConvertTo = new System.Windows.Forms.MenuItem();
-            this.mConvertVideo = new System.Windows.Forms.MenuItem();
-            this.mConvertAudio = new System.Windows.Forms.MenuItem();
-            this.mConvertCustom = new System.Windows.Forms.MenuItem();
-            this.mConvertAutomatic = new System.Windows.Forms.MenuItem();
-            this.mConvertAutoFFmpeg = new System.Windows.Forms.MenuItem();
-            this.cmSep = new System.Windows.Forms.MenuItem();
-            this.cmExit = new System.Windows.Forms.MenuItem();
+            this.cmTrayShowForm = new System.Windows.Forms.MenuItem();
+            this.cmTrayDownloader = new System.Windows.Forms.MenuItem();
+            this.cmTrayDownloadClipboard = new System.Windows.Forms.MenuItem();
+            this.cmTrayDownloadBestVideo = new System.Windows.Forms.MenuItem();
+            this.cmTrayDownloadBestAudio = new System.Windows.Forms.MenuItem();
+            this.cmTrayDownloadCustom = new System.Windows.Forms.MenuItem();
+            this.cmTrayDownloadCustomTxtBox = new System.Windows.Forms.MenuItem();
+            this.cmTrayCustomSep = new System.Windows.Forms.MenuItem();
+            this.cmTrayDownloadCustomTxt = new System.Windows.Forms.MenuItem();
+            this.cmTrayDownloadCustomSettings = new System.Windows.Forms.MenuItem();
+            this.cmTrayConverter = new System.Windows.Forms.MenuItem();
+            this.cmTrayConvertTo = new System.Windows.Forms.MenuItem();
+            this.cmTrayConvertVideo = new System.Windows.Forms.MenuItem();
+            this.cmTrayConvertAudio = new System.Windows.Forms.MenuItem();
+            this.cmTrayConvertCustom = new System.Windows.Forms.MenuItem();
+            this.cmTrayConvertAutomatic = new System.Windows.Forms.MenuItem();
+            this.cmTrayConvertAutoFFmpeg = new System.Windows.Forms.MenuItem();
+            this.cmTraySep = new System.Windows.Forms.MenuItem();
+            this.cmTrayExit = new System.Windows.Forms.MenuItem();
             this.trayIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.tmrConvertLabel = new System.Windows.Forms.Timer(this.components);
             this.tmrDownloadLabel = new System.Windows.Forms.Timer(this.components);
+            this.mLanguage = new System.Windows.Forms.MenuItem();
+            this.sbDownload = new youtube_dl_gui.SplitButton();
             this.tcMain.SuspendLayout();
             this.tabDownload.SuspendLayout();
             this.gbDownloadType.SuspendLayout();
@@ -116,14 +120,14 @@
             this.txtUrl.TabIndex = 1;
             this.txtUrl.MouseEnter += new System.EventHandler(this.txtUrl_MouseEnter);
             // 
-            // lbDownloadURL
+            // lbURL
             // 
-            this.lbDownloadURL.AutoSize = true;
-            this.lbDownloadURL.Location = new System.Drawing.Point(15, 8);
-            this.lbDownloadURL.Name = "lbDownloadURL";
-            this.lbDownloadURL.Size = new System.Drawing.Size(29, 13);
-            this.lbDownloadURL.TabIndex = 1;
-            this.lbDownloadURL.Text = "URL";
+            this.lbURL.AutoSize = true;
+            this.lbURL.Location = new System.Drawing.Point(15, 8);
+            this.lbURL.Name = "lbURL";
+            this.lbURL.Size = new System.Drawing.Size(37, 13);
+            this.lbURL.TabIndex = 1;
+            this.lbURL.Text = "lbURL";
             // 
             // tcMain
             // 
@@ -139,13 +143,13 @@
             // 
             // tabDownload
             // 
+            this.tabDownload.Controls.Add(this.sbDownload);
             this.tabDownload.Controls.Add(this.chkDownloadSound);
             this.tabDownload.Controls.Add(this.cbQuality);
             this.tabDownload.Controls.Add(this.lbQuality);
             this.tabDownload.Controls.Add(this.lbDownloadStatus);
-            this.tabDownload.Controls.Add(this.btnDownload);
-            this.tabDownload.Controls.Add(this.lbDownloadArgs);
-            this.tabDownload.Controls.Add(this.lbDownloadURL);
+            this.tabDownload.Controls.Add(this.lbCustomArguments);
+            this.tabDownload.Controls.Add(this.lbURL);
             this.tabDownload.Controls.Add(this.txtArgs);
             this.tabDownload.Controls.Add(this.gbDownloadType);
             this.tabDownload.Controls.Add(this.txtUrl);
@@ -154,8 +158,19 @@
             this.tabDownload.Padding = new System.Windows.Forms.Padding(3);
             this.tabDownload.Size = new System.Drawing.Size(244, 203);
             this.tabDownload.TabIndex = 0;
-            this.tabDownload.Text = "Download";
+            this.tabDownload.Text = "tabDownload";
             this.tabDownload.UseVisualStyleBackColor = true;
+            // 
+            // cmDownload
+            // 
+            this.cmDownload.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+            this.mBatchDownloadFromFile});
+            // 
+            // mBatchDownloadFromFile
+            // 
+            this.mBatchDownloadFromFile.Index = 0;
+            this.mBatchDownloadFromFile.Text = "mBatchDownloadFromFile";
+            this.mBatchDownloadFromFile.Click += new System.EventHandler(this.mBatchDownloadFromFile_Click);
             // 
             // chkDownloadSound
             // 
@@ -164,9 +179,9 @@
             this.chkDownloadSound.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkDownloadSound.Location = new System.Drawing.Point(160, 104);
             this.chkDownloadSound.Name = "chkDownloadSound";
-            this.chkDownloadSound.Size = new System.Drawing.Size(56, 17);
+            this.chkDownloadSound.Size = new System.Drawing.Size(122, 17);
             this.chkDownloadSound.TabIndex = 21;
-            this.chkDownloadSound.Text = "Sound";
+            this.chkDownloadSound.Text = "chkDownloadSound";
             this.chkDownloadSound.UseVisualStyleBackColor = true;
             // 
             // cbQuality
@@ -196,12 +211,12 @@
             // 
             // lbQuality
             // 
-            this.lbQuality.AutoSize = true;
-            this.lbQuality.Location = new System.Drawing.Point(29, 105);
+            this.lbQuality.Location = new System.Drawing.Point(8, 105);
             this.lbQuality.Name = "lbQuality";
-            this.lbQuality.Size = new System.Drawing.Size(39, 13);
+            this.lbQuality.Size = new System.Drawing.Size(63, 15);
             this.lbQuality.TabIndex = 18;
-            this.lbQuality.Text = "Quality";
+            this.lbQuality.Text = "lbQuality";
+            this.lbQuality.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // lbDownloadStatus
             // 
@@ -214,24 +229,14 @@
             this.lbDownloadStatus.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lbDownloadStatus.Visible = false;
             // 
-            // btnDownload
+            // lbCustomArguments
             // 
-            this.btnDownload.Location = new System.Drawing.Point(83, 172);
-            this.btnDownload.Name = "btnDownload";
-            this.btnDownload.Size = new System.Drawing.Size(79, 25);
-            this.btnDownload.TabIndex = 4;
-            this.btnDownload.Text = "Download";
-            this.btnDownload.UseVisualStyleBackColor = true;
-            this.btnDownload.Click += new System.EventHandler(this.btnDownload_Click);
-            // 
-            // lbDownloadArgs
-            // 
-            this.lbDownloadArgs.AutoSize = true;
-            this.lbDownloadArgs.Location = new System.Drawing.Point(15, 128);
-            this.lbDownloadArgs.Name = "lbDownloadArgs";
-            this.lbDownloadArgs.Size = new System.Drawing.Size(94, 13);
-            this.lbDownloadArgs.TabIndex = 2;
-            this.lbDownloadArgs.Text = "Custom arguments";
+            this.lbCustomArguments.AutoSize = true;
+            this.lbCustomArguments.Location = new System.Drawing.Point(15, 128);
+            this.lbCustomArguments.Name = "lbCustomArguments";
+            this.lbCustomArguments.Size = new System.Drawing.Size(100, 13);
+            this.lbCustomArguments.TabIndex = 2;
+            this.lbCustomArguments.Text = "lbCustomArguments";
             // 
             // txtArgs
             // 
@@ -251,17 +256,17 @@
             this.gbDownloadType.Size = new System.Drawing.Size(192, 40);
             this.gbDownloadType.TabIndex = 2;
             this.gbDownloadType.TabStop = false;
-            this.gbDownloadType.Text = "Download type";
+            this.gbDownloadType.Text = "gbDownloadType";
             // 
             // rbCustom
             // 
             this.rbCustom.AutoSize = true;
             this.rbCustom.Location = new System.Drawing.Point(125, 15);
             this.rbCustom.Name = "rbCustom";
-            this.rbCustom.Size = new System.Drawing.Size(59, 17);
+            this.rbCustom.Size = new System.Drawing.Size(68, 17);
             this.rbCustom.TabIndex = 3;
             this.rbCustom.TabStop = true;
-            this.rbCustom.Text = "Custom";
+            this.rbCustom.Text = "rbCustom";
             this.rbCustom.UseVisualStyleBackColor = true;
             this.rbCustom.CheckedChanged += new System.EventHandler(this.rbCustom_CheckedChanged);
             // 
@@ -270,10 +275,10 @@
             this.rbAudio.AutoSize = true;
             this.rbAudio.Location = new System.Drawing.Point(67, 15);
             this.rbAudio.Name = "rbAudio";
-            this.rbAudio.Size = new System.Drawing.Size(51, 17);
+            this.rbAudio.Size = new System.Drawing.Size(60, 17);
             this.rbAudio.TabIndex = 2;
             this.rbAudio.TabStop = true;
-            this.rbAudio.Text = "Audio";
+            this.rbAudio.Text = "rbAudio";
             this.rbAudio.UseVisualStyleBackColor = true;
             this.rbAudio.CheckedChanged += new System.EventHandler(this.rbAudio_CheckedChanged);
             // 
@@ -282,22 +287,22 @@
             this.rbVideo.AutoSize = true;
             this.rbVideo.Location = new System.Drawing.Point(8, 15);
             this.rbVideo.Name = "rbVideo";
-            this.rbVideo.Size = new System.Drawing.Size(51, 17);
+            this.rbVideo.Size = new System.Drawing.Size(60, 17);
             this.rbVideo.TabIndex = 1;
             this.rbVideo.TabStop = true;
-            this.rbVideo.Text = "Video";
+            this.rbVideo.Text = "rbVideo";
             this.rbVideo.UseVisualStyleBackColor = true;
             this.rbVideo.CheckedChanged += new System.EventHandler(this.rbVideo_CheckedChanged);
             // 
             // tabConvert
             // 
             this.tabConvert.Controls.Add(this.rbConvertCustom);
+            this.tabConvert.Controls.Add(this.rbConvertAudio);
             this.tabConvert.Controls.Add(this.rbConvertAutoFFmpeg);
             this.tabConvert.Controls.Add(this.rbConvertAuto);
             this.tabConvert.Controls.Add(this.lbConvStatus);
             this.tabConvert.Controls.Add(this.btnConvert);
             this.tabConvert.Controls.Add(this.rbConvertVideo);
-            this.tabConvert.Controls.Add(this.rbConvertAudio);
             this.tabConvert.Controls.Add(this.btnConvertOutput);
             this.tabConvert.Controls.Add(this.lbConvertOutput);
             this.tabConvert.Controls.Add(this.txtConvertOutput);
@@ -307,9 +312,9 @@
             this.tabConvert.Location = new System.Drawing.Point(4, 22);
             this.tabConvert.Name = "tabConvert";
             this.tabConvert.Padding = new System.Windows.Forms.Padding(3);
-            this.tabConvert.Size = new System.Drawing.Size(244, 203);
+            this.tabConvert.Size = new System.Drawing.Size(244, 244);
             this.tabConvert.TabIndex = 1;
-            this.tabConvert.Text = "Convert";
+            this.tabConvert.Text = "tabConvert";
             this.tabConvert.UseVisualStyleBackColor = true;
             // 
             // rbConvertCustom
@@ -317,10 +322,10 @@
             this.rbConvertCustom.AutoSize = true;
             this.rbConvertCustom.Location = new System.Drawing.Point(151, 112);
             this.rbConvertCustom.Name = "rbConvertCustom";
-            this.rbConvertCustom.Size = new System.Drawing.Size(59, 17);
+            this.rbConvertCustom.Size = new System.Drawing.Size(105, 17);
             this.rbConvertCustom.TabIndex = 7;
             this.rbConvertCustom.TabStop = true;
-            this.rbConvertCustom.Text = "Custom";
+            this.rbConvertCustom.Text = "rbConvertCustom";
             this.rbConvertCustom.UseVisualStyleBackColor = true;
             // 
             // rbConvertAutoFFmpeg
@@ -328,10 +333,10 @@
             this.rbConvertAutoFFmpeg.AutoSize = true;
             this.rbConvertAutoFFmpeg.Location = new System.Drawing.Point(120, 135);
             this.rbConvertAutoFFmpeg.Name = "rbConvertAutoFFmpeg";
-            this.rbConvertAutoFFmpeg.Size = new System.Drawing.Size(81, 17);
+            this.rbConvertAutoFFmpeg.Size = new System.Drawing.Size(130, 17);
             this.rbConvertAutoFFmpeg.TabIndex = 9;
             this.rbConvertAutoFFmpeg.TabStop = true;
-            this.rbConvertAutoFFmpeg.Text = "Auto ffmpeg";
+            this.rbConvertAutoFFmpeg.Text = "rbConvertAutoFFmpeg";
             this.rbConvertAutoFFmpeg.UseVisualStyleBackColor = true;
             // 
             // rbConvertAuto
@@ -339,17 +344,17 @@
             this.rbConvertAuto.AutoSize = true;
             this.rbConvertAuto.Location = new System.Drawing.Point(43, 135);
             this.rbConvertAuto.Name = "rbConvertAuto";
-            this.rbConvertAuto.Size = new System.Drawing.Size(71, 17);
+            this.rbConvertAuto.Size = new System.Drawing.Size(92, 17);
             this.rbConvertAuto.TabIndex = 8;
             this.rbConvertAuto.TabStop = true;
-            this.rbConvertAuto.Text = "Automatic";
+            this.rbConvertAuto.Text = "rbConvertAuto";
             this.rbConvertAuto.UseVisualStyleBackColor = true;
             // 
             // lbConvStatus
             // 
             this.lbConvStatus.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.lbConvStatus.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbConvStatus.Location = new System.Drawing.Point(3, 178);
+            this.lbConvStatus.Location = new System.Drawing.Point(3, 219);
             this.lbConvStatus.Name = "lbConvStatus";
             this.lbConvStatus.Size = new System.Drawing.Size(238, 22);
             this.lbConvStatus.TabIndex = 16;
@@ -364,7 +369,7 @@
             this.btnConvert.Name = "btnConvert";
             this.btnConvert.Size = new System.Drawing.Size(79, 25);
             this.btnConvert.TabIndex = 10;
-            this.btnConvert.Text = "Convert";
+            this.btnConvert.Text = "btnConvert";
             this.btnConvert.UseVisualStyleBackColor = true;
             this.btnConvert.Click += new System.EventHandler(this.btnConvert_Click);
             // 
@@ -373,10 +378,10 @@
             this.rbConvertVideo.AutoSize = true;
             this.rbConvertVideo.Location = new System.Drawing.Point(35, 112);
             this.rbConvertVideo.Name = "rbConvertVideo";
-            this.rbConvertVideo.Size = new System.Drawing.Size(51, 17);
+            this.rbConvertVideo.Size = new System.Drawing.Size(97, 17);
             this.rbConvertVideo.TabIndex = 5;
             this.rbConvertVideo.TabStop = true;
-            this.rbConvertVideo.Text = "Video";
+            this.rbConvertVideo.Text = "rbConvertVideo";
             this.rbConvertVideo.UseVisualStyleBackColor = true;
             // 
             // rbConvertAudio
@@ -384,10 +389,10 @@
             this.rbConvertAudio.AutoSize = true;
             this.rbConvertAudio.Location = new System.Drawing.Point(94, 112);
             this.rbConvertAudio.Name = "rbConvertAudio";
-            this.rbConvertAudio.Size = new System.Drawing.Size(51, 17);
+            this.rbConvertAudio.Size = new System.Drawing.Size(97, 17);
             this.rbConvertAudio.TabIndex = 6;
             this.rbConvertAudio.TabStop = true;
-            this.rbConvertAudio.Text = "Audio";
+            this.rbConvertAudio.Text = "rbConvertAudio";
             this.rbConvertAudio.UseVisualStyleBackColor = true;
             // 
             // btnConvertOutput
@@ -406,9 +411,9 @@
             this.lbConvertOutput.AutoSize = true;
             this.lbConvertOutput.Location = new System.Drawing.Point(19, 54);
             this.lbConvertOutput.Name = "lbConvertOutput";
-            this.lbConvertOutput.Size = new System.Drawing.Size(39, 13);
+            this.lbConvertOutput.Size = new System.Drawing.Size(84, 13);
             this.lbConvertOutput.TabIndex = 7;
-            this.lbConvertOutput.Text = "Output";
+            this.lbConvertOutput.Text = "lbConvertOutput";
             // 
             // txtConvertOutput
             // 
@@ -435,9 +440,9 @@
             this.lbConvertInput.AutoSize = true;
             this.lbConvertInput.Location = new System.Drawing.Point(19, 7);
             this.lbConvertInput.Name = "lbConvertInput";
-            this.lbConvertInput.Size = new System.Drawing.Size(31, 13);
+            this.lbConvertInput.Size = new System.Drawing.Size(76, 13);
             this.lbConvertInput.TabIndex = 3;
-            this.lbConvertInput.Text = "Input";
+            this.lbConvertInput.Text = "lbConvertInput";
             // 
             // txtConvertInput
             // 
@@ -451,12 +456,12 @@
             // 
             // tabMerge
             // 
-            this.tabMerge.Controls.Add(this.chkMergeDeleteInput);
-            this.tabMerge.Controls.Add(this.chkMergeAudio);
+            this.tabMerge.Controls.Add(this.chkMergeDeleteInputFiles);
+            this.tabMerge.Controls.Add(this.chkMergeAudioTracks);
             this.tabMerge.Controls.Add(this.btnMerge);
             this.tabMerge.Controls.Add(this.btnBrwsMergeOutput);
             this.tabMerge.Controls.Add(this.txtMergeOutput);
-            this.tabMerge.Controls.Add(this.label1);
+            this.tabMerge.Controls.Add(this.lbMergeOutput);
             this.tabMerge.Controls.Add(this.btnBrwsMergeInput2);
             this.tabMerge.Controls.Add(this.txtMergeInput2);
             this.tabMerge.Controls.Add(this.btnBrwsMergeInput1);
@@ -466,32 +471,32 @@
             this.tabMerge.Location = new System.Drawing.Point(4, 22);
             this.tabMerge.Name = "tabMerge";
             this.tabMerge.Padding = new System.Windows.Forms.Padding(3);
-            this.tabMerge.Size = new System.Drawing.Size(244, 203);
+            this.tabMerge.Size = new System.Drawing.Size(244, 244);
             this.tabMerge.TabIndex = 2;
-            this.tabMerge.Text = "Merge";
+            this.tabMerge.Text = "tabMerge";
             this.tabMerge.UseVisualStyleBackColor = true;
             // 
-            // chkMergeDeleteInput
+            // chkMergeDeleteInputFiles
             // 
-            this.chkMergeDeleteInput.AutoSize = true;
-            this.chkMergeDeleteInput.Location = new System.Drawing.Point(64, 170);
-            this.chkMergeDeleteInput.Name = "chkMergeDeleteInput";
-            this.chkMergeDeleteInput.Size = new System.Drawing.Size(103, 17);
-            this.chkMergeDeleteInput.TabIndex = 15;
-            this.chkMergeDeleteInput.Text = "Delete input files";
-            this.chkMergeDeleteInput.UseVisualStyleBackColor = true;
+            this.chkMergeDeleteInputFiles.AutoSize = true;
+            this.chkMergeDeleteInputFiles.Location = new System.Drawing.Point(64, 170);
+            this.chkMergeDeleteInputFiles.Name = "chkMergeDeleteInputFiles";
+            this.chkMergeDeleteInputFiles.Size = new System.Drawing.Size(149, 17);
+            this.chkMergeDeleteInputFiles.TabIndex = 15;
+            this.chkMergeDeleteInputFiles.Text = "chkMergeDeleteInputFiles";
+            this.chkMergeDeleteInputFiles.UseVisualStyleBackColor = true;
             // 
-            // chkMergeAudio
+            // chkMergeAudioTracks
             // 
-            this.chkMergeAudio.AutoSize = true;
-            this.chkMergeAudio.Checked = true;
-            this.chkMergeAudio.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkMergeAudio.Location = new System.Drawing.Point(64, 147);
-            this.chkMergeAudio.Name = "chkMergeAudio";
-            this.chkMergeAudio.Size = new System.Drawing.Size(116, 17);
-            this.chkMergeAudio.TabIndex = 14;
-            this.chkMergeAudio.Text = "Merge audio tracks";
-            this.chkMergeAudio.UseVisualStyleBackColor = true;
+            this.chkMergeAudioTracks.AutoSize = true;
+            this.chkMergeAudioTracks.Checked = true;
+            this.chkMergeAudioTracks.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkMergeAudioTracks.Location = new System.Drawing.Point(64, 147);
+            this.chkMergeAudioTracks.Name = "chkMergeAudioTracks";
+            this.chkMergeAudioTracks.Size = new System.Drawing.Size(133, 17);
+            this.chkMergeAudioTracks.TabIndex = 14;
+            this.chkMergeAudioTracks.Text = "chkMergeAudioTracks";
+            this.chkMergeAudioTracks.UseVisualStyleBackColor = true;
             // 
             // btnMerge
             // 
@@ -500,7 +505,7 @@
             this.btnMerge.Name = "btnMerge";
             this.btnMerge.Size = new System.Drawing.Size(79, 25);
             this.btnMerge.TabIndex = 13;
-            this.btnMerge.Text = "Merge";
+            this.btnMerge.Text = "btnMerge";
             this.btnMerge.UseVisualStyleBackColor = true;
             this.btnMerge.Click += new System.EventHandler(this.btnMerge_Click);
             // 
@@ -525,14 +530,14 @@
             this.txtMergeOutput.Size = new System.Drawing.Size(161, 20);
             this.txtMergeOutput.TabIndex = 10;
             // 
-            // label1
+            // lbMergeOutput
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(19, 101);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(39, 13);
-            this.label1.TabIndex = 9;
-            this.label1.Text = "Output";
+            this.lbMergeOutput.AutoSize = true;
+            this.lbMergeOutput.Location = new System.Drawing.Point(19, 101);
+            this.lbMergeOutput.Name = "lbMergeOutput";
+            this.lbMergeOutput.Size = new System.Drawing.Size(77, 13);
+            this.lbMergeOutput.TabIndex = 9;
+            this.lbMergeOutput.Text = "lbMergeOutput";
             // 
             // btnBrwsMergeInput2
             // 
@@ -580,18 +585,18 @@
             this.lbMergeInput2.AutoSize = true;
             this.lbMergeInput2.Location = new System.Drawing.Point(19, 54);
             this.lbMergeInput2.Name = "lbMergeInput2";
-            this.lbMergeInput2.Size = new System.Drawing.Size(40, 13);
+            this.lbMergeInput2.Size = new System.Drawing.Size(75, 13);
             this.lbMergeInput2.TabIndex = 1;
-            this.lbMergeInput2.Text = "Input 2";
+            this.lbMergeInput2.Text = "lbMergeInput2";
             // 
             // lbMergeInput1
             // 
             this.lbMergeInput1.AutoSize = true;
             this.lbMergeInput1.Location = new System.Drawing.Point(19, 7);
             this.lbMergeInput1.Name = "lbMergeInput1";
-            this.lbMergeInput1.Size = new System.Drawing.Size(40, 13);
+            this.lbMergeInput1.Size = new System.Drawing.Size(75, 13);
             this.lbMergeInput1.TabIndex = 0;
-            this.lbMergeInput1.Text = "Input 1";
+            this.lbMergeInput1.Text = "lbMergeInput1";
             // 
             // menu
             // 
@@ -604,47 +609,54 @@
             // mSettings
             // 
             this.mSettings.Index = 0;
-            this.mSettings.Text = "Settings";
+            this.mSettings.Text = "mSettings";
             this.mSettings.Click += new System.EventHandler(this.mSettings_Click);
             // 
             // mTools
             // 
             this.mTools.Index = 1;
             this.mTools.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.mBatch,
+            this.mBatchDownload,
+            this.mDownloadSubtitles,
             this.mMiscTools});
-            this.mTools.Text = "Tools";
+            this.mTools.Text = "mTools";
             // 
-            // mBatch
+            // mBatchDownload
             // 
-            this.mBatch.Enabled = false;
-            this.mBatch.Index = 0;
-            this.mBatch.Text = "Batch download";
-            this.mBatch.Click += new System.EventHandler(this.mBatch_Click);
+            this.mBatchDownload.Index = 0;
+            this.mBatchDownload.Text = "mBatchDownload";
+            this.mBatchDownload.Click += new System.EventHandler(this.mBatchDownload_Click);
+            // 
+            // mDownloadSubtitles
+            // 
+            this.mDownloadSubtitles.Index = 1;
+            this.mDownloadSubtitles.Text = "mDownloadSubtitles";
+            this.mDownloadSubtitles.Click += new System.EventHandler(this.mDownloadSubtitles_Click);
             // 
             // mMiscTools
             // 
-            this.mMiscTools.Index = 1;
-            this.mMiscTools.Text = "Misc tools";
+            this.mMiscTools.Index = 2;
+            this.mMiscTools.Text = "mMiscTools";
             this.mMiscTools.Click += new System.EventHandler(this.mMiscTools_Click);
             // 
             // mHelp
             // 
             this.mHelp.Index = 2;
             this.mHelp.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.mSites});
-            this.mHelp.Text = "Help";
+            this.mLanguage,
+            this.mSupportedSites});
+            this.mHelp.Text = "mHelp";
             // 
-            // mSites
+            // mSupportedSites
             // 
-            this.mSites.Index = 0;
-            this.mSites.Text = "Supported sites";
-            this.mSites.Click += new System.EventHandler(this.mSites_Click);
+            this.mSupportedSites.Index = 1;
+            this.mSupportedSites.Text = "mSupportedSites";
+            this.mSupportedSites.Click += new System.EventHandler(this.mSupportedSites_Click);
             // 
             // mAbout
             // 
             this.mAbout.Index = 3;
-            this.mAbout.Text = "About";
+            this.mAbout.Text = "mAbout";
             this.mAbout.Click += new System.EventHandler(this.mAbout_Click);
             // 
             // lbDebug
@@ -660,137 +672,137 @@
             // cmTray
             // 
             this.cmTray.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.cmShow,
-            this.mDownloader,
-            this.mConverter,
-            this.cmSep,
-            this.cmExit});
+            this.cmTrayShowForm,
+            this.cmTrayDownloader,
+            this.cmTrayConverter,
+            this.cmTraySep,
+            this.cmTrayExit});
             // 
-            // cmShow
+            // cmTrayShowForm
             // 
-            this.cmShow.Index = 0;
-            this.cmShow.Text = "Show";
-            this.cmShow.Click += new System.EventHandler(this.cmShow_Click);
+            this.cmTrayShowForm.Index = 0;
+            this.cmTrayShowForm.Text = "cmTrayShow";
+            this.cmTrayShowForm.Click += new System.EventHandler(this.cmTrayShowForm_Click);
             // 
-            // mDownloader
+            // cmTrayDownloader
             // 
-            this.mDownloader.Index = 1;
-            this.mDownloader.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.cmClipboardDownload});
-            this.mDownloader.Text = "Downloader";
+            this.cmTrayDownloader.Index = 1;
+            this.cmTrayDownloader.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+            this.cmTrayDownloadClipboard});
+            this.cmTrayDownloader.Text = "cmTrayDownloader";
             // 
-            // cmClipboardDownload
+            // cmTrayDownloadClipboard
             // 
-            this.cmClipboardDownload.Index = 0;
-            this.cmClipboardDownload.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.cmDownloadVideo,
-            this.cmDownloadAudio,
-            this.cmDownloadCustom});
-            this.cmClipboardDownload.Text = "Clipboard...";
+            this.cmTrayDownloadClipboard.Index = 0;
+            this.cmTrayDownloadClipboard.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+            this.cmTrayDownloadBestVideo,
+            this.cmTrayDownloadBestAudio,
+            this.cmTrayDownloadCustom});
+            this.cmTrayDownloadClipboard.Text = "cmTrayDownloadClipboard";
             // 
-            // cmDownloadVideo
+            // cmTrayDownloadBestVideo
             // 
-            this.cmDownloadVideo.Index = 0;
-            this.cmDownloadVideo.Text = "Download Best Video";
-            this.cmDownloadVideo.Click += new System.EventHandler(this.cmDownloadVideo_Click);
+            this.cmTrayDownloadBestVideo.Index = 0;
+            this.cmTrayDownloadBestVideo.Text = "cmTrayDownloadBestVideo";
+            this.cmTrayDownloadBestVideo.Click += new System.EventHandler(this.cmTrayDownloadBestVideo_Click);
             // 
-            // cmDownloadAudio
+            // cmTrayDownloadBestAudio
             // 
-            this.cmDownloadAudio.Index = 1;
-            this.cmDownloadAudio.Text = "Download Best Audio";
-            this.cmDownloadAudio.Click += new System.EventHandler(this.cmDownloadAudio_Click);
+            this.cmTrayDownloadBestAudio.Index = 1;
+            this.cmTrayDownloadBestAudio.Text = "cmTrayDownloadBestAudio";
+            this.cmTrayDownloadBestAudio.Click += new System.EventHandler(this.cmTrayDownloadBestAudio_Click);
             // 
-            // cmDownloadCustom
+            // cmTrayDownloadCustom
             // 
-            this.cmDownloadCustom.Index = 2;
-            this.cmDownloadCustom.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.cmCustomTxtBox,
-            this.cmCustomSep,
-            this.cmCustomTxt,
-            this.cmCustomSettings});
-            this.cmDownloadCustom.Text = "Download Custom";
+            this.cmTrayDownloadCustom.Index = 2;
+            this.cmTrayDownloadCustom.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+            this.cmTrayDownloadCustomTxtBox,
+            this.cmTrayCustomSep,
+            this.cmTrayDownloadCustomTxt,
+            this.cmTrayDownloadCustomSettings});
+            this.cmTrayDownloadCustom.Text = "cmTrayDownloadCustom";
             // 
-            // cmCustomTxtBox
+            // cmTrayDownloadCustomTxtBox
             // 
-            this.cmCustomTxtBox.Index = 0;
-            this.cmCustomTxtBox.Text = "From form textbox";
-            this.cmCustomTxtBox.Click += new System.EventHandler(this.cmCustomTxtBox_Click);
+            this.cmTrayDownloadCustomTxtBox.Index = 0;
+            this.cmTrayDownloadCustomTxtBox.Text = "cmTrayDownloadCustomTxtBox";
+            this.cmTrayDownloadCustomTxtBox.Click += new System.EventHandler(this.cmTrayDownloadCustomTxtBox_Click);
             // 
-            // cmCustomSep
+            // cmTrayCustomSep
             // 
-            this.cmCustomSep.Index = 1;
-            this.cmCustomSep.Text = "-";
+            this.cmTrayCustomSep.Index = 1;
+            this.cmTrayCustomSep.Text = "-";
             // 
-            // cmCustomTxt
+            // cmTrayDownloadCustomTxt
             // 
-            this.cmCustomTxt.Index = 2;
-            this.cmCustomTxt.Text = "From args.txt";
-            this.cmCustomTxt.Click += new System.EventHandler(this.cmCustomTxt_Click);
+            this.cmTrayDownloadCustomTxt.Index = 2;
+            this.cmTrayDownloadCustomTxt.Text = "cmTrayDownloadCustomTxt";
+            this.cmTrayDownloadCustomTxt.Click += new System.EventHandler(this.cmTrayDownloadCustomTxt_Click);
             // 
-            // cmCustomSettings
+            // cmTrayDownloadCustomSettings
             // 
-            this.cmCustomSettings.Index = 3;
-            this.cmCustomSettings.Text = "From settings";
-            this.cmCustomSettings.Click += new System.EventHandler(this.cmCustomSettings_Click);
+            this.cmTrayDownloadCustomSettings.Index = 3;
+            this.cmTrayDownloadCustomSettings.Text = "cmTrayDownloadCustomSettings";
+            this.cmTrayDownloadCustomSettings.Click += new System.EventHandler(this.cmTrayDownloadCustomSettings_Click);
             // 
-            // mConverter
+            // cmTrayConverter
             // 
-            this.mConverter.Index = 2;
-            this.mConverter.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.mConvertTo});
-            this.mConverter.Text = "Converter";
+            this.cmTrayConverter.Index = 2;
+            this.cmTrayConverter.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+            this.cmTrayConvertTo});
+            this.cmTrayConverter.Text = "cmTrayConverter";
             // 
-            // mConvertTo
+            // cmTrayConvertTo
             // 
-            this.mConvertTo.Index = 0;
-            this.mConvertTo.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.mConvertVideo,
-            this.mConvertAudio,
-            this.mConvertCustom,
-            this.mConvertAutomatic,
-            this.mConvertAutoFFmpeg});
-            this.mConvertTo.Text = "Convert to...";
+            this.cmTrayConvertTo.Index = 0;
+            this.cmTrayConvertTo.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+            this.cmTrayConvertVideo,
+            this.cmTrayConvertAudio,
+            this.cmTrayConvertCustom,
+            this.cmTrayConvertAutomatic,
+            this.cmTrayConvertAutoFFmpeg});
+            this.cmTrayConvertTo.Text = "Convert to...";
             // 
-            // mConvertVideo
+            // cmTrayConvertVideo
             // 
-            this.mConvertVideo.Index = 0;
-            this.mConvertVideo.Text = "Video";
-            this.mConvertVideo.Click += new System.EventHandler(this.mConvertVideo_Click);
+            this.cmTrayConvertVideo.Index = 0;
+            this.cmTrayConvertVideo.Text = "Video";
+            this.cmTrayConvertVideo.Click += new System.EventHandler(this.cmTrayConvertVideo_Click);
             // 
-            // mConvertAudio
+            // cmTrayConvertAudio
             // 
-            this.mConvertAudio.Index = 1;
-            this.mConvertAudio.Text = "Audio";
-            this.mConvertAudio.Click += new System.EventHandler(this.mConvertAudio_Click);
+            this.cmTrayConvertAudio.Index = 1;
+            this.cmTrayConvertAudio.Text = "Audio";
+            this.cmTrayConvertAudio.Click += new System.EventHandler(this.cmTrayConvertAudio_Click);
             // 
-            // mConvertCustom
+            // cmTrayConvertCustom
             // 
-            this.mConvertCustom.Index = 2;
-            this.mConvertCustom.Text = "Custom";
-            this.mConvertCustom.Click += new System.EventHandler(this.mConvertCustom_Click);
+            this.cmTrayConvertCustom.Index = 2;
+            this.cmTrayConvertCustom.Text = "Custom";
+            this.cmTrayConvertCustom.Click += new System.EventHandler(this.cmTrayConvertCustom_Click);
             // 
-            // mConvertAutomatic
+            // cmTrayConvertAutomatic
             // 
-            this.mConvertAutomatic.Index = 3;
-            this.mConvertAutomatic.Text = "Automatic";
-            this.mConvertAutomatic.Click += new System.EventHandler(this.mConvertAutomatic_Click);
+            this.cmTrayConvertAutomatic.Index = 3;
+            this.cmTrayConvertAutomatic.Text = "Automatic";
+            this.cmTrayConvertAutomatic.Click += new System.EventHandler(this.cmTrayConvertAutomatic_Click);
             // 
-            // mConvertAutoFFmpeg
+            // cmTrayConvertAutoFFmpeg
             // 
-            this.mConvertAutoFFmpeg.Index = 4;
-            this.mConvertAutoFFmpeg.Text = "Auto ffmpeg";
-            this.mConvertAutoFFmpeg.Click += new System.EventHandler(this.mConvertAutoFFmpeg_Click);
+            this.cmTrayConvertAutoFFmpeg.Index = 4;
+            this.cmTrayConvertAutoFFmpeg.Text = "Auto ffmpeg";
+            this.cmTrayConvertAutoFFmpeg.Click += new System.EventHandler(this.cmTrayConvertAutoFFmpeg_Click);
             // 
-            // cmSep
+            // cmTraySep
             // 
-            this.cmSep.Index = 3;
-            this.cmSep.Text = "-";
+            this.cmTraySep.Index = 3;
+            this.cmTraySep.Text = "-";
             // 
-            // cmExit
+            // cmTrayExit
             // 
-            this.cmExit.Index = 4;
-            this.cmExit.Text = "Exit";
-            this.cmExit.Click += new System.EventHandler(this.cmExit_Click);
+            this.cmTrayExit.Index = 4;
+            this.cmTrayExit.Text = "cmTrayExit";
+            this.cmTrayExit.Click += new System.EventHandler(this.cmTrayExit_Click);
             // 
             // trayIcon
             // 
@@ -810,6 +822,23 @@
             // 
             this.tmrDownloadLabel.Interval = 5000;
             this.tmrDownloadLabel.Tick += new System.EventHandler(this.tmrDownloadLabel_Tick);
+            // 
+            // mLanguage
+            // 
+            this.mLanguage.Index = 0;
+            this.mLanguage.Text = "mLanguage";
+            // 
+            // sbDownload
+            // 
+            this.sbDownload.DropDownContextMenu = this.cmDownload;
+            this.sbDownload.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.sbDownload.Location = new System.Drawing.Point(81, 172);
+            this.sbDownload.Name = "sbDownload";
+            this.sbDownload.Size = new System.Drawing.Size(83, 25);
+            this.sbDownload.TabIndex = 22;
+            this.sbDownload.Text = "sbDownload";
+            this.sbDownload.UseVisualStyleBackColor = true;
+            this.sbDownload.Click += new System.EventHandler(this.sbDownload_Click);
             // 
             // frmMain
             // 
@@ -846,7 +875,7 @@
         #endregion
 
         private System.Windows.Forms.TextBox txtUrl;
-        private System.Windows.Forms.Label lbDownloadURL;
+        private System.Windows.Forms.Label lbURL;
         private System.Windows.Forms.TabControl tcMain;
         private System.Windows.Forms.TabPage tabDownload;
         private System.Windows.Forms.TabPage tabConvert;
@@ -858,24 +887,23 @@
         private System.Windows.Forms.RadioButton rbCustom;
         private System.Windows.Forms.RadioButton rbAudio;
         private System.Windows.Forms.RadioButton rbVideo;
-        private System.Windows.Forms.Label lbDownloadArgs;
+        private System.Windows.Forms.Label lbCustomArguments;
         private System.Windows.Forms.TextBox txtArgs;
-        private System.Windows.Forms.Button btnDownload;
         private System.Windows.Forms.MenuItem mAbout;
         private System.Windows.Forms.ContextMenu cmTray;
-        private System.Windows.Forms.MenuItem cmShow;
-        private System.Windows.Forms.MenuItem cmClipboardDownload;
-        private System.Windows.Forms.MenuItem cmDownloadAudio;
-        private System.Windows.Forms.MenuItem cmDownloadVideo;
-        private System.Windows.Forms.MenuItem cmDownloadCustom;
-        private System.Windows.Forms.MenuItem cmCustomTxtBox;
-        private System.Windows.Forms.MenuItem cmCustomSep;
-        private System.Windows.Forms.MenuItem cmCustomTxt;
-        private System.Windows.Forms.MenuItem cmCustomSettings;
-        private System.Windows.Forms.MenuItem cmSep;
-        private System.Windows.Forms.MenuItem cmExit;
+        private System.Windows.Forms.MenuItem cmTrayShowForm;
+        private System.Windows.Forms.MenuItem cmTrayDownloadClipboard;
+        private System.Windows.Forms.MenuItem cmTrayDownloadBestAudio;
+        private System.Windows.Forms.MenuItem cmTrayDownloadBestVideo;
+        private System.Windows.Forms.MenuItem cmTrayDownloadCustom;
+        private System.Windows.Forms.MenuItem cmTrayDownloadCustomTxtBox;
+        private System.Windows.Forms.MenuItem cmTrayCustomSep;
+        private System.Windows.Forms.MenuItem cmTrayDownloadCustomTxt;
+        private System.Windows.Forms.MenuItem cmTrayDownloadCustomSettings;
+        private System.Windows.Forms.MenuItem cmTraySep;
+        private System.Windows.Forms.MenuItem cmTrayExit;
         private System.Windows.Forms.NotifyIcon trayIcon;
-        private System.Windows.Forms.MenuItem mSites;
+        private System.Windows.Forms.MenuItem mSupportedSites;
         private System.Windows.Forms.Button btnConvertOutput;
         private System.Windows.Forms.Label lbConvertOutput;
         private System.Windows.Forms.TextBox txtConvertOutput;
@@ -890,14 +918,14 @@
         private System.Windows.Forms.RadioButton rbConvertAuto;
         private System.Windows.Forms.RadioButton rbConvertAutoFFmpeg;
         private System.Windows.Forms.RadioButton rbConvertCustom;
-        private System.Windows.Forms.MenuItem mDownloader;
-        private System.Windows.Forms.MenuItem mConverter;
-        private System.Windows.Forms.MenuItem mConvertTo;
-        private System.Windows.Forms.MenuItem mConvertVideo;
-        private System.Windows.Forms.MenuItem mConvertAudio;
-        private System.Windows.Forms.MenuItem mConvertCustom;
-        private System.Windows.Forms.MenuItem mConvertAutomatic;
-        private System.Windows.Forms.MenuItem mConvertAutoFFmpeg;
+        private System.Windows.Forms.MenuItem cmTrayDownloader;
+        private System.Windows.Forms.MenuItem cmTrayConverter;
+        private System.Windows.Forms.MenuItem cmTrayConvertTo;
+        private System.Windows.Forms.MenuItem cmTrayConvertVideo;
+        private System.Windows.Forms.MenuItem cmTrayConvertAudio;
+        private System.Windows.Forms.MenuItem cmTrayConvertCustom;
+        private System.Windows.Forms.MenuItem cmTrayConvertAutomatic;
+        private System.Windows.Forms.MenuItem cmTrayConvertAutoFFmpeg;
         private System.Windows.Forms.TabPage tabMerge;
         private System.Windows.Forms.Label lbDownloadStatus;
         private System.Windows.Forms.Timer tmrDownloadLabel;
@@ -906,19 +934,24 @@
         private System.Windows.Forms.Button btnMerge;
         private System.Windows.Forms.Button btnBrwsMergeOutput;
         private System.Windows.Forms.TextBox txtMergeOutput;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lbMergeOutput;
         private System.Windows.Forms.Button btnBrwsMergeInput2;
         private System.Windows.Forms.TextBox txtMergeInput2;
         private System.Windows.Forms.Button btnBrwsMergeInput1;
         private System.Windows.Forms.TextBox txtMergeInput1;
         private System.Windows.Forms.Label lbMergeInput2;
         private System.Windows.Forms.Label lbMergeInput1;
-        private System.Windows.Forms.CheckBox chkMergeAudio;
-        private System.Windows.Forms.CheckBox chkMergeDeleteInput;
+        private System.Windows.Forms.CheckBox chkMergeAudioTracks;
+        private System.Windows.Forms.CheckBox chkMergeDeleteInputFiles;
         private System.Windows.Forms.CheckBox chkDownloadSound;
         private System.Windows.Forms.MenuItem mTools;
-        private System.Windows.Forms.MenuItem mBatch;
+        private System.Windows.Forms.MenuItem mBatchDownload;
         private System.Windows.Forms.MenuItem mMiscTools;
+        private System.Windows.Forms.MenuItem mDownloadSubtitles;
+        private SplitButton sbDownload;
+        private System.Windows.Forms.ContextMenu cmDownload;
+        private System.Windows.Forms.MenuItem mBatchDownloadFromFile;
+        private System.Windows.Forms.MenuItem mLanguage;
     }
 }
 
