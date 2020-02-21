@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -63,8 +64,9 @@ namespace youtube_dl_gui {
             LoadLanguage();
 
             if (Program.IsDebug) {
-                lbDebug.Text = Properties.Settings.Default.debugDate;
+                lbDebug.Text = "debugging " + Properties.Settings.Default.debugDate;
                 lbDebug.Visible = true;
+                
             }
             else {
                 tcMain.TabPages.RemoveAt(2);

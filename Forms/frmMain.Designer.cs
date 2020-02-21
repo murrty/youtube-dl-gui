@@ -30,13 +30,13 @@
             this.lbURL = new System.Windows.Forms.Label();
             this.tcMain = new System.Windows.Forms.TabControl();
             this.tabDownload = new System.Windows.Forms.TabPage();
+            this.lbDownloadStatus = new System.Windows.Forms.Label();
             this.sbDownload = new youtube_dl_gui.SplitButton();
             this.cmDownload = new System.Windows.Forms.ContextMenu();
             this.mBatchDownloadFromFile = new System.Windows.Forms.MenuItem();
             this.chkDownloadSound = new System.Windows.Forms.CheckBox();
             this.cbQuality = new System.Windows.Forms.ComboBox();
             this.lbQuality = new System.Windows.Forms.Label();
-            this.lbDownloadStatus = new System.Windows.Forms.Label();
             this.lbCustomArguments = new System.Windows.Forms.Label();
             this.txtArgs = new System.Windows.Forms.TextBox();
             this.gbDownloadType = new System.Windows.Forms.GroupBox();
@@ -144,11 +144,11 @@
             // 
             // tabDownload
             // 
+            this.tabDownload.Controls.Add(this.lbDownloadStatus);
             this.tabDownload.Controls.Add(this.sbDownload);
             this.tabDownload.Controls.Add(this.chkDownloadSound);
             this.tabDownload.Controls.Add(this.cbQuality);
             this.tabDownload.Controls.Add(this.lbQuality);
-            this.tabDownload.Controls.Add(this.lbDownloadStatus);
             this.tabDownload.Controls.Add(this.lbCustomArguments);
             this.tabDownload.Controls.Add(this.lbURL);
             this.tabDownload.Controls.Add(this.txtArgs);
@@ -161,6 +161,17 @@
             this.tabDownload.TabIndex = 0;
             this.tabDownload.Text = "tabDownload";
             this.tabDownload.UseVisualStyleBackColor = true;
+            // 
+            // lbDownloadStatus
+            // 
+            this.lbDownloadStatus.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbDownloadStatus.Location = new System.Drawing.Point(3, 200);
+            this.lbDownloadStatus.Name = "lbDownloadStatus";
+            this.lbDownloadStatus.Size = new System.Drawing.Size(238, 20);
+            this.lbDownloadStatus.TabIndex = 17;
+            this.lbDownloadStatus.Text = "waiting";
+            this.lbDownloadStatus.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lbDownloadStatus.Visible = false;
             // 
             // sbDownload
             // 
@@ -230,17 +241,6 @@
             this.lbQuality.TabIndex = 18;
             this.lbQuality.Text = "lbQuality";
             this.lbQuality.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // lbDownloadStatus
-            // 
-            this.lbDownloadStatus.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbDownloadStatus.Location = new System.Drawing.Point(3, 200);
-            this.lbDownloadStatus.Name = "lbDownloadStatus";
-            this.lbDownloadStatus.Size = new System.Drawing.Size(238, 20);
-            this.lbDownloadStatus.TabIndex = 17;
-            this.lbDownloadStatus.Text = "waiting";
-            this.lbDownloadStatus.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lbDownloadStatus.Visible = false;
             // 
             // lbCustomArguments
             // 
@@ -325,7 +325,7 @@
             this.tabConvert.Location = new System.Drawing.Point(4, 22);
             this.tabConvert.Name = "tabConvert";
             this.tabConvert.Padding = new System.Windows.Forms.Padding(3);
-            this.tabConvert.Size = new System.Drawing.Size(244, 203);
+            this.tabConvert.Size = new System.Drawing.Size(244, 244);
             this.tabConvert.TabIndex = 1;
             this.tabConvert.Text = "tabConvert";
             this.tabConvert.UseVisualStyleBackColor = true;
@@ -378,7 +378,7 @@
             // 
             this.lbConvertStatus.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.lbConvertStatus.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbConvertStatus.Location = new System.Drawing.Point(3, 178);
+            this.lbConvertStatus.Location = new System.Drawing.Point(3, 219);
             this.lbConvertStatus.Name = "lbConvertStatus";
             this.lbConvertStatus.Size = new System.Drawing.Size(238, 22);
             this.lbConvertStatus.TabIndex = 16;
@@ -484,7 +484,7 @@
             this.tabMerge.Location = new System.Drawing.Point(4, 22);
             this.tabMerge.Name = "tabMerge";
             this.tabMerge.Padding = new System.Windows.Forms.Padding(3);
-            this.tabMerge.Size = new System.Drawing.Size(244, 203);
+            this.tabMerge.Size = new System.Drawing.Size(244, 244);
             this.tabMerge.TabIndex = 2;
             this.tabMerge.Text = "tabMerge";
             this.tabMerge.UseVisualStyleBackColor = true;
@@ -680,12 +680,13 @@
             // 
             // lbDebug
             // 
-            this.lbDebug.AutoSize = true;
-            this.lbDebug.Location = new System.Drawing.Point(179, 3);
+            this.lbDebug.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbDebug.Location = new System.Drawing.Point(77, 226);
             this.lbDebug.Name = "lbDebug";
-            this.lbDebug.Size = new System.Drawing.Size(61, 13);
+            this.lbDebug.Size = new System.Drawing.Size(168, 19);
             this.lbDebug.TabIndex = 3;
-            this.lbDebug.Text = "2019-07-24";
+            this.lbDebug.Text = "debug 2019-07-24";
+            this.lbDebug.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.lbDebug.Visible = false;
             // 
             // cmTray
@@ -870,7 +871,6 @@
             this.tabMerge.ResumeLayout(false);
             this.tabMerge.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 

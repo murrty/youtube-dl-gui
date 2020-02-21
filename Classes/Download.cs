@@ -192,7 +192,7 @@ namespace youtube_dl_gui {
                 return true;
             }
             catch (Exception ex) {
-                ErrorLog.reportError(ex);
+                ErrorLog.ReportException(ex);
                 GC.Collect();
                 return false;
             }
@@ -232,11 +232,11 @@ namespace youtube_dl_gui {
 
             }
             catch (WebException WebE) {
-                ErrorLog.reportWebError(WebE, YtDl);
+                ErrorLog.ReportWebException(WebE, YtDl);
                 return false;
             }
             catch (Exception ex) {
-                ErrorLog.reportError(ex);
+                ErrorLog.ReportException(ex);
                 return false;
             }
         }

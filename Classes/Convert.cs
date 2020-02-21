@@ -225,7 +225,7 @@ namespace youtube_dl_gui {
                 return true;
             }
             catch (Exception ex) {
-                ErrorLog.reportError(ex);
+                ErrorLog.ReportException(ex);
                 return false;
             }
         }
@@ -305,7 +305,7 @@ namespace youtube_dl_gui {
                 return true;
             }
             catch (Exception ex) {
-                ErrorLog.reportError(ex);
+                ErrorLog.ReportException(ex);
                 return false;
             }
         }

@@ -20,42 +20,48 @@ namespace youtube_dl_gui {
         public static CloudData GitData = CloudData.GetInstance();
 
         public static void CheckForUpdate(bool ForceCheck = false) {
-            if (!General.Default.checkForUpdates && !ForceCheck) { return; }
-            Thread checkUpdates = new Thread(() => {
-                if (GitData.UpdateVersion == "-1" || ForceCheck) {
-                    decimal GitVersion = UpdateChecker.GetGitVersion();
-                    if (UpdateChecker.IsUpdateAvailable(GitVersion)) {
-                        if (GitVersion != Properties.Settings.Default.SkippedVersion || ForceCheck) {
-                            frmUpdateAvailable Update = new frmUpdateAvailable();
-                            Update.BlockSkip = ForceCheck;
-                            switch (Update.ShowDialog()) {
-                                case DialogResult.Yes:
-                                    try {
-                                        CreateUpdateStub();
-                                        Process Updater = new Process();
-                                        Updater.StartInfo.FileName = Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe";
-                                        string ArgumentsBuffer = "";
-                                        ArgumentsBuffer += GitData.UpdateVersion + " " + System.AppDomain.CurrentDomain.FriendlyName;
-                                        Updater.Start();
-                                        Environment.Exit(0);
-                                    }
-                                    catch (Exception ex) {
-                                        ErrorLog.reportError(ex);
-                                    }
-                                    break;
-                                case DialogResult.Ignore:
-                                    Properties.Settings.Default.SkippedVersion = GitVersion;
-                                    Properties.Settings.Default.Save();
-                                    break;
+
+            if (Program.IsDebug) {
+                MessageBox.Show("-version " + GitData.UpdateVersion + " -name " + System.AppDomain.CurrentDomain.FriendlyName);
+            }
+            else {
+                if (!General.Default.checkForUpdates && !ForceCheck) { return; }
+                Thread checkUpdates = new Thread(() => {
+                    if (GitData.UpdateVersion == "-1" || ForceCheck) {
+                        decimal GitVersion = UpdateChecker.GetGitVersion();
+                        if (UpdateChecker.IsUpdateAvailable(GitVersion)) {
+                            if (GitVersion != Properties.Settings.Default.SkippedVersion || ForceCheck) {
+                                frmUpdateAvailable Update = new frmUpdateAvailable();
+                                Update.BlockSkip = ForceCheck;
+                                switch (Update.ShowDialog()) {
+                                    case DialogResult.Yes:
+                                        try {
+                                            CreateUpdateStub();
+                                            Process Updater = new Process();
+                                            Updater.StartInfo.FileName = Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe";
+                                            string ArgumentsBuffer = "";
+                                            ArgumentsBuffer += "-version " + GitData.UpdateVersion + " -name " + System.AppDomain.CurrentDomain.FriendlyName;
+                                            Updater.Start();
+                                            Environment.Exit(0);
+                                        }
+                                        catch (Exception ex) {
+                                            ErrorLog.ReportException(ex);
+                                        }
+                                        break;
+                                    case DialogResult.Ignore:
+                                        Properties.Settings.Default.SkippedVersion = GitVersion;
+                                        Properties.Settings.Default.Save();
+                                        break;
+                                }
                             }
                         }
+                        else if (ForceCheck) {
+                            MessageBox.Show("No updates available.");
+                        }
                     }
-                    else if (ForceCheck) {
-                        MessageBox.Show("No updates available.");
-                    }
-                }
-            });
-            checkUpdates.Start();
+                });
+                checkUpdates.Start();
+            }
         }
 
         public static string GetJSON(string url) {
@@ -83,12 +89,12 @@ namespace youtube_dl_gui {
                 }
             }
             catch (WebException WebE) {
-                ErrorLog.reportWebError(WebE, url);
+                ErrorLog.ReportWebException(WebE, url);
                 return null;
                 throw WebE;
             }
             catch (Exception ex) {
-                ErrorLog.reportError(ex);
+                ErrorLog.ReportException(ex);
                 return null;
                 throw ex;
             }
@@ -113,7 +119,7 @@ namespace youtube_dl_gui {
                 return decimal.Parse(GitData.UpdateVersion.Replace(".", CultureInfo.InvariantCulture.NumberFormat.NumberDecimalSeparator), NumberStyles.Any, CultureInfo.InvariantCulture);
             }
             catch (Exception ex) {
-                ErrorLog.reportError(ex);
+                ErrorLog.ReportException(ex);
                 return -1;
             }
         }
@@ -123,7 +129,7 @@ namespace youtube_dl_gui {
                 else { return false; }
             }
             catch (Exception ex) {
-                ErrorLog.reportError(ex);
+                ErrorLog.ReportException(ex);
                 return false;
             }
         }
