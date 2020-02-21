@@ -76,6 +76,10 @@ namespace youtube_dl_gui {
             ytDlAvailable = Verification.ytdlFullCheck();
             ffmpegAvailable = Verification.ffmpegFullCheck();
             trayIcon.ContextMenu = cmTray;
+            if (Program.IsDebug) {
+                trayIcon.Visible = false;
+                trayIcon.Dispose();
+            }
         }
 
         private void frmMain_Load(object sender, EventArgs e) {

@@ -14,7 +14,7 @@ using System.Windows.Forms;
 namespace youtube_dl_gui {
     public partial class frmAbout : Form {
         Language lang = Language.GetInstance();
-        CloudData GitCloud = CloudData.GetInstance();
+        GitData GitCloud = GitData.GetInstance();
 
         public frmAbout() {
             InitializeComponent();

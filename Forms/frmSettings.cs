@@ -321,52 +321,7 @@ namespace youtube_dl_gui {
         }
 
         private void btnSettingsRedownloadYoutubeDl_Click(object sender, EventArgs e) {
-            string ytdlPath = string.Empty;
-
-            if (General.Default.useStaticYtdl && !string.IsNullOrEmpty(General.Default.ytdlPath)) {
-                if (File.Exists(General.Default.ytdlPath)) {
-                    // update
-                    if (Downloads.Default.useYtdlUpdater) {
-                        Process updateYtdl = new Process();
-                        updateYtdl.StartInfo.FileName = General.Default.ytdlPath;
-                        updateYtdl.StartInfo.Arguments = "-U";
-                        updateYtdl.Start();
-                        updateYtdl.WaitForExit();
-                        MessageBox.Show("Youtube-dl is update, as far as i know");
-                    }
-                    else {
-                        File.Delete(General.Default.ytdlPath);
-                        if (Download.downloadYoutubeDL(General.Default.ytdlPath)) {
-                            MessageBox.Show("Youtube-dl has been update.");
-                        }
-                        else {
-                            MessageBox.Show("Youtube-dl has not been updated.");
-                        }
-                    }
-                }
-                else {
-                    Download.downloadYoutubeDL(General.Default.ytdlPath);
-                }
-            }
-            else {
-                switch (Verification.ytdlFullCheck()) {
-                    case 0:
-                        // static
-                        break;
-                    case 1:
-                        //current directory
-                        break;
-                    case 2:
-                        //path
-                        break;
-                    case 3:
-                        //cmd, can't find it though. default to current directory.
-                        break;
-                    default:
-                        //none, so download
-                        break;
-                }
-            }
+            UpdateChecker.UpdateYoutubeDl();
         }
 
         private void btnSettingsSave_Click(object sender, EventArgs e) {
@@ -379,26 +334,25 @@ namespace youtube_dl_gui {
 
         #region General
         private void btnSettingsGeneralBrowseYoutubeDl_Click(object sender, EventArgs e) {
-            using (OpenFileDialog ofd = new OpenFileDialog()) {
-                ofd.Title = "Select youtube-dl.exe";
-                ofd.Filter = "youtube-dl executable (*.EXE)|*.exe";
-                ofd.FileName = "youtube-dl.exe";
-                ofd.Multiselect = false;
+            using (SaveFileDialog sfd = new SaveFileDialog()) {
+                sfd.Title = "Select youtube-dl.exe";
+                sfd.Filter = "youtube-dl executable (*.EXE)|*.exe";
+                sfd.FileName = "youtube-dl.exe";
 
-                if (ofd.ShowDialog() == DialogResult.OK) {
-                    txtSettingsGeneralYoutubeDlPath.Text = ofd.FileName;
+                if (sfd.ShowDialog() == DialogResult.OK) {
+                    txtSettingsGeneralYoutubeDlPath.Text = sfd.FileName;
                 }
             }
         }
         private void btnSettingsGeneralBrowseFFmpeg_Click(object sender, EventArgs e) {
-            using (OpenFileDialog ofd = new OpenFileDialog()) {
-                ofd.Title = "Select ffmpeg.exe and ffprobe.exe";
-                ofd.Filter = "ffmpeg & ffprobe executable (*.EXE)|*.exe";
-                ofd.FileName = "ffmpeg.exe & ffprobe.exe";
-                ofd.Multiselect = false;
+            using (SaveFileDialog sfd = new SaveFileDialog()) {
+                sfd.Title = "Select ffmpeg.exe and ffprobe.exe";
+                sfd.Filter = "ffmpeg & ffprobe executable (*.EXE)|*.exe";
+                sfd.FileName = "ffmpeg.exe";
 
-                if (ofd.ShowDialog() == DialogResult.OK) {
-                    txtSettingsGeneralFFmpegPath.Text = Path.GetDirectoryName(ofd.FileName);
+
+                if (sfd.ShowDialog() == DialogResult.OK) {
+                    txtSettingsGeneralFFmpegPath.Text = Path.GetDirectoryName(sfd.FileName);
                 }
             }
         }

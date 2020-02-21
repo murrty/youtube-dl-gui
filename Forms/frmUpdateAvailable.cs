@@ -11,7 +11,7 @@ using System.Windows.Forms;
 namespace youtube_dl_gui {
     public partial class frmUpdateAvailable : Form {
         Language lang = Language.GetInstance();
-        CloudData Cloud = CloudData.GetInstance();
+        GitData Cloud = GitData.GetInstance();
         public bool BlockSkip = false;
 
         public frmUpdateAvailable() {

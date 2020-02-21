@@ -30,7 +30,6 @@ namespace youtube_dl_gui {
                     switch ((int)WebResponse.StatusCode) {
                         #region default / unspecified
                         default:
-                            
                             ExceptionDisplay.CustomDescription = "A WebException occured at " + WebsiteAddress +
                                 "\n\nThe address returned " + WebResponse.StatusCode.ToString() +
                                 "\n" + WebResponse.StatusDescription.ToString();
@@ -47,7 +46,6 @@ namespace youtube_dl_gui {
 
                         #region 400 Bad request
                         case 400:
-                            
                             ExceptionDisplay.CustomDescription = "A WebException occured at " + WebsiteAddress +
                                 "\n\nThe address returned 400 - Bad request" +
                                 "\nThe request could not be understood by the server.";
@@ -56,7 +54,6 @@ namespace youtube_dl_gui {
 
                         #region 401 Unauthorized
                         case 401:
-                            
                             ExceptionDisplay.CustomDescription = "A WebException occured at " + WebsiteAddress +
                                 "\n\nThe address returned 401 - Unauthorized" +
                                 "\nThe requested resource requires authentication.";
@@ -65,7 +62,6 @@ namespace youtube_dl_gui {
 
                         #region 402 Payment required
                         case 402:
-                            
                             ExceptionDisplay.CustomDescription = "A WebException occured at " + WebsiteAddress +
                                 "\n\nThe address returned 402 - Payment required" +
                                 "\nPayment is required to view this content.\nThis status code isn't natively used.";
@@ -74,7 +70,6 @@ namespace youtube_dl_gui {
 
                         #region 403 Forbidden
                         case 403:
-                            
                             ExceptionDisplay.CustomDescription = "A WebException occured at " + WebsiteAddress +
                                 "\n\nThe address returned 403 - Forbidden" +
                                 "\nYou do not have permission to view this file.";
@@ -83,7 +78,6 @@ namespace youtube_dl_gui {
 
                         #region 404 Not found
                         case 404:
-                            
                             ExceptionDisplay.CustomDescription = "A WebException occured at " + WebsiteAddress +
                                 "\n\nThe address returned 404 - Not found" +
                                 "\nThe file does not exist on the server.";
@@ -92,7 +86,6 @@ namespace youtube_dl_gui {
 
                         #region 405 Method not allowed
                         case 405:
-                            
                             ExceptionDisplay.CustomDescription = "A WebException occured at " + WebsiteAddress +
                                 "\n\nThe address returned 405 - Method not allowed" +
                                 "\nThe request method (GET) is not allowed on the requested resource.";
@@ -101,7 +94,6 @@ namespace youtube_dl_gui {
 
                         #region 406 Not acceptable
                         case 406:
-                            
                             ExceptionDisplay.CustomDescription = "A WebException occured at " + WebsiteAddress +
                                 "\n\nThe address returned 406 - Not acceptable" +
                                 "\nThe client has indicated with Accept headers that it will not accept any of the available representations from the resource.";
@@ -110,7 +102,6 @@ namespace youtube_dl_gui {
 
                         #region 407 Proxy authentication required
                         case 407:
-                            
                             ExceptionDisplay.CustomDescription = "A WebException occured at " + WebsiteAddress +
                                 "\n\nThe address returned 407 - Proxy authentication required" +
                                 "\nThe requested proxy requires authentication.";
@@ -119,7 +110,6 @@ namespace youtube_dl_gui {
 
                         #region 408 Request timeout
                         case 408:
-                            
                             ExceptionDisplay.CustomDescription = "A WebException occured at " + WebsiteAddress +
                                 "\n\nThe address returned 408 - Request timeout" +
                                 "\nThe client did not send a request within the time the server was expection the request.";
@@ -128,7 +118,6 @@ namespace youtube_dl_gui {
 
                         #region 409 Conflict
                         case 409:
-                            
                             ExceptionDisplay.CustomDescription = "A WebException occured at " + WebsiteAddress +
                                 "\n\nThe address returned 409 - Conflict" +
                                 "\nThe request could not be carried out because of a conflict on the server.";
@@ -137,7 +126,6 @@ namespace youtube_dl_gui {
 
                         #region 410 Gone
                         case 410:
-                            
                             ExceptionDisplay.CustomDescription = "A WebException occured at " + WebsiteAddress +
                                 "\n\nThe address returned 410 - Gone" +
                                 "\nThe requested resource is no longer available.";
@@ -146,7 +134,6 @@ namespace youtube_dl_gui {
 
                         #region 411 Length required
                         case 411:
-                            
                             ExceptionDisplay.CustomDescription = "A WebException occured at " + WebsiteAddress +
                                 "\n\nThe address returned 410 - Length required" +
                                 "\nThe required Content-length header is missing.";
@@ -155,7 +142,6 @@ namespace youtube_dl_gui {
 
                         #region 412 Precondition failed
                         case 412:
-                            
                             ExceptionDisplay.CustomDescription = "A WebException occured at " + WebsiteAddress +
                                 "\n\nThe address returned 412 - Precondition failed" +
                                 "\nA condition set for this request failed, and the request cannot be carried out.";
@@ -164,7 +150,6 @@ namespace youtube_dl_gui {
 
                         #region 413 Request entity too large
                         case 413:
-                            
                             ExceptionDisplay.CustomDescription = "A WebException occured at " + WebsiteAddress +
                                 "\n\nThe address returned 413 - Request entity too large" +
                                 "\nThe request is too large for the server to process.";
@@ -173,7 +158,6 @@ namespace youtube_dl_gui {
 
                         #region 414 Request uri too long
                         case 414:
-                            
                             ExceptionDisplay.CustomDescription = "A WebException occured at " + WebsiteAddress +
                                 "\n\nThe address returned 414 - Request uri too long" +
                                 "\nThe uri is too long.";
@@ -182,7 +166,6 @@ namespace youtube_dl_gui {
 
                         #region 415 Unsupported media type
                         case 415:
-                            
                             ExceptionDisplay.CustomDescription = "A WebException occured at " + WebsiteAddress +
                                 "\n\nThe address returned 415 - Unsupported media type" +
                                 "\nThe request is an unsupported type.";
@@ -191,34 +174,30 @@ namespace youtube_dl_gui {
 
                         #region 416 Requested range not satisfiable
                         case 416:
-                            
                             ExceptionDisplay.CustomDescription = "A WebException occured at " + WebsiteAddress +
                                 "\n\nThe address returned 416 - Requested range not satisfiable" +
                                 "\nThe range of data requested from the resource cannot be returned.";
                         break;
                         #endregion
 
-                        #region 426 Upgrade required
-                        case 426:
-                            
-                            ExceptionDisplay.CustomDescription = "A WebException occured at " + WebsiteAddress +
-                                "\n\nThe address returned 426 - Upgrade required" +
-                                "\nNo information is available about this error code.";
-                        break;
-                        #endregion
-
                         #region 417 Expectation failed
                         case 417:
-                            
                             ExceptionDisplay.CustomDescription = "A WebException occured at " + WebsiteAddress +
                                 "\n\nThe address returned 417 - Expectation failed" +
                                 "\nAn expectation given in an Expect header could not be met by the server.";
                         break;
                         #endregion
 
+                        #region 426 Upgrade required
+                        case 426:
+                            ExceptionDisplay.CustomDescription = "A WebException occured at " + WebsiteAddress +
+                                "\n\nThe address returned 426 - Upgrade required" +
+                                "\nNo information is available about this error code.";
+                        break;
+                        #endregion
+
                         #region 500 Internal server error
                         case 500:
-                            
                             ExceptionDisplay.CustomDescription = "A WebException occured at " + WebsiteAddress +
                                 "\n\nThe address returned 500 - Internal server error" +
                                 "\nAn error occured on the server.";
@@ -227,7 +206,6 @@ namespace youtube_dl_gui {
 
                         #region 501 Not implemented
                         case 501:
-                            
                             ExceptionDisplay.CustomDescription = "A WebException occured at " + WebsiteAddress +
                                 "\n\nThe address returned 501 - Not implemented" +
                                 "\nThe server does not support the requested function.";
@@ -236,7 +214,6 @@ namespace youtube_dl_gui {
 
                         #region 502 Bad gateway
                         case 502:
-                            
                             ExceptionDisplay.CustomDescription = "A WebException occured at " + WebsiteAddress +
                                 "\n\nThe address returned 502 - Bad gateway" +
                                 "\nThe proxy server recieved a bad response from another proxy or the origin server.";
@@ -245,7 +222,6 @@ namespace youtube_dl_gui {
 
                         #region 503  Service unavailable
                         case 503:
-                            
                             ExceptionDisplay.CustomDescription = "A WebException occured at " + WebsiteAddress +
                                 "\n\nThe address returned 503 - Service unavailable" +
                                 "\nThe server is temporarily unavailable, likely due to high load or maintenance.";
@@ -254,7 +230,6 @@ namespace youtube_dl_gui {
 
                         #region 504 Gateway timeout
                         case 504:
-                            
                             ExceptionDisplay.CustomDescription = "A WebException occured at " + WebsiteAddress +
                                 "\n\nThe address returned 504 - Gateway timeout" +
                                 "\nAn intermediate proxy server timed out while waiting for a response from another proxy or the origin server.";
@@ -263,7 +238,6 @@ namespace youtube_dl_gui {
 
                         #region 505 Http version not supported
                         case 505:
-                            
                             ExceptionDisplay.CustomDescription = "A WebException occured at " + WebsiteAddress +
                                 "\n\nThe address returned 505 - Http version not supported" +
                                 "\nThe requested HTTP version is not supported by the server.";

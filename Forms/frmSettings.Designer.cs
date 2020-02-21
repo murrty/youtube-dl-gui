@@ -501,9 +501,6 @@
             // chksettingsDownloadsUseYoutubeDlsUpdater
             // 
             this.chksettingsDownloadsUseYoutubeDlsUpdater.AutoSize = true;
-            this.chksettingsDownloadsUseYoutubeDlsUpdater.Checked = true;
-            this.chksettingsDownloadsUseYoutubeDlsUpdater.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chksettingsDownloadsUseYoutubeDlsUpdater.Enabled = false;
             this.chksettingsDownloadsUseYoutubeDlsUpdater.Location = new System.Drawing.Point(42, 193);
             this.chksettingsDownloadsUseYoutubeDlsUpdater.Name = "chksettingsDownloadsUseYoutubeDlsUpdater";
             this.chksettingsDownloadsUseYoutubeDlsUpdater.Size = new System.Drawing.Size(244, 17);
