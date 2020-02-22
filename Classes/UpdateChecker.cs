@@ -12,10 +12,28 @@ using System.Xml.Linq;
 
 namespace youtube_dl_gui {
     class UpdateChecker {
+        public class UpdateDebug {
+            public static void UpdateAvailable() {
+                bool OldGitUpdateAvailable = GitData.UpdateAvailable;
+                string[] UpdateArray = { GitData.UpdateName, GitData.UpdateBody, GitData.UpdateVersion };
+                GitData.UpdateAvailable = true;
+                GitData.UpdateName = "An update";
+                GitData.UpdateBody = "A new update is available. Not really.\nNew line escape sequence works! Use \\n\n\nhello world";
+                GitData.UpdateVersion = "1.0";
+                frmUpdateAvailable Update = new frmUpdateAvailable();
+                Update.ShowDialog();
+                Update.Dispose();
+                GitData.UpdateAvailable = OldGitUpdateAvailable;
+                GitData.UpdateName = UpdateArray[0];
+                GitData.UpdateBody = UpdateArray[1];
+                GitData.UpdateVersion = UpdateArray[2];
+            }
+        }
+
         public static GitData GitData = GitData.GetInstance();
 
         public static void CheckForUpdate(bool ForceCheck = false) {
-            if (Program.IsDebug) {
+            if (Program.IsDebug && !ForceCheck) {
                 Debug.Print("-version " + GitData.UpdateVersion + " -name " + System.AppDomain.CurrentDomain.FriendlyName);
             }
             else {
@@ -267,7 +285,20 @@ namespace youtube_dl_gui {
         }
         public static decimal GetGitVersion(int GitID) {
             try {
-                string xml = GetJSON(string.Format(GitData.GitLinks.GithubLatestJson, GitData.GitLinks.Users[GitID], GitData.GitLinks.ApplciationNames[GitID]));
+                string xml = null;
+                if (Program.IsDebug) {
+                    switch (GitID) {
+                        case 0:
+                            xml = GetJSON("http://localhost/youtube-dl-gui/latest.json");
+                            break;
+                        case 1:
+                            xml = GetJSON("http://localhost/youtube-dl/latest.json");
+                            break;
+                    }
+                }
+                else {
+                    xml = GetJSON(string.Format(GitData.GitLinks.GithubLatestJson, GitData.GitLinks.Users[GitID], GitData.GitLinks.ApplciationNames[GitID]));
+                }
                 if (xml == null)
                     return -1;
 
@@ -307,7 +338,6 @@ namespace youtube_dl_gui {
                 return false;
             }
         }
-
     }
 
     public class GitData {

@@ -1,15 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
 using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace youtube_dl_gui {
@@ -60,22 +54,18 @@ namespace youtube_dl_gui {
             InitializeComponent();
             LoadLanguage();
 
-            if (Program.IsDebug) {
-                lbDebug.Text = "debugging " + Properties.Settings.Default.debugDate;
-                lbDebug.Visible = true;
-                
-            }
-            else {
-                tcMain.TabPages.RemoveAt(2);
-                lbDebug.Visible = false;
-            }
-
             ytDlAvailable = Verification.ytdlFullCheck();
             ffmpegAvailable = Verification.ffmpegFullCheck();
             trayIcon.ContextMenu = cmTray;
             if (Program.IsDebug) {
+                lbDebug.Text = "debugging " + Properties.Settings.Default.debugDate;
+                lbDebug.Visible = true;
                 trayIcon.Visible = false;
                 trayIcon.Dispose();
+            }
+            else {
+                tcMain.TabPages.RemoveAt(2);
+                lbDebug.Visible = false;
             }
         }
 
@@ -845,6 +835,14 @@ namespace youtube_dl_gui {
 
         private void btnDebugListActiveDownloads_Click(object sender, EventArgs e) {
 
+        }
+
+        private void btnDebugForceUpdateCheck_Click(object sender, EventArgs e) {
+            UpdateChecker.CheckForUpdate(true);
+        }
+
+        private void btnDebugForceAvailableUpdate_Click(object sender, EventArgs e) {
+            UpdateChecker.UpdateDebug.UpdateAvailable();
         }
 
     }

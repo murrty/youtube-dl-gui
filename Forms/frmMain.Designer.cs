@@ -104,12 +104,15 @@
             this.trayIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.tmrConvertLabel = new System.Windows.Forms.Timer(this.components);
             this.tmrDownloadLabel = new System.Windows.Forms.Timer(this.components);
+            this.btnDebugForceUpdateCheck = new System.Windows.Forms.Button();
             this.sbDownload = new youtube_dl_gui.SplitButton();
+            this.btnDebugForceAvailableUpdate = new System.Windows.Forms.Button();
             this.tcMain.SuspendLayout();
             this.tabDownload.SuspendLayout();
             this.gbDownloadType.SuspendLayout();
             this.tabConvert.SuspendLayout();
             this.tabMerge.SuspendLayout();
+            this.tabDebug.SuspendLayout();
             this.SuspendLayout();
             // 
             // txtUrl
@@ -315,7 +318,7 @@
             this.tabConvert.Location = new System.Drawing.Point(4, 22);
             this.tabConvert.Name = "tabConvert";
             this.tabConvert.Padding = new System.Windows.Forms.Padding(3);
-            this.tabConvert.Size = new System.Drawing.Size(244, 203);
+            this.tabConvert.Size = new System.Drawing.Size(244, 244);
             this.tabConvert.TabIndex = 1;
             this.tabConvert.Text = "tabConvert";
             this.tabConvert.UseVisualStyleBackColor = true;
@@ -368,7 +371,7 @@
             // 
             this.lbConvertStatus.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.lbConvertStatus.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbConvertStatus.Location = new System.Drawing.Point(3, 178);
+            this.lbConvertStatus.Location = new System.Drawing.Point(3, 219);
             this.lbConvertStatus.Name = "lbConvertStatus";
             this.lbConvertStatus.Size = new System.Drawing.Size(238, 22);
             this.lbConvertStatus.TabIndex = 16;
@@ -474,7 +477,7 @@
             this.tabMerge.Location = new System.Drawing.Point(4, 22);
             this.tabMerge.Name = "tabMerge";
             this.tabMerge.Padding = new System.Windows.Forms.Padding(3);
-            this.tabMerge.Size = new System.Drawing.Size(244, 203);
+            this.tabMerge.Size = new System.Drawing.Size(244, 244);
             this.tabMerge.TabIndex = 2;
             this.tabMerge.Text = "tabMerge";
             this.tabMerge.UseVisualStyleBackColor = true;
@@ -603,6 +606,8 @@
             // 
             // tabDebug
             // 
+            this.tabDebug.Controls.Add(this.btnDebugForceAvailableUpdate);
+            this.tabDebug.Controls.Add(this.btnDebugForceUpdateCheck);
             this.tabDebug.Location = new System.Drawing.Point(4, 22);
             this.tabDebug.Name = "tabDebug";
             this.tabDebug.Padding = new System.Windows.Forms.Padding(3);
@@ -843,6 +848,16 @@
             this.tmrDownloadLabel.Interval = 5000;
             this.tmrDownloadLabel.Tick += new System.EventHandler(this.tmrDownloadLabel_Tick);
             // 
+            // btnDebugForceUpdateCheck
+            // 
+            this.btnDebugForceUpdateCheck.Location = new System.Drawing.Point(8, 6);
+            this.btnDebugForceUpdateCheck.Name = "btnDebugForceUpdateCheck";
+            this.btnDebugForceUpdateCheck.Size = new System.Drawing.Size(123, 24);
+            this.btnDebugForceUpdateCheck.TabIndex = 0;
+            this.btnDebugForceUpdateCheck.Text = "Force update check";
+            this.btnDebugForceUpdateCheck.UseVisualStyleBackColor = true;
+            this.btnDebugForceUpdateCheck.Click += new System.EventHandler(this.btnDebugForceUpdateCheck_Click);
+            // 
             // sbDownload
             // 
             this.sbDownload.DropDownContextMenu = this.cmDownload;
@@ -854,6 +869,16 @@
             this.sbDownload.Text = "sbDownload";
             this.sbDownload.UseVisualStyleBackColor = true;
             this.sbDownload.Click += new System.EventHandler(this.sbDownload_Click);
+            // 
+            // btnDebugForceAvailableUpdate
+            // 
+            this.btnDebugForceAvailableUpdate.Location = new System.Drawing.Point(8, 36);
+            this.btnDebugForceAvailableUpdate.Name = "btnDebugForceAvailableUpdate";
+            this.btnDebugForceAvailableUpdate.Size = new System.Drawing.Size(123, 24);
+            this.btnDebugForceAvailableUpdate.TabIndex = 1;
+            this.btnDebugForceAvailableUpdate.Text = "Force update available";
+            this.btnDebugForceAvailableUpdate.UseVisualStyleBackColor = true;
+            this.btnDebugForceAvailableUpdate.Click += new System.EventHandler(this.btnDebugForceAvailableUpdate_Click);
             // 
             // frmMain
             // 
@@ -882,6 +907,7 @@
             this.tabConvert.PerformLayout();
             this.tabMerge.ResumeLayout(false);
             this.tabMerge.PerformLayout();
+            this.tabDebug.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -967,6 +993,8 @@
         private System.Windows.Forms.MenuItem mBatchDownloadFromFile;
         private System.Windows.Forms.MenuItem mLanguage;
         private System.Windows.Forms.TabPage tabDebug;
+        private System.Windows.Forms.Button btnDebugForceUpdateCheck;
+        private System.Windows.Forms.Button btnDebugForceAvailableUpdate;
     }
 }
 
