@@ -250,6 +250,7 @@
             this.chkSettingsGeneralUseStaticYoutubeDl.Text = "chkSettingsGeneralUseStaticYoutubeDl";
             this.tipSettings.SetToolTip(this.chkSettingsGeneralUseStaticYoutubeDl, "chkSettingsGeneralUseStaticYoutubeDl");
             this.chkSettingsGeneralUseStaticYoutubeDl.UseVisualStyleBackColor = true;
+            this.chkSettingsGeneralUseStaticYoutubeDl.CheckedChanged += new System.EventHandler(this.chkSettingsGeneralUseStaticYoutubeDl_CheckedChanged);
             // 
             // chkSettingsGeneralUseStaticFFmpeg
             // 
@@ -261,6 +262,7 @@
             this.chkSettingsGeneralUseStaticFFmpeg.Text = "chkSettingsGeneralUseStaticFFmpeg";
             this.tipSettings.SetToolTip(this.chkSettingsGeneralUseStaticFFmpeg, "chkSettingsGeneralUseStaticFFmpeg");
             this.chkSettingsGeneralUseStaticFFmpeg.UseVisualStyleBackColor = true;
+            this.chkSettingsGeneralUseStaticFFmpeg.CheckedChanged += new System.EventHandler(this.chkSettingsGeneralUseStaticFFmpeg_CheckedChanged);
             // 
             // txtSettingsGeneralFFmpegPath
             // 

@@ -284,7 +284,7 @@ namespace youtube_dl_gui {
             downloadSubtitles.Dispose();
         }
         private void mMiscTools_Click(object sender, EventArgs e) {
-            frmTools tools = new frmTools();
+            frmMiscTools tools = new frmMiscTools();
             tools.Show();
         }
 

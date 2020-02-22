@@ -333,6 +333,12 @@ namespace youtube_dl_gui {
         }
 
         #region General
+        private void chkSettingsGeneralUseStaticYoutubeDl_CheckedChanged(object sender, EventArgs e) {
+            General.Default.useStaticYtdl = chkSettingsGeneralUseStaticYoutubeDl.Checked;
+        }
+        private void chkSettingsGeneralUseStaticFFmpeg_CheckedChanged(object sender, EventArgs e) {
+            General.Default.useStaticFFmpeg = chkSettingsGeneralUseStaticFFmpeg.Checked;
+        }
         private void btnSettingsGeneralBrowseYoutubeDl_Click(object sender, EventArgs e) {
             using (SaveFileDialog sfd = new SaveFileDialog()) {
                 sfd.Title = "Select youtube-dl.exe";

@@ -145,7 +145,7 @@ namespace youtube_dl_gui {
                             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
                             wc.Headers.Add("User-Agent: " + Program.UserAgent);
                             try {
-                                wc.DownloadFile(string.Format(GitData.GitLinks.ApplicationDownloadUrl, GitData.GitLinks.Users[1], GitData.GitLinks.ApplciationNames[1], GitData.YoutubeDlVersion), General.Default.ytdlPath);
+                                wc.DownloadFile(string.Format(GitData.GitLinks.ApplicationDownloadUrl, GitData.GitLinks.Users[1], GitData.GitLinks.ApplciationNames[1], GitData.YoutubeDlVersion), Environment.CurrentDirectory + "\\youtube-dl.exe");
                                 if (GitData.YoutubeDlVersion != Properties.Settings.Default.YoutubeDlVersion) {
                                     Properties.Settings.Default.YoutubeDlVersion = GitData.YoutubeDlVersion;
                                     Properties.Settings.Default.Save();
@@ -192,10 +192,6 @@ namespace youtube_dl_gui {
             if (!Properties.Settings.Default.jsonSupport)
                 return null;
 
-            if (Program.IsDebug) {
-                url = "http://localhost/latest.json";
-            }
-
             try {
                 using (WebClient wc = new WebClient()) {
                     ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
@@ -226,7 +222,7 @@ namespace youtube_dl_gui {
         public static string GetGitVersionString(int GitID) {
             try {
                 string xml = null;
-                if (Program.IsDebug) {
+                if (!Program.IsDebug) {
                     switch (GitID) {
                         case 0:
                             xml = GetJSON("http://localhost/youtube-dl-gui/latest.json");
