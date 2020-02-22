@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace youtube_dl_gui {
@@ -17,8 +15,9 @@ namespace youtube_dl_gui {
                                                            "Audio Video Interleave (*.AVI)|*.avi|" +
                                                            "Flash Video (*.FLV)|*.flv|" +
                                                            "Matroska Video (*.MKV)|*.mkv|" +
+                                                           "Ogg Vorbis (*.OGV, *.OGX)|*.ogv;*.ogx|" +
                                                            "QuickTime Movie (*.MOV)|*.mov|" +
-                                                           "MPEG-4 Part 14 (*.MP4)|*.mp4|" +
+                                                           "MPEG-4 Part 14 (*.M4A, *.MP4)|*.m4v;*.mp4|" +
                                                            "WebM (*.WEBM)|*.webm|" +
                                                            "Windows Media Video (*.WMV)|*.wmv";
 
@@ -28,9 +27,9 @@ namespace youtube_dl_gui {
         public static readonly string audioFormatsFilter = "All File Formats (*.*)|*.*|" +
                                                            "Advanced Audio Codec (*.AAC)|*.aac|" +
                                                            "Free Lossless Audio Codec (*.FLAC)|*.flac|" +
-                                                           "MPEG-4 Audio (*.M4A)|*.m4a|" +
-                                                           "MPEG-2 AudioLayer 3 (*.MP3)|*.mp3|" +
-                                                           "Ogg Vorbis (*.OGG)|*.ogg|" +
+                                                           "MPEG-4 Audio (*.M4A, *.MP4)|*.m4a;*.mp4|" +
+                                                           "MPEG-1 AudioLayer III (*.MP3)|*.mp3|" +
+                                                           "Ogg Vorbis (*.OGA, *.OGG)|*.oga;*.ogg|" +
                                                            "Opus (*.OPUS)|*.opus|" +
                                                            "Waveform Audio (*.WAV)|*.wav";
 
@@ -45,9 +44,10 @@ namespace youtube_dl_gui {
                                                          "MPEG-4 Audio (*.M4A)|*.m4a|" +
                                                          "Matroska Video (*.MKV)|*.mkv|" +
                                                          "QuickTime Movie (*.MOV)|*.mov|" +
-                                                         "MPEG-2 AudioLayer 3 (*.MP3)|*.mp3|" +
+                                                         "MPEG-1 AudioLayer III (*.MP3)|*.mp3|" +
                                                          "MPEG-4 Part 14 (*.MP4)|*.mp4|" +
-                                                         "Ogg Vorbis (*.OGG)|*.ogg|" +
+                                                         "Ogg Vorbis Audio (*.OGA, *.OGG)|*.oga;*.ogg|" +
+                                                         "Ogg Vorbis Video (*.OGV, *.OGX)|*.ogv;*.ogx|" +
                                                          "Opus (*.OPUS)|*.opus|" +
                                                          "Waveform Audio (*.WAV)|*.wav|" +
                                                          "WebM (*.WEBM)|*.webm|" +
@@ -56,15 +56,17 @@ namespace youtube_dl_gui {
         /// <summary>
         /// All built-in video formats in a single filter
         /// </summary>
-        public static readonly string allVideoFormats = "All Video Formats|*.avi;*.flv;*.mkv;*.mov;*.mp4;*.webm;*.wmv";
+        public static readonly string allVideoFormats = "All Video Formats|" + "*.avi;*.flv;*.mkv;*.mov;*.ogv;*.ogx;*.m4a;*.mp4;*.webm;*.wmv";
         /// <summary>
         /// All built-in audio formats in a single filter
         /// </summary>
-        public static readonly string allAudioFormats = "All Audio Formats|*.aac;*.flac;*.m4a;*.mp3;*.opus;*.ogg;*.wav";
+        public static readonly string allAudioFormats = "All Audio Formats|" +
+            "*.aac;*.flac;*.m4a;*.mp4;*.mp3;*.opus;*.oga;*.ogg;*.wav";
         /// <summary>
         /// All built-in audio and video formats in a single filter
         /// </summary>
-        public static readonly string allMediaFormats = "All Media Formats|*.aac;*.avi;*.flac;*.flv;*.m4a;*.mkv;*.mov;*.mp3;*.mp4;*.ogg;*.opus;*.wav;*.webm;*.wmv";
+        public static readonly string allMediaFormats = "All Media Formats|" +
+            "*.aac;*.avi;*.flac;*.flv;*.m4a;*.mkv;*.mov;*.mp3;*.mp4;*.ogg;*.opus;*.wav;*.webm;*.wmv";
 
         /// <summary>
         /// Temporary array of video qualities. Not used, just for reference.
@@ -225,7 +227,7 @@ namespace youtube_dl_gui {
                 return true;
             }
             catch (Exception ex) {
-                ErrorLog.reportError(ex);
+                ErrorLog.ReportException(ex);
                 return false;
             }
         }
@@ -305,7 +307,7 @@ namespace youtube_dl_gui {
                 return true;
             }
             catch (Exception ex) {
-                ErrorLog.reportError(ex);
+                ErrorLog.ReportException(ex);
                 return false;
             }
         }
