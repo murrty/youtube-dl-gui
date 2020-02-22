@@ -30,7 +30,6 @@
             this.miscTips = new System.Windows.Forms.ToolTip(this.components);
             this.btnMiscToolsExtractAudio = new System.Windows.Forms.Button();
             this.btnMiscToolsVideoToGif = new System.Windows.Forms.Button();
-            this.btnMiscToolsHiddenAttribute = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnMiscToolsRemoveAudio
@@ -72,23 +71,12 @@
             this.btnMiscToolsVideoToGif.UseVisualStyleBackColor = true;
             this.btnMiscToolsVideoToGif.Click += new System.EventHandler(this.btnMiscToolsVideoToGif_Click);
             // 
-            // btnMiscToolsHiddenAttribute
-            // 
-            this.btnMiscToolsHiddenAttribute.Location = new System.Drawing.Point(132, 52);
-            this.btnMiscToolsHiddenAttribute.Name = "btnMiscToolsHiddenAttribute";
-            this.btnMiscToolsHiddenAttribute.Size = new System.Drawing.Size(102, 26);
-            this.btnMiscToolsHiddenAttribute.TabIndex = 3;
-            this.btnMiscToolsHiddenAttribute.Text = "btnMiscToolsHiddenAttribute";
-            this.btnMiscToolsHiddenAttribute.UseVisualStyleBackColor = true;
-            this.btnMiscToolsHiddenAttribute.Click += new System.EventHandler(this.btnMiscToolsHiddenAttribute_Click);
-            // 
             // frmMiscTools
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(252, 160);
-            this.Controls.Add(this.btnMiscToolsHiddenAttribute);
             this.Controls.Add(this.btnMiscToolsVideoToGif);
             this.Controls.Add(this.btnMiscToolsExtractAudio);
             this.Controls.Add(this.btnMiscToolsRemoveAudio);
@@ -111,6 +99,5 @@
         private System.Windows.Forms.ToolTip miscTips;
         private System.Windows.Forms.Button btnMiscToolsExtractAudio;
         private System.Windows.Forms.Button btnMiscToolsVideoToGif;
-        private System.Windows.Forms.Button btnMiscToolsHiddenAttribute;
     }
 }

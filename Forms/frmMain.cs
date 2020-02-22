@@ -36,10 +36,7 @@ namespace youtube_dl_gui {
                                   "128k",
                                   "96k",
                                   "64k" };
-        List<Thread> BatchDownloads = new List<Thread>();   // List of batch download threads
-        List<int> BatchCount = new List<int>();             // Int list of positions of the batch download threads
         Language lang = Language.GetInstance();
-
 
         [DllImport("user32.dll", CharSet = CharSet.Unicode)]
         private static extern IntPtr SendMessage(IntPtr hWnd, int msg, IntPtr wp, string lp);
@@ -135,11 +132,6 @@ namespace youtube_dl_gui {
 
         }
         private void frmMain_FormClosing(object sender, FormClosingEventArgs e) {
-            if (BatchDownloads.Count > 0) {
-                if (MessageBox.Show("A batch job is in progress. Really exit?", "youtube-dl-gui", MessageBoxButtons.YesNoCancel) == System.Windows.Forms.DialogResult.No) {
-                    e.Cancel = true;
-                }
-            }
             if (this.Location.X == 0 || this.Location.Y == 0) {
                 Saved.Default.formTrue0 = true;
             }
@@ -180,11 +172,6 @@ namespace youtube_dl_gui {
             Saved.Default.formLocationY = this.Location.Y;
 
             Saved.Default.Save();
-            if (BatchDownloads.Count > 0) {
-                for (int i = 0; i < BatchDownloads.Count; i++) {
-                    BatchDownloads[i].Abort();
-                }
-            }
             trayIcon.Visible = false;
         }
 
@@ -316,23 +303,44 @@ namespace youtube_dl_gui {
         }
 
         private void cmTrayDownloadBestVideo_Click(object sender, EventArgs e) {
-            Download.startDownload(Clipboard.GetText(), 0, Saved.Default.videoQuality, string.Empty);
+            if (!Clipboard.ContainsText()) { return; }
+            frmDownloader Downloader = new frmDownloader();
+            Downloader.DownloadPath = Downloads.Default.downloadPath;
+            Downloader.DownloadQuality = Saved.Default.videoQuality;
+            Downloader.DownloadType = 0;
+            Downloader.DownloadUrl = Clipboard.GetText();
+            Downloader.Show();
         }
 
         private void cmTrayDownloadBestAudio_Click(object sender, EventArgs e) {
-            Download.startDownload(Clipboard.GetText(), 1, Saved.Default.audioQuality, string.Empty);
+            frmDownloader Downloader = new frmDownloader();
+            Downloader.DownloadPath = Downloads.Default.downloadPath;
+            Downloader.DownloadQuality = Saved.Default.audioQuality;
+            Downloader.DownloadType = 1;
+            Downloader.DownloadUrl = Clipboard.GetText();
+            Downloader.Show();
         }
 
         private void cmTrayDownloadCustomTxtBox_Click(object sender, EventArgs e) {
+            if (!Clipboard.ContainsText()) { return; }
+
             if (string.IsNullOrEmpty(txtArgs.Text)) {
                 MessageBox.Show("No arguments are currently in memory. Enter in custom arguments in the arguments text box on the main form.");
                 return;
             }
             else {
-                Download.startDownload(Clipboard.GetText(), 2, -1, txtArgs.Text);
+                frmDownloader Downloader = new frmDownloader();
+                Downloader.DownloadArguments = txtArgs.Text;
+                Downloader.DownloadPath = Downloads.Default.downloadPath;
+                Downloader.DownloadQuality = -1;
+                Downloader.DownloadType = 2;
+                Downloader.DownloadUrl = Clipboard.GetText();
+                Downloader.Show();
             }
         }
         private void cmTrayDownloadCustomTxt_Click(object sender, EventArgs e) {
+            if (!Clipboard.ContainsText()) { return; }
+
             if (!System.IO.File.Exists(Environment.CurrentDirectory + "\\args.txt")) {
                 MessageBox.Show("args.txt does not exist, create it and put in arguments to use this command");
                 return;
@@ -342,17 +350,30 @@ namespace youtube_dl_gui {
                 return;
             }
             else {
-                Download.startDownload(Clipboard.GetText(), 2, -1, System.IO.File.ReadAllText(Environment.CurrentDirectory + "\\args.txt"));
+                frmDownloader Downloader = new frmDownloader();
+                Downloader.DownloadArguments = System.IO.File.ReadAllText(Environment.CurrentDirectory + "\\args.txt");
+                Downloader.DownloadPath = Downloads.Default.downloadPath;
+                Downloader.DownloadQuality = -1;
+                Downloader.DownloadType = 2;
+                Downloader.DownloadUrl = Clipboard.GetText();
+                Downloader.Show();
             }
         }
         private void cmTrayDownloadCustomSettings_Click(object sender, EventArgs e) {
+            if (!Clipboard.ContainsText()) { return; }
             if (string.IsNullOrEmpty(Saved.Default.downloadArgs)) {
                 MessageBox.Show("No arguments are saved in the application settings, save arguments to the settings to use this command");
                 return;
             }
             else
             {
-                Download.startDownload(Clipboard.GetText(), 2, -1, Saved.Default.downloadArgs);
+                frmDownloader Downloader = new frmDownloader();
+                Downloader.DownloadArguments = Saved.Default.downloadArgs;
+                Downloader.DownloadPath = Downloads.Default.downloadPath;
+                Downloader.DownloadQuality = -1;
+                Downloader.DownloadType = 2;
+                Downloader.DownloadUrl = Clipboard.GetText();
+                Downloader.Show();
             }
         }
 
@@ -426,74 +447,54 @@ namespace youtube_dl_gui {
         }
 
         private void sbDownload_Click(object sender, EventArgs e) {
+            if (string.IsNullOrEmpty(txtUrl.Text)) { return; }
+            frmDownloader Downloader = new frmDownloader();
+
             if (rbVideo.Checked) {
                 string videoArguments = string.Empty;
                 if (!chkDownloadSound.Checked) {
                     videoArguments += "-nosound";
                 }
 
+                Downloader.DownloadPath = Downloads.Default.downloadPath;
+                Downloader.DownloadQuality = cbQuality.SelectedIndex;
+                Downloader.DownloadType = 0;
+                Downloader.DownloadUrl = txtUrl.Text;
+                Downloader.DownloadArguments = videoArguments;
+                Downloader.Show();
                 Saved.Default.downloadType = 0;
-                if (Download.startDownload(txtUrl.Text, 0, cbQuality.SelectedIndex, videoArguments)) {
-                    if (General.Default.clearURL) {
-                        txtUrl.Clear();
-                        Clipboard.Clear();
-                    }
-                    lbDownloadStatus.Text = "Download started";
-                    tmrDownloadLabel.Enabled = true;
-                }
-                else {
-                    lbDownloadStatus.Text = "Error downloading";
-                    tmrDownloadLabel.Enabled = true;
-                }
                 Saved.Default.videoQuality = cbQuality.SelectedIndex;
             }
             else if (rbAudio.Checked) {
+                Downloader.DownloadPath = Downloads.Default.downloadPath;
+                Downloader.DownloadQuality = cbQuality.SelectedIndex;
+                Downloader.DownloadType = 1;
+                Downloader.DownloadUrl = txtUrl.Text;
+                Downloader.Show();
                 Saved.Default.downloadType = 1;
-
-                if (Download.startDownload(txtUrl.Text, 1, cbQuality.SelectedIndex, string.Empty)) {
-                    if (General.Default.clearURL) {
-                        txtUrl.Clear();
-                        Clipboard.Clear();
-                    }
-                    lbDownloadStatus.Text = "Download started";
-                    tmrDownloadLabel.Enabled = true;
-                }
-                else {
-                    lbDownloadStatus.Text = "Error downloading";
-                    tmrDownloadLabel.Enabled = true;
-                }
                 Saved.Default.audioQuality = cbQuality.SelectedIndex;
             }
             else if (rbCustom.Checked) {
                 Saved.Default.downloadType = 2;
 
-                if (Download.startDownload(txtUrl.Text, 2, -1, txtArgs.Text)) {
-                    if (General.Default.clearURL) {
-                        txtUrl.Clear();
-                        Clipboard.Clear();
-                    }
-
-                    lbDownloadStatus.Text = "Download started";
-                    tmrDownloadLabel.Enabled = true;
-                }
-                else {
-                    lbDownloadStatus.Text = "Error downloading";
-                    tmrDownloadLabel.Enabled = true;
-                }
+                Downloader.DownloadArguments = txtArgs.Text;
+                Downloader.DownloadPath = Downloads.Default.downloadPath;
+                Downloader.DownloadQuality = -1;
+                Downloader.DownloadType = 2;
+                Downloader.DownloadUrl = txtUrl.Text;
+                Downloader.Show();
             }
             else {
-                if (Download.startDownload(txtUrl.Text, 0, -1, string.Empty)) {
-                    if (General.Default.clearURL) {
-                        txtUrl.Clear();
-                        Clipboard.Clear();
-                    }
-                    lbDownloadStatus.Text = "Download started";
-                    tmrDownloadLabel.Enabled = true;
-                }
-                else {
-                    lbDownloadStatus.Text = "Error downloading";
-                    tmrDownloadLabel.Enabled = true;
-                }
+                Downloader.DownloadPath = Downloads.Default.downloadPath;
+                Downloader.DownloadQuality = 0;
+                Downloader.DownloadType = 0;
+                Downloader.DownloadUrl = txtUrl.Text;
+                Downloader.Show();
+            }
+
+            if (General.Default.clearURL) {
+                txtUrl.Clear();
+                Clipboard.Clear();
             }
 
             Saved.Default.Save();
@@ -517,19 +518,63 @@ namespace youtube_dl_gui {
             }
             MessageBox.Show("Batch download will now begin. It may take some time.\nyoutube-dl-gui will reappear when it's finished.");
 
-            if (System.IO.File.Exists(TextFile)) {
-                string[] ReadFile = System.IO.File.ReadAllLines(TextFile);
-                for (int i = 0; i < ReadFile.Length; i++) {
-                    if (rbVideo.Checked) {
-                        string videoArguments = string.Empty;
-                        if (!chkDownloadSound.Checked) { videoArguments += "-nosound"; }
-                        if (Download.startDownload(ReadFile[i], 0, cbQuality.SelectedIndex, videoArguments, true)) { }
+            Thread BatchThread = new Thread(() => {
+                string videoArguments = string.Empty;
+                int DownloadType = 0;
+                int BatchQuality = 0;
+
+                this.BeginInvoke(new MethodInvoker(() => {
+                    if (!chkDownloadSound.Checked) { videoArguments += "-nosound"; }
+                    BatchQuality = cbQuality.SelectedIndex;
+                    if (rbVideo.Checked) { DownloadType = 0; }
+                    else if (rbAudio.Checked) { DownloadType = 1; }
+                    else if (rbCustom.Checked) { DownloadType = 2; }
+                    else { DownloadType = 3; }
+                }));
+
+                if (System.IO.File.Exists(TextFile)) {
+                    string[] ReadFile = System.IO.File.ReadAllLines(TextFile);
+                    if (ReadFile.Length == 0) {
+                        return;
                     }
-                    else if (rbAudio.Checked) { if (Download.startDownload(ReadFile[i], 1, cbQuality.SelectedIndex, string.Empty, true)) { } }
-                    else if (rbCustom.Checked) { if (Download.startDownload(ReadFile[i], 2, -1, txtArgs.Text, true)) { } }
-                    else { if (Download.startDownload(ReadFile[i], 0, -1, string.Empty, true)) { } }
+                    for (int i = 0; i < ReadFile.Length; i++) {
+                        frmDownloader Downloader = new frmDownloader();
+                        switch (DownloadType) {
+                            case 0:
+                                Downloader.DownloadArguments = videoArguments;
+                                Downloader.DownloadPath = Downloads.Default.downloadPath;
+                                Downloader.DownloadQuality = BatchQuality;
+                                Downloader.DownloadType = 0;
+                                Downloader.DownloadUrl = ReadFile[i].Trim(' ');
+                                Downloader.ShowDialog();
+                                break;
+                            case 1:
+                                Downloader.DownloadPath = Downloads.Default.downloadPath;
+                                Downloader.DownloadQuality = BatchQuality;
+                                Downloader.DownloadType = 1;
+                                Downloader.DownloadUrl = ReadFile[i].Trim(' ');
+                                Downloader.ShowDialog();
+                                break;
+                            case 2:
+                                Downloader.DownloadArguments = txtArgs.Text;
+                                Downloader.DownloadPath = Downloads.Default.downloadPath;
+                                Downloader.DownloadQuality = 0;
+                                Downloader.DownloadType = 2;
+                                Downloader.DownloadUrl = ReadFile[i].Trim(' ');
+                                Downloader.ShowDialog();
+                                break;
+                            case 3:
+                                Downloader.DownloadPath = Downloads.Default.downloadPath;
+                                Downloader.DownloadQuality = 0;
+                                Downloader.DownloadType = 0;
+                                Downloader.DownloadUrl = ReadFile[i].Trim(' ');
+                                Downloader.ShowDialog();
+                                break;
+                        }
+                    }
                 }
-            }
+            });
+            BatchThread.Start();
         }
         #endregion
 
@@ -797,6 +842,10 @@ namespace youtube_dl_gui {
             Convert.mergeFiles(txtMergeInput1.Text, txtMergeInput2.Text, txtMergeOutput.Text, chkMergeAudioTracks.Checked, chkMergeDeleteInputFiles.Checked);
         }
         #endregion
+
+        private void btnDebugListActiveDownloads_Click(object sender, EventArgs e) {
+
+        }
 
     }
 }

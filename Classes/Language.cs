@@ -14,7 +14,7 @@ namespace youtube_dl_gui {
         private static volatile string CurrentLanguageVersionString = "1";
         #endregion
 
-        #region frmBatch
+        #region frmBatchDownload
         private static volatile string frmBatchDownloadString = "frmBatchDownload";
         private static volatile string lbBatchDownloadLinkString = "lbBatchDownloadLink";
         private static volatile string lbBatchDownloadTypeString = "lbBatchDownloadType";
@@ -22,6 +22,15 @@ namespace youtube_dl_gui {
         private static volatile string btnBatchDownloadAddString = "btnBatchDownloadAdd";
         private static volatile string btnBatchDownloadRemoveSelectedString = "btnBatchDownloadRemoveSelected";
         private static volatile string btnBatchDownloadStartString = "btnBatchDownloadStart";
+        #endregion
+
+        #region frmDownloader
+        private static volatile string frmDownloaderString = "frmDownloader";
+        private static volatile string frmDownloaderCompleteString = "frmDownloaderComplete";
+        private static volatile string frmDownloaderErrorString = "frmDownloaderError";
+        private static volatile string chkDownloaderCloseAfterDownloadString = "chkDownloaderCloseAfterDownload";
+        private static volatile string btnDownloaderCancelString = "btnDownloaderCancelExit";
+        private static volatile string btnDownloaderExitString = "btnDownloaderCancelExit";
         #endregion
 
         #region frmException
@@ -32,13 +41,6 @@ namespace youtube_dl_gui {
         private static volatile string rtbExceptionDetailsString = "rtbExceptionDetails";
         private static volatile string btnExceptionGithubString = "btnExceptionGithub";
         private static volatile string btnExceptionOkString = "btnExceptionOk";
-        #endregion
-
-        #region frmLanguage
-        private static volatile string frmLanguageString = "frmLanguage";
-        private static volatile string btnLanguageRefreshString = "btnLanguageRefresh";
-        private static volatile string btnLanguageCancelString = "btnLanguageCancel";
-        private static volatile string btnLanguageSaveString = "btnLanguageSave";
         #endregion
 
         #region frmMain
@@ -107,6 +109,13 @@ namespace youtube_dl_gui {
         private static volatile string cmTrayConvertAutomaticString = "cmTrayConvertAutomatic";
         private static volatile string cmTrayConvertAutoFFmpegString = "cmTrayConvertAutoFFmpeg";
         private static volatile string cmTrayExitString = "cmTrayExit";
+        #endregion
+
+        #region frmLanguage
+        private static volatile string frmLanguageString = "frmLanguage";
+        private static volatile string btnLanguageRefreshString = "btnLanguageRefresh";
+        private static volatile string btnLanguageCancelString = "btnLanguageCancel";
+        private static volatile string btnLanguageSaveString = "btnLanguageSave";
         #endregion
 
         #region frmSettings
@@ -308,6 +317,34 @@ namespace youtube_dl_gui {
         public string btnBatchDownloadStart  {
             get { return btnBatchDownloadStartString; }
             private set { btnBatchDownloadStartString = value; }
+        }
+        #endregion
+
+//////////////// frmDownloader \\\\\\\\\\\\\\\\
+        #region frmDownloader
+        public string frmDownloader {
+            get { return frmDownloaderString; }
+            private set { frmDownloaderString = value; }
+        }
+        public string frmDownloaderComplete {
+            get { return frmDownloaderCompleteString; }
+            private set { frmDownloaderCompleteString = value; }
+        }
+        public string frmDownloaderError {
+            get { return frmDownloaderString; }
+            private set { frmDownloaderErrorString = value; }
+        }
+        public string chkDownloaderCloseAfterDownload {
+            get { return chkDownloaderCloseAfterDownloadString; }
+            private set { chkDownloaderCloseAfterDownloadString = value; }
+        }
+        public string btnDownloaderCancel {
+            get { return btnDownloaderCancelString; }
+            private set { btnDownloaderCancelString = value; }
+        }
+        public string btnDownloaderExit {
+            get { return btnDownloaderExitString; }
+            private set { btnDownloaderExitString = value; }
         }
         #endregion
 
@@ -1134,6 +1171,15 @@ namespace youtube_dl_gui {
             public static readonly string btnBatchDownloadStart = "Start";
             #endregion
 
+            #region frmDownloader
+            public static readonly string frmDownloader = "Downloading...";
+            public static readonly string frmDownloaderComplete = "Download finished";
+            public static readonly string frmDownloaderError = "Error downloading";
+            public static readonly string chkDownloaderCloseAfterDownload = "Close after download";
+            public static readonly string btnDownloaderCancel = "Cancel";
+            public static readonly string btnDownloaderExit = "Exit";
+            #endregion
+
             #region frmException
             // frmException
             public static readonly string frmException = "An exception occured";
@@ -1393,6 +1439,14 @@ namespace youtube_dl_gui {
             btnBatchDownloadRemoveSelected = InternalEnglish.btnBatchDownloadRemoveSelected;
             btnBatchDownloadStart = InternalEnglish.btnBatchDownloadStart;
 
+            // frmDownloader
+            frmDownloader = InternalEnglish.frmDownloader;
+            frmDownloaderComplete = InternalEnglish.frmDownloaderComplete;
+            frmDownloaderError = InternalEnglish.frmDownloaderError;
+            chkDownloaderCloseAfterDownload = InternalEnglish.chkDownloaderCloseAfterDownload;
+            btnDownloaderCancel = InternalEnglish.btnDownloaderCancel;
+            btnDownloaderExit = InternalEnglish.btnDownloaderExit;
+
             // frmException
             frmException = InternalEnglish.frmException;
             lbExceptionHeader = InternalEnglish.lbExceptionHeader;
@@ -1406,7 +1460,6 @@ namespace youtube_dl_gui {
             btnLanguageRefresh = InternalEnglish.btnLanguageRefresh;
             btnLanguageCancel = InternalEnglish.btnLanguageCancel;
             btnLanguageSave = InternalEnglish.btnLanguageSave;
-
 
             // frmMain
             mSettingsString = InternalEnglish.mSettings;
@@ -1702,6 +1755,33 @@ namespace youtube_dl_gui {
                             }
                             if (ReadControl == "btnbatchdownloadstart") {
                                 btnBatchDownloadStart = ReadValue;
+                                continue;
+                            }
+                            #endregion
+
+                            #region frmDownloader
+                            else if (ReadLine == "frmdownloader") {
+                                frmDownloader = ReadValue;
+                                continue;
+                            }
+                            else if (ReadLine == "frmdownloadercomplete") {
+                                frmDownloaderComplete = ReadValue;
+                                continue;
+                            }
+                            else if (ReadLine == "frmdownloadererror") {
+                                frmDownloaderError = ReadValue;
+                                continue;
+                            }
+                            else if (ReadLine == "chkdownloadercloseafterdownload") {
+                                chkDownloaderCloseAfterDownload = ReadValue;
+                                continue;
+                            }
+                            else if (ReadLine == "btndownloadercancel") {
+                                btnDownloaderCancel = ReadValue;
+                                continue;
+                            }
+                            else if (ReadLine == "btndownloaderexit") {
+                                btnDownloaderExit = ReadValue;
                                 continue;
                             }
                             #endregion

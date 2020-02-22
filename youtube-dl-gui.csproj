@@ -66,9 +66,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Classes\OpenFileOrFolderDialog.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Classes\Controller.cs" />
     <Compile Include="Classes\Convert.cs" />
     <Compile Include="Classes\Download.cs" />
@@ -147,6 +144,12 @@
     <Compile Include="Forms\frmUpdateAvailable.Designer.cs">
       <DependentUpon>frmUpdateAvailable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\frmDownloader.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmDownloader.Designer.cs">
+      <DependentUpon>frmDownloader.cs</DependentUpon>
+    </Compile>
     <Compile Include="General.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -191,6 +194,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmUpdateAvailable.resx">
       <DependentUpon>frmUpdateAvailable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmDownloader.resx">
+      <DependentUpon>frmDownloader.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

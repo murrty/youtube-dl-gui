@@ -69,6 +69,7 @@
             this.txtMergeInput1 = new System.Windows.Forms.TextBox();
             this.lbMergeInput2 = new System.Windows.Forms.Label();
             this.lbMergeInput1 = new System.Windows.Forms.Label();
+            this.tabDebug = new System.Windows.Forms.TabPage();
             this.menu = new System.Windows.Forms.MainMenu(this.components);
             this.mSettings = new System.Windows.Forms.MenuItem();
             this.mTools = new System.Windows.Forms.MenuItem();
@@ -135,6 +136,7 @@
             this.tcMain.Controls.Add(this.tabDownload);
             this.tcMain.Controls.Add(this.tabConvert);
             this.tcMain.Controls.Add(this.tabMerge);
+            this.tcMain.Controls.Add(this.tabDebug);
             this.tcMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tcMain.Location = new System.Drawing.Point(0, 0);
             this.tcMain.Name = "tcMain";
@@ -313,7 +315,7 @@
             this.tabConvert.Location = new System.Drawing.Point(4, 22);
             this.tabConvert.Name = "tabConvert";
             this.tabConvert.Padding = new System.Windows.Forms.Padding(3);
-            this.tabConvert.Size = new System.Drawing.Size(244, 244);
+            this.tabConvert.Size = new System.Drawing.Size(244, 203);
             this.tabConvert.TabIndex = 1;
             this.tabConvert.Text = "tabConvert";
             this.tabConvert.UseVisualStyleBackColor = true;
@@ -366,7 +368,7 @@
             // 
             this.lbConvertStatus.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.lbConvertStatus.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbConvertStatus.Location = new System.Drawing.Point(3, 219);
+            this.lbConvertStatus.Location = new System.Drawing.Point(3, 178);
             this.lbConvertStatus.Name = "lbConvertStatus";
             this.lbConvertStatus.Size = new System.Drawing.Size(238, 22);
             this.lbConvertStatus.TabIndex = 16;
@@ -472,7 +474,7 @@
             this.tabMerge.Location = new System.Drawing.Point(4, 22);
             this.tabMerge.Name = "tabMerge";
             this.tabMerge.Padding = new System.Windows.Forms.Padding(3);
-            this.tabMerge.Size = new System.Drawing.Size(244, 244);
+            this.tabMerge.Size = new System.Drawing.Size(244, 203);
             this.tabMerge.TabIndex = 2;
             this.tabMerge.Text = "tabMerge";
             this.tabMerge.UseVisualStyleBackColor = true;
@@ -598,6 +600,16 @@
             this.lbMergeInput1.Size = new System.Drawing.Size(75, 13);
             this.lbMergeInput1.TabIndex = 0;
             this.lbMergeInput1.Text = "lbMergeInput1";
+            // 
+            // tabDebug
+            // 
+            this.tabDebug.Location = new System.Drawing.Point(4, 22);
+            this.tabDebug.Name = "tabDebug";
+            this.tabDebug.Padding = new System.Windows.Forms.Padding(3);
+            this.tabDebug.Size = new System.Drawing.Size(244, 203);
+            this.tabDebug.TabIndex = 3;
+            this.tabDebug.Text = "Debug";
+            this.tabDebug.UseVisualStyleBackColor = true;
             // 
             // menu
             // 
@@ -954,6 +966,7 @@
         private System.Windows.Forms.ContextMenu cmDownload;
         private System.Windows.Forms.MenuItem mBatchDownloadFromFile;
         private System.Windows.Forms.MenuItem mLanguage;
+        private System.Windows.Forms.TabPage tabDebug;
     }
 }
 

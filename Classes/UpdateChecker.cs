@@ -222,7 +222,7 @@ namespace youtube_dl_gui {
         public static string GetGitVersionString(int GitID) {
             try {
                 string xml = null;
-                if (!Program.IsDebug) {
+                if (Program.IsDebug) {
                     switch (GitID) {
                         case 0:
                             xml = GetJSON("http://localhost/youtube-dl-gui/latest.json");

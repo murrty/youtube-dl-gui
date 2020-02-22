@@ -102,14 +102,5 @@ namespace youtube_dl_gui {
                 }
             }
         }
-
-        private void btnMiscToolsHiddenAttribute_Click(object sender, EventArgs e) {
-            using (OpenFileOrFolderDialog ofofd = new OpenFileOrFolderDialog()) {
-                ofofd.AcceptFiles = true;
-                if (ofofd.ShowDialog() == DialogResult.OK) {
-
-                }
-            }
-        }
     }
 }
