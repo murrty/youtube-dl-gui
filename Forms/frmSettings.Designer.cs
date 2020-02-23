@@ -25,7 +25,6 @@
         [System.Diagnostics.DebuggerStepThrough]
         private void InitializeComponent() {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmSettings));
             this.tcMain = new System.Windows.Forms.TabControl();
             this.tabSettingsGeneral = new System.Windows.Forms.TabPage();
             this.gbSettingsGeneralCustomArguments = new System.Windows.Forms.GroupBox();
@@ -1427,7 +1426,6 @@
             this.Controls.Add(this.btnSettingsCancel);
             this.Controls.Add(this.tcMain);
             this.Controls.Add(this.btnSettingsRedownloadYoutubeDl);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimumSize = new System.Drawing.Size(336, 416);
             this.Name = "frmSettings";

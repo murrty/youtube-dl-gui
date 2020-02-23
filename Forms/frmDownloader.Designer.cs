@@ -24,7 +24,6 @@
         /// </summary>
         private void InitializeComponent() {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmDownloader));
             this.btnDownloaderCancelExit = new System.Windows.Forms.Button();
             this.chkDownloaderCloseAfterDownloader = new System.Windows.Forms.CheckBox();
             this.rtbConsoleOutput = new System.Windows.Forms.RichTextBox();
@@ -81,7 +80,6 @@
             this.Controls.Add(this.chkDownloaderCloseAfterDownloader);
             this.Controls.Add(this.btnDownloaderCancelExit);
             this.Controls.Add(this.rtbConsoleOutput);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(420, 320);
             this.Name = "frmDownloader";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;

@@ -24,7 +24,6 @@
         /// </summary>
         [System.Diagnostics.DebuggerStepThrough]
         private void InitializeComponent() {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmException));
             this.lbExceptionHeader = new System.Windows.Forms.Label();
             this.lbExceptionDescription = new System.Windows.Forms.Label();
             this.rtbExceptionDetails = new System.Windows.Forms.RichTextBox();
@@ -103,7 +102,6 @@
             this.Controls.Add(this.rtbExceptionDetails);
             this.Controls.Add(this.lbExceptionDescription);
             this.Controls.Add(this.lbExceptionHeader);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmException";

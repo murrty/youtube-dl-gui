@@ -16,6 +16,7 @@ namespace youtube_dl_gui {
         public frmException() {
             InitializeComponent();
             loadLanguage();
+            this.Icon = Properties.Resources.youtube_dl_gui;
         }
 
         void loadLanguage() {

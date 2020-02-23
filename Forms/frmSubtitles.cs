@@ -7,6 +7,7 @@ namespace youtube_dl_gui {
         public frmSubtitles() {
             InitializeComponent();
             LoadLanguage();
+            this.Icon = Properties.Resources.youtube_dl_gui;
         }
 
         void LoadLanguage() {

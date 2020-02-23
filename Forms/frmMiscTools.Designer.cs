@@ -25,7 +25,6 @@
         [System.Diagnostics.DebuggerStepThrough]
         private void InitializeComponent() {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMiscTools));
             this.btnMiscToolsRemoveAudio = new System.Windows.Forms.Button();
             this.miscTips = new System.Windows.Forms.ToolTip(this.components);
             this.btnMiscToolsExtractAudio = new System.Windows.Forms.Button();
@@ -80,7 +79,6 @@
             this.Controls.Add(this.btnMiscToolsVideoToGif);
             this.Controls.Add(this.btnMiscToolsExtractAudio);
             this.Controls.Add(this.btnMiscToolsRemoveAudio);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(260, 190);
             this.MinimumSize = new System.Drawing.Size(260, 190);

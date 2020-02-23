@@ -30,15 +30,31 @@ namespace youtube_dl_gui {
             chkDownloaderCloseAfterDownloader.Text = lang.chkDownloaderCloseAfterDownload;
             btnDownloaderCancelExit.Text = lang.btnDownloaderCancel;
             chkDownloaderCloseAfterDownloader.Checked = Downloads.Default.CloseDownloaderAfterFinish;
+            this.Icon = Properties.Resources.youtube_dl_gui;
         }
         private void frmDownloader_Load(object sender, EventArgs e) { if (BatchDownload) { this.WindowState = FormWindowState.Minimized; } }
         private void frmDownloader_Shown(object sender, EventArgs e) { BeginDownload(); }
-        private void frmDownloader_FormClosing(object sender, FormClosingEventArgs e) { CloseForm(); }
+        private void frmDownloader_FormClosing(object sender, FormClosingEventArgs e) {
+            if (!DownloadFinished && !DownloadAborted & !DownloadErrored) {
+                CloseForm();
+            }
+        }
         private void btnDownloaderCancelExit_Click(object sender, EventArgs e) {
+            if (DownloadProcess == null) {
+                DownloadAborted = true;
+                CloseForm();
+                return;
+            }
             if (!DownloadProcess.HasExited) {
                 DownloadAborted = true;
+                DownloadProcess.Kill();
+                DownloadThread.Abort();
             }
-            CloseForm();
+
+
+            if (DownloadErrored) {
+
+            }
         }
 
         private void BeginDownload() {
@@ -230,13 +246,13 @@ namespace youtube_dl_gui {
 
                     DownloadProcess.OutputDataReceived += (s, e) => {
                         this.BeginInvoke(new MethodInvoker(() => {
-                            if (e.Data != null)
+                            if (e.Data != null && rtbConsoleOutput != null)
                                 rtbConsoleOutput.AppendText(e.Data + "\n");
                         }));
                     };
                     DownloadProcess.ErrorDataReceived += (s, e) => {
                         this.BeginInvoke(new MethodInvoker(() => {
-                            if (e.Data != null) {
+                            if (e.Data != null && rtbConsoleOutput != null) {
                                 rtbConsoleOutput.AppendText("Error:\n");
                                 rtbConsoleOutput.AppendText(e.Data + "\n");
                             }
@@ -287,7 +303,8 @@ namespace youtube_dl_gui {
                     this.DialogResult = System.Windows.Forms.DialogResult.Abort;
                 }
                 else if (DownloadErrored) {
-                    this.DialogResult = System.Windows.Forms.DialogResult.No;
+                    this.Activate();
+                    System.Media.SystemSounds.Hand.Play();
                 }
                 else if (DownloadFinished) {
                     this.DialogResult = System.Windows.Forms.DialogResult.Yes;
@@ -302,6 +319,8 @@ namespace youtube_dl_gui {
                     tmrTitleActivity.Stop();
                     btnDownloaderCancelExit.Text = lang.btnDownloaderExit;
                     rtbConsoleOutput.AppendText("\nAn error occured");
+                    this.Activate();
+                    System.Media.SystemSounds.Hand.Play();
                 }
                 else if (DownloadFinished) {
                     tmrTitleActivity.Stop();

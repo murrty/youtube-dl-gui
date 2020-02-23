@@ -9,6 +9,7 @@ namespace youtube_dl_gui {
 
         public frmAbout() {
             InitializeComponent();
+            this.Icon = Properties.Resources.youtube_dl_gui;
         }
         private void frmAbout_Shown(object sender, EventArgs e) {
             if (!Properties.Settings.Default.jsonSupport)

@@ -24,7 +24,6 @@
         /// </summary>
         [System.Diagnostics.DebuggerStepThrough]
         private void InitializeComponent() {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmUpdateAvailable));
             this.lbUpdateAvailableHeader = new System.Windows.Forms.Label();
             this.lbUpdateAvailableUpdateVersion = new System.Windows.Forms.Label();
             this.lbUpdateAvailableCurrentVersion = new System.Windows.Forms.Label();
@@ -134,7 +133,6 @@
             this.Controls.Add(this.lbUpdateAvailableCurrentVersion);
             this.Controls.Add(this.lbUpdateAvailableUpdateVersion);
             this.Controls.Add(this.lbUpdateAvailableHeader);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "frmUpdateAvailable";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;

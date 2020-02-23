@@ -254,7 +254,6 @@
             this.Controls.Add(this.lbBatchDownloadType);
             this.Controls.Add(this.lbBatchDownloadLink);
             this.Controls.Add(this.cbBatchDownloadType);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(670, 340);
             this.Name = "frmBatchDownloader";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;

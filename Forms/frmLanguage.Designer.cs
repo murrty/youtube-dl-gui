@@ -25,7 +25,6 @@
         [System.Diagnostics.DebuggerStepThrough]
         private void InitializeComponent() {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmLanguage));
             this.cbLanguages = new System.Windows.Forms.ComboBox();
             this.btnLanguageRefresh = new System.Windows.Forms.Button();
             this.btnLanguageSave = new System.Windows.Forms.Button();
@@ -95,7 +94,6 @@
             this.Controls.Add(this.btnLanguageSave);
             this.Controls.Add(this.btnLanguageRefresh);
             this.Controls.Add(this.cbLanguages);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "frmLanguage";
             this.ShowIcon = false;

@@ -25,6 +25,7 @@ namespace youtube_dl_gui {
             if (argsText != string.Empty) {
                 txtBatchDownloadVideoSpecificArgument.Text = argsText;
             }
+            this.Icon = Properties.Resources.youtube_dl_gui;
         }
 
         void LoadLanguage() {
@@ -194,6 +195,7 @@ namespace youtube_dl_gui {
                     lvBatchDownloadQueue.Items[i].ImageIndex = (int)BatchDownloader.ConversionIcon.Downloading;
 
                     bool AbortDownload = false;
+                    sbBatchDownloader.Text = lang.sbBatchDownloaderDownloading;
                     switch (Downloader.ShowDialog()) {
                         case System.Windows.Forms.DialogResult.Yes:
                             lvBatchDownloadQueue.Items[i].ImageIndex = (int)BatchDownloader.ConversionIcon.Finished;
@@ -212,6 +214,7 @@ namespace youtube_dl_gui {
                     if (AbortDownload) { break; }
                 }
                 InProgress = false;
+                sbBatchDownloader.Text = lang.sbBatchDownloaderFinished;
                 btnBatchDownloadStartStopExit.Text = lang.btnBatchDownloadStart;
             }
         }

@@ -30,6 +30,7 @@ namespace youtube_dl_gui {
         }
         private void frmSettings_Load(object sender, EventArgs e) {
             CalculatePositions();
+            this.Icon = Properties.Resources.youtube_dl_gui;
         }
 
         void LoadLanguage() {

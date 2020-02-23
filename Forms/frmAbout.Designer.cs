@@ -115,7 +115,6 @@
             this.Controls.Add(this.lbHeader);
             this.Controls.Add(this.llbCheckForUpdates);
             this.Controls.Add(this.lbVersion);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(280, 180);
             this.MinimumSize = new System.Drawing.Size(280, 180);
