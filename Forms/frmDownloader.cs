@@ -14,6 +14,7 @@ namespace youtube_dl_gui {
         public int DownloadType = -1;           // The type of download
         public int DownloadQuality = 0;         // The quality of download
         public bool BatchDownload = false;      // Is the download in a batch? If so, minimize the form.
+        public string BatchTime = string.Empty; // The time for the folder structure.
 
         public bool Debugging = false;
 
@@ -108,11 +109,6 @@ namespace youtube_dl_gui {
             #endregion
 
             #region Output
-            string BatchTime = string.Empty;
-            if (BatchDownload) {
-                BatchTime += "\\" + BatchDownloader.CurrentTime();
-            }
-
             ArgumentsBuffer = DownloadUrl;
             if (Downloads.Default.separateIntoWebsiteURL) { webFolder = Download.getUrlBase(DownloadUrl) + "\\"; }
 
@@ -265,9 +261,8 @@ namespace youtube_dl_gui {
                     }
                 }
                 catch (ThreadAbortException) {
-                    // Thread was aborted
                     DownloadAborted = true;
-                    //if (BatchDownload) { this.BeginInvoke(new MethodInvoker(() => { this.DialogResult = System.Windows.Forms.DialogResult.Abort; })); }
+                    DownloadFinished = false;
                     return;
                 }
                 catch (Exception ex) {

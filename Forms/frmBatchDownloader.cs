@@ -16,8 +16,6 @@ namespace youtube_dl_gui {
         private List<string> DownloadUrls = new List<string>(); // List of urls to download
         private List<int> DownloadTypes = new List<int>();      // List of types to download
         private List<string> DownloadArgs = new List<string>(); // List of args to download
-        private List<bool> DownloadCompleted = new List<bool>();// List of if the download in the index completed
-        private List<bool> DownloadFailed = new List<bool>();   // List of if the download in the index failed
         private bool InProgress = false;                        // Bool if the batch download is in progress
         private int CurrentItem = -1;                           // Int of the current item being downloaded
         private frmDownloader Downloader;                       // The Downloader form that will be around. Will be disposed if aborted.
@@ -151,8 +149,6 @@ namespace youtube_dl_gui {
                     DownloadUrls.RemoveAt(i);
                     DownloadTypes.RemoveAt(i);
                     DownloadArgs.RemoveAt(i);
-                    DownloadCompleted.RemoveAt(i);
-                    DownloadFailed.RemoveAt(i);
                 }
             }
 
@@ -175,12 +171,14 @@ namespace youtube_dl_gui {
                 btnBatchDownloadRemoveSelected.Enabled = false;
                 btnBatchDownloadStartStopExit.Text = lang.btnBatchDownloadStop;
                 InProgress = true;
+                string BatchTime = "\\" + BatchDownloader.CurrentTime();
                 for (int i = 0; i < DownloadUrls.Count; i++) {
                     CurrentItem = i;
                     Downloader = new frmDownloader();
                     Downloader.BatchDownload = true;
                     Downloader.DownloadUrl = DownloadUrls[i];
                     Downloader.DownloadPath = Downloads.Default.downloadPath;
+                    Downloader.BatchTime += BatchTime;
                     switch (DownloadTypes[i]) {
                         case 0:
                             Downloader.DownloadQuality = Saved.Default.videoQuality;
