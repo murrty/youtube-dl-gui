@@ -167,7 +167,7 @@ namespace youtube_dl_gui {
                 btnBatchDownloadRemoveSelected.Enabled = false;
                 btnBatchDownloadStartStopExit.Text = lang.btnBatchDownloadStop;
                 InProgress = true;
-                string BatchTime = "\\" + BatchDownloader.CurrentTime();
+                string BatchTime = "\\Batch Downloads\\" + BatchDownloader.CurrentTime();
                 for (int i = 0; i < DownloadUrls.Count; i++) {
                     CurrentItem = i;
                     Downloader = new frmDownloader();
