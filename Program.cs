@@ -46,14 +46,17 @@ namespace youtube_dl_gui {
                         AllowLaunch = true;
                     }
                 }
+                else {
+                    AllowLaunch = true;
+                }
 
                 if (AllowLaunch) {
                     Application.Run(new frmMain());
+                    mtx.ReleaseMutex();
                 }
                 else {
                     Environment.Exit(0);
                 }
-                mtx.ReleaseMutex();
             }
             else {
                 Controller.PostMessage((IntPtr)Controller.HWND_YTDLGUIBROADCAST, Controller.WM_SHOWYTDLGUIFORM, IntPtr.Zero, IntPtr.Zero);
