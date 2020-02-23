@@ -1,22 +1,22 @@
 ﻿using System;
+using System.Diagnostics;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace youtube_dl_gui {
     public partial class frmBatchDownloader : Form {
         Language lang = Language.GetInstance();
+        Thread DownloaderThread = null;
+        Process DownloaderProcess = null;
+
         public string argsText = string.Empty;
+        public bool Debugging = false;
 
         public frmBatchDownloader() {
             InitializeComponent();
             LoadLanguage();
-            if (System.IO.File.Exists(Environment.CurrentDirectory + "\\args.txt")) {
-                argsText = System.IO.File.ReadAllText(Environment.CurrentDirectory + "\\args.txt");
-
-                if (argsText.Replace(" ", "") == "")
-                    argsText = "<empty args.txt>";
-            }
-            else {
-                argsText = "<args.txt unavailable>";
+            if (argsText != string.Empty) {
+                txtBatchDownloadVideoSpecificArgument.Text = argsText;
             }
         }
 
@@ -29,57 +29,74 @@ namespace youtube_dl_gui {
             btnBatchDownloadRemoveSelected.Text = lang.btnBatchDownloadRemoveSelected;
             btnBatchDownloadStart.Text = lang.btnBatchDownloadStart;
         }
+        private void frmBatchDownloader_FormClosing(object sender, FormClosingEventArgs e) {
+            if (vistaListView1.Items.Count > 0) {
+                if (MessageBox.Show("You may have a queue active. Exit?", "", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.No) {
+                    e.Cancel = true;
+                }
+            }
+
+            if (DownloaderThread != null && DownloaderThread.IsAlive) { DownloaderThread.Abort(); }
+            if (DownloaderProcess != null && DownloaderProcess.Responding) { DownloaderProcess.Kill(); }
+
+            this.Dispose();
+        }
 
         private void btnBatchDownloadAdd_Click(object sender, EventArgs e) {
             if (cbBatchDownloadType.SelectedIndex < 0) {
                 return;
             }
 
-            listLink.Items.Add(txtBatchDownloadLink.Text);
-            listType.Items.Add(cbBatchDownloadType.GetItemText(cbBatchDownloadType.SelectedItem));
+            ListViewItem lvi = new ListViewItem();
+            lvi.Checked = false;
+
+            lvi.Name = "";
+            lvi.SubItems[0].Text = txtBatchDownloadLink.Text;
+            lvi.SubItems.Add(new ListViewItem.ListViewSubItem());
+            lvi.SubItems.Add(new ListViewItem.ListViewSubItem());
             switch (cbBatchDownloadType.SelectedIndex) {
+                case -1:
+                    MessageBox.Show("Please select a download type");
+                    return;
+                case 0:
+                    lvi.SubItems.Add(new ListViewItem.ListViewSubItem());
+                    lvi.SubItems[1].Text = "Video";
+                    break;
+                case 1:
+                    lvi.SubItems[1].Text = "Audio";
+                    break;
                 case 2:
-                    listArgs.Items.Add(argsText);
-                    break;
-                case 3:
-                    if (Saved.Default.downloadArgs.Replace(" ", "") == "") {
-                        listArgs.Items.Add("<saved args empty>");
-                    }
-                    else {
-                        listArgs.Items.Add(Saved.Default.downloadArgs);
-                    }
-                    break;
-                case 4:
-                    listArgs.Items.Add(txtBatchDownloadVideoSpecificArgument.Text);
-                    break;
-                default:
-                    listArgs.Items.Add("<n/a>");
+                    lvi.SubItems[1].Text = "Custom...";
                     break;
             }
-            if (cbBatchDownloadType.SelectedIndex < 4) {
+            if (txtBatchDownloadVideoSpecificArgument.Text == string.Empty) {
+                lvi.SubItems[2].Text = string.Empty;
             }
             else {
+                lvi.SubItems[2].Text = txtBatchDownloadVideoSpecificArgument.Text;
             }
+
+            vistaListView1.Items.Add(lvi);
 
             txtBatchDownloadLink.Clear();
             txtBatchDownloadVideoSpecificArgument.Clear();
         }
 
         private void btnBatchDownloadRemoveSelected_Click(object sender, EventArgs e) {
-            if (listLink.SelectedIndex == -1) {
-                return;
-            }
+            //if (vistaListView1.SelectedIndex == -1) {
+            //    return;
+            //}
 
-            int currentIndex = listLink.SelectedIndex;
-            listLink.Items.RemoveAt(currentIndex);
-            listType.Items.RemoveAt(currentIndex);
-            listArgs.Items.RemoveAt(currentIndex);
-            if (currentIndex + 1 > listLink.Items.Count) {
-                listLink.SelectedIndex = currentIndex - 1;
-            }
-            else {
-                listLink.SelectedIndex = currentIndex;
-            }
+            //int currentIndex = vistaListView1.SelectedIndices;
+            //vistaListView1.Items.RemoveAt(currentIndex);
+            //vistaListView1.Items.RemoveAt(currentIndex);
+            //vistaListView1.Items.RemoveAt(currentIndex);
+            //if (currentIndex + 1 > vistaListView1.Items.Count) {
+            //    vistaListView1.SelectedIndex = currentIndex - 1;
+            //}
+            //else {
+            //    vistaListView1.SelectedIndex = currentIndex;
+            //}
         }
 
         private void btnBatchDownloadStart_Click(object sender, EventArgs e) {
@@ -87,8 +104,8 @@ namespace youtube_dl_gui {
         }
 
         private void listLink_SelectedIndexChanged(object sender, EventArgs e) {
-            listType.SelectedIndex = listLink.SelectedIndex;
-            listArgs.SelectedIndex = listLink.SelectedIndex;
+            
         }
+
     }
 }
