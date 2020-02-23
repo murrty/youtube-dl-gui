@@ -414,14 +414,15 @@ namespace youtube_dl_gui {
 
 
             if (Errors.Default.logErrors) {
-                System.IO.File.WriteAllText(Environment.CurrentDirectory + "\\error.log", WebException.ToString());
+                if (UseCustomDescription) { WriteToFile(CustomDescriptionBuffer); }
+                else { WriteToFile(WebException.ToString()); }
             }
         }
         /// <summary>
         /// Reports any general exceptions that are caught
         /// </summary>
         /// <param name="Exception">The Exception that was caught</param>
-        public static void ReportException(Exception Exception) {
+        public static void ReportException(Exception Exception, bool IsWriteToFile = true) {
             if (Errors.Default.suppressErrors)
                 return;
 
@@ -433,9 +434,17 @@ namespace youtube_dl_gui {
             ExceptionDisplay.FromLanguage = false;
             ExceptionDisplay.Dispose();
 
-            if (Errors.Default.logErrors) {
-                System.IO.File.WriteAllText(Environment.CurrentDirectory + "\\error.log", Exception.ToString());
+            if (Errors.Default.logErrors && !IsWriteToFile) {
+                WriteToFile(Exception.ToString());
             }
+        }
+
+        public static void WriteToFile(string Buffer) {
+            try {
+                string FileName = string.Format("\\error_{0}.log", DateTime.Now);
+                System.IO.File.WriteAllText(FileName, Buffer);
+            }
+            catch (Exception ex) { ReportException(ex, true); }
         }
     }
 }

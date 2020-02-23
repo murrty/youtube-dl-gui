@@ -9,27 +9,27 @@ using System.Windows.Forms;
 namespace youtube_dl_gui {
     public partial class frmMain : Form {
         #region variables
-        int ytDlAvailable = -1;
-        int ffmpegAvailable = -1;
-        string[] videoQuality = { "best",
-                                  "4320p60", "4320p",
-                                  "2160p60", "2160p",
-                                  "1440p60", "1440p",
-                                  "1080p60", "1080p",
-                                  "720p60", "720p",
-                                  "480p",
-                                  "360p",
-                                  "240p",
-                                  "144p" };
-        string[] audioQuality = { "best",
-                                  "320k",
-                                  "256k",
-                                  "224k",
-                                  "192k",
-                                  "160k",
-                                  "128k",
-                                  "96k",
-                                  "64k" };
+        int YoutubeDlAvailable = -1;
+        int FFmpegAvailable = -1;
+        string[] VideoQualityArray = { "best",
+                                       "4320p60", "4320p",
+                                       "2160p60", "2160p",
+                                       "1440p60", "1440p",
+                                       "1080p60", "1080p",
+                                       "720p60", "720p",
+                                       "480p",
+                                       "360p",
+                                       "240p",
+                                       "144p" };
+        string[] AudioQualityArray = { "best",
+                                       "320k",
+                                       "256k",
+                                       "224k",
+                                       "192k",
+                                       "160k",
+                                       "128k",
+                                       "96k",
+                                       "64k" };
         Language lang = Language.GetInstance();
 
         [DllImport("user32.dll", CharSet = CharSet.Unicode)]
@@ -54,8 +54,8 @@ namespace youtube_dl_gui {
             InitializeComponent();
             LoadLanguage();
 
-            ytDlAvailable = Verification.ytdlFullCheck();
-            ffmpegAvailable = Verification.ffmpegFullCheck();
+            YoutubeDlAvailable = Verification.ytdlFullCheck();
+            FFmpegAvailable = Verification.ffmpegFullCheck();
             trayIcon.ContextMenu = cmTray;
             if (Program.IsDebug) {
                 lbDebug.Text = "debugging " + Properties.Settings.Default.debugDate;
@@ -393,7 +393,7 @@ namespace youtube_dl_gui {
             if (rbVideo.Checked) {
                 cbQuality.SelectedIndex = -1;
                 cbQuality.Items.Clear();
-                cbQuality.Items.AddRange(videoQuality);
+                cbQuality.Items.AddRange(VideoQualityArray);
                 cbQuality.SelectedIndex = Saved.Default.videoQuality;
                 cbQuality.Enabled = true;
                 chkDownloadSound.Enabled = true;
@@ -403,7 +403,7 @@ namespace youtube_dl_gui {
             if (rbAudio.Checked) {
                 cbQuality.SelectedIndex = -1;
                 cbQuality.Items.Clear();
-                cbQuality.Items.AddRange(audioQuality);
+                cbQuality.Items.AddRange(AudioQualityArray);
                 cbQuality.SelectedIndex = Saved.Default.audioQuality;
                 cbQuality.Enabled = true;
                 chkDownloadSound.Enabled = false;

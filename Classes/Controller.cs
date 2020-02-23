@@ -27,7 +27,8 @@ internal class Controller {
             return true;
         }
         catch (Exception ex) {
-            throw ex;
+            youtube_dl_gui.ErrorLog.ReportException(ex);
+            return false;
         }
     }
 }

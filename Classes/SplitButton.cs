@@ -125,4 +125,24 @@ namespace youtube_dl_gui {
         }
 
     }
+
+    public class HintTextBox : TextBox {
+        private string TextHintString = string.Empty;
+        [DllImport("user32.dll", CharSet = CharSet.Unicode)]
+        static extern IntPtr SendMessage(IntPtr hWnd, int msg, IntPtr wp, string lp);
+
+        public HintTextBox() { }
+
+        public string TextHint {
+            get { return this.TextHintString; }
+            set {
+                this.TextHintString = value;
+                this.Hint(value);
+            }
+        }
+
+        void Hint(string HintString) {
+            SendMessage(this.Handle, 0x1501, (IntPtr)1, HintString);
+        }
+    }
 }

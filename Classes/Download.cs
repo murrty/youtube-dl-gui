@@ -7,12 +7,26 @@ using System.Xml;
 
 namespace youtube_dl_gui {
     class Download {
-        // Download types:
-        // 0 = Video
-        // 1 = Audio
-        // 2 = Custom // Unsortable
+
+        public enum DownloadType : int {
+            Video = 0,
+            Audio = 1,
+            Custom = 2,
+            Unknown = 0
+        }
+        public enum ForceIpProtocol : int {
+            IPv4 = 0,
+            IPv6 = 1
+        }
+        public enum ProxyProtocol : int {
+            HTTPS = 1,
+            HTTP = 2,
+            SOCKS4 = 3,
+            SOCKS5 = 4
+        }
 
         #region constants
+        public static string[] ProxyProtocols = { "https://", "http://", "socks4://", "socks5://" };
         /// <summary>
         /// Built-in video qualities
         /// </summary>

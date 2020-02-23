@@ -81,20 +81,47 @@ namespace youtube_dl_gui {
             lbSettingsDownloadsFileNameSchema.Text = lang.lbSettingsDownloadsFileNameSchema;
             tipSettings.SetToolTip(lbSettingsDownloadsFileNameSchema, lang.lbSettingsDownloadsFileNameSchemaHint);
             tipSettings.SetToolTip(txtSettingsDownloadsFileNameSchema, lang.txtSettingsDownloadsFileNameSchemaHint);
-            chkSettingsDownloadsSeparateDownloadsToDifferentFolders.Text = lang.chkSettingsDownloadsSeparateDownloadsToDifferentFolders;
-            tipSettings.SetToolTip(chkSettingsDownloadsSeparateDownloadsToDifferentFolders, lang.chkSettingsDownloadsSeparateDownloadsToDifferentFoldersHint);
+
             chkSettingsDownloadsSaveFormatQuality.Text = lang.chkSettingsDownloadsSaveFormatQuality;
             tipSettings.SetToolTip(chkSettingsDownloadsSaveFormatQuality, lang.chkSettingsDownloadsSaveFormatQualityHint);
-            chkSettingsDownloadsSeparateIntoWebsiteUrl.Text = lang.chkSettingsDownloadsSeparateIntoWebsiteUrl;
-            tipSettings.SetToolTip(chkSettingsDownloadsSeparateIntoWebsiteUrl, lang.chkSettingsDownloadsSeparateIntoWebsiteUrlHint);
-            chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing.Text = lang.chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing;
-            tipSettings.SetToolTip(chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing, lang.chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosingHint);
-            chksettingsDownloadsUseYoutubeDlsUpdater.Text = lang.chksettingsDownloadsUseYoutubeDlsUpdater;
-            tipSettings.SetToolTip(chksettingsDownloadsUseYoutubeDlsUpdater, lang.chksettingsDownloadsUseYoutubeDlsUpdaterHint);
-            chkSettingsDownloadsFixVReddIt.Text = lang.chkSettingsDownloadsFixVReddIt;
-            tipSettings.SetToolTip(chkSettingsDownloadsFixVReddIt, lang.chkSettingsDownloadsFixVReddItHint);
             chkSettingsDownloadsDownloadSubtitles.Text = lang.chkSettingsDownloadsDownloadSubtitles;
             tipSettings.SetToolTip(chkSettingsDownloadsDownloadSubtitles, lang.chkSettingsDownloadsDownloadSubtitlesHint);
+            chkSettingsDownloadsSaveVideoInfo.Text = lang.chkSettingsDownloadsSaveVideoInfo;
+            tipSettings.SetToolTip(chkSettingsDownloadsSaveVideoInfo, lang.chkSettingsDownloadsSaveVideoInfoHint);
+            chkSettingsDownloadsSaveDescription.Text = lang.chkSettingsDownloadsSaveDescription;
+            tipSettings.SetToolTip(chkSettingsDownloadsSaveDescription, lang.chkSettingsDownloadsSaveDescriptionHint);
+            chkSettingsDownloadsSaveAnnotations.Text = lang.chkSettingsDownloadsSaveAnnotations;
+            tipSettings.SetToolTip(chkSettingsDownloadsSaveAnnotations, lang.chkSettingsDownloadsSaveAnnotationsHint);
+            chkSettingsDownloadsSaveThumbnails.Text = lang.chkSettingsDownloadsSaveThumbnails;
+            tipSettings.SetToolTip(chkSettingsDownloadsSaveThumbnails, lang.chkSettingsDownloadsSaveThumbnailsHint);
+            chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing.Text = lang.chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing;
+            tipSettings.SetToolTip(chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing, lang.chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosingHint);
+            chkSettingsDownloadsSeparateDownloadsToDifferentFolders.Text = lang.chkSettingsDownloadsSeparateDownloadsToDifferentFolders;
+            tipSettings.SetToolTip(chkSettingsDownloadsSeparateDownloadsToDifferentFolders, lang.chkSettingsDownloadsSeparateDownloadsToDifferentFoldersHint);
+            chkSettingsDownloadsSeparateIntoWebsiteUrl.Text = lang.chkSettingsDownloadsSeparateIntoWebsiteUrl;
+            tipSettings.SetToolTip(chkSettingsDownloadsSeparateIntoWebsiteUrl, lang.chkSettingsDownloadsSeparateIntoWebsiteUrlHint);
+            chkSettingsDownloadsFixVReddIt.Text = lang.chkSettingsDownloadsFixVReddIt;
+            tipSettings.SetToolTip(chkSettingsDownloadsFixVReddIt, lang.chkSettingsDownloadsFixVReddItHint);
+
+            chkSettingsDownloadsLimitDownload.Text = lang.chkSettingsDownloadsLimitDownload;
+            tipSettings.SetToolTip(chkSettingsDownloadsLimitDownload, lang.chkSettingsDownloadsLimitDownloadHint);
+            tipSettings.SetToolTip(numSettingsDownloadsLimitDownload, lang.numSettingsDownloadsLimitDownloadHint);
+            tipSettings.SetToolTip(cbSettingsDownloadsLimitDownload, lang.cbSettingsDownloadsLimitDownloadHint);
+            lbSettingsDownloadsRetryAttempts.Text = lang.lbSettingsDownloadsRetryAttempts;
+            tipSettings.SetToolTip(lbSettingsDownloadsRetryAttempts, lang.lbSettingsDownloadsRetryAttemptsHint);
+            tipSettings.SetToolTip(numSettingsDownloadsRetryAttempts, lang.numSettingsDownloadsRetryAttemptsHint);
+            chkSettingsDownloadsForceIpv4.Text = lang.chkSettingsDownloadsForceIpv4;
+            tipSettings.SetToolTip(chkSettingsDownloadsForceIpv4, lang.chkSettingsDownloadsForceIpv4Hint);
+            chkSettingsDownloadsForceIpv6.Text = lang.chkSettingsDownloadsForceIpv6;
+            tipSettings.SetToolTip(chkSettingsDownloadsForceIpv6, lang.chkSettingsDownloadsForceIpv6Hint);
+            chkSettingsDownloadsUseProxy.Text = lang.chkSettingsDownloadsUseProxy;
+            tipSettings.SetToolTip(chkSettingsDownloadsUseProxy, lang.chkSettingsDownloadsUseProxyHint);
+            tipSettings.SetToolTip(cbSettingsDownloadsProxyType, lang.cbSettingsDownloadsProxyTypeHint);
+            tipSettings.SetToolTip(txtSettingsDownloadsProxyIp, lang.txtSettingsDownloadsProxyIpHint);
+            tipSettings.SetToolTip(txtSettingsDownloadsProxyPort, lang.txtSettingsDownloadsProxyPortHint);
+
+            chksettingsDownloadsUseYoutubeDlsUpdater.Text = lang.chksettingsDownloadsUseYoutubeDlsUpdater;
+            tipSettings.SetToolTip(chksettingsDownloadsUseYoutubeDlsUpdater, lang.chksettingsDownloadsUseYoutubeDlsUpdaterHint);
 
             chkSettingsConverterClearOutputAfterConverting.Text = lang.chkSettingsConverterClearOutputAfterConverting;
             tipSettings.SetToolTip(chkSettingsConverterClearOutputAfterConverting, lang.chkSettingsConverterClearOutputAfterConvertingHint);
@@ -216,14 +243,29 @@ namespace youtube_dl_gui {
             else {
                 txtSettingsDownloadsSavePath.Text = Downloads.Default.downloadPath;
             }
-
             txtSettingsDownloadsFileNameSchema.Text = Downloads.Default.fileNameSchema;
+
+            //chkSettingsDownloadsSaveFormatQuality.Checked = Downloads.Default.saveParams;
+            chkSettingsDownloadsDownloadSubtitles.Checked = Downloads.Default.SaveSubtitles;
+            chkSettingsDownloadsSaveVideoInfo.Checked = Downloads.Default.SaveVideoInfo;
+            chkSettingsDownloadsSaveDescription.Checked = Downloads.Default.SaveDescription;
+            chkSettingsDownloadsSaveAnnotations.Checked = Downloads.Default.SaveAnnotations;
+            chkSettingsDownloadsSaveThumbnails.Checked = Downloads.Default.SaveThumbnail;
+            chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing.Checked = Downloads.Default.deleteYtdlOnClose;
             chkSettingsDownloadsSeparateDownloadsToDifferentFolders.Checked = Downloads.Default.separateDownloads;
             chkSettingsDownloadsSeparateIntoWebsiteUrl.Checked = Downloads.Default.separateIntoWebsiteURL;
-            chkSettingsConverterDetectOutputFileType.Checked = Downloads.Default.saveParams;
-            chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing.Checked = Downloads.Default.deleteYtdlOnClose;
-            chksettingsDownloadsUseYoutubeDlsUpdater.Checked = Downloads.Default.useYtdlUpdater;
             chkSettingsDownloadsFixVReddIt.Checked = Downloads.Default.fixReddit;
+            chkSettingsDownloadsLimitDownload.Checked = Downloads.Default.LimitDownloads;
+            numSettingsDownloadsLimitDownload.Value = Downloads.Default.DownloadLimit;
+            cbSettingsDownloadsLimitDownload.SelectedIndex = Downloads.Default.DownloadLimitType;
+            numSettingsDownloadsRetryAttempts.Value = Downloads.Default.RetryAttempts;
+            chkSettingsDownloadsForceIpv4.Checked = Downloads.Default.ForceIPv4;
+            chkSettingsDownloadsForceIpv6.Checked = Downloads.Default.ForceIPv6;
+            chkSettingsDownloadsUseProxy.Checked = Downloads.Default.UseProxy;
+            cbSettingsDownloadsProxyType.SelectedIndex = Downloads.Default.ProxyType;
+            txtSettingsDownloadsProxyIp.Text = Downloads.Default.ProxyIP;
+            txtSettingsDownloadsProxyPort.Text = Downloads.Default.ProxyPort;
+            chksettingsDownloadsUseYoutubeDlsUpdater.Checked = Downloads.Default.useYtdlUpdater;
 
             chkSettingsConverterDetectOutputFileType.Checked = Converts.Default.detectFiletype;
             chkSettingsConverterClearOutputAfterConverting.Checked = Converts.Default.clearOutput;
@@ -276,11 +318,27 @@ namespace youtube_dl_gui {
 
             Downloads.Default.fileNameSchema = txtSettingsDownloadsFileNameSchema.Text;
             Downloads.Default.downloadPath = txtSettingsDownloadsSavePath.Text;
+
+
+            Downloads.Default.separateDownloads = chkSettingsDownloadsDownloadSubtitles.Checked;
+            Downloads.Default.SaveVideoInfo = chkSettingsDownloadsSaveVideoInfo.Checked;
+            Downloads.Default.SaveDescription = chkSettingsDownloadsSaveDescription.Checked;
+            Downloads.Default.SaveAnnotations = chkSettingsDownloadsSaveAnnotations.Checked;
+            Downloads.Default.SaveThumbnail = chkSettingsDownloadsSaveThumbnails.Checked;
+            Downloads.Default.deleteYtdlOnClose = chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing.Checked;
             Downloads.Default.separateDownloads = chkSettingsDownloadsSeparateDownloadsToDifferentFolders.Checked;
             Downloads.Default.separateIntoWebsiteURL = chkSettingsDownloadsSeparateIntoWebsiteUrl.Checked;
-            Downloads.Default.deleteYtdlOnClose = chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing.Checked;
-            Downloads.Default.useYtdlUpdater = chksettingsDownloadsUseYoutubeDlsUpdater.Checked;
             Downloads.Default.fixReddit = chkSettingsDownloadsFixVReddIt.Checked;
+            Downloads.Default.LimitDownloads = chkSettingsDownloadsLimitDownload.Checked;
+            Downloads.Default.DownloadLimit = (int)numSettingsDownloadsLimitDownload.Value;
+            Downloads.Default.DownloadLimitType = cbSettingsDownloadsLimitDownload.SelectedIndex;
+            Downloads.Default.ForceIPv4 = chkSettingsDownloadsForceIpv4.Checked;
+            Downloads.Default.ForceIPv6 = chkSettingsDownloadsForceIpv6.Checked;
+            Downloads.Default.UseProxy = chkSettingsDownloadsUseProxy.Checked;
+            Downloads.Default.ProxyType = cbSettingsDownloadsProxyType.SelectedIndex;
+            Downloads.Default.ProxyIP = txtSettingsDownloadsProxyIp.Text;
+            Downloads.Default.ProxyPort = txtSettingsDownloadsProxyPort.Text;
+            Downloads.Default.useYtdlUpdater = chksettingsDownloadsUseYoutubeDlsUpdater.Checked;
 
             Converts.Default.detectFiletype = chkSettingsConverterDetectOutputFileType.Checked;
             Converts.Default.clearOutput = chkSettingsConverterClearOutputAfterConverting.Checked;
@@ -318,6 +376,7 @@ namespace youtube_dl_gui {
         private void btnSettingsRedownloadYoutubeDl_Click(object sender, EventArgs e) {
             UpdateChecker.UpdateYoutubeDl();
         }
+
 
         private void btnSettingsSave_Click(object sender, EventArgs e) {
             saveSettings();
@@ -372,6 +431,17 @@ namespace youtube_dl_gui {
         }
         private void llSettingsDownloadsSchemaHelp_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
             Process.Start("https://github.com/ytdl-org/youtube-dl/blob/master/README.md#output-template");
+        }
+
+        private void chkSettingsDownloadsForceIpv4_CheckedChanged(object sender, EventArgs e) {
+            if (chkSettingsDownloadsForceIpv4.Checked && chkSettingsDownloadsForceIpv6.Checked) {
+                chkSettingsDownloadsForceIpv6.Checked = false;
+            }
+        }
+        private void chkSettingsDownloadsForceIpv6_CheckedChanged(object sender, EventArgs e) {
+            if (chkSettingsDownloadsForceIpv6.Checked && chkSettingsDownloadsForceIpv4.Checked) {
+                chkSettingsDownloadsForceIpv4.Checked = false;
+            }
         }
         #endregion
 
@@ -437,5 +507,12 @@ namespace youtube_dl_gui {
         }
         #endregion
 
+        private void txtSettingsDownloadsProxyIp_KeyDown(object sender, KeyEventArgs e) {
+
+        }
+
+        private void txtSettingsDownloadsProxyPort_KeyDown(object sender, KeyEventArgs e) {
+
+        }
     }
 }

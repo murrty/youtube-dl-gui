@@ -3,14 +3,15 @@ using System.Diagnostics;
 using System.IO;
 
 namespace youtube_dl_gui {
-    // global verification return ints
-    // -1 = none found
-    //  0 = static directory (configured in settings)
-    //  1 = current directory (where the application is launched from)
-    //  2 = system path (static location based in system configruation)
-    //  3 = command line (available through command line)
-
     class Verification {
+
+        public enum ApplicationLocation : int {
+            NoneFound = -1,
+            StaticDirectory = 0,
+            CurrentDirectory = 1,
+            SystemPath = 2,
+            CommandLine = 3
+        }
 
         #region ffmpeg verification
         public static bool ffmpegInExecutingDirectory() {
@@ -61,7 +62,8 @@ namespace youtube_dl_gui {
                 else
                     return true;
             }
-            catch {
+            catch (Exception ex){
+                ErrorLog.ReportException(ex);
                 return false;
             }
         }
@@ -134,7 +136,8 @@ namespace youtube_dl_gui {
                     return true;
                 }
             }
-            catch {
+            catch (Exception ex) {
+                ErrorLog.ReportException(ex);
                 return false;
             }
         }

@@ -122,12 +122,12 @@ namespace youtube_dl_gui {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool downloadSubtitles {
+        public bool SaveSubtitles {
             get {
-                return ((bool)(this["downloadSubtitles"]));
+                return ((bool)(this["SaveSubtitles"]));
             }
             set {
-                this["downloadSubtitles"] = value;
+                this["SaveSubtitles"] = value;
             }
         }
         
@@ -152,6 +152,186 @@ namespace youtube_dl_gui {
             }
             set {
                 this["CloseDownloaderAfterFinish"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool UseProxy {
+            get {
+                return ((bool)(this["UseProxy"]));
+            }
+            set {
+                this["UseProxy"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("-1")]
+        public int ProxyType {
+            get {
+                return ((int)(this["ProxyType"]));
+            }
+            set {
+                this["ProxyType"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string ProxyIP {
+            get {
+                return ((string)(this["ProxyIP"]));
+            }
+            set {
+                this["ProxyIP"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string ProxyPort {
+            get {
+                return ((string)(this["ProxyPort"]));
+            }
+            set {
+                this["ProxyPort"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool SaveThumbnail {
+            get {
+                return ((bool)(this["SaveThumbnail"]));
+            }
+            set {
+                this["SaveThumbnail"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool SaveDescription {
+            get {
+                return ((bool)(this["SaveDescription"]));
+            }
+            set {
+                this["SaveDescription"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool SaveVideoInfo {
+            get {
+                return ((bool)(this["SaveVideoInfo"]));
+            }
+            set {
+                this["SaveVideoInfo"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool SaveAnnotations {
+            get {
+                return ((bool)(this["SaveAnnotations"]));
+            }
+            set {
+                this["SaveAnnotations"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string SubtitleFormat {
+            get {
+                return ((string)(this["SubtitleFormat"]));
+            }
+            set {
+                this["SubtitleFormat"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int DownloadLimit {
+            get {
+                return ((int)(this["DownloadLimit"]));
+            }
+            set {
+                this["DownloadLimit"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("10")]
+        public int RetryAttempts {
+            get {
+                return ((int)(this["RetryAttempts"]));
+            }
+            set {
+                this["RetryAttempts"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public int DownloadLimitType {
+            get {
+                return ((int)(this["DownloadLimitType"]));
+            }
+            set {
+                this["DownloadLimitType"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool ForceIPv4 {
+            get {
+                return ((bool)(this["ForceIPv4"]));
+            }
+            set {
+                this["ForceIPv4"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool ForceIPv6 {
+            get {
+                return ((bool)(this["ForceIPv6"]));
+            }
+            set {
+                this["ForceIPv6"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool LimitDownloads {
+            get {
+                return ((bool)(this["LimitDownloads"]));
+            }
+            set {
+                this["LimitDownloads"] = value;
             }
         }
     }

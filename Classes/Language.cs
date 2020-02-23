@@ -119,6 +119,7 @@ namespace youtube_dl_gui {
         #endregion
 
         #region frmSettings
+
         #region frmSettings form
         // frmSettings
         private static volatile string btnSettingsRedownloadYoutubeDlString = "btnSettingsRedownloadYoutubeDl";
@@ -130,6 +131,7 @@ namespace youtube_dl_gui {
         private static volatile string tabSettingsConverterString = "tabSettingsConverter";
         private static volatile string tabSettingsExtensionsString = "tabSettingsExtensions";
         private static volatile string tabSettingsErrorsString = "tabSettingsErrors";
+        #region tabGeneral
         // frmSettings / tcMain / tabGeneral
         private static volatile string lbSettingsGeneralYoutubeDlPathString = "lbSettingsGeneralYoutubeDlPath";
         private static volatile string chkSettingsGeneralUseStaticYoutubeDlString = "chkSettingsGeneralUseStaticYoutubeDl";
@@ -142,16 +144,36 @@ namespace youtube_dl_gui {
         private static volatile string rbSettingsGeneralCustomArgumentsDontSaveString = "rbSettingsGeneralCustomArgumentsDontSave";
         private static volatile string rbSettingsGeneralCustomArgumentsSaveAsArgsTextString = "rbSettingsGeneralCustomArgumentsSaveAsArgsText";
         private static volatile string rbSettingsGeneralCustomArgumentsSaveInSettingsString = "rbSettingsGeneralCustomArgumentsSaveInSettings";
+        #endregion
+        #region tabDownloads
         // frmSettings / tcMain / tabDownloads
         private static volatile string lbSettingsDownloadsDownloadPathString = "lbSettingsDownloadsDownloadPath";
         private static volatile string lbSettingsDownloadsFileNameSchemaString = "lbSettingsDownloadsFileNameSchema";
-        private static volatile string chkSettingsDownloadsSeparateDownloadsToDifferentFoldersString = "chkSettingsDownloadsSeparateDownloadsToDifferentFolders";
+        private static volatile string tabDownloadsGeneralString = "tabDownloadsGeneral";
+        private static volatile string tabDownloadsSortingString = "tabDownloadsSorting";
+        private static volatile string tabDownloadsFixesString = "tabsDownloadsFixes";
+        private static volatile string tabDownloadsConnectionString = "tabsDownloadsConnection";
+        private static volatile string tabDownloadsUpdatingString = "tabDownloadsUpdating";
         private static volatile string chkSettingsDownloadsSaveFormatQualityString = "chkSettingsDownloadsSaveFormatQuality";
-        private static volatile string chkSettingsDownloadsSeparateIntoWebsiteUrlString = "chkSettingsDownloadsSeparateIntoWebsiteUrl";
-        private static volatile string chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosingString = "chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing";
-        private static volatile string chksettingsDownloadsUseYoutubeDlsUpdaterString = "chksettingsDownloadsUseYoutubeDlsUpdater";
-        private static volatile string chkSettingsDownloadsFixVReddItString = "chkSettingsDownloadsFixVReddIt";
         private static volatile string chkSettingsDownloadsDownloadSubtitlesString = "chkSettingsDownloadsDownloadSubtitles";
+        private static volatile string chkSettingsDownloadsSaveVideoInfoString = "chkSettingsDownloadsSaveVideoInfo";
+        private static volatile string chkSettingsDownloadsSaveDescriptionString = "chkSettingsDownloadsSaveDescription";
+        private static volatile string chkSettingsDownloadsSaveAnnotationsString = "chkSettingsDownloadsSaveAnnotations";
+        private static volatile string chkSettingsDownloadsSaveThumbnailsString = "chkSettingsDownloadsSaveThumbnails";
+        private static volatile string chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosingString = "chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing";
+        private static volatile string chkSettingsDownloadsSeparateDownloadsToDifferentFoldersString = "chkSettingsDownloadsSeparateDownloadsToDifferentFolders";
+        private static volatile string chkSettingsDownloadsSeparateIntoWebsiteUrlString = "chkSettingsDownloadsSeparateIntoWebsiteUrl";
+        private static volatile string chkSettingsDownloadsFixVReddItString = "chkSettingsDownloadsFixVReddIt";
+        private static volatile string chkSettingsDownloadsLimitDownloadString = "chkSettingsDownloadsLimitDownload";
+        private static volatile string lbSettingsDownloadsRetryAttemptsString = "lbSettingsDownloadsRetryAttempts";
+        private static volatile string chkSettingsDownloadsForceIpv4String = "chkSettingsDownloadsForceIpv4";
+        private static volatile string chkSettingsDownloadsForceIpv6String = "chkSettingsDownloadsForceIpv6";
+        private static volatile string chkSettingsDownloadsUseProxyString = "chkSettingsDownloadsUseProxy";
+
+
+        private static volatile string chksettingsDownloadsUseYoutubeDlsUpdaterString = "chksettingsDownloadsUseYoutubeDlsUpdater";
+        #endregion
+        #region tabConverter
         // frmSettings / tcMain / tabConverter
         private static volatile string chkSettingsConverterClearOutputAfterConvertingString = "chkSettingsConverterClearOutputAfterConverting";
         private static volatile string chkSettingsConverterDetectOutputFileTypeString = "chkSettingsConverterDetectOutputFileType";
@@ -167,6 +189,8 @@ namespace youtube_dl_gui {
         private static volatile string chkSettingsConverterVideoFastStartString = "chkSettingsConverterVideoFastStart";
         private static volatile string lbSettingsConverterAudioBitrateString = "lbSettingsConverterAudioBitrate";
         private static volatile string lbSettingsConverterCustomHeaderString = "lbSettingsConverterCustomHeader";
+        #endregion
+        #region tabExtensions
         // frmSettings / tcMain / tabExtensions
         private static volatile string lbSettingsExtensionsHeaderString = "lbSettingsExtensionsHeader";
         private static volatile string lbSettingsExtensionsExtensionFullNameString = "lbSettingsExtensionsExtensionFullName";
@@ -176,10 +200,13 @@ namespace youtube_dl_gui {
         private static volatile string btnSettingsExtensionsAddString = "btnSettingsExtensionsAdd";
         private static volatile string lbSettingsExtensionsFileNameString = "lbSettingsExtensionsFileName";
         private static volatile string btnSettingsExtensionsRemoveSelectedString = "btnSettingsExtensionsRemoveSelected";
+        #endregion
+        #region tabErrors
         // frmSettings / tcMain / tabErrors
         private static volatile string chkSettingsErrorsShowDetailedErrorsString = "chkSettingsErrorsShowDetailedErrors";
         private static volatile string chkSettingsErrorsSaveErrorsAsErrorLogString = "chkSettingsErrorsSaveErrorsAsErrorLog";
         private static volatile string chkSettingsErrorsSuppressErrorsString = "chkSettingsErrorsSuppressErrors";
+        #endregion
         #endregion
 
         #region tipSettings
@@ -188,6 +215,7 @@ namespace youtube_dl_gui {
         private static volatile string btnSettingsCancelHintString = "btnSettingsCancelHint";
         private static volatile string btnSettingsSaveHintString = "btnSettingsSaveHint";
 
+        #region tabGeneral
         private static volatile string lbSettingsGeneralYoutubeDlPathHintString = "lbSettingsGeneralYoutubeDlPathHint";
         private static volatile string chkSettingsGeneralUseStaticYoutubeDlHintString = "chkSettingsGeneralUseStaticYoutubeDlHint";
         private static volatile string txtSettingsGeneralYoutubeDlPathHintString = "txtSettingsGeneralYoutubeDlPathHint";
@@ -203,21 +231,42 @@ namespace youtube_dl_gui {
         private static volatile string rbSettingsGeneralCustomArgumentsDontSaveHintString = "rbSettingsGeneralCustomArgumentsDontSaveHint";
         private static volatile string rbSettingsGeneralCustomArgumentsSaveAsArgsTextHintString = "rbSettingsGeneralCustomArgumentsSaveAsArgsTextHint";
         private static volatile string rbSettingsGeneralCustomArgumentsSaveInSettingsHintString = "rbSettingsGeneralCustomArgumentsSaveInSettingsHint";
-
+        #endregion
+        #region tabDownloads
         private static volatile string lbSettingsDownloadsDownloadPathHintString = "lbSettingsDownloadsDownloadPathHint";
         private static volatile string txtSettingsDownloadsSavePathHintString = "txtSettingsDownloadsSavePathHint";
-        private static volatile string lbSettingsDownloadsFileNameSchemaHintString = "lbSettingsDownloadsFileNameSchemaHint";
         private static volatile string btnSettingsDownloadsBrowseSavePathHintString = "btnSettingsDownloadsBrowseSavePathHint";
         private static volatile string llSettingsDownloadsSchemaHelpHintString = "llSettingsDownloadsSchemaHelpHint";
+        private static volatile string lbSettingsDownloadsFileNameSchemaHintString = "lbSettingsDownloadsFileNameSchemaHint";
         private static volatile string txtSettingsDownloadsFileNameSchemaHintString = "txtSettingsDownloadsFileNameSchemaHint";
-        private static volatile string chkSettingsDownloadsSeparateDownloadsToDifferentFoldersHintString = "chkSettingsDownloadsSeparateDownloadsToDifferentFoldersHint";
-        private static volatile string chkSettingsDownloadsSaveFormatQualityHintString = "chkSettingsDownloadsSaveFormatQualityHint";
-        private static volatile string chkSettingsDownloadsSeparateIntoWebsiteUrlHintString = "chkSettingsDownloadsSeparateIntoWebsiteUrlHint";
-        private static volatile string chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosingHintString = "chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosingHint";
-        private static volatile string chksettingsDownloadsUseYoutubeDlsUpdaterHintString = "chksettingsDownloadsUseYoutubeDlsUpdaterHint";
-        private static volatile string chkSettingsDownloadsFixVReddItHintString = "chkSettingsDownloadsFixVReddItHint";
-        private static volatile string chkSettingsDownloadsDownloadSubtitlesHintString = "chkSettingsDownloadsDownloadSubtitlesHint";
 
+
+        private static volatile string chkSettingsDownloadsSaveFormatQualityHintString = "chkSettingsDownloadsSaveFormatQualityHint";
+        private static volatile string chkSettingsDownloadsDownloadSubtitlesHintString = "chkSettingsDownloadsDownloadSubtitlesHint";
+        private static volatile string chkSettingsDownloadsSaveVideoInfoHintString = "chkSettingsDownloadsSaveVideoInfoHint";
+        private static volatile string chkSettingsDownloadsSaveDescriptionHintString = "chkSettingsDownloadsSaveDescriptionHint";
+        private static volatile string chkSettingsDownloadsSaveAnnotationsHintString = "chkSettingsDownloadsSaveAnnotationsHint";
+        private static volatile string chkSettingsDownloadsSaveThumbnailsHintString = "chkSettingsDownloadsSaveThumbnailsHint";
+        private static volatile string chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosingHintString = "chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosingHint";
+        private static volatile string chkSettingsDownloadsSeparateDownloadsToDifferentFoldersHintString = "chkSettingsDownloadsSeparateDownloadsToDifferentFoldersHint";
+        private static volatile string chkSettingsDownloadsSeparateIntoWebsiteUrlHintString = "chkSettingsDownloadsSeparateIntoWebsiteUrlHint";
+        private static volatile string chkSettingsDownloadsFixVReddItHintString = "chkSettingsDownloadsFixVReddItHint";
+        private static volatile string chkSettingsDownloadsLimitDownloadHintString = "chkSettingsDownloadsLimitDownloadHint";
+        private static volatile string numSettingsDownloadsLimitDownloadHintString = "numSettingsDownloadsLimitDownloadHint";
+        private static volatile string cbSettingsDownloadsLimitDownloadHintString = "cbSettingsDownloadsDownloadLimitHint";
+        private static volatile string lbSettingsDownloadsRetryAttemptsHintString = "lbSettingsDownloadsRetryAttemptsHint";
+        private static volatile string numSettingsDownloadsRetryAttemptsHintString = "numSettingsDownloadsRetryAttemptsHint";
+        private static volatile string chkSettingsDownloadsForceIpv4HintString = "chkSettingsDownloadsForceIpv4Hint";
+        private static volatile string chkSettingsDownloadsForceIpv6HintString = "chkSettingsDownloadsForceIpv6Hint";
+        private static volatile string chkSettingsDownloadsUseProxyHintString = "chkSettingsDownloadsUseProxyHint";
+        private static volatile string cbSettingsDownloadsProxyTypeHintString = "cbSettingsDownloadsProxyTypeHint";
+        private static volatile string txtSettingsDownloadsProxyIpHintString = "txtSettingsDownloadsProxyIpHint";
+        private static volatile string txtSettingsDownloadsProxyPortHintString = "txtSettingsDownloadsProxyPortHint";
+
+
+        private static volatile string chksettingsDownloadsUseYoutubeDlsUpdaterHintString = "chksettingsDownloadsUseYoutubeDlsUpdaterHint";
+        #endregion
+        #region tabConverter
         private static volatile string chkSettingsConverterClearOutputAfterConvertingHintString = "chkSettingsConverterClearOutputAfterConvertingHint";
         private static volatile string chkSettingsConverterDetectOutputFileTypeHintString = "chkSettingsConverterDetectOutputFileTypeHint";
         private static volatile string chkSettingsConverterClearInputAfterConvertingHintString = "chkSettingsConverterClearInputAfterConvertingHint";
@@ -229,11 +278,18 @@ namespace youtube_dl_gui {
         private static volatile string chkSettingsConverterVideoFastStartHintString = "chkSettingsConverterVideoFastStartHint";
         private static volatile string lbSettingsConverterAudioBitrateHintString = "lbSettingsConverterAudioBitrateHint";
         private static volatile string txtSettingsConverterCustomArgumentsHintString = "txtSettingsConverterCustomArgumentsHint";
+        #endregion
+        #region tabExtension
 
+        #endregion
+        #region tabErrors
         private static volatile string chkSettingsErrorsShowDetailedErrorsHintString = "chkSettingsErrorsShowDetailedErrorsHint";
         private static volatile string chkSettingsErrorsSaveErrorsAsErrorLogHintString = "chkSettingsErrorsSaveErrorsAsErrorLogHint";
         private static volatile string chkSettingsErrorsSuppressErrorsHintString = "chkSettingsErrorsSuppressErrorsHint";
         #endregion
+
+        #endregion
+
         #endregion
 
         #region frmSubtitles
@@ -643,6 +699,7 @@ namespace youtube_dl_gui {
 
 //////////////// frmSettings \\\\\\\\\\\\\\\\
         #region frmSettings
+
         #region frmSettings form
         public string btnSettingsRedownloadYoutubeDl {
             get { return btnSettingsRedownloadYoutubeDlString; }
@@ -731,33 +788,89 @@ namespace youtube_dl_gui {
             get { return lbSettingsDownloadsFileNameSchemaString; }
             private set { lbSettingsDownloadsFileNameSchemaString = value; }
         }
-        public string chkSettingsDownloadsSeparateDownloadsToDifferentFolders {
-            get { return chkSettingsDownloadsSeparateDownloadsToDifferentFoldersString; }
-            private set { chkSettingsDownloadsSeparateDownloadsToDifferentFoldersString = value; }
+        public string tabDownloadsGeneral {
+            get { return tabDownloadsGeneralString; }
+            private set { tabDownloadsGeneralString = value; }
+        }
+        public string tabDownloadsSorting {
+            get { return tabDownloadsSortingString; }
+            private set { tabDownloadsSortingString = value; }
+        }
+        public string tabDownloadsFixes {
+            get { return tabDownloadsFixesString; }
+            private set { tabDownloadsFixesString = value; }
+        }
+        public string tabDownloadsConnection {
+            get { return tabDownloadsConnectionString; }
+            private set { tabDownloadsConnectionString = value; }
+        }
+        public string tabDownloadsUpdating {
+            get { return tabDownloadsUpdatingString; }
+            private set { tabDownloadsUpdatingString = value; }
         }
         public string chkSettingsDownloadsSaveFormatQuality {
             get { return chkSettingsDownloadsSaveFormatQualityString; }
             private set { chkSettingsDownloadsSaveFormatQualityString = value; }
         }
-        public string chkSettingsDownloadsSeparateIntoWebsiteUrl {
-            get { return chkSettingsDownloadsSeparateIntoWebsiteUrlString; }
-            private set { chkSettingsDownloadsSeparateIntoWebsiteUrlString = value; }
+        public string chkSettingsDownloadsDownloadSubtitles {
+            get { return chkSettingsDownloadsDownloadSubtitlesString; }
+            private set { chkSettingsDownloadsDownloadSubtitlesString = value; }
+        }
+        public string chkSettingsDownloadsSaveVideoInfo {
+            get { return chkSettingsDownloadsSaveVideoInfoString; }
+            private set { chkSettingsDownloadsSaveVideoInfoString = value; }
+        }
+        public string chkSettingsDownloadsSaveDescription {
+            get { return chkSettingsDownloadsSaveDescriptionString; }
+            private set { chkSettingsDownloadsSaveDescriptionString = value; }
+        }
+        public string chkSettingsDownloadsSaveAnnotations {
+            get { return chkSettingsDownloadsSaveAnnotationsString; }
+            private set { chkSettingsDownloadsSaveAnnotationsString = value; }
+        }
+        public string chkSettingsDownloadsSaveThumbnails {
+            get { return chkSettingsDownloadsSaveThumbnailsString; }
+            private set { chkSettingsDownloadsSaveThumbnailsString = value; }
         }
         public string chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing {
             get { return chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosingString; }
             private set { chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosingString = value; }
         }
-        public string chksettingsDownloadsUseYoutubeDlsUpdater {
-            get { return chksettingsDownloadsUseYoutubeDlsUpdaterString; }
-            private set { chksettingsDownloadsUseYoutubeDlsUpdaterString = value; }
+        public string chkSettingsDownloadsSeparateDownloadsToDifferentFolders {
+            get { return chkSettingsDownloadsSeparateDownloadsToDifferentFoldersString; }
+            private set { chkSettingsDownloadsSeparateDownloadsToDifferentFoldersString = value; }
+        }
+        public string chkSettingsDownloadsSeparateIntoWebsiteUrl {
+            get { return chkSettingsDownloadsSeparateIntoWebsiteUrlString; }
+            private set { chkSettingsDownloadsSeparateIntoWebsiteUrlString = value; }
         }
         public string chkSettingsDownloadsFixVReddIt {
             get { return chkSettingsDownloadsFixVReddItString; }
             private set { chkSettingsDownloadsFixVReddItString = value; }
         }
-        public string chkSettingsDownloadsDownloadSubtitles {
-            get { return chkSettingsDownloadsDownloadSubtitlesString; }
-            private set { chkSettingsDownloadsDownloadSubtitlesString = value; }
+        public string chkSettingsDownloadsLimitDownload {
+            get { return chkSettingsDownloadsLimitDownloadString; }
+            private set { chkSettingsDownloadsLimitDownloadString = value; }
+        }
+        public string lbSettingsDownloadsRetryAttempts {
+            get { return lbSettingsDownloadsRetryAttemptsString; }
+            private set { lbSettingsDownloadsRetryAttemptsString = value; }
+        }
+        public string chkSettingsDownloadsForceIpv4 {
+            get { return chkSettingsDownloadsForceIpv4String; }
+            private set { chkSettingsDownloadsForceIpv4String = value; }
+        }
+        public string chkSettingsDownloadsForceIpv6 {
+            get { return chkSettingsDownloadsForceIpv6String; }
+            private set { chkSettingsDownloadsForceIpv6String = value; }
+        }
+        public string chkSettingsDownloadsUseProxy {
+            get { return chkSettingsDownloadsUseProxyString; }
+            private set { chkSettingsDownloadsUseProxyString = value; }
+        }
+        public string chksettingsDownloadsUseYoutubeDlsUpdater {
+            get { return chksettingsDownloadsUseYoutubeDlsUpdaterString; }
+            private set { chksettingsDownloadsUseYoutubeDlsUpdaterString = value; }
         }
 
         public string chkSettingsConverterClearOutputAfterConverting {
@@ -963,33 +1076,93 @@ namespace youtube_dl_gui {
             get { return txtSettingsDownloadsFileNameSchemaHintString; }
             private set { txtSettingsDownloadsFileNameSchemaHintString = value; }
         }
-        public string chkSettingsDownloadsSeparateDownloadsToDifferentFoldersHint  {
-            get { return chkSettingsDownloadsSeparateDownloadsToDifferentFoldersHintString; }
-            private set { chkSettingsDownloadsSeparateDownloadsToDifferentFoldersHintString = value; }
-        }
         public string chkSettingsDownloadsSaveFormatQualityHint  {
             get { return chkSettingsDownloadsSaveFormatQualityHintString; }
             private set { chkSettingsDownloadsSaveFormatQualityHintString = value; }
         }
-        public string chkSettingsDownloadsSeparateIntoWebsiteUrlHint  {
-            get { return chkSettingsDownloadsSeparateIntoWebsiteUrlHintString; }
-            private set { chkSettingsDownloadsSeparateIntoWebsiteUrlHintString = value; }
+        public string chkSettingsDownloadsDownloadSubtitlesHint  {
+            get { return chkSettingsDownloadsDownloadSubtitlesHintString; }
+            private set { chkSettingsDownloadsDownloadSubtitlesHintString = value; }
+        }
+        public string chkSettingsDownloadsSaveVideoInfoHint {
+            get { return chkSettingsDownloadsSaveVideoInfoHintString; }
+            private set { chkSettingsDownloadsSaveVideoInfoHintString = value; }
+        }
+        public string chkSettingsDownloadsSaveDescriptionHint {
+            get { return chkSettingsDownloadsSaveDescriptionHintString; }
+            private set { chkSettingsDownloadsSaveDescriptionHintString = value; }
+        }
+        public string chkSettingsDownloadsSaveAnnotationsHint {
+            get { return chkSettingsDownloadsSaveAnnotationsHintString; }
+            private set { chkSettingsDownloadsSaveAnnotationsHintString = value; }
+        }
+        public string chkSettingsDownloadsSaveThumbnailsHint {
+            get { return chkSettingsDownloadsSaveThumbnailsHintString; }
+            private set { chkSettingsDownloadsSaveThumbnailsHintString = value; }
         }
         public string chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosingHint  {
             get { return chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosingHintString; }
             private set { chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosingHintString = value; }
         }
-        public string chksettingsDownloadsUseYoutubeDlsUpdaterHint  {
-            get { return chksettingsDownloadsUseYoutubeDlsUpdaterHintString; }
-            private set { chksettingsDownloadsUseYoutubeDlsUpdaterHintString = value; }
+        public string chkSettingsDownloadsSeparateDownloadsToDifferentFoldersHint  {
+            get { return chkSettingsDownloadsSeparateDownloadsToDifferentFoldersHintString; }
+            private set { chkSettingsDownloadsSeparateDownloadsToDifferentFoldersHintString = value; }
+        }
+        public string chkSettingsDownloadsSeparateIntoWebsiteUrlHint  {
+            get { return chkSettingsDownloadsSeparateIntoWebsiteUrlHintString; }
+            private set { chkSettingsDownloadsSeparateIntoWebsiteUrlHintString = value; }
         }
         public string chkSettingsDownloadsFixVReddItHint  {
             get { return chkSettingsDownloadsFixVReddItHintString; }
             private set { chkSettingsDownloadsFixVReddItHintString = value; }
         }
-        public string chkSettingsDownloadsDownloadSubtitlesHint  {
-            get { return chkSettingsDownloadsDownloadSubtitlesHintString; }
-            private set { chkSettingsDownloadsDownloadSubtitlesHintString = value; }
+        public string chkSettingsDownloadsLimitDownloadHint {
+            get { return chkSettingsDownloadsLimitDownloadHintString; }
+            private set { chkSettingsDownloadsLimitDownloadHintString = value; }
+        }
+        public string numSettingsDownloadsLimitDownloadHint {
+            get { return numSettingsDownloadsLimitDownloadHintString; }
+            private set { numSettingsDownloadsLimitDownloadHintString = value; }
+        }
+        public string cbSettingsDownloadsLimitDownloadHint {
+            get { return cbSettingsDownloadsLimitDownloadHintString; }
+            private set { cbSettingsDownloadsLimitDownloadHintString = value; }
+        }
+        public string lbSettingsDownloadsRetryAttemptsHint {
+            get { return lbSettingsDownloadsRetryAttemptsHintString; }
+            private set { lbSettingsDownloadsRetryAttemptsHintString = value; }
+        }
+        public string numSettingsDownloadsRetryAttemptsHint {
+            get { return numSettingsDownloadsRetryAttemptsHintString; }
+            private set { numSettingsDownloadsRetryAttemptsHintString = value; }
+        }
+        public string chkSettingsDownloadsForceIpv4Hint {
+            get { return chkSettingsDownloadsForceIpv4HintString; }
+            private set { chkSettingsDownloadsForceIpv4HintString = value; }
+        }
+        public string chkSettingsDownloadsForceIpv6Hint {
+            get { return chkSettingsDownloadsForceIpv6HintString; }
+            private set { chkSettingsDownloadsForceIpv6HintString = value; }
+        }
+        public string chkSettingsDownloadsUseProxyHint {
+            get { return chkSettingsDownloadsUseProxyHintString; }
+            private set { chkSettingsDownloadsUseProxyHintString = value; }
+        }
+        public string cbSettingsDownloadsProxyTypeHint {
+            get { return cbSettingsDownloadsProxyTypeHintString; }
+            private set { cbSettingsDownloadsProxyTypeHintString = value; }
+        }
+        public string txtSettingsDownloadsProxyIpHint {
+            get { return txtSettingsDownloadsProxyIpHintString; }
+            private set { txtSettingsDownloadsProxyIpHintString = value; }
+        }
+        public string txtSettingsDownloadsProxyPortHint {
+            get { return txtSettingsDownloadsProxyPortHintString; }
+            private set { txtSettingsDownloadsProxyPortHintString = value; }
+        }
+        public string chksettingsDownloadsUseYoutubeDlsUpdaterHint  {
+            get { return chksettingsDownloadsUseYoutubeDlsUpdaterHintString; }
+            private set { chksettingsDownloadsUseYoutubeDlsUpdaterHintString = value; }
         }
 
         public string chkSettingsConverterClearOutputAfterConvertingHint  {
@@ -1050,6 +1223,7 @@ namespace youtube_dl_gui {
             private set { chkSettingsErrorsSuppressErrorsHintString = value; }
         }
         #endregion
+
         #endregion
 
 //////////////// frmSubtitles \\\\\\\\\\\\\\\\
@@ -1268,6 +1442,7 @@ namespace youtube_dl_gui {
             #endregion
 
             #region frmSettings
+
             // frmSettings
             public static readonly string frmSettings = "youtube-dl-gui settings";
             public static readonly string btnSettingsRedownloadYoutubeDl = "(re)download youtube-dl";
@@ -1282,6 +1457,7 @@ namespace youtube_dl_gui {
             public static readonly string tabSettingsConverter = "Converter";
             public static readonly string tabSettingsExtensions = "Extensions";
             public static readonly string tabSettingsErrors = "Errors";
+            #region tabGeneral
             //frmSettings / tcMain / tabGeneral
             public static readonly string lbSettingsGeneralYoutubeDlPath = "youtube-dl path";
             public static readonly string chkSettingsGeneralUseStaticYoutubeDl = "Use static youtube-dl";
@@ -1312,31 +1488,68 @@ namespace youtube_dl_gui {
             public static readonly string rbSettingsGeneralCustomArgumentsDontSaveHint = "Doesn't save any custom arguments";
             public static readonly string rbSettingsGeneralCustomArgumentsSaveAsArgsTextHint = "Saves custom arguments as args.txt in youtube-dl-gui's directory";
             public static readonly string rbSettingsGeneralCustomArgumentsSaveInSettingsHint = "Saves custom arguments in the application settings";
+            #endregion
+            #region tabDownloads
             // frmSettings / tcMain / tabDownloads
             public static readonly string lbSettingsDownloadsDownloadPath = "download path";
             public static readonly string txtSettingsDownloadsSavePathHint = "where your downloads will be saved to";
             public static readonly string btnSettingsDownloadsBrowseSavePathHint = "browse for a new save folder";
             public static readonly string lbSettingsDownloadsFileNameSchema = "file name schema";
-            public static readonly string chkSettingsDownloadsSeparateDownloadsToDifferentFolders = "Separate downloads to different folders";
+
+            public static readonly string tabDownloadsGeneral = "General";
+            public static readonly string tabDownloadsSorting = "Sorting";
+            public static readonly string tabdownloadsFixes = "Fixes";
+            public static readonly string tabDownloadsConnection = "Connection";
+            public static readonly string tabDownloadsUpdating = "Updating";
+
             public static readonly string chkSettingsDownloadsSaveFormatQuality = "Save format && quality";
-            public static readonly string chkSettingsDownloadsSeparateIntoWebsiteUrl = "Separate into website url";
+            public static readonly string chkSettingsDownloadsDownloadSubtitles = "Download subtitles";
+            public static readonly string chkSettingsDownloadsSaveVideoInfo = "Save video info";
+            public static readonly string chkSettingsDownloadsSaveDescription = "Save description";
+            public static readonly string chkSettingsDownloadsSaveAnnotations = "Save annotations";
+            public static readonly string chkSettingsDownloadsSaveThumbnails = "Save thumbnails";
             public static readonly string chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing = "Automatically delete youtube-dl when closing";
-            public static readonly string chksettingsDownloadsUseYoutubeDlsUpdater = "Use youtube-dl's updater";
+            public static readonly string chkSettingsDownloadsSeparateDownloadsToDifferentFolders = "Separate downloads to different folders";
+            public static readonly string chkSettingsDownloadsSeparateIntoWebsiteUrl = "Separate into website url";
             public static readonly string chkSettingsDownloadsFixVReddIt = "fix v.redd.it";
-            public static readonly string chkSettingsDownloadsDownloadSubtitles = "Download subtitles:";
+            public static readonly string chkSettingsDownloadsLimitDownload = "Limit download";
+            public static readonly string lbSettingsDownloadsRetryAttempts = "Retry attempts";
+            public static readonly string chkSettingsDownloadsForceIpv4 = "Force IPv4";
+            public static readonly string chkSettingsDownloadsForceIpv6 = "Force IPv6";
+            public static readonly string chkSettingsDownloadsUseProxy = "Use a proxy";
+            public static readonly string chksettingsDownloadsUseYoutubeDlsUpdater = "Use youtube-dl's internal updater";
 
             public static readonly string lbSettingsDownloadsDownloadPathHint = "The path of the folder where files will be downloaded to";
             public static readonly string lbSettingsDownloadsFileNameSchemaHint = "The file name schema\n\n"+
                                                                                   "This basically replaces sequences with video information for a custom file name.";
             public static readonly string llSettingsDownloadsSchemaHelpHint = "Click here to view supported arguments";
             public static readonly string txtSettingsDownloadsFileNameSchemaHint = "The file name schema that will be used by youtube-dl";
-            public static readonly string chkSettingsDownloadsSeparateDownloadsToDifferentFoldersHint = "Separates downloads into their own folder based on the download type\n\n"+"Videos would be <download directory>\\Video\n"+"Audio would be <download directory>\\Audio\n"+"Custom would be <download directory>\\Custom";
+
             public static readonly string chkSettingsDownloadsSaveFormatQualityHint = "Save format & quality of downloads on download";
-            public static readonly string chkSettingsDownloadsSeparateIntoWebsiteUrlHint = "Downloaded files will be saved to the download path with the URL of the website appended at the end\n"+ "Ex: C:\\Users\\YourName\\Videos\\youtube.com\\Video.mp4";
+            public static readonly string chkSettingsDownloadsDownloadSubtitlesHint = "Download all available subtitles";
+            public static readonly string chkSettingsDownloadsSaveVideoInfoHint = "Saves the video's info into a .info.json file";
+            public static readonly string chkSettingsDownloadsSaveDescriptionHint = "Saves the video's description to a .description file";
+            public static readonly string chkSettingsDownloadsSaveAnnotationsHint = "Saves the video's annotations to a .annotations.xml file";
+            public static readonly string chkSettingsDownloadsSaveThumbnailsHint = "Saves the video's thumbnail";
             public static readonly string chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosingHint = "Automatically delete youtube-dl.exe when closing youtube-dl-gui";
+            public static readonly string chkSettingsDownloadsSeparateDownloadsToDifferentFoldersHint = "Separates downloads into their own folder based on the download type\n\n" + "Videos would be <download directory>\\Video\n" + "Audio would be <download directory>\\Audio\n" + "Custom would be <download directory>\\Custom";
+            public static readonly string chkSettingsDownloadsSeparateIntoWebsiteUrlHint = "Downloaded files will be saved to the download path with the URL of the website appended at the end\n" + "Ex: C:\\Users\\YourName\\Videos\\youtube.com\\Video.mp4";
+            public static readonly string chkSettingsDownloadsFixVReddItHint = "Fixes visual corruptions on v.redd.it/reddit.com links using ffmpeg's HTTP Live Streaming (HLS)\n\n" + "Recommended to stay on.\n" + "This requires FFMPEG to be installed and available, it will fallback to youtube-dl's default.";
+            public static readonly string chkSettingsDownloadsLimitDownloadHint = "Limits the downloads to the specified speed";
+            public static readonly string numSettingsDownloadsLimitDownloadHint = "The speed that the download will be throttled to\nSet the number to 0 to disable limiting";
+            public static readonly string cbSettingsDownloadsLimitDownloadHint = "The *byte size limit";
+            public static readonly string lbSettingsDownloadsRetryAttemptsHint = "Retry downloading the specified amount of times if it fails";
+            public static readonly string numSettingsDownloadsRetryAttemptsHint = "The maximum amount of retries allowed";
+            public static readonly string chkSettingsDownloadsForceIpv4Hint = "Force the connection to tunnel through IPv4";
+            public static readonly string chkSettingsDownloadsForceIpv6Hint = "Force the connection to tunnel through IPv6";
+            public static readonly string chkSettingsDownloadsUseProxyHint = "Download using a proxy";
+            public static readonly string cbSettingsDownloadsProxyTypeHint = "The proxy protocol that will be used";
+            public static readonly string txtSettingsDownloadsProxyIpHint = "The proxy IP that will be used";
+            public static readonly string txtSettingsDownloadsProxyPortHint = "The proxy port that will be used";
             public static readonly string chksettingsDownloadsUseYoutubeDlsUpdaterHint = "Use youtube-dl's internal updater instead of this application's updater";
-            public static readonly string chkSettingsDownloadsFixVReddItHint = "Fixes visual corruptions on v.redd.it/reddit.com links using ffmpeg's HTTP Live Streaming (HLS)\n\n"+"Recommended to stay on.\n"+"This requires FFMPEG to be installed and available, it will fallback to youtube-dl's default.";
-            public static readonly string chkSettingsDownloadsDownloadSubtitlesHint = "Download subtitles in the languages entered in the text box";
+            
+            #endregion
+            #region tabConverter
             // frmSettings / tcMain / tabConverter
             public static readonly string chkSettingsConverterClearOutputAfterConverting = "Clear output after converting";
             public static readonly string chkSettingsConverterDetectOutputFileType = "Detect output filetype";
@@ -1372,6 +1585,8 @@ namespace youtube_dl_gui {
                                                                                    "Enabling this allows videos to be played before they are fully downloaded.";
             public static readonly string lbSettingsConverterAudioBitrateHint = "The bitrate of the audio\nA bitrate is how many bits are streamed to the player\n\nHigher = better, at the cost of size\n\nIf you were to put \"256\", it would be interpreted as \"256,000\" bits per second.";
             public static readonly string txtSettingsConverterCustomArgumentsHint = "Custom arguments that will be passed through ffmpeg instead of built-in arguments";
+            #endregion
+            #region tabExtensions
             // frmSettings / tcMain / tabExtensions
             public static readonly string lbSettingsExtensionsHeader = "This allows you to input your own extensions\nto be used with this application";
             public static readonly string lbSettingsExtensionsExtensionFullName = "Extension full name";
@@ -1381,6 +1596,8 @@ namespace youtube_dl_gui {
             public static readonly string btnSettingsExtensionsAdd = "Add";
             public static readonly string lbSettingsExtensionsFileName = "FileName";
             public static readonly string btnSettingsExtensionsRemoveSelected = "Remove selected";
+            #endregion
+            #region tabErrors
             // frmSettings / tcMain / tabErrors
             public static readonly string chkSettingsErrorsShowDetailedErrors = "Show detailed errors";
             public static readonly string chkSettingsErrorsSaveErrorsAsErrorLog = "Save errors as ./error.log";
@@ -1389,6 +1606,8 @@ namespace youtube_dl_gui {
             public static readonly string chkSettingsErrorsSaveErrorsAsErrorLogHint = "Saves the latest error as error.log in the exeucting directory of youtube-dl-gui";
             public static readonly string chkSettingsErrorsSuppressErrorsHint = "This will silence any errors and will not save any error.log files.\n\n"+
                                                                                 "This basically overrides all error settings. Use at your own risk.";
+            #endregion
+
             #endregion
 
             #region frmSubtitles
@@ -1552,14 +1771,29 @@ namespace youtube_dl_gui {
 
             lbSettingsDownloadsDownloadPath = InternalEnglish.lbSettingsDownloadsDownloadPath;
             lbSettingsDownloadsFileNameSchema = InternalEnglish.lbSettingsDownloadsFileNameSchema;
-            chkSettingsDownloadsSeparateDownloadsToDifferentFolders = InternalEnglish.chkSettingsDownloadsSeparateDownloadsToDifferentFolders;
+            tabDownloadsGeneral = InternalEnglish.tabDownloadsGeneral;
+            tabDownloadsSorting = InternalEnglish.tabDownloadsSorting;
+            tabDownloadsFixes = InternalEnglish.tabdownloadsFixes;
+            tabDownloadsConnection = InternalEnglish.tabDownloadsConnection;
+            tabDownloadsUpdating = InternalEnglish.tabDownloadsUpdating;
+
             chkSettingsDownloadsSaveFormatQuality = InternalEnglish.chkSettingsDownloadsSaveFormatQuality;
-            chkSettingsDownloadsSeparateIntoWebsiteUrl = InternalEnglish.chkSettingsDownloadsSeparateIntoWebsiteUrl;
-            chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing = InternalEnglish.chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing;
-            chksettingsDownloadsUseYoutubeDlsUpdater = InternalEnglish.chksettingsDownloadsUseYoutubeDlsUpdater;
-            chkSettingsDownloadsFixVReddIt = InternalEnglish.chkSettingsDownloadsFixVReddIt;
             chkSettingsDownloadsDownloadSubtitles = InternalEnglish.chkSettingsDownloadsDownloadSubtitles;
-            
+            chkSettingsDownloadsSaveVideoInfo = InternalEnglish.chkSettingsDownloadsSaveVideoInfo;
+            chkSettingsDownloadsSaveDescription = InternalEnglish.chkSettingsDownloadsSaveDescription;
+            chkSettingsDownloadsSaveAnnotations = InternalEnglish.chkSettingsDownloadsSaveAnnotations;
+            chkSettingsDownloadsSaveThumbnails = InternalEnglish.chkSettingsDownloadsSaveThumbnails;
+            chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing = InternalEnglish.chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing;
+            chkSettingsDownloadsSeparateDownloadsToDifferentFolders = InternalEnglish.chkSettingsDownloadsSeparateDownloadsToDifferentFolders;
+            chkSettingsDownloadsSeparateIntoWebsiteUrl = InternalEnglish.chkSettingsDownloadsSeparateIntoWebsiteUrl;
+            chkSettingsDownloadsFixVReddIt = InternalEnglish.chkSettingsDownloadsFixVReddIt;
+            chkSettingsDownloadsLimitDownload = InternalEnglish.chkSettingsDownloadsLimitDownload;
+            lbSettingsDownloadsRetryAttempts = InternalEnglish.lbSettingsDownloadsRetryAttempts;
+            chkSettingsDownloadsForceIpv4 = InternalEnglish.chkSettingsDownloadsForceIpv4;
+            chkSettingsDownloadsForceIpv6 = InternalEnglish.chkSettingsDownloadsForceIpv6;
+            chkSettingsDownloadsUseProxy = InternalEnglish.chkSettingsDownloadsUseProxy;
+            chksettingsDownloadsUseYoutubeDlsUpdater = InternalEnglish.chksettingsDownloadsUseYoutubeDlsUpdater;
+
             chkSettingsConverterClearOutputAfterConverting = InternalEnglish.chkSettingsConverterClearOutputAfterConverting;
             chkSettingsConverterDetectOutputFileType = InternalEnglish.chkSettingsConverterDetectOutputFileType;
             chkSettingsConverterClearInputAfterConverting = InternalEnglish.chkSettingsConverterClearInputAfterConverting;
@@ -1614,14 +1848,29 @@ namespace youtube_dl_gui {
             btnSettingsDownloadsBrowseSavePathHint = InternalEnglish.btnSettingsDownloadsBrowseSavePathHint;
             llSettingsDownloadsSchemaHelpHint = InternalEnglish.llSettingsDownloadsSchemaHelpHint;
             lbSettingsDownloadsFileNameSchemaHint = InternalEnglish.lbSettingsDownloadsFileNameSchemaHint;
-            chkSettingsDownloadsSeparateDownloadsToDifferentFoldersHint = InternalEnglish.chkSettingsDownloadsSeparateDownloadsToDifferentFoldersHint;
-            txtSettingsDownloadsFileNameSchemaHint = InternalEnglish.txtSettingsDownloadsFileNameSchemaHint;
+
             chkSettingsDownloadsSaveFormatQualityHint = InternalEnglish.chkSettingsDownloadsSaveFormatQualityHint;
-            chkSettingsDownloadsSeparateIntoWebsiteUrlHint = InternalEnglish.chkSettingsDownloadsSeparateIntoWebsiteUrlHint;
-            chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosingHint = InternalEnglish.chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosingHint;
-            chksettingsDownloadsUseYoutubeDlsUpdaterHint = InternalEnglish.chksettingsDownloadsUseYoutubeDlsUpdaterHint;
-            chkSettingsDownloadsFixVReddItHint = InternalEnglish.chkSettingsDownloadsFixVReddItHint;
             chkSettingsDownloadsDownloadSubtitlesHint = InternalEnglish.chkSettingsDownloadsDownloadSubtitlesHint;
+            chkSettingsDownloadsSaveVideoInfoHint = InternalEnglish.chkSettingsDownloadsSaveVideoInfoHint;
+            chkSettingsDownloadsSaveDescriptionHint = InternalEnglish.chkSettingsDownloadsSaveDescriptionHint;
+            chkSettingsDownloadsSaveAnnotationsHint = InternalEnglish.chkSettingsDownloadsSaveAnnotationsHint;
+            chkSettingsDownloadsSaveThumbnailsHint = InternalEnglish.chkSettingsDownloadsSaveThumbnailsHint;
+            chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosingHint = InternalEnglish.chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosingHint;
+            chkSettingsDownloadsSeparateDownloadsToDifferentFoldersHint = InternalEnglish.chkSettingsDownloadsSeparateDownloadsToDifferentFoldersHint;
+            chkSettingsDownloadsSeparateIntoWebsiteUrlHint = InternalEnglish.chkSettingsDownloadsSeparateIntoWebsiteUrlHint;
+            chkSettingsDownloadsFixVReddItHint = InternalEnglish.chkSettingsDownloadsFixVReddItHint;
+            chkSettingsDownloadsLimitDownloadHint = InternalEnglish.chkSettingsDownloadsLimitDownloadHint;
+            numSettingsDownloadsLimitDownloadHint = InternalEnglish.numSettingsDownloadsLimitDownloadHint;
+            cbSettingsDownloadsLimitDownloadHint = InternalEnglish.cbSettingsDownloadsLimitDownloadHint;
+            lbSettingsDownloadsRetryAttemptsHint = InternalEnglish.lbSettingsDownloadsRetryAttemptsHint;
+            numSettingsDownloadsRetryAttemptsHint = InternalEnglish.numSettingsDownloadsRetryAttemptsHint;
+            chkSettingsDownloadsForceIpv4Hint = InternalEnglish.chkSettingsDownloadsForceIpv4Hint;
+            chkSettingsDownloadsForceIpv6Hint = InternalEnglish.chkSettingsDownloadsForceIpv6Hint;
+            chkSettingsDownloadsUseProxyHint = InternalEnglish.chkSettingsDownloadsUseProxyHint;
+            cbSettingsDownloadsProxyTypeHint = InternalEnglish.cbSettingsDownloadsProxyTypeHint;
+            txtSettingsDownloadsProxyIpHint = InternalEnglish.txtSettingsDownloadsProxyIpHint;
+            txtSettingsDownloadsProxyPortHint = InternalEnglish.txtSettingsDownloadsProxyPortHint;
+            chksettingsDownloadsUseYoutubeDlsUpdaterHint = InternalEnglish.chksettingsDownloadsUseYoutubeDlsUpdaterHint;
             
             chkSettingsConverterClearOutputAfterConvertingHint = InternalEnglish.chkSettingsConverterClearOutputAfterConvertingHint;
             chkSettingsConverterDetectOutputFileTypeHint = InternalEnglish.chkSettingsConverterDetectOutputFileTypeHint;
@@ -1729,31 +1978,31 @@ namespace youtube_dl_gui {
 
                             #region frmBatch
                             // frmBatch
-                            if (ReadControl == "frmbatchdownload") {
+                            else if (ReadControl == "frmbatchdownload") {
                                 frmBatchDownload = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "lbbatchdownloadlink") {
+                            else if (ReadControl == "lbbatchdownloadlink") {
                                 lbBatchDownloadLink = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "lbbatchdownloadtype") {
+                            else if (ReadControl == "lbbatchdownloadtype") {
                                 lbBatchDownloadType = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "lbbatchdownloadvideospecificargument") {
+                            else if (ReadControl == "lbbatchdownloadvideospecificargument") {
                                 lbBatchDownloadVideoSpecificArgument = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "btnbatchdownloadadd") {
+                            else if (ReadControl == "btnbatchdownloadadd") {
                                 btnBatchDownloadAdd = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "btnbatchdownloadremoveselected") {
+                            else if (ReadControl == "btnbatchdownloadremoveselected") {
                                 btnBatchDownloadRemoveSelected = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "btnbatchdownloadstart") {
+                            else if (ReadControl == "btnbatchdownloadstart") {
                                 btnBatchDownloadStart = ReadValue;
                                 continue;
                             }
@@ -1814,19 +2063,19 @@ namespace youtube_dl_gui {
                             #endregion
 
                             #region frmLanguage
-                            if (ReadControl == "frmlanguage") {
+                            else if (ReadControl == "frmlanguage") {
                                 frmLanguage = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "btnlanguagerefresh") {
+                            else if (ReadControl == "btnlanguagerefresh") {
                                 btnLanguageRefresh = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "btnlanguagecancel") {
+                            else if (ReadControl == "btnlanguagecancel") {
                                 btnLanguageCancel = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "btnlanguagesave") {
+                            else if (ReadControl == "btnlanguagesave") {
                                 btnLanguageSave = ReadValue;
                                 continue;
                             }
@@ -1834,244 +2083,244 @@ namespace youtube_dl_gui {
 
                             #region frmMain
                             // frmMain / menu
-                            if (ReadControl == "msettings") {
+                            else if (ReadControl == "msettings") {
                                 mSettings = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "mtools") {
+                            else if (ReadControl == "mtools") {
                                 mTools = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "mbatchdownload") {
+                            else if (ReadControl == "mbatchdownload") {
                                 mBatchDownload = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "mdownloadsubtitles") {
+                            else if (ReadControl == "mdownloadsubtitles") {
                                 mDownloadSubtitles = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "mmisctools") {
+                            else if (ReadControl == "mmisctools") {
                                 mMiscTools = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "mhelp") {
+                            else if (ReadControl == "mhelp") {
                                 mHelp = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "mlanguage") {
+                            else if (ReadControl == "mlanguage") {
                                 mLanguage = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "msupportedsites") {
+                            else if (ReadControl == "msupportedsites") {
                                 mSupportedSites = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "mabout") {
+                            else if (ReadControl == "mabout") {
                                 mAbout = ReadValue;
                                 continue;
                             }
                             // frmMain / tcMain
-                            if (ReadControl == "tabdownload") {
+                            else if (ReadControl == "tabdownload") {
                                 tabDownload = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "tabconvert") {
+                            else if (ReadControl == "tabconvert") {
                                 tabConvert = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "tabmerge") {
+                            else if (ReadControl == "tabmerge") {
                                 tabMerge = ReadValue;
                                 continue;
                             }
                             // frmMain / tcMain / Download
-                            if (ReadControl == "lburl") {
+                            else if (ReadControl == "lburl") {
                                 lbURL = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "txturlhint") {
+                            else if (ReadControl == "txturlhint") {
                                 txtUrlHint = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "gbdownloadtype") {
+                            else if (ReadControl == "gbdownloadtype") {
                                 gbDownloadType = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "rbvideo") {
+                            else if (ReadControl == "rbvideo") {
                                 rbVideo = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "rbaudio") {
+                            else if (ReadControl == "rbaudio") {
                                 rbAudio = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "rbcustom") {
+                            else if (ReadControl == "rbcustom") {
                                 rbCustom = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "lbquality") {
+                            else if (ReadControl == "lbquality") {
                                 lbQuality = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "chkdownloadsound") {
+                            else if (ReadControl == "chkdownloadsound") {
                                 chkDownloadSound = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "lbcustomarguments") {
+                            else if (ReadControl == "lbcustomarguments") {
                                 lbCustomArguments = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "txtargshint") {
+                            else if (ReadControl == "txtargshint") {
                                 txtArgsHint = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "sbdownload") {
+                            else if (ReadControl == "sbdownload") {
                                 sbDownload = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "mbatchdownloadfromfile") {
+                            else if (ReadControl == "mbatchdownloadfromfile") {
                                 mBatchDownloadFromFile = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "lbdownloadstatusstarted") {
+                            else if (ReadControl == "lbdownloadstatusstarted") {
                                 lbDownloadStatusStarted = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "lbdownloadstatuserror") {
+                            else if (ReadControl == "lbdownloadstatuserror") {
                                 lbDownloadStatusError = ReadValue;
                                 continue;
                             }
                             // frmMain / tcMain / Convert
-                            if (ReadControl == "lbconvertinput") {
+                            else if (ReadControl == "lbconvertinput") {
                                 lbConvertInput = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "lbconvertoutput") {
+                            else if (ReadControl == "lbconvertoutput") {
                                 lbConvertOutput = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "rbconvertvideo") {
+                            else if (ReadControl == "rbconvertvideo") {
                                 rbConvertVideo = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "rbconvertaudio") {
+                            else if (ReadControl == "rbconvertaudio") {
                                 rbConvertAudio = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "rbconvertcustom") {
+                            else if (ReadControl == "rbconvertcustom") {
                                 rbConvertCustom = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "rbconvertauto") {
+                            else if (ReadControl == "rbconvertauto") {
                                 rbConvertAuto = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "rbconvertautoffmpeg") {
+                            else if (ReadControl == "rbconvertautoffmpeg") {
                                 rbConvertAutoFFmpeg = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "btnconvert") {
+                            else if (ReadControl == "btnconvert") {
                                 btnConvert = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "lbconvertstarted") {
+                            else if (ReadControl == "lbconvertstarted") {
                                 lbConvertStarted = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "lbconvertfailed") {
+                            else if (ReadControl == "lbconvertfailed") {
                                 lbConvertFailed = ReadValue;
                                 continue;
                             }
                             // frmMain / tcMain / Merge
-                            if (ReadControl == "lbmergeinput1") {
+                            else if (ReadControl == "lbmergeinput1") {
                                 lbMergeInput1 = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "lbmergeinput2") {
+                            else if (ReadControl == "lbmergeinput2") {
                                 lbMergeInput2 = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "lbmergeoutput") {
+                            else if (ReadControl == "lbmergeoutput") {
                                 lbMergeOutput = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "chkmergeaudiotracks") {
+                            else if (ReadControl == "chkmergeaudiotracks") {
                                 chkMergeAudioTracks = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "chkmergedeleteinputfiles") {
+                            else if (ReadControl == "chkmergedeleteinputfiles") {
                                 chkMergeDeleteInputFiles = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "btnmerge") {
+                            else if (ReadControl == "btnmerge") {
                                 btnMerge = ReadValue;
                                 continue;
                             }
                             // frmMain / tcMain / cmTray
-                            if (ReadControl == "cmTrayShowForm") {
+                            else if (ReadControl == "cmTrayShowForm") {
                                 cmTrayShowForm = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "cmtraydownloader") {
+                            else if (ReadControl == "cmtraydownloader") {
                                 cmTrayDownloader = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "cmtraydownloadclipboard") {
+                            else if (ReadControl == "cmtraydownloadclipboard") {
                                 cmTrayDownloadClipboard = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "cmtraydownloadbestvideo") {
+                            else if (ReadControl == "cmtraydownloadbestvideo") {
                                 cmTrayDownloadBestVideo = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "cmtraydownloadbestaudio") {
+                            else if (ReadControl == "cmtraydownloadbestaudio") {
                                 cmTrayDownloadBestAudio = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "cmtraydownloadcustom") {
+                            else if (ReadControl == "cmtraydownloadcustom") {
                                 cmTrayDownloadCustom = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "cmtraydownloadcustomtxtbox") {
+                            else if (ReadControl == "cmtraydownloadcustomtxtbox") {
                                 cmTrayDownloadCustomTxtBox = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "cmtraydownloadcustomtxt") {
+                            else if (ReadControl == "cmtraydownloadcustomtxt") {
                                 cmTrayDownloadCustomTxt = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "cmtraydownloadcustomsettings") {
+                            else if (ReadControl == "cmtraydownloadcustomsettings") {
                                 cmTrayDownloadCustomSettings = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "cmtrayconverter") {
+                            else if (ReadControl == "cmtrayconverter") {
                                 cmTrayConverter = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "cmtrayconvertto") {
+                            else if (ReadControl == "cmtrayconvertto") {
                                 cmTrayConvertTo = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "cmtrayconvertvideo") {
+                            else if (ReadControl == "cmtrayconvertvideo") {
                                 cmTrayConvertVideo = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "cmtrayconvertaudio") {
+                            else if (ReadControl == "cmtrayconvertaudio") {
                                 cmTrayConvertAudio = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "cmtrayconvertcustom") {
+                            else if (ReadControl == "cmtrayconvertcustom") {
                                 cmTrayConvertCustom = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "cmtrayconvertautomatic") {
+                            else if (ReadControl == "cmtrayconvertautomatic") {
                                 cmTrayConvertAutomatic = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "cmtrayconvertautoffmpeg") {
+                            else if (ReadControl == "cmtrayconvertautoffmpeg") {
                                 cmTrayConvertAutoFFmpeg = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "cmtrayexit") {
+                            else if (ReadControl == "cmtrayexit") {
                                 cmTrayExit = ReadValue;
                                 continue;
                             }
@@ -2079,404 +2328,492 @@ namespace youtube_dl_gui {
 
                             #region frmSettings
                             // frmSettings
-                            if (ReadControl == "btnsettingsredownloadyoutubedl") {
+                            else if (ReadControl == "btnsettingsredownloadyoutubedl") {
                                 btnSettingsRedownloadYoutubeDl = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "btnsettingscancel") {
+                            else if (ReadControl == "btnsettingscancel") {
                                 btnSettingsCancel = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "btnsettingssave") {
+                            else if (ReadControl == "btnsettingssave") {
                                 btnSettingsSave = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "btnsettingsredownloadyoutubedlhint") {
+                            else if (ReadControl == "btnsettingsredownloadyoutubedlhint") {
                                 btnSettingsRedownloadYoutubeDlHint = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "btnsettingscancelhint") {
+                            else if (ReadControl == "btnsettingscancelhint") {
                                 btnSettingsCancelHint = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "btnsettingssavehint") {
+                            else if (ReadControl == "btnsettingssavehint") {
                                 btnSettingsSaveHint = ReadValue;
                                 continue;
                             }
                             // frmSettings / tcMain
-                            if (ReadControl == "tabsettingsgeneral") {
+                            else if (ReadControl == "tabsettingsgeneral") {
                                 tabSettingsGeneral = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "tabsettingsdownloads") {
+                            else if (ReadControl == "tabsettingsdownloads") {
                                 tabSettingsDownloads = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "tabsettingsconverter") {
+                            else if (ReadControl == "tabsettingsconverter") {
                                 tabSettingsConverter = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "tabsettingsextensions") {
+                            else if (ReadControl == "tabsettingsextensions") {
                                 tabSettingsExtensions = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "tabsettingserrors") {
+                            else if (ReadControl == "tabsettingserrors") {
                                 tabSettingsErrors = ReadValue;
                                 continue;
                             }
                             //frmSettings / tcMain / tabGeneral
-                            if (ReadControl == "lbsettingsgeneralyoutubedlpath") {
+                            else if (ReadControl == "lbsettingsgeneralyoutubedlpath") {
                                 lbSettingsGeneralYoutubeDlPath = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "chksettingsgeneralusestaticyoutubedl") {
+                            else if (ReadControl == "chksettingsgeneralusestaticyoutubedl") {
                                 chkSettingsGeneralUseStaticYoutubeDl = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "lbsettingsgeneralffmpegdirectory") {
+                            else if (ReadControl == "lbsettingsgeneralffmpegdirectory") {
                                 lbSettingsGeneralFFmpegDirectory = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "chksettingsgeneralusestaticffmpeg") {
+                            else if (ReadControl == "chksettingsgeneralusestaticffmpeg") {
                                 chkSettingsGeneralUseStaticFFmpeg = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "chksettingsgeneralcheckforupdatesonlaunch") {
+                            else if (ReadControl == "chksettingsgeneralcheckforupdatesonlaunch") {
                                 chkSettingsGeneralCheckForUpdatesOnLaunch = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "chksettingsgeneralhoveroverurltopasteclipboard") {
+                            else if (ReadControl == "chksettingsgeneralhoveroverurltopasteclipboard") {
                                 chkSettingsGeneralHoverOverUrlToPasteClipboard = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "chksettingsgeneralclearurlclipboardondownload") {
+                            else if (ReadControl == "chksettingsgeneralclearurlclipboardondownload") {
                                 chkSettingsGeneralClearUrlClipboardOnDownload = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "gbsettingsgeneralcustomarguments") {
+                            else if (ReadControl == "gbsettingsgeneralcustomarguments") {
                                 gbSettingsGeneralCustomArguments = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "rbsettingsgeneralcustomargumentsdontsave") {
+                            else if (ReadControl == "rbsettingsgeneralcustomargumentsdontsave") {
                                 rbSettingsGeneralCustomArgumentsDontSave = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "rbsettingsgeneralcustomargumentssaveasargstext") {
+                            else if (ReadControl == "rbsettingsgeneralcustomargumentssaveasargstext") {
                                 rbSettingsGeneralCustomArgumentsSaveAsArgsText = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "rbsettingsgeneralcustomargumentssaveinsettings") {
+                            else if (ReadControl == "rbsettingsgeneralcustomargumentssaveinsettings") {
                                 rbSettingsGeneralCustomArgumentsSaveInSettings = ReadValue;
                                 continue;
                             }
 
-                            if (ReadControl == "lbsettingsgeneralyoutubedlpathhint") {
+                            else if (ReadControl == "lbsettingsgeneralyoutubedlpathhint") {
                                 lbSettingsGeneralYoutubeDlPathHint = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "chksettingsgeneralusestaticyoutubedlhint") {
+                            else if (ReadControl == "chksettingsgeneralusestaticyoutubedlhint") {
                                 chkSettingsGeneralUseStaticYoutubeDlHint = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "txtsettingsgeneralyoutubedlpathhint") {
+                            else if (ReadControl == "txtsettingsgeneralyoutubedlpathhint") {
                                 txtSettingsGeneralYoutubeDlPathHint = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "btnsettingsgeneralbrowseyoutubedlhint") {
+                            else if (ReadControl == "btnsettingsgeneralbrowseyoutubedlhint") {
                                 btnSettingsGeneralBrowseYoutubeDlHint = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "lbsettingsgeneralffmpegdirectoryhint") {
+                            else if (ReadControl == "lbsettingsgeneralffmpegdirectoryhint") {
                                 lbSettingsGeneralFFmpegDirectoryHint = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "chksettingsgeneralusestaticffmpeghint") {
+                            else if (ReadControl == "chksettingsgeneralusestaticffmpeghint") {
                                 chkSettingsGeneralUseStaticFFmpegHint = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "txtsettingsgeneralffmpegpathhint") {
+                            else if (ReadControl == "txtsettingsgeneralffmpegpathhint") {
                                 txtSettingsGeneralFFmpegPathHint = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "btnsettingsgeneralbrowseffmpeghint") {
+                            else if (ReadControl == "btnsettingsgeneralbrowseffmpeghint") {
                                 btnSettingsGeneralBrowseFFmpegHint = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "chksettingsgeneralcheckforupdatesonlaunchhint") {
+                            else if (ReadControl == "chksettingsgeneralcheckforupdatesonlaunchhint") {
                                 chkSettingsGeneralCheckForUpdatesOnLaunchHint = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "chksettingsgeneralhoveroverurltopasteclipboardhint") {
+                            else if (ReadControl == "chksettingsgeneralhoveroverurltopasteclipboardhint") {
                                 chkSettingsGeneralHoverOverUrlToPasteClipboardHint = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "chksettingsgeneralclearurlclipboardondownloadhint") {
+                            else if (ReadControl == "chksettingsgeneralclearurlclipboardondownloadhint") {
                                 chkSettingsGeneralClearUrlClipboardOnDownloadHint = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "gbsettingsgeneralcustomargumentshint") {
+                            else if (ReadControl == "gbsettingsgeneralcustomargumentshint") {
                                 gbSettingsGeneralCustomArgumentsHint = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "rbsettingsgeneralcustomargumentsdontsavehint") {
+                            else if (ReadControl == "rbsettingsgeneralcustomargumentsdontsavehint") {
                                 rbSettingsGeneralCustomArgumentsDontSaveHint = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "rbsettingsgeneralcustomargumentssaveasargstexthint") {
+                            else if (ReadControl == "rbsettingsgeneralcustomargumentssaveasargstexthint") {
                                 rbSettingsGeneralCustomArgumentsSaveAsArgsTextHint = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "rbsettingsgeneralcustomargumentssaveinsettingshint") {
+                            else if (ReadControl == "rbsettingsgeneralcustomargumentssaveinsettingshint") {
                                 rbSettingsGeneralCustomArgumentsSaveInSettingsHint = ReadValue;
                                 continue;
                             }
                             // frmSettings / tcMain / tabDownloads
-                            if (ReadControl == "lbsettingsdownloadsdownloadpath") {
+                            else if (ReadControl == "lbsettingsdownloadsdownloadpath") {
                                 lbSettingsDownloadsDownloadPath = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "txtsettingsdownloadssavepathhint") {
-                                txtSettingsDownloadsSavePathHint = ReadValue;
-                                continue;
-                            }
-                            if (ReadControl == "btnsettingsdownloadsbrowsesavepathhint") {
-                                btnSettingsDownloadsBrowseSavePathHint = ReadValue;
-                                continue;
-                            }
-                            if (ReadControl == "llSettingsDownloadsSchemaHelpHint") {
-                                llSettingsDownloadsSchemaHelpHint = ReadValue;
-                                continue;
-                            }
-                            if (ReadControl == "lbsettingsdownloadsfilenameschema") {
+                            else if (ReadControl == "lbsettingsdownloadsfilenameschema") {
                                 lbSettingsDownloadsFileNameSchema = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "txtsettingsdownloadsfilenameschemahint") {
-                                txtSettingsDownloadsFileNameSchemaHint = ReadValue;
-                                continue;
-                            }
-                            if (ReadControl == "chksettingsdownloadsseparatedownloadstodifferentfolders") {
-                                chkSettingsDownloadsSeparateDownloadsToDifferentFolders = ReadValue;
-                                continue;
-                            }
-                            if (ReadControl == "chksettingsdownloadssaveformatquality") {
+                            else if (ReadControl == "chksettingsdownloadssaveformatquality") {
                                 chkSettingsDownloadsSaveFormatQuality = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "chksettingsdownloadsseparateintowebsiteurl") {
-                                chkSettingsDownloadsSeparateIntoWebsiteUrl = ReadValue;
-                                continue;
-                            }
-                            if (ReadControl == "chksettingsdownloadsautomaticallydeleteyoutubedlwhenclosing") {
-                                chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing = ReadValue;
-                                continue;
-                            }
-                            if (ReadControl == "chksettingsdownloadsuseyoutubedlsupdater") {
-                                chksettingsDownloadsUseYoutubeDlsUpdater = ReadValue;
-                                continue;
-                            }
-                            if (ReadControl == "chksettingsdownloadsfixvreddit") {
-                                chkSettingsDownloadsFixVReddIt = ReadValue;
-                                continue;
-                            }
-                            if (ReadControl == "chksettingsdownloadsdownloadsubtitles") {
+                            else if (ReadControl == "chksettingsdownloadsdownloadsubtitles") {
                                 chkSettingsDownloadsDownloadSubtitles = ReadValue;
                                 continue;
                             }
-
-                            if (ReadControl == "lbsettingsdownloadsdownloadpathhint") {
+                            else if (ReadControl == "chksettingsdownloadssavevideoinfo") {
+                                chkSettingsDownloadsSaveVideoInfo = ReadValue;
+                                continue;
+                            }
+                            else if (ReadControl == "chksettingsdownloadssavedescriptionstring") {
+                                chkSettingsDownloadsSaveDescriptionString = ReadValue;
+                                continue;
+                            }
+                            else if (ReadControl == "chksettingsdownloadssaveannotationsstring") {
+                                chkSettingsDownloadsSaveAnnotationsString = ReadValue;
+                                continue;
+                            }
+                            else if (ReadControl == "chksettingsdownloadssavethumbnailsstring") {
+                                chkSettingsDownloadsSaveThumbnailsString = ReadValue;
+                                continue;
+                            }
+                            else if (ReadControl == "chksettingsdownloadsautomaticallydeleteyoutubedlwhenclosing") {
+                                chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing = ReadValue;
+                                continue;
+                            }
+                            else if (ReadControl == "chksettingsdownloadsseparatedownloadstodifferentfolders") {
+                                chkSettingsDownloadsSeparateDownloadsToDifferentFolders = ReadValue;
+                                continue;
+                            }
+                            else if (ReadControl == "chksettingsdownloadsseparateintowebsiteurl") {
+                                chkSettingsDownloadsSeparateIntoWebsiteUrl = ReadValue;
+                                continue;
+                            }
+                            else if (ReadControl == "chksettingsdownloadsfixvreddit") {
+                                chkSettingsDownloadsFixVReddIt = ReadValue;
+                                continue;
+                            }
+                            else if (ReadControl == "chksettingsdownloadslimitdownloadstring") {
+                                chkSettingsDownloadsLimitDownloadString = ReadValue;
+                                continue;
+                            }
+                            else if (ReadControl == "lbsettingsdownloadsretryattemptsstring") {
+                                lbSettingsDownloadsRetryAttemptsString = ReadValue;
+                                continue;
+                            }
+                            else if (ReadControl == "chksettingsdownloadsforceipv4string") {
+                                chkSettingsDownloadsForceIpv4String = ReadValue;
+                                continue;
+                            }
+                            else if (ReadControl == "chksettingsdownloadsforceipv6string") {
+                                chkSettingsDownloadsForceIpv6String = ReadValue;
+                                continue;
+                            }
+                            else if (ReadControl == "chksettingsdownloadsuseproxystring") {
+                                chkSettingsDownloadsUseProxyString = ReadValue;
+                                continue;
+                            }
+                            else if (ReadControl == "chksettingsdownloadsuseyoutubedlsupdater") {
+                                chksettingsDownloadsUseYoutubeDlsUpdater = ReadValue;
+                                continue;
+                            }
+                            else if (ReadControl == "lbsettingsdownloadsdownloadpathhint") {
                                 lbSettingsDownloadsDownloadPathHint = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "lbsettingsdownloadsfilenameschemahint") {
+                            else if (ReadControl == "txtsettingsdownloadssavepathhint") {
+                                txtSettingsDownloadsSavePathHint = ReadValue;
+                                continue;
+                            }
+                            else if (ReadControl == "btnsettingsdownloadsbrowsesavepathhint") {
+                                btnSettingsDownloadsBrowseSavePathHint = ReadValue;
+                                continue;
+                            }
+                            else if (ReadControl == "llsettingsdownloadsschemahelphint") {
+                                llSettingsDownloadsSchemaHelpHint = ReadValue;
+                                continue;
+                            }
+                            else if (ReadControl == "lbsettingsdownloadsfilenameschemahint") {
                                 lbSettingsDownloadsFileNameSchemaHint = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "chksettingsdownloadsseparatedownloadstodifferentfoldershint") {
-                                chkSettingsDownloadsSeparateDownloadsToDifferentFoldersHint = ReadValue;
+                            else if (ReadControl == "txtsettingsdownloadsfilenameschemahint") {
+                                txtSettingsDownloadsFileNameSchemaHint = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "chksettingsdownloadssaveformatqualityhint") {
+                            else if (ReadControl == "chksettingsdownloadssaveformatqualityhint") {
                                 chkSettingsDownloadsSaveFormatQualityHint = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "chksettingsdownloadsseparateintowebsiteurlhint") {
-                                chkSettingsDownloadsSeparateIntoWebsiteUrlHint = ReadValue;
-                                continue;
-                            }
-                            if (ReadControl == "chksettingsdownloadsautomaticallydeleteyoutubedlwhenclosinghint") {
-                                chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosingHint = ReadValue;
-                                continue;
-                            }
-                            if (ReadControl == "chksettingsdownloadsuseyoutubedlsupdaterhint") {
-                                chksettingsDownloadsUseYoutubeDlsUpdaterHint = ReadValue;
-                                continue;
-                            }
-                            if (ReadControl == "chksettingsdownloadsfixvreddithint") {
-                                chkSettingsDownloadsFixVReddItHint = ReadValue;
-                                continue;
-                            }
-                            if (ReadControl == "chksettingsdownloadsdownloadsubtitleshint") {
+                            else if (ReadControl == "chksettingsdownloadsdownloadsubtitleshint") {
                                 chkSettingsDownloadsDownloadSubtitlesHint = ReadValue;
                                 continue;
                             }
+                            else if (ReadControl == "chksettingsdownloadssavevideoinfohint") {
+                                chkSettingsDownloadsSaveVideoInfoHint = ReadValue;
+                                continue;
+                            }
+                            else if (ReadControl == "chksettingsdownloadssavedescriptionhint") {
+                                chkSettingsDownloadsSaveDescriptionHint = ReadValue;
+                                continue;
+                            }
+                            else if (ReadControl == "chksettingsdownloadssaveannotationshint") {
+                                chkSettingsDownloadsSaveAnnotationsHint = ReadValue;
+                                continue;
+                            }
+                            else if (ReadControl == "chksettingsdownloadssavethumbnailshint") {
+                                chkSettingsDownloadsSaveThumbnailsHint = ReadValue;
+                                continue;
+                            }
+                            else if (ReadControl == "chksettingsdownloadsautomaticallydeleteyoutubedlwhenclosinghint") {
+                                chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosingHint = ReadValue;
+                                continue;
+                            }
+                            else if (ReadControl == "chksettingsdownloadsseparatedownloadstodifferentfoldershint") {
+                                chkSettingsDownloadsSeparateDownloadsToDifferentFoldersHint = ReadValue;
+                                continue;
+                            }
+                            else if (ReadControl == "chksettingsdownloadsseparateintowebsiteurlhint") {
+                                chkSettingsDownloadsSeparateIntoWebsiteUrlHint = ReadValue;
+                                continue;
+                            }
+                            else if (ReadControl == "chksettingsdownloadsfixvreddithint") {
+                                chkSettingsDownloadsFixVReddItHint = ReadValue;
+                                continue;
+                            }
+                            else if (ReadControl == "chkSettingsDownloadsLimitDownloadhint") {
+                                chkSettingsDownloadsLimitDownloadHint = ReadValue;
+                                continue;
+                            }
+                            else if (ReadControl == "numsettingsdownloadslimitdownloadhint") {
+                                numSettingsDownloadsLimitDownloadHint = ReadValue;
+                                continue;
+                            }
+                            else if (ReadControl == "cbsettingsdownloadslimitdownloadhint") {
+                                cbSettingsDownloadsLimitDownloadHint = ReadValue;
+                                continue;
+                            }
+                            else if (ReadControl == "lbsettingsdownloadsretryattemptshint") {
+                                lbSettingsDownloadsRetryAttemptsHint = ReadValue;
+                                continue;
+                            }
+                            else if (ReadControl == "numsettingsdownloadsretryattemptshint") {
+                                numSettingsDownloadsRetryAttemptsHint = ReadValue;
+                                continue;
+                            }
+                            else if (ReadControl == "chksettingsdownloadsforceipv4hint") {
+                                chkSettingsDownloadsForceIpv4Hint = ReadValue;
+                                continue;
+                            }
+                            else if (ReadControl == "chksettingsdownloadsforceipv6hint") {
+                                chkSettingsDownloadsForceIpv6Hint = ReadValue;
+                                continue;
+                            }
+                            else if (ReadControl == "chksettingsdownloadsuseproxyhint") {
+                                chkSettingsDownloadsUseProxyHint = ReadValue;
+                                continue;
+                            }
+                            else if (ReadControl == "cbsettingsdownloadsproxytypehint") {
+                                cbSettingsDownloadsProxyTypeHint = ReadValue;
+                                continue;
+                            }
+                            else if (ReadControl == "chksettingsdownloadsuseyoutubedlsupdaterhint") {
+                                chksettingsDownloadsUseYoutubeDlsUpdaterHint = ReadValue;
+                                continue;
+                            }
+
                             // frmSettings / tcMain / tabConverter
-                            if (ReadControl == "chksettingsconverterclearoutputafterconverting") {
+                            else if (ReadControl == "chksettingsconverterclearoutputafterconverting") {
                                 chkSettingsConverterClearOutputAfterConverting = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "chksettingsconverterdetectoutputfiletype") {
+                            else if (ReadControl == "chksettingsconverterdetectoutputfiletype") {
                                 chkSettingsConverterDetectOutputFileType = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "chksettingsconverterclearinputafterconverting") {
+                            else if (ReadControl == "chksettingsconverterclearinputafterconverting") {
                                 chkSettingsConverterClearInputAfterConverting = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "chksettingsconverterhideffmpegcompileinfo") {
+                            else if (ReadControl == "chksettingsconverterhideffmpegcompileinfo") {
                                 chkSettingsConverterHideFFmpegCompileInfo = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "tcsettingsconvertervideo") {
+                            else if (ReadControl == "tcsettingsconvertervideo") {
                                 tcSettingsConverterVideo = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "tcsettingsconverteraudio") {
+                            else if (ReadControl == "tcsettingsconverteraudio") {
                                 tcSettingsConverterAudio = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "tcsettingsconvertercustom") {
+                            else if (ReadControl == "tcsettingsconvertercustom") {
                                 tcSettingsConverterCustom = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "lbsettingsconvertervideobitrate") {
+                            else if (ReadControl == "lbsettingsconvertervideobitrate") {
                                 lbSettingsConverterVideoBitrate = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "lbsettingsconvertervideopreset") {
+                            else if (ReadControl == "lbsettingsconvertervideopreset") {
                                 lbSettingsConverterVideoPreset = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "lbsettingsconvertervideoprofile") {
+                            else if (ReadControl == "lbsettingsconvertervideoprofile") {
                                 lbSettingsConverterVideoProfile = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "lbsettingsconvertervideocrf") {
+                            else if (ReadControl == "lbsettingsconvertervideocrf") {
                                 lbSettingsConverterVideoCRF = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "chksettingsconvertervideofaststart") {
+                            else if (ReadControl == "chksettingsconvertervideofaststart") {
                                 chkSettingsConverterVideoFastStart = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "lbsettingsconverteraudiobitrate") {
+                            else if (ReadControl == "lbsettingsconverteraudiobitrate") {
                                 lbSettingsConverterAudioBitrate = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "lbsettingsconvertercustomheader") {
+                            else if (ReadControl == "lbsettingsconvertercustomheader") {
                                 lbSettingsConverterCustomHeader = ReadValue;
                                 continue;
                             }
 
-                            if (ReadControl == "chksettingsconverterclearoutputafterconvertinghint") {
+                            else if (ReadControl == "chksettingsconverterclearoutputafterconvertinghint") {
                                 chkSettingsConverterClearOutputAfterConvertingHint = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "chksettingsconverterdetectoutputfiletypehint") {
+                            else if (ReadControl == "chksettingsconverterdetectoutputfiletypehint") {
                                 chkSettingsConverterDetectOutputFileTypeHint = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "chksettingsconverterclearinputafterconvertinghint") {
+                            else if (ReadControl == "chksettingsconverterclearinputafterconvertinghint") {
                                 chkSettingsConverterClearInputAfterConvertingHint = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "chksettingsconverterhideffmpegcompileinfohint") {
+                            else if (ReadControl == "chksettingsconverterhideffmpegcompileinfohint") {
                                 chkSettingsConverterHideFFmpegCompileInfoHint = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "lbsettingsconvertervideobitratehint") {
+                            else if (ReadControl == "lbsettingsconvertervideobitratehint") {
                                 lbSettingsConverterVideoBitrateHint = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "lbsettingsconvertervideopresethint") {
+                            else if (ReadControl == "lbsettingsconvertervideopresethint") {
                                 lbSettingsConverterVideoPresetHint = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "lbsettingsconvertervideoprofilehint") {
+                            else if (ReadControl == "lbsettingsconvertervideoprofilehint") {
                                 lbSettingsConverterVideoProfileHint = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "lbsettingsconvertervideocrfhint") {
+                            else if (ReadControl == "lbsettingsconvertervideocrfhint") {
                                 lbSettingsConverterVideoCRFHint = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "chksettingsconvertervideofaststarthint") {
+                            else if (ReadControl == "chksettingsconvertervideofaststarthint") {
                                 chkSettingsConverterVideoFastStartHint = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "lbsettingsconverteraudiobitratehint") {
+                            else if (ReadControl == "lbsettingsconverteraudiobitratehint") {
                                 lbSettingsConverterAudioBitrateHint = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "txtsettingsconvertercustomargumentshint") {
+                            else if (ReadControl == "txtsettingsconvertercustomargumentshint") {
                                 txtSettingsConverterCustomArgumentsHint = ReadValue;
                                 continue;
                             }
                             // frmSettings / tcMain / tabExtensions
-                            if (ReadControl == "lbsettingsextensionsheader") {
+                            else if (ReadControl == "lbsettingsextensionsheader") {
                                 lbSettingsExtensionsHeader = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "lbsettingsextensionsextensionfullname") {
+                            else if (ReadControl == "lbsettingsextensionsextensionfullname") {
                                 lbSettingsExtensionsExtensionFullName = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "txtsettingsextensionsextensionfullname") {
+                            else if (ReadControl == "txtsettingsextensionsextensionfullname") {
                                 txtSettingsExtensionsExtensionFullName = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "lbsettingsextensionsextensionshort") {
+                            else if (ReadControl == "lbsettingsextensionsextensionshort") {
                                 lbSettingsExtensionsExtensionShort = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "txtsettingsextensionsextensionshort") {
+                            else if (ReadControl == "txtsettingsextensionsextensionshort") {
                                 txtSettingsExtensionsExtensionShort = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "btnsettingsextensionsadd") {
+                            else if (ReadControl == "btnsettingsextensionsadd") {
                                 btnSettingsExtensionsAdd = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "lbsettingsextensionsfilename") {
+                            else if (ReadControl == "lbsettingsextensionsfilename") {
                                 lbSettingsExtensionsFileName = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "btnsettingsextensionsremoveselected") {
+                            else if (ReadControl == "btnsettingsextensionsremoveselected") {
                                 btnSettingsExtensionsRemoveSelected = ReadValue;
                                 continue;
                             }
                             // frmSettings / tcMain / tabErrors
-                            if (ReadControl == "chksettingserrorsshowdetailederrors") {
+                            else if (ReadControl == "chksettingserrorsshowdetailederrors") {
                                 chkSettingsErrorsShowDetailedErrors = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "chksettingserrorssaveerrorsaserrorlog") {
+                            else if (ReadControl == "chksettingserrorssaveerrorsaserrorlog") {
                                 chkSettingsErrorsSaveErrorsAsErrorLog = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "chksettingserrorssuppresserrors") {
+                            else if (ReadControl == "chksettingserrorssuppresserrors") {
                                 chkSettingsErrorsSuppressErrors = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "chksettingserrorsshowdetailederrorshint") {
+                            else if (ReadControl == "chksettingserrorsshowdetailederrorshint") {
                                 chkSettingsErrorsShowDetailedErrorsHint = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "chksettingserrorssaveerrorsaserrorloghint") {
+                            else if (ReadControl == "chksettingserrorssaveerrorsaserrorloghint") {
                                 chkSettingsErrorsSaveErrorsAsErrorLogHint = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "chksettingserrorssuppresserrorshint") {
+                            else if (ReadControl == "chksettingserrorssuppresserrorshint") {
                                 chkSettingsErrorsSuppressErrorsHint = ReadValue;
                                 continue;
                             }
@@ -2484,31 +2821,31 @@ namespace youtube_dl_gui {
 
                             #region frmSubtitles
                             // frmSubtitles
-                            if (ReadControl == "frmsubtitles") {
+                            else if (ReadControl == "frmsubtitles") {
                                 frmSubtitles = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "lbsubtitlesheader") {
+                            else if (ReadControl == "lbsubtitlesheader") {
                                 lbSubtitlesHeader = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "lbsubtitlesurl") {
+                            else if (ReadControl == "lbsubtitlesurl") {
                                 lbSubtitlesUrl = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "lbsubtitleslanguages") {
+                            else if (ReadControl == "lbsubtitleslanguages") {
                                 lbSubtitlesLanguages = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "btnsubtitlesaddlanguage") {
+                            else if (ReadControl == "btnsubtitlesaddlanguage") {
                                 btnSubtitlesAddLanguage = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "btnsubtitlesclearlanguages") {
+                            else if (ReadControl == "btnsubtitlesclearlanguages") {
                                 btnSubtitlesClearLanguages = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "btnsubtitlesdownload") {
+                            else if (ReadControl == "btnsubtitlesdownload") {
                                 btnSubtitlesDownload = ReadValue;
                                 continue;
                             }
@@ -2516,54 +2853,54 @@ namespace youtube_dl_gui {
 
                             #region frmTools
                             // frmTools
-                            if (ReadControl == "frmtools") {
+                            else if (ReadControl == "frmtools") {
                                 frmTools = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "btnmisctoolsremoveaudio") {
+                            else if (ReadControl == "btnmisctoolsremoveaudio") {
                                 btnMiscToolsRemoveAudio = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "btnmisctoolsextractaudio") {
+                            else if (ReadControl == "btnmisctoolsextractaudio") {
                                 btnMiscToolsExtractAudioString = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "btnmisctoolsvideotogif") {
+                            else if (ReadControl == "btnmisctoolsvideotogif") {
                                 btnMiscToolsVideoToGifString = ReadValue;
                                 continue;
                             }
                             #endregion
 
                             #region frmUpdateAvailable
-                            if (ReadControl == "frmupdateavailable") {
+                            else if (ReadControl == "frmupdateavailable") {
                                 frmUpdateAvailable = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "lbupdateavailableheader") {
+                            else if (ReadControl == "lbupdateavailableheader") {
                                 lbUpdateAvailableHeader = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "lbupdateavailableupdateversion") {
+                            else if (ReadControl == "lbupdateavailableupdateversion") {
                                 lbUpdateAvailableUpdateVersion = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "lbupdateavailablecurrentversion") {
+                            else if (ReadControl == "lbupdateavailablecurrentversion") {
                                 lbUpdateAvailableCurrentVersion = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "lbupdateavailablechangelog") {
+                            else if (ReadControl == "lbupdateavailablechangelog") {
                                 lbUpdateAvailableChangelog = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "btnupdateavailableskipversion") {
+                            else if (ReadControl == "btnupdateavailableskipversion") {
                                 btnUpdateAvailableSkipVersion = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "btnupdateavailableupdate") {
+                            else if (ReadControl == "btnupdateavailableupdate") {
                                 btnUpdateAvailableUpdate = ReadValue;
                                 continue;
                             }
-                            if (ReadControl == "btnupdateavailableok") {
+                            else if (ReadControl == "btnupdateavailableok") {
                                 btnUpdateAvailableOk = ReadValue;
                                 continue;
                             }

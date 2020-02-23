@@ -11,6 +11,12 @@ namespace youtube_dl_gui {
         [STAThread]
         static void Main() {
          #if DEBUG
+            // 0 - b ( x 1 )
+            // 1 - kb ( x 2 )
+            // 2 - mb ( x 3 )
+            // 3 - gb ( x 4 )
+            string[] s = {"b","kb","mb","gb"};
+
             IsDebug = true;
         #else 
             IsDebug = false;

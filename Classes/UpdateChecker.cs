@@ -50,6 +50,7 @@ namespace youtube_dl_gui {
                             }
                             catch (Exception ex) {
                                 ErrorLog.ReportException(ex);
+                                return;
                             }
                             break;
                     }
@@ -69,6 +70,7 @@ namespace youtube_dl_gui {
                                             }
                                             catch (Exception ex) {
                                                 ErrorLog.ReportException(ex);
+                                                return;
                                             }
                                             break;
                                         case DialogResult.Ignore:
@@ -229,12 +231,10 @@ namespace youtube_dl_gui {
             catch (WebException WebE) {
                 ErrorLog.ReportWebException(WebE, url);
                 return null;
-                throw WebE;
             }
             catch (Exception ex) {
                 ErrorLog.ReportException(ex);
                 return null;
-                throw ex;
             }
         }
         public static string GetGitVersionString(int GitID) {

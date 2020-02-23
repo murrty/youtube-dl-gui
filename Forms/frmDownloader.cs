@@ -57,6 +57,7 @@ namespace youtube_dl_gui {
             string webFolder = string.Empty;
             bool usehlsFF = Downloads.Default.fixReddit;
 
+            #region youtube-dl path
             if (General.Default.useStaticYtdl && File.Exists(General.Default.ytdlPath)) {
                 YoutubeDlFileName = General.Default.ytdlPath;
             }
@@ -79,36 +80,40 @@ namespace youtube_dl_gui {
                         return;
                 }
             }
-
             if (YoutubeDlFileName == null) { return; }
+            #endregion
 
-            if (Downloads.Default.separateIntoWebsiteURL) { webFolder = Download.getUrlBase(DownloadUrl) + "\\"; }
-
+            #region v.redd.it fix
             if (DownloadUrl.StartsWith("https://v.redd.it") || DownloadUrl.StartsWith("https://reddit.com/") || DownloadUrl.StartsWith("https://www.reddit.com/") && DownloadType != 2 && usehlsFF) {
                 switch (Verification.ffmpegFullCheck()) {
-                    case 0:
+                    case 0: {
                         hlsFF = " --ffmpeg-location \"" + General.Default.ffmpegPath + "\\ffmpeg.exe\" --hls-prefer-ffmpeg ";
                         break;
-                    case 1:
+                    }
+                    case 1: {
                         hlsFF = " --ffmpeg-location \"" + Environment.CurrentDirectory + "\\ffmpeg.exe\" --hls-prefer-ffmpeg ";
                         break;
-                    case 2:
+                    }
+                    case 2: {
                         hlsFF = " --ffmpeg-location \"" + Verification.ffmpegPathLocation() + "\\ffmpeg.exe\"  --hls-prefer-ffmpeg ";
                         break;
+                    }
+                    default: {
+                        hlsFF = string.Empty;
+                        break;
+                    }
                 }
             }
+            #endregion
+
+            #region Arguments + Output
+            ArgumentsBuffer = DownloadUrl;
+            if (Downloads.Default.separateIntoWebsiteURL) { webFolder = Download.getUrlBase(DownloadUrl) + "\\"; }
 
             switch (DownloadType) {
                 case 0: // video
-                    if (Downloads.Default.separateDownloads)
-                        DownloadPath = " -o \"" + Downloads.Default.downloadPath + "\\" + webFolder + "Video\\" + Downloads.Default.fileNameSchema + "\"";
-                    else
-                        DownloadPath = " -o \"" + Downloads.Default.downloadPath + "\\" + webFolder + "" + Downloads.Default.fileNameSchema + "\"";
-
-                    if (usehlsFF && Download.isReddit(DownloadUrl))
-                        ArgumentsBuffer = DownloadUrl + hlsFF + DownloadPath;
-                    else
-                        ArgumentsBuffer = DownloadUrl + Download.videoQualities[DownloadQuality] + hlsFF + DownloadPath;
+                    if (Downloads.Default.separateDownloads) { DownloadPath = " -o \"" + Downloads.Default.downloadPath + "\\" + webFolder + "Video\\" + Downloads.Default.fileNameSchema + "\""; }
+                    else { DownloadPath = " -o \"" + Downloads.Default.downloadPath + "\\" + webFolder + "" + Downloads.Default.fileNameSchema + "\""; }
 
                     if (!string.IsNullOrEmpty(DownloadArguments)) {
                         string[] arguments = DownloadArguments.Split(';');
@@ -119,31 +124,97 @@ namespace youtube_dl_gui {
                         }
                     }
 
+                    if (Download.isReddit(DownloadUrl) && usehlsFF) { ArgumentsBuffer += hlsFF; }
+                    else { ArgumentsBuffer += Download.videoQualities[DownloadQuality]; }
                     break;
                 case 1: // audio
-                    if (Downloads.Default.separateDownloads)
-                        DownloadPath = " -o \"" + Downloads.Default.downloadPath + "\\" + webFolder + "Audio\\" + Downloads.Default.fileNameSchema + "\"";
-                    else
-                        DownloadPath = " -o \"" + Downloads.Default.downloadPath + "\\" + webFolder + Downloads.Default.fileNameSchema + "\"";
+                    if (Downloads.Default.separateDownloads) { DownloadPath = " -o \"" + Downloads.Default.downloadPath + "\\" + webFolder + "Audio\\" + Downloads.Default.fileNameSchema + "\""; }
+                    else { DownloadPath = " -o \"" + Downloads.Default.downloadPath + "\\" + webFolder + Downloads.Default.fileNameSchema + "\""; }
 
-                    if (usehlsFF && Download.isReddit(DownloadUrl))
-                        ArgumentsBuffer = DownloadUrl + hlsFF + DownloadPath;
-                    else
-                        ArgumentsBuffer = DownloadUrl + Download.audioQualities[DownloadQuality] + hlsFF + DownloadPath;
+                    if (usehlsFF && Download.isReddit(DownloadUrl)) { ArgumentsBuffer = hlsFF; }
+                    else { ArgumentsBuffer = Download.audioQualities[DownloadQuality] + hlsFF; }
+                        
                     break;
                 case 2: // custom
-                    if (Downloads.Default.separateDownloads)
-                        DownloadPath = " -o \"" + Downloads.Default.downloadPath + "\\" + webFolder + "Custom\\" + Downloads.Default.fileNameSchema + "\"";
-                    else
-                        DownloadPath = " -o \"" + Downloads.Default.downloadPath + "\\" + webFolder + "\"";
+                    if (Downloads.Default.separateDownloads) { DownloadPath = " -o \"" + Downloads.Default.downloadPath + "\\" + webFolder + "Custom\\" + Downloads.Default.fileNameSchema + "\""; }
+                    else { DownloadPath = " -o \"" + Downloads.Default.downloadPath + "\\" + webFolder + "\""; }
 
-                    ArgumentsBuffer = DownloadUrl + DownloadArguments + DownloadPath;
+                    ArgumentsBuffer = DownloadArguments;
                     break;
                 default:
                     MessageBox.Show("Wow, this is weird. Your download was classified as 'default'. Let me know how this happened, please");
                     return;
             }
 
+            if (Downloads.Default.ForceIPv4) {
+                ArgumentsBuffer += "--force-ipv4 ";
+            }
+            else if (Downloads.Default.ForceIPv6) {
+                ArgumentsBuffer += "--force-ipv6 ";
+            }
+
+            if (Downloads.Default.UseProxy && Downloads.Default.ProxyType > -1 && !string.IsNullOrEmpty(Downloads.Default.ProxyIP) && !string.IsNullOrEmpty(Downloads.Default.ProxyPort)) {
+                ArgumentsBuffer += "--proxy " + Download.ProxyProtocols[Downloads.Default.ProxyType] + Downloads.Default.ProxyIP + ":" + Downloads.Default.ProxyPort + "/ ";
+            }
+
+            if (Downloads.Default.SaveVideoInfo) {
+                ArgumentsBuffer += "--write-info-json ";
+            }
+            if (Downloads.Default.SaveDescription) {
+                ArgumentsBuffer += "--write-description ";
+            }
+            if (Downloads.Default.SaveAnnotations) {
+                ArgumentsBuffer += "--write-annotations ";
+            }
+            if (Downloads.Default.SaveThumbnail) {
+                ArgumentsBuffer += "--write-thumbnail ";
+                // ArgumentsBuffer += "--write-all-thumbnails "; // Maybe?
+            }
+            if (Downloads.Default.SaveSubtitles) {
+                ArgumentsBuffer += "--all-subs ";
+                if (!string.IsNullOrEmpty(Downloads.Default.SubtitleFormat)) {
+                    ArgumentsBuffer += "--sub-format " + Downloads.Default.SubtitleFormat + " ";
+                }
+            }
+
+            if (Downloads.Default.LimitDownloads && Downloads.Default.DownloadLimit > 0) {
+                ArgumentsBuffer += "--limit-rate " + Downloads.Default.DownloadLimit;
+                switch (Downloads.Default.DownloadLimitType) {
+                    case 0: { // b
+                    ArgumentsBuffer += "B ";
+                        break;
+                    }
+                    case 1: { // kb
+                        ArgumentsBuffer += "KB ";
+                        break;
+                    }
+                    case 2: { // mb
+                        ArgumentsBuffer += "MB ";
+                        break;
+                    }
+                    case 3: { // gb
+                        ArgumentsBuffer += "GB ";
+                        break;
+                    }
+                    default: { // kb default
+                        ArgumentsBuffer += "KB ";
+                        break;
+                    }
+                }
+            }
+
+            if (Downloads.Default.RetryAttempts != 10 && Downloads.Default.RetryAttempts > 0) {
+                ArgumentsBuffer += "--retries " + Downloads.Default.RetryAttempts + " ";
+            }
+
+            ArgumentsBuffer += DownloadPath;
+            #endregion
+
+            #region Download thread
+            if (Program.IsDebug) {
+                MessageBox.Show(ArgumentsBuffer);
+                return;
+            }
             DownloadThread = new Thread(() => {
                 try {
                     DownloadProcess = new System.Diagnostics.Process() {
@@ -192,6 +263,7 @@ namespace youtube_dl_gui {
                 }
             });
             DownloadThread.Start();
+            #endregion
         }
 
         private void DownloadFinishedMethod() {
