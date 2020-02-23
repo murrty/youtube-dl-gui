@@ -64,6 +64,7 @@ namespace youtube_dl_gui {
                 trayIcon.Dispose();
             }
             else {
+                tcMain.TabPages.RemoveAt(3);
                 tcMain.TabPages.RemoveAt(2);
                 lbDebug.Visible = false;
             }

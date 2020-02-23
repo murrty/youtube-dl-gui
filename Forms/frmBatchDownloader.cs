@@ -7,8 +7,6 @@ using System.Windows.Forms;
 namespace youtube_dl_gui {
     public partial class frmBatchDownloader : Form {
         Language lang = Language.GetInstance();
-        Thread DownloaderThread = null;
-        Process DownloaderProcess = null;
 
         public string argsText = string.Empty;
         public bool Debugging = false;
@@ -18,6 +16,7 @@ namespace youtube_dl_gui {
         private List<string> DownloadArgs = new List<string>(); // List of args to download
         private bool InProgress = false;                        // Bool if the batch download is in progress
         private int CurrentItem = -1;                           // Int of the current item being downloaded
+        private Thread DownloaderThread;                                // The thread for the downloader
         private frmDownloader Downloader;                       // The Downloader form that will be around. Will be disposed if aborted.
 
         public frmBatchDownloader() {
@@ -50,7 +49,6 @@ namespace youtube_dl_gui {
             }
 
             if (DownloaderThread != null && DownloaderThread.IsAlive) { DownloaderThread.Abort(); }
-            if (DownloaderProcess != null && DownloaderProcess.Responding) { DownloaderProcess.Kill(); }
 
             this.Dispose();
         }
@@ -160,12 +158,10 @@ namespace youtube_dl_gui {
         private void btnBatchDownloadStartStopExit_Click(object sender, EventArgs e) {
             if (DownloadUrls.Count == 0) { return; }
             if (InProgress) {
-                if (DownloaderProcess.Responding) {
-                    DownloaderProcess.Kill();
-                }
-                if (DownloaderThread != null) {
-                    DownloaderThread.Abort();
-                }
+                //if (DownloaderThread != null) {
+                //    DownloaderThread.Abort();
+                //}
+                Downloader.Dispose();
             }
             else if (lvBatchDownloadQueue.Items.Count > 0) {
                 btnBatchDownloadRemoveSelected.Enabled = false;
@@ -197,6 +193,7 @@ namespace youtube_dl_gui {
                     }
                     lvBatchDownloadQueue.Items[i].ImageIndex = (int)BatchDownloader.ConversionIcon.Downloading;
 
+                    bool AbortDownload = false;
                     switch (Downloader.ShowDialog()) {
                         case System.Windows.Forms.DialogResult.Yes:
                             lvBatchDownloadQueue.Items[i].ImageIndex = (int)BatchDownloader.ConversionIcon.Finished;
@@ -206,11 +203,13 @@ namespace youtube_dl_gui {
                             break;
                         case System.Windows.Forms.DialogResult.Abort:
                             lvBatchDownloadQueue.Items[i].ImageIndex = (int)BatchDownloader.ConversionIcon.Waiting;
+                            AbortDownload = true;
                             break;
                         default:
                             lvBatchDownloadQueue.Items[i].ImageIndex = (int)BatchDownloader.ConversionIcon.Finished;
                             break;
                     }
+                    if (AbortDownload) { break; }
                 }
                 InProgress = false;
                 btnBatchDownloadStartStopExit.Text = lang.btnBatchDownloadStart;
@@ -219,7 +218,7 @@ namespace youtube_dl_gui {
 
         [System.Diagnostics.DebuggerStepThrough]
         private void lvBatchDownloadQueue_SelectedIndexChanged(object sender, EventArgs e) {
-            cbBatchDownloadType.SelectedIndexChanged -= cbBatchDownloadType_SelectedIndexChanged;
+            //cbBatchDownloadType.SelectedIndexChanged -= cbBatchDownloadType_SelectedIndexChanged;
             if (lvBatchDownloadQueue.SelectedIndices.Count > 0) {
                 //btnBatchDownloadRemoveSelected.Enabled = true;
                 //if (lvBatchDownloadQueue.SelectedIndices.Count > 1) {
@@ -239,9 +238,8 @@ namespace youtube_dl_gui {
             else {
                 btnBatchDownloadRemoveSelected.Enabled = false;
             }
-            cbBatchDownloadType.SelectedIndexChanged += cbBatchDownloadType_SelectedIndexChanged;
+            //cbBatchDownloadType.SelectedIndexChanged += cbBatchDownloadType_SelectedIndexChanged;
         }
-
         private void txtBatchDownloadLink_TextChanged(object sender, EventArgs e) {
             if (string.IsNullOrEmpty(txtBatchDownloadLink.Text) || cbBatchDownloadType.SelectedIndex < 0) {
                 btnBatchDownloadAdd.Enabled = false;
@@ -250,7 +248,6 @@ namespace youtube_dl_gui {
                 btnBatchDownloadAdd.Enabled = true;
             }
         }
-
         private void cbBatchDownloadType_SelectedIndexChanged(object sender, EventArgs e) {
             if (cbBatchDownloadType.SelectedIndex > -1 && !string.IsNullOrEmpty(txtBatchDownloadLink.Text)) { btnBatchDownloadAdd.Enabled = true; }
 
