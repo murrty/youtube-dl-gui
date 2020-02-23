@@ -1,16 +1,16 @@
-﻿using System;
+using System;
 using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
 namespace youtube_dl_gui {
     public delegate void DropDownClicked();
+    [System.Diagnostics.DebuggerStepThrough]
     public class SplitButton : Button {
 
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         public static extern IntPtr SendMessage(IntPtr hWnd, int msg, int wParam, int lParam);
 
-        [System.Diagnostics.DebuggerStepThrough]
         public SplitButton() {
             this.FlatStyle = FlatStyle.System;
             this.DropDown_Clicked += new youtube_dl_gui.DropDownClicked(this.LaunchMenu);
@@ -24,10 +24,6 @@ namespace youtube_dl_gui {
                 return cParams;
             }
         }
-
-        const int BCM_FIRST = 0x1600;
-        const int WM_NOTIFY = 0x004E;
-        const int BCM_SETDROPDOWNSTATE = 0x1606;
 
         public int IsBumped = 0;
         public int IsMouseDown = 0;
@@ -84,7 +80,7 @@ namespace youtube_dl_gui {
             if (Pushed == 0) {
                 this.DropDownPushed = 0;
             }
-            SendMessage(this.Handle, BCM_FIRST + 0x0006, Pushed, 0);
+            SendMessage(this.Handle, 0x1600 + 0x0006, Pushed, 0);
         }
         public event DropDownClicked DropDown_Clicked;
         private void InitializeComponent() {
@@ -126,6 +122,7 @@ namespace youtube_dl_gui {
 
     }
 
+    [System.Diagnostics.DebuggerStepThrough]
     public class HintTextBox : TextBox {
         private string TextHintString = string.Empty;
         [DllImport("user32.dll", CharSet = CharSet.Unicode)]
@@ -143,6 +140,31 @@ namespace youtube_dl_gui {
 
         void Hint(string HintString) {
             SendMessage(this.Handle, 0x1501, (IntPtr)1, HintString);
+        }
+    }
+
+    [System.Diagnostics.DebuggerStepThrough]
+    public class VistaListView : ListView {
+        private bool UseVistaStyle = true;
+
+        [DllImport("uxtheme.dll", ExactSpelling = true, CharSet = CharSet.Unicode)]
+        private static extern int SetWindowTheme(IntPtr hwnd, string pszSubAppName, string pszSubIdList);
+
+        public VistaListView() {
+            this.View = System.Windows.Forms.View.Details;
+        }
+
+        public bool EnableVistaView {
+            get { return this.UseVistaStyle; }
+            set {
+                this.UseVistaStyle = value;
+                if (value) {
+                    SetWindowTheme(this.Handle, "Eplorer", null);
+                }
+                else {
+                    SetWindowTheme(this.Handle, null, null);
+                }
+            }
         }
     }
 }
