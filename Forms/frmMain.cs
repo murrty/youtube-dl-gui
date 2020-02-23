@@ -429,17 +429,15 @@ namespace youtube_dl_gui {
                 tmrDownloadLabel.Enabled = false;
             }
         }
-
+        [DebuggerStepThrough]
         private void sbDownload_Click(object sender, EventArgs e) {
             if (string.IsNullOrEmpty(txtUrl.Text)) { return; }
             frmDownloader Downloader = new frmDownloader();
-
             if (rbVideo.Checked) {
                 string videoArguments = string.Empty;
                 if (!chkDownloadSound.Checked) {
                     videoArguments += "-nosound";
                 }
-
                 Downloader.DownloadPath = Downloads.Default.downloadPath;
                 Downloader.DownloadQuality = cbQuality.SelectedIndex;
                 Downloader.DownloadType = 0;
@@ -523,6 +521,7 @@ namespace youtube_dl_gui {
                     }
                     for (int i = 0; i < ReadFile.Length; i++) {
                         using (frmDownloader Downloader = new frmDownloader()) {
+                            Downloader.BatchDownload = true;
                             switch (DownloadType) {
                                 case 0:
                                     Downloader.DownloadArguments = videoArguments;
@@ -828,14 +827,13 @@ namespace youtube_dl_gui {
         }
         #endregion
 
+        #region debug
         private void btnDebugForceUpdateCheck_Click(object sender, EventArgs e) {
             UpdateChecker.CheckForUpdate(true);
         }
-
         private void btnDebugForceAvailableUpdate_Click(object sender, EventArgs e) {
             UpdateChecker.UpdateDebug.UpdateAvailable();
         }
-
         private void btnDebugDownloadArgs_Click(object sender, EventArgs e) {
             if (!Clipboard.ContainsText()) { return; }
             frmDownloader Downloader = new frmDownloader();
@@ -844,8 +842,9 @@ namespace youtube_dl_gui {
             Downloader.DownloadType = 0;
             Downloader.DownloadUrl = Clipboard.GetText();
             Downloader.Debugging = true;
+            Downloader.BatchDownload = true;
             Downloader.Show();
         }
-
+        #endregion
     }
 }

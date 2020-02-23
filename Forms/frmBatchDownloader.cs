@@ -98,10 +98,50 @@ namespace youtube_dl_gui {
             lvBatchDownloadQueue.Items.Add(lvi);
 
             txtBatchDownloadLink.Clear();
+            btnBatchDownloadStartStopExit.Enabled = true;
         }
+        private void sbBatchDownloadLoadArgs_Click(object sender, EventArgs e) {
+            if (!string.IsNullOrEmpty(Saved.Default.downloadArgs)) {
+                txtBatchDownloadVideoSpecificArgument.Text = Saved.Default.downloadArgs;
+                return;
+            }
 
+            if (System.IO.File.Exists(Environment.CurrentDirectory + "\\args.txt")) {
+                string ArgsBuffer = System.IO.File.ReadAllText(Environment.CurrentDirectory + "\\args.txt");
+                if (!string.IsNullOrEmpty(ArgsBuffer)) {
+                    txtBatchDownloadVideoSpecificArgument.Text = ArgsBuffer;
+                    return;
+                }
+            }
+            using (OpenFileDialog ofd = new OpenFileDialog()) {
+                ofd.Title = "Select a file to read as arguments";
+                ofd.Filter = "All files (*.*)|*.*";
+                if (ofd.ShowDialog() == DialogResult.OK) {
+                    if (System.IO.File.Exists(ofd.FileName)) {
+                        txtBatchDownloadVideoSpecificArgument.Text = System.IO.File.ReadAllText(ofd.FileName).Trim(' ').Replace('\n', ' ').Trim(' ');
+                    }
+                }
+            }
+        }
+        private void mBatchDownloaderLoadArgsFromSettings_Click(object sender, EventArgs e) {
+            txtBatchDownloadVideoSpecificArgument.Text = Saved.Default.downloadArgs;
+        }
+        private void mBatchDownloaderLoadArgsFromArgsTxt_Click(object sender, EventArgs e) {
+            if (System.IO.File.Exists(Environment.CurrentDirectory + "\\args.txt")) { txtBatchDownloadVideoSpecificArgument.Text = System.IO.File.ReadAllText(Environment.CurrentDirectory + "\\args.txt"); }
+        }
+        private void mBatchDownloaderLoadArgsFromFile_Click(object sender, EventArgs e) {
+            using (OpenFileDialog ofd = new OpenFileDialog()) {
+                ofd.Title = "Select a file to read as arguments";
+                ofd.Filter = "All files (*.*)|*.*";
+                if (ofd.ShowDialog() == DialogResult.OK) {
+                    if (System.IO.File.Exists(ofd.FileName)) {
+                        txtBatchDownloadVideoSpecificArgument.Text = System.IO.File.ReadAllText(ofd.FileName).Trim(' ').Replace('\n', ' ').Trim(' ');
+                    }
+                }
+            }
+        }
         private void btnBatchDownloadRemoveSelected_Click(object sender, EventArgs e) {
-            if (lvBatchDownloadQueue.SelectedIndices.Count == 0) {
+            if (lvBatchDownloadQueue.SelectedIndices.Count == 0 || InProgress) {
                 return;
             }
 
@@ -115,20 +155,93 @@ namespace youtube_dl_gui {
                     DownloadFailed.RemoveAt(i);
                 }
             }
+
+            if (lvBatchDownloadQueue.Items.Count == 0) {
+                btnBatchDownloadStartStopExit.Enabled = false;
+            }
         }
 
         private void btnBatchDownloadStartStopExit_Click(object sender, EventArgs e) {
+            if (DownloadUrls.Count == 0) { return; }
+            if (InProgress) {
+                if (DownloaderProcess.Responding) {
+                    DownloaderProcess.Kill();
+                }
+                if (DownloaderThread != null) {
+                    DownloaderThread.Abort();
+                }
+            }
+            else if (lvBatchDownloadQueue.Items.Count > 0) {
+                btnBatchDownloadRemoveSelected.Enabled = false;
+                btnBatchDownloadStartStopExit.Text = lang.btnBatchDownloadStop;
+                InProgress = true;
+                for (int i = 0; i < DownloadUrls.Count; i++) {
+                    CurrentItem = i;
+                    Downloader = new frmDownloader();
+                    Downloader.BatchDownload = true;
+                    Downloader.DownloadUrl = DownloadUrls[i];
+                    Downloader.DownloadPath = Downloads.Default.downloadPath;
+                    switch (DownloadTypes[i]) {
+                        case 0:
+                            Downloader.DownloadQuality = Saved.Default.videoQuality;
+                            Downloader.DownloadType = 0;
+                            break;
+                        case 1:
+                            Downloader.DownloadQuality = Saved.Default.audioQuality;
+                            Downloader.DownloadType = 1;
+                            break;
+                        case 2:
+                            Downloader.DownloadArguments = DownloadArgs[i];
+                            Downloader.DownloadType = 2;
+                            break;
+                        default:
+                            continue;
+                    }
+                    lvBatchDownloadQueue.Items[i].ImageIndex = (int)BatchDownloader.ConversionIcon.Downloading;
 
+                    switch (Downloader.ShowDialog()) {
+                        case System.Windows.Forms.DialogResult.Yes:
+                            lvBatchDownloadQueue.Items[i].ImageIndex = (int)BatchDownloader.ConversionIcon.Finished;
+                            break;
+                        case System.Windows.Forms.DialogResult.No:
+                            lvBatchDownloadQueue.Items[i].ImageIndex = (int)BatchDownloader.ConversionIcon.Errored;
+                            break;
+                        case System.Windows.Forms.DialogResult.Abort:
+                            lvBatchDownloadQueue.Items[i].ImageIndex = (int)BatchDownloader.ConversionIcon.Waiting;
+                            break;
+                        default:
+                            lvBatchDownloadQueue.Items[i].ImageIndex = (int)BatchDownloader.ConversionIcon.Finished;
+                            break;
+                    }
+                }
+                InProgress = false;
+                btnBatchDownloadStartStopExit.Text = lang.btnBatchDownloadStart;
+            }
         }
 
         [System.Diagnostics.DebuggerStepThrough]
         private void lvBatchDownloadQueue_SelectedIndexChanged(object sender, EventArgs e) {
+            cbBatchDownloadType.SelectedIndexChanged -= cbBatchDownloadType_SelectedIndexChanged;
             if (lvBatchDownloadQueue.SelectedIndices.Count > 0) {
-                btnBatchDownloadRemoveSelected.Enabled = true;
+                //btnBatchDownloadRemoveSelected.Enabled = true;
+                //if (lvBatchDownloadQueue.SelectedIndices.Count > 1) {
+                //    cbBatchDownloadType.SelectedIndex = -1;
+                //}
+                //else {
+                //    for (int i = lvBatchDownloadQueue.Items.Count - 1; i >= 0; i--) {
+                //        if (lvBatchDownloadQueue.Items[i].Selected) {
+                //            cbBatchDownloadType.SelectedIndex = cbBatchDownloadType.Items.IndexOf(lvBatchDownloadQueue.Items[i].SubItems[1].Text);
+                //        }
+                //    }
+                //}
+                if (!InProgress) {
+                    btnBatchDownloadRemoveSelected.Enabled = true;
+                }
             }
             else {
                 btnBatchDownloadRemoveSelected.Enabled = false;
             }
+            cbBatchDownloadType.SelectedIndexChanged += cbBatchDownloadType_SelectedIndexChanged;
         }
 
         private void txtBatchDownloadLink_TextChanged(object sender, EventArgs e) {
@@ -142,15 +255,42 @@ namespace youtube_dl_gui {
 
         private void cbBatchDownloadType_SelectedIndexChanged(object sender, EventArgs e) {
             if (cbBatchDownloadType.SelectedIndex > -1 && !string.IsNullOrEmpty(txtBatchDownloadLink.Text)) { btnBatchDownloadAdd.Enabled = true; }
+
+            if (lvBatchDownloadQueue.SelectedItems.Count > 0) {
+                for (int i = 0; i < lvBatchDownloadQueue.SelectedItems.Count; i++) {
+                    lvBatchDownloadQueue.SelectedItems[i].SubItems[1].Text = cbBatchDownloadType.GetItemText(cbBatchDownloadType.SelectedItem);
+                }
+            }
         }
     }
 
     public class BatchDownloader {
-        public enum ConversionIcon:int {
+        public enum ConversionIcon : int {
             Waiting = 0,
             Downloading = 1,
             Finished = 2,
             Errored = 3
+        }
+
+        public static string CurrentTime() {
+            string DateTimeBuffer = string.Empty;
+            DateTimeBuffer += DateTime.Now.Year + "_";
+            if (DateTime.Now.Month < 10) { DateTimeBuffer += "0"; }
+            DateTimeBuffer += DateTime.Now.Month + "_";
+
+            if (DateTime.Now.Day < 10) { DateTimeBuffer += "0"; }
+            DateTimeBuffer += DateTime.Now.Day + "-";
+
+            if (DateTime.Now.Hour < 10) { DateTimeBuffer += "0"; }
+            DateTimeBuffer += DateTime.Now.Hour + "_";
+
+            if (DateTime.Now.Minute < 10) { DateTimeBuffer += "0"; }
+            DateTimeBuffer += DateTime.Now.Minute + "_";
+
+            if (DateTime.Now.Second < 10) { DateTimeBuffer += "0"; }
+            DateTimeBuffer += DateTime.Now.Second;
+
+            return DateTimeBuffer;
         }
     }
 }

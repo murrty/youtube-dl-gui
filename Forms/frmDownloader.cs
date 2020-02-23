@@ -12,8 +12,8 @@ namespace youtube_dl_gui {
         public string DownloadPath = null;      // The path of the destination directory
         public string DownloadArguments = null; // The arguments passed for youtube-dl
         public int DownloadType = -1;           // The type of download
-        public int DownloadQuality = 0;        // The quality of download
-        public bool BatchDownload = false;
+        public int DownloadQuality = 0;         // The quality of download
+        public bool BatchDownload = false;      // Is the download in a batch? If so, minimize the form.
 
         public bool Debugging = false;
 
@@ -32,18 +32,23 @@ namespace youtube_dl_gui {
         }
         private void frmDownloader_Load(object sender, EventArgs e) { if (BatchDownload) { this.WindowState = FormWindowState.Minimized; } }
         private void frmDownloader_Shown(object sender, EventArgs e) { BeginDownload(); }
-        private void frmDownloader_FormClosing(object sender, FormClosingEventArgs e) {
-            CloseForm();
-        }
+        private void frmDownloader_FormClosing(object sender, FormClosingEventArgs e) { CloseForm(); }
         private void btnDownloaderCancelExit_Click(object sender, EventArgs e) {
+            if (!DownloadProcess.HasExited) {
+                DownloadAborted = true;
+            }
             CloseForm();
         }
 
         private void BeginDownload() {
-            if (string.IsNullOrEmpty(DownloadUrl) || string.IsNullOrEmpty(DownloadPath)) {
-                MessageBox.Show("The URL or Destination is null or empty. Please enter a URL or Download path.");
+            Debug.Print("BeginDownload()");
+            if (string.IsNullOrEmpty(DownloadUrl)) {
+                MessageBox.Show("The URL is null or empty. Please enter a URL or Download path.");
                 return;
             }
+
+            //if (BatchDownload) { chkDownloaderCloseAfterDownloader.Checked = true; }
+            chkDownloaderCloseAfterDownloader.Checked = false;
 
             if (DownloadUrl.StartsWith("http://")) { DownloadUrl = "https" + DownloadUrl.Substring(4); }
 
@@ -102,20 +107,25 @@ namespace youtube_dl_gui {
             }
             #endregion
 
-            #region Arguments + Output
+            #region Output
+            string BatchTime = string.Empty;
+            if (BatchDownload) {
+                BatchTime += "\\" + BatchDownloader.CurrentTime();
+            }
+
             ArgumentsBuffer = DownloadUrl;
             if (Downloads.Default.separateIntoWebsiteURL) { webFolder = Download.getUrlBase(DownloadUrl) + "\\"; }
 
             switch (DownloadType) {
                 case 0: // video
-                    if (Downloads.Default.separateDownloads) { DownloadPath = "-o \"" + Downloads.Default.downloadPath + "\\" + webFolder + "Video\\" + Downloads.Default.fileNameSchema + "\""; }
-                    else { DownloadPath = "-o \"" + Downloads.Default.downloadPath + "\\" + webFolder + "" + Downloads.Default.fileNameSchema + "\""; }
+                    if (Downloads.Default.separateDownloads) { DownloadPath = " -o \"" + Downloads.Default.downloadPath + BatchTime + "\\" + webFolder + "Video\\" + Downloads.Default.fileNameSchema + "\""; }
+                    else { DownloadPath = " -o \"" + Downloads.Default.downloadPath + BatchTime + "\\" + webFolder + "" + Downloads.Default.fileNameSchema + "\""; }
 
                     if (!string.IsNullOrEmpty(DownloadArguments)) {
                         string[] arguments = DownloadArguments.Split(';');
                         for (int i = 0; i < arguments.Length; i++) {
                             if (arguments[i] == "-nosound" || arguments[i] == "-ns") {
-                                ArgumentsBuffer = ArgumentsBuffer.Replace("+bestaudio[ext=m4a]", "");
+                                ArgumentsBuffer += ArgumentsBuffer.Replace("+bestaudio[ext=m4a]", "");
                             }
                         }
                     }
@@ -124,89 +134,89 @@ namespace youtube_dl_gui {
                     else { ArgumentsBuffer += Download.videoQualities[DownloadQuality]; }
                     break;
                 case 1: // audio
-                    if (Downloads.Default.separateDownloads) { DownloadPath = " -o \"" + Downloads.Default.downloadPath + "\\" + webFolder + "Audio\\" + Downloads.Default.fileNameSchema + "\""; }
-                    else { DownloadPath = "-o \"" + Downloads.Default.downloadPath + "\\" + webFolder + Downloads.Default.fileNameSchema + "\""; }
+                    if (Downloads.Default.separateDownloads) { DownloadPath = " -o \"" + Downloads.Default.downloadPath + BatchTime + "\\" + webFolder + "Audio\\" + Downloads.Default.fileNameSchema + "\""; }
+                    else { DownloadPath = " -o \"" + Downloads.Default.downloadPath + BatchTime + "\\" + webFolder + Downloads.Default.fileNameSchema + "\""; }
 
-                    if (usehlsFF && Download.isReddit(DownloadUrl)) { ArgumentsBuffer = hlsFF; }
-                    else { ArgumentsBuffer = Download.audioQualities[DownloadQuality] + hlsFF; }
+                    if (usehlsFF && Download.isReddit(DownloadUrl)) { ArgumentsBuffer += hlsFF; }
+                    else { ArgumentsBuffer += Download.audioQualities[DownloadQuality] + hlsFF; }
 
                     break;
                 case 2: // custom
-                    if (Downloads.Default.separateDownloads) { DownloadPath = "-o \"" + Downloads.Default.downloadPath + "\\" + webFolder + "Custom\\" + Downloads.Default.fileNameSchema + "\""; }
-                    else { DownloadPath = "-o \"" + Downloads.Default.downloadPath + "\\" + webFolder + "\""; }
+                    if (Downloads.Default.separateDownloads) { DownloadPath = " -o \"" + Downloads.Default.downloadPath + BatchTime + "\\" + webFolder + "Custom\\" + Downloads.Default.fileNameSchema + "\""; }
+                    else { DownloadPath = " -o \"" + Downloads.Default.downloadPath + BatchTime + "\\" + webFolder + "\""; }
 
-                    ArgumentsBuffer = DownloadArguments;
+                    ArgumentsBuffer += DownloadArguments;
                     break;
                 default:
                     rtbConsoleOutput.Text = "The download has been classified as \"default\", and cannot proceed.";
                     return;
             }
+            #endregion
 
-            if (Downloads.Default.SaveSubtitles) {
-                ArgumentsBuffer += "--all-subs ";
-                if (!string.IsNullOrEmpty(Downloads.Default.SubtitleFormat)) {
-                    ArgumentsBuffer += "--sub-format " + Downloads.Default.SubtitleFormat + " ";
+            #region Arguments
+            if (DownloadType != 2) {
+                if (Downloads.Default.SaveSubtitles) {
+                    ArgumentsBuffer += " --all-subs";
+                    if (!string.IsNullOrEmpty(Downloads.Default.SubtitleFormat)) {
+                        ArgumentsBuffer += "--sub-format " + Downloads.Default.SubtitleFormat + " ";
+                    }
                 }
-            }
-            if (Downloads.Default.SaveVideoInfo) {
-                ArgumentsBuffer += "--write-info-json ";
-            }
-            if (Downloads.Default.SaveDescription) {
-                ArgumentsBuffer += "--write-description ";
-            }
-            if (Downloads.Default.SaveAnnotations) {
-                ArgumentsBuffer += "--write-annotations ";
-            }
-            if (Downloads.Default.SaveThumbnail) {
-                ArgumentsBuffer += "--write-thumbnail ";
-                // ArgumentsBuffer += "--write-all-thumbnails "; // Maybe?
-            }
-
-            if (Downloads.Default.LimitDownloads && Downloads.Default.DownloadLimit > 0) {
-                ArgumentsBuffer += "--limit-rate " + Downloads.Default.DownloadLimit;
-                switch (Downloads.Default.DownloadLimitType) {
-                    case 0: { // b
-                            ArgumentsBuffer += "B ";
-                            break;
-                        }
-                    case 1: { // kb
-                            ArgumentsBuffer += "KB ";
-                            break;
-                        }
-                    case 2: { // mb
-                            ArgumentsBuffer += "MB ";
-                            break;
-                        }
-                    case 3: { // gb
-                            ArgumentsBuffer += "GB ";
-                            break;
-                        }
-                    default: { // kb default
-                            ArgumentsBuffer += "KB ";
-                            break;
-                        }
+                if (Downloads.Default.SaveVideoInfo) {
+                    ArgumentsBuffer += " --write-info-json";
                 }
-            }
+                if (Downloads.Default.SaveDescription) {
+                    ArgumentsBuffer += " --write-description";
+                }
+                if (Downloads.Default.SaveAnnotations) {
+                    ArgumentsBuffer += " --write-annotations";
+                }
+                if (Downloads.Default.SaveThumbnail) {
+                    ArgumentsBuffer += " --write-thumbnail";
+                    // ArgumentsBuffer += "--write-all-thumbnails "; // Maybe?
+                }
 
-            if (Downloads.Default.RetryAttempts != 10 && Downloads.Default.RetryAttempts > 0) {
-                ArgumentsBuffer += "--retries " + Downloads.Default.RetryAttempts + " ";
-            }
+                if (Downloads.Default.LimitDownloads && Downloads.Default.DownloadLimit > 0) {
+                    ArgumentsBuffer += " --limit-rate " + Downloads.Default.DownloadLimit;
+                    switch (Downloads.Default.DownloadLimitType) {
+                        case 0: { // kb
+                                ArgumentsBuffer += "K ";
+                                break;
+                            }
+                        case 1: { // mb
+                                ArgumentsBuffer += "M ";
+                                break;
+                            }
+                        case 2: { // gb
+                                ArgumentsBuffer += "G ";
+                                break;
+                            }
+                        default: { // kb default
+                                ArgumentsBuffer += "K ";
+                                break;
+                            }
+                    }
+                }
 
-            if (Downloads.Default.ForceIPv4) {
-                ArgumentsBuffer += "--force-ipv4 ";
-            }
-            else if (Downloads.Default.ForceIPv6) {
-                ArgumentsBuffer += "--force-ipv6 ";
-            }
+                if (Downloads.Default.RetryAttempts != 10 && Downloads.Default.RetryAttempts > 0) {
+                    ArgumentsBuffer += " --retries " + Downloads.Default.RetryAttempts;
+                }
 
-            if (Downloads.Default.UseProxy && Downloads.Default.ProxyType > -1 && !string.IsNullOrEmpty(Downloads.Default.ProxyIP) && !string.IsNullOrEmpty(Downloads.Default.ProxyPort)) {
-                ArgumentsBuffer += "--proxy " + Download.ProxyProtocols[Downloads.Default.ProxyType] + Downloads.Default.ProxyIP + ":" + Downloads.Default.ProxyPort + "/ ";
+                if (Downloads.Default.ForceIPv4) {
+                    ArgumentsBuffer += " --force-ipv4";
+                }
+                else if (Downloads.Default.ForceIPv6) {
+                    ArgumentsBuffer += " --force-ipv6";
+                }
+
+                if (Downloads.Default.UseProxy && Downloads.Default.ProxyType > -1 && !string.IsNullOrEmpty(Downloads.Default.ProxyIP) && !string.IsNullOrEmpty(Downloads.Default.ProxyPort)) {
+                    ArgumentsBuffer += " --proxy " + Download.ProxyProtocols[Downloads.Default.ProxyType] + Downloads.Default.ProxyIP + ":" + Downloads.Default.ProxyPort + "/ ";
+                }
             }
             ArgumentsBuffer += DownloadPath;
             #endregion
 
             #region Download thread
-            if (Program.IsDebug && Debugging) {
+            if (Program.IsDebug && Debugging && !BatchDownload) {
                 rtbConsoleOutput.Text = ArgumentsBuffer.Replace(' ', '\n');
                 return;
             }
@@ -243,10 +253,21 @@ namespace youtube_dl_gui {
                     DownloadProcess.WaitForExit();
 
                     DownloadFinished = true;
+
+                    if (DownloadProcess.ExitCode == 0) {
+                        DownloadFinished = true;
+                        DownloadAborted = false;
+                        DownloadErrored = false;
+                    }
+                    else {
+                        DownloadErrored = true;
+                        DownloadFinished = false;
+                    }
                 }
                 catch (ThreadAbortException) {
                     // Thread was aborted
                     DownloadAborted = true;
+                    //if (BatchDownload) { this.BeginInvoke(new MethodInvoker(() => { this.DialogResult = System.Windows.Forms.DialogResult.Abort; })); }
                     return;
                 }
                 catch (Exception ex) {
@@ -254,63 +275,76 @@ namespace youtube_dl_gui {
                     DownloadErrored = true;
                 }
                 finally {
-                    DownloadFinishedMethod();
+                    ThreadExit();
                 }
             });
             DownloadThread.Start();
             #endregion
         }
-        private void DownloadFinishedMethod() {
+        private void ThreadExit() {
             this.BeginInvoke(new MethodInvoker(() => {
-                if (BatchDownload) {
-                    if (DownloadErrored) {
-                        this.DialogResult = System.Windows.Forms.DialogResult.No;
-                    }
-                    else if (DownloadAborted) {
-                        this.DialogResult = System.Windows.Forms.DialogResult.Abort;
-                    }
-                    else if (DownloadFinished) {
-                        this.DialogResult = System.Windows.Forms.DialogResult.Yes;
-                    }
-                    else {
-                        this.DialogResult = System.Windows.Forms.DialogResult.No;
-                    }
+                DownloadFinishedMethod();
+            }));
+        }
+        private void DownloadFinishedMethod() {
+            if (BatchDownload) {
+                if (DownloadAborted) {
+                    this.DialogResult = System.Windows.Forms.DialogResult.Abort;
+                }
+                else if (DownloadErrored) {
+                    this.DialogResult = System.Windows.Forms.DialogResult.No;
+                }
+                else if (DownloadFinished) {
+                    this.DialogResult = System.Windows.Forms.DialogResult.Yes;
                 }
                 else {
-                    if (DownloadErrored) {
-                        tmrTitleActivity.Stop();
-                        btnDownloaderCancelExit.Text = lang.btnDownloaderExit;
-                        rtbConsoleOutput.AppendText("\nAn error occured");
-                    }
-
-                    else if (chkDownloaderCloseAfterDownloader.Checked || DownloadAborted) { this.Dispose(); }
-
-                    else if (DownloadFinished) {
-                        tmrTitleActivity.Stop();
-                        btnDownloaderCancelExit.Text = lang.btnDownloaderExit;
-                        this.Text = lang.frmDownloaderComplete;
-                        rtbConsoleOutput.AppendText("Download has finished.");
-                    }
+                    this.DialogResult = System.Windows.Forms.DialogResult.No;
                 }
-            }));
+            }
+            else {
+                if (chkDownloaderCloseAfterDownloader.Checked || DownloadAborted) { this.DialogResult = System.Windows.Forms.DialogResult.Abort; }
+                else if (DownloadErrored) {
+                    tmrTitleActivity.Stop();
+                    btnDownloaderCancelExit.Text = lang.btnDownloaderExit;
+                    rtbConsoleOutput.AppendText("\nAn error occured");
+                }
+                else if (DownloadFinished) {
+                    tmrTitleActivity.Stop();
+                    btnDownloaderCancelExit.Text = lang.btnDownloaderExit;
+                    this.Text = lang.frmDownloaderComplete;
+                    rtbConsoleOutput.AppendText("Download has finished.");
+                }
+            }
         }
         private void CloseForm() {
             if (!DownloadFinished && !DownloadAborted && !DownloadErrored) {
                 try {
                     DownloadProcess.Kill();
                     DownloadThread.Abort();
+                    this.DialogResult = System.Windows.Forms.DialogResult.Abort;
                 }
                 catch (Exception ex) {
                     ErrorLog.ReportException(ex);
                 }
             }
-            else {
-                if (Downloads.Default.CloseDownloaderAfterFinish != chkDownloaderCloseAfterDownloader.Checked) {
+            if (DownloadAborted) {
+                this.DialogResult = System.Windows.Forms.DialogResult.Abort;
+            }
+            else if (DownloadFinished) {
+                if (Downloads.Default.CloseDownloaderAfterFinish != chkDownloaderCloseAfterDownloader.Checked && !BatchDownload) {
                     Downloads.Default.CloseDownloaderAfterFinish = chkDownloaderCloseAfterDownloader.Checked;
                     Downloads.Default.Save();
                 }
+                if (DownloadProcess.ExitCode == 0) {
+                    this.DialogResult = System.Windows.Forms.DialogResult.Yes;
+                }
+                else {
+                    this.DialogResult = System.Windows.Forms.DialogResult.No;
+                }
             }
-            this.Dispose();
+            else {
+                this.DialogResult = System.Windows.Forms.DialogResult.No;
+            }
         }
         private void AbortDownload() {
             if (!DownloadFinished && !DownloadAborted && !DownloadErrored) {

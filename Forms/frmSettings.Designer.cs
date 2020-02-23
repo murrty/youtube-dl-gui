@@ -680,11 +680,10 @@
             this.cbSettingsDownloadsLimitDownload.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbSettingsDownloadsLimitDownload.FormattingEnabled = true;
             this.cbSettingsDownloadsLimitDownload.Items.AddRange(new object[] {
-            "B",
             "KB",
             "MB",
             "GB"});
-            this.cbSettingsDownloadsLimitDownload.Location = new System.Drawing.Point(182, 5);
+            this.cbSettingsDownloadsLimitDownload.Location = new System.Drawing.Point(187, 5);
             this.cbSettingsDownloadsLimitDownload.Name = "cbSettingsDownloadsLimitDownload";
             this.cbSettingsDownloadsLimitDownload.Size = new System.Drawing.Size(44, 21);
             this.cbSettingsDownloadsLimitDownload.TabIndex = 33;
@@ -694,12 +693,12 @@
             // 
             this.numSettingsDownloadsLimitDownload.Location = new System.Drawing.Point(126, 6);
             this.numSettingsDownloadsLimitDownload.Maximum = new decimal(new int[] {
-            1024,
+            100000,
             0,
             0,
             0});
             this.numSettingsDownloadsLimitDownload.Name = "numSettingsDownloadsLimitDownload";
-            this.numSettingsDownloadsLimitDownload.Size = new System.Drawing.Size(50, 20);
+            this.numSettingsDownloadsLimitDownload.Size = new System.Drawing.Size(57, 20);
             this.numSettingsDownloadsLimitDownload.TabIndex = 32;
             this.tipSettings.SetToolTip(this.numSettingsDownloadsLimitDownload, "numSettingsDownloadsDownloadLimitHint");
             // 

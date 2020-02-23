@@ -26,12 +26,6 @@
         private void InitializeComponent() {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmBatchDownloader));
-            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem("3243", 0);
-            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem("123536", 1);
-            System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem("6723142423", 2);
-            System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem("14356234", 3);
-            System.Windows.Forms.ListViewItem listViewItem5 = new System.Windows.Forms.ListViewItem("51152351", 0);
-            System.Windows.Forms.ListViewItem listViewItem6 = new System.Windows.Forms.ListViewItem("123", 0);
             this.cbBatchDownloadType = new System.Windows.Forms.ComboBox();
             this.lbBatchDownloadLink = new System.Windows.Forms.Label();
             this.lbBatchDownloadType = new System.Windows.Forms.Label();
@@ -144,16 +138,19 @@
             // 
             this.mBatchDownloaderLoadArgsFromSettings.Index = 0;
             this.mBatchDownloaderLoadArgsFromSettings.Text = "mBatchDownloaderLoadArgsFromSettings";
+            this.mBatchDownloaderLoadArgsFromSettings.Click += new System.EventHandler(this.mBatchDownloaderLoadArgsFromSettings_Click);
             // 
             // mBatchDownloaderLoadArgsFromArgsTxt
             // 
             this.mBatchDownloaderLoadArgsFromArgsTxt.Index = 1;
             this.mBatchDownloaderLoadArgsFromArgsTxt.Text = "mBatchDownloaderLoadArgsFromArgsTxt";
+            this.mBatchDownloaderLoadArgsFromArgsTxt.Click += new System.EventHandler(this.mBatchDownloaderLoadArgsFromArgsTxt_Click);
             // 
             // mBatchDownloaderLoadArgsFromFile
             // 
             this.mBatchDownloaderLoadArgsFromFile.Index = 2;
             this.mBatchDownloaderLoadArgsFromFile.Text = "mBatchDownloaderLoadArgsFromFile";
+            this.mBatchDownloaderLoadArgsFromFile.Click += new System.EventHandler(this.mBatchDownloaderLoadArgsFromFile_Click);
             // 
             // sbBatchDownloader
             // 
@@ -183,6 +180,7 @@
             this.sbBatchDownloadLoadArgs.TabIndex = 15;
             this.sbBatchDownloadLoadArgs.Text = "sbBatchDownloadLoadArgs";
             this.sbBatchDownloadLoadArgs.UseVisualStyleBackColor = true;
+            this.sbBatchDownloadLoadArgs.Click += new System.EventHandler(this.sbBatchDownloadLoadArgs_Click);
             // 
             // txtBatchDownloadVideoSpecificArgument
             // 
@@ -200,7 +198,7 @@
             this.txtBatchDownloadLink.Name = "txtBatchDownloadLink";
             this.txtBatchDownloadLink.Size = new System.Drawing.Size(256, 20);
             this.txtBatchDownloadLink.TabIndex = 13;
-            this.txtBatchDownloadLink.TextHint = "https://....";
+            this.txtBatchDownloadLink.TextHint = "https://...";
             this.txtBatchDownloadLink.TextChanged += new System.EventHandler(this.txtBatchDownloadLink_TextChanged);
             // 
             // lvBatchDownloadQueue
@@ -215,19 +213,6 @@
             this.clArgs});
             this.lvBatchDownloadQueue.EnableVistaView = true;
             this.lvBatchDownloadQueue.FullRowSelect = true;
-            listViewItem1.StateImageIndex = 0;
-            listViewItem2.StateImageIndex = 0;
-            listViewItem3.StateImageIndex = 0;
-            listViewItem4.StateImageIndex = 0;
-            listViewItem5.StateImageIndex = 0;
-            listViewItem6.StateImageIndex = 0;
-            this.lvBatchDownloadQueue.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem1,
-            listViewItem2,
-            listViewItem3,
-            listViewItem4,
-            listViewItem5,
-            listViewItem6});
             this.lvBatchDownloadQueue.Location = new System.Drawing.Point(12, 51);
             this.lvBatchDownloadQueue.Name = "lvBatchDownloadQueue";
             this.lvBatchDownloadQueue.Size = new System.Drawing.Size(557, 231);
