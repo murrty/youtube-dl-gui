@@ -20,9 +20,7 @@ namespace youtube_dl_gui {
                 GitData.UpdateName = "An update";
                 GitData.UpdateBody = "A new update is available. Not really.\nNew line escape sequence works! Use \\n\n\nhello world";
                 GitData.UpdateVersion = "1.0";
-                frmUpdateAvailable Update = new frmUpdateAvailable();
-                Update.ShowDialog();
-                Update.Dispose();
+                using (frmUpdateAvailable Update = new frmUpdateAvailable()) { Update.ShowDialog(); }
                 GitData.UpdateAvailable = OldGitUpdateAvailable;
                 GitData.UpdateName = UpdateArray[0];
                 GitData.UpdateBody = UpdateArray[1];
@@ -41,18 +39,19 @@ namespace youtube_dl_gui {
 
 
                 if (GitData.UpdateAvailable) {
-                    frmUpdateAvailable Update = new frmUpdateAvailable();
-                    Update.BlockSkip = GitData.UpdateAvailable;
-                    switch (Update.ShowDialog()) {
-                        case DialogResult.Yes:
-                            try {
-                                UpdateApplication();
-                            }
-                            catch (Exception ex) {
-                                ErrorLog.ReportException(ex);
-                                return;
-                            }
-                            break;
+                    using (frmUpdateAvailable Update = new frmUpdateAvailable()) {
+                        Update.BlockSkip = GitData.UpdateAvailable;
+                        switch (Update.ShowDialog()) {
+                            case DialogResult.Yes:
+                                try {
+                                    UpdateApplication();
+                                }
+                                catch (Exception ex) {
+                                    ErrorLog.ReportException(ex);
+                                    return;
+                                }
+                                break;
+                        }
                     }
                 }
                 else {
@@ -61,22 +60,23 @@ namespace youtube_dl_gui {
                             decimal GitVersion = UpdateChecker.GetGitVersion(0);
                             if (UpdateChecker.IsUpdateAvailable(GitVersion)) {
                                 if (GitVersion != Properties.Settings.Default.SkippedVersion || ForceCheck) {
-                                    frmUpdateAvailable Update = new frmUpdateAvailable();
-                                    Update.BlockSkip = ForceCheck;
-                                    switch (Update.ShowDialog()) {
-                                        case DialogResult.Yes:
-                                            try {
-                                                UpdateApplication();
-                                            }
-                                            catch (Exception ex) {
-                                                ErrorLog.ReportException(ex);
-                                                return;
-                                            }
-                                            break;
-                                        case DialogResult.Ignore:
-                                            Properties.Settings.Default.SkippedVersion = GitVersion;
-                                            Properties.Settings.Default.Save();
-                                            break;
+                                    using (frmUpdateAvailable Update = new frmUpdateAvailable()) {
+                                        Update.BlockSkip = ForceCheck;
+                                        switch (Update.ShowDialog()) {
+                                            case DialogResult.Yes:
+                                                try {
+                                                    UpdateApplication();
+                                                }
+                                                catch (Exception ex) {
+                                                    ErrorLog.ReportException(ex);
+                                                    return;
+                                                }
+                                                break;
+                                            case DialogResult.Ignore:
+                                                Properties.Settings.Default.SkippedVersion = GitVersion;
+                                                Properties.Settings.Default.Save();
+                                                break;
+                                        }
                                     }
                                 }
                             }

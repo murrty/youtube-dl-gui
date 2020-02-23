@@ -346,7 +346,7 @@
             // chkSettingsGeneralClearUrlClipboardOnDownload
             // 
             this.chkSettingsGeneralClearUrlClipboardOnDownload.AutoSize = true;
-            this.chkSettingsGeneralClearUrlClipboardOnDownload.Location = new System.Drawing.Point(64, 165);
+            this.chkSettingsGeneralClearUrlClipboardOnDownload.Location = new System.Drawing.Point(30, 195);
             this.chkSettingsGeneralClearUrlClipboardOnDownload.Name = "chkSettingsGeneralClearUrlClipboardOnDownload";
             this.chkSettingsGeneralClearUrlClipboardOnDownload.Size = new System.Drawing.Size(261, 17);
             this.chkSettingsGeneralClearUrlClipboardOnDownload.TabIndex = 11;
@@ -359,7 +359,7 @@
             this.chkSettingsGeneralHoverOverUrlToPasteClipboard.AutoSize = true;
             this.chkSettingsGeneralHoverOverUrlToPasteClipboard.Checked = true;
             this.chkSettingsGeneralHoverOverUrlToPasteClipboard.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkSettingsGeneralHoverOverUrlToPasteClipboard.Location = new System.Drawing.Point(65, 142);
+            this.chkSettingsGeneralHoverOverUrlToPasteClipboard.Location = new System.Drawing.Point(27, 172);
             this.chkSettingsGeneralHoverOverUrlToPasteClipboard.Name = "chkSettingsGeneralHoverOverUrlToPasteClipboard";
             this.chkSettingsGeneralHoverOverUrlToPasteClipboard.Size = new System.Drawing.Size(267, 17);
             this.chkSettingsGeneralHoverOverUrlToPasteClipboard.TabIndex = 10;
@@ -370,7 +370,7 @@
             // chkSettingsGeneralCheckForUpdatesOnLaunch
             // 
             this.chkSettingsGeneralCheckForUpdatesOnLaunch.AutoSize = true;
-            this.chkSettingsGeneralCheckForUpdatesOnLaunch.Location = new System.Drawing.Point(79, 119);
+            this.chkSettingsGeneralCheckForUpdatesOnLaunch.Location = new System.Drawing.Point(33, 149);
             this.chkSettingsGeneralCheckForUpdatesOnLaunch.Name = "chkSettingsGeneralCheckForUpdatesOnLaunch";
             this.chkSettingsGeneralCheckForUpdatesOnLaunch.Size = new System.Drawing.Size(254, 17);
             this.chkSettingsGeneralCheckForUpdatesOnLaunch.TabIndex = 9;
@@ -603,27 +603,29 @@
             // txtSettingsDownloadsProxyPort
             // 
             this.txtSettingsDownloadsProxyPort.Location = new System.Drawing.Point(189, 132);
+            this.txtSettingsDownloadsProxyPort.MaxLength = 5;
             this.txtSettingsDownloadsProxyPort.Name = "txtSettingsDownloadsProxyPort";
             this.txtSettingsDownloadsProxyPort.Size = new System.Drawing.Size(44, 20);
             this.txtSettingsDownloadsProxyPort.TabIndex = 42;
-            this.txtSettingsDownloadsProxyPort.TextHint = "123456";
+            this.txtSettingsDownloadsProxyPort.TextHint = "12345";
             this.tipSettings.SetToolTip(this.txtSettingsDownloadsProxyPort, "txtSettingsDownloadsProxyPortHint");
-            this.txtSettingsDownloadsProxyPort.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtSettingsDownloadsProxyPort_KeyDown);
+            this.txtSettingsDownloadsProxyPort.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtSettingsDownloadsProxyPort_KeyPress);
             // 
             // txtSettingsDownloadsProxyIp
             // 
             this.txtSettingsDownloadsProxyIp.Location = new System.Drawing.Point(92, 132);
+            this.txtSettingsDownloadsProxyIp.MaxLength = 15;
             this.txtSettingsDownloadsProxyIp.Name = "txtSettingsDownloadsProxyIp";
             this.txtSettingsDownloadsProxyIp.Size = new System.Drawing.Size(89, 20);
             this.txtSettingsDownloadsProxyIp.TabIndex = 40;
             this.txtSettingsDownloadsProxyIp.TextHint = "255.255.255.255";
             this.tipSettings.SetToolTip(this.txtSettingsDownloadsProxyIp, "txtSettingsDownloadsProxyIpHint");
-            this.txtSettingsDownloadsProxyIp.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtSettingsDownloadsProxyIp_KeyDown);
+            this.txtSettingsDownloadsProxyIp.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtSettingsDownloadsProxyIp_KeyPress);
             // 
             // chkSettingsDownloadsForceIpv6
             // 
             this.chkSettingsDownloadsForceIpv6.AutoSize = true;
-            this.chkSettingsDownloadsForceIpv6.Location = new System.Drawing.Point(9, 85);
+            this.chkSettingsDownloadsForceIpv6.Location = new System.Drawing.Point(6, 81);
             this.chkSettingsDownloadsForceIpv6.Name = "chkSettingsDownloadsForceIpv6";
             this.chkSettingsDownloadsForceIpv6.Size = new System.Drawing.Size(182, 17);
             this.chkSettingsDownloadsForceIpv6.TabIndex = 39;
@@ -635,7 +637,7 @@
             // chkSettingsDownloadsForceIpv4
             // 
             this.chkSettingsDownloadsForceIpv4.AutoSize = true;
-            this.chkSettingsDownloadsForceIpv4.Location = new System.Drawing.Point(9, 62);
+            this.chkSettingsDownloadsForceIpv4.Location = new System.Drawing.Point(6, 58);
             this.chkSettingsDownloadsForceIpv4.Name = "chkSettingsDownloadsForceIpv4";
             this.chkSettingsDownloadsForceIpv4.Size = new System.Drawing.Size(182, 17);
             this.chkSettingsDownloadsForceIpv4.TabIndex = 38;
@@ -647,7 +649,7 @@
             // chkSettingsDownloadsUseProxy
             // 
             this.chkSettingsDownloadsUseProxy.AutoSize = true;
-            this.chkSettingsDownloadsUseProxy.Location = new System.Drawing.Point(9, 108);
+            this.chkSettingsDownloadsUseProxy.Location = new System.Drawing.Point(6, 110);
             this.chkSettingsDownloadsUseProxy.Name = "chkSettingsDownloadsUseProxy";
             this.chkSettingsDownloadsUseProxy.Size = new System.Drawing.Size(179, 17);
             this.chkSettingsDownloadsUseProxy.TabIndex = 37;
@@ -657,7 +659,7 @@
             // 
             // numSettingsDownloadsRetryAttempts
             // 
-            this.numSettingsDownloadsRetryAttempts.Location = new System.Drawing.Point(115, 32);
+            this.numSettingsDownloadsRetryAttempts.Location = new System.Drawing.Point(115, 30);
             this.numSettingsDownloadsRetryAttempts.Name = "numSettingsDownloadsRetryAttempts";
             this.numSettingsDownloadsRetryAttempts.Size = new System.Drawing.Size(63, 20);
             this.numSettingsDownloadsRetryAttempts.TabIndex = 34;
@@ -666,7 +668,7 @@
             // lbSettingsDownloadsRetryAttempts
             // 
             this.lbSettingsDownloadsRetryAttempts.AutoSize = true;
-            this.lbSettingsDownloadsRetryAttempts.Location = new System.Drawing.Point(6, 34);
+            this.lbSettingsDownloadsRetryAttempts.Location = new System.Drawing.Point(6, 32);
             this.lbSettingsDownloadsRetryAttempts.Name = "lbSettingsDownloadsRetryAttempts";
             this.lbSettingsDownloadsRetryAttempts.Size = new System.Drawing.Size(172, 13);
             this.lbSettingsDownloadsRetryAttempts.TabIndex = 35;
@@ -713,7 +715,7 @@
             // chkSettingsDownloadsLimitDownload
             // 
             this.chkSettingsDownloadsLimitDownload.AutoSize = true;
-            this.chkSettingsDownloadsLimitDownload.Location = new System.Drawing.Point(9, 7);
+            this.chkSettingsDownloadsLimitDownload.Location = new System.Drawing.Point(6, 6);
             this.chkSettingsDownloadsLimitDownload.Name = "chkSettingsDownloadsLimitDownload";
             this.chkSettingsDownloadsLimitDownload.Size = new System.Drawing.Size(203, 17);
             this.chkSettingsDownloadsLimitDownload.TabIndex = 44;
@@ -1342,7 +1344,7 @@
             // chkSettingsErrorsSaveErrorsAsErrorLog
             // 
             this.chkSettingsErrorsSaveErrorsAsErrorLog.AutoSize = true;
-            this.chkSettingsErrorsSaveErrorsAsErrorLog.Location = new System.Drawing.Point(8, 29);
+            this.chkSettingsErrorsSaveErrorsAsErrorLog.Location = new System.Drawing.Point(8, 39);
             this.chkSettingsErrorsSaveErrorsAsErrorLog.Name = "chkSettingsErrorsSaveErrorsAsErrorLog";
             this.chkSettingsErrorsSaveErrorsAsErrorLog.Size = new System.Drawing.Size(212, 17);
             this.chkSettingsErrorsSaveErrorsAsErrorLog.TabIndex = 2;
@@ -1353,7 +1355,8 @@
             // chkSettingsErrorsShowDetailedErrors
             // 
             this.chkSettingsErrorsShowDetailedErrors.AutoSize = true;
-            this.chkSettingsErrorsShowDetailedErrors.Location = new System.Drawing.Point(8, 6);
+            this.chkSettingsErrorsShowDetailedErrors.Enabled = false;
+            this.chkSettingsErrorsShowDetailedErrors.Location = new System.Drawing.Point(8, 16);
             this.chkSettingsErrorsShowDetailedErrors.Name = "chkSettingsErrorsShowDetailedErrors";
             this.chkSettingsErrorsShowDetailedErrors.Size = new System.Drawing.Size(201, 17);
             this.chkSettingsErrorsShowDetailedErrors.TabIndex = 1;
@@ -1364,7 +1367,7 @@
             // chkSettingsErrorsSuppressErrors
             // 
             this.chkSettingsErrorsSuppressErrors.AutoSize = true;
-            this.chkSettingsErrorsSuppressErrors.Location = new System.Drawing.Point(8, 52);
+            this.chkSettingsErrorsSuppressErrors.Location = new System.Drawing.Point(8, 62);
             this.chkSettingsErrorsSuppressErrors.Name = "chkSettingsErrorsSuppressErrors";
             this.chkSettingsErrorsSuppressErrors.Size = new System.Drawing.Size(179, 17);
             this.chkSettingsErrorsSuppressErrors.TabIndex = 0;

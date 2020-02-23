@@ -69,6 +69,7 @@
             // 
             // tmrTitleActivity
             // 
+            this.tmrTitleActivity.Enabled = true;
             this.tmrTitleActivity.Interval = 1000;
             this.tmrTitleActivity.Tick += new System.EventHandler(this.tmrTitleActivity_Tick);
             // 
@@ -85,6 +86,8 @@
             this.Name = "frmDownloader";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.Text = "frmDownloader";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmDownloader_FormClosing);
+            this.Load += new System.EventHandler(this.frmDownloader_Load);
             this.Shown += new System.EventHandler(this.frmDownloader_Shown);
             this.ResumeLayout(false);
             this.PerformLayout();

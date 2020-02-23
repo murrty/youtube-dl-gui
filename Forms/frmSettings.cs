@@ -29,7 +29,7 @@ namespace youtube_dl_gui {
             loadSettings();
         }
         private void frmSettings_Load(object sender, EventArgs e) {
-
+            CalculatePositions();
         }
 
         void LoadLanguage() {
@@ -174,7 +174,87 @@ namespace youtube_dl_gui {
             tipSettings.SetToolTip(chkSettingsErrorsSuppressErrors, lang.chkSettingsErrorsSuppressErrorsHint);
 
         }
+        void CalculatePositions() {
+            chkSettingsGeneralCheckForUpdatesOnLaunch.Location = new System.Drawing.Point(
+                (tabSettingsGeneral.Size.Width - chkSettingsGeneralCheckForUpdatesOnLaunch.Size.Width) / 2 ,
+                chkSettingsGeneralCheckForUpdatesOnLaunch.Location.Y
+                );
+            chkSettingsGeneralHoverOverUrlToPasteClipboard.Location = new System.Drawing.Point(
+                (tabSettingsGeneral.Size.Width - chkSettingsGeneralHoverOverUrlToPasteClipboard.Size.Width) / 2,
+                chkSettingsGeneralHoverOverUrlToPasteClipboard.Location.Y
+                );
+            chkSettingsGeneralClearUrlClipboardOnDownload.Location = new System.Drawing.Point(
+                (tabSettingsGeneral.Size.Width - chkSettingsGeneralClearUrlClipboardOnDownload.Size.Width) / 2,
+                chkSettingsGeneralClearUrlClipboardOnDownload.Location.Y);
 
+            if (!Program.IsDebug || Program.IsDebug) {
+                return;
+            }
+            chkSettingsDownloadsSaveFormatQuality.Location = new System.Drawing.Point(
+                (tabSettingsGeneral.Size.Width - chkSettingsDownloadsSaveFormatQuality.Size.Width) / 2,
+                chkSettingsDownloadsSaveFormatQuality.Location.Y);
+            chkSettingsDownloadsDownloadSubtitles.Location = new System.Drawing.Point(
+                (tabSettingsGeneral.Size.Width - chkSettingsDownloadsDownloadSubtitles.Size.Width) / 2,
+                chkSettingsDownloadsDownloadSubtitles.Location.Y);
+            chkSettingsDownloadsSaveVideoInfo.Location = new System.Drawing.Point(
+                (tabSettingsGeneral.Size.Width - chkSettingsDownloadsSaveVideoInfo.Size.Width) / 2,
+                chkSettingsDownloadsSaveVideoInfo.Location.Y);
+            chkSettingsDownloadsSaveDescription.Location = new System.Drawing.Point(
+                (tabSettingsGeneral.Size.Width - chkSettingsDownloadsSaveDescription.Size.Width) / 2,
+                chkSettingsDownloadsSaveDescription.Location.Y);
+            chkSettingsDownloadsSaveAnnotations.Location = new System.Drawing.Point(
+                (tabSettingsGeneral.Size.Width - chkSettingsDownloadsSaveAnnotations.Size.Width) / 2,
+                chkSettingsDownloadsSaveAnnotations.Location.Y);
+            chkSettingsDownloadsSaveThumbnails.Location = new System.Drawing.Point(
+                (tabSettingsGeneral.Size.Width - chkSettingsDownloadsSaveThumbnails.Size.Width) / 2,
+                chkSettingsDownloadsSaveThumbnails.Location.Y);
+            chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing.Location = new System.Drawing.Point(
+                (tabSettingsGeneral.Size.Width - chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing.Size.Width) / 2,
+                chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing.Location.Y);
+            chkSettingsDownloadsSeparateDownloadsToDifferentFolders.Location = new System.Drawing.Point(
+                (tabSettingsGeneral.Size.Width - chkSettingsDownloadsSeparateDownloadsToDifferentFolders.Size.Width) / 2,
+                chkSettingsDownloadsSeparateDownloadsToDifferentFolders.Location.Y);
+            chkSettingsDownloadsSeparateIntoWebsiteUrl.Location = new System.Drawing.Point(
+                (tabSettingsGeneral.Size.Width - chkSettingsDownloadsSeparateIntoWebsiteUrl.Size.Width) / 2,
+                chkSettingsDownloadsSeparateIntoWebsiteUrl.Location.Y);
+            chkSettingsDownloadsFixVReddIt.Location = new System.Drawing.Point(
+                (tabSettingsGeneral.Size.Width - chkSettingsDownloadsFixVReddIt.Size.Width) / 2,
+                chkSettingsDownloadsFixVReddIt.Location.Y);
+            chkSettingsDownloadsForceIpv4.Location = new System.Drawing.Point(
+                (tabSettingsGeneral.Size.Width - chkSettingsDownloadsForceIpv4.Size.Width) / 2,
+                chkSettingsDownloadsForceIpv4.Location.Y);
+            chkSettingsDownloadsForceIpv6.Location = new System.Drawing.Point(
+                (tabSettingsGeneral.Size.Width - chkSettingsDownloadsForceIpv6.Size.Width) / 2,
+                chkSettingsDownloadsForceIpv6.Location.Y);
+            chksettingsDownloadsUseYoutubeDlsUpdater.Location = new System.Drawing.Point(
+                (tabSettingsGeneral.Size.Width - chksettingsDownloadsUseYoutubeDlsUpdater.Size.Width) / 2,
+                chksettingsDownloadsUseYoutubeDlsUpdater.Location.Y);
+
+            chkSettingsConverterClearOutputAfterConverting.Location = new System.Drawing.Point(
+                (tabSettingsGeneral.Size.Width - chkSettingsConverterClearOutputAfterConverting.Size.Width) / 2,
+                chkSettingsConverterClearOutputAfterConverting.Location.Y);
+            chkSettingsConverterClearInputAfterConverting.Location = new System.Drawing.Point(
+                (tabSettingsGeneral.Size.Width - chkSettingsConverterClearInputAfterConverting.Size.Width) / 2,
+                chkSettingsConverterClearInputAfterConverting.Location.Y);
+            chkSettingsConverterDetectOutputFileType.Location = new System.Drawing.Point(
+                (tabSettingsGeneral.Size.Width - chkSettingsConverterDetectOutputFileType.Size.Width) / 2,
+                chkSettingsConverterDetectOutputFileType.Location.Y);
+            chkSettingsConverterHideFFmpegCompileInfo.Location = new System.Drawing.Point(
+                (tabSettingsGeneral.Size.Width - chkSettingsConverterHideFFmpegCompileInfo.Size.Width) / 2,
+                chkSettingsConverterHideFFmpegCompileInfo.Location.Y);
+            chkSettingsConverterVideoFastStart.Location = new System.Drawing.Point(
+                (tabSettingsGeneral.Size.Width - chkSettingsConverterVideoFastStart.Size.Width) / 2,
+                chkSettingsConverterVideoFastStart.Location.Y);
+            chkSettingsErrorsShowDetailedErrors.Location = new System.Drawing.Point(
+                (tabSettingsGeneral.Size.Width - chkSettingsErrorsShowDetailedErrors.Size.Width) / 2,
+                chkSettingsErrorsShowDetailedErrors.Location.Y);
+            chkSettingsErrorsSaveErrorsAsErrorLog.Location = new System.Drawing.Point(
+                (tabSettingsGeneral.Size.Width - chkSettingsErrorsSaveErrorsAsErrorLog.Size.Width) / 2,
+                chkSettingsErrorsSaveErrorsAsErrorLog.Location.Y);
+            chkSettingsErrorsSuppressErrors.Location = new System.Drawing.Point(
+                (tabSettingsGeneral.Size.Width - chkSettingsErrorsSuppressErrors.Size.Width) / 2,
+                chkSettingsErrorsSuppressErrors.Location.Y);
+        }
         private void loadSettings() {
             if (General.Default.useStaticYtdl && !string.IsNullOrEmpty(General.Default.ytdlPath)) {
                 txtSettingsGeneralYoutubeDlPath.Text = General.Default.ytdlPath;
@@ -321,6 +401,7 @@ namespace youtube_dl_gui {
 
 
             Downloads.Default.separateDownloads = chkSettingsDownloadsDownloadSubtitles.Checked;
+            Downloads.Default.SaveSubtitles = chkSettingsDownloadsDownloadSubtitles.Checked;
             Downloads.Default.SaveVideoInfo = chkSettingsDownloadsSaveVideoInfo.Checked;
             Downloads.Default.SaveDescription = chkSettingsDownloadsSaveDescription.Checked;
             Downloads.Default.SaveAnnotations = chkSettingsDownloadsSaveAnnotations.Checked;
@@ -443,6 +524,17 @@ namespace youtube_dl_gui {
                 chkSettingsDownloadsForceIpv4.Checked = false;
             }
         }
+
+        private void txtSettingsDownloadsProxyIp_KeyPress(object sender, KeyPressEventArgs e){
+            if (!char.IsDigit(e.KeyChar) && e.KeyChar != (char)46 && e.KeyChar != (char)8) {
+                e.Handled = true;
+            }
+        }
+        private void txtSettingsDownloadsProxyPort_KeyPress(object sender, KeyPressEventArgs e) {
+            if (!char.IsDigit(e.KeyChar)) {
+                e.Handled = true;
+            }
+        }
         #endregion
 
         #region Extensions
@@ -507,12 +599,6 @@ namespace youtube_dl_gui {
         }
         #endregion
 
-        private void txtSettingsDownloadsProxyIp_KeyDown(object sender, KeyEventArgs e) {
 
-        }
-
-        private void txtSettingsDownloadsProxyPort_KeyDown(object sender, KeyEventArgs e) {
-
-        }
     }
 }

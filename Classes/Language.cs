@@ -20,8 +20,18 @@ namespace youtube_dl_gui {
         private static volatile string lbBatchDownloadTypeString = "lbBatchDownloadType";
         private static volatile string lbBatchDownloadVideoSpecificArgumentString = "lbBatchDownloadVideoSpecificArgument";
         private static volatile string btnBatchDownloadAddString = "btnBatchDownloadAdd";
+        private static volatile string sbBatchDownloadLoadArgsString = "sbBatchDownloadLoadArgs";
+        private static volatile string mBatchDownloaderLoadArgsFromSettingsString = "mBatchDownloaderLoadArgsFromSettings";
+        private static volatile string mBatchDownloaderLoadArgsFromArgsTxtString = "mBatchDownloaderLoadArgsFromArgsTxt";
+        private static volatile string mBatchDownloaderLoadArgsFromFileString = "mBatchDownloaderLoadArgsFromFile";
         private static volatile string btnBatchDownloadRemoveSelectedString = "btnBatchDownloadRemoveSelected";
         private static volatile string btnBatchDownloadStartString = "btnBatchDownloadStart";
+        private static volatile string btnBatchDownloadStopString = "btnBatchDownloadStop";
+        private static volatile string btnBatchDownloadExitString = "btnBatchDownloadExit";
+        private static volatile string sbBatchDownloaderIdleString = "sbBatchDownloaderIdle";
+        private static volatile string sbBatchDownloaderDownloadingString = "sbBatchDownloaderDownloading";
+        private static volatile string sbBatchDownloaderFinishedString = "sbBatchDownloaderFinished";
+        private static volatile string sbBatchDownloaderAbortedString = "sbBatchDownloaderAborted";
         #endregion
 
         #region frmDownloader
@@ -345,7 +355,7 @@ namespace youtube_dl_gui {
         #endregion
 
 //////////////// frmBatch \\\\\\\\\\\\\\\\
-        #region frmBatch
+        #region frmBatchDownloader
         public string frmBatchDownload {
             get { return frmBatchDownloadString; }
             private set { frmBatchDownloadString = value; }
@@ -370,9 +380,49 @@ namespace youtube_dl_gui {
             get { return btnBatchDownloadRemoveSelectedString; }
             private set { btnBatchDownloadRemoveSelectedString = value; }
         }
+        public string sbBatchDownloadLoadArgs {
+            get { return sbBatchDownloadLoadArgsString; }
+            private set { sbBatchDownloadLoadArgsString = value; }
+        }
+        public string mBatchDownloaderLoadArgsFromSettings {
+            get { return mBatchDownloaderLoadArgsFromSettingsString; }
+            private set { mBatchDownloaderLoadArgsFromSettingsString = value; }
+        }
+        public string mBatchDownloaderLoadArgsFromArgsTxt {
+            get { return mBatchDownloaderLoadArgsFromArgsTxtString; }
+            private set { mBatchDownloaderLoadArgsFromArgsTxtString = value; }
+        }
+        public string mBatchDownloaderLoadArgsFromFile {
+            get { return mBatchDownloaderLoadArgsFromFileString; }
+            private set { mBatchDownloaderLoadArgsFromFileString = value; }
+        }
         public string btnBatchDownloadStart  {
             get { return btnBatchDownloadStartString; }
             private set { btnBatchDownloadStartString = value; }
+        }
+        public string btnBatchDownloadStop {
+            get { return btnBatchDownloadStopString; }
+            private set { btnBatchDownloadStopString = value; }
+        }
+        public string btnBatchDownloadExit {
+            get { return btnBatchDownloadExitString; }
+            private set { btnBatchDownloadExitString = value; }
+        }
+        public string sbBatchDownloaderIdle {
+            get { return sbBatchDownloaderIdleString; }
+            private set { sbBatchDownloaderIdleString = value; }
+        }
+        public string sbBatchDownloaderDownloading {
+            get { return sbBatchDownloaderDownloadingString; }
+            private set { }
+        }
+        public string sbBatchDownloaderFinished {
+            get { return sbBatchDownloaderFinishedString; }
+            private set { sbBatchDownloaderFinishedString = value; }
+        }
+        public string sbBatchDownloaderAborted {
+            get { return sbBatchDownloaderAbortedString; }
+            private set { sbBatchDownloaderAbortedString = value; }
         }
         #endregion
 
@@ -1324,6 +1374,7 @@ namespace youtube_dl_gui {
             return LangInstance;
         }
         #endregion
+
         #endregion
 
         #region Integrated English
@@ -1334,19 +1385,29 @@ namespace youtube_dl_gui {
             public static readonly string CurrentLanguageHint = "Click here to change";
             public static readonly string CurrentLanguageVersion = "1";
 
-            #region frmBatch
+            #region frmBatchDownloader
             // frmBatch
             public static readonly string frmBatchDownload = "Batch downloader";
             public static readonly string lbBatchDownloadLink = "Download link";
             public static readonly string lbBatchDownloadType = "Download type";
             public static readonly string lbBatchDownloadVideoSpecificArgument = "Video-specific argument";
             public static readonly string btnBatchDownloadAdd = "Add";
+            public static readonly string sbBatchDownloadLoadArgs = "Load args";
+            public static readonly string mBatchDownloaderLoadArgsFromSettings = "Load args from settings";
+            public static readonly string mBatchDownloaderLoadArgsFromArgsTxt = "Load args from ./args.txt";
+            public static readonly string mBatchDownloaderLoadArgsFromFile = "Load args from file...";
             public static readonly string btnBatchDownloadRemoveSelected = "Remove selected";
             public static readonly string btnBatchDownloadStart = "Start";
+            public static readonly string btnBatchDownloadStop = "Stop";
+            public static readonly string btnBatchDownloadExit = "Exit";
+            public static readonly string sbBatchDownloaderIdle = "Waiting for batch download start";
+            public static readonly string sbBatchDownloaderDownloading = "Batch download in progress...";
+            public static readonly string sbBatchDownloaderFinished = "Batch download finished. Add more items to start another batch, or exit";
+            public static readonly string sbBatchDownloaderAborted = "The batch process has been aborted";
             #endregion
 
             #region frmDownloader
-            public static readonly string frmDownloader = "Downloading...";
+            public static readonly string frmDownloader = "Downloading";
             public static readonly string frmDownloaderComplete = "Download finished";
             public static readonly string frmDownloaderError = "Error downloading";
             public static readonly string chkDownloaderCloseAfterDownload = "Close after download";
@@ -1652,11 +1713,21 @@ namespace youtube_dl_gui {
             // frmBatch
             frmBatchDownloadString = InternalEnglish.frmBatchDownload;
             lbBatchDownloadLink = InternalEnglish.lbBatchDownloadLink;
-            lbBatchDownloadType = InternalEnglish.lbBatchDownloadLink;
+            lbBatchDownloadType = InternalEnglish.lbBatchDownloadType;
             lbBatchDownloadVideoSpecificArgument = InternalEnglish.lbBatchDownloadVideoSpecificArgument;
             btnBatchDownloadAdd = InternalEnglish.btnBatchDownloadAdd;
+            sbBatchDownloadLoadArgs = InternalEnglish.sbBatchDownloadLoadArgs;
+            mBatchDownloaderLoadArgsFromSettings = InternalEnglish.mBatchDownloaderLoadArgsFromSettings;
+            mBatchDownloaderLoadArgsFromArgsTxt = InternalEnglish.mBatchDownloaderLoadArgsFromArgsTxt;
+            mBatchDownloaderLoadArgsFromFile = InternalEnglish.mBatchDownloaderLoadArgsFromFile;
             btnBatchDownloadRemoveSelected = InternalEnglish.btnBatchDownloadRemoveSelected;
             btnBatchDownloadStart = InternalEnglish.btnBatchDownloadStart;
+            btnBatchDownloadStop = InternalEnglish.btnBatchDownloadStop;
+            btnBatchDownloadExit = InternalEnglish.btnBatchDownloadExit;
+            sbBatchDownloaderIdle = InternalEnglish.sbBatchDownloaderIdle;
+            sbBatchDownloaderDownloading = InternalEnglish.sbBatchDownloaderDownloading;
+            sbBatchDownloaderFinished = InternalEnglish.sbBatchDownloaderFinished;
+            sbBatchDownloaderAborted = InternalEnglish.sbBatchDownloaderAborted;
 
             // frmDownloader
             frmDownloader = InternalEnglish.frmDownloader;
@@ -1976,8 +2047,8 @@ namespace youtube_dl_gui {
                             }
                             #endregion
 
-                            #region frmBatch
-                            // frmBatch
+                            #region frmBatchDownloader
+                            // frmBatchDownloader
                             else if (ReadControl == "frmbatchdownload") {
                                 frmBatchDownload = ReadValue;
                                 continue;
@@ -1998,12 +2069,52 @@ namespace youtube_dl_gui {
                                 btnBatchDownloadAdd = ReadValue;
                                 continue;
                             }
+                            else if (ReadControl == "sbbatchdownloadloadargs") {
+                                sbBatchDownloadLoadArgs = ReadValue;
+                                continue;
+                            }
+                            else if (ReadControl == "mbatchdownloaderloadargsfromsettings") {
+                                mBatchDownloaderLoadArgsFromSettings = ReadValue;
+                                continue;
+                            }
+                            else if (ReadControl == "mbatchdownloaderloadargsfromargstxt") {
+                                mBatchDownloaderLoadArgsFromArgsTxt = ReadValue;
+                                continue;
+                            }
+                            else if (ReadControl == "mbatchdownloaderloadargsfromfile") {
+                                mBatchDownloaderLoadArgsFromFile = ReadValue;
+                                continue;
+                            }
                             else if (ReadControl == "btnbatchdownloadremoveselected") {
                                 btnBatchDownloadRemoveSelected = ReadValue;
                                 continue;
                             }
                             else if (ReadControl == "btnbatchdownloadstart") {
                                 btnBatchDownloadStart = ReadValue;
+                                continue;
+                            }
+                            else if (ReadControl == "btnbatchdownloadstop") {
+                                btnBatchDownloadStop = ReadValue;
+                                continue;
+                            }
+                            else if (ReadControl == "btnbatchdownloadexit") {
+                                btnBatchDownloadExit = ReadValue;
+                                continue;
+                            }
+                            else if (ReadControl == "sbbatchdownloaderidle") {
+                                sbBatchDownloaderIdle = ReadValue;
+                                continue;
+                            }
+                            else if (ReadControl == "sbbatchdownloaderdownloading") {
+                                sbBatchDownloaderDownloading = ReadValue;
+                                continue;
+                            }
+                            else if (ReadControl == "sbbatchdownloaderfinished") {
+                                sbBatchDownloaderFinished = ReadValue;
+                                continue;
+                            }
+                            else if (ReadControl == "sbbatchdownloaderaborted") {
+                                sbBatchDownloaderAborted = ReadValue;
                                 continue;
                             }
                             #endregion
@@ -2915,10 +3026,11 @@ namespace youtube_dl_gui {
                 }
             }
             catch (Exception ex) {
-                frmException error = new frmException();
-                error.ReportedException = ex;
-                error.FromLanguage = true;
-                error.ShowDialog();
+                using (frmException error = new frmException()) {
+                    error.ReportedException = ex;
+                    error.FromLanguage = true;
+                    error.ShowDialog();
+                }
                 return false;
             }
         }

@@ -246,9 +246,7 @@ namespace youtube_dl_gui {
 
         #region main menu
         private void mSettings_Click(object sender, EventArgs e) {
-            frmSettings settings = new frmSettings();
-            settings.ShowDialog();
-            settings.Dispose();
+            using (frmSettings settings = new frmSettings()) { settings.ShowDialog(); }
         }
 
         private void mBatchDownload_Click(object sender, EventArgs e) {
@@ -256,24 +254,22 @@ namespace youtube_dl_gui {
             batch.Show();
         }
         private void mDownloadSubtitles_Click(object sender, EventArgs e) {
-            frmSubtitles downloadSubtitles = new frmSubtitles();
-            downloadSubtitles.ShowDialog();
-            downloadSubtitles.Dispose();
+            using (frmSubtitles downloadSubtitles = new frmSubtitles()) { downloadSubtitles.ShowDialog(); }
         }
         private void mMiscTools_Click(object sender, EventArgs e) {
-            frmMiscTools tools = new frmMiscTools();
-            tools.Show();
+            using (frmMiscTools tools = new frmMiscTools()) { tools.ShowDialog(); }
         }
 
         private void mLanguage_Click(object sender, EventArgs e) {
-            frmLanguage language = new frmLanguage();
-            switch (language.ShowDialog()) {
-                case System.Windows.Forms.DialogResult.Yes:
-                    if (language.LanguageFile == null) { Settings.Default.LanguageFile = string.Empty; }
-                    else { Settings.Default.LanguageFile = language.LanguageFile; }
-                    Settings.Default.Save();
-                    LoadLanguage(true);
-                    break;
+            using (frmLanguage language = new frmLanguage()) {
+                switch (language.ShowDialog()) {
+                    case System.Windows.Forms.DialogResult.Yes:
+                        if (language.LanguageFile == null) { Settings.Default.LanguageFile = string.Empty; }
+                        else { Settings.Default.LanguageFile = language.LanguageFile; }
+                        Settings.Default.Save();
+                        LoadLanguage(true);
+                        break;
+                }
             }
         }
         private void mSupportedSites_Click(object sender, EventArgs e) {
@@ -281,9 +277,7 @@ namespace youtube_dl_gui {
         }
 
         private void mAbout_Click(object sender, EventArgs e) {
-            frmAbout about = new frmAbout();
-            about.ShowDialog();
-            about.Dispose();
+            using (frmAbout about = new frmAbout()) { about.ShowDialog(); }
         }
         #endregion
 
@@ -528,38 +522,39 @@ namespace youtube_dl_gui {
                         return;
                     }
                     for (int i = 0; i < ReadFile.Length; i++) {
-                        frmDownloader Downloader = new frmDownloader();
-                        switch (DownloadType) {
-                            case 0:
-                                Downloader.DownloadArguments = videoArguments;
-                                Downloader.DownloadPath = Downloads.Default.downloadPath;
-                                Downloader.DownloadQuality = BatchQuality;
-                                Downloader.DownloadType = 0;
-                                Downloader.DownloadUrl = ReadFile[i].Trim(' ');
-                                Downloader.ShowDialog();
-                                break;
-                            case 1:
-                                Downloader.DownloadPath = Downloads.Default.downloadPath;
-                                Downloader.DownloadQuality = BatchQuality;
-                                Downloader.DownloadType = 1;
-                                Downloader.DownloadUrl = ReadFile[i].Trim(' ');
-                                Downloader.ShowDialog();
-                                break;
-                            case 2:
-                                Downloader.DownloadArguments = txtArgs.Text;
-                                Downloader.DownloadPath = Downloads.Default.downloadPath;
-                                Downloader.DownloadQuality = 0;
-                                Downloader.DownloadType = 2;
-                                Downloader.DownloadUrl = ReadFile[i].Trim(' ');
-                                Downloader.ShowDialog();
-                                break;
-                            case 3:
-                                Downloader.DownloadPath = Downloads.Default.downloadPath;
-                                Downloader.DownloadQuality = 0;
-                                Downloader.DownloadType = 0;
-                                Downloader.DownloadUrl = ReadFile[i].Trim(' ');
-                                Downloader.ShowDialog();
-                                break;
+                        using (frmDownloader Downloader = new frmDownloader()) {
+                            switch (DownloadType) {
+                                case 0:
+                                    Downloader.DownloadArguments = videoArguments;
+                                    Downloader.DownloadPath = Downloads.Default.downloadPath;
+                                    Downloader.DownloadQuality = BatchQuality;
+                                    Downloader.DownloadType = 0;
+                                    Downloader.DownloadUrl = ReadFile[i].Trim(' ');
+                                    Downloader.ShowDialog();
+                                    break;
+                                case 1:
+                                    Downloader.DownloadPath = Downloads.Default.downloadPath;
+                                    Downloader.DownloadQuality = BatchQuality;
+                                    Downloader.DownloadType = 1;
+                                    Downloader.DownloadUrl = ReadFile[i].Trim(' ');
+                                    Downloader.ShowDialog();
+                                    break;
+                                case 2:
+                                    Downloader.DownloadArguments = txtArgs.Text;
+                                    Downloader.DownloadPath = Downloads.Default.downloadPath;
+                                    Downloader.DownloadQuality = 0;
+                                    Downloader.DownloadType = 2;
+                                    Downloader.DownloadUrl = ReadFile[i].Trim(' ');
+                                    Downloader.ShowDialog();
+                                    break;
+                                case 3:
+                                    Downloader.DownloadPath = Downloads.Default.downloadPath;
+                                    Downloader.DownloadQuality = 0;
+                                    Downloader.DownloadType = 0;
+                                    Downloader.DownloadUrl = ReadFile[i].Trim(' ');
+                                    Downloader.ShowDialog();
+                                    break;
+                            }
                         }
                     }
                 }
@@ -833,16 +828,23 @@ namespace youtube_dl_gui {
         }
         #endregion
 
-        private void btnDebugListActiveDownloads_Click(object sender, EventArgs e) {
-
-        }
-
         private void btnDebugForceUpdateCheck_Click(object sender, EventArgs e) {
             UpdateChecker.CheckForUpdate(true);
         }
 
         private void btnDebugForceAvailableUpdate_Click(object sender, EventArgs e) {
             UpdateChecker.UpdateDebug.UpdateAvailable();
+        }
+
+        private void btnDebugDownloadArgs_Click(object sender, EventArgs e) {
+            if (!Clipboard.ContainsText()) { return; }
+            frmDownloader Downloader = new frmDownloader();
+            Downloader.DownloadPath = Downloads.Default.downloadPath;
+            Downloader.DownloadQuality = Saved.Default.videoQuality;
+            Downloader.DownloadType = 0;
+            Downloader.DownloadUrl = Clipboard.GetText();
+            Downloader.Debugging = true;
+            Downloader.Show();
         }
 
     }

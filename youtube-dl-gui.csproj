@@ -70,7 +70,7 @@
     <Compile Include="Classes\Convert.cs" />
     <Compile Include="Classes\Download.cs" />
     <Compile Include="Classes\Language.cs" />
-    <Compile Include="Classes\SplitButton.cs">
+    <Compile Include="Classes\Controls.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Classes\UpdateChecker.cs" />
