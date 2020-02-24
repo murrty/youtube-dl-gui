@@ -29,7 +29,11 @@ namespace youtube_dl_gui {
                                        "160k",
                                        "128k",
                                        "96k",
-                                       "64k" };
+                                       "64k",
+                                       "32k",
+                                       "16k",
+                                       "8k",
+                                       "4k" };
         Language lang = Language.GetInstance();
 
         [DllImport("user32.dll", CharSet = CharSet.Unicode)]
@@ -115,6 +119,7 @@ namespace youtube_dl_gui {
                 }
                 else if (rbCustom.Checked) {
                     cbQuality.SelectedIndex = -1;
+                    txtArgs.Text = Saved.Default.downloadArgs;
                 }
                 else {
                     cbQuality.SelectedIndex = 0;
@@ -504,6 +509,7 @@ namespace youtube_dl_gui {
             if (Downloads.Default.SaveFormatQuality) {
                 if (rbVideo.Checked) { Saved.Default.videoQuality = cbQuality.SelectedIndex; Saved.Default.downloadType = 0; }
                 else if (rbAudio.Checked) { Saved.Default.audioQuality = cbQuality.SelectedIndex; Saved.Default.downloadType = 1; }
+                else if (rbCustom.Checked) { Saved.Default.downloadArgs = txtArgs.Text; }
                 Saved.Default.Save();
             }
 

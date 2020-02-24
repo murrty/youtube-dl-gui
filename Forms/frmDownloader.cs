@@ -56,7 +56,7 @@ namespace youtube_dl_gui {
                 MessageBox.Show("The URL is null or empty. Please enter a URL or Download path.");
                 return;
             }
-
+            rtbConsoleOutput.AppendText("Beginning download, this box will output progress\n");
             if (BatchDownload) { chkDownloaderCloseAfterDownloader.Checked = true; }
 
             if (DownloadUrl.StartsWith("http://")) { DownloadUrl = "https" + DownloadUrl.Substring(4); }
@@ -86,15 +86,17 @@ namespace youtube_dl_gui {
                         YoutubeDlFileName = General.Default.ytdlPath;
                         break;
                     default:
-                        MessageBox.Show("Youtube-dl.exe is not present. Please download it from the Settings.");
+                        YoutubeDlFileName = null;
                         return;
                 }
             }
-            if (YoutubeDlFileName == null) { return; }
+            if (YoutubeDlFileName == null) { rtbConsoleOutput.AppendText("Youtube-DL has not been found"); return; }
+            rtbConsoleOutput.AppendText("Youtube-DL has been found and set\n");
             #endregion
 
             #region v.redd.it fix
             if (DownloadUrl.StartsWith("https://v.redd.it") || DownloadUrl.StartsWith("https://reddit.com/") || DownloadUrl.StartsWith("https://www.reddit.com/") && DownloadType != 2 && usehlsFF) {
+                rtbConsoleOutput.AppendText("Fix v.redd.it has been set; looking for ffmpeg\n");
                 switch (Verification.ffmpegFullCheck()) {
                     case 0: {
                             hlsFF = " --ffmpeg-location \"" + General.Default.ffmpegPath + "\\ffmpeg.exe\" --hls-prefer-ffmpeg ";
@@ -113,13 +115,19 @@ namespace youtube_dl_gui {
                             break;
                         }
                 }
+                if (string.IsNullOrEmpty(hlsFF)) {
+                    rtbConsoleOutput.AppendText("Fix v.redd.it was requested, but ffmpeg hasn't been found\n");
+                }
+                else {
+                    rtbConsoleOutput.AppendText("ffmpeg has been found and set");
+                }
             }
             #endregion
 
             #region Output
             ArgumentsBuffer = DownloadUrl;
             if (Downloads.Default.separateIntoWebsiteURL) { webFolder = Download.getUrlBase(DownloadUrl) + "\\"; }
-
+            rtbConsoleOutput.AppendText("Generating output directory structure\n");
             switch (DownloadType) {
                 case 0: // video
                     if (Downloads.Default.separateDownloads) { DownloadPath = " -o \"" + Downloads.Default.downloadPath + BatchTime + "\\" + webFolder + "Video\\" + Downloads.Default.fileNameSchema + "\""; }
@@ -149,12 +157,13 @@ namespace youtube_dl_gui {
                     if (Downloads.Default.separateDownloads) { DownloadPath = " -o \"" + Downloads.Default.downloadPath + BatchTime + "\\" + webFolder + "Custom\\" + Downloads.Default.fileNameSchema + "\""; }
                     else { DownloadPath = " -o \"" + Downloads.Default.downloadPath + BatchTime + "\\" + webFolder + "\""; }
 
-                    ArgumentsBuffer += DownloadArguments;
+                    ArgumentsBuffer += " " + DownloadArguments.Trim(' ') + " ";
                     break;
                 default:
-                    rtbConsoleOutput.Text = "The download has been classified as \"default\", and cannot proceed.";
+                    rtbConsoleOutput.AppendText("The download has been classified as \"default\", and cannot proceed");
                     return;
             }
+            rtbConsoleOutput.AppendText("The output was generated and will be used\n");
             #endregion
 
             #region Arguments
@@ -163,6 +172,9 @@ namespace youtube_dl_gui {
                     ArgumentsBuffer += " --all-subs";
                     if (!string.IsNullOrEmpty(Downloads.Default.SubtitleFormat)) {
                         ArgumentsBuffer += "--sub-format " + Downloads.Default.SubtitleFormat + " ";
+                    }
+                    if (Downloads.Default.EmbedSubtitles) {
+                        ArgumentsBuffer += " --embed-subs";
                     }
                 }
                 if (Downloads.Default.SaveVideoInfo) {
@@ -176,6 +188,9 @@ namespace youtube_dl_gui {
                 }
                 if (Downloads.Default.SaveThumbnail) {
                     ArgumentsBuffer += " --write-thumbnail";
+                    if (Downloads.Default.EmbedThumbnails) {
+                        ArgumentsBuffer += " --embed-thumbnail";
+                    }
                     // ArgumentsBuffer += "--write-all-thumbnails "; // Maybe?
                 }
 
@@ -216,7 +231,13 @@ namespace youtube_dl_gui {
                     ArgumentsBuffer += " --proxy " + Download.ProxyProtocols[Downloads.Default.ProxyType] + Downloads.Default.ProxyIP + ":" + Downloads.Default.ProxyPort + "/ ";
                 }
             }
+            else {
+
+            }
             ArgumentsBuffer += DownloadPath;
+
+            rtbConsoleOutput.AppendText("Arguments have been generated and are readonly in the textbox\n");
+            txtArgumentsGenerated.Text = ArgumentsBuffer;
             #endregion
 
             #region Download thread
@@ -224,6 +245,7 @@ namespace youtube_dl_gui {
                 rtbConsoleOutput.Text = ArgumentsBuffer.Replace(' ', '\n');
                 return;
             }
+            rtbConsoleOutput.AppendText("Creating download thread\n");
             DownloadThread = new Thread(() => {
                 try {
                     DownloadProcess = new System.Diagnostics.Process() {
@@ -281,6 +303,7 @@ namespace youtube_dl_gui {
                     ThreadExit();
                 }
             });
+            rtbConsoleOutput.AppendText("Created, starting download thread\n");
             DownloadThread.Start();
             #endregion
         }
@@ -312,7 +335,7 @@ namespace youtube_dl_gui {
                 }
             }
             else {
-                if (chkDownloaderCloseAfterDownloader.Checked || DownloadAborted) { this.DialogResult = System.Windows.Forms.DialogResult.Abort; }
+                if (DownloadAborted) { CloseForm(); }
                 else if (DownloadErrored) {
                     btnDownloaderCancelExit.Text = lang.btnDownloaderExit;
                     rtbConsoleOutput.AppendText("\nAn error occured");
@@ -323,11 +346,22 @@ namespace youtube_dl_gui {
                     btnDownloaderCancelExit.Text = lang.btnDownloaderExit;
                     this.Text = lang.frmDownloaderComplete;
                     rtbConsoleOutput.AppendText("Download has finished.");
+                    if (chkDownloaderCloseAfterDownloader.Checked) { CloseForm(); }
                 }
             }
         }
         private void CloseForm() {
             CloseFromMethod = true;
+
+            if (Downloads.Default.CloseDownloaderAfterFinish != chkDownloaderCloseAfterDownloader.Checked && !BatchDownload) {
+                Downloads.Default.CloseDownloaderAfterFinish = chkDownloaderCloseAfterDownloader.Checked;
+                Downloads.Default.Save();
+            }
+
+            if (DownloadErrored) {
+                if (BatchDownload) { this.DialogResult = System.Windows.Forms.DialogResult.No; }
+                else { this.Dispose(); }
+            }
             if (!DownloadFinished) {
                 try {
                     if (!DownloadProcess.HasExited) { DownloadProcess.Kill(); }
@@ -343,10 +377,6 @@ namespace youtube_dl_gui {
                 else { this.Dispose(); }
             }
             else if (DownloadFinished) {
-                if (Downloads.Default.CloseDownloaderAfterFinish != chkDownloaderCloseAfterDownloader.Checked && !BatchDownload) {
-                    Downloads.Default.CloseDownloaderAfterFinish = chkDownloaderCloseAfterDownloader.Checked;
-                    Downloads.Default.Save();
-                }
                 if (DownloadProcess.ExitCode == 0) {
                     if (BatchDownload) { this.DialogResult = System.Windows.Forms.DialogResult.Yes; }
                     else { this.Dispose(); }

@@ -60,8 +60,6 @@
             this.chkSettingsDownloadsFixVReddIt = new System.Windows.Forms.CheckBox();
             this.tabDownloadsConnection = new System.Windows.Forms.TabPage();
             this.cbSettingsDownloadsProxyType = new System.Windows.Forms.ComboBox();
-            this.txtSettingsDownloadsProxyPort = new youtube_dl_gui.HintTextBox();
-            this.txtSettingsDownloadsProxyIp = new youtube_dl_gui.HintTextBox();
             this.chkSettingsDownloadsForceIpv6 = new System.Windows.Forms.CheckBox();
             this.chkSettingsDownloadsForceIpv4 = new System.Windows.Forms.CheckBox();
             this.chkSettingsDownloadsUseProxy = new System.Windows.Forms.CheckBox();
@@ -128,6 +126,10 @@
             this.btnSettingsCancel = new System.Windows.Forms.Button();
             this.btnSettingsSave = new System.Windows.Forms.Button();
             this.tipSettings = new System.Windows.Forms.ToolTip(this.components);
+            this.chkSettingsDownloadsEmbedThumbnails = new System.Windows.Forms.CheckBox();
+            this.chkSettingsDownloadsEmbedSubtitles = new System.Windows.Forms.CheckBox();
+            this.txtSettingsDownloadsProxyPort = new youtube_dl_gui.HintTextBox();
+            this.txtSettingsDownloadsProxyIp = new youtube_dl_gui.HintTextBox();
             this.tcMain.SuspendLayout();
             this.tabSettingsGeneral.SuspendLayout();
             this.gbSettingsGeneralCustomArguments.SuspendLayout();
@@ -411,6 +413,8 @@
             // 
             // tabDownloadsGeneral
             // 
+            this.tabDownloadsGeneral.Controls.Add(this.chkSettingsDownloadsEmbedSubtitles);
+            this.tabDownloadsGeneral.Controls.Add(this.chkSettingsDownloadsEmbedThumbnails);
             this.tabDownloadsGeneral.Controls.Add(this.chkSettingsDownloadsSaveThumbnails);
             this.tabDownloadsGeneral.Controls.Add(this.chkSettingsDownloadsSaveFormatQuality);
             this.tabDownloadsGeneral.Controls.Add(this.chkSettingsDownloadsSaveAnnotations);
@@ -435,6 +439,7 @@
             this.chkSettingsDownloadsSaveThumbnails.TabIndex = 29;
             this.chkSettingsDownloadsSaveThumbnails.Text = "chkSettingsDownloadsSaveThumbnails";
             this.chkSettingsDownloadsSaveThumbnails.UseVisualStyleBackColor = true;
+            this.chkSettingsDownloadsSaveThumbnails.CheckedChanged += new System.EventHandler(this.chkSettingsDownloadsSaveThumbnails_CheckedChanged);
             // 
             // chkSettingsDownloadsSaveFormatQuality
             // 
@@ -488,6 +493,7 @@
             this.chkSettingsDownloadsDownloadSubtitles.Text = "chkSettingsDownloadsDownloadSubtitles";
             this.tipSettings.SetToolTip(this.chkSettingsDownloadsDownloadSubtitles, "chkSettingsDownloadsDownloadSubtitles");
             this.chkSettingsDownloadsDownloadSubtitles.UseVisualStyleBackColor = true;
+            this.chkSettingsDownloadsDownloadSubtitles.CheckedChanged += new System.EventHandler(this.chkSettingsDownloadsDownloadSubtitles_CheckedChanged);
             // 
             // chkSettingsDownloadsSaveVideoInfo
             // 
@@ -597,28 +603,6 @@
             this.cbSettingsDownloadsProxyType.Size = new System.Drawing.Size(77, 21);
             this.cbSettingsDownloadsProxyType.TabIndex = 43;
             this.tipSettings.SetToolTip(this.cbSettingsDownloadsProxyType, "cbSettingsDownloadsProxyTypeHint");
-            // 
-            // txtSettingsDownloadsProxyPort
-            // 
-            this.txtSettingsDownloadsProxyPort.Location = new System.Drawing.Point(189, 132);
-            this.txtSettingsDownloadsProxyPort.MaxLength = 5;
-            this.txtSettingsDownloadsProxyPort.Name = "txtSettingsDownloadsProxyPort";
-            this.txtSettingsDownloadsProxyPort.Size = new System.Drawing.Size(44, 20);
-            this.txtSettingsDownloadsProxyPort.TabIndex = 42;
-            this.txtSettingsDownloadsProxyPort.TextHint = "12345";
-            this.tipSettings.SetToolTip(this.txtSettingsDownloadsProxyPort, "txtSettingsDownloadsProxyPortHint");
-            this.txtSettingsDownloadsProxyPort.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtSettingsDownloadsProxyPort_KeyPress);
-            // 
-            // txtSettingsDownloadsProxyIp
-            // 
-            this.txtSettingsDownloadsProxyIp.Location = new System.Drawing.Point(92, 132);
-            this.txtSettingsDownloadsProxyIp.MaxLength = 15;
-            this.txtSettingsDownloadsProxyIp.Name = "txtSettingsDownloadsProxyIp";
-            this.txtSettingsDownloadsProxyIp.Size = new System.Drawing.Size(89, 20);
-            this.txtSettingsDownloadsProxyIp.TabIndex = 40;
-            this.txtSettingsDownloadsProxyIp.TextHint = "255.255.255.255";
-            this.tipSettings.SetToolTip(this.txtSettingsDownloadsProxyIp, "txtSettingsDownloadsProxyIpHint");
-            this.txtSettingsDownloadsProxyIp.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtSettingsDownloadsProxyIp_KeyPress);
             // 
             // chkSettingsDownloadsForceIpv6
             // 
@@ -745,7 +729,7 @@
             // llSettingsDownloadsSchemaHelp
             // 
             this.llSettingsDownloadsSchemaHelp.AutoSize = true;
-            this.llSettingsDownloadsSchemaHelp.Location = new System.Drawing.Point(6, 59);
+            this.llSettingsDownloadsSchemaHelp.Location = new System.Drawing.Point(210, 59);
             this.llSettingsDownloadsSchemaHelp.Name = "llSettingsDownloadsSchemaHelp";
             this.llSettingsDownloadsSchemaHelp.Size = new System.Drawing.Size(13, 13);
             this.llSettingsDownloadsSchemaHelp.TabIndex = 21;
@@ -1416,6 +1400,50 @@
             this.tipSettings.ReshowDelay = 100;
             this.tipSettings.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
             // 
+            // chkSettingsDownloadsEmbedThumbnails
+            // 
+            this.chkSettingsDownloadsEmbedThumbnails.AutoSize = true;
+            this.chkSettingsDownloadsEmbedThumbnails.Location = new System.Drawing.Point(225, 121);
+            this.chkSettingsDownloadsEmbedThumbnails.Name = "chkSettingsDownloadsEmbedThumbnails";
+            this.chkSettingsDownloadsEmbedThumbnails.Size = new System.Drawing.Size(221, 17);
+            this.chkSettingsDownloadsEmbedThumbnails.TabIndex = 30;
+            this.chkSettingsDownloadsEmbedThumbnails.Text = "chkSettingsDownloadsEmbedThumbnails";
+            this.tipSettings.SetToolTip(this.chkSettingsDownloadsEmbedThumbnails, "chkSettingsDownloadsEmbedSubtitlesHint");
+            this.chkSettingsDownloadsEmbedThumbnails.UseVisualStyleBackColor = true;
+            // 
+            // chkSettingsDownloadsEmbedSubtitles
+            // 
+            this.chkSettingsDownloadsEmbedSubtitles.AutoSize = true;
+            this.chkSettingsDownloadsEmbedSubtitles.Location = new System.Drawing.Point(234, 29);
+            this.chkSettingsDownloadsEmbedSubtitles.Name = "chkSettingsDownloadsEmbedSubtitles";
+            this.chkSettingsDownloadsEmbedSubtitles.Size = new System.Drawing.Size(207, 17);
+            this.chkSettingsDownloadsEmbedSubtitles.TabIndex = 31;
+            this.chkSettingsDownloadsEmbedSubtitles.Text = "chkSettingsDownloadsEmbedSubtitles";
+            this.tipSettings.SetToolTip(this.chkSettingsDownloadsEmbedSubtitles, "chkSettingsDownloadsEmbedSubtitlesHint");
+            this.chkSettingsDownloadsEmbedSubtitles.UseVisualStyleBackColor = true;
+            // 
+            // txtSettingsDownloadsProxyPort
+            // 
+            this.txtSettingsDownloadsProxyPort.Location = new System.Drawing.Point(189, 132);
+            this.txtSettingsDownloadsProxyPort.MaxLength = 5;
+            this.txtSettingsDownloadsProxyPort.Name = "txtSettingsDownloadsProxyPort";
+            this.txtSettingsDownloadsProxyPort.Size = new System.Drawing.Size(44, 20);
+            this.txtSettingsDownloadsProxyPort.TabIndex = 42;
+            this.txtSettingsDownloadsProxyPort.TextHint = "12345";
+            this.tipSettings.SetToolTip(this.txtSettingsDownloadsProxyPort, "txtSettingsDownloadsProxyPortHint");
+            this.txtSettingsDownloadsProxyPort.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtSettingsDownloadsProxyPort_KeyPress);
+            // 
+            // txtSettingsDownloadsProxyIp
+            // 
+            this.txtSettingsDownloadsProxyIp.Location = new System.Drawing.Point(92, 132);
+            this.txtSettingsDownloadsProxyIp.MaxLength = 15;
+            this.txtSettingsDownloadsProxyIp.Name = "txtSettingsDownloadsProxyIp";
+            this.txtSettingsDownloadsProxyIp.Size = new System.Drawing.Size(89, 20);
+            this.txtSettingsDownloadsProxyIp.TabIndex = 40;
+            this.txtSettingsDownloadsProxyIp.TextHint = "255.255.255.255";
+            this.tipSettings.SetToolTip(this.txtSettingsDownloadsProxyIp, "txtSettingsDownloadsProxyIpHint");
+            this.txtSettingsDownloadsProxyIp.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtSettingsDownloadsProxyIp_KeyPress);
+            // 
             // frmSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1578,5 +1606,7 @@
         private System.Windows.Forms.Label lbSettingsDownloadsIpPort;
         private System.Windows.Forms.ComboBox cbSettingsDownloadsProxyType;
         private System.Windows.Forms.CheckBox chkSettingsDownloadsLimitDownload;
+        private System.Windows.Forms.CheckBox chkSettingsDownloadsEmbedSubtitles;
+        private System.Windows.Forms.CheckBox chkSettingsDownloadsEmbedThumbnails;
     }
 }

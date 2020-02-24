@@ -48,6 +48,12 @@ namespace youtube_dl_gui {
                                                     " -f \"bestvideo[height<=240]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",            // 13 240p
                                                     " -f \"bestvideo[height<=144]+bestaudio[ext=m4a]/best[ext=mp4]/best\""             // 14 144p
                                                 };
+        public static string[] videoFormats = { "best",
+                                                  "mp4",
+                                                  "mkv",
+                                                  "flv",
+                                                  "webm"
+                                              };
         /// <summary>
         /// Built-in audio qualities
         /// </summary>
@@ -346,5 +352,94 @@ namespace youtube_dl_gui {
 
             return url.Split('/')[0];
         }
+    }
+
+    class DownloadFormats {
+        #region Arrays
+
+        #region Video Arrays
+
+        private string[] VideoFormatNamesArray = { "best",
+                                                   "4320p60", "4320p",
+                                                   "2160p60", "2160p",
+                                                   "1440p60", "1440p",
+                                                   "1080p60", "1080p",
+                                                   "720p60", "720p",
+                                                   "480p",
+                                                   "360p",
+                                                   "240p",
+                                                   "144p" };
+        private string[] VideoFormatArgsArray = { "BESTARGUMENTHERE",
+                                                     " -f \"bestvideo[height<=4320][fps>=48]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",
+                                                     " -f \"bestvideo[height<=4320][fps<=32]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",
+                                                     " -f \"bestvideo[height<=2160][fps>=48]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",
+                                                     " -f \"bestvideo[height<=2160][fps<=32]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",
+                                                     " -f \"bestvideo[height<=1440][fps>=48]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",
+                                                     " -f \"bestvideo[height<=1440][fps<=32]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",
+                                                     " -f \"bestvideo[height<=1080][fps<=60]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",
+                                                     " -f \"bestvideo[height<=1080][fps<=32]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",
+                                                     " -f \"bestvideo[height<=720][fps>=48]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",
+                                                     " -f \"bestvideo[height<=720][fps<=32]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",
+                                                     " -f \"bestvideo[height<=480]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",
+                                                     " -f \"bestvideo[height<=360]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",
+                                                     " -f \"bestvideo[height<=240]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",
+                                                     " -f \"bestvideo[height<=144]+bestaudio[ext=m4a]/best[ext=mp4]/best\""
+                                                   };
+        string ss = " -f \"bestvideo[height<={0}]{1}+bestaudio[ext={2}/best[ext={3}/best\""; // 0 = quality, 1 = fps, 2 = audio ext, 3 = video ext
+        private string[] VideoFormatExtensionsArray = { "",
+                                                        " --recode-video mp4",
+                                                        " --recode-video flv",
+                                                        " --recode-video ogg",
+                                                        " --recode-video webm",
+                                                        " --recode-video mkv",
+                                                        " --recode-video avi"
+                                                      };
+
+        private string MyVideoFormatArg = " -f \"bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best\"";
+        //mp4|flv|ogg|webm|mkv|avi
+
+        #region Old Video Arrays
+        private string[] VideoFormatArgsArrayOld = { "BESTARGUMENTHERE",
+                                                     " -f \"bestvideo[height<=4320][fps>=48]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",
+                                                     " -f \"bestvideo[height<=4320][fps<=32]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",
+                                                     " -f \"bestvideo[height<=2160][fps>=48]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",
+                                                     " -f \"bestvideo[height<=2160][fps<=32]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",
+                                                     " -f \"bestvideo[height<=1440][fps>=48]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",
+                                                     " -f \"bestvideo[height<=1440][fps<=32]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",
+                                                     " -f \"bestvideo[height<=1080][fps<=60]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",
+                                                     " -f \"bestvideo[height<=1080][fps<=32]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",
+                                                     " -f \"bestvideo[height<=720][fps>=48]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",
+                                                     " -f \"bestvideo[height<=720][fps<=32]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",
+                                                     " -f \"bestvideo[height<=480]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",
+                                                     " -f \"bestvideo[height<=360]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",
+                                                     " -f \"bestvideo[height<=240]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",
+                                                     " -f \"bestvideo[height<=144]+bestaudio[ext=m4a]/best[ext=mp4]/best\""
+                                                   };
+        #endregion
+        #endregion
+
+        #region Audio Arrays
+        private string[] AudioFormatNamesArray = { "best",
+                                                   "320k",
+                                                   "256k",
+                                                   "224k",
+                                                   "192k",
+                                                   "160k",
+                                                   "128k",
+                                                   "96k",
+                                                   "64k",
+                                                   "32k",
+                                                   "16k",
+                                                   "8k",
+                                                   "4k" };
+        private string[] AudioFormatArgsArray = { " -f  -x --audio-format best --audio-quality 0" };
+
+        private string MyAudioArg = " -f bestaudio --extract-audio --audio-format best --audio-quality 0";
+        #endregion
+
+        #endregion
+        //public static string VideoFormat(int QualityId) {
+
+        //}
     }
 }

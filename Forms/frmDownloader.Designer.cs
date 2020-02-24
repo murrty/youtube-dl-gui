@@ -28,6 +28,7 @@
             this.chkDownloaderCloseAfterDownloader = new System.Windows.Forms.CheckBox();
             this.rtbConsoleOutput = new System.Windows.Forms.RichTextBox();
             this.tmrTitleActivity = new System.Windows.Forms.Timer(this.components);
+            this.txtArgumentsGenerated = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // btnDownloaderCancelExit
@@ -62,7 +63,7 @@
             this.rtbConsoleOutput.Location = new System.Drawing.Point(12, 12);
             this.rtbConsoleOutput.Name = "rtbConsoleOutput";
             this.rtbConsoleOutput.ReadOnly = true;
-            this.rtbConsoleOutput.Size = new System.Drawing.Size(388, 236);
+            this.rtbConsoleOutput.Size = new System.Drawing.Size(388, 211);
             this.rtbConsoleOutput.TabIndex = 0;
             this.rtbConsoleOutput.Text = "";
             // 
@@ -72,11 +73,22 @@
             this.tmrTitleActivity.Interval = 1000;
             this.tmrTitleActivity.Tick += new System.EventHandler(this.tmrTitleActivity_Tick);
             // 
+            // txtArgumentsGenerated
+            // 
+            this.txtArgumentsGenerated.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtArgumentsGenerated.Location = new System.Drawing.Point(12, 229);
+            this.txtArgumentsGenerated.Name = "txtArgumentsGenerated";
+            this.txtArgumentsGenerated.ReadOnly = true;
+            this.txtArgumentsGenerated.Size = new System.Drawing.Size(388, 20);
+            this.txtArgumentsGenerated.TabIndex = 3;
+            // 
             // frmDownloader
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(412, 290);
+            this.Controls.Add(this.txtArgumentsGenerated);
             this.Controls.Add(this.chkDownloaderCloseAfterDownloader);
             this.Controls.Add(this.btnDownloaderCancelExit);
             this.Controls.Add(this.rtbConsoleOutput);
@@ -98,5 +110,6 @@
         private System.Windows.Forms.CheckBox chkDownloaderCloseAfterDownloader;
         private System.Windows.Forms.RichTextBox rtbConsoleOutput;
         private System.Windows.Forms.Timer tmrTitleActivity;
+        private System.Windows.Forms.TextBox txtArgumentsGenerated;
     }
 }

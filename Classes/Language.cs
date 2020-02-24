@@ -166,10 +166,12 @@ namespace youtube_dl_gui {
         private static volatile string tabDownloadsUpdatingString = "tabDownloadsUpdating";
         private static volatile string chkSettingsDownloadsSaveFormatQualityString = "chkSettingsDownloadsSaveFormatQuality";
         private static volatile string chkSettingsDownloadsDownloadSubtitlesString = "chkSettingsDownloadsDownloadSubtitles";
+        private static volatile string chkSettingsDownloadsEmbedSubtitlesString = "chkSettingsDownloadsEmbedSubtitles";
         private static volatile string chkSettingsDownloadsSaveVideoInfoString = "chkSettingsDownloadsSaveVideoInfo";
         private static volatile string chkSettingsDownloadsSaveDescriptionString = "chkSettingsDownloadsSaveDescription";
         private static volatile string chkSettingsDownloadsSaveAnnotationsString = "chkSettingsDownloadsSaveAnnotations";
         private static volatile string chkSettingsDownloadsSaveThumbnailsString = "chkSettingsDownloadsSaveThumbnails";
+        private static volatile string chkSettingsDownloadsEmbedThumbnailsString = "chkSettingsDownloadsEmbedThumbnails";
         private static volatile string chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosingString = "chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing";
         private static volatile string chkSettingsDownloadsSeparateDownloadsToDifferentFoldersString = "chkSettingsDownloadsSeparateDownloadsToDifferentFolders";
         private static volatile string chkSettingsDownloadsSeparateIntoWebsiteUrlString = "chkSettingsDownloadsSeparateIntoWebsiteUrl";
@@ -253,10 +255,12 @@ namespace youtube_dl_gui {
 
         private static volatile string chkSettingsDownloadsSaveFormatQualityHintString = "chkSettingsDownloadsSaveFormatQualityHint";
         private static volatile string chkSettingsDownloadsDownloadSubtitlesHintString = "chkSettingsDownloadsDownloadSubtitlesHint";
+        private static volatile string chkSettingsDownloadsEmbedSubtitlesHintString = "chkSettingsDownloadsEmbedSubtitlesHint";
         private static volatile string chkSettingsDownloadsSaveVideoInfoHintString = "chkSettingsDownloadsSaveVideoInfoHint";
         private static volatile string chkSettingsDownloadsSaveDescriptionHintString = "chkSettingsDownloadsSaveDescriptionHint";
         private static volatile string chkSettingsDownloadsSaveAnnotationsHintString = "chkSettingsDownloadsSaveAnnotationsHint";
         private static volatile string chkSettingsDownloadsSaveThumbnailsHintString = "chkSettingsDownloadsSaveThumbnailsHint";
+        private static volatile string chkSettingsDownloadsEmbedThumbnailsHintString = "chkSettingsDownloadsEmbedThumbnails";
         private static volatile string chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosingHintString = "chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosingHint";
         private static volatile string chkSettingsDownloadsSeparateDownloadsToDifferentFoldersHintString = "chkSettingsDownloadsSeparateDownloadsToDifferentFoldersHint";
         private static volatile string chkSettingsDownloadsSeparateIntoWebsiteUrlHintString = "chkSettingsDownloadsSeparateIntoWebsiteUrlHint";
@@ -866,6 +870,10 @@ namespace youtube_dl_gui {
             get { return chkSettingsDownloadsDownloadSubtitlesString; }
             private set { chkSettingsDownloadsDownloadSubtitlesString = value; }
         }
+        public string chkSettingsDownloadsEmbedSubtitles {
+            get { return chkSettingsDownloadsEmbedSubtitlesString; }
+            private set { chkSettingsDownloadsEmbedSubtitlesString = value; }
+        }
         public string chkSettingsDownloadsSaveVideoInfo {
             get { return chkSettingsDownloadsSaveVideoInfoString; }
             private set { chkSettingsDownloadsSaveVideoInfoString = value; }
@@ -881,6 +889,10 @@ namespace youtube_dl_gui {
         public string chkSettingsDownloadsSaveThumbnails {
             get { return chkSettingsDownloadsSaveThumbnailsString; }
             private set { chkSettingsDownloadsSaveThumbnailsString = value; }
+        }
+        public string chkSettingsDownloadsEmbedThumbnails {
+            get { return chkSettingsDownloadsEmbedThumbnailsString; }
+            private set { chkSettingsDownloadsEmbedThumbnailsString = value; }
         }
         public string chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing {
             get { return chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosingString; }
@@ -1134,6 +1146,10 @@ namespace youtube_dl_gui {
             get { return chkSettingsDownloadsDownloadSubtitlesHintString; }
             private set { chkSettingsDownloadsDownloadSubtitlesHintString = value; }
         }
+        public string chkSettingsDownloadsEmbedSubtitlesHint {
+            get { return chkSettingsDownloadsEmbedSubtitlesHintString; }
+            private set { chkSettingsDownloadsEmbedSubtitlesHintString = value; }
+        }
         public string chkSettingsDownloadsSaveVideoInfoHint {
             get { return chkSettingsDownloadsSaveVideoInfoHintString; }
             private set { chkSettingsDownloadsSaveVideoInfoHintString = value; }
@@ -1149,6 +1165,10 @@ namespace youtube_dl_gui {
         public string chkSettingsDownloadsSaveThumbnailsHint {
             get { return chkSettingsDownloadsSaveThumbnailsHintString; }
             private set { chkSettingsDownloadsSaveThumbnailsHintString = value; }
+        }
+        public string chkSettingsDownloadsEmbedThumbnailsHint {
+            get { return chkSettingsDownloadsEmbedThumbnailsHintString; }
+            private set { chkSettingsDownloadsEmbedThumbnailsHintString = value; }
         }
         public string chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosingHint  {
             get { return chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosingHintString; }
@@ -1563,12 +1583,14 @@ namespace youtube_dl_gui {
             public static readonly string tabDownloadsConnection = "Connection";
             public static readonly string tabDownloadsUpdating = "Updating";
 
-            public static readonly string chkSettingsDownloadsSaveFormatQuality = "Save quality on download";
+            public static readonly string chkSettingsDownloadsSaveFormatQuality = "Save quality, format, && args on download";
             public static readonly string chkSettingsDownloadsDownloadSubtitles = "Download subtitles";
+            public static readonly string chkSettingsDownloadsEmbedSubtitles = "Embed subtitles into file";
             public static readonly string chkSettingsDownloadsSaveVideoInfo = "Save video info";
             public static readonly string chkSettingsDownloadsSaveDescription = "Save description";
             public static readonly string chkSettingsDownloadsSaveAnnotations = "Save annotations";
             public static readonly string chkSettingsDownloadsSaveThumbnails = "Save thumbnails";
+            public static readonly string chkSettingsDownloadsEmbedThumbnails = "Embed thumbnail into file";
             public static readonly string chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing = "Automatically delete youtube-dl when closing";
             public static readonly string chkSettingsDownloadsSeparateDownloadsToDifferentFolders = "Separate downloads to different folders";
             public static readonly string chkSettingsDownloadsSeparateIntoWebsiteUrl = "Separate into website url";
@@ -1586,12 +1608,14 @@ namespace youtube_dl_gui {
             public static readonly string llSettingsDownloadsSchemaHelpHint = "Click here to view supported arguments";
             public static readonly string txtSettingsDownloadsFileNameSchemaHint = "The file name schema that will be used by youtube-dl";
 
-            public static readonly string chkSettingsDownloadsSaveFormatQualityHint = "Save the quality selection on download on the main form";
-            public static readonly string chkSettingsDownloadsDownloadSubtitlesHint = "Download all available subtitles";
+            public static readonly string chkSettingsDownloadsSaveFormatQualityHint = "Saves the quality selection, format selection, and custom arguments on download on the main form";
+            public static readonly string chkSettingsDownloadsDownloadSubtitlesHint = "Download all available subtitles for the video\nIf no subtitles are available, nothing will download";
+            public static readonly string chkSettingsDownloadsEmbedSubtitlesHint = "Embeds downloaded subtitles into the output file\nOnly works for mp4, webm, and mkv videos";
             public static readonly string chkSettingsDownloadsSaveVideoInfoHint = "Saves the video's info into a .info.json file";
             public static readonly string chkSettingsDownloadsSaveDescriptionHint = "Saves the video's description to a .description file";
             public static readonly string chkSettingsDownloadsSaveAnnotationsHint = "Saves the video's annotations to a .annotations.xml file";
             public static readonly string chkSettingsDownloadsSaveThumbnailsHint = "Saves the video's thumbnail";
+            public static readonly string chkSettingsDownloadsEmbedThumbnailsHint = "Embeds downloaded thumbnails into the output file as cover art\nRequires AtomicParsley (https://github.com/wez/atomicparsley), or youtube-dl will result in an error";
             public static readonly string chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosingHint = "Automatically delete youtube-dl.exe when closing youtube-dl-gui";
             public static readonly string chkSettingsDownloadsSeparateDownloadsToDifferentFoldersHint = "Separates downloads into their own folder based on the download type\n\n" + "Videos would be <download directory>\\Video\n" + "Audio would be <download directory>\\Audio\n" + "Custom would be <download directory>\\Custom";
             public static readonly string chkSettingsDownloadsSeparateIntoWebsiteUrlHint = "Downloaded files will be saved to the download path with the URL of the website appended at the end\n" + "Ex: C:\\Users\\YourName\\Videos\\youtube.com\\Video.mp4";
@@ -1850,10 +1874,12 @@ namespace youtube_dl_gui {
 
             chkSettingsDownloadsSaveFormatQuality = InternalEnglish.chkSettingsDownloadsSaveFormatQuality;
             chkSettingsDownloadsDownloadSubtitles = InternalEnglish.chkSettingsDownloadsDownloadSubtitles;
+            chkSettingsDownloadsEmbedSubtitles = InternalEnglish.chkSettingsDownloadsEmbedSubtitles;
             chkSettingsDownloadsSaveVideoInfo = InternalEnglish.chkSettingsDownloadsSaveVideoInfo;
             chkSettingsDownloadsSaveDescription = InternalEnglish.chkSettingsDownloadsSaveDescription;
             chkSettingsDownloadsSaveAnnotations = InternalEnglish.chkSettingsDownloadsSaveAnnotations;
             chkSettingsDownloadsSaveThumbnails = InternalEnglish.chkSettingsDownloadsSaveThumbnails;
+            chkSettingsDownloadsEmbedThumbnails = InternalEnglish.chkSettingsDownloadsEmbedThumbnails;
             chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing = InternalEnglish.chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing;
             chkSettingsDownloadsSeparateDownloadsToDifferentFolders = InternalEnglish.chkSettingsDownloadsSeparateDownloadsToDifferentFolders;
             chkSettingsDownloadsSeparateIntoWebsiteUrl = InternalEnglish.chkSettingsDownloadsSeparateIntoWebsiteUrl;
@@ -1922,10 +1948,12 @@ namespace youtube_dl_gui {
 
             chkSettingsDownloadsSaveFormatQualityHint = InternalEnglish.chkSettingsDownloadsSaveFormatQualityHint;
             chkSettingsDownloadsDownloadSubtitlesHint = InternalEnglish.chkSettingsDownloadsDownloadSubtitlesHint;
+            chkSettingsDownloadsEmbedSubtitlesHint = InternalEnglish.chkSettingsDownloadsEmbedSubtitlesHint;
             chkSettingsDownloadsSaveVideoInfoHint = InternalEnglish.chkSettingsDownloadsSaveVideoInfoHint;
             chkSettingsDownloadsSaveDescriptionHint = InternalEnglish.chkSettingsDownloadsSaveDescriptionHint;
             chkSettingsDownloadsSaveAnnotationsHint = InternalEnglish.chkSettingsDownloadsSaveAnnotationsHint;
             chkSettingsDownloadsSaveThumbnailsHint = InternalEnglish.chkSettingsDownloadsSaveThumbnailsHint;
+            chkSettingsDownloadsEmbedThumbnailsHint = InternalEnglish.chkSettingsDownloadsEmbedThumbnailsHint;
             chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosingHint = InternalEnglish.chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosingHint;
             chkSettingsDownloadsSeparateDownloadsToDifferentFoldersHint = InternalEnglish.chkSettingsDownloadsSeparateDownloadsToDifferentFoldersHint;
             chkSettingsDownloadsSeparateIntoWebsiteUrlHint = InternalEnglish.chkSettingsDownloadsSeparateIntoWebsiteUrlHint;
@@ -2607,6 +2635,10 @@ namespace youtube_dl_gui {
                                 chkSettingsDownloadsDownloadSubtitles = ReadValue;
                                 continue;
                             }
+                            else if (ReadControl == "chksettingsdownloadsembedsubtitles") {
+                                chkSettingsDownloadsEmbedSubtitles = ReadValue;
+                                continue;
+                            }
                             else if (ReadControl == "chksettingsdownloadssavevideoinfo") {
                                 chkSettingsDownloadsSaveVideoInfo = ReadValue;
                                 continue;
@@ -2621,6 +2653,10 @@ namespace youtube_dl_gui {
                             }
                             else if (ReadControl == "chksettingsdownloadssavethumbnailsstring") {
                                 chkSettingsDownloadsSaveThumbnailsString = ReadValue;
+                                continue;
+                            }
+                            else if (ReadControl == "chksettingsdownloadsembedthumbnails") {
+                                chkSettingsDownloadsEmbedThumbnails = ReadValue;
                                 continue;
                             }
                             else if (ReadControl == "chksettingsdownloadsautomaticallydeleteyoutubedlwhenclosing") {
@@ -2695,6 +2731,10 @@ namespace youtube_dl_gui {
                                 chkSettingsDownloadsDownloadSubtitlesHint = ReadValue;
                                 continue;
                             }
+                            else if (ReadControl == "chksettingsdownloadsembedthumbnailshint") {
+                                chkSettingsDownloadsEmbedThumbnailsHint = ReadValue;
+                                continue;
+                            }
                             else if (ReadControl == "chksettingsdownloadssavevideoinfohint") {
                                 chkSettingsDownloadsSaveVideoInfoHint = ReadValue;
                                 continue;
@@ -2709,6 +2749,10 @@ namespace youtube_dl_gui {
                             }
                             else if (ReadControl == "chksettingsdownloadssavethumbnailshint") {
                                 chkSettingsDownloadsSaveThumbnailsHint = ReadValue;
+                                continue;
+                            }
+                            else if (ReadControl == "chksettingsdownloadsembedthumbnailshint") {
+                                chkSettingsDownloadsEmbedThumbnailsHint = ReadValue;
                                 continue;
                             }
                             else if (ReadControl == "chksettingsdownloadsautomaticallydeleteyoutubedlwhenclosinghint") {

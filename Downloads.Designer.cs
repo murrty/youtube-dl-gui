@@ -334,5 +334,29 @@ namespace youtube_dl_gui {
                 this["LimitDownloads"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool EmbedSubtitles {
+            get {
+                return ((bool)(this["EmbedSubtitles"]));
+            }
+            set {
+                this["EmbedSubtitles"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool EmbedThumbnails {
+            get {
+                return ((bool)(this["EmbedThumbnails"]));
+            }
+            set {
+                this["EmbedThumbnails"] = value;
+            }
+        }
     }
 }

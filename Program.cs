@@ -12,6 +12,12 @@ namespace youtube_dl_gui {
         static void Main() {
          #if DEBUG
             IsDebug = true;
+            string Date = DateTime.Now.Year + "-";
+            if (DateTime.Now.Month.ToString().Length == 1) { Date += "0"; }
+            Date += DateTime.Now.Month + "-";
+            if (DateTime.Now.Day.ToString().Length == 1) { Date += "0"; }
+            Date += DateTime.Now.Day;
+            Properties.Settings.Default.debugDate = Date;
         #else 
             IsDebug = false;
         #endif

@@ -87,6 +87,8 @@ namespace youtube_dl_gui {
             tipSettings.SetToolTip(chkSettingsDownloadsSaveFormatQuality, lang.chkSettingsDownloadsSaveFormatQualityHint);
             chkSettingsDownloadsDownloadSubtitles.Text = lang.chkSettingsDownloadsDownloadSubtitles;
             tipSettings.SetToolTip(chkSettingsDownloadsDownloadSubtitles, lang.chkSettingsDownloadsDownloadSubtitlesHint);
+            chkSettingsDownloadsEmbedSubtitles.Text = lang.chkSettingsDownloadsEmbedSubtitles;
+            tipSettings.SetToolTip(chkSettingsDownloadsEmbedSubtitles, lang.chkSettingsDownloadsEmbedSubtitlesHint);
             chkSettingsDownloadsSaveVideoInfo.Text = lang.chkSettingsDownloadsSaveVideoInfo;
             tipSettings.SetToolTip(chkSettingsDownloadsSaveVideoInfo, lang.chkSettingsDownloadsSaveVideoInfoHint);
             chkSettingsDownloadsSaveDescription.Text = lang.chkSettingsDownloadsSaveDescription;
@@ -95,6 +97,8 @@ namespace youtube_dl_gui {
             tipSettings.SetToolTip(chkSettingsDownloadsSaveAnnotations, lang.chkSettingsDownloadsSaveAnnotationsHint);
             chkSettingsDownloadsSaveThumbnails.Text = lang.chkSettingsDownloadsSaveThumbnails;
             tipSettings.SetToolTip(chkSettingsDownloadsSaveThumbnails, lang.chkSettingsDownloadsSaveThumbnailsHint);
+            chkSettingsDownloadsEmbedThumbnails.Text = lang.chkSettingsDownloadsEmbedThumbnails;
+            tipSettings.SetToolTip(chkSettingsDownloadsEmbedThumbnails, lang.chkSettingsDownloadsEmbedThumbnailsHint);
             chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing.Text = lang.chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing;
             tipSettings.SetToolTip(chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing, lang.chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosingHint);
             chkSettingsDownloadsSeparateDownloadsToDifferentFolders.Text = lang.chkSettingsDownloadsSeparateDownloadsToDifferentFolders;
@@ -187,74 +191,18 @@ namespace youtube_dl_gui {
             chkSettingsGeneralClearUrlClipboardOnDownload.Location = new System.Drawing.Point(
                 (tabSettingsGeneral.Size.Width - chkSettingsGeneralClearUrlClipboardOnDownload.Size.Width) / 2,
                 chkSettingsGeneralClearUrlClipboardOnDownload.Location.Y);
-
-            if (!Program.IsDebug) {
-                return;
-            }
-            chkSettingsDownloadsSaveFormatQuality.Location = new System.Drawing.Point(
-                (tabSettingsGeneral.Size.Width - chkSettingsDownloadsSaveFormatQuality.Size.Width) / 2,
-                chkSettingsDownloadsSaveFormatQuality.Location.Y);
-            chkSettingsDownloadsDownloadSubtitles.Location = new System.Drawing.Point(
-                (tabSettingsGeneral.Size.Width - chkSettingsDownloadsDownloadSubtitles.Size.Width) / 2,
-                chkSettingsDownloadsDownloadSubtitles.Location.Y);
-            chkSettingsDownloadsSaveVideoInfo.Location = new System.Drawing.Point(
-                (tabSettingsGeneral.Size.Width - chkSettingsDownloadsSaveVideoInfo.Size.Width) / 2,
-                chkSettingsDownloadsSaveVideoInfo.Location.Y);
-            chkSettingsDownloadsSaveDescription.Location = new System.Drawing.Point(
-                (tabSettingsGeneral.Size.Width - chkSettingsDownloadsSaveDescription.Size.Width) / 2,
-                chkSettingsDownloadsSaveDescription.Location.Y);
-            chkSettingsDownloadsSaveAnnotations.Location = new System.Drawing.Point(
-                (tabSettingsGeneral.Size.Width - chkSettingsDownloadsSaveAnnotations.Size.Width) / 2,
-                chkSettingsDownloadsSaveAnnotations.Location.Y);
-            chkSettingsDownloadsSaveThumbnails.Location = new System.Drawing.Point(
-                (tabSettingsGeneral.Size.Width - chkSettingsDownloadsSaveThumbnails.Size.Width) / 2,
-                chkSettingsDownloadsSaveThumbnails.Location.Y);
-            chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing.Location = new System.Drawing.Point(
-                (tabSettingsGeneral.Size.Width - chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing.Size.Width) / 2,
-                chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing.Location.Y);
-            chkSettingsDownloadsSeparateDownloadsToDifferentFolders.Location = new System.Drawing.Point(
-                (tabSettingsGeneral.Size.Width - chkSettingsDownloadsSeparateDownloadsToDifferentFolders.Size.Width) / 2,
-                chkSettingsDownloadsSeparateDownloadsToDifferentFolders.Location.Y);
-            chkSettingsDownloadsSeparateIntoWebsiteUrl.Location = new System.Drawing.Point(
-                (tabSettingsGeneral.Size.Width - chkSettingsDownloadsSeparateIntoWebsiteUrl.Size.Width) / 2,
-                chkSettingsDownloadsSeparateIntoWebsiteUrl.Location.Y);
-            chkSettingsDownloadsFixVReddIt.Location = new System.Drawing.Point(
-                (tabSettingsGeneral.Size.Width - chkSettingsDownloadsFixVReddIt.Size.Width) / 2,
-                chkSettingsDownloadsFixVReddIt.Location.Y);
-            chkSettingsDownloadsForceIpv4.Location = new System.Drawing.Point(
-                (tabSettingsGeneral.Size.Width - chkSettingsDownloadsForceIpv4.Size.Width) / 2,
-                chkSettingsDownloadsForceIpv4.Location.Y);
-            chkSettingsDownloadsForceIpv6.Location = new System.Drawing.Point(
-                (tabSettingsGeneral.Size.Width - chkSettingsDownloadsForceIpv6.Size.Width) / 2,
-                chkSettingsDownloadsForceIpv6.Location.Y);
-            chksettingsDownloadsUseYoutubeDlsUpdater.Location = new System.Drawing.Point(
-                (tabSettingsGeneral.Size.Width - chksettingsDownloadsUseYoutubeDlsUpdater.Size.Width) / 2,
-                chksettingsDownloadsUseYoutubeDlsUpdater.Location.Y);
-
-            chkSettingsConverterClearOutputAfterConverting.Location = new System.Drawing.Point(
-                (tabSettingsGeneral.Size.Width - chkSettingsConverterClearOutputAfterConverting.Size.Width) / 2,
-                chkSettingsConverterClearOutputAfterConverting.Location.Y);
-            chkSettingsConverterClearInputAfterConverting.Location = new System.Drawing.Point(
-                (tabSettingsGeneral.Size.Width - chkSettingsConverterClearInputAfterConverting.Size.Width) / 2,
-                chkSettingsConverterClearInputAfterConverting.Location.Y);
-            chkSettingsConverterDetectOutputFileType.Location = new System.Drawing.Point(
-                (tabSettingsGeneral.Size.Width - chkSettingsConverterDetectOutputFileType.Size.Width) / 2,
-                chkSettingsConverterDetectOutputFileType.Location.Y);
-            chkSettingsConverterHideFFmpegCompileInfo.Location = new System.Drawing.Point(
-                (tabSettingsGeneral.Size.Width - chkSettingsConverterHideFFmpegCompileInfo.Size.Width) / 2,
-                chkSettingsConverterHideFFmpegCompileInfo.Location.Y);
-            chkSettingsConverterVideoFastStart.Location = new System.Drawing.Point(
-                (tabSettingsGeneral.Size.Width - chkSettingsConverterVideoFastStart.Size.Width) / 2,
-                chkSettingsConverterVideoFastStart.Location.Y);
-            chkSettingsErrorsShowDetailedErrors.Location = new System.Drawing.Point(
-                (tabSettingsGeneral.Size.Width - chkSettingsErrorsShowDetailedErrors.Size.Width) / 2,
-                chkSettingsErrorsShowDetailedErrors.Location.Y);
-            chkSettingsErrorsSaveErrorsAsErrorLog.Location = new System.Drawing.Point(
-                (tabSettingsGeneral.Size.Width - chkSettingsErrorsSaveErrorsAsErrorLog.Size.Width) / 2,
-                chkSettingsErrorsSaveErrorsAsErrorLog.Location.Y);
-            chkSettingsErrorsSuppressErrors.Location = new System.Drawing.Point(
-                (tabSettingsGeneral.Size.Width - chkSettingsErrorsSuppressErrors.Size.Width) / 2,
-                chkSettingsErrorsSuppressErrors.Location.Y);
+            llSettingsDownloadsSchemaHelp.Location = new System.Drawing.Point(
+                (lbSettingsDownloadsFileNameSchema.Location.X + lbSettingsDownloadsFileNameSchema.Size.Width + 2),
+                lbSettingsDownloadsFileNameSchema.Location.Y
+                );
+            chkSettingsDownloadsEmbedThumbnails.Location = new System.Drawing.Point(
+                (chkSettingsDownloadsSaveThumbnails.Location.X + chkSettingsDownloadsSaveThumbnails.Size.Width + 2),
+                chkSettingsDownloadsSaveThumbnails.Location.Y
+                );
+            chkSettingsDownloadsEmbedSubtitles.Location = new System.Drawing.Point(
+                (chkSettingsDownloadsDownloadSubtitles.Location.X + chkSettingsDownloadsDownloadSubtitles.Size.Width + 2),
+                chkSettingsDownloadsDownloadSubtitles.Location.Y
+                );
         }
         private void loadSettings() {
             if (General.Default.useStaticYtdl && !string.IsNullOrEmpty(General.Default.ytdlPath)) {
@@ -327,11 +275,29 @@ namespace youtube_dl_gui {
             txtSettingsDownloadsFileNameSchema.Text = Downloads.Default.fileNameSchema;
 
             chkSettingsDownloadsSaveFormatQuality.Checked = Downloads.Default.SaveFormatQuality;
-            chkSettingsDownloadsDownloadSubtitles.Checked = Downloads.Default.SaveSubtitles;
+            //chkSettingsDownloadsDownloadSubtitles.Checked = Downloads.Default.SaveSubtitles;
+            if (Downloads.Default.SaveSubtitles) {
+                chkSettingsDownloadsDownloadSubtitles.Checked = true;
+                chkSettingsDownloadsEmbedSubtitles.Enabled = true;
+            }
+            else {
+                chkSettingsDownloadsDownloadSubtitles.Checked = false;
+                chkSettingsDownloadsEmbedSubtitles.Enabled = false;
+            }
+            chkSettingsDownloadsEmbedSubtitles.Checked = Downloads.Default.EmbedSubtitles;
             chkSettingsDownloadsSaveVideoInfo.Checked = Downloads.Default.SaveVideoInfo;
             chkSettingsDownloadsSaveDescription.Checked = Downloads.Default.SaveDescription;
             chkSettingsDownloadsSaveAnnotations.Checked = Downloads.Default.SaveAnnotations;
-            chkSettingsDownloadsSaveThumbnails.Checked = Downloads.Default.SaveThumbnail;
+            //chkSettingsDownloadsSaveThumbnails.Checked = Downloads.Default.SaveThumbnail;
+            if (Downloads.Default.SaveThumbnail) {
+                chkSettingsDownloadsSaveThumbnails.Checked = true;
+                chkSettingsDownloadsEmbedThumbnails.Enabled = true;
+            }
+            else {
+                chkSettingsDownloadsSaveThumbnails.Checked = false;
+                chkSettingsDownloadsEmbedThumbnails.Enabled = false;
+            }
+            chkSettingsDownloadsEmbedThumbnails.Checked = Downloads.Default.EmbedThumbnails;
             chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing.Checked = Downloads.Default.deleteYtdlOnClose;
             chkSettingsDownloadsSeparateDownloadsToDifferentFolders.Checked = Downloads.Default.separateDownloads;
             chkSettingsDownloadsSeparateIntoWebsiteUrl.Checked = Downloads.Default.separateIntoWebsiteURL;
@@ -402,10 +368,12 @@ namespace youtube_dl_gui {
 
             Downloads.Default.SaveFormatQuality = chkSettingsDownloadsSaveFormatQuality.Checked;
             Downloads.Default.SaveSubtitles = chkSettingsDownloadsDownloadSubtitles.Checked;
+            Downloads.Default.EmbedSubtitles = chkSettingsDownloadsEmbedSubtitles.Checked;
             Downloads.Default.SaveVideoInfo = chkSettingsDownloadsSaveVideoInfo.Checked;
             Downloads.Default.SaveDescription = chkSettingsDownloadsSaveDescription.Checked;
             Downloads.Default.SaveAnnotations = chkSettingsDownloadsSaveAnnotations.Checked;
             Downloads.Default.SaveThumbnail = chkSettingsDownloadsSaveThumbnails.Checked;
+            Downloads.Default.EmbedThumbnails = chkSettingsDownloadsEmbedThumbnails.Checked;
             Downloads.Default.deleteYtdlOnClose = chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing.Checked;
             Downloads.Default.separateDownloads = chkSettingsDownloadsSeparateDownloadsToDifferentFolders.Checked;
             Downloads.Default.separateIntoWebsiteURL = chkSettingsDownloadsSeparateIntoWebsiteUrl.Checked;
@@ -598,6 +566,24 @@ namespace youtube_dl_gui {
             lbSettingsExtensionsFileName.Text = "FileName.ext";
         }
         #endregion
+
+        private void chkSettingsDownloadsDownloadSubtitles_CheckedChanged(object sender, EventArgs e) {
+            if (chkSettingsDownloadsDownloadSubtitles.Checked) {
+                chkSettingsDownloadsEmbedSubtitles.Enabled = true;
+            }
+            else {
+                chkSettingsDownloadsEmbedSubtitles.Enabled = false;
+            }
+        }
+
+        private void chkSettingsDownloadsSaveThumbnails_CheckedChanged(object sender, EventArgs e) {
+            if (chkSettingsDownloadsSaveThumbnails.Checked) {
+                chkSettingsDownloadsEmbedThumbnails.Enabled = true;
+            }
+            else {
+                chkSettingsDownloadsEmbedThumbnails.Enabled = false;
+            }
+        }
 
 
     }
