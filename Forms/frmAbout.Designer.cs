@@ -75,8 +75,8 @@
             this.lbBody.Name = "lbBody";
             this.lbBody.Size = new System.Drawing.Size(240, 79);
             this.lbBody.TabIndex = 3;
-            this.lbBody.Text = "youtube-dl by rg3\r\nyoutube-dl-gui by murrty\r\ncoded in VisualStudio 2013\r\ndebug da" +
-    "te {DEBUG}\r\n\r\nlikulau best boye.";
+            this.lbBody.Text = "youtube-dl by ytdl-org\r\nyoutube-dl-gui by murrty\r\ndebug date {DEBUG}\r\n\r\n\r\nlikulau" +
+    " best boye.";
             this.lbBody.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // pbIcon

@@ -358,5 +358,53 @@ namespace youtube_dl_gui {
                 this["EmbedThumbnails"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool VideoDownloadSound {
+            get {
+                return ((bool)(this["VideoDownloadSound"]));
+            }
+            set {
+                this["VideoDownloadSound"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool AudioDownloadAsVBR {
+            get {
+                return ((bool)(this["AudioDownloadAsVBR"]));
+            }
+            set {
+                this["AudioDownloadAsVBR"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool KeepOriginalFiles {
+            get {
+                return ((bool)(this["KeepOriginalFiles"]));
+            }
+            set {
+                this["KeepOriginalFiles"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool WriteMetadata {
+            get {
+                return ((bool)(this["WriteMetadata"]));
+            }
+            set {
+                this["WriteMetadata"] = value;
+            }
+        }
     }
 }

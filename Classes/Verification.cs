@@ -4,6 +4,10 @@ using System.IO;
 
 namespace youtube_dl_gui {
     class Verification {
+        private static volatile string YoutubeDlPathString = null;
+        private static volatile int YoutubelDlPath = -1;
+        private static volatile string FFmpegPathString = null;
+        private static volatile int FFmpegPath = -1;
 
         public enum ApplicationLocation : int {
             NoneFound = -1,

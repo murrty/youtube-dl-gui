@@ -11,29 +11,29 @@ namespace youtube_dl_gui {
         #region variables
         int YoutubeDlAvailable = -1;
         int FFmpegAvailable = -1;
-        string[] VideoQualityArray = { "best",
-                                       "4320p60", "4320p",
-                                       "2160p60", "2160p",
-                                       "1440p60", "1440p",
-                                       "1080p60", "1080p",
-                                       "720p60", "720p",
-                                       "480p",
-                                       "360p",
-                                       "240p",
-                                       "144p" };
-        string[] AudioQualityArray = { "best",
-                                       "320k",
-                                       "256k",
-                                       "224k",
-                                       "192k",
-                                       "160k",
-                                       "128k",
-                                       "96k",
-                                       "64k",
-                                       "32k",
-                                       "16k",
-                                       "8k",
-                                       "4k" };
+        //string[] VideoQualityArray = { "best",
+        //                               "4320p60", "4320p", // 1
+        //                               "2160p60", "2160p", // 3
+        //                               "1440p60", "1440p", // 5
+        //                               "1080p60", "1080p", // 7
+        //                               "720p60", "720p", // 9
+        //                               "480p",
+        //                               "360p",
+        //                               "240p",
+        //                               "144p" };
+        //string[] AudioQualityArray = { "best",
+        //                               "320k",
+        //                               "256k",
+        //                               "224k",
+        //                               "192k",
+        //                               "160k",
+        //                               "128k",
+        //                               "96k",
+        //                               "64k",
+        //                               "32k",
+        //                               "16k",
+        //                               "8k",
+        //                               "4k" };
         Language lang = Language.GetInstance();
 
         [DllImport("user32.dll", CharSet = CharSet.Unicode)]
@@ -109,29 +109,6 @@ namespace youtube_dl_gui {
                 default:
                     rbVideo.Checked = true;
                     break;
-            }
-            if (Downloads.Default.SaveFormatQuality) {
-                if (rbVideo.Checked) {
-                    cbQuality.SelectedIndex = Saved.Default.videoQuality;
-                }
-                else if (rbAudio.Checked) {
-                    cbQuality.SelectedIndex = Saved.Default.audioQuality;
-                }
-                else if (rbCustom.Checked) {
-                    cbQuality.SelectedIndex = -1;
-                    txtArgs.Text = Saved.Default.downloadArgs;
-                }
-                else {
-                    cbQuality.SelectedIndex = 0;
-                }
-            }
-            else {
-                if (rbCustom.Checked) {
-                    cbQuality.SelectedIndex = -1;
-                }
-                else {
-                    cbQuality.SelectedIndex = 0;
-                }
             }
 
             switch (Saved.Default.convertType) {
@@ -418,32 +395,83 @@ namespace youtube_dl_gui {
         private void rbVideo_CheckedChanged(object sender, EventArgs e) {
             if (rbVideo.Checked) {
                 cbQuality.SelectedIndex = -1;
+                cbFormat.SelectedIndex = -1;
                 cbQuality.Items.Clear();
-                cbQuality.Items.AddRange(VideoQualityArray);
-                cbQuality.SelectedIndex = Saved.Default.videoQuality;
+                cbQuality.Items.AddRange(DownloadFormats.VideoQualityArray);
+                cbFormat.Items.Clear();
+                cbFormat.Items.AddRange(DownloadFormats.VideoFormatsNamesArray);
                 cbQuality.Enabled = true;
+                cbFormat.Enabled = true;
                 chkDownloadSound.Enabled = true;
+                chkDownloadSound.Text = "Sound";
+                if (Downloads.Default.SaveFormatQuality) {
+                    cbQuality.SelectedIndex = Saved.Default.videoQuality;
+                    cbFormat.SelectedIndex = Saved.Default.VideoFormat;
+                    chkDownloadSound.Checked = Downloads.Default.VideoDownloadSound;
+                }
+                else {
+                    cbQuality.SelectedIndex = 0;
+                    cbFormat.SelectedIndex = 0;
+                }
             }
         }
         private void rbAudio_CheckedChanged(object sender, EventArgs e) {
             if (rbAudio.Checked) {
                 cbQuality.SelectedIndex = -1;
+                cbFormat.SelectedIndex = -1;
                 cbQuality.Items.Clear();
-                cbQuality.Items.AddRange(AudioQualityArray);
-                cbQuality.SelectedIndex = Saved.Default.audioQuality;
+                cbQuality.Items.AddRange(DownloadFormats.AudioQualityNamesArray);
+                cbFormat.Items.Clear();
+                cbFormat.Items.AddRange(DownloadFormats.AudioFormatsArray);
                 cbQuality.Enabled = true;
-                chkDownloadSound.Enabled = false;
+                cbFormat.Enabled = true;
+                chkDownloadSound.Enabled = true;
+                chkDownloadSound.Text = "Use VBR";
+                if (Downloads.Default.SaveFormatQuality) {
+                    cbQuality.SelectedIndex = Saved.Default.audioQuality;
+                    cbFormat.SelectedIndex = Saved.Default.AudioFormat;
+                    chkDownloadSound.Checked = Downloads.Default.AudioDownloadAsVBR;
+                    if (Downloads.Default.AudioDownloadAsVBR) {
+                        cbQuality.Items.Clear();
+                        cbQuality.Items.AddRange(new string[] { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" });
+                    }
+                }
+                else {
+                    cbQuality.SelectedIndex = 0;
+                    cbFormat.SelectedIndex = 0;
+                }
             }
         }
         private void rbCustom_CheckedChanged(object sender, EventArgs e) {
             if (rbCustom.Checked) {
                 txtArgs.ReadOnly = false;
                 cbQuality.SelectedIndex = -1;
+                cbFormat.SelectedIndex = -1;
                 cbQuality.Enabled = false;
+                cbFormat.Enabled = false;
+                chkDownloadSound.Checked = false;
                 chkDownloadSound.Enabled = false;
+                if (Downloads.Default.SaveFormatQuality) {
+                    txtArgs.Text = Saved.Default.downloadArgs;
+                }
             }
             else {
                 txtArgs.ReadOnly = true;
+            }
+        }
+        private void chkDownloadSound_CheckedChanged(object sender, EventArgs e) {
+            if (rbAudio.Checked) {
+                if (chkDownloadSound.Checked) {
+                    cbQuality.SelectedIndex = -1;
+                    cbQuality.Items.Clear();
+                    cbQuality.Items.AddRange(new string[]{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"});
+                    cbQuality.SelectedIndex = Saved.Default.AudioVBRQuality;
+                }
+                else {
+                    cbQuality.Items.Clear();
+                    cbQuality.Items.AddRange(DownloadFormats.AudioQualityNamesArray);
+                    cbQuality.SelectedIndex = Saved.Default.audioQuality;
+                }
             }
         }
 
@@ -461,55 +489,58 @@ namespace youtube_dl_gui {
                 tmrDownloadLabel.Enabled = false;
             }
         }
-        [DebuggerStepThrough]
+        //[DebuggerStepThrough]
         private void sbDownload_Click(object sender, EventArgs e) {
             if (string.IsNullOrEmpty(txtUrl.Text)) { return; }
             frmDownloader Downloader = new frmDownloader();
             if (rbVideo.Checked) {
-                string videoArguments = string.Empty;
-                if (!chkDownloadSound.Checked) {
-                    videoArguments += "-nosound";
-                }
                 Downloader.DownloadPath = Downloads.Default.downloadPath;
                 Downloader.DownloadQuality = cbQuality.SelectedIndex;
+                Downloader.DownloadFormat = cbFormat.SelectedIndex;
                 Downloader.DownloadType = 0;
+                Downloader.Set60FPS = cbQuality.GetItemText(cbQuality.SelectedItem).EndsWith("p60");
+                Downloader.DownloadVideoAudio = chkDownloadSound.Checked;
                 Downloader.DownloadUrl = txtUrl.Text;
-                Downloader.DownloadArguments = videoArguments;
                 Downloader.Show();
                 Saved.Default.downloadType = 0;
                 Saved.Default.videoQuality = cbQuality.SelectedIndex;
+                Saved.Default.VideoFormat = cbFormat.SelectedIndex;
+                Downloads.Default.VideoDownloadSound = chkDownloadSound.Checked;
             }
             else if (rbAudio.Checked) {
+                Downloader.DownloadType = 1;
                 Downloader.DownloadPath = Downloads.Default.downloadPath;
                 Downloader.DownloadQuality = cbQuality.SelectedIndex;
-                Downloader.DownloadType = 1;
+                Downloader.UseVBR = chkDownloadSound.Checked;
+                Downloader.DownloadFormat = cbFormat.SelectedIndex;
                 Downloader.DownloadUrl = txtUrl.Text;
                 Downloader.Show();
                 Saved.Default.downloadType = 1;
                 Saved.Default.audioQuality = cbQuality.SelectedIndex;
+                Saved.Default.AudioFormat = cbFormat.SelectedIndex;
+                Downloads.Default.AudioDownloadAsVBR = chkDownloadSound.Checked;
             }
             else if (rbCustom.Checked) {
-                Saved.Default.downloadType = 2;
-
+                Downloader.DownloadType = 2;
                 Downloader.DownloadArguments = txtArgs.Text;
                 Downloader.DownloadPath = Downloads.Default.downloadPath;
                 Downloader.DownloadQuality = -1;
-                Downloader.DownloadType = 2;
                 Downloader.DownloadUrl = txtUrl.Text;
                 Downloader.Show();
+                Saved.Default.downloadType = 2;
+                Saved.Default.downloadArgs = txtArgs.Text;
             }
             else {
-                Downloader.DownloadPath = Downloads.Default.downloadPath;
-                Downloader.DownloadQuality = 0;
-                Downloader.DownloadType = 0;
-                Downloader.DownloadUrl = txtUrl.Text;
-                Downloader.Show();
+                Downloader.Dispose();
+                try {
+                    throw new Exception("Video, Audio, or Custom was not selected in the form, please select an actual download option to proceed.");
+                }
+                catch (Exception ex) {
+                    ErrorLog.ReportException(ex);
+                }
             }
 
             if (Downloads.Default.SaveFormatQuality) {
-                if (rbVideo.Checked) { Saved.Default.videoQuality = cbQuality.SelectedIndex; Saved.Default.downloadType = 0; }
-                else if (rbAudio.Checked) { Saved.Default.audioQuality = cbQuality.SelectedIndex; Saved.Default.downloadType = 1; }
-                else if (rbCustom.Checked) { Saved.Default.downloadArgs = txtArgs.Text; }
                 Saved.Default.Save();
             }
 
@@ -519,6 +550,7 @@ namespace youtube_dl_gui {
             }
 
             Saved.Default.Save();
+            Downloads.Default.Save();
         }
 
         private void mBatchDownloadFromFile_Click(object sender, EventArgs e) {
@@ -885,5 +917,6 @@ namespace youtube_dl_gui {
             Downloader.Show();
         }
         #endregion
+
     }
 }

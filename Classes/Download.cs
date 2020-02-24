@@ -49,10 +49,10 @@ namespace youtube_dl_gui {
                                                     " -f \"bestvideo[height<=144]+bestaudio[ext=m4a]/best[ext=mp4]/best\""             // 14 144p
                                                 };
         public static string[] videoFormats = { "best",
-                                                  "mp4",
-                                                  "mkv",
-                                                  "flv",
-                                                  "webm"
+                                                "mp4",
+                                                "mkv",
+                                                "flv",
+                                                "webm"
                                               };
         /// <summary>
         /// Built-in audio qualities
@@ -329,7 +329,7 @@ namespace youtube_dl_gui {
             if (url.StartsWith("https://www."))
                 url = url.Replace("https://www.", "https://");
 
-            if (url.StartsWith("https://redd.it") || url.StartsWith("https://www.reddit.com")) {
+            if (url.StartsWith("https://redd.it") || url.StartsWith("https://www.reddit.com") || url.StartsWith("https://v.redd.it")) {
                 return true;
             }
             else {
@@ -408,38 +408,68 @@ namespace youtube_dl_gui {
 
         #region Video Arrays
 
-        private static string[] VideoArgs = { " -f \"bestvideo+bestaudio\"", " -f \"bestvideo[height<={0}]{1}+bestaudio\"" };
-        private static string[] VideoResolutionsArray = { "best", "4320", "2160", "1440", "1080", "720", "480", "360", "240", "144" };
-        private static string[] VideoFPSArray = { "[fps=<32]", "[fps>=48]" };
-        private static string[] VideoFormatsArray = { "avi","flv","mkv","mp4","ogg","webm"};
+        public static string[] VideoArgs = { " -f \"bestvideo+bestaudio/best[ext=mp4]/best\"", " -f \"bestvideo[height<={0}]{1}+bestaudio/best[ext=mp4]/best\"" };
+        public static string[] VideoArgsNoSound = { " -f \"bestvideo/best[ext=mp4]/best\"", " -f \"bestvideo[height<={0}]{1}/best[ext=mp4]/best\"" };
+        public static string[] VideoResolutionsArray = { "best", "4320", "2160", "1440", "1080", "720", "480", "360", "240", "144" };
+        public static string[] VideoFPSArray = { "[fps=<32]", "[fps>=48]" };
+        public static string[] VideoFormatsArrayOld = { "avi", "flv", "mkv", "mp4", "ogg", "webm" };
+        public static string[] VideoQualityArray = { "best",
+                                                     "4320p60", "4320p", // 1
+                                                     "2160p60", "2160p", // 3
+                                                     "1440p60", "1440p", // 5
+                                                     "1080p60", "1080p", // 7
+                                                     "720p60", "720p", // 9
+                                                     "480p",
+                                                     "360p",
+                                                     "240p",
+                                                     "144p" };
+        public static string[] VideoFormatsNamesArray = { "best",
+                                                          "avi",
+                                                          "flv",
+                                                          "mkv",
+                                                          "mp4",
+                                                          "ogg",
+                                                          "webm"
+                                                        };
+        public static string[] VideoFormatsArray = { " --recode-video avi",
+                                                     " --recode-video flv",
+                                                     " --recode-video mkv", //" --merge-output-format mkv",
+                                                     " --recode-video mp4", //" --merge-output-format mp4",
+                                                     " --recode-video ogg",
+                                                     " --recode-video webm" //" --merge-output-format webm"
+                                                   };
 
-        private static string[] VideoFormatExtensionsArray = { " --recode-video avi",
-                                                               " --recode-video flv",
-                                                               " --recode-video mkv",
-                                                               " --recode-video mp4",
-                                                               " --recode-video ogg",
-                                                               " --recode-video webm"
-                                                            };
 
-        private string MyVideoFormatArg = " -f \"bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best\"";
+
+        private string OldBestVideo = " -f \"bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best\"";
         //mp4|flv|ogg|webm|mkv|avi
 
         #endregion
 
         #region Audio Arrays
-        private string[] AudioFormatNamesArray = { "best",
-                                                   "320k",
-                                                   "256k",
-                                                   "224k",
-                                                   "192k",
-                                                   "160k",
-                                                   "128k",
-                                                   "96k",
-                                                   "64k",
-                                                   "32k",
-                                                   "16k",
-                                                   "8k",
-                                                   "4k" };
+        public static string[] AudioQualityNamesArray = { "best",
+                                                          "320k",
+                                                          "256k",
+                                                          "224k",
+                                                          "192k",
+                                                          "160k",
+                                                          "128k",
+                                                          "96k",
+                                                          "64k",
+                                                          "32k",
+                                                          "16k",
+                                                          "8k",
+                                                          "4k"
+                                                  };
+        public static string[] AudioFormatsArray = { "best",
+                                                     "aac",
+                                                     "flac",
+                                                     "mp3",
+                                                     "m4a",
+                                                     "opus",
+                                                     "vorbis",
+                                                     "wav"
+                                                 };
         private string[] AudioFormatArgsArray = { " -f  -x --audio-format best --audio-quality 0" };
 
         private string MyAudioArg = " -f bestaudio --extract-audio --audio-format best --audio-quality 0";
@@ -453,10 +483,23 @@ namespace youtube_dl_gui {
             }
             else {
                 if (Set60FPS) {
-                    return string.Format(VideoArgs[1], VideoResolutionsArray[Quality], VideoFPSArray[1]);
+                    return string.Format(VideoArgs[1], VideoQualityArray[Quality].Replace("p60",""), VideoFPSArray[1]);
                 }
                 else {
-                    return string.Format(VideoArgs[1], VideoResolutionsArray[Quality], VideoFPSArray[0]);
+                    return string.Format(VideoArgs[1], VideoQualityArray[Quality].Replace("p60", ""), VideoFPSArray[0]);
+                }
+            }
+        }
+        public static string GetVideoFormatArgsNoSound(int Quality = 0, bool Set60FPS = false) {
+            if (Quality == 0) {
+                return string.Format(VideoArgsNoSound[0]);
+            }
+            else {
+                if (Set60FPS) {
+                    return string.Format(VideoArgsNoSound[1], VideoQualityArray[Quality].Replace("p60", ""), VideoFPSArray[1]);
+                }
+                else {
+                    return string.Format(VideoArgsNoSound[1], VideoQualityArray[Quality].Replace("p60", ""), VideoFPSArray[0]);
                 }
             }
         }

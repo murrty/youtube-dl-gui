@@ -154,5 +154,41 @@ namespace youtube_dl_gui {
                 this["audioQuality"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int VideoFormat {
+            get {
+                return ((int)(this["VideoFormat"]));
+            }
+            set {
+                this["VideoFormat"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int AudioFormat {
+            get {
+                return ((int)(this["AudioFormat"]));
+            }
+            set {
+                this["AudioFormat"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int AudioVBRQuality {
+            get {
+                return ((int)(this["AudioVBRQuality"]));
+            }
+            set {
+                this["AudioVBRQuality"] = value;
+            }
+        }
     }
 }

@@ -29,8 +29,9 @@
             this.lbURL = new System.Windows.Forms.Label();
             this.tcMain = new System.Windows.Forms.TabControl();
             this.tabDownload = new System.Windows.Forms.TabPage();
+            this.cbFormat = new System.Windows.Forms.ComboBox();
+            this.lbFormat = new System.Windows.Forms.Label();
             this.lbDownloadStatus = new System.Windows.Forms.Label();
-            this.sbDownload = new youtube_dl_gui.SplitButton();
             this.cmDownload = new System.Windows.Forms.ContextMenu();
             this.mBatchDownloadFromFile = new System.Windows.Forms.MenuItem();
             this.chkDownloadSound = new System.Windows.Forms.CheckBox();
@@ -107,6 +108,7 @@
             this.trayIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.tmrConvertLabel = new System.Windows.Forms.Timer(this.components);
             this.tmrDownloadLabel = new System.Windows.Forms.Timer(this.components);
+            this.sbDownload = new youtube_dl_gui.SplitButton();
             this.tcMain.SuspendLayout();
             this.tabDownload.SuspendLayout();
             this.gbDownloadType.SuspendLayout();
@@ -144,11 +146,13 @@
             this.tcMain.Location = new System.Drawing.Point(0, 0);
             this.tcMain.Name = "tcMain";
             this.tcMain.SelectedIndex = 0;
-            this.tcMain.Size = new System.Drawing.Size(252, 229);
+            this.tcMain.Size = new System.Drawing.Size(252, 269);
             this.tcMain.TabIndex = 1;
             // 
             // tabDownload
             // 
+            this.tabDownload.Controls.Add(this.cbFormat);
+            this.tabDownload.Controls.Add(this.lbFormat);
             this.tabDownload.Controls.Add(this.lbDownloadStatus);
             this.tabDownload.Controls.Add(this.sbDownload);
             this.tabDownload.Controls.Add(this.chkDownloadSound);
@@ -162,33 +166,39 @@
             this.tabDownload.Location = new System.Drawing.Point(4, 22);
             this.tabDownload.Name = "tabDownload";
             this.tabDownload.Padding = new System.Windows.Forms.Padding(3);
-            this.tabDownload.Size = new System.Drawing.Size(244, 203);
+            this.tabDownload.Size = new System.Drawing.Size(244, 243);
             this.tabDownload.TabIndex = 0;
             this.tabDownload.Text = "tabDownload";
             this.tabDownload.UseVisualStyleBackColor = true;
             // 
+            // cbFormat
+            // 
+            this.cbFormat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbFormat.FormattingEnabled = true;
+            this.cbFormat.Location = new System.Drawing.Point(74, 131);
+            this.cbFormat.Name = "cbFormat";
+            this.cbFormat.Size = new System.Drawing.Size(80, 21);
+            this.cbFormat.TabIndex = 24;
+            // 
+            // lbFormat
+            // 
+            this.lbFormat.AutoSize = true;
+            this.lbFormat.Location = new System.Drawing.Point(23, 134);
+            this.lbFormat.Name = "lbFormat";
+            this.lbFormat.Size = new System.Drawing.Size(39, 13);
+            this.lbFormat.TabIndex = 23;
+            this.lbFormat.Text = "Format";
+            // 
             // lbDownloadStatus
             // 
             this.lbDownloadStatus.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbDownloadStatus.Location = new System.Drawing.Point(3, 200);
+            this.lbDownloadStatus.Location = new System.Drawing.Point(3, 236);
             this.lbDownloadStatus.Name = "lbDownloadStatus";
             this.lbDownloadStatus.Size = new System.Drawing.Size(238, 20);
             this.lbDownloadStatus.TabIndex = 17;
             this.lbDownloadStatus.Text = "waiting";
             this.lbDownloadStatus.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lbDownloadStatus.Visible = false;
-            // 
-            // sbDownload
-            // 
-            this.sbDownload.DropDownContextMenu = this.cmDownload;
-            this.sbDownload.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.sbDownload.Location = new System.Drawing.Point(81, 172);
-            this.sbDownload.Name = "sbDownload";
-            this.sbDownload.Size = new System.Drawing.Size(83, 25);
-            this.sbDownload.TabIndex = 22;
-            this.sbDownload.Text = "sbDownload";
-            this.sbDownload.UseVisualStyleBackColor = true;
-            this.sbDownload.Click += new System.EventHandler(this.sbDownload_Click);
             // 
             // cmDownload
             // 
@@ -212,27 +222,12 @@
             this.chkDownloadSound.TabIndex = 21;
             this.chkDownloadSound.Text = "chkDownloadSound";
             this.chkDownloadSound.UseVisualStyleBackColor = true;
+            this.chkDownloadSound.CheckedChanged += new System.EventHandler(this.chkDownloadSound_CheckedChanged);
             // 
             // cbQuality
             // 
             this.cbQuality.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbQuality.FormattingEnabled = true;
-            this.cbQuality.Items.AddRange(new object[] {
-            "best",
-            "4320p60",
-            "4320p",
-            "2160p60",
-            "2160p",
-            "1440p60",
-            "1440p",
-            "1080p60",
-            "1080p",
-            "720p60",
-            "720p",
-            "480p",
-            "360p",
-            "240p",
-            "144p"});
             this.cbQuality.Location = new System.Drawing.Point(74, 102);
             this.cbQuality.Name = "cbQuality";
             this.cbQuality.Size = new System.Drawing.Size(80, 21);
@@ -250,7 +245,7 @@
             // lbCustomArguments
             // 
             this.lbCustomArguments.AutoSize = true;
-            this.lbCustomArguments.Location = new System.Drawing.Point(15, 128);
+            this.lbCustomArguments.Location = new System.Drawing.Point(15, 164);
             this.lbCustomArguments.Name = "lbCustomArguments";
             this.lbCustomArguments.Size = new System.Drawing.Size(100, 13);
             this.lbCustomArguments.TabIndex = 2;
@@ -258,7 +253,7 @@
             // 
             // txtArgs
             // 
-            this.txtArgs.Location = new System.Drawing.Point(22, 148);
+            this.txtArgs.Location = new System.Drawing.Point(22, 184);
             this.txtArgs.Name = "txtArgs";
             this.txtArgs.ReadOnly = true;
             this.txtArgs.Size = new System.Drawing.Size(200, 20);
@@ -330,7 +325,7 @@
             this.tabConvert.Location = new System.Drawing.Point(4, 22);
             this.tabConvert.Name = "tabConvert";
             this.tabConvert.Padding = new System.Windows.Forms.Padding(3);
-            this.tabConvert.Size = new System.Drawing.Size(244, 244);
+            this.tabConvert.Size = new System.Drawing.Size(244, 284);
             this.tabConvert.TabIndex = 1;
             this.tabConvert.Text = "tabConvert";
             this.tabConvert.UseVisualStyleBackColor = true;
@@ -383,7 +378,7 @@
             // 
             this.lbConvertStatus.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.lbConvertStatus.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbConvertStatus.Location = new System.Drawing.Point(3, 219);
+            this.lbConvertStatus.Location = new System.Drawing.Point(3, 259);
             this.lbConvertStatus.Name = "lbConvertStatus";
             this.lbConvertStatus.Size = new System.Drawing.Size(238, 22);
             this.lbConvertStatus.TabIndex = 16;
@@ -489,7 +484,7 @@
             this.tabMerge.Location = new System.Drawing.Point(4, 22);
             this.tabMerge.Name = "tabMerge";
             this.tabMerge.Padding = new System.Windows.Forms.Padding(3);
-            this.tabMerge.Size = new System.Drawing.Size(244, 244);
+            this.tabMerge.Size = new System.Drawing.Size(244, 284);
             this.tabMerge.TabIndex = 2;
             this.tabMerge.Text = "tabMerge";
             this.tabMerge.UseVisualStyleBackColor = true;
@@ -624,7 +619,7 @@
             this.tabDebug.Location = new System.Drawing.Point(4, 22);
             this.tabDebug.Name = "tabDebug";
             this.tabDebug.Padding = new System.Windows.Forms.Padding(3);
-            this.tabDebug.Size = new System.Drawing.Size(244, 244);
+            this.tabDebug.Size = new System.Drawing.Size(244, 284);
             this.tabDebug.TabIndex = 3;
             this.tabDebug.Text = "Debug";
             this.tabDebug.UseVisualStyleBackColor = true;
@@ -729,7 +724,7 @@
             // lbDebug
             // 
             this.lbDebug.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbDebug.Location = new System.Drawing.Point(81, 226);
+            this.lbDebug.Location = new System.Drawing.Point(81, 262);
             this.lbDebug.Name = "lbDebug";
             this.lbDebug.Size = new System.Drawing.Size(168, 19);
             this.lbDebug.TabIndex = 3;
@@ -890,18 +885,30 @@
             this.tmrDownloadLabel.Interval = 5000;
             this.tmrDownloadLabel.Tick += new System.EventHandler(this.tmrDownloadLabel_Tick);
             // 
+            // sbDownload
+            // 
+            this.sbDownload.DropDownContextMenu = this.cmDownload;
+            this.sbDownload.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.sbDownload.Location = new System.Drawing.Point(81, 208);
+            this.sbDownload.Name = "sbDownload";
+            this.sbDownload.Size = new System.Drawing.Size(83, 25);
+            this.sbDownload.TabIndex = 22;
+            this.sbDownload.Text = "sbDownload";
+            this.sbDownload.UseVisualStyleBackColor = true;
+            this.sbDownload.Click += new System.EventHandler(this.sbDownload_Click);
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(252, 229);
+            this.ClientSize = new System.Drawing.Size(252, 269);
             this.Controls.Add(this.lbDebug);
             this.Controls.Add(this.tcMain);
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(260, 300);
+            this.MaximumSize = new System.Drawing.Size(260, 340);
             this.Menu = this.menu;
-            this.MinimumSize = new System.Drawing.Size(260, 300);
+            this.MinimumSize = new System.Drawing.Size(260, 340);
             this.Name = "frmMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "youtube-dl-gui";
@@ -1005,6 +1012,8 @@
         private System.Windows.Forms.Button btnDebugForceUpdateCheck;
         private System.Windows.Forms.Button btnDebugForceAvailableUpdate;
         private System.Windows.Forms.Button btnDebugDownloadArgs;
+        private System.Windows.Forms.ComboBox cbFormat;
+        private System.Windows.Forms.Label lbFormat;
     }
 }
 
