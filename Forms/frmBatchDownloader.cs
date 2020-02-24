@@ -16,7 +16,6 @@ namespace youtube_dl_gui {
         private List<string> DownloadArgs = new List<string>(); // List of args to download
         private bool InProgress = false;                        // Bool if the batch download is in progress
         private int CurrentItem = -1;                           // Int of the current item being downloaded
-        private Thread DownloaderThread;                                // The thread for the downloader
         private frmDownloader Downloader;                       // The Downloader form that will be around. Will be disposed if aborted.
 
         public frmBatchDownloader() {
@@ -43,14 +42,6 @@ namespace youtube_dl_gui {
             sbBatchDownloader.Text = lang.sbBatchDownloaderIdle;
         }
         private void frmBatchDownloader_FormClosing(object sender, FormClosingEventArgs e) {
-            if (lvBatchDownloadQueue.Items.Count > 0) {
-                if (MessageBox.Show("You may have a queue active. Exit?", "", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.No) {
-                    e.Cancel = true;
-                }
-            }
-
-            if (DownloaderThread != null && DownloaderThread.IsAlive) { DownloaderThread.Abort(); }
-
             this.Dispose();
         }
 
@@ -159,9 +150,6 @@ namespace youtube_dl_gui {
         private void btnBatchDownloadStartStopExit_Click(object sender, EventArgs e) {
             if (DownloadUrls.Count == 0) { return; }
             if (InProgress) {
-                //if (DownloaderThread != null) {
-                //    DownloaderThread.Abort();
-                //}
                 Downloader.Dispose();
             }
             else if (lvBatchDownloadQueue.Items.Count > 0) {

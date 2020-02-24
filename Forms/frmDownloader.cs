@@ -18,11 +18,12 @@ namespace youtube_dl_gui {
 
         public bool Debugging = false;
 
-        private Process DownloadProcess = null; // The process of youtube-dl which we'll redirect
-        private Thread DownloadThread = null;   // The thread of the process for youtube-dl
+        private Process DownloadProcess = new Process(); // The process of youtube-dl which we'll redirect
+        private Thread DownloadThread = new Thread(()=>{});   // The thread of the process for youtube-dl
         private bool DownloadFinished = false;  // Determines if the download finished successfully
         private bool DownloadAborted = false;   // Determines if the download was aborted
         private bool DownloadErrored = false;   // Determines if the thread resulted in an error
+        private bool CloseFromMethod = false;   // Deterinse if CloseForm() was called
 
         public frmDownloader() {
             InitializeComponent();
@@ -32,29 +33,21 @@ namespace youtube_dl_gui {
             chkDownloaderCloseAfterDownloader.Checked = Downloads.Default.CloseDownloaderAfterFinish;
             this.Icon = Properties.Resources.youtube_dl_gui;
         }
-        private void frmDownloader_Load(object sender, EventArgs e) { if (BatchDownload) { this.WindowState = FormWindowState.Minimized; } }
-        private void frmDownloader_Shown(object sender, EventArgs e) { BeginDownload(); }
+        private void frmDownloader_Load(object sender, EventArgs e) {
+            if (BatchDownload) { this.WindowState = FormWindowState.Minimized; }
+        }
+        private void frmDownloader_Shown(object sender, EventArgs e) {
+            BeginDownload();
+        }
         private void frmDownloader_FormClosing(object sender, FormClosingEventArgs e) {
-            if (!DownloadFinished && !DownloadAborted & !DownloadErrored) {
-                CloseForm();
+            if (!CloseFromMethod) {
+                if (!DownloadFinished && !DownloadAborted & !DownloadErrored) {
+                    CloseForm();
+                }
             }
         }
         private void btnDownloaderCancelExit_Click(object sender, EventArgs e) {
-            if (DownloadProcess == null) {
-                DownloadAborted = true;
-                CloseForm();
-                return;
-            }
-            if (!DownloadProcess.HasExited) {
-                DownloadAborted = true;
-                DownloadProcess.Kill();
-                DownloadThread.Abort();
-            }
-
-
-            if (DownloadErrored) {
-
-            }
+            CloseForm();
         }
 
         private void BeginDownload() {
@@ -64,8 +57,7 @@ namespace youtube_dl_gui {
                 return;
             }
 
-            //if (BatchDownload) { chkDownloaderCloseAfterDownloader.Checked = true; }
-            chkDownloaderCloseAfterDownloader.Checked = false;
+            if (BatchDownload) { chkDownloaderCloseAfterDownloader.Checked = true; }
 
             if (DownloadUrl.StartsWith("http://")) { DownloadUrl = "https" + DownloadUrl.Substring(4); }
 
@@ -298,6 +290,11 @@ namespace youtube_dl_gui {
             }));
         }
         private void DownloadFinishedMethod() {
+            CloseFromMethod = true;
+            tmrTitleActivity.Stop();
+            this.Text.Trim('.');
+            btnDownloaderCancelExit.Text = lang.btnBatchDownloadExit;
+
             if (BatchDownload) {
                 if (DownloadAborted) {
                     this.DialogResult = System.Windows.Forms.DialogResult.Abort;
@@ -305,6 +302,7 @@ namespace youtube_dl_gui {
                 else if (DownloadErrored) {
                     this.Activate();
                     System.Media.SystemSounds.Hand.Play();
+                    rtbConsoleOutput.AppendText("\nAn error occured. Exit the form to resume batch download.");
                 }
                 else if (DownloadFinished) {
                     this.DialogResult = System.Windows.Forms.DialogResult.Yes;
@@ -316,14 +314,12 @@ namespace youtube_dl_gui {
             else {
                 if (chkDownloaderCloseAfterDownloader.Checked || DownloadAborted) { this.DialogResult = System.Windows.Forms.DialogResult.Abort; }
                 else if (DownloadErrored) {
-                    tmrTitleActivity.Stop();
                     btnDownloaderCancelExit.Text = lang.btnDownloaderExit;
                     rtbConsoleOutput.AppendText("\nAn error occured");
                     this.Activate();
                     System.Media.SystemSounds.Hand.Play();
                 }
                 else if (DownloadFinished) {
-                    tmrTitleActivity.Stop();
                     btnDownloaderCancelExit.Text = lang.btnDownloaderExit;
                     this.Text = lang.frmDownloaderComplete;
                     rtbConsoleOutput.AppendText("Download has finished.");
@@ -331,18 +327,20 @@ namespace youtube_dl_gui {
             }
         }
         private void CloseForm() {
-            if (!DownloadFinished && !DownloadAborted && !DownloadErrored) {
+            CloseFromMethod = true;
+            if (!DownloadFinished) {
                 try {
-                    DownloadProcess.Kill();
-                    DownloadThread.Abort();
-                    this.DialogResult = System.Windows.Forms.DialogResult.Abort;
+                    if (!DownloadProcess.HasExited) { DownloadProcess.Kill(); }
+                    if (DownloadThread.IsAlive) { DownloadThread.Abort(); }
                 }
                 catch (Exception ex) {
                     ErrorLog.ReportException(ex);
                 }
             }
+
             if (DownloadAborted) {
-                this.DialogResult = System.Windows.Forms.DialogResult.Abort;
+                if (BatchDownload) { this.DialogResult = System.Windows.Forms.DialogResult.Abort; }
+                else { this.Dispose(); }
             }
             else if (DownloadFinished) {
                 if (Downloads.Default.CloseDownloaderAfterFinish != chkDownloaderCloseAfterDownloader.Checked && !BatchDownload) {
@@ -350,27 +348,16 @@ namespace youtube_dl_gui {
                     Downloads.Default.Save();
                 }
                 if (DownloadProcess.ExitCode == 0) {
-                    this.DialogResult = System.Windows.Forms.DialogResult.Yes;
+                    if (BatchDownload) { this.DialogResult = System.Windows.Forms.DialogResult.Yes; }
+                    else { this.Dispose(); }
                 }
                 else {
-                    this.DialogResult = System.Windows.Forms.DialogResult.No;
+                    if (BatchDownload) { this.DialogResult = System.Windows.Forms.DialogResult.No; }
                 }
             }
             else {
-                this.DialogResult = System.Windows.Forms.DialogResult.No;
+                if (BatchDownload) { this.DialogResult = System.Windows.Forms.DialogResult.No; }
             }
-        }
-        private void AbortDownload() {
-            if (!DownloadFinished && !DownloadAborted && !DownloadErrored) {
-                try {
-                    DownloadProcess.Kill();
-                    DownloadThread.Abort();
-                }
-                catch (Exception ex) {
-                    ErrorLog.ReportException(ex);
-                }
-            }
-            this.DialogResult = DialogResult.Abort;
         }
 
         private void tmrTitleActivity_Tick(object sender, EventArgs e) {

@@ -64,6 +64,7 @@ namespace youtube_dl_gui {
                 trayIcon.Dispose();
             }
             else {
+                trayIcon.Icon = Properties.Resources.youtube_dl_gui;
                 tcMain.TabPages.RemoveAt(3);
                 tcMain.TabPages.RemoveAt(2);
                 lbDebug.Visible = false;
@@ -73,7 +74,6 @@ namespace youtube_dl_gui {
         private void frmMain_Load(object sender, EventArgs e) {
             UpdateChecker.CheckForUpdate();
             this.Icon = Properties.Resources.youtube_dl_gui;
-            trayIcon.Icon = Properties.Resources.youtube_dl_gui;
 
 
             if (Saved.Default.formTrue0) {
