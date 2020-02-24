@@ -8,8 +8,8 @@
     <Setting Name="separateDownloads" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="saveParams" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
+    <Setting Name="SaveFormatQuality" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="deleteYtdlOnClose" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>

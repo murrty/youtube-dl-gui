@@ -92,7 +92,6 @@ namespace youtube_dl_gui {
                     txtArgs.Text = Saved.Default.downloadArgs;
                     break;
             }
-
             switch (Saved.Default.downloadType) {
                 case 0:
                     rbVideo.Checked = true;
@@ -103,6 +102,31 @@ namespace youtube_dl_gui {
                 case 2:
                     rbCustom.Checked = true;
                     break;
+                default:
+                    rbVideo.Checked = true;
+                    break;
+            }
+            if (Downloads.Default.SaveFormatQuality) {
+                if (rbVideo.Checked) {
+                    cbQuality.SelectedIndex = Saved.Default.videoQuality;
+                }
+                else if (rbAudio.Checked) {
+                    cbQuality.SelectedIndex = Saved.Default.audioQuality;
+                }
+                else if (rbCustom.Checked) {
+                    cbQuality.SelectedIndex = -1;
+                }
+                else {
+                    cbQuality.SelectedIndex = 0;
+                }
+            }
+            else {
+                if (rbCustom.Checked) {
+                    cbQuality.SelectedIndex = -1;
+                }
+                else {
+                    cbQuality.SelectedIndex = 0;
+                }
             }
 
             switch (Saved.Default.convertType) {
@@ -475,6 +499,12 @@ namespace youtube_dl_gui {
                 Downloader.DownloadType = 0;
                 Downloader.DownloadUrl = txtUrl.Text;
                 Downloader.Show();
+            }
+
+            if (Downloads.Default.SaveFormatQuality) {
+                if (rbVideo.Checked) { Saved.Default.videoQuality = cbQuality.SelectedIndex; Saved.Default.downloadType = 0; }
+                else if (rbAudio.Checked) { Saved.Default.audioQuality = cbQuality.SelectedIndex; Saved.Default.downloadType = 1; }
+                Saved.Default.Save();
             }
 
             if (General.Default.clearURL) {

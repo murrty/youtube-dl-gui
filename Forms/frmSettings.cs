@@ -188,7 +188,7 @@ namespace youtube_dl_gui {
                 (tabSettingsGeneral.Size.Width - chkSettingsGeneralClearUrlClipboardOnDownload.Size.Width) / 2,
                 chkSettingsGeneralClearUrlClipboardOnDownload.Location.Y);
 
-            if (!Program.IsDebug || Program.IsDebug) {
+            if (!Program.IsDebug) {
                 return;
             }
             chkSettingsDownloadsSaveFormatQuality.Location = new System.Drawing.Point(
@@ -326,7 +326,7 @@ namespace youtube_dl_gui {
             }
             txtSettingsDownloadsFileNameSchema.Text = Downloads.Default.fileNameSchema;
 
-            //chkSettingsDownloadsSaveFormatQuality.Checked = Downloads.Default.saveParams;
+            chkSettingsDownloadsSaveFormatQuality.Checked = Downloads.Default.SaveFormatQuality;
             chkSettingsDownloadsDownloadSubtitles.Checked = Downloads.Default.SaveSubtitles;
             chkSettingsDownloadsSaveVideoInfo.Checked = Downloads.Default.SaveVideoInfo;
             chkSettingsDownloadsSaveDescription.Checked = Downloads.Default.SaveDescription;
@@ -400,8 +400,7 @@ namespace youtube_dl_gui {
             Downloads.Default.fileNameSchema = txtSettingsDownloadsFileNameSchema.Text;
             Downloads.Default.downloadPath = txtSettingsDownloadsSavePath.Text;
 
-
-            Downloads.Default.separateDownloads = chkSettingsDownloadsDownloadSubtitles.Checked;
+            Downloads.Default.SaveFormatQuality = chkSettingsDownloadsSaveFormatQuality.Checked;
             Downloads.Default.SaveSubtitles = chkSettingsDownloadsDownloadSubtitles.Checked;
             Downloads.Default.SaveVideoInfo = chkSettingsDownloadsSaveVideoInfo.Checked;
             Downloads.Default.SaveDescription = chkSettingsDownloadsSaveDescription.Checked;

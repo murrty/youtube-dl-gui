@@ -12,7 +12,8 @@ namespace youtube_dl_gui {
             Video = 0,
             Audio = 1,
             Custom = 2,
-            Unknown = 0
+            Unknown = 0,
+            Default = 0
         }
         public enum ForceIpProtocol : int {
             IPv4 = 0,
@@ -59,7 +60,11 @@ namespace youtube_dl_gui {
                                                     " -x --audio-format mp3 --audio-quality 160K", // 5
                                                     " -x --audio-format mp3 --audio-quality 128K", // 6
                                                     " -x --audio-format mp3 --audio-quality 96K",  // 7
-                                                    " -x --audio-format mp3 --audio-quality 64K"   // 8
+                                                    " -x --audio-format mp3 --audio-quality 64K",  // 8
+                                                    " -x --audio-format mp3 --audio-quality 32K",  // 9
+                                                    " -x --audio-format mp3 --audio-quality 16K",  // 10
+                                                    " -x --audio-format mp3 --audio-quality 8K",   // 11
+                                                    " -x --audio-format mp3 --audio-quality 4K"    // 12
                                                 };
         /// <summary>
         /// The default file-name schema used

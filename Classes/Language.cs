@@ -1563,7 +1563,7 @@ namespace youtube_dl_gui {
             public static readonly string tabDownloadsConnection = "Connection";
             public static readonly string tabDownloadsUpdating = "Updating";
 
-            public static readonly string chkSettingsDownloadsSaveFormatQuality = "Save format && quality";
+            public static readonly string chkSettingsDownloadsSaveFormatQuality = "Save quality on download";
             public static readonly string chkSettingsDownloadsDownloadSubtitles = "Download subtitles";
             public static readonly string chkSettingsDownloadsSaveVideoInfo = "Save video info";
             public static readonly string chkSettingsDownloadsSaveDescription = "Save description";
@@ -1586,7 +1586,7 @@ namespace youtube_dl_gui {
             public static readonly string llSettingsDownloadsSchemaHelpHint = "Click here to view supported arguments";
             public static readonly string txtSettingsDownloadsFileNameSchemaHint = "The file name schema that will be used by youtube-dl";
 
-            public static readonly string chkSettingsDownloadsSaveFormatQualityHint = "Save format & quality of downloads on download";
+            public static readonly string chkSettingsDownloadsSaveFormatQualityHint = "Save the quality selection on download on the main form";
             public static readonly string chkSettingsDownloadsDownloadSubtitlesHint = "Download all available subtitles";
             public static readonly string chkSettingsDownloadsSaveVideoInfoHint = "Saves the video's info into a .info.json file";
             public static readonly string chkSettingsDownloadsSaveDescriptionHint = "Saves the video's description to a .description file";

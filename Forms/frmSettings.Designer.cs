@@ -439,7 +439,6 @@
             // chkSettingsDownloadsSaveFormatQuality
             // 
             this.chkSettingsDownloadsSaveFormatQuality.AutoSize = true;
-            this.chkSettingsDownloadsSaveFormatQuality.Enabled = false;
             this.chkSettingsDownloadsSaveFormatQuality.Location = new System.Drawing.Point(6, 6);
             this.chkSettingsDownloadsSaveFormatQuality.Name = "chkSettingsDownloadsSaveFormatQuality";
             this.chkSettingsDownloadsSaveFormatQuality.Size = new System.Drawing.Size(223, 17);
@@ -1342,7 +1341,7 @@
             // chkSettingsErrorsSaveErrorsAsErrorLog
             // 
             this.chkSettingsErrorsSaveErrorsAsErrorLog.AutoSize = true;
-            this.chkSettingsErrorsSaveErrorsAsErrorLog.Location = new System.Drawing.Point(8, 39);
+            this.chkSettingsErrorsSaveErrorsAsErrorLog.Location = new System.Drawing.Point(8, 6);
             this.chkSettingsErrorsSaveErrorsAsErrorLog.Name = "chkSettingsErrorsSaveErrorsAsErrorLog";
             this.chkSettingsErrorsSaveErrorsAsErrorLog.Size = new System.Drawing.Size(212, 17);
             this.chkSettingsErrorsSaveErrorsAsErrorLog.TabIndex = 2;
@@ -1354,18 +1353,19 @@
             // 
             this.chkSettingsErrorsShowDetailedErrors.AutoSize = true;
             this.chkSettingsErrorsShowDetailedErrors.Enabled = false;
-            this.chkSettingsErrorsShowDetailedErrors.Location = new System.Drawing.Point(8, 16);
+            this.chkSettingsErrorsShowDetailedErrors.Location = new System.Drawing.Point(8, 52);
             this.chkSettingsErrorsShowDetailedErrors.Name = "chkSettingsErrorsShowDetailedErrors";
             this.chkSettingsErrorsShowDetailedErrors.Size = new System.Drawing.Size(201, 17);
             this.chkSettingsErrorsShowDetailedErrors.TabIndex = 1;
             this.chkSettingsErrorsShowDetailedErrors.Text = "chkSettingsErrorsShowDetailedErrors";
             this.tipSettings.SetToolTip(this.chkSettingsErrorsShowDetailedErrors, "chkSettingsErrorsShowDetailedErrors");
             this.chkSettingsErrorsShowDetailedErrors.UseVisualStyleBackColor = true;
+            this.chkSettingsErrorsShowDetailedErrors.Visible = false;
             // 
             // chkSettingsErrorsSuppressErrors
             // 
             this.chkSettingsErrorsSuppressErrors.AutoSize = true;
-            this.chkSettingsErrorsSuppressErrors.Location = new System.Drawing.Point(8, 62);
+            this.chkSettingsErrorsSuppressErrors.Location = new System.Drawing.Point(8, 29);
             this.chkSettingsErrorsSuppressErrors.Name = "chkSettingsErrorsSuppressErrors";
             this.chkSettingsErrorsSuppressErrors.Size = new System.Drawing.Size(179, 17);
             this.chkSettingsErrorsSuppressErrors.TabIndex = 0;

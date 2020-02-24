@@ -49,13 +49,13 @@ namespace youtube_dl_gui {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool saveParams {
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool SaveFormatQuality {
             get {
-                return ((bool)(this["saveParams"]));
+                return ((bool)(this["SaveFormatQuality"]));
             }
             set {
-                this["saveParams"] = value;
+                this["SaveFormatQuality"] = value;
             }
         }
         
