@@ -154,7 +154,7 @@ namespace youtube_dl_gui {
         /// Check for youtube-dl using all possible routes
         /// </summary>
         private static int ytdlFullCheck() {
-            if (General.Default.useStaticYtdl && File.Exists(General.Default.ytdlPath))
+            if (General.Default.UseStaticYtdl && File.Exists(General.Default.ytdlPath))
                 return 0; // Static
             else if (ytdlInExecutingDirectory)
                 return 1; // Current Directory
@@ -233,7 +233,7 @@ namespace youtube_dl_gui {
         /// Check for ffmpeg using all possible routes
         /// </summary>
         private static int ffmpegFullCheck() {
-            if (General.Default.useStaticFFmpeg && File.Exists(General.Default.ffmpegPath))
+            if (General.Default.UseStaticFFmpeg && File.Exists(General.Default.ffmpegPath))
                 return 0; // Static
             else if (ffmpegInExecutingDirectory)
                 return 1; // Current Directory

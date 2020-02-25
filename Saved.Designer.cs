@@ -190,5 +190,29 @@ namespace youtube_dl_gui {
                 this["AudioVBRQuality"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("-999999")]
+        public int BatchFormX {
+            get {
+                return ((int)(this["BatchFormX"]));
+            }
+            set {
+                this["BatchFormX"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("-999999")]
+        public int BatchFormY {
+            get {
+                return ((int)(this["BatchFormY"]));
+            }
+            set {
+                this["BatchFormY"] = value;
+            }
+        }
     }
 }

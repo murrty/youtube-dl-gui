@@ -76,10 +76,11 @@
             // 
             // lbCurrentLanguageShort
             // 
+            this.lbCurrentLanguageShort.AutoSize = true;
             this.lbCurrentLanguageShort.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbCurrentLanguageShort.Location = new System.Drawing.Point(6, 76);
             this.lbCurrentLanguageShort.Name = "lbCurrentLanguageShort";
-            this.lbCurrentLanguageShort.Size = new System.Drawing.Size(100, 17);
+            this.lbCurrentLanguageShort.Size = new System.Drawing.Size(135, 13);
             this.lbCurrentLanguageShort.TabIndex = 4;
             this.lbCurrentLanguageShort.Text = "lbCurrentLanguageShort";
             // 
@@ -89,11 +90,11 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(292, 98);
-            this.Controls.Add(this.lbCurrentLanguageShort);
             this.Controls.Add(this.btnLanguageCancel);
             this.Controls.Add(this.btnLanguageSave);
             this.Controls.Add(this.btnLanguageRefresh);
             this.Controls.Add(this.cbLanguages);
+            this.Controls.Add(this.lbCurrentLanguageShort);
             this.MaximizeBox = false;
             this.Name = "frmLanguage";
             this.ShowIcon = false;
@@ -101,6 +102,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "frmLanguage";
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 

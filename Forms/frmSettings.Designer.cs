@@ -27,6 +27,7 @@
             this.components = new System.ComponentModel.Container();
             this.tcMain = new System.Windows.Forms.TabControl();
             this.tabSettingsGeneral = new System.Windows.Forms.TabPage();
+            this.chkSettingsGeneralClearClipboardOnDownload = new System.Windows.Forms.CheckBox();
             this.gbSettingsGeneralCustomArguments = new System.Windows.Forms.GroupBox();
             this.rbSettingsGeneralCustomArgumentsSaveInSettings = new System.Windows.Forms.RadioButton();
             this.rbSettingsGeneralCustomArgumentsSaveAsArgsText = new System.Windows.Forms.RadioButton();
@@ -40,7 +41,7 @@
             this.lbSettingsGeneralFFmpegDirectory = new System.Windows.Forms.Label();
             this.txtSettingsGeneralYoutubeDlPath = new System.Windows.Forms.TextBox();
             this.lbSettingsGeneralYoutubeDlPath = new System.Windows.Forms.Label();
-            this.chkSettingsGeneralClearUrlClipboardOnDownload = new System.Windows.Forms.CheckBox();
+            this.chkSettingsGeneralClearUrlOnDownload = new System.Windows.Forms.CheckBox();
             this.chkSettingsGeneralHoverOverUrlToPasteClipboard = new System.Windows.Forms.CheckBox();
             this.chkSettingsGeneralCheckForUpdatesOnLaunch = new System.Windows.Forms.CheckBox();
             this.tabSettingsDownloads = new System.Windows.Forms.TabPage();
@@ -132,7 +133,6 @@
             this.btnSettingsCancel = new System.Windows.Forms.Button();
             this.btnSettingsSave = new System.Windows.Forms.Button();
             this.tipSettings = new System.Windows.Forms.ToolTip(this.components);
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.tcMain.SuspendLayout();
             this.tabSettingsGeneral.SuspendLayout();
             this.gbSettingsGeneralCustomArguments.SuspendLayout();
@@ -175,7 +175,7 @@
             // 
             // tabSettingsGeneral
             // 
-            this.tabSettingsGeneral.Controls.Add(this.checkBox1);
+            this.tabSettingsGeneral.Controls.Add(this.chkSettingsGeneralClearClipboardOnDownload);
             this.tabSettingsGeneral.Controls.Add(this.gbSettingsGeneralCustomArguments);
             this.tabSettingsGeneral.Controls.Add(this.lbSepGeneral);
             this.tabSettingsGeneral.Controls.Add(this.btnSettingsGeneralBrowseFFmpeg);
@@ -186,7 +186,7 @@
             this.tabSettingsGeneral.Controls.Add(this.lbSettingsGeneralFFmpegDirectory);
             this.tabSettingsGeneral.Controls.Add(this.txtSettingsGeneralYoutubeDlPath);
             this.tabSettingsGeneral.Controls.Add(this.lbSettingsGeneralYoutubeDlPath);
-            this.tabSettingsGeneral.Controls.Add(this.chkSettingsGeneralClearUrlClipboardOnDownload);
+            this.tabSettingsGeneral.Controls.Add(this.chkSettingsGeneralClearUrlOnDownload);
             this.tabSettingsGeneral.Controls.Add(this.chkSettingsGeneralHoverOverUrlToPasteClipboard);
             this.tabSettingsGeneral.Controls.Add(this.chkSettingsGeneralCheckForUpdatesOnLaunch);
             this.tabSettingsGeneral.Location = new System.Drawing.Point(4, 22);
@@ -196,6 +196,17 @@
             this.tabSettingsGeneral.TabIndex = 0;
             this.tabSettingsGeneral.Text = "tabSettingsGeneral";
             this.tabSettingsGeneral.UseVisualStyleBackColor = true;
+            // 
+            // chkSettingsGeneralClearClipboardOnDownload
+            // 
+            this.chkSettingsGeneralClearClipboardOnDownload.AutoSize = true;
+            this.chkSettingsGeneralClearClipboardOnDownload.Location = new System.Drawing.Point(36, 208);
+            this.chkSettingsGeneralClearClipboardOnDownload.Name = "chkSettingsGeneralClearClipboardOnDownload";
+            this.chkSettingsGeneralClearClipboardOnDownload.Size = new System.Drawing.Size(248, 17);
+            this.chkSettingsGeneralClearClipboardOnDownload.TabIndex = 13;
+            this.chkSettingsGeneralClearClipboardOnDownload.Text = "chkSettingsGeneralClearClipboardOnDownload";
+            this.tipSettings.SetToolTip(this.chkSettingsGeneralClearClipboardOnDownload, "chkSettingsGeneralClearClipboardOnDownloadHint");
+            this.chkSettingsGeneralClearClipboardOnDownload.UseVisualStyleBackColor = true;
             // 
             // gbSettingsGeneralCustomArguments
             // 
@@ -348,23 +359,23 @@
             this.lbSettingsGeneralYoutubeDlPath.Text = "lbSettingsGeneralYoutubeDlPath";
             this.tipSettings.SetToolTip(this.lbSettingsGeneralYoutubeDlPath, "lbSettingsGeneralYoutubeDlPath");
             // 
-            // chkSettingsGeneralClearUrlClipboardOnDownload
+            // chkSettingsGeneralClearUrlOnDownload
             // 
-            this.chkSettingsGeneralClearUrlClipboardOnDownload.AutoSize = true;
-            this.chkSettingsGeneralClearUrlClipboardOnDownload.Location = new System.Drawing.Point(30, 195);
-            this.chkSettingsGeneralClearUrlClipboardOnDownload.Name = "chkSettingsGeneralClearUrlClipboardOnDownload";
-            this.chkSettingsGeneralClearUrlClipboardOnDownload.Size = new System.Drawing.Size(261, 17);
-            this.chkSettingsGeneralClearUrlClipboardOnDownload.TabIndex = 12;
-            this.chkSettingsGeneralClearUrlClipboardOnDownload.Text = "chkSettingsGeneralClearUrlClipboardOnDownload";
-            this.tipSettings.SetToolTip(this.chkSettingsGeneralClearUrlClipboardOnDownload, "chkSettingsGeneralClearUrlClipboardOnDownload");
-            this.chkSettingsGeneralClearUrlClipboardOnDownload.UseVisualStyleBackColor = true;
+            this.chkSettingsGeneralClearUrlOnDownload.AutoSize = true;
+            this.chkSettingsGeneralClearUrlOnDownload.Location = new System.Drawing.Point(52, 185);
+            this.chkSettingsGeneralClearUrlOnDownload.Name = "chkSettingsGeneralClearUrlOnDownload";
+            this.chkSettingsGeneralClearUrlOnDownload.Size = new System.Drawing.Size(217, 17);
+            this.chkSettingsGeneralClearUrlOnDownload.TabIndex = 12;
+            this.chkSettingsGeneralClearUrlOnDownload.Text = "chkSettingsGeneralClearUrlOnDownload";
+            this.tipSettings.SetToolTip(this.chkSettingsGeneralClearUrlOnDownload, "chkSettingsGeneralClearUrlOnDownloadHint");
+            this.chkSettingsGeneralClearUrlOnDownload.UseVisualStyleBackColor = true;
             // 
             // chkSettingsGeneralHoverOverUrlToPasteClipboard
             // 
             this.chkSettingsGeneralHoverOverUrlToPasteClipboard.AutoSize = true;
             this.chkSettingsGeneralHoverOverUrlToPasteClipboard.Checked = true;
             this.chkSettingsGeneralHoverOverUrlToPasteClipboard.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkSettingsGeneralHoverOverUrlToPasteClipboard.Location = new System.Drawing.Point(27, 172);
+            this.chkSettingsGeneralHoverOverUrlToPasteClipboard.Location = new System.Drawing.Point(27, 162);
             this.chkSettingsGeneralHoverOverUrlToPasteClipboard.Name = "chkSettingsGeneralHoverOverUrlToPasteClipboard";
             this.chkSettingsGeneralHoverOverUrlToPasteClipboard.Size = new System.Drawing.Size(267, 17);
             this.chkSettingsGeneralHoverOverUrlToPasteClipboard.TabIndex = 11;
@@ -375,7 +386,7 @@
             // chkSettingsGeneralCheckForUpdatesOnLaunch
             // 
             this.chkSettingsGeneralCheckForUpdatesOnLaunch.AutoSize = true;
-            this.chkSettingsGeneralCheckForUpdatesOnLaunch.Location = new System.Drawing.Point(33, 149);
+            this.chkSettingsGeneralCheckForUpdatesOnLaunch.Location = new System.Drawing.Point(33, 139);
             this.chkSettingsGeneralCheckForUpdatesOnLaunch.Name = "chkSettingsGeneralCheckForUpdatesOnLaunch";
             this.chkSettingsGeneralCheckForUpdatesOnLaunch.Size = new System.Drawing.Size(254, 17);
             this.chkSettingsGeneralCheckForUpdatesOnLaunch.TabIndex = 10;
@@ -713,7 +724,7 @@
             // 
             // numSettingsDownloadsRetryAttempts
             // 
-            this.numSettingsDownloadsRetryAttempts.Location = new System.Drawing.Point(115, 30);
+            this.numSettingsDownloadsRetryAttempts.Location = new System.Drawing.Point(115, 29);
             this.numSettingsDownloadsRetryAttempts.Name = "numSettingsDownloadsRetryAttempts";
             this.numSettingsDownloadsRetryAttempts.Size = new System.Drawing.Size(63, 20);
             this.numSettingsDownloadsRetryAttempts.TabIndex = 5;
@@ -737,7 +748,7 @@
             "KB",
             "MB",
             "GB"});
-            this.cbSettingsDownloadsLimitDownload.Location = new System.Drawing.Point(187, 5);
+            this.cbSettingsDownloadsLimitDownload.Location = new System.Drawing.Point(186, 4);
             this.cbSettingsDownloadsLimitDownload.Name = "cbSettingsDownloadsLimitDownload";
             this.cbSettingsDownloadsLimitDownload.Size = new System.Drawing.Size(44, 21);
             this.cbSettingsDownloadsLimitDownload.TabIndex = 3;
@@ -745,7 +756,7 @@
             // 
             // numSettingsDownloadsLimitDownload
             // 
-            this.numSettingsDownloadsLimitDownload.Location = new System.Drawing.Point(126, 6);
+            this.numSettingsDownloadsLimitDownload.Location = new System.Drawing.Point(127, 5);
             this.numSettingsDownloadsLimitDownload.Maximum = new decimal(new int[] {
             100000,
             0,
@@ -1472,16 +1483,6 @@
             this.tipSettings.ReshowDelay = 100;
             this.tipSettings.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
             // 
-            // checkBox1
-            // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(122, 218);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(79, 17);
-            this.checkBox1.TabIndex = 13;
-            this.checkBox1.Text = "checkBox1";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            // 
             // frmSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1560,7 +1561,7 @@
         private System.Windows.Forms.RadioButton rbSettingsGeneralCustomArgumentsSaveInSettings;
         private System.Windows.Forms.RadioButton rbSettingsGeneralCustomArgumentsSaveAsArgsText;
         private System.Windows.Forms.RadioButton rbSettingsGeneralCustomArgumentsDontSave;
-        private System.Windows.Forms.CheckBox chkSettingsGeneralClearUrlClipboardOnDownload;
+        private System.Windows.Forms.CheckBox chkSettingsGeneralClearUrlOnDownload;
         private System.Windows.Forms.CheckBox chkSettingsGeneralHoverOverUrlToPasteClipboard;
         private System.Windows.Forms.CheckBox chkSettingsGeneralCheckForUpdatesOnLaunch;
         private System.Windows.Forms.CheckBox chksettingsDownloadsUseYoutubeDlsUpdater;
@@ -1648,6 +1649,6 @@
         private System.Windows.Forms.CheckBox chkSettingsDownloadsEmbedThumbnails;
         private System.Windows.Forms.CheckBox chkSettingsDownloadsKeepOriginalFiles;
         private System.Windows.Forms.CheckBox chkSettingsDownloadsWriteMetadataToFile;
-        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.CheckBox chkSettingsGeneralClearClipboardOnDownload;
     }
 }

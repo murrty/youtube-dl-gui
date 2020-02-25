@@ -122,7 +122,7 @@ namespace youtube_dl_gui {
 
             try {
                 Process startConvert = new Process();
-                if (General.Default.useStaticFFmpeg && File.Exists(General.Default.ffmpegPath)) {
+                if (General.Default.UseStaticFFmpeg && File.Exists(General.Default.ffmpegPath)) {
                     startConvert.StartInfo.FileName = General.Default.ffmpegPath;
                 }
                 else {

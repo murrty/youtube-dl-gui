@@ -62,7 +62,7 @@ namespace youtube_dl_gui {
                 this.Location = new Point(Saved.Default.formLocationX, Saved.Default.formLocationY);
             }
 
-            switch (General.Default.saveCustomArgs) {
+            switch (General.Default.SaveCustomArgs) {
                 case 1:
                     if (System.IO.File.Exists(Environment.CurrentDirectory + "\\args.txt"))
                         txtArgs.Text = System.IO.File.ReadAllText(Environment.CurrentDirectory + "\\args.txt");
@@ -113,7 +113,7 @@ namespace youtube_dl_gui {
                 Saved.Default.formTrue0 = false;
             }
 
-            switch (General.Default.saveCustomArgs) {
+            switch (General.Default.SaveCustomArgs) {
                 case 1: // txt
                     System.IO.File.WriteAllText(Environment.CurrentDirectory + "\\args.txt", txtArgs.Text.TrimEnd('\n'));
                     break;
@@ -496,7 +496,7 @@ namespace youtube_dl_gui {
         }
 
         private void txtUrl_MouseEnter(object sender, EventArgs e) {
-            if (General.Default.hoverURL && txtUrl.Text != Clipboard.GetText()) {
+            if (General.Default.HoverOverURLTextBoxToPaste && txtUrl.Text != Clipboard.GetText()) {
                 txtUrl.Text = Clipboard.GetText();
             }
         }
@@ -656,8 +656,10 @@ namespace youtube_dl_gui {
                 Saved.Default.Save();
             }
 
-            if (General.Default.clearURL) {
+            if (General.Default.ClearURLOnDownload) {
                 txtUrl.Clear();
+            }
+            if (General.Default.ClearClipboardOnDownload) {
                 Clipboard.Clear();
             }
 

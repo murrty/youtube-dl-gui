@@ -450,7 +450,7 @@ namespace youtube_dl_gui {
             private set { frmDownloaderCompleteString = value; }
         }
         public string frmDownloaderError {
-            get { return frmDownloaderString; }
+            get { return frmDownloaderErrorString; }
             private set { frmDownloaderErrorString = value; }
         }
         public string chkDownloaderCloseAfterDownload {
@@ -2074,6 +2074,7 @@ namespace youtube_dl_gui {
                         for (int i = 0; i < ReadFile.Length; i++) {
                             System.Diagnostics.Debug.Print(ReadFile[i]);
                             string ReadLine = ReadFile[i];
+                            if (string.IsNullOrEmpty(ReadFile[i]) || ReadLine.Split('=').Length < 2) { continue; }
                             string ReadControl = null;
                             string ReadValue = null;
                             string ReadHeader = null;
@@ -2091,7 +2092,6 @@ namespace youtube_dl_gui {
                                 }
                             }
                             else {
-                                if (ReadLine == null || ReadLine.Split('=').Length < 2) { continue; }
                                 ReadControl = GetControlName(ReadLine).ToLower();
                                 ReadValue = GetControlValue(ReadLine);
                             }
@@ -2184,27 +2184,27 @@ namespace youtube_dl_gui {
                             #endregion
 
                             #region frmDownloader
-                            else if (ReadLine == "frmdownloader") {
+                            else if (ReadControl == "frmdownloader") {
                                 frmDownloader = ReadValue;
                                 continue;
                             }
-                            else if (ReadLine == "frmdownloadercomplete") {
+                            else if (ReadControl == "frmdownloadercomplete") {
                                 frmDownloaderComplete = ReadValue;
                                 continue;
                             }
-                            else if (ReadLine == "frmdownloadererror") {
+                            else if (ReadControl == "frmdownloadererror") {
                                 frmDownloaderError = ReadValue;
                                 continue;
                             }
-                            else if (ReadLine == "chkdownloadercloseafterdownload") {
+                            else if (ReadControl == "chkdownloadercloseafterdownload") {
                                 chkDownloaderCloseAfterDownload = ReadValue;
                                 continue;
                             }
-                            else if (ReadLine == "btndownloadercancel") {
+                            else if (ReadControl == "btndownloadercancel") {
                                 btnDownloaderCancel = ReadValue;
                                 continue;
                             }
-                            else if (ReadLine == "btndownloaderexit") {
+                            else if (ReadControl == "btndownloaderexit") {
                                 btnDownloaderExit = ReadValue;
                                 continue;
                             }
@@ -2691,7 +2691,7 @@ namespace youtube_dl_gui {
                                 chkSettingsDownloadsWriteMetadataToFile = ReadValue;
                                 continue;
                             }
-                            else if (ReadControl == "chksettingsdownloadssavedescriptionstring") {
+                            else if (ReadControl == "chksettingsdownloadssavedescription") {
                                 chkSettingsDownloadsSaveDescriptionString = ReadValue;
                                 continue;
                             }
@@ -2699,11 +2699,11 @@ namespace youtube_dl_gui {
                                 chkSettingsDownloadsKeepOriginalFiles = ReadValue;
                                 continue;
                             }
-                            else if (ReadControl == "chksettingsdownloadssaveannotationsstring") {
+                            else if (ReadControl == "chksettingsdownloadssaveannotations") {
                                 chkSettingsDownloadsSaveAnnotationsString = ReadValue;
                                 continue;
                             }
-                            else if (ReadControl == "chksettingsdownloadssavethumbnailsstring") {
+                            else if (ReadControl == "chksettingsdownloadssavethumbnails") {
                                 chkSettingsDownloadsSaveThumbnailsString = ReadValue;
                                 continue;
                             }
@@ -2727,23 +2727,23 @@ namespace youtube_dl_gui {
                                 chkSettingsDownloadsFixVReddIt = ReadValue;
                                 continue;
                             }
-                            else if (ReadControl == "chksettingsdownloadslimitdownloadstring") {
+                            else if (ReadControl == "chksettingsdownloadslimitdownload") {
                                 chkSettingsDownloadsLimitDownloadString = ReadValue;
                                 continue;
                             }
-                            else if (ReadControl == "lbsettingsdownloadsretryattemptsstring") {
+                            else if (ReadControl == "lbsettingsdownloadsretryattempts") {
                                 lbSettingsDownloadsRetryAttemptsString = ReadValue;
                                 continue;
                             }
-                            else if (ReadControl == "chksettingsdownloadsforceipv4string") {
+                            else if (ReadControl == "chksettingsdownloadsforceipv4") {
                                 chkSettingsDownloadsForceIpv4String = ReadValue;
                                 continue;
                             }
-                            else if (ReadControl == "chksettingsdownloadsforceipv6string") {
+                            else if (ReadControl == "chksettingsdownloadsforceipv6") {
                                 chkSettingsDownloadsForceIpv6String = ReadValue;
                                 continue;
                             }
-                            else if (ReadControl == "chksettingsdownloadsuseproxystring") {
+                            else if (ReadControl == "chksettingsdownloadsuseproxy") {
                                 chkSettingsDownloadsUseProxyString = ReadValue;
                                 continue;
                             }
@@ -2783,8 +2783,8 @@ namespace youtube_dl_gui {
                                 chkSettingsDownloadsDownloadSubtitlesHint = ReadValue;
                                 continue;
                             }
-                            else if (ReadControl == "chksettingsdownloadsembedthumbnailshint") {
-                                chkSettingsDownloadsEmbedThumbnailsHint = ReadValue;
+                            else if (ReadControl == "chksettingsdownloadsembedsubtitleshint") {
+                                chkSettingsDownloadsEmbedSubtitlesHint = ReadValue;
                                 continue;
                             }
                             else if (ReadControl == "chksettingsdownloadssavevideoinfohint") {
@@ -2830,7 +2830,7 @@ namespace youtube_dl_gui {
                                 chkSettingsDownloadsFixVReddItHint = ReadValue;
                                 continue;
                             }
-                            else if (ReadControl == "chkSettingsDownloadsLimitDownloadhint") {
+                            else if (ReadControl == "chksettingsdownloadslimitdownloadhint") {
                                 chkSettingsDownloadsLimitDownloadHint = ReadValue;
                                 continue;
                             }
@@ -2864,6 +2864,14 @@ namespace youtube_dl_gui {
                             }
                             else if (ReadControl == "cbsettingsdownloadsproxytypehint") {
                                 cbSettingsDownloadsProxyTypeHint = ReadValue;
+                                continue;
+                            }
+                            else if (ReadControl == "txtsettingsdownloadsproxyiphint") {
+                                txtSettingsDownloadsProxyIpHint = ReadValue;
+                                continue;
+                            }
+                            else if (ReadControl == "txtsettingsdownloadsproxyporthint") {
+                                txtSettingsDownloadsProxyPortHint = ReadValue;
                                 continue;
                             }
                             else if (ReadControl == "chksettingsdownloadsuseyoutubedlsupdaterhint") {

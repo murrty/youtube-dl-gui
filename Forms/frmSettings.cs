@@ -27,10 +27,10 @@ namespace youtube_dl_gui {
         public frmSettings() {
             InitializeComponent();
             LoadLanguage();
+            CalculatePositions();
             loadSettings();
         }
         private void frmSettings_Load(object sender, EventArgs e) {
-            CalculatePositions();
             this.Icon = Properties.Resources.youtube_dl_gui;
         }
 
@@ -64,8 +64,10 @@ namespace youtube_dl_gui {
             tipSettings.SetToolTip(chkSettingsGeneralCheckForUpdatesOnLaunch, lang.chkSettingsGeneralCheckForUpdatesOnLaunchHint);
             chkSettingsGeneralHoverOverUrlToPasteClipboard.Text = lang.chkSettingsGeneralHoverOverUrlToPasteClipboard;
             tipSettings.SetToolTip(chkSettingsGeneralHoverOverUrlToPasteClipboard, lang.chkSettingsGeneralHoverOverUrlToPasteClipboardHint);
-            chkSettingsGeneralClearUrlClipboardOnDownload.Text = lang.chkSettingsGeneralClearUrlClipboardOnDownload;
-            tipSettings.SetToolTip(chkSettingsGeneralClearUrlClipboardOnDownload, lang.chkSettingsGeneralClearUrlClipboardOnDownloadHint);
+            chkSettingsGeneralClearUrlOnDownload.Text = lang.chkSettingsGeneralClearUrlOnDownload;
+            tipSettings.SetToolTip(chkSettingsGeneralClearUrlOnDownload, lang.chkSettingsGeneralClearUrlOnDownloadHint);
+            chkSettingsGeneralClearClipboardOnDownload.Text = lang.chkSettingsGeneralClearClipboardOnDownload;
+            tipSettings.SetToolTip(chkSettingsGeneralClearClipboardOnDownload, lang.chkSettingsGeneralClearClipboardOnDownloadHint);
             gbSettingsGeneralCustomArguments.Text = lang.gbSettingsGeneralCustomArguments;
             tipSettings.SetToolTip(gbSettingsGeneralCustomArguments, lang.gbSettingsGeneralCustomArgumentsHint);
             rbSettingsGeneralCustomArgumentsDontSave.Text = lang.rbSettingsGeneralCustomArgumentsDontSave;
@@ -193,11 +195,17 @@ namespace youtube_dl_gui {
                 (tabSettingsGeneral.Size.Width - chkSettingsGeneralHoverOverUrlToPasteClipboard.Size.Width) / 2,
                 chkSettingsGeneralHoverOverUrlToPasteClipboard.Location.Y
                 );
-            chkSettingsGeneralClearUrlClipboardOnDownload.Location = new System.Drawing.Point(
-                (tabSettingsGeneral.Size.Width - chkSettingsGeneralClearUrlClipboardOnDownload.Size.Width) / 2,
-                chkSettingsGeneralClearUrlClipboardOnDownload.Location.Y);
+            chkSettingsGeneralClearUrlOnDownload.Location = new System.Drawing.Point(
+                (tabSettingsGeneral.Size.Width - chkSettingsGeneralClearUrlOnDownload.Size.Width) / 2,
+                chkSettingsGeneralClearUrlOnDownload.Location.Y
+                );
+            chkSettingsGeneralClearClipboardOnDownload.Location = new System.Drawing.Point(
+                (tabSettingsGeneral.Size.Width - chkSettingsGeneralClearClipboardOnDownload.Size.Width) / 2,
+                chkSettingsGeneralClearClipboardOnDownload.Location.Y
+                );
+
             llSettingsDownloadsSchemaHelp.Location = new System.Drawing.Point(
-                (lbSettingsDownloadsFileNameSchema.Location.X + lbSettingsDownloadsFileNameSchema.Size.Width + 2),
+                (lbSettingsDownloadsFileNameSchema.Location.X + lbSettingsDownloadsFileNameSchema.Size.Width) - 4,
                 lbSettingsDownloadsFileNameSchema.Location.Y
                 );
             chkSettingsDownloadsEmbedThumbnails.Location = new System.Drawing.Point(
@@ -216,11 +224,24 @@ namespace youtube_dl_gui {
                 (chkSettingsDownloadsDownloadSubtitles.Location.X + chkSettingsDownloadsDownloadSubtitles.Size.Width + 2),
                 chkSettingsDownloadsDownloadSubtitles.Location.Y
                 );
+
+            numSettingsDownloadsLimitDownload.Location = new System.Drawing.Point(
+                (chkSettingsDownloadsLimitDownload.Location.X + chkSettingsDownloadsLimitDownload.Size.Width) + 2,
+                numSettingsDownloadsLimitDownload.Location.Y
+                );
+            cbSettingsDownloadsLimitDownload.Location = new System.Drawing.Point(
+                (numSettingsDownloadsLimitDownload.Location.X + numSettingsDownloadsLimitDownload.Size.Width) + 2,
+                cbSettingsDownloadsLimitDownload.Location.Y
+                );
+            numSettingsDownloadsRetryAttempts.Location = new System.Drawing.Point(
+                (lbSettingsDownloadsRetryAttempts.Location.X + lbSettingsDownloadsRetryAttempts.Size.Width),
+                numSettingsDownloadsRetryAttempts.Location.Y
+                );
         }
         private void loadSettings() {
-            if (General.Default.useStaticYtdl && !string.IsNullOrEmpty(General.Default.ytdlPath)) {
+            if (General.Default.UseStaticYtdl && !string.IsNullOrEmpty(General.Default.ytdlPath)) {
                 txtSettingsGeneralYoutubeDlPath.Text = General.Default.ytdlPath;
-                chkSettingsGeneralUseStaticYoutubeDl.Checked = General.Default.useStaticYtdl;
+                chkSettingsGeneralUseStaticYoutubeDl.Checked = General.Default.UseStaticYtdl;
             }
             else {
                 if (verif.YoutubeDlPath != null) {
@@ -228,9 +249,9 @@ namespace youtube_dl_gui {
                 }
             }
 
-            if (General.Default.useStaticFFmpeg && !string.IsNullOrEmpty(General.Default.ffmpegPath)) {
+            if (General.Default.UseStaticFFmpeg && !string.IsNullOrEmpty(General.Default.ffmpegPath)) {
                 txtSettingsGeneralFFmpegPath.Text = General.Default.ffmpegPath;
-                chkSettingsGeneralUseStaticFFmpeg.Checked = General.Default.useStaticFFmpeg;
+                chkSettingsGeneralUseStaticFFmpeg.Checked = General.Default.UseStaticFFmpeg;
             }
             else {
                 if (verif.FFmpegPath != null) {
@@ -238,10 +259,11 @@ namespace youtube_dl_gui {
                 }
             }
 
-            chkSettingsGeneralCheckForUpdatesOnLaunch.Checked = General.Default.checkForUpdates;
-            chkSettingsGeneralHoverOverUrlToPasteClipboard.Checked = General.Default.hoverURL;
-            chkSettingsGeneralClearUrlClipboardOnDownload.Checked = General.Default.clearURL;
-            switch (General.Default.saveCustomArgs) {
+            chkSettingsGeneralCheckForUpdatesOnLaunch.Checked = General.Default.CheckForUpdatesOnLaunch;
+            chkSettingsGeneralHoverOverUrlToPasteClipboard.Checked = General.Default.HoverOverURLTextBoxToPaste;
+            chkSettingsGeneralClearUrlOnDownload.Checked = General.Default.ClearURLOnDownload;
+            chkSettingsGeneralClearClipboardOnDownload.Checked = General.Default.ClearClipboardOnDownload;
+            switch (General.Default.SaveCustomArgs) {
                 case 0:
                     rbSettingsGeneralCustomArgumentsDontSave.Checked = true;
                     break;
@@ -336,25 +358,26 @@ namespace youtube_dl_gui {
 
         }
         private void saveSettings() {
-            General.Default.useStaticYtdl = chkSettingsGeneralUseStaticYoutubeDl.Checked;
+            General.Default.UseStaticYtdl = chkSettingsGeneralUseStaticYoutubeDl.Checked;
             if (chkSettingsGeneralUseStaticYoutubeDl.Checked) {
                 General.Default.ytdlPath = txtSettingsGeneralYoutubeDlPath.Text;
             }
-            General.Default.useStaticFFmpeg = chkSettingsGeneralUseStaticFFmpeg.Checked;
+            General.Default.UseStaticFFmpeg = chkSettingsGeneralUseStaticFFmpeg.Checked;
             if (chkSettingsGeneralUseStaticFFmpeg.Checked && !string.IsNullOrEmpty(txtSettingsGeneralFFmpegPath.Text)) {
                 General.Default.ffmpegPath = txtSettingsGeneralFFmpegPath.Text;
             }
-            General.Default.checkForUpdates = chkSettingsGeneralCheckForUpdatesOnLaunch.Checked;
-            General.Default.hoverURL = chkSettingsGeneralHoverOverUrlToPasteClipboard.Checked;
-            General.Default.clearURL = chkSettingsGeneralClearUrlClipboardOnDownload.Checked;
+            General.Default.CheckForUpdatesOnLaunch = chkSettingsGeneralCheckForUpdatesOnLaunch.Checked;
+            General.Default.HoverOverURLTextBoxToPaste = chkSettingsGeneralHoverOverUrlToPasteClipboard.Checked;
+            General.Default.ClearURLOnDownload = chkSettingsGeneralClearUrlOnDownload.Checked;
+            General.Default.ClearClipboardOnDownload = chkSettingsGeneralClearClipboardOnDownload.Checked;
             if (rbSettingsGeneralCustomArgumentsDontSave.Checked)
-                General.Default.saveCustomArgs = 0;
+                General.Default.SaveCustomArgs = 0;
             else if (rbSettingsGeneralCustomArgumentsSaveAsArgsText.Checked)
-                General.Default.saveCustomArgs = 1;
+                General.Default.SaveCustomArgs = 1;
             else if (rbSettingsGeneralCustomArgumentsSaveInSettings.Checked)
-                General.Default.saveCustomArgs = 2;
+                General.Default.SaveCustomArgs = 2;
             else
-                General.Default.saveCustomArgs = 0;
+                General.Default.SaveCustomArgs = 0;
 
             Downloads.Default.fileNameSchema = txtSettingsDownloadsFileNameSchema.Text;
             Downloads.Default.downloadPath = txtSettingsDownloadsSavePath.Text;
@@ -431,10 +454,10 @@ namespace youtube_dl_gui {
 
         #region General
         private void chkSettingsGeneralUseStaticYoutubeDl_CheckedChanged(object sender, EventArgs e) {
-            General.Default.useStaticYtdl = chkSettingsGeneralUseStaticYoutubeDl.Checked;
+            General.Default.UseStaticYtdl = chkSettingsGeneralUseStaticYoutubeDl.Checked;
         }
         private void chkSettingsGeneralUseStaticFFmpeg_CheckedChanged(object sender, EventArgs e) {
-            General.Default.useStaticFFmpeg = chkSettingsGeneralUseStaticFFmpeg.Checked;
+            General.Default.UseStaticFFmpeg = chkSettingsGeneralUseStaticFFmpeg.Checked;
         }
         private void btnSettingsGeneralBrowseYoutubeDl_Click(object sender, EventArgs e) {
             using (SaveFileDialog sfd = new SaveFileDialog()) {
@@ -474,6 +497,22 @@ namespace youtube_dl_gui {
         }
         private void llSettingsDownloadsSchemaHelp_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
             Process.Start("https://github.com/ytdl-org/youtube-dl/blob/master/README.md#output-template");
+        }
+        private void chkSettingsDownloadsDownloadSubtitles_CheckedChanged(object sender, EventArgs e) {
+            if (chkSettingsDownloadsDownloadSubtitles.Checked) {
+                chkSettingsDownloadsEmbedSubtitles.Enabled = true;
+            }
+            else {
+                chkSettingsDownloadsEmbedSubtitles.Enabled = false;
+            }
+        }
+        private void chkSettingsDownloadsSaveThumbnails_CheckedChanged(object sender, EventArgs e) {
+            if (chkSettingsDownloadsSaveThumbnails.Checked) {
+                chkSettingsDownloadsEmbedThumbnails.Enabled = true;
+            }
+            else {
+                chkSettingsDownloadsEmbedThumbnails.Enabled = false;
+            }
         }
 
         private void chkSettingsDownloadsForceIpv4_CheckedChanged(object sender, EventArgs e) {
@@ -560,25 +599,6 @@ namespace youtube_dl_gui {
             lbSettingsExtensionsFileName.Text = "FileName.ext";
         }
         #endregion
-
-        private void chkSettingsDownloadsDownloadSubtitles_CheckedChanged(object sender, EventArgs e) {
-            if (chkSettingsDownloadsDownloadSubtitles.Checked) {
-                chkSettingsDownloadsEmbedSubtitles.Enabled = true;
-            }
-            else {
-                chkSettingsDownloadsEmbedSubtitles.Enabled = false;
-            }
-        }
-
-        private void chkSettingsDownloadsSaveThumbnails_CheckedChanged(object sender, EventArgs e) {
-            if (chkSettingsDownloadsSaveThumbnails.Checked) {
-                chkSettingsDownloadsEmbedThumbnails.Enabled = true;
-            }
-            else {
-                chkSettingsDownloadsEmbedThumbnails.Enabled = false;
-            }
-        }
-
 
     }
 }

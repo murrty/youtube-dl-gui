@@ -167,7 +167,7 @@ namespace youtube_dl_gui {
         public static string[] VideoArgsNoSound = { " -f \"bestvideo/best[ext=mp4]/best\"", " -f \"bestvideo[height<={0}]{1}/best[ext=mp4]/best\"" };
         public static string[] VideoResolutionsArray = { "best", "4320", "2160", "1440", "1080", "720", "480", "360", "240", "144" };
         public static string[] VideoFPSArray = { "[fps<=32]", "[fps>=48]" };
-        public static string[] VideoFormatsArrayOld = { "avi", "flv", "mkv", "mp4", "ogg", "webm" };
+        public static string[] VideoFormatsArrayOld = { "avi", "flv", "mkv", "mp4", "ogg" };//, "webm" };
         public static string[] VideoQualityArray = { "best",
                                                      "4320p60", "4320p", // 1
                                                      "2160p60", "2160p", // 3
@@ -183,17 +183,49 @@ namespace youtube_dl_gui {
                                                           "flv",
                                                           "mkv",
                                                           "mp4",
-                                                          "ogg",
-                                                          "webm"
+                                                          "ogg"
+                                                          //"webm"
                                                         };
         public static string[] VideoFormatsArray = { " --recode-video avi",
                                                      " --recode-video flv",
-                                                     " --recode-video mkv", //" --merge-output-format mkv",
-                                                     " --recode-video mp4", //" --merge-output-format mp4",
+                                                     " --merge-output-format mkv",//" --recode-video mkv", //" --merge-output-format mkv",
+                                                     "",//" --recode-video mp4", //" --merge-output-format mp4",
                                                      " --recode-video ogg",
-                                                     " --recode-video webm" //" --merge-output-format webm"
+                                                     " --merge-output-format webm"//" --recode-video webm" //" --merge-output-format webm"
                                                    };
 
+        public static string[] VideoFormatArgsArrayOld = { " -f \"bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]\"",
+                                                            " -f \"bestvideo[ext=mp4][height<=4320][fps>=48]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",
+                                                            " -f \"bestvideo[ext=mp4][height<=4320][fps<=32]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",
+                                                            " -f \"bestvideo[ext=mp4][height<=2160][fps>=48]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",
+                                                            " -f \"bestvideo[ext=mp4][height<=2160][fps<=32]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",
+                                                            " -f \"bestvideo[ext=mp4][height<=1440][fps>=48]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",
+                                                            " -f \"bestvideo[ext=mp4][height<=1440][fps<=32]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",
+                                                            " -f \"bestvideo[ext=mp4][height<=1080][fps<=60]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",
+                                                            " -f \"bestvideo[ext=mp4][height<=1080][fps<=32]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",
+                                                            " -f \"bestvideo[ext=mp4][height<=720][fps>=48]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",
+                                                            " -f \"bestvideo[ext=mp4][height<=720][fps<=32]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",
+                                                            " -f \"bestvideo[ext=mp4][height<=480]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",
+                                                            " -f \"bestvideo[ext=mp4][height<=360]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",
+                                                            " -f \"bestvideo[ext=mp4][height<=240]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",
+                                                            " -f \"bestvideo[ext=mp4][height<=144]+bestaudio[ext=m4a]/best[ext=mp4]/best\""
+                                                          };
+        public static string[] VideoFormatArgsArrayNoSoundOld = { " -f \"bestvideo[ext=mp4]/best[ext=mp4]/best\"",
+                                                                   " -f \"bestvideo[height<=4320][fps>=48]/best[ext=mp4]/best\"",
+                                                                   " -f \"bestvideo[height<=4320][fps<=32]/best[ext=mp4]/best\"",
+                                                                   " -f \"bestvideo[height<=2160][fps>=48]/best[ext=mp4]/best\"",
+                                                                   " -f \"bestvideo[height<=2160][fps<=32]/best[ext=mp4]/best\"",
+                                                                   " -f \"bestvideo[height<=1440][fps>=48]/best[ext=mp4]/best\"",
+                                                                   " -f \"bestvideo[height<=1440][fps<=32]/best[ext=mp4]/best\"",
+                                                                   " -f \"bestvideo[height<=1080][fps<=60]/best[ext=mp4]/best\"",
+                                                                   " -f \"bestvideo[height<=1080][fps<=32]/best[ext=mp4]/best\"",
+                                                                   " -f \"bestvideo[height<=720][fps>=48]/best[ext=mp4]/best\"",
+                                                                   " -f \"bestvideo[height<=720][fps<=32]/best[ext=mp4]/best\"",
+                                                                   " -f \"bestvideo[height<=480]/best[ext=mp4]/best\"",
+                                                                   " -f \"bestvideo[height<=360]/best[ext=mp4]/best\"",
+                                                                   " -f \"bestvideo[height<=240]/best[ext=mp4]/best\"",
+                                                                   " -f \"bestvideo[height<=144]/best[ext=mp4]/best\""
+                                                                 };
 
 
         private string OldBestVideo = " -f \"bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best\"";
@@ -231,30 +263,32 @@ namespace youtube_dl_gui {
         #endregion
 
         public static string GetVideoFormatArgs(int Quality = 0, bool Set60FPS = false) {
-            if (Quality == 0) {
-                return string.Format(VideoArgs[0]);
-            }
-            else {
-                if (Set60FPS) {
-                    return string.Format(VideoArgs[1], VideoQualityArray[Quality].Replace("p60","").Replace("p",""), VideoFPSArray[1]);
-                }
-                else {
-                    return string.Format(VideoArgs[1], VideoQualityArray[Quality].Replace("p60", "").Replace("p",""), VideoFPSArray[0]);
-                }
-            }
+            return VideoFormatArgsArrayOld[Quality];
+            //if (Quality == 0) {
+            //    return string.Format(VideoArgs[0]);
+            //}
+            //else {
+            //    if (Set60FPS) {
+            //        return string.Format(VideoArgs[1], VideoQualityArray[Quality].Replace("p60","").Replace("p",""), VideoFPSArray[1]);
+            //    }
+            //    else {
+            //        return string.Format(VideoArgs[1], VideoQualityArray[Quality].Replace("p60", "").Replace("p",""), VideoFPSArray[0]);
+            //    }
+            //}
         }
         public static string GetVideoFormatArgsNoSound(int Quality = 0, bool Set60FPS = false) {
-            if (Quality == 0) {
-                return string.Format(VideoArgsNoSound[0]);
-            }
-            else {
-                if (Set60FPS) {
-                    return string.Format(VideoArgsNoSound[1], VideoQualityArray[Quality].Replace("p60", "").Replace("p", ""), VideoFPSArray[1]);
-                }
-                else {
-                    return string.Format(VideoArgsNoSound[1], VideoQualityArray[Quality].Replace("p60", "").Replace("p", ""), VideoFPSArray[0]);
-                }
-            }
+            return VideoFormatArgsArrayNoSoundOld[Quality];
+            //if (Quality == 0) {
+            //    return string.Format(VideoArgsNoSound[0]);
+            //}
+            //else {
+            //    if (Set60FPS) {
+            //        return string.Format(VideoArgsNoSound[1], VideoQualityArray[Quality].Replace("p60", "").Replace("p", ""), VideoFPSArray[1]);
+            //    }
+            //    else {
+            //        return string.Format(VideoArgsNoSound[1], VideoQualityArray[Quality].Replace("p60", "").Replace("p", ""), VideoFPSArray[0]);
+            //    }
+            //}
         }
     }
 }

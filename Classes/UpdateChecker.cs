@@ -21,7 +21,7 @@ namespace youtube_dl_gui {
                 Debug.Print("-version " + GitData.UpdateVersion + " -name " + System.AppDomain.CurrentDomain.FriendlyName);
             }
             else {
-                if (!General.Default.checkForUpdates && !ForceCheck) { return; }
+                if (!General.Default.CheckForUpdatesOnLaunch && !ForceCheck) { return; }
 
 
                 if (GitData.UpdateAvailable) {
@@ -110,7 +110,7 @@ namespace youtube_dl_gui {
                 Process UpdateYoutubeDl = new Process();
                 UpdateYoutubeDl.StartInfo.Arguments = "-U";
 
-                if (!General.Default.useStaticYtdl || string.IsNullOrEmpty(General.Default.ytdlPath)) {
+                if (!General.Default.UseStaticYtdl || string.IsNullOrEmpty(General.Default.ytdlPath)) {
                     if (File.Exists(Environment.CurrentDirectory + "\\youtube-dl.exe")) {
                         UpdateYoutubeDl.StartInfo.FileName = Environment.CurrentDirectory + "\\youtube-dl.exe";
                     }
@@ -145,7 +145,7 @@ namespace youtube_dl_gui {
                 }
             }
             else {
-                if (!General.Default.useStaticYtdl || string.IsNullOrEmpty(General.Default.ytdlPath)) {
+                if (!General.Default.UseStaticYtdl || string.IsNullOrEmpty(General.Default.ytdlPath)) {
                     Thread DownloadYoutubeDl = new Thread(() => {
                         using (WebClient wc = new WebClient()) {
                             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
