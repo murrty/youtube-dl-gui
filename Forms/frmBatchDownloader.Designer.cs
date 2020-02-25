@@ -265,17 +265,17 @@
             // 
             // clUrl
             // 
-            this.clUrl.Text = "clUrl";
+            this.clUrl.Text = "URL";
             this.clUrl.Width = 255;
             // 
             // clType
             // 
-            this.clType.Text = "clType";
+            this.clType.Text = "Type";
             this.clType.Width = 88;
             // 
             // clArgs
             // 
-            this.clArgs.Text = "clArgs";
+            this.clArgs.Text = "Args";
             this.clArgs.Width = 210;
             // 
             // frmBatchDownloader
@@ -321,7 +321,6 @@
         private System.Windows.Forms.Button btnBatchDownloadStartStopExit;
         private VistaListView lvBatchDownloadQueue;
         private System.Windows.Forms.ColumnHeader clUrl;
-        private System.Windows.Forms.ColumnHeader clType;
         private System.Windows.Forms.ColumnHeader clArgs;
         private HintTextBox txtBatchDownloadLink;
         private HintTextBox txtBatchDownloadVideoSpecificArgument;
@@ -335,5 +334,6 @@
         private System.Windows.Forms.CheckBox chkBatchDownloaderSoundVBR;
         private System.Windows.Forms.ComboBox cbBatchQuality;
         private System.Windows.Forms.ComboBox cbBatchFormat;
+        private System.Windows.Forms.ColumnHeader clType;
     }
 }
