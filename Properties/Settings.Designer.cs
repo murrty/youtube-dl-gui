@@ -25,7 +25,7 @@ namespace youtube_dl_gui.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("2.13")]
+        [global::System.Configuration.DefaultSettingValueAttribute("2.2")]
         public decimal appVersion {
             get {
                 return ((decimal)(this["appVersion"]));
@@ -67,7 +67,7 @@ namespace youtube_dl_gui.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("2019-08-02")]
+        [global::System.Configuration.DefaultSettingValueAttribute("2020-02-24")]
         public string debugDate {
             get {
                 return ((string)(this["debugDate"]));
@@ -79,13 +79,25 @@ namespace youtube_dl_gui.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool LanguageUpdate {
+        [global::System.Configuration.DefaultSettingValueAttribute("-1")]
+        public decimal SkippedVersion {
             get {
-                return ((bool)(this["LanguageUpdate"]));
+                return ((decimal)(this["SkippedVersion"]));
             }
             set {
-                this["LanguageUpdate"] = value;
+                this["SkippedVersion"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string YoutubeDlVersion {
+            get {
+                return ((string)(this["YoutubeDlVersion"]));
+            }
+            set {
+                this["YoutubeDlVersion"] = value;
             }
         }
     }

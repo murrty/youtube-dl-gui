@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace youtube_dl_gui {
     class Convert {
         #region Constants
+        private static Verification verif = Verification.GetInstance();
         /// <summary>
         /// All built-in video formats
         /// </summary>
@@ -17,8 +16,9 @@ namespace youtube_dl_gui {
                                                            "Audio Video Interleave (*.AVI)|*.avi|" +
                                                            "Flash Video (*.FLV)|*.flv|" +
                                                            "Matroska Video (*.MKV)|*.mkv|" +
+                                                           "Ogg Vorbis (*.OGV, *.OGX)|*.ogv;*.ogx|" +
                                                            "QuickTime Movie (*.MOV)|*.mov|" +
-                                                           "MPEG-4 Part 14 (*.MP4)|*.mp4|" +
+                                                           "MPEG-4 Part 14 (*.M4A, *.MP4)|*.m4v;*.mp4|" +
                                                            "WebM (*.WEBM)|*.webm|" +
                                                            "Windows Media Video (*.WMV)|*.wmv";
 
@@ -28,9 +28,9 @@ namespace youtube_dl_gui {
         public static readonly string audioFormatsFilter = "All File Formats (*.*)|*.*|" +
                                                            "Advanced Audio Codec (*.AAC)|*.aac|" +
                                                            "Free Lossless Audio Codec (*.FLAC)|*.flac|" +
-                                                           "MPEG-4 Audio (*.M4A)|*.m4a|" +
-                                                           "MPEG-2 AudioLayer 3 (*.MP3)|*.mp3|" +
-                                                           "Ogg Vorbis (*.OGG)|*.ogg|" +
+                                                           "MPEG-4 Audio (*.M4A, *.MP4)|*.m4a;*.mp4|" +
+                                                           "MPEG-1 AudioLayer III (*.MP3)|*.mp3|" +
+                                                           "Ogg Vorbis (*.OGA, *.OGG)|*.oga;*.ogg|" +
                                                            "Opus (*.OPUS)|*.opus|" +
                                                            "Waveform Audio (*.WAV)|*.wav";
 
@@ -45,9 +45,10 @@ namespace youtube_dl_gui {
                                                          "MPEG-4 Audio (*.M4A)|*.m4a|" +
                                                          "Matroska Video (*.MKV)|*.mkv|" +
                                                          "QuickTime Movie (*.MOV)|*.mov|" +
-                                                         "MPEG-2 AudioLayer 3 (*.MP3)|*.mp3|" +
+                                                         "MPEG-1 AudioLayer III (*.MP3)|*.mp3|" +
                                                          "MPEG-4 Part 14 (*.MP4)|*.mp4|" +
-                                                         "Ogg Vorbis (*.OGG)|*.ogg|" +
+                                                         "Ogg Vorbis Audio (*.OGA, *.OGG)|*.oga;*.ogg|" +
+                                                         "Ogg Vorbis Video (*.OGV, *.OGX)|*.ogv;*.ogx|" +
                                                          "Opus (*.OPUS)|*.opus|" +
                                                          "Waveform Audio (*.WAV)|*.wav|" +
                                                          "WebM (*.WEBM)|*.webm|" +
@@ -56,15 +57,17 @@ namespace youtube_dl_gui {
         /// <summary>
         /// All built-in video formats in a single filter
         /// </summary>
-        public static readonly string allVideoFormats = "All Video Formats|*.avi;*.flv;*.mkv;*.mov;*.mp4;*.webm;*.wmv";
+        public static readonly string allVideoFormats = "All Video Formats|" + "*.avi;*.flv;*.mkv;*.mov;*.ogv;*.ogx;*.m4a;*.mp4;*.webm;*.wmv";
         /// <summary>
         /// All built-in audio formats in a single filter
         /// </summary>
-        public static readonly string allAudioFormats = "All Audio Formats|*.aac;*.flac;*.m4a;*.mp3;*.opus;*.ogg;*.wav";
+        public static readonly string allAudioFormats = "All Audio Formats|" +
+            "*.aac;*.flac;*.m4a;*.mp4;*.mp3;*.opus;*.oga;*.ogg;*.wav";
         /// <summary>
         /// All built-in audio and video formats in a single filter
         /// </summary>
-        public static readonly string allMediaFormats = "All Media Formats|*.aac;*.avi;*.flac;*.flv;*.m4a;*.mkv;*.mov;*.mp3;*.mp4;*.ogg;*.opus;*.wav;*.webm;*.wmv";
+        public static readonly string allMediaFormats = "All Media Formats|" +
+            "*.aac;*.avi;*.flac;*.flv;*.m4a;*.mkv;*.mov;*.mp3;*.mp4;*.ogg;*.opus;*.wav;*.webm;*.wmv";
 
         /// <summary>
         /// Temporary array of video qualities. Not used, just for reference.
@@ -116,35 +119,17 @@ namespace youtube_dl_gui {
             /// 1 = Audio
             /// 2 = Custom
             /// 6 = No params at all, just an option to look back to. aka ffmpeg auto
-            
+
             try {
                 Process startConvert = new Process();
-                if (General.Default.useStaticFFmpeg && File.Exists(General.Default.ffmpegPath)) {
+                if (General.Default.UseStaticFFmpeg && File.Exists(General.Default.ffmpegPath)) {
                     startConvert.StartInfo.FileName = General.Default.ffmpegPath;
                 }
                 else {
-                    switch (Verification.ytdlFullCheck()) {
-                        case 1:
-                            startConvert.StartInfo.FileName = Environment.CurrentDirectory + "\\ffmpeg.exe";
-                            break;
-                        case 2:
-                            startConvert.StartInfo.FileName = Verification.ffmpegPathLocation() + "\\ffmpeg.exe";
-                            break;
-                        case 3:
-                            startConvert.StartInfo.FileName = "ffmpeg.exe";
-                            break;
-                        case 0:
-                            startConvert.StartInfo.FileName = General.Default.ffmpegPath + "\\ffmpeg.exe";
-                            break;
-                        default:
-                            if (MessageBox.Show("ffmpeg is not present. Would you like to download it?", "youtube-dl-gui", MessageBoxButtons.YesNo) == DialogResult.Yes) {
-                                Process.Start("https://ffmpeg.org/download.html#build-windows");
-                                return false;
-                            }
-                            else {
-                                return false;
-                            }
+                    if (verif.FFmpegPath == null) {
+                        throw new Exception("FFmpegPath is null. Cannot convert. If you do not have ffmpeg, consider downloading it.");
                     }
+                    startConvert.StartInfo.FileName = verif.FFmpegPath + "\\ffmpeg.exe";
                 }
 
                 string convertArguments = "-i \"" + input + "\"";
@@ -225,7 +210,7 @@ namespace youtube_dl_gui {
                 return true;
             }
             catch (Exception ex) {
-                ErrorLog.reportError(ex);
+                ErrorLog.ReportException(ex);
                 return false;
             }
         }
@@ -265,7 +250,7 @@ namespace youtube_dl_gui {
                     ffMerge.Start();
                     ffMerge.WaitForExit();
 
-                    
+
                     if (input1IsVideo) {
                         ffMerge.StartInfo.Arguments = " -i \"" + input2 + "\" -i \"" + Path.GetDirectoryName(input1) + "\\tempaudio.mp3\" -filter_complex amix=inputs=2:duration=longest \"" + Path.GetDirectoryName(input1) + "\\final.mp3\"";
                     }
@@ -305,7 +290,7 @@ namespace youtube_dl_gui {
                 return true;
             }
             catch (Exception ex) {
-                ErrorLog.reportError(ex);
+                ErrorLog.ReportException(ex);
                 return false;
             }
         }
@@ -343,16 +328,26 @@ namespace youtube_dl_gui {
         /// <returns>The preset string</returns>
         public static string getVideoPreset(int index) {
             switch (index) {
-                case 0: return "ultrafast";
-                case 1: return "superfast";
-                case 2: return "veryfast";
-                case 3: return "faster";
-                case 4: return "fast";
-                case 5: return "medium";
-                case 6: return "slow";
-                case 7: return "slower";
-                case 8: return "veryslow";
-                default: return "medium";
+                case 0:
+                    return "ultrafast";
+                case 1:
+                    return "superfast";
+                case 2:
+                    return "veryfast";
+                case 3:
+                    return "faster";
+                case 4:
+                    return "fast";
+                case 5:
+                    return "medium";
+                case 6:
+                    return "slow";
+                case 7:
+                    return "slower";
+                case 8:
+                    return "veryslow";
+                default:
+                    return "medium";
             }
         }
         /// <summary>
@@ -362,13 +357,20 @@ namespace youtube_dl_gui {
         /// <returns>The profile string</returns>
         public static string getVideoProfile(int index) {
             switch (index) {
-                case 0: return "baseline";
-                case 1: return "main";
-                case 2: return "high";
-                case 3: return "high10";
-                case 4: return "high442";
-                case 5: return "high444";
-                default: return "main";
+                case 0:
+                    return "baseline";
+                case 1:
+                    return "main";
+                case 2:
+                    return "high";
+                case 3:
+                    return "high10";
+                case 4:
+                    return "high442";
+                case 5:
+                    return "high444";
+                default:
+                    return "main";
             }
         }
 

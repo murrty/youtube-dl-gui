@@ -49,7 +49,7 @@ namespace youtube_dl_gui {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("-1")]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int downloadType {
             get {
                 return ((int)(this["downloadType"]));
@@ -85,7 +85,7 @@ namespace youtube_dl_gui {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("-1")]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int convertSaveVideoIndex {
             get {
                 return ((int)(this["convertSaveVideoIndex"]));
@@ -97,7 +97,7 @@ namespace youtube_dl_gui {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("-1")]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int convertSaveAudioIndex {
             get {
                 return ((int)(this["convertSaveAudioIndex"]));
@@ -109,7 +109,7 @@ namespace youtube_dl_gui {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("-1")]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int convertType {
             get {
                 return ((int)(this["convertType"]));
@@ -152,6 +152,66 @@ namespace youtube_dl_gui {
             }
             set {
                 this["audioQuality"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int VideoFormat {
+            get {
+                return ((int)(this["VideoFormat"]));
+            }
+            set {
+                this["VideoFormat"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int AudioFormat {
+            get {
+                return ((int)(this["AudioFormat"]));
+            }
+            set {
+                this["AudioFormat"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int AudioVBRQuality {
+            get {
+                return ((int)(this["AudioVBRQuality"]));
+            }
+            set {
+                this["AudioVBRQuality"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("-999999")]
+        public int BatchFormX {
+            get {
+                return ((int)(this["BatchFormX"]));
+            }
+            set {
+                this["BatchFormX"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("-999999")]
+        public int BatchFormY {
+            get {
+                return ((int)(this["BatchFormY"]));
+            }
+            set {
+                this["BatchFormY"] = value;
             }
         }
     }

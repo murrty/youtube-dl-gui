@@ -26,12 +26,12 @@ namespace youtube_dl_gui {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool useStaticYtdl {
+        public bool UseStaticYtdl {
             get {
-                return ((bool)(this["useStaticYtdl"]));
+                return ((bool)(this["UseStaticYtdl"]));
             }
             set {
-                this["useStaticYtdl"] = value;
+                this["UseStaticYtdl"] = value;
             }
         }
         
@@ -50,12 +50,12 @@ namespace youtube_dl_gui {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool useStaticFFmpeg {
+        public bool UseStaticFFmpeg {
             get {
-                return ((bool)(this["useStaticFFmpeg"]));
+                return ((bool)(this["UseStaticFFmpeg"]));
             }
             set {
-                this["useStaticFFmpeg"] = value;
+                this["UseStaticFFmpeg"] = value;
             }
         }
         
@@ -74,48 +74,60 @@ namespace youtube_dl_gui {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool checkForUpdates {
+        public bool CheckForUpdatesOnLaunch {
             get {
-                return ((bool)(this["checkForUpdates"]));
+                return ((bool)(this["CheckForUpdatesOnLaunch"]));
             }
             set {
-                this["checkForUpdates"] = value;
+                this["CheckForUpdatesOnLaunch"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool hoverURL {
+        public bool HoverOverURLTextBoxToPaste {
             get {
-                return ((bool)(this["hoverURL"]));
+                return ((bool)(this["HoverOverURLTextBoxToPaste"]));
             }
             set {
-                this["hoverURL"] = value;
+                this["HoverOverURLTextBoxToPaste"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool clearURL {
+        public bool ClearURLOnDownload {
             get {
-                return ((bool)(this["clearURL"]));
+                return ((bool)(this["ClearURLOnDownload"]));
             }
             set {
-                this["clearURL"] = value;
+                this["ClearURLOnDownload"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("2")]
-        public int saveCustomArgs {
+        public int SaveCustomArgs {
             get {
-                return ((int)(this["saveCustomArgs"]));
+                return ((int)(this["SaveCustomArgs"]));
             }
             set {
-                this["saveCustomArgs"] = value;
+                this["SaveCustomArgs"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool ClearClipboardOnDownload {
+            get {
+                return ((bool)(this["ClearClipboardOnDownload"]));
+            }
+            set {
+                this["ClearClipboardOnDownload"] = value;
             }
         }
     }

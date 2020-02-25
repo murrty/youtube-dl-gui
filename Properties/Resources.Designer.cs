@@ -61,6 +61,16 @@ namespace youtube_dl_gui.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        public static System.Drawing.Icon youtube_dl_gui {
+            get {
+                object obj = ResourceManager.GetObject("youtube_dl_gui", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
         public static byte[] youtube_dl_gui_updater {

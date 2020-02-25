@@ -1,25 +1,25 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
-using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace youtube_dl_gui {
-    public partial class frmTools : Form {
-        public frmTools() {
+    public partial class frmMiscTools : Form {
+        Language lang = Language.GetInstance();
+
+        public frmMiscTools() {
             InitializeComponent();
+            this.Text = lang.frmTools;
+            btnMiscToolsRemoveAudio.Text = lang.btnMiscToolsRemoveAudio;
+            btnMiscToolsExtractAudio.Text = lang.btnMiscToolsExtractAudio;
+            btnMiscToolsVideoToGif.Text = lang.btnMiscToolsVideoToGif;
+            this.Icon = Properties.Resources.youtube_dl_gui;
         }
         private void frmTools_FormClosing(object sender, FormClosingEventArgs e) {
             this.Dispose();
         }
 
-        private void btnRemoveAudio_Click(object sender, EventArgs e) {
+        private void btnMiscToolsRemoveAudio_Click(object sender, EventArgs e) {
             using (OpenFileDialog ofd = new OpenFileDialog()) {
                 ofd.Title = "Select a file to remove the audio from";
                 ofd.Filter = Convert.videoFormatsFilter;
@@ -44,7 +44,7 @@ namespace youtube_dl_gui {
             }
         }
 
-        private void btnExtractAudio_Click(object sender, EventArgs e) {
+        private void btnMiscToolsExtractAudio_Click(object sender, EventArgs e) {
             using (OpenFileDialog ofd = new OpenFileDialog()) {
                 ofd.Title = "Select a file to remove the audio from";
                 ofd.Filter = Convert.videoFormatsFilter;
@@ -74,7 +74,7 @@ namespace youtube_dl_gui {
             }
         }
 
-        private void btnVideoToGif_Click(object sender, EventArgs e) {
+        private void btnMiscToolsVideoToGif_Click(object sender, EventArgs e) {
             using (OpenFileDialog ofd = new OpenFileDialog()) {
                 if (ofd.ShowDialog() == DialogResult.OK) {
                     Process ffmpeg = new Process() {

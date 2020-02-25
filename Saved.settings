@@ -9,7 +9,7 @@
       <Value Profile="(Default)">0</Value>
     </Setting>
     <Setting Name="downloadType" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">-1</Value>
+      <Value Profile="(Default)">0</Value>
     </Setting>
     <Setting Name="downloadArgs" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
@@ -18,13 +18,13 @@
       <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="convertSaveVideoIndex" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">-1</Value>
+      <Value Profile="(Default)">0</Value>
     </Setting>
     <Setting Name="convertSaveAudioIndex" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">-1</Value>
+      <Value Profile="(Default)">0</Value>
     </Setting>
     <Setting Name="convertType" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">-1</Value>
+      <Value Profile="(Default)">0</Value>
     </Setting>
     <Setting Name="convertCustom" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
@@ -34,6 +34,21 @@
     </Setting>
     <Setting Name="audioQuality" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="VideoFormat" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="AudioFormat" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="AudioVBRQuality" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="BatchFormX" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">-999999</Value>
+    </Setting>
+    <Setting Name="BatchFormY" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">-999999</Value>
     </Setting>
   </Settings>
 </SettingsFile>

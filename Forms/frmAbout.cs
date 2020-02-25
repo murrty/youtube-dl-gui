@@ -1,22 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace youtube_dl_gui {
     public partial class frmAbout : Form {
-        Thread checkUpdates;
+        Language lang = Language.GetInstance();
+        GitData GitCloud = GitData.GetInstance();
 
         public frmAbout() {
             InitializeComponent();
+            this.Icon = Properties.Resources.youtube_dl_gui;
         }
         private void frmAbout_Shown(object sender, EventArgs e) {
             if (!Properties.Settings.Default.jsonSupport)
@@ -30,22 +23,7 @@ namespace youtube_dl_gui {
             if (!Properties.Settings.Default.jsonSupport)
                 return;
 
-            checkUpdates = new Thread(() => {
-                decimal cV = Updater.getCloudVersion();
-                if (Updater.isUpdateAvailable(cV)) {
-                    if (MessageBox.Show("An update is available.\nNew verison: " + cV.ToString() + " | Your version: " + Properties.Settings.Default.appVersion.ToString() + "\n\nWould you like to update?", "youtube-dl-gui", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes) {
-                        if (Updater.downloadNewVersion(cV)) {
-                            Updater.runMerge();
-                            Environment.Exit(0);
-                        }
-                    }
-                }
-                else {
-                    MessageBox.Show("No update is available at this time.");
-                }
-                this.Invoke((MethodInvoker)(() => checkUpdates.Abort()));
-            });
-            checkUpdates.Start();
+            UpdateChecker.CheckForUpdate(true);
         }
         private void pbIcon_Click(object sender, EventArgs e) {
             Process.Start("https://github.com/murrty/youtube-dl-gui/");
@@ -53,10 +31,6 @@ namespace youtube_dl_gui {
 
         private void llbGithub_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
             Process.Start("https://github.com/murrty/youtube-dl-gui");
-        }
-
-        private void llbGitlab_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
-            //Process.Start("https://gitlab.com/murrty/youtube-dl-gui");
         }
     }
 }

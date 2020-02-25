@@ -11,6 +11,21 @@
     <AssemblyName>youtube-dl-gui</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -34,6 +49,9 @@
   <PropertyGroup>
     <ApplicationIcon>Resources\youtube-dl-gui.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup>
+    <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -48,10 +66,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Batch.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Batch.settings</DependentUpon>
+    </Compile>
     <Compile Include="Classes\Controller.cs" />
     <Compile Include="Classes\Convert.cs" />
     <Compile Include="Classes\Download.cs" />
-    <Compile Include="Classes\Updater.cs" />
+    <Compile Include="Classes\Language.cs" />
+    <Compile Include="Classes\Controls.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Classes\UpdateChecker.cs" />
     <Compile Include="Classes\ErrorLog.cs" />
     <Compile Include="Converts.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -74,11 +101,29 @@
     <Compile Include="Forms\frmAbout.Designer.cs">
       <DependentUpon>frmAbout.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\frmBatch.cs">
+    <Compile Include="Forms\frmBatchDownloader.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmBatch.Designer.cs">
-      <DependentUpon>frmBatch.cs</DependentUpon>
+    <Compile Include="Forms\frmBatchDownloader.Designer.cs">
+      <DependentUpon>frmBatchDownloader.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmConverter.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmConverter.Designer.cs">
+      <DependentUpon>frmConverter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmException.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmException.Designer.cs">
+      <DependentUpon>frmException.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmLanguage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmLanguage.Designer.cs">
+      <DependentUpon>frmLanguage.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\frmMain.cs">
       <SubType>Form</SubType>
@@ -92,11 +137,29 @@
     <Compile Include="Forms\frmSettings.Designer.cs">
       <DependentUpon>frmSettings.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\frmTools.cs">
+    <Compile Include="Forms\frmSubtitles.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmTools.Designer.cs">
-      <DependentUpon>frmTools.cs</DependentUpon>
+    <Compile Include="Forms\frmSubtitles.Designer.cs">
+      <DependentUpon>frmSubtitles.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmMiscTools.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmMiscTools.Designer.cs">
+      <DependentUpon>frmMiscTools.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmUpdateAvailable.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmUpdateAvailable.Designer.cs">
+      <DependentUpon>frmUpdateAvailable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmDownloader.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmDownloader.Designer.cs">
+      <DependentUpon>frmDownloader.cs</DependentUpon>
     </Compile>
     <Compile Include="General.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -119,8 +182,17 @@
     <EmbeddedResource Include="Forms\frmAbout.resx">
       <DependentUpon>frmAbout.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmBatch.resx">
-      <DependentUpon>frmBatch.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\frmBatchDownloader.resx">
+      <DependentUpon>frmBatchDownloader.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmConverter.resx">
+      <DependentUpon>frmConverter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmException.resx">
+      <DependentUpon>frmException.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmLanguage.resx">
+      <DependentUpon>frmLanguage.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>
@@ -128,8 +200,17 @@
     <EmbeddedResource Include="Forms\frmSettings.resx">
       <DependentUpon>frmSettings.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmTools.resx">
-      <DependentUpon>frmTools.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\frmSubtitles.resx">
+      <DependentUpon>frmSubtitles.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmMiscTools.resx">
+      <DependentUpon>frmMiscTools.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmUpdateAvailable.resx">
+      <DependentUpon>frmUpdateAvailable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmDownloader.resx">
+      <DependentUpon>frmDownloader.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
@@ -141,6 +222,10 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="Batch.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Batch.Designer.cs</LastGenOutput>
+    </None>
     <None Include="Converts.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Converts.Designer.cs</LastGenOutput>
@@ -157,6 +242,7 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>General.Designer.cs</LastGenOutput>
     </None>
+    <None Include="lang\English.ini" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -179,11 +265,37 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\youtube-dl-gui-updater.exe" />
+    <EmbeddedResource Include="Resources\youtube-dl-gui-updater.exe" />
     <Content Include="Resources\youtube-dl-gui.ico" />
     <Content Include="Resources\youtube-dl-gui32.png" />
   </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.5">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.5 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>if $(ConfigurationName) == Release xcopy "$(ProjectDir)lang\*.ini" "$(SolutionDir)Release\lang\*.ini" /y
+if $(ConfigurationName) == Release copy "$(TargetPath)" "$(SolutionDir)Release"
+if $(ConfigurationName) == Release (7z a -mm=Deflate -mfb=128 -r "$(SolutionDir)Release\$(ProjectName).zip" "$(SolutionDir)Release\*")</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
