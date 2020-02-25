@@ -147,7 +147,7 @@ namespace youtube_dl_gui {
                 case 1: {
                         if (UseVBR) {
                             if (DownloadQuality == 0) {
-                                ArgumentsBuffer += " -f bestaudio --extract-audio --audio-quality " + DownloadQuality;
+                                ArgumentsBuffer += " -f bestaudio --extract-audio --audio-quality 0";
                             }
                             else {
                                 ArgumentsBuffer += " --extract-audio --audio-quality " + DownloadQuality;
@@ -155,7 +155,7 @@ namespace youtube_dl_gui {
                         }
                         else {
                             if (DownloadQuality == 0) {
-                                ArgumentsBuffer += " -f bestaudio --extract-audio --audio-quality " + DownloadFormats.AudioQualityNamesArray[DownloadQuality];
+                                ArgumentsBuffer += " -f bestaudio --extract-audio --audio-quality 0";
                             }
                             else {
                                 ArgumentsBuffer += " --extract-audio --audio-quality " + DownloadFormats.AudioQualityNamesArray[DownloadQuality];

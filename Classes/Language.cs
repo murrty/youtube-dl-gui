@@ -2072,7 +2072,7 @@ namespace youtube_dl_gui {
                         string[] ReadFile = System.IO.File.ReadAllLines(LanguageFile);
 
                         for (int i = 0; i < ReadFile.Length; i++) {
-                            System.Diagnostics.Debug.Print(ReadFile[i]);
+                            if (Program.IsDebug) { System.Diagnostics.Debug.Print(ReadFile[i]); }
                             string ReadLine = ReadFile[i];
                             if (string.IsNullOrEmpty(ReadFile[i]) || ReadLine.Split('=').Length < 2) { continue; }
                             string ReadControl = null;
