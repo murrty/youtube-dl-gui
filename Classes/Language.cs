@@ -2,12 +2,18 @@
 
 namespace youtube_dl_gui {
     public class Language {
-        #region Variables
+        #region Instance
         private static volatile Language LangInstance = new Language();
-        private static volatile string LoadedFileString = null;
+        public static Language GetInstance() {
+            return LangInstance;
+        }
+        #endregion
+
+        #region Variables
 
         #region Language identifier
         // Language identifier
+        private static volatile string LoadedFileString = null;
         private static volatile string CurrentLanguageLongString = "CurrentLanguageLong";
         private static volatile string CurrentLanguageShortString = "CurrentLanguageShort";
         private static volatile string CurrentLanguageHintString = "CurrentLanguageHint";
@@ -149,7 +155,8 @@ namespace youtube_dl_gui {
         private static volatile string chkSettingsGeneralUseStaticFFmpegString = "chkSettingsGeneralUseStaticFFmpeg";
         private static volatile string chkSettingsGeneralCheckForUpdatesOnLaunchString = "chkSettingsGeneralCheckForUpdatesOnLaunch";
         private static volatile string chkSettingsGeneralHoverOverUrlToPasteClipboardString = "chkSettingsGeneralHoverOverUrlToPasteClipboard";
-        private static volatile string chkSettingsGeneralClearUrlClipboardOnDownloadString = "chkSettingsGeneralClearUrlClipboardOnDownload";
+        private static volatile string chkSettingsGeneralClearUrlOnDownloadString = "chkSettingsGeneralClearUrlOnDownload";
+        private static volatile string chkSettingsGeneralClearClipboardOnDownloadString = "chkSettingsGeneralClearClipboardOnDownload";
         private static volatile string gbSettingsGeneralCustomArgumentsString = "gbSettingsGeneralCustomArguments";
         private static volatile string rbSettingsGeneralCustomArgumentsDontSaveString = "rbSettingsGeneralCustomArgumentsDontSave";
         private static volatile string rbSettingsGeneralCustomArgumentsSaveAsArgsTextString = "rbSettingsGeneralCustomArgumentsSaveAsArgsText";
@@ -240,7 +247,8 @@ namespace youtube_dl_gui {
         private static volatile string btnSettingsGeneralBrowseFFmpegHintString = "btnSettingsGeneralBrowseFFmpegHint";
         private static volatile string chkSettingsGeneralCheckForUpdatesOnLaunchHintString = "chkSettingsGeneralCheckForUpdatesOnLaunchHint";
         private static volatile string chkSettingsGeneralHoverOverUrlToPasteClipboardHintString = "chkSettingsGeneralHoverOverUrlToPasteClipboardHint";
-        private static volatile string chkSettingsGeneralClearUrlClipboardOnDownloadHintString = "chkSettingsGeneralClearUrlClipboardOnDownloadHint";
+        private static volatile string chkSettingsGeneralClearUrlOnDownloadHintString = "chkSettingsGeneralClearUrlOnDownloadHint";
+        private static volatile string chkSettingsGeneralClearClipboardOnDownloadHintString = "chkSettingsGeneralClearClipboardOnDownloadHint";
         private static volatile string gbSettingsGeneralCustomArgumentsHintString = "gbSettingsGeneralCustomArgumentsHint";
         private static volatile string rbSettingsGeneralCustomArgumentsDontSaveHintString = "rbSettingsGeneralCustomArgumentsDontSaveHint";
         private static volatile string rbSettingsGeneralCustomArgumentsSaveAsArgsTextHintString = "rbSettingsGeneralCustomArgumentsSaveAsArgsTextHint";
@@ -402,7 +410,7 @@ namespace youtube_dl_gui {
             get { return mBatchDownloaderLoadArgsFromFileString; }
             private set { mBatchDownloaderLoadArgsFromFileString = value; }
         }
-        public string btnBatchDownloadStart  {
+        public string btnBatchDownloadStart {
             get { return btnBatchDownloadStartString; }
             private set { btnBatchDownloadStartString = value; }
         }
@@ -508,122 +516,122 @@ namespace youtube_dl_gui {
         #region frmMain
         public string mSettings {
             get { return mSettingsString; }
-            private set{ mSettingsString = value; }
+            private set { mSettingsString = value; }
         }
         public string mTools {
             get { return mToolsString; }
-            private set{ mToolsString = value; }
+            private set { mToolsString = value; }
         }
         public string mBatchDownload {
             get { return mBatchDownloadString; }
-            private set{ mBatchDownloadString = value; }
+            private set { mBatchDownloadString = value; }
         }
         public string mDownloadSubtitles {
             get { return mDownloadSubtitlesString; }
-            private set{ mDownloadSubtitlesString = value; }
+            private set { mDownloadSubtitlesString = value; }
         }
         public string mMiscTools {
             get { return mMiscToolsString; }
-            private set{ mMiscToolsString = value; }
+            private set { mMiscToolsString = value; }
         }
         public string mHelp {
             get { return mHelpString; }
-            private set{ mHelpString = value; }
+            private set { mHelpString = value; }
         }
         public string mLanguage {
             get { return mLanguageString; }
-            private set{ mLanguageString = value; }
+            private set { mLanguageString = value; }
         }
         public string mSupportedSites {
             get { return mSupportedSitesString; }
-            private set{ mSupportedSitesString = value; }
+            private set { mSupportedSitesString = value; }
         }
         public string mAbout {
             get { return mAboutString; }
-            private set{ mAboutString = value; }
+            private set { mAboutString = value; }
         }
 
         public string tabDownload {
             get { return tabDownloadString; }
-            private set{ tabDownloadString = value; }
+            private set { tabDownloadString = value; }
         }
         public string tabConvert {
             get { return tabConvertString; }
-            private set{ tabConvertString = value; }
+            private set { tabConvertString = value; }
         }
         public string tabMerge {
             get { return tabMergeString; }
-            private set{ tabMergeString = value; }
+            private set { tabMergeString = value; }
         }
 
         public string lbURL {
             get { return lbURLString; }
-            private set{ lbURLString = value; }
+            private set { lbURLString = value; }
         }
         public string txtUrlHint {
             get { return txtUrlHintString; }
-            private set{ txtUrlHintString = value; }
+            private set { txtUrlHintString = value; }
         }
         public string gbDownloadType {
             get { return gbDownloadTypeString; }
-            private set{ gbDownloadTypeString = value; }
+            private set { gbDownloadTypeString = value; }
         }
         public string rbVideo {
             get { return rbVideoString; }
-            private set{ rbVideoString = value; }
+            private set { rbVideoString = value; }
         }
         public string rbAudio {
             get { return rbAudioString; }
-            private set{ rbAudioString = value; }
+            private set { rbAudioString = value; }
         }
-		public string rbCustom {
+        public string rbCustom {
             get { return rbCustomString; }
-            private set{ rbCustomString = value; }
+            private set { rbCustomString = value; }
         }
         public string lbQuality {
             get { return lbQualityString; }
-            private set{ lbQualityString = value; }
+            private set { lbQualityString = value; }
         }
         public string chkDownloadSound {
             get { return chkDownloadSoundString; }
-            private set{ chkDownloadSoundString = value; }
+            private set { chkDownloadSoundString = value; }
         }
         public string lbCustomArguments {
             get { return lbCustomArgumentsString; }
-            private set{ lbCustomArgumentsString = value; }
+            private set { lbCustomArgumentsString = value; }
         }
         public string txtArgsHint {
             get { return txtArgsHintString; }
-            private set{ txtArgsHintString = value; }
+            private set { txtArgsHintString = value; }
         }
         public string sbDownload {
             get { return sbDownloadString; }
-            private set{ sbDownloadString = value; }
+            private set { sbDownloadString = value; }
         }
         public string mBatchDownloadFromFile {
             get { return mBatchDownloadFromFileString; }
-            private set{ mBatchDownloadFromFileString = value; }
+            private set { mBatchDownloadFromFileString = value; }
         }
         public string lbDownloadStatusStarted {
             get { return lbDownloadStatusStartedString; }
-            private set{ lbDownloadStatusStartedString = value; }
+            private set { lbDownloadStatusStartedString = value; }
         }
         public string lbDownloadStatusError {
             get { return lbDownloadStatusErrorString; }
-            private set{ lbDownloadStatusErrorString = value; }
+            private set { lbDownloadStatusErrorString = value; }
         }
 
         public string lbConvertInput {
             get { return lbConvertInputString; }
-            private set{ lbConvertInputString = value; }
+            private set { lbConvertInputString = value; }
         }
         public string lbConvertOutput {
             get { return lbConvertOutputString; }
-            private set{ lbConvertOutputString = value; }
+            private set { lbConvertOutputString = value; }
         }
         public string rbConvertVideo {
             get { return rbConvertVideoString; }
-            private set{ rbConvertVideoString = value; }
+            private set { rbConvertVideoString = value; }
         }
         public string rbConvertAudio {
             get { return rbConvertAudioString; }
@@ -631,121 +639,121 @@ namespace youtube_dl_gui {
         }
         public string rbConvertCustom {
             get { return rbConvertCustomString; }
-            private set{ rbConvertCustomString = value; }
+            private set { rbConvertCustomString = value; }
         }
         public string rbConvertAuto {
             get { return rbConvertAutoString; }
-            private set{ rbConvertAutoString = value; }
+            private set { rbConvertAutoString = value; }
         }
         public string rbConvertAutoFFmpeg {
             get { return rbConvertAutoFFmpegString; }
-            private set{ rbConvertAutoFFmpegString = value; }
+            private set { rbConvertAutoFFmpegString = value; }
         }
         public string btnConvert {
             get { return btnConvertString; }
-            private set{ btnConvertString = value; }
+            private set { btnConvertString = value; }
         }
         public string lbConvertStarted {
             get { return lbConvertStartedString; }
-            private set{ lbConvertStartedString = value; }
+            private set { lbConvertStartedString = value; }
         }
         public string lbConvertFailed {
             get { return lbConvertFailedString; }
-            private set{ lbConvertFailedString = value; }
+            private set { lbConvertFailedString = value; }
         }
 
         public string lbMergeInput1 {
             get { return lbMergeInput1String; }
-            private set{ lbMergeInput1String = value; }
+            private set { lbMergeInput1String = value; }
         }
         public string lbMergeInput2 {
             get { return lbMergeInput2String; }
-            private set{ lbMergeInput2String = value; }
+            private set { lbMergeInput2String = value; }
         }
         public string lbMergeOutput {
             get { return lbMergeOutputString; }
-            private set{ lbMergeOutputString = value; }
+            private set { lbMergeOutputString = value; }
         }
         public string chkMergeAudioTracks {
             get { return chkMergeAudioTracksString; }
-            private set{ chkMergeAudioTracksString = value; }
+            private set { chkMergeAudioTracksString = value; }
         }
         public string chkMergeDeleteInputFiles {
             get { return chkMergeDeleteInputFilesString; }
-            private set{ chkMergeDeleteInputFilesString = value; }
+            private set { chkMergeDeleteInputFilesString = value; }
         }
         public string btnMerge {
             get { return btnMergeString; }
-            private set{ btnMergeString = value; }
+            private set { btnMergeString = value; }
         }
 
         public string cmTrayShowForm {
             get { return cmTrayShowFormString; }
-            private set{ cmTrayShowFormString = value; }
+            private set { cmTrayShowFormString = value; }
         }
         public string cmTrayDownloader {
             get { return cmTrayDownloaderString; }
-            private set{ cmTrayDownloaderString = value; }
+            private set { cmTrayDownloaderString = value; }
         }
         public string cmTrayDownloadClipboard {
             get { return cmTrayDownloadClipboardString; }
-            private set{ cmTrayDownloadClipboardString = value; }
+            private set { cmTrayDownloadClipboardString = value; }
         }
         public string cmTrayDownloadBestVideo {
             get { return cmTrayDownloadBestVideoString; }
-            private set{ cmTrayDownloadBestVideoString = value; }
+            private set { cmTrayDownloadBestVideoString = value; }
         }
         public string cmTrayDownloadBestAudio {
             get { return cmTrayDownloadBestAudioString; }
-            private set{ cmTrayDownloadBestAudioString = value; }
+            private set { cmTrayDownloadBestAudioString = value; }
         }
         public string cmTrayDownloadCustom {
             get { return cmTrayDownloadCustomString; }
-            private set{ cmTrayDownloadCustomString = value; }
+            private set { cmTrayDownloadCustomString = value; }
         }
         public string cmTrayDownloadCustomTxtBox {
             get { return cmTrayDownloadCustomTxtBoxString; }
-            private set{ cmTrayDownloadCustomTxtBoxString = value; }
+            private set { cmTrayDownloadCustomTxtBoxString = value; }
         }
         public string cmTrayDownloadCustomTxt {
             get { return cmTrayDownloadCustomTxtString; }
-            private set{ cmTrayDownloadCustomTxtString = value; }
+            private set { cmTrayDownloadCustomTxtString = value; }
         }
         public string cmTrayDownloadCustomSettings {
             get { return cmTrayDownloadCustomSettingsString; }
-            private set{ cmTrayDownloadCustomSettingsString = value; }
+            private set { cmTrayDownloadCustomSettingsString = value; }
         }
         public string cmTrayConverter {
             get { return cmTrayConverterString; }
-            private set{ cmTrayConverterString = value; }
+            private set { cmTrayConverterString = value; }
         }
         public string cmTrayConvertTo {
             get { return cmTrayConvertToString; }
-            private set{ cmTrayConvertToString = value; }
+            private set { cmTrayConvertToString = value; }
         }
         public string cmTrayConvertVideo {
             get { return cmTrayConvertVideoString; }
-            private set{ cmTrayConvertVideoString = value; }
+            private set { cmTrayConvertVideoString = value; }
         }
         public string cmTrayConvertAudio {
             get { return cmTrayConvertAudioString; }
-            private set{ cmTrayConvertAudioString = value; }
+            private set { cmTrayConvertAudioString = value; }
         }
         public string cmTrayConvertCustom {
             get { return cmTrayConvertCustomString; }
-            private set{ cmTrayConvertCustomString = value; }
+            private set { cmTrayConvertCustomString = value; }
         }
         public string cmTrayConvertAutomatic {
             get { return cmTrayConvertAutomaticString; }
-            private set{ cmTrayConvertAutomaticString = value; }
+            private set { cmTrayConvertAutomaticString = value; }
         }
         public string cmTrayConvertAutoFFmpeg {
             get { return cmTrayConvertAutoFFmpegString; }
-            private set{ cmTrayConvertAutoFFmpegString = value; }
+            private set { cmTrayConvertAutoFFmpegString = value; }
         }
         public string cmTrayExit {
             get { return cmTrayExitString; }
-            private set{ cmTrayExitString = value; }
+            private set { cmTrayExitString = value; }
         }
         #endregion
 
@@ -766,7 +774,7 @@ namespace youtube_dl_gui {
         }
 
         public string tabSettingsGeneral {
-            get {return tabSettingsGeneralString; }
+            get { return tabSettingsGeneralString; }
             private set { tabSettingsGeneralString = value; }
         }
         public string tabSettingsDownloads {
@@ -810,9 +818,13 @@ namespace youtube_dl_gui {
             get { return chkSettingsGeneralHoverOverUrlToPasteClipboardString; }
             private set { chkSettingsGeneralHoverOverUrlToPasteClipboardString = value; }
         }
-        public string chkSettingsGeneralClearUrlClipboardOnDownload {
-            get { return chkSettingsGeneralClearUrlClipboardOnDownloadString; }
-            private set { chkSettingsGeneralClearUrlClipboardOnDownloadString = value; }
+        public string chkSettingsGeneralClearUrlOnDownload {
+            get { return chkSettingsGeneralClearUrlOnDownloadString; }
+            private set { chkSettingsGeneralClearUrlOnDownloadString = value; }
+        }
+        public string chkSettingsGeneralClearClipboardOnDownload {
+            get { return chkSettingsGeneralClearClipboardOnDownloadString; }
+            private set { chkSettingsGeneralClearClipboardOnDownloadString = value; }
         }
         public string gbSettingsGeneralCustomArguments {
             get { return gbSettingsGeneralCustomArgumentsString; }
@@ -1058,11 +1070,11 @@ namespace youtube_dl_gui {
             private set { btnSettingsSaveHintString = value; }
         }
 
-        public string lbSettingsGeneralYoutubeDlPathHint  {
+        public string lbSettingsGeneralYoutubeDlPathHint {
             get { return lbSettingsGeneralYoutubeDlPathHintString; }
             private set { lbSettingsGeneralYoutubeDlPathHintString = value; }
         }
-        public string chkSettingsGeneralUseStaticYoutubeDlHint  {
+        public string chkSettingsGeneralUseStaticYoutubeDlHint {
             get { return chkSettingsGeneralUseStaticYoutubeDlHintString; }
             private set { chkSettingsGeneralUseStaticYoutubeDlHintString = value; }
         }
@@ -1074,11 +1086,11 @@ namespace youtube_dl_gui {
             get { return btnSettingsGeneralBrowseYoutubeDlHintString; }
             private set { btnSettingsGeneralBrowseYoutubeDlHintString = value; }
         }
-        public string lbSettingsGeneralFFmpegDirectoryHint  {
+        public string lbSettingsGeneralFFmpegDirectoryHint {
             get { return lbSettingsGeneralFFmpegDirectoryHintString; }
             private set { lbSettingsGeneralFFmpegDirectoryHintString = value; }
         }
-        public string chkSettingsGeneralUseStaticFFmpegHint  {
+        public string chkSettingsGeneralUseStaticFFmpegHint {
             get { return chkSettingsGeneralUseStaticFFmpegHintString; }
             private set { chkSettingsGeneralUseStaticFFmpegHintString = value; }
         }
@@ -1090,36 +1102,40 @@ namespace youtube_dl_gui {
             get { return btnSettingsGeneralBrowseFFmpegHintString; }
             private set { btnSettingsGeneralBrowseFFmpegHintString = value; }
         }
-        public string chkSettingsGeneralCheckForUpdatesOnLaunchHint  {
+        public string chkSettingsGeneralCheckForUpdatesOnLaunchHint {
             get { return chkSettingsGeneralCheckForUpdatesOnLaunchHintString; }
             private set { chkSettingsGeneralCheckForUpdatesOnLaunchHintString = value; }
         }
-        public string chkSettingsGeneralHoverOverUrlToPasteClipboardHint  {
+        public string chkSettingsGeneralHoverOverUrlToPasteClipboardHint {
             get { return chkSettingsGeneralHoverOverUrlToPasteClipboardHintString; }
             private set { chkSettingsGeneralHoverOverUrlToPasteClipboardHintString = value; }
         }
-        public string chkSettingsGeneralClearUrlClipboardOnDownloadHint  {
-            get { return chkSettingsGeneralClearUrlClipboardOnDownloadHintString; }
-            private set { chkSettingsGeneralClearUrlClipboardOnDownloadHintString = value; }
+        public string chkSettingsGeneralClearUrlOnDownloadHint {
+            get { return chkSettingsGeneralClearUrlOnDownloadHintString; }
+            private set { chkSettingsGeneralClearUrlOnDownloadHintString = value; }
         }
-        public string gbSettingsGeneralCustomArgumentsHint  {
+        public string chkSettingsGeneralClearClipboardOnDownloadHint {
+            get { return chkSettingsGeneralClearClipboardOnDownloadHintString; }
+            private set { chkSettingsGeneralClearClipboardOnDownloadHintString = value; }
+        }
+        public string gbSettingsGeneralCustomArgumentsHint {
             get { return gbSettingsGeneralCustomArgumentsHintString; }
             private set { gbSettingsGeneralCustomArgumentsHintString = value; }
         }
-        public string rbSettingsGeneralCustomArgumentsDontSaveHint  {
+        public string rbSettingsGeneralCustomArgumentsDontSaveHint {
             get { return rbSettingsGeneralCustomArgumentsDontSaveHintString; }
             private set { rbSettingsGeneralCustomArgumentsDontSaveHintString = value; }
         }
-        public string rbSettingsGeneralCustomArgumentsSaveAsArgsTextHint  {
+        public string rbSettingsGeneralCustomArgumentsSaveAsArgsTextHint {
             get { return rbSettingsGeneralCustomArgumentsSaveAsArgsTextHintString; }
             private set { rbSettingsGeneralCustomArgumentsSaveAsArgsTextHintString = value; }
         }
-        public string rbSettingsGeneralCustomArgumentsSaveInSettingsHint  {
+        public string rbSettingsGeneralCustomArgumentsSaveInSettingsHint {
             get { return rbSettingsGeneralCustomArgumentsSaveInSettingsHintString; }
             private set { rbSettingsGeneralCustomArgumentsSaveInSettingsHintString = value; }
         }
 
-        public string lbSettingsDownloadsDownloadPathHint  {
+        public string lbSettingsDownloadsDownloadPathHint {
             get { return lbSettingsDownloadsDownloadPathHintString; }
             private set { lbSettingsDownloadsDownloadPathHintString = value; }
         }
@@ -1135,7 +1151,7 @@ namespace youtube_dl_gui {
             get { return llSettingsDownloadsSchemaHelpHintString; }
             private set { llSettingsDownloadsSchemaHelpHintString = value; }
         }
-        public string lbSettingsDownloadsFileNameSchemaHint  {
+        public string lbSettingsDownloadsFileNameSchemaHint {
             get { return lbSettingsDownloadsFileNameSchemaHintString; }
             private set { lbSettingsDownloadsFileNameSchemaHintString = value; }
         }
@@ -1143,11 +1159,11 @@ namespace youtube_dl_gui {
             get { return txtSettingsDownloadsFileNameSchemaHintString; }
             private set { txtSettingsDownloadsFileNameSchemaHintString = value; }
         }
-        public string chkSettingsDownloadsSaveFormatQualityHint  {
+        public string chkSettingsDownloadsSaveFormatQualityHint {
             get { return chkSettingsDownloadsSaveFormatQualityHintString; }
             private set { chkSettingsDownloadsSaveFormatQualityHintString = value; }
         }
-        public string chkSettingsDownloadsDownloadSubtitlesHint  {
+        public string chkSettingsDownloadsDownloadSubtitlesHint {
             get { return chkSettingsDownloadsDownloadSubtitlesHintString; }
             private set { chkSettingsDownloadsDownloadSubtitlesHintString = value; }
         }
@@ -1183,19 +1199,19 @@ namespace youtube_dl_gui {
             get { return chkSettingsDownloadsEmbedThumbnailsHintString; }
             private set { chkSettingsDownloadsEmbedThumbnailsHintString = value; }
         }
-        public string chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosingHint  {
+        public string chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosingHint {
             get { return chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosingHintString; }
             private set { chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosingHintString = value; }
         }
-        public string chkSettingsDownloadsSeparateDownloadsToDifferentFoldersHint  {
+        public string chkSettingsDownloadsSeparateDownloadsToDifferentFoldersHint {
             get { return chkSettingsDownloadsSeparateDownloadsToDifferentFoldersHintString; }
             private set { chkSettingsDownloadsSeparateDownloadsToDifferentFoldersHintString = value; }
         }
-        public string chkSettingsDownloadsSeparateIntoWebsiteUrlHint  {
+        public string chkSettingsDownloadsSeparateIntoWebsiteUrlHint {
             get { return chkSettingsDownloadsSeparateIntoWebsiteUrlHintString; }
             private set { chkSettingsDownloadsSeparateIntoWebsiteUrlHintString = value; }
         }
-        public string chkSettingsDownloadsFixVReddItHint  {
+        public string chkSettingsDownloadsFixVReddItHint {
             get { return chkSettingsDownloadsFixVReddItHintString; }
             private set { chkSettingsDownloadsFixVReddItHintString = value; }
         }
@@ -1243,65 +1259,65 @@ namespace youtube_dl_gui {
             get { return txtSettingsDownloadsProxyPortHintString; }
             private set { txtSettingsDownloadsProxyPortHintString = value; }
         }
-        public string chksettingsDownloadsUseYoutubeDlsUpdaterHint  {
+        public string chksettingsDownloadsUseYoutubeDlsUpdaterHint {
             get { return chksettingsDownloadsUseYoutubeDlsUpdaterHintString; }
             private set { chksettingsDownloadsUseYoutubeDlsUpdaterHintString = value; }
         }
 
-        public string chkSettingsConverterClearOutputAfterConvertingHint  {
+        public string chkSettingsConverterClearOutputAfterConvertingHint {
             get { return chkSettingsConverterClearOutputAfterConvertingHintString; }
             private set { chkSettingsConverterClearOutputAfterConvertingHintString = value; }
         }
-        public string chkSettingsConverterDetectOutputFileTypeHint  {
+        public string chkSettingsConverterDetectOutputFileTypeHint {
             get { return chkSettingsConverterDetectOutputFileTypeHintString; }
             private set { chkSettingsConverterDetectOutputFileTypeHintString = value; }
         }
-        public string chkSettingsConverterClearInputAfterConvertingHint  {
+        public string chkSettingsConverterClearInputAfterConvertingHint {
             get { return chkSettingsConverterClearInputAfterConvertingHintString; }
             private set { chkSettingsConverterClearInputAfterConvertingHintString = value; }
         }
-        public string chkSettingsConverterHideFFmpegCompileInfoHint  {
+        public string chkSettingsConverterHideFFmpegCompileInfoHint {
             get { return chkSettingsConverterHideFFmpegCompileInfoHintString; }
             private set { chkSettingsConverterHideFFmpegCompileInfoHintString = value; }
         }
-        public string lbSettingsConverterVideoBitrateHint  {
+        public string lbSettingsConverterVideoBitrateHint {
             get { return lbSettingsConverterVideoBitrateHintString; }
             private set { lbSettingsConverterVideoBitrateHintString = value; }
         }
-        public string lbSettingsConverterVideoPresetHint  {
+        public string lbSettingsConverterVideoPresetHint {
             get { return lbSettingsConverterVideoPresetHintString; }
             private set { lbSettingsConverterVideoPresetHintString = value; }
         }
-        public string lbSettingsConverterVideoProfileHint  {
+        public string lbSettingsConverterVideoProfileHint {
             get { return lbSettingsConverterVideoProfileHintString; }
             private set { lbSettingsConverterVideoProfileHintString = value; }
         }
-        public string lbSettingsConverterVideoCRFHint  {
+        public string lbSettingsConverterVideoCRFHint {
             get { return lbSettingsConverterVideoCRFHintString; }
             private set { lbSettingsConverterVideoCRFHintString = value; }
         }
-        public string chkSettingsConverterVideoFastStartHint  {
+        public string chkSettingsConverterVideoFastStartHint {
             get { return chkSettingsConverterVideoFastStartHintString; }
             private set { chkSettingsConverterVideoFastStartHintString = value; }
         }
-        public string lbSettingsConverterAudioBitrateHint  {
+        public string lbSettingsConverterAudioBitrateHint {
             get { return lbSettingsConverterAudioBitrateHintString; }
             private set { lbSettingsConverterAudioBitrateHintString = value; }
         }
-        public string txtSettingsConverterCustomArgumentsHint  {
+        public string txtSettingsConverterCustomArgumentsHint {
             get { return txtSettingsConverterCustomArgumentsHintString; }
             private set { txtSettingsConverterCustomArgumentsHintString = value; }
         }
 
-        public string chkSettingsErrorsShowDetailedErrorsHint  {
+        public string chkSettingsErrorsShowDetailedErrorsHint {
             get { return chkSettingsErrorsShowDetailedErrorsHintString; }
             private set { chkSettingsErrorsShowDetailedErrorsHintString = value; }
         }
-        public string chkSettingsErrorsSaveErrorsAsErrorLogHint  {
+        public string chkSettingsErrorsSaveErrorsAsErrorLogHint {
             get { return chkSettingsErrorsSaveErrorsAsErrorLogHintString; }
             private set { chkSettingsErrorsSaveErrorsAsErrorLogHintString = value; }
         }
-        public string chkSettingsErrorsSuppressErrorsHint  {
+        public string chkSettingsErrorsSuppressErrorsHint {
             get { return chkSettingsErrorsSuppressErrorsHintString; }
             private set { chkSettingsErrorsSuppressErrorsHintString = value; }
         }
@@ -1394,7 +1410,7 @@ namespace youtube_dl_gui {
         }
         #endregion
 
-//////////////// Language class \\\\\\\\\\\\\\\\
+        //////////////// Language class \\\\\\\\\\\\\\\\
         #region Instance manager
         public string LoadedFile {
             get { return LoadedFileString; }
@@ -1557,21 +1573,23 @@ namespace youtube_dl_gui {
             public static readonly string btnSettingsGeneralBrowseFFmpegHint = "Browse for a new folder where you'll store ffmpeg";
             public static readonly string chkSettingsGeneralCheckForUpdatesOnLaunch = "Check for updates on launch";
             public static readonly string chkSettingsGeneralHoverOverUrlToPasteClipboard = "Hover over URL to paste clipboard";
-            public static readonly string chkSettingsGeneralClearUrlClipboardOnDownload = "Clear URL + clipboard on download";
+            public static readonly string chkSettingsGeneralClearUrlOnDownload = "Clear URL on download";
+            public static readonly string chkSettingsGeneralClearClipboardOnDownload = "Clear clipboard on download";
             public static readonly string gbSettingsGeneralCustomArguments = "Custom arguments (saves on download)";
             public static readonly string rbSettingsGeneralCustomArgumentsDontSave = "Don't save";
             public static readonly string rbSettingsGeneralCustomArgumentsSaveAsArgsText = "Save as ./args.txt";
             public static readonly string rbSettingsGeneralCustomArgumentsSaveInSettings = "Save in settings";
 
-            public static readonly string lbSettingsGeneralYoutubeDlPathHint = "Static youtube-dl directory\n\n"+
+            public static readonly string lbSettingsGeneralYoutubeDlPathHint = "Static youtube-dl directory\n\n" +
                                                                                "Static youtube-dl means youtube-dl will always be located in that one directory.";
             public static readonly string chkSettingsGeneralUseStaticYoutubeDlHint = "Use a static placed youtube-dl.exe file";
-            public static readonly string lbSettingsGeneralFFmpegDirectoryHint = "Static ffmpeg directory\n\n"+
+            public static readonly string lbSettingsGeneralFFmpegDirectoryHint = "Static ffmpeg directory\n\n" +
                                                                                  "Static ffmpeg means ffmpeg will always be located in that one directory.";
             public static readonly string chkSettingsGeneralUseStaticFFmpegHint = "Use a static placed ffmpeg.exe and ffprobe.exe files";
             public static readonly string chkSettingsGeneralCheckForUpdatesOnLaunchHint = "Check for updates on launch of youtube-dl-gui";
             public static readonly string chkSettingsGeneralHoverOverUrlToPasteClipboardHint = "Hover over the URL textbox to paste the URL from the clipboard";
-            public static readonly string chkSettingsGeneralClearUrlClipboardOnDownloadHint = "Clears the URL from the textbox and clipboard on video download";
+            public static readonly string chkSettingsGeneralClearUrlOnDownloadHint = "Clears the URL from the textbox on video download";
+            public static readonly string chkSettingsGeneralClearClipboardOnDownloadHint = "Clears the clipboard on video download";
             public static readonly string gbSettingsGeneralCustomArgumentsHint = "Controls how custom arguments for youtube-dl will be saved";
             public static readonly string rbSettingsGeneralCustomArgumentsDontSaveHint = "Doesn't save any custom arguments";
             public static readonly string rbSettingsGeneralCustomArgumentsSaveAsArgsTextHint = "Saves custom arguments as args.txt in youtube-dl-gui's directory";
@@ -1612,7 +1630,7 @@ namespace youtube_dl_gui {
             public static readonly string chksettingsDownloadsUseYoutubeDlsUpdater = "Use youtube-dl's internal updater";
 
             public static readonly string lbSettingsDownloadsDownloadPathHint = "The path of the folder where files will be downloaded to";
-            public static readonly string lbSettingsDownloadsFileNameSchemaHint = "The file name schema\n\n"+
+            public static readonly string lbSettingsDownloadsFileNameSchemaHint = "The file name schema\n\n" +
                                                                                   "This basically replaces sequences with video information for a custom file name.";
             public static readonly string llSettingsDownloadsSchemaHelpHint = "Click here to view supported arguments";
             public static readonly string txtSettingsDownloadsFileNameSchemaHint = "The file name schema that will be used by youtube-dl";
@@ -1643,7 +1661,7 @@ namespace youtube_dl_gui {
             public static readonly string txtSettingsDownloadsProxyIpHint = "The proxy IP that will be used";
             public static readonly string txtSettingsDownloadsProxyPortHint = "The proxy port that will be used";
             public static readonly string chksettingsDownloadsUseYoutubeDlsUpdaterHint = "Use youtube-dl's internal updater instead of this application's updater";
-            
+
             #endregion
             #region tabConverter
             // frmSettings / tcMain / tabConverter
@@ -1663,21 +1681,21 @@ namespace youtube_dl_gui {
             public static readonly string lbSettingsConverterCustomHeader = "Don't pass input or output directories/fies,\nit's automatically handled by the program";
 
             public static readonly string chkSettingsConverterClearOutputAfterConvertingHint = "Clears the output file after a successful conversion";
-            public static readonly string chkSettingsConverterDetectOutputFileTypeHint = "If Automatic is checked on converting, this will attempt to detect the output file type.\n\n"+"Disable this if you want a simple conversion. The quality may suffer as a result.";
+            public static readonly string chkSettingsConverterDetectOutputFileTypeHint = "If Automatic is checked on converting, this will attempt to detect the output file type.\n\n" + "Disable this if you want a simple conversion. The quality may suffer as a result.";
             public static readonly string chkSettingsConverterClearInputAfterConvertingHint = "Clears the input file after a successful conversion";
             public static readonly string chkSettingsConverterHideFFmpegCompileInfoHint = "Enabling this will hide some compilation information of ffmpeg.";
-            public static readonly string lbSettingsConverterVideoBitrateHint = "The bitrate of the video\n"+
-                                                                "A bitrate is how many bits per second are streamed to the player\n\n"+
-                                                                "higher = better, at the cost of file size\n\n"+
+            public static readonly string lbSettingsConverterVideoBitrateHint = "The bitrate of the video\n" +
+                                                                "A bitrate is how many bits per second are streamed to the player\n\n" +
+                                                                "higher = better, at the cost of file size\n\n" +
                                                                 "If you were to input \"10,000\" as the bitrate, it would be interpreted as \"10,000,000\" bits per second.";
-            public static readonly string lbSettingsConverterVideoPresetHint = "The video preset of the conversion\n\n"+
-                                                                                "ultrafast = fastest, but lower quality\n"+
+            public static readonly string lbSettingsConverterVideoPresetHint = "The video preset of the conversion\n\n" +
+                                                                                "ultrafast = fastest, but lower quality\n" +
                                                                                 "veryslow = slowest, but higher quality";
-            public static readonly string lbSettingsConverterVideoProfileHint = "The encoder profile to be used during conversion. It affects the compression of the video.\n"+
+            public static readonly string lbSettingsConverterVideoProfileHint = "The encoder profile to be used during conversion. It affects the compression of the video.\n" +
                                                                                 "It's generally a good idea to stick with the main profile";
-            public static readonly string lbSettingsConverterVideoCRFHint = "CRF is constant rate factor.\n\n"+
+            public static readonly string lbSettingsConverterVideoCRFHint = "CRF is constant rate factor.\n\n" +
                                                                              "Lower = Higher quality";
-            public static readonly string chkSettingsConverterVideoFastStartHint = "Faststart moves the metadata to the front of the file.\n\n"+
+            public static readonly string chkSettingsConverterVideoFastStartHint = "Faststart moves the metadata to the front of the file.\n\n" +
                                                                                    "Enabling this allows videos to be played before they are fully downloaded.";
             public static readonly string lbSettingsConverterAudioBitrateHint = "The bitrate of the audio\nA bitrate is how many bits are streamed to the player\n\nHigher = better, at the cost of size\n\nIf you were to put \"256\", it would be interpreted as \"256,000\" bits per second.";
             public static readonly string txtSettingsConverterCustomArgumentsHint = "Custom arguments that will be passed through ffmpeg instead of built-in arguments";
@@ -1700,7 +1718,7 @@ namespace youtube_dl_gui {
             public static readonly string chkSettingsErrorsSuppressErrors = "Suppress errors";
             public static readonly string chkSettingsErrorsShowDetailedErrorsHint = "Shows more details in errors";
             public static readonly string chkSettingsErrorsSaveErrorsAsErrorLogHint = "Saves the latest error as error.log in the exeucting directory of youtube-dl-gui";
-            public static readonly string chkSettingsErrorsSuppressErrorsHint = "This will silence any errors and will not save any error.log files.\n\n"+
+            public static readonly string chkSettingsErrorsSuppressErrorsHint = "This will silence any errors and will not save any error.log files.\n\n" +
                                                                                 "This basically overrides all error settings. Use at your own risk.";
             #endregion
 
@@ -1869,7 +1887,8 @@ namespace youtube_dl_gui {
             chkSettingsGeneralUseStaticFFmpeg = InternalEnglish.chkSettingsGeneralUseStaticFFmpeg;
             chkSettingsGeneralCheckForUpdatesOnLaunch = InternalEnglish.chkSettingsGeneralCheckForUpdatesOnLaunch;
             chkSettingsGeneralHoverOverUrlToPasteClipboard = InternalEnglish.chkSettingsGeneralHoverOverUrlToPasteClipboard;
-            chkSettingsGeneralClearUrlClipboardOnDownload = InternalEnglish.chkSettingsGeneralClearUrlClipboardOnDownload;
+            chkSettingsGeneralClearUrlOnDownload = InternalEnglish.chkSettingsGeneralClearUrlOnDownload;
+            chkSettingsGeneralClearClipboardOnDownload = InternalEnglish.chkSettingsGeneralClearClipboardOnDownload;
             gbSettingsGeneralCustomArguments = InternalEnglish.gbSettingsGeneralCustomArguments;
             rbSettingsGeneralCustomArgumentsDontSave = InternalEnglish.rbSettingsGeneralCustomArgumentsDontSave;
             rbSettingsGeneralCustomArgumentsSaveAsArgsText = InternalEnglish.rbSettingsGeneralCustomArgumentsSaveAsArgsText;
@@ -1918,7 +1937,7 @@ namespace youtube_dl_gui {
             chkSettingsConverterVideoFastStart = InternalEnglish.chkSettingsConverterVideoFastStart;
             lbSettingsConverterAudioBitrate = InternalEnglish.lbSettingsConverterAudioBitrate;
             lbSettingsConverterCustomHeader = InternalEnglish.lbSettingsConverterCustomHeader;
-            
+
             lbSettingsExtensionsHeader = InternalEnglish.lbSettingsExtensionsHeader;
             lbSettingsExtensionsExtensionFullName = InternalEnglish.lbSettingsExtensionsExtensionFullName;
             txtSettingsExtensionsExtensionFullName = InternalEnglish.txtSettingsExtensionsExtensionFullName;
@@ -1927,7 +1946,7 @@ namespace youtube_dl_gui {
             btnSettingsExtensionsAdd = InternalEnglish.btnSettingsExtensionsAdd;
             lbSettingsExtensionsFileName = InternalEnglish.lbSettingsExtensionsFileName;
             btnSettingsExtensionsRemoveSelected = InternalEnglish.btnSettingsExtensionsRemoveSelected;
-            
+
             chkSettingsErrorsShowDetailedErrors = InternalEnglish.chkSettingsErrorsShowDetailedErrors;
             chkSettingsErrorsSaveErrorsAsErrorLog = InternalEnglish.chkSettingsErrorsSaveErrorsAsErrorLog;
             chkSettingsErrorsSuppressErrors = InternalEnglish.chkSettingsErrorsSuppressErrors;
@@ -1947,7 +1966,8 @@ namespace youtube_dl_gui {
             btnSettingsGeneralBrowseFFmpegHint = InternalEnglish.btnSettingsGeneralBrowseFFmpegHint;
             chkSettingsGeneralCheckForUpdatesOnLaunchHint = InternalEnglish.chkSettingsGeneralCheckForUpdatesOnLaunchHint;
             chkSettingsGeneralHoverOverUrlToPasteClipboardHint = InternalEnglish.chkSettingsGeneralHoverOverUrlToPasteClipboardHint;
-            chkSettingsGeneralClearUrlClipboardOnDownloadHint = InternalEnglish.chkSettingsGeneralClearUrlClipboardOnDownloadHint;
+            chkSettingsGeneralClearUrlOnDownloadHint = InternalEnglish.chkSettingsGeneralClearUrlOnDownloadHint;
+            chkSettingsGeneralClearClipboardOnDownloadHint = InternalEnglish.chkSettingsGeneralClearClipboardOnDownloadHint;
             gbSettingsGeneralCustomArgumentsHint = InternalEnglish.gbSettingsGeneralCustomArgumentsHint;
             rbSettingsGeneralCustomArgumentsDontSaveHint = InternalEnglish.rbSettingsGeneralCustomArgumentsDontSaveHint;
             rbSettingsGeneralCustomArgumentsSaveAsArgsTextHint = InternalEnglish.rbSettingsGeneralCustomArgumentsSaveAsArgsTextHint;
@@ -1985,7 +2005,7 @@ namespace youtube_dl_gui {
             txtSettingsDownloadsProxyIpHint = InternalEnglish.txtSettingsDownloadsProxyIpHint;
             txtSettingsDownloadsProxyPortHint = InternalEnglish.txtSettingsDownloadsProxyPortHint;
             chksettingsDownloadsUseYoutubeDlsUpdaterHint = InternalEnglish.chksettingsDownloadsUseYoutubeDlsUpdaterHint;
-            
+
             chkSettingsConverterClearOutputAfterConvertingHint = InternalEnglish.chkSettingsConverterClearOutputAfterConvertingHint;
             chkSettingsConverterDetectOutputFileTypeHint = InternalEnglish.chkSettingsConverterDetectOutputFileTypeHint;
             chkSettingsConverterClearInputAfterConvertingHint = InternalEnglish.chkSettingsConverterClearInputAfterConvertingHint;
@@ -2038,10 +2058,6 @@ namespace youtube_dl_gui {
         }
         #endregion
 
-        public static Language GetInstance() {
-            return LangInstance;
-        }
-
         #region Load Language File
         public bool LoadLanguage(string LanguageFile = null) {
             try {
@@ -2056,6 +2072,7 @@ namespace youtube_dl_gui {
                         string[] ReadFile = System.IO.File.ReadAllLines(LanguageFile);
 
                         for (int i = 0; i < ReadFile.Length; i++) {
+                            System.Diagnostics.Debug.Print(ReadFile[i]);
                             string ReadLine = ReadFile[i];
                             string ReadControl = null;
                             string ReadValue = null;
@@ -2066,7 +2083,7 @@ namespace youtube_dl_gui {
                                 ReadHeader = ReadHeaderValue(ReadLine);
 
                                 if (ReadHeader == null) {
-                                    throw new Exception("Unable to read the language ini header\nReadValue returned null.");
+                                    throw new Exception("Unable to read the language ini header\nReadValue returned null.\nProblematic line is \"" + ReadLine + "\"\n\n");
                                 }
                                 else {
                                     CurrentLanguageLong = ReadHeader;
@@ -2556,8 +2573,12 @@ namespace youtube_dl_gui {
                                 chkSettingsGeneralHoverOverUrlToPasteClipboard = ReadValue;
                                 continue;
                             }
-                            else if (ReadControl == "chksettingsgeneralclearurlclipboardondownload") {
-                                chkSettingsGeneralClearUrlClipboardOnDownload = ReadValue;
+                            else if (ReadControl == "chksettingsgeneralclearurlondownload") {
+                                chkSettingsGeneralClearUrlOnDownload = ReadValue;
+                                continue;
+                            }
+                            else if (ReadControl == "chksettingsgeneralclearclipboardondownload") {
+                                chkSettingsGeneralClearClipboardOnDownload = ReadValue;
                                 continue;
                             }
                             else if (ReadControl == "gbsettingsgeneralcustomarguments") {
@@ -2617,8 +2638,12 @@ namespace youtube_dl_gui {
                                 chkSettingsGeneralHoverOverUrlToPasteClipboardHint = ReadValue;
                                 continue;
                             }
-                            else if (ReadControl == "chksettingsgeneralclearurlclipboardondownloadhint") {
-                                chkSettingsGeneralClearUrlClipboardOnDownloadHint = ReadValue;
+                            else if (ReadControl == "chksettingsgeneralclearurlondownloadhint") {
+                                chkSettingsGeneralClearUrlOnDownloadHint = ReadValue;
+                                continue;
+                            }
+                            else if (ReadControl == "chksettingsgeneralclearclipboardondownloadhint") {
+                                chkSettingsGeneralClearClipboardOnDownloadHint = ReadValue;
                                 continue;
                             }
                             else if (ReadControl == "gbsettingsgeneralcustomargumentshint") {
@@ -3115,6 +3140,7 @@ namespace youtube_dl_gui {
 
         private string ReadHeaderValue(string Input) {
             string ReadValue = null;
+            ReadValue = Input.Trim(' ');
             if (Input.Contains("//")) {
                 int CountedForwardSlashes = 0;
                 int CountedLength = 0;
@@ -3129,7 +3155,12 @@ namespace youtube_dl_gui {
                 CountedLength = CountedLength - 2;
                 ReadValue = Input.Substring(0, CountedLength);
             }
-            return ReadValue.Trim(' ').Trim('[').Trim(']');
+
+            if (ReadValue.Trim(' ').Trim('[').Trim(']') == null) {
+                throw new Exception("Unable to read the language ini header\nReadValue returned null.\nProblematic line is \"" + Input + "\"\n\n");
+            }
+
+            return ReadValue.Trim(' ').Trim('[').Trim(']').Trim(' ');
         }
         private string GetControlName(string Input) {
             if (Input.Split('=').Length > 1) {
