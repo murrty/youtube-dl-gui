@@ -66,6 +66,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Batch.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Batch.settings</DependentUpon>
+    </Compile>
     <Compile Include="Classes\Controller.cs" />
     <Compile Include="Classes\Convert.cs" />
     <Compile Include="Classes\Download.cs" />
@@ -217,6 +222,10 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="Batch.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Batch.Designer.cs</LastGenOutput>
+    </None>
     <None Include="Converts.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Converts.Designer.cs</LastGenOutput>

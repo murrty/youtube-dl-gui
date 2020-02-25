@@ -115,49 +115,53 @@ namespace youtube_dl_gui {
 
             #region Quality + format
             switch (DownloadType) {
-                case 0:
-                    if (DownloadQuality == 0) {
-                        if (DownloadVideoAudio) {
-                            ArgumentsBuffer += DownloadFormats.VideoArgsNoSound[0];
-                        }
-                        else {
-                            ArgumentsBuffer += DownloadFormats.VideoArgsNoSound[0];
-                        }
-                    }
-                    else {
-                        if (DownloadVideoAudio) {
-                            ArgumentsBuffer += DownloadFormats.GetVideoFormatArgs(DownloadQuality, Set60FPS);
-                        }
-                        else {
-                            ArgumentsBuffer += DownloadFormats.GetVideoFormatArgsNoSound(DownloadQuality, Set60FPS);
-                        }
-                    }
-                    break;
-                case 1:
-                    if (UseVBR) {
+                case 0: {
                         if (DownloadQuality == 0) {
-                            ArgumentsBuffer += " -f bestaudio --extract-audio --audio-quality " + DownloadQuality;
+                            if (DownloadVideoAudio) {
+                                ArgumentsBuffer += DownloadFormats.VideoArgs[0];
+                            }
+                            else {
+                                ArgumentsBuffer += DownloadFormats.VideoArgsNoSound[0];
+                            }
                         }
                         else {
-                            ArgumentsBuffer += " --extract-audio --audio-quality " + DownloadQuality;
+                            if (DownloadVideoAudio) {
+                                ArgumentsBuffer += DownloadFormats.GetVideoFormatArgs(DownloadQuality, Set60FPS);
+                            }
+                            else {
+                                ArgumentsBuffer += DownloadFormats.GetVideoFormatArgsNoSound(DownloadQuality, Set60FPS);
+                            }
                         }
+                        break;
                     }
-                    else {
-                        if (DownloadQuality == 0) {
-                            ArgumentsBuffer += " -f bestaudio --extract-audio --audio-quality " + DownloadFormats.AudioQualityNamesArray[DownloadQuality];
+                case 1: {
+                        if (UseVBR) {
+                            if (DownloadQuality == 0) {
+                                ArgumentsBuffer += " -f bestaudio --extract-audio --audio-quality " + DownloadQuality;
+                            }
+                            else {
+                                ArgumentsBuffer += " --extract-audio --audio-quality " + DownloadQuality;
+                            }
                         }
                         else {
-                            ArgumentsBuffer += " --extract-audio --audio-quality " + DownloadFormats.AudioQualityNamesArray[DownloadQuality];
+                            if (DownloadQuality == 0) {
+                                ArgumentsBuffer += " -f bestaudio --extract-audio --audio-quality " + DownloadFormats.AudioQualityNamesArray[DownloadQuality];
+                            }
+                            else {
+                                ArgumentsBuffer += " --extract-audio --audio-quality " + DownloadFormats.AudioQualityNamesArray[DownloadQuality];
+                            }
                         }
+                        break;
                     }
-                    break;
-                case 2:
-                    rtbConsoleOutput.AppendText("Custom was requested, skipping quality + format");
-                    ArgumentsBuffer += DownloadArguments.Trim(' ');
-                    break;
-                default:
-                    rtbConsoleOutput.AppendText("Expected a downloadtype (Quality + Format)");
-                    return;
+                case 2: {
+                        rtbConsoleOutput.AppendText("Custom was requested, skipping quality + format");
+                        ArgumentsBuffer += DownloadArguments.Trim(' ');
+                        break;
+                    }
+                default: {
+                        rtbConsoleOutput.AppendText("Expected a downloadtype (Quality + Format)");
+                        return;
+                    }
             }
 
             if (DownloadFormat > 0 && DownloadType == 0) {

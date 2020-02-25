@@ -420,7 +420,7 @@ namespace youtube_dl_gui {
         }
         public string sbBatchDownloaderDownloading {
             get { return sbBatchDownloaderDownloadingString; }
-            private set { }
+            private set { sbBatchDownloaderDownloadingString = value; }
         }
         public string sbBatchDownloaderFinished {
             get { return sbBatchDownloaderFinishedString; }

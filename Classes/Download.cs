@@ -166,7 +166,7 @@ namespace youtube_dl_gui {
         public static string[] VideoArgs = { " -f \"bestvideo+bestaudio/best[ext=mp4]/best\"", " -f \"bestvideo[height<={0}]{1}+bestaudio/best[ext=mp4]/best\"" };
         public static string[] VideoArgsNoSound = { " -f \"bestvideo/best[ext=mp4]/best\"", " -f \"bestvideo[height<={0}]{1}/best[ext=mp4]/best\"" };
         public static string[] VideoResolutionsArray = { "best", "4320", "2160", "1440", "1080", "720", "480", "360", "240", "144" };
-        public static string[] VideoFPSArray = { "[fps=<32]", "[fps>=48]" };
+        public static string[] VideoFPSArray = { "[fps<=32]", "[fps>=48]" };
         public static string[] VideoFormatsArrayOld = { "avi", "flv", "mkv", "mp4", "ogg", "webm" };
         public static string[] VideoQualityArray = { "best",
                                                      "4320p60", "4320p", // 1
@@ -212,9 +212,7 @@ namespace youtube_dl_gui {
                                                           "96k",
                                                           "64k",
                                                           "32k",
-                                                          "16k",
-                                                          "8k",
-                                                          "4k"
+                                                          "16k"
                                                   };
         public static string[] AudioFormatsArray = { "best",
                                                      "aac",
@@ -238,10 +236,10 @@ namespace youtube_dl_gui {
             }
             else {
                 if (Set60FPS) {
-                    return string.Format(VideoArgs[1], VideoQualityArray[Quality].Replace("p60",""), VideoFPSArray[1]);
+                    return string.Format(VideoArgs[1], VideoQualityArray[Quality].Replace("p60","").Replace("p",""), VideoFPSArray[1]);
                 }
                 else {
-                    return string.Format(VideoArgs[1], VideoQualityArray[Quality].Replace("p60", ""), VideoFPSArray[0]);
+                    return string.Format(VideoArgs[1], VideoQualityArray[Quality].Replace("p60", "").Replace("p",""), VideoFPSArray[0]);
                 }
             }
         }
@@ -251,10 +249,10 @@ namespace youtube_dl_gui {
             }
             else {
                 if (Set60FPS) {
-                    return string.Format(VideoArgsNoSound[1], VideoQualityArray[Quality].Replace("p60", ""), VideoFPSArray[1]);
+                    return string.Format(VideoArgsNoSound[1], VideoQualityArray[Quality].Replace("p60", "").Replace("p", ""), VideoFPSArray[1]);
                 }
                 else {
-                    return string.Format(VideoArgsNoSound[1], VideoQualityArray[Quality].Replace("p60", ""), VideoFPSArray[0]);
+                    return string.Format(VideoArgsNoSound[1], VideoQualityArray[Quality].Replace("p60", "").Replace("p", ""), VideoFPSArray[0]);
                 }
             }
         }
