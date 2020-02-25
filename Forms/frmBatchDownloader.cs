@@ -156,7 +156,7 @@ namespace youtube_dl_gui {
                 btnBatchDownloadRemoveSelected.Enabled = false;
                 btnBatchDownloadStartStopExit.Text = lang.btnBatchDownloadStop;
                 InProgress = true;
-                string BatchTime = "\\Batch Downloads" + BatchDownloader.CurrentTime();
+                string BatchTime = "\\# Batch Downloads #" + BatchDownloader.CurrentTime();
                 for (int i = 0; i < DownloadUrls.Count; i++) {
                     CurrentItem = i;
                     Downloader = new frmDownloader();
@@ -276,7 +276,7 @@ namespace youtube_dl_gui {
             if (DateTime.Now.Second < 10) { DateTimeBuffer += "0"; }
             DateTimeBuffer += DateTime.Now.Second;
 
-            return DateTimeBuffer;
+            return "\\" + DateTimeBuffer;
         }
     }
 }

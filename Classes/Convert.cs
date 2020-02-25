@@ -8,6 +8,7 @@ using System.Windows.Forms;
 namespace youtube_dl_gui {
     class Convert {
         #region Constants
+        private static Verification verif = Verification.GetInstance();
         /// <summary>
         /// All built-in video formats
         /// </summary>
@@ -118,35 +119,17 @@ namespace youtube_dl_gui {
             /// 1 = Audio
             /// 2 = Custom
             /// 6 = No params at all, just an option to look back to. aka ffmpeg auto
-            
+
             try {
                 Process startConvert = new Process();
                 if (General.Default.useStaticFFmpeg && File.Exists(General.Default.ffmpegPath)) {
                     startConvert.StartInfo.FileName = General.Default.ffmpegPath;
                 }
                 else {
-                    switch (Verification.ytdlFullCheck()) {
-                        case 1:
-                            startConvert.StartInfo.FileName = Environment.CurrentDirectory + "\\ffmpeg.exe";
-                            break;
-                        case 2:
-                            startConvert.StartInfo.FileName = Verification.ffmpegPathLocation() + "\\ffmpeg.exe";
-                            break;
-                        case 3:
-                            startConvert.StartInfo.FileName = "ffmpeg.exe";
-                            break;
-                        case 0:
-                            startConvert.StartInfo.FileName = General.Default.ffmpegPath + "\\ffmpeg.exe";
-                            break;
-                        default:
-                            if (MessageBox.Show("ffmpeg is not present. Would you like to download it?", "youtube-dl-gui", MessageBoxButtons.YesNo) == DialogResult.Yes) {
-                                Process.Start("https://ffmpeg.org/download.html#build-windows");
-                                return false;
-                            }
-                            else {
-                                return false;
-                            }
+                    if (verif.FFmpegPath == null) {
+                        throw new Exception("FFmpegPath is null. Cannot convert. If you do not have ffmpeg, consider downloading it.");
                     }
+                    startConvert.StartInfo.FileName = verif.FFmpegPath + "\\ffmpeg.exe";
                 }
 
                 string convertArguments = "-i \"" + input + "\"";
@@ -267,7 +250,7 @@ namespace youtube_dl_gui {
                     ffMerge.Start();
                     ffMerge.WaitForExit();
 
-                    
+
                     if (input1IsVideo) {
                         ffMerge.StartInfo.Arguments = " -i \"" + input2 + "\" -i \"" + Path.GetDirectoryName(input1) + "\\tempaudio.mp3\" -filter_complex amix=inputs=2:duration=longest \"" + Path.GetDirectoryName(input1) + "\\final.mp3\"";
                     }
@@ -345,16 +328,26 @@ namespace youtube_dl_gui {
         /// <returns>The preset string</returns>
         public static string getVideoPreset(int index) {
             switch (index) {
-                case 0: return "ultrafast";
-                case 1: return "superfast";
-                case 2: return "veryfast";
-                case 3: return "faster";
-                case 4: return "fast";
-                case 5: return "medium";
-                case 6: return "slow";
-                case 7: return "slower";
-                case 8: return "veryslow";
-                default: return "medium";
+                case 0:
+                    return "ultrafast";
+                case 1:
+                    return "superfast";
+                case 2:
+                    return "veryfast";
+                case 3:
+                    return "faster";
+                case 4:
+                    return "fast";
+                case 5:
+                    return "medium";
+                case 6:
+                    return "slow";
+                case 7:
+                    return "slower";
+                case 8:
+                    return "veryslow";
+                default:
+                    return "medium";
             }
         }
         /// <summary>
@@ -364,13 +357,20 @@ namespace youtube_dl_gui {
         /// <returns>The profile string</returns>
         public static string getVideoProfile(int index) {
             switch (index) {
-                case 0: return "baseline";
-                case 1: return "main";
-                case 2: return "high";
-                case 3: return "high10";
-                case 4: return "high442";
-                case 5: return "high444";
-                default: return "main";
+                case 0:
+                    return "baseline";
+                case 1:
+                    return "main";
+                case 2:
+                    return "high";
+                case 3:
+                    return "high10";
+                case 4:
+                    return "high442";
+                case 5:
+                    return "high444";
+                default:
+                    return "main";
             }
         }
 

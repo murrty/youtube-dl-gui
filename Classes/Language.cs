@@ -3,7 +3,7 @@
 namespace youtube_dl_gui {
     public class Language {
         #region Variables
-        private static Language LangInstance = new Language();
+        private static volatile Language LangInstance = new Language();
         private static volatile string LoadedFileString = null;
 
         #region Language identifier
@@ -168,7 +168,9 @@ namespace youtube_dl_gui {
         private static volatile string chkSettingsDownloadsDownloadSubtitlesString = "chkSettingsDownloadsDownloadSubtitles";
         private static volatile string chkSettingsDownloadsEmbedSubtitlesString = "chkSettingsDownloadsEmbedSubtitles";
         private static volatile string chkSettingsDownloadsSaveVideoInfoString = "chkSettingsDownloadsSaveVideoInfo";
+        private static volatile string chkSettingsDownloadsWriteMetadataToFileString = "chkSettingsDownloadsWriteMetadataToFile";
         private static volatile string chkSettingsDownloadsSaveDescriptionString = "chkSettingsDownloadsSaveDescription";
+        private static volatile string chkSettingsDownloadsKeepOriginalFilesString = "chkSettingsDownloadsKeepOriginalFiles";
         private static volatile string chkSettingsDownloadsSaveAnnotationsString = "chkSettingsDownloadsSaveAnnotations";
         private static volatile string chkSettingsDownloadsSaveThumbnailsString = "chkSettingsDownloadsSaveThumbnails";
         private static volatile string chkSettingsDownloadsEmbedThumbnailsString = "chkSettingsDownloadsEmbedThumbnails";
@@ -257,7 +259,9 @@ namespace youtube_dl_gui {
         private static volatile string chkSettingsDownloadsDownloadSubtitlesHintString = "chkSettingsDownloadsDownloadSubtitlesHint";
         private static volatile string chkSettingsDownloadsEmbedSubtitlesHintString = "chkSettingsDownloadsEmbedSubtitlesHint";
         private static volatile string chkSettingsDownloadsSaveVideoInfoHintString = "chkSettingsDownloadsSaveVideoInfoHint";
+        private static volatile string chkSettingsDownloadsWriteMetadataToFileHintString = "chkSettingsDownloadsWriteMetadataToFileHint";
         private static volatile string chkSettingsDownloadsSaveDescriptionHintString = "chkSettingsDownloadsSaveDescriptionHint";
+        private static volatile string chkSettingsDownloadsKeepOriginalFilesHintString = "chkSettingsDownloadsKeepOriginalFilesHint";
         private static volatile string chkSettingsDownloadsSaveAnnotationsHintString = "chkSettingsDownloadsSaveAnnotationsHint";
         private static volatile string chkSettingsDownloadsSaveThumbnailsHintString = "chkSettingsDownloadsSaveThumbnailsHint";
         private static volatile string chkSettingsDownloadsEmbedThumbnailsHintString = "chkSettingsDownloadsEmbedThumbnails";
@@ -338,7 +342,6 @@ namespace youtube_dl_gui {
         #endregion
 
         #region GetSetRadio
-//////////////// Language identifier \\\\\\\\\\\\\\\\
         #region Language identifier
         public string CurrentLanguageShort {
             get { return CurrentLanguageShortString; }
@@ -358,7 +361,6 @@ namespace youtube_dl_gui {
         }
         #endregion
 
-//////////////// frmBatch \\\\\\\\\\\\\\\\
         #region frmBatchDownloader
         public string frmBatchDownload {
             get { return frmBatchDownloadString; }
@@ -430,7 +432,6 @@ namespace youtube_dl_gui {
         }
         #endregion
 
-//////////////// frmDownloader \\\\\\\\\\\\\\\\
         #region frmDownloader
         public string frmDownloader {
             get { return frmDownloaderString; }
@@ -458,7 +459,6 @@ namespace youtube_dl_gui {
         }
         #endregion
 
-//////////////// frmException \\\\\\\\\\\\\\\\
         #region frmException
         public string frmException {
             get { return frmExceptionString; }
@@ -486,7 +486,6 @@ namespace youtube_dl_gui {
         }
         #endregion
 
-//////////////// frmLanguage \\\\\\\\\\\\\\\\
         #region frmLanguage
         public string frmLanguage {
             get { return frmLanguageString; }
@@ -506,7 +505,6 @@ namespace youtube_dl_gui {
         }
         #endregion
 
-//////////////// frmMain \\\\\\\\\\\\\\\\
         #region frmMain
         public string mSettings {
             get { return mSettingsString; }
@@ -751,7 +749,6 @@ namespace youtube_dl_gui {
         }
         #endregion
 
-//////////////// frmSettings \\\\\\\\\\\\\\\\
         #region frmSettings
 
         #region frmSettings form
@@ -878,9 +875,17 @@ namespace youtube_dl_gui {
             get { return chkSettingsDownloadsSaveVideoInfoString; }
             private set { chkSettingsDownloadsSaveVideoInfoString = value; }
         }
+        public string chkSettingsDownloadsWriteMetadataToFile {
+            get { return chkSettingsDownloadsWriteMetadataToFileString; }
+            private set { chkSettingsDownloadsWriteMetadataToFileString = value; }
+        }
         public string chkSettingsDownloadsSaveDescription {
             get { return chkSettingsDownloadsSaveDescriptionString; }
             private set { chkSettingsDownloadsSaveDescriptionString = value; }
+        }
+        public string chkSettingsDownloadsKeepOriginalFiles {
+            get { return chkSettingsDownloadsKeepOriginalFilesString; }
+            private set { chkSettingsDownloadsKeepOriginalFilesString = value; }
         }
         public string chkSettingsDownloadsSaveAnnotations {
             get { return chkSettingsDownloadsSaveAnnotationsString; }
@@ -1154,9 +1159,17 @@ namespace youtube_dl_gui {
             get { return chkSettingsDownloadsSaveVideoInfoHintString; }
             private set { chkSettingsDownloadsSaveVideoInfoHintString = value; }
         }
+        public string chkSettingsDownloadsWriteMetadataToFileHint {
+            get { return chkSettingsDownloadsWriteMetadataToFileHintString; }
+            private set { chkSettingsDownloadsWriteMetadataToFileHintString = value; }
+        }
         public string chkSettingsDownloadsSaveDescriptionHint {
             get { return chkSettingsDownloadsSaveDescriptionHintString; }
             private set { chkSettingsDownloadsSaveDescriptionHintString = value; }
+        }
+        public string chkSettingsDownloadsKeepOriginalFilesHint {
+            get { return chkSettingsDownloadsKeepOriginalFilesHintString; }
+            private set { chkSettingsDownloadsKeepOriginalFilesHintString = value; }
         }
         public string chkSettingsDownloadsSaveAnnotationsHint {
             get { return chkSettingsDownloadsSaveAnnotationsHintString; }
@@ -1296,7 +1309,6 @@ namespace youtube_dl_gui {
 
         #endregion
 
-//////////////// frmSubtitles \\\\\\\\\\\\\\\\
         #region frmSubtitles
         public string frmSubtitles {
             get { return frmSubtitlesString; }
@@ -1328,7 +1340,6 @@ namespace youtube_dl_gui {
         }
         #endregion
 
-//////////////// frmTools \\\\\\\\\\\\\\\\
         #region frmTools
         public string frmTools {
             get { return frmToolsString; }
@@ -1348,7 +1359,6 @@ namespace youtube_dl_gui {
         }
         #endregion
 
-//////////////// frmUpdateAvailable \\\\\\\\\\\\\\\\
         #region frmUpdateAvailable
         public string frmUpdateAvailable {
             get { return frmUpdateAvailableString; }
@@ -1390,14 +1400,11 @@ namespace youtube_dl_gui {
             get { return LoadedFileString; }
             private set { LoadedFileString = value; }
         }
-        public static Language GetInstance() {
-            return LangInstance;
-        }
         #endregion
 
         #endregion
 
-        #region Integrated English
+        #region Internal English
         public static class InternalEnglish {
             // Language identifier
             public static readonly string CurrentLanguageLong = "English (Internal)";
@@ -1587,7 +1594,9 @@ namespace youtube_dl_gui {
             public static readonly string chkSettingsDownloadsDownloadSubtitles = "Download subtitles";
             public static readonly string chkSettingsDownloadsEmbedSubtitles = "Embed subtitles into file";
             public static readonly string chkSettingsDownloadsSaveVideoInfo = "Save video info";
+            public static readonly string chkSettingsDownloadsWriteMetadataToFile = "Write metadata to file";
             public static readonly string chkSettingsDownloadsSaveDescription = "Save description";
+            public static readonly string chkSettingsDownloadsKeepOriginalFiles = "Keep original files";
             public static readonly string chkSettingsDownloadsSaveAnnotations = "Save annotations";
             public static readonly string chkSettingsDownloadsSaveThumbnails = "Save thumbnails";
             public static readonly string chkSettingsDownloadsEmbedThumbnails = "Embed thumbnail into file";
@@ -1612,7 +1621,9 @@ namespace youtube_dl_gui {
             public static readonly string chkSettingsDownloadsDownloadSubtitlesHint = "Download all available subtitles for the video\nIf no subtitles are available, nothing will download";
             public static readonly string chkSettingsDownloadsEmbedSubtitlesHint = "Embeds downloaded subtitles into the output file\nOnly works for mp4, webm, and mkv videos";
             public static readonly string chkSettingsDownloadsSaveVideoInfoHint = "Saves the video's info into a .info.json file";
+            public static readonly string chkSettingsDownloadsWriteMetadataToFileHint = "Writes the video's metadata to the output file";
             public static readonly string chkSettingsDownloadsSaveDescriptionHint = "Saves the video's description to a .description file";
+            public static readonly string chkSettingsDownloadsKeepOriginalFilesHint = "Keeps the original files of the download\nBy default, youtube-dl will delete them after merging";
             public static readonly string chkSettingsDownloadsSaveAnnotationsHint = "Saves the video's annotations to a .annotations.xml file";
             public static readonly string chkSettingsDownloadsSaveThumbnailsHint = "Saves the video's thumbnail";
             public static readonly string chkSettingsDownloadsEmbedThumbnailsHint = "Embeds downloaded thumbnails into the output file as cover art\nRequires AtomicParsley (https://github.com/wez/atomicparsley), or youtube-dl will result in an error";
@@ -1876,7 +1887,9 @@ namespace youtube_dl_gui {
             chkSettingsDownloadsDownloadSubtitles = InternalEnglish.chkSettingsDownloadsDownloadSubtitles;
             chkSettingsDownloadsEmbedSubtitles = InternalEnglish.chkSettingsDownloadsEmbedSubtitles;
             chkSettingsDownloadsSaveVideoInfo = InternalEnglish.chkSettingsDownloadsSaveVideoInfo;
+            chkSettingsDownloadsWriteMetadataToFile = InternalEnglish.chkSettingsDownloadsWriteMetadataToFile;
             chkSettingsDownloadsSaveDescription = InternalEnglish.chkSettingsDownloadsSaveDescription;
+            chkSettingsDownloadsKeepOriginalFiles = InternalEnglish.chkSettingsDownloadsKeepOriginalFiles;
             chkSettingsDownloadsSaveAnnotations = InternalEnglish.chkSettingsDownloadsSaveAnnotations;
             chkSettingsDownloadsSaveThumbnails = InternalEnglish.chkSettingsDownloadsSaveThumbnails;
             chkSettingsDownloadsEmbedThumbnails = InternalEnglish.chkSettingsDownloadsEmbedThumbnails;
@@ -1950,7 +1963,9 @@ namespace youtube_dl_gui {
             chkSettingsDownloadsDownloadSubtitlesHint = InternalEnglish.chkSettingsDownloadsDownloadSubtitlesHint;
             chkSettingsDownloadsEmbedSubtitlesHint = InternalEnglish.chkSettingsDownloadsEmbedSubtitlesHint;
             chkSettingsDownloadsSaveVideoInfoHint = InternalEnglish.chkSettingsDownloadsSaveVideoInfoHint;
+            chkSettingsDownloadsWriteMetadataToFileHint = InternalEnglish.chkSettingsDownloadsWriteMetadataToFileHint;
             chkSettingsDownloadsSaveDescriptionHint = InternalEnglish.chkSettingsDownloadsSaveDescriptionHint;
+            chkSettingsDownloadsKeepOriginalFilesHint = InternalEnglish.chkSettingsDownloadsKeepOriginalFilesHint;
             chkSettingsDownloadsSaveAnnotationsHint = InternalEnglish.chkSettingsDownloadsSaveAnnotationsHint;
             chkSettingsDownloadsSaveThumbnailsHint = InternalEnglish.chkSettingsDownloadsSaveThumbnailsHint;
             chkSettingsDownloadsEmbedThumbnailsHint = InternalEnglish.chkSettingsDownloadsEmbedThumbnailsHint;
@@ -2023,7 +2038,11 @@ namespace youtube_dl_gui {
         }
         #endregion
 
-        #region LoadLanguage
+        public static Language GetInstance() {
+            return LangInstance;
+        }
+
+        #region Load Language File
         public bool LoadLanguage(string LanguageFile = null) {
             try {
                 if (LanguageFile == null || LanguageFile == string.Empty) {
@@ -2643,8 +2662,16 @@ namespace youtube_dl_gui {
                                 chkSettingsDownloadsSaveVideoInfo = ReadValue;
                                 continue;
                             }
+                            else if (ReadControl == "chksettingsdownloadswritemetadatatofile") {
+                                chkSettingsDownloadsWriteMetadataToFile = ReadValue;
+                                continue;
+                            }
                             else if (ReadControl == "chksettingsdownloadssavedescriptionstring") {
                                 chkSettingsDownloadsSaveDescriptionString = ReadValue;
+                                continue;
+                            }
+                            else if (ReadControl == "chksettingsdownloadskeeporiginalfiles") {
+                                chkSettingsDownloadsKeepOriginalFiles = ReadValue;
                                 continue;
                             }
                             else if (ReadControl == "chksettingsdownloadssaveannotationsstring") {
@@ -2739,9 +2766,16 @@ namespace youtube_dl_gui {
                                 chkSettingsDownloadsSaveVideoInfoHint = ReadValue;
                                 continue;
                             }
+                            else if (ReadControl == "chksettingsdownloadswritemetadatatofilehint") {
+                                chkSettingsDownloadsWriteMetadataToFileHint = ReadValue;
+                                continue;
+                            }
                             else if (ReadControl == "chksettingsdownloadssavedescriptionhint") {
                                 chkSettingsDownloadsSaveDescriptionHint = ReadValue;
                                 continue;
+                            }
+                            else if (ReadControl == "chksettingsdownloadskeeporiginalfileshint") {
+                                chkSettingsDownloadsKeepOriginalFilesHint = ReadValue;
                             }
                             else if (ReadControl == "chksettingsdownloadssaveannotationshint") {
                                 chkSettingsDownloadsSaveAnnotationsHint = ReadValue;

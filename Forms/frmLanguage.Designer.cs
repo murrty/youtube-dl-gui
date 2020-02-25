@@ -59,7 +59,7 @@
             this.btnLanguageSave.Location = new System.Drawing.Point(205, 62);
             this.btnLanguageSave.Name = "btnLanguageSave";
             this.btnLanguageSave.Size = new System.Drawing.Size(75, 24);
-            this.btnLanguageSave.TabIndex = 2;
+            this.btnLanguageSave.TabIndex = 3;
             this.btnLanguageSave.Text = "btnLanguageSave";
             this.btnLanguageSave.UseVisualStyleBackColor = true;
             this.btnLanguageSave.Click += new System.EventHandler(this.btnLanguageSave_Click);
@@ -69,7 +69,7 @@
             this.btnLanguageCancel.Location = new System.Drawing.Point(124, 62);
             this.btnLanguageCancel.Name = "btnLanguageCancel";
             this.btnLanguageCancel.Size = new System.Drawing.Size(75, 24);
-            this.btnLanguageCancel.TabIndex = 3;
+            this.btnLanguageCancel.TabIndex = 2;
             this.btnLanguageCancel.Text = "btnLanguageCancel";
             this.btnLanguageCancel.UseVisualStyleBackColor = true;
             this.btnLanguageCancel.Click += new System.EventHandler(this.btnLanguageCancel_Click);

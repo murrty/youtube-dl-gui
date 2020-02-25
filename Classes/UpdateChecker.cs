@@ -11,24 +11,10 @@ using System.Xml;
 using System.Xml.Linq;
 
 namespace youtube_dl_gui {
-    class UpdateChecker {
-        public class UpdateDebug {
-            public static void UpdateAvailable() {
-                bool OldGitUpdateAvailable = GitData.UpdateAvailable;
-                string[] UpdateArray = { GitData.UpdateName, GitData.UpdateBody, GitData.UpdateVersion };
-                GitData.UpdateAvailable = true;
-                GitData.UpdateName = "An update";
-                GitData.UpdateBody = "A new update is available. Not really.\nNew line escape sequence works! Use \\n\n\nhello world";
-                GitData.UpdateVersion = "1.0";
-                using (frmUpdateAvailable Update = new frmUpdateAvailable()) { Update.ShowDialog(); }
-                GitData.UpdateAvailable = OldGitUpdateAvailable;
-                GitData.UpdateName = UpdateArray[0];
-                GitData.UpdateBody = UpdateArray[1];
-                GitData.UpdateVersion = UpdateArray[2];
-            }
-        }
 
+    class UpdateChecker {
         public static GitData GitData = GitData.GetInstance();
+        public static Verification verif = Verification.GetInstance();
 
         public static void CheckForUpdate(bool ForceCheck = false) {
             if (Program.IsDebug && !ForceCheck) {
@@ -89,7 +75,9 @@ namespace youtube_dl_gui {
                 }
             }
         }
+
         public static bool CheckForYoutubeDlUpdate() {
+
             if (GitData.YoutubeDlUpdateAvailable) {
                 return GitData.YoutubeDlUpdateAvailable;
             }
@@ -151,12 +139,10 @@ namespace youtube_dl_gui {
                     }
                 }
                 else {
-                    
                     UpdateYoutubeDl.StartInfo.FileName = General.Default.ytdlPath;
+                    UpdateYoutubeDl.Start();
+                    UpdateYoutubeDl.WaitForExit();
                 }
-                
-                UpdateYoutubeDl.Start();
-                UpdateYoutubeDl.WaitForExit();
             }
             else {
                 if (!General.Default.useStaticYtdl || string.IsNullOrEmpty(General.Default.ytdlPath)) {
@@ -250,7 +236,7 @@ namespace youtube_dl_gui {
                             break;
                     }
                 }
-                else { 
+                else {
                     xml = GetJSON(string.Format(GitData.GitLinks.GithubLatestJson, GitData.GitLinks.Users[GitID], GitData.GitLinks.ApplciationNames[GitID]));
                 }
 
@@ -328,6 +314,7 @@ namespace youtube_dl_gui {
                 return -1;
             }
         }
+
         public static bool IsUpdateAvailable(decimal cloudVersion) {
             try {
                 if (Properties.Settings.Default.appVersion < cloudVersion) { return true; }
@@ -336,6 +323,22 @@ namespace youtube_dl_gui {
             catch (Exception ex) {
                 ErrorLog.ReportException(ex);
                 return false;
+            }
+        }
+
+        public class UpdateDebug {
+            public static void UpdateAvailable() {
+                bool OldGitUpdateAvailable = GitData.UpdateAvailable;
+                string[] UpdateArray = { GitData.UpdateName, GitData.UpdateBody, GitData.UpdateVersion };
+                GitData.UpdateAvailable = true;
+                GitData.UpdateName = "An update";
+                GitData.UpdateBody = "A new update is available. Not really.\nNew line escape sequence works! Use \\n\n\nhello world";
+                GitData.UpdateVersion = "1.0";
+                using (frmUpdateAvailable Update = new frmUpdateAvailable()) { Update.ShowDialog(); }
+                GitData.UpdateAvailable = OldGitUpdateAvailable;
+                GitData.UpdateName = UpdateArray[0];
+                GitData.UpdateBody = UpdateArray[1];
+                GitData.UpdateVersion = UpdateArray[2];
             }
         }
     }
@@ -356,7 +359,7 @@ namespace youtube_dl_gui {
             }
         }
 
-        private static GitData CloudDataInstance = new GitData();
+        private static GitData GitDataInstance = new GitData();
         private static volatile string UpdateVersionString = "-1";
         private static volatile string UpdateNameString = "UpdateNameString";
         private static volatile string UpdateBodyString = "UpdateBodyString";
@@ -365,7 +368,7 @@ namespace youtube_dl_gui {
         private static volatile bool YoutubeDlUpdateAvailableBool = false;
 
         public static GitData GetInstance() {
-            return CloudDataInstance;
+            return GitDataInstance;
         }
 
         public string UpdateVersion {
@@ -394,4 +397,5 @@ namespace youtube_dl_gui {
             set { YoutubeDlUpdateAvailableBool = value; }
         }
     }
+
 }

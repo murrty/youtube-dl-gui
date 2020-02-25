@@ -102,6 +102,12 @@
     <Compile Include="Forms\frmBatchDownloader.Designer.cs">
       <DependentUpon>frmBatchDownloader.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\frmConverter.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmConverter.Designer.cs">
+      <DependentUpon>frmConverter.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\frmException.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -173,6 +179,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmBatchDownloader.resx">
       <DependentUpon>frmBatchDownloader.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmConverter.resx">
+      <DependentUpon>frmConverter.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmException.resx">
       <DependentUpon>frmException.cs</DependentUpon>

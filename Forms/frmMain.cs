@@ -9,32 +9,8 @@ using System.Windows.Forms;
 namespace youtube_dl_gui {
     public partial class frmMain : Form {
         #region variables
-        int YoutubeDlAvailable = -1;
-        int FFmpegAvailable = -1;
-        //string[] VideoQualityArray = { "best",
-        //                               "4320p60", "4320p", // 1
-        //                               "2160p60", "2160p", // 3
-        //                               "1440p60", "1440p", // 5
-        //                               "1080p60", "1080p", // 7
-        //                               "720p60", "720p", // 9
-        //                               "480p",
-        //                               "360p",
-        //                               "240p",
-        //                               "144p" };
-        //string[] AudioQualityArray = { "best",
-        //                               "320k",
-        //                               "256k",
-        //                               "224k",
-        //                               "192k",
-        //                               "160k",
-        //                               "128k",
-        //                               "96k",
-        //                               "64k",
-        //                               "32k",
-        //                               "16k",
-        //                               "8k",
-        //                               "4k" };
         Language lang = Language.GetInstance();
+        Verification verif = Verification.GetInstance();
 
         [DllImport("user32.dll", CharSet = CharSet.Unicode)]
         private static extern IntPtr SendMessage(IntPtr hWnd, int msg, IntPtr wp, string lp);
@@ -56,10 +32,9 @@ namespace youtube_dl_gui {
         }
         public frmMain() {
             InitializeComponent();
+            verif.RefreshLocation();
             LoadLanguage();
 
-            YoutubeDlAvailable = Verification.ytdlFullCheck();
-            FFmpegAvailable = Verification.ffmpegFullCheck();
             trayIcon.ContextMenu = cmTray;
             if (Program.IsDebug) {
                 lbDebug.Text = "debugging " + Properties.Settings.Default.debugDate;
@@ -128,7 +103,7 @@ namespace youtube_dl_gui {
                     rbConvertAuto.Checked = true;
                     break;
             }
-
+            CalculateLocations();
         }
         private void frmMain_FormClosing(object sender, FormClosingEventArgs e) {
             if (this.Location.X == 0 || this.Location.Y == 0) {
@@ -251,6 +226,50 @@ namespace youtube_dl_gui {
             cmTrayConvertAutoFFmpeg.Text = lang.cmTrayConvertAutoFFmpeg;
             cmTrayExit.Text = lang.cmTrayExit;
         }
+        void CalculateLocations() {
+            rbAudio.Location = new System.Drawing.Point(
+                (gbDownloadType.Size.Width - rbAudio.Size.Width) / 2,
+                rbAudio.Location.Y
+                );
+            rbVideo.Location = new System.Drawing.Point(
+                (rbAudio.Location.X - rbVideo.Size.Width) - 2,
+                rbVideo.Location.Y
+                );
+            rbCustom.Location = new System.Drawing.Point(
+                ((rbAudio.Location.X + rbAudio.Size.Width) + 2),
+                rbCustom.Location.Y
+                );
+
+            rbConvertAudio.Location = new System.Drawing.Point(
+                (tabConvert.Size.Width - rbConvertAudio.Size.Width) / 2,
+                rbConvertAudio.Location.Y
+                );
+            rbConvertVideo.Location = new System.Drawing.Point(
+                (rbConvertAudio.Location.X - rbConvertVideo.Width) - 2,
+                rbConvertAudio.Location.Y
+                );
+            rbConvertCustom.Location = new System.Drawing.Point(
+                (rbConvertAudio.Location.X + rbConvertAudio.Size.Width) + 2,
+                rbConvertAudio.Location.Y
+                );
+            rbConvertAuto.Location = new System.Drawing.Point(
+                ((tabConvert.Size.Width / 2) - ((rbConvertAuto.Width + rbConvertAutoFFmpeg.Width) / 2)),
+                rbConvertAuto.Location.Y
+                );
+            rbConvertAutoFFmpeg.Location = new System.Drawing.Point(
+                (rbConvertAuto.Location.X + rbConvertAuto.Size.Width) + 2,
+                rbConvertAutoFFmpeg.Location.Y
+                );
+
+            chkMergeAudioTracks.Location = new System.Drawing.Point(
+                (tabMerge.Size.Width - chkMergeAudioTracks.Size.Width) / 2,
+                chkMergeAudioTracks.Location.Y
+                );
+            chkMergeDeleteInputFiles.Location = new System.Drawing.Point(
+                (tabMerge.Size.Width - chkMergeDeleteInputFiles.Size.Width) / 2,
+                chkMergeDeleteInputFiles.Location.Y
+                );
+        }
         #endregion
 
         #region main menu
@@ -277,6 +296,7 @@ namespace youtube_dl_gui {
                         else { Settings.Default.LanguageFile = language.LanguageFile; }
                         Settings.Default.Save();
                         LoadLanguage(true);
+                        CalculateLocations();
                         break;
                 }
             }
@@ -480,6 +500,16 @@ namespace youtube_dl_gui {
                 txtUrl.Text = Clipboard.GetText();
             }
         }
+        private void txtUrl_KeyPress(object sender, KeyPressEventArgs e) {
+            if (e.KeyChar == 13) {
+                StartDownload();
+            }
+        }
+        private void txtArgs_KeyPress(object sender, KeyPressEventArgs e) {
+            if (e.KeyChar == 13) {
+                StartDownload();
+            }
+        }
         private void tmrDownloadLabel_Tick(object sender, EventArgs e) {
             if (!lbDownloadStatus.Visible) {
                 lbDownloadStatus.Visible = true;
@@ -489,70 +519,9 @@ namespace youtube_dl_gui {
                 tmrDownloadLabel.Enabled = false;
             }
         }
-        //[DebuggerStepThrough]
         private void sbDownload_Click(object sender, EventArgs e) {
-            if (string.IsNullOrEmpty(txtUrl.Text)) { return; }
-            frmDownloader Downloader = new frmDownloader();
-            if (rbVideo.Checked) {
-                Downloader.DownloadPath = Downloads.Default.downloadPath;
-                Downloader.DownloadQuality = cbQuality.SelectedIndex;
-                Downloader.DownloadFormat = cbFormat.SelectedIndex;
-                Downloader.DownloadType = 0;
-                Downloader.Set60FPS = cbQuality.GetItemText(cbQuality.SelectedItem).EndsWith("p60");
-                Downloader.DownloadVideoAudio = chkDownloadSound.Checked;
-                Downloader.DownloadUrl = txtUrl.Text;
-                Downloader.Show();
-                Saved.Default.downloadType = 0;
-                Saved.Default.videoQuality = cbQuality.SelectedIndex;
-                Saved.Default.VideoFormat = cbFormat.SelectedIndex;
-                Downloads.Default.VideoDownloadSound = chkDownloadSound.Checked;
-            }
-            else if (rbAudio.Checked) {
-                Downloader.DownloadType = 1;
-                Downloader.DownloadPath = Downloads.Default.downloadPath;
-                Downloader.DownloadQuality = cbQuality.SelectedIndex;
-                Downloader.UseVBR = chkDownloadSound.Checked;
-                Downloader.DownloadFormat = cbFormat.SelectedIndex;
-                Downloader.DownloadUrl = txtUrl.Text;
-                Downloader.Show();
-                Saved.Default.downloadType = 1;
-                Saved.Default.audioQuality = cbQuality.SelectedIndex;
-                Saved.Default.AudioFormat = cbFormat.SelectedIndex;
-                Downloads.Default.AudioDownloadAsVBR = chkDownloadSound.Checked;
-            }
-            else if (rbCustom.Checked) {
-                Downloader.DownloadType = 2;
-                Downloader.DownloadArguments = txtArgs.Text;
-                Downloader.DownloadPath = Downloads.Default.downloadPath;
-                Downloader.DownloadQuality = -1;
-                Downloader.DownloadUrl = txtUrl.Text;
-                Downloader.Show();
-                Saved.Default.downloadType = 2;
-                Saved.Default.downloadArgs = txtArgs.Text;
-            }
-            else {
-                Downloader.Dispose();
-                try {
-                    throw new Exception("Video, Audio, or Custom was not selected in the form, please select an actual download option to proceed.");
-                }
-                catch (Exception ex) {
-                    ErrorLog.ReportException(ex);
-                }
-            }
-
-            if (Downloads.Default.SaveFormatQuality) {
-                Saved.Default.Save();
-            }
-
-            if (General.Default.clearURL) {
-                txtUrl.Clear();
-                Clipboard.Clear();
-            }
-
-            Saved.Default.Save();
-            Downloads.Default.Save();
+            StartDownload();
         }
-
         private void mBatchDownloadFromFile_Click(object sender, EventArgs e) {
             MessageBox.Show("Create a text file and put all the videos you want to download into it.\nOne URL per line.");
             string TextFile = string.Empty;
@@ -630,6 +599,70 @@ namespace youtube_dl_gui {
                 }
             });
             BatchThread.Start();
+        }
+
+        [DebuggerStepThrough]
+        private void StartDownload() {
+            if (string.IsNullOrEmpty(txtUrl.Text)) { return; }
+            frmDownloader Downloader = new frmDownloader();
+            if (rbVideo.Checked) {
+                Downloader.DownloadPath = Downloads.Default.downloadPath;
+                Downloader.DownloadQuality = cbQuality.SelectedIndex;
+                Downloader.DownloadFormat = cbFormat.SelectedIndex;
+                Downloader.DownloadType = 0;
+                Downloader.Set60FPS = cbQuality.GetItemText(cbQuality.SelectedItem).EndsWith("p60");
+                Downloader.DownloadVideoAudio = chkDownloadSound.Checked;
+                Downloader.DownloadUrl = txtUrl.Text;
+                Downloader.Show();
+                Saved.Default.downloadType = 0;
+                Saved.Default.videoQuality = cbQuality.SelectedIndex;
+                Saved.Default.VideoFormat = cbFormat.SelectedIndex;
+                Downloads.Default.VideoDownloadSound = chkDownloadSound.Checked;
+            }
+            else if (rbAudio.Checked) {
+                Downloader.DownloadType = 1;
+                Downloader.DownloadPath = Downloads.Default.downloadPath;
+                Downloader.DownloadQuality = cbQuality.SelectedIndex;
+                Downloader.UseVBR = chkDownloadSound.Checked;
+                Downloader.DownloadFormat = cbFormat.SelectedIndex;
+                Downloader.DownloadUrl = txtUrl.Text;
+                Downloader.Show();
+                Saved.Default.downloadType = 1;
+                Saved.Default.audioQuality = cbQuality.SelectedIndex;
+                Saved.Default.AudioFormat = cbFormat.SelectedIndex;
+                Downloads.Default.AudioDownloadAsVBR = chkDownloadSound.Checked;
+            }
+            else if (rbCustom.Checked) {
+                Downloader.DownloadType = 2;
+                Downloader.DownloadArguments = txtArgs.Text;
+                Downloader.DownloadPath = Downloads.Default.downloadPath;
+                Downloader.DownloadQuality = -1;
+                Downloader.DownloadUrl = txtUrl.Text;
+                Downloader.Show();
+                Saved.Default.downloadType = 2;
+                Saved.Default.downloadArgs = txtArgs.Text;
+            }
+            else {
+                Downloader.Dispose();
+                try {
+                    throw new Exception("Video, Audio, or Custom was not selected in the form, please select an actual download option to proceed.");
+                }
+                catch (Exception ex) {
+                    ErrorLog.ReportException(ex);
+                }
+            }
+
+            if (Downloads.Default.SaveFormatQuality) {
+                Saved.Default.Save();
+            }
+
+            if (General.Default.clearURL) {
+                txtUrl.Clear();
+                Clipboard.Clear();
+            }
+
+            Saved.Default.Save();
+            Downloads.Default.Save();
         }
         #endregion
 

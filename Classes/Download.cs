@@ -8,22 +8,22 @@ using System.Xml;
 namespace youtube_dl_gui {
     class Download {
 
-        public enum DownloadType : int {
-            Video = 0,
-            Audio = 1,
-            Custom = 2,
-            Unknown = 0,
-            Default = 0
+        public class DownloadType {
+            public static int Video { get { return 0; } }
+            public static int Audio { get { return 1; } }
+            public static int Custom { get { return 2; } }
+            public static int Unknown { get { return 3; } }
+            public static int Default { get { return 0; } }
         }
-        public enum ForceIpProtocol : int {
-            IPv4 = 0,
-            IPv6 = 1
+        public class ForceIpProtocol {
+            public static int IPv4 { get { return 0; } }
+            public static int IPv6 { get { return 1; } }
         }
-        public enum ProxyProtocol : int {
-            HTTPS = 1,
-            HTTP = 2,
-            SOCKS4 = 3,
-            SOCKS5 = 4
+        public class ProxyProtocol {
+            public static int HTTPS { get { return 0; } }
+            public static int HTTP { get { return 1; } }
+            public static int SOCKS4 { get { return 2; } }
+            public static int SOCKS5 { get { return 3; } }
         }
 
         #region constants
@@ -77,251 +77,6 @@ namespace youtube_dl_gui {
         /// </summary>
         public static string defaultSchema = "%(title)s-%(id)s.%(ext)s";
         #endregion
-
-        /// <summary>
-        /// Begins the download sequence
-        /// </summary>
-        /// <param name="URL">The URL of the video/audio/whatever to download</param>
-        /// <param name="downloadType">Int for the type, 0 = video, 1 = audio, 2 = custom</param>
-        /// <param name="downloadQuality">Int for the quality</param>
-        /// <param name="args">Arugments for custom downloads</param>
-        /// 
-        /// Custom arguments are available for downloads:
-        ///     -nosound, -ns = Downloads videos without sound
-        /// 
-        /// <returns>A boolean based on the success of the download</returns>
-        public static bool startDownload(string URL, int downloadType, int downloadQuality, string args, bool WaitForExit = false) {
-            if (string.IsNullOrWhiteSpace(URL)) {
-                MessageBox.Show("Please enter a URL before trying to download.");
-                return false;
-            }
-            if (URL.StartsWith("http://"))
-                URL = "https" + URL.Substring(4);
-
-            try {
-                Process Downloader = new Process();
-                if (General.Default.useStaticYtdl && File.Exists(General.Default.ytdlPath)) {
-                    Downloader.StartInfo.FileName = General.Default.ytdlPath;
-                }
-                else {
-                    switch (Verification.ytdlFullCheck()) {
-                        case 1:
-                            Downloader.StartInfo.FileName = Environment.CurrentDirectory + "\\youtube-dl.exe";
-                            break;
-                        case 2:
-                            Downloader.StartInfo.FileName = Verification.ytdlPathLocation() + "\\youtube-dl.exe";
-                            break;
-                        case 3:
-                            Downloader.StartInfo.FileName = "youtube-dl.exe";
-                            break;
-                        case 0:
-                            Downloader.StartInfo.FileName = General.Default.ytdlPath + "\\youtube-dl.exe";
-                            break;
-                        default:
-                            if (MessageBox.Show("youtube-dl.exe is not present. Would you like to download it?", "youtube-dl-gui", MessageBoxButtons.YesNo) == DialogResult.Yes) {
-                                if (!downloadYoutubeDL(Environment.CurrentDirectory + "\\youtube-dl.exe"))
-                                    return false;
-                                else
-                                    Downloader.StartInfo.FileName = Environment.CurrentDirectory + "\\youtube-dl.exe";
-                            }
-                            else {
-                                return false;
-                            }
-                            break;
-                    }
-                }
-
-                //Downloader.StartInfo.UseShellExecute = false;
-                //Downloader.StartInfo.RedirectStandardOutput = true;
-                //Downloader.StartInfo.CreateNoWindow = true;
-
-                string outputFolder = string.Empty;             // The folder where it will be downloaded
-                string setArgs = string.Empty;                  // Arguments to pass.
-                string hlsFF = string.Empty;                    // an empty string, will fill up with hls on ffmpeg.
-                string webFolder = string.Empty;                // The string of the website address to use as the folder
-                bool usehlsFF = Downloads.Default.fixReddit;    // a boolean to set the arg to hlsFF only if it's enabled
-
-                if (Downloads.Default.separateIntoWebsiteURL) {
-                    webFolder = getUrlBase(URL) + "\\";
-                }
-
-                if (URL.StartsWith("https://v.redd.it") || URL.StartsWith("https://reddit.com/") || URL.StartsWith("https://www.reddit.com/") && downloadType != 2 && usehlsFF) {
-                    switch (Verification.ffmpegFullCheck()) {
-                        case 0:
-                            hlsFF = " --ffmpeg-location \"" + General.Default.ffmpegPath + "\\ffmpeg.exe\" --hls-prefer-ffmpeg ";
-                            break;
-                        case 1:
-                            hlsFF = " --ffmpeg-location \"" + Environment.CurrentDirectory + "\\ffmpeg.exe\" --hls-prefer-ffmpeg ";
-                            break;
-                        case 2:
-                            hlsFF = " --ffmpeg-location \"" + Verification.ffmpegPathLocation() + "\\ffmpeg.exe\"  --hls-prefer-ffmpeg ";
-                            break;
-                    }
-                }
-
-                switch (downloadType) {
-                    case 0: // video
-                        if (Downloads.Default.separateDownloads)
-                            outputFolder = " -o \"" + Downloads.Default.downloadPath + "\\" + webFolder + "Video\\" + Downloads.Default.fileNameSchema + "\"";
-                        else
-                            outputFolder = " -o \"" + Downloads.Default.downloadPath + "\\" + webFolder + Downloads.Default.fileNameSchema + "\"";
-
-                        if (usehlsFF && isReddit(URL))
-                            setArgs = URL + hlsFF + outputFolder;
-                        else
-                            setArgs = URL + videoQualities[downloadQuality] + hlsFF + outputFolder;
-
-                        if (!string.IsNullOrEmpty(args)) {
-                            string[] arguments = args.Split(';');
-                            for (int i = 0; i < arguments.Length; i++) {
-                                if (arguments[i] == "-nosound" || arguments[i] == "-ns") {
-                                    setArgs = setArgs.Replace("+bestaudio[ext=m4a]", "");
-                                }
-                            }
-                        }
-
-                        break;
-                    case 1: // audio
-                        if (Downloads.Default.separateDownloads)
-                            outputFolder = " -o \"" + Downloads.Default.downloadPath + "\\" + webFolder + "Audio\\" + Downloads.Default.fileNameSchema + "\"";
-                        else
-                            outputFolder = " -o \"" + Downloads.Default.downloadPath + "\\" + webFolder + Downloads.Default.fileNameSchema + "\"";
-
-                        if (usehlsFF && isReddit(URL))
-                            setArgs = URL + hlsFF + outputFolder;
-                        else
-                            setArgs = URL + audioQualities[downloadQuality] + hlsFF + outputFolder;
-                        break;
-                    case 2: // custom
-                        if (Downloads.Default.separateDownloads)
-                            outputFolder = " -o \"" + Downloads.Default.downloadPath + "\\" + webFolder + "Custom\\" + Downloads.Default.fileNameSchema + "\"";
-                        else
-                            outputFolder = " -o \"" + Downloads.Default.downloadPath + "\\" + webFolder + "\"";
-
-                        setArgs = URL + args + outputFolder;
-                        break;
-                    default:
-                        MessageBox.Show("Wow, this is weird. Your download was classified as 'default'. Let me know how this happened, please");
-                        return false;
-                }
-
-                Downloader.StartInfo.Arguments = setArgs;
-                Downloader.Start();
-                if (WaitForExit) { Downloader.WaitForExit(); }
-
-                GC.Collect();
-                return true;
-            }
-            catch (Exception ex) {
-                ErrorLog.ReportException(ex);
-                GC.Collect();
-                return false;
-            }
-        }
-
-        /// <summary>
-        /// Downloads the latest version of youtube-dl
-        /// </summary>
-        /// <param name="downloadDir">The directory\File to save youtube-dl to</param>
-        /// <returns>A boolean based on the success of the download</returns>
-        public static bool downloadYoutubeDL(string downloadDir) {
-            string YtDl = string.Empty;
-            string ytSig = string.Empty;
-            try {
-                string xml = UpdateChecker.GetJSON("https://api.github.com/repos/rg3/youtube-dl/releases/latest");
-                XmlDocument doc = new XmlDocument();
-                doc.LoadXml(xml);
-                XmlNodeList xmlTag = doc.DocumentElement.SelectNodes("/root/tag_name");
-
-                if (!downloadDir.EndsWith(@"\youtube-dl.exe"))
-                    downloadDir += @"\youtube-dl.exe";
-
-                YtDl = "https://github.com/rg3/youtube-dl/releases/download/" + xmlTag[0].InnerText + "/youtube-dl.exe";
-                ytSig = "https://github.com/rg3/youtube-dl/releases/download/" + xmlTag[0].InnerText + "/youtube-dl.exe.sig";
-
-                if (File.Exists(downloadDir))
-                    File.Delete(downloadDir);
-
-                using (WebClient wc = new WebClient()) {
-                    ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-                    wc.Headers.Add("User-Agent: " + Program.UserAgent);
-                    wc.DownloadFile(YtDl, downloadDir);
-                }
-
-                MessageBox.Show("youtube-dl has been downloaded");
-                return true;
-
-            }
-            catch (WebException WebE) {
-                ErrorLog.ReportWebException(WebE, YtDl);
-                return false;
-            }
-            catch (Exception ex) {
-                ErrorLog.ReportException(ex);
-                return false;
-            }
-        }
-
-        /// <summary>
-        /// Updates youtube-dl
-        /// </summary>
-        /// <returns>A boolean based on the success of the update...?</returns>
-        public static bool updateYoutubeDL() {
-            try {
-                if (Downloads.Default.useYtdlUpdater) {
-                    Process Downloader = new Process();
-                    Downloader.StartInfo.Arguments = "-U";
-
-                    if (General.Default.useStaticYtdl && !string.IsNullOrEmpty(General.Default.ytdlPath)) {
-                        if (General.Default.useStaticYtdl && File.Exists(General.Default.ytdlPath)) {
-                            Downloader.StartInfo.FileName = General.Default.ytdlPath;
-                        }
-                        else if (File.Exists(Environment.CurrentDirectory + "\\youtube-dl.exe")) {
-                            Downloader.StartInfo.FileName = Environment.CurrentDirectory + "\\youtube-dl.exe";
-                        }
-                        else if (File.Exists(Verification.ytdlPathLocation() + "\\youtube-dl.exe")) {
-                            Downloader.StartInfo.FileName = Verification.ytdlPathLocation() + "\\youtube-dl.exe";
-                        }
-                        else {
-                            MessageBox.Show("Could not find youtube-dl.exe, manually downloading");
-                            return downloadYoutubeDL(General.Default.ytdlPath);
-                        }
-                    }
-                    else {
-                        if (File.Exists(Environment.CurrentDirectory + "\\youtube-dl.exe")) {
-                            Downloader.StartInfo.FileName = Environment.CurrentDirectory + "\\youtube-dl.exe";
-                        }
-                        else if (File.Exists(Verification.ytdlPathLocation() + "\\youtube-dl.exe")) {
-                            Downloader.StartInfo.FileName = Verification.ytdlPathLocation() + "\\youtube-dl.exe";
-                        }
-                        else {
-                            MessageBox.Show("Could not find youtube-dl.exe, manually downloading");
-                            return downloadYoutubeDL(Environment.CurrentDirectory + "\\youtube-dl.exe");
-                        }
-                    }
-
-                    Downloader.Start();
-                    Downloader.WaitForExit();
-                    return true;
-                }
-                else {
-                    if (General.Default.useStaticYtdl && !string.IsNullOrEmpty(General.Default.ytdlPath)) {
-                        if (General.Default.useStaticYtdl) {
-                            return downloadYoutubeDL(General.Default.ytdlPath);
-                        }
-                        else {
-                            return downloadYoutubeDL(Environment.CurrentDirectory + "\\youtube-dl.exe");
-                        }
-                    }
-                    else {
-                        return downloadYoutubeDL(Environment.CurrentDirectory + "\\youtube-dl.exe");
-                    }
-                }
-            }
-            catch {
-                return false;
-            }
-        }
 
         public static bool isReddit(string url) {
             if (url.StartsWith("http://"))
@@ -472,7 +227,7 @@ namespace youtube_dl_gui {
                                                  };
         private string[] AudioFormatArgsArray = { " -f  -x --audio-format best --audio-quality 0" };
 
-        private string MyAudioArg = " -f bestaudio --extract-audio --audio-format best --audio-quality 0";
+        private string OldBestAudioArg = " -f bestaudio --extract-audio --audio-format best --audio-quality 0";
         #endregion
 
         #endregion

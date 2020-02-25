@@ -68,7 +68,7 @@
             this.rtbUpdateAvailableChangelog.Name = "rtbUpdateAvailableChangelog";
             this.rtbUpdateAvailableChangelog.ReadOnly = true;
             this.rtbUpdateAvailableChangelog.Size = new System.Drawing.Size(298, 137);
-            this.rtbUpdateAvailableChangelog.TabIndex = 4;
+            this.rtbUpdateAvailableChangelog.TabIndex = 5;
             this.rtbUpdateAvailableChangelog.Text = "";
             // 
             // lbUpdateAvailableChangelog
@@ -85,7 +85,7 @@
             this.btnUpdateAvailableUpdate.Location = new System.Drawing.Point(108, 276);
             this.btnUpdateAvailableUpdate.Name = "btnUpdateAvailableUpdate";
             this.btnUpdateAvailableUpdate.Size = new System.Drawing.Size(75, 24);
-            this.btnUpdateAvailableUpdate.TabIndex = 6;
+            this.btnUpdateAvailableUpdate.TabIndex = 7;
             this.btnUpdateAvailableUpdate.Text = "Update";
             this.btnUpdateAvailableUpdate.UseVisualStyleBackColor = true;
             this.btnUpdateAvailableUpdate.Click += new System.EventHandler(this.btnUpdateAvailableUpdate_Click);
@@ -95,7 +95,7 @@
             this.btnUpdateAvailableOk.Location = new System.Drawing.Point(235, 276);
             this.btnUpdateAvailableOk.Name = "btnUpdateAvailableOk";
             this.btnUpdateAvailableOk.Size = new System.Drawing.Size(75, 24);
-            this.btnUpdateAvailableOk.TabIndex = 7;
+            this.btnUpdateAvailableOk.TabIndex = 8;
             this.btnUpdateAvailableOk.Text = "OK";
             this.btnUpdateAvailableOk.UseVisualStyleBackColor = true;
             this.btnUpdateAvailableOk.Click += new System.EventHandler(this.btnUpdateAvailableOk_Click);
@@ -105,7 +105,7 @@
             this.btnUpdateAvailableSkip.Location = new System.Drawing.Point(12, 276);
             this.btnUpdateAvailableSkip.Name = "btnUpdateAvailableSkip";
             this.btnUpdateAvailableSkip.Size = new System.Drawing.Size(90, 24);
-            this.btnUpdateAvailableSkip.TabIndex = 5;
+            this.btnUpdateAvailableSkip.TabIndex = 6;
             this.btnUpdateAvailableSkip.Text = "Skip version";
             this.btnUpdateAvailableSkip.UseVisualStyleBackColor = true;
             this.btnUpdateAvailableSkip.Click += new System.EventHandler(this.btnUpdateAvailableSkip_Click);
@@ -116,7 +116,7 @@
             this.txtUpdateAvailableName.Name = "txtUpdateAvailableName";
             this.txtUpdateAvailableName.ReadOnly = true;
             this.txtUpdateAvailableName.Size = new System.Drawing.Size(298, 20);
-            this.txtUpdateAvailableName.TabIndex = 8;
+            this.txtUpdateAvailableName.TabIndex = 4;
             // 
             // frmUpdateAvailable
             // 

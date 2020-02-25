@@ -40,7 +40,7 @@
             this.txtURL.Location = new System.Drawing.Point(30, 55);
             this.txtURL.Name = "txtURL";
             this.txtURL.Size = new System.Drawing.Size(260, 20);
-            this.txtURL.TabIndex = 0;
+            this.txtURL.TabIndex = 2;
             // 
             // lbSubtitlesHeader
             // 
@@ -48,7 +48,7 @@
             this.lbSubtitlesHeader.Location = new System.Drawing.Point(12, 9);
             this.lbSubtitlesHeader.Name = "lbSubtitlesHeader";
             this.lbSubtitlesHeader.Size = new System.Drawing.Size(288, 20);
-            this.lbSubtitlesHeader.TabIndex = 1;
+            this.lbSubtitlesHeader.TabIndex = 0;
             this.lbSubtitlesHeader.Text = "lbSubtitlesHeader";
             this.lbSubtitlesHeader.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -58,7 +58,7 @@
             this.lbSubtitlesUrl.Location = new System.Drawing.Point(23, 39);
             this.lbSubtitlesUrl.Name = "lbSubtitlesUrl";
             this.lbSubtitlesUrl.Size = new System.Drawing.Size(68, 13);
-            this.lbSubtitlesUrl.TabIndex = 2;
+            this.lbSubtitlesUrl.TabIndex = 1;
             this.lbSubtitlesUrl.Text = "lbSubtitlesUrl";
             // 
             // lbSubtitlesLanguages
@@ -67,7 +67,7 @@
             this.lbSubtitlesLanguages.Location = new System.Drawing.Point(23, 82);
             this.lbSubtitlesLanguages.Name = "lbSubtitlesLanguages";
             this.lbSubtitlesLanguages.Size = new System.Drawing.Size(68, 13);
-            this.lbSubtitlesLanguages.TabIndex = 4;
+            this.lbSubtitlesLanguages.TabIndex = 3;
             this.lbSubtitlesLanguages.Text = "lbLanguages";
             // 
             // txtLanguage
@@ -76,7 +76,7 @@
             this.txtLanguage.Name = "txtLanguage";
             this.txtLanguage.ReadOnly = true;
             this.txtLanguage.Size = new System.Drawing.Size(137, 20);
-            this.txtLanguage.TabIndex = 3;
+            this.txtLanguage.TabIndex = 4;
             this.txtLanguage.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtLanguage_KeyPress);
             // 
             // cbLanguage
@@ -209,7 +209,7 @@
             this.btnSubtitlesDownload.Location = new System.Drawing.Point(95, 133);
             this.btnSubtitlesDownload.Name = "btnSubtitlesDownload";
             this.btnSubtitlesDownload.Size = new System.Drawing.Size(123, 23);
-            this.btnSubtitlesDownload.TabIndex = 7;
+            this.btnSubtitlesDownload.TabIndex = 8;
             this.btnSubtitlesDownload.Text = "btnSubtitlesDownload";
             this.btnSubtitlesDownload.UseVisualStyleBackColor = true;
             this.btnSubtitlesDownload.Click += new System.EventHandler(this.btnSubtitlesDownload_Click);
@@ -219,7 +219,7 @@
             this.btnSubtitlesClearLanguages.Location = new System.Drawing.Point(250, 125);
             this.btnSubtitlesClearLanguages.Name = "btnSubtitlesClearLanguages";
             this.btnSubtitlesClearLanguages.Size = new System.Drawing.Size(40, 23);
-            this.btnSubtitlesClearLanguages.TabIndex = 8;
+            this.btnSubtitlesClearLanguages.TabIndex = 7;
             this.btnSubtitlesClearLanguages.Text = "btnSubtitlesClear";
             this.btnSubtitlesClearLanguages.UseVisualStyleBackColor = true;
             this.btnSubtitlesClearLanguages.Click += new System.EventHandler(this.btnSubtitlesClearLanguages_Click);

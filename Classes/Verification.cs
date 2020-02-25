@@ -4,159 +4,242 @@ using System.IO;
 
 namespace youtube_dl_gui {
     class Verification {
-        private static volatile string YoutubeDlPathString = null;
-        private static volatile int YoutubelDlPath = -1;
-        private static volatile string FFmpegPathString = null;
-        private static volatile int FFmpegPath = -1;
+        private static volatile Verification Instance = new Verification();
+        public static Verification GetInstance() { return Instance; }
 
-        public enum ApplicationLocation : int {
-            NoneFound = -1,
-            StaticDirectory = 0,
-            CurrentDirectory = 1,
-            SystemPath = 2,
-            CommandLine = 3
-        }
+        private static volatile string YoutubeDlPathString_ = null;
+        private static volatile string FFmpegPathString_ = null;
+        private static volatile int YoutubeDlPathInt_ = -1;
+        private static volatile int FFmpegPathInt_ = -1;
+        private static volatile string YoutubeDlVersionString = null;
 
-        #region ffmpeg verification
-        public static bool ffmpegInExecutingDirectory() {
-            if (File.Exists(Environment.CurrentDirectory + "\\ffmpeg.exe") && File.Exists(Environment.CurrentDirectory + "\\ffprobe.exe"))
-                return true;
-            else
-                return false;
+        public string YoutubeDlPath { get { return YoutubeDlPathString_; } private set { YoutubeDlPathString_ = value; } }
+        public string FFmpegPath { get { return FFmpegPathString_; } private set { FFmpegPathString_ = value; } }
+        public int YoutubeDlInt { get { return YoutubeDlPathInt_; } private set { YoutubeDlPathInt_ = value; } }
+        public int FFmpegInt { get { return FFmpegPathInt_; } private set { FFmpegPathInt_ = value; } }
+        public string YoutubeDlVersion { get { return YoutubeDlVersionString; } private set { YoutubeDlVersionString = value; } }
+
+        public void RefreshLocation() {
+            RefreshYoutubeDlLocation();
+            RefreshFFmpegLocation();
         }
-        
-        public static string ffmpegPathLocation() {
-            var pathValues = Environment.GetEnvironmentVariable("PATH");
-            foreach (var foundPath in pathValues.Split(';')) {
-                var ffPath = foundPath; //Path.Combine(foundPath, "ffmpeg.exe");
-                if (File.Exists(ffPath + "\\ffmpeg.exe") && File.Exists(ffPath + "\\ffprobe.exe"))
-                    return ffPath;
+        public void RefreshYoutubeDlLocation() {
+            YoutubeDlInt = ytdlFullCheck();
+            switch (YoutubeDlInt) {
+                case 0:
+                    YoutubeDlPath = General.Default.ytdlPath;
+                    break;
+                case 1:
+                    YoutubeDlPath = Environment.CurrentDirectory + "\\youtube-dl.exe";
+                    break;
+                case 2:
+                    YoutubeDlPath = ytdlPathLocation;
+                    break;
+                case 3:
+                    YoutubeDlPath = "CommandLine";
+                    break;
+                default:
+                    YoutubeDlPath = null;
+                    break;
             }
-            return null;
-        }
-        public static bool ffmpegInSystemPath() {
-            string ffPath = ffmpegPathLocation();
-            if (!string.IsNullOrEmpty(ffPath)) {
-                if (File.Exists(ffPath + "\\ffmpeg.exe") && File.Exists(ffPath + "\\ffprobe.exe"))
-                    return true;
+            if (YoutubeDlPath != null) {
+                YoutubeDlVersion = YoutubeDlPath;
             }
-
-            return false;
         }
-
-        public static bool ffmpegInCmd() {
-            // Very hacky, don't use
-            try {
-                Process p = new Process();
-                p.StartInfo.FileName = "cmd.exe";
-                p.StartInfo.RedirectStandardInput = true;
-                p.StartInfo.RedirectStandardOutput = true;
-                p.StartInfo.CreateNoWindow = true;
-                p.StartInfo.UseShellExecute = false;
-                p.Start();
-                p.StandardInput.WriteLine("ffmpeg -version");
-                p.StandardInput.Flush();
-                p.StandardInput.Close();
-                p.WaitForExit();
-
-                string output = p.StandardOutput.ReadToEnd().TrimEnd('\n').TrimEnd('\r');
-
-                if (output.EndsWith("ffmpeg -version"))
-                    return false;
-                else
-                    return true;
-            }
-            catch (Exception ex){
-                ErrorLog.ReportException(ex);
-                return false;
+        public void RefreshFFmpegLocation() {
+            FFmpegInt = ffmpegFullCheck();
+            switch (FFmpegInt) {
+                case 0:
+                    FFmpegPath = General.Default.ffmpegPath;
+                    break;
+                case 1:
+                    FFmpegPath = Environment.CurrentDirectory;
+                    break;
+                case 2:
+                    FFmpegPath = ffmpegPathLocation;
+                    break;
+                case 3:
+                    FFmpegPath = "CommandLine";
+                    break;
+                default:
+                    FFmpegPath = null;
+                    break;
             }
         }
 
-        /// <summary>
-        /// Check for ffmpeg using all possible routes
-        /// </summary>
-        public static int ffmpegFullCheck() {
-            if (General.Default.useStaticFFmpeg && File.Exists(General.Default.ffmpegPath))
-                return 0; // Static
-            else if (ffmpegInExecutingDirectory())
-                return 1; // Current Directory
-            else if (ffmpegInSystemPath())
-                return 2; // System PATH
-            else if (ffmpegInCmd())
-                return 3; // CMD
-            else
-                return -1; // None found
+        public static class ApplicationLocation {
+            public static int NoneFound { get { return -1; } }
+            public static int StaticDirectory { get { return 0; } }
+            public static int CurrentDirectory { get { return 1; } }
+            public static int SystemPath { get { return 2; } }
+            public static int CommandLine { get { return 3; } }
         }
-        #endregion
 
         #region youtube-dl verification
-        public static bool ytdlInExecutingDirectory() {
-            if (File.Exists(Environment.CurrentDirectory + "\\youtube-dl.exe"))
-                return true;
-            else
-                return false;
-        }
-
-        public static string ytdlPathLocation() {
-            var pathValues = Environment.GetEnvironmentVariable("PATH");
-            foreach (var foundPath in pathValues.Split(';')) {
-                var ytdlPath = foundPath;
-                if (File.Exists(ytdlPath + "\\youtube-dl.exe"))
-                    return ytdlPath;
-            }
-            return null;
-        }
-        public static bool ytdlInSystemPath() {
-            string ytdlPath = ytdlPathLocation();
-            if (!string.IsNullOrEmpty(ytdlPath)) {
-                if (File.Exists(ytdlPath + "\\youtube-dl.exe"))
-                    return true;
-            }
-
-            return false;
-        }
-
-        public static bool ytdlInCmd() {
-            // Very hacky, don't use
+        private static string GetYtdlVersion(string Path) {
             try {
-                Process p = new Process();
-                p.StartInfo.FileName = "cmd.exe";
-                p.StartInfo.RedirectStandardInput = true;
-                p.StartInfo.RedirectStandardOutput = true;
-                p.StartInfo.CreateNoWindow = true;
-                p.StartInfo.UseShellExecute = false;
-                p.Start();
-                p.StandardInput.WriteLine("youtube-dl");
-                p.StandardInput.Flush();
-                p.StandardInput.Close();
-                p.WaitForExit();
-
-                string output = p.StandardOutput.ReadToEnd().TrimEnd('\n').TrimEnd('\r');
-
-                if (output.EndsWith("youtube-dl")) {
-                    return false;
-                }
-                else {
-                    return true;
-                }
+                FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(Path);
+                return fvi.ProductVersion;
             }
             catch (Exception ex) {
                 ErrorLog.ReportException(ex);
+                return null;
+            }
+        }
+        private static bool ytdlInExecutingDirectory {
+            get {
+                if (File.Exists(Environment.CurrentDirectory + "\\youtube-dl.exe"))
+                    return true;
+                else
+                    return false;
+            }
+        }
+
+        private static string ytdlPathLocation {
+            get {
+                var pathValues = Environment.GetEnvironmentVariable("PATH");
+                foreach (var foundPath in pathValues.Split(';')) {
+                    var ytdlPath = foundPath;
+                    if (File.Exists(ytdlPath + "\\youtube-dl.exe"))
+                        return ytdlPath;
+                }
+                return null;
+            }
+        }
+        private static bool ytdlInSystemPath {
+            get {
+                string ytdlPath = ytdlPathLocation;
+                if (!string.IsNullOrEmpty(ytdlPath)) {
+                    if (File.Exists(ytdlPath + "\\youtube-dl.exe"))
+                        return true;
+                }
+
                 return false;
+            }
+        }
+
+        private static bool ytdlInCmd {
+            get {
+                // Very hacky, don't use
+                try {
+                    Process p = new Process();
+                    p.StartInfo.FileName = "cmd.exe";
+                    p.StartInfo.RedirectStandardInput = true;
+                    p.StartInfo.RedirectStandardOutput = true;
+                    p.StartInfo.CreateNoWindow = true;
+                    p.StartInfo.UseShellExecute = false;
+                    p.Start();
+                    p.StandardInput.WriteLine("youtube-dl");
+                    p.StandardInput.Flush();
+                    p.StandardInput.Close();
+                    p.WaitForExit();
+
+                    string output = p.StandardOutput.ReadToEnd().TrimEnd('\n').TrimEnd('\r');
+
+                    if (output.EndsWith("youtube-dl")) {
+                        return false;
+                    }
+                    else {
+                        return true;
+                    }
+                }
+                catch (Exception ex) {
+                    ErrorLog.ReportException(ex);
+                    return false;
+                }
             }
         }
 
         /// <summary>
         /// Check for youtube-dl using all possible routes
         /// </summary>
-        public static int ytdlFullCheck() {
+        private static int ytdlFullCheck() {
             if (General.Default.useStaticYtdl && File.Exists(General.Default.ytdlPath))
                 return 0; // Static
-            else if (ytdlInExecutingDirectory())
+            else if (ytdlInExecutingDirectory)
                 return 1; // Current Directory
-            else if (ytdlInSystemPath())
+            else if (ytdlInSystemPath)
                 return 2; // System PATH
-            else if (ytdlInCmd())
+            else if (ytdlInCmd)
+                return 3; // CMD
+            else
+                return -1; // None found
+        }
+        #endregion
+
+        #region ffmpeg verification
+        private static bool ffmpegInExecutingDirectory {
+            get {
+                if (File.Exists(Environment.CurrentDirectory + "\\ffmpeg.exe") && File.Exists(Environment.CurrentDirectory + "\\ffprobe.exe"))
+                    return true;
+                else
+                    return false;
+            }
+        }
+
+        private static string ffmpegPathLocation {
+            get {
+                var pathValues = Environment.GetEnvironmentVariable("PATH");
+                foreach (var foundPath in pathValues.Split(';')) {
+                    var ffPath = foundPath; //Path.Combine(foundPath, "ffmpeg.exe");
+                    if (File.Exists(ffPath + "\\ffmpeg.exe") && File.Exists(ffPath + "\\ffprobe.exe"))
+                        return ffPath;
+                }
+                return null;
+            }
+        }
+        private static bool ffmpegInSystemPath {
+            get {
+                string ffPath = ffmpegPathLocation;
+                if (!string.IsNullOrEmpty(ffPath)) {
+                    if (File.Exists(ffPath + "\\ffmpeg.exe") && File.Exists(ffPath + "\\ffprobe.exe"))
+                        return true;
+                }
+                return false;
+            }
+        }
+
+        private static bool ffmpegInCmd {
+            get {
+                // Very hacky, don't use
+                try {
+                    Process p = new Process();
+                    p.StartInfo.FileName = "cmd.exe";
+                    p.StartInfo.RedirectStandardInput = true;
+                    p.StartInfo.RedirectStandardOutput = true;
+                    p.StartInfo.CreateNoWindow = true;
+                    p.StartInfo.UseShellExecute = false;
+                    p.Start();
+                    p.StandardInput.WriteLine("ffmpeg -version");
+                    p.StandardInput.Flush();
+                    p.StandardInput.Close();
+                    p.WaitForExit();
+
+                    string output = p.StandardOutput.ReadToEnd().TrimEnd('\n').TrimEnd('\r');
+
+                    if (output.EndsWith("ffmpeg -version"))
+                        return false;
+                    else
+                        return true;
+                }
+                catch (Exception ex){
+                    ErrorLog.ReportException(ex);
+                    return false;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Check for ffmpeg using all possible routes
+        /// </summary>
+        private static int ffmpegFullCheck() {
+            if (General.Default.useStaticFFmpeg && File.Exists(General.Default.ffmpegPath))
+                return 0; // Static
+            else if (ffmpegInExecutingDirectory)
+                return 1; // Current Directory
+            else if (ffmpegInSystemPath)
+                return 2; // System PATH
+            else if (ffmpegInCmd)
                 return 3; // CMD
             else
                 return -1; // None found

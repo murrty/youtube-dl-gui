@@ -66,7 +66,7 @@
             this.btnExceptionOk.Location = new System.Drawing.Point(385, 213);
             this.btnExceptionOk.Name = "btnExceptionOk";
             this.btnExceptionOk.Size = new System.Drawing.Size(75, 24);
-            this.btnExceptionOk.TabIndex = 3;
+            this.btnExceptionOk.TabIndex = 5;
             this.btnExceptionOk.Text = "btnExceptionOk";
             this.btnExceptionOk.UseVisualStyleBackColor = true;
             this.btnExceptionOk.Click += new System.EventHandler(this.btnOk_Click);
@@ -77,7 +77,7 @@
             this.lbVersion.Location = new System.Drawing.Point(14, 219);
             this.lbVersion.Name = "lbVersion";
             this.lbVersion.Size = new System.Drawing.Size(50, 13);
-            this.lbVersion.TabIndex = 4;
+            this.lbVersion.TabIndex = 3;
             this.lbVersion.Text = "lbVersion";
             // 
             // btnExceptionGithub
@@ -85,7 +85,7 @@
             this.btnExceptionGithub.Location = new System.Drawing.Point(294, 213);
             this.btnExceptionGithub.Name = "btnExceptionGithub";
             this.btnExceptionGithub.Size = new System.Drawing.Size(85, 24);
-            this.btnExceptionGithub.TabIndex = 5;
+            this.btnExceptionGithub.TabIndex = 4;
             this.btnExceptionGithub.Text = "btnExceptionGithub";
             this.btnExceptionGithub.UseVisualStyleBackColor = true;
             this.btnExceptionGithub.Click += new System.EventHandler(this.btnGithub_Click);

@@ -10,6 +10,7 @@ namespace youtube_dl_gui {
     public partial class frmSettings : Form {
         #region vars
         Language lang = Language.GetInstance();
+        Verification verif = Verification.GetInstance();
         public bool ffmpegAvailabled = false;
         public bool ytdlAvailable = false;
 
@@ -91,8 +92,12 @@ namespace youtube_dl_gui {
             tipSettings.SetToolTip(chkSettingsDownloadsEmbedSubtitles, lang.chkSettingsDownloadsEmbedSubtitlesHint);
             chkSettingsDownloadsSaveVideoInfo.Text = lang.chkSettingsDownloadsSaveVideoInfo;
             tipSettings.SetToolTip(chkSettingsDownloadsSaveVideoInfo, lang.chkSettingsDownloadsSaveVideoInfoHint);
+            chkSettingsDownloadsWriteMetadataToFile.Text = lang.chkSettingsDownloadsWriteMetadataToFile;
+            tipSettings.SetToolTip(chkSettingsDownloadsWriteMetadataToFile, lang.chkSettingsDownloadsWriteMetadataToFileHint);
             chkSettingsDownloadsSaveDescription.Text = lang.chkSettingsDownloadsSaveDescription;
             tipSettings.SetToolTip(chkSettingsDownloadsSaveDescription, lang.chkSettingsDownloadsSaveDescriptionHint);
+            chkSettingsDownloadsKeepOriginalFiles.Text = lang.chkSettingsDownloadsKeepOriginalFiles;
+            tipSettings.SetToolTip(chkSettingsDownloadsKeepOriginalFiles, lang.chkSettingsDownloadsKeepOriginalFilesHint);
             chkSettingsDownloadsSaveAnnotations.Text = lang.chkSettingsDownloadsSaveAnnotations;
             tipSettings.SetToolTip(chkSettingsDownloadsSaveAnnotations, lang.chkSettingsDownloadsSaveAnnotationsHint);
             chkSettingsDownloadsSaveThumbnails.Text = lang.chkSettingsDownloadsSaveThumbnails;
@@ -166,7 +171,7 @@ namespace youtube_dl_gui {
             //tipSettings.SetToolTip(lbSettingsExtensionsExtensionShort, lang.lbSettingsExtensionsExtensionShortHint);
             btnSettingsExtensionsAdd.Text = lang.btnSettingsExtensionsAdd;
             //tipSettings.SetToolTip(btnSettingsExtensionsAdd, lang.btnSettingsExtensionsAddHint);
-            lbSettingsExtensionsFileName.Text = lang.lbSettingsExtensionsFileName;
+            lbSettingsExtensionsFileName.Text = lang.lbSettingsExtensionsFileName + ".ext";
             //tipSettings.SetToolTip(lbSettingsExtensionsFileName, lang.lbSettingsExtensionsFileNameHint);
             btnSettingsExtensionsRemoveSelected.Text = lang.btnSettingsExtensionsRemoveSelected;
             //tipSettings.SetToolTip(btnSettingsExtensionsRemoveSelected, lang.btnSettingsExtensionsRemoveSelectedHint);
@@ -199,6 +204,14 @@ namespace youtube_dl_gui {
                 (chkSettingsDownloadsSaveThumbnails.Location.X + chkSettingsDownloadsSaveThumbnails.Size.Width + 2),
                 chkSettingsDownloadsSaveThumbnails.Location.Y
                 );
+            chkSettingsDownloadsWriteMetadataToFile.Location = new System.Drawing.Point(
+                (chkSettingsDownloadsSaveVideoInfo.Location.X + chkSettingsDownloadsSaveVideoInfo.Size.Width + 2),
+                chkSettingsDownloadsSaveVideoInfo.Location.Y
+                );
+            chkSettingsDownloadsKeepOriginalFiles.Location = new System.Drawing.Point(
+                (chkSettingsDownloadsSaveDescription.Location.X + chkSettingsDownloadsSaveDescription.Size.Width + 2),
+                chkSettingsDownloadsSaveDescription.Location.Y
+                );
             chkSettingsDownloadsEmbedSubtitles.Location = new System.Drawing.Point(
                 (chkSettingsDownloadsDownloadSubtitles.Location.X + chkSettingsDownloadsDownloadSubtitles.Size.Width + 2),
                 chkSettingsDownloadsDownloadSubtitles.Location.Y
@@ -210,19 +223,8 @@ namespace youtube_dl_gui {
                 chkSettingsGeneralUseStaticYoutubeDl.Checked = General.Default.useStaticYtdl;
             }
             else {
-                switch (Verification.ytdlFullCheck()) {
-                    case 1:
-                        txtSettingsGeneralYoutubeDlPath.Text = Environment.CurrentDirectory + "\\youtube-dl.exe";
-                        break;
-                    case 2:
-                        txtSettingsGeneralYoutubeDlPath.Text = Verification.ytdlPathLocation() + "\\youtube-dl.exe";
-                        break;
-                    case 3:
-                        txtSettingsGeneralYoutubeDlPath.Text = "CommandLine";
-                        break;
-                    case 0:
-                        txtSettingsGeneralYoutubeDlPath.Text = General.Default.ytdlPath;
-                        break;
+                if (verif.YoutubeDlPath != null) {
+                    txtSettingsGeneralYoutubeDlPath.Text = verif.YoutubeDlPath;
                 }
             }
 
@@ -231,19 +233,8 @@ namespace youtube_dl_gui {
                 chkSettingsGeneralUseStaticFFmpeg.Checked = General.Default.useStaticFFmpeg;
             }
             else {
-                switch (Verification.ffmpegFullCheck()) {
-                    case 1:
-                        txtSettingsGeneralFFmpegPath.Text = Environment.CurrentDirectory;
-                        break;
-                    case 2:
-                        txtSettingsGeneralFFmpegPath.Text = Verification.ffmpegPathLocation();
-                        break;
-                    case 3:
-                        txtSettingsGeneralFFmpegPath.Text = "CommandLine";
-                        break;
-                    case 0:
-                        txtSettingsGeneralFFmpegPath.Text = General.Default.ffmpegPath;
-                        break;
+                if (verif.FFmpegPath != null) {
+                    txtSettingsGeneralFFmpegPath.Text = verif.FFmpegPath;
                 }
             }
 
@@ -286,7 +277,9 @@ namespace youtube_dl_gui {
             }
             chkSettingsDownloadsEmbedSubtitles.Checked = Downloads.Default.EmbedSubtitles;
             chkSettingsDownloadsSaveVideoInfo.Checked = Downloads.Default.SaveVideoInfo;
+            chkSettingsDownloadsWriteMetadataToFile.Checked = Downloads.Default.WriteMetadata;
             chkSettingsDownloadsSaveDescription.Checked = Downloads.Default.SaveDescription;
+            chkSettingsDownloadsKeepOriginalFiles.Checked = Downloads.Default.KeepOriginalFiles;
             chkSettingsDownloadsSaveAnnotations.Checked = Downloads.Default.SaveAnnotations;
             //chkSettingsDownloadsSaveThumbnails.Checked = Downloads.Default.SaveThumbnail;
             if (Downloads.Default.SaveThumbnail) {
@@ -370,7 +363,9 @@ namespace youtube_dl_gui {
             Downloads.Default.SaveSubtitles = chkSettingsDownloadsDownloadSubtitles.Checked;
             Downloads.Default.EmbedSubtitles = chkSettingsDownloadsEmbedSubtitles.Checked;
             Downloads.Default.SaveVideoInfo = chkSettingsDownloadsSaveVideoInfo.Checked;
+            Downloads.Default.WriteMetadata = chkSettingsDownloadsWriteMetadataToFile.Checked;
             Downloads.Default.SaveDescription = chkSettingsDownloadsSaveDescription.Checked;
+            Downloads.Default.KeepOriginalFiles = chkSettingsDownloadsKeepOriginalFiles.Checked;
             Downloads.Default.SaveAnnotations = chkSettingsDownloadsSaveAnnotations.Checked;
             Downloads.Default.SaveThumbnail = chkSettingsDownloadsSaveThumbnails.Checked;
             Downloads.Default.EmbedThumbnails = chkSettingsDownloadsEmbedThumbnails.Checked;
@@ -425,7 +420,6 @@ namespace youtube_dl_gui {
         private void btnSettingsRedownloadYoutubeDl_Click(object sender, EventArgs e) {
             UpdateChecker.UpdateYoutubeDl();
         }
-
 
         private void btnSettingsSave_Click(object sender, EventArgs e) {
             saveSettings();

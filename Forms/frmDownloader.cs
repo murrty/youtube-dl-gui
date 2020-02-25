@@ -7,6 +7,7 @@ using System.Windows.Forms;
 namespace youtube_dl_gui {
     public partial class frmDownloader : Form {
         Language lang = Language.GetInstance();
+        Verification verif = Verification.GetInstance();
 
         public string DownloadUrl = null;       // The URL of the download
         public string DownloadPath = null;      // The path of the destination directory
@@ -32,9 +33,9 @@ namespace youtube_dl_gui {
         public frmDownloader() {
             InitializeComponent();
             this.Text = lang.frmDownloader + " ";
-            chkDownloaderCloseAfterDownloader.Text = lang.chkDownloaderCloseAfterDownload;
+            chkDownloaderCloseAfterDownload.Text = lang.chkDownloaderCloseAfterDownload;
             btnDownloaderCancelExit.Text = lang.btnDownloaderCancel;
-            chkDownloaderCloseAfterDownloader.Checked = Downloads.Default.CloseDownloaderAfterFinish;
+            chkDownloaderCloseAfterDownload.Checked = Downloads.Default.CloseDownloaderAfterFinish;
             this.Icon = Properties.Resources.youtube_dl_gui;
         }
         private void frmDownloader_Load(object sender, EventArgs e) {
@@ -61,7 +62,7 @@ namespace youtube_dl_gui {
                 return;
             }
             rtbConsoleOutput.AppendText("Beginning download, this box will output progress\n");
-            if (BatchDownload) { chkDownloaderCloseAfterDownloader.Checked = true; }
+            if (BatchDownload) { chkDownloaderCloseAfterDownload.Checked = true; }
 
             if (DownloadUrl.StartsWith("http://")) { DownloadUrl = "https" + DownloadUrl.Substring(4); }
 
@@ -77,23 +78,7 @@ namespace youtube_dl_gui {
                 YoutubeDlFileName = General.Default.ytdlPath;
             }
             else {
-                switch (Verification.ytdlFullCheck()) {
-                    case 1:
-                        YoutubeDlFileName = Environment.CurrentDirectory + "\\youtube-dl.exe";
-                        break;
-                    case 2:
-                        YoutubeDlFileName = Verification.ytdlPathLocation() + "\\youtube-dl.exe";
-                        break;
-                    case 3:
-                        YoutubeDlFileName = "youtube-dl.exe";
-                        break;
-                    case 0:
-                        YoutubeDlFileName = General.Default.ytdlPath;
-                        break;
-                    default:
-                        YoutubeDlFileName = null;
-                        return;
-                }
+                YoutubeDlFileName = verif.YoutubeDlPath;
             }
             if (YoutubeDlFileName == null) { rtbConsoleOutput.AppendText("Youtube-DL has not been found"); return; }
             rtbConsoleOutput.AppendText("Youtube-DL has been found and set\n");
@@ -220,28 +205,18 @@ namespace youtube_dl_gui {
                     ArgumentsBuffer += " -k";
                 }
 
-                if (Download.isReddit(DownloadUrl) && usehlsFF) {
+                if (verif.FFmpegPath == null) {
+                    rtbConsoleOutput.AppendText("Fix v.redd.it was requested, but ffmpeg hasn't been found\n");
+                }
+                else if (Download.isReddit(DownloadUrl) && usehlsFF) {
                     rtbConsoleOutput.AppendText("Fix v.redd.it has been set; looking for ffmpeg\n");
-                    switch (Verification.ffmpegFullCheck()) {
-                        case 0: {
-                                ArgumentsBuffer += " --ffmpeg-location \"" + General.Default.ffmpegPath + "\\ffmpeg.exe\" --hls-prefer-ffmpeg";
-                                break;
-                            }
-                        case 1: {
-                                ArgumentsBuffer += " --ffmpeg-location \"" + Environment.CurrentDirectory + "\\ffmpeg.exe\" --hls-prefer-ffmpeg";
-                                break;
-                            }
-                        case 2: {
-                                ArgumentsBuffer += " --ffmpeg-location \"" + Verification.ffmpegPathLocation() + "\\ffmpeg.exe\"  --hls-prefer-ffmpeg";
-                                break;
-                            }
-                    }
-                    if (string.IsNullOrEmpty(hlsFF)) {
-                        rtbConsoleOutput.AppendText("Fix v.redd.it was requested, but ffmpeg hasn't been found\n");
+                    if (General.Default.useStaticFFmpeg && File.Exists(General.Default.ffmpegPath)) {
+                        ArgumentsBuffer += " --ffmpeg-location \"" + General.Default.ffmpegPath + "\\ffmpeg.exe\" --hls-prefer-ffmpeg";
                     }
                     else {
-                        rtbConsoleOutput.AppendText("ffmpeg has been found and set");
+                        ArgumentsBuffer += " --ffmpeg-location \"" + verif.FFmpegPath + "\\ffmpeg.exe\" --hls-prefer-ffmpeg";
                     }
+                    rtbConsoleOutput.AppendText("ffmpeg has been found and set");
                 }
 
                 if (Downloads.Default.LimitDownloads && Downloads.Default.DownloadLimit > 0) {
@@ -280,9 +255,6 @@ namespace youtube_dl_gui {
                 if (Downloads.Default.UseProxy && Downloads.Default.ProxyType > -1 && !string.IsNullOrEmpty(Downloads.Default.ProxyIP) && !string.IsNullOrEmpty(Downloads.Default.ProxyPort)) {
                     ArgumentsBuffer += " --proxy " + Download.ProxyProtocols[Downloads.Default.ProxyType] + Downloads.Default.ProxyIP + ":" + Downloads.Default.ProxyPort + "/ ";
                 }
-            }
-            else {
-
             }
 
             rtbConsoleOutput.AppendText("Arguments have been generated and are readonly in the textbox\n");
@@ -395,15 +367,15 @@ namespace youtube_dl_gui {
                     btnDownloaderCancelExit.Text = lang.btnDownloaderExit;
                     this.Text = lang.frmDownloaderComplete;
                     rtbConsoleOutput.AppendText("Download has finished.");
-                    if (chkDownloaderCloseAfterDownloader.Checked) { CloseForm(); }
+                    if (chkDownloaderCloseAfterDownload.Checked) { CloseForm(); }
                 }
             }
         }
         private void CloseForm() {
             CloseFromMethod = true;
 
-            if (Downloads.Default.CloseDownloaderAfterFinish != chkDownloaderCloseAfterDownloader.Checked && !BatchDownload) {
-                Downloads.Default.CloseDownloaderAfterFinish = chkDownloaderCloseAfterDownloader.Checked;
+            if (Downloads.Default.CloseDownloaderAfterFinish != chkDownloaderCloseAfterDownload.Checked && !BatchDownload) {
+                Downloads.Default.CloseDownloaderAfterFinish = chkDownloaderCloseAfterDownload.Checked;
                 Downloads.Default.Save();
             }
 
