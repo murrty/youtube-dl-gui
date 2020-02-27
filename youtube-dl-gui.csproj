@@ -265,7 +265,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\youtube-dl-gui-updater.exe" />
+    <None Include="Resources\youtube-dl-gui-updater.exe" />
     <Content Include="Resources\youtube-dl-gui.ico" />
     <Content Include="Resources\youtube-dl-gui32.png" />
   </ItemGroup>
@@ -294,6 +294,7 @@
   <PropertyGroup>
     <PostBuildEvent>if $(ConfigurationName) == Release xcopy "$(ProjectDir)lang\*.ini" "$(SolutionDir)Release\lang\*.ini" /y
 if $(ConfigurationName) == Release copy "$(TargetPath)" "$(SolutionDir)Release"
+if $(ConfigurationName) == Release (del "$(SolutionDir)Release\$(ProjectName).zip")
 if $(ConfigurationName) == Release (7z a -mm=Deflate -mfb=128 -r "$(SolutionDir)Release\$(ProjectName).zip" "$(SolutionDir)Release\*")</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
