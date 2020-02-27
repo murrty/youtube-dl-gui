@@ -199,6 +199,7 @@
             // 
             // chkSettingsGeneralClearClipboardOnDownload
             // 
+            this.chkSettingsGeneralClearClipboardOnDownload.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.chkSettingsGeneralClearClipboardOnDownload.AutoSize = true;
             this.chkSettingsGeneralClearClipboardOnDownload.Location = new System.Drawing.Point(36, 208);
             this.chkSettingsGeneralClearClipboardOnDownload.Name = "chkSettingsGeneralClearClipboardOnDownload";
@@ -225,6 +226,7 @@
             // 
             // rbSettingsGeneralCustomArgumentsSaveInSettings
             // 
+            this.rbSettingsGeneralCustomArgumentsSaveInSettings.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.rbSettingsGeneralCustomArgumentsSaveInSettings.AutoSize = true;
             this.rbSettingsGeneralCustomArgumentsSaveInSettings.Checked = true;
             this.rbSettingsGeneralCustomArgumentsSaveInSettings.Location = new System.Drawing.Point(203, 20);
@@ -238,6 +240,7 @@
             // 
             // rbSettingsGeneralCustomArgumentsSaveAsArgsText
             // 
+            this.rbSettingsGeneralCustomArgumentsSaveAsArgsText.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.rbSettingsGeneralCustomArgumentsSaveAsArgsText.AutoSize = true;
             this.rbSettingsGeneralCustomArgumentsSaveAsArgsText.Location = new System.Drawing.Point(89, 20);
             this.rbSettingsGeneralCustomArgumentsSaveAsArgsText.Name = "rbSettingsGeneralCustomArgumentsSaveAsArgsText";
@@ -249,6 +252,7 @@
             // 
             // rbSettingsGeneralCustomArgumentsDontSave
             // 
+            this.rbSettingsGeneralCustomArgumentsDontSave.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.rbSettingsGeneralCustomArgumentsDontSave.AutoSize = true;
             this.rbSettingsGeneralCustomArgumentsDontSave.Location = new System.Drawing.Point(8, 20);
             this.rbSettingsGeneralCustomArgumentsDontSave.Name = "rbSettingsGeneralCustomArgumentsDontSave";
@@ -361,6 +365,7 @@
             // 
             // chkSettingsGeneralClearUrlOnDownload
             // 
+            this.chkSettingsGeneralClearUrlOnDownload.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.chkSettingsGeneralClearUrlOnDownload.AutoSize = true;
             this.chkSettingsGeneralClearUrlOnDownload.Location = new System.Drawing.Point(52, 185);
             this.chkSettingsGeneralClearUrlOnDownload.Name = "chkSettingsGeneralClearUrlOnDownload";
@@ -372,6 +377,7 @@
             // 
             // chkSettingsGeneralHoverOverUrlToPasteClipboard
             // 
+            this.chkSettingsGeneralHoverOverUrlToPasteClipboard.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.chkSettingsGeneralHoverOverUrlToPasteClipboard.AutoSize = true;
             this.chkSettingsGeneralHoverOverUrlToPasteClipboard.Checked = true;
             this.chkSettingsGeneralHoverOverUrlToPasteClipboard.CheckState = System.Windows.Forms.CheckState.Checked;
@@ -385,6 +391,7 @@
             // 
             // chkSettingsGeneralCheckForUpdatesOnLaunch
             // 
+            this.chkSettingsGeneralCheckForUpdatesOnLaunch.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.chkSettingsGeneralCheckForUpdatesOnLaunch.AutoSize = true;
             this.chkSettingsGeneralCheckForUpdatesOnLaunch.Location = new System.Drawing.Point(33, 139);
             this.chkSettingsGeneralCheckForUpdatesOnLaunch.Name = "chkSettingsGeneralCheckForUpdatesOnLaunch";
@@ -414,7 +421,9 @@
             // 
             // tabDownloads
             // 
-            this.tabDownloads.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.tabDownloads.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tabDownloads.Controls.Add(this.tabDownloadsGeneral);
             this.tabDownloads.Controls.Add(this.tabDownloadsSorting);
             this.tabDownloads.Controls.Add(this.tabDownloadsFixes);
@@ -652,6 +661,7 @@
             // 
             // cbSettingsDownloadsProxyType
             // 
+            this.cbSettingsDownloadsProxyType.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.cbSettingsDownloadsProxyType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbSettingsDownloadsProxyType.FormattingEnabled = true;
             this.cbSettingsDownloadsProxyType.Items.AddRange(new object[] {
@@ -667,6 +677,7 @@
             // 
             // txtSettingsDownloadsProxyPort
             // 
+            this.txtSettingsDownloadsProxyPort.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.txtSettingsDownloadsProxyPort.Location = new System.Drawing.Point(189, 132);
             this.txtSettingsDownloadsProxyPort.MaxLength = 5;
             this.txtSettingsDownloadsProxyPort.Name = "txtSettingsDownloadsProxyPort";
@@ -678,6 +689,7 @@
             // 
             // txtSettingsDownloadsProxyIp
             // 
+            this.txtSettingsDownloadsProxyIp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.txtSettingsDownloadsProxyIp.Location = new System.Drawing.Point(92, 132);
             this.txtSettingsDownloadsProxyIp.MaxLength = 15;
             this.txtSettingsDownloadsProxyIp.Name = "txtSettingsDownloadsProxyIp";
@@ -713,6 +725,7 @@
             // 
             // chkSettingsDownloadsUseProxy
             // 
+            this.chkSettingsDownloadsUseProxy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.chkSettingsDownloadsUseProxy.AutoSize = true;
             this.chkSettingsDownloadsUseProxy.Location = new System.Drawing.Point(6, 110);
             this.chkSettingsDownloadsUseProxy.Name = "chkSettingsDownloadsUseProxy";
@@ -769,6 +782,7 @@
             // 
             // lbSettingsDownloadsIpPort
             // 
+            this.lbSettingsDownloadsIpPort.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lbSettingsDownloadsIpPort.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbSettingsDownloadsIpPort.Location = new System.Drawing.Point(178, 132);
             this.lbSettingsDownloadsIpPort.Name = "lbSettingsDownloadsIpPort";
@@ -1312,10 +1326,10 @@
             // 
             // btnSettingsExtensionsAdd
             // 
-            this.btnSettingsExtensionsAdd.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.btnSettingsExtensionsAdd.Location = new System.Drawing.Point(242, 63);
+            this.btnSettingsExtensionsAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSettingsExtensionsAdd.Location = new System.Drawing.Point(229, 63);
             this.btnSettingsExtensionsAdd.Name = "btnSettingsExtensionsAdd";
-            this.btnSettingsExtensionsAdd.Size = new System.Drawing.Size(50, 23);
+            this.btnSettingsExtensionsAdd.Size = new System.Drawing.Size(63, 23);
             this.btnSettingsExtensionsAdd.TabIndex = 6;
             this.btnSettingsExtensionsAdd.Text = "btnSettingsExtensionsAdd";
             this.btnSettingsExtensionsAdd.UseVisualStyleBackColor = true;
@@ -1329,7 +1343,6 @@
             this.btnSettingsExtensionsRemoveSelected.Size = new System.Drawing.Size(100, 23);
             this.btnSettingsExtensionsRemoveSelected.TabIndex = 9;
             this.btnSettingsExtensionsRemoveSelected.Text = "btnSettingsExtensionsRemoveSelected";
-            this.btnSettingsExtensionsRemoveSelected.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnSettingsExtensionsRemoveSelected.UseVisualStyleBackColor = true;
             this.btnSettingsExtensionsRemoveSelected.Click += new System.EventHandler(this.btnSettingsExtensionsRemoveSelected_Click);
             // 
@@ -1357,8 +1370,8 @@
             // 
             // txtSettingsExtensionsExtensionShort
             // 
-            this.txtSettingsExtensionsExtensionShort.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.txtSettingsExtensionsExtensionShort.Location = new System.Drawing.Point(181, 65);
+            this.txtSettingsExtensionsExtensionShort.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtSettingsExtensionsExtensionShort.Location = new System.Drawing.Point(166, 65);
             this.txtSettingsExtensionsExtensionShort.Name = "txtSettingsExtensionsExtensionShort";
             this.txtSettingsExtensionsExtensionShort.Size = new System.Drawing.Size(57, 20);
             this.txtSettingsExtensionsExtensionShort.TabIndex = 5;
@@ -1375,10 +1388,11 @@
             // 
             // txtSettingsExtensionsExtensionFullName
             // 
-            this.txtSettingsExtensionsExtensionFullName.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.txtSettingsExtensionsExtensionFullName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtSettingsExtensionsExtensionFullName.Location = new System.Drawing.Point(31, 65);
             this.txtSettingsExtensionsExtensionFullName.Name = "txtSettingsExtensionsExtensionFullName";
-            this.txtSettingsExtensionsExtensionFullName.Size = new System.Drawing.Size(144, 20);
+            this.txtSettingsExtensionsExtensionFullName.Size = new System.Drawing.Size(129, 20);
             this.txtSettingsExtensionsExtensionFullName.TabIndex = 4;
             // 
             // lbSettingsExtensionsHeader
@@ -1487,7 +1501,6 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(328, 386);
             this.Controls.Add(this.btnSettingsSave);
             this.Controls.Add(this.btnSettingsCancel);
