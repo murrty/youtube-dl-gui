@@ -99,7 +99,8 @@ namespace youtube_dl_gui {
             Process Updater = new Process();
             Updater.StartInfo.FileName = Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe";
             string ArgumentsBuffer = "";
-            ArgumentsBuffer += "-version " + GitData.UpdateVersion + " -name " + System.AppDomain.CurrentDomain.FriendlyName;
+            ArgumentsBuffer += "-v " + GitData.UpdateVersion + " -n " + System.AppDomain.CurrentDomain.FriendlyName;
+            Updater.StartInfo.Arguments = ArgumentsBuffer;
             Updater.Start();
             Environment.Exit(0);
         }
