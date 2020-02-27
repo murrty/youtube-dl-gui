@@ -2671,6 +2671,26 @@ namespace youtube_dl_gui {
                                 lbSettingsDownloadsFileNameSchema = ReadValue;
                                 continue;
                             }
+                            else if (ReadControl == "tabdownloadsgeneral") {
+                                tabDownloadsGeneral = ReadValue;
+                                continue;
+                            }
+                            else if (ReadControl == "tabdownloadssorting") {
+                                tabDownloadsSorting = ReadValue;
+                                continue;
+                            }
+                            else if (ReadControl == "tabdownloadsfixes") {
+                                tabDownloadsFixes = ReadValue;
+                                continue;
+                            }
+                            else if (ReadControl == "tabdownloadsconnection") {
+                                tabDownloadsConnection = ReadValue;
+                                continue;
+                            }
+                            else if (ReadControl == "tabdownloadsupdating") {
+                                tabDownloadsUpdating = ReadValue;
+                                continue;
+                            }
                             else if (ReadControl == "chksettingsdownloadssaveformatquality") {
                                 chkSettingsDownloadsSaveFormatQuality = ReadValue;
                                 continue;
