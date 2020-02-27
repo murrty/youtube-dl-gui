@@ -265,7 +265,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\youtube-dl-gui-updater.exe" />
+    <EmbeddedResource Include="Resources\youtube-dl-gui-updater.exe" />
     <Content Include="Resources\youtube-dl-gui.ico" />
     <Content Include="Resources\youtube-dl-gui32.png" />
   </ItemGroup>
