@@ -32,6 +32,9 @@ namespace youtube_dl_gui {
         }
         private void frmSettings_Load(object sender, EventArgs e) {
             this.Icon = Properties.Resources.youtube_dl_gui;
+            if (Saved.Default.SettingsFormSize != default(System.Drawing.Size)){
+                this.Size = Saved.Default.SettingsFormSize;
+            }
         }
 
         void LoadLanguage() {
@@ -85,6 +88,12 @@ namespace youtube_dl_gui {
             lbSettingsDownloadsFileNameSchema.Text = lang.lbSettingsDownloadsFileNameSchema;
             tipSettings.SetToolTip(lbSettingsDownloadsFileNameSchema, lang.lbSettingsDownloadsFileNameSchemaHint);
             tipSettings.SetToolTip(txtSettingsDownloadsFileNameSchema, lang.txtSettingsDownloadsFileNameSchemaHint);
+
+            tabDownloadsGeneral.Text = lang.tabDownloadsGeneral;
+            tabDownloadsSorting.Text = lang.tabDownloadsSorting;
+            tabDownloadsFixes.Text = lang.tabDownloadsFixes;
+            tabDownloadsConnection.Text = lang.tabDownloadsConnection;
+            tabDownloadsUpdating.Text = lang.tabDownloadsUpdating;
 
             chkSettingsDownloadsSaveFormatQuality.Text = lang.chkSettingsDownloadsSaveFormatQuality;
             tipSettings.SetToolTip(chkSettingsDownloadsSaveFormatQuality, lang.chkSettingsDownloadsSaveFormatQualityHint);
@@ -203,6 +212,20 @@ namespace youtube_dl_gui {
                 (tabSettingsGeneral.Size.Width - chkSettingsGeneralClearClipboardOnDownload.Size.Width) / 2,
                 chkSettingsGeneralClearClipboardOnDownload.Location.Y
                 );
+
+            rbSettingsGeneralCustomArgumentsDontSave.Location = new System.Drawing.Point(
+                (gbSettingsGeneralCustomArguments.Size.Width - (rbSettingsGeneralCustomArgumentsDontSave.Size.Width + rbSettingsGeneralCustomArgumentsSaveAsArgsText.Size.Width + rbSettingsGeneralCustomArgumentsSaveInSettings.Size.Width)) / 2,
+                rbSettingsGeneralCustomArgumentsDontSave.Location.Y
+                );
+            rbSettingsGeneralCustomArgumentsSaveAsArgsText.Location = new System.Drawing.Point(
+                (rbSettingsGeneralCustomArgumentsDontSave.Location.X + rbSettingsGeneralCustomArgumentsDontSave.Size.Width) + 2,
+                rbSettingsGeneralCustomArgumentsDontSave.Location.Y
+                );
+            rbSettingsGeneralCustomArgumentsSaveInSettings.Location = new System.Drawing.Point(
+                (rbSettingsGeneralCustomArgumentsSaveAsArgsText.Location.X + rbSettingsGeneralCustomArgumentsSaveAsArgsText.Size.Width) + 2,
+                rbSettingsGeneralCustomArgumentsSaveAsArgsText.Location.Y
+                );
+            
 
             llSettingsDownloadsSchemaHelp.Location = new System.Drawing.Point(
                 (lbSettingsDownloadsFileNameSchema.Location.X + lbSettingsDownloadsFileNameSchema.Size.Width) - 4,
@@ -426,6 +449,7 @@ namespace youtube_dl_gui {
             Converts.Default.audioBitrate = Decimal.ToInt32(numConvertAudioBitrate.Value);
 
             Saved.Default.convertCustom = txtSettingsConverterCustomArguments.Text;
+            Saved.Default.SettingsFormSize = this.Size;
 
             saveExtensions();
 
@@ -438,6 +462,7 @@ namespace youtube_dl_gui {
             Converts.Default.Save();
             Settings.Default.Save();
             Errors.Default.Save();
+            Saved.Default.Save();
         }
 
         private void btnSettingsRedownloadYoutubeDl_Click(object sender, EventArgs e) {

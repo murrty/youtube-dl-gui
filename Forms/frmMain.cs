@@ -53,6 +53,10 @@ namespace youtube_dl_gui {
         private void frmMain_Load(object sender, EventArgs e) {
             UpdateChecker.CheckForUpdate();
             this.Icon = Properties.Resources.youtube_dl_gui;
+            if (Saved.Default.MainFormSize != default(System.Drawing.Size)) {
+                this.Size = Saved.Default.MainFormSize;
+            }
+            mDownloadSubtitles.Enabled = false;
 
 
             if (Saved.Default.formTrue0) {
@@ -112,6 +116,7 @@ namespace youtube_dl_gui {
             else {
                 Saved.Default.formTrue0 = false;
             }
+            Saved.Default.MainFormSize = this.Size;
 
             switch (General.Default.SaveCustomArgs) {
                 case 1: // txt
@@ -277,8 +282,6 @@ namespace youtube_dl_gui {
                 (tabMerge.Size.Width - chkMergeDeleteInputFiles.Size.Width) / 2,
                 chkMergeDeleteInputFiles.Location.Y
                 );
-
-            mDownloadSubtitles.Enabled = false;
         }
         #endregion
 
