@@ -35,15 +35,12 @@ namespace youtube_dl_gui {
                 case 2:
                     YoutubeDlPath = ytdlPathLocation;
                     break;
-                case 3:
-                    YoutubeDlPath = "CommandLine";
-                    break;
                 default:
                     YoutubeDlPath = null;
                     break;
             }
             if (YoutubeDlPath != null) {
-                YoutubeDlVersion = YoutubeDlPath;
+                YoutubeDlVersion = GetYtdlVersion(YoutubeDlPath);
             }
         }
         public void RefreshFFmpegLocation() {
@@ -57,9 +54,6 @@ namespace youtube_dl_gui {
                     break;
                 case 2:
                     FFmpegPath = ffmpegPathLocation;
-                    break;
-                case 3:
-                    FFmpegPath = "CommandLine";
                     break;
                 default:
                     FFmpegPath = null;
@@ -101,7 +95,7 @@ namespace youtube_dl_gui {
                 foreach (var foundPath in pathValues.Split(';')) {
                     var ytdlPath = foundPath;
                     if (File.Exists(ytdlPath + "\\youtube-dl.exe"))
-                        return ytdlPath;
+                        return ytdlPath + "\\youtube-dl.exe";
                 }
                 return null;
             }
@@ -160,8 +154,8 @@ namespace youtube_dl_gui {
                 return 1; // Current Directory
             else if (ytdlInSystemPath)
                 return 2; // System PATH
-            else if (ytdlInCmd)
-                return 3; // CMD
+            //else if (ytdlInCmd)
+            //    return 3; // CMD
             else
                 return -1; // None found
         }
@@ -239,8 +233,8 @@ namespace youtube_dl_gui {
                 return 1; // Current Directory
             else if (ffmpegInSystemPath)
                 return 2; // System PATH
-            else if (ffmpegInCmd)
-                return 3; // CMD
+            //else if (ffmpegInCmd)
+            //    return 3; // CMD
             else
                 return -1; // None found
         }
