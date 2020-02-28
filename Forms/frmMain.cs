@@ -45,7 +45,6 @@ namespace youtube_dl_gui {
             else {
                 trayIcon.Icon = Properties.Resources.youtube_dl_gui;
                 tcMain.TabPages.RemoveAt(3);
-                tcMain.TabPages.RemoveAt(2);
                 lbDebug.Visible = false;
             }
         }
@@ -56,7 +55,9 @@ namespace youtube_dl_gui {
             if (Saved.Default.MainFormSize != default(System.Drawing.Size)) {
                 this.Size = Saved.Default.MainFormSize;
             }
-            mDownloadSubtitles.Enabled = false;
+            if (!Program.IsDebug) {
+                mDownloadSubtitles.Enabled = false;
+            }
 
 
             if (Saved.Default.formTrue0) {
