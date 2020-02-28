@@ -80,7 +80,17 @@ namespace youtube_dl_gui {
             else {
                 YoutubeDlFileName = verif.YoutubeDlPath;
             }
-            if (YoutubeDlFileName == null) { rtbConsoleOutput.AppendText("Youtube-DL has not been found"); return; }
+            if (YoutubeDlFileName == null) {
+                rtbConsoleOutput.AppendText("Youtube-DL has not been found\nA rescan for youtube-dl was called");
+                verif.RefreshYoutubeDlLocation();
+                if (verif.YoutubeDlPath != null) {
+                    rtbConsoleOutput.AppendText("try redownloading the video, it seems to be detected now.");
+                }
+                else {
+                    rtbConsoleOutput.AppendText("still couldnt find youtube-dl.");
+                }
+                return;
+            }
             rtbConsoleOutput.AppendText("Youtube-DL has been found and set\n");
             #endregion
 
