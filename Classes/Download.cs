@@ -84,7 +84,7 @@ namespace youtube_dl_gui {
             if (url.StartsWith("https://www."))
                 url = url.Replace("https://www.", "https://");
 
-            if (url.StartsWith("https://redd.it") || url.StartsWith("https://www.reddit.com") || url.StartsWith("https://v.redd.it")) {
+            if (url.StartsWith("https://redd.it") || url.StartsWith("https://reddit.com") || url.StartsWith("https://v.redd.it")) {
                 return true;
             }
             else {

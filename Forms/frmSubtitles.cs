@@ -4,6 +4,14 @@ using System.Windows.Forms;
 namespace youtube_dl_gui {
     public partial class frmSubtitles : Form {
         Language lang = Language.GetInstance();
+        //youtube-dl --sub-lang en --write-auto-sub --sub-format srt --skip-download
+        // language - download auto generated subs - sub format - skip video
+        //--write-sub                      Write subtitle file
+        //--write-auto-sub                 Write automatic subtitle file (YouTube only)
+        //--all-subs                       Download all the available subtitles of the video
+        //--list-subs                      List all available subtitles for the video
+        //--sub-format FORMAT              Subtitle format, accepts formats preference, for example: "srt" or "ass/srt/best"
+        //--sub-lang LANGS                 Languages of the subtitles to download (optional) separated by commas, use IETF language tags like 'en,pt'
         public frmSubtitles() {
             InitializeComponent();
             LoadLanguage();
