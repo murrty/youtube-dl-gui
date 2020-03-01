@@ -52,6 +52,15 @@ namespace youtube_dl_gui {
             }
         }
         private void btnDownloaderCancelExit_Click(object sender, EventArgs e) {
+            if (!DownloadFinished && !DownloadErrored && !DownloadAborted) {
+                DownloadAborted = true;
+                if (!DownloadProcess.HasExited) {
+                    DownloadProcess.Kill();
+                }
+                if (DownloadThread.IsAlive) {
+                    DownloadThread.Abort();
+                }
+            }
             CloseForm();
         }
 
@@ -207,7 +216,7 @@ namespace youtube_dl_gui {
                     else {
                         ArgumentsBuffer += " --ffmpeg-location \"" + verif.FFmpegPath + "\\ffmpeg.exe\" --hls-prefer-ffmpeg";
                     }
-                    rtbConsoleOutput.AppendText("ffmpeg has been found and set");
+                    rtbConsoleOutput.AppendText("ffmpeg has been found and set\n");
                 }
             }
             if (DownloadType != 2) {
@@ -422,6 +431,7 @@ namespace youtube_dl_gui {
                 Downloads.Default.CloseDownloaderAfterFinish = chkDownloaderCloseAfterDownload.Checked;
                 Downloads.Default.Save();
             }
+
 
             if (DownloadErrored) {
                 if (BatchDownload) { this.DialogResult = System.Windows.Forms.DialogResult.No; }
