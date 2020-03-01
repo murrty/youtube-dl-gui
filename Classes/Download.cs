@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Net;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Xml;
 
@@ -79,17 +80,21 @@ namespace youtube_dl_gui {
         #endregion
 
         public static bool isReddit(string url) {
-            if (url.StartsWith("http://"))
-                url = url.Replace("http://", "https://");
-            if (url.StartsWith("https://www."))
-                url = url.Replace("https://www.", "https://");
-
-            if (url.StartsWith("https://redd.it") || url.StartsWith("https://reddit.com") || url.StartsWith("https://v.redd.it")) {
-                return true;
-            }
-            else {
+            if (url.IndexOf("reddit.com") == -1 && url.IndexOf("redd.it") == -1) {
                 return false;
             }
+
+            Regex Matcher = new Regex("http(s)?://(.*?(.)?)reddit.com/r/[a-zA-Z0-9]*?/(comments/)?[a-zA-Z0-9]*");
+            if (Matcher.IsMatch(url)) {
+                return true;
+            }
+
+            Matcher = new Regex("http(s)?://(v.)?redd.it/[a-zA-Z0-9]*");
+            if (Matcher.IsMatch(url)) {
+                return true;
+            }
+
+            return false;
         }
 
         public static string getUrlBase(string url) {
