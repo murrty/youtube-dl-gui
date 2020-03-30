@@ -32,7 +32,7 @@ namespace youtube_dl_gui {
         }
         private void frmSettings_Load(object sender, EventArgs e) {
             this.Icon = Properties.Resources.youtube_dl_gui;
-            if (Saved.Default.SettingsFormSize != default(System.Drawing.Size)){
+            if (Saved.Default.SettingsFormSize != default(System.Drawing.Size)) {
                 this.Size = Saved.Default.SettingsFormSize;
             }
         }
@@ -197,7 +197,7 @@ namespace youtube_dl_gui {
         }
         void CalculatePositions() {
             chkSettingsGeneralCheckForUpdatesOnLaunch.Location = new System.Drawing.Point(
-                (tabSettingsGeneral.Size.Width - chkSettingsGeneralCheckForUpdatesOnLaunch.Size.Width) / 2 ,
+                (tabSettingsGeneral.Size.Width - chkSettingsGeneralCheckForUpdatesOnLaunch.Size.Width) / 2,
                 chkSettingsGeneralCheckForUpdatesOnLaunch.Location.Y
                 );
             chkSettingsGeneralHoverOverUrlToPasteClipboard.Location = new System.Drawing.Point(
@@ -225,7 +225,7 @@ namespace youtube_dl_gui {
                 (rbSettingsGeneralCustomArgumentsSaveAsArgsText.Location.X + rbSettingsGeneralCustomArgumentsSaveAsArgsText.Size.Width) + 2,
                 rbSettingsGeneralCustomArgumentsSaveAsArgsText.Location.Y
                 );
-            
+
 
             llSettingsDownloadsSchemaHelp.Location = new System.Drawing.Point(
                 (lbSettingsDownloadsFileNameSchema.Location.X + lbSettingsDownloadsFileNameSchema.Size.Width) - 4,
@@ -551,7 +551,7 @@ namespace youtube_dl_gui {
             }
         }
 
-        private void txtSettingsDownloadsProxyIp_KeyPress(object sender, KeyPressEventArgs e){
+        private void txtSettingsDownloadsProxyIp_KeyPress(object sender, KeyPressEventArgs e) {
             if (!char.IsDigit(e.KeyChar) && e.KeyChar != (char)46 && e.KeyChar != (char)8) {
                 e.Handled = true;
             }
@@ -605,7 +605,7 @@ namespace youtube_dl_gui {
             }
 
             extensionsName.Add(txtSettingsExtensionsExtensionFullName.Text.Replace("|", "/"));
-            extensionsShort.Add(txtSettingsExtensionsExtensionShort.Text.Replace("|","/"));
+            extensionsShort.Add(txtSettingsExtensionsExtensionShort.Text.Replace("|", "/"));
 
             listExtensions.Items.Add(txtSettingsExtensionsExtensionFullName.Text + " (*." + txtSettingsExtensionsExtensionShort.Text + ")");
             txtSettingsExtensionsExtensionFullName.Clear();

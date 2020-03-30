@@ -65,6 +65,8 @@
             this.chkSettingsDownloadsFixVReddIt = new System.Windows.Forms.CheckBox();
             this.tabDownloadsConnection = new System.Windows.Forms.TabPage();
             this.cbSettingsDownloadsProxyType = new System.Windows.Forms.ComboBox();
+            this.txtSettingsDownloadsProxyPort = new youtube_dl_gui.HintTextBox();
+            this.txtSettingsDownloadsProxyIp = new youtube_dl_gui.HintTextBox();
             this.chkSettingsDownloadsForceIpv6 = new System.Windows.Forms.CheckBox();
             this.chkSettingsDownloadsForceIpv4 = new System.Windows.Forms.CheckBox();
             this.chkSettingsDownloadsUseProxy = new System.Windows.Forms.CheckBox();
@@ -131,8 +133,6 @@
             this.btnSettingsCancel = new System.Windows.Forms.Button();
             this.btnSettingsSave = new System.Windows.Forms.Button();
             this.tipSettings = new System.Windows.Forms.ToolTip(this.components);
-            this.txtSettingsDownloadsProxyPort = new youtube_dl_gui.HintTextBox();
-            this.txtSettingsDownloadsProxyIp = new youtube_dl_gui.HintTextBox();
             this.tcMain.SuspendLayout();
             this.tabSettingsGeneral.SuspendLayout();
             this.gbSettingsGeneralCustomArguments.SuspendLayout();
@@ -675,6 +675,30 @@
             this.cbSettingsDownloadsProxyType.TabIndex = 9;
             this.tipSettings.SetToolTip(this.cbSettingsDownloadsProxyType, "cbSettingsDownloadsProxyTypeHint");
             // 
+            // txtSettingsDownloadsProxyPort
+            // 
+            this.txtSettingsDownloadsProxyPort.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.txtSettingsDownloadsProxyPort.Location = new System.Drawing.Point(189, 132);
+            this.txtSettingsDownloadsProxyPort.MaxLength = 5;
+            this.txtSettingsDownloadsProxyPort.Name = "txtSettingsDownloadsProxyPort";
+            this.txtSettingsDownloadsProxyPort.Size = new System.Drawing.Size(44, 20);
+            this.txtSettingsDownloadsProxyPort.TabIndex = 12;
+            this.txtSettingsDownloadsProxyPort.TextHint = "12345";
+            this.tipSettings.SetToolTip(this.txtSettingsDownloadsProxyPort, "txtSettingsDownloadsProxyPortHint");
+            this.txtSettingsDownloadsProxyPort.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtSettingsDownloadsProxyPort_KeyPress);
+            // 
+            // txtSettingsDownloadsProxyIp
+            // 
+            this.txtSettingsDownloadsProxyIp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.txtSettingsDownloadsProxyIp.Location = new System.Drawing.Point(92, 132);
+            this.txtSettingsDownloadsProxyIp.MaxLength = 15;
+            this.txtSettingsDownloadsProxyIp.Name = "txtSettingsDownloadsProxyIp";
+            this.txtSettingsDownloadsProxyIp.Size = new System.Drawing.Size(89, 20);
+            this.txtSettingsDownloadsProxyIp.TabIndex = 10;
+            this.txtSettingsDownloadsProxyIp.TextHint = "255.255.255.255";
+            this.tipSettings.SetToolTip(this.txtSettingsDownloadsProxyIp, "txtSettingsDownloadsProxyIpHint");
+            this.txtSettingsDownloadsProxyIp.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtSettingsDownloadsProxyIp_KeyPress);
+            // 
             // chkSettingsDownloadsForceIpv6
             // 
             this.chkSettingsDownloadsForceIpv6.AutoSize = true;
@@ -1194,6 +1218,7 @@
             this.lbidkwhatsup.Text = "nothing but us empties";
             this.lbidkwhatsup.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.tipSettings.SetToolTip(this.lbidkwhatsup, "No settings for converting audio has been implemented at this time");
+            this.lbidkwhatsup.Visible = false;
             // 
             // lbConvertAudioThousands
             // 
@@ -1472,30 +1497,6 @@
             this.tipSettings.InitialDelay = 500;
             this.tipSettings.ReshowDelay = 100;
             this.tipSettings.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
-            // 
-            // txtSettingsDownloadsProxyPort
-            // 
-            this.txtSettingsDownloadsProxyPort.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.txtSettingsDownloadsProxyPort.Location = new System.Drawing.Point(189, 132);
-            this.txtSettingsDownloadsProxyPort.MaxLength = 5;
-            this.txtSettingsDownloadsProxyPort.Name = "txtSettingsDownloadsProxyPort";
-            this.txtSettingsDownloadsProxyPort.Size = new System.Drawing.Size(44, 20);
-            this.txtSettingsDownloadsProxyPort.TabIndex = 12;
-            this.txtSettingsDownloadsProxyPort.TextHint = "12345";
-            this.tipSettings.SetToolTip(this.txtSettingsDownloadsProxyPort, "txtSettingsDownloadsProxyPortHint");
-            this.txtSettingsDownloadsProxyPort.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtSettingsDownloadsProxyPort_KeyPress);
-            // 
-            // txtSettingsDownloadsProxyIp
-            // 
-            this.txtSettingsDownloadsProxyIp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.txtSettingsDownloadsProxyIp.Location = new System.Drawing.Point(92, 132);
-            this.txtSettingsDownloadsProxyIp.MaxLength = 15;
-            this.txtSettingsDownloadsProxyIp.Name = "txtSettingsDownloadsProxyIp";
-            this.txtSettingsDownloadsProxyIp.Size = new System.Drawing.Size(89, 20);
-            this.txtSettingsDownloadsProxyIp.TabIndex = 10;
-            this.txtSettingsDownloadsProxyIp.TextHint = "255.255.255.255";
-            this.tipSettings.SetToolTip(this.txtSettingsDownloadsProxyIp, "txtSettingsDownloadsProxyIpHint");
-            this.txtSettingsDownloadsProxyIp.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtSettingsDownloadsProxyIp_KeyPress);
             // 
             // frmSettings
             // 
