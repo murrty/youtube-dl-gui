@@ -66,7 +66,6 @@ namespace youtube_dl_gui {
             public static int StaticDirectory { get { return 0; } }
             public static int CurrentDirectory { get { return 1; } }
             public static int SystemPath { get { return 2; } }
-            public static int CommandLine { get { return 3; } }
         }
 
         #region youtube-dl verification
@@ -112,38 +111,6 @@ namespace youtube_dl_gui {
             }
         }
 
-        private static bool ytdlInCmd {
-            get {
-                // Very hacky, don't use
-                try {
-                    Process p = new Process();
-                    p.StartInfo.FileName = "cmd.exe";
-                    p.StartInfo.RedirectStandardInput = true;
-                    p.StartInfo.RedirectStandardOutput = true;
-                    p.StartInfo.CreateNoWindow = true;
-                    p.StartInfo.UseShellExecute = false;
-                    p.Start();
-                    p.StandardInput.WriteLine("youtube-dl");
-                    p.StandardInput.Flush();
-                    p.StandardInput.Close();
-                    p.WaitForExit();
-
-                    string output = p.StandardOutput.ReadToEnd().TrimEnd('\n').TrimEnd('\r');
-
-                    if (output.EndsWith("youtube-dl")) {
-                        return false;
-                    }
-                    else {
-                        return true;
-                    }
-                }
-                catch (Exception ex) {
-                    ErrorLog.ReportException(ex);
-                    return false;
-                }
-            }
-        }
-
         /// <summary>
         /// Check for youtube-dl using all possible routes
         /// </summary>
@@ -154,8 +121,6 @@ namespace youtube_dl_gui {
                 return 1; // Current Directory
             else if (ytdlInSystemPath)
                 return 2; // System PATH
-            //else if (ytdlInCmd)
-            //    return 3; // CMD
             else
                 return -1; // None found
         }
@@ -193,36 +158,6 @@ namespace youtube_dl_gui {
             }
         }
 
-        private static bool ffmpegInCmd {
-            get {
-                // Very hacky, don't use
-                try {
-                    Process p = new Process();
-                    p.StartInfo.FileName = "cmd.exe";
-                    p.StartInfo.RedirectStandardInput = true;
-                    p.StartInfo.RedirectStandardOutput = true;
-                    p.StartInfo.CreateNoWindow = true;
-                    p.StartInfo.UseShellExecute = false;
-                    p.Start();
-                    p.StandardInput.WriteLine("ffmpeg -version");
-                    p.StandardInput.Flush();
-                    p.StandardInput.Close();
-                    p.WaitForExit();
-
-                    string output = p.StandardOutput.ReadToEnd().TrimEnd('\n').TrimEnd('\r');
-
-                    if (output.EndsWith("ffmpeg -version"))
-                        return false;
-                    else
-                        return true;
-                }
-                catch (Exception ex){
-                    ErrorLog.ReportException(ex);
-                    return false;
-                }
-            }
-        }
-
         /// <summary>
         /// Check for ffmpeg using all possible routes
         /// </summary>
@@ -233,8 +168,6 @@ namespace youtube_dl_gui {
                 return 1; // Current Directory
             else if (ffmpegInSystemPath)
                 return 2; // System PATH
-            //else if (ffmpegInCmd)
-            //    return 3; // CMD
             else
                 return -1; // None found
         }
