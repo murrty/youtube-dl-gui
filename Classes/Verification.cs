@@ -9,14 +9,18 @@ namespace youtube_dl_gui {
 
         private static volatile string YoutubeDlPathString_ = null;
         private static volatile string FFmpegPathString_ = null;
+        private static volatile string AtomicParsleyPathString_ = null;
         private static volatile int YoutubeDlPathInt_ = -1;
         private static volatile int FFmpegPathInt_ = -1;
+        private static volatile int AtomicParsleyInt_ = -1;
         private static volatile string YoutubeDlVersionString = null;
 
         public string YoutubeDlPath { get { return YoutubeDlPathString_; } private set { YoutubeDlPathString_ = value; } }
         public string FFmpegPath { get { return FFmpegPathString_; } private set { FFmpegPathString_ = value; } }
+        public string AtomicParsleyPath { get { return AtomicParsleyPathString_; } private set { AtomicParsleyPathString_ = value; } }
         public int YoutubeDlInt { get { return YoutubeDlPathInt_; } private set { YoutubeDlPathInt_ = value; } }
         public int FFmpegInt { get { return FFmpegPathInt_; } private set { FFmpegPathInt_ = value; } }
+        public int AtomicParsleyInt { get { return AtomicParsleyInt_; } private set { AtomicParsleyInt_ = value; } }
         public string YoutubeDlVersion { get { return YoutubeDlVersionString; } private set { YoutubeDlVersionString = value; } }
 
         public void RefreshLocation() {
@@ -60,6 +64,20 @@ namespace youtube_dl_gui {
                     break;
             }
         }
+        public void RefreshAtomicParsleyLocation() {
+            AtomicParsleyInt = atomicParsleyFullCheck();
+            switch (AtomicParsleyInt) {
+                case 1:
+                    AtomicParsleyPath = Environment.CurrentDirectory + "\\atomicparsley.exe";
+                    break;
+                case 2:
+                    AtomicParsleyPath = atomicParsleyPathLocation;
+                    break;
+                default:
+                    AtomicParsleyPath = null;
+                    break;
+            }
+        }
 
         public static class ApplicationLocation {
             public static int NoneFound { get { return -1; } }
@@ -81,10 +99,7 @@ namespace youtube_dl_gui {
         }
         private static bool ytdlInExecutingDirectory {
             get {
-                if (File.Exists(Environment.CurrentDirectory + "\\youtube-dl.exe"))
-                    return true;
-                else
-                    return false;
+                return File.Exists(Environment.CurrentDirectory + "\\youtube-dl.exe");
             }
         }
 
@@ -103,8 +118,7 @@ namespace youtube_dl_gui {
             get {
                 string ytdlPath = ytdlPathLocation;
                 if (!string.IsNullOrEmpty(ytdlPath)) {
-                    if (File.Exists(ytdlPath + "\\youtube-dl.exe"))
-                        return true;
+                    return File.Exists(ytdlPath + "\\youtube-dl.exe");
                 }
 
                 return false;
@@ -141,8 +155,9 @@ namespace youtube_dl_gui {
                 var pathValues = Environment.GetEnvironmentVariable("PATH");
                 foreach (var foundPath in pathValues.Split(';')) {
                     var ffPath = foundPath; //Path.Combine(foundPath, "ffmpeg.exe");
-                    if (File.Exists(ffPath + "\\ffmpeg.exe") && File.Exists(ffPath + "\\ffprobe.exe"))
+                    if (File.Exists(ffPath + "\\ffmpeg.exe") && File.Exists(ffPath + "\\ffprobe.exe")) {
                         return ffPath;
+                    }
                 }
                 return null;
             }
@@ -170,6 +185,46 @@ namespace youtube_dl_gui {
                 return 2; // System PATH
             else
                 return -1; // None found
+        }
+        #endregion
+
+        #region atomic parsley verification
+        private static bool atomicParsleyInExecutingDirectory {
+            get { return File.Exists(Environment.CurrentDirectory + "\\atomicparsley.exe"); }
+        }
+
+        private static string atomicParsleyPathLocation {
+            get {
+                var pathValues = Environment.GetEnvironmentVariable("PATH");
+                foreach (var foundPath in pathValues.Split(';')) {
+                    var apPath = Path.Combine(foundPath, "atomicparsley.exe");
+                    if (File.Exists(apPath)) {
+                        return apPath;
+                    }
+                }
+                return null;
+            }
+        }
+        private static bool atomicParsleyInSystemPath {
+            get {
+                string apPath = atomicParsleyPathLocation;
+                if (!string.IsNullOrEmpty(apPath)) {
+                    return File.Exists(apPath);
+                }
+                return false;
+            }
+        }
+
+        private static int atomicParsleyFullCheck() {
+            if (atomicParsleyInExecutingDirectory) {
+                return 1;
+            }
+            else if (atomicParsleyInSystemPath) {
+                return 2;
+            }
+            else {
+                return -1;
+            }
         }
         #endregion
     }
