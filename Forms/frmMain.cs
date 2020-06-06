@@ -151,7 +151,12 @@ namespace youtube_dl_gui {
             Saved.Default.formLocationX = this.Location.X;
             Saved.Default.formLocationY = this.Location.Y;
 
-            Saved.Default.Save();
+            if (Program.IsPortable) {
+                CheckSettings.SavePortableSettings();
+            }
+            else {
+                Saved.Default.Save();
+            }
             trayIcon.Visible = false;
         }
 
@@ -308,7 +313,12 @@ namespace youtube_dl_gui {
                     case System.Windows.Forms.DialogResult.Yes:
                         if (language.LanguageFile == null) { Settings.Default.LanguageFile = string.Empty; }
                         else { Settings.Default.LanguageFile = language.LanguageFile; }
-                        Settings.Default.Save();
+                        if (!Program.IsPortable) {
+                            Settings.Default.Save();
+                        }
+                        else {
+                            Ini.WriteString("LanguageFile", language.LanguageFile, "Settings");
+                        }
                         LoadLanguage(true);
                         CalculateLocations();
                         break;
@@ -421,6 +431,7 @@ namespace youtube_dl_gui {
         }
 
         private void cmTrayExit_Click(object sender, EventArgs e) {
+            trayIcon.Visible = false;
             Environment.Exit(0);
         }
         #endregion
@@ -666,7 +677,7 @@ namespace youtube_dl_gui {
                 }
             }
 
-            if (Downloads.Default.SaveFormatQuality) {
+            if (Downloads.Default.SaveFormatQuality && !Program.IsPortable) {
                 Saved.Default.Save();
             }
 
@@ -677,8 +688,9 @@ namespace youtube_dl_gui {
                 Clipboard.Clear();
             }
 
-            Saved.Default.Save();
-            Downloads.Default.Save();
+            if (!Program.IsPortable) {
+                Downloads.Default.Save();
+            }
         }
         #endregion
 
@@ -824,7 +836,9 @@ namespace youtube_dl_gui {
             btnConvertOutput.Enabled = true;
 
             Saved.Default.convertType = convType;
-            Saved.Default.Save();
+            if (!Program.IsPortable) {
+                Saved.Default.Save();
+            }
 
             GC.Collect();
         }

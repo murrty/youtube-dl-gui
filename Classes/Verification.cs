@@ -80,7 +80,7 @@ namespace youtube_dl_gui {
             }
         }
 
-        public static readonly class ApplicationLocation {
+        public static class ApplicationLocation {
             public static int NoneFound { get { return -1; } }
             public static int StaticDirectory { get { return 0; } }
             public static int CurrentDirectory { get { return 1; } }

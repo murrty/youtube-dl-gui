@@ -429,7 +429,9 @@ namespace youtube_dl_gui {
 
             if (Downloads.Default.CloseDownloaderAfterFinish != chkDownloaderCloseAfterDownload.Checked && !BatchDownload) {
                 Downloads.Default.CloseDownloaderAfterFinish = chkDownloaderCloseAfterDownload.Checked;
-                Downloads.Default.Save();
+                if (!Program.IsPortable) {
+                    Downloads.Default.Save();
+                }
             }
 
 

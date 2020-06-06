@@ -1,10 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-using System.IO;
-using System.Net;
-using System.Text.RegularExpressions;
-using System.Windows.Forms;
-using System.Xml;
+﻿using System.Text.RegularExpressions;
 
 namespace youtube_dl_gui {
     class Download {

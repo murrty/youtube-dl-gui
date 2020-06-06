@@ -457,12 +457,17 @@ namespace youtube_dl_gui {
             Errors.Default.logErrors = chkSettingsErrorsSaveErrorsAsErrorLog.Checked;
             Errors.Default.suppressErrors = chkSettingsErrorsSuppressErrors.Checked;
 
-            General.Default.Save();
-            Downloads.Default.Save();
-            Converts.Default.Save();
-            Settings.Default.Save();
-            Errors.Default.Save();
-            Saved.Default.Save();
+            if (!Program.IsPortable) {
+                General.Default.Save();
+                Downloads.Default.Save();
+                Converts.Default.Save();
+                Settings.Default.Save();
+                Errors.Default.Save();
+                Saved.Default.Save();
+            }
+            else {
+                CheckSettings.SavePortableSettings();
+            }
         }
 
         private void btnSettingsRedownloadYoutubeDl_Click(object sender, EventArgs e) {

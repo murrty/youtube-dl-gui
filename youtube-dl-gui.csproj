@@ -78,6 +78,7 @@
     <Compile Include="Classes\Controls.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Classes\CheckSettings.cs" />
     <Compile Include="Classes\UpdateChecker.cs" />
     <Compile Include="Classes\ErrorLog.cs" />
     <Compile Include="Converts.Designer.cs">
@@ -243,6 +244,9 @@
       <LastGenOutput>General.Designer.cs</LastGenOutput>
     </None>
     <None Include="lang\English.ini" />
+    <None Include="lang\German.ini" />
+    <None Include="lang\Italian.ini" />
+    <None Include="lang\Russian.ini" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

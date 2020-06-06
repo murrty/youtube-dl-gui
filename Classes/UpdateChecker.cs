@@ -113,14 +113,13 @@ namespace youtube_dl_gui {
 
                 if (!General.Default.UseStaticYtdl || string.IsNullOrEmpty(General.Default.ytdlPath)) {
                     UpdateYoutubeDl.StartInfo.FileName = Environment.CurrentDirectory + "\\youtube-dl.exe";
-                    UpdateYoutubeDl.Start();
-                    UpdateYoutubeDl.WaitForExit();
                 }
                 else {
                     UpdateYoutubeDl.StartInfo.FileName = General.Default.ytdlPath;
-                    UpdateYoutubeDl.Start();
-                    UpdateYoutubeDl.WaitForExit();
                 }
+
+                UpdateYoutubeDl.Start();
+                UpdateYoutubeDl.WaitForExit();
             }
             else {
                 if (!General.Default.UseStaticYtdl || string.IsNullOrEmpty(General.Default.ytdlPath)) {

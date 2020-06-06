@@ -7,6 +7,7 @@ namespace youtube_dl_gui {
         static Mutex mtx = new Mutex(true, "{youtube-dl-gui-2019-05-13}");
         public static readonly string UserAgent = "User-Agent: youtube-dl-gui/" + Properties.Settings.Default.appVersion;
         public static volatile bool IsDebug = false;
+        public static volatile bool IsPortable = false;
 
         [STAThread]
         static void Main() {
@@ -23,12 +24,22 @@ namespace youtube_dl_gui {
         #endif
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+
+            if (System.IO.File.Exists(Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe")) {
+                System.IO.File.Delete(Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe");
+            }
+
             if (IsDebug) {
                 Application.Run(new frmMain());
             }
             else if (mtx.WaitOne(TimeSpan.Zero, true)) {
                 // boot determines if the application can proceed.
                 bool AllowLaunch = false;
+
+                if (CheckSettings.IsPortable()) {
+                    IsPortable = true;
+                    CheckSettings.LoadPortableSettings();
+                }
 
                 if (Properties.Settings.Default.firstTime) {
                     if (MessageBox.Show("youtube-dl-gui is a visual extension to youtube-dl and is not affiliated with the developers of youtube-dl in any way.\n\nThis program (and I) does not condone piracy or illegally downloading of any video you do not own the rights to or is not in public domain.\n\nAny help regarding any problems when downloading anything illegal (in my jurisdiction) will be ignored. This message will not appear again.\n\nHave you read the above?", "youtube-dl-gui", MessageBoxButtons.YesNo) == DialogResult.Yes) {
@@ -40,6 +51,12 @@ namespace youtube_dl_gui {
                                 fbd.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Downloads";
                                 if (fbd.ShowDialog() == DialogResult.OK) {
                                     Downloads.Default.downloadPath = fbd.SelectedPath;
+                                }
+                                else {
+                                    Downloads.Default.downloadPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Downloads";
+                                }
+
+                                if (!IsPortable) {
                                     Downloads.Default.Save();
                                 }
                             }
@@ -48,7 +65,12 @@ namespace youtube_dl_gui {
                             Downloads.Default.downloadPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Downloads";
                         }
 
-                        Properties.Settings.Default.Save();
+                        if (!IsPortable) {
+                            Properties.Settings.Default.Save();
+                        }
+
+                        CheckSettings.CreatePortableSettings();
+
                         AllowLaunch = true;
                     }
                 }
@@ -57,6 +79,10 @@ namespace youtube_dl_gui {
                 }
 
                 if (AllowLaunch) {
+                    if (IsPortable) {
+                        CheckSettings.LoadPortableSettings();
+                    }
+
                     Application.Run(new frmMain());
                     mtx.ReleaseMutex();
                 }

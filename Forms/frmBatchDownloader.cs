@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Threading;
 using System.Windows.Forms;
 
 namespace youtube_dl_gui {
@@ -73,7 +71,9 @@ namespace youtube_dl_gui {
         private void frmBatchDownloader_FormClosing(object sender, FormClosingEventArgs e) {
             Saved.Default.BatchFormX = this.Location.X;
             Saved.Default.BatchFormY = this.Location.Y;
-            Saved.Default.Save();
+            if (!Program.IsPortable) {
+                Saved.Default.Save();
+            }
             this.Dispose();
         }
 
@@ -271,7 +271,9 @@ namespace youtube_dl_gui {
                 else if (cbBatchDownloadType.SelectedIndex == 2) {
                     Batch.Default.CustomArguments = txtBatchDownloadVideoSpecificArgument.Text;
                 }
-                Batch.Default.Save();
+                if (!Program.IsPortable) {
+                    Batch.Default.Save();
+                }
             }
 
             if (DownloadUrls.Count == 0) { return; }
