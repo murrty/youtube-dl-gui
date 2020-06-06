@@ -26,6 +26,7 @@ namespace youtube_dl_gui {
         public void RefreshLocation() {
             RefreshYoutubeDlLocation();
             RefreshFFmpegLocation();
+            RefreshAtomicParsleyLocation();
         }
         public void RefreshYoutubeDlLocation() {
             YoutubeDlInt = ytdlFullCheck();
@@ -79,7 +80,7 @@ namespace youtube_dl_gui {
             }
         }
 
-        public static class ApplicationLocation {
+        public static readonly class ApplicationLocation {
             public static int NoneFound { get { return -1; } }
             public static int StaticDirectory { get { return 0; } }
             public static int CurrentDirectory { get { return 1; } }
@@ -130,13 +131,13 @@ namespace youtube_dl_gui {
         /// </summary>
         private static int ytdlFullCheck() {
             if (General.Default.UseStaticYtdl && File.Exists(General.Default.ytdlPath))
-                return 0; // Static
+                return ApplicationLocation.StaticDirectory;
             else if (ytdlInExecutingDirectory)
-                return 1; // Current Directory
+                return ApplicationLocation.CurrentDirectory;
             else if (ytdlInSystemPath)
-                return 2; // System PATH
+                return ApplicationLocation.SystemPath;
             else
-                return -1; // None found
+                return ApplicationLocation.NoneFound;
         }
         #endregion
 
@@ -178,13 +179,13 @@ namespace youtube_dl_gui {
         /// </summary>
         private static int ffmpegFullCheck() {
             if (General.Default.UseStaticFFmpeg && File.Exists(General.Default.ffmpegPath))
-                return 0; // Static
+                return ApplicationLocation.StaticDirectory;
             else if (ffmpegInExecutingDirectory)
-                return 1; // Current Directory
+                return ApplicationLocation.CurrentDirectory;
             else if (ffmpegInSystemPath)
-                return 2; // System PATH
+                return ApplicationLocation.SystemPath;
             else
-                return -1; // None found
+                return ApplicationLocation.NoneFound;
         }
         #endregion
 
@@ -217,13 +218,13 @@ namespace youtube_dl_gui {
 
         private static int atomicParsleyFullCheck() {
             if (atomicParsleyInExecutingDirectory) {
-                return 1;
+                return ApplicationLocation.CurrentDirectory;
             }
             else if (atomicParsleyInSystemPath) {
-                return 2;
+                return ApplicationLocation.SystemPath;
             }
             else {
-                return -1;
+                return ApplicationLocation.NoneFound;
             }
         }
         #endregion
