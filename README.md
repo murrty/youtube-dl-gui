@@ -32,6 +32,12 @@ Ex:
 
 https://rg3.github.io/youtube-dl/supportedsites.html
 
+# Contributing
+
+For anyone looking to translate, feel free to open a pull request with the new language file in the `lang` folder. Check if a language you're translating exists already, and you can edit it off of that.
+
+For anyone looking to contribute to the code, make a pull request with the changed code.
+
 # Future plans
 
 stuff and things
