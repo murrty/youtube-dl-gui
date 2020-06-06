@@ -487,10 +487,6 @@ namespace youtube_dl_gui {
                     cbQuality.SelectedIndex = Saved.Default.audioQuality;
                     cbFormat.SelectedIndex = Saved.Default.AudioFormat;
                     chkDownloadSound.Checked = Downloads.Default.AudioDownloadAsVBR;
-                    if (Downloads.Default.AudioDownloadAsVBR) {
-                        cbQuality.Items.Clear();
-                        cbQuality.Items.AddRange(new string[] { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" });
-                    }
                 }
                 else {
                     cbQuality.SelectedIndex = 0;
@@ -525,6 +521,7 @@ namespace youtube_dl_gui {
                 }
                 else {
                     cbQuality.Items.Clear();
+                    cbQuality.Items.Add(lang.GenericInputBest);
                     cbQuality.Items.AddRange(DownloadFormats.AudioQualityNamesArray);
                     cbQuality.SelectedIndex = Saved.Default.audioQuality;
                 }
@@ -559,7 +556,24 @@ namespace youtube_dl_gui {
             StartDownload();
         }
         private void mBatchDownloadFromFile_Click(object sender, EventArgs e) {
+            // Todo: translation
+
             MessageBox.Show("Create a text file and put all the videos you want to download into it.\nOne URL per line.");
+            if (!Downloads.Default.SkipBatchTip) {
+                switch (MessageBox.Show("Create a text file and put all the video links you want to download into it, separated as one per line.\nDo you want to skip seeing this message when batch downloading?")) {
+                    case System.Windows.Forms.DialogResult.Cancel:
+                        return;
+                    case System.Windows.Forms.DialogResult.Yes:
+                        Downloads.Default.SkipBatchTip = true;
+                        if (!Program.IsPortable) {
+                            Downloads.Default.Save();
+                        }
+                        else {
+                            CheckSettings.SavePortableSettings();
+                        }
+                        break;
+                }
+            }
             string TextFile = string.Empty;
             using (OpenFileDialog ofd = new OpenFileDialog()){
                 ofd.Filter = "Text Document (*.txt)|*.txt";
@@ -574,7 +588,6 @@ namespace youtube_dl_gui {
                     return;
                 }
             }
-            MessageBox.Show("Batch download will now begin. It may take some time.\nyoutube-dl-gui will reappear when it's finished.");
 
             Thread BatchThread = new Thread(() => {
                 string videoArguments = string.Empty;

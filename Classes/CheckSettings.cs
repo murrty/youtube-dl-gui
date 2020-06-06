@@ -183,6 +183,9 @@ namespace youtube_dl_gui {
             if (Ini.KeyExists("WriteMetadata", "Downloads")) {
                 Downloads.Default.WriteMetadata = Ini.ReadBool("WriteMetadata", "Downloads");
             }
+            if (Ini.KeyExists("SkipBatchTip", "Downloads")) {
+                Downloads.Default.SkipBatchTip = Ini.ReadBool("SkipBatchTip", "Downloads");
+            }
             #endregion
             #region Errors
             if (Ini.KeyExists("detailedErrors", "Errors")) {
@@ -354,6 +357,7 @@ namespace youtube_dl_gui {
             Ini.WriteBool("AudioDownloadAsVBR", Downloads.Default.AudioDownloadAsVBR, "Downloads");
             Ini.WriteBool("KeepOriginalFiles", Downloads.Default.KeepOriginalFiles, "Downloads");
             Ini.WriteBool("WriteMetadata", Downloads.Default.WriteMetadata, "Downloads");
+            Ini.WriteBool("SkipBatchTip", Downloads.Default.SkipBatchTip, "Downloads");
             #endregion
             #region Errors
             Ini.WriteBool("detailedErrors", Errors.Default.detailedErrors, "Errors");
