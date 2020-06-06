@@ -558,7 +558,6 @@ namespace youtube_dl_gui {
         private void mBatchDownloadFromFile_Click(object sender, EventArgs e) {
             // Todo: translation
 
-            MessageBox.Show("Create a text file and put all the videos you want to download into it.\nOne URL per line.");
             if (!Downloads.Default.SkipBatchTip) {
                 switch (MessageBox.Show("Create a text file and put all the video links you want to download into it, separated as one per line.\nDo you want to skip seeing this message when batch downloading?")) {
                     case System.Windows.Forms.DialogResult.Cancel:
@@ -574,6 +573,7 @@ namespace youtube_dl_gui {
                         break;
                 }
             }
+
             string TextFile = string.Empty;
             using (OpenFileDialog ofd = new OpenFileDialog()){
                 ofd.Filter = "Text Document (*.txt)|*.txt";
