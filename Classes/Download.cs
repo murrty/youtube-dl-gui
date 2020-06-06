@@ -43,8 +43,7 @@ namespace youtube_dl_gui {
                                                     " -f \"bestvideo[height<=240]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",            // 13 240p
                                                     " -f \"bestvideo[height<=144]+bestaudio[ext=m4a]/best[ext=mp4]/best\""             // 14 144p
                                                 };
-        public static string[] videoFormats = { "best",
-                                                "mp4",
+        public static string[] videoFormats = { "mp4",
                                                 "mkv",
                                                 "flv",
                                                 "webm"
@@ -109,16 +108,15 @@ namespace youtube_dl_gui {
     }
 
     class DepreciatedArguments {
-        private static string[] VideoFormatNamesArray = { "best",
-                                                   "4320p60", "4320p",
-                                                   "2160p60", "2160p",
-                                                   "1440p60", "1440p",
-                                                   "1080p60", "1080p",
-                                                   "720p60", "720p",
-                                                   "480p",
-                                                   "360p",
-                                                   "240p",
-                                                   "144p" };
+        private static string[] VideoFormatNamesArray = { "4320p60", "4320p",
+                                                          "2160p60", "2160p",
+                                                          "1440p60", "1440p",
+                                                          "1080p60", "1080p",
+                                                          "720p60", "720p",
+                                                          "480p",
+                                                          "360p",
+                                                          "240p",
+                                                          "144p" };
         private static string[] VideoFormatArgsArray = { "-f \"bestvideo+bestaudio\"",                                                  // 0
                                                      " -f \"bestvideo[height<=4320][fps>=48]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",  // 1
                                                      " -f \"bestvideo[height<=4320][fps<=32]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",  // 2
@@ -167,8 +165,7 @@ namespace youtube_dl_gui {
         public static string[] VideoResolutionsArray = { "best", "4320", "2160", "1440", "1080", "720", "480", "360", "240", "144" };
         public static string[] VideoFPSArray = { "[fps<=32]", "[fps>=48]" };
         public static string[] VideoFormatsArrayOld = { "avi", "flv", "mkv", "mp4", "ogg" };//, "webm" };
-        public static string[] VideoQualityArray = { "best",
-                                                     "4320p60", "4320p", // 1
+        public static string[] VideoQualityArray = { "4320p60", "4320p", // 1
                                                      "2160p60", "2160p", // 3
                                                      "1440p60", "1440p", // 5
                                                      "1080p60", "1080p", // 7
@@ -177,8 +174,7 @@ namespace youtube_dl_gui {
                                                      "360p",
                                                      "240p",
                                                      "144p" };
-        public static string[] VideoFormatsNamesArray = { "best",
-                                                          "avi",
+        public static string[] VideoFormatsNamesArray = { "avi",
                                                           "flv",
                                                           "mkv",
                                                           "mp4",
@@ -233,8 +229,7 @@ namespace youtube_dl_gui {
         #endregion
 
         #region Audio Arrays
-        public static string[] AudioQualityNamesArray = { "best",
-                                                          "320k",
+        public static string[] AudioQualityNamesArray = { "320k",
                                                           "256k",
                                                           "224k",
                                                           "192k",
@@ -245,8 +240,7 @@ namespace youtube_dl_gui {
                                                           "32k",
                                                           "16k"
                                                   };
-        public static string[] AudioFormatsArray = { "best",
-                                                     "aac",
+        public static string[] AudioFormatsArray = { "aac",
                                                      "flac",
                                                      "mp3",
                                                      "m4a",

@@ -21,7 +21,7 @@ namespace youtube_dl_gui {
         #endregion
 
         #region Generics
-        private static volatile string GenericInputBestString = "best";
+        private static volatile string GenericInputBestString = "GenericInputBest";
         #endregion
 
         #region frmBatchDownload

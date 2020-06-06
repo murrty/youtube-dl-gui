@@ -195,6 +195,7 @@ namespace youtube_dl_gui {
             rbAudio.Text = lang.rbAudio;
             rbCustom.Text = lang.rbCustom;
             lbQuality.Text = lang.lbQuality;
+            lbFormat.Text = lang.lbFormat;
             chkDownloadSound.Text = lang.chkDownloadSound;
             lbCustomArguments.Text = lang.lbCustomArguments;
             SetTextBoxHint(txtArgs.Handle, lang.txtArgsHint);
@@ -431,6 +432,12 @@ namespace youtube_dl_gui {
         }
 
         private void cmTrayExit_Click(object sender, EventArgs e) {
+            if (Program.IsPortable) {
+                CheckSettings.SavePortableSettings();
+            }
+            else {
+                Saved.Default.Save();
+            }
             trayIcon.Visible = false;
             Environment.Exit(0);
         }
@@ -442,8 +449,10 @@ namespace youtube_dl_gui {
                 cbQuality.SelectedIndex = -1;
                 cbFormat.SelectedIndex = -1;
                 cbQuality.Items.Clear();
+                cbQuality.Items.Add(lang.GenericInputBest);
                 cbQuality.Items.AddRange(DownloadFormats.VideoQualityArray);
                 cbFormat.Items.Clear();
+                cbFormat.Items.Add(lang.GenericInputBest);
                 cbFormat.Items.AddRange(DownloadFormats.VideoFormatsNamesArray);
                 cbQuality.Enabled = true;
                 cbFormat.Enabled = true;
@@ -465,8 +474,10 @@ namespace youtube_dl_gui {
                 cbQuality.SelectedIndex = -1;
                 cbFormat.SelectedIndex = -1;
                 cbQuality.Items.Clear();
+                cbQuality.Items.Add(lang.GenericInputBest);
                 cbQuality.Items.AddRange(DownloadFormats.AudioQualityNamesArray);
                 cbFormat.Items.Clear();
+                cbFormat.Items.Add(lang.GenericInputBest);
                 cbFormat.Items.AddRange(DownloadFormats.AudioFormatsArray);
                 cbQuality.Enabled = true;
                 cbFormat.Enabled = true;

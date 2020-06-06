@@ -7,7 +7,7 @@ using System.Text;
 namespace youtube_dl_gui {
     class CheckSettings {
         public static bool IsPortable() {
-            return File.Exists(Environment.CurrentDirectory + "\\youtube-dl-gui.ini");
+            return File.Exists(Environment.CurrentDirectory + "\\settings.ini");
         }
         public static void LoadPortableSettings() {
             #region Batch
