@@ -490,25 +490,25 @@ namespace youtube_dl_gui {
             General.Default.UseStaticFFmpeg = chkSettingsGeneralUseStaticFFmpeg.Checked;
         }
         private void btnSettingsGeneralBrowseYoutubeDl_Click(object sender, EventArgs e) {
-            using (SaveFileDialog sfd = new SaveFileDialog()) {
-                sfd.Title = "Select youtube-dl.exe";
-                sfd.Filter = "youtube-dl executable (*.EXE)|*.exe";
-                sfd.FileName = "youtube-dl.exe";
+            using (OpenFileDialog ofd = new OpenFileDialog()) {
+                ofd.Title = lang.ofdTitleYoutubeDl;
+                ofd.Filter = lang.ofdFilterYoutubeDl + " (*.EXE)|*.exe";
+                ofd.FileName = "youtube-dl.exe";
 
-                if (sfd.ShowDialog() == DialogResult.OK) {
-                    txtSettingsGeneralYoutubeDlPath.Text = sfd.FileName;
+                if (ofd.ShowDialog() == DialogResult.OK) {
+                    txtSettingsGeneralYoutubeDlPath.Text = ofd.FileName;
                 }
             }
         }
         private void btnSettingsGeneralBrowseFFmpeg_Click(object sender, EventArgs e) {
-            using (SaveFileDialog sfd = new SaveFileDialog()) {
-                sfd.Title = "Select ffmpeg.exe and ffprobe.exe";
-                sfd.Filter = "ffmpeg & ffprobe executable (*.EXE)|*.exe";
-                sfd.FileName = "ffmpeg.exe";
+            using (OpenFileDialog ofd = new OpenFileDialog()) {
+                ofd.Title = lang.ofdTitleFFmpeg;
+                ofd.Filter = lang.ofdFilterFFmpeg + " (*.EXE)|*.exe";
+                ofd.FileName = "ffmpeg.exe";
 
 
-                if (sfd.ShowDialog() == DialogResult.OK) {
-                    txtSettingsGeneralFFmpegPath.Text = Path.GetDirectoryName(sfd.FileName);
+                if (ofd.ShowDialog() == DialogResult.OK) {
+                    txtSettingsGeneralFFmpegPath.Text = Path.GetDirectoryName(ofd.FileName);
                 }
             }
         }
