@@ -476,6 +476,7 @@ namespace youtube_dl_gui {
 
         private void btnSettingsSave_Click(object sender, EventArgs e) {
             saveSettings();
+            verif.RefreshLocation();
             this.Dispose();
         }
         private void btnSettingsCancel_Click(object sender, EventArgs e) {
