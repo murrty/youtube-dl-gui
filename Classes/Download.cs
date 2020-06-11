@@ -22,7 +22,9 @@ namespace youtube_dl_gui {
         }
 
         #region constants
+
         public static string[] ProxyProtocols = { "https://", "http://", "socks4://", "socks5://" };
+
         /// <summary>
         /// Built-in video qualities
         /// </summary>
@@ -43,14 +45,12 @@ namespace youtube_dl_gui {
                                                     " -f \"bestvideo[height<=240]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",            // 13 240p
                                                     " -f \"bestvideo[height<=144]+bestaudio[ext=m4a]/best[ext=mp4]/best\""             // 14 144p
                                                 };
-        public static string[] videoFormats = { "mp4",
+        public static string[] videoFormats = { "best",
+                                                "mp4",
                                                 "mkv",
                                                 "flv",
                                                 "webm"
                                               };
-        /// <summary>
-        /// Built-in audio qualities
-        /// </summary>
         public static string[] audioQualities = { 
                                                     " -f bestaudio --extract-audio --audio-format best --audio-quality 0", // 0
                                                     " -x --audio-format mp3 --audio-quality 320K", // 1
@@ -92,67 +92,24 @@ namespace youtube_dl_gui {
 
         public static string getUrlBase(string url) {
             if (url.StartsWith("https://")) {
-                if (url.StartsWith("https://www.")) url = url.Substring(12);
-                else url = url.Substring(8);
+                if (url.StartsWith("https://www."))
+                    url = url.Substring(12);
+                else
+                    url = url.Substring(8);
             }
-            else if (url.StartsWith("http://")){
-                if (url.StartsWith("http://www.")) url = url.Substring(11);
-                else url = url.Substring(7);
+            else if (url.StartsWith("http://")) {
+                if (url.StartsWith("http://www."))
+                    url = url.Substring(11);
+                else
+                    url = url.Substring(7);
             }
             else {
-                if (url.StartsWith("www.")) url = url.Substring(4);
+                if (url.StartsWith("www."))
+                    url = url.Substring(4);
             }
 
             return url.Split('/')[0];
         }
-    }
-
-    class DepreciatedArguments {
-        private static string[] VideoFormatNamesArray = { "4320p60", "4320p",
-                                                          "2160p60", "2160p",
-                                                          "1440p60", "1440p",
-                                                          "1080p60", "1080p",
-                                                          "720p60", "720p",
-                                                          "480p",
-                                                          "360p",
-                                                          "240p",
-                                                          "144p" };
-        private static string[] VideoFormatArgsArray = { "-f \"bestvideo+bestaudio\"",                                                  // 0
-                                                     " -f \"bestvideo[height<=4320][fps>=48]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",  // 1
-                                                     " -f \"bestvideo[height<=4320][fps<=32]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",  // 2
-                                                     " -f \"bestvideo[height<=2160][fps>=48]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",  // 3
-                                                     " -f \"bestvideo[height<=2160][fps<=32]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",  // 4
-                                                     " -f \"bestvideo[height<=1440][fps>=48]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",  // 5
-                                                     " -f \"bestvideo[height<=1440][fps<=32]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",  // 6
-                                                     " -f \"bestvideo[height<=1080][fps>=48]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",  // 7
-                                                     " -f \"bestvideo[height<=1080][fps<=32]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",  // 8
-                                                     " -f \"bestvideo[height<=720][fps>=48]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",   // 9
-                                                     " -f \"bestvideo[height<=720][fps<=32]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",   // 10
-                                                     " -f \"bestvideo[height<=480]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",            // 11
-                                                     " -f \"bestvideo[height<=360]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",            // 12
-                                                     " -f \"bestvideo[height<=240]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",            // 13
-                                                     " -f \"bestvideo[height<=144]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",            // 14
-                                                     " -f \"bestvideo[height<={0}]{1}+bestaudio\""
-                                                   };
-
-        #region Old Video Arrays
-        private string[] VideoFormatArgsArrayOld = { " -f \"bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",
-                                                     " -f \"bestvideo[height<=4320][fps>=48]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",
-                                                     " -f \"bestvideo[height<=4320][fps<=32]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",
-                                                     " -f \"bestvideo[height<=2160][fps>=48]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",
-                                                     " -f \"bestvideo[height<=2160][fps<=32]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",
-                                                     " -f \"bestvideo[height<=1440][fps>=48]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",
-                                                     " -f \"bestvideo[height<=1440][fps<=32]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",
-                                                     " -f \"bestvideo[height<=1080][fps<=60]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",
-                                                     " -f \"bestvideo[height<=1080][fps<=32]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",
-                                                     " -f \"bestvideo[height<=720][fps>=48]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",
-                                                     " -f \"bestvideo[height<=720][fps<=32]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",
-                                                     " -f \"bestvideo[height<=480]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",
-                                                     " -f \"bestvideo[height<=360]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",
-                                                     " -f \"bestvideo[height<=240]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",
-                                                     " -f \"bestvideo[height<=144]+bestaudio[ext=m4a]/best[ext=mp4]/best\""
-                                                   };
-        #endregion
     }
 
     class DownloadFormats {
@@ -165,7 +122,8 @@ namespace youtube_dl_gui {
         public static string[] VideoResolutionsArray = { "best", "4320", "2160", "1440", "1080", "720", "480", "360", "240", "144" };
         public static string[] VideoFPSArray = { "[fps<=32]", "[fps>=48]" };
         public static string[] VideoFormatsArrayOld = { "avi", "flv", "mkv", "mp4", "ogg" };//, "webm" };
-        public static string[] VideoQualityArray = { "4320p60", "4320p", // 1
+        public static string[] VideoQualityArray = { "best",
+                                                     "4320p60", "4320p", // 1
                                                      "2160p60", "2160p", // 3
                                                      "1440p60", "1440p", // 5
                                                      "1080p60", "1080p", // 7
@@ -174,7 +132,8 @@ namespace youtube_dl_gui {
                                                      "360p",
                                                      "240p",
                                                      "144p" };
-        public static string[] VideoFormatsNamesArray = { "avi",
+        public static string[] VideoFormatsNamesArray = { "best",
+                                                          "avi",
                                                           "flv",
                                                           "mkv",
                                                           "mp4",
@@ -229,7 +188,8 @@ namespace youtube_dl_gui {
         #endregion
 
         #region Audio Arrays
-        public static string[] AudioQualityNamesArray = { "320k",
+        public static string[] AudioQualityNamesArray = { "best",
+                                                          "320k",
                                                           "256k",
                                                           "224k",
                                                           "192k",
@@ -240,7 +200,8 @@ namespace youtube_dl_gui {
                                                           "32k",
                                                           "16k"
                                                   };
-        public static string[] AudioFormatsArray = { "aac",
+        public static string[] AudioFormatsArray = { "best",
+                                                     "aac",
                                                      "flac",
                                                      "mp3",
                                                      "m4a",
