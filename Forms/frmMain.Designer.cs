@@ -185,12 +185,12 @@
             // lbFormat
             // 
             this.lbFormat.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.lbFormat.AutoSize = true;
-            this.lbFormat.Location = new System.Drawing.Point(24, 150);
+            this.lbFormat.Location = new System.Drawing.Point(8, 150);
             this.lbFormat.Name = "lbFormat";
-            this.lbFormat.Size = new System.Drawing.Size(47, 13);
+            this.lbFormat.Size = new System.Drawing.Size(63, 13);
             this.lbFormat.TabIndex = 10;
             this.lbFormat.Text = "lbFormat";
+            this.lbFormat.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // lbDownloadStatus
             // 
@@ -353,7 +353,7 @@
             this.tabConvert.Location = new System.Drawing.Point(4, 22);
             this.tabConvert.Name = "tabConvert";
             this.tabConvert.Padding = new System.Windows.Forms.Padding(3);
-            this.tabConvert.Size = new System.Drawing.Size(244, 284);
+            this.tabConvert.Size = new System.Drawing.Size(244, 275);
             this.tabConvert.TabIndex = 1;
             this.tabConvert.Text = "tabConvert";
             this.tabConvert.UseVisualStyleBackColor = true;
@@ -520,7 +520,7 @@
             this.tabMerge.Location = new System.Drawing.Point(4, 22);
             this.tabMerge.Name = "tabMerge";
             this.tabMerge.Padding = new System.Windows.Forms.Padding(3);
-            this.tabMerge.Size = new System.Drawing.Size(244, 284);
+            this.tabMerge.Size = new System.Drawing.Size(244, 275);
             this.tabMerge.TabIndex = 2;
             this.tabMerge.Text = "tabMerge";
             this.tabMerge.UseVisualStyleBackColor = true;
@@ -661,7 +661,7 @@
             this.tabDebug.Location = new System.Drawing.Point(4, 22);
             this.tabDebug.Name = "tabDebug";
             this.tabDebug.Padding = new System.Windows.Forms.Padding(3);
-            this.tabDebug.Size = new System.Drawing.Size(244, 284);
+            this.tabDebug.Size = new System.Drawing.Size(244, 275);
             this.tabDebug.TabIndex = 3;
             this.tabDebug.Text = "Debug";
             this.tabDebug.UseVisualStyleBackColor = true;
