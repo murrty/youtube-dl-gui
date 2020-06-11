@@ -238,6 +238,13 @@ namespace youtube_dl_gui {
             cmTrayConvertAutoFFmpeg.Text = lang.cmTrayConvertAutoFFmpeg;
             cmTrayExit.Text = lang.cmTrayExit;
 
+            if (cbFormat.Items.Count > 0) {
+                cbFormat.Items[0] = lang.GenericInputBest;
+            }
+            if (cbQuality.Items.Count > 0) {
+                cbQuality.Items[0] = lang.GenericInputBest;
+            }
+
             CalculateLocations();
         }
         void CalculateLocations() {
@@ -447,13 +454,13 @@ namespace youtube_dl_gui {
         private void rbVideo_CheckedChanged(object sender, EventArgs e) {
             if (rbVideo.Checked) {
                 cbQuality.SelectedIndex = -1;
-                cbFormat.SelectedIndex = -1;
                 cbQuality.Items.Clear();
-                cbQuality.Items.Add(lang.GenericInputBest);
                 cbQuality.Items.AddRange(DownloadFormats.VideoQualityArray);
+                cbQuality.Items[0] = lang.GenericInputBest;
+                cbFormat.SelectedIndex = -1;
                 cbFormat.Items.Clear();
-                cbFormat.Items.Add(lang.GenericInputBest);
                 cbFormat.Items.AddRange(DownloadFormats.VideoFormatsNamesArray);
+                cbFormat.Items[0] = lang.GenericInputBest;
                 cbQuality.Enabled = true;
                 cbFormat.Enabled = true;
                 chkDownloadSound.Enabled = true;
@@ -474,24 +481,12 @@ namespace youtube_dl_gui {
                 cbQuality.SelectedIndex = -1;
                 cbFormat.SelectedIndex = -1;
                 cbQuality.Items.Clear();
-                cbQuality.Items.Add(lang.GenericInputBest);
-                cbQuality.Items.AddRange(DownloadFormats.AudioQualityNamesArray);
                 cbFormat.Items.Clear();
-                cbFormat.Items.Add(lang.GenericInputBest);
-                cbFormat.Items.AddRange(DownloadFormats.AudioFormatsArray);
                 cbQuality.Enabled = true;
                 cbFormat.Enabled = true;
                 chkDownloadSound.Enabled = true;
+                chkDownloadSound.Checked = Downloads.Default.AudioDownloadAsVBR;
                 chkDownloadSound.Text = "Use VBR";
-                if (Downloads.Default.SaveFormatQuality) {
-                    cbQuality.SelectedIndex = Saved.Default.audioQuality;
-                    cbFormat.SelectedIndex = Saved.Default.AudioFormat;
-                    chkDownloadSound.Checked = Downloads.Default.AudioDownloadAsVBR;
-                }
-                else {
-                    cbQuality.SelectedIndex = 0;
-                    cbFormat.SelectedIndex = 0;
-                }
             }
         }
         private void rbCustom_CheckedChanged(object sender, EventArgs e) {
@@ -513,17 +508,32 @@ namespace youtube_dl_gui {
         }
         private void chkDownloadSound_CheckedChanged(object sender, EventArgs e) {
             if (rbAudio.Checked) {
+                cbFormat.Items.AddRange(DownloadFormats.AudioFormatsArray);
+                cbFormat.Items[0] = lang.GenericInputBest;
+
                 if (chkDownloadSound.Checked) {
                     cbQuality.SelectedIndex = -1;
-                    cbQuality.Items.Clear();
                     cbQuality.Items.AddRange(new string[]{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"});
-                    cbQuality.SelectedIndex = Saved.Default.AudioVBRQuality;
+                    if (Downloads.Default.SaveFormatQuality) {
+                        cbQuality.SelectedIndex = Saved.Default.AudioVBRQuality;
+                        cbFormat.SelectedIndex = Saved.Default.AudioFormat;
+                    }
+                    else {
+                        cbQuality.SelectedIndex = 0;
+                        cbFormat.SelectedIndex = 0;
+                    }
                 }
                 else {
-                    cbQuality.Items.Clear();
-                    cbQuality.Items.Add(lang.GenericInputBest);
                     cbQuality.Items.AddRange(DownloadFormats.AudioQualityNamesArray);
-                    cbQuality.SelectedIndex = Saved.Default.audioQuality;
+                    cbQuality.Items[0] = lang.GenericInputBest;
+                    if (Downloads.Default.SaveFormatQuality) {
+                        cbQuality.SelectedIndex = Saved.Default.audioQuality;
+                        cbFormat.SelectedIndex = Saved.Default.AudioFormat;
+                    }
+                    else {
+                        cbQuality.SelectedIndex = 0;
+                        cbFormat.SelectedIndex = 0;
+                    }
                 }
             }
         }
