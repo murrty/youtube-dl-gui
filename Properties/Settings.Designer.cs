@@ -67,7 +67,7 @@ namespace youtube_dl_gui.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("2020-06-05")]
+        [global::System.Configuration.DefaultSettingValueAttribute("2020-06-10")]
         public string debugDate {
             get {
                 return ((string)(this["debugDate"]));

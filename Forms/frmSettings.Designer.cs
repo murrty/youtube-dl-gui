@@ -27,6 +27,7 @@
             this.components = new System.ComponentModel.Container();
             this.tcMain = new System.Windows.Forms.TabControl();
             this.tabSettingsGeneral = new System.Windows.Forms.TabPage();
+            this.chkSettingsGeneralRotateQualityFormat = new System.Windows.Forms.CheckBox();
             this.chkSettingsGeneralClearClipboardOnDownload = new System.Windows.Forms.CheckBox();
             this.gbSettingsGeneralCustomArguments = new System.Windows.Forms.GroupBox();
             this.rbSettingsGeneralCustomArgumentsSaveInSettings = new System.Windows.Forms.RadioButton();
@@ -65,6 +66,8 @@
             this.chkSettingsDownloadsFixVReddIt = new System.Windows.Forms.CheckBox();
             this.tabDownloadsConnection = new System.Windows.Forms.TabPage();
             this.cbSettingsDownloadsProxyType = new System.Windows.Forms.ComboBox();
+            this.txtSettingsDownloadsProxyPort = new youtube_dl_gui.HintTextBox();
+            this.txtSettingsDownloadsProxyIp = new youtube_dl_gui.HintTextBox();
             this.chkSettingsDownloadsForceIpv6 = new System.Windows.Forms.CheckBox();
             this.chkSettingsDownloadsForceIpv4 = new System.Windows.Forms.CheckBox();
             this.chkSettingsDownloadsUseProxy = new System.Windows.Forms.CheckBox();
@@ -131,8 +134,6 @@
             this.btnSettingsCancel = new System.Windows.Forms.Button();
             this.btnSettingsSave = new System.Windows.Forms.Button();
             this.tipSettings = new System.Windows.Forms.ToolTip(this.components);
-            this.txtSettingsDownloadsProxyPort = new youtube_dl_gui.HintTextBox();
-            this.txtSettingsDownloadsProxyIp = new youtube_dl_gui.HintTextBox();
             this.tcMain.SuspendLayout();
             this.tabSettingsGeneral.SuspendLayout();
             this.gbSettingsGeneralCustomArguments.SuspendLayout();
@@ -175,6 +176,7 @@
             // 
             // tabSettingsGeneral
             // 
+            this.tabSettingsGeneral.Controls.Add(this.chkSettingsGeneralRotateQualityFormat);
             this.tabSettingsGeneral.Controls.Add(this.chkSettingsGeneralClearClipboardOnDownload);
             this.tabSettingsGeneral.Controls.Add(this.gbSettingsGeneralCustomArguments);
             this.tabSettingsGeneral.Controls.Add(this.lbSepGeneral);
@@ -197,11 +199,24 @@
             this.tabSettingsGeneral.Text = "tabSettingsGeneral";
             this.tabSettingsGeneral.UseVisualStyleBackColor = true;
             // 
+            // chkSettingsGeneralRotateQualityFormat
+            // 
+            this.chkSettingsGeneralRotateQualityFormat.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.chkSettingsGeneralRotateQualityFormat.AutoSize = true;
+            this.chkSettingsGeneralRotateQualityFormat.Location = new System.Drawing.Point(53, 221);
+            this.chkSettingsGeneralRotateQualityFormat.Name = "chkSettingsGeneralRotateQualityFormat";
+            this.chkSettingsGeneralRotateQualityFormat.Size = new System.Drawing.Size(215, 17);
+            this.chkSettingsGeneralRotateQualityFormat.TabIndex = 15;
+            this.chkSettingsGeneralRotateQualityFormat.Text = "chkSettingsGeneralRotateQualityFormat";
+            this.tipSettings.SetToolTip(this.chkSettingsGeneralRotateQualityFormat, "chkSettingsGeneralRotateQualityFormatHint");
+            this.chkSettingsGeneralRotateQualityFormat.UseVisualStyleBackColor = true;
+            this.chkSettingsGeneralRotateQualityFormat.Visible = false;
+            // 
             // chkSettingsGeneralClearClipboardOnDownload
             // 
             this.chkSettingsGeneralClearClipboardOnDownload.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.chkSettingsGeneralClearClipboardOnDownload.AutoSize = true;
-            this.chkSettingsGeneralClearClipboardOnDownload.Location = new System.Drawing.Point(36, 208);
+            this.chkSettingsGeneralClearClipboardOnDownload.Location = new System.Drawing.Point(36, 198);
             this.chkSettingsGeneralClearClipboardOnDownload.Name = "chkSettingsGeneralClearClipboardOnDownload";
             this.chkSettingsGeneralClearClipboardOnDownload.Size = new System.Drawing.Size(249, 17);
             this.chkSettingsGeneralClearClipboardOnDownload.TabIndex = 13;
@@ -367,7 +382,7 @@
             // 
             this.chkSettingsGeneralClearUrlOnDownload.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.chkSettingsGeneralClearUrlOnDownload.AutoSize = true;
-            this.chkSettingsGeneralClearUrlOnDownload.Location = new System.Drawing.Point(52, 185);
+            this.chkSettingsGeneralClearUrlOnDownload.Location = new System.Drawing.Point(52, 175);
             this.chkSettingsGeneralClearUrlOnDownload.Name = "chkSettingsGeneralClearUrlOnDownload";
             this.chkSettingsGeneralClearUrlOnDownload.Size = new System.Drawing.Size(218, 17);
             this.chkSettingsGeneralClearUrlOnDownload.TabIndex = 12;
@@ -381,7 +396,7 @@
             this.chkSettingsGeneralHoverOverUrlToPasteClipboard.AutoSize = true;
             this.chkSettingsGeneralHoverOverUrlToPasteClipboard.Checked = true;
             this.chkSettingsGeneralHoverOverUrlToPasteClipboard.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkSettingsGeneralHoverOverUrlToPasteClipboard.Location = new System.Drawing.Point(27, 162);
+            this.chkSettingsGeneralHoverOverUrlToPasteClipboard.Location = new System.Drawing.Point(27, 152);
             this.chkSettingsGeneralHoverOverUrlToPasteClipboard.Name = "chkSettingsGeneralHoverOverUrlToPasteClipboard";
             this.chkSettingsGeneralHoverOverUrlToPasteClipboard.Size = new System.Drawing.Size(268, 17);
             this.chkSettingsGeneralHoverOverUrlToPasteClipboard.TabIndex = 11;
@@ -393,7 +408,7 @@
             // 
             this.chkSettingsGeneralCheckForUpdatesOnLaunch.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.chkSettingsGeneralCheckForUpdatesOnLaunch.AutoSize = true;
-            this.chkSettingsGeneralCheckForUpdatesOnLaunch.Location = new System.Drawing.Point(33, 139);
+            this.chkSettingsGeneralCheckForUpdatesOnLaunch.Location = new System.Drawing.Point(33, 129);
             this.chkSettingsGeneralCheckForUpdatesOnLaunch.Name = "chkSettingsGeneralCheckForUpdatesOnLaunch";
             this.chkSettingsGeneralCheckForUpdatesOnLaunch.Size = new System.Drawing.Size(255, 17);
             this.chkSettingsGeneralCheckForUpdatesOnLaunch.TabIndex = 10;
@@ -674,6 +689,30 @@
             this.cbSettingsDownloadsProxyType.Size = new System.Drawing.Size(77, 21);
             this.cbSettingsDownloadsProxyType.TabIndex = 9;
             this.tipSettings.SetToolTip(this.cbSettingsDownloadsProxyType, "cbSettingsDownloadsProxyTypeHint");
+            // 
+            // txtSettingsDownloadsProxyPort
+            // 
+            this.txtSettingsDownloadsProxyPort.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.txtSettingsDownloadsProxyPort.Location = new System.Drawing.Point(189, 132);
+            this.txtSettingsDownloadsProxyPort.MaxLength = 5;
+            this.txtSettingsDownloadsProxyPort.Name = "txtSettingsDownloadsProxyPort";
+            this.txtSettingsDownloadsProxyPort.Size = new System.Drawing.Size(44, 20);
+            this.txtSettingsDownloadsProxyPort.TabIndex = 12;
+            this.txtSettingsDownloadsProxyPort.TextHint = "12345";
+            this.tipSettings.SetToolTip(this.txtSettingsDownloadsProxyPort, "txtSettingsDownloadsProxyPortHint");
+            this.txtSettingsDownloadsProxyPort.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtSettingsDownloadsProxyPort_KeyPress);
+            // 
+            // txtSettingsDownloadsProxyIp
+            // 
+            this.txtSettingsDownloadsProxyIp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.txtSettingsDownloadsProxyIp.Location = new System.Drawing.Point(92, 132);
+            this.txtSettingsDownloadsProxyIp.MaxLength = 15;
+            this.txtSettingsDownloadsProxyIp.Name = "txtSettingsDownloadsProxyIp";
+            this.txtSettingsDownloadsProxyIp.Size = new System.Drawing.Size(89, 20);
+            this.txtSettingsDownloadsProxyIp.TabIndex = 10;
+            this.txtSettingsDownloadsProxyIp.TextHint = "255.255.255.255";
+            this.tipSettings.SetToolTip(this.txtSettingsDownloadsProxyIp, "txtSettingsDownloadsProxyIpHint");
+            this.txtSettingsDownloadsProxyIp.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtSettingsDownloadsProxyIp_KeyPress);
             // 
             // chkSettingsDownloadsForceIpv6
             // 
@@ -1473,30 +1512,6 @@
             this.tipSettings.ReshowDelay = 100;
             this.tipSettings.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
             // 
-            // txtSettingsDownloadsProxyPort
-            // 
-            this.txtSettingsDownloadsProxyPort.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.txtSettingsDownloadsProxyPort.Location = new System.Drawing.Point(189, 132);
-            this.txtSettingsDownloadsProxyPort.MaxLength = 5;
-            this.txtSettingsDownloadsProxyPort.Name = "txtSettingsDownloadsProxyPort";
-            this.txtSettingsDownloadsProxyPort.Size = new System.Drawing.Size(44, 20);
-            this.txtSettingsDownloadsProxyPort.TabIndex = 12;
-            this.txtSettingsDownloadsProxyPort.TextHint = "12345";
-            this.tipSettings.SetToolTip(this.txtSettingsDownloadsProxyPort, "txtSettingsDownloadsProxyPortHint");
-            this.txtSettingsDownloadsProxyPort.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtSettingsDownloadsProxyPort_KeyPress);
-            // 
-            // txtSettingsDownloadsProxyIp
-            // 
-            this.txtSettingsDownloadsProxyIp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.txtSettingsDownloadsProxyIp.Location = new System.Drawing.Point(92, 132);
-            this.txtSettingsDownloadsProxyIp.MaxLength = 15;
-            this.txtSettingsDownloadsProxyIp.Name = "txtSettingsDownloadsProxyIp";
-            this.txtSettingsDownloadsProxyIp.Size = new System.Drawing.Size(89, 20);
-            this.txtSettingsDownloadsProxyIp.TabIndex = 10;
-            this.txtSettingsDownloadsProxyIp.TextHint = "255.255.255.255";
-            this.tipSettings.SetToolTip(this.txtSettingsDownloadsProxyIp, "txtSettingsDownloadsProxyIpHint");
-            this.txtSettingsDownloadsProxyIp.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtSettingsDownloadsProxyIp_KeyPress);
-            // 
             // frmSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1663,5 +1678,6 @@
         private System.Windows.Forms.CheckBox chkSettingsDownloadsKeepOriginalFiles;
         private System.Windows.Forms.CheckBox chkSettingsDownloadsWriteMetadataToFile;
         private System.Windows.Forms.CheckBox chkSettingsGeneralClearClipboardOnDownload;
+        private System.Windows.Forms.CheckBox chkSettingsGeneralRotateQualityFormat;
     }
 }

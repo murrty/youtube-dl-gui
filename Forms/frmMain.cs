@@ -1015,5 +1015,17 @@ namespace youtube_dl_gui {
         }
         #endregion
 
+        private void btnDebugRotateQualityFormat_Click(object sender, EventArgs e) {
+            Point s = lbQuality.Location;
+            Point t = lbFormat.Location;
+            Point u = cbQuality.Location;
+            Point v = cbFormat.Location;
+
+            lbQuality.Location = t;
+            lbFormat.Location = s;
+            cbQuality.Location = v;
+            cbFormat.Location = u;
+        }
+
     }
 }

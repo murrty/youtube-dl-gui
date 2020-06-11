@@ -15,7 +15,7 @@
       <Value Profile="(Default)">1</Value>
     </Setting>
     <Setting Name="debugDate" Type="System.String" Scope="User">
-      <Value Profile="(Default)">2020-06-05</Value>
+      <Value Profile="(Default)">2020-06-10</Value>
     </Setting>
     <Setting Name="SkippedVersion" Type="System.Decimal" Scope="User">
       <Value Profile="(Default)">-1</Value>

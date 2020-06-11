@@ -406,5 +406,17 @@ namespace youtube_dl_gui {
                 this["WriteMetadata"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool SkipBatchTip {
+            get {
+                return ((bool)(this["SkipBatchTip"]));
+            }
+            set {
+                this["SkipBatchTip"] = value;
+            }
+        }
     }
 }
