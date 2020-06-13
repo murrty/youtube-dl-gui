@@ -569,7 +569,7 @@ namespace youtube_dl_gui {
             // Todo: translation
 
             if (!Downloads.Default.SkipBatchTip) {
-                switch (MessageBox.Show("Create a text file and put all the video links you want to download into it, separated as one per line.\nDo you want to skip seeing this message when batch downloading?")) {
+                switch (MessageBox.Show("Create a text file and put all the video links you want to download into it, separated as one per line.\nDo you want to skip seeing this message when batch downloading?", "youtube-dl-gui", MessageBoxButtons.YesNoCancel)) {
                     case System.Windows.Forms.DialogResult.Cancel:
                         return;
                     case System.Windows.Forms.DialogResult.Yes:
