@@ -444,7 +444,7 @@ namespace youtube_dl_gui {
                 string FileName = string.Format("\\error_{0}.log", DateTime.Now);
                 System.IO.File.WriteAllText(FileName, Buffer);
             }
-            catch (Exception ex) { ReportException(ex, true); }
+            catch (Exception ex) { ReportException(ex, false); }
         }
     }
 }
