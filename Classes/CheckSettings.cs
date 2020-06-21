@@ -186,6 +186,9 @@ namespace youtube_dl_gui {
             if (Ini.KeyExists("SkipBatchTip", "Downloads")) {
                 Downloads.Default.SkipBatchTip = Ini.ReadBool("SkipBatchTip", "Downloads");
             }
+            if (Ini.KeyExists("AutomaticallyDownloadFromProtocol", "Downloads")) {
+                Downloads.Default.AutomaticallyDownloadFromProtocol = Ini.ReadBool("AutomaticallyDownloadFromProtocol", "Downloads");
+            }
             #endregion
             #region Errors
             if (Ini.KeyExists("detailedErrors", "Errors")) {
@@ -358,6 +361,7 @@ namespace youtube_dl_gui {
             Ini.WriteBool("KeepOriginalFiles", Downloads.Default.KeepOriginalFiles, "Downloads");
             Ini.WriteBool("WriteMetadata", Downloads.Default.WriteMetadata, "Downloads");
             Ini.WriteBool("SkipBatchTip", Downloads.Default.SkipBatchTip, "Downloads");
+            Ini.WriteBool("AutomaticallyDownloadFromProtocol", Downloads.Default.AutomaticallyDownloadFromProtocol, "Downloads");
             #endregion
             #region Errors
             Ini.WriteBool("detailedErrors", Errors.Default.detailedErrors, "Errors");

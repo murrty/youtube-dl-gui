@@ -204,19 +204,26 @@ namespace youtube_dl_gui {
             #endregion
 
             #region Arguments
+            rtbConsoleOutput.AppendText("Looking for ffmpeg\n");
+            if (verif.FFmpegPath != null) {
+                if (General.Default.UseStaticFFmpeg) {
+                    ArgumentsBuffer += "--ffmpeg-location \"" + General.Default.ffmpegPath + "\\ffmpeg.exe\"";
+                }
+                else {
+                    ArgumentsBuffer += " --ffmpeg-location \"" + verif.FFmpegPath + "\\ffmpeg.exe\" --hls-prefer-ffmpeg";
+                }
+            }
+            else {
+                rtbConsoleOutput.AppendText("ffmpeg path is null, downloading may be affected\n");
+            }
+
             if (Downloads.Default.fixReddit) {
                 if (verif.FFmpegPath == null) {
                     rtbConsoleOutput.AppendText("Fix v.redd.it was requested, but ffmpeg hasn't been found\n");
                 }
                 else if (Download.isReddit(DownloadUrl) && usehlsFF) {
-                    rtbConsoleOutput.AppendText("Fix v.redd.it has been set; looking for ffmpeg\n");
-                    if (General.Default.UseStaticFFmpeg && File.Exists(General.Default.ffmpegPath)) {
-                        ArgumentsBuffer += " --ffmpeg-location \"" + General.Default.ffmpegPath + "\\ffmpeg.exe\" --hls-prefer-ffmpeg";
-                    }
-                    else {
-                        ArgumentsBuffer += " --ffmpeg-location \"" + verif.FFmpegPath + "\\ffmpeg.exe\" --hls-prefer-ffmpeg";
-                    }
-                    rtbConsoleOutput.AppendText("ffmpeg has been found and set\n");
+                    ArgumentsBuffer += " --hls-prefer-ffmpeg";
+                    rtbConsoleOutput.AppendText("hls prefers ffmpeg (fix v.redd.it)\n");
                 }
             }
             if (DownloadType != 2) {

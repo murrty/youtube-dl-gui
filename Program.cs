@@ -4,21 +4,22 @@ using System.Windows.Forms;
 
 namespace youtube_dl_gui {
     static class Program {
+        static volatile frmMain MainForm;
         static Mutex mtx = new Mutex(true, "{youtube-dl-gui-2019-05-13}");
         public static readonly string UserAgent = "User-Agent: youtube-dl-gui/" + Properties.Settings.Default.appVersion;
         public static volatile bool IsDebug = false;
         public static volatile bool IsPortable = false;
 
         [STAThread]
-        static void Main() {
-         #if DEBUG
+        static void Main(string[] args) {
+        #if DEBUG
             IsDebug = true;
-            string Date = DateTime.Now.Year + "-";
-            if (DateTime.Now.Month.ToString().Length == 1) { Date += "0"; }
-            Date += DateTime.Now.Month + "-";
-            if (DateTime.Now.Day.ToString().Length == 1) { Date += "0"; }
-            Date += DateTime.Now.Day;
-            Properties.Settings.Default.debugDate = Date;
+            //string Date = DateTime.Now.Year + "-";
+            //if (DateTime.Now.Month.ToString().Length == 1) { Date += "0"; }
+            //Date += DateTime.Now.Month + "-";
+            //if (DateTime.Now.Day.ToString().Length == 1) { Date += "0"; }
+            //Date += DateTime.Now.Day;
+            //Properties.Settings.Default.debugDate = Date;
         #else 
             IsDebug = false;
         #endif
@@ -30,7 +31,8 @@ namespace youtube_dl_gui {
             }
 
             if (IsDebug) {
-                Application.Run(new frmMain());
+                MainForm = new frmMain();
+                Application.Run(MainForm);
             }
             else if (mtx.WaitOne(TimeSpan.Zero, true)) {
                 // boot determines if the application can proceed.
@@ -83,7 +85,14 @@ namespace youtube_dl_gui {
                         CheckSettings.LoadPortableSettings();
                     }
 
-                    Application.Run(new frmMain());
+                    MainForm = new frmMain();
+
+                    if (args[0].StartsWith("ytdl:")) {
+                        MainForm.txtUrl.Text = args[0].Substring(5);
+                        MainForm.ProtocolInput = true;
+                    }
+
+                    Application.Run(MainForm);
                     mtx.ReleaseMutex();
                 }
                 else {

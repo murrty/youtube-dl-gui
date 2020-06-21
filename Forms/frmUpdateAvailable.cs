@@ -26,7 +26,6 @@ namespace youtube_dl_gui {
             if (BlockSkip) {
                 btnUpdateAvailableSkip.Enabled = false;
             }
-
         }
 
         private void btnUpdateAvailableSkip_Click(object sender, EventArgs e) {

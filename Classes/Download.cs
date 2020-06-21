@@ -77,7 +77,7 @@ namespace youtube_dl_gui {
                 return false;
             }
 
-            Regex Matcher = new Regex("http(s)?://(.*?(.)?)reddit.com/r/[a-zA-Z0-9]*?/(comments/)?[a-zA-Z0-9]*");
+            Regex Matcher = new Regex("http(s)?://(.*?(.)?)reddit.com/r/(.*?)/(comments/)?[a-zA-Z0-9]*");
             if (Matcher.IsMatch(url)) {
                 return true;
             }

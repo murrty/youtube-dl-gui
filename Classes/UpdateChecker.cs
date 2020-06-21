@@ -3,9 +3,11 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Net;
+using System.Net.Http;
 using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Linq;
@@ -197,6 +199,21 @@ namespace youtube_dl_gui {
                         return xml.ToString();
                     }
                 }
+                // maybe having a task in a new thread is wrong, but for the sake of testing nothing is.
+                //ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+                //using (HttpClient ApiClient = new HttpClient()) {
+                //    ApiClient.DefaultRequestHeaders.Add("User-Agent", Program.UserAgent);
+                //    string ReturnedString = null;
+                //    if (AcquireHeaders) {
+                //        var ReturnedContent = await ApiClient.SendAsync(new HttpRequestMessage(HttpMethod.Head, url));
+                //        ReturnedString = ReturnedContent.ToString();
+                //    }
+                //    else {
+                //        ApiClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+                //        ReturnedString = await ApiClient.GetStringAsync(url);
+                //    }
+                //    return Task.FromResult(ReturnedString);
+                //}
             }
             catch (WebException WebE) {
                 ErrorLog.ReportWebException(WebE, url);

@@ -418,5 +418,17 @@ namespace youtube_dl_gui {
                 this["SkipBatchTip"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool AutomaticallyDownloadFromProtocol {
+            get {
+                return ((bool)(this["AutomaticallyDownloadFromProtocol"]));
+            }
+            set {
+                this["AutomaticallyDownloadFromProtocol"] = value;
+            }
+        }
     }
 }

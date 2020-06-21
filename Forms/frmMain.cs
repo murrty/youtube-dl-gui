@@ -12,6 +12,8 @@ namespace youtube_dl_gui {
         Language lang = Language.GetInstance();
         Verification verif = Verification.GetInstance();
 
+        public bool ProtocolInput = false;
+
         [DllImport("user32.dll", CharSet = CharSet.Unicode)]
         private static extern IntPtr SendMessage(IntPtr hWnd, int msg, IntPtr wp, string lp);
         private void SetTextBoxHint(IntPtr TextboxHandle, string Hint) {
@@ -109,6 +111,12 @@ namespace youtube_dl_gui {
                     break;
             }
             CalculateLocations();
+
+            if (ProtocolInput) {
+                if (Downloads.Default.AutomaticallyDownloadFromProtocol) {
+                    // download ...
+                }
+            }
         }
         private void frmMain_FormClosing(object sender, FormClosingEventArgs e) {
             if (this.Location.X == 0 || this.Location.Y == 0) {
