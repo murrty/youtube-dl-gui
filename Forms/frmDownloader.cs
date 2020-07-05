@@ -23,8 +23,8 @@ namespace youtube_dl_gui {
 
         public bool Debugging = false;
 
-        private Process DownloadProcess = new Process(); // The process of youtube-dl which we'll redirect
-        private Thread DownloadThread = new Thread(()=>{});   // The thread of the process for youtube-dl
+        private Process DownloadProcess;        // The process of youtube-dl which we'll redirect
+        private Thread DownloadThread;          // The thread of the process for youtube-dl
         private bool DownloadFinished = false;  // Determines if the download finished successfully
         private bool DownloadAborted = false;   // Determines if the download was aborted
         private bool DownloadErrored = false;   // Determines if the thread resulted in an error
@@ -60,8 +60,12 @@ namespace youtube_dl_gui {
                 if (DownloadThread.IsAlive) {
                     DownloadThread.Abort();
                 }
+                System.Media.SystemSounds.Hand.Play();
+                rtbConsoleOutput.AppendText("Downloading was aborted by the user.");
             }
-            CloseForm();
+            else {
+                CloseForm();
+            }
         }
 
         private void BeginDownload() {
@@ -212,6 +216,7 @@ namespace youtube_dl_gui {
                 else {
                     ArgumentsBuffer += " --ffmpeg-location \"" + verif.FFmpegPath + "\\ffmpeg.exe\" --hls-prefer-ffmpeg";
                 }
+                rtbConsoleOutput.AppendText("ffmpeg was found\n");
             }
             else {
                 rtbConsoleOutput.AppendText("ffmpeg path is null, downloading may be affected\n");
@@ -327,7 +332,7 @@ namespace youtube_dl_gui {
             rtbConsoleOutput.AppendText("Creating download thread\n");
             DownloadThread = new Thread(() => {
                 try {
-                    DownloadProcess = new System.Diagnostics.Process() {
+                    DownloadProcess = new Process() {
                         StartInfo = new System.Diagnostics.ProcessStartInfo(YoutubeDlFileName) {
                             UseShellExecute = false,
                             RedirectStandardOutput = true,
@@ -415,7 +420,7 @@ namespace youtube_dl_gui {
                 }
             }
             else {
-                if (DownloadAborted) { CloseForm(); }
+                if (DownloadAborted) { if (chkDownloaderCloseAfterDownload.Checked) { CloseForm(); } }
                 else if (DownloadErrored) {
                     btnDownloaderCancelExit.Text = lang.btnDownloaderExit;
                     rtbConsoleOutput.AppendText("\nAn error occured");
