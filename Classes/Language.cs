@@ -2148,1084 +2148,836 @@ namespace youtube_dl_gui {
                                 ReadValue = GetControlValue(ReadLine);
                             }
 
-                            #region Language File
-                            if (ReadControl == "currentlanguageshort") {
-                                CurrentLanguageShort = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "currentlanguagehint") {
-                                CurrentLanguageHint = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "currentlanguageversion") {
-                                CurrentLanguageVersion = ReadValue;
-                                continue;
-                            }
-                            #endregion
+                            switch (ReadControl) {
+                                #region Language File
+                                case "currentlanguageshort":
+                                    CurrentLanguageShort = ReadValue;
+                                    continue;
+                                case "currentlanguagehint":
+                                    CurrentLanguageHint = ReadValue;
+                                    continue;
+                                case "currentlanguageversion":
+                                    CurrentLanguageVersion = ReadValue;
+                                    continue;
+                                #endregion
 
-                            #region Generics
-                            else if (ReadControl == "genericinputbest") {
-                                GenericInputBest = ReadValue;
-                                continue;
-                            }
-                            #endregion
+                                #region Generics
+                                case "genericinputbest":
+                                    GenericInputBest = ReadValue;
+                                    continue;
+                                #endregion
 
-                            #region frmBatchDownloader
-                            // frmBatchDownloader
-                            else if (ReadControl == "frmbatchdownload") {
-                                frmBatchDownload = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "lbbatchdownloadlink") {
-                                lbBatchDownloadLink = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "lbbatchdownloadtype") {
-                                lbBatchDownloadType = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "lbbatchdownloadvideospecificargument") {
-                                lbBatchDownloadVideoSpecificArgument = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "btnbatchdownloadadd") {
-                                btnBatchDownloadAdd = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "sbbatchdownloadloadargs") {
-                                sbBatchDownloadLoadArgs = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "mbatchdownloaderloadargsfromsettings") {
-                                mBatchDownloaderLoadArgsFromSettings = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "mbatchdownloaderloadargsfromargstxt") {
-                                mBatchDownloaderLoadArgsFromArgsTxt = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "mbatchdownloaderloadargsfromfile") {
-                                mBatchDownloaderLoadArgsFromFile = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "btnbatchdownloadremoveselected") {
-                                btnBatchDownloadRemoveSelected = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "btnbatchdownloadstart") {
-                                btnBatchDownloadStart = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "btnbatchdownloadstop") {
-                                btnBatchDownloadStop = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "btnbatchdownloadexit") {
-                                btnBatchDownloadExit = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "sbbatchdownloaderidle") {
-                                sbBatchDownloaderIdle = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "sbbatchdownloaderdownloading") {
-                                sbBatchDownloaderDownloading = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "sbbatchdownloaderfinished") {
-                                sbBatchDownloaderFinished = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "sbbatchdownloaderaborted") {
-                                sbBatchDownloaderAborted = ReadValue;
-                                continue;
-                            }
-                            #endregion
+                                #region frmBatchDownloader
+                                // frmBatchDownloader
+                                case "frmbatchdownload":
+                                    frmBatchDownload = ReadValue;
+                                    continue;
+                                case "lbbatchdownloadlink":
+                                    lbBatchDownloadLink = ReadValue;
+                                    continue;
+                                case "lbbatchdownloadtype":
+                                    lbBatchDownloadType = ReadValue;
+                                    continue;
+                                case "lbbatchdownloadvideospecificargument":
+                                    lbBatchDownloadVideoSpecificArgument = ReadValue;
+                                    continue;
+                                case "btnbatchdownloadadd":
+                                    btnBatchDownloadAdd = ReadValue;
+                                    continue;
+                                case "sbbatchdownloadloadargs":
+                                    sbBatchDownloadLoadArgs = ReadValue;
+                                    continue;
+                                case "mbatchdownloaderloadargsfromsettings":
+                                    mBatchDownloaderLoadArgsFromSettings = ReadValue;
+                                    continue;
+                                case "mbatchdownloaderloadargsfromargstxt":
+                                    mBatchDownloaderLoadArgsFromArgsTxt = ReadValue;
+                                    continue;
+                                case "mbatchdownloaderloadargsfromfile":
+                                    mBatchDownloaderLoadArgsFromFile = ReadValue;
+                                    continue;
+                                case "btnbatchdownloadremoveselected":
+                                    btnBatchDownloadRemoveSelected = ReadValue;
+                                    continue;
+                                case "btnbatchdownloadstart":
+                                    btnBatchDownloadStart = ReadValue;
+                                    continue;
+                                case "btnbatchdownloadstop":
+                                    btnBatchDownloadStop = ReadValue;
+                                    continue;
+                                case "btnbatchdownloadexit":
+                                    btnBatchDownloadExit = ReadValue;
+                                    continue;
+                                case "sbbatchdownloaderidle":
+                                    sbBatchDownloaderIdle = ReadValue;
+                                    continue;
+                                case "sbbatchdownloaderdownloading":
+                                    sbBatchDownloaderDownloading = ReadValue;
+                                    continue;
+                                case "sbbatchdownloaderfinished":
+                                    sbBatchDownloaderFinished = ReadValue;
+                                    continue;
+                                case "sbbatchdownloaderaborted":
+                                    sbBatchDownloaderAborted = ReadValue;
+                                    continue;
+                                #endregion
 
-                            #region frmDownloader
-                            else if (ReadControl == "frmdownloader") {
-                                frmDownloader = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "frmdownloadercomplete") {
-                                frmDownloaderComplete = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "frmdownloadererror") {
-                                frmDownloaderError = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "chkdownloadercloseafterdownload") {
-                                chkDownloaderCloseAfterDownload = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "btndownloadercancel") {
-                                btnDownloaderCancel = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "btndownloaderexit") {
-                                btnDownloaderExit = ReadValue;
-                                continue;
-                            }
-                            #endregion
+                                #region frmDownloader
+                                case "frmdownloader":
+                                    frmDownloader = ReadValue;
+                                    continue;
+                                case "frmdownloadercomplete":
+                                    frmDownloaderComplete = ReadValue;
+                                    continue;
+                                case "frmdownloadererror":
+                                    frmDownloaderError = ReadValue;
+                                    continue;
+                                case "chkdownloadercloseafterdownload":
+                                    chkDownloaderCloseAfterDownload = ReadValue;
+                                    continue;
+                                case "btndownloadercancel":
+                                    btnDownloaderCancel = ReadValue;
+                                    continue;
+                                case "btndownloaderexit":
+                                    btnDownloaderExit = ReadValue;
+                                    continue;
+                                #endregion
 
-                            #region frmException
-                            else if (ReadControl == "frmexception") {
-                                frmException = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "lbexceptionheader") {
-                                lbExceptionHeader = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "lbexceptiondescription") {
-                                lbExceptionDescription = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "rtbexceptiondetails") {
-                                rtbExceptionDetails = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "btnexceptiongithub") {
-                                btnExceptionGithub = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "btnexceptionok") {
-                                btnExceptionOk = ReadValue;
-                                continue;
-                            }
-                            #endregion
+                                #region frmException
+                                case "frmexception":
+                                    frmException = ReadValue;
+                                    continue;
+                                case "lbexceptionheader":
+                                    lbExceptionHeader = ReadValue;
+                                    continue;
+                                case "lbexceptiondescription":
+                                    lbExceptionDescription = ReadValue;
+                                    continue;
+                                case "rtbexceptiondetails":
+                                    rtbExceptionDetails = ReadValue;
+                                    continue;
+                                case "btnexceptiongithub":
+                                    btnExceptionGithub = ReadValue;
+                                    continue;
+                                case "btnexceptionok":
+                                    btnExceptionOk = ReadValue;
+                                    continue;
+                                #endregion
 
-                            #region frmLanguage
-                            else if (ReadControl == "frmlanguage") {
-                                frmLanguage = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "btnlanguagerefresh") {
-                                btnLanguageRefresh = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "btnlanguagecancel") {
-                                btnLanguageCancel = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "btnlanguagesave") {
-                                btnLanguageSave = ReadValue;
-                                continue;
-                            }
-                            #endregion
+                                #region frmLanguage
+                                case "frmlanguage":
+                                    frmLanguage = ReadValue;
+                                    continue;
+                                case "btnlanguagerefresh":
+                                    btnLanguageRefresh = ReadValue;
+                                    continue;
+                                case "btnlanguagecancel":
+                                    btnLanguageCancel = ReadValue;
+                                    continue;
+                                case "btnlanguagesave":
+                                    btnLanguageSave = ReadValue;
+                                    continue;
+                                #endregion
 
-                            #region frmMain
-                            // frmMain / menu
-                            else if (ReadControl == "msettings") {
-                                mSettings = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "mtools") {
-                                mTools = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "mbatchdownload") {
-                                mBatchDownload = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "mdownloadsubtitles") {
-                                mDownloadSubtitles = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "mmisctools") {
-                                mMiscTools = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "mhelp") {
-                                mHelp = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "mlanguage") {
-                                mLanguage = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "msupportedsites") {
-                                mSupportedSites = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "mabout") {
-                                mAbout = ReadValue;
-                                continue;
-                            }
-                            // frmMain / tcMain
-                            else if (ReadControl == "tabdownload") {
-                                tabDownload = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "tabconvert") {
-                                tabConvert = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "tabmerge") {
-                                tabMerge = ReadValue;
-                                continue;
-                            }
-                            // frmMain / tcMain / Download
-                            else if (ReadControl == "lburl") {
-                                lbURL = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "txturlhint") {
-                                txtUrlHint = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "gbdownloadtype") {
-                                gbDownloadType = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "rbvideo") {
-                                rbVideo = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "rbaudio") {
-                                rbAudio = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "rbcustom") {
-                                rbCustom = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "lbquality") {
-                                lbQuality = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "lbformat") {
-                                lbFormat = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "chkdownloadsound") {
-                                chkDownloadSound = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "lbcustomarguments") {
-                                lbCustomArguments = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "txtargshint") {
-                                txtArgsHint = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "sbdownload") {
-                                sbDownload = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "mbatchdownloadfromfile") {
-                                mBatchDownloadFromFile = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "lbdownloadstatusstarted") {
-                                lbDownloadStatusStarted = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "lbdownloadstatuserror") {
-                                lbDownloadStatusError = ReadValue;
-                                continue;
-                            }
-                            // frmMain / tcMain / Convert
-                            else if (ReadControl == "lbconvertinput") {
-                                lbConvertInput = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "lbconvertoutput") {
-                                lbConvertOutput = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "rbconvertvideo") {
-                                rbConvertVideo = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "rbconvertaudio") {
-                                rbConvertAudio = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "rbconvertcustom") {
-                                rbConvertCustom = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "rbconvertauto") {
-                                rbConvertAuto = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "rbconvertautoffmpeg") {
-                                rbConvertAutoFFmpeg = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "btnconvert") {
-                                btnConvert = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "lbconvertstarted") {
-                                lbConvertStarted = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "lbconvertfailed") {
-                                lbConvertFailed = ReadValue;
-                                continue;
-                            }
-                            // frmMain / tcMain / Merge
-                            else if (ReadControl == "lbmergeinput1") {
-                                lbMergeInput1 = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "lbmergeinput2") {
-                                lbMergeInput2 = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "lbmergeoutput") {
-                                lbMergeOutput = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "chkmergeaudiotracks") {
-                                chkMergeAudioTracks = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "chkmergedeleteinputfiles") {
-                                chkMergeDeleteInputFiles = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "btnmerge") {
-                                btnMerge = ReadValue;
-                                continue;
-                            }
-                            // frmMain / tcMain / cmTray
-                            else if (ReadControl == "cmTrayShowForm") {
-                                cmTrayShowForm = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "cmtraydownloader") {
-                                cmTrayDownloader = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "cmtraydownloadclipboard") {
-                                cmTrayDownloadClipboard = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "cmtraydownloadbestvideo") {
-                                cmTrayDownloadBestVideo = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "cmtraydownloadbestaudio") {
-                                cmTrayDownloadBestAudio = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "cmtraydownloadcustom") {
-                                cmTrayDownloadCustom = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "cmtraydownloadcustomtxtbox") {
-                                cmTrayDownloadCustomTxtBox = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "cmtraydownloadcustomtxt") {
-                                cmTrayDownloadCustomTxt = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "cmtraydownloadcustomsettings") {
-                                cmTrayDownloadCustomSettings = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "cmtrayconverter") {
-                                cmTrayConverter = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "cmtrayconvertto") {
-                                cmTrayConvertTo = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "cmtrayconvertvideo") {
-                                cmTrayConvertVideo = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "cmtrayconvertaudio") {
-                                cmTrayConvertAudio = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "cmtrayconvertcustom") {
-                                cmTrayConvertCustom = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "cmtrayconvertautomatic") {
-                                cmTrayConvertAutomatic = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "cmtrayconvertautoffmpeg") {
-                                cmTrayConvertAutoFFmpeg = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "cmtrayexit") {
-                                cmTrayExit = ReadValue;
-                                continue;
-                            }
-                            #endregion
+                                #region frmMain
+                                // frmMain / menu
+                                case "msettings":
+                                    mSettings = ReadValue;
+                                    continue;
+                                case "mtools":
+                                    mTools = ReadValue;
+                                    continue;
+                                case "mbatchdownload":
+                                    mBatchDownload = ReadValue;
+                                    continue;
+                                case "mdownloadsubtitles":
+                                    mDownloadSubtitles = ReadValue;
+                                    continue;
+                                case "mmisctools":
+                                    mMiscTools = ReadValue;
+                                    continue;
+                                case "mhelp":
+                                    mHelp = ReadValue;
+                                    continue;
+                                case "mlanguage":
+                                    mLanguage = ReadValue;
+                                    continue;
+                                case "msupportedsites":
+                                    mSupportedSites = ReadValue;
+                                    continue;
+                                case "mabout":
+                                    mAbout = ReadValue;
+                                    continue;
 
-                            #region frmSettings
-                            // frmSettings
-                            else if (ReadControl == "btnsettingsredownloadyoutubedl") {
-                                btnSettingsRedownloadYoutubeDl = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "btnsettingscancel") {
-                                btnSettingsCancel = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "btnsettingssave") {
-                                btnSettingsSave = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "btnsettingsredownloadyoutubedlhint") {
-                                btnSettingsRedownloadYoutubeDlHint = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "btnsettingscancelhint") {
-                                btnSettingsCancelHint = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "btnsettingssavehint") {
-                                btnSettingsSaveHint = ReadValue;
-                                continue;
-                            }
-                            // frmSettings / tcMain
-                            else if (ReadControl == "tabsettingsgeneral") {
-                                tabSettingsGeneral = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "tabsettingsdownloads") {
-                                tabSettingsDownloads = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "tabsettingsconverter") {
-                                tabSettingsConverter = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "tabsettingsextensions") {
-                                tabSettingsExtensions = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "tabsettingserrors") {
-                                tabSettingsErrors = ReadValue;
-                                continue;
-                            }
-                            //frmSettings / tcMain / tabGeneral
-                            else if (ReadControl == "lbsettingsgeneralyoutubedlpath") {
-                                lbSettingsGeneralYoutubeDlPath = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "chksettingsgeneralusestaticyoutubedl") {
-                                chkSettingsGeneralUseStaticYoutubeDl = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "ofdTitleYoutubeDl") {
-                                ofdTitleYoutubeDl = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "ofdFilterYoutubeDl") {
-                                ofdFilterYoutubeDl = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "lbsettingsgeneralffmpegdirectory") {
-                                lbSettingsGeneralFFmpegDirectory = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "chksettingsgeneralusestaticffmpeg") {
-                                chkSettingsGeneralUseStaticFFmpeg = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "ofdTitleFFmpeg") {
-                                ofdTitleFFmpeg = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "ofdFilterFFmpeg") {
-                                ofdFilterFFmpeg = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "chksettingsgeneralcheckforupdatesonlaunch") {
-                                chkSettingsGeneralCheckForUpdatesOnLaunch = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "chksettingsgeneralhoveroverurltopasteclipboard") {
-                                chkSettingsGeneralHoverOverUrlToPasteClipboard = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "chksettingsgeneralclearurlondownload") {
-                                chkSettingsGeneralClearUrlOnDownload = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "chksettingsgeneralclearclipboardondownload") {
-                                chkSettingsGeneralClearClipboardOnDownload = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "gbsettingsgeneralcustomarguments") {
-                                gbSettingsGeneralCustomArguments = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "rbsettingsgeneralcustomargumentsdontsave") {
-                                rbSettingsGeneralCustomArgumentsDontSave = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "rbsettingsgeneralcustomargumentssaveasargstext") {
-                                rbSettingsGeneralCustomArgumentsSaveAsArgsText = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "rbsettingsgeneralcustomargumentssaveinsettings") {
-                                rbSettingsGeneralCustomArgumentsSaveInSettings = ReadValue;
-                                continue;
-                            }
+                                // frmMain / tcMain
+                                case "tabdownload":
+                                    tabDownload = ReadValue;
+                                    continue;
+                                case "tabconvert":
+                                    tabConvert = ReadValue;
+                                    continue;
+                                case "tabmerge":
+                                    tabMerge = ReadValue;
+                                    continue;
 
-                            else if (ReadControl == "lbsettingsgeneralyoutubedlpathhint") {
-                                lbSettingsGeneralYoutubeDlPathHint = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "chksettingsgeneralusestaticyoutubedlhint") {
-                                chkSettingsGeneralUseStaticYoutubeDlHint = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "txtsettingsgeneralyoutubedlpathhint") {
-                                txtSettingsGeneralYoutubeDlPathHint = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "btnsettingsgeneralbrowseyoutubedlhint") {
-                                btnSettingsGeneralBrowseYoutubeDlHint = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "lbsettingsgeneralffmpegdirectoryhint") {
-                                lbSettingsGeneralFFmpegDirectoryHint = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "chksettingsgeneralusestaticffmpeghint") {
-                                chkSettingsGeneralUseStaticFFmpegHint = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "txtsettingsgeneralffmpegpathhint") {
-                                txtSettingsGeneralFFmpegPathHint = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "btnsettingsgeneralbrowseffmpeghint") {
-                                btnSettingsGeneralBrowseFFmpegHint = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "chksettingsgeneralcheckforupdatesonlaunchhint") {
-                                chkSettingsGeneralCheckForUpdatesOnLaunchHint = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "chksettingsgeneralhoveroverurltopasteclipboardhint") {
-                                chkSettingsGeneralHoverOverUrlToPasteClipboardHint = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "chksettingsgeneralclearurlondownloadhint") {
-                                chkSettingsGeneralClearUrlOnDownloadHint = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "chksettingsgeneralclearclipboardondownloadhint") {
-                                chkSettingsGeneralClearClipboardOnDownloadHint = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "gbsettingsgeneralcustomargumentshint") {
-                                gbSettingsGeneralCustomArgumentsHint = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "rbsettingsgeneralcustomargumentsdontsavehint") {
-                                rbSettingsGeneralCustomArgumentsDontSaveHint = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "rbsettingsgeneralcustomargumentssaveasargstexthint") {
-                                rbSettingsGeneralCustomArgumentsSaveAsArgsTextHint = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "rbsettingsgeneralcustomargumentssaveinsettingshint") {
-                                rbSettingsGeneralCustomArgumentsSaveInSettingsHint = ReadValue;
-                                continue;
-                            }
-                            // frmSettings / tcMain / tabDownloads
-                            else if (ReadControl == "lbsettingsdownloadsdownloadpath") {
-                                lbSettingsDownloadsDownloadPath = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "lbsettingsdownloadsfilenameschema") {
-                                lbSettingsDownloadsFileNameSchema = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "tabdownloadsgeneral") {
-                                tabDownloadsGeneral = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "tabdownloadssorting") {
-                                tabDownloadsSorting = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "tabdownloadsfixes") {
-                                tabDownloadsFixes = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "tabdownloadsconnection") {
-                                tabDownloadsConnection = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "tabdownloadsupdating") {
-                                tabDownloadsUpdating = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "chksettingsdownloadssaveformatquality") {
-                                chkSettingsDownloadsSaveFormatQuality = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "chksettingsdownloadsdownloadsubtitles") {
-                                chkSettingsDownloadsDownloadSubtitles = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "chksettingsdownloadsembedsubtitles") {
-                                chkSettingsDownloadsEmbedSubtitles = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "chksettingsdownloadssavevideoinfo") {
-                                chkSettingsDownloadsSaveVideoInfo = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "chksettingsdownloadswritemetadatatofile") {
-                                chkSettingsDownloadsWriteMetadataToFile = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "chksettingsdownloadssavedescription") {
-                                chkSettingsDownloadsSaveDescriptionString = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "chksettingsdownloadskeeporiginalfiles") {
-                                chkSettingsDownloadsKeepOriginalFiles = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "chksettingsdownloadssaveannotations") {
-                                chkSettingsDownloadsSaveAnnotationsString = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "chksettingsdownloadssavethumbnails") {
-                                chkSettingsDownloadsSaveThumbnailsString = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "chksettingsdownloadsembedthumbnails") {
-                                chkSettingsDownloadsEmbedThumbnails = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "chksettingsdownloadsautomaticallydeleteyoutubedlwhenclosing") {
-                                chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "chksettingsdownloadsseparatedownloadstodifferentfolders") {
-                                chkSettingsDownloadsSeparateDownloadsToDifferentFolders = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "chksettingsdownloadsseparateintowebsiteurl") {
-                                chkSettingsDownloadsSeparateIntoWebsiteUrl = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "chksettingsdownloadsfixvreddit") {
-                                chkSettingsDownloadsFixVReddIt = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "chksettingsdownloadslimitdownload") {
-                                chkSettingsDownloadsLimitDownloadString = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "lbsettingsdownloadsretryattempts") {
-                                lbSettingsDownloadsRetryAttemptsString = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "chksettingsdownloadsforceipv4") {
-                                chkSettingsDownloadsForceIpv4String = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "chksettingsdownloadsforceipv6") {
-                                chkSettingsDownloadsForceIpv6String = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "chksettingsdownloadsuseproxy") {
-                                chkSettingsDownloadsUseProxyString = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "chksettingsdownloadsuseyoutubedlsupdater") {
-                                chksettingsDownloadsUseYoutubeDlsUpdater = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "lbsettingsdownloadsdownloadpathhint") {
-                                lbSettingsDownloadsDownloadPathHint = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "txtsettingsdownloadssavepathhint") {
-                                txtSettingsDownloadsSavePathHint = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "btnsettingsdownloadsbrowsesavepathhint") {
-                                btnSettingsDownloadsBrowseSavePathHint = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "llsettingsdownloadsschemahelphint") {
-                                llSettingsDownloadsSchemaHelpHint = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "lbsettingsdownloadsfilenameschemahint") {
-                                lbSettingsDownloadsFileNameSchemaHint = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "txtsettingsdownloadsfilenameschemahint") {
-                                txtSettingsDownloadsFileNameSchemaHint = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "chksettingsdownloadssaveformatqualityhint") {
-                                chkSettingsDownloadsSaveFormatQualityHint = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "chksettingsdownloadsdownloadsubtitleshint") {
-                                chkSettingsDownloadsDownloadSubtitlesHint = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "chksettingsdownloadsembedsubtitleshint") {
-                                chkSettingsDownloadsEmbedSubtitlesHint = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "chksettingsdownloadssavevideoinfohint") {
-                                chkSettingsDownloadsSaveVideoInfoHint = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "chksettingsdownloadswritemetadatatofilehint") {
-                                chkSettingsDownloadsWriteMetadataToFileHint = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "chksettingsdownloadssavedescriptionhint") {
-                                chkSettingsDownloadsSaveDescriptionHint = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "chksettingsdownloadskeeporiginalfileshint") {
-                                chkSettingsDownloadsKeepOriginalFilesHint = ReadValue;
-                            }
-                            else if (ReadControl == "chksettingsdownloadssaveannotationshint") {
-                                chkSettingsDownloadsSaveAnnotationsHint = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "chksettingsdownloadssavethumbnailshint") {
-                                chkSettingsDownloadsSaveThumbnailsHint = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "chksettingsdownloadsembedthumbnailshint") {
-                                chkSettingsDownloadsEmbedThumbnailsHint = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "chksettingsdownloadsautomaticallydeleteyoutubedlwhenclosinghint") {
-                                chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosingHint = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "chksettingsdownloadsseparatedownloadstodifferentfoldershint") {
-                                chkSettingsDownloadsSeparateDownloadsToDifferentFoldersHint = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "chksettingsdownloadsseparateintowebsiteurlhint") {
-                                chkSettingsDownloadsSeparateIntoWebsiteUrlHint = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "chksettingsdownloadsfixvreddithint") {
-                                chkSettingsDownloadsFixVReddItHint = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "chksettingsdownloadslimitdownloadhint") {
-                                chkSettingsDownloadsLimitDownloadHint = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "numsettingsdownloadslimitdownloadhint") {
-                                numSettingsDownloadsLimitDownloadHint = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "cbsettingsdownloadslimitdownloadhint") {
-                                cbSettingsDownloadsLimitDownloadHint = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "lbsettingsdownloadsretryattemptshint") {
-                                lbSettingsDownloadsRetryAttemptsHint = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "numsettingsdownloadsretryattemptshint") {
-                                numSettingsDownloadsRetryAttemptsHint = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "chksettingsdownloadsforceipv4hint") {
-                                chkSettingsDownloadsForceIpv4Hint = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "chksettingsdownloadsforceipv6hint") {
-                                chkSettingsDownloadsForceIpv6Hint = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "chksettingsdownloadsuseproxyhint") {
-                                chkSettingsDownloadsUseProxyHint = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "cbsettingsdownloadsproxytypehint") {
-                                cbSettingsDownloadsProxyTypeHint = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "txtsettingsdownloadsproxyiphint") {
-                                txtSettingsDownloadsProxyIpHint = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "txtsettingsdownloadsproxyporthint") {
-                                txtSettingsDownloadsProxyPortHint = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "chksettingsdownloadsuseyoutubedlsupdaterhint") {
-                                chksettingsDownloadsUseYoutubeDlsUpdaterHint = ReadValue;
-                                continue;
-                            }
+                                // frmMain / tcMain / Download
+                                case "lburl":
+                                    lbURL = ReadValue;
+                                    continue;
+                                case "txturlhint":
+                                    txtUrlHint = ReadValue;
+                                    continue;
+                                case "gbdownloadtype":
+                                    gbDownloadType = ReadValue;
+                                    continue;
+                                case "rbvideo":
+                                    rbVideo = ReadValue;
+                                    continue;
+                                case "rbaudio":
+                                    rbAudio = ReadValue;
+                                    continue;
+                                case "rbcustom":
+                                    rbCustom = ReadValue;
+                                    continue;
+                                case "lbquality":
+                                    lbQuality = ReadValue;
+                                    continue;
+                                case "lbformat":
+                                    lbFormat = ReadValue;
+                                    continue;
+                                case "chkdownloadsound":
+                                    chkDownloadSound = ReadValue;
+                                    continue;
+                                case "lbcustomarguments":
+                                    lbCustomArguments = ReadValue;
+                                    continue;
+                                case "txtargshint":
+                                    txtArgsHint = ReadValue;
+                                    continue;
+                                case "sbdownload":
+                                    sbDownload = ReadValue;
+                                    continue;
+                                case "mbatchdownloadfromfile":
+                                    mBatchDownloadFromFile = ReadValue;
+                                    continue;
+                                case "lbdownloadstatusstarted":
+                                    lbDownloadStatusStarted = ReadValue;
+                                    continue;
+                                case "lbdownloadstatuserror":
+                                    lbDownloadStatusError = ReadValue;
+                                    continue;
 
-                            // frmSettings / tcMain / tabConverter
-                            else if (ReadControl == "chksettingsconverterclearoutputafterconverting") {
-                                chkSettingsConverterClearOutputAfterConverting = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "chksettingsconverterdetectoutputfiletype") {
-                                chkSettingsConverterDetectOutputFileType = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "chksettingsconverterclearinputafterconverting") {
-                                chkSettingsConverterClearInputAfterConverting = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "chksettingsconverterhideffmpegcompileinfo") {
-                                chkSettingsConverterHideFFmpegCompileInfo = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "tcsettingsconvertervideo") {
-                                tcSettingsConverterVideo = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "tcsettingsconverteraudio") {
-                                tcSettingsConverterAudio = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "tcsettingsconvertercustom") {
-                                tcSettingsConverterCustom = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "lbsettingsconvertervideobitrate") {
-                                lbSettingsConverterVideoBitrate = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "lbsettingsconvertervideopreset") {
-                                lbSettingsConverterVideoPreset = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "lbsettingsconvertervideoprofile") {
-                                lbSettingsConverterVideoProfile = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "lbsettingsconvertervideocrf") {
-                                lbSettingsConverterVideoCRF = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "chksettingsconvertervideofaststart") {
-                                chkSettingsConverterVideoFastStart = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "lbsettingsconverteraudiobitrate") {
-                                lbSettingsConverterAudioBitrate = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "lbsettingsconvertercustomheader") {
-                                lbSettingsConverterCustomHeader = ReadValue;
-                                continue;
-                            }
+                                // frmMain / tcMain / Convert
+                                case "lbconvertinput":
+                                    lbConvertInput = ReadValue;
+                                    continue;
+                                case "lbconvertoutput":
+                                    lbConvertOutput = ReadValue;
+                                    continue;
+                                case "rbconvertvideo":
+                                    rbConvertVideo = ReadValue;
+                                    continue;
+                                case "rbconvertaudio":
+                                    rbConvertAudio = ReadValue;
+                                    continue;
+                                case "rbconvertcustom":
+                                    rbConvertCustom = ReadValue;
+                                    continue;
+                                case "rbconvertauto":
+                                    rbConvertAuto = ReadValue;
+                                    continue;
+                                case "rbconvertautoffmpeg":
+                                    rbConvertAutoFFmpeg = ReadValue;
+                                    continue;
+                                case "btnconvert":
+                                    btnConvert = ReadValue;
+                                    continue;
+                                case "lbconvertstarted":
+                                    lbConvertStarted = ReadValue;
+                                    continue;
+                                case "lbconvertfailed":
+                                    lbConvertFailed = ReadValue;
+                                    continue;
 
-                            else if (ReadControl == "chksettingsconverterclearoutputafterconvertinghint") {
-                                chkSettingsConverterClearOutputAfterConvertingHint = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "chksettingsconverterdetectoutputfiletypehint") {
-                                chkSettingsConverterDetectOutputFileTypeHint = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "chksettingsconverterclearinputafterconvertinghint") {
-                                chkSettingsConverterClearInputAfterConvertingHint = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "chksettingsconverterhideffmpegcompileinfohint") {
-                                chkSettingsConverterHideFFmpegCompileInfoHint = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "lbsettingsconvertervideobitratehint") {
-                                lbSettingsConverterVideoBitrateHint = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "lbsettingsconvertervideopresethint") {
-                                lbSettingsConverterVideoPresetHint = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "lbsettingsconvertervideoprofilehint") {
-                                lbSettingsConverterVideoProfileHint = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "lbsettingsconvertervideocrfhint") {
-                                lbSettingsConverterVideoCRFHint = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "chksettingsconvertervideofaststarthint") {
-                                chkSettingsConverterVideoFastStartHint = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "lbsettingsconverteraudiobitratehint") {
-                                lbSettingsConverterAudioBitrateHint = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "txtsettingsconvertercustomargumentshint") {
-                                txtSettingsConverterCustomArgumentsHint = ReadValue;
-                                continue;
-                            }
-                            // frmSettings / tcMain / tabExtensions
-                            else if (ReadControl == "lbsettingsextensionsheader") {
-                                lbSettingsExtensionsHeader = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "lbsettingsextensionsextensionfullname") {
-                                lbSettingsExtensionsExtensionFullName = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "txtsettingsextensionsextensionfullname") {
-                                txtSettingsExtensionsExtensionFullName = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "lbsettingsextensionsextensionshort") {
-                                lbSettingsExtensionsExtensionShort = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "txtsettingsextensionsextensionshort") {
-                                txtSettingsExtensionsExtensionShort = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "btnsettingsextensionsadd") {
-                                btnSettingsExtensionsAdd = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "lbsettingsextensionsfilename") {
-                                lbSettingsExtensionsFileName = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "btnsettingsextensionsremoveselected") {
-                                btnSettingsExtensionsRemoveSelected = ReadValue;
-                                continue;
-                            }
-                            // frmSettings / tcMain / tabErrors
-                            else if (ReadControl == "chksettingserrorsshowdetailederrors") {
-                                chkSettingsErrorsShowDetailedErrors = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "chksettingserrorssaveerrorsaserrorlog") {
-                                chkSettingsErrorsSaveErrorsAsErrorLog = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "chksettingserrorssuppresserrors") {
-                                chkSettingsErrorsSuppressErrors = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "chksettingserrorsshowdetailederrorshint") {
-                                chkSettingsErrorsShowDetailedErrorsHint = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "chksettingserrorssaveerrorsaserrorloghint") {
-                                chkSettingsErrorsSaveErrorsAsErrorLogHint = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "chksettingserrorssuppresserrorshint") {
-                                chkSettingsErrorsSuppressErrorsHint = ReadValue;
-                                continue;
-                            }
-                            #endregion
+                                // frmMain / tcMain / Merge
+                                case "lbmergeinput1":
+                                    lbMergeInput1 = ReadValue;
+                                    continue;
+                                case "lbmergeinput2":
+                                    lbMergeInput2 = ReadValue;
+                                    continue;
+                                case "lbmergeoutput":
+                                    lbMergeOutput = ReadValue;
+                                    continue;
+                                case "chkmergeaudiotracks":
+                                    chkMergeAudioTracks = ReadValue;
+                                    continue;
+                                case "chkmergedeleteinputfiles":
+                                    chkMergeDeleteInputFiles = ReadValue;
+                                    continue;
+                                case "btnmerge":
+                                    btnMerge = ReadValue;
+                                    continue;
 
-                            #region frmSubtitles
-                            // frmSubtitles
-                            else if (ReadControl == "frmsubtitles") {
-                                frmSubtitles = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "lbsubtitlesheader") {
-                                lbSubtitlesHeader = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "lbsubtitlesurl") {
-                                lbSubtitlesUrl = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "lbsubtitleslanguages") {
-                                lbSubtitlesLanguages = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "btnsubtitlesaddlanguage") {
-                                btnSubtitlesAddLanguage = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "btnsubtitlesclearlanguages") {
-                                btnSubtitlesClearLanguages = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "btnsubtitlesdownload") {
-                                btnSubtitlesDownload = ReadValue;
-                                continue;
-                            }
-                            #endregion
+                                // frmMain / tcMain / cmTray
+                                case "cmTrayShowForm":
+                                    cmTrayShowForm = ReadValue;
+                                    continue;
+                                case "cmtraydownloader":
+                                    cmTrayDownloader = ReadValue;
+                                    continue;
+                                case "cmtraydownloadclipboard":
+                                    cmTrayDownloadClipboard = ReadValue;
+                                    continue;
+                                case "cmtraydownloadbestvideo":
+                                    cmTrayDownloadBestVideo = ReadValue;
+                                    continue;
+                                case "cmtraydownloadbestaudio":
+                                    cmTrayDownloadBestAudio = ReadValue;
+                                    continue;
+                                case "cmtraydownloadcustom":
+                                    cmTrayDownloadCustom = ReadValue;
+                                    continue;
+                                case "cmtraydownloadcustomtxtbox":
+                                    cmTrayDownloadCustomTxtBox = ReadValue;
+                                    continue;
+                                case "cmtraydownloadcustomtxt":
+                                    cmTrayDownloadCustomTxt = ReadValue;
+                                    continue;
+                                case "cmtraydownloadcustomsettings":
+                                    cmTrayDownloadCustomSettings = ReadValue;
+                                    continue;
+                                case "cmtrayconverter":
+                                    cmTrayConverter = ReadValue;
+                                    continue;
+                                case "cmtrayconvertto":
+                                    cmTrayConvertTo = ReadValue;
+                                    continue;
+                                case "cmtrayconvertvideo":
+                                    cmTrayConvertVideo = ReadValue;
+                                    continue;
+                                case "cmtrayconvertaudio":
+                                    cmTrayConvertAudio = ReadValue;
+                                    continue;
+                                case "cmtrayconvertcustom":
+                                    cmTrayConvertCustom = ReadValue;
+                                    continue;
+                                case "cmtrayconvertautomatic":
+                                    cmTrayConvertAutomatic = ReadValue;
+                                    continue;
+                                case "cmtrayconvertautoffmpeg":
+                                    cmTrayConvertAutoFFmpeg = ReadValue;
+                                    continue;
+                                case "cmtrayexit":
+                                    cmTrayExit = ReadValue;
+                                    continue;
+                                #endregion
 
-                            #region frmTools
-                            // frmTools
-                            else if (ReadControl == "frmtools") {
-                                frmTools = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "btnmisctoolsremoveaudio") {
-                                btnMiscToolsRemoveAudio = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "btnmisctoolsextractaudio") {
-                                btnMiscToolsExtractAudioString = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "btnmisctoolsvideotogif") {
-                                btnMiscToolsVideoToGifString = ReadValue;
-                                continue;
-                            }
-                            #endregion
+                                #region frmSettings
+                                // frmSettings
+                                case "btnsettingsredownloadyoutubedl":
+                                    btnSettingsRedownloadYoutubeDl = ReadValue;
+                                    continue;
+                                case "btnsettingscancel":
+                                    btnSettingsCancel = ReadValue;
+                                    continue;
+                                case "btnsettingssave":
+                                    btnSettingsSave = ReadValue;
+                                    continue;
+                                case "btnsettingsredownloadyoutubedlhint":
+                                    btnSettingsRedownloadYoutubeDlHint = ReadValue;
+                                    continue;
+                                case "btnsettingscancelhint":
+                                    btnSettingsCancelHint = ReadValue;
+                                    continue;
+                                case "btnsettingssavehint":
+                                    btnSettingsSaveHint = ReadValue;
+                                    continue;
+                                
+                                // frmSettings / tcMain
+                                case "tabsettingsgeneral":
+                                    tabSettingsGeneral = ReadValue;
+                                    continue;
+                                case "tabsettingsdownloads":
+                                    tabSettingsDownloads = ReadValue;
+                                    continue;
+                                case "tabsettingsconverter":
+                                    tabSettingsConverter = ReadValue;
+                                    continue;
+                                case "tabsettingsextensions":
+                                    tabSettingsExtensions = ReadValue;
+                                    continue;
+                                case "tabsettingserrors":
+                                    tabSettingsErrors = ReadValue;
+                                    continue;
 
-                            #region frmUpdateAvailable
-                            else if (ReadControl == "frmupdateavailable") {
-                                frmUpdateAvailable = ReadValue;
-                                continue;
+                                //frmSettings / tcMain / tabGeneral
+                                case "lbsettingsgeneralyoutubedlpath":
+                                    lbSettingsGeneralYoutubeDlPath = ReadValue;
+                                    continue;
+                                case "chksettingsgeneralusestaticyoutubedl":
+                                    chkSettingsGeneralUseStaticYoutubeDl = ReadValue;
+                                    continue;
+                                case "ofdTitleYoutubeDl":
+                                    ofdTitleYoutubeDl = ReadValue;
+                                    continue;
+                                case "ofdFilterYoutubeDl":
+                                    ofdFilterYoutubeDl = ReadValue;
+                                    continue;
+                                case "lbsettingsgeneralffmpegdirectory":
+                                    lbSettingsGeneralFFmpegDirectory = ReadValue;
+                                    continue;
+                                case "chksettingsgeneralusestaticffmpeg":
+                                    chkSettingsGeneralUseStaticFFmpeg = ReadValue;
+                                    continue;
+                                case "ofdTitleFFmpeg":
+                                    ofdTitleFFmpeg = ReadValue;
+                                    continue;
+                                case "ofdFilterFFmpeg":
+                                    ofdFilterFFmpeg = ReadValue;
+                                    continue;
+                                case "chksettingsgeneralcheckforupdatesonlaunch":
+                                    chkSettingsGeneralCheckForUpdatesOnLaunch = ReadValue;
+                                    continue;
+                                case "chksettingsgeneralhoveroverurltopasteclipboard":
+                                    chkSettingsGeneralHoverOverUrlToPasteClipboard = ReadValue;
+                                    continue;
+                                case "chksettingsgeneralclearurlondownload":
+                                    chkSettingsGeneralClearUrlOnDownload = ReadValue;
+                                    continue;
+                                case "chksettingsgeneralclearclipboardondownload":
+                                    chkSettingsGeneralClearClipboardOnDownload = ReadValue;
+                                    continue;
+                                case "gbsettingsgeneralcustomarguments":
+                                    gbSettingsGeneralCustomArguments = ReadValue;
+                                    continue;
+                                case "rbsettingsgeneralcustomargumentsdontsave":
+                                    rbSettingsGeneralCustomArgumentsDontSave = ReadValue;
+                                    continue;
+                                case "rbsettingsgeneralcustomargumentssaveasargstext":
+                                    rbSettingsGeneralCustomArgumentsSaveAsArgsText = ReadValue;
+                                    continue;
+                                case "rbsettingsgeneralcustomargumentssaveinsettings":
+                                    rbSettingsGeneralCustomArgumentsSaveInSettings = ReadValue;
+                                    continue;
+                                case "lbsettingsgeneralyoutubedlpathhint":
+                                    lbSettingsGeneralYoutubeDlPathHint = ReadValue;
+                                    continue;
+                                case "chksettingsgeneralusestaticyoutubedlhint":
+                                    chkSettingsGeneralUseStaticYoutubeDlHint = ReadValue;
+                                    continue;
+                                case "txtsettingsgeneralyoutubedlpathhint":
+                                    txtSettingsGeneralYoutubeDlPathHint = ReadValue;
+                                    continue;
+                                case "btnsettingsgeneralbrowseyoutubedlhint":
+                                    btnSettingsGeneralBrowseYoutubeDlHint = ReadValue;
+                                    continue;
+                                case "lbsettingsgeneralffmpegdirectoryhint":
+                                    lbSettingsGeneralFFmpegDirectoryHint = ReadValue;
+                                    continue;
+                                case "chksettingsgeneralusestaticffmpeghint":
+                                    chkSettingsGeneralUseStaticFFmpegHint = ReadValue;
+                                    continue;
+                                case "txtsettingsgeneralffmpegpathhint":
+                                    txtSettingsGeneralFFmpegPathHint = ReadValue;
+                                    continue;
+                                case "btnsettingsgeneralbrowseffmpeghint":
+                                    btnSettingsGeneralBrowseFFmpegHint = ReadValue;
+                                    continue;
+                                case "chksettingsgeneralcheckforupdatesonlaunchhint":
+                                    chkSettingsGeneralCheckForUpdatesOnLaunchHint = ReadValue;
+                                    continue;
+                                case "chksettingsgeneralhoveroverurltopasteclipboardhint":
+                                    chkSettingsGeneralHoverOverUrlToPasteClipboardHint = ReadValue;
+                                    continue;
+                                case "chksettingsgeneralclearurlondownloadhint":
+                                    chkSettingsGeneralClearUrlOnDownloadHint = ReadValue;
+                                    continue;
+                                case "chksettingsgeneralclearclipboardondownloadhint":
+                                    chkSettingsGeneralClearClipboardOnDownloadHint = ReadValue;
+                                    continue;
+                                case "gbsettingsgeneralcustomargumentshint":
+                                    gbSettingsGeneralCustomArgumentsHint = ReadValue;
+                                    continue;
+                                case "rbsettingsgeneralcustomargumentsdontsavehint":
+                                    rbSettingsGeneralCustomArgumentsDontSaveHint = ReadValue;
+                                    continue;
+                                case "rbsettingsgeneralcustomargumentssaveasargstexthint":
+                                    rbSettingsGeneralCustomArgumentsSaveAsArgsTextHint = ReadValue;
+                                    continue;
+                                case "rbsettingsgeneralcustomargumentssaveinsettingshint":
+                                    rbSettingsGeneralCustomArgumentsSaveInSettingsHint = ReadValue;
+                                    continue;
+
+                                // frmSettings / tcMain / tabDownloads
+                                case "lbsettingsdownloadsdownloadpath":
+                                    lbSettingsDownloadsDownloadPath = ReadValue;
+                                    continue;
+                                case "lbsettingsdownloadsfilenameschema":
+                                    lbSettingsDownloadsFileNameSchema = ReadValue;
+                                    continue;
+                                case "tabdownloadsgeneral":
+                                    tabDownloadsGeneral = ReadValue;
+                                    continue;
+                                case "tabdownloadssorting":
+                                    tabDownloadsSorting = ReadValue;
+                                    continue;
+                                case "tabdownloadsfixes":
+                                    tabDownloadsFixes = ReadValue;
+                                    continue;
+                                case "tabdownloadsconnection":
+                                    tabDownloadsConnection = ReadValue;
+                                    continue;
+                                case "tabdownloadsupdating":
+                                    tabDownloadsUpdating = ReadValue;
+                                    continue;
+                                case "chksettingsdownloadssaveformatquality":
+                                    chkSettingsDownloadsSaveFormatQuality = ReadValue;
+                                    continue;
+                                case "chksettingsdownloadsdownloadsubtitles":
+                                    chkSettingsDownloadsDownloadSubtitles = ReadValue;
+                                    continue;
+                                case "chksettingsdownloadsembedsubtitles":
+                                    chkSettingsDownloadsEmbedSubtitles = ReadValue;
+                                    continue;
+                                case "chksettingsdownloadssavevideoinfo":
+                                    chkSettingsDownloadsSaveVideoInfo = ReadValue;
+                                    continue;
+                                case "chksettingsdownloadswritemetadatatofile":
+                                    chkSettingsDownloadsWriteMetadataToFile = ReadValue;
+                                    continue;
+                                case "chksettingsdownloadssavedescription":
+                                    chkSettingsDownloadsSaveDescriptionString = ReadValue;
+                                    continue;
+                                case "chksettingsdownloadskeeporiginalfiles":
+                                    chkSettingsDownloadsKeepOriginalFiles = ReadValue;
+                                    continue;
+                                case "chksettingsdownloadssaveannotations":
+                                    chkSettingsDownloadsSaveAnnotationsString = ReadValue;
+                                    continue;
+                                case "chksettingsdownloadssavethumbnails":
+                                    chkSettingsDownloadsSaveThumbnailsString = ReadValue;
+                                    continue;
+                                case "chksettingsdownloadsembedthumbnails":
+                                    chkSettingsDownloadsEmbedThumbnails = ReadValue;
+                                    continue;
+                                case "chksettingsdownloadsautomaticallydeleteyoutubedlwhenclosing":
+                                    chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing = ReadValue;
+                                    continue;
+                                case "chksettingsdownloadsseparatedownloadstodifferentfolders":
+                                    chkSettingsDownloadsSeparateDownloadsToDifferentFolders = ReadValue;
+                                    continue;
+                                case "chksettingsdownloadsseparateintowebsiteurl":
+                                    chkSettingsDownloadsSeparateIntoWebsiteUrl = ReadValue;
+                                    continue;
+                                case "chksettingsdownloadsfixvreddit":
+                                    chkSettingsDownloadsFixVReddIt = ReadValue;
+                                    continue;
+                                case "chksettingsdownloadslimitdownload":
+                                    chkSettingsDownloadsLimitDownloadString = ReadValue;
+                                    continue;
+                                case "lbsettingsdownloadsretryattempts":
+                                    lbSettingsDownloadsRetryAttemptsString = ReadValue;
+                                    continue;
+                                case "chksettingsdownloadsforceipv4":
+                                    chkSettingsDownloadsForceIpv4String = ReadValue;
+                                    continue;
+                                case "chksettingsdownloadsforceipv6":
+                                    chkSettingsDownloadsForceIpv6String = ReadValue;
+                                    continue;
+                                case "chksettingsdownloadsuseproxy":
+                                    chkSettingsDownloadsUseProxyString = ReadValue;
+                                    continue;
+                                case "chksettingsdownloadsuseyoutubedlsupdater":
+                                    chksettingsDownloadsUseYoutubeDlsUpdater = ReadValue;
+                                    continue;
+                                case "lbsettingsdownloadsdownloadpathhint":
+                                    lbSettingsDownloadsDownloadPathHint = ReadValue;
+                                    continue;
+                                case "txtsettingsdownloadssavepathhint":
+                                    txtSettingsDownloadsSavePathHint = ReadValue;
+                                    continue;
+                                case "btnsettingsdownloadsbrowsesavepathhint":
+                                    btnSettingsDownloadsBrowseSavePathHint = ReadValue;
+                                    continue;
+                                case "llsettingsdownloadsschemahelphint":
+                                    llSettingsDownloadsSchemaHelpHint = ReadValue;
+                                    continue;
+                                case "lbsettingsdownloadsfilenameschemahint":
+                                    lbSettingsDownloadsFileNameSchemaHint = ReadValue;
+                                    continue;
+                                case "txtsettingsdownloadsfilenameschemahint":
+                                    txtSettingsDownloadsFileNameSchemaHint = ReadValue;
+                                    continue;
+                                case "chksettingsdownloadssaveformatqualityhint":
+                                    chkSettingsDownloadsSaveFormatQualityHint = ReadValue;
+                                    continue;
+                                case "chksettingsdownloadsdownloadsubtitleshint":
+                                    chkSettingsDownloadsDownloadSubtitlesHint = ReadValue;
+                                    continue;
+                                case "chksettingsdownloadsembedsubtitleshint":
+                                    chkSettingsDownloadsEmbedSubtitlesHint = ReadValue;
+                                    continue;
+                                case "chksettingsdownloadssavevideoinfohint":
+                                    chkSettingsDownloadsSaveVideoInfoHint = ReadValue;
+                                    continue;
+                                case "chksettingsdownloadswritemetadatatofilehint":
+                                    chkSettingsDownloadsWriteMetadataToFileHint = ReadValue;
+                                    continue;
+                                case "chksettingsdownloadssavedescriptionhint":
+                                    chkSettingsDownloadsSaveDescriptionHint = ReadValue;
+                                    continue;
+                                case "chksettingsdownloadskeeporiginalfileshint":
+                                    chkSettingsDownloadsKeepOriginalFilesHint = ReadValue;
+                                    continue;
+                                case "chksettingsdownloadssaveannotationshint":
+                                    chkSettingsDownloadsSaveAnnotationsHint = ReadValue;
+                                    continue;
+                                case "chksettingsdownloadssavethumbnailshint":
+                                    chkSettingsDownloadsSaveThumbnailsHint = ReadValue;
+                                    continue;
+                                case "chksettingsdownloadsembedthumbnailshint":
+                                    chkSettingsDownloadsEmbedThumbnailsHint = ReadValue;
+                                    continue;
+                                case "chksettingsdownloadsautomaticallydeleteyoutubedlwhenclosinghint":
+                                    chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosingHint = ReadValue;
+                                    continue;
+                                case "chksettingsdownloadsseparatedownloadstodifferentfoldershint":
+                                    chkSettingsDownloadsSeparateDownloadsToDifferentFoldersHint = ReadValue;
+                                    continue;
+                                case "chksettingsdownloadsseparateintowebsiteurlhint":
+                                    chkSettingsDownloadsSeparateIntoWebsiteUrlHint = ReadValue;
+                                    continue;
+                                case "chksettingsdownloadsfixvreddithint":
+                                    chkSettingsDownloadsFixVReddItHint = ReadValue;
+                                    continue;
+                                case "chksettingsdownloadslimitdownloadhint":
+                                    chkSettingsDownloadsLimitDownloadHint = ReadValue;
+                                    continue;
+                                case "numsettingsdownloadslimitdownloadhint":
+                                    numSettingsDownloadsLimitDownloadHint = ReadValue;
+                                    continue;
+                                case "cbsettingsdownloadslimitdownloadhint":
+                                    cbSettingsDownloadsLimitDownloadHint = ReadValue;
+                                    continue;
+                                case "lbsettingsdownloadsretryattemptshint":
+                                    lbSettingsDownloadsRetryAttemptsHint = ReadValue;
+                                    continue;
+                                case "numsettingsdownloadsretryattemptshint":
+                                    numSettingsDownloadsRetryAttemptsHint = ReadValue;
+                                    continue;
+                                case "chksettingsdownloadsforceipv4hint":
+                                    chkSettingsDownloadsForceIpv4Hint = ReadValue;
+                                    continue;
+                                case "chksettingsdownloadsforceipv6hint":
+                                    chkSettingsDownloadsForceIpv6Hint = ReadValue;
+                                    continue;
+                                case "chksettingsdownloadsuseproxyhint":
+                                    chkSettingsDownloadsUseProxyHint = ReadValue;
+                                    continue;
+                                case "cbsettingsdownloadsproxytypehint":
+                                    cbSettingsDownloadsProxyTypeHint = ReadValue;
+                                    continue;
+                                case "txtsettingsdownloadsproxyiphint":
+                                    txtSettingsDownloadsProxyIpHint = ReadValue;
+                                    continue;
+                                case "txtsettingsdownloadsproxyporthint":
+                                    txtSettingsDownloadsProxyPortHint = ReadValue;
+                                    continue;
+                                case "chksettingsdownloadsuseyoutubedlsupdaterhint":
+                                    chksettingsDownloadsUseYoutubeDlsUpdaterHint = ReadValue;
+                                    continue;
+
+                                // frmSettings / tcMain / tabConverter
+                                case "chksettingsconverterclearoutputafterconverting":
+                                    chkSettingsConverterClearOutputAfterConverting = ReadValue;
+                                    continue;
+                                case "chksettingsconverterdetectoutputfiletype":
+                                    chkSettingsConverterDetectOutputFileType = ReadValue;
+                                    continue;
+                                case "chksettingsconverterclearinputafterconverting":
+                                    chkSettingsConverterClearInputAfterConverting = ReadValue;
+                                    continue;
+                                case "chksettingsconverterhideffmpegcompileinfo":
+                                    chkSettingsConverterHideFFmpegCompileInfo = ReadValue;
+                                    continue;
+                                case "tcsettingsconvertervideo":
+                                    tcSettingsConverterVideo = ReadValue;
+                                    continue;
+                                case "tcsettingsconverteraudio":
+                                    tcSettingsConverterAudio = ReadValue;
+                                    continue;
+                                case "tcsettingsconvertercustom":
+                                    tcSettingsConverterCustom = ReadValue;
+                                    continue;
+                                case "lbsettingsconvertervideobitrate":
+                                    lbSettingsConverterVideoBitrate = ReadValue;
+                                    continue;
+                                case "lbsettingsconvertervideopreset":
+                                    lbSettingsConverterVideoPreset = ReadValue;
+                                    continue;
+                                case "lbsettingsconvertervideoprofile":
+                                    lbSettingsConverterVideoProfile = ReadValue;
+                                    continue;
+                                case "lbsettingsconvertervideocrf":
+                                    lbSettingsConverterVideoCRF = ReadValue;
+                                    continue;
+                                case "chksettingsconvertervideofaststart":
+                                    chkSettingsConverterVideoFastStart = ReadValue;
+                                    continue;
+                                case "lbsettingsconverteraudiobitrate":
+                                    lbSettingsConverterAudioBitrate = ReadValue;
+                                    continue;
+                                case "lbsettingsconvertercustomheader":
+                                    lbSettingsConverterCustomHeader = ReadValue;
+                                    continue;
+                                case "chksettingsconverterclearoutputafterconvertinghint":
+                                    chkSettingsConverterClearOutputAfterConvertingHint = ReadValue;
+                                    continue;
+                                case "chksettingsconverterdetectoutputfiletypehint":
+                                    chkSettingsConverterDetectOutputFileTypeHint = ReadValue;
+                                    continue;
+                                case "chksettingsconverterclearinputafterconvertinghint":
+                                    chkSettingsConverterClearInputAfterConvertingHint = ReadValue;
+                                    continue;
+                                case "chksettingsconverterhideffmpegcompileinfohint":
+                                    chkSettingsConverterHideFFmpegCompileInfoHint = ReadValue;
+                                    continue;
+                                case "lbsettingsconvertervideobitratehint":
+                                    lbSettingsConverterVideoBitrateHint = ReadValue;
+                                    continue;
+                                case "lbsettingsconvertervideopresethint":
+                                    lbSettingsConverterVideoPresetHint = ReadValue;
+                                    continue;
+                                case "lbsettingsconvertervideoprofilehint":
+                                    lbSettingsConverterVideoProfileHint = ReadValue;
+                                    continue;
+                                case "lbsettingsconvertervideocrfhint":
+                                    lbSettingsConverterVideoCRFHint = ReadValue;
+                                    continue;
+                                case "chksettingsconvertervideofaststarthint":
+                                    chkSettingsConverterVideoFastStartHint = ReadValue;
+                                    continue;
+                                case "lbsettingsconverteraudiobitratehint":
+                                    lbSettingsConverterAudioBitrateHint = ReadValue;
+                                    continue;
+                                case "txtsettingsconvertercustomargumentshint":
+                                    txtSettingsConverterCustomArgumentsHint = ReadValue;
+                                    continue;
+                                
+                                // frmSettings / tcMain / tabExtensions
+                                case "lbsettingsextensionsheader":
+                                    lbSettingsExtensionsHeader = ReadValue;
+                                    continue;
+                                case "lbsettingsextensionsextensionfullname":
+                                    lbSettingsExtensionsExtensionFullName = ReadValue;
+                                    continue;
+                                case "txtsettingsextensionsextensionfullname":
+                                    txtSettingsExtensionsExtensionFullName = ReadValue;
+                                    continue;
+                                case "lbsettingsextensionsextensionshort":
+                                    lbSettingsExtensionsExtensionShort = ReadValue;
+                                    continue;
+                                case "txtsettingsextensionsextensionshort":
+                                    txtSettingsExtensionsExtensionShort = ReadValue;
+                                    continue;
+                                case "btnsettingsextensionsadd":
+                                    btnSettingsExtensionsAdd = ReadValue;
+                                    continue;
+                                case "lbsettingsextensionsfilename":
+                                    lbSettingsExtensionsFileName = ReadValue;
+                                    continue;
+                                case "btnsettingsextensionsremoveselected":
+                                    btnSettingsExtensionsRemoveSelected = ReadValue;
+                                    continue;
+                                
+                                // frmSettings / tcMain / tabErrors
+                                case "chksettingserrorsshowdetailederrors":
+                                    chkSettingsErrorsShowDetailedErrors = ReadValue;
+                                    continue;
+                                case "chksettingserrorssaveerrorsaserrorlog":
+                                    chkSettingsErrorsSaveErrorsAsErrorLog = ReadValue;
+                                    continue;
+                                case "chksettingserrorssuppresserrors":
+                                    chkSettingsErrorsSuppressErrors = ReadValue;
+                                    continue;
+                                case "chksettingserrorsshowdetailederrorshint":
+                                    chkSettingsErrorsShowDetailedErrorsHint = ReadValue;
+                                    continue;
+                                case "chksettingserrorssaveerrorsaserrorloghint":
+                                    chkSettingsErrorsSaveErrorsAsErrorLogHint = ReadValue;
+                                    continue;
+                                case "chksettingserrorssuppresserrorshint":
+                                    chkSettingsErrorsSuppressErrorsHint = ReadValue;
+                                    continue;
+                                #endregion
+
+                                #region frmSubtitles
+                                case "frmsubtitles":
+                                    frmSubtitles = ReadValue;
+                                    continue;
+                                case "lbsubtitlesheader":
+                                    lbSubtitlesHeader = ReadValue;
+                                    continue;
+                                case "lbsubtitlesurl":
+                                    lbSubtitlesUrl = ReadValue;
+                                    continue;
+                                case "lbsubtitleslanguages":
+                                    lbSubtitlesLanguages = ReadValue;
+                                    continue;
+                                case "btnsubtitlesaddlanguage":
+                                    btnSubtitlesAddLanguage = ReadValue;
+                                    continue;
+                                case "btnsubtitlesclearlanguages":
+                                    btnSubtitlesClearLanguages = ReadValue;
+                                    continue;
+                                case "btnsubtitlesdownload":
+                                    btnSubtitlesDownload = ReadValue;
+                                    continue;
+                                #endregion
+
+                                #region frmTools
+                                case "frmtools":
+                                    frmTools = ReadValue;
+                                    continue;
+                                case "btnmisctoolsremoveaudio":
+                                    btnMiscToolsRemoveAudio = ReadValue;
+                                    continue;
+                                case "btnmisctoolsextractaudio":
+                                    btnMiscToolsExtractAudioString = ReadValue;
+                                    continue;
+                                case "btnmisctoolsvideotogif":
+                                    btnMiscToolsVideoToGifString = ReadValue;
+                                    continue;
+                                #endregion
+
+                                #region frmUpdateAvailable
+                                case "frmupdateavailable":
+                                    frmUpdateAvailable = ReadValue;
+                                    continue;
+                                case "lbupdateavailableheader":
+                                    lbUpdateAvailableHeader = ReadValue;
+                                    continue;
+                                case "lbupdateavailableupdateversion":
+                                    lbUpdateAvailableUpdateVersion = ReadValue;
+                                    continue;
+                                case "lbupdateavailablecurrentversion":
+                                    lbUpdateAvailableCurrentVersion = ReadValue;
+                                    continue;
+                                case "lbupdateavailablechangelog":
+                                    lbUpdateAvailableChangelog = ReadValue;
+                                    continue;
+                                case "btnupdateavailableskipversion":
+                                    btnUpdateAvailableSkipVersion = ReadValue;
+                                    continue;
+                                case "btnupdateavailableupdate":
+                                    btnUpdateAvailableUpdate = ReadValue;
+                                    continue;
+                                case "btnupdateavailableok":
+                                    btnUpdateAvailableOk = ReadValue;
+                                    continue;
+                                #endregion
                             }
-                            else if (ReadControl == "lbupdateavailableheader") {
-                                lbUpdateAvailableHeader = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "lbupdateavailableupdateversion") {
-                                lbUpdateAvailableUpdateVersion = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "lbupdateavailablecurrentversion") {
-                                lbUpdateAvailableCurrentVersion = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "lbupdateavailablechangelog") {
-                                lbUpdateAvailableChangelog = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "btnupdateavailableskipversion") {
-                                btnUpdateAvailableSkipVersion = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "btnupdateavailableupdate") {
-                                btnUpdateAvailableUpdate = ReadValue;
-                                continue;
-                            }
-                            else if (ReadControl == "btnupdateavailableok") {
-                                btnUpdateAvailableOk = ReadValue;
-                                continue;
-                            }
-                            #endregion
                         }
 
                         return true;
