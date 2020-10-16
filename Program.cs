@@ -29,6 +29,9 @@ namespace youtube_dl_gui {
             if (System.IO.File.Exists(Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe")) {
                 System.IO.File.Delete(Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe");
             }
+            if (System.IO.File.Exists(Environment.CurrentDirectory + "\\youtube-dl-gui.old.exe")) {
+                System.IO.File.Delete(Environment.CurrentDirectory + "\\youtube-dl-gui.old.exe");
+            }
 
             if (IsDebug) {
                 MainForm = new frmMain();
@@ -87,9 +90,11 @@ namespace youtube_dl_gui {
 
                     MainForm = new frmMain();
 
-                    if (args[0].StartsWith("ytdl:")) {
-                        MainForm.txtUrl.Text = args[0].Substring(5);
-                        MainForm.ProtocolInput = true;
+                    if (args.Length > 0) {
+                        if (args[0].StartsWith("ytdl:")) {
+                            MainForm.txtUrl.Text = args[0].Substring(5);
+                            MainForm.ProtocolInput = true;
+                        }
                     }
 
                     Application.Run(MainForm);
