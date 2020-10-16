@@ -397,6 +397,10 @@ namespace youtube_dl_gui {
                     };
 
                     DownloadProcess.Start();
+
+                    ArgumentsBuffer = null;
+                    PreviewArguments = null;
+
                     DownloadProcess.BeginOutputReadLine();
                     DownloadProcess.BeginErrorReadLine();
                     DownloadProcess.WaitForExit();
