@@ -25,19 +25,19 @@
         private void InitializeComponent() {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmUpdater));
-            this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.pbDownloadProgress = new System.Windows.Forms.ProgressBar();
             this.lbUpdaterHeader = new System.Windows.Forms.Label();
             this.lbUpdaterDescription = new System.Windows.Forms.Label();
             this.tmrForm = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
-            // progressBar1
+            // pbDownloadProgress
             // 
-            this.progressBar1.Location = new System.Drawing.Point(12, 83);
-            this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(208, 19);
-            this.progressBar1.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
-            this.progressBar1.TabIndex = 0;
+            this.pbDownloadProgress.Location = new System.Drawing.Point(12, 83);
+            this.pbDownloadProgress.Name = "pbDownloadProgress";
+            this.pbDownloadProgress.Size = new System.Drawing.Size(208, 19);
+            this.pbDownloadProgress.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+            this.pbDownloadProgress.TabIndex = 0;
             // 
             // lbUpdaterHeader
             // 
@@ -73,7 +73,7 @@
             this.ClientSize = new System.Drawing.Size(232, 114);
             this.Controls.Add(this.lbUpdaterDescription);
             this.Controls.Add(this.lbUpdaterHeader);
-            this.Controls.Add(this.progressBar1);
+            this.Controls.Add(this.pbDownloadProgress);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "frmUpdater";
@@ -86,7 +86,7 @@
 
         #endregion
 
-        private System.Windows.Forms.ProgressBar progressBar1;
+        private System.Windows.Forms.ProgressBar pbDownloadProgress;
         private System.Windows.Forms.Label lbUpdaterHeader;
         private System.Windows.Forms.Label lbUpdaterDescription;
         private System.Windows.Forms.Timer tmrForm;

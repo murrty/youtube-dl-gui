@@ -16,7 +16,6 @@ namespace youtube_dl_gui_updater {
             lang.LoadLanguage();
             SetLanguage();
             string[] args = Environment.GetCommandLineArgs();
-
             for (int i = 0; i < args.Length; i++) {
                 if (args[i].ToLower().StartsWith("-version") || args[i].ToLower().StartsWith("-v")) {
                     DownloadVersion = args[i+1];
@@ -39,14 +38,14 @@ namespace youtube_dl_gui_updater {
                         this.BeginInvoke(new MethodInvoker(() => {
                             tmrForm.Stop();
                             this.Text = this.Text.Trim('.');
-                            progressBar1.Style = ProgressBarStyle.Continuous;
+                            pbDownloadProgress.Style = ProgressBarStyle.Continuous;
 
                             if (System.IO.File.Exists(Environment.CurrentDirectory + "\\" + OldName)) {
-                                System.IO.File.Delete(Environment.CurrentDirectory + "\\" + OldName);
+                                System.IO.File.Move(Environment.CurrentDirectory + "\\" + OldName, Environment.CurrentDirectory + "\\youtube-dl-gui.old.exe");
                             }
                             System.IO.File.Move(Environment.CurrentDirectory + "\\ytdlg.part", Environment.CurrentDirectory + "\\" + OldName);
-                            progressBar1.Value = 100;
-                            progressBar1.Style = ProgressBarStyle.Blocks;
+                            pbDownloadProgress.Value = 100;
+                            pbDownloadProgress.Style = ProgressBarStyle.Blocks;
                         }));
 
                         System.Diagnostics.Process.Start(Environment.CurrentDirectory + "\\" + OldName);
@@ -56,9 +55,12 @@ namespace youtube_dl_gui_updater {
                         this.BeginInvoke(new MethodInvoker(() => {
                             tmrForm.Stop();
                             this.Text = this.Text.Trim('.');
+                            pbDownloadProgress.Value = 0;
+                            pbDownloadProgress.Style = ProgressBarStyle.Blocks;
                         }));
 
                         if (System.IO.File.Exists(Environment.CurrentDirectory + "\\ytdlg.part")) { System.IO.File.Delete(Environment.CurrentDirectory + "\\ytdlg.part"); }
+                        System.IO.File.Move(Environment.CurrentDirectory + "\\youtube-dl-gui.old.exe", Environment.CurrentDirectory + "\\" + OldName);
                     }
                 }
                 catch (Exception ex) {
@@ -68,6 +70,11 @@ namespace youtube_dl_gui_updater {
                     Exception.reportedException = ex;
                     Exception.ShowDialog();
                     if (System.IO.File.Exists(Environment.CurrentDirectory + "\\ytdlg.part")) { System.IO.File.Delete(Environment.CurrentDirectory + "\\ytdlg.part"); }
+                    System.IO.File.Move(Environment.CurrentDirectory + "\\youtube-dl-gui.old.exe", Environment.CurrentDirectory + "\\" + OldName);
+                    this.BeginInvoke(new MethodInvoker(() => {
+                        pbDownloadProgress.Value = 0;
+                        pbDownloadProgress.Style = ProgressBarStyle.Blocks;
+                    }));
                 }
             });
             DownloadUpdateThread.IsBackground = false;
@@ -76,7 +83,7 @@ namespace youtube_dl_gui_updater {
         }
 
         private void SetLanguage() {
-            this.Text = lang.frmUpdater + " ";
+            this.Text = lang.frmUpdater + Properties.Settings.Default.CurrentVersion + " ";
             lbUpdaterHeader.Text = lang.lbUpdaterHeader;
             lbUpdaterDescription.Text = lang.lbUpdaterDescription;
         }
@@ -101,7 +108,7 @@ namespace youtube_dl_gui_updater {
                     var sync = new Object();
                     lock (sync) {
                         this.BeginInvoke(new MethodInvoker(() => {
-                            progressBar1.Style = ProgressBarStyle.Blocks;
+                            pbDownloadProgress.Style = ProgressBarStyle.Blocks;
                         }));
                         wc.DownloadFileAsync(new Uri(url), destination, sync);
                         Monitor.Wait(sync);
@@ -119,13 +126,13 @@ namespace youtube_dl_gui_updater {
                 Monitor.Pulse(e.UserState);
 
                 this.BeginInvoke(new MethodInvoker(() => {
-                    progressBar1.Style = ProgressBarStyle.Continuous;
+                    pbDownloadProgress.Style = ProgressBarStyle.Continuous;
                 }));
             }
         }
         public void DownloadProgress(object sender, DownloadProgressChangedEventArgs e) {
             this.BeginInvoke(new MethodInvoker(() => {
-                progressBar1.Value = e.ProgressPercentage;
+                pbDownloadProgress.Value = e.ProgressPercentage;
             }));
         }
     }

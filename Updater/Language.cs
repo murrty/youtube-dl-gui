@@ -86,7 +86,7 @@ public class Language {
         public static readonly string lbUpdaterDescription = "The previous version won't be deleted if it fails.";
         public static readonly string frmException = "An exception occured";
         public static readonly string lbExceptionHeader = "An exception has occured";
-        public static readonly string lbExceptionDescription = "Below is the error that occured. Feel free to open a new issue and report it.";
+        public static readonly string lbExceptionDescription = "Below is the error that occured. Feel free to open a new issue and report it. The old youtube-dl-gui will be restored, and you can attempt to redownload the update through the application, or manually from Github.";
         public static readonly string rtbExceptionDetails = "Feel free to copy + paste this entire text wall into a new issue on Github";
         public static readonly string btnExceptionGithub = "Open Github";
         public static readonly string btnExceptionOk = "OK";
