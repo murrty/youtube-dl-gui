@@ -699,8 +699,10 @@ namespace youtube_dl_gui {
                         auth.VideoPassword = null;
                     }
                     Downloader.AuthNetrc = auth.Netrc;
+                    auth.Dispose();
                 }
                 else {
+                    auth.Dispose();
                     return;
                 }
             }
