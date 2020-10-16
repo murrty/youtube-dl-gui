@@ -22,6 +22,23 @@ namespace youtube_dl_gui {
 
         #region Generics
         private static volatile string GenericInputBestString = "GenericInputBest";
+        private static volatile string GenericCancelString = "GenericCancel";
+        #endregion
+
+        #region frmAuthentication
+        private static volatile string frmAuthenticationString = "frmAuthentication";
+
+        private static volatile string lbAuthNoticeString = "lbAuthNotice";
+
+        private static volatile string lbAuthUsernameString = "lbAuthUsername";
+        private static volatile string lbAuthPasswordString = "lbAuthPassword";
+        private static volatile string lbAuth2FactorString = "lbAuth2Factor";
+        private static volatile string lbAuthVideoPasswordString = "lbAuthVideoPassword";
+        private static volatile string chkAuthUseNetrcString = "chkAuthUseNetrc";
+
+        private static volatile string lbAuthNoSaveString = "lbAuthNoSave";
+
+        private static volatile string btnAuthBeginDownloadString = "btnAuthBeginDownload";
         #endregion
 
         #region frmBatchDownload
@@ -49,8 +66,7 @@ namespace youtube_dl_gui {
         private static volatile string frmDownloaderCompleteString = "frmDownloaderComplete";
         private static volatile string frmDownloaderErrorString = "frmDownloaderError";
         private static volatile string chkDownloaderCloseAfterDownloadString = "chkDownloaderCloseAfterDownload";
-        private static volatile string btnDownloaderCancelString = "btnDownloaderCancelExit";
-        private static volatile string btnDownloaderExitString = "btnDownloaderCancelExit";
+        private static volatile string btnDownloaderExitString = "btnDownloaderExit";
         #endregion
 
         #region frmException
@@ -78,7 +94,7 @@ namespace youtube_dl_gui {
         private static volatile string tabDownloadString = "tabDownload";
         private static volatile string tabConvertString = "tabConvert";
         private static volatile string tabMergeString = "tabMerge";
-        // frmMain / tcMain / Download (12 total)
+        // frmMain / tcMain / Download (16 total)
         private static volatile string lbURLString = "lbURL";
         private static volatile string txtUrlHintString = "txtUrlHint";
         private static volatile string gbDownloadTypeString = "gbDownloadType";
@@ -91,10 +107,11 @@ namespace youtube_dl_gui {
         private static volatile string lbCustomArgumentsString = "lbCustomArguments";
         private static volatile string txtArgsHintString = "txtArgsHint";
         private static volatile string sbDownloadString = "sbDownload";
+        private static volatile string mDownloadWithAuthenticationString = "mDownloadWithAuthentication";
         private static volatile string mBatchDownloadFromFileString = "mBatchDownloadFromFile";
         private static volatile string lbDownloadStatusStartedString = "lbDownloadStatusStarted";
         private static volatile string lbDownloadStatusErrorString = "lbDownloadStatusError";
-        // frmMain / tcMain / Convert (9 total)
+        // frmMain / tcMain / Convert (10 total)
         private static volatile string lbConvertInputString = "lbConvertInput";
         private static volatile string lbConvertOutputString = "lbConvertOutput";
         private static volatile string rbConvertVideoString = "rbConvertVideo";
@@ -144,7 +161,6 @@ namespace youtube_dl_gui {
         #region frmSettings form
         // frmSettings
         private static volatile string btnSettingsRedownloadYoutubeDlString = "btnSettingsRedownloadYoutubeDl";
-        private static volatile string btnSettingsCancelString = "btnSettingsCancel";
         private static volatile string btnSettingsSaveString = "btnSettingsSave";
         // frmSettings / tcMain
         private static volatile string tabSettingsGeneralString = "tabSettingsGeneral";
@@ -383,6 +399,49 @@ namespace youtube_dl_gui {
             get { return GenericInputBestString; }
             private set { GenericInputBestString = value; }
         }
+        public string GenericCancel {
+            get { return GenericCancelString; }
+            private set { GenericCancelString = value; }
+        }
+        #endregion
+
+        #region frmAuthentication
+        public string frmAuthentication {
+            get { return frmAuthenticationString; }
+            private set { frmAuthenticationString = value; }
+        }
+        public string lbAuthNotice {
+            get { return lbAuthNoticeString; }
+            private set { lbAuthNoticeString = value; }
+        }
+        public string lbAuthUsername {
+            get { return lbAuthUsernameString; }
+            private set { lbAuthUsernameString = value; }
+        }
+        public string lbAuthPassword {
+            get { return lbAuthPasswordString; }
+            private set { lbAuthPasswordString = value; }
+        }
+        public string lbAuth2Factor {
+            get { return lbAuth2FactorString; }
+            private set { lbAuth2FactorString = value; }
+        }
+        public string lbAuthVideoPassword {
+            get { return lbAuthVideoPasswordString; }
+            private set { lbAuthVideoPasswordString = value; }
+        }
+        public string chkAuthUseNetrc {
+            get { return chkAuthUseNetrcString; }
+            private set { chkAuthUseNetrcString = value; }
+        }
+        public string lbAuthNoSave {
+            get { return lbAuthNoSaveString; }
+            private set { lbAuthNoSaveString = value; }
+        }
+        public string btnAuthBeginDownload {
+            get { return btnAuthBeginDownloadString; }
+            private set { btnAuthBeginDownloadString = value; }
+        }
         #endregion
 
         #region frmBatchDownloader
@@ -472,10 +531,6 @@ namespace youtube_dl_gui {
         public string chkDownloaderCloseAfterDownload {
             get { return chkDownloaderCloseAfterDownloadString; }
             private set { chkDownloaderCloseAfterDownloadString = value; }
-        }
-        public string btnDownloaderCancel {
-            get { return btnDownloaderCancelString; }
-            private set { btnDownloaderCancelString = value; }
         }
         public string btnDownloaderExit {
             get { return btnDownloaderExitString; }
@@ -627,6 +682,10 @@ namespace youtube_dl_gui {
         public string sbDownload {
             get { return sbDownloadString; }
             private set { sbDownloadString = value; }
+        }
+        public string mDownloadWithAuthentication {
+            get { return mDownloadWithAuthenticationString; }
+            private set { mDownloadWithAuthenticationString = value; }
         }
         public string mBatchDownloadFromFile {
             get { return mBatchDownloadFromFileString; }
@@ -783,10 +842,6 @@ namespace youtube_dl_gui {
         public string btnSettingsRedownloadYoutubeDl {
             get { return btnSettingsRedownloadYoutubeDlString; }
             private set { btnSettingsRedownloadYoutubeDlString = value; }
-        }
-        public string btnSettingsCancel {
-            get { return btnSettingsCancelString; }
-            private set { btnSettingsCancelString = value; }
         }
         public string btnSettingsSave {
             get { return btnSettingsSaveString; }
@@ -1466,6 +1521,23 @@ namespace youtube_dl_gui {
 
             // Generics
             public static readonly string GenericInputBest = "best";
+            public static readonly string GenericCancel = "Cancel";
+
+            #region frmAuthentication
+            public static readonly string frmAuthentication = "Authentication";
+
+            public static readonly string lbAuthNotice = "Enter your authentication information:";
+
+            public static readonly string lbAuthUsername = "Username";
+            public static readonly string lbAuthPassword = "Password";
+            public static readonly string lbAuth2Factor = "2-Factor";
+            public static readonly string lbAuthVideoPassword = "Video password";
+            public static readonly string chkAuthUseNetrc = "Use .netrc for authentication";
+
+            public static readonly string lbAuthNoSave = "Your information will not be saved for security reasons.";
+
+            public static readonly string btnAuthBeginDownload = "Begin download";
+            #endregion
 
             #region frmBatchDownloader
             // frmBatch
@@ -1493,7 +1565,6 @@ namespace youtube_dl_gui {
             public static readonly string frmDownloaderComplete = "Download finished";
             public static readonly string frmDownloaderError = "Error downloading";
             public static readonly string chkDownloaderCloseAfterDownload = "Close after download";
-            public static readonly string btnDownloaderCancel = "Cancel";
             public static readonly string btnDownloaderExit = "Exit";
             #endregion
 
@@ -1544,6 +1615,7 @@ namespace youtube_dl_gui {
             public static readonly string lbCustomArguments = "Custom arguments";
             public static readonly string txtArgsHint = "Custom youtube-dl arguments";
             public static readonly string sbDownload = "Download";
+            public static readonly string mDownloadWithAuthentication = "Download with authentication...";
             public static readonly string mBatchDownloadFromFile = "Batch download from file...";
             public static readonly string lbDownloadStatusStarted = "Download started";
             public static readonly string lbDownloadStatusError = "Error downloading";
@@ -1590,7 +1662,6 @@ namespace youtube_dl_gui {
             // frmSettings
             public static readonly string frmSettings = "youtube-dl-gui settings";
             public static readonly string btnSettingsRedownloadYoutubeDl = "(re)download youtube-dl";
-            public static readonly string btnSettingsCancel = "Cancel";
             public static readonly string btnSettingsSave = "Save";
             public static readonly string btnSettingsRedownloadYoutubeDlHint = "Redownloads youtube-dl if one is already present, otherwise, updates youtube-dl";
             public static readonly string btnSettingsCancelHint = "Discard any changed settings";
@@ -1799,7 +1870,7 @@ namespace youtube_dl_gui {
             #endregion
         }
 
-        public bool LoadInternalEnglish() {
+        public void LoadInternalEnglish() {
             LoadedFile = null;
 
             // Langauge identifier
@@ -1809,6 +1880,18 @@ namespace youtube_dl_gui {
 
             // Generics
             GenericInputBest = InternalEnglish.GenericInputBest;
+            GenericCancel = InternalEnglish.GenericCancel;
+
+            // frmAuthentication
+            frmAuthentication = InternalEnglish.frmAuthentication;
+            lbAuthNotice = InternalEnglish.lbAuthNotice;
+            lbAuthUsername = InternalEnglish.lbAuthUsername;
+            lbAuthPassword = InternalEnglish.lbAuthPassword;
+            lbAuth2Factor = InternalEnglish.lbAuth2Factor;
+            lbAuthVideoPassword = InternalEnglish.lbAuthVideoPassword;
+            chkAuthUseNetrc = InternalEnglish.chkAuthUseNetrc;
+            lbAuthNoSave = InternalEnglish.lbAuthNoSave;
+            btnAuthBeginDownload = InternalEnglish.btnAuthBeginDownload;
 
             // frmBatch
             frmBatchDownload = InternalEnglish.frmBatchDownload;
@@ -1834,7 +1917,6 @@ namespace youtube_dl_gui {
             frmDownloaderComplete = InternalEnglish.frmDownloaderComplete;
             frmDownloaderError = InternalEnglish.frmDownloaderError;
             chkDownloaderCloseAfterDownload = InternalEnglish.chkDownloaderCloseAfterDownload;
-            btnDownloaderCancel = InternalEnglish.btnDownloaderCancel;
             btnDownloaderExit = InternalEnglish.btnDownloaderExit;
 
             // frmException
@@ -1878,6 +1960,7 @@ namespace youtube_dl_gui {
             lbCustomArguments = InternalEnglish.lbCustomArguments;
             txtArgsHint = InternalEnglish.txtArgsHint;
             sbDownload = InternalEnglish.sbDownload;
+            mDownloadWithAuthentication = InternalEnglish.mDownloadWithAuthentication;
             mBatchDownloadFromFile = InternalEnglish.mBatchDownloadFromFile;
             lbDownloadStatusStarted = InternalEnglish.lbDownloadStatusStarted;
             lbDownloadStatusError = InternalEnglish.lbDownloadStatusError;
@@ -1920,7 +2003,6 @@ namespace youtube_dl_gui {
 
             // frmSettings
             btnSettingsRedownloadYoutubeDl = InternalEnglish.btnSettingsRedownloadYoutubeDl;
-            btnSettingsCancel = InternalEnglish.btnSettingsCancel;
             btnSettingsSave = InternalEnglish.btnSettingsSave;
 
             tabSettingsGeneral = InternalEnglish.tabSettingsGeneral;
@@ -2105,8 +2187,325 @@ namespace youtube_dl_gui {
             btnUpdateAvailableSkipVersion = InternalEnglish.btnUpdateAvailableSkipVersion;
             btnUpdateAvailableUpdate = InternalEnglish.btnUpdateAvailableUpdate;
             btnUpdateAvailableOk = InternalEnglish.btnUpdateAvailableOk;
+        }
 
-            return true;
+        public void LoadControlIDs() {
+            LoadedFile = null;
+
+            // Langauge identifier
+            CurrentLanguageLong = "CurrentLanguageLong";
+            CurrentLanguageShort = "CurrentLanguageShort";
+            CurrentLanguageHint = "CurrentLanguageHint";
+
+            // Generics
+            GenericInputBest = "GenericInputBest";
+            GenericCancel = "GenericCancel";
+
+            // frmAuthentication
+            frmAuthentication = "frmAuthentication";
+            lbAuthNotice = "lbAuthNotice";
+            lbAuthUsername = "lbAuthUsername";
+            lbAuthPassword = "lbAuthPassword";
+            lbAuth2Factor = "lbAuth2Factor";
+            lbAuthVideoPassword = "lbAuthVideoPassword";
+            chkAuthUseNetrc = "chkAuthUseNetrc";
+            lbAuthNoSave = "lbAuthNoSave";
+            btnAuthBeginDownload = "btnAuthBeginDownload";
+
+            // frmBatch
+            frmBatchDownload = "frmBatchDownload";
+            lbBatchDownloadLink = "lbBatchDownloadLink";
+            lbBatchDownloadType = "lbBatchDownloadType";
+            lbBatchDownloadVideoSpecificArgument = "lbBatchDownloadVideoSpecificArgument";
+            btnBatchDownloadAdd = "btnBatchDownloadAdd";
+            sbBatchDownloadLoadArgs = "sbBatchDownloadLoadArgs";
+            mBatchDownloaderLoadArgsFromSettings = "mBatchDownloaderLoadArgsFromSettings";
+            mBatchDownloaderLoadArgsFromArgsTxt = "mBatchDownloaderLoadArgsFromArgsTxt";
+            mBatchDownloaderLoadArgsFromFile = "mBatchDownloaderLoadArgsFromFile";
+            btnBatchDownloadRemoveSelected = "btnBatchDownloadRemoveSelected";
+            btnBatchDownloadStart = "btnBatchDownloadStart";
+            btnBatchDownloadStop = "btnBatchDownloadStop";
+            btnBatchDownloadExit = "btnBatchDownloadExit";
+            sbBatchDownloaderIdle = "sbBatchDownloaderIdle";
+            sbBatchDownloaderDownloading = "sbBatchDownloaderDownloading";
+            sbBatchDownloaderFinished = "sbBatchDownloaderFinished";
+            sbBatchDownloaderAborted = "sbBatchDownloaderAborted";
+
+            // frmDownloader
+            frmDownloader = "frmDownloader";
+            frmDownloaderComplete = "frmDownloaderComplete";
+            frmDownloaderError = "frmDownloaderError";
+            chkDownloaderCloseAfterDownload = "chkDownloaderCloseAfterDownload";
+            btnDownloaderExit = "btnDownloaderExit";
+
+            // frmException
+            frmException = "frmException";
+            lbExceptionHeader = "lbExceptionHeader";
+            lbExceptionDescription = "lbExceptionDescription";
+            rtbExceptionDetails = "rtbExceptionDetails";
+            btnExceptionGithub = "btnExceptionGithub";
+            btnExceptionOk = "btnExceptionOk";
+
+            // frmLanguage
+            frmLanguage = "frmLanguage";
+            btnLanguageRefresh = "btnLanguageRefresh";
+            btnLanguageCancel = "btnLanguageCancel";
+            btnLanguageSave = "btnLanguageSave";
+
+            // frmMain
+            mSettings = "mSettings";
+            mTools = "mTools";
+            mBatchDownload = "mBatchDownload";
+            mDownloadSubtitles = "mDownloadSubtitles";
+            mMiscTools = "mMiscTools";
+            mHelp = "mHelp";
+            mLanguage = "mLanguage";
+            mSupportedSites = "mSupportedSites";
+            mAbout = "mAbout";
+
+            tabDownload = "tabDownload";
+            tabConvert = "tabConvert";
+            tabMerge = "tabMerge";
+
+            lbURL = "lbURL";
+            txtUrlHint = "txtUrlHint";
+            gbDownloadType = "gbDownloadType";
+            rbVideo = "rbVideo";
+            rbAudio = "rbAudio";
+            rbCustom = "rbCustom";
+            lbQuality = "lbQuality";
+            lbFormat = "lbFormat";
+            chkDownloadSound = "chkDownloadSound";
+            lbCustomArguments = "lbCustomArguments";
+            txtArgsHint = "txtArgsHint";
+            sbDownload = "sbDownload";
+            mDownloadWithAuthentication = "mDownloadWithAuthentication";
+            mBatchDownloadFromFile = "mBatchDownloadFromFile";
+            lbDownloadStatusStarted = "lbDownloadStatusStarted";
+            lbDownloadStatusError = "lbDownloadStatusError";
+
+            lbConvertInput = "lbConvertInput";
+            lbConvertOutput = "lbConvertOutput";
+            rbConvertVideo = "rbConvertVideo";
+            rbConvertAudio = "rbConvertAudio";
+            rbConvertCustom = "rbConvertCustom";
+            rbConvertAuto = "rbConvertAuto";
+            rbConvertAutoFFmpeg = "rbConvertAutoFFmpeg";
+            btnConvert = "btnConvert";
+            lbConvertStarted = "lbConvertStarted";
+            lbConvertFailed = "lbConvertFailed";
+
+            lbMergeInput1 = "lbMergeInput1";
+            lbMergeInput2 = "lbMergeInput2";
+            lbMergeOutput = "lbMergeOutput";
+            chkMergeAudioTracks = "chkMergeAudioTracks";
+            chkMergeDeleteInputFiles = "chkMergeDeleteInputFiles";
+            btnMerge = "btnMerge";
+
+            cmTrayShowForm = "cmTrayShowForm";
+            cmTrayDownloader = "cmTrayDownloader";
+            cmTrayDownloadClipboard = "cmTrayDownloadClipboard";
+            cmTrayDownloadBestVideo = "cmTrayDownloadBestVideo";
+            cmTrayDownloadBestAudio = "cmTrayDownloadBestAudio";
+            cmTrayDownloadCustom = "cmTrayDownloadCustom";
+            cmTrayDownloadCustomTxtBox = "cmTrayDownloadCustomTxtBox";
+            cmTrayDownloadCustomTxt = "cmTrayDownloadCustomTxt";
+            cmTrayDownloadCustomSettings = "cmTrayDownloadCustomSettings";
+            cmTrayConverter = "cmTrayConverter";
+            cmTrayConvertTo = "cmTrayConvertTo";
+            cmTrayConvertVideo = "cmTrayConvertVideo";
+            cmTrayConvertAudio = "cmTrayConvertAudio";
+            cmTrayConvertCustom = "cmTrayConvertCustom";
+            cmTrayConvertAutomatic = "cmTrayConvertAutomatic";
+            cmTrayConvertAutoFFmpeg = "cmTrayConvertAutoFFmpeg";
+            cmTrayExit = "cmTrayExit";
+
+            // frmSettings
+            btnSettingsRedownloadYoutubeDl = "btnSettingsRedownloadYoutubeDl";
+            btnSettingsSave = "btnSettingsSave";
+
+            tabSettingsGeneral = "tabSettingsGeneral";
+            tabSettingsDownloads = "tabSettingsDownloads";
+            tabSettingsConverter = "tabSettingsConverter";
+            tabSettingsExtensions = "tabSettingsExtensions";
+            tabSettingsErrors = "tabSettingsErrors";
+
+            lbSettingsGeneralYoutubeDlPath = "lbSettingsGeneralYoutubeDlPath";
+            chkSettingsGeneralUseStaticYoutubeDl = "chkSettingsGeneralUseStaticYoutubeDl";
+            ofdTitleYoutubeDl = "ofdTitleYoutubeDl";
+            ofdFilterYoutubeDl = "ofdFilterYoutubeDl";
+            lbSettingsGeneralFFmpegDirectory = "lbSettingsGeneralFFmpegDirectory";
+            chkSettingsGeneralUseStaticFFmpeg = "chkSettingsGeneralUseStaticFFmpeg";
+            ofdTitleFFmpeg = "ofdTitleFFmpeg";
+            ofdFilterFFmpeg = "ofdFilterFFmpeg";
+            chkSettingsGeneralCheckForUpdatesOnLaunch = "chkSettingsGeneralCheckForUpdatesOnLaunch";
+            chkSettingsGeneralHoverOverUrlToPasteClipboard = "chkSettingsGeneralHoverOverUrlToPasteClipboard";
+            chkSettingsGeneralClearUrlOnDownload = "chkSettingsGeneralClearUrlOnDownload";
+            chkSettingsGeneralClearClipboardOnDownload = "chkSettingsGeneralClearClipboardOnDownload";
+            gbSettingsGeneralCustomArguments = "gbSettingsGeneralCustomArguments";
+            rbSettingsGeneralCustomArgumentsDontSave = "rbSettingsGeneralCustomArgumentsDontSave";
+            rbSettingsGeneralCustomArgumentsSaveAsArgsText = "rbSettingsGeneralCustomArgumentsSaveAsArgsText";
+            rbSettingsGeneralCustomArgumentsSaveInSettings = "rbSettingsGeneralCustomArgumentsSaveInSettings";
+
+            lbSettingsDownloadsDownloadPath = "lbSettingsDownloadsDownloadPath";
+            lbSettingsDownloadsFileNameSchema = "lbSettingsDownloadsFileNameSchema";
+            tabDownloadsGeneral = "tabDownloadsGeneral";
+            tabDownloadsSorting = "tabDownloadsSorting";
+            tabDownloadsFixes = "tabdownloadsFixes";
+            tabDownloadsConnection = "tabDownloadsConnection";
+            tabDownloadsUpdating = "tabDownloadsUpdating";
+
+            chkSettingsDownloadsSaveFormatQuality = "chkSettingsDownloadsSaveFormatQuality";
+            chkSettingsDownloadsDownloadSubtitles = "chkSettingsDownloadsDownloadSubtitles";
+            chkSettingsDownloadsEmbedSubtitles = "chkSettingsDownloadsEmbedSubtitles";
+            chkSettingsDownloadsSaveVideoInfo = "chkSettingsDownloadsSaveVideoInfo";
+            chkSettingsDownloadsWriteMetadataToFile = "chkSettingsDownloadsWriteMetadataToFile";
+            chkSettingsDownloadsSaveDescription = "chkSettingsDownloadsSaveDescription";
+            chkSettingsDownloadsKeepOriginalFiles = "chkSettingsDownloadsKeepOriginalFiles";
+            chkSettingsDownloadsSaveAnnotations = "chkSettingsDownloadsSaveAnnotations";
+            chkSettingsDownloadsSaveThumbnails = "chkSettingsDownloadsSaveThumbnails";
+            chkSettingsDownloadsEmbedThumbnails = "chkSettingsDownloadsEmbedThumbnails";
+            chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing = "chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing";
+            chkSettingsDownloadsSeparateDownloadsToDifferentFolders = "chkSettingsDownloadsSeparateDownloadsToDifferentFolders";
+            chkSettingsDownloadsSeparateIntoWebsiteUrl = "chkSettingsDownloadsSeparateIntoWebsiteUrl";
+            chkSettingsDownloadsFixVReddIt = "chkSettingsDownloadsFixVReddIt";
+            chkSettingsDownloadsLimitDownload = "chkSettingsDownloadsLimitDownload";
+            lbSettingsDownloadsRetryAttempts = "lbSettingsDownloadsRetryAttempts";
+            chkSettingsDownloadsForceIpv4 = "chkSettingsDownloadsForceIpv4";
+            chkSettingsDownloadsForceIpv6 = "chkSettingsDownloadsForceIpv6";
+            chkSettingsDownloadsUseProxy = "chkSettingsDownloadsUseProxy";
+            chksettingsDownloadsUseYoutubeDlsUpdater = "chksettingsDownloadsUseYoutubeDlsUpdater";
+
+            chkSettingsConverterClearOutputAfterConverting = "chkSettingsConverterClearOutputAfterConverting";
+            chkSettingsConverterDetectOutputFileType = "chkSettingsConverterDetectOutputFileType";
+            chkSettingsConverterClearInputAfterConverting = "chkSettingsConverterClearInputAfterConverting";
+            chkSettingsConverterHideFFmpegCompileInfo = "chkSettingsConverterHideFFmpegCompileInfo";
+            tcSettingsConverterVideo = "tcSettingsConverterVideo";
+            tcSettingsConverterAudio = "tcSettingsConverterAudio";
+            tcSettingsConverterCustom = "tcSettingsConverterCustom";
+            lbSettingsConverterVideoBitrate = "lbSettingsConverterVideoBitrate";
+            lbSettingsConverterVideoPreset = "lbSettingsConverterVideoPreset";
+            lbSettingsConverterVideoProfile = "lbSettingsConverterVideoProfile";
+            lbSettingsConverterVideoCRF = "lbSettingsConverterVideoCRF";
+            chkSettingsConverterVideoFastStart = "chkSettingsConverterVideoFastStart";
+            lbSettingsConverterAudioBitrate = "lbSettingsConverterAudioBitrate";
+            lbSettingsConverterCustomHeader = "lbSettingsConverterCustomHeader";
+
+            lbSettingsExtensionsHeader = "lbSettingsExtensionsHeader";
+            lbSettingsExtensionsExtensionFullName = "lbSettingsExtensionsExtensionFullName";
+            txtSettingsExtensionsExtensionFullName = "txtSettingsExtensionsExtensionFullName";
+            lbSettingsExtensionsExtensionShort = "lbSettingsExtensionsExtensionShort";
+            txtSettingsExtensionsExtensionShort = "txtSettingsExtensionsExtensionShort";
+            btnSettingsExtensionsAdd = "btnSettingsExtensionsAdd";
+            lbSettingsExtensionsFileName = "lbSettingsExtensionsFileName";
+            btnSettingsExtensionsRemoveSelected = "btnSettingsExtensionsRemoveSelected";
+
+            chkSettingsErrorsShowDetailedErrors = "chkSettingsErrorsShowDetailedErrors";
+            chkSettingsErrorsSaveErrorsAsErrorLog = "chkSettingsErrorsSaveErrorsAsErrorLog";
+            chkSettingsErrorsSuppressErrors = "chkSettingsErrorsSuppressErrors";
+
+            // frmSettings tipSettings
+            btnSettingsRedownloadYoutubeDlHint = "btnSettingsRedownloadYoutubeDlHint";
+            btnSettingsCancelHint = "btnSettingsCancelHint";
+            btnSettingsSaveHint = "btnSettingsSaveHint";
+
+            lbSettingsGeneralYoutubeDlPathHint = "lbSettingsGeneralYoutubeDlPathHint";
+            chkSettingsGeneralUseStaticYoutubeDlHint = "chkSettingsGeneralUseStaticYoutubeDlHint";
+            txtSettingsGeneralYoutubeDlPathHint = "txtSettingsGeneralYoutubeDlPathHint";
+            btnSettingsGeneralBrowseYoutubeDlHint = "btnSettingsGeneralBrowseYoutubeDlHint";
+            lbSettingsGeneralFFmpegDirectoryHint = "lbSettingsGeneralFFmpegDirectoryHint";
+            chkSettingsGeneralUseStaticFFmpegHint = "chkSettingsGeneralUseStaticFFmpegHint";
+            txtSettingsGeneralFFmpegPathHint = "txtSettingsGeneralFFmpegPathHint";
+            btnSettingsGeneralBrowseFFmpegHint = "btnSettingsGeneralBrowseFFmpegHint";
+            chkSettingsGeneralCheckForUpdatesOnLaunchHint = "chkSettingsGeneralCheckForUpdatesOnLaunchHint";
+            chkSettingsGeneralHoverOverUrlToPasteClipboardHint = "chkSettingsGeneralHoverOverUrlToPasteClipboardHint";
+            chkSettingsGeneralClearUrlOnDownloadHint = "chkSettingsGeneralClearUrlOnDownloadHint";
+            chkSettingsGeneralClearClipboardOnDownloadHint = "chkSettingsGeneralClearClipboardOnDownloadHint";
+            gbSettingsGeneralCustomArgumentsHint = "gbSettingsGeneralCustomArgumentsHint";
+            rbSettingsGeneralCustomArgumentsDontSaveHint = "rbSettingsGeneralCustomArgumentsDontSaveHint";
+            rbSettingsGeneralCustomArgumentsSaveAsArgsTextHint = "rbSettingsGeneralCustomArgumentsSaveAsArgsTextHint";
+            rbSettingsGeneralCustomArgumentsSaveInSettingsHint = "rbSettingsGeneralCustomArgumentsSaveInSettingsHint";
+
+            lbSettingsDownloadsDownloadPathHint = "lbSettingsDownloadsDownloadPathHint";
+            txtSettingsDownloadsSavePathHint = "txtSettingsDownloadsSavePathHint";
+            btnSettingsDownloadsBrowseSavePathHint = "btnSettingsDownloadsBrowseSavePathHint";
+            llSettingsDownloadsSchemaHelpHint = "llSettingsDownloadsSchemaHelpHint";
+            lbSettingsDownloadsFileNameSchemaHint = "lbSettingsDownloadsFileNameSchemaHint";
+
+            chkSettingsDownloadsSaveFormatQualityHint = "chkSettingsDownloadsSaveFormatQualityHint";
+            chkSettingsDownloadsDownloadSubtitlesHint = "chkSettingsDownloadsDownloadSubtitlesHint";
+            chkSettingsDownloadsEmbedSubtitlesHint = "chkSettingsDownloadsEmbedSubtitlesHint";
+            chkSettingsDownloadsSaveVideoInfoHint = "chkSettingsDownloadsSaveVideoInfoHint";
+            chkSettingsDownloadsWriteMetadataToFileHint = "chkSettingsDownloadsWriteMetadataToFileHint";
+            chkSettingsDownloadsSaveDescriptionHint = "chkSettingsDownloadsSaveDescriptionHint";
+            chkSettingsDownloadsKeepOriginalFilesHint = "chkSettingsDownloadsKeepOriginalFilesHint";
+            chkSettingsDownloadsSaveAnnotationsHint = "chkSettingsDownloadsSaveAnnotationsHint";
+            chkSettingsDownloadsSaveThumbnailsHint = "chkSettingsDownloadsSaveThumbnailsHint";
+            chkSettingsDownloadsEmbedThumbnailsHint = "chkSettingsDownloadsEmbedThumbnailsHint";
+            chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosingHint = "chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosingHint";
+            chkSettingsDownloadsSeparateDownloadsToDifferentFoldersHint = "chkSettingsDownloadsSeparateDownloadsToDifferentFoldersHint";
+            chkSettingsDownloadsSeparateIntoWebsiteUrlHint = "chkSettingsDownloadsSeparateIntoWebsiteUrlHint";
+            chkSettingsDownloadsFixVReddItHint = "chkSettingsDownloadsFixVReddItHint";
+            chkSettingsDownloadsLimitDownloadHint = "chkSettingsDownloadsLimitDownloadHint";
+            numSettingsDownloadsLimitDownloadHint = "numSettingsDownloadsLimitDownloadHint";
+            cbSettingsDownloadsLimitDownloadHint = "cbSettingsDownloadsLimitDownloadHint";
+            lbSettingsDownloadsRetryAttemptsHint = "lbSettingsDownloadsRetryAttemptsHint";
+            numSettingsDownloadsRetryAttemptsHint = "numSettingsDownloadsRetryAttemptsHint";
+            chkSettingsDownloadsForceIpv4Hint = "chkSettingsDownloadsForceIpv4Hint";
+            chkSettingsDownloadsForceIpv6Hint = "chkSettingsDownloadsForceIpv6Hint";
+            chkSettingsDownloadsUseProxyHint = "chkSettingsDownloadsUseProxyHint";
+            cbSettingsDownloadsProxyTypeHint = "cbSettingsDownloadsProxyTypeHint";
+            txtSettingsDownloadsProxyIpHint = "txtSettingsDownloadsProxyIpHint";
+            txtSettingsDownloadsProxyPortHint = "txtSettingsDownloadsProxyPortHint";
+            chksettingsDownloadsUseYoutubeDlsUpdaterHint = "chksettingsDownloadsUseYoutubeDlsUpdaterHint";
+
+            chkSettingsConverterClearOutputAfterConvertingHint = "chkSettingsConverterClearOutputAfterConvertingHint";
+            chkSettingsConverterDetectOutputFileTypeHint = "chkSettingsConverterDetectOutputFileTypeHint";
+            chkSettingsConverterClearInputAfterConvertingHint = "chkSettingsConverterClearInputAfterConvertingHint";
+            chkSettingsConverterHideFFmpegCompileInfoHint = "chkSettingsConverterHideFFmpegCompileInfoHint";
+            lbSettingsConverterVideoBitrateHint = "lbSettingsConverterVideoBitrateHint";
+            lbSettingsConverterVideoPresetHint = "lbSettingsConverterVideoPresetHint";
+            lbSettingsConverterVideoProfileHint = "lbSettingsConverterVideoProfileHint";
+            lbSettingsConverterVideoCRFHint = "lbSettingsConverterVideoCRFHint";
+            chkSettingsConverterVideoFastStartHint = "chkSettingsConverterVideoFastStartHint";
+            lbSettingsConverterAudioBitrateHint = "lbSettingsConverterAudioBitrateHint";
+            txtSettingsConverterCustomArgumentsHint = "txtSettingsConverterCustomArgumentsHint";
+
+            lbSettingsExtensionsHeader = "lbSettingsExtensionsHeader";
+            lbSettingsExtensionsExtensionFullName = "lbSettingsExtensionsExtensionFullName";
+            lbSettingsExtensionsExtensionShort = "lbSettingsExtensionsExtensionShort";
+            btnSettingsExtensionsAdd = "btnSettingsExtensionsAdd";
+            btnSettingsExtensionsRemoveSelected = "btnSettingsExtensionsRemoveSelected";
+
+            chkSettingsErrorsShowDetailedErrorsHint = "chkSettingsErrorsShowDetailedErrorsHint";
+            chkSettingsErrorsSaveErrorsAsErrorLogHint = "chkSettingsErrorsSaveErrorsAsErrorLogHint";
+            chkSettingsErrorsSuppressErrorsHint = "chkSettingsErrorsSuppressErrorsHint";
+
+
+            // frmSubtitles
+            frmSubtitles = "frmSubtitles";
+            lbSubtitlesHeader = "lbSubtitlesHeader";
+            lbSubtitlesUrl = "lbSubtitlesUrl";
+            lbSubtitlesLanguages = "lbSubtitlesLanguages";
+            btnSubtitlesAddLanguage = "btnSubtitlesAddLanguage";
+            btnSubtitlesClearLanguages = "btnSubtitlesClearLanguages";
+            btnSubtitlesDownload = "btnSubtitlesDownload";
+
+            // frmTools
+            frmTools = "frmTools";
+            btnMiscToolsRemoveAudio = "btnMiscToolsRemoveAudio";
+            btnMiscToolsExtractAudio = "btnMiscToolsExtractAudio";
+            btnMiscToolsVideoToGif = "btnMiscToolsVideoToGif";
+
+            // frmUpdateAvailable
+            frmUpdateAvailable = "frmUpdateAvailable";
+            lbUpdateAvailableHeader = "lbUpdateAvailableHeader";
+            lbUpdateAvailableUpdateVersion = "lbUpdateAvailableUpdateVersion";
+            lbUpdateAvailableCurrentVersion = "lbUpdateAvailableCurrentVersion";
+            lbUpdateAvailableChangelog = "lbUpdateAvailableChangelog";
+            btnUpdateAvailableSkipVersion = "btnUpdateAvailableSkipVersion";
+            btnUpdateAvailableUpdate = "btnUpdateAvailableUpdate";
+            btnUpdateAvailableOk = "btnUpdateAvailableOk";
         }
         #endregion
 
@@ -2118,6 +2517,8 @@ namespace youtube_dl_gui {
                     return true;
                 }
                 else {
+                    LoadControlIDs(); // Load the control IDs for any untranslated & undocumented strings
+
                     if (!LanguageFile.EndsWith(".ini")) { LanguageFile += ".ini"; }
 
                     if (System.IO.File.Exists(LanguageFile)) {
@@ -2149,6 +2550,7 @@ namespace youtube_dl_gui {
                             }
 
                             switch (ReadControl) {
+
                                 #region Language File
                                 case "currentlanguageshort":
                                     CurrentLanguageShort = ReadValue;
@@ -2164,6 +2566,39 @@ namespace youtube_dl_gui {
                                 #region Generics
                                 case "genericinputbest":
                                     GenericInputBest = ReadValue;
+                                    continue;
+                                case "genericcancel":
+                                    GenericCancel = ReadValue;
+                                    continue;
+                                #endregion
+
+                                #region frmAuthentication
+                                case "frmauthentication":
+                                    frmAuthentication = ReadValue;
+                                    continue;
+                                case "lbauthnotice":
+                                    lbAuthNotice = ReadValue;
+                                    continue;
+                                case "lbauthusername":
+                                    lbAuthUsername = ReadValue;
+                                    continue;
+                                case "lbauthpassword":
+                                    lbAuthPassword = ReadValue;
+                                    continue;
+                                case "lbauth2factor":
+                                    lbAuth2Factor = ReadValue;
+                                    continue;
+                                case "lbauthvideopassword":
+                                    lbAuthVideoPassword = ReadValue;
+                                    continue;
+                                case "chkauthusenetrc":
+                                    chkAuthUseNetrc = ReadValue;
+                                    continue;
+                                case "lbauthnosave":
+                                    lbAuthNoSave = ReadValue;
+                                    continue;
+                                case "btnauthbegindownload":
+                                    btnAuthBeginDownload = ReadValue;
                                     continue;
                                 #endregion
 
@@ -2234,9 +2669,6 @@ namespace youtube_dl_gui {
                                     continue;
                                 case "chkdownloadercloseafterdownload":
                                     chkDownloaderCloseAfterDownload = ReadValue;
-                                    continue;
-                                case "btndownloadercancel":
-                                    btnDownloaderCancel = ReadValue;
                                     continue;
                                 case "btndownloaderexit":
                                     btnDownloaderExit = ReadValue;
@@ -2356,6 +2788,9 @@ namespace youtube_dl_gui {
                                     continue;
                                 case "sbdownload":
                                     sbDownload = ReadValue;
+                                    continue;
+                                case "mdownloadwithauthentication":
+                                    mDownloadWithAuthentication = ReadValue;
                                     continue;
                                 case "mbatchdownloadfromfile":
                                     mBatchDownloadFromFile = ReadValue;
@@ -2478,9 +2913,6 @@ namespace youtube_dl_gui {
                                 case "btnsettingsredownloadyoutubedl":
                                     btnSettingsRedownloadYoutubeDl = ReadValue;
                                     continue;
-                                case "btnsettingscancel":
-                                    btnSettingsCancel = ReadValue;
-                                    continue;
                                 case "btnsettingssave":
                                     btnSettingsSave = ReadValue;
                                     continue;
@@ -2493,7 +2925,7 @@ namespace youtube_dl_gui {
                                 case "btnsettingssavehint":
                                     btnSettingsSaveHint = ReadValue;
                                     continue;
-                                
+
                                 // frmSettings / tcMain
                                 case "tabsettingsgeneral":
                                     tabSettingsGeneral = ReadValue;
@@ -2864,7 +3296,7 @@ namespace youtube_dl_gui {
                                 case "txtsettingsconvertercustomargumentshint":
                                     txtSettingsConverterCustomArgumentsHint = ReadValue;
                                     continue;
-                                
+
                                 // frmSettings / tcMain / tabExtensions
                                 case "lbsettingsextensionsheader":
                                     lbSettingsExtensionsHeader = ReadValue;
@@ -2890,7 +3322,7 @@ namespace youtube_dl_gui {
                                 case "btnsettingsextensionsremoveselected":
                                     btnSettingsExtensionsRemoveSelected = ReadValue;
                                     continue;
-                                
+
                                 // frmSettings / tcMain / tabErrors
                                 case "chksettingserrorsshowdetailederrors":
                                     chkSettingsErrorsShowDetailedErrors = ReadValue;
@@ -2999,10 +3431,10 @@ namespace youtube_dl_gui {
 
         private string ReadHeaderValue(string Input) {
             string ReadValue = null;
+            int CountedLength = 0;
             ReadValue = Input.Trim(' ');
             if (Input.Contains("//")) {
                 int CountedForwardSlashes = 0;
-                int CountedLength = 0;
                 for (int j = 0; j < Input.Length; j++) {
                     CountedLength++;
                     if (Input[j] == '/') {
@@ -3016,7 +3448,7 @@ namespace youtube_dl_gui {
             }
 
             if (ReadValue.Trim(' ').Trim('[').Trim(']') == null) {
-                throw new Exception("Unable to read the language ini header\nReadValue returned null.\nProblematic line is \"" + Input + "\"\n\n");
+                throw new Exception("Unable to read the language ini header\nReadValue returned null.\nProblematic line is \"" + Input + "\" on line " + CountedLength.ToString() + "\n\n");
             }
 
             return ReadValue.Trim(' ').Trim('[').Trim(']').Trim(' ');

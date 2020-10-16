@@ -20,6 +20,11 @@ namespace youtube_dl_gui {
         public bool UseVBR = false;             // Uses variable bitrate for audio
         public bool BatchDownload = false;      // Is the download in a batch? If so, minimize the form.
         public string BatchTime = string.Empty; // The time for the folder structure.
+        public string AuthUsername = null;
+        public string AuthPassword = null;
+        public string Auth2Factor = null;
+        public string AuthVideoPassword = null;
+        public bool AuthNetrc = false;
 
         public bool Debugging = false;
 
@@ -34,7 +39,7 @@ namespace youtube_dl_gui {
             InitializeComponent();
             this.Text = lang.frmDownloader + " ";
             chkDownloaderCloseAfterDownload.Text = lang.chkDownloaderCloseAfterDownload;
-            btnDownloaderCancelExit.Text = lang.btnDownloaderCancel;
+            btnDownloaderCancelExit.Text = lang.GenericCancel;
             chkDownloaderCloseAfterDownload.Checked = Downloads.Default.CloseDownloaderAfterFinish;
             this.Icon = Properties.Resources.youtube_dl_gui;
         }
@@ -81,6 +86,7 @@ namespace youtube_dl_gui {
 
             string YoutubeDlFileName = null;
             string ArgumentsBuffer = string.Empty;
+            string PreviewArguments = string.Empty;
             string QualityFormatBuffer = string.Empty;
             string hlsFF = string.Empty;
             string webFolder = string.Empty;
@@ -319,14 +325,47 @@ namespace youtube_dl_gui {
                     ArgumentsBuffer += " --proxy " + Download.ProxyProtocols[Downloads.Default.ProxyType] + Downloads.Default.ProxyIP + ":" + Downloads.Default.ProxyPort + "/ ";
                 }
             }
-
-            rtbConsoleOutput.AppendText("Arguments have been generated and are readonly in the textbox\n");
-            txtArgumentsGenerated.Text = ArgumentsBuffer;
             #endregion
 
+            #region Authentication
+            // Set the preview arguments to what is present in the arguments buffer.
+            // This is so the arguments buffer can have sensitive information and
+            // the preview arguments won't include it in case anyone creates an issue.
+            PreviewArguments = ArgumentsBuffer;
+
+            if (AuthUsername != null) {
+                ArgumentsBuffer += " --username " + AuthUsername;
+                PreviewArguments += " --username ***";
+                AuthUsername = null;
+            }
+            if (AuthPassword != null) {
+                ArgumentsBuffer += " --password " + AuthPassword;
+                PreviewArguments += " --password ***";
+                AuthPassword = null;
+            }
+            if (Auth2Factor != null) {
+                ArgumentsBuffer += " --twofactor " + Auth2Factor;
+                PreviewArguments += " --twofactor ***";
+                Auth2Factor = null;
+            }
+            if (AuthVideoPassword != null) {
+                ArgumentsBuffer += " --video-password " + AuthVideoPassword;
+                PreviewArguments += " --video-password ***";
+                AuthVideoPassword = null;
+            }
+            if (AuthNetrc) {
+                ArgumentsBuffer += " --netrc";
+                PreviewArguments += " --netrc";
+                AuthNetrc = false;
+            }
+            #endregion
+
+            rtbConsoleOutput.AppendText("Arguments have been generated and are readonly in the textbox\n");
+            txtArgumentsGenerated.Text = PreviewArguments;
+
             #region Download thread
-            if (Program.IsDebug && Debugging && !BatchDownload) {
-                rtbConsoleOutput.Text = ArgumentsBuffer.Replace(' ', '\n');
+            if (Program.IsDebug && !BatchDownload) {
+                rtbConsoleOutput.Text = ArgumentsBuffer.Replace(' ', '\n') + "\n\n" + PreviewArguments.Replace(' ', '\n');
                 return;
             }
             rtbConsoleOutput.AppendText("Creating download thread\n");
@@ -388,6 +427,7 @@ namespace youtube_dl_gui {
                 }
             });
             rtbConsoleOutput.AppendText("Created, starting download thread\n");
+            DownloadThread.Name = "Downloading video";
             DownloadThread.Start();
             #endregion
         }

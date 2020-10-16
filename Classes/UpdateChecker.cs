@@ -73,13 +73,13 @@ namespace youtube_dl_gui {
                             }
                         }
                     });
+                    checkUpdates.Name = "Check for application update";
                     checkUpdates.Start();
                 }
             }
         }
 
         public static bool CheckForYoutubeDlUpdate() {
-
             if (GitData.YoutubeDlUpdateAvailable) {
                 return GitData.YoutubeDlUpdateAvailable;
             }
@@ -152,6 +152,7 @@ namespace youtube_dl_gui {
                             }
                         }
                     });
+                    DownloadYoutubeDl.Name = "Downloading youtube-dl";
                     DownloadYoutubeDl.Start();
                 }
                 else {
@@ -175,6 +176,7 @@ namespace youtube_dl_gui {
                             }
                         }
                     });
+                    DownloadYoutubeDl.Name = "Downloading youtube-dl";
                     DownloadYoutubeDl.Start();
                 }
             }
@@ -199,7 +201,7 @@ namespace youtube_dl_gui {
                         return xml.ToString();
                     }
                 }
-                // maybe having a task in a new thread is wrong, but for the sake of testing nothing is.
+                // maybe having a task in a new thread is wrong, but for the sake of testing; nothing is.
                 //ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
                 //using (HttpClient ApiClient = new HttpClient()) {
                 //    ApiClient.DefaultRequestHeaders.Add("User-Agent", Program.UserAgent);

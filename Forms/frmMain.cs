@@ -52,8 +52,8 @@ namespace youtube_dl_gui {
         }
 
         private void frmMain_Load(object sender, EventArgs e) {
-            UpdateChecker.CheckForUpdate();
             this.Icon = Properties.Resources.youtube_dl_gui;
+            UpdateChecker.CheckForUpdate();
             if (Saved.Default.MainFormSize != default(System.Drawing.Size)) {
                 this.Size = Saved.Default.MainFormSize;
             }
@@ -208,6 +208,7 @@ namespace youtube_dl_gui {
             lbCustomArguments.Text = lang.lbCustomArguments;
             SetTextBoxHint(txtArgs.Handle, lang.txtArgsHint);
             sbDownload.Text = lang.sbDownload;
+            mDownloadWithAuthentication.Text = lang.mDownloadWithAuthentication;
             mBatchDownloadFromFile.Text = lang.mBatchDownloadFromFile;
             lbDownloadStatus.Text = "...";
 
@@ -553,12 +554,12 @@ namespace youtube_dl_gui {
         }
         private void txtUrl_KeyPress(object sender, KeyPressEventArgs e) {
             if (e.KeyChar == 13) {
-                StartDownload();
+                StartDownload(false);
             }
         }
         private void txtArgs_KeyPress(object sender, KeyPressEventArgs e) {
             if (e.KeyChar == 13) {
-                StartDownload();
+                StartDownload(false);
             }
         }
         private void tmrDownloadLabel_Tick(object sender, EventArgs e) {
@@ -571,7 +572,10 @@ namespace youtube_dl_gui {
             }
         }
         private void sbDownload_Click(object sender, EventArgs e) {
-            StartDownload();
+            StartDownload(false);
+        }
+        private void mDownloadWithAuthentication_Click(object sender, EventArgs e) {
+            StartDownload(true);
         }
         private void mBatchDownloadFromFile_Click(object sender, EventArgs e) {
             // Todo: translation
@@ -665,13 +669,42 @@ namespace youtube_dl_gui {
                     }
                 }
             });
+            BatchThread.Name = "Batch download";
             BatchThread.Start();
         }
 
         [DebuggerStepThrough]
-        private void StartDownload() {
+        private void StartDownload(bool WithAuth = false) {
             if (string.IsNullOrEmpty(txtUrl.Text)) { return; }
             frmDownloader Downloader = new frmDownloader();
+
+            // First, authenticate.
+            if (WithAuth) {
+                frmAuthentication auth = new frmAuthentication();
+                if (auth.ShowDialog() == DialogResult.OK) {
+                    if (auth.Username != null) {
+                        Downloader.AuthUsername = auth.Username;
+                        auth.Username = null;
+                    }
+                    if (auth.Password != null) {
+                        Downloader.AuthPassword = auth.Password;
+                        auth.Password = null;
+                    }
+                    if (auth.TwoFactor != null) {
+                        Downloader.Auth2Factor = auth.TwoFactor;
+                        auth.TwoFactor = null;
+                    }
+                    if (auth.VideoPassword != null) {
+                        Downloader.AuthVideoPassword = auth.VideoPassword;
+                        auth.VideoPassword = null;
+                    }
+                    Downloader.AuthNetrc = auth.Netrc;
+                }
+                else {
+                    return;
+                }
+            }
+
             if (rbVideo.Checked) {
                 Downloader.DownloadPath = Downloads.Default.downloadPath;
                 Downloader.DownloadQuality = cbQuality.SelectedIndex;
@@ -1034,6 +1067,7 @@ namespace youtube_dl_gui {
             cbQuality.Location = v;
             cbFormat.Location = u;
         }
+
 
     }
 }

@@ -34,6 +34,7 @@
             this.lbDownloadStatus = new System.Windows.Forms.Label();
             this.sbDownload = new youtube_dl_gui.SplitButton();
             this.cmDownload = new System.Windows.Forms.ContextMenu();
+            this.mDownloadWithAuthentication = new System.Windows.Forms.MenuItem();
             this.mBatchDownloadFromFile = new System.Windows.Forms.MenuItem();
             this.chkDownloadSound = new System.Windows.Forms.CheckBox();
             this.cbQuality = new System.Windows.Forms.ComboBox();
@@ -221,11 +222,18 @@
             // cmDownload
             // 
             this.cmDownload.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+            this.mDownloadWithAuthentication,
             this.mBatchDownloadFromFile});
+            // 
+            // mDownloadWithAuthentication
+            // 
+            this.mDownloadWithAuthentication.Index = 0;
+            this.mDownloadWithAuthentication.Text = "mDownloadWithAuthentication";
+            this.mDownloadWithAuthentication.Click += new System.EventHandler(this.mDownloadWithAuthentication_Click);
             // 
             // mBatchDownloadFromFile
             // 
-            this.mBatchDownloadFromFile.Index = 0;
+            this.mBatchDownloadFromFile.Index = 1;
             this.mBatchDownloadFromFile.Text = "mBatchDownloadFromFile";
             this.mBatchDownloadFromFile.Click += new System.EventHandler(this.mBatchDownloadFromFile_Click);
             // 
@@ -354,7 +362,7 @@
             this.tabConvert.Location = new System.Drawing.Point(4, 22);
             this.tabConvert.Name = "tabConvert";
             this.tabConvert.Padding = new System.Windows.Forms.Padding(3);
-            this.tabConvert.Size = new System.Drawing.Size(244, 275);
+            this.tabConvert.Size = new System.Drawing.Size(244, 295);
             this.tabConvert.TabIndex = 1;
             this.tabConvert.Text = "tabConvert";
             this.tabConvert.UseVisualStyleBackColor = true;
@@ -521,7 +529,7 @@
             this.tabMerge.Location = new System.Drawing.Point(4, 22);
             this.tabMerge.Name = "tabMerge";
             this.tabMerge.Padding = new System.Windows.Forms.Padding(3);
-            this.tabMerge.Size = new System.Drawing.Size(244, 275);
+            this.tabMerge.Size = new System.Drawing.Size(244, 295);
             this.tabMerge.TabIndex = 2;
             this.tabMerge.Text = "tabMerge";
             this.tabMerge.UseVisualStyleBackColor = true;
@@ -663,7 +671,7 @@
             this.tabDebug.Location = new System.Drawing.Point(4, 22);
             this.tabDebug.Name = "tabDebug";
             this.tabDebug.Padding = new System.Windows.Forms.Padding(3);
-            this.tabDebug.Size = new System.Drawing.Size(244, 275);
+            this.tabDebug.Size = new System.Drawing.Size(244, 295);
             this.tabDebug.TabIndex = 3;
             this.tabDebug.Text = "Debug";
             this.tabDebug.UseVisualStyleBackColor = true;
@@ -1056,6 +1064,7 @@
         private System.Windows.Forms.Label lbFormat;
         private System.Windows.Forms.Button btnDebugRotateQualityFormat;
         public System.Windows.Forms.TextBox txtUrl;
+        private System.Windows.Forms.MenuItem mDownloadWithAuthentication;
     }
 }
 

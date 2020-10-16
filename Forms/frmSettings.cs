@@ -40,7 +40,7 @@ namespace youtube_dl_gui {
         void LoadLanguage() {
             btnSettingsRedownloadYoutubeDl.Text = lang.btnSettingsRedownloadYoutubeDl;
             tipSettings.SetToolTip(btnSettingsRedownloadYoutubeDl, lang.btnSettingsRedownloadYoutubeDlHint);
-            btnSettingsCancel.Text = lang.btnSettingsCancel;
+            btnSettingsCancel.Text = lang.GenericCancel;
             tipSettings.SetToolTip(btnSettingsCancel, lang.btnSettingsCancelHint);
             btnSettingsSave.Text = lang.btnSettingsSave;
             tipSettings.SetToolTip(btnSettingsSave, lang.btnSettingsSaveHint);
