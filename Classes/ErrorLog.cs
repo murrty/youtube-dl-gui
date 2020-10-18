@@ -1,4 +1,5 @@
-﻿using System;
+﻿// 1.0
+using System;
 using System.Net;
 
 namespace youtube_dl_gui {
