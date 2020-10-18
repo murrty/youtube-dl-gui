@@ -40,41 +40,39 @@ namespace youtube_dl_gui {
 
         private void frmError_Load(object sender, EventArgs e) {
             string Exception = string.Empty;
-            if (SetCustomDescription && CustomDescription != null) {
+            if (ReportedException != null) {
+                Exception += "An exception occured" + "\n";
+                Exception += "Message: " + ReportedException.Message + "\n";
+                Exception += "Stacktrace: " + ReportedException.StackTrace + "\n";
+                Exception += "Source: " + ReportedException.Source + "\n";
+                Exception += "TargetSite: " + ReportedException.TargetSite + "\n";
+
+
+                Exception += "Full report:\n" + ReportedException.ToString();
+            }
+            else if (ReportedWebException != null) {
+                Exception += "A web exception occured" + "\n";
+                Exception += "Message: " + ReportedWebException.Message + "\n";
+                Exception += "Stacktrace: " + ReportedWebException.StackTrace + "\n";
+                Exception += "Source: " + ReportedWebException.Source + "\n";
+                Exception += "TargetSite: " + ReportedWebException.TargetSite + "\n";
+                Exception += "InnerException: " + ReportedWebException.InnerException + "\n";
+                Exception += "Response: " + ReportedWebException.Response + "\n";
+                Exception += "WebAddress: " + WebAddress + "\n";
+
+
+                Exception += "Full report:\n" + ReportedWebException.ToString();
+            }
+            else if (CustomDescription != null) {
                 rtbExceptionDetails.Text = CustomDescription;
             }
             else {
-                if (ReportedException != null) {
-                    Exception += "An exception occured" + "\n";
-                    Exception += "Message: " + ReportedException.Message + "\n";
-                    Exception += "Stacktrace: " + ReportedException.StackTrace + "\n";
-                    Exception += "Source: " + ReportedException.Source + "\n";
-                    Exception += "TargetSite: " + ReportedException.TargetSite + "\n";
-
-
-                    Exception += "Full report:\n" + ReportedException.ToString();
-                }
-                else if (ReportedWebException != null) {
-                    Exception += "A web exception occured" + "\n";
-                    Exception += "Message: " + ReportedWebException.Message + "\n";
-                    Exception += "Stacktrace: " + ReportedWebException.StackTrace + "\n";
-                    Exception += "Source: " + ReportedWebException.Source + "\n";
-                    Exception += "TargetSite: " + ReportedWebException.TargetSite + "\n";
-                    Exception += "InnerException: " + ReportedWebException.InnerException + "\n";
-                    Exception += "Response: " + ReportedWebException.Response + "\n";
-                    Exception += "WebAddress: " + WebAddress + "\n";
-
-
-                    Exception += "Full report:\n" + ReportedWebException.ToString();
-                }
-                else {
-                    Exception = "An exception occured, but it didn't parse properly.\nCreate a new issue and tell me how you got here.";
-                }
-
-                string outputBuffer = lang.rtbExceptionDetails + "\n\nVersion: " + Properties.Settings.Default.appVersion + "\nReported Exception: " + Exception;
-                rtbExceptionDetails.Text = outputBuffer;
+                Exception = "An exception occured, but it didn't parse properly.\nCreate a new issue and tell me how you got here.";
             }
-            lbVersion.Text = "v" + Properties.Settings.Default.appVersion.ToString();
+
+            string outputBuffer = "Feel free to copy + paste this entire text wall into a new issue on Github\n\nVersion: " + Properties.Settings.Default.Version + "\nReported Exception: " + Exception;
+            rtbExceptionDetails.Text = outputBuffer;
+            lbVersion.Text = "v" + Properties.Settings.Default.Version.ToString();
             System.Media.SystemSounds.Hand.Play();
         }
 
