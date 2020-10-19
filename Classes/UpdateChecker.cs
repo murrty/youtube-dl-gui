@@ -28,7 +28,7 @@ namespace youtube_dl_gui {
 
                 if (GitData.UpdateAvailable) {
                     using (frmUpdateAvailable Update = new frmUpdateAvailable()) {
-                        Update.BlockSkip = GitData.UpdateAvailable;
+                        Update.BlockSkip = ForceCheck;
                         switch (Update.ShowDialog()) {
                             case DialogResult.Yes:
                                 try {
@@ -47,6 +47,7 @@ namespace youtube_dl_gui {
                         if (GitData.UpdateVersion == "-1" || ForceCheck) {
                             decimal GitVersion = UpdateChecker.GetGitVersion(0);
                             if (UpdateChecker.IsUpdateAvailable(GitVersion)) {
+                                GitData.UpdateAvailable = true;
                                 if (GitVersion != Properties.Settings.Default.SkippedVersion || ForceCheck) {
                                     using (frmUpdateAvailable Update = new frmUpdateAvailable()) {
                                         Update.BlockSkip = ForceCheck;
