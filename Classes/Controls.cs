@@ -166,4 +166,22 @@ namespace youtube_dl_gui {
             }
         }
     }
+
+    public class LinkLabelCleanHandCursor : LinkLabel {
+    [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+    private static extern IntPtr LoadCursor(IntPtr hInstance, int lpCursorName);
+    [DllImport("user32.dll", CharSet = CharSet.Auto)]
+    private static extern IntPtr SetCursor(IntPtr hCursor);
+
+    [System.Diagnostics.DebuggerStepThrough]
+    protected override void WndProc(ref Message m) {
+        if (m.Msg == 0x0020) {
+            SetCursor(LoadCursor(IntPtr.Zero, 32649));
+            m.Result = IntPtr.Zero;
+            return;
+        }
+
+        base.WndProc(ref m);
+    }
+}
 }

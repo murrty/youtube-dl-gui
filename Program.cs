@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -9,20 +10,14 @@ namespace youtube_dl_gui {
         public static readonly string UserAgent = "User-Agent: youtube-dl-gui/" + Properties.Settings.Default.appVersion;
         public static volatile bool IsDebug = false;
         public static volatile bool IsPortable = false;
+        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        private static extern IntPtr LoadCursor(IntPtr hInstance, int lpCursorName);
+        public static readonly Cursor SystemHandCursor = new Cursor(LoadCursor(IntPtr.Zero, 32649));
 
         [STAThread]
         static void Main(string[] args) {
-        #if DEBUG
-            IsDebug = true;
-            //string Date = DateTime.Now.Year + "-";
-            //if (DateTime.Now.Month.ToString().Length == 1) { Date += "0"; }
-            //Date += DateTime.Now.Month + "-";
-            //if (DateTime.Now.Day.ToString().Length == 1) { Date += "0"; }
-            //Date += DateTime.Now.Day;
-            //Properties.Settings.Default.debugDate = Date;
-        #else 
-            IsDebug = false;
-        #endif
+            DebugOnlyMethod();
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
@@ -107,6 +102,17 @@ namespace youtube_dl_gui {
             else {
                 Controller.PostMessage((IntPtr)Controller.HWND_YTDLGUIBROADCAST, Controller.WM_SHOWYTDLGUIFORM, IntPtr.Zero, IntPtr.Zero);
             }
+        }
+
+        [System.Diagnostics.Conditional("DEBUG")]
+        static void DebugOnlyMethod() {
+            IsDebug = true;
+            //string Date = DateTime.Now.Year + "-";
+            //if (DateTime.Now.Month.ToString().Length == 1) { Date += "0"; }
+            //Date += DateTime.Now.Month + "-";
+            //if (DateTime.Now.Day.ToString().Length == 1) { Date += "0"; }
+            //Date += DateTime.Now.Day;
+            //Properties.Settings.Default.debugDate = Date;
         }
     }
 }
