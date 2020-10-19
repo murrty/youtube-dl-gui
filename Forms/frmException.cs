@@ -17,6 +17,8 @@ namespace youtube_dl_gui {
             InitializeComponent();
             loadLanguage();
             this.Icon = Properties.Resources.youtube_dl_gui;
+            DateTime TimeNow = DateTime.Now;
+            lbDate.Text = string.Format("{0}/{1}/{2} {3}:{4}:{5}", TimeNow.Year, TimeNow.Month, TimeNow.Day, TimeNow.Hour, TimeNow.Minute, TimeNow.Second);
         }
 
         void loadLanguage() {
@@ -70,9 +72,9 @@ namespace youtube_dl_gui {
                 Exception = "An exception occured, but it didn't parse properly.\nCreate a new issue and tell me how you got here.";
             }
 
-            string outputBuffer = "Feel free to copy + paste this entire text wall into a new issue on Github\n\nVersion: " + Properties.Settings.Default.Version + "\nReported Exception: " + Exception;
+            string outputBuffer = "Feel free to copy + paste this entire text wall into a new issue on Github\n\nVersion: " + Properties.Settings.Default.appVersion + "\nReported Exception: " + Exception;
             rtbExceptionDetails.Text = outputBuffer;
-            lbVersion.Text = "v" + Properties.Settings.Default.Version.ToString();
+            lbVersion.Text = "v" + Properties.Settings.Default.appVersion.ToString();
             System.Media.SystemSounds.Hand.Play();
         }
 

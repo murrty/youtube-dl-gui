@@ -30,6 +30,7 @@
             this.btnExceptionOk = new System.Windows.Forms.Button();
             this.lbVersion = new System.Windows.Forms.Label();
             this.btnExceptionGithub = new System.Windows.Forms.Button();
+            this.lbDate = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // lbExceptionHeader
@@ -90,12 +91,22 @@
             this.btnExceptionGithub.UseVisualStyleBackColor = true;
             this.btnExceptionGithub.Click += new System.EventHandler(this.btnGithub_Click);
             // 
+            // lbDate
+            // 
+            this.lbDate.AutoSize = true;
+            this.lbDate.Location = new System.Drawing.Point(176, 219);
+            this.lbDate.Name = "lbDate";
+            this.lbDate.Size = new System.Drawing.Size(98, 13);
+            this.lbDate.TabIndex = 6;
+            this.lbDate.Text = "23/23/23 23:23:23";
+            // 
             // frmException
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(472, 249);
+            this.Controls.Add(this.lbDate);
             this.Controls.Add(this.btnExceptionGithub);
             this.Controls.Add(this.lbVersion);
             this.Controls.Add(this.btnExceptionOk);
@@ -123,5 +134,6 @@
         private System.Windows.Forms.Button btnExceptionOk;
         private System.Windows.Forms.Label lbVersion;
         private System.Windows.Forms.Button btnExceptionGithub;
+        private System.Windows.Forms.Label lbDate;
     }
 }
