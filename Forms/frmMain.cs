@@ -640,14 +640,12 @@ namespace youtube_dl_gui {
                                     Downloader.DownloadQuality = BatchQuality;
                                     Downloader.DownloadType = 0;
                                     Downloader.DownloadUrl = ReadFile[i].Trim(' ');
-                                    Downloader.ShowDialog();
                                     break;
                                 case 1:
                                     Downloader.DownloadPath = Downloads.Default.downloadPath;
                                     Downloader.DownloadQuality = BatchQuality;
                                     Downloader.DownloadType = 1;
                                     Downloader.DownloadUrl = ReadFile[i].Trim(' ');
-                                    Downloader.ShowDialog();
                                     break;
                                 case 2:
                                     Downloader.DownloadArguments = txtArgs.Text;
@@ -655,15 +653,17 @@ namespace youtube_dl_gui {
                                     Downloader.DownloadQuality = 0;
                                     Downloader.DownloadType = 2;
                                     Downloader.DownloadUrl = ReadFile[i].Trim(' ');
-                                    Downloader.ShowDialog();
                                     break;
                                 case 3:
                                     Downloader.DownloadPath = Downloads.Default.downloadPath;
                                     Downloader.DownloadQuality = 0;
                                     Downloader.DownloadType = 0;
                                     Downloader.DownloadUrl = ReadFile[i].Trim(' ');
-                                    Downloader.ShowDialog();
                                     break;
+                            }
+                            Downloader.ShowDialog();
+                            if (Downloader.DialogResult == DialogResult.Abort) {
+                                break;
                             }
                         }
                     }

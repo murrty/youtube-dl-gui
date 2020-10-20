@@ -29,6 +29,7 @@
             this.rtbConsoleOutput = new System.Windows.Forms.RichTextBox();
             this.tmrTitleActivity = new System.Windows.Forms.Timer(this.components);
             this.txtArgumentsGenerated = new System.Windows.Forms.TextBox();
+            this.btnDownloaderAbortBatchDownload = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnDownloaderCancelExit
@@ -50,7 +51,7 @@
             this.chkDownloaderCloseAfterDownload.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkDownloaderCloseAfterDownload.Location = new System.Drawing.Point(12, 259);
             this.chkDownloaderCloseAfterDownload.Name = "chkDownloaderCloseAfterDownload";
-            this.chkDownloaderCloseAfterDownload.Size = new System.Drawing.Size(196, 17);
+            this.chkDownloaderCloseAfterDownload.Size = new System.Drawing.Size(197, 17);
             this.chkDownloaderCloseAfterDownload.TabIndex = 2;
             this.chkDownloaderCloseAfterDownload.Text = "chkDownloaderCloseAfterDownload";
             this.chkDownloaderCloseAfterDownload.UseVisualStyleBackColor = true;
@@ -83,11 +84,25 @@
             this.txtArgumentsGenerated.Size = new System.Drawing.Size(388, 20);
             this.txtArgumentsGenerated.TabIndex = 1;
             // 
+            // btnDownloaderAbortBatchDownload
+            // 
+            this.btnDownloaderAbortBatchDownload.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnDownloaderAbortBatchDownload.Enabled = false;
+            this.btnDownloaderAbortBatchDownload.Location = new System.Drawing.Point(189, 255);
+            this.btnDownloaderAbortBatchDownload.Name = "btnDownloaderAbortBatchDownload";
+            this.btnDownloaderAbortBatchDownload.Size = new System.Drawing.Size(123, 23);
+            this.btnDownloaderAbortBatchDownload.TabIndex = 4;
+            this.btnDownloaderAbortBatchDownload.Text = "btnDownloaderAbortBatchDownload";
+            this.btnDownloaderAbortBatchDownload.UseVisualStyleBackColor = true;
+            this.btnDownloaderAbortBatchDownload.Visible = false;
+            this.btnDownloaderAbortBatchDownload.Click += new System.EventHandler(this.btnDownloaderAbortBatchDownload_Click);
+            // 
             // frmDownloader
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(412, 290);
+            this.Controls.Add(this.btnDownloaderAbortBatchDownload);
             this.Controls.Add(this.txtArgumentsGenerated);
             this.Controls.Add(this.chkDownloaderCloseAfterDownload);
             this.Controls.Add(this.btnDownloaderCancelExit);
@@ -111,5 +126,6 @@
         private System.Windows.Forms.RichTextBox rtbConsoleOutput;
         private System.Windows.Forms.Timer tmrTitleActivity;
         private System.Windows.Forms.TextBox txtArgumentsGenerated;
+        private System.Windows.Forms.Button btnDownloaderAbortBatchDownload;
     }
 }

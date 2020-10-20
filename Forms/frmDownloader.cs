@@ -9,42 +9,56 @@ namespace youtube_dl_gui {
         Language lang = Language.GetInstance();
         Verification verif = Verification.GetInstance();
 
-        public string DownloadUrl = null;       // The URL of the download
-        public string DownloadPath = null;      // The path of the destination directory
-        public string DownloadArguments = null; // The arguments passed for youtube-dl
-        public int DownloadType = -1;           // The type of download
-        public int DownloadQuality = 0;         // The quality of download
-        public int DownloadFormat = 0;          // The format of the download
-        public bool DownloadVideoAudio = true;  // Downloads videos with audio
-        public bool Set60FPS = false;           // The download will download 60fps (if available)
-        public bool UseVBR = false;             // Uses variable bitrate for audio
+        public string DownloadUrl = null;       // The URL of the download.
+        public string DownloadPath = null;      // The path of the destination directory.
+        public string DownloadArguments = null; // The arguments passed for youtube-dl.
+        public int DownloadType = -1;           // The type of download.
+        public int DownloadQuality = 0;         // The quality of download.
+        public int DownloadFormat = 0;          // The format of the download.
+        public bool DownloadVideoAudio = true;  // Downloads videos with audio.
+        public bool Set60FPS = false;           // The download will download 60fps (if available).
+        public bool UseVBR = false;             // Uses variable bitrate for audio.
         public bool BatchDownload = false;      // Is the download in a batch? If so, minimize the form.
         public string BatchTime = string.Empty; // The time for the folder structure.
-        public string AuthUsername = null;
-        public string AuthPassword = null;
-        public string Auth2Factor = null;
-        public string AuthVideoPassword = null;
-        public bool AuthNetrc = false;
+        public string AuthUsername = null;      // The username for authenticating.
+        public string AuthPassword = null;      // The password for authenticating.
+        public string Auth2Factor = null;       // The 2-factor code for authenticating.
+        public string AuthVideoPassword = null; // The video password for authenticating.
+        public bool AuthNetrc = false;          // Determine to use .netrc for authenticating.
 
         public bool Debugging = false;
 
-        private Process DownloadProcess;        // The process of youtube-dl which we'll redirect
-        private Thread DownloadThread;          // The thread of the process for youtube-dl
-        private bool DownloadFinished = false;  // Determines if the download finished successfully
-        private bool DownloadAborted = false;   // Determines if the download was aborted
-        private bool DownloadErrored = false;   // Determines if the thread resulted in an error
-        private bool CloseFromMethod = false;   // Deterinse if CloseForm() was called
+        private Process DownloadProcess;        // The process of youtube-dl which we'll redirect.
+        private Thread DownloadThread;          // The thread of the process for youtube-dl.
+        private bool DownloadFinished = false;  // Determines if the download finished successfully.
+        private bool DownloadAborted = false;   // Determines if the download was aborted.
+        private bool DownloadErrored = false;   // Determines if the thread resulted in an error.
+        private bool CloseFromMethod = false;   // Determines if CloseForm() was called.
+        private bool AbortBatch = false;        // Determines if the rest of the batch downloads should be canceled.
 
         public frmDownloader() {
             InitializeComponent();
-            this.Text = lang.frmDownloader + " ";
-            chkDownloaderCloseAfterDownload.Text = lang.chkDownloaderCloseAfterDownload;
-            btnDownloaderCancelExit.Text = lang.GenericCancel;
-            chkDownloaderCloseAfterDownload.Checked = Downloads.Default.CloseDownloaderAfterFinish;
             this.Icon = Properties.Resources.youtube_dl_gui;
         }
         private void frmDownloader_Load(object sender, EventArgs e) {
-            if (BatchDownload) { this.WindowState = FormWindowState.Minimized; }
+            if (BatchDownload) {
+                if (!Program.IsDebug) {
+                    this.WindowState = FormWindowState.Minimized;
+                }
+                btnDownloaderAbortBatchDownload.Enabled = true;
+                btnDownloaderAbortBatchDownload.Visible = true;
+            }
+
+            this.Text = lang.frmDownloader + " ";
+            chkDownloaderCloseAfterDownload.Text = lang.chkDownloaderCloseAfterDownload;
+            if (BatchDownload) {
+                btnDownloaderAbortBatchDownload.Text = lang.btnDownloaderAbortBatch;
+                btnDownloaderCancelExit.Text = lang.GenericSkip;
+            }
+            else {
+                btnDownloaderCancelExit.Text = lang.GenericCancel;
+            }
+            chkDownloaderCloseAfterDownload.Checked = Downloads.Default.CloseDownloaderAfterFinish;
         }
         private void frmDownloader_Shown(object sender, EventArgs e) {
             BeginDownload();
@@ -54,6 +68,26 @@ namespace youtube_dl_gui {
                 if (!DownloadFinished && !DownloadAborted & !DownloadErrored) {
                     CloseForm();
                 }
+            }
+        }
+        private void btnDownloaderAbortBatchDownload_Click(object sender, EventArgs e) {
+            if (BatchDownload) {
+                btnDownloaderAbortBatchDownload.Enabled = false;
+                AbortBatch = true;
+                if (!DownloadFinished && !DownloadErrored && !DownloadAborted) {
+                    DownloadAborted = true;
+                    if (!DownloadProcess.HasExited) {
+                        DownloadProcess.Kill();
+                    }
+                    if (DownloadThread.IsAlive) {
+                        DownloadThread.Abort();
+                    }
+                    System.Media.SystemSounds.Hand.Play();
+                    rtbConsoleOutput.AppendText("Downloading was aborted by the user.\n");
+                    rtbConsoleOutput.AppendText("Additionally, the batch download has been canceled.");
+                }
+
+                this.DialogResult = DialogResult.Abort;
             }
         }
         private void btnDownloaderCancelExit_Click(object sender, EventArgs e) {
@@ -448,7 +482,12 @@ namespace youtube_dl_gui {
 
             if (BatchDownload) {
                 if (DownloadAborted) {
-                    this.DialogResult = System.Windows.Forms.DialogResult.Abort;
+                    if (AbortBatch) {
+                        this.DialogResult = System.Windows.Forms.DialogResult.Abort;
+                    }
+                    else {
+                        this.DialogResult = System.Windows.Forms.DialogResult.Ignore;
+                    }
                 }
                 else if (DownloadErrored) {
                     this.Activate();
@@ -483,6 +522,10 @@ namespace youtube_dl_gui {
         private void CloseForm() {
             CloseFromMethod = true;
 
+            if (AbortBatch) {
+                this.DialogResult = DialogResult.Abort;
+            }
+
             if (Downloads.Default.CloseDownloaderAfterFinish != chkDownloaderCloseAfterDownload.Checked && !BatchDownload) {
                 Downloads.Default.CloseDownloaderAfterFinish = chkDownloaderCloseAfterDownload.Checked;
                 if (!Program.IsPortable) {
@@ -506,7 +549,7 @@ namespace youtube_dl_gui {
             }
 
             if (DownloadAborted) {
-                if (BatchDownload) { this.DialogResult = System.Windows.Forms.DialogResult.Abort; }
+                if (BatchDownload) { this.DialogResult = System.Windows.Forms.DialogResult.Ignore; }
                 else { this.Dispose(); }
             }
             else if (DownloadFinished) {
@@ -529,5 +572,6 @@ namespace youtube_dl_gui {
             else
                 this.Text += ".";
         }
+
     }
 }
