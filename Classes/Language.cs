@@ -1,16 +1,25 @@
 ﻿using System;
 
 namespace youtube_dl_gui {
+    /// <summary>
+    /// Controls the language strings of the program. Most, if not all, strings get their text from here.
+    /// </summary>
     public class Language {
         #region Instance
+        /// <summary>
+        /// The single instance of the language that contains all the strings.
+        /// </summary>
         private static volatile Language LangInstance = new Language();
+        /// <summary>
+        /// Returns the shared Language instance between all forms.
+        /// </summary>
+        /// <returns>The Lanuage.LangInstance will be returned.</returns>
         public static Language GetInstance() {
             return LangInstance;
         }
         #endregion
 
         #region Variables
-
         #region Language identifier
         // Language identifier
         private static volatile string LoadedFileString = null;
@@ -23,6 +32,7 @@ namespace youtube_dl_gui {
         #region Generics
         private static volatile string GenericInputBestString = "GenericInputBest";
         private static volatile string GenericCancelString = "GenericCancel";
+        private static volatile string GenericSkipString = "GenericSkip";
         #endregion
 
         #region frmAuthentication
@@ -66,6 +76,7 @@ namespace youtube_dl_gui {
         private static volatile string frmDownloaderCompleteString = "frmDownloaderComplete";
         private static volatile string frmDownloaderErrorString = "frmDownloaderError";
         private static volatile string chkDownloaderCloseAfterDownloadString = "chkDownloaderCloseAfterDownload";
+        private static volatile string btnDownloaderAbortBatchString = "btnDownloaderAbortBatch";
         private static volatile string btnDownloaderExitString = "btnDownloaderExit";
         #endregion
 
@@ -403,6 +414,10 @@ namespace youtube_dl_gui {
             get { return GenericCancelString; }
             private set { GenericCancelString = value; }
         }
+        public string GenericSkip {
+            get { return GenericSkipString; }
+            private set { GenericSkipString = value; }
+        }
         #endregion
 
         #region frmAuthentication
@@ -531,6 +546,10 @@ namespace youtube_dl_gui {
         public string chkDownloaderCloseAfterDownload {
             get { return chkDownloaderCloseAfterDownloadString; }
             private set { chkDownloaderCloseAfterDownloadString = value; }
+        }
+        public string btnDownloaderAbortBatch {
+            get { return btnDownloaderAbortBatchString; }
+            private set { btnDownloaderAbortBatchString = value; }
         }
         public string btnDownloaderExit {
             get { return btnDownloaderExitString; }
@@ -1512,6 +1531,9 @@ namespace youtube_dl_gui {
         #endregion
 
         #region Internal English
+        /// <summary>
+        /// Contains all English strings internally.
+        /// </summary>
         public static class InternalEnglish {
             // Language identifier
             public static readonly string CurrentLanguageLong = "English (Internal)";
@@ -1522,6 +1544,7 @@ namespace youtube_dl_gui {
             // Generics
             public static readonly string GenericInputBest = "best";
             public static readonly string GenericCancel = "Cancel";
+            public static readonly string GenericSkip = "Skip";
 
             #region frmAuthentication
             public static readonly string frmAuthentication = "Authentication";
@@ -1565,6 +1588,7 @@ namespace youtube_dl_gui {
             public static readonly string frmDownloaderComplete = "Download finished";
             public static readonly string frmDownloaderError = "Error downloading";
             public static readonly string chkDownloaderCloseAfterDownload = "Close after download";
+            public static readonly string btnDownloaderAbortBatch = "Abort batch download";
             public static readonly string btnDownloaderExit = "Exit";
             #endregion
 
@@ -1870,6 +1894,9 @@ namespace youtube_dl_gui {
             #endregion
         }
 
+        /// <summary>
+        /// Loads all the internal English strings to the instance.
+        /// </summary>
         public void LoadInternalEnglish() {
             LoadedFile = null;
 
@@ -1881,6 +1908,7 @@ namespace youtube_dl_gui {
             // Generics
             GenericInputBest = InternalEnglish.GenericInputBest;
             GenericCancel = InternalEnglish.GenericCancel;
+            GenericSkip = InternalEnglish.GenericSkip;
 
             // frmAuthentication
             frmAuthentication = InternalEnglish.frmAuthentication;
@@ -1917,6 +1945,7 @@ namespace youtube_dl_gui {
             frmDownloaderComplete = InternalEnglish.frmDownloaderComplete;
             frmDownloaderError = InternalEnglish.frmDownloaderError;
             chkDownloaderCloseAfterDownload = InternalEnglish.chkDownloaderCloseAfterDownload;
+            btnDownloaderAbortBatch = InternalEnglish.btnDownloaderAbortBatch;
             btnDownloaderExit = InternalEnglish.btnDownloaderExit;
 
             // frmException
@@ -2189,7 +2218,10 @@ namespace youtube_dl_gui {
             btnUpdateAvailableOk = InternalEnglish.btnUpdateAvailableOk;
         }
 
-        public void LoadControlIDs() {
+        /// <summary>
+        /// Resets the control names to their internal names.
+        /// </summary>
+        public void ResetControlNames() {
             LoadedFile = null;
 
             // Langauge identifier
@@ -2200,6 +2232,7 @@ namespace youtube_dl_gui {
             // Generics
             GenericInputBest = "GenericInputBest";
             GenericCancel = "GenericCancel";
+            GenericSkip = "GenericSkip";
 
             // frmAuthentication
             frmAuthentication = "frmAuthentication";
@@ -2236,6 +2269,7 @@ namespace youtube_dl_gui {
             frmDownloaderComplete = "frmDownloaderComplete";
             frmDownloaderError = "frmDownloaderError";
             chkDownloaderCloseAfterDownload = "chkDownloaderCloseAfterDownload";
+            btnDownloaderAbortBatch = "btnDownloaderAbortBatch";
             btnDownloaderExit = "btnDownloaderExit";
 
             // frmException
@@ -2510,6 +2544,11 @@ namespace youtube_dl_gui {
         #endregion
 
         #region Load Language File
+        /// <summary>
+        /// Loads the ini file for the Language file, based on the ini structure.
+        /// </summary>
+        /// <param name="LanguageFile">The string of the location of the language file.</param>
+        /// <returns>Returns a boolean based on success.</returns>
         public bool LoadLanguage(string LanguageFile = null) {
             try {
                 if (LanguageFile == null || LanguageFile == string.Empty) {
@@ -2517,7 +2556,7 @@ namespace youtube_dl_gui {
                     return true;
                 }
                 else {
-                    LoadControlIDs(); // Load the control IDs for any untranslated & undocumented strings
+                    ResetControlNames(); // Load the control IDs for any untranslated & undocumented strings
 
                     if (!LanguageFile.EndsWith(".ini")) { LanguageFile += ".ini"; }
 
@@ -2569,6 +2608,9 @@ namespace youtube_dl_gui {
                                     continue;
                                 case "genericcancel":
                                     GenericCancel = ReadValue;
+                                    continue;
+                                case "genericskip":
+                                    GenericSkip = ReadValue;
                                     continue;
                                 #endregion
 
@@ -2669,6 +2711,9 @@ namespace youtube_dl_gui {
                                     continue;
                                 case "chkdownloadercloseafterdownload":
                                     chkDownloaderCloseAfterDownload = ReadValue;
+                                    continue;
+                                case "btndownloaderabortbatch":
+                                    btnDownloaderAbortBatch = ReadValue;
                                     continue;
                                 case "btndownloaderexit":
                                     btnDownloaderExit = ReadValue;
@@ -3429,6 +3474,11 @@ namespace youtube_dl_gui {
             }
         }
 
+        /// <summary>
+        /// Parses the header value from a string.
+        /// </summary>
+        /// <param name="Input">The string that may contain a header.</param>
+        /// <returns>Returns the absolute header.</returns>
         private string ReadHeaderValue(string Input) {
             string ReadValue = null;
             int CountedLength = 0;
@@ -3453,12 +3503,22 @@ namespace youtube_dl_gui {
 
             return ReadValue.Trim(' ').Trim('[').Trim(']').Trim(' ');
         }
+        /// <summary>
+        /// Parses the control name from a string.
+        /// </summary>
+        /// <param name="Input">The string that may contain a control name.</param>
+        /// <returns>Returns the absolute control name.</returns>
         private string GetControlName(string Input) {
             if (Input.Split('=').Length > 1) {
                 return Input.Split('=')[0].Trim(' ');
             }
             else { return null; }
         }
+        /// <summary>
+        /// Parses the control value from a string.
+        /// </summary>
+        /// <param name="Input">The string that may contain a control value.</param>
+        /// <returns>Returns the absolute conntrol value.</returns>
         private string GetControlValue(string Input) {
             if (Input.Split('=').Length > 2) {
                 string OutputBuffer = null;
