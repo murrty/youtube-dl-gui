@@ -251,7 +251,7 @@ namespace youtube_dl_gui {
             rtbConsoleOutput.AppendText("Looking for ffmpeg\n");
             if (verif.FFmpegPath != null) {
                 if (General.Default.UseStaticFFmpeg) {
-                    ArgumentsBuffer += "--ffmpeg-location \"" + General.Default.ffmpegPath + "\\ffmpeg.exe\"";
+                    ArgumentsBuffer += " --ffmpeg-location \"" + General.Default.ffmpegPath + "\\ffmpeg.exe\"";
                 }
                 else {
                     ArgumentsBuffer += " --ffmpeg-location \"" + verif.FFmpegPath + "\\ffmpeg.exe\" --hls-prefer-ffmpeg";
@@ -275,7 +275,7 @@ namespace youtube_dl_gui {
                 if (Downloads.Default.SaveSubtitles) {
                     ArgumentsBuffer += " --all-subs";
                     if (!string.IsNullOrEmpty(Downloads.Default.SubtitleFormat)) {
-                        ArgumentsBuffer += "--sub-format " + Downloads.Default.SubtitleFormat + " ";
+                        ArgumentsBuffer += " --sub-format " + Downloads.Default.SubtitleFormat + " ";
                     }
                     if (Downloads.Default.EmbedSubtitles && DownloadType == 0 && DownloadFormat == 3 || DownloadFormat == 4 || DownloadFormat == 6) {
                         ArgumentsBuffer += " --embed-subs";
