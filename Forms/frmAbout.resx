@@ -117,54 +117,26 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="lbVersion.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="lbVersion.Locked" type="System.Boolean, mscorlib">
     <value>True</value>
-  </metadata>
-  <metadata name="lbHeader.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="lbBody.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="pbIcon.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="pbIcon.InitialImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        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
-        TkSuQmCC
-</value>
   </data>
-  <metadata name="llbCheckForUpdates.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="lbHeader.Locked" type="System.Boolean, mscorlib">
     <value>True</value>
-  </metadata>
-  <metadata name="llbGithub.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  </data>
+  <data name="lbBody.Locked" type="System.Boolean, mscorlib">
     <value>True</value>
-  </metadata>
-  <metadata name="$this.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  </data>
+  <data name="pbIcon.Locked" type="System.Boolean, mscorlib">
     <value>True</value>
-  </metadata>
+  </data>
+  <data name="llbCheckForUpdates.Locked" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="llbGithub.Locked" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="$this.Locked" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
 </root>
