@@ -12,13 +12,23 @@ namespace youtube_dl_gui {
             this.Icon = Properties.Resources.youtube_dl_gui;
             pbIcon.Image = Properties.Resources.youtube_dl_gui32;
             pbIcon.Cursor = Program.SystemHandCursor;
+            LoadLanguage();
+        }
+
+        private void LoadLanguage() {
+            lbAboutBody.Text = string.Format("youtube-dl {0} ytdl-org\n"+
+                          "youtube-dl-gui {0} murrty\n"+
+                          "{1} {2}\n\n\n"+
+                          "likulau best boye.", "by", "debug date", Properties.Settings.Default.debugDate);
+            llbCheckForUpdates.Text = "Check for updates";
+            this.Text = string.Format("{0} youtube-dl-gui", "About");
         }
         private void frmAbout_Shown(object sender, EventArgs e) {
             if (!Properties.Settings.Default.jsonSupport)
                 llbCheckForUpdates.Enabled = false;
 
             lbVersion.Text = "v" + Properties.Settings.Default.appVersion.ToString();
-            lbBody.Text = lbBody.Text.Replace("{DEBUG}", Properties.Settings.Default.debugDate);
+            lbAboutBody.Text = lbAboutBody.Text.Replace("{DEBUG}", Properties.Settings.Default.debugDate);
         }
 
         private void llbCheckForUpdates_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {

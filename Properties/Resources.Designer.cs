@@ -79,5 +79,15 @@ namespace youtube_dl_gui.Properties {
                 return ((byte[])(obj));
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap youtube_dl_gui32 {
+            get {
+                object obj = ResourceManager.GetObject("youtube_dl_gui32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }

@@ -254,7 +254,9 @@
       <LastGenOutput>General.Designer.cs</LastGenOutput>
     </None>
     <None Include="lang\Arabic.ini" />
+    <None Include="lang\Brazilian_Portuguese.ini" />
     <None Include="lang\English.ini" />
+    <None Include="lang\French.ini" />
     <None Include="lang\German.ini" />
     <None Include="lang\Italian.ini" />
     <None Include="lang\Russian.ini" />

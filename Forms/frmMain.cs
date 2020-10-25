@@ -179,7 +179,6 @@ namespace youtube_dl_gui {
             }
             else {
                 lang.LoadInternalEnglish();
-
             }
 
             mSettings.Text = lang.mSettings;

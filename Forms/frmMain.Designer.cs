@@ -211,7 +211,7 @@
             this.sbDownload.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.sbDownload.DropDownContextMenu = this.cmDownload;
             this.sbDownload.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.sbDownload.Location = new System.Drawing.Point(81, 240);
+            this.sbDownload.Location = new System.Drawing.Point(81, 242);
             this.sbDownload.Name = "sbDownload";
             this.sbDownload.Size = new System.Drawing.Size(83, 25);
             this.sbDownload.TabIndex = 14;
@@ -362,7 +362,7 @@
             this.tabConvert.Location = new System.Drawing.Point(4, 22);
             this.tabConvert.Name = "tabConvert";
             this.tabConvert.Padding = new System.Windows.Forms.Padding(3);
-            this.tabConvert.Size = new System.Drawing.Size(244, 295);
+            this.tabConvert.Size = new System.Drawing.Size(244, 255);
             this.tabConvert.TabIndex = 1;
             this.tabConvert.Text = "tabConvert";
             this.tabConvert.UseVisualStyleBackColor = true;
@@ -371,7 +371,7 @@
             // 
             this.rbConvertCustom.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.rbConvertCustom.AutoSize = true;
-            this.rbConvertCustom.Location = new System.Drawing.Point(151, 112);
+            this.rbConvertCustom.Location = new System.Drawing.Point(151, 131);
             this.rbConvertCustom.Name = "rbConvertCustom";
             this.rbConvertCustom.Size = new System.Drawing.Size(106, 17);
             this.rbConvertCustom.TabIndex = 9;
@@ -383,7 +383,7 @@
             // 
             this.rbConvertAudio.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.rbConvertAudio.AutoSize = true;
-            this.rbConvertAudio.Location = new System.Drawing.Point(94, 112);
+            this.rbConvertAudio.Location = new System.Drawing.Point(94, 131);
             this.rbConvertAudio.Name = "rbConvertAudio";
             this.rbConvertAudio.Size = new System.Drawing.Size(98, 17);
             this.rbConvertAudio.TabIndex = 8;
@@ -395,7 +395,7 @@
             // 
             this.rbConvertAutoFFmpeg.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.rbConvertAutoFFmpeg.AutoSize = true;
-            this.rbConvertAutoFFmpeg.Location = new System.Drawing.Point(120, 135);
+            this.rbConvertAutoFFmpeg.Location = new System.Drawing.Point(120, 154);
             this.rbConvertAutoFFmpeg.Name = "rbConvertAutoFFmpeg";
             this.rbConvertAutoFFmpeg.Size = new System.Drawing.Size(131, 17);
             this.rbConvertAutoFFmpeg.TabIndex = 11;
@@ -407,7 +407,7 @@
             // 
             this.rbConvertAuto.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.rbConvertAuto.AutoSize = true;
-            this.rbConvertAuto.Location = new System.Drawing.Point(43, 135);
+            this.rbConvertAuto.Location = new System.Drawing.Point(43, 154);
             this.rbConvertAuto.Name = "rbConvertAuto";
             this.rbConvertAuto.Size = new System.Drawing.Size(93, 17);
             this.rbConvertAuto.TabIndex = 10;
@@ -419,7 +419,7 @@
             // 
             this.lbConvertStatus.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.lbConvertStatus.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbConvertStatus.Location = new System.Drawing.Point(3, 259);
+            this.lbConvertStatus.Location = new System.Drawing.Point(3, 227);
             this.lbConvertStatus.Name = "lbConvertStatus";
             this.lbConvertStatus.Size = new System.Drawing.Size(238, 22);
             this.lbConvertStatus.TabIndex = 13;
@@ -431,7 +431,7 @@
             // 
             this.btnConvert.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.btnConvert.Enabled = false;
-            this.btnConvert.Location = new System.Drawing.Point(83, 170);
+            this.btnConvert.Location = new System.Drawing.Point(83, 190);
             this.btnConvert.Name = "btnConvert";
             this.btnConvert.Size = new System.Drawing.Size(79, 25);
             this.btnConvert.TabIndex = 12;
@@ -443,7 +443,7 @@
             // 
             this.rbConvertVideo.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.rbConvertVideo.AutoSize = true;
-            this.rbConvertVideo.Location = new System.Drawing.Point(35, 112);
+            this.rbConvertVideo.Location = new System.Drawing.Point(35, 131);
             this.rbConvertVideo.Name = "rbConvertVideo";
             this.rbConvertVideo.Size = new System.Drawing.Size(98, 17);
             this.rbConvertVideo.TabIndex = 7;
@@ -529,7 +529,7 @@
             this.tabMerge.Location = new System.Drawing.Point(4, 22);
             this.tabMerge.Name = "tabMerge";
             this.tabMerge.Padding = new System.Windows.Forms.Padding(3);
-            this.tabMerge.Size = new System.Drawing.Size(244, 295);
+            this.tabMerge.Size = new System.Drawing.Size(244, 255);
             this.tabMerge.TabIndex = 2;
             this.tabMerge.Text = "tabMerge";
             this.tabMerge.UseVisualStyleBackColor = true;
@@ -538,7 +538,7 @@
             // 
             this.chkMergeDeleteInputFiles.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.chkMergeDeleteInputFiles.AutoSize = true;
-            this.chkMergeDeleteInputFiles.Location = new System.Drawing.Point(64, 180);
+            this.chkMergeDeleteInputFiles.Location = new System.Drawing.Point(64, 175);
             this.chkMergeDeleteInputFiles.Name = "chkMergeDeleteInputFiles";
             this.chkMergeDeleteInputFiles.Size = new System.Drawing.Size(150, 17);
             this.chkMergeDeleteInputFiles.TabIndex = 11;
@@ -551,7 +551,7 @@
             this.chkMergeAudioTracks.AutoSize = true;
             this.chkMergeAudioTracks.Checked = true;
             this.chkMergeAudioTracks.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkMergeAudioTracks.Location = new System.Drawing.Point(64, 157);
+            this.chkMergeAudioTracks.Location = new System.Drawing.Point(64, 152);
             this.chkMergeAudioTracks.Name = "chkMergeAudioTracks";
             this.chkMergeAudioTracks.Size = new System.Drawing.Size(134, 17);
             this.chkMergeAudioTracks.TabIndex = 10;
@@ -562,7 +562,7 @@
             // 
             this.btnMerge.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.btnMerge.Enabled = false;
-            this.btnMerge.Location = new System.Drawing.Point(83, 210);
+            this.btnMerge.Location = new System.Drawing.Point(83, 201);
             this.btnMerge.Name = "btnMerge";
             this.btnMerge.Size = new System.Drawing.Size(79, 25);
             this.btnMerge.TabIndex = 12;
@@ -671,7 +671,7 @@
             this.tabDebug.Location = new System.Drawing.Point(4, 22);
             this.tabDebug.Name = "tabDebug";
             this.tabDebug.Padding = new System.Windows.Forms.Padding(3);
-            this.tabDebug.Size = new System.Drawing.Size(244, 295);
+            this.tabDebug.Size = new System.Drawing.Size(244, 255);
             this.tabDebug.TabIndex = 3;
             this.tabDebug.Text = "Debug";
             this.tabDebug.UseVisualStyleBackColor = true;
@@ -787,9 +787,9 @@
             // 
             this.lbDebug.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.lbDebug.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbDebug.Location = new System.Drawing.Point(81, 254);
+            this.lbDebug.Location = new System.Drawing.Point(107, 263);
             this.lbDebug.Name = "lbDebug";
-            this.lbDebug.Size = new System.Drawing.Size(168, 19);
+            this.lbDebug.Size = new System.Drawing.Size(146, 19);
             this.lbDebug.TabIndex = 3;
             this.lbDebug.Text = "debug 2019-07-24";
             this.lbDebug.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

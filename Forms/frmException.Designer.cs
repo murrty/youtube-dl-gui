@@ -93,12 +93,12 @@
             // 
             // lbDate
             // 
-            this.lbDate.AutoSize = true;
-            this.lbDate.Location = new System.Drawing.Point(176, 219);
+            this.lbDate.Location = new System.Drawing.Point(169, 213);
             this.lbDate.Name = "lbDate";
-            this.lbDate.Size = new System.Drawing.Size(98, 13);
+            this.lbDate.Size = new System.Drawing.Size(113, 24);
             this.lbDate.TabIndex = 6;
             this.lbDate.Text = "23/23/23 23:23:23";
+            this.lbDate.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // frmException
             // 

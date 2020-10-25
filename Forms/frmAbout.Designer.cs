@@ -29,10 +29,9 @@
         [System.Diagnostics.DebuggerStepThrough]
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmAbout));
             this.lbVersion = new System.Windows.Forms.Label();
             this.lbHeader = new System.Windows.Forms.Label();
-            this.lbBody = new System.Windows.Forms.Label();
+            this.lbAboutBody = new System.Windows.Forms.Label();
             this.pbIcon = new System.Windows.Forms.PictureBox();
             this.llbCheckForUpdates = new youtube_dl_gui.LinkLabelCleanHandCursor();
             this.llbGithub = new youtube_dl_gui.LinkLabelCleanHandCursor();
@@ -58,20 +57,20 @@
             this.lbHeader.TabIndex = 2;
             this.lbHeader.Text = "youtube-dl-gui";
             // 
-            // lbBody
+            // lbAboutBody
             // 
-            this.lbBody.Location = new System.Drawing.Point(12, 36);
-            this.lbBody.Name = "lbBody";
-            this.lbBody.Size = new System.Drawing.Size(240, 79);
-            this.lbBody.TabIndex = 3;
-            this.lbBody.Text = "youtube-dl by ytdl-org\r\nyoutube-dl-gui by murrty\r\ndebug date {DEBUG}\r\n\r\n\r\nlikulau" +
+            this.lbAboutBody.Location = new System.Drawing.Point(12, 36);
+            this.lbAboutBody.Name = "lbAboutBody";
+            this.lbAboutBody.Size = new System.Drawing.Size(240, 79);
+            this.lbAboutBody.TabIndex = 3;
+            this.lbAboutBody.Text = "youtube-dl by ytdl-org\r\nyoutube-dl-gui by murrty\r\ndebug date {DEBUG}\r\n\r\n\r\nlikulau" +
     " best boye.";
-            this.lbBody.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.lbAboutBody.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // pbIcon
             // 
             this.pbIcon.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pbIcon.InitialImage = ((System.Drawing.Image)(resources.GetObject("pbIcon.InitialImage")));
+            this.pbIcon.InitialImage = null;
             this.pbIcon.Location = new System.Drawing.Point(38, 3);
             this.pbIcon.Name = "pbIcon";
             this.pbIcon.Size = new System.Drawing.Size(32, 32);
@@ -110,7 +109,7 @@
             this.Controls.Add(this.llbGithub);
             this.Controls.Add(this.llbCheckForUpdates);
             this.Controls.Add(this.pbIcon);
-            this.Controls.Add(this.lbBody);
+            this.Controls.Add(this.lbAboutBody);
             this.Controls.Add(this.lbHeader);
             this.Controls.Add(this.lbVersion);
             this.MaximizeBox = false;
@@ -132,7 +131,7 @@
 
         private System.Windows.Forms.Label lbVersion;
         private System.Windows.Forms.Label lbHeader;
-        private System.Windows.Forms.Label lbBody;
+        private System.Windows.Forms.Label lbAboutBody;
         private System.Windows.Forms.PictureBox pbIcon;
         private LinkLabelCleanHandCursor llbCheckForUpdates;
         private LinkLabelCleanHandCursor llbGithub;
