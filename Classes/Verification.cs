@@ -15,13 +15,37 @@ namespace youtube_dl_gui {
         private static volatile int AtomicParsleyInt_ = -1;
         private static volatile string YoutubeDlVersionString = null;
 
-        public string YoutubeDlPath { get { return YoutubeDlPathString_; } private set { YoutubeDlPathString_ = value; } }
-        public string FFmpegPath { get { return FFmpegPathString_; } private set { FFmpegPathString_ = value; } }
-        public string AtomicParsleyPath { get { return AtomicParsleyPathString_; } private set { AtomicParsleyPathString_ = value; } }
-        public int YoutubeDlInt { get { return YoutubeDlPathInt_; } private set { YoutubeDlPathInt_ = value; } }
-        public int FFmpegInt { get { return FFmpegPathInt_; } private set { FFmpegPathInt_ = value; } }
-        public int AtomicParsleyInt { get { return AtomicParsleyInt_; } private set { AtomicParsleyInt_ = value; } }
-        public string YoutubeDlVersion { get { return YoutubeDlVersionString; } private set { YoutubeDlVersionString = value; } }
+        public string YoutubeDlPath {
+            get { return YoutubeDlPathString_; }
+            private set { YoutubeDlPathString_ = value; }
+        }
+        public string SetYoutubeDLPath {
+            set { YoutubeDlPathString_ = value; }
+        }
+        public string FFmpegPath {
+            get { return FFmpegPathString_; }
+            private set { FFmpegPathString_ = value; }
+        }
+        public string AtomicParsleyPath {
+            get { return AtomicParsleyPathString_; }
+            private set { AtomicParsleyPathString_ = value; }
+        }
+        public int YoutubeDlInt {
+            get { return YoutubeDlPathInt_; }
+            private set { YoutubeDlPathInt_ = value; }
+        }
+        public int FFmpegInt {
+            get { return FFmpegPathInt_; }
+            private set { FFmpegPathInt_ = value; }
+        }
+        public int AtomicParsleyInt {
+            get { return AtomicParsleyInt_; }
+            private set { AtomicParsleyInt_ = value; }
+        }
+        public string YoutubeDlVersion {
+            get { return YoutubeDlVersionString; }
+            private set { YoutubeDlVersionString = value; }
+        }
 
         public void RefreshLocation() {
             RefreshYoutubeDlLocation();

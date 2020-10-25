@@ -3,11 +3,9 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Net;
-using System.Net.Http;
 using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Linq;
@@ -81,6 +79,8 @@ namespace youtube_dl_gui {
         }
 
         public static bool CheckForYoutubeDlUpdate() {
+            return false; // repo was dcma'd, can't check for updates.
+
             if (GitData.YoutubeDlUpdateAvailable) {
                 return GitData.YoutubeDlUpdateAvailable;
             }
@@ -108,6 +108,24 @@ namespace youtube_dl_gui {
             Environment.Exit(0);
         }
         public static void UpdateYoutubeDl() {
+            using (WebClient wc = new WebClient()) {
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+                wc.Headers.Add(HttpRequestHeader.UserAgent, "youtube-dl-gui/" + Properties.Settings.Default.appVersion);
+
+                if (File.Exists(verif.YoutubeDlPath)) {
+                    if (File.Exists(verif.YoutubeDlPath + ".old")) {
+                        File.Delete(verif.YoutubeDlPath + ".old");
+                    }
+                    File.Move(verif.YoutubeDlPath, verif.YoutubeDlPath + ".old");
+                }
+
+                if (verif.YoutubeDlPath == null) {
+                    verif.SetYoutubeDLPath = Environment.CurrentDirectory + "\\youtube-dl.exe";
+                }
+                wc.DownloadFile("https://yt-dl.org/downloads/latest/youtube-dl.exe", verif.YoutubeDlPath);
+            }
+            return;
+
             GetGitVersionString(1);
 
             if (Downloads.Default.useYtdlUpdater && General.Default.UseStaticYtdl && !string.IsNullOrEmpty(General.Default.ytdlPath) && File.Exists(General.Default.ytdlPath) || File.Exists(Environment.CurrentDirectory + "\\youtube-dl.exe")) {
