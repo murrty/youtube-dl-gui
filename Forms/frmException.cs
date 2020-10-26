@@ -84,7 +84,7 @@ namespace youtube_dl_gui {
         }
 
         private void btnGithub_Click(object sender, EventArgs e) {
-            System.Diagnostics.Process.Start("https://github.com/murrty/youtube-dl-gui/issues");
+            System.Diagnostics.Process.Start(UpdateChecker.GitData.GithubIssuesLink);
         }
 
     }

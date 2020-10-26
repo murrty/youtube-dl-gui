@@ -370,6 +370,7 @@ namespace youtube_dl_gui {
         public class GitLinks {
             public static readonly string GithubRawUrl = "https://raw.githubusercontent.com/{0}/{1}";
             public static readonly string GithubRepoUrl = "https://github.com/{0}/{1}";
+            public static readonly string GithubIssuesUrl = "https://github.com/{0}/{1}/issues";
             public static readonly string GithubLatestJson = "http://api.github.com/repos/{0}/{1}/releases/latest";
             public static readonly string ApplicationDownloadUrl = "https://github.com/{0}/{1}/releases/download/{2}/{1}.exe";
 
@@ -393,6 +394,9 @@ namespace youtube_dl_gui {
             return GitDataInstance;
         }
 
+        public string GithubIssuesLink {
+            get { return string.Format(GitLinks.GithubIssuesUrl, GitLinks.Users[0], GitLinks.ApplciationNames[0]); }
+        }
         public string UpdateVersion {
             get { return UpdateVersionString; }
             set { UpdateVersionString = value; }
