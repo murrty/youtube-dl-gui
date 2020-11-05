@@ -73,6 +73,7 @@
             this.lbMergeInput2 = new System.Windows.Forms.Label();
             this.lbMergeInput1 = new System.Windows.Forms.Label();
             this.tabDebug = new System.Windows.Forms.TabPage();
+            this.btnDebugThrowException = new System.Windows.Forms.Button();
             this.btnDebugRotateQualityFormat = new System.Windows.Forms.Button();
             this.btnDebugDownloadArgs = new System.Windows.Forms.Button();
             this.btnDebugForceAvailableUpdate = new System.Windows.Forms.Button();
@@ -362,7 +363,7 @@
             this.tabConvert.Location = new System.Drawing.Point(4, 22);
             this.tabConvert.Name = "tabConvert";
             this.tabConvert.Padding = new System.Windows.Forms.Padding(3);
-            this.tabConvert.Size = new System.Drawing.Size(244, 255);
+            this.tabConvert.Size = new System.Drawing.Size(244, 275);
             this.tabConvert.TabIndex = 1;
             this.tabConvert.Text = "tabConvert";
             this.tabConvert.UseVisualStyleBackColor = true;
@@ -419,7 +420,7 @@
             // 
             this.lbConvertStatus.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.lbConvertStatus.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbConvertStatus.Location = new System.Drawing.Point(3, 227);
+            this.lbConvertStatus.Location = new System.Drawing.Point(3, 231);
             this.lbConvertStatus.Name = "lbConvertStatus";
             this.lbConvertStatus.Size = new System.Drawing.Size(238, 22);
             this.lbConvertStatus.TabIndex = 13;
@@ -431,7 +432,7 @@
             // 
             this.btnConvert.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.btnConvert.Enabled = false;
-            this.btnConvert.Location = new System.Drawing.Point(83, 190);
+            this.btnConvert.Location = new System.Drawing.Point(83, 196);
             this.btnConvert.Name = "btnConvert";
             this.btnConvert.Size = new System.Drawing.Size(79, 25);
             this.btnConvert.TabIndex = 12;
@@ -538,7 +539,7 @@
             // 
             this.chkMergeDeleteInputFiles.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.chkMergeDeleteInputFiles.AutoSize = true;
-            this.chkMergeDeleteInputFiles.Location = new System.Drawing.Point(64, 175);
+            this.chkMergeDeleteInputFiles.Location = new System.Drawing.Point(64, 180);
             this.chkMergeDeleteInputFiles.Name = "chkMergeDeleteInputFiles";
             this.chkMergeDeleteInputFiles.Size = new System.Drawing.Size(150, 17);
             this.chkMergeDeleteInputFiles.TabIndex = 11;
@@ -551,7 +552,7 @@
             this.chkMergeAudioTracks.AutoSize = true;
             this.chkMergeAudioTracks.Checked = true;
             this.chkMergeAudioTracks.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkMergeAudioTracks.Location = new System.Drawing.Point(64, 152);
+            this.chkMergeAudioTracks.Location = new System.Drawing.Point(64, 157);
             this.chkMergeAudioTracks.Name = "chkMergeAudioTracks";
             this.chkMergeAudioTracks.Size = new System.Drawing.Size(134, 17);
             this.chkMergeAudioTracks.TabIndex = 10;
@@ -562,7 +563,7 @@
             // 
             this.btnMerge.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.btnMerge.Enabled = false;
-            this.btnMerge.Location = new System.Drawing.Point(83, 201);
+            this.btnMerge.Location = new System.Drawing.Point(83, 208);
             this.btnMerge.Name = "btnMerge";
             this.btnMerge.Size = new System.Drawing.Size(79, 25);
             this.btnMerge.TabIndex = 12;
@@ -664,6 +665,7 @@
             // 
             // tabDebug
             // 
+            this.tabDebug.Controls.Add(this.btnDebugThrowException);
             this.tabDebug.Controls.Add(this.btnDebugRotateQualityFormat);
             this.tabDebug.Controls.Add(this.btnDebugDownloadArgs);
             this.tabDebug.Controls.Add(this.btnDebugForceAvailableUpdate);
@@ -675,6 +677,16 @@
             this.tabDebug.TabIndex = 3;
             this.tabDebug.Text = "Debug";
             this.tabDebug.UseVisualStyleBackColor = true;
+            // 
+            // btnDebugThrowException
+            // 
+            this.btnDebugThrowException.Location = new System.Drawing.Point(8, 124);
+            this.btnDebugThrowException.Name = "btnDebugThrowException";
+            this.btnDebugThrowException.Size = new System.Drawing.Size(123, 23);
+            this.btnDebugThrowException.TabIndex = 4;
+            this.btnDebugThrowException.Text = "Throw exception";
+            this.btnDebugThrowException.UseVisualStyleBackColor = true;
+            this.btnDebugThrowException.Click += new System.EventHandler(this.btnDebugThrowException_Click);
             // 
             // btnDebugRotateQualityFormat
             // 
@@ -787,7 +799,7 @@
             // 
             this.lbDebug.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.lbDebug.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbDebug.Location = new System.Drawing.Point(107, 263);
+            this.lbDebug.Location = new System.Drawing.Point(107, 260);
             this.lbDebug.Name = "lbDebug";
             this.lbDebug.Size = new System.Drawing.Size(146, 19);
             this.lbDebug.TabIndex = 3;
@@ -1065,6 +1077,7 @@
         private System.Windows.Forms.Button btnDebugRotateQualityFormat;
         public System.Windows.Forms.TextBox txtUrl;
         private System.Windows.Forms.MenuItem mDownloadWithAuthentication;
+        private System.Windows.Forms.Button btnDebugThrowException;
     }
 }
 

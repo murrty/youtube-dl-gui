@@ -41,6 +41,11 @@ namespace youtube_dl_gui {
             btnBatchDownloadRemoveSelected.Text = lang.btnBatchDownloadRemoveSelected;
             btnBatchDownloadStartStopExit.Text = lang.btnBatchDownloadStart;
             sbBatchDownloader.Text = lang.sbBatchDownloaderIdle;
+            lvBatchDownloadQueue.Columns[1].Text = lang.lbBatchDownloadType;
+            lvBatchDownloadQueue.Columns[2].Text = lang.lbBatchDownloadVideoSpecificArgument;
+            cbBatchDownloadType.Items.Add(lang.GenericVideo);
+            cbBatchDownloadType.Items.Add(lang.GenericAudio);
+            cbBatchDownloadType.Items.Add(lang.GenericCustom);
         }
         private void frmBatchDownloader_Load(object sender, EventArgs e) {
             cbBatchDownloadType.SelectedIndex = Batch.Default.SelectedType;

@@ -3,6 +3,9 @@ using System;
 using System.Net;
 
 namespace youtube_dl_gui {
+    /// <summary>
+    /// This class will control the Errors that get reported in try-catch statements.
+    /// </summary>
     class ErrorLog {
         /// <summary>
         /// Reports any web errors that are caught
@@ -419,6 +422,7 @@ namespace youtube_dl_gui {
                 else { WriteToFile(WebException.ToString()); }
             }
         }
+
         /// <summary>
         /// Reports any general exceptions that are caught
         /// </summary>
@@ -440,6 +444,10 @@ namespace youtube_dl_gui {
             }
         }
 
+        /// <summary>
+        /// Writes the error to a .log file in the working directory.
+        /// </summary>
+        /// <param name="Buffer">The data that will be written to the log file</param>
         public static void WriteToFile(string Buffer) {
             try {
                 string FileName = string.Format("\\error_{0}.log", DateTime.Now);

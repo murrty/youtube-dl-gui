@@ -1,5 +1,28 @@
 ﻿using System;
 
+/* Added:
+ * 
+ * GenericBy
+ * GenericSound
+ * GenericVideo
+ * GenericAudio
+ * GenericCustom
+ * frmAbout
+ * lbAboutBody
+ * llbCheckForUpdates
+ * frmSettings
+ * */
+
+/* Removed:
+ * 
+ * rbVideo
+ * rbAudio
+ * rbCustom
+ * rbConvertAudio
+ * rbConvertVideo
+ * rbConvertCustom
+ */
+
 namespace youtube_dl_gui {
     /// <summary>
     /// Controls the language strings of the program. Most, if not all, strings get their text from here.
@@ -33,6 +56,16 @@ namespace youtube_dl_gui {
         private static volatile string GenericInputBestString = "GenericInputBest";
         private static volatile string GenericCancelString = "GenericCancel";
         private static volatile string GenericSkipString = "GenericSkip";
+        private static volatile string GenericSoundString = "GenericSound";
+        private static volatile string GenericVideoString = "GenericVideo";
+        private static volatile string GenericAudioString = "GenericAudio";
+        private static volatile string GenericCustomString = "GenericCustom";
+        #endregion
+
+        #region frmAbout
+        private static volatile string frmAboutString = "frmAbout";
+        private static volatile string lbAboutBodyString = "lbAboutBody";
+        private static volatile string llbCheckForUpdatesString = "llbCheckForUpdates";
         #endregion
 
         #region frmAuthentication
@@ -109,9 +142,6 @@ namespace youtube_dl_gui {
         private static volatile string lbURLString = "lbURL";
         private static volatile string txtUrlHintString = "txtUrlHint";
         private static volatile string gbDownloadTypeString = "gbDownloadType";
-        private static volatile string rbVideoString = "rbVideo";
-        private static volatile string rbAudioString = "rbAudio";
-        private static volatile string rbCustomString = "rbCustom";
         private static volatile string lbQualityString = "lbQuality";
         private static volatile string lbFormatString = "lbFormat";
         private static volatile string chkDownloadSoundString = "chkDownloadSound";
@@ -120,14 +150,12 @@ namespace youtube_dl_gui {
         private static volatile string sbDownloadString = "sbDownload";
         private static volatile string mDownloadWithAuthenticationString = "mDownloadWithAuthentication";
         private static volatile string mBatchDownloadFromFileString = "mBatchDownloadFromFile";
+        private static volatile string msgBatchDownloadFromFileString = "msgBatchDownloadFromFile";
         private static volatile string lbDownloadStatusStartedString = "lbDownloadStatusStarted";
         private static volatile string lbDownloadStatusErrorString = "lbDownloadStatusError";
         // frmMain / tcMain / Convert (10 total)
         private static volatile string lbConvertInputString = "lbConvertInput";
         private static volatile string lbConvertOutputString = "lbConvertOutput";
-        private static volatile string rbConvertVideoString = "rbConvertVideo";
-        private static volatile string rbConvertAudioString = "rbConvertAudio";
-        private static volatile string rbConvertCustomString = "rbConvertCustom";
         private static volatile string rbConvertAutoString = "rbConvertAutomatic";
         private static volatile string rbConvertAutoFFmpegString = "rbConvertAutoFFmpeg";
         private static volatile string btnConvertString = "btnConvert";
@@ -171,6 +199,7 @@ namespace youtube_dl_gui {
 
         #region frmSettings form
         // frmSettings
+        private static volatile string frmSettingsString = "frmSettings";
         private static volatile string btnSettingsRedownloadYoutubeDlString = "btnSettingsRedownloadYoutubeDl";
         private static volatile string btnSettingsSaveString = "btnSettingsSave";
         // frmSettings / tcMain
@@ -417,6 +446,37 @@ namespace youtube_dl_gui {
         public string GenericSkip {
             get { return GenericSkipString; }
             private set { GenericSkipString = value; }
+        }
+        public string GenericSound {
+            get { return GenericSoundString; }
+            private set { GenericSoundString = value; }
+        }
+        public string GenericVideo {
+            get { return GenericVideoString; }
+            private set { GenericVideoString = value; }
+        }
+        public string GenericAudio {
+            get { return GenericAudioString; }
+            private set { GenericAudioString = value; }
+        }
+        public string GenericCustom {
+            get { return GenericCustomString; }
+            private set { GenericCustomString = value; }
+        }
+        #endregion
+
+        #region frmAbout
+        public string frmAbout {
+            get { return frmAboutString; }
+            private set { frmAboutString = value; }
+        }
+        public string lbAboutBody {
+            get { return lbAboutBodyString; }
+            private set { lbAboutBodyString = value; }
+        }
+        public string llbCheckForUpdates {
+            get { return llbCheckForUpdatesString; }
+            private set { llbCheckForUpdatesString = value; }
         }
         #endregion
 
@@ -666,18 +726,6 @@ namespace youtube_dl_gui {
             get { return gbDownloadTypeString; }
             private set { gbDownloadTypeString = value; }
         }
-        public string rbVideo {
-            get { return rbVideoString; }
-            private set { rbVideoString = value; }
-        }
-        public string rbAudio {
-            get { return rbAudioString; }
-            private set { rbAudioString = value; }
-        }
-        public string rbCustom {
-            get { return rbCustomString; }
-            private set { rbCustomString = value; }
-        }
         public string lbQuality {
             get { return lbQualityString; }
             private set { lbQualityString = value; }
@@ -710,6 +758,10 @@ namespace youtube_dl_gui {
             get { return mBatchDownloadFromFileString; }
             private set { mBatchDownloadFromFileString = value; }
         }
+        public string msgBatchDownloadFromFile {
+            get { return msgBatchDownloadFromFileString; }
+            private set { msgBatchDownloadFromFileString = value; }
+        }
         public string lbDownloadStatusStarted {
             get { return lbDownloadStatusStartedString; }
             private set { lbDownloadStatusStartedString = value; }
@@ -726,18 +778,6 @@ namespace youtube_dl_gui {
         public string lbConvertOutput {
             get { return lbConvertOutputString; }
             private set { lbConvertOutputString = value; }
-        }
-        public string rbConvertVideo {
-            get { return rbConvertVideoString; }
-            private set { rbConvertVideoString = value; }
-        }
-        public string rbConvertAudio {
-            get { return rbConvertAudioString; }
-            private set { rbConvertAudioString = value; }
-        }
-        public string rbConvertCustom {
-            get { return rbConvertCustomString; }
-            private set { rbConvertCustomString = value; }
         }
         public string rbConvertAuto {
             get { return rbConvertAutoString; }
@@ -858,6 +898,10 @@ namespace youtube_dl_gui {
         #region frmSettings
 
         #region frmSettings form
+        public string frmSettings {
+            get { return frmSettingsString; }
+            private set { frmSettingsString = value; }
+        }
         public string btnSettingsRedownloadYoutubeDl {
             get { return btnSettingsRedownloadYoutubeDlString; }
             private set { btnSettingsRedownloadYoutubeDlString = value; }
@@ -1545,6 +1589,16 @@ namespace youtube_dl_gui {
             public static readonly string GenericInputBest = "best";
             public static readonly string GenericCancel = "Cancel";
             public static readonly string GenericSkip = "Skip";
+            public static readonly string GenericSound = "Sound";
+            public static readonly string GenericVideo = "Video";
+            public static readonly string GenericAudio = "Audio";
+            public static readonly string GenericCustom = "Custom";
+
+            #region frmAbout
+            public static readonly string frmAbout = "About";
+            public static readonly string lbAboutBody = "youtube-dl by {0}\nyoutube-dl-gui by {1}\ndebug date {2}";
+            public static readonly string llbCheckForUpdates = "Check for updates";
+            #endregion
 
             #region frmAuthentication
             public static readonly string frmAuthentication = "Authentication";
@@ -1640,6 +1694,7 @@ namespace youtube_dl_gui {
             public static readonly string txtArgsHint = "Custom youtube-dl arguments";
             public static readonly string sbDownload = "Download";
             public static readonly string mDownloadWithAuthentication = "Download with authentication...";
+            public static readonly string msgBatchDownloadFromFile = "Create a text file and put all the video links you want to download into it, separated as one per line.\nDo you want to skip seeing this message when batch downloading using this option?";
             public static readonly string mBatchDownloadFromFile = "Batch download from file...";
             public static readonly string lbDownloadStatusStarted = "Download started";
             public static readonly string lbDownloadStatusError = "Error downloading";
@@ -1909,6 +1964,15 @@ namespace youtube_dl_gui {
             GenericInputBest = InternalEnglish.GenericInputBest;
             GenericCancel = InternalEnglish.GenericCancel;
             GenericSkip = InternalEnglish.GenericSkip;
+            GenericSound = InternalEnglish.GenericSound;
+            GenericVideo = InternalEnglish.GenericVideo;
+            GenericAudio = InternalEnglish.GenericAudio;
+            GenericCustom = InternalEnglish.GenericCustom;
+
+            // frmAbout
+            frmAbout = InternalEnglish.frmAbout;
+            lbAboutBody = InternalEnglish.lbAboutBody;
+            llbCheckForUpdates = InternalEnglish.llbCheckForUpdates;
 
             // frmAuthentication
             frmAuthentication = InternalEnglish.frmAuthentication;
@@ -1980,9 +2044,6 @@ namespace youtube_dl_gui {
             lbURL = InternalEnglish.lbURL;
             txtUrlHint = InternalEnglish.txtUrlHint;
             gbDownloadType = InternalEnglish.gbDownloadType;
-            rbVideo = InternalEnglish.rbVideo;
-            rbAudio = InternalEnglish.rbAudio;
-            rbCustom = InternalEnglish.rbCustom;
             lbQuality = InternalEnglish.lbQuality;
             lbFormat = InternalEnglish.lbFormat;
             chkDownloadSound = InternalEnglish.chkDownloadSound;
@@ -1990,15 +2051,13 @@ namespace youtube_dl_gui {
             txtArgsHint = InternalEnglish.txtArgsHint;
             sbDownload = InternalEnglish.sbDownload;
             mDownloadWithAuthentication = InternalEnglish.mDownloadWithAuthentication;
+            msgBatchDownloadFromFile = InternalEnglish.msgBatchDownloadFromFile;
             mBatchDownloadFromFile = InternalEnglish.mBatchDownloadFromFile;
             lbDownloadStatusStarted = InternalEnglish.lbDownloadStatusStarted;
             lbDownloadStatusError = InternalEnglish.lbDownloadStatusError;
 
             lbConvertInput = InternalEnglish.lbConvertInput;
             lbConvertOutput = InternalEnglish.lbConvertOutput;
-            rbConvertVideo = InternalEnglish.rbConvertVideo;
-            rbConvertAudio = InternalEnglish.rbConvertAudio;
-            rbConvertCustom = InternalEnglish.rbConvertCustom;
             rbConvertAuto = InternalEnglish.rbConvertAuto;
             rbConvertAutoFFmpeg = InternalEnglish.rbConvertAutoFFmpeg;
             btnConvert = InternalEnglish.btnConvert;
@@ -2031,6 +2090,7 @@ namespace youtube_dl_gui {
             cmTrayExit = InternalEnglish.cmTrayExit;
 
             // frmSettings
+            frmSettings = InternalEnglish.frmSettings;
             btnSettingsRedownloadYoutubeDl = InternalEnglish.btnSettingsRedownloadYoutubeDl;
             btnSettingsSave = InternalEnglish.btnSettingsSave;
 
@@ -2233,6 +2293,15 @@ namespace youtube_dl_gui {
             GenericInputBest = "GenericInputBest";
             GenericCancel = "GenericCancel";
             GenericSkip = "GenericSkip";
+            GenericSound = "GenericSound";
+            GenericVideo = "GenericVideo";
+            GenericAudio = "GenericAudio";
+            GenericCustom = "GenericCustom";
+
+            // frmAbout
+            frmAbout = "frmAbout";
+            lbAboutBody = "lbAboutBody";
+            llbCheckForUpdates = "llbCheckForUpdates";
 
             // frmAuthentication
             frmAuthentication = "frmAuthentication";
@@ -2304,9 +2373,6 @@ namespace youtube_dl_gui {
             lbURL = "lbURL";
             txtUrlHint = "txtUrlHint";
             gbDownloadType = "gbDownloadType";
-            rbVideo = "rbVideo";
-            rbAudio = "rbAudio";
-            rbCustom = "rbCustom";
             lbQuality = "lbQuality";
             lbFormat = "lbFormat";
             chkDownloadSound = "chkDownloadSound";
@@ -2314,15 +2380,13 @@ namespace youtube_dl_gui {
             txtArgsHint = "txtArgsHint";
             sbDownload = "sbDownload";
             mDownloadWithAuthentication = "mDownloadWithAuthentication";
+            msgBatchDownloadFromFile = "msgBatchDownloadFromFile";
             mBatchDownloadFromFile = "mBatchDownloadFromFile";
             lbDownloadStatusStarted = "lbDownloadStatusStarted";
             lbDownloadStatusError = "lbDownloadStatusError";
 
             lbConvertInput = "lbConvertInput";
             lbConvertOutput = "lbConvertOutput";
-            rbConvertVideo = "rbConvertVideo";
-            rbConvertAudio = "rbConvertAudio";
-            rbConvertCustom = "rbConvertCustom";
             rbConvertAuto = "rbConvertAuto";
             rbConvertAutoFFmpeg = "rbConvertAutoFFmpeg";
             btnConvert = "btnConvert";
@@ -2355,6 +2419,7 @@ namespace youtube_dl_gui {
             cmTrayExit = "cmTrayExit";
 
             // frmSettings
+            frmSettings = "frmSettings";
             btnSettingsRedownloadYoutubeDl = "btnSettingsRedownloadYoutubeDl";
             btnSettingsSave = "btnSettingsSave";
 
@@ -2612,6 +2677,30 @@ namespace youtube_dl_gui {
                                 case "genericskip":
                                     GenericSkip = ReadValue;
                                     continue;
+                                case "genericsound":
+                                    GenericSound = ReadValue;
+                                    continue;
+                                case "genericvideo":
+                                    GenericVideo = ReadValue;
+                                    continue;
+                                case "genericaudio":
+                                    GenericAudio = ReadValue;
+                                    continue;
+                                case "genericcustom":
+                                    GenericCustom = ReadValue;
+                                    continue;
+                                #endregion
+
+                                #region frmAbout
+                                case "frmabout":
+                                    frmAbout = ReadValue;
+                                    continue;
+                                case "lbaboutbody":
+                                    lbAboutBody = ReadValue;
+                                    continue;
+                                case "llbcheckforupdates":
+                                    llbCheckForUpdates = ReadValue;
+                                    continue;
                                 #endregion
 
                                 #region frmAuthentication
@@ -2807,15 +2896,6 @@ namespace youtube_dl_gui {
                                 case "gbdownloadtype":
                                     gbDownloadType = ReadValue;
                                     continue;
-                                case "rbvideo":
-                                    rbVideo = ReadValue;
-                                    continue;
-                                case "rbaudio":
-                                    rbAudio = ReadValue;
-                                    continue;
-                                case "rbcustom":
-                                    rbCustom = ReadValue;
-                                    continue;
                                 case "lbquality":
                                     lbQuality = ReadValue;
                                     continue;
@@ -2840,6 +2920,9 @@ namespace youtube_dl_gui {
                                 case "mbatchdownloadfromfile":
                                     mBatchDownloadFromFile = ReadValue;
                                     continue;
+                                case "msgbatchdownloadfromfile":
+                                    msgBatchDownloadFromFile = ReadValue;
+                                    continue;
                                 case "lbdownloadstatusstarted":
                                     lbDownloadStatusStarted = ReadValue;
                                     continue;
@@ -2853,15 +2936,6 @@ namespace youtube_dl_gui {
                                     continue;
                                 case "lbconvertoutput":
                                     lbConvertOutput = ReadValue;
-                                    continue;
-                                case "rbconvertvideo":
-                                    rbConvertVideo = ReadValue;
-                                    continue;
-                                case "rbconvertaudio":
-                                    rbConvertAudio = ReadValue;
-                                    continue;
-                                case "rbconvertcustom":
-                                    rbConvertCustom = ReadValue;
                                     continue;
                                 case "rbconvertauto":
                                     rbConvertAuto = ReadValue;
@@ -2955,6 +3029,9 @@ namespace youtube_dl_gui {
 
                                 #region frmSettings
                                 // frmSettings
+                                case "frmsettings":
+                                    frmSettings = ReadValue;
+                                    continue;
                                 case "btnsettingsredownloadyoutubedl":
                                     btnSettingsRedownloadYoutubeDl = ReadValue;
                                     continue;

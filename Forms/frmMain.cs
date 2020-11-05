@@ -198,9 +198,9 @@ namespace youtube_dl_gui {
             lbURL.Text = lang.lbURL;
             SetTextBoxHint(txtUrl.Handle, lang.txtUrlHint);
             gbDownloadType.Text = lang.gbDownloadType;
-            rbVideo.Text = lang.rbVideo;
-            rbAudio.Text = lang.rbAudio;
-            rbCustom.Text = lang.rbCustom;
+            rbVideo.Text = lang.GenericVideo;
+            rbAudio.Text = lang.GenericAudio;
+            rbCustom.Text = lang.GenericCustom;
             lbQuality.Text = lang.lbQuality;
             lbFormat.Text = lang.lbFormat;
             chkDownloadSound.Text = lang.chkDownloadSound;
@@ -213,9 +213,9 @@ namespace youtube_dl_gui {
 
             lbConvertInput.Text = lang.lbConvertInput;
             lbConvertOutput.Text = lang.lbConvertOutput;
-            rbConvertVideo.Text = lang.rbConvertVideo;
-            rbConvertAudio.Text = lang.rbConvertAudio;
-            rbConvertCustom.Text = lang.rbConvertCustom;
+            rbConvertVideo.Text = lang.GenericVideo;
+            rbConvertAudio.Text = lang.GenericAudio;
+            rbConvertCustom.Text = lang.GenericCustom;
             rbConvertAuto.Text = lang.rbConvertAuto;
             rbConvertAutoFFmpeg.Text = lang.rbConvertAutoFFmpeg;
             btnConvert.Text = lang.btnConvert;
@@ -342,7 +342,7 @@ namespace youtube_dl_gui {
             }
         }
         private void mSupportedSites_Click(object sender, EventArgs e) {
-            System.Diagnostics.Process.Start("https://ytdl-org.github.io/youtube-dl/supportedsites.html");
+            System.Diagnostics.Process.Start("https://web.archive.org/web/20201004065152/http://ytdl-org.github.io/youtube-dl/supportedsites.html");
         }
 
         private void mAbout_Click(object sender, EventArgs e) {
@@ -577,10 +577,8 @@ namespace youtube_dl_gui {
             StartDownload(true);
         }
         private void mBatchDownloadFromFile_Click(object sender, EventArgs e) {
-            // Todo: translation
-
             if (!Downloads.Default.SkipBatchTip) {
-                switch (MessageBox.Show("Create a text file and put all the video links you want to download into it, separated as one per line.\nDo you want to skip seeing this message when batch downloading?", "youtube-dl-gui", MessageBoxButtons.YesNoCancel)) {
+                switch (MessageBox.Show(lang.msgBatchDownloadFromFile, "youtube-dl-gui", MessageBoxButtons.YesNoCancel)) {
                     case System.Windows.Forms.DialogResult.Cancel:
                         return;
                     case System.Windows.Forms.DialogResult.Yes:
@@ -1067,6 +1065,15 @@ namespace youtube_dl_gui {
             lbFormat.Location = s;
             cbQuality.Location = v;
             cbFormat.Location = u;
+        }
+
+        private void btnDebugThrowException_Click(object sender, EventArgs e) {
+            try {
+                throw new Exception("An exception has been thrown.");
+            }
+            catch (Exception ex) {
+                ErrorLog.ReportException(ex, false);
+            }
         }
 
 

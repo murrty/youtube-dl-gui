@@ -293,25 +293,40 @@ namespace youtube_dl_gui {
                 if (Downloads.Default.SaveThumbnail) {
                     // ArgumentsBuffer += "--write-all-thumbnails "; // Maybe?
                     ArgumentsBuffer += " --write-thumbnail";
+                    //if (Downloads.Default.EmbedThumbnails) {
+                    //    switch (DownloadType) {
+                    //        case 0:
+                    //            if (DownloadFormat == 4) {
+                    //                ArgumentsBuffer += " --embed-thumbnail";
+                    //            }
+                    //            else {
+                    //                rtbConsoleOutput.AppendText("!!!!!!!! WARNING !!!!!!!!\nCannot embed thumbnail to non-mp4 videos files\n");
+                    //            }
+                    //            break;
+                    //        case 1:
+                    //            if (DownloadFormat == 3 || DownloadFormat == 4) {
+                    //                ArgumentsBuffer += " --embed-thumbnail";
+                    //            }
+                    //            else {
+                    //                rtbConsoleOutput.AppendText("!!!!!!!! WARNING !!!!!!!!\nCannot embed thumbnail to non-m4a/mp3 audio files\n");
+                    //            }
+                    //            break;
+                    //    }
+                    //}
                     if (Downloads.Default.EmbedThumbnails) {
                         switch (DownloadType) {
                             case 0:
-                                if (DownloadFormat == 4) {
-                                    ArgumentsBuffer += " --embed-thumbnail";
-                                }
-                                else {
-                                    rtbConsoleOutput.AppendText("!!!!!!!! WARNING !!!!!!!!\nCannot embed thumbnail to non-mp4 videos files\n");
+                                if (DownloadFormat != 4) {
+                                    rtbConsoleOutput.AppendText("!!!!!!!! WARNING !!!!!!!!\nCannot embed thumbnail to non-mp4 videos files\nWill try anyway.\n");
                                 }
                                 break;
                             case 1:
-                                if (DownloadFormat == 3 || DownloadFormat == 4) {
-                                    ArgumentsBuffer += " --embed-thumbnail";
-                                }
-                                else {
-                                    rtbConsoleOutput.AppendText("!!!!!!!! WARNING !!!!!!!!\nCannot embed thumbnail to non-m4a/mp3 audio files\n");
+                                if (DownloadFormat != 3 && DownloadFormat != 4) {
+                                    rtbConsoleOutput.AppendText("!!!!!!!! WARNING !!!!!!!!\nCannot embed thumbnail to non-m4a/mp3 audio files\nWill try anyway.\n");
                                 }
                                 break;
                         }
+                        ArgumentsBuffer += " --embed-thumbnail";
                     }
                 }
                 if (Downloads.Default.WriteMetadata) {

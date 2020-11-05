@@ -46,7 +46,7 @@ namespace youtube_dl_gui {
 
         private void btnMiscToolsExtractAudio_Click(object sender, EventArgs e) {
             using (OpenFileDialog ofd = new OpenFileDialog()) {
-                ofd.Title = "Select a file to remove the audio from";
+                ofd.Title = "Select a file to extract the audio from";
                 ofd.Filter = Convert.videoFormatsFilter;
                 ofd.FilterIndex = 0;
                 if (ofd.ShowDialog() == DialogResult.OK) {

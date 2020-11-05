@@ -55,10 +55,6 @@
             // 
             this.cbBatchDownloadType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbBatchDownloadType.FormattingEnabled = true;
-            this.cbBatchDownloadType.Items.AddRange(new object[] {
-            "Video",
-            "Audio",
-            "Custom"});
             this.cbBatchDownloadType.Location = new System.Drawing.Point(278, 25);
             this.cbBatchDownloadType.Name = "cbBatchDownloadType";
             this.cbBatchDownloadType.Size = new System.Drawing.Size(121, 21);
@@ -178,7 +174,7 @@
             this.chkBatchDownloaderSoundVBR.AutoSize = true;
             this.chkBatchDownloaderSoundVBR.Location = new System.Drawing.Point(575, 100);
             this.chkBatchDownloaderSoundVBR.Name = "chkBatchDownloaderSoundVBR";
-            this.chkBatchDownloaderSoundVBR.Size = new System.Drawing.Size(181, 17);
+            this.chkBatchDownloaderSoundVBR.Size = new System.Drawing.Size(182, 17);
             this.chkBatchDownloaderSoundVBR.TabIndex = 11;
             this.chkBatchDownloaderSoundVBR.Text = "chkBatchDownloaderSoundVBR";
             this.chkBatchDownloaderSoundVBR.UseVisualStyleBackColor = true;
