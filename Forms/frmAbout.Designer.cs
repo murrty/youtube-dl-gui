@@ -33,8 +33,8 @@
             this.lbHeader = new System.Windows.Forms.Label();
             this.lbAboutBody = new System.Windows.Forms.Label();
             this.pbIcon = new System.Windows.Forms.PictureBox();
-            this.llbCheckForUpdates = new youtube_dl_gui.LinkLabelCleanHandCursor();
             this.llbGithub = new youtube_dl_gui.LinkLabelCleanHandCursor();
+            this.llbCheckForUpdates = new youtube_dl_gui.LinkLabelCleanHandCursor();
             ((System.ComponentModel.ISupportInitialize)(this.pbIcon)).BeginInit();
             this.SuspendLayout();
             // 
@@ -78,17 +78,6 @@
             this.pbIcon.TabStop = false;
             this.pbIcon.Click += new System.EventHandler(this.pbIcon_Click);
             // 
-            // llbCheckForUpdates
-            // 
-            this.llbCheckForUpdates.AutoSize = true;
-            this.llbCheckForUpdates.Location = new System.Drawing.Point(85, 120);
-            this.llbCheckForUpdates.Name = "llbCheckForUpdates";
-            this.llbCheckForUpdates.Size = new System.Drawing.Size(94, 13);
-            this.llbCheckForUpdates.TabIndex = 6;
-            this.llbCheckForUpdates.TabStop = true;
-            this.llbCheckForUpdates.Text = "Check for updates";
-            this.llbCheckForUpdates.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llbCheckForUpdates_LinkClicked);
-            // 
             // llbGithub
             // 
             this.llbGithub.AutoSize = true;
@@ -100,6 +89,16 @@
             this.llbGithub.Text = "Github";
             this.llbGithub.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llbGithub_LinkClicked);
             // 
+            // llbCheckForUpdates
+            // 
+            this.llbCheckForUpdates.Location = new System.Drawing.Point(12, 120);
+            this.llbCheckForUpdates.Name = "llbCheckForUpdates";
+            this.llbCheckForUpdates.Size = new System.Drawing.Size(94, 13);
+            this.llbCheckForUpdates.TabIndex = 6;
+            this.llbCheckForUpdates.TabStop = true;
+            this.llbCheckForUpdates.Text = "Check for updates";
+            this.llbCheckForUpdates.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llbCheckForUpdates_LinkClicked);
+            // 
             // frmAbout
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -107,11 +106,11 @@
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(264, 141);
             this.Controls.Add(this.llbGithub);
-            this.Controls.Add(this.llbCheckForUpdates);
             this.Controls.Add(this.pbIcon);
             this.Controls.Add(this.lbAboutBody);
             this.Controls.Add(this.lbHeader);
             this.Controls.Add(this.lbVersion);
+            this.Controls.Add(this.llbCheckForUpdates);
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(280, 180);
             this.MinimumSize = new System.Drawing.Size(280, 180);
