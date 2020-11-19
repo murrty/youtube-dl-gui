@@ -34,7 +34,6 @@ namespace youtube_dl_gui {
         }
         public frmMain() {
             InitializeComponent();
-            verif.RefreshLocation();
             LoadLanguage();
 
             trayIcon.ContextMenu = cmTray;
@@ -169,18 +168,6 @@ namespace youtube_dl_gui {
         }
 
         void LoadLanguage(bool ChangedLanguage = false) {
-            if (Settings.Default.LanguageFile != string.Empty) {
-                if (System.IO.File.Exists(Environment.CurrentDirectory + "\\lang\\" + Settings.Default.LanguageFile + ".ini")) {
-                    lang.LoadLanguage(Environment.CurrentDirectory + "\\lang\\" + Settings.Default.LanguageFile + ".ini");
-                }
-                else {
-                    lang.LoadInternalEnglish();
-                }
-            }
-            else {
-                lang.LoadInternalEnglish();
-            }
-
             mSettings.Text = lang.mSettings;
             mTools.Text = lang.mTools;
             mBatchDownload.Text = lang.mBatchDownload;
@@ -1061,10 +1048,10 @@ namespace youtube_dl_gui {
             Point u = cbQuality.Location;
             Point v = cbFormat.Location;
 
-            lbQuality.Location = t;
             lbFormat.Location = s;
-            cbQuality.Location = v;
+            lbQuality.Location = t;
             cbFormat.Location = u;
+            cbQuality.Location = v;
         }
 
         private void btnDebugThrowException_Click(object sender, EventArgs e) {

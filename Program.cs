@@ -5,6 +5,8 @@ using System.Windows.Forms;
 
 namespace youtube_dl_gui {
     static class Program {
+        static Language lang = Language.GetInstance();
+        static Verification verif = Verification.GetInstance();
         static volatile frmMain MainForm;
         static Mutex mtx = new Mutex(true, "{youtube-dl-gui-2019-05-13}");
         public static readonly string UserAgent = "User-Agent: youtube-dl-gui/" + Properties.Settings.Default.appVersion;
@@ -16,7 +18,7 @@ namespace youtube_dl_gui {
 
         [STAThread]
         static void Main(string[] args) {
-            DebugOnlyMethod();
+            //DebugOnlyMethod();
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
@@ -29,6 +31,7 @@ namespace youtube_dl_gui {
             }
 
             if (IsDebug) {
+                LoadClasses();
                 MainForm = new frmMain();
                 Application.Run(MainForm);
             }
@@ -79,21 +82,27 @@ namespace youtube_dl_gui {
                 }
 
                 if (AllowLaunch) {
+                    LoadClasses();
+
                     if (IsPortable) {
                         CheckSettings.LoadPortableSettings();
                     }
 
-                    MainForm = new frmMain();
+                    bool AllowForm = true;
 
                     if (args.Length > 0) {
-                        if (args[0].StartsWith("ytdl:")) {
-                            MainForm.txtUrl.Text = args[0].Substring(5);
-                            MainForm.ProtocolInput = true;
+                        if (CheckArgs(args)) {
+                            AllowForm = false;
                         }
                     }
-
-                    Application.Run(MainForm);
-                    mtx.ReleaseMutex();
+                    if (AllowForm) {
+                        MainForm = new frmMain();
+                        Application.Run(MainForm);
+                        mtx.ReleaseMutex();
+                    }
+                    else {
+                        Environment.Exit(0);
+                    }
                 }
                 else {
                     Environment.Exit(0);
@@ -113,6 +122,50 @@ namespace youtube_dl_gui {
             //if (DateTime.Now.Day.ToString().Length == 1) { Date += "0"; }
             //Date += DateTime.Now.Day;
             //Properties.Settings.Default.debugDate = Date;
+        }
+
+        static void LoadClasses() {
+            verif.RefreshLocation();
+
+            if (Settings.Default.LanguageFile != string.Empty) {
+                if (System.IO.File.Exists(Environment.CurrentDirectory + "\\lang\\" + Settings.Default.LanguageFile + ".ini")) {
+                    lang.LoadLanguage(Environment.CurrentDirectory + "\\lang\\" + Settings.Default.LanguageFile + ".ini");
+                }
+                else {
+                    lang.LoadInternalEnglish();
+                }
+            }
+            else {
+                lang.LoadInternalEnglish();
+            }
+        }
+
+        static bool CheckArgs(string[] args) {
+            if (args[0].StartsWith("ytdl:")) {
+                string url = args[0].Substring(5);
+                frmDownloader Downloader = new frmDownloader();
+
+                switch (args[1]) {
+                    case "0":
+                        Downloader.DownloadPath = Downloads.Default.downloadPath;
+                        Downloader.DownloadQuality = Saved.Default.videoQuality;
+                        Downloader.DownloadType = 0;
+                        Downloader.DownloadUrl = url;
+                        Downloader.ShowDialog();
+                        break;
+                    case "1":
+                        Downloader.DownloadPath = Downloads.Default.downloadPath;
+                        Downloader.DownloadQuality = Saved.Default.audioQuality;
+                        Downloader.DownloadType = 1;
+                        Downloader.DownloadUrl = url;
+                        Downloader.ShowDialog();
+                        break;
+                }
+
+                return true;
+            }
+
+            return false;
         }
     }
 }
