@@ -477,11 +477,21 @@ namespace youtube_dl_gui {
                 cbFormat.SelectedIndex = -1;
                 cbQuality.Items.Clear();
                 cbFormat.Items.Clear();
+                cbFormat.Items.AddRange(DownloadFormats.AudioFormatsArray);
                 cbQuality.Enabled = true;
                 cbFormat.Enabled = true;
                 chkDownloadSound.Enabled = true;
                 chkDownloadSound.Checked = Downloads.Default.AudioDownloadAsVBR;
-                chkDownloadSound.Text = "Use VBR";
+                chkDownloadSound.Text = "VBR";
+                if (Downloads.Default.SaveFormatQuality) {
+                    cbQuality.SelectedIndex = Saved.Default.audioQuality;
+                    cbFormat.SelectedIndex = Saved.Default.AudioFormat;
+                    chkDownloadSound.Checked = Downloads.Default.AudioDownloadAsVBR;
+                }
+                else {
+                    cbQuality.SelectedIndex = 0;
+                    cbFormat.SelectedIndex = 0;
+                }
             }
         }
         private void rbCustom_CheckedChanged(object sender, EventArgs e) {
@@ -503,19 +513,16 @@ namespace youtube_dl_gui {
         }
         private void chkDownloadSound_CheckedChanged(object sender, EventArgs e) {
             if (rbAudio.Checked) {
-                cbFormat.Items.AddRange(DownloadFormats.AudioFormatsArray);
-                cbFormat.Items[0] = lang.GenericInputBest;
+                cbQuality.Items.Clear();
 
                 if (chkDownloadSound.Checked) {
                     cbQuality.SelectedIndex = -1;
                     cbQuality.Items.AddRange(new string[]{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"});
                     if (Downloads.Default.SaveFormatQuality) {
                         cbQuality.SelectedIndex = Saved.Default.AudioVBRQuality;
-                        cbFormat.SelectedIndex = Saved.Default.AudioFormat;
                     }
                     else {
                         cbQuality.SelectedIndex = 0;
-                        cbFormat.SelectedIndex = 0;
                     }
                 }
                 else {
@@ -523,11 +530,9 @@ namespace youtube_dl_gui {
                     cbQuality.Items[0] = lang.GenericInputBest;
                     if (Downloads.Default.SaveFormatQuality) {
                         cbQuality.SelectedIndex = Saved.Default.audioQuality;
-                        cbFormat.SelectedIndex = Saved.Default.AudioFormat;
                     }
                     else {
                         cbQuality.SelectedIndex = 0;
-                        cbFormat.SelectedIndex = 0;
                     }
                 }
             }
