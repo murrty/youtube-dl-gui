@@ -430,5 +430,17 @@ namespace youtube_dl_gui {
                 this["AutomaticallyDownloadFromProtocol"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool PreferFFmpeg {
+            get {
+                return ((bool)(this["PreferFFmpeg"]));
+            }
+            set {
+                this["PreferFFmpeg"] = value;
+            }
+        }
     }
 }

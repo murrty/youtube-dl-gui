@@ -124,6 +124,8 @@ namespace youtube_dl_gui {
             tipSettings.SetToolTip(chkSettingsDownloadsSeparateIntoWebsiteUrl, lang.chkSettingsDownloadsSeparateIntoWebsiteUrlHint);
             chkSettingsDownloadsFixVReddIt.Text = lang.chkSettingsDownloadsFixVReddIt;
             tipSettings.SetToolTip(chkSettingsDownloadsFixVReddIt, lang.chkSettingsDownloadsFixVReddItHint);
+            chkSettingsDownloadsPreferFFmpeg.Text = lang.chkSettingsDownloadsPreferFFmpeg;
+            tipSettings.SetToolTip(chkSettingsDownloadsPreferFFmpeg, lang.chkSettingsDownloadsPreferFFmpegHint);
 
             chkSettingsDownloadsLimitDownload.Text = lang.chkSettingsDownloadsLimitDownload;
             tipSettings.SetToolTip(chkSettingsDownloadsLimitDownload, lang.chkSettingsDownloadsLimitDownloadHint);
@@ -327,7 +329,6 @@ namespace youtube_dl_gui {
             chkSettingsDownloadsSaveDescription.Checked = Downloads.Default.SaveDescription;
             chkSettingsDownloadsKeepOriginalFiles.Checked = Downloads.Default.KeepOriginalFiles;
             chkSettingsDownloadsSaveAnnotations.Checked = Downloads.Default.SaveAnnotations;
-            //chkSettingsDownloadsSaveThumbnails.Checked = Downloads.Default.SaveThumbnail;
             if (Downloads.Default.SaveThumbnail) {
                 chkSettingsDownloadsSaveThumbnails.Checked = true;
                 chkSettingsDownloadsEmbedThumbnails.Enabled = true;
@@ -341,6 +342,7 @@ namespace youtube_dl_gui {
             chkSettingsDownloadsSeparateDownloadsToDifferentFolders.Checked = Downloads.Default.separateDownloads;
             chkSettingsDownloadsSeparateIntoWebsiteUrl.Checked = Downloads.Default.separateIntoWebsiteURL;
             chkSettingsDownloadsFixVReddIt.Checked = Downloads.Default.fixReddit;
+            chkSettingsDownloadsPreferFFmpeg.Checked = Downloads.Default.PreferFFmpeg;
             chkSettingsDownloadsLimitDownload.Checked = Downloads.Default.LimitDownloads;
             numSettingsDownloadsLimitDownload.Value = Downloads.Default.DownloadLimit;
             cbSettingsDownloadsLimitDownload.SelectedIndex = Downloads.Default.DownloadLimitType;
@@ -420,6 +422,7 @@ namespace youtube_dl_gui {
             Downloads.Default.separateDownloads = chkSettingsDownloadsSeparateDownloadsToDifferentFolders.Checked;
             Downloads.Default.separateIntoWebsiteURL = chkSettingsDownloadsSeparateIntoWebsiteUrl.Checked;
             Downloads.Default.fixReddit = chkSettingsDownloadsFixVReddIt.Checked;
+            Downloads.Default.PreferFFmpeg = chkSettingsDownloadsPreferFFmpeg.Checked;
             Downloads.Default.LimitDownloads = chkSettingsDownloadsLimitDownload.Checked;
             Downloads.Default.DownloadLimit = (int)numSettingsDownloadsLimitDownload.Value;
             Downloads.Default.DownloadLimitType = cbSettingsDownloadsLimitDownload.SelectedIndex;

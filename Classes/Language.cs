@@ -1,26 +1,12 @@
 ﻿using System;
 
 /* Added:
- * 
- * GenericBy
- * GenericSound
- * GenericVideo
- * GenericAudio
- * GenericCustom
- * frmAbout
- * lbAboutBody
- * llbCheckForUpdates
- * frmSettings
+ * chkSettingsDownloadsPreferFFmpeg
+ * chkSettingsDownloadsPreferFFmpegHint
  * */
 
 /* Removed:
  * 
- * rbVideo
- * rbAudio
- * rbCustom
- * rbConvertAudio
- * rbConvertVideo
- * rbConvertCustom
  */
 
 namespace youtube_dl_gui {
@@ -250,6 +236,7 @@ namespace youtube_dl_gui {
         private static volatile string chkSettingsDownloadsSeparateDownloadsToDifferentFoldersString = "chkSettingsDownloadsSeparateDownloadsToDifferentFolders";
         private static volatile string chkSettingsDownloadsSeparateIntoWebsiteUrlString = "chkSettingsDownloadsSeparateIntoWebsiteUrl";
         private static volatile string chkSettingsDownloadsFixVReddItString = "chkSettingsDownloadsFixVReddIt";
+        private static volatile string chkSettingsDownloadsPreferFFmpegString = "chkSettingsDownloadsPreferFFmpeg";
         private static volatile string chkSettingsDownloadsLimitDownloadString = "chkSettingsDownloadsLimitDownload";
         private static volatile string lbSettingsDownloadsRetryAttemptsString = "lbSettingsDownloadsRetryAttempts";
         private static volatile string chkSettingsDownloadsForceIpv4String = "chkSettingsDownloadsForceIpv4";
@@ -342,6 +329,7 @@ namespace youtube_dl_gui {
         private static volatile string chkSettingsDownloadsSeparateDownloadsToDifferentFoldersHintString = "chkSettingsDownloadsSeparateDownloadsToDifferentFoldersHint";
         private static volatile string chkSettingsDownloadsSeparateIntoWebsiteUrlHintString = "chkSettingsDownloadsSeparateIntoWebsiteUrlHint";
         private static volatile string chkSettingsDownloadsFixVReddItHintString = "chkSettingsDownloadsFixVReddItHint";
+        private static volatile string chkSettingsDownloadsPreferFFmpegHintString = "chkSettingsDownloadsPreferFFmpegHint";
         private static volatile string chkSettingsDownloadsLimitDownloadHintString = "chkSettingsDownloadsLimitDownloadHint";
         private static volatile string numSettingsDownloadsLimitDownloadHintString = "numSettingsDownloadsLimitDownloadHint";
         private static volatile string cbSettingsDownloadsLimitDownloadHintString = "cbSettingsDownloadsDownloadLimitHint";
@@ -1081,6 +1069,10 @@ namespace youtube_dl_gui {
             get { return chkSettingsDownloadsFixVReddItString; }
             private set { chkSettingsDownloadsFixVReddItString = value; }
         }
+        public string chkSettingsDownloadsPreferFFmpeg {
+            get { return chkSettingsDownloadsPreferFFmpegString; }
+            private set { chkSettingsDownloadsPreferFFmpegString = value; }
+        }
         public string chkSettingsDownloadsLimitDownload {
             get { return chkSettingsDownloadsLimitDownloadString; }
             private set { chkSettingsDownloadsLimitDownloadString = value; }
@@ -1368,6 +1360,10 @@ namespace youtube_dl_gui {
         public string chkSettingsDownloadsFixVReddItHint {
             get { return chkSettingsDownloadsFixVReddItHintString; }
             private set { chkSettingsDownloadsFixVReddItHintString = value; }
+        }
+        public string chkSettingsDownloadsPreferFFmpegHint {
+            get { return chkSettingsDownloadsPreferFFmpegHintString; }
+            private set { chkSettingsDownloadsPreferFFmpegHintString = value; }
         }
         public string chkSettingsDownloadsLimitDownloadHint {
             get { return chkSettingsDownloadsLimitDownloadHintString; }
@@ -1815,7 +1811,8 @@ namespace youtube_dl_gui {
             public static readonly string chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing = "Automatically delete youtube-dl when closing";
             public static readonly string chkSettingsDownloadsSeparateDownloadsToDifferentFolders = "Separate downloads to different folders";
             public static readonly string chkSettingsDownloadsSeparateIntoWebsiteUrl = "Separate into website url";
-            public static readonly string chkSettingsDownloadsFixVReddIt = "fix v.redd.it";
+            public static readonly string chkSettingsDownloadsFixVReddIt = "Fix v.redd.it";
+            public static readonly string chkSettingsDownloadsPreferFFmpeg = "Prefer ffmpeg for downloads";
             public static readonly string chkSettingsDownloadsLimitDownload = "Limit download";
             public static readonly string lbSettingsDownloadsRetryAttempts = "Retry attempts";
             public static readonly string chkSettingsDownloadsForceIpv4 = "Force IPv4";
@@ -1843,6 +1840,7 @@ namespace youtube_dl_gui {
             public static readonly string chkSettingsDownloadsSeparateDownloadsToDifferentFoldersHint = "Separates downloads into their own folder based on the download type\n\n" + "Videos would be <download directory>\\Video\n" + "Audio would be <download directory>\\Audio\n" + "Custom would be <download directory>\\Custom";
             public static readonly string chkSettingsDownloadsSeparateIntoWebsiteUrlHint = "Downloaded files will be saved to the download path with the URL of the website appended at the end\n" + "Ex: C:\\Users\\YourName\\Videos\\youtube.com\\Video.mp4";
             public static readonly string chkSettingsDownloadsFixVReddItHint = "Fixes visual corruptions on v.redd.it/reddit.com links using ffmpeg's HTTP Live Streaming (HLS)\n\n" + "Recommended to stay on.\n" + "This requires FFMPEG to be installed and available, it will fallback to youtube-dl's default.";
+            public static readonly string chkSettingsDownloadsPreferFFmpegHint = "Prefer's ffmpeg's hls over youtube-dl's own. This may fix some sites, and break others.";
             public static readonly string chkSettingsDownloadsLimitDownloadHint = "Limits the downloads to the specified speed";
             public static readonly string numSettingsDownloadsLimitDownloadHint = "The speed that the download will be throttled to\nSet the number to 0 to disable limiting";
             public static readonly string cbSettingsDownloadsLimitDownloadHint = "The *byte size limit";
@@ -2139,6 +2137,7 @@ namespace youtube_dl_gui {
             chkSettingsDownloadsSeparateDownloadsToDifferentFolders = InternalEnglish.chkSettingsDownloadsSeparateDownloadsToDifferentFolders;
             chkSettingsDownloadsSeparateIntoWebsiteUrl = InternalEnglish.chkSettingsDownloadsSeparateIntoWebsiteUrl;
             chkSettingsDownloadsFixVReddIt = InternalEnglish.chkSettingsDownloadsFixVReddIt;
+            chkSettingsDownloadsPreferFFmpeg = InternalEnglish.chkSettingsDownloadsPreferFFmpeg;
             chkSettingsDownloadsLimitDownload = InternalEnglish.chkSettingsDownloadsLimitDownload;
             lbSettingsDownloadsRetryAttempts = InternalEnglish.lbSettingsDownloadsRetryAttempts;
             chkSettingsDownloadsForceIpv4 = InternalEnglish.chkSettingsDownloadsForceIpv4;
@@ -2216,6 +2215,7 @@ namespace youtube_dl_gui {
             chkSettingsDownloadsSeparateDownloadsToDifferentFoldersHint = InternalEnglish.chkSettingsDownloadsSeparateDownloadsToDifferentFoldersHint;
             chkSettingsDownloadsSeparateIntoWebsiteUrlHint = InternalEnglish.chkSettingsDownloadsSeparateIntoWebsiteUrlHint;
             chkSettingsDownloadsFixVReddItHint = InternalEnglish.chkSettingsDownloadsFixVReddItHint;
+            chkSettingsDownloadsPreferFFmpegHint = InternalEnglish.chkSettingsDownloadsPreferFFmpegHint;
             chkSettingsDownloadsLimitDownloadHint = InternalEnglish.chkSettingsDownloadsLimitDownloadHint;
             numSettingsDownloadsLimitDownloadHint = InternalEnglish.numSettingsDownloadsLimitDownloadHint;
             cbSettingsDownloadsLimitDownloadHint = InternalEnglish.cbSettingsDownloadsLimitDownloadHint;
@@ -2468,6 +2468,7 @@ namespace youtube_dl_gui {
             chkSettingsDownloadsSeparateDownloadsToDifferentFolders = "chkSettingsDownloadsSeparateDownloadsToDifferentFolders";
             chkSettingsDownloadsSeparateIntoWebsiteUrl = "chkSettingsDownloadsSeparateIntoWebsiteUrl";
             chkSettingsDownloadsFixVReddIt = "chkSettingsDownloadsFixVReddIt";
+            chkSettingsDownloadsPreferFFmpeg = "chkSettingsDownloadsPreferFFmpeg";
             chkSettingsDownloadsLimitDownload = "chkSettingsDownloadsLimitDownload";
             lbSettingsDownloadsRetryAttempts = "lbSettingsDownloadsRetryAttempts";
             chkSettingsDownloadsForceIpv4 = "chkSettingsDownloadsForceIpv4";
@@ -2545,6 +2546,7 @@ namespace youtube_dl_gui {
             chkSettingsDownloadsSeparateDownloadsToDifferentFoldersHint = "chkSettingsDownloadsSeparateDownloadsToDifferentFoldersHint";
             chkSettingsDownloadsSeparateIntoWebsiteUrlHint = "chkSettingsDownloadsSeparateIntoWebsiteUrlHint";
             chkSettingsDownloadsFixVReddItHint = "chkSettingsDownloadsFixVReddItHint";
+            chkSettingsDownloadsPreferFFmpegHint = "chkSettingsDownloadsPreferFFmpeg";
             chkSettingsDownloadsLimitDownloadHint = "chkSettingsDownloadsLimitDownloadHint";
             numSettingsDownloadsLimitDownloadHint = "numSettingsDownloadsLimitDownloadHint";
             cbSettingsDownloadsLimitDownloadHint = "cbSettingsDownloadsLimitDownloadHint";
@@ -3227,6 +3229,9 @@ namespace youtube_dl_gui {
                                 case "chksettingsdownloadsfixvreddit":
                                     chkSettingsDownloadsFixVReddIt = ReadValue;
                                     continue;
+                                case "chksettingsdownloadspreferffmpeg":
+                                    chkSettingsDownloadsPreferFFmpeg = ReadValue;
+                                    continue;
                                 case "chksettingsdownloadslimitdownload":
                                     chkSettingsDownloadsLimitDownloadString = ReadValue;
                                     continue;
@@ -3304,6 +3309,9 @@ namespace youtube_dl_gui {
                                     continue;
                                 case "chksettingsdownloadsfixvreddithint":
                                     chkSettingsDownloadsFixVReddItHint = ReadValue;
+                                    continue;
+                                case "chksettingsdownloadspreferffmpeghint":
+                                    chkSettingsDownloadsPreferFFmpegHint = ReadValue;
                                     continue;
                                 case "chksettingsdownloadslimitdownloadhint":
                                     chkSettingsDownloadsLimitDownloadHint = ReadValue;

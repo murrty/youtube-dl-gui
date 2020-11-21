@@ -124,7 +124,6 @@ namespace youtube_dl_gui {
             string QualityFormatBuffer = string.Empty;
             string hlsFF = string.Empty;
             string webFolder = string.Empty;
-            bool usehlsFF = Downloads.Default.fixReddit;
 
             #region youtube-dl path
             if (General.Default.UseStaticYtdl && File.Exists(General.Default.ytdlPath)) {
@@ -248,30 +247,23 @@ namespace youtube_dl_gui {
             #endregion
 
             #region Arguments
-            rtbConsoleOutput.AppendText("Looking for ffmpeg\n");
-            if (verif.FFmpegPath != null) {
-                if (General.Default.UseStaticFFmpeg) {
-                    ArgumentsBuffer += " --ffmpeg-location \"" + General.Default.ffmpegPath + "\\ffmpeg.exe\"";
-                }
-                else {
-                    ArgumentsBuffer += " --ffmpeg-location \"" + verif.FFmpegPath + "\\ffmpeg.exe\" --hls-prefer-ffmpeg";
-                }
-                rtbConsoleOutput.AppendText("ffmpeg was found\n");
-            }
-            else {
-                rtbConsoleOutput.AppendText("ffmpeg path is null, downloading may be affected\n");
-            }
-
-            if (Downloads.Default.fixReddit) {
-                if (verif.FFmpegPath == null) {
-                    rtbConsoleOutput.AppendText("Fix v.redd.it was requested, but ffmpeg hasn't been found\n");
-                }
-                else if (Download.isReddit(DownloadUrl) && usehlsFF) {
-                    ArgumentsBuffer += " --hls-prefer-ffmpeg";
-                    rtbConsoleOutput.AppendText("hls prefers ffmpeg (fix v.redd.it)\n");
-                }
-            }
             if (DownloadType != 2) {
+                if (Downloads.Default.PreferFFmpeg || Download.isReddit(DownloadUrl) && Downloads.Default.fixReddit) {
+                    rtbConsoleOutput.AppendText("Looking for ffmpeg\n");
+                    if (verif.FFmpegPath != null) {
+                        if (General.Default.UseStaticFFmpeg) {
+                            ArgumentsBuffer += " --ffmpeg-location \"" + General.Default.ffmpegPath + "\\ffmpeg.exe\"";
+                        }
+                        else {
+                            ArgumentsBuffer += " --ffmpeg-location \"" + verif.FFmpegPath + "\\ffmpeg.exe\" --hls-prefer-ffmpeg";
+                        }
+                        rtbConsoleOutput.AppendText("ffmpeg was found\n");
+                    }
+                    else {
+                        rtbConsoleOutput.AppendText("ffmpeg path is null, downloading may be affected\n");
+                    }
+                }
+                
                 if (Downloads.Default.SaveSubtitles) {
                     ArgumentsBuffer += " --all-subs";
                     if (!string.IsNullOrEmpty(Downloads.Default.SubtitleFormat)) {

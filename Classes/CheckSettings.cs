@@ -108,6 +108,9 @@ namespace youtube_dl_gui {
             if (Ini.KeyExists("fixReddit", "Downloads")) {
                 Downloads.Default.fixReddit = Ini.ReadBool("fixReddit", "Downloads");
             }
+            if (Ini.KeyExists("PreferFFmpeg", "Downloads")) {
+                Downloads.Default.PreferFFmpeg = Ini.ReadBool("PreferFFmpeg", "Downloads");
+            }
             if (Ini.KeyExists("separateIntoWebsiteURL", "Downloads")) {
                 Downloads.Default.separateIntoWebsiteURL = Ini.ReadBool("separateIntoWebsiteURL", "Downloads");
             }
@@ -335,6 +338,7 @@ namespace youtube_dl_gui {
             Ini.WriteBool("useYtdlUpdater", Downloads.Default.useYtdlUpdater, "Downloads");
             Ini.WriteString("fileNameSchema", Downloads.Default.fileNameSchema, "Downloads");
             Ini.WriteBool("fixReddit", Downloads.Default.fixReddit, "Downloads");
+            Ini.WriteBool("PreferFFmpeg", Downloads.Default.PreferFFmpeg, "Downloads");
             Ini.WriteBool("separateIntoWebsiteURL", Downloads.Default.separateIntoWebsiteURL, "Downloads");
             Ini.WriteBool("SaveSubtitles", Downloads.Default.SaveSubtitles, "Downloads");
             Ini.WriteString("subtitlesLanguages", Downloads.Default.subtitlesLanguages, "Downloads");
