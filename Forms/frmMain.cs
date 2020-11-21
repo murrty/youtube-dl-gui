@@ -476,6 +476,12 @@ namespace youtube_dl_gui {
                 cbQuality.SelectedIndex = -1;
                 cbFormat.SelectedIndex = -1;
                 cbQuality.Items.Clear();
+                if (Downloads.Default.AudioDownloadAsVBR) {
+                    cbQuality.Items.AddRange(new string[] { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" });
+                }
+                else {
+                    cbQuality.Items.AddRange(DownloadFormats.AudioQualityNamesArray);
+                }
                 cbFormat.Items.Clear();
                 cbFormat.Items.AddRange(DownloadFormats.AudioFormatsArray);
                 cbQuality.Enabled = true;
@@ -486,7 +492,6 @@ namespace youtube_dl_gui {
                 if (Downloads.Default.SaveFormatQuality) {
                     cbQuality.SelectedIndex = Saved.Default.audioQuality;
                     cbFormat.SelectedIndex = Saved.Default.AudioFormat;
-                    chkDownloadSound.Checked = Downloads.Default.AudioDownloadAsVBR;
                 }
                 else {
                     cbQuality.SelectedIndex = 0;
