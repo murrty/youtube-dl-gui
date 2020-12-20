@@ -91,12 +91,13 @@
             // 
             // llbCheckForUpdates
             // 
-            this.llbCheckForUpdates.Location = new System.Drawing.Point(12, 120);
+            this.llbCheckForUpdates.Location = new System.Drawing.Point(12, 119);
             this.llbCheckForUpdates.Name = "llbCheckForUpdates";
-            this.llbCheckForUpdates.Size = new System.Drawing.Size(94, 13);
+            this.llbCheckForUpdates.Size = new System.Drawing.Size(240, 14);
             this.llbCheckForUpdates.TabIndex = 6;
             this.llbCheckForUpdates.TabStop = true;
             this.llbCheckForUpdates.Text = "Check for updates";
+            this.llbCheckForUpdates.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.llbCheckForUpdates.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llbCheckForUpdates_LinkClicked);
             // 
             // frmAbout
