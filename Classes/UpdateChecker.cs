@@ -380,8 +380,8 @@ namespace youtube_dl_gui {
             public static readonly string GithubLatestJson = "http://api.github.com/repos/{0}/{1}/releases/latest";
             public static readonly string ApplicationDownloadUrl = "https://github.com/{0}/{1}/releases/download/{2}/{1}.exe";
 
-            public static readonly string[] Users = { "murrty", "ytdl-org" };
-            public static readonly string[] ApplciationNames = { "youtube-dl-gui", "youtube-dl" };
+            public static readonly string[] Users = { "murrty", "ytdl-org", "blackjack4494" };
+            public static readonly string[] ApplciationNames = { "youtube-dl-gui", "youtube-dl", "yt-dlc" };
 
             public static decimal GetGitVersionDecimal(string InputVersion) {
                 return decimal.Parse(InputVersion.Replace(".", CultureInfo.InvariantCulture.NumberFormat.NumberDecimalSeparator), NumberStyles.Any, CultureInfo.InvariantCulture);

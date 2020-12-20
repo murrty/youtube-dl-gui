@@ -56,5 +56,8 @@
     <Setting Name="SettingsFormSize" Type="System.Drawing.Size" Scope="User">
       <Value Profile="(Default)">0, 0</Value>
     </Setting>
+    <Setting Name="FileNameSchemaHistory" Type="System.String" Scope="User">
+      <Value Profile="(Default)">%(title)s-%(id)s.%(ext)s|%(uploader)s\(%(playlist_index)s) %(title)s-%(id)s.%(ext)s</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

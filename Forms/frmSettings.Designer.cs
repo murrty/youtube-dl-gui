@@ -63,6 +63,7 @@
             this.chkSettingsDownloadsSeparateDownloadsToDifferentFolders = new System.Windows.Forms.CheckBox();
             this.chkSettingsDownloadsSeparateIntoWebsiteUrl = new System.Windows.Forms.CheckBox();
             this.tabDownloadsFixes = new System.Windows.Forms.TabPage();
+            this.chkSettingsDownloadsPreferFFmpeg = new System.Windows.Forms.CheckBox();
             this.chkSettingsDownloadsFixVReddIt = new System.Windows.Forms.CheckBox();
             this.tabDownloadsConnection = new System.Windows.Forms.TabPage();
             this.cbSettingsDownloadsProxyType = new System.Windows.Forms.ComboBox();
@@ -83,7 +84,6 @@
             this.lbSettingsDownloadsDownloadPath = new System.Windows.Forms.Label();
             this.txtSettingsDownloadsSavePath = new System.Windows.Forms.TextBox();
             this.btnSettingsDownloadsBrowseSavePath = new System.Windows.Forms.Button();
-            this.txtSettingsDownloadsFileNameSchema = new System.Windows.Forms.TextBox();
             this.lbSepDownloads = new System.Windows.Forms.Label();
             this.lbSettingsDownloadsFileNameSchema = new System.Windows.Forms.Label();
             this.tabSettingsConverter = new System.Windows.Forms.TabPage();
@@ -134,7 +134,7 @@
             this.btnSettingsCancel = new System.Windows.Forms.Button();
             this.btnSettingsSave = new System.Windows.Forms.Button();
             this.tipSettings = new System.Windows.Forms.ToolTip(this.components);
-            this.chkSettingsDownloadsPreferFFmpeg = new System.Windows.Forms.CheckBox();
+            this.txtSettingsDownloadsFileNameSchema = new System.Windows.Forms.ComboBox();
             this.tcMain.SuspendLayout();
             this.tabSettingsGeneral.SuspendLayout();
             this.gbSettingsGeneralCustomArguments.SuspendLayout();
@@ -424,9 +424,9 @@
             this.tabSettingsDownloads.Controls.Add(this.lbSettingsDownloadsDownloadPath);
             this.tabSettingsDownloads.Controls.Add(this.txtSettingsDownloadsSavePath);
             this.tabSettingsDownloads.Controls.Add(this.btnSettingsDownloadsBrowseSavePath);
-            this.tabSettingsDownloads.Controls.Add(this.txtSettingsDownloadsFileNameSchema);
             this.tabSettingsDownloads.Controls.Add(this.lbSepDownloads);
             this.tabSettingsDownloads.Controls.Add(this.lbSettingsDownloadsFileNameSchema);
+            this.tabSettingsDownloads.Controls.Add(this.txtSettingsDownloadsFileNameSchema);
             this.tabSettingsDownloads.Location = new System.Drawing.Point(4, 22);
             this.tabSettingsDownloads.Name = "tabSettingsDownloads";
             this.tabSettingsDownloads.Padding = new System.Windows.Forms.Padding(3);
@@ -640,6 +640,17 @@
             this.tabDownloadsFixes.TabIndex = 4;
             this.tabDownloadsFixes.Text = "Fixes";
             this.tabDownloadsFixes.UseVisualStyleBackColor = true;
+            // 
+            // chkSettingsDownloadsPreferFFmpeg
+            // 
+            this.chkSettingsDownloadsPreferFFmpeg.AutoSize = true;
+            this.chkSettingsDownloadsPreferFFmpeg.Location = new System.Drawing.Point(6, 29);
+            this.chkSettingsDownloadsPreferFFmpeg.Name = "chkSettingsDownloadsPreferFFmpeg";
+            this.chkSettingsDownloadsPreferFFmpeg.Size = new System.Drawing.Size(201, 17);
+            this.chkSettingsDownloadsPreferFFmpeg.TabIndex = 2;
+            this.chkSettingsDownloadsPreferFFmpeg.Text = "chkSettingsDownloadsPreferFFmpeg";
+            this.tipSettings.SetToolTip(this.chkSettingsDownloadsPreferFFmpeg, "chkSettingsDownloadsPreferFFmpegHint");
+            this.chkSettingsDownloadsPreferFFmpeg.UseVisualStyleBackColor = true;
             // 
             // chkSettingsDownloadsFixVReddIt
             // 
@@ -884,17 +895,6 @@
             this.tipSettings.SetToolTip(this.btnSettingsDownloadsBrowseSavePath, "btnSettingsDownloadsBrowseSavePath");
             this.btnSettingsDownloadsBrowseSavePath.UseVisualStyleBackColor = true;
             this.btnSettingsDownloadsBrowseSavePath.Click += new System.EventHandler(this.btnSettingsDownloadsBrowseSavePath_Click);
-            // 
-            // txtSettingsDownloadsFileNameSchema
-            // 
-            this.txtSettingsDownloadsFileNameSchema.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtSettingsDownloadsFileNameSchema.Location = new System.Drawing.Point(30, 79);
-            this.txtSettingsDownloadsFileNameSchema.Name = "txtSettingsDownloadsFileNameSchema";
-            this.txtSettingsDownloadsFileNameSchema.Size = new System.Drawing.Size(260, 20);
-            this.txtSettingsDownloadsFileNameSchema.TabIndex = 6;
-            this.txtSettingsDownloadsFileNameSchema.Text = "%(title)s-%(id)s.%(ext)s";
-            this.tipSettings.SetToolTip(this.txtSettingsDownloadsFileNameSchema, "txtSettingsDownloadsFileNameSchema");
             // 
             // lbSepDownloads
             // 
@@ -1514,16 +1514,16 @@
             this.tipSettings.ReshowDelay = 100;
             this.tipSettings.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
             // 
-            // chkSettingsDownloadsPreferFFmpeg
+            // txtSettingsDownloadsFileNameSchema
             // 
-            this.chkSettingsDownloadsPreferFFmpeg.AutoSize = true;
-            this.chkSettingsDownloadsPreferFFmpeg.Location = new System.Drawing.Point(6, 29);
-            this.chkSettingsDownloadsPreferFFmpeg.Name = "chkSettingsDownloadsPreferFFmpeg";
-            this.chkSettingsDownloadsPreferFFmpeg.Size = new System.Drawing.Size(201, 17);
-            this.chkSettingsDownloadsPreferFFmpeg.TabIndex = 2;
-            this.chkSettingsDownloadsPreferFFmpeg.Text = "chkSettingsDownloadsPreferFFmpeg";
-            this.tipSettings.SetToolTip(this.chkSettingsDownloadsPreferFFmpeg, "chkSettingsDownloadsPreferFFmpegHint");
-            this.chkSettingsDownloadsPreferFFmpeg.UseVisualStyleBackColor = true;
+            this.txtSettingsDownloadsFileNameSchema.FormattingEnabled = true;
+            this.txtSettingsDownloadsFileNameSchema.Location = new System.Drawing.Point(30, 79);
+            this.txtSettingsDownloadsFileNameSchema.Name = "txtSettingsDownloadsFileNameSchema";
+            this.txtSettingsDownloadsFileNameSchema.Size = new System.Drawing.Size(260, 21);
+            this.txtSettingsDownloadsFileNameSchema.TabIndex = 9;
+            this.txtSettingsDownloadsFileNameSchema.Text = "%(title)s-%(id)s.%(ext)s";
+            this.tipSettings.SetToolTip(this.txtSettingsDownloadsFileNameSchema, "txtSettingsDownloadsFileNameSchemaHint");
+            this.txtSettingsDownloadsFileNameSchema.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtSettingsDownloadsFileNameSchema_KeyPress);
             // 
             // frmSettings
             // 
@@ -1615,7 +1615,6 @@
         private System.Windows.Forms.CheckBox chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing;
         private System.Windows.Forms.Button btnSettingsRedownloadYoutubeDl;
         private System.Windows.Forms.CheckBox chkSettingsConverterDetectOutputFileType;
-        private System.Windows.Forms.TextBox txtSettingsDownloadsFileNameSchema;
         private System.Windows.Forms.Label lbSettingsDownloadsFileNameSchema;
         private System.Windows.Forms.LinkLabel llSettingsDownloadsSchemaHelp;
         private System.Windows.Forms.Label lbidkwhatsup;
@@ -1693,5 +1692,6 @@
         private System.Windows.Forms.CheckBox chkSettingsGeneralClearClipboardOnDownload;
         private System.Windows.Forms.CheckBox chkSettingsGeneralRotateQualityFormat;
         private System.Windows.Forms.CheckBox chkSettingsDownloadsPreferFFmpeg;
+        private System.Windows.Forms.ComboBox txtSettingsDownloadsFileNameSchema;
     }
 }

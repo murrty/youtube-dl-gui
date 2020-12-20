@@ -288,6 +288,9 @@ namespace youtube_dl_gui {
             if (Ini.KeyExists("SettingsFormSize", "Saved")) {
                 Saved.Default.SettingsFormSize = Ini.ReadSize("SettingsFormSize", "Saved");
             }
+            if (Ini.KeyExists("FileNameSchemaHistory", "Saved")) {
+                Saved.Default.FileNameSchemaHistory = Ini.ReadString("FileNameSchemaHistory", "Saved");
+            }
             #endregion
             #region Settings
             if (Ini.KeyExists("extensionsName", "Settings")) {
@@ -400,6 +403,7 @@ namespace youtube_dl_gui {
             Ini.WriteInt("BatchFormY", Saved.Default.BatchFormY, "Saved");
             Ini.WriteSize("MainFormSize", Saved.Default.MainFormSize, "Saved");
             Ini.WriteSize("SettingsFormSize", Saved.Default.SettingsFormSize, "Saved");
+            Ini.WriteString("FileNameSchemaHistory", Saved.Default.FileNameSchemaHistory, "Saved");
             #endregion
             #region Settings
             Ini.WriteString("extensionsName", Settings.Default.extensionsName, "Settings");

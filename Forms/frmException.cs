@@ -72,7 +72,7 @@ namespace youtube_dl_gui {
                 Exception = "An exception occured, but it didn't parse properly.\nCreate a new issue and tell me how you got here.";
             }
 
-            string outputBuffer = "Feel free to copy + paste this entire text wall into a new issue on Github\n\nVersion: " + Properties.Settings.Default.appVersion + "\nReported Exception: " + Exception;
+            string outputBuffer = "Feel free to copy + paste this entire text wall into a new issue on Github\n\nVersion: " + Properties.Settings.Default.appVersion + "\n" + Exception;
             rtbExceptionDetails.Text = outputBuffer;
             lbVersion.Text = "v" + Properties.Settings.Default.appVersion.ToString();
             System.Media.SystemSounds.Hand.Play();

@@ -30,6 +30,7 @@
             this.tmrTitleActivity = new System.Windows.Forms.Timer(this.components);
             this.txtArgumentsGenerated = new System.Windows.Forms.TextBox();
             this.btnDownloaderAbortBatchDownload = new System.Windows.Forms.Button();
+            this.btnClearOutput = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnDownloaderCancelExit
@@ -97,11 +98,23 @@
             this.btnDownloaderAbortBatchDownload.Visible = false;
             this.btnDownloaderAbortBatchDownload.Click += new System.EventHandler(this.btnDownloaderAbortBatchDownload_Click);
             // 
+            // btnClearOutput
+            // 
+            this.btnClearOutput.Location = new System.Drawing.Point(318, 227);
+            this.btnClearOutput.Name = "btnClearOutput";
+            this.btnClearOutput.Size = new System.Drawing.Size(82, 23);
+            this.btnClearOutput.TabIndex = 5;
+            this.btnClearOutput.Text = "Clear Output";
+            this.btnClearOutput.UseVisualStyleBackColor = true;
+            this.btnClearOutput.Visible = false;
+            this.btnClearOutput.Click += new System.EventHandler(this.btnClearOutput_Click);
+            // 
             // frmDownloader
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(412, 290);
+            this.Controls.Add(this.btnClearOutput);
             this.Controls.Add(this.btnDownloaderAbortBatchDownload);
             this.Controls.Add(this.txtArgumentsGenerated);
             this.Controls.Add(this.chkDownloaderCloseAfterDownload);
@@ -127,5 +140,6 @@
         private System.Windows.Forms.Timer tmrTitleActivity;
         private System.Windows.Forms.TextBox txtArgumentsGenerated;
         private System.Windows.Forms.Button btnDownloaderAbortBatchDownload;
+        private System.Windows.Forms.Button btnClearOutput;
     }
 }

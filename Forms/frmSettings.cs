@@ -37,6 +37,13 @@ namespace youtube_dl_gui {
             }
         }
 
+        private string GetHistoryFromComboBox(ComboBox CB) {
+            string History = string.Empty;
+            for (int i = 0; i < CB.Items.Count; i++) {
+                History += CB.Items[i] + "|";
+            }
+            return History.Trim('|');
+        }
         void LoadLanguage() {
             this.Text = lang.frmSettings;
             btnSettingsRedownloadYoutubeDl.Text = lang.btnSettingsRedownloadYoutubeDl;
@@ -312,9 +319,11 @@ namespace youtube_dl_gui {
                 txtSettingsDownloadsSavePath.Text = Downloads.Default.downloadPath;
             }
             txtSettingsDownloadsFileNameSchema.Text = Downloads.Default.fileNameSchema;
+            if (!string.IsNullOrEmpty(Saved.Default.FileNameSchemaHistory)) {
+                txtSettingsDownloadsFileNameSchema.Items.AddRange(Saved.Default.FileNameSchemaHistory.Split('|'));
+            }
 
             chkSettingsDownloadsSaveFormatQuality.Checked = Downloads.Default.SaveFormatQuality;
-            //chkSettingsDownloadsDownloadSubtitles.Checked = Downloads.Default.SaveSubtitles;
             if (Downloads.Default.SaveSubtitles) {
                 chkSettingsDownloadsDownloadSubtitles.Checked = true;
                 chkSettingsDownloadsEmbedSubtitles.Enabled = true;
@@ -381,7 +390,6 @@ namespace youtube_dl_gui {
             chkSettingsErrorsShowDetailedErrors.Checked = Errors.Default.detailedErrors;
             chkSettingsErrorsSaveErrorsAsErrorLog.Checked = Errors.Default.logErrors;
             chkSettingsErrorsSuppressErrors.Checked = Errors.Default.suppressErrors;
-
         }
         private void saveSettings() {
             General.Default.UseStaticYtdl = chkSettingsGeneralUseStaticYoutubeDl.Checked;
@@ -405,8 +413,15 @@ namespace youtube_dl_gui {
             else
                 General.Default.SaveCustomArgs = 0;
 
-            Downloads.Default.fileNameSchema = txtSettingsDownloadsFileNameSchema.Text;
             Downloads.Default.downloadPath = txtSettingsDownloadsSavePath.Text;
+            Downloads.Default.fileNameSchema = txtSettingsDownloadsFileNameSchema.Text;
+            if (!txtSettingsDownloadsFileNameSchema.Items.Contains(txtSettingsDownloadsFileNameSchema.Text)) {
+                txtSettingsDownloadsFileNameSchema.Items.Add(txtSettingsDownloadsFileNameSchema.Text);
+            }
+            string FileNameSchemaHistory = GetHistoryFromComboBox(txtSettingsDownloadsFileNameSchema);
+            if (Saved.Default.FileNameSchemaHistory != FileNameSchemaHistory) {
+                Saved.Default.FileNameSchemaHistory = FileNameSchemaHistory;
+            }
 
             Downloads.Default.SaveFormatQuality = chkSettingsDownloadsSaveFormatQuality.Checked;
             Downloads.Default.SaveSubtitles = chkSettingsDownloadsDownloadSubtitles.Checked;
@@ -634,6 +649,16 @@ namespace youtube_dl_gui {
             lbSettingsExtensionsFileName.Text = "FileName.ext";
         }
         #endregion
+
+        private void txtSettingsDownloadsFileNameSchema_KeyPress(object sender, KeyPressEventArgs e) {
+            switch (e.KeyChar) {
+                case '\\': case '/': case ':': case '*':
+                case '?': case '"': case '<': case '>':
+                case '|':
+                    e.Handled = true;
+                    break;
+            }
+        }
 
     }
 }

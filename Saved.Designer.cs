@@ -238,5 +238,18 @@ namespace youtube_dl_gui {
                 this["SettingsFormSize"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("%(title)s-%(id)s.%(ext)s|%(uploader)s\\(%(playlist_index)s) %(title)s-%(id)s.%(ext" +
+            ")s")]
+        public string FileNameSchemaHistory {
+            get {
+                return ((string)(this["FileNameSchemaHistory"]));
+            }
+            set {
+                this["FileNameSchemaHistory"] = value;
+            }
+        }
     }
 }
