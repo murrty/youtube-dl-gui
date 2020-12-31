@@ -97,10 +97,10 @@ namespace youtube_dl_gui {
         private void btnDownloaderCancelExit_Click(object sender, EventArgs e) {
             if (!DownloadFinished && !DownloadErrored && !DownloadAborted) {
                 DownloadAborted = true;
-                if (!DownloadProcess.HasExited) {
+                if (DownloadProcess != null && !DownloadProcess.HasExited) {
                     DownloadProcess.Kill();
                 }
-                if (DownloadThread.IsAlive) {
+                if (DownloadThread != null && DownloadThread.IsAlive) {
                     DownloadThread.Abort();
                 }
                 System.Media.SystemSounds.Hand.Play();
@@ -137,15 +137,16 @@ namespace youtube_dl_gui {
                 YoutubeDlFileName = verif.YoutubeDlPath;
             }
             if (YoutubeDlFileName == null) {
-                rtbConsoleOutput.AppendText("Youtube-DL has not been found\nA rescan for youtube-dl was called");
+                rtbConsoleOutput.AppendText("Youtube-DL has not been found\nA rescan for youtube-dl was called\n");
                 verif.RefreshYoutubeDlLocation();
                 if (verif.YoutubeDlPath != null) {
-                    rtbConsoleOutput.AppendText("try redownloading the video, it seems to be detected now.");
+                    rtbConsoleOutput.AppendText("Rescan finished and found, continuing\n");
                 }
                 else {
                     rtbConsoleOutput.AppendText("still couldnt find youtube-dl.");
+                    DownloadErrored = true;
+                    return;
                 }
-                return;
             }
             rtbConsoleOutput.AppendText("Youtube-DL has been found and set\n");
             #endregion
@@ -263,7 +264,7 @@ namespace youtube_dl_gui {
                         }
                         break;
                     case 1: // playlist-items
-                        ArgumentsBuffer += " --platlist-items " + SelectionArg;
+                        ArgumentsBuffer += " --playlist-items " + SelectionArg;
                         break;
                     case 2: // datebefore
                         ArgumentsBuffer += " --datebefore " + SelectionArg;
@@ -575,8 +576,8 @@ namespace youtube_dl_gui {
             }
             if (!DownloadFinished) {
                 try {
-                    if (!DownloadProcess.HasExited) { DownloadProcess.Kill(); }
-                    if (DownloadThread.IsAlive) { DownloadThread.Abort(); }
+                    if (DownloadProcess != null && !DownloadProcess.HasExited) { DownloadProcess.Kill(); }
+                    if (DownloadThread != null && DownloadThread.IsAlive) { DownloadThread.Abort(); }
                 }
                 catch (Exception ex) {
                     ErrorLog.ReportException(ex);

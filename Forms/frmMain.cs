@@ -710,32 +710,32 @@ namespace youtube_dl_gui {
                 Downloader.DownloadVideoAudio = chkDownloadSound.Checked;
                 Downloader.DownloadUrl = txtUrl.Text;
 
-                if (rbVideoSelectionPlaylistIndex.Checked && txtPlaylistStart.Text.Length > 0 || txtPlaylistEnd.Text.Length > 0) {
-                    Downloader.SelectionType = 0;
-                    int PlaylistStart;
-                    int PlaylistEnd;
-                    int.TryParse(txtPlaylistStart.Text, out PlaylistStart);
-                    int.TryParse(txtPlaylistEnd.Text, out PlaylistEnd);
-                    Downloader.SelectionIndexStart = PlaylistStart;
-                    Downloader.SelectionIndexEnd = PlaylistEnd;
-                }
-                else if (rbVideoSelectionPlaylistItems.Checked) {
-                    Downloader.SelectionType = 1;
-                    Downloader.SelectionArg = txtPlaylistItems.Text;
-                }
-                else if (rbVideoSelectionBeforeDate.Checked) {
-                    Downloader.SelectionType = 2;
-                    Downloader.SelectionArg = txtVideoDate.Text;
-                }
-                else if (rbVideoSelectionOnDate.Checked) {
-                    Downloader.SelectionType = 3;
-                    Downloader.SelectionArg = txtVideoDate.Text;
-
-                }
-                else if (rbVideoSelectionAfterDate.Checked) {
-                    Downloader.SelectionType = 4;
-                    Downloader.SelectionArg = txtVideoDate.Text;
-
+                if (chkUseSelection.Checked) {
+                    if (rbVideoSelectionPlaylistIndex.Checked && txtPlaylistStart.Text.Length > 0 || txtPlaylistEnd.Text.Length > 0) {
+                        Downloader.SelectionType = 0;
+                        int PlaylistStart;
+                        int PlaylistEnd;
+                        int.TryParse(txtPlaylistStart.Text, out PlaylistStart);
+                        int.TryParse(txtPlaylistEnd.Text, out PlaylistEnd);
+                        Downloader.SelectionIndexStart = PlaylistStart;
+                        Downloader.SelectionIndexEnd = PlaylistEnd;
+                    }
+                    else if (rbVideoSelectionPlaylistItems.Checked && txtPlaylistItems.Text.Length > 0) {
+                        Downloader.SelectionType = 1;
+                        Downloader.SelectionArg = txtPlaylistItems.Text;
+                    }
+                    else if (rbVideoSelectionBeforeDate.Checked && txtVideoDate.Text.Length > 0) {
+                        Downloader.SelectionType = 2;
+                        Downloader.SelectionArg = txtVideoDate.Text;
+                    }
+                    else if (rbVideoSelectionOnDate.Checked && txtVideoDate.Text.Length > 0) {
+                        Downloader.SelectionType = 3;
+                        Downloader.SelectionArg = txtVideoDate.Text;
+                    }
+                    else if (rbVideoSelectionAfterDate.Checked && txtVideoDate.Text.Length > 0) {
+                        Downloader.SelectionType = 4;
+                        Downloader.SelectionArg = txtVideoDate.Text;
+                    }
                 }
 
                 Downloader.Show();
@@ -752,32 +752,32 @@ namespace youtube_dl_gui {
                 Downloader.DownloadFormat = cbFormat.SelectedIndex;
                 Downloader.DownloadUrl = txtUrl.Text;
 
-                if (rbVideoSelectionPlaylistIndex.Checked && txtPlaylistStart.Text.Length > 0 || txtPlaylistEnd.Text.Length > 0) {
-                    Downloader.SelectionType = 0;
-                    int PlaylistStart;
-                    int PlaylistEnd;
-                    int.TryParse(txtPlaylistStart.Text, out PlaylistStart);
-                    int.TryParse(txtPlaylistEnd.Text, out PlaylistEnd);
-                    Downloader.SelectionIndexStart = PlaylistStart;
-                    Downloader.SelectionIndexEnd = PlaylistEnd;
-                }
-                else if (rbVideoSelectionPlaylistItems.Checked) {
-                    Downloader.SelectionType = 1;
-                    Downloader.SelectionArg = txtPlaylistItems.Text;
-                }
-                else if (rbVideoSelectionBeforeDate.Checked) {
-                    Downloader.SelectionType = 2;
-                    Downloader.SelectionArg = txtVideoDate.Text;
-                }
-                else if (rbVideoSelectionOnDate.Checked) {
-                    Downloader.SelectionType = 3;
-                    Downloader.SelectionArg = txtVideoDate.Text;
-
-                }
-                else if (rbVideoSelectionAfterDate.Checked) {
-                    Downloader.SelectionType = 4;
-                    Downloader.SelectionArg = txtVideoDate.Text;
-
+                if (chkUseSelection.Checked) {
+                    if (rbVideoSelectionPlaylistIndex.Checked && txtPlaylistStart.Text.Length > 0 || txtPlaylistEnd.Text.Length > 0) {
+                        Downloader.SelectionType = 0;
+                        int PlaylistStart;
+                        int PlaylistEnd;
+                        int.TryParse(txtPlaylistStart.Text, out PlaylistStart);
+                        int.TryParse(txtPlaylistEnd.Text, out PlaylistEnd);
+                        Downloader.SelectionIndexStart = PlaylistStart;
+                        Downloader.SelectionIndexEnd = PlaylistEnd;
+                    }
+                    else if (rbVideoSelectionPlaylistItems.Checked && txtPlaylistItems.Text.Length > 0) {
+                        Downloader.SelectionType = 1;
+                        Downloader.SelectionArg = txtPlaylistItems.Text;
+                    }
+                    else if (rbVideoSelectionBeforeDate.Checked && txtVideoDate.Text.Length > 0) {
+                        Downloader.SelectionType = 2;
+                        Downloader.SelectionArg = txtVideoDate.Text;
+                    }
+                    else if (rbVideoSelectionOnDate.Checked && txtVideoDate.Text.Length > 0) {
+                        Downloader.SelectionType = 3;
+                        Downloader.SelectionArg = txtVideoDate.Text;
+                    }
+                    else if (rbVideoSelectionAfterDate.Checked && txtVideoDate.Text.Length > 0) {
+                        Downloader.SelectionType = 4;
+                        Downloader.SelectionArg = txtVideoDate.Text;
+                    }
                 }
 
                 Downloader.Show();
@@ -1149,7 +1149,7 @@ namespace youtube_dl_gui {
             }
         }
 
-        private void hintTextBox1_KeyPress(object sender, KeyPressEventArgs e) {
+        private void txtVideoDate_KeyPress(object sender, KeyPressEventArgs e) {
             if (!char.IsDigit(e.KeyChar) && e.KeyChar != (char)8) {
                 e.Handled = true;
             }
@@ -1160,6 +1160,7 @@ namespace youtube_dl_gui {
                 panelPlaylistStartEnd.Visible = true;
                 panelPlaylistItems.Visible = false;
                 panelDate.Visible = false;
+                chkUseSelection.Checked = true;
             }
         }
 
@@ -1168,6 +1169,7 @@ namespace youtube_dl_gui {
                 panelPlaylistStartEnd.Visible = false;
                 panelPlaylistItems.Visible = true;
                 panelDate.Visible = false;
+                chkUseSelection.Checked = true;
             }
         }
 
@@ -1176,6 +1178,7 @@ namespace youtube_dl_gui {
                 panelPlaylistStartEnd.Visible = false;
                 panelPlaylistItems.Visible = false;
                 panelDate.Visible = true;
+                chkUseSelection.Checked = true;
             }
         }
 
@@ -1184,6 +1187,7 @@ namespace youtube_dl_gui {
                 panelPlaylistStartEnd.Visible = false;
                 panelPlaylistItems.Visible = false;
                 panelDate.Visible = true;
+                chkUseSelection.Checked = true;
             }
         }
 
@@ -1192,6 +1196,7 @@ namespace youtube_dl_gui {
                 panelPlaylistStartEnd.Visible = false;
                 panelPlaylistItems.Visible = false;
                 panelDate.Visible = true;
+                chkUseSelection.Checked = true;
             }
         }
 
