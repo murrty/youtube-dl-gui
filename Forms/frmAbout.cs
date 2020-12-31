@@ -21,16 +21,10 @@ namespace youtube_dl_gui {
             this.Text = string.Format("{0} youtube-dl-gui", lang.frmAbout);
         }
         private void frmAbout_Shown(object sender, EventArgs e) {
-            if (!Properties.Settings.Default.jsonSupport)
-                llbCheckForUpdates.Enabled = false;
-
             lbVersion.Text = "v" + Properties.Settings.Default.appVersion.ToString();
         }
 
         private void llbCheckForUpdates_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
-            if (!Properties.Settings.Default.jsonSupport)
-                return;
-
             UpdateChecker.CheckForUpdate(true);
         }
         private void pbIcon_Click(object sender, EventArgs e) {
