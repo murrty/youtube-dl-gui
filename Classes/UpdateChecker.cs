@@ -62,7 +62,12 @@ namespace youtube_dl_gui {
                                                 break;
                                             case DialogResult.Ignore:
                                                 Properties.Settings.Default.SkippedVersion = GitVersion;
-                                                Properties.Settings.Default.Save();
+                                                if (Program.IsPortable) {
+                                                    CheckSettings.SavePortableSettings();
+                                                }
+                                                else {
+                                                    Properties.Settings.Default.Save();
+                                                }
                                                 break;
                                         }
                                     }

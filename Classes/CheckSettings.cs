@@ -10,6 +10,14 @@ namespace youtube_dl_gui {
             return File.Exists(Environment.CurrentDirectory + "\\settings.ini");
         }
         public static void LoadPortableSettings() {
+            #region youtube-dl-gui
+            if (Ini.KeyExists("FirstTime", "youtube-dl-gui")) {
+                Properties.Settings.Default.firstTime = Ini.ReadBool("FirstTime", "youtube-dl-gui");
+            }
+            if (Ini.KeyExists("SkippedVersion", "youtube-dl-gui")) {
+                Properties.Settings.Default.SkippedVersion = Ini.ReadDecimal("SkippedVersion", "youtube-dl-gui");
+            }
+            #endregion
             #region Batch
             if (Ini.KeyExists("SelectedType", "Batch")) {
                 Batch.Default.SelectedType = Ini.ReadInt("SelectedType", "Batch");
@@ -305,6 +313,9 @@ namespace youtube_dl_gui {
             #endregion
         }
         public static void SavePortableSettings() {
+            #region youtube-dl-gui
+            Ini.WriteDecimal("SkippedVersion", Properties.Settings.Default.SkippedVersion, "youtube-dl-gui");
+            #endregion
             #region Batch
             Ini.WriteInt("SelectedType", Batch.Default.SelectedType, "Batch");
             Ini.WriteInt("SelectedVideoQuality", Batch.Default.SelectedVideoQuality, "Batch");
@@ -449,6 +460,19 @@ namespace youtube_dl_gui {
             int.TryParse(RetStr, out RetInt);
             return RetInt;
         }
+        public static Size ReadSize(string Key, string Section) {
+            var RetVal = new StringBuilder(255);
+            GetPrivateProfileString(Section, Key, "", RetVal, 255, Path);
+            string[] Value = RetVal.ToString().Split(',');
+            return new Size(int.Parse(Value[0]), int.Parse(Value[1]));
+        }
+        public static decimal ReadDecimal(string Key, string Section) {
+            var RetVal = new StringBuilder(255);
+            GetPrivateProfileString(Section, Key, "", RetVal, 255, Path);
+            decimal RetDec;
+            decimal.TryParse(RetVal.ToString(), out RetDec);
+            return RetDec;
+        }
 
         public static void WriteString(string Key, string Value, string Section) {
             WritePrivateProfileString(Section, Key, Value, Path);
@@ -468,12 +492,8 @@ namespace youtube_dl_gui {
 
             WritePrivateProfileString(Section, Key, outKey, Path);
         }
-
-        public static Size ReadSize(string Key, string Section) {
-            var RetVal = new StringBuilder(255);
-            GetPrivateProfileString(Section, Key, "", RetVal, 255, Path);
-            string[] Value = RetVal.ToString().Split(',');
-            return new Size(int.Parse(Value[0]), int.Parse(Value[1]));
+        public static void WriteDecimal(string Key, decimal Value, string Section) {
+            WritePrivateProfileString(Section, Key, Value.ToString(), Path);
         }
         public static void WriteSize(string Key, Size Value, string Section) {
             string outKey = Value.Width + "," + Value.Height;
