@@ -25,6 +25,10 @@ namespace youtube_dl_gui {
         public string Auth2Factor = null;       // The 2-factor code for authenticating.
         public string AuthVideoPassword = null; // The video password for authenticating.
         public bool AuthNetrc = false;          // Determine to use .netrc for authenticating.
+        public int SelectionType = -1;          // Used for selecting videos to download
+        public string SelectionArg = null;      // Used as the argument for selecting videos with one specific argument
+        public int SelectionIndexStart = 0;     // Used as the argument for selecting videos to download in a playlist
+        public int SelectionIndexEnd = 0;       // Used as the argument for selecting videos to download in a playlist
 
         public bool Debugging = false;
 
@@ -248,6 +252,30 @@ namespace youtube_dl_gui {
 
             #region Arguments
             if (DownloadType != 2) {
+                switch (SelectionType) {
+                    case 0: // playlist-start and playlist-end
+                        if (SelectionIndexStart > 0) {
+                            ArgumentsBuffer += " --playlist-start " + SelectionIndexStart;
+                        }
+
+                        if (SelectionIndexEnd > 0) {
+                            ArgumentsBuffer += " --playlist-end " + (SelectionIndexStart + SelectionIndexEnd);
+                        }
+                        break;
+                    case 1: // playlist-items
+                        ArgumentsBuffer += " --platlist-items " + SelectionArg;
+                        break;
+                    case 2: // datebefore
+                        ArgumentsBuffer += " --datebefore " + SelectionArg;
+                        break;
+                    case 3: // date
+                        ArgumentsBuffer += " --date " + SelectionArg;
+                        break;
+                    case 4: // dateafter
+                        ArgumentsBuffer += " --dateafter " + SelectionArg;
+                        break;
+                }
+
                 if (Downloads.Default.PreferFFmpeg || Download.isReddit(DownloadUrl) && Downloads.Default.fixReddit) {
                     rtbConsoleOutput.AppendText("Looking for ffmpeg\n");
                     if (verif.FFmpegPath != null) {

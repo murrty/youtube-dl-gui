@@ -709,6 +709,35 @@ namespace youtube_dl_gui {
                 Downloader.Set60FPS = cbQuality.GetItemText(cbQuality.SelectedItem).EndsWith("p60");
                 Downloader.DownloadVideoAudio = chkDownloadSound.Checked;
                 Downloader.DownloadUrl = txtUrl.Text;
+
+                if (rbVideoSelectionPlaylistIndex.Checked && txtPlaylistStart.Text.Length > 0 || txtPlaylistEnd.Text.Length > 0) {
+                    Downloader.SelectionType = 0;
+                    int PlaylistStart;
+                    int PlaylistEnd;
+                    int.TryParse(txtPlaylistStart.Text, out PlaylistStart);
+                    int.TryParse(txtPlaylistEnd.Text, out PlaylistEnd);
+                    Downloader.SelectionIndexStart = PlaylistStart;
+                    Downloader.SelectionIndexEnd = PlaylistEnd;
+                }
+                else if (rbVideoSelectionPlaylistItems.Checked) {
+                    Downloader.SelectionType = 1;
+                    Downloader.SelectionArg = txtPlaylistItems.Text;
+                }
+                else if (rbVideoSelectionBeforeDate.Checked) {
+                    Downloader.SelectionType = 2;
+                    Downloader.SelectionArg = txtVideoDate.Text;
+                }
+                else if (rbVideoSelectionOnDate.Checked) {
+                    Downloader.SelectionType = 3;
+                    Downloader.SelectionArg = txtVideoDate.Text;
+
+                }
+                else if (rbVideoSelectionAfterDate.Checked) {
+                    Downloader.SelectionType = 4;
+                    Downloader.SelectionArg = txtVideoDate.Text;
+
+                }
+
                 Downloader.Show();
                 Saved.Default.downloadType = 0;
                 Saved.Default.videoQuality = cbQuality.SelectedIndex;
@@ -722,6 +751,35 @@ namespace youtube_dl_gui {
                 Downloader.UseVBR = chkDownloadSound.Checked;
                 Downloader.DownloadFormat = cbFormat.SelectedIndex;
                 Downloader.DownloadUrl = txtUrl.Text;
+
+                if (rbVideoSelectionPlaylistIndex.Checked && txtPlaylistStart.Text.Length > 0 || txtPlaylistEnd.Text.Length > 0) {
+                    Downloader.SelectionType = 0;
+                    int PlaylistStart;
+                    int PlaylistEnd;
+                    int.TryParse(txtPlaylistStart.Text, out PlaylistStart);
+                    int.TryParse(txtPlaylistEnd.Text, out PlaylistEnd);
+                    Downloader.SelectionIndexStart = PlaylistStart;
+                    Downloader.SelectionIndexEnd = PlaylistEnd;
+                }
+                else if (rbVideoSelectionPlaylistItems.Checked) {
+                    Downloader.SelectionType = 1;
+                    Downloader.SelectionArg = txtPlaylistItems.Text;
+                }
+                else if (rbVideoSelectionBeforeDate.Checked) {
+                    Downloader.SelectionType = 2;
+                    Downloader.SelectionArg = txtVideoDate.Text;
+                }
+                else if (rbVideoSelectionOnDate.Checked) {
+                    Downloader.SelectionType = 3;
+                    Downloader.SelectionArg = txtVideoDate.Text;
+
+                }
+                else if (rbVideoSelectionAfterDate.Checked) {
+                    Downloader.SelectionType = 4;
+                    Downloader.SelectionArg = txtVideoDate.Text;
+
+                }
+
                 Downloader.Show();
                 Saved.Default.downloadType = 1;
                 Saved.Default.audioQuality = cbQuality.SelectedIndex;
@@ -1070,6 +1128,70 @@ namespace youtube_dl_gui {
             }
             catch (Exception ex) {
                 ErrorLog.ReportException(ex, false);
+            }
+        }
+
+        private void txtPlaylistStart_KeyPress(object sender, KeyPressEventArgs e) {
+            if (!char.IsDigit(e.KeyChar) && e.KeyChar != (char)8) {
+                e.Handled = true;
+            }
+        }
+
+        private void txtPlaylistEnd_KeyPress(object sender, KeyPressEventArgs e) {
+            if (!char.IsDigit(e.KeyChar) && e.KeyChar != (char)8) {
+                e.Handled = true;
+            }
+        }
+
+        private void txtPlaylistItems_KeyPress(object sender, KeyPressEventArgs e) {
+            if (!char.IsDigit(e.KeyChar) && e.KeyChar != (char)8 && e.KeyChar != ',') {
+                e.Handled = true;
+            }
+        }
+
+        private void hintTextBox1_KeyPress(object sender, KeyPressEventArgs e) {
+            if (!char.IsDigit(e.KeyChar) && e.KeyChar != (char)8) {
+                e.Handled = true;
+            }
+        }
+
+        private void rbVideoSelectionPlaylistIndex_CheckedChanged(object sender, EventArgs e) {
+            if (rbVideoSelectionPlaylistIndex.Checked) {
+                panelPlaylistStartEnd.Visible = true;
+                panelPlaylistItems.Visible = false;
+                panelDate.Visible = false;
+            }
+        }
+
+        private void rbVideoSelectionPlaylistItems_CheckedChanged(object sender, EventArgs e) {
+            if (rbVideoSelectionPlaylistItems.Checked) {
+                panelPlaylistStartEnd.Visible = false;
+                panelPlaylistItems.Visible = true;
+                panelDate.Visible = false;
+            }
+        }
+
+        private void rbVideoSelectionBeforeDate_CheckedChanged(object sender, EventArgs e) {
+            if (rbVideoSelectionBeforeDate.Checked) {
+                panelPlaylistStartEnd.Visible = false;
+                panelPlaylistItems.Visible = false;
+                panelDate.Visible = true;
+            }
+        }
+
+        private void rbVideoSelectionOnDate_CheckedChanged(object sender, EventArgs e) {
+            if (rbVideoSelectionOnDate.Checked) {
+                panelPlaylistStartEnd.Visible = false;
+                panelPlaylistItems.Visible = false;
+                panelDate.Visible = true;
+            }
+        }
+
+        private void rbVideoSelectionAfterDate_CheckedChanged(object sender, EventArgs e) {
+            if (rbVideoSelectionAfterDate.Checked) {
+                panelPlaylistStartEnd.Visible = false;
+                panelPlaylistItems.Visible = false;
+                panelDate.Visible = true;
             }
         }
 
