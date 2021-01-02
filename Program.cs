@@ -70,9 +70,12 @@ namespace youtube_dl_gui {
 
                         if (!IsPortable) {
                             Properties.Settings.Default.Save();
+                            Downloads.Default.Save();
+                        }
+                        else {
+                            CheckSettings.CreatePortableSettings();
                         }
 
-                        CheckSettings.CreatePortableSettings();
 
                         AllowLaunch = true;
                     }
@@ -116,12 +119,7 @@ namespace youtube_dl_gui {
         [System.Diagnostics.Conditional("DEBUG")]
         static void DebugOnlyMethod() {
             IsDebug = true;
-            //string Date = DateTime.Now.Year + "-";
-            //if (DateTime.Now.Month.ToString().Length == 1) { Date += "0"; }
-            //Date += DateTime.Now.Month + "-";
-            //if (DateTime.Now.Day.ToString().Length == 1) { Date += "0"; }
-            //Date += DateTime.Now.Day;
-            //Properties.Settings.Default.debugDate = Date;
+
         }
 
         static void LoadClasses() {

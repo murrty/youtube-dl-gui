@@ -72,9 +72,16 @@ namespace youtube_dl_gui {
                 Exception = "An exception occured, but it didn't parse properly.\nCreate a new issue and tell me how you got here.";
             }
 
-            string outputBuffer = "Feel free to copy + paste this entire text wall into a new issue on Github\n\nVersion: " + Properties.Settings.Default.appVersion + "\n" + Exception;
+            string outputBuffer = "Feel free to copy + paste this entire text wall into a new issue on Github\n\nVersion: {0}\n" + Exception;
+            if (Properties.Settings.Default.IsBetaVersion) {
+                outputBuffer = string.Format(outputBuffer, Properties.Settings.Default.BetaVersion);
+                lbVersion.Text = "v" + Properties.Settings.Default.BetaVersion;
+            }
+            else {
+                outputBuffer = string.Format(outputBuffer, Properties.Settings.Default.appVersion.ToString());
+                lbVersion.Text = "v" + Properties.Settings.Default.appVersion.ToString();
+            }
             rtbExceptionDetails.Text = outputBuffer;
-            lbVersion.Text = "v" + Properties.Settings.Default.appVersion.ToString();
             System.Media.SystemSounds.Hand.Play();
         }
 

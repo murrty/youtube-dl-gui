@@ -3,25 +3,28 @@
   <Profiles />
   <Settings>
     <Setting Name="appVersion" Type="System.Decimal" Scope="Application">
-      <Value Profile="(Default)">2.251</Value>
+      <Value Profile="(Default)">2.252</Value>
     </Setting>
     <Setting Name="firstTime" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
-    </Setting>
-    <Setting Name="jsonSupport" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="stubVersion" Type="System.Decimal" Scope="Application">
       <Value Profile="(Default)">1</Value>
     </Setting>
-    <Setting Name="debugDate" Type="System.String" Scope="User">
-      <Value Profile="(Default)">2020-10-24</Value>
+    <Setting Name="debugDate" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">2020-12-31</Value>
     </Setting>
     <Setting Name="SkippedVersion" Type="System.Decimal" Scope="User">
       <Value Profile="(Default)">-1</Value>
     </Setting>
     <Setting Name="YoutubeDlVersion" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="IsBetaVersion" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="BetaVersion" Type="System.String" Scope="User">
+      <Value Profile="(Default)">2.26-pre2</Value>
     </Setting>
   </Settings>
 </SettingsFile>

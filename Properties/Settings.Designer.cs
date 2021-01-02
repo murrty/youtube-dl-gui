@@ -25,7 +25,7 @@ namespace youtube_dl_gui.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("2.251")]
+        [global::System.Configuration.DefaultSettingValueAttribute("2.252")]
         public decimal appVersion {
             get {
                 return ((decimal)(this["appVersion"]));
@@ -44,18 +44,6 @@ namespace youtube_dl_gui.Properties {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool jsonSupport {
-            get {
-                return ((bool)(this["jsonSupport"]));
-            }
-            set {
-                this["jsonSupport"] = value;
-            }
-        }
-        
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("1")]
@@ -65,15 +53,12 @@ namespace youtube_dl_gui.Properties {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("2020-10-24")]
+        [global::System.Configuration.DefaultSettingValueAttribute("2020-12-31")]
         public string debugDate {
             get {
                 return ((string)(this["debugDate"]));
-            }
-            set {
-                this["debugDate"] = value;
             }
         }
         
@@ -98,6 +83,27 @@ namespace youtube_dl_gui.Properties {
             }
             set {
                 this["YoutubeDlVersion"] = value;
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool IsBetaVersion {
+            get {
+                return ((bool)(this["IsBetaVersion"]));
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("2.26-pre2")]
+        public string BetaVersion {
+            get {
+                return ((string)(this["BetaVersion"]));
+            }
+            set {
+                this["BetaVersion"] = value;
             }
         }
     }

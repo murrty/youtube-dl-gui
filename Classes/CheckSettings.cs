@@ -423,7 +423,7 @@ namespace youtube_dl_gui {
             #endregion
         }
         public static void CreatePortableSettings() {
-            Ini.WriteBool("FirstTime", true, "youtube-dl-gui");
+            Ini.WriteBool("FirstTime", false, "youtube-dl-gui");
             Ini.WriteString("downloadPath", Downloads.Default.downloadPath, "Downloads");
         }
     }

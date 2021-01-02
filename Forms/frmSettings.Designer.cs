@@ -86,6 +86,7 @@
             this.btnSettingsDownloadsBrowseSavePath = new System.Windows.Forms.Button();
             this.lbSepDownloads = new System.Windows.Forms.Label();
             this.lbSettingsDownloadsFileNameSchema = new System.Windows.Forms.Label();
+            this.txtSettingsDownloadsFileNameSchema = new System.Windows.Forms.ComboBox();
             this.tabSettingsConverter = new System.Windows.Forms.TabPage();
             this.chkSettingsConverterHideFFmpegCompileInfo = new System.Windows.Forms.CheckBox();
             this.chkSettingsConverterDetectOutputFileType = new System.Windows.Forms.CheckBox();
@@ -134,7 +135,6 @@
             this.btnSettingsCancel = new System.Windows.Forms.Button();
             this.btnSettingsSave = new System.Windows.Forms.Button();
             this.tipSettings = new System.Windows.Forms.ToolTip(this.components);
-            this.txtSettingsDownloadsFileNameSchema = new System.Windows.Forms.ComboBox();
             this.tcMain.SuspendLayout();
             this.tabSettingsGeneral.SuspendLayout();
             this.gbSettingsGeneralCustomArguments.SuspendLayout();
@@ -206,7 +206,7 @@
             this.chkSettingsGeneralRotateQualityFormat.AutoSize = true;
             this.chkSettingsGeneralRotateQualityFormat.Location = new System.Drawing.Point(53, 221);
             this.chkSettingsGeneralRotateQualityFormat.Name = "chkSettingsGeneralRotateQualityFormat";
-            this.chkSettingsGeneralRotateQualityFormat.Size = new System.Drawing.Size(215, 17);
+            this.chkSettingsGeneralRotateQualityFormat.Size = new System.Drawing.Size(214, 17);
             this.chkSettingsGeneralRotateQualityFormat.TabIndex = 15;
             this.chkSettingsGeneralRotateQualityFormat.Text = "chkSettingsGeneralRotateQualityFormat";
             this.tipSettings.SetToolTip(this.chkSettingsGeneralRotateQualityFormat, "chkSettingsGeneralRotateQualityFormatHint");
@@ -219,7 +219,7 @@
             this.chkSettingsGeneralClearClipboardOnDownload.AutoSize = true;
             this.chkSettingsGeneralClearClipboardOnDownload.Location = new System.Drawing.Point(36, 198);
             this.chkSettingsGeneralClearClipboardOnDownload.Name = "chkSettingsGeneralClearClipboardOnDownload";
-            this.chkSettingsGeneralClearClipboardOnDownload.Size = new System.Drawing.Size(249, 17);
+            this.chkSettingsGeneralClearClipboardOnDownload.Size = new System.Drawing.Size(248, 17);
             this.chkSettingsGeneralClearClipboardOnDownload.TabIndex = 13;
             this.chkSettingsGeneralClearClipboardOnDownload.Text = "chkSettingsGeneralClearClipboardOnDownload";
             this.tipSettings.SetToolTip(this.chkSettingsGeneralClearClipboardOnDownload, "chkSettingsGeneralClearClipboardOnDownloadHint");
@@ -247,7 +247,7 @@
             this.rbSettingsGeneralCustomArgumentsSaveInSettings.Checked = true;
             this.rbSettingsGeneralCustomArgumentsSaveInSettings.Location = new System.Drawing.Point(200, 20);
             this.rbSettingsGeneralCustomArgumentsSaveInSettings.Name = "rbSettingsGeneralCustomArgumentsSaveInSettings";
-            this.rbSettingsGeneralCustomArgumentsSaveInSettings.Size = new System.Drawing.Size(266, 17);
+            this.rbSettingsGeneralCustomArgumentsSaveInSettings.Size = new System.Drawing.Size(265, 17);
             this.rbSettingsGeneralCustomArgumentsSaveInSettings.TabIndex = 17;
             this.rbSettingsGeneralCustomArgumentsSaveInSettings.TabStop = true;
             this.rbSettingsGeneralCustomArgumentsSaveInSettings.Text = "rbSettingsGeneralCustomArgumentsSaveInSettings";
@@ -260,7 +260,7 @@
             this.rbSettingsGeneralCustomArgumentsSaveAsArgsText.AutoSize = true;
             this.rbSettingsGeneralCustomArgumentsSaveAsArgsText.Location = new System.Drawing.Point(89, 20);
             this.rbSettingsGeneralCustomArgumentsSaveAsArgsText.Name = "rbSettingsGeneralCustomArgumentsSaveAsArgsText";
-            this.rbSettingsGeneralCustomArgumentsSaveAsArgsText.Size = new System.Drawing.Size(273, 17);
+            this.rbSettingsGeneralCustomArgumentsSaveAsArgsText.Size = new System.Drawing.Size(272, 17);
             this.rbSettingsGeneralCustomArgumentsSaveAsArgsText.TabIndex = 16;
             this.rbSettingsGeneralCustomArgumentsSaveAsArgsText.Text = "rbSettingsGeneralCustomArgumentsSaveAsArgsText";
             this.tipSettings.SetToolTip(this.rbSettingsGeneralCustomArgumentsSaveAsArgsText, "rbSettingsGeneralCustomArgumentsSaveAsArgsText");
@@ -272,7 +272,7 @@
             this.rbSettingsGeneralCustomArgumentsDontSave.AutoSize = true;
             this.rbSettingsGeneralCustomArgumentsDontSave.Location = new System.Drawing.Point(8, 20);
             this.rbSettingsGeneralCustomArgumentsDontSave.Name = "rbSettingsGeneralCustomArgumentsDontSave";
-            this.rbSettingsGeneralCustomArgumentsDontSave.Size = new System.Drawing.Size(242, 17);
+            this.rbSettingsGeneralCustomArgumentsDontSave.Size = new System.Drawing.Size(241, 17);
             this.rbSettingsGeneralCustomArgumentsDontSave.TabIndex = 15;
             this.rbSettingsGeneralCustomArgumentsDontSave.Text = "rbSettingsGeneralCustomArgumentsDontSave";
             this.tipSettings.SetToolTip(this.rbSettingsGeneralCustomArgumentsDontSave, "rbSettingsGeneralCustomArgumentsDontSave");
@@ -318,7 +318,7 @@
             this.chkSettingsGeneralUseStaticYoutubeDl.AutoSize = true;
             this.chkSettingsGeneralUseStaticYoutubeDl.Location = new System.Drawing.Point(122, 11);
             this.chkSettingsGeneralUseStaticYoutubeDl.Name = "chkSettingsGeneralUseStaticYoutubeDl";
-            this.chkSettingsGeneralUseStaticYoutubeDl.Size = new System.Drawing.Size(215, 17);
+            this.chkSettingsGeneralUseStaticYoutubeDl.Size = new System.Drawing.Size(214, 17);
             this.chkSettingsGeneralUseStaticYoutubeDl.TabIndex = 2;
             this.chkSettingsGeneralUseStaticYoutubeDl.Text = "chkSettingsGeneralUseStaticYoutubeDl";
             this.tipSettings.SetToolTip(this.chkSettingsGeneralUseStaticYoutubeDl, "chkSettingsGeneralUseStaticYoutubeDl");
@@ -330,7 +330,7 @@
             this.chkSettingsGeneralUseStaticFFmpeg.AutoSize = true;
             this.chkSettingsGeneralUseStaticFFmpeg.Location = new System.Drawing.Point(122, 58);
             this.chkSettingsGeneralUseStaticFFmpeg.Name = "chkSettingsGeneralUseStaticFFmpeg";
-            this.chkSettingsGeneralUseStaticFFmpeg.Size = new System.Drawing.Size(203, 17);
+            this.chkSettingsGeneralUseStaticFFmpeg.Size = new System.Drawing.Size(202, 17);
             this.chkSettingsGeneralUseStaticFFmpeg.TabIndex = 6;
             this.chkSettingsGeneralUseStaticFFmpeg.Text = "chkSettingsGeneralUseStaticFFmpeg";
             this.tipSettings.SetToolTip(this.chkSettingsGeneralUseStaticFFmpeg, "chkSettingsGeneralUseStaticFFmpeg");
@@ -385,7 +385,7 @@
             this.chkSettingsGeneralClearUrlOnDownload.AutoSize = true;
             this.chkSettingsGeneralClearUrlOnDownload.Location = new System.Drawing.Point(52, 175);
             this.chkSettingsGeneralClearUrlOnDownload.Name = "chkSettingsGeneralClearUrlOnDownload";
-            this.chkSettingsGeneralClearUrlOnDownload.Size = new System.Drawing.Size(218, 17);
+            this.chkSettingsGeneralClearUrlOnDownload.Size = new System.Drawing.Size(217, 17);
             this.chkSettingsGeneralClearUrlOnDownload.TabIndex = 12;
             this.chkSettingsGeneralClearUrlOnDownload.Text = "chkSettingsGeneralClearUrlOnDownload";
             this.tipSettings.SetToolTip(this.chkSettingsGeneralClearUrlOnDownload, "chkSettingsGeneralClearUrlOnDownloadHint");
@@ -399,7 +399,7 @@
             this.chkSettingsGeneralHoverOverUrlToPasteClipboard.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkSettingsGeneralHoverOverUrlToPasteClipboard.Location = new System.Drawing.Point(27, 152);
             this.chkSettingsGeneralHoverOverUrlToPasteClipboard.Name = "chkSettingsGeneralHoverOverUrlToPasteClipboard";
-            this.chkSettingsGeneralHoverOverUrlToPasteClipboard.Size = new System.Drawing.Size(268, 17);
+            this.chkSettingsGeneralHoverOverUrlToPasteClipboard.Size = new System.Drawing.Size(267, 17);
             this.chkSettingsGeneralHoverOverUrlToPasteClipboard.TabIndex = 11;
             this.chkSettingsGeneralHoverOverUrlToPasteClipboard.Text = "chkSettingsGeneralHoverOverUrlToPasteClipboard";
             this.tipSettings.SetToolTip(this.chkSettingsGeneralHoverOverUrlToPasteClipboard, "chkSettingsGeneralHoverOverUrlToPasteClipboard");
@@ -411,7 +411,7 @@
             this.chkSettingsGeneralCheckForUpdatesOnLaunch.AutoSize = true;
             this.chkSettingsGeneralCheckForUpdatesOnLaunch.Location = new System.Drawing.Point(33, 129);
             this.chkSettingsGeneralCheckForUpdatesOnLaunch.Name = "chkSettingsGeneralCheckForUpdatesOnLaunch";
-            this.chkSettingsGeneralCheckForUpdatesOnLaunch.Size = new System.Drawing.Size(255, 17);
+            this.chkSettingsGeneralCheckForUpdatesOnLaunch.Size = new System.Drawing.Size(254, 17);
             this.chkSettingsGeneralCheckForUpdatesOnLaunch.TabIndex = 10;
             this.chkSettingsGeneralCheckForUpdatesOnLaunch.Text = "chkSettingsGeneralCheckForUpdatesOnLaunch";
             this.tipSettings.SetToolTip(this.chkSettingsGeneralCheckForUpdatesOnLaunch, "chkSettingsGeneralCheckForUpdatesOnLaunch");
@@ -477,7 +477,7 @@
             this.chkSettingsDownloadsKeepOriginalFiles.AutoSize = true;
             this.chkSettingsDownloadsKeepOriginalFiles.Location = new System.Drawing.Point(224, 75);
             this.chkSettingsDownloadsKeepOriginalFiles.Name = "chkSettingsDownloadsKeepOriginalFiles";
-            this.chkSettingsDownloadsKeepOriginalFiles.Size = new System.Drawing.Size(216, 17);
+            this.chkSettingsDownloadsKeepOriginalFiles.Size = new System.Drawing.Size(215, 17);
             this.chkSettingsDownloadsKeepOriginalFiles.TabIndex = 7;
             this.chkSettingsDownloadsKeepOriginalFiles.Text = "chkSettingsDownloadsKeepOriginalFiles";
             this.tipSettings.SetToolTip(this.chkSettingsDownloadsKeepOriginalFiles, "chkSettingsDownloadsKeepOriginalFilesHint");
@@ -488,7 +488,7 @@
             this.chkSettingsDownloadsWriteMetadataToFile.AutoSize = true;
             this.chkSettingsDownloadsWriteMetadataToFile.Location = new System.Drawing.Point(216, 52);
             this.chkSettingsDownloadsWriteMetadataToFile.Name = "chkSettingsDownloadsWriteMetadataToFile";
-            this.chkSettingsDownloadsWriteMetadataToFile.Size = new System.Drawing.Size(234, 17);
+            this.chkSettingsDownloadsWriteMetadataToFile.Size = new System.Drawing.Size(233, 17);
             this.chkSettingsDownloadsWriteMetadataToFile.TabIndex = 5;
             this.chkSettingsDownloadsWriteMetadataToFile.Text = "chkSettingsDownloadsWriteMetadataToFile";
             this.tipSettings.SetToolTip(this.chkSettingsDownloadsWriteMetadataToFile, "chkSettingsDownloadsWriteMetadataToFileHint");
@@ -499,7 +499,7 @@
             this.chkSettingsDownloadsEmbedSubtitles.AutoSize = true;
             this.chkSettingsDownloadsEmbedSubtitles.Location = new System.Drawing.Point(234, 29);
             this.chkSettingsDownloadsEmbedSubtitles.Name = "chkSettingsDownloadsEmbedSubtitles";
-            this.chkSettingsDownloadsEmbedSubtitles.Size = new System.Drawing.Size(208, 17);
+            this.chkSettingsDownloadsEmbedSubtitles.Size = new System.Drawing.Size(207, 17);
             this.chkSettingsDownloadsEmbedSubtitles.TabIndex = 3;
             this.chkSettingsDownloadsEmbedSubtitles.Text = "chkSettingsDownloadsEmbedSubtitles";
             this.tipSettings.SetToolTip(this.chkSettingsDownloadsEmbedSubtitles, "chkSettingsDownloadsEmbedSubtitlesHint");
@@ -510,7 +510,7 @@
             this.chkSettingsDownloadsEmbedThumbnails.AutoSize = true;
             this.chkSettingsDownloadsEmbedThumbnails.Location = new System.Drawing.Point(225, 121);
             this.chkSettingsDownloadsEmbedThumbnails.Name = "chkSettingsDownloadsEmbedThumbnails";
-            this.chkSettingsDownloadsEmbedThumbnails.Size = new System.Drawing.Size(222, 17);
+            this.chkSettingsDownloadsEmbedThumbnails.Size = new System.Drawing.Size(221, 17);
             this.chkSettingsDownloadsEmbedThumbnails.TabIndex = 10;
             this.chkSettingsDownloadsEmbedThumbnails.Text = "chkSettingsDownloadsEmbedThumbnails";
             this.tipSettings.SetToolTip(this.chkSettingsDownloadsEmbedThumbnails, "chkSettingsDownloadsEmbedSubtitlesHint");
@@ -521,7 +521,7 @@
             this.chkSettingsDownloadsSaveThumbnails.AutoSize = true;
             this.chkSettingsDownloadsSaveThumbnails.Location = new System.Drawing.Point(6, 121);
             this.chkSettingsDownloadsSaveThumbnails.Name = "chkSettingsDownloadsSaveThumbnails";
-            this.chkSettingsDownloadsSaveThumbnails.Size = new System.Drawing.Size(214, 17);
+            this.chkSettingsDownloadsSaveThumbnails.Size = new System.Drawing.Size(213, 17);
             this.chkSettingsDownloadsSaveThumbnails.TabIndex = 9;
             this.chkSettingsDownloadsSaveThumbnails.Text = "chkSettingsDownloadsSaveThumbnails";
             this.chkSettingsDownloadsSaveThumbnails.UseVisualStyleBackColor = true;
@@ -532,7 +532,7 @@
             this.chkSettingsDownloadsSaveFormatQuality.AutoSize = true;
             this.chkSettingsDownloadsSaveFormatQuality.Location = new System.Drawing.Point(6, 6);
             this.chkSettingsDownloadsSaveFormatQuality.Name = "chkSettingsDownloadsSaveFormatQuality";
-            this.chkSettingsDownloadsSaveFormatQuality.Size = new System.Drawing.Size(224, 17);
+            this.chkSettingsDownloadsSaveFormatQuality.Size = new System.Drawing.Size(223, 17);
             this.chkSettingsDownloadsSaveFormatQuality.TabIndex = 1;
             this.chkSettingsDownloadsSaveFormatQuality.Text = "chkSettingsDownloadsSaveFormatQuality";
             this.tipSettings.SetToolTip(this.chkSettingsDownloadsSaveFormatQuality, "chkSettingsDownloadsSaveFormatQuality");
@@ -543,7 +543,7 @@
             this.chkSettingsDownloadsSaveAnnotations.AutoSize = true;
             this.chkSettingsDownloadsSaveAnnotations.Location = new System.Drawing.Point(6, 98);
             this.chkSettingsDownloadsSaveAnnotations.Name = "chkSettingsDownloadsSaveAnnotations";
-            this.chkSettingsDownloadsSaveAnnotations.Size = new System.Drawing.Size(216, 17);
+            this.chkSettingsDownloadsSaveAnnotations.Size = new System.Drawing.Size(215, 17);
             this.chkSettingsDownloadsSaveAnnotations.TabIndex = 8;
             this.chkSettingsDownloadsSaveAnnotations.Text = "chkSettingsDownloadsSaveAnnotations";
             this.chkSettingsDownloadsSaveAnnotations.UseVisualStyleBackColor = true;
@@ -553,7 +553,7 @@
             this.chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing.AutoSize = true;
             this.chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing.Location = new System.Drawing.Point(6, 144);
             this.chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing.Name = "chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing";
-            this.chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing.Size = new System.Drawing.Size(341, 17);
+            this.chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing.Size = new System.Drawing.Size(340, 17);
             this.chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing.TabIndex = 11;
             this.chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing.Text = "chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing";
             this.tipSettings.SetToolTip(this.chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing, "chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing");
@@ -564,7 +564,7 @@
             this.chkSettingsDownloadsSaveDescription.AutoSize = true;
             this.chkSettingsDownloadsSaveDescription.Location = new System.Drawing.Point(6, 75);
             this.chkSettingsDownloadsSaveDescription.Name = "chkSettingsDownloadsSaveDescription";
-            this.chkSettingsDownloadsSaveDescription.Size = new System.Drawing.Size(213, 17);
+            this.chkSettingsDownloadsSaveDescription.Size = new System.Drawing.Size(212, 17);
             this.chkSettingsDownloadsSaveDescription.TabIndex = 6;
             this.chkSettingsDownloadsSaveDescription.Text = "chkSettingsDownloadsSaveDescription";
             this.chkSettingsDownloadsSaveDescription.UseVisualStyleBackColor = true;
@@ -574,7 +574,7 @@
             this.chkSettingsDownloadsDownloadSubtitles.AutoSize = true;
             this.chkSettingsDownloadsDownloadSubtitles.Location = new System.Drawing.Point(6, 29);
             this.chkSettingsDownloadsDownloadSubtitles.Name = "chkSettingsDownloadsDownloadSubtitles";
-            this.chkSettingsDownloadsDownloadSubtitles.Size = new System.Drawing.Size(223, 17);
+            this.chkSettingsDownloadsDownloadSubtitles.Size = new System.Drawing.Size(222, 17);
             this.chkSettingsDownloadsDownloadSubtitles.TabIndex = 2;
             this.chkSettingsDownloadsDownloadSubtitles.Text = "chkSettingsDownloadsDownloadSubtitles";
             this.tipSettings.SetToolTip(this.chkSettingsDownloadsDownloadSubtitles, "chkSettingsDownloadsDownloadSubtitles");
@@ -586,7 +586,7 @@
             this.chkSettingsDownloadsSaveVideoInfo.AutoSize = true;
             this.chkSettingsDownloadsSaveVideoInfo.Location = new System.Drawing.Point(6, 52);
             this.chkSettingsDownloadsSaveVideoInfo.Name = "chkSettingsDownloadsSaveVideoInfo";
-            this.chkSettingsDownloadsSaveVideoInfo.Size = new System.Drawing.Size(205, 17);
+            this.chkSettingsDownloadsSaveVideoInfo.Size = new System.Drawing.Size(204, 17);
             this.chkSettingsDownloadsSaveVideoInfo.TabIndex = 4;
             this.chkSettingsDownloadsSaveVideoInfo.Text = "chkSettingsDownloadsSaveVideoInfo";
             this.chkSettingsDownloadsSaveVideoInfo.UseVisualStyleBackColor = true;
@@ -610,7 +610,7 @@
             this.chkSettingsDownloadsSeparateDownloadsToDifferentFolders.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkSettingsDownloadsSeparateDownloadsToDifferentFolders.Location = new System.Drawing.Point(6, 6);
             this.chkSettingsDownloadsSeparateDownloadsToDifferentFolders.Name = "chkSettingsDownloadsSeparateDownloadsToDifferentFolders";
-            this.chkSettingsDownloadsSeparateDownloadsToDifferentFolders.Size = new System.Drawing.Size(318, 17);
+            this.chkSettingsDownloadsSeparateDownloadsToDifferentFolders.Size = new System.Drawing.Size(317, 17);
             this.chkSettingsDownloadsSeparateDownloadsToDifferentFolders.TabIndex = 1;
             this.chkSettingsDownloadsSeparateDownloadsToDifferentFolders.Text = "chkSettingsDownloadsSeparateDownloadsToDifferentFolders";
             this.tipSettings.SetToolTip(this.chkSettingsDownloadsSeparateDownloadsToDifferentFolders, "chkSettingsDownloadsSeparateDownloadsToDifferentFolders");
@@ -623,7 +623,7 @@
             this.chkSettingsDownloadsSeparateIntoWebsiteUrl.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkSettingsDownloadsSeparateIntoWebsiteUrl.Location = new System.Drawing.Point(6, 29);
             this.chkSettingsDownloadsSeparateIntoWebsiteUrl.Name = "chkSettingsDownloadsSeparateIntoWebsiteUrl";
-            this.chkSettingsDownloadsSeparateIntoWebsiteUrl.Size = new System.Drawing.Size(248, 17);
+            this.chkSettingsDownloadsSeparateIntoWebsiteUrl.Size = new System.Drawing.Size(247, 17);
             this.chkSettingsDownloadsSeparateIntoWebsiteUrl.TabIndex = 2;
             this.chkSettingsDownloadsSeparateIntoWebsiteUrl.Text = "chkSettingsDownloadsSeparateIntoWebsiteUrl";
             this.tipSettings.SetToolTip(this.chkSettingsDownloadsSeparateIntoWebsiteUrl, "chkSettingsDownloadsSeparateIntoWebsiteUrl");
@@ -646,7 +646,7 @@
             this.chkSettingsDownloadsPreferFFmpeg.AutoSize = true;
             this.chkSettingsDownloadsPreferFFmpeg.Location = new System.Drawing.Point(6, 29);
             this.chkSettingsDownloadsPreferFFmpeg.Name = "chkSettingsDownloadsPreferFFmpeg";
-            this.chkSettingsDownloadsPreferFFmpeg.Size = new System.Drawing.Size(201, 17);
+            this.chkSettingsDownloadsPreferFFmpeg.Size = new System.Drawing.Size(200, 17);
             this.chkSettingsDownloadsPreferFFmpeg.TabIndex = 2;
             this.chkSettingsDownloadsPreferFFmpeg.Text = "chkSettingsDownloadsPreferFFmpeg";
             this.tipSettings.SetToolTip(this.chkSettingsDownloadsPreferFFmpeg, "chkSettingsDownloadsPreferFFmpegHint");
@@ -659,7 +659,7 @@
             this.chkSettingsDownloadsFixVReddIt.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkSettingsDownloadsFixVReddIt.Location = new System.Drawing.Point(6, 6);
             this.chkSettingsDownloadsFixVReddIt.Name = "chkSettingsDownloadsFixVReddIt";
-            this.chkSettingsDownloadsFixVReddIt.Size = new System.Drawing.Size(187, 17);
+            this.chkSettingsDownloadsFixVReddIt.Size = new System.Drawing.Size(186, 17);
             this.chkSettingsDownloadsFixVReddIt.TabIndex = 1;
             this.chkSettingsDownloadsFixVReddIt.Text = "chkSettingsDownloadsFixVReddIt";
             this.tipSettings.SetToolTip(this.chkSettingsDownloadsFixVReddIt, "chkSettingsDownloadsFixVReddItHint");
@@ -732,7 +732,7 @@
             this.chkSettingsDownloadsForceIpv6.AutoSize = true;
             this.chkSettingsDownloadsForceIpv6.Location = new System.Drawing.Point(6, 81);
             this.chkSettingsDownloadsForceIpv6.Name = "chkSettingsDownloadsForceIpv6";
-            this.chkSettingsDownloadsForceIpv6.Size = new System.Drawing.Size(183, 17);
+            this.chkSettingsDownloadsForceIpv6.Size = new System.Drawing.Size(182, 17);
             this.chkSettingsDownloadsForceIpv6.TabIndex = 7;
             this.chkSettingsDownloadsForceIpv6.Text = "chkSettingsDownloadsForceIpv6";
             this.tipSettings.SetToolTip(this.chkSettingsDownloadsForceIpv6, "chkSettingsDownloadsForceIpv6Hint");
@@ -744,7 +744,7 @@
             this.chkSettingsDownloadsForceIpv4.AutoSize = true;
             this.chkSettingsDownloadsForceIpv4.Location = new System.Drawing.Point(6, 58);
             this.chkSettingsDownloadsForceIpv4.Name = "chkSettingsDownloadsForceIpv4";
-            this.chkSettingsDownloadsForceIpv4.Size = new System.Drawing.Size(183, 17);
+            this.chkSettingsDownloadsForceIpv4.Size = new System.Drawing.Size(182, 17);
             this.chkSettingsDownloadsForceIpv4.TabIndex = 6;
             this.chkSettingsDownloadsForceIpv4.Text = "chkSettingsDownloadsForceIpv4";
             this.tipSettings.SetToolTip(this.chkSettingsDownloadsForceIpv4, "chkSettingsDownloadsForceIpv4Hint");
@@ -757,7 +757,7 @@
             this.chkSettingsDownloadsUseProxy.AutoSize = true;
             this.chkSettingsDownloadsUseProxy.Location = new System.Drawing.Point(6, 110);
             this.chkSettingsDownloadsUseProxy.Name = "chkSettingsDownloadsUseProxy";
-            this.chkSettingsDownloadsUseProxy.Size = new System.Drawing.Size(180, 17);
+            this.chkSettingsDownloadsUseProxy.Size = new System.Drawing.Size(179, 17);
             this.chkSettingsDownloadsUseProxy.TabIndex = 8;
             this.chkSettingsDownloadsUseProxy.Text = "chkSettingsDownloadsUseProxy";
             this.tipSettings.SetToolTip(this.chkSettingsDownloadsUseProxy, "chkSettingsDownloadsUseProxy");
@@ -823,7 +823,7 @@
             this.chkSettingsDownloadsLimitDownload.AutoSize = true;
             this.chkSettingsDownloadsLimitDownload.Location = new System.Drawing.Point(6, 6);
             this.chkSettingsDownloadsLimitDownload.Name = "chkSettingsDownloadsLimitDownload";
-            this.chkSettingsDownloadsLimitDownload.Size = new System.Drawing.Size(204, 17);
+            this.chkSettingsDownloadsLimitDownload.Size = new System.Drawing.Size(203, 17);
             this.chkSettingsDownloadsLimitDownload.TabIndex = 1;
             this.chkSettingsDownloadsLimitDownload.Text = "chkSettingsDownloadsLimitDownload";
             this.tipSettings.SetToolTip(this.chkSettingsDownloadsLimitDownload, "chkSettingsDownloadsLimitDownloadHint");
@@ -845,7 +845,7 @@
             this.chksettingsDownloadsUseYoutubeDlsUpdater.AutoSize = true;
             this.chksettingsDownloadsUseYoutubeDlsUpdater.Location = new System.Drawing.Point(6, 6);
             this.chksettingsDownloadsUseYoutubeDlsUpdater.Name = "chksettingsDownloadsUseYoutubeDlsUpdater";
-            this.chksettingsDownloadsUseYoutubeDlsUpdater.Size = new System.Drawing.Size(245, 17);
+            this.chksettingsDownloadsUseYoutubeDlsUpdater.Size = new System.Drawing.Size(244, 17);
             this.chksettingsDownloadsUseYoutubeDlsUpdater.TabIndex = 1;
             this.chksettingsDownloadsUseYoutubeDlsUpdater.Text = "chksettingsDownloadsUseYoutubeDlsUpdater";
             this.tipSettings.SetToolTip(this.chksettingsDownloadsUseYoutubeDlsUpdater, "chksettingsDownloadsUseYoutubeDlsUpdater");
@@ -917,6 +917,19 @@
             this.lbSettingsDownloadsFileNameSchema.TabIndex = 4;
             this.lbSettingsDownloadsFileNameSchema.Text = "lbSettingsDownloadsFileNameSchema";
             // 
+            // txtSettingsDownloadsFileNameSchema
+            // 
+            this.txtSettingsDownloadsFileNameSchema.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtSettingsDownloadsFileNameSchema.FormattingEnabled = true;
+            this.txtSettingsDownloadsFileNameSchema.Location = new System.Drawing.Point(30, 79);
+            this.txtSettingsDownloadsFileNameSchema.Name = "txtSettingsDownloadsFileNameSchema";
+            this.txtSettingsDownloadsFileNameSchema.Size = new System.Drawing.Size(260, 21);
+            this.txtSettingsDownloadsFileNameSchema.TabIndex = 9;
+            this.txtSettingsDownloadsFileNameSchema.Text = "%(title)s-%(id)s.%(ext)s";
+            this.tipSettings.SetToolTip(this.txtSettingsDownloadsFileNameSchema, "txtSettingsDownloadsFileNameSchemaHint");
+            this.txtSettingsDownloadsFileNameSchema.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtSettingsDownloadsFileNameSchema_KeyPress);
+            // 
             // tabSettingsConverter
             // 
             this.tabSettingsConverter.Controls.Add(this.chkSettingsConverterHideFFmpegCompileInfo);
@@ -937,7 +950,7 @@
             this.chkSettingsConverterHideFFmpegCompileInfo.AutoSize = true;
             this.chkSettingsConverterHideFFmpegCompileInfo.Location = new System.Drawing.Point(17, 81);
             this.chkSettingsConverterHideFFmpegCompileInfo.Name = "chkSettingsConverterHideFFmpegCompileInfo";
-            this.chkSettingsConverterHideFFmpegCompileInfo.Size = new System.Drawing.Size(243, 17);
+            this.chkSettingsConverterHideFFmpegCompileInfo.Size = new System.Drawing.Size(242, 17);
             this.chkSettingsConverterHideFFmpegCompileInfo.TabIndex = 4;
             this.chkSettingsConverterHideFFmpegCompileInfo.Text = "chkSettingsConverterHideFFmpegCompileInfo";
             this.tipSettings.SetToolTip(this.chkSettingsConverterHideFFmpegCompileInfo, "chkSettingsConverterHideFFmpegCompileInfo");
@@ -950,7 +963,7 @@
             this.chkSettingsConverterDetectOutputFileType.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkSettingsConverterDetectOutputFileType.Location = new System.Drawing.Point(17, 58);
             this.chkSettingsConverterDetectOutputFileType.Name = "chkSettingsConverterDetectOutputFileType";
-            this.chkSettingsConverterDetectOutputFileType.Size = new System.Drawing.Size(232, 17);
+            this.chkSettingsConverterDetectOutputFileType.Size = new System.Drawing.Size(231, 17);
             this.chkSettingsConverterDetectOutputFileType.TabIndex = 3;
             this.chkSettingsConverterDetectOutputFileType.Text = "chkSettingsConverterDetectOutputFileType";
             this.tipSettings.SetToolTip(this.chkSettingsConverterDetectOutputFileType, "chkSettingsConverterDetectOutputFileType");
@@ -1001,7 +1014,7 @@
             this.chkUseVideoCRF.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkUseVideoCRF.Location = new System.Drawing.Point(72, 96);
             this.chkUseVideoCRF.Name = "chkUseVideoCRF";
-            this.chkUseVideoCRF.Size = new System.Drawing.Size(15, 14);
+            this.chkUseVideoCRF.Size = new System.Drawing.Size(14, 13);
             this.chkUseVideoCRF.TabIndex = 11;
             this.chkUseVideoCRF.UseVisualStyleBackColor = true;
             // 
@@ -1011,7 +1024,7 @@
             this.chkUseVideoProfile.AutoSize = true;
             this.chkUseVideoProfile.Location = new System.Drawing.Point(72, 70);
             this.chkUseVideoProfile.Name = "chkUseVideoProfile";
-            this.chkUseVideoProfile.Size = new System.Drawing.Size(15, 14);
+            this.chkUseVideoProfile.Size = new System.Drawing.Size(14, 13);
             this.chkUseVideoProfile.TabIndex = 8;
             this.chkUseVideoProfile.UseVisualStyleBackColor = true;
             // 
@@ -1021,7 +1034,7 @@
             this.chkSettingsConverterVideoPreset.AutoSize = true;
             this.chkSettingsConverterVideoPreset.Location = new System.Drawing.Point(72, 43);
             this.chkSettingsConverterVideoPreset.Name = "chkSettingsConverterVideoPreset";
-            this.chkSettingsConverterVideoPreset.Size = new System.Drawing.Size(15, 14);
+            this.chkSettingsConverterVideoPreset.Size = new System.Drawing.Size(14, 13);
             this.chkSettingsConverterVideoPreset.TabIndex = 5;
             this.chkSettingsConverterVideoPreset.UseVisualStyleBackColor = true;
             // 
@@ -1031,7 +1044,7 @@
             this.chkUseVideoBitrate.AutoSize = true;
             this.chkUseVideoBitrate.Location = new System.Drawing.Point(72, 16);
             this.chkUseVideoBitrate.Name = "chkUseVideoBitrate";
-            this.chkUseVideoBitrate.Size = new System.Drawing.Size(15, 14);
+            this.chkUseVideoBitrate.Size = new System.Drawing.Size(14, 13);
             this.chkUseVideoBitrate.TabIndex = 1;
             this.chkUseVideoBitrate.UseVisualStyleBackColor = true;
             // 
@@ -1041,7 +1054,7 @@
             this.chkSettingsConverterVideoFastStart.AutoSize = true;
             this.chkSettingsConverterVideoFastStart.Location = new System.Drawing.Point(117, 126);
             this.chkSettingsConverterVideoFastStart.Name = "chkSettingsConverterVideoFastStart";
-            this.chkSettingsConverterVideoFastStart.Size = new System.Drawing.Size(197, 17);
+            this.chkSettingsConverterVideoFastStart.Size = new System.Drawing.Size(196, 17);
             this.chkSettingsConverterVideoFastStart.TabIndex = 14;
             this.chkSettingsConverterVideoFastStart.Text = "chkSettingsConverterVideoFastStart";
             this.tipSettings.SetToolTip(this.chkSettingsConverterVideoFastStart, "chkSettingsConverterVideoFastStart");
@@ -1199,7 +1212,7 @@
             this.chkUseAudioBitrate.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkUseAudioBitrate.Location = new System.Drawing.Point(88, 21);
             this.chkUseAudioBitrate.Name = "chkUseAudioBitrate";
-            this.chkUseAudioBitrate.Size = new System.Drawing.Size(15, 14);
+            this.chkUseAudioBitrate.Size = new System.Drawing.Size(14, 13);
             this.chkUseAudioBitrate.TabIndex = 1;
             this.chkUseAudioBitrate.UseVisualStyleBackColor = true;
             // 
@@ -1296,7 +1309,7 @@
             this.chkSettingsConverterClearInputAfterConverting.AutoSize = true;
             this.chkSettingsConverterClearInputAfterConverting.Location = new System.Drawing.Point(17, 35);
             this.chkSettingsConverterClearInputAfterConverting.Name = "chkSettingsConverterClearInputAfterConverting";
-            this.chkSettingsConverterClearInputAfterConverting.Size = new System.Drawing.Size(249, 17);
+            this.chkSettingsConverterClearInputAfterConverting.Size = new System.Drawing.Size(248, 17);
             this.chkSettingsConverterClearInputAfterConverting.TabIndex = 2;
             this.chkSettingsConverterClearInputAfterConverting.Text = "chkSettingsConverterClearInputAfterConverting";
             this.tipSettings.SetToolTip(this.chkSettingsConverterClearInputAfterConverting, "chkSettingsConverterClearInputAfterConverting");
@@ -1307,7 +1320,7 @@
             this.chkSettingsConverterClearOutputAfterConverting.AutoSize = true;
             this.chkSettingsConverterClearOutputAfterConverting.Location = new System.Drawing.Point(17, 12);
             this.chkSettingsConverterClearOutputAfterConverting.Name = "chkSettingsConverterClearOutputAfterConverting";
-            this.chkSettingsConverterClearOutputAfterConverting.Size = new System.Drawing.Size(257, 17);
+            this.chkSettingsConverterClearOutputAfterConverting.Size = new System.Drawing.Size(256, 17);
             this.chkSettingsConverterClearOutputAfterConverting.TabIndex = 1;
             this.chkSettingsConverterClearOutputAfterConverting.Text = "chkSettingsConverterClearOutputAfterConverting";
             this.tipSettings.SetToolTip(this.chkSettingsConverterClearOutputAfterConverting, "chkSettingsConverterClearOutputAfterConverting");
@@ -1441,7 +1454,7 @@
             this.chkSettingsErrorsSaveErrorsAsErrorLog.AutoSize = true;
             this.chkSettingsErrorsSaveErrorsAsErrorLog.Location = new System.Drawing.Point(8, 6);
             this.chkSettingsErrorsSaveErrorsAsErrorLog.Name = "chkSettingsErrorsSaveErrorsAsErrorLog";
-            this.chkSettingsErrorsSaveErrorsAsErrorLog.Size = new System.Drawing.Size(213, 17);
+            this.chkSettingsErrorsSaveErrorsAsErrorLog.Size = new System.Drawing.Size(212, 17);
             this.chkSettingsErrorsSaveErrorsAsErrorLog.TabIndex = 1;
             this.chkSettingsErrorsSaveErrorsAsErrorLog.Text = "chkSettingsErrorsSaveErrorsAsErrorLog";
             this.tipSettings.SetToolTip(this.chkSettingsErrorsSaveErrorsAsErrorLog, "chkSettingsErrorsSaveErrorsAsErrorLog");
@@ -1453,7 +1466,7 @@
             this.chkSettingsErrorsShowDetailedErrors.Enabled = false;
             this.chkSettingsErrorsShowDetailedErrors.Location = new System.Drawing.Point(8, 52);
             this.chkSettingsErrorsShowDetailedErrors.Name = "chkSettingsErrorsShowDetailedErrors";
-            this.chkSettingsErrorsShowDetailedErrors.Size = new System.Drawing.Size(202, 17);
+            this.chkSettingsErrorsShowDetailedErrors.Size = new System.Drawing.Size(201, 17);
             this.chkSettingsErrorsShowDetailedErrors.TabIndex = 3;
             this.chkSettingsErrorsShowDetailedErrors.Text = "chkSettingsErrorsShowDetailedErrors";
             this.tipSettings.SetToolTip(this.chkSettingsErrorsShowDetailedErrors, "chkSettingsErrorsShowDetailedErrors");
@@ -1465,7 +1478,7 @@
             this.chkSettingsErrorsSuppressErrors.AutoSize = true;
             this.chkSettingsErrorsSuppressErrors.Location = new System.Drawing.Point(8, 29);
             this.chkSettingsErrorsSuppressErrors.Name = "chkSettingsErrorsSuppressErrors";
-            this.chkSettingsErrorsSuppressErrors.Size = new System.Drawing.Size(180, 17);
+            this.chkSettingsErrorsSuppressErrors.Size = new System.Drawing.Size(179, 17);
             this.chkSettingsErrorsSuppressErrors.TabIndex = 2;
             this.chkSettingsErrorsSuppressErrors.Text = "chkSettingsErrorsSuppressErrors";
             this.tipSettings.SetToolTip(this.chkSettingsErrorsSuppressErrors, "chkSettingsErrorsSuppressErrors");
@@ -1513,17 +1526,6 @@
             this.tipSettings.InitialDelay = 500;
             this.tipSettings.ReshowDelay = 100;
             this.tipSettings.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
-            // 
-            // txtSettingsDownloadsFileNameSchema
-            // 
-            this.txtSettingsDownloadsFileNameSchema.FormattingEnabled = true;
-            this.txtSettingsDownloadsFileNameSchema.Location = new System.Drawing.Point(30, 79);
-            this.txtSettingsDownloadsFileNameSchema.Name = "txtSettingsDownloadsFileNameSchema";
-            this.txtSettingsDownloadsFileNameSchema.Size = new System.Drawing.Size(260, 21);
-            this.txtSettingsDownloadsFileNameSchema.TabIndex = 9;
-            this.txtSettingsDownloadsFileNameSchema.Text = "%(title)s-%(id)s.%(ext)s";
-            this.tipSettings.SetToolTip(this.txtSettingsDownloadsFileNameSchema, "txtSettingsDownloadsFileNameSchemaHint");
-            this.txtSettingsDownloadsFileNameSchema.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtSettingsDownloadsFileNameSchema_KeyPress);
             // 
             // frmSettings
             // 

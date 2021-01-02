@@ -21,7 +21,12 @@ namespace youtube_dl_gui {
             this.Text = string.Format("{0} youtube-dl-gui", lang.frmAbout);
         }
         private void frmAbout_Shown(object sender, EventArgs e) {
-            lbVersion.Text = "v" + Properties.Settings.Default.appVersion.ToString();
+            if (Properties.Settings.Default.IsBetaVersion) {
+                lbVersion.Text = "v" + Properties.Settings.Default.BetaVersion;
+            }
+            else {
+                lbVersion.Text = "v" + Properties.Settings.Default.appVersion.ToString();
+            }
         }
 
         private void llbCheckForUpdates_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
