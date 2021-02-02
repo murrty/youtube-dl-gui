@@ -120,6 +120,7 @@
             this.Controls.Add(this.chkDownloaderCloseAfterDownload);
             this.Controls.Add(this.btnDownloaderCancelExit);
             this.Controls.Add(this.rtbConsoleOutput);
+            this.Icon = Properties.Resources.youtube_dl_gui;
             this.MinimumSize = new System.Drawing.Size(420, 320);
             this.Name = "frmDownloader";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;

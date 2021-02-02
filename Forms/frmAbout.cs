@@ -9,7 +9,6 @@ namespace youtube_dl_gui {
 
         public frmAbout() {
             InitializeComponent();
-            this.Icon = Properties.Resources.youtube_dl_gui;
             pbIcon.Image = Properties.Resources.youtube_dl_gui32;
             pbIcon.Cursor = Program.SystemHandCursor;
             LoadLanguage();

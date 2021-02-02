@@ -19,7 +19,6 @@ namespace youtube_dl_gui {
             btnUpdateAvailableUpdate.Text = lang.btnUpdateAvailableUpdate;
             btnUpdateAvailableSkip.Text = lang.btnUpdateAvailableSkipVersion;
             btnUpdateAvailableOk.Text = lang.btnUpdateAvailableOk;
-            this.Icon = Properties.Resources.youtube_dl_gui;
 
         }
         private void frmUpdateAvailable_Load(object sender, EventArgs e) {

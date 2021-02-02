@@ -91,6 +91,7 @@
             this.Controls.Add(this.btnConverterCancelExit);
             this.Controls.Add(this.rtbConsoleOutput);
             this.Controls.Add(this.txtArgumentsGenerated);
+            this.Icon = Properties.Resources.youtube_dl_gui;
             this.MinimumSize = new System.Drawing.Size(420, 320);
             this.Name = "frmConverter";
             this.Text = "frmConverter";

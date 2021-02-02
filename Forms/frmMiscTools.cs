@@ -13,7 +13,6 @@ namespace youtube_dl_gui {
             btnMiscToolsRemoveAudio.Text = lang.btnMiscToolsRemoveAudio;
             btnMiscToolsExtractAudio.Text = lang.btnMiscToolsExtractAudio;
             btnMiscToolsVideoToGif.Text = lang.btnMiscToolsVideoToGif;
-            this.Icon = Properties.Resources.youtube_dl_gui;
         }
         private void frmTools_FormClosing(object sender, FormClosingEventArgs e) {
             this.Dispose();

@@ -79,6 +79,7 @@
             this.Controls.Add(this.btnMiscToolsVideoToGif);
             this.Controls.Add(this.btnMiscToolsExtractAudio);
             this.Controls.Add(this.btnMiscToolsRemoveAudio);
+            this.Icon = Properties.Resources.youtube_dl_gui;
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(260, 190);
             this.MinimumSize = new System.Drawing.Size(260, 190);

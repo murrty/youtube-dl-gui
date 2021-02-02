@@ -113,6 +113,7 @@
             this.Controls.Add(this.rtbExceptionDetails);
             this.Controls.Add(this.lbExceptionDescription);
             this.Controls.Add(this.lbExceptionHeader);
+            this.Icon = Properties.Resources.youtube_dl_gui;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmException";

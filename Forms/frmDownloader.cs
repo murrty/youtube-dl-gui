@@ -42,7 +42,6 @@ namespace youtube_dl_gui {
 
         public frmDownloader() {
             InitializeComponent();
-            this.Icon = Properties.Resources.youtube_dl_gui;
         }
         private void frmDownloader_Load(object sender, EventArgs e) {
             if (BatchDownload) {

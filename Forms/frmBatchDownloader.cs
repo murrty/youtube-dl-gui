@@ -25,7 +25,6 @@ namespace youtube_dl_gui {
             if (argsText != string.Empty) {
                 txtBatchDownloadVideoSpecificArgument.Text = argsText;
             }
-            this.Icon = Properties.Resources.youtube_dl_gui;
         }
 
         void LoadLanguage() {

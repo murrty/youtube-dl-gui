@@ -112,6 +112,7 @@
             this.Controls.Add(this.lbHeader);
             this.Controls.Add(this.lbVersion);
             this.Controls.Add(this.llbCheckForUpdates);
+            this.Icon = Properties.Resources.youtube_dl_gui;
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(280, 180);
             this.MinimumSize = new System.Drawing.Size(280, 180);

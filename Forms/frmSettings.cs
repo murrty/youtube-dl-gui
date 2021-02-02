@@ -31,7 +31,6 @@ namespace youtube_dl_gui {
             loadSettings();
         }
         private void frmSettings_Load(object sender, EventArgs e) {
-            this.Icon = Properties.Resources.youtube_dl_gui;
             if (Saved.Default.SettingsFormSize != default(System.Drawing.Size)) {
                 this.Size = Saved.Default.SettingsFormSize;
             }

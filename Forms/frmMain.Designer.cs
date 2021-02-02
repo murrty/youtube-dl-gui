@@ -1120,6 +1120,7 @@
             this.trayIcon.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info;
             this.trayIcon.BalloonTipText = "You click this thing, and BADA-BOOM, you\'re back in it again";
             this.trayIcon.BalloonTipTitle = "Unseen easter egg";
+            this.trayIcon.Icon = Properties.Resources.youtube_dl_gui;
             this.trayIcon.Text = "youtube-dl-gui";
             this.trayIcon.Visible = true;
             // 
@@ -1140,6 +1141,7 @@
             this.ClientSize = new System.Drawing.Size(244, 395);
             this.Controls.Add(this.lbDebug);
             this.Controls.Add(this.tcMain);
+            this.Icon = Properties.Resources.youtube_dl_gui;
             this.MaximizeBox = false;
             this.Menu = this.menu;
             this.MinimumSize = new System.Drawing.Size(260, 430);

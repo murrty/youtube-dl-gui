@@ -12,7 +12,6 @@ namespace youtube_dl_gui {
             InitializeComponent();
             LoadLanguage();
             LoadFiles();
-            this.Icon = Properties.Resources.youtube_dl_gui;
         }
         public void LoadLanguage() {
             this.Text = lang.frmLanguage;

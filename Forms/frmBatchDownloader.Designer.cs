@@ -294,6 +294,7 @@
             this.Controls.Add(this.lbBatchDownloadType);
             this.Controls.Add(this.lbBatchDownloadLink);
             this.Controls.Add(this.cbBatchDownloadType);
+            this.Icon = Properties.Resources.youtube_dl_gui;
             this.MinimumSize = new System.Drawing.Size(670, 340);
             this.Name = "frmBatchDownloader";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;

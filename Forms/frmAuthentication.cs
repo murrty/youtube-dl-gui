@@ -20,7 +20,6 @@ namespace youtube_dl_gui {
 
         public frmAuthentication() {
             InitializeComponent();
-            this.Icon = Properties.Resources.youtube_dl_gui;
             LoadLanguage();
             CalculatePositions();
         }

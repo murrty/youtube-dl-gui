@@ -133,6 +133,7 @@
             this.Controls.Add(this.lbUpdateAvailableCurrentVersion);
             this.Controls.Add(this.lbUpdateAvailableUpdateVersion);
             this.Controls.Add(this.lbUpdateAvailableHeader);
+            this.Icon = Properties.Resources.youtube_dl_gui;
             this.MaximizeBox = false;
             this.Name = "frmUpdateAvailable";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;

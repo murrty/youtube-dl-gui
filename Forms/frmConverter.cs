@@ -17,7 +17,6 @@ namespace youtube_dl_gui.Forms {
 
         public frmConverter() {
             InitializeComponent();
-            this.Icon = Properties.Resources.youtube_dl_gui;
         }
 
         private void frmConverter_Load(object sender, EventArgs e) {

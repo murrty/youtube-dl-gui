@@ -44,14 +44,12 @@ namespace youtube_dl_gui {
                 trayIcon.Dispose();
             }
             else {
-                trayIcon.Icon = Properties.Resources.youtube_dl_gui;
                 tcMain.TabPages.RemoveAt(3);
                 lbDebug.Visible = false;
             }
         }
 
         private void frmMain_Load(object sender, EventArgs e) {
-            this.Icon = Properties.Resources.youtube_dl_gui;
             UpdateChecker.CheckForUpdate();
             if (Saved.Default.MainFormSize != default(System.Drawing.Size)) {
                 this.Size = Saved.Default.MainFormSize;
