@@ -37,6 +37,7 @@ namespace youtube_dl_gui {
         private bool DownloadFinished = false;  // Determines if the download finished successfully.
         private bool DownloadAborted = false;   // Determines if the download was aborted.
         private bool DownloadErrored = false;   // Determines if the thread resulted in an error.
+        private bool DownloadProgramError = false; // Determines if ytdl-gui is the cause of error.
         private bool CloseFromMethod = false;   // Determines if CloseForm() was called.
         private bool AbortBatch = false;        // Determines if the rest of the batch downloads should be canceled.
 
@@ -152,10 +153,21 @@ namespace youtube_dl_gui {
 
             #region Output
             rtbConsoleOutput.AppendText("Generating output directory structure\n");
+
             if (Downloads.Default.separateIntoWebsiteURL) {
                 webFolder = Download.getUrlBase(DownloadUrl) + "\\";
             }
-            ArgumentsBuffer = DownloadUrl + " -o \"" + Downloads.Default.downloadPath + BatchTime + "\\" + webFolder + "{0}" + Downloads.Default.fileNameSchema + "\"";
+
+            string OutputDirectory = "\"" + Downloads.Default.downloadPath;
+            if (BatchDownload && Downloads.Default.SeparateBatchDownloads) {
+                OutputDirectory += "\\# Batch Downloads #";
+                if (Downloads.Default.AddDateToBatchDownloadFolders) {
+                    OutputDirectory += "\\" + BatchTime;
+                }
+            }
+            OutputDirectory += "\\" + webFolder + "{0}" + Downloads.Default.fileNameSchema + "\"";
+
+            ArgumentsBuffer = DownloadUrl + " -o " + OutputDirectory;
 
             if (Downloads.Default.separateDownloads) {
                 switch (DownloadType) {
@@ -433,8 +445,8 @@ namespace youtube_dl_gui {
             txtArgumentsGenerated.Text = PreviewArguments;
 
             #region Download thread
-            if (Program.IsDebug && !BatchDownload) {
-                rtbConsoleOutput.Text = ArgumentsBuffer.Replace(' ', '\n') + "\n\n" + PreviewArguments.Replace(' ', '\n');
+            if (Program.IsDebug) {
+                rtbConsoleOutput.Text = "===ARGUMENTS===\n" + ArgumentsBuffer.Replace(' ', '\n') + "\n\n===PREVIEW ARGUMENTS===\n" + PreviewArguments.Replace(' ', '\n');
                 return;
             }
             rtbConsoleOutput.AppendText("Creating download thread\n");
@@ -493,7 +505,7 @@ namespace youtube_dl_gui {
                 }
                 catch (Exception ex) {
                     ErrorLog.ReportException(ex);
-                    DownloadErrored = true;
+                    DownloadProgramError = true;
                 }
                 finally {
                     ThreadExit();
@@ -527,7 +539,7 @@ namespace youtube_dl_gui {
                 else if (DownloadErrored) {
                     this.Activate();
                     System.Media.SystemSounds.Hand.Play();
-                    rtbConsoleOutput.AppendText("\nAn error occured. Exit the form to resume batch download.");
+                    rtbConsoleOutput.AppendText("\nAn error occured\nTHIS IS A YOUTUBE-DL ERROR, NOT A ERROR WITH THIS PROGRAM!\nExit the form to resume batch download.");
                     this.Text = lang.frmDownloaderError;
                 }
                 else if (DownloadFinished) {
@@ -541,7 +553,14 @@ namespace youtube_dl_gui {
                 if (DownloadAborted) { if (chkDownloaderCloseAfterDownload.Checked) { CloseForm(); } }
                 else if (DownloadErrored) {
                     btnDownloaderCancelExit.Text = lang.btnDownloaderExit;
-                    rtbConsoleOutput.AppendText("\nAn error occured");
+                    rtbConsoleOutput.AppendText("\nAn error occured\nTHIS IS A YOUTUBE-DL ERROR, NOT A ERROR WITH THIS PROGRAM!");
+                    this.Text = lang.frmDownloaderError;
+                    this.Activate();
+                    System.Media.SystemSounds.Hand.Play();
+                }
+                else if (DownloadProgramError) {
+                    btnDownloaderCancelExit.Text = lang.btnDownloaderExit;
+                    rtbConsoleOutput.AppendText("\nAn error occured\nAn error log was presented, if enabled.");
                     this.Text = lang.frmDownloaderError;
                     this.Activate();
                     System.Media.SystemSounds.Hand.Play();
