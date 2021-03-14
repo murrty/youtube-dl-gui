@@ -1,6 +1,93 @@
 ﻿using System.Text.RegularExpressions;
 
 namespace youtube_dl_gui {
+
+    #region Public Enumerations
+    public enum DownloadType : int {
+        Unknown = -1,
+        Video   = 0,
+        Audio   = 1,
+        Custom  = 2
+    }
+
+    public enum VideoQualityType : int {
+        best     = 0,
+        q4320p60 = 1,
+        q4320p   = 2,
+        q2160p60 = 3,
+        q2160p   = 4,
+        q1440p60 = 5,
+        q1440p   = 6,
+        q1080p60 = 7,
+        q1080p   = 8,
+        q720p60  = 9,
+        q720p    = 10,
+        q480p    = 11,
+        q360p    = 12,
+        q240p    = 13,
+        q144p    = 14
+    }
+
+    public enum VideoFormatType : int {
+        best = 0,
+        avi  = 1,
+        flv  = 2,
+        mkv  = 3,
+        mp4  = 4,
+        ogg  = 5,
+        webm = 6
+    }
+
+    public enum AudioCBRQualityType : int {
+        best  = 0,
+        q320k = 1,
+        q256k = 2,
+        q244k = 3,
+        q192k = 4,
+        q160k = 5,
+        q128k = 6,
+        q96k  = 7,
+        q64k  = 8,
+        q32k  = 9,
+        q16k  = 10,
+        q8k   = 11,
+        q4k   = 12
+    }
+
+    public enum AudioVBRQualityType : int {
+        q0  = 0,
+        q1  = 1,
+        q2  = 2,
+        q3  = 3,
+        q4  = 4,
+        q5  = 5,
+        q6  = 6,
+        q7  = 7,
+        q8  = 8,
+        q9  = 9,
+        q10 = 10
+    }
+
+    public enum AudioFormatType : int {
+        best   = 0,
+        aac    = 1,
+        flac   = 2,
+        mp3    = 3,
+        m4a    = 4,
+        opus   = 5,
+        vorbis = 6,
+        wav    = 7
+     }
+
+    public enum PlaylistSelectionType : int {
+        PlaylistStartPlaylistEnd = 0,
+        PlaylistItems = 1,
+        DateBefore = 2,
+        DateDuring = 3,
+        DateAfter = 4
+    }
+    #endregion
+
     class Download {
 
         public class DownloadType {
@@ -46,9 +133,9 @@ namespace youtube_dl_gui {
                                                     " -f \"bestvideo[height<=144]+bestaudio[ext=m4a]/best[ext=mp4]/best\""             // 14 144p
                                                 };
         public static string[] videoFormats = { "best",
-                                                "mp4",
-                                                "mkv",
                                                 "flv",
+                                                "mkv",
+                                                "mp4",
                                                 "webm"
                                               };
         public static string[] audioQualities = { 
@@ -148,41 +235,6 @@ namespace youtube_dl_gui {
                                                      " --merge-output-format webm"//" --recode-video webm" //" --merge-output-format webm"
                                                    };
 
-        public static string[] VideoFormatArgsArrayOld = { " -f \"bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]\"",
-                                                            " -f \"bestvideo[ext=mp4][height<=4320][fps>=48]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",
-                                                            " -f \"bestvideo[ext=mp4][height<=4320][fps<=32]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",
-                                                            " -f \"bestvideo[ext=mp4][height<=2160][fps>=48]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",
-                                                            " -f \"bestvideo[ext=mp4][height<=2160][fps<=32]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",
-                                                            " -f \"bestvideo[ext=mp4][height<=1440][fps>=48]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",
-                                                            " -f \"bestvideo[ext=mp4][height<=1440][fps<=32]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",
-                                                            " -f \"bestvideo[ext=mp4][height<=1080][fps<=60]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",
-                                                            " -f \"bestvideo[ext=mp4][height<=1080][fps<=32]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",
-                                                            " -f \"bestvideo[ext=mp4][height<=720][fps>=48]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",
-                                                            " -f \"bestvideo[ext=mp4][height<=720][fps<=32]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",
-                                                            " -f \"bestvideo[ext=mp4][height<=480]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",
-                                                            " -f \"bestvideo[ext=mp4][height<=360]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",
-                                                            " -f \"bestvideo[ext=mp4][height<=240]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",
-                                                            " -f \"bestvideo[ext=mp4][height<=144]+bestaudio[ext=m4a]/best[ext=mp4]/best\""
-                                                          };
-        public static string[] VideoFormatArgsArrayNoSoundOld = { " -f \"bestvideo[ext=mp4]/best[ext=mp4]/best\"",
-                                                                   " -f \"bestvideo[height<=4320][fps>=48]/best[ext=mp4]/best\"",
-                                                                   " -f \"bestvideo[height<=4320][fps<=32]/best[ext=mp4]/best\"",
-                                                                   " -f \"bestvideo[height<=2160][fps>=48]/best[ext=mp4]/best\"",
-                                                                   " -f \"bestvideo[height<=2160][fps<=32]/best[ext=mp4]/best\"",
-                                                                   " -f \"bestvideo[height<=1440][fps>=48]/best[ext=mp4]/best\"",
-                                                                   " -f \"bestvideo[height<=1440][fps<=32]/best[ext=mp4]/best\"",
-                                                                   " -f \"bestvideo[height<=1080][fps<=60]/best[ext=mp4]/best\"",
-                                                                   " -f \"bestvideo[height<=1080][fps<=32]/best[ext=mp4]/best\"",
-                                                                   " -f \"bestvideo[height<=720][fps>=48]/best[ext=mp4]/best\"",
-                                                                   " -f \"bestvideo[height<=720][fps<=32]/best[ext=mp4]/best\"",
-                                                                   " -f \"bestvideo[height<=480]/best[ext=mp4]/best\"",
-                                                                   " -f \"bestvideo[height<=360]/best[ext=mp4]/best\"",
-                                                                   " -f \"bestvideo[height<=240]/best[ext=mp4]/best\"",
-                                                                   " -f \"bestvideo[height<=144]/best[ext=mp4]/best\""
-                                                                 };
-
-
-        private string OldBestVideo = " -f \"bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best\"";
         //mp4|flv|ogg|webm|mkv|avi
 
         #endregion
@@ -210,39 +262,143 @@ namespace youtube_dl_gui {
                                                      "wav"
                                                  };
         private string[] AudioFormatArgsArray = { " -f  -x --audio-format best --audio-quality 0" };
-
-        private string OldBestAudioArg = " -f bestaudio --extract-audio --audio-format best --audio-quality 0";
         #endregion
 
         #endregion
 
-        public static string GetVideoFormatArgs(int Quality = 0, bool Set60FPS = false) {
-            return VideoFormatArgsArrayOld[Quality];
-            //if (Quality == 0) {
-            //    return string.Format(VideoArgs[0]);
-            //}
-            //else {
-            //    if (Set60FPS) {
-            //        return string.Format(VideoArgs[1], VideoQualityArray[Quality].Replace("p60","").Replace("p",""), VideoFPSArray[1]);
-            //    }
-            //    else {
-            //        return string.Format(VideoArgs[1], VideoQualityArray[Quality].Replace("p60", "").Replace("p",""), VideoFPSArray[0]);
-            //    }
-            //}
+        public static string GetVideoFormatArgs(VideoQualityType Quality) {
+            switch (Quality) {
+                case VideoQualityType.q4320p60:
+                    return " -f \"bestvideo[ext=mp4][height<=4320][fps>=48]+bestaudio[ext=m4a]/best[ext=mp4]/best\"";
+                case VideoQualityType.q4320p:
+                    return " -f \"bestvideo[ext=mp4][height<=4320][fps<=32]+bestaudio[ext=m4a]/best[ext=mp4]/best\"";
+                case VideoQualityType.q2160p60:
+                    return " -f \"bestvideo[ext=mp4][height<=2160][fps>=48]+bestaudio[ext=m4a]/best[ext=mp4]/best\"";
+                case VideoQualityType.q2160p:
+                    return " -f \"bestvideo[ext=mp4][height<=2160][fps<=32]+bestaudio[ext=m4a]/best[ext=mp4]/best\"";
+                case VideoQualityType.q1440p60:
+                    return " -f \"bestvideo[ext=mp4][height<=1440][fps>=48]+bestaudio[ext=m4a]/best[ext=mp4]/best\"";
+                case VideoQualityType.q1440p:
+                    return " -f \"bestvideo[ext=mp4][height<=1440][fps<=32]+bestaudio[ext=m4a]/best[ext=mp4]/best\"";
+                case VideoQualityType.q1080p60:
+                    return " -f \"bestvideo[ext=mp4][height<=1080][fps>=48]+bestaudio[ext=m4a]/best[ext=mp4]/best\"";
+                case VideoQualityType.q1080p:
+                    return " -f \"bestvideo[ext=mp4][height<=1080][fps<=32]+bestaudio[ext=m4a]/best[ext=mp4]/best\"";
+                case VideoQualityType.q720p60:
+                    return " -f \"bestvideo[ext=mp4][height<=720][fps>=48]+bestaudio[ext=m4a]/best[ext=mp4]/best\"";
+                case VideoQualityType.q720p:
+                    return " -f \"bestvideo[ext=mp4][height<=720][fps<=32]+bestaudio[ext=m4a]/best[ext=mp4]/best\"";
+                case VideoQualityType.q480p:
+                    return " -f \"bestvideo[ext=mp4][height<=480]+bestaudio[ext=m4a]/best[ext=mp4]/best\"";
+                case VideoQualityType.q360p:
+                    return " -f \"bestvideo[ext=mp4][height<=360]+bestaudio[ext=m4a]/best[ext=mp4]/best\"";
+                case VideoQualityType.q240p:
+                    return " -f \"bestvideo[ext=mp4][height<=240]+bestaudio[ext=m4a]/best[ext=mp4]/best\"";
+                case VideoQualityType.q144p:
+                    return " -f \"bestvideo[ext=mp4][height<=144]+bestaudio[ext=m4a]/best[ext=mp4]/best\"";
+                default:
+                    return " -f \"bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]\"";
+            }
         }
-        public static string GetVideoFormatArgsNoSound(int Quality = 0, bool Set60FPS = false) {
-            return VideoFormatArgsArrayNoSoundOld[Quality];
-            //if (Quality == 0) {
-            //    return string.Format(VideoArgsNoSound[0]);
-            //}
-            //else {
-            //    if (Set60FPS) {
-            //        return string.Format(VideoArgsNoSound[1], VideoQualityArray[Quality].Replace("p60", "").Replace("p", ""), VideoFPSArray[1]);
-            //    }
-            //    else {
-            //        return string.Format(VideoArgsNoSound[1], VideoQualityArray[Quality].Replace("p60", "").Replace("p", ""), VideoFPSArray[0]);
-            //    }
-            //}
+        public static string GetVideoFormatArgsNoSound(VideoQualityType Quality) {
+            switch (Quality) {
+                case VideoQualityType.q4320p60:
+                    return " -f \"bestvideo[height<=4320][fps>=48]/best[ext=mp4]/best\"";
+                case VideoQualityType.q4320p:
+                    return " -f \"bestvideo[height<=4320][fps<=32]/best[ext=mp4]/best\"";
+                case VideoQualityType.q2160p60:
+                    return " -f \"bestvideo[height<=2160][fps>=48]/best[ext=mp4]/best\"";
+                case VideoQualityType.q2160p:
+                    return " -f \"bestvideo[height<=2160][fps<=32]/best[ext=mp4]/best\"";
+                case VideoQualityType.q1440p60:
+                    return " -f \"bestvideo[height<=1440][fps>=48]/best[ext=mp4]/best\"";
+                case VideoQualityType.q1440p:
+                    return " -f \"bestvideo[height<=1440][fps<=32]/best[ext=mp4]/best\"";
+                case VideoQualityType.q1080p60:
+                    return " -f \"bestvideo[height<=1080][fps>=48]/best[ext=mp4]/best\"";
+                case VideoQualityType.q1080p:
+                    return " -f \"bestvideo[height<=1080][fps<=32]/best[ext=mp4]/best\"";
+                case VideoQualityType.q720p60:
+                    return " -f \"bestvideo[height<=720][fps>=48]/best[ext=mp4]/best\"";
+                case VideoQualityType.q720p:
+                    return " -f \"bestvideo[height<=720][fps<=32]/best[ext=mp4]/best\"";
+                case VideoQualityType.q480p:
+                    return " -f \"bestvideo[height<=480]/best[ext=mp4]/best\"";
+                case VideoQualityType.q360p:
+                    return " -f \"bestvideo[height<=360]/best[ext=mp4]/best\"";
+                case VideoQualityType.q240p:
+                    return " -f \"bestvideo[height<=240]/best[ext=mp4]/best\"";
+                case VideoQualityType.q144p:
+                    return " -f \"bestvideo[height<=144]/best[ext=mp4]/best\"";
+                default:
+                    return " -f \"bestvideo[ext=mp4]/best[ext=mp4]/best\"";
+            }
+        }
+        public static string GetVideoRecodeInfo(VideoFormatType Format) {
+            switch (Format) {
+                case VideoFormatType.avi:
+                    return " --recode-video avi";
+                case VideoFormatType.flv:
+                    return " --recode-video flv";
+                case VideoFormatType.mkv:
+                    return " --merge-output-format mkv";
+                case VideoFormatType.ogg:
+                    return " --recode-video ogg";
+                case VideoFormatType.webm:
+                    return " --merge-output-format webm";
+                default:
+                    return string.Empty;
+            }
+        }
+        public static string GetAudioFormat(AudioFormatType Format) {
+            switch (Format) {
+                case AudioFormatType.aac:
+                    return "aac";
+                case AudioFormatType.flac:
+                    return "flac";
+                case AudioFormatType.m4a:
+                    return "m4a";
+                case AudioFormatType.mp3:
+                    return "mp3";
+                case AudioFormatType.opus:
+                    return "opus";
+                case  AudioFormatType.vorbis:
+                    return "vorbis";
+                case AudioFormatType.wav:
+                    return "wav";
+                default:
+                    return "best";
+            }
+        }
+        public static string GetAudioQuality(AudioCBRQualityType Quality){
+            switch (Quality) {
+                case AudioCBRQualityType.q320k:
+                    return "320k";
+                case AudioCBRQualityType.q256k:
+                    return "256k";
+                case AudioCBRQualityType.q244k:
+                    return "224k";
+                case AudioCBRQualityType.q192k:
+                    return "192k";
+                case AudioCBRQualityType.q160k:
+                    return "160k";
+                case AudioCBRQualityType.q128k:
+                    return "128k";
+                case AudioCBRQualityType.q96k:
+                    return "96k";
+                case AudioCBRQualityType.q64k:
+                    return "64k";
+                case AudioCBRQualityType.q32k:
+                    return "32k";
+                case AudioCBRQualityType.q16k:
+                    return "16k";
+                case AudioCBRQualityType.q8k:
+                    return "8k";
+                case AudioCBRQualityType.q4k:
+                    return "4k";
+                default:
+                    return "best";
+            }
         }
     }
 }

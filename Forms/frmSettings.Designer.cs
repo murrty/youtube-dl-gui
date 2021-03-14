@@ -135,6 +135,9 @@
             this.btnSettingsCancel = new System.Windows.Forms.Button();
             this.btnSettingsSave = new System.Windows.Forms.Button();
             this.tipSettings = new System.Windows.Forms.ToolTip(this.components);
+            this.tabDownloadsBatch = new System.Windows.Forms.TabPage();
+            this.chkSettingsDownloadsSeparateBatchDownloads = new System.Windows.Forms.CheckBox();
+            this.chkSettingsDownloadsAddDateToBatchDownloadFolders = new System.Windows.Forms.CheckBox();
             this.tcMain.SuspendLayout();
             this.tabSettingsGeneral.SuspendLayout();
             this.gbSettingsGeneralCustomArguments.SuspendLayout();
@@ -157,6 +160,7 @@
             this.tcSettingsConverterCustom.SuspendLayout();
             this.tabSettingsExtensions.SuspendLayout();
             this.tabSettingsErrors.SuspendLayout();
+            this.tabDownloadsBatch.SuspendLayout();
             this.SuspendLayout();
             // 
             // tcMain
@@ -445,6 +449,7 @@
             this.tabDownloads.Controls.Add(this.tabDownloadsFixes);
             this.tabDownloads.Controls.Add(this.tabDownloadsConnection);
             this.tabDownloads.Controls.Add(this.tabDownloadsUpdating);
+            this.tabDownloads.Controls.Add(this.tabDownloadsBatch);
             this.tabDownloads.Location = new System.Drawing.Point(6, 116);
             this.tabDownloads.Name = "tabDownloads";
             this.tabDownloads.SelectedIndex = 0;
@@ -1527,6 +1532,40 @@
             this.tipSettings.ReshowDelay = 100;
             this.tipSettings.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
             // 
+            // tabDownloadsBatch
+            // 
+            this.tabDownloadsBatch.Controls.Add(this.chkSettingsDownloadsAddDateToBatchDownloadFolders);
+            this.tabDownloadsBatch.Controls.Add(this.chkSettingsDownloadsSeparateBatchDownloads);
+            this.tabDownloadsBatch.Location = new System.Drawing.Point(4, 22);
+            this.tabDownloadsBatch.Name = "tabDownloadsBatch";
+            this.tabDownloadsBatch.Padding = new System.Windows.Forms.Padding(3);
+            this.tabDownloadsBatch.Size = new System.Drawing.Size(300, 167);
+            this.tabDownloadsBatch.TabIndex = 5;
+            this.tabDownloadsBatch.Text = "Batch";
+            this.tabDownloadsBatch.UseVisualStyleBackColor = true;
+            // 
+            // chkSettingsDownloadsSeparateBatchDownloads
+            // 
+            this.chkSettingsDownloadsSeparateBatchDownloads.AutoSize = true;
+            this.chkSettingsDownloadsSeparateBatchDownloads.Location = new System.Drawing.Point(6, 6);
+            this.chkSettingsDownloadsSeparateBatchDownloads.Name = "chkSettingsDownloadsSeparateBatchDownloads";
+            this.chkSettingsDownloadsSeparateBatchDownloads.Size = new System.Drawing.Size(258, 17);
+            this.chkSettingsDownloadsSeparateBatchDownloads.TabIndex = 0;
+            this.chkSettingsDownloadsSeparateBatchDownloads.Text = "chkSettingsDownloadsSeparateBatchDownloads";
+            this.tipSettings.SetToolTip(this.chkSettingsDownloadsSeparateBatchDownloads, "chkSettingsDownloadsSeparateBatchDownloadsHint");
+            this.chkSettingsDownloadsSeparateBatchDownloads.UseVisualStyleBackColor = true;
+            // 
+            // chkSettingsDownloadsAddDateToBatchDownloadFolders
+            // 
+            this.chkSettingsDownloadsAddDateToBatchDownloadFolders.AutoSize = true;
+            this.chkSettingsDownloadsAddDateToBatchDownloadFolders.Location = new System.Drawing.Point(6, 29);
+            this.chkSettingsDownloadsAddDateToBatchDownloadFolders.Name = "chkSettingsDownloadsAddDateToBatchDownloadFolders";
+            this.chkSettingsDownloadsAddDateToBatchDownloadFolders.Size = new System.Drawing.Size(299, 17);
+            this.chkSettingsDownloadsAddDateToBatchDownloadFolders.TabIndex = 1;
+            this.chkSettingsDownloadsAddDateToBatchDownloadFolders.Text = "chkSettingsDownloadsAddDateToBatchDownloadFolders";
+            this.tipSettings.SetToolTip(this.chkSettingsDownloadsAddDateToBatchDownloadFolders, "chkSettingsDownloadsAddDateToBatchDownloadFoldersHint");
+            this.chkSettingsDownloadsAddDateToBatchDownloadFolders.UseVisualStyleBackColor = true;
+            // 
             // frmSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1536,7 +1575,7 @@
             this.Controls.Add(this.btnSettingsCancel);
             this.Controls.Add(this.tcMain);
             this.Controls.Add(this.btnSettingsRedownloadYoutubeDl);
-            this.Icon = Properties.Resources.youtube_dl_gui;
+            this.Icon = global::youtube_dl_gui.Properties.Resources.youtube_dl_gui;
             this.MaximizeBox = false;
             this.MinimumSize = new System.Drawing.Size(336, 416);
             this.Name = "frmSettings";
@@ -1580,6 +1619,8 @@
             this.tabSettingsExtensions.PerformLayout();
             this.tabSettingsErrors.ResumeLayout(false);
             this.tabSettingsErrors.PerformLayout();
+            this.tabDownloadsBatch.ResumeLayout(false);
+            this.tabDownloadsBatch.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1696,5 +1737,8 @@
         private System.Windows.Forms.CheckBox chkSettingsGeneralRotateQualityFormat;
         private System.Windows.Forms.CheckBox chkSettingsDownloadsPreferFFmpeg;
         private System.Windows.Forms.ComboBox txtSettingsDownloadsFileNameSchema;
+        private System.Windows.Forms.TabPage tabDownloadsBatch;
+        private System.Windows.Forms.CheckBox chkSettingsDownloadsSeparateBatchDownloads;
+        private System.Windows.Forms.CheckBox chkSettingsDownloadsAddDateToBatchDownloadFolders;
     }
 }

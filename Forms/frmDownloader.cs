@@ -9,26 +9,7 @@ namespace youtube_dl_gui {
         Language lang = Language.GetInstance();
         Verification verif = Verification.GetInstance();
 
-        public string DownloadUrl = null;       // The URL of the download.
-        public string DownloadPath = null;      // The path of the destination directory.
-        public string DownloadArguments = null; // The arguments passed for youtube-dl.
-        public int DownloadType = -1;           // The type of download.
-        public int DownloadQuality = 0;         // The quality of download.
-        public int DownloadFormat = 0;          // The format of the download.
-        public bool DownloadVideoAudio = true;  // Downloads videos with audio.
-        public bool Set60FPS = false;           // The download will download 60fps (if available).
-        public bool UseVBR = false;             // Uses variable bitrate for audio.
-        public bool BatchDownload = false;      // Is the download in a batch? If so, minimize the form.
-        public string BatchTime = string.Empty; // The time for the folder structure.
-        public string AuthUsername = null;      // The username for authenticating.
-        public string AuthPassword = null;      // The password for authenticating.
-        public string Auth2Factor = null;       // The 2-factor code for authenticating.
-        public string AuthVideoPassword = null; // The video password for authenticating.
-        public bool AuthNetrc = false;          // Determine to use .netrc for authenticating.
-        public int SelectionType = -1;          // Used for selecting videos to download
-        public string SelectionArg = null;      // Used as the argument for selecting videos with one specific argument
-        public int SelectionIndexStart = 0;     // Used as the argument for selecting videos to download in a playlist
-        public int SelectionIndexEnd = 0;       // Used as the argument for selecting videos to download in a playlist
+        public DownloadInfo CurrentDownload;
 
         public bool Debugging = false;
 
@@ -45,17 +26,12 @@ namespace youtube_dl_gui {
             InitializeComponent();
         }
         private void frmDownloader_Load(object sender, EventArgs e) {
-            if (BatchDownload) {
-                if (!Program.IsDebug) {
-                    this.WindowState = FormWindowState.Minimized;
-                }
-                btnDownloaderAbortBatchDownload.Enabled = true;
-                btnDownloaderAbortBatchDownload.Visible = true;
-            }
-
             this.Text = lang.frmDownloader + " ";
             chkDownloaderCloseAfterDownload.Text = lang.chkDownloaderCloseAfterDownload;
-            if (BatchDownload) {
+            if (CurrentDownload.BatchDownload) {
+                this.WindowState = FormWindowState.Minimized;
+                btnDownloaderAbortBatchDownload.Enabled = true;
+                btnDownloaderAbortBatchDownload.Visible = true;
                 btnDownloaderAbortBatchDownload.Text = lang.btnDownloaderAbortBatch;
                 btnDownloaderCancelExit.Text = lang.GenericSkip;
             }
@@ -75,8 +51,12 @@ namespace youtube_dl_gui {
             }
         }
         private void btnDownloaderAbortBatchDownload_Click(object sender, EventArgs e) {
-            if (BatchDownload) {
+            if (DownloadErrored) {
+                btnDownloaderAbortBatchDownload.Visible = false;
                 btnDownloaderAbortBatchDownload.Enabled = false;
+                BeginDownload();
+            }
+            else if (CurrentDownload.BatchDownload) {
                 AbortBatch = true;
                 if (!DownloadFinished && !DownloadErrored && !DownloadAborted) {
                     DownloadAborted = true;
@@ -113,14 +93,16 @@ namespace youtube_dl_gui {
 
         private void BeginDownload() {
             Debug.Print("BeginDownload()");
-            if (string.IsNullOrEmpty(DownloadUrl)) {
+            if (string.IsNullOrEmpty(CurrentDownload.DownloadURL)) {
                 MessageBox.Show("The URL is null or empty. Please enter a URL or Download path.");
                 return;
             }
             rtbConsoleOutput.AppendText("Beginning download, this box will output progress\n");
-            if (BatchDownload) { chkDownloaderCloseAfterDownload.Checked = true; }
+            if (CurrentDownload.BatchDownload) { chkDownloaderCloseAfterDownload.Checked = true; }
 
-            if (DownloadUrl.StartsWith("http://")) { DownloadUrl = "https" + DownloadUrl.Substring(4); }
+            if (CurrentDownload.DownloadURL.StartsWith("http://")){
+                CurrentDownload.DownloadURL = "https" + CurrentDownload.DownloadURL.Substring(4);
+            }
 
             string YoutubeDlFileName = null;
             string ArgumentsBuffer = string.Empty;
@@ -155,29 +137,29 @@ namespace youtube_dl_gui {
             rtbConsoleOutput.AppendText("Generating output directory structure\n");
 
             if (Downloads.Default.separateIntoWebsiteURL) {
-                webFolder = Download.getUrlBase(DownloadUrl) + "\\";
+                webFolder = Download.getUrlBase(CurrentDownload.DownloadURL) + "\\";
             }
 
             string OutputDirectory = "\"" + Downloads.Default.downloadPath;
-            if (BatchDownload && Downloads.Default.SeparateBatchDownloads) {
+            if (CurrentDownload.BatchDownload && Downloads.Default.SeparateBatchDownloads) {
                 OutputDirectory += "\\# Batch Downloads #";
                 if (Downloads.Default.AddDateToBatchDownloadFolders) {
-                    OutputDirectory += "\\" + BatchTime;
+                    OutputDirectory += "\\" + CurrentDownload.BatchTime;
                 }
             }
             OutputDirectory += "\\" + webFolder + "{0}" + Downloads.Default.fileNameSchema + "\"";
 
-            ArgumentsBuffer = DownloadUrl + " -o " + OutputDirectory;
+            ArgumentsBuffer = CurrentDownload.DownloadURL + " -o " + OutputDirectory;
 
             if (Downloads.Default.separateDownloads) {
-                switch (DownloadType) {
-                    case 0:
+                switch (CurrentDownload.Type) {
+                    case DownloadType.Video:
                         ArgumentsBuffer = ArgumentsBuffer.Replace("{0}", "Video\\");
                         break;
-                    case 1:
+                    case DownloadType.Audio:
                         ArgumentsBuffer = ArgumentsBuffer.Replace("{0}", "Audio\\");
                         break;
-                    case 2:
+                    case DownloadType.Custom:
                         ArgumentsBuffer = ArgumentsBuffer.Replace("{0}", "Custom\\");
                         break;
                     default:
@@ -192,58 +174,62 @@ namespace youtube_dl_gui {
             #endregion
 
             #region Quality + format
-            switch (DownloadType) {
-                case 0: {
-                        if (DownloadQuality == 0) {
-                            if (DownloadVideoAudio) {
-                                if (DownloadFormat == 4) {
-                                    ArgumentsBuffer += DownloadFormats.VideoFormatArgsArrayOld[0];
-                                }
-                                else {
-                                    ArgumentsBuffer += DownloadFormats.VideoArgs[0];
-                                }
-                            }
-                            else {
-                                if (DownloadFormat == 4) {
-                                    ArgumentsBuffer += DownloadFormats.VideoFormatArgsArrayNoSoundOld[0];
+            switch (CurrentDownload.Type) {
+                case DownloadType.Video: {
+                        if (CurrentDownload.VideoQuality == VideoQualityType.best) {
+                            if (CurrentDownload.SkipAudioForVideos) {
+                                if (CurrentDownload.VideoFormat == VideoFormatType.mp4) {
+                                    ArgumentsBuffer += DownloadFormats.GetVideoFormatArgsNoSound(VideoQualityType.best);
                                 }
                                 else {
                                     ArgumentsBuffer += DownloadFormats.VideoArgsNoSound[0];
                                 }
                             }
-                        }
-                        else {
-                            if (DownloadVideoAudio) {
-                                ArgumentsBuffer += DownloadFormats.GetVideoFormatArgs(DownloadQuality, Set60FPS);
-                            }
                             else {
-                                ArgumentsBuffer += DownloadFormats.GetVideoFormatArgsNoSound(DownloadQuality, Set60FPS);
-                            }
-                        }
-                        break;
-                    }
-                case 1: {
-                        if (UseVBR) {
-                            if (DownloadQuality == 0) {
-                                ArgumentsBuffer += " -f bestaudio --extract-audio --audio-quality 0";
-                            }
-                            else {
-                                ArgumentsBuffer += " --extract-audio --audio-quality " + DownloadQuality;
+                                if (CurrentDownload.VideoFormat == VideoFormatType.mp4) {
+                                    ArgumentsBuffer += DownloadFormats.GetVideoFormatArgs(VideoQualityType.best);
+                                }
+                                else {
+                                    ArgumentsBuffer += DownloadFormats.VideoArgs[0];
+                                }
                             }
                         }
                         else {
-                            if (DownloadQuality == 0) {
+                            if (CurrentDownload.SkipAudioForVideos) {
+                                ArgumentsBuffer += DownloadFormats.GetVideoFormatArgsNoSound(CurrentDownload.VideoQuality);
+                            }
+                            else {
+                                ArgumentsBuffer += DownloadFormats.GetVideoFormatArgs(CurrentDownload.VideoQuality);
+                            }
+                        }
+                        
+                    ArgumentsBuffer += DownloadFormats.GetVideoRecodeInfo(CurrentDownload.VideoFormat);
+                        break;
+                }
+                case DownloadType.Audio: {
+                        if (CurrentDownload.UseVBR) {
+                            if (CurrentDownload.AudioVBRQuality == AudioVBRQualityType.q0) {
                                 ArgumentsBuffer += " -f bestaudio --extract-audio --audio-quality 0";
                             }
                             else {
-                                ArgumentsBuffer += " --extract-audio --audio-quality " + DownloadFormats.AudioQualityNamesArray[DownloadQuality];
+                                ArgumentsBuffer += " --extract-audio --audio-quality " + CurrentDownload.AudioVBRQuality;
                             }
                         }
+                        else {
+                            if (CurrentDownload.AudioCBRQuality == AudioCBRQualityType.best) {
+                                ArgumentsBuffer += " -f bestaudio --extract-audio --audio-quality 0";
+                            }
+                            else {
+                                ArgumentsBuffer += " --extract-audio --audio-quality " + DownloadFormats.GetAudioQuality(CurrentDownload.AudioCBRQuality);
+                            }
+                        }
+                        ArgumentsBuffer += " --audio-format " + DownloadFormats.GetAudioFormat(CurrentDownload.AudioFormat);
+
                         break;
                     }
-                case 2: {
+                case DownloadType.Custom: {
                         rtbConsoleOutput.AppendText("Custom was requested, skipping quality + format");
-                        ArgumentsBuffer += " " + DownloadArguments;
+                        ArgumentsBuffer += " " + CurrentDownload.DownloadArguments;
                         break;
                     }
                 default: {
@@ -252,43 +238,36 @@ namespace youtube_dl_gui {
                     }
             }
 
-            if (DownloadFormat > 0 && DownloadType == 0 && DownloadFormat != 4) {
-                ArgumentsBuffer += DownloadFormats.VideoFormatsArray[DownloadFormat - 1];
-            }
-            else if (DownloadType == 1) {
-                ArgumentsBuffer += " --audio-format " + DownloadFormats.AudioFormatsArray[DownloadFormat];
-            }
-
             rtbConsoleOutput.AppendText("The quality and format has been set\n");
             #endregion
 
             #region Arguments
-            if (DownloadType != 2) {
-                switch (SelectionType) {
-                    case 0: // playlist-start and playlist-end
-                        if (SelectionIndexStart > 0) {
-                            ArgumentsBuffer += " --playlist-start " + SelectionIndexStart;
+            if (CurrentDownload.Type != DownloadType.Custom) {
+                switch (CurrentDownload.PlaylistSelection) {
+                    case PlaylistSelectionType.PlaylistStartPlaylistEnd: // playlist-start and playlist-end
+                        if (CurrentDownload.PlaylistSelectionIndexStart > 0) {
+                            ArgumentsBuffer += " --playlist-start " + CurrentDownload.PlaylistSelectionIndexStart;
                         }
 
-                        if (SelectionIndexEnd > 0) {
-                            ArgumentsBuffer += " --playlist-end " + (SelectionIndexStart + SelectionIndexEnd);
+                        if (CurrentDownload.PlaylistSelectionIndexEnd > 0) {
+                            ArgumentsBuffer += " --playlist-end " + (CurrentDownload.PlaylistSelectionIndexStart + CurrentDownload.PlaylistSelectionIndexEnd);
                         }
                         break;
-                    case 1: // playlist-items
-                        ArgumentsBuffer += " --playlist-items " + SelectionArg;
+                    case PlaylistSelectionType.PlaylistItems: // playlist-items
+                        ArgumentsBuffer += " --playlist-items " + CurrentDownload.PlaylistSelectionArg;
                         break;
-                    case 2: // datebefore
-                        ArgumentsBuffer += " --datebefore " + SelectionArg;
+                    case PlaylistSelectionType.DateBefore: // datebefore
+                        ArgumentsBuffer += " --datebefore " + CurrentDownload.PlaylistSelectionArg;
                         break;
-                    case 3: // date
-                        ArgumentsBuffer += " --date " + SelectionArg;
+                    case PlaylistSelectionType.DateDuring: // date
+                        ArgumentsBuffer += " --date " + CurrentDownload.PlaylistSelectionArg;
                         break;
-                    case 4: // dateafter
-                        ArgumentsBuffer += " --dateafter " + SelectionArg;
+                    case PlaylistSelectionType.DateAfter: // dateafter
+                        ArgumentsBuffer += " --dateafter " + CurrentDownload.PlaylistSelectionArg;
                         break;
                 }
 
-                if (Downloads.Default.PreferFFmpeg || Download.isReddit(DownloadUrl) && Downloads.Default.fixReddit) {
+                if (Downloads.Default.PreferFFmpeg || Download.isReddit(CurrentDownload.DownloadURL) && Downloads.Default.fixReddit) {
                     rtbConsoleOutput.AppendText("Looking for ffmpeg\n");
                     if (verif.FFmpegPath != null) {
                         if (General.Default.UseStaticFFmpeg) {
@@ -309,7 +288,11 @@ namespace youtube_dl_gui {
                     if (!string.IsNullOrEmpty(Downloads.Default.SubtitleFormat)) {
                         ArgumentsBuffer += " --sub-format " + Downloads.Default.SubtitleFormat + " ";
                     }
-                    if (Downloads.Default.EmbedSubtitles && DownloadType == 0 && DownloadFormat == 3 || DownloadFormat == 4 || DownloadFormat == 6) {
+                    if (Downloads.Default.EmbedSubtitles && CurrentDownload.Type == DownloadType.Video) {
+                        switch (CurrentDownload.VideoFormat) {
+                            case VideoFormatType.flv: case VideoFormatType.mkv:
+                                break;
+                        }
                         ArgumentsBuffer += " --embed-subs";
                     }
                 }
@@ -326,17 +309,17 @@ namespace youtube_dl_gui {
                     // ArgumentsBuffer += "--write-all-thumbnails "; // Maybe?
                     //ArgumentsBuffer += " --write-thumbnail";
                     if (Downloads.Default.EmbedThumbnails) {
-                        switch (DownloadType) {
-                            case 0:
-                                if (DownloadFormat == 4) {
+                        switch (CurrentDownload.Type) {
+                            case DownloadType.Video:
+                                if (CurrentDownload.VideoFormat == VideoFormatType.mp4) {
                                     ArgumentsBuffer += " --embed-thumbnail";
                                 }
                                 else {
                                     rtbConsoleOutput.AppendText("!!!!!!!! WARNING !!!!!!!!\nCannot embed thumbnail to non-mp4 videos files\n");
                                 }
                                 break;
-                            case 1:
-                                if (DownloadFormat == 3 || DownloadFormat == 4) {
+                            case DownloadType.Audio:
+                                if (CurrentDownload.AudioFormat == AudioFormatType.m4a || CurrentDownload.AudioFormat == AudioFormatType.mp3) {
                                     ArgumentsBuffer += " --embed-thumbnail";
                                 }
                                 else {
@@ -414,30 +397,30 @@ namespace youtube_dl_gui {
             // the preview arguments won't include it in case anyone creates an issue.
             PreviewArguments = ArgumentsBuffer;
 
-            if (AuthUsername != null) {
-                ArgumentsBuffer += " --username " + AuthUsername;
+            if (CurrentDownload.AuthUsername != null) {
+                ArgumentsBuffer += " --username " + CurrentDownload.AuthUsername;
+                CurrentDownload.AuthUsername = null;
                 PreviewArguments += " --username ***";
-                AuthUsername = null;
             }
-            if (AuthPassword != null) {
-                ArgumentsBuffer += " --password " + AuthPassword;
+            if (CurrentDownload.AuthPassword != null) {
+                ArgumentsBuffer += " --password " + CurrentDownload.AuthPassword;
+                CurrentDownload.AuthPassword = null;
                 PreviewArguments += " --password ***";
-                AuthPassword = null;
             }
-            if (Auth2Factor != null) {
-                ArgumentsBuffer += " --twofactor " + Auth2Factor;
+            if (CurrentDownload.Auth2Factor != null) {
+                ArgumentsBuffer += " --twofactor " + CurrentDownload.Auth2Factor;
+                CurrentDownload.Auth2Factor = null;
                 PreviewArguments += " --twofactor ***";
-                Auth2Factor = null;
             }
-            if (AuthVideoPassword != null) {
-                ArgumentsBuffer += " --video-password " + AuthVideoPassword;
+            if (CurrentDownload.AuthVideoPassword != null) {
+                ArgumentsBuffer += " --video-password " + CurrentDownload.AuthVideoPassword;
+                CurrentDownload.AuthVideoPassword = null;
                 PreviewArguments += " --video-password ***";
-                AuthVideoPassword = null;
             }
-            if (AuthNetrc) {
+            if (CurrentDownload.AuthNetrc) {
+                CurrentDownload.AuthNetrc = false;
                 ArgumentsBuffer += " --netrc";
                 PreviewArguments += " --netrc";
-                AuthNetrc = false;
             }
             #endregion
 
@@ -445,10 +428,10 @@ namespace youtube_dl_gui {
             txtArgumentsGenerated.Text = PreviewArguments;
 
             #region Download thread
-            if (Program.IsDebug) {
-                rtbConsoleOutput.Text = "===ARGUMENTS===\n" + ArgumentsBuffer.Replace(' ', '\n') + "\n\n===PREVIEW ARGUMENTS===\n" + PreviewArguments.Replace(' ', '\n');
-                return;
-            }
+            //if (Program.IsDebug) {
+            //    rtbConsoleOutput.Text = "===ARGUMENTS===\n" + ArgumentsBuffer.Replace(' ', '\n') + "\n\n===PREVIEW ARGUMENTS===\n" + PreviewArguments.Replace(' ', '\n');
+            //    return;
+            //}
             rtbConsoleOutput.AppendText("Creating download thread\n");
             DownloadThread = new Thread(() => {
                 try {
@@ -527,7 +510,7 @@ namespace youtube_dl_gui {
             this.Text.Trim('.');
             btnDownloaderCancelExit.Text = lang.btnBatchDownloadExit;
 
-            if (BatchDownload) {
+            if (CurrentDownload.BatchDownload) {
                 if (DownloadAborted) {
                     if (AbortBatch) {
                         this.DialogResult = System.Windows.Forms.DialogResult.Abort;
@@ -542,6 +525,13 @@ namespace youtube_dl_gui {
                     rtbConsoleOutput.AppendText("\nAn error occured\nTHIS IS A YOUTUBE-DL ERROR, NOT A ERROR WITH THIS PROGRAM!\nExit the form to resume batch download.");
                     this.Text = lang.frmDownloaderError;
                 }
+                else if (DownloadProgramError) {
+                    btnDownloaderCancelExit.Text = lang.btnDownloaderExit;
+                    rtbConsoleOutput.AppendText("\nAn error occured\nAn error log was presented, if enabled.\nExit the form to resume batch download.");
+                    this.Text = lang.frmDownloaderError;
+                    this.Activate();
+                    System.Media.SystemSounds.Hand.Play();
+                }
                 else if (DownloadFinished) {
                     this.DialogResult = System.Windows.Forms.DialogResult.Yes;
                 }
@@ -554,6 +544,9 @@ namespace youtube_dl_gui {
                 else if (DownloadErrored) {
                     btnDownloaderCancelExit.Text = lang.btnDownloaderExit;
                     rtbConsoleOutput.AppendText("\nAn error occured\nTHIS IS A YOUTUBE-DL ERROR, NOT A ERROR WITH THIS PROGRAM!");
+                    btnDownloaderAbortBatchDownload.Visible = true;
+                    btnDownloaderAbortBatchDownload.Enabled = true;
+                    btnDownloaderAbortBatchDownload.Text = lang.GenericRetry;
                     this.Text = lang.frmDownloaderError;
                     this.Activate();
                     System.Media.SystemSounds.Hand.Play();
@@ -580,7 +573,7 @@ namespace youtube_dl_gui {
                 this.DialogResult = DialogResult.Abort;
             }
 
-            if (Downloads.Default.CloseDownloaderAfterFinish != chkDownloaderCloseAfterDownload.Checked && !BatchDownload) {
+            if (Downloads.Default.CloseDownloaderAfterFinish != chkDownloaderCloseAfterDownload.Checked && !CurrentDownload.BatchDownload) {
                 Downloads.Default.CloseDownloaderAfterFinish = chkDownloaderCloseAfterDownload.Checked;
                 if (!Program.IsPortable) {
                     Downloads.Default.Save();
@@ -589,7 +582,7 @@ namespace youtube_dl_gui {
 
 
             if (DownloadErrored) {
-                if (BatchDownload) { this.DialogResult = System.Windows.Forms.DialogResult.No; }
+                if (CurrentDownload.BatchDownload) { this.DialogResult = System.Windows.Forms.DialogResult.No; }
                 else { this.Dispose(); }
             }
             if (!DownloadFinished) {
@@ -603,20 +596,20 @@ namespace youtube_dl_gui {
             }
 
             if (DownloadAborted) {
-                if (BatchDownload) { this.DialogResult = System.Windows.Forms.DialogResult.Ignore; }
+                if (CurrentDownload.BatchDownload) { this.DialogResult = System.Windows.Forms.DialogResult.Ignore; }
                 else { this.Dispose(); }
             }
             else if (DownloadFinished) {
                 if (DownloadProcess.ExitCode == 0) {
-                    if (BatchDownload) { this.DialogResult = System.Windows.Forms.DialogResult.Yes; }
+                    if (CurrentDownload.BatchDownload) { this.DialogResult = System.Windows.Forms.DialogResult.Yes; }
                     else { this.Dispose(); }
                 }
                 else {
-                    if (BatchDownload) { this.DialogResult = System.Windows.Forms.DialogResult.No; }
+                    if (CurrentDownload.BatchDownload) { this.DialogResult = System.Windows.Forms.DialogResult.No; }
                 }
             }
             else {
-                if (BatchDownload) { this.DialogResult = System.Windows.Forms.DialogResult.No; }
+                if (CurrentDownload.BatchDownload) { this.DialogResult = System.Windows.Forms.DialogResult.No; }
             }
         }
 

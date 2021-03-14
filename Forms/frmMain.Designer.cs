@@ -31,10 +31,10 @@
             this.tabDownload = new System.Windows.Forms.TabPage();
             this.chkUseSelection = new System.Windows.Forms.CheckBox();
             this.gbSelection = new System.Windows.Forms.GroupBox();
-            this.rbVideoSelectionAfterDate = new System.Windows.Forms.RadioButton();
-            this.rbVideoSelectionBeforeDate = new System.Windows.Forms.RadioButton();
-            this.rbVideoSelectionOnDate = new System.Windows.Forms.RadioButton();
             this.rbVideoSelectionPlaylistItems = new System.Windows.Forms.RadioButton();
+            this.rbVideoSelectionAfterDate = new System.Windows.Forms.RadioButton();
+            this.rbVideoSelectionOnDate = new System.Windows.Forms.RadioButton();
+            this.rbVideoSelectionBeforeDate = new System.Windows.Forms.RadioButton();
             this.rbVideoSelectionPlaylistIndex = new System.Windows.Forms.RadioButton();
             this.panelDate = new System.Windows.Forms.Panel();
             this.txtVideoDate = new youtube_dl_gui.HintTextBox();
@@ -168,7 +168,7 @@
             this.tcMain.Location = new System.Drawing.Point(0, 0);
             this.tcMain.Name = "tcMain";
             this.tcMain.SelectedIndex = 0;
-            this.tcMain.Size = new System.Drawing.Size(244, 395);
+            this.tcMain.Size = new System.Drawing.Size(244, 393);
             this.tcMain.TabIndex = 0;
             // 
             // tabDownload
@@ -190,7 +190,7 @@
             this.tabDownload.Location = new System.Drawing.Point(4, 22);
             this.tabDownload.Name = "tabDownload";
             this.tabDownload.Padding = new System.Windows.Forms.Padding(3);
-            this.tabDownload.Size = new System.Drawing.Size(236, 369);
+            this.tabDownload.Size = new System.Drawing.Size(236, 367);
             this.tabDownload.TabIndex = 0;
             this.tabDownload.Text = "tabDownload";
             this.tabDownload.UseVisualStyleBackColor = true;
@@ -199,87 +199,87 @@
             // 
             this.chkUseSelection.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.chkUseSelection.AutoSize = true;
-            this.chkUseSelection.Location = new System.Drawing.Point(8, 170);
+            this.chkUseSelection.Location = new System.Drawing.Point(8, 169);
             this.chkUseSelection.Name = "chkUseSelection";
-            this.chkUseSelection.Size = new System.Drawing.Size(99, 17);
+            this.chkUseSelection.Size = new System.Drawing.Size(106, 17);
             this.chkUseSelection.TabIndex = 20;
-            this.chkUseSelection.Text = "Video Selection";
+            this.chkUseSelection.Text = "chkUseSelection";
             this.chkUseSelection.UseVisualStyleBackColor = true;
             // 
             // gbSelection
             // 
             this.gbSelection.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.gbSelection.Controls.Add(this.rbVideoSelectionAfterDate);
-            this.gbSelection.Controls.Add(this.rbVideoSelectionBeforeDate);
-            this.gbSelection.Controls.Add(this.rbVideoSelectionOnDate);
             this.gbSelection.Controls.Add(this.rbVideoSelectionPlaylistItems);
+            this.gbSelection.Controls.Add(this.rbVideoSelectionAfterDate);
+            this.gbSelection.Controls.Add(this.rbVideoSelectionOnDate);
+            this.gbSelection.Controls.Add(this.rbVideoSelectionBeforeDate);
             this.gbSelection.Controls.Add(this.rbVideoSelectionPlaylistIndex);
             this.gbSelection.Controls.Add(this.panelDate);
             this.gbSelection.Controls.Add(this.panelPlaylistStartEnd);
             this.gbSelection.Controls.Add(this.panelPlaylistItems);
-            this.gbSelection.Location = new System.Drawing.Point(7, 170);
+            this.gbSelection.Location = new System.Drawing.Point(7, 169);
             this.gbSelection.Name = "gbSelection";
             this.gbSelection.Size = new System.Drawing.Size(225, 106);
             this.gbSelection.TabIndex = 19;
             this.gbSelection.TabStop = false;
-            // 
-            // rbVideoSelectionAfterDate
-            // 
-            this.rbVideoSelectionAfterDate.AutoSize = true;
-            this.rbVideoSelectionAfterDate.Location = new System.Drawing.Point(156, 42);
-            this.rbVideoSelectionAfterDate.Name = "rbVideoSelectionAfterDate";
-            this.rbVideoSelectionAfterDate.Size = new System.Drawing.Size(70, 17);
-            this.rbVideoSelectionAfterDate.TabIndex = 23;
-            this.rbVideoSelectionAfterDate.TabStop = true;
-            this.rbVideoSelectionAfterDate.Text = "After date";
-            this.rbVideoSelectionAfterDate.UseVisualStyleBackColor = true;
-            this.rbVideoSelectionAfterDate.CheckedChanged += new System.EventHandler(this.rbVideoSelectionAfterDate_CheckedChanged);
-            // 
-            // rbVideoSelectionBeforeDate
-            // 
-            this.rbVideoSelectionBeforeDate.AutoSize = true;
-            this.rbVideoSelectionBeforeDate.Location = new System.Drawing.Point(6, 42);
-            this.rbVideoSelectionBeforeDate.Name = "rbVideoSelectionBeforeDate";
-            this.rbVideoSelectionBeforeDate.Size = new System.Drawing.Size(79, 17);
-            this.rbVideoSelectionBeforeDate.TabIndex = 22;
-            this.rbVideoSelectionBeforeDate.TabStop = true;
-            this.rbVideoSelectionBeforeDate.Text = "Before date";
-            this.rbVideoSelectionBeforeDate.UseVisualStyleBackColor = true;
-            this.rbVideoSelectionBeforeDate.CheckedChanged += new System.EventHandler(this.rbVideoSelectionBeforeDate_CheckedChanged);
-            // 
-            // rbVideoSelectionOnDate
-            // 
-            this.rbVideoSelectionOnDate.AutoSize = true;
-            this.rbVideoSelectionOnDate.Location = new System.Drawing.Point(88, 42);
-            this.rbVideoSelectionOnDate.Name = "rbVideoSelectionOnDate";
-            this.rbVideoSelectionOnDate.Size = new System.Drawing.Size(62, 17);
-            this.rbVideoSelectionOnDate.TabIndex = 21;
-            this.rbVideoSelectionOnDate.TabStop = true;
-            this.rbVideoSelectionOnDate.Text = "On date";
-            this.rbVideoSelectionOnDate.UseVisualStyleBackColor = true;
-            this.rbVideoSelectionOnDate.CheckedChanged += new System.EventHandler(this.rbVideoSelectionOnDate_CheckedChanged);
             // 
             // rbVideoSelectionPlaylistItems
             // 
             this.rbVideoSelectionPlaylistItems.AutoSize = true;
             this.rbVideoSelectionPlaylistItems.Location = new System.Drawing.Point(115, 19);
             this.rbVideoSelectionPlaylistItems.Name = "rbVideoSelectionPlaylistItems";
-            this.rbVideoSelectionPlaylistItems.Size = new System.Drawing.Size(84, 17);
+            this.rbVideoSelectionPlaylistItems.Size = new System.Drawing.Size(161, 17);
             this.rbVideoSelectionPlaylistItems.TabIndex = 20;
             this.rbVideoSelectionPlaylistItems.TabStop = true;
-            this.rbVideoSelectionPlaylistItems.Text = "Playlist Items";
+            this.rbVideoSelectionPlaylistItems.Text = "rbVideoSelectionPlaylistItems";
             this.rbVideoSelectionPlaylistItems.UseVisualStyleBackColor = true;
             this.rbVideoSelectionPlaylistItems.CheckedChanged += new System.EventHandler(this.rbVideoSelectionPlaylistItems_CheckedChanged);
+            // 
+            // rbVideoSelectionAfterDate
+            // 
+            this.rbVideoSelectionAfterDate.AutoSize = true;
+            this.rbVideoSelectionAfterDate.Location = new System.Drawing.Point(156, 42);
+            this.rbVideoSelectionAfterDate.Name = "rbVideoSelectionAfterDate";
+            this.rbVideoSelectionAfterDate.Size = new System.Drawing.Size(149, 17);
+            this.rbVideoSelectionAfterDate.TabIndex = 23;
+            this.rbVideoSelectionAfterDate.TabStop = true;
+            this.rbVideoSelectionAfterDate.Text = "rbVideoSelectionAfterDate";
+            this.rbVideoSelectionAfterDate.UseVisualStyleBackColor = true;
+            this.rbVideoSelectionAfterDate.CheckedChanged += new System.EventHandler(this.rbVideoSelectionAfterDate_CheckedChanged);
+            // 
+            // rbVideoSelectionOnDate
+            // 
+            this.rbVideoSelectionOnDate.AutoSize = true;
+            this.rbVideoSelectionOnDate.Location = new System.Drawing.Point(88, 42);
+            this.rbVideoSelectionOnDate.Name = "rbVideoSelectionOnDate";
+            this.rbVideoSelectionOnDate.Size = new System.Drawing.Size(141, 17);
+            this.rbVideoSelectionOnDate.TabIndex = 21;
+            this.rbVideoSelectionOnDate.TabStop = true;
+            this.rbVideoSelectionOnDate.Text = "rbVideoSelectionOnDate";
+            this.rbVideoSelectionOnDate.UseVisualStyleBackColor = true;
+            this.rbVideoSelectionOnDate.CheckedChanged += new System.EventHandler(this.rbVideoSelectionOnDate_CheckedChanged);
+            // 
+            // rbVideoSelectionBeforeDate
+            // 
+            this.rbVideoSelectionBeforeDate.AutoSize = true;
+            this.rbVideoSelectionBeforeDate.Location = new System.Drawing.Point(6, 42);
+            this.rbVideoSelectionBeforeDate.Name = "rbVideoSelectionBeforeDate";
+            this.rbVideoSelectionBeforeDate.Size = new System.Drawing.Size(158, 17);
+            this.rbVideoSelectionBeforeDate.TabIndex = 22;
+            this.rbVideoSelectionBeforeDate.TabStop = true;
+            this.rbVideoSelectionBeforeDate.Text = "rbVideoSelectionBeforeDate";
+            this.rbVideoSelectionBeforeDate.UseVisualStyleBackColor = true;
+            this.rbVideoSelectionBeforeDate.CheckedChanged += new System.EventHandler(this.rbVideoSelectionBeforeDate_CheckedChanged);
             // 
             // rbVideoSelectionPlaylistIndex
             // 
             this.rbVideoSelectionPlaylistIndex.AutoSize = true;
             this.rbVideoSelectionPlaylistIndex.Location = new System.Drawing.Point(25, 19);
             this.rbVideoSelectionPlaylistIndex.Name = "rbVideoSelectionPlaylistIndex";
-            this.rbVideoSelectionPlaylistIndex.Size = new System.Drawing.Size(84, 17);
+            this.rbVideoSelectionPlaylistIndex.Size = new System.Drawing.Size(162, 17);
             this.rbVideoSelectionPlaylistIndex.TabIndex = 19;
             this.rbVideoSelectionPlaylistIndex.TabStop = true;
-            this.rbVideoSelectionPlaylistIndex.Text = "Playlist index";
+            this.rbVideoSelectionPlaylistIndex.Text = "rbVideoSelectionPlaylistIndex";
             this.rbVideoSelectionPlaylistIndex.UseVisualStyleBackColor = true;
             this.rbVideoSelectionPlaylistIndex.CheckedChanged += new System.EventHandler(this.rbVideoSelectionPlaylistIndex_CheckedChanged);
             // 
@@ -353,7 +353,7 @@
             this.cbFormat.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.cbFormat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbFormat.FormattingEnabled = true;
-            this.cbFormat.Location = new System.Drawing.Point(70, 143);
+            this.cbFormat.Location = new System.Drawing.Point(70, 142);
             this.cbFormat.Name = "cbFormat";
             this.cbFormat.Size = new System.Drawing.Size(80, 21);
             this.cbFormat.TabIndex = 11;
@@ -361,7 +361,7 @@
             // lbFormat
             // 
             this.lbFormat.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.lbFormat.Location = new System.Drawing.Point(4, 146);
+            this.lbFormat.Location = new System.Drawing.Point(4, 145);
             this.lbFormat.Name = "lbFormat";
             this.lbFormat.Size = new System.Drawing.Size(63, 13);
             this.lbFormat.TabIndex = 10;
@@ -372,7 +372,7 @@
             // 
             this.lbDownloadStatus.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.lbDownloadStatus.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbDownloadStatus.Location = new System.Drawing.Point(-1, 362);
+            this.lbDownloadStatus.Location = new System.Drawing.Point(-1, 360);
             this.lbDownloadStatus.Name = "lbDownloadStatus";
             this.lbDownloadStatus.Size = new System.Drawing.Size(238, 20);
             this.lbDownloadStatus.TabIndex = 15;
@@ -385,7 +385,7 @@
             this.sbDownload.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.sbDownload.DropDownContextMenu = this.cmDownload;
             this.sbDownload.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.sbDownload.Location = new System.Drawing.Point(77, 336);
+            this.sbDownload.Location = new System.Drawing.Point(77, 334);
             this.sbDownload.Name = "sbDownload";
             this.sbDownload.Size = new System.Drawing.Size(83, 25);
             this.sbDownload.TabIndex = 14;
@@ -417,7 +417,7 @@
             this.chkDownloadSound.AutoSize = true;
             this.chkDownloadSound.Checked = true;
             this.chkDownloadSound.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkDownloadSound.Location = new System.Drawing.Point(156, 116);
+            this.chkDownloadSound.Location = new System.Drawing.Point(156, 115);
             this.chkDownloadSound.Name = "chkDownloadSound";
             this.chkDownloadSound.Size = new System.Drawing.Size(122, 17);
             this.chkDownloadSound.TabIndex = 9;
@@ -430,7 +430,7 @@
             this.cbQuality.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.cbQuality.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbQuality.FormattingEnabled = true;
-            this.cbQuality.Location = new System.Drawing.Point(70, 114);
+            this.cbQuality.Location = new System.Drawing.Point(70, 113);
             this.cbQuality.Name = "cbQuality";
             this.cbQuality.Size = new System.Drawing.Size(80, 21);
             this.cbQuality.TabIndex = 8;
@@ -438,7 +438,7 @@
             // lbQuality
             // 
             this.lbQuality.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.lbQuality.Location = new System.Drawing.Point(4, 117);
+            this.lbQuality.Location = new System.Drawing.Point(4, 116);
             this.lbQuality.Name = "lbQuality";
             this.lbQuality.Size = new System.Drawing.Size(63, 15);
             this.lbQuality.TabIndex = 7;
@@ -449,7 +449,7 @@
             // 
             this.lbCustomArguments.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lbCustomArguments.AutoSize = true;
-            this.lbCustomArguments.Location = new System.Drawing.Point(15, 290);
+            this.lbCustomArguments.Location = new System.Drawing.Point(15, 288);
             this.lbCustomArguments.Name = "lbCustomArguments";
             this.lbCustomArguments.Size = new System.Drawing.Size(100, 13);
             this.lbCustomArguments.TabIndex = 12;
@@ -459,7 +459,7 @@
             // 
             this.txtArgs.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtArgs.Location = new System.Drawing.Point(22, 310);
+            this.txtArgs.Location = new System.Drawing.Point(22, 308);
             this.txtArgs.Name = "txtArgs";
             this.txtArgs.ReadOnly = true;
             this.txtArgs.Size = new System.Drawing.Size(192, 20);
@@ -472,7 +472,7 @@
             this.gbDownloadType.Controls.Add(this.rbCustom);
             this.gbDownloadType.Controls.Add(this.rbAudio);
             this.gbDownloadType.Controls.Add(this.rbVideo);
-            this.gbDownloadType.Location = new System.Drawing.Point(7, 66);
+            this.gbDownloadType.Location = new System.Drawing.Point(7, 65);
             this.gbDownloadType.Name = "gbDownloadType";
             this.gbDownloadType.Size = new System.Drawing.Size(225, 40);
             this.gbDownloadType.TabIndex = 3;
@@ -536,7 +536,7 @@
             this.tabConvert.Location = new System.Drawing.Point(4, 22);
             this.tabConvert.Name = "tabConvert";
             this.tabConvert.Padding = new System.Windows.Forms.Padding(3);
-            this.tabConvert.Size = new System.Drawing.Size(236, 349);
+            this.tabConvert.Size = new System.Drawing.Size(236, 347);
             this.tabConvert.TabIndex = 1;
             this.tabConvert.Text = "tabConvert";
             this.tabConvert.UseVisualStyleBackColor = true;
@@ -703,7 +703,7 @@
             this.tabMerge.Location = new System.Drawing.Point(4, 22);
             this.tabMerge.Name = "tabMerge";
             this.tabMerge.Padding = new System.Windows.Forms.Padding(3);
-            this.tabMerge.Size = new System.Drawing.Size(236, 349);
+            this.tabMerge.Size = new System.Drawing.Size(236, 347);
             this.tabMerge.TabIndex = 2;
             this.tabMerge.Text = "tabMerge";
             this.tabMerge.UseVisualStyleBackColor = true;
@@ -846,7 +846,7 @@
             this.tabDebug.Location = new System.Drawing.Point(4, 22);
             this.tabDebug.Name = "tabDebug";
             this.tabDebug.Padding = new System.Windows.Forms.Padding(3);
-            this.tabDebug.Size = new System.Drawing.Size(236, 349);
+            this.tabDebug.Size = new System.Drawing.Size(236, 347);
             this.tabDebug.TabIndex = 3;
             this.tabDebug.Text = "Debug";
             this.tabDebug.UseVisualStyleBackColor = true;
@@ -972,7 +972,7 @@
             // 
             this.lbDebug.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.lbDebug.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbDebug.Location = new System.Drawing.Point(99, 289);
+            this.lbDebug.Location = new System.Drawing.Point(99, 267);
             this.lbDebug.Name = "lbDebug";
             this.lbDebug.Size = new System.Drawing.Size(146, 19);
             this.lbDebug.TabIndex = 3;
@@ -1120,7 +1120,7 @@
             this.trayIcon.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info;
             this.trayIcon.BalloonTipText = "You click this thing, and BADA-BOOM, you\'re back in it again";
             this.trayIcon.BalloonTipTitle = "Unseen easter egg";
-            this.trayIcon.Icon = Properties.Resources.youtube_dl_gui;
+            this.trayIcon.Icon = global::youtube_dl_gui.Properties.Resources.youtube_dl_gui;
             this.trayIcon.Text = "youtube-dl-gui";
             this.trayIcon.Visible = true;
             // 
@@ -1138,10 +1138,10 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(244, 395);
+            this.ClientSize = new System.Drawing.Size(244, 393);
             this.Controls.Add(this.lbDebug);
             this.Controls.Add(this.tcMain);
-            this.Icon = Properties.Resources.youtube_dl_gui;
+            this.Icon = global::youtube_dl_gui.Properties.Resources.youtube_dl_gui;
             this.MaximizeBox = false;
             this.Menu = this.menu;
             this.MinimumSize = new System.Drawing.Size(260, 430);

@@ -18,6 +18,7 @@ namespace youtube_dl_gui {
         private bool InProgress = false;                        // Bool if the batch download is in progress
         private int CurrentItem = -1;                           // Int of the current item being downloaded
         private frmDownloader Downloader;                       // The Downloader form that will be around. Will be disposed if aborted.
+        private DownloadInfo NewInfo;                           // The info of the download
 
         public frmBatchDownloader() {
             InitializeComponent();
@@ -254,32 +255,6 @@ namespace youtube_dl_gui {
             //}
         }
         private void btnBatchDownloadStartStopExit_Click(object sender, EventArgs e) {
-            if (Program.IsDebug) {
-                Batch.Default.SelectedType = cbBatchDownloadType.SelectedIndex;
-                if (cbBatchDownloadType.SelectedIndex == 0) {
-                    Batch.Default.DownloadVideoSound = chkBatchDownloaderSoundVBR.Checked;
-                    Batch.Default.SelectedVideoQuality = cbBatchQuality.SelectedIndex;
-                    Batch.Default.SelectedVideoFormat = cbBatchFormat.SelectedIndex;
-                }
-                else if (cbBatchDownloadType.SelectedIndex == 1) {
-                    if (chkBatchDownloaderSoundVBR.Checked) {
-                        Batch.Default.DownloadAudioVBR = true;
-                        Batch.Default.SelectedAudioQualityVBR = cbBatchQuality.SelectedIndex;
-                    }
-                    else {
-                        Batch.Default.DownloadAudioVBR = false;
-                        Batch.Default.SelectedAudioQuality = cbBatchQuality.SelectedIndex;
-                    }
-                    Batch.Default.SelectedAudioFormat = cbBatchFormat.SelectedIndex;
-                }
-                else if (cbBatchDownloadType.SelectedIndex == 2) {
-                    Batch.Default.CustomArguments = txtBatchDownloadVideoSpecificArgument.Text;
-                }
-                if (!Program.IsPortable) {
-                    Batch.Default.Save();
-                }
-            }
-
             if (DownloadUrls.Count == 0) { return; }
             if (InProgress) {
                 Downloader.Dispose();
@@ -288,30 +263,36 @@ namespace youtube_dl_gui {
                 btnBatchDownloadRemoveSelected.Enabled = false;
                 btnBatchDownloadStartStopExit.Text = lang.btnBatchDownloadStop;
                 InProgress = true;
-                string BatchTime = "\\# Batch Downloads #" + BatchDownloader.CurrentTime();
+                string BatchTime = BatchDownloader.CurrentTime();
                 for (int i = 0; i < DownloadUrls.Count; i++) {
                     CurrentItem = i;
                     Downloader = new frmDownloader();
-                    Downloader.BatchDownload = true;
-                    Downloader.BatchTime += BatchTime;
-                    Downloader.DownloadUrl = DownloadUrls[i];
-                    Downloader.DownloadPath = Downloads.Default.downloadPath;
-                    if (DownloadTypes[i] != 2) {
-                        Downloader.DownloadQuality = DownloadQuality[i];
-                        Downloader.DownloadFormat = DownloadFormat[i];
-                    }
+                    NewInfo = new DownloadInfo();
+                    NewInfo.BatchDownload = true;
+                    NewInfo.BatchTime = BatchTime;
+                    NewInfo.DownloadURL = DownloadUrls[i];
                     switch (DownloadTypes[i]) {
                         case 0:
-                            Downloader.DownloadVideoAudio = DownloadSoundVBR[i];
-                            Downloader.DownloadType = 0;
+                            NewInfo.Type = DownloadType.Video;
+                            NewInfo.VideoQuality = (VideoQualityType)DownloadQuality[i];
+                            NewInfo.VideoFormat = (VideoFormatType)DownloadFormat[i];
+                            NewInfo.SkipAudioForVideos = !DownloadSoundVBR[i];
                             break;
                         case 1:
-                            Downloader.DownloadType = 1;
-                            Downloader.UseVBR = DownloadSoundVBR[i];
+                            NewInfo.Type = DownloadType.Audio;
+                            if (DownloadSoundVBR[i]) {
+                                NewInfo.UseVBR = true;
+                                NewInfo.AudioVBRQuality = (AudioVBRQualityType)DownloadQuality[i];
+                            }
+                            else {
+                                NewInfo.UseVBR = false;
+                                NewInfo.AudioCBRQuality = (AudioCBRQualityType)DownloadQuality[i];
+                            }
+                            NewInfo.AudioFormat = (AudioFormatType)DownloadFormat[i];
                             break;
                         case 2:
-                            Downloader.DownloadArguments = DownloadArgs[i];
-                            Downloader.DownloadType = 2;
+                            NewInfo.Type = DownloadType.Custom;
+                            NewInfo.DownloadArguments = DownloadArgs[i];
                             break;
                         default:
                             continue;
@@ -439,23 +420,13 @@ namespace youtube_dl_gui {
 
         public static string CurrentTime() {
             string DateTimeBuffer = string.Empty;
-            DateTimeBuffer += DateTime.Now.Year + "_";
-            if (DateTime.Now.Month < 10) { DateTimeBuffer += "0"; }
-            DateTimeBuffer += DateTime.Now.Month + "_";
-
-            if (DateTime.Now.Day < 10) { DateTimeBuffer += "0"; }
-            DateTimeBuffer += DateTime.Now.Day + "-";
-
-            if (DateTime.Now.Hour < 10) { DateTimeBuffer += "0"; }
-            DateTimeBuffer += DateTime.Now.Hour + "_";
-
-            if (DateTime.Now.Minute < 10) { DateTimeBuffer += "0"; }
-            DateTimeBuffer += DateTime.Now.Minute + "_";
-
-            if (DateTime.Now.Second < 10) { DateTimeBuffer += "0"; }
-            DateTimeBuffer += DateTime.Now.Second;
-
-            return "\\" + DateTimeBuffer;
+            DateTimeBuffer += DateTime.Now.Year.ToString("0.##") + "_";
+            DateTimeBuffer += DateTime.Now.Month.ToString("00.##") + "_";
+            DateTimeBuffer += DateTime.Now.Day.ToString("00.##") + " - ";
+            DateTimeBuffer += DateTime.Now.Hour.ToString("00.##") + "_";
+            DateTimeBuffer += DateTime.Now.Minute.ToString("00.##") + "_";
+            DateTimeBuffer += DateTime.Now.Second.ToString("00.##");
+            return DateTimeBuffer;
         }
     }
 }

@@ -1,14 +1,5 @@
 ﻿using System;
 
-/* Added:
- * chkSettingsDownloadsPreferFFmpeg
- * chkSettingsDownloadsPreferFFmpegHint
- * */
-
-/* Removed:
- * 
- */
-
 namespace youtube_dl_gui {
     /// <summary>
     /// Controls the language strings of the program. Most, if not all, strings get their text from here.
@@ -46,6 +37,7 @@ namespace youtube_dl_gui {
         private static volatile string GenericVideoString = "GenericVideo";
         private static volatile string GenericAudioString = "GenericAudio";
         private static volatile string GenericCustomString = "GenericCustom";
+        private static volatile string GenericRetryString = "GenericRetry";
         #endregion
 
         #region frmAbout
@@ -131,6 +123,12 @@ namespace youtube_dl_gui {
         private static volatile string lbQualityString = "lbQuality";
         private static volatile string lbFormatString = "lbFormat";
         private static volatile string chkDownloadSoundString = "chkDownloadSound";
+        private static volatile string chkUseSelectionString = "chkUseSelection";
+        private static volatile string rbVideoSelectionPlaylistIndexString = "rbVideoSelectionPlaylistIndex";
+        private static volatile string rbVideoSelectionPlaylistItemsString = "rbVideoSelectionPlaylistItems";
+        private static volatile string rbVideoSelectionBeforeDateString = "rbVideoSelectionBeforeDate";
+        private static volatile string rbVideoSelectionOnDateString = "rbVideoSelectionOnDate";
+        private static volatile string rbVideoSelectionAfterDateString = "rbVideoSelectionAfterDate";
         private static volatile string lbCustomArgumentsString = "lbCustomArguments";
         private static volatile string txtArgsHintString = "txtArgsHint";
         private static volatile string sbDownloadString = "sbDownload";
@@ -242,9 +240,9 @@ namespace youtube_dl_gui {
         private static volatile string chkSettingsDownloadsForceIpv4String = "chkSettingsDownloadsForceIpv4";
         private static volatile string chkSettingsDownloadsForceIpv6String = "chkSettingsDownloadsForceIpv6";
         private static volatile string chkSettingsDownloadsUseProxyString = "chkSettingsDownloadsUseProxy";
-
-
         private static volatile string chksettingsDownloadsUseYoutubeDlsUpdaterString = "chksettingsDownloadsUseYoutubeDlsUpdater";
+        private static volatile string chkSettingsDownloadsSeparateBatchDownloadsString = "chkSettingsDownloadsSeparateBatchDownloads";
+        private static volatile string chkSettingsDownloadsAddDateToBatchDownloadFoldersString = "chkSettingsDownloadsAddDateToBatchDownloadFolders";
         #endregion
         #region tabConverter
         // frmSettings / tcMain / tabConverter
@@ -341,9 +339,9 @@ namespace youtube_dl_gui {
         private static volatile string cbSettingsDownloadsProxyTypeHintString = "cbSettingsDownloadsProxyTypeHint";
         private static volatile string txtSettingsDownloadsProxyIpHintString = "txtSettingsDownloadsProxyIpHint";
         private static volatile string txtSettingsDownloadsProxyPortHintString = "txtSettingsDownloadsProxyPortHint";
-
-
         private static volatile string chksettingsDownloadsUseYoutubeDlsUpdaterHintString = "chksettingsDownloadsUseYoutubeDlsUpdaterHint";
+        private static volatile string chkSettingsDownloadsSeparateBatchDownloadsHintString = "chkSettingsDownloadsSeparateBatchDownloadsHint";
+        private static volatile string chkSettingsDownloadsAddDateToBatchDownloadFoldersHintString = "chkSettingsDownloadsAddDateToBatchDownloadFoldersHint";
         #endregion
         #region tabConverter
         private static volatile string chkSettingsConverterClearOutputAfterConvertingHintString = "chkSettingsConverterClearOutputAfterConvertingHint";
@@ -450,6 +448,10 @@ namespace youtube_dl_gui {
         public string GenericCustom {
             get { return GenericCustomString; }
             private set { GenericCustomString = value; }
+        }
+        public string GenericRetry {
+            get { return GenericRetryString; }
+            private set { GenericRetryString = value; }
         }
         #endregion
 
@@ -725,6 +727,30 @@ namespace youtube_dl_gui {
         public string chkDownloadSound {
             get { return chkDownloadSoundString; }
             private set { chkDownloadSoundString = value; }
+        }
+        public string chkUseSelection {
+            get { return chkUseSelectionString; }
+            private set { chkUseSelectionString = value; }
+        }
+        public string rbVideoSelectionPlaylistIndex {
+            get { return rbVideoSelectionPlaylistIndexString; }
+            private set { rbVideoSelectionPlaylistIndexString = value; }
+        }
+        public string rbVideoSelectionPlaylistItems {
+            get { return rbVideoSelectionPlaylistItemsString; }
+            private set { rbVideoSelectionPlaylistItemsString = value; }
+        }
+        public string rbVideoSelectionBeforeDate {
+            get { return rbVideoSelectionBeforeDateString; }
+            private set { rbVideoSelectionBeforeDateString = value; }
+        }
+        public string rbVideoSelectionOnDate {
+            get { return rbVideoSelectionOnDateString; }
+            private set { rbVideoSelectionOnDateString = value; }
+        }
+        public string rbVideoSelectionAfterDate {
+            get { return rbVideoSelectionAfterDateString; }
+            private set { rbVideoSelectionAfterDateString = value; }
         }
         public string lbCustomArguments {
             get { return lbCustomArgumentsString; }
@@ -1093,9 +1119,17 @@ namespace youtube_dl_gui {
             get { return chkSettingsDownloadsUseProxyString; }
             private set { chkSettingsDownloadsUseProxyString = value; }
         }
-        public string chksettingsDownloadsUseYoutubeDlsUpdater {
+        public string chkSettingsDownloadsUseYoutubeDlsUpdater {
             get { return chksettingsDownloadsUseYoutubeDlsUpdaterString; }
             private set { chksettingsDownloadsUseYoutubeDlsUpdaterString = value; }
+        }
+        public string chkSettingsDownloadsSeparateBatchDownloads {
+            get { return chkSettingsDownloadsSeparateBatchDownloadsString; }
+            private set { chkSettingsDownloadsSeparateBatchDownloadsString = value; }
+        }
+        public string chkSettingsDownloadsAddDateToBatchDownloadFolders {
+            get { return chkSettingsDownloadsAddDateToBatchDownloadFoldersString; }
+            private set { chkSettingsDownloadsAddDateToBatchDownloadFoldersString = value; }
         }
 
         public string chkSettingsConverterClearOutputAfterConverting {
@@ -1413,6 +1447,14 @@ namespace youtube_dl_gui {
             get { return chksettingsDownloadsUseYoutubeDlsUpdaterHintString; }
             private set { chksettingsDownloadsUseYoutubeDlsUpdaterHintString = value; }
         }
+        public string chkSettingsDownloadsSeparateBatchDownloadsHint {
+            get { return chkSettingsDownloadsSeparateBatchDownloadsHintString; }
+            private set { chkSettingsDownloadsSeparateBatchDownloadsHintString = value; }
+        }
+        public string chkSettingsDownloadsAddDateToBatchDownloadFoldersHint {
+            get { return chkSettingsDownloadsAddDateToBatchDownloadFoldersHintString; }
+            private set { chkSettingsDownloadsAddDateToBatchDownloadFoldersHintString = value; }
+        }
 
         public string chkSettingsConverterClearOutputAfterConvertingHint {
             get { return chkSettingsConverterClearOutputAfterConvertingHintString; }
@@ -1589,6 +1631,7 @@ namespace youtube_dl_gui {
             public static readonly string GenericVideo = "Video";
             public static readonly string GenericAudio = "Audio";
             public static readonly string GenericCustom = "Custom";
+            public static readonly string GenericRetry = "Retry";
 
             #region frmAbout
             public static readonly string frmAbout = "About";
@@ -1686,6 +1729,12 @@ namespace youtube_dl_gui {
             public static readonly string lbQuality = "Quality";
             public static readonly string lbFormat = "Format";
             public static readonly string chkDownloadSound = "Sound";
+            public static readonly string chkUseSelection = "Video Selection";
+            public static readonly string rbVideoSelectionPlaylistIndex = "Playlist index";
+            public static readonly string rbVideoSelectionPlaylistItems = "Playlist items";
+            public static readonly string rbVideoSelectionBeforeDate = "Before date";
+            public static readonly string rbVideoSelectionOnDate = "On date";
+            public static readonly string rbVideoSelectionAfterDate = "After date";
             public static readonly string lbCustomArguments = "Custom arguments";
             public static readonly string txtArgsHint = "Custom youtube-dl arguments";
             public static readonly string sbDownload = "Download";
@@ -1819,6 +1868,8 @@ namespace youtube_dl_gui {
             public static readonly string chkSettingsDownloadsForceIpv6 = "Force IPv6";
             public static readonly string chkSettingsDownloadsUseProxy = "Use a proxy";
             public static readonly string chksettingsDownloadsUseYoutubeDlsUpdater = "Use youtube-dl's internal updater";
+            public static readonly string chkSettingsDownloadsSeparateBatchDownloads = "Separate Batch Downloads";
+            public static readonly string chkSettingsDownloadsAddDateToBatchDownloadFolders = "Include Date onto Download Folders";
 
             public static readonly string lbSettingsDownloadsDownloadPathHint = "The path of the folder where files will be downloaded to";
             public static readonly string lbSettingsDownloadsFileNameSchemaHint = "The file name schema\n\n" +
@@ -1853,6 +1904,8 @@ namespace youtube_dl_gui {
             public static readonly string txtSettingsDownloadsProxyIpHint = "The proxy IP that will be used";
             public static readonly string txtSettingsDownloadsProxyPortHint = "The proxy port that will be used";
             public static readonly string chksettingsDownloadsUseYoutubeDlsUpdaterHint = "Use youtube-dl's internal updater instead of this application's updater";
+            public static readonly string chkSettingsDownloadsSeparateBatchDownloadsHint = "Batch downloads are separated into a new folder in the designated download path";
+            public static readonly string chkSettingsDownloadsAddDateToBatchDownloadFoldersHint = "Batch downloads are further separated into a new folder that is the date and time the batch started";
 
             #endregion
             #region tabConverter
@@ -1966,6 +2019,7 @@ namespace youtube_dl_gui {
             GenericVideo = InternalEnglish.GenericVideo;
             GenericAudio = InternalEnglish.GenericAudio;
             GenericCustom = InternalEnglish.GenericCustom;
+            GenericRetryString = InternalEnglish.GenericRetry;
 
             // frmAbout
             frmAbout = InternalEnglish.frmAbout;
@@ -2045,6 +2099,12 @@ namespace youtube_dl_gui {
             lbQuality = InternalEnglish.lbQuality;
             lbFormat = InternalEnglish.lbFormat;
             chkDownloadSound = InternalEnglish.chkDownloadSound;
+            chkUseSelection = InternalEnglish.chkUseSelection;
+            rbVideoSelectionPlaylistIndex = InternalEnglish.rbVideoSelectionPlaylistIndex;
+            rbVideoSelectionPlaylistItems = InternalEnglish.rbVideoSelectionPlaylistItems;
+            rbVideoSelectionBeforeDate = InternalEnglish.rbVideoSelectionBeforeDate;
+            rbVideoSelectionOnDate = InternalEnglish.rbVideoSelectionOnDate;
+            rbVideoSelectionAfterDate = InternalEnglish.rbVideoSelectionAfterDate;
             lbCustomArguments = InternalEnglish.lbCustomArguments;
             txtArgsHint = InternalEnglish.txtArgsHint;
             sbDownload = InternalEnglish.sbDownload;
@@ -2143,7 +2203,9 @@ namespace youtube_dl_gui {
             chkSettingsDownloadsForceIpv4 = InternalEnglish.chkSettingsDownloadsForceIpv4;
             chkSettingsDownloadsForceIpv6 = InternalEnglish.chkSettingsDownloadsForceIpv6;
             chkSettingsDownloadsUseProxy = InternalEnglish.chkSettingsDownloadsUseProxy;
-            chksettingsDownloadsUseYoutubeDlsUpdater = InternalEnglish.chksettingsDownloadsUseYoutubeDlsUpdater;
+            chkSettingsDownloadsUseYoutubeDlsUpdater = InternalEnglish.chksettingsDownloadsUseYoutubeDlsUpdater;
+            chkSettingsDownloadsSeparateBatchDownloads = InternalEnglish.chkSettingsDownloadsSeparateBatchDownloads;
+            chkSettingsDownloadsAddDateToBatchDownloadFolders = InternalEnglish.chkSettingsDownloadsAddDateToBatchDownloadFolders;
 
             chkSettingsConverterClearOutputAfterConverting = InternalEnglish.chkSettingsConverterClearOutputAfterConverting;
             chkSettingsConverterDetectOutputFileType = InternalEnglish.chkSettingsConverterDetectOutputFileType;
@@ -2228,6 +2290,8 @@ namespace youtube_dl_gui {
             txtSettingsDownloadsProxyIpHint = InternalEnglish.txtSettingsDownloadsProxyIpHint;
             txtSettingsDownloadsProxyPortHint = InternalEnglish.txtSettingsDownloadsProxyPortHint;
             chksettingsDownloadsUseYoutubeDlsUpdaterHint = InternalEnglish.chksettingsDownloadsUseYoutubeDlsUpdaterHint;
+            chkSettingsDownloadsSeparateBatchDownloadsHint = InternalEnglish.chkSettingsDownloadsSeparateBatchDownloadsHint;
+            chkSettingsDownloadsAddDateToBatchDownloadFoldersHint = InternalEnglish.chkSettingsDownloadsAddDateToBatchDownloadFoldersHint;
 
             chkSettingsConverterClearOutputAfterConvertingHint = InternalEnglish.chkSettingsConverterClearOutputAfterConvertingHint;
             chkSettingsConverterDetectOutputFileTypeHint = InternalEnglish.chkSettingsConverterDetectOutputFileTypeHint;
@@ -2297,6 +2361,7 @@ namespace youtube_dl_gui {
             GenericVideo = "GenericVideo";
             GenericAudio = "GenericAudio";
             GenericCustom = "GenericCustom";
+            GenericRetry = "GenericRetry";
 
             // frmAbout
             frmAbout = "frmAbout";
@@ -2376,6 +2441,12 @@ namespace youtube_dl_gui {
             lbQuality = "lbQuality";
             lbFormat = "lbFormat";
             chkDownloadSound = "chkDownloadSound";
+            chkUseSelection = "chkUseSelection";
+            rbVideoSelectionPlaylistIndex = "rbVideoSelectionPlaylistIndex";
+            rbVideoSelectionPlaylistItems = "rbVideoSelectionPlaylistItems";
+            rbVideoSelectionBeforeDate = "rbVideoSelectionBeforeDate";
+            rbVideoSelectionOnDate = "rbVideoSelectionOnDate";
+            rbVideoSelectionAfterDate = "rbVideoSelectionAfterDate";
             lbCustomArguments = "lbCustomArguments";
             txtArgsHint = "txtArgsHint";
             sbDownload = "sbDownload";
@@ -2474,7 +2545,9 @@ namespace youtube_dl_gui {
             chkSettingsDownloadsForceIpv4 = "chkSettingsDownloadsForceIpv4";
             chkSettingsDownloadsForceIpv6 = "chkSettingsDownloadsForceIpv6";
             chkSettingsDownloadsUseProxy = "chkSettingsDownloadsUseProxy";
-            chksettingsDownloadsUseYoutubeDlsUpdater = "chksettingsDownloadsUseYoutubeDlsUpdater";
+            chkSettingsDownloadsUseYoutubeDlsUpdater = "chksettingsDownloadsUseYoutubeDlsUpdater";
+            chkSettingsDownloadsSeparateBatchDownloads = "chkSettingsDownloadsSeparateBatchDownloads";
+            chkSettingsDownloadsAddDateToBatchDownloadFolders = "chkSettingsDownloadsAddDateToBatchDownloadFolders";
 
             chkSettingsConverterClearOutputAfterConverting = "chkSettingsConverterClearOutputAfterConverting";
             chkSettingsConverterDetectOutputFileType = "chkSettingsConverterDetectOutputFileType";
@@ -2559,6 +2632,8 @@ namespace youtube_dl_gui {
             txtSettingsDownloadsProxyIpHint = "txtSettingsDownloadsProxyIpHint";
             txtSettingsDownloadsProxyPortHint = "txtSettingsDownloadsProxyPortHint";
             chksettingsDownloadsUseYoutubeDlsUpdaterHint = "chksettingsDownloadsUseYoutubeDlsUpdaterHint";
+            chkSettingsDownloadsSeparateBatchDownloadsHint = "chkSettingsDownloadsSeparateBatchDownloadsHint";
+            chkSettingsDownloadsAddDateToBatchDownloadFoldersHint = "chkSettingsDownloadsAddDateToBatchDownloadFoldersHint";
 
             chkSettingsConverterClearOutputAfterConvertingHint = "chkSettingsConverterClearOutputAfterConvertingHint";
             chkSettingsConverterDetectOutputFileTypeHint = "chkSettingsConverterDetectOutputFileTypeHint";
@@ -2571,12 +2646,6 @@ namespace youtube_dl_gui {
             chkSettingsConverterVideoFastStartHint = "chkSettingsConverterVideoFastStartHint";
             lbSettingsConverterAudioBitrateHint = "lbSettingsConverterAudioBitrateHint";
             txtSettingsConverterCustomArgumentsHint = "txtSettingsConverterCustomArgumentsHint";
-
-            lbSettingsExtensionsHeader = "lbSettingsExtensionsHeader";
-            lbSettingsExtensionsExtensionFullName = "lbSettingsExtensionsExtensionFullName";
-            lbSettingsExtensionsExtensionShort = "lbSettingsExtensionsExtensionShort";
-            btnSettingsExtensionsAdd = "btnSettingsExtensionsAdd";
-            btnSettingsExtensionsRemoveSelected = "btnSettingsExtensionsRemoveSelected";
 
             chkSettingsErrorsShowDetailedErrorsHint = "chkSettingsErrorsShowDetailedErrorsHint";
             chkSettingsErrorsSaveErrorsAsErrorLogHint = "chkSettingsErrorsSaveErrorsAsErrorLogHint";
@@ -2690,6 +2759,9 @@ namespace youtube_dl_gui {
                                     continue;
                                 case "genericcustom":
                                     GenericCustom = ReadValue;
+                                    continue;
+                                case "genericretry":
+                                    GenericRetry = ReadValue;
                                     continue;
                                 #endregion
 
@@ -2906,6 +2978,24 @@ namespace youtube_dl_gui {
                                     continue;
                                 case "chkdownloadsound":
                                     chkDownloadSound = ReadValue;
+                                    continue;
+                                case "chkuseselection":
+                                    chkUseSelection = ReadValue;
+                                    continue;
+                                case "rbvideoselectionplaylistindex":
+                                    rbVideoSelectionPlaylistIndex = ReadValue;
+                                    continue;
+                                case "rbvideoselectionplaylistitems":
+                                    rbVideoSelectionPlaylistItems = ReadValue;
+                                    continue;
+                                case "rbvideoselectionbeforedate":
+                                    rbVideoSelectionBeforeDate = ReadValue;
+                                    continue;
+                                case "rbvideoselectionondate":
+                                    rbVideoSelectionOnDate = ReadValue;
+                                    continue;
+                                case "rbvideoselectionafterdate":
+                                    rbVideoSelectionAfterDate = ReadValue;
                                     continue;
                                 case "lbcustomarguments":
                                     lbCustomArguments = ReadValue;
@@ -3203,16 +3293,16 @@ namespace youtube_dl_gui {
                                     chkSettingsDownloadsWriteMetadataToFile = ReadValue;
                                     continue;
                                 case "chksettingsdownloadssavedescription":
-                                    chkSettingsDownloadsSaveDescriptionString = ReadValue;
+                                    chkSettingsDownloadsSaveDescription = ReadValue;
                                     continue;
                                 case "chksettingsdownloadskeeporiginalfiles":
                                     chkSettingsDownloadsKeepOriginalFiles = ReadValue;
                                     continue;
                                 case "chksettingsdownloadssaveannotations":
-                                    chkSettingsDownloadsSaveAnnotationsString = ReadValue;
+                                    chkSettingsDownloadsSaveAnnotations = ReadValue;
                                     continue;
                                 case "chksettingsdownloadssavethumbnails":
-                                    chkSettingsDownloadsSaveThumbnailsString = ReadValue;
+                                    chkSettingsDownloadsSaveThumbnails = ReadValue;
                                     continue;
                                 case "chksettingsdownloadsembedthumbnails":
                                     chkSettingsDownloadsEmbedThumbnails = ReadValue;
@@ -3233,22 +3323,28 @@ namespace youtube_dl_gui {
                                     chkSettingsDownloadsPreferFFmpeg = ReadValue;
                                     continue;
                                 case "chksettingsdownloadslimitdownload":
-                                    chkSettingsDownloadsLimitDownloadString = ReadValue;
+                                    chkSettingsDownloadsLimitDownload = ReadValue;
                                     continue;
                                 case "lbsettingsdownloadsretryattempts":
-                                    lbSettingsDownloadsRetryAttemptsString = ReadValue;
+                                    lbSettingsDownloadsRetryAttempts = ReadValue;
                                     continue;
                                 case "chksettingsdownloadsforceipv4":
-                                    chkSettingsDownloadsForceIpv4String = ReadValue;
+                                    chkSettingsDownloadsForceIpv4 = ReadValue;
                                     continue;
                                 case "chksettingsdownloadsforceipv6":
-                                    chkSettingsDownloadsForceIpv6String = ReadValue;
+                                    chkSettingsDownloadsForceIpv6 = ReadValue;
                                     continue;
                                 case "chksettingsdownloadsuseproxy":
-                                    chkSettingsDownloadsUseProxyString = ReadValue;
+                                    chkSettingsDownloadsUseProxy = ReadValue;
                                     continue;
                                 case "chksettingsdownloadsuseyoutubedlsupdater":
-                                    chksettingsDownloadsUseYoutubeDlsUpdater = ReadValue;
+                                    chkSettingsDownloadsUseYoutubeDlsUpdater = ReadValue;
+                                    continue;
+                                case "chksettingsdownloadsseparatebatchdownloads":
+                                    chkSettingsDownloadsSeparateBatchDownloads = ReadValue;
+                                    continue;
+                                case "chksettingsdownloadsadddatetobatchdownloadfolders":
+                                    chkSettingsDownloadsAddDateToBatchDownloadFolders = ReadValue;
                                     continue;
                                 case "lbsettingsdownloadsdownloadpathhint":
                                     lbSettingsDownloadsDownloadPathHint = ReadValue;
@@ -3348,6 +3444,12 @@ namespace youtube_dl_gui {
                                     continue;
                                 case "chksettingsdownloadsuseyoutubedlsupdaterhint":
                                     chksettingsDownloadsUseYoutubeDlsUpdaterHint = ReadValue;
+                                    continue;
+                                case "chksettingsdownloadsseparatebatchdownloadshint":
+                                    chkSettingsDownloadsSeparateBatchDownloadsHint = ReadValue;
+                                    continue;
+                                case "chksettingsdownloadsadddatetobatchdownloadfoldershint":
+                                    chkSettingsDownloadsAddDateToBatchDownloadFoldersHint = ReadValue;
                                     continue;
 
                                 // frmSettings / tcMain / tabConverter

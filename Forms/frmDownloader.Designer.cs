@@ -52,7 +52,7 @@
             this.chkDownloaderCloseAfterDownload.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkDownloaderCloseAfterDownload.Location = new System.Drawing.Point(12, 259);
             this.chkDownloaderCloseAfterDownload.Name = "chkDownloaderCloseAfterDownload";
-            this.chkDownloaderCloseAfterDownload.Size = new System.Drawing.Size(197, 17);
+            this.chkDownloaderCloseAfterDownload.Size = new System.Drawing.Size(196, 17);
             this.chkDownloaderCloseAfterDownload.TabIndex = 2;
             this.chkDownloaderCloseAfterDownload.Text = "chkDownloaderCloseAfterDownload";
             this.chkDownloaderCloseAfterDownload.UseVisualStyleBackColor = true;
@@ -88,7 +88,6 @@
             // btnDownloaderAbortBatchDownload
             // 
             this.btnDownloaderAbortBatchDownload.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnDownloaderAbortBatchDownload.Enabled = false;
             this.btnDownloaderAbortBatchDownload.Location = new System.Drawing.Point(189, 255);
             this.btnDownloaderAbortBatchDownload.Name = "btnDownloaderAbortBatchDownload";
             this.btnDownloaderAbortBatchDownload.Size = new System.Drawing.Size(123, 23);
@@ -120,7 +119,7 @@
             this.Controls.Add(this.chkDownloaderCloseAfterDownload);
             this.Controls.Add(this.btnDownloaderCancelExit);
             this.Controls.Add(this.rtbConsoleOutput);
-            this.Icon = Properties.Resources.youtube_dl_gui;
+            this.Icon = global::youtube_dl_gui.Properties.Resources.youtube_dl_gui;
             this.MinimumSize = new System.Drawing.Size(420, 320);
             this.Name = "frmDownloader";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;

@@ -150,8 +150,13 @@ namespace youtube_dl_gui {
             tipSettings.SetToolTip(txtSettingsDownloadsProxyIp, lang.txtSettingsDownloadsProxyIpHint);
             tipSettings.SetToolTip(txtSettingsDownloadsProxyPort, lang.txtSettingsDownloadsProxyPortHint);
 
-            chksettingsDownloadsUseYoutubeDlsUpdater.Text = lang.chksettingsDownloadsUseYoutubeDlsUpdater;
+            chksettingsDownloadsUseYoutubeDlsUpdater.Text = lang.chkSettingsDownloadsUseYoutubeDlsUpdater;
             tipSettings.SetToolTip(chksettingsDownloadsUseYoutubeDlsUpdater, lang.chksettingsDownloadsUseYoutubeDlsUpdaterHint);
+
+            chkSettingsDownloadsSeparateBatchDownloads.Text = lang.chkSettingsDownloadsSeparateBatchDownloads;
+            tipSettings.SetToolTip(chkSettingsDownloadsSeparateBatchDownloads, lang.chkSettingsDownloadsSeparateBatchDownloadsHint);
+            chkSettingsDownloadsAddDateToBatchDownloadFolders.Text = lang.chkSettingsDownloadsAddDateToBatchDownloadFolders;
+            tipSettings.SetToolTip(chkSettingsDownloadsAddDateToBatchDownloadFolders, lang.chkSettingsDownloadsAddDateToBatchDownloadFoldersHint);
 
             chkSettingsConverterClearOutputAfterConverting.Text = lang.chkSettingsConverterClearOutputAfterConverting;
             tipSettings.SetToolTip(chkSettingsConverterClearOutputAfterConverting, lang.chkSettingsConverterClearOutputAfterConvertingHint);
