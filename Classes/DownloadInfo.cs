@@ -12,31 +12,31 @@
         /// <summary>
         /// The type of the download.
         /// </summary>
-        private DownloadType _Type = DownloadType.Video;
+        private DownloadType _Type = DownloadType.None;
         /// <summary>
         /// The quality of the video download.
         /// </summary>
-        private VideoQualityType _VideoQuality = VideoQualityType.best;
+        private VideoQualityType _VideoQuality = VideoQualityType.none;
         /// <summary>
         /// The format of the video download.
         /// </summary>
-        private VideoFormatType _VideoFormat = VideoFormatType.best;
+        private VideoFormatType _VideoFormat = VideoFormatType.none;
         /// <summary>
         /// The CBR quality of the audio download.
         /// </summary>
-        private AudioCBRQualityType _AudioCBRQuality;
+        private AudioCBRQualityType _AudioCBRQuality = AudioCBRQualityType.none;
         /// <summary>
         /// The VBR quality of the audio download.
         /// </summary>
-        private AudioVBRQualityType _AudioVBRQuality;
+        private AudioVBRQualityType _AudioVBRQuality = AudioVBRQualityType.none;
         /// <summary>
         /// the format of the audio download.
         /// </summary>
-        private AudioFormatType _AudioFormat;
+        private AudioFormatType _AudioFormat = AudioFormatType.none;
         /// <summary>
         /// The playlist selection type.
         /// </summary>
-        private PlaylistSelectionType _PlaylistSelection;
+        private PlaylistSelectionType _PlaylistSelection = PlaylistSelectionType.None;
 
         /// <summary>
         /// Determines of the video should skip downloading the audio

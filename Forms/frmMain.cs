@@ -679,6 +679,7 @@ namespace youtube_dl_gui {
         [DebuggerStepThrough]
         private void StartDownload(bool WithAuth = false) {
             if (string.IsNullOrEmpty(txtUrl.Text)) { return; }
+            txtUrl.Text = txtUrl.Text.Replace("\\", "-");
             frmDownloader Downloader = new frmDownloader();
             DownloadInfo NewInfo = new DownloadInfo();
 

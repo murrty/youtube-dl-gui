@@ -18,7 +18,7 @@ namespace youtube_dl_gui {
 
         [STAThread]
         static void Main(string[] args) {
-            //DebugOnlyMethod();
+            DebugOnlyMethod();
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
@@ -142,20 +142,24 @@ namespace youtube_dl_gui {
             if (args[0].StartsWith("ytdl:")) {
                 string url = args[0].Substring(5);
                 frmDownloader Downloader = new frmDownloader();
+                DownloadInfo NewInfo = new DownloadInfo();
 
                 switch (args[1]) {
                     case "0":
-                        Downloader.DownloadPath = Downloads.Default.downloadPath;
-                        Downloader.DownloadQuality = Saved.Default.videoQuality;
-                        Downloader.DownloadType = 0;
-                        Downloader.DownloadUrl = url;
+                        NewInfo.Type = DownloadType.Video;
+                        NewInfo.VideoQuality = (VideoQualityType)Saved.Default.videoQuality;
+                        NewInfo.DownloadURL = url;
                         Downloader.ShowDialog();
                         break;
                     case "1":
-                        Downloader.DownloadPath = Downloads.Default.downloadPath;
-                        Downloader.DownloadQuality = Saved.Default.audioQuality;
-                        Downloader.DownloadType = 1;
-                        Downloader.DownloadUrl = url;
+                        NewInfo.Type = DownloadType.Audio;
+                        if (Downloads.Default.AudioDownloadAsVBR) {
+                            NewInfo.AudioVBRQuality = (AudioVBRQualityType)Saved.Default.audioQuality;
+                        }
+                        else {
+                            NewInfo.AudioCBRQuality = (AudioCBRQualityType)Saved.Default.audioQuality;
+                        }
+                        NewInfo.DownloadURL = url;
                         Downloader.ShowDialog();
                         break;
                 }

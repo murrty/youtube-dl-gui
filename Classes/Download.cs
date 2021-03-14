@@ -4,13 +4,15 @@ namespace youtube_dl_gui {
 
     #region Public Enumerations
     public enum DownloadType : int {
-        Unknown = -1,
-        Video   = 0,
-        Audio   = 1,
-        Custom  = 2
+        None   = -1,
+        Video  = 0,
+        Audio  = 1,
+        Custom = 2,
+        Unknown = 3
     }
 
     public enum VideoQualityType : int {
+        none     = -1,
         best     = 0,
         q4320p60 = 1,
         q4320p   = 2,
@@ -29,6 +31,7 @@ namespace youtube_dl_gui {
     }
 
     public enum VideoFormatType : int {
+        none = -1,
         best = 0,
         avi  = 1,
         flv  = 2,
@@ -39,6 +42,7 @@ namespace youtube_dl_gui {
     }
 
     public enum AudioCBRQualityType : int {
+        none  = -1,
         best  = 0,
         q320k = 1,
         q256k = 2,
@@ -55,20 +59,22 @@ namespace youtube_dl_gui {
     }
 
     public enum AudioVBRQualityType : int {
-        q0  = 0,
-        q1  = 1,
-        q2  = 2,
-        q3  = 3,
-        q4  = 4,
-        q5  = 5,
-        q6  = 6,
-        q7  = 7,
-        q8  = 8,
-        q9  = 9,
-        q10 = 10
+        none = -1,
+        q0   = 0,
+        q1   = 1,
+        q2   = 2,
+        q3   = 3,
+        q4   = 4,
+        q5   = 5,
+        q6   = 6,
+        q7   = 7,
+        q8   = 8,
+        q9   = 9,
+        q10  = 10
     }
 
     public enum AudioFormatType : int {
+        none   = -1,
         best   = 0,
         aac    = 1,
         flac   = 2,
@@ -80,6 +86,7 @@ namespace youtube_dl_gui {
      }
 
     public enum PlaylistSelectionType : int {
+        None                     = -1,
         PlaylistStartPlaylistEnd = 0,
         PlaylistItems = 1,
         DateBefore = 2,
@@ -108,56 +115,7 @@ namespace youtube_dl_gui {
             public static int SOCKS5 { get { return 3; } }
         }
 
-        #region constants
-
         public static string[] ProxyProtocols = { "https://", "http://", "socks4://", "socks5://" };
-
-        /// <summary>
-        /// Built-in video qualities
-        /// </summary>
-        public static string[] videoQualities = {
-                                                    " -f \"bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",                // 0  best
-                                                    " -f \"bestvideo[height<=4320][fps>=48]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",  // 1  4320p60
-                                                    " -f \"bestvideo[height<=4320][fps<=32]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",  // 2  4320p30
-                                                    " -f \"bestvideo[height<=2160][fps>=48]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",  // 3  2160p60
-                                                    " -f \"bestvideo[height<=2160][fps<=32]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",  // 4  2160p30
-                                                    " -f \"bestvideo[height<=1440][fps>=48]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",  // 5  1440p60
-                                                    " -f \"bestvideo[height<=1440][fps<=32]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",  // 6  1440p30
-                                                    " -f \"bestvideo[height<=1080][fps<=60]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",  // 7  1080p60
-                                                    " -f \"bestvideo[height<=1080][fps<=32]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",  // 8  1080p30
-                                                    " -f \"bestvideo[height<=720][fps>=48]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",   // 9  720p60
-                                                    " -f \"bestvideo[height<=720][fps<=32]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",   // 10 720p30
-                                                    " -f \"bestvideo[height<=480]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",            // 11 480p
-                                                    " -f \"bestvideo[height<=360]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",            // 12 360p
-                                                    " -f \"bestvideo[height<=240]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",            // 13 240p
-                                                    " -f \"bestvideo[height<=144]+bestaudio[ext=m4a]/best[ext=mp4]/best\""             // 14 144p
-                                                };
-        public static string[] videoFormats = { "best",
-                                                "flv",
-                                                "mkv",
-                                                "mp4",
-                                                "webm"
-                                              };
-        public static string[] audioQualities = { 
-                                                    " -f bestaudio --extract-audio --audio-format best --audio-quality 0", // 0
-                                                    " -x --audio-format mp3 --audio-quality 320K", // 1
-                                                    " -x --audio-format mp3 --audio-quality 256K", // 2
-                                                    " -x --audio-format mp3 --audio-quality 224K", // 3
-                                                    " -x --audio-format mp3 --audio-quality 192K", // 4
-                                                    " -x --audio-format mp3 --audio-quality 160K", // 5
-                                                    " -x --audio-format mp3 --audio-quality 128K", // 6
-                                                    " -x --audio-format mp3 --audio-quality 96K",  // 7
-                                                    " -x --audio-format mp3 --audio-quality 64K",  // 8
-                                                    " -x --audio-format mp3 --audio-quality 32K",  // 9
-                                                    " -x --audio-format mp3 --audio-quality 16K",  // 10
-                                                    " -x --audio-format mp3 --audio-quality 8K",   // 11
-                                                    " -x --audio-format mp3 --audio-quality 4K"    // 12
-                                                };
-        /// <summary>
-        /// The default file-name schema used
-        /// </summary>
-        public static string defaultSchema = "%(title)s-%(id)s.%(ext)s";
-        #endregion
 
         public static bool isReddit(string url) {
             if (url.IndexOf("reddit.com") == -1 && url.IndexOf("redd.it") == -1) {
@@ -203,18 +161,12 @@ namespace youtube_dl_gui {
         #region Arrays
 
         #region Video Arrays
-
-        public static string[] VideoArgs = { " -f \"bestvideo+bestaudio/best[ext=mp4]/best\"", " -f \"bestvideo[height<={0}]{1}+bestaudio/best[ext=mp4]/best\"" };
-        public static string[] VideoArgsNoSound = { " -f \"bestvideo/best[ext=mp4]/best\"", " -f \"bestvideo[height<={0}]{1}/best[ext=mp4]/best\"" };
-        public static string[] VideoResolutionsArray = { "best", "4320", "2160", "1440", "1080", "720", "480", "360", "240", "144" };
-        public static string[] VideoFPSArray = { "[fps<=32]", "[fps>=48]" };
-        public static string[] VideoFormatsArrayOld = { "avi", "flv", "mkv", "mp4", "ogg" };//, "webm" };
         public static string[] VideoQualityArray = { "best",
                                                      "4320p60", "4320p", // 1
                                                      "2160p60", "2160p", // 3
                                                      "1440p60", "1440p", // 5
                                                      "1080p60", "1080p", // 7
-                                                     "720p60", "720p", // 9
+                                                     "720p60", "720p",   // 9
                                                      "480p",
                                                      "360p",
                                                      "240p",
@@ -224,15 +176,15 @@ namespace youtube_dl_gui {
                                                           "flv",
                                                           "mkv",
                                                           "mp4",
-                                                          "ogg"
-                                                          //"webm"
+                                                          "ogg",
+                                                          "webm"
                                                         };
         public static string[] VideoFormatsArray = { " --recode-video avi",
                                                      " --recode-video flv",
                                                      " --merge-output-format mkv",//" --recode-video mkv", //" --merge-output-format mkv",
                                                      "",//" --recode-video mp4", //" --merge-output-format mp4",
                                                      " --recode-video ogg",
-                                                     " --merge-output-format webm"//" --recode-video webm" //" --merge-output-format webm"
+                                                     " --recode-video webm" //" --merge-output-format webm"
                                                    };
 
         //mp4|flv|ogg|webm|mkv|avi
@@ -261,12 +213,11 @@ namespace youtube_dl_gui {
                                                      "vorbis",
                                                      "wav"
                                                  };
-        private string[] AudioFormatArgsArray = { " -f  -x --audio-format best --audio-quality 0" };
         #endregion
 
         #endregion
 
-        public static string GetVideoFormatArgs(VideoQualityType Quality) {
+        public static string GetVideoQualityArgs(VideoQualityType Quality) {
             switch (Quality) {
                 case VideoQualityType.q4320p60:
                     return " -f \"bestvideo[ext=mp4][height<=4320][fps>=48]+bestaudio[ext=m4a]/best[ext=mp4]/best\"";
@@ -300,7 +251,7 @@ namespace youtube_dl_gui {
                     return " -f \"bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]\"";
             }
         }
-        public static string GetVideoFormatArgsNoSound(VideoQualityType Quality) {
+        public static string GetVideoQualityArgsNoSound(VideoQualityType Quality) {
             switch (Quality) {
                 case VideoQualityType.q4320p60:
                     return " -f \"bestvideo[height<=4320][fps>=48]/best[ext=mp4]/best\"";
