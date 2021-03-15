@@ -10,22 +10,17 @@ namespace youtube_dl_gui {
         Verification verif = Verification.GetInstance();
 
         public DownloadInfo CurrentDownload;
-
         public bool Debugging = false;
 
         private Process DownloadProcess;        // The process of youtube-dl which we'll redirect.
         private Thread DownloadThread;          // The thread of the process for youtube-dl.
-        private bool DownloadFinished = false;  // Determines if the download finished successfully.
-        private bool DownloadAborted = false;   // Determines if the download was aborted.
-        private bool DownloadErrored = false;   // Determines if the thread resulted in an error.
-        private bool DownloadProgramError = false; // Determines if ytdl-gui is the cause of error.
-        private bool CloseFromMethod = false;   // Determines if CloseForm() was called.
-        private bool AbortBatch = false;        // Determines if the rest of the batch downloads should be canceled.
+        private bool AbortBatch = false;        // Determines if the rest of the batch downloads should be cancelled.
 
         public frmDownloader() {
             InitializeComponent();
         }
         private void frmDownloader_Load(object sender, EventArgs e) {
+            CurrentDownload.BatchDownload = true;
             this.Text = lang.frmDownloader + " ";
             chkDownloaderCloseAfterDownload.Text = lang.chkDownloaderCloseAfterDownload;
             if (CurrentDownload.BatchDownload) {
@@ -44,50 +39,98 @@ namespace youtube_dl_gui {
             BeginDownload();
         }
         private void frmDownloader_FormClosing(object sender, FormClosingEventArgs e) {
-            if (!CloseFromMethod) {
-                if (!DownloadFinished && !DownloadAborted && !DownloadErrored) {
-                    CloseForm();
+            DialogResult Finish = DialogResult.None;
+            switch (CurrentDownload.Status) {
+                case DownloadStatus.Aborted:
+                    if (CurrentDownload.BatchDownload) {
+                        if (AbortBatch) {
+                            Finish = DialogResult.Abort;
+                        }
+                        else {
+                            Finish = DialogResult.Ignore;
+                        }
+                    }
+                    else { this.Dispose(); }
+                    break;
+                case DownloadStatus.Finished:
+                    if (DownloadProcess.ExitCode == 0) {
+                        if (CurrentDownload.BatchDownload) { this.DialogResult = System.Windows.Forms.DialogResult.Yes; }
+                        else { this.Dispose(); }
+                    }
+                    else {
+                        if (CurrentDownload.BatchDownload) { this.DialogResult = System.Windows.Forms.DialogResult.No; }
+                    }
+                    break;
+                case DownloadStatus.ProgramError:
+                case DownloadStatus.YtdlError:
+                    if (CurrentDownload.BatchDownload) { Finish = DialogResult.No; }
+                    else { this.Dispose(); }
+                    break;
+                default:
+                    if (DownloadThread != null && DownloadThread.IsAlive) {
+                        if (DownloadProcess != null && !DownloadProcess.HasExited) {
+                            DownloadProcess.Kill();
+                        }
+                        DownloadThread.Abort();
+                        CurrentDownload.Status = DownloadStatus.Aborted;
+                        e.Cancel = true;
+                    }
+                    break;
+            }
+
+            if (!e.Cancel) {
+                if (Downloads.Default.CloseDownloaderAfterFinish != chkDownloaderCloseAfterDownload.Checked && !CurrentDownload.BatchDownload) {
+                    Downloads.Default.CloseDownloaderAfterFinish = chkDownloaderCloseAfterDownload.Checked;
+                    if (!Program.IsPortable) {
+                        Downloads.Default.Save();
+                    }
                 }
+
+                this.DialogResult = Finish;
+                this.Dispose();
             }
         }
         private void btnDownloaderAbortBatchDownload_Click(object sender, EventArgs e) {
-            if (DownloadErrored) {
-                btnDownloaderAbortBatchDownload.Visible = false;
-                btnDownloaderAbortBatchDownload.Enabled = false;
-                BeginDownload();
-            }
-            else if (CurrentDownload.BatchDownload) {
-                AbortBatch = true;
-                if (!DownloadFinished && !DownloadErrored && !DownloadAborted) {
-                    DownloadAborted = true;
-                    if (!DownloadProcess.HasExited) {
-                        DownloadProcess.Kill();
+            switch (CurrentDownload.Status) {
+                case DownloadStatus.YtdlError: case DownloadStatus.ProgramError: case DownloadStatus.Aborted:
+                    btnDownloaderAbortBatchDownload.Visible = false;
+                    btnDownloaderAbortBatchDownload.Enabled = false;
+                    BeginDownload();
+                    break;
+                default:
+                    AbortBatch = true;
+                    switch (CurrentDownload.Status) {
+                        case DownloadStatus.Finished: case DownloadStatus.Aborted:
+                        case DownloadStatus.YtdlError: case DownloadStatus.ProgramError:
+                            rtbConsoleOutput.AppendText("The user requested to abort subsequent batch downloads");
+                            btnDownloaderAbortBatchDownload.Enabled = false;
+                            break;
+                        default:
+                            CurrentDownload.Status = DownloadStatus.Aborted;
+                            if (DownloadThread != null && DownloadThread.IsAlive) {
+                                DownloadThread.Abort();
+                            }
+                            System.Media.SystemSounds.Hand.Play();
+                            rtbConsoleOutput.AppendText("Downloading was aborted by the user.\n");
+                            rtbConsoleOutput.AppendText("Additionally, the batch download has been canceled.");
+                            this.Close();
+                            break;
                     }
-                    if (DownloadThread.IsAlive) {
-                        DownloadThread.Abort();
-                    }
-                    System.Media.SystemSounds.Hand.Play();
-                    rtbConsoleOutput.AppendText("Downloading was aborted by the user.\n");
-                    rtbConsoleOutput.AppendText("Additionally, the batch download has been canceled.");
-                }
-
-                this.DialogResult = DialogResult.Abort;
+                    break;
             }
         }
         private void btnDownloaderCancelExit_Click(object sender, EventArgs e) {
-            if (!DownloadFinished && !DownloadErrored && !DownloadAborted) {
-                DownloadAborted = true;
-                if (DownloadProcess != null && !DownloadProcess.HasExited) {
-                    DownloadProcess.Kill();
-                }
-                if (DownloadThread != null && DownloadThread.IsAlive) {
-                    DownloadThread.Abort();
-                }
-                System.Media.SystemSounds.Hand.Play();
-                rtbConsoleOutput.AppendText("Downloading was aborted by the user.");
-            }
-            else {
-                CloseForm();
+            switch (CurrentDownload.Status) {
+                case DownloadStatus.Finished:
+                case DownloadStatus.YtdlError:
+                case DownloadStatus.Aborted:
+                    this.Close();
+                    break;
+                default:
+                    if (DownloadThread != null && DownloadThread.IsAlive) {
+                        DownloadThread.Abort();
+                    }
+                    break;
             }
         }
 
@@ -97,6 +140,7 @@ namespace youtube_dl_gui {
                 MessageBox.Show("The URL is null or empty. Please enter a URL or Download path.");
                 return;
             }
+            CurrentDownload.Status = DownloadStatus.GeneratingArguments;
             rtbConsoleOutput.AppendText("Beginning download, this box will output progress\n");
             if (CurrentDownload.BatchDownload) { chkDownloaderCloseAfterDownload.Checked = true; }
 
@@ -126,7 +170,7 @@ namespace youtube_dl_gui {
                 }
                 else {
                     rtbConsoleOutput.AppendText("still couldnt find youtube-dl.");
-                    DownloadErrored = true;
+                    CurrentDownload.Status = DownloadStatus.ProgramError;
                     return;
                 }
             }
@@ -164,6 +208,7 @@ namespace youtube_dl_gui {
                         break;
                     default:
                         rtbConsoleOutput.AppendText("Unable to determine what download type to use (expected 0, 1, or 2)");
+                        CurrentDownload.Status = DownloadStatus.ProgramError;
                         return;
                 }
             }
@@ -217,6 +262,7 @@ namespace youtube_dl_gui {
                     }
                 default: {
                         rtbConsoleOutput.AppendText("Expected a downloadtype (Quality + Format)");
+                        CurrentDownload.Status = DownloadStatus.ProgramError;
                         return;
                     }
             }
@@ -418,6 +464,10 @@ namespace youtube_dl_gui {
             rtbConsoleOutput.AppendText("Creating download thread\n");
             DownloadThread = new Thread(() => {
                 try {
+                    while (true) {
+                        Debug.Print("Sleeping");
+                        Thread.Sleep(2000);
+                    }
                     DownloadProcess = new Process() {
                         StartInfo = new System.Diagnostics.ProcessStartInfo(YoutubeDlFileName) {
                             UseShellExecute = false,
@@ -452,29 +502,32 @@ namespace youtube_dl_gui {
                     DownloadProcess.BeginErrorReadLine();
                     DownloadProcess.WaitForExit();
 
-                    DownloadFinished = true;
-
                     if (DownloadProcess.ExitCode == 0) {
-                        DownloadFinished = true;
-                        DownloadAborted = false;
-                        DownloadErrored = false;
+                        CurrentDownload.Status = DownloadStatus.Finished;
                     }
                     else {
-                        DownloadErrored = true;
-                        DownloadFinished = false;
+
+                        CurrentDownload.Status = DownloadStatus.YtdlError;
                     }
                 }
                 catch (ThreadAbortException) {
-                    DownloadAborted = true;
-                    DownloadFinished = false;
-                    return;
+                    this.BeginInvoke((MethodInvoker)delegate() {
+                        CurrentDownload.Status = DownloadStatus.Aborted;
+                        if (DownloadProcess != null && !DownloadProcess.HasExited) {
+                            DownloadProcess.Kill();
+                        }
+                        System.Media.SystemSounds.Hand.Play();
+                        rtbConsoleOutput.AppendText("Downloading was aborted by the user.");
+                    });
                 }
                 catch (Exception ex) {
                     ErrorLog.ReportException(ex);
-                    DownloadProgramError = true;
+                    CurrentDownload.Status = DownloadStatus.ProgramError;
                 }
                 finally {
-                    ThreadExit();
+                    this.BeginInvoke((MethodInvoker)delegate() {
+                        DownloadFinished();
+                    });
                 }
             });
             rtbConsoleOutput.AppendText("Created, starting download thread\n");
@@ -482,120 +535,78 @@ namespace youtube_dl_gui {
             DownloadThread.Start();
             #endregion
         }
-        private void ThreadExit() {
-            this.BeginInvoke(new MethodInvoker(() => {
-                DownloadFinishedMethod();
-            }));
-        }
-        private void DownloadFinishedMethod() {
-            CloseFromMethod = true;
+        private void DownloadFinished() {
             tmrTitleActivity.Stop();
             this.Text.Trim('.');
             btnDownloaderCancelExit.Text = lang.btnBatchDownloadExit;
 
             if (CurrentDownload.BatchDownload) {
-                if (DownloadAborted) {
-                    if (AbortBatch) {
-                        this.DialogResult = System.Windows.Forms.DialogResult.Abort;
-                    }
-                    else {
-                        this.DialogResult = System.Windows.Forms.DialogResult.Ignore;
-                    }
-                }
-                else if (DownloadErrored) {
-                    this.Activate();
-                    System.Media.SystemSounds.Hand.Play();
-                    rtbConsoleOutput.AppendText("\nAn error occured\nTHIS IS A YOUTUBE-DL ERROR, NOT A ERROR WITH THIS PROGRAM!\nExit the form to resume batch download.");
-                    this.Text = lang.frmDownloaderError;
-                }
-                else if (DownloadProgramError) {
-                    btnDownloaderCancelExit.Text = lang.btnDownloaderExit;
-                    rtbConsoleOutput.AppendText("\nAn error occured\nAn error log was presented, if enabled.\nExit the form to resume batch download.");
-                    this.Text = lang.frmDownloaderError;
-                    this.Activate();
-                    System.Media.SystemSounds.Hand.Play();
-                }
-                else if (DownloadFinished) {
-                    this.DialogResult = System.Windows.Forms.DialogResult.Yes;
-                }
-                else {
-                    this.DialogResult = System.Windows.Forms.DialogResult.No;
-                }
-            }
-            else {
-                if (DownloadAborted) { if (chkDownloaderCloseAfterDownload.Checked) { CloseForm(); } }
-                else if (DownloadErrored) {
-                    btnDownloaderCancelExit.Text = lang.btnDownloaderExit;
-                    rtbConsoleOutput.AppendText("\nAn error occured\nTHIS IS A YOUTUBE-DL ERROR, NOT A ERROR WITH THIS PROGRAM!");
-                    btnDownloaderAbortBatchDownload.Visible = true;
-                    btnDownloaderAbortBatchDownload.Enabled = true;
-                    btnDownloaderAbortBatchDownload.Text = lang.GenericRetry;
-                    this.Text = lang.frmDownloaderError;
-                    this.Activate();
-                    System.Media.SystemSounds.Hand.Play();
-                }
-                else if (DownloadProgramError) {
-                    btnDownloaderCancelExit.Text = lang.btnDownloaderExit;
-                    rtbConsoleOutput.AppendText("\nAn error occured\nAn error log was presented, if enabled.");
-                    this.Text = lang.frmDownloaderError;
-                    this.Activate();
-                    System.Media.SystemSounds.Hand.Play();
-                }
-                else if (DownloadFinished) {
-                    btnDownloaderCancelExit.Text = lang.btnDownloaderExit;
-                    this.Text = lang.frmDownloaderComplete;
-                    rtbConsoleOutput.AppendText("Download has finished.");
-                    if (chkDownloaderCloseAfterDownload.Checked) { CloseForm(); }
-                }
-            }
-        }
-        private void CloseForm() {
-            CloseFromMethod = true;
-
-            if (AbortBatch) {
-                this.DialogResult = DialogResult.Abort;
-            }
-
-            if (Downloads.Default.CloseDownloaderAfterFinish != chkDownloaderCloseAfterDownload.Checked && !CurrentDownload.BatchDownload) {
-                Downloads.Default.CloseDownloaderAfterFinish = chkDownloaderCloseAfterDownload.Checked;
-                if (!Program.IsPortable) {
-                    Downloads.Default.Save();
-                }
-            }
-
-
-            if (DownloadErrored) {
-                if (CurrentDownload.BatchDownload) { this.DialogResult = System.Windows.Forms.DialogResult.No; }
-                else { this.Dispose(); }
-            }
-            if (!DownloadFinished) {
-                try {
-                    if (DownloadProcess != null && !DownloadProcess.HasExited) { DownloadProcess.Kill(); }
-                    if (DownloadThread != null && DownloadThread.IsAlive) { DownloadThread.Abort(); }
-                }
-                catch (Exception ex) {
-                    ErrorLog.ReportException(ex);
-                }
-            }
-
-            if (DownloadAborted) {
-                if (CurrentDownload.BatchDownload) { this.DialogResult = System.Windows.Forms.DialogResult.Ignore; }
-                else { this.Dispose(); }
-            }
-            else if (DownloadFinished) {
-                if (DownloadProcess.ExitCode == 0) {
-                    if (CurrentDownload.BatchDownload) { this.DialogResult = System.Windows.Forms.DialogResult.Yes; }
-                    else { this.Dispose(); }
-                }
-                else {
-                    if (CurrentDownload.BatchDownload) { this.DialogResult = System.Windows.Forms.DialogResult.No; }
+                switch (CurrentDownload.Status) {
+                    case DownloadStatus.Aborted:
+                        if (AbortBatch) {
+                            this.DialogResult = System.Windows.Forms.DialogResult.Abort;
+                        }
+                        else {
+                            this.DialogResult = System.Windows.Forms.DialogResult.Ignore;
+                        }
+                        break;
+                    case DownloadStatus.YtdlError:
+                        this.Activate();
+                        System.Media.SystemSounds.Hand.Play();
+                        rtbConsoleOutput.AppendText("\nAn error occured\nTHIS IS A YOUTUBE-DL ERROR, NOT A ERROR WITH THIS PROGRAM!\nExit the form to resume batch download.");
+                        this.Text = lang.frmDownloaderError;
+                        break;
+                    case DownloadStatus.ProgramError:
+                        btnDownloaderCancelExit.Text = lang.btnDownloaderExit;
+                        rtbConsoleOutput.AppendText("\nAn error occured\nAn error log was presented, if enabled.\nExit the form to resume batch download.");
+                        this.Text = lang.frmDownloaderError;
+                        this.Activate();
+                        System.Media.SystemSounds.Hand.Play();
+                        break;
+                    case DownloadStatus.Finished:
+                        this.DialogResult = System.Windows.Forms.DialogResult.Yes;
+                        break;
+                    default:
+                        this.DialogResult = System.Windows.Forms.DialogResult.No;
+                        break;
                 }
             }
             else {
-                if (CurrentDownload.BatchDownload) { this.DialogResult = System.Windows.Forms.DialogResult.No; }
+                switch (CurrentDownload.Status) {
+                    case DownloadStatus.Aborted:
+                        break;
+                    case DownloadStatus.YtdlError:
+                        btnDownloaderCancelExit.Text = lang.btnDownloaderExit;
+                        rtbConsoleOutput.AppendText("\nAn error occured\nTHIS IS A YOUTUBE-DL ERROR, NOT A ERROR WITH THIS PROGRAM!");
+                        btnDownloaderAbortBatchDownload.Visible = true;
+                        btnDownloaderAbortBatchDownload.Enabled = true;
+                        btnDownloaderAbortBatchDownload.Text = lang.GenericRetry;
+                        this.Text = lang.frmDownloaderError;
+                        this.Activate();
+                        System.Media.SystemSounds.Hand.Play();
+                        break;
+                    case DownloadStatus.ProgramError:
+                        btnDownloaderCancelExit.Text = lang.btnDownloaderExit;
+                        rtbConsoleOutput.AppendText("\nAn error occured\nAn error log was presented, if enabled.");
+                        this.Text = lang.frmDownloaderError;
+                        this.Activate();
+                        System.Media.SystemSounds.Hand.Play();
+                        break;
+                    case DownloadStatus.Finished:
+                        btnDownloaderCancelExit.Text = lang.btnDownloaderExit;
+                        this.Text = lang.frmDownloaderComplete;
+                        rtbConsoleOutput.AppendText("Download has finished.");
+                        if (chkDownloaderCloseAfterDownload.Checked) { this.Close(); }
+                        break;
+                    default:
+                        btnDownloaderCancelExit.Text = lang.btnDownloaderExit;
+                        this.Text = lang.frmDownloaderComplete;
+                        rtbConsoleOutput.AppendText("CurrentDownload.Status not defined (Not a batch download)\nAssuming success.");
+                        if (chkDownloaderCloseAfterDownload.Checked) { this.Close(); }
+                        break;
+                }
             }
         }
-
         private void tmrTitleActivity_Tick(object sender, EventArgs e) {
             if (this.Text.EndsWith("...."))
                 this.Text = this.Text.TrimEnd('.');

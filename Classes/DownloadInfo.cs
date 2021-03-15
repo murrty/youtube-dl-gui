@@ -8,6 +8,10 @@
         /// The arguments passed for youtube-dl
         /// </summary>
         private string _DownloadArguments = null;
+        /// <summary>
+        /// The status of the current download
+        /// </summary>
+        private DownloadStatus _Status = DownloadStatus.None;
 
         /// <summary>
         /// The type of the download.
@@ -94,6 +98,10 @@
         public string DownloadArguments {
             get { return _DownloadArguments; }
             set { _DownloadArguments = value; }
+        }
+        public DownloadStatus Status {
+            get { return _Status; }
+            set { _Status = value; }
         }
 
         public DownloadType Type {
