@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Runtime.InteropServices;
+using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -69,11 +70,17 @@ namespace youtube_dl_gui {
 
             switch (General.Default.SaveCustomArgs) {
                 case 1:
-                    if (System.IO.File.Exists(Environment.CurrentDirectory + "\\args.txt"))
-                        txtArgs.Text = System.IO.File.ReadAllText(Environment.CurrentDirectory + "\\args.txt");
+                    if (System.IO.File.Exists(Environment.CurrentDirectory + "\\args.txt")) {
+                        cbCustomArguments.Items.AddRange(System.IO.File.ReadAllLines(Environment.CurrentDirectory + "\\args.txt"));
+                        if (Saved.Default.CustomArgumentsIndex > -1 && Saved.Default.CustomArgumentsIndex <= cbCustomArguments.Items.Count) {
+                            cbCustomArguments.SelectedIndex = Saved.Default.CustomArgumentsIndex;
+                        }
+                    }
                     break;
                 case 2:
-                    txtArgs.Text = Saved.Default.downloadArgs;
+                    if (Saved.Default.CustomArgumentsIndex > -1) {
+                        cbCustomArguments.SelectedIndex = Saved.Default.CustomArgumentsIndex;
+                    }
                     break;
             }
             switch (Saved.Default.downloadType) {
@@ -127,10 +134,20 @@ namespace youtube_dl_gui {
 
             switch (General.Default.SaveCustomArgs) {
                 case 1: // txt
-                    System.IO.File.WriteAllText(Environment.CurrentDirectory + "\\args.txt", txtArgs.Text.TrimEnd('\n'));
+                    StringBuilder txtOutputBuffer = new StringBuilder();
+                    for (int i = 0; i < cbCustomArguments.Items.Count; i++) {
+                        txtOutputBuffer.AppendLine(cbCustomArguments.GetItemText(cbCustomArguments.Items[i]));
+                    }
+                    System.IO.File.WriteAllText(Environment.CurrentDirectory + "\\args.txt", txtOutputBuffer.ToString());
+                    Saved.Default.CustomArgumentsIndex = cbCustomArguments.SelectedIndex;
                     break;
                 case 2: // settings
-                    Saved.Default.downloadArgs = txtArgs.Text;
+                    string stngOutputBuffer = string.Empty;
+                    for (int i = 0; i < cbCustomArguments.Items.Count; i++) {
+                        stngOutputBuffer += cbCustomArguments.GetItemText(cbCustomArguments.Items[i]) + "|";
+                    }
+                    Saved.Default.DownloadCustomArguments = stngOutputBuffer.Trim('|');
+                    Saved.Default.CustomArgumentsIndex = cbCustomArguments.SelectedIndex;
                     break;
             }
 
@@ -198,7 +215,6 @@ namespace youtube_dl_gui {
             rbVideoSelectionAfterDate.Text = lang.rbVideoSelectionAfterDate;
 
             lbCustomArguments.Text = lang.lbCustomArguments;
-            SetTextBoxHint(txtArgs.Handle, lang.txtArgsHint);
             sbDownload.Text = lang.sbDownload;
             mDownloadWithAuthentication.Text = lang.mDownloadWithAuthentication;
             mBatchDownloadFromFile.Text = lang.mBatchDownloadFromFile;
@@ -372,14 +388,14 @@ namespace youtube_dl_gui {
         private void cmTrayDownloadCustomTxtBox_Click(object sender, EventArgs e) {
             if (!Clipboard.ContainsText()) { return; }
 
-            if (string.IsNullOrEmpty(txtArgs.Text)) {
+            if (string.IsNullOrEmpty(cbCustomArguments.Text)) {
                 MessageBox.Show("No arguments are currently in memory. Enter in custom arguments in the arguments text box on the main form.");
                 return;
             }
             else {
                 frmDownloader Downloader = new frmDownloader();
                 DownloadInfo NewInfo = new DownloadInfo();
-                NewInfo.DownloadArguments = txtArgs.Text;
+                NewInfo.DownloadArguments = cbCustomArguments.Text;
                 NewInfo.Type = DownloadType.Custom;
                 NewInfo.DownloadURL = Clipboard.GetText();
                 Downloader.CurrentDownload = NewInfo;
@@ -400,7 +416,7 @@ namespace youtube_dl_gui {
             else {
                 frmDownloader Downloader = new frmDownloader();
                 DownloadInfo NewInfo = new DownloadInfo();
-                NewInfo.DownloadArguments = System.IO.File.ReadAllText(Environment.CurrentDirectory + "\\args.txt");
+                NewInfo.DownloadArguments = System.IO.File.ReadAllLines(Environment.CurrentDirectory + "\\args.txt")[0];
                 NewInfo.Type = DownloadType.Custom;
                 NewInfo.DownloadURL = Clipboard.GetText();
                 Downloader.CurrentDownload = NewInfo;
@@ -408,8 +424,8 @@ namespace youtube_dl_gui {
             }
         }
         private void cmTrayDownloadCustomSettings_Click(object sender, EventArgs e) {
-            if (!Clipboard.ContainsText()) { return; }
-            if (string.IsNullOrEmpty(Saved.Default.downloadArgs)) {
+            if (!Clipboard.ContainsText() && Saved.Default.CustomArgumentsIndex < 0) { return; }
+            if (string.IsNullOrEmpty(Saved.Default.DownloadCustomArguments)) {
                 MessageBox.Show("No arguments are saved in the application settings, save arguments to the settings to use this command");
                 return;
             }
@@ -417,7 +433,7 @@ namespace youtube_dl_gui {
             {
                 frmDownloader Downloader = new frmDownloader();
                 DownloadInfo NewInfo = new DownloadInfo();
-                NewInfo.DownloadArguments = Saved.Default.downloadArgs;
+                NewInfo.DownloadArguments = Saved.Default.DownloadCustomArguments.Split('|')[Saved.Default.CustomArgumentsIndex];
                 NewInfo.Type = DownloadType.Custom;
                 NewInfo.DownloadURL = Clipboard.GetText();
                 Downloader.CurrentDownload = NewInfo;
@@ -509,7 +525,7 @@ namespace youtube_dl_gui {
         }
         private void rbCustom_CheckedChanged(object sender, EventArgs e) {
             if (rbCustom.Checked) {
-                txtArgs.ReadOnly = false;
+                cbCustomArguments.Enabled = true;
                 cbQuality.SelectedIndex = -1;
                 cbFormat.SelectedIndex = -1;
                 cbQuality.Enabled = false;
@@ -517,11 +533,11 @@ namespace youtube_dl_gui {
                 chkDownloadSound.Checked = false;
                 chkDownloadSound.Enabled = false;
                 if (Downloads.Default.SaveFormatQuality) {
-                    txtArgs.Text = Saved.Default.downloadArgs;
+                    cbCustomArguments.SelectedIndex = Saved.Default.CustomArgumentsIndex;
                 }
             }
             else {
-                txtArgs.ReadOnly = true;
+                cbCustomArguments.Enabled = false;
             }
         }
         private void chkDownloadSound_CheckedChanged(object sender, EventArgs e) {
@@ -615,7 +631,7 @@ namespace youtube_dl_gui {
 
             Thread BatchThread = new Thread(() => {
                 string videoArguments = string.Empty;
-                DownloadType Type = 0;
+                DownloadType Type = DownloadType.None;
                 int BatchQuality = 0;
 
                 this.BeginInvoke(new MethodInvoker(() => {
@@ -656,7 +672,7 @@ namespace youtube_dl_gui {
                                     NewInfo.Type = DownloadType.Audio;
                                     break;
                                 case DownloadType.Custom:
-                                    NewInfo.DownloadArguments = txtArgs.Text;
+                                    NewInfo.DownloadArguments = cbCustomArguments.Text;
                                     NewInfo.Type = DownloadType.Custom;
                                     break;
                                 case DownloadType.Unknown:
@@ -664,6 +680,7 @@ namespace youtube_dl_gui {
                                     NewInfo.Type = DownloadType.Video;
                                     break;
                             }
+                            Downloader.CurrentDownload = NewInfo;
                             Downloader.ShowDialog();
                             if (Downloader.DialogResult == DialogResult.Abort) {
                                 break;
@@ -784,10 +801,12 @@ namespace youtube_dl_gui {
             }
             else {
                 NewInfo.Type = DownloadType.Custom;
-                NewInfo.DownloadArguments = txtArgs.Text;
+                NewInfo.DownloadArguments = cbCustomArguments.Text;
                 NewInfo.DownloadURL = txtUrl.Text;
                 Saved.Default.downloadType = (int)DownloadType.Custom;
-                Saved.Default.downloadArgs = txtArgs.Text;
+                if (!cbCustomArguments.Items.Contains(cbCustomArguments.Text)) {
+                    cbCustomArguments.Items.Add(cbCustomArguments.Text);
+                }
             }
 
             Downloader.CurrentDownload = NewInfo;

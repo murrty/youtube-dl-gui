@@ -20,7 +20,7 @@ namespace youtube_dl_gui {
             InitializeComponent();
         }
         private void frmDownloader_Load(object sender, EventArgs e) {
-            CurrentDownload.BatchDownload = true;
+            //CurrentDownload.BatchDownload = true;
             this.Text = lang.frmDownloader + " ";
             chkDownloaderCloseAfterDownload.Text = lang.chkDownloaderCloseAfterDownload;
             if (CurrentDownload.BatchDownload) {
@@ -144,9 +144,26 @@ namespace youtube_dl_gui {
             rtbConsoleOutput.AppendText("Beginning download, this box will output progress\n");
             if (CurrentDownload.BatchDownload) { chkDownloaderCloseAfterDownload.Checked = true; }
 
-            if (CurrentDownload.DownloadURL.StartsWith("http://")){
-                CurrentDownload.DownloadURL = "https" + CurrentDownload.DownloadURL.Substring(4);
+            #region URL cleaning
+            if (!CurrentDownload.DownloadURL.StartsWith("https://")) {
+sanitizecheck:
+                if (CurrentDownload.DownloadURL.StartsWith("\\'")|| // single quote
+                CurrentDownload.DownloadURL.StartsWith("\\\"")   || // double quote
+                CurrentDownload.DownloadURL.StartsWith("\\n")    || // newline
+                CurrentDownload.DownloadURL.StartsWith("\\r")    || // carriage-return
+                CurrentDownload.DownloadURL.StartsWith("\\t")    || // tab
+                CurrentDownload.DownloadURL.StartsWith("\\0")    || // null char
+                CurrentDownload.DownloadURL.StartsWith("\\b")    || // backspace
+                CurrentDownload.DownloadURL.StartsWith("\\")) {     // backslash
+                    CurrentDownload.DownloadURL = CurrentDownload.DownloadURL.Substring(4);
+                    goto sanitizecheck;
+                }
+
+                if (CurrentDownload.DownloadURL.StartsWith("http://")) {
+                    CurrentDownload.DownloadURL = "https" + CurrentDownload.DownloadURL.Substring(4);
+                }
             }
+            #endregion
 
             string YoutubeDlFileName = null;
             string ArgumentsBuffer = string.Empty;
