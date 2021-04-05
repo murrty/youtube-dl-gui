@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net;
+using System.Security.Cryptography;
 using System.Windows.Forms;
 
 namespace youtube_dl_gui {
@@ -21,22 +22,42 @@ namespace youtube_dl_gui {
         }
 
         void loadLanguage() {
-            if (FromLanguage) {
-                this.Text = Language.InternalEnglish.frmException;
-                lbExceptionHeader.Text = Language.InternalEnglish.lbExceptionHeader;
-                lbExceptionDescription.Text = Language.InternalEnglish.lbExceptionDescription;
-                rtbExceptionDetails.Text = Language.InternalEnglish.rtbExceptionDetails;
-                btnExceptionGithub.Text = Language.InternalEnglish.btnExceptionGithub;
-                btnExceptionOk.Text = Language.InternalEnglish.btnExceptionOk;
+            RandomNumberGenerator RNG = new RNGCryptoServiceProvider();
+            byte[] ByteData = new byte[sizeof(int)];
+            RNG.GetBytes(ByteData);
+            UInt32 NewInt = BitConverter.ToUInt32(ByteData, 0);
+            uint GeneratedNumber = (uint)Math.Floor((0 + ((double)5001 - 0) * NewInt));
+
+            switch (GeneratedNumber) {
+                case 420:
+                    this.Text = "Exception occowwed unu";
+                    lbExceptionHeader.Text = "An exception occowwed qwq";
+                    lbExceptionDescription.Text = "The pwogwam accidentawy made a fucky wucky";
+                    rtbExceptionDetails.Text = "Sowwy for fucky wucky, u can powst dis as a new issue on githuwb :3";
+                    btnExceptionGithub.Text = "Githuwb >w<";
+                    btnExceptionOk.Text = "Okie uwu";
+                    break;
+
+                default:
+                    if (FromLanguage) {
+                        this.Text = Language.InternalEnglish.frmException;
+                        lbExceptionHeader.Text = Language.InternalEnglish.lbExceptionHeader;
+                        lbExceptionDescription.Text = Language.InternalEnglish.lbExceptionDescription;
+                        rtbExceptionDetails.Text = Language.InternalEnglish.rtbExceptionDetails;
+                        btnExceptionGithub.Text = Language.InternalEnglish.btnExceptionGithub;
+                        btnExceptionOk.Text = Language.InternalEnglish.btnExceptionOk;
+                    }
+                    else {
+                        this.Text = lang.frmException;
+                        lbExceptionHeader.Text = lang.lbExceptionHeader;
+                        lbExceptionDescription.Text = lang.lbExceptionDescription;
+                        lbExceptionDescription.Text = lang.lbExceptionDescription;
+                        btnExceptionGithub.Text = lang.btnExceptionGithub;
+                        btnExceptionOk.Text = lang.btnExceptionOk;
+                    }
+                    break;
             }
-            else {
-                this.Text = lang.frmException;
-                lbExceptionHeader.Text = lang.lbExceptionHeader;
-                lbExceptionDescription.Text = lang.lbExceptionDescription;
-                lbExceptionDescription.Text = lang.lbExceptionDescription;
-                btnExceptionGithub.Text = lang.btnExceptionGithub;
-                btnExceptionOk.Text = lang.btnExceptionOk;
-            }
+
         }
 
         private void frmError_Load(object sender, EventArgs e) {
@@ -71,7 +92,7 @@ namespace youtube_dl_gui {
                 Exception = "An exception occured, but it didn't parse properly.\nCreate a new issue and tell me how you got here.";
             }
 
-            string outputBuffer = "Feel free to copy + paste this entire text wall into a new issue on Github\n\nVersion: {0}\n" + Exception;
+            string outputBuffer = "\n\nVersion: {0}\n" + Exception;
             if (Properties.Settings.Default.IsBetaVersion) {
                 outputBuffer = string.Format(outputBuffer, Properties.Settings.Default.BetaVersion);
                 lbVersion.Text = "v" + Properties.Settings.Default.BetaVersion;
@@ -80,7 +101,7 @@ namespace youtube_dl_gui {
                 outputBuffer = string.Format(outputBuffer, Properties.Settings.Default.appVersion.ToString());
                 lbVersion.Text = "v" + Properties.Settings.Default.appVersion.ToString();
             }
-            rtbExceptionDetails.Text = outputBuffer;
+            rtbExceptionDetails.Text += outputBuffer;
             System.Media.SystemSounds.Hand.Play();
         }
 
