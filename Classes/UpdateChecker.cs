@@ -219,10 +219,10 @@ namespace youtube_dl_gui {
                     wc.Headers.Add("User-Agent: " + Program.UserAgent);
                     string json = wc.DownloadString(url);
                     byte[] bytes = Encoding.ASCII.GetBytes(json);
-                    using (var stream = new MemoryStream(bytes)) {
-                        var quotas = new XmlDictionaryReaderQuotas();
-                        var jsonReader = JsonReaderWriterFactory.CreateJsonReader(stream, quotas);
-                        var xml = XDocument.Load(jsonReader);
+                    using (MemoryStream stream = new MemoryStream(bytes)) {
+                        XmlDictionaryReaderQuotas quotas = new XmlDictionaryReaderQuotas();
+                        XmlDictionaryReader jsonReader = JsonReaderWriterFactory.CreateJsonReader(stream, quotas);
+                        XDocument xml = XDocument.Load(jsonReader);
                         stream.Flush();
                         stream.Close();
                         return xml.ToString();

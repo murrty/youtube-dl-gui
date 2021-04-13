@@ -67,7 +67,7 @@ namespace youtube_dl_gui {
                 Exception += "Message: " + ReportedException.Message + "\n";
                 Exception += "Stacktrace: " + ReportedException.StackTrace + "\n";
                 Exception += "Source: " + ReportedException.Source + "\n";
-                Exception += "TargetSite: " + ReportedException.TargetSite + "\n";
+                Exception += "Target Site: " + ReportedException.TargetSite + "\n";
 
 
                 Exception += "Full report:\n" + ReportedException.ToString();
@@ -77,10 +77,10 @@ namespace youtube_dl_gui {
                 Exception += "Message: " + ReportedWebException.Message + "\n";
                 Exception += "Stacktrace: " + ReportedWebException.StackTrace + "\n";
                 Exception += "Source: " + ReportedWebException.Source + "\n";
-                Exception += "TargetSite: " + ReportedWebException.TargetSite + "\n";
-                Exception += "InnerException: " + ReportedWebException.InnerException + "\n";
+                Exception += "Target Site: " + ReportedWebException.TargetSite + "\n";
+                Exception += "Inner Exception: " + ReportedWebException.InnerException + "\n";
                 Exception += "Response: " + ReportedWebException.Response + "\n";
-                Exception += "WebAddress: " + WebAddress + "\n";
+                Exception += "Web Address: " + WebAddress + "\n";
 
 
                 Exception += "Full report:\n" + ReportedWebException.ToString();

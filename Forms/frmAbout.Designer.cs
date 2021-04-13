@@ -33,8 +33,8 @@
             this.lbHeader = new System.Windows.Forms.Label();
             this.lbAboutBody = new System.Windows.Forms.Label();
             this.pbIcon = new System.Windows.Forms.PictureBox();
-            this.llbGithub = new youtube_dl_gui.LinkLabelCleanHandCursor();
-            this.llbCheckForUpdates = new youtube_dl_gui.LinkLabelCleanHandCursor();
+            this.llbGithub = new youtube_dl_gui.Controls.LinkLabelHand();
+            this.llbCheckForUpdates = new youtube_dl_gui.Controls.LinkLabelHand();
             ((System.ComponentModel.ISupportInitialize)(this.pbIcon)).BeginInit();
             this.SuspendLayout();
             // 
@@ -69,7 +69,7 @@
             // 
             // pbIcon
             // 
-            this.pbIcon.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pbIcon.Cursor = NativeMethods.SystemHandCursor;
             this.pbIcon.InitialImage = null;
             this.pbIcon.Location = new System.Drawing.Point(38, 3);
             this.pbIcon.Name = "pbIcon";
@@ -121,7 +121,6 @@
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "About youtube-dl-gui";
-            this.Shown += new System.EventHandler(this.frmAbout_Shown);
             ((System.ComponentModel.ISupportInitialize)(this.pbIcon)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -134,7 +133,7 @@
         private System.Windows.Forms.Label lbHeader;
         private System.Windows.Forms.Label lbAboutBody;
         private System.Windows.Forms.PictureBox pbIcon;
-        private LinkLabelCleanHandCursor llbCheckForUpdates;
-        private LinkLabelCleanHandCursor llbGithub;
+        private youtube_dl_gui.Controls.LinkLabelHand llbCheckForUpdates;
+        private youtube_dl_gui.Controls.LinkLabelHand llbGithub;
     }
 }

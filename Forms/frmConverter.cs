@@ -7,8 +7,8 @@ namespace youtube_dl_gui.Forms {
     public partial class frmConverter : Form {
         public bool Debugging = false;
 
-        private Process ConvertProcess = new Process();
-        private Thread ConvertThread = new Thread(() => { });
+        private Process ConvertProcess;
+        private Thread ConvertThread;
         private int ExitCode = -1;
         private bool ConvertFinished = false;
         private bool ConvertAborted = false;

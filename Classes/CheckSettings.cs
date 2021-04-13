@@ -251,9 +251,6 @@ namespace youtube_dl_gui {
             if (Ini.KeyExists("downloadType", "Saved")) {
                 Saved.Default.downloadType = Ini.ReadInt("downloadType", "Saved");
             }
-            if (Ini.KeyExists("downloadArgs", "Saved")) {
-                Saved.Default.downloadArgs = Ini.ReadString("downloadArgs", "Saved");
-            }
             if (Ini.KeyExists("formTrue0", "Saved")) {
                 Saved.Default.formTrue0 = Ini.ReadBool("formTrue0", "Saved");
             }
@@ -298,6 +295,12 @@ namespace youtube_dl_gui {
             }
             if (Ini.KeyExists("FileNameSchemaHistory", "Saved")) {
                 Saved.Default.FileNameSchemaHistory = Ini.ReadString("FileNameSchemaHistory", "Saved");
+            }
+            if (Ini.KeyExists("DownloadCustomArguments", "Saved")) {
+                Saved.Default.DownloadCustomArguments = Ini.ReadString("DownloadCustomArguments", "Saved");
+            }
+            if (Ini.KeyExists("CustomArgumentsIndex", "Saved")) {
+                Saved.Default.CustomArgumentsIndex = Ini.ReadInt("CustomArgumentsIndex", "Saved");
             }
             #endregion
             #region Settings
@@ -399,7 +402,6 @@ namespace youtube_dl_gui {
             #endregion
             #region Saved
             Ini.WriteInt("downloadType", Saved.Default.downloadType, "Saved");
-            Ini.WriteString("downloadArgs", Saved.Default.downloadArgs, "Saved");
             Ini.WriteBool("formTrue0", Saved.Default.formTrue0, "Saved");
             Ini.WriteInt("convertSaveVideoIndex", Saved.Default.convertSaveVideoIndex, "Saved");
             Ini.WriteInt("convertSaveAudioIndex", Saved.Default.convertSaveAudioIndex, "Saved");
@@ -415,6 +417,8 @@ namespace youtube_dl_gui {
             Ini.WriteSize("MainFormSize", Saved.Default.MainFormSize, "Saved");
             Ini.WriteSize("SettingsFormSize", Saved.Default.SettingsFormSize, "Saved");
             Ini.WriteString("FileNameSchemaHistory", Saved.Default.FileNameSchemaHistory, "Saved");
+            Ini.WriteString("DownloadCustomArguments", Saved.Default.DownloadCustomArguments, "Saved");
+            Ini.WriteInt("CustomArgumentsIndex", Saved.Default.CustomArgumentsIndex, "Saved");
             #endregion
             #region Settings
             Ini.WriteString("extensionsName", Settings.Default.extensionsName, "Settings");
@@ -427,90 +431,4 @@ namespace youtube_dl_gui {
             Ini.WriteString("downloadPath", Downloads.Default.downloadPath, "Downloads");
         }
     }
-
-    class Ini {
-        static string Path = Environment.CurrentDirectory + "\\settings.ini";
-
-        [DllImport("kernel32", CharSet = CharSet.Unicode)]
-        static extern long WritePrivateProfileString(string Section, string Key, string Value, string FilePath);
-        [DllImport("kernel32", CharSet = CharSet.Unicode)]
-        static extern int GetPrivateProfileString(string Section, string Key, string Default, StringBuilder RetVal, int Size, string FilePath);
-
-
-        public static string ReadString(string Key, string Section) {
-            var RetVal = new StringBuilder(255);
-            GetPrivateProfileString(Section, Key, "", RetVal, 255, Path);
-            return RetVal.ToString();
-        }
-        public static bool ReadBool(string Key, string Section) {
-            var RetVal = new StringBuilder(255);
-            GetPrivateProfileString(Section, Key.ToLower(), "", RetVal, 255, Path);
-            string RetStr = RetVal.ToString().ToLower();
-
-            if (RetStr == "true")
-                return true;
-            else
-                return false;
-        }
-        public static int ReadInt(string Key, string Section) {
-            var RetVal = new StringBuilder(255);
-            GetPrivateProfileString(Section, Key.ToLower(), "", RetVal, 255, Path);
-            string RetStr = RetVal.ToString();
-            int RetInt;
-            int.TryParse(RetStr, out RetInt);
-            return RetInt;
-        }
-        public static Size ReadSize(string Key, string Section) {
-            var RetVal = new StringBuilder(255);
-            GetPrivateProfileString(Section, Key, "", RetVal, 255, Path);
-            string[] Value = RetVal.ToString().Split(',');
-            return new Size(int.Parse(Value[0]), int.Parse(Value[1]));
-        }
-        public static decimal ReadDecimal(string Key, string Section) {
-            var RetVal = new StringBuilder(255);
-            GetPrivateProfileString(Section, Key, "", RetVal, 255, Path);
-            decimal RetDec;
-            decimal.TryParse(RetVal.ToString(), out RetDec);
-            return RetDec;
-        }
-
-        public static void WriteString(string Key, string Value, string Section) {
-            WritePrivateProfileString(Section, Key, Value, Path);
-        }
-        public static void WriteBool(string Key, bool Value, string Section) {
-            string outKey;
-
-            if (Value)
-                outKey = "True";
-            else
-                outKey = "False";
-
-            WritePrivateProfileString(Section, Key, outKey, Path);
-        }
-        public static void WriteInt(string Key, int Value, string Section) {
-            string outKey = Value.ToString();
-
-            WritePrivateProfileString(Section, Key, outKey, Path);
-        }
-        public static void WriteDecimal(string Key, decimal Value, string Section) {
-            WritePrivateProfileString(Section, Key, Value.ToString(), Path);
-        }
-        public static void WriteSize(string Key, Size Value, string Section) {
-            string outKey = Value.Width + "," + Value.Height;
-
-            WritePrivateProfileString(Section, Key, outKey, Path);
-        }
-
-        public static void DeleteKey(string Key, string Section) {
-            WriteString(Key, null, Section);
-        }
-        public static void DeleteSection(string Section) {
-            WriteString(null, null, Section);
-        }
-
-        public static bool KeyExists(string Key, string Section) {
-            return ReadString(Key, Section).Length > 0;
-        }
-    }
-
 }

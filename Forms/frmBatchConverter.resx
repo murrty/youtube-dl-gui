@@ -117,30 +117,4 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="mBatchDownloaderArgs.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
-  <metadata name="ilBatchDownloadProgress.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>198, 17</value>
-  </metadata>
-  <data name="ilBatchDownloadProgress.ImageStream" mimetype="application/x-microsoft.net.object.binary.base64">
-    <value>
-        AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj00LjAuMC4w
-        LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAACZTeXN0
-        ZW0uV2luZG93cy5Gb3Jtcy5JbWFnZUxpc3RTdHJlYW1lcgEAAAAERGF0YQcCAgAAAAkDAAAADwMAAADS
-        AgAAAk1TRnQBSQFMAgEBBAEAAYgBAgGIAQIBEAEAARABAAT/AQUBAAj/AUIBTQF2BwABdgMAASgDAAFA
-        AwABIAMAAQEBAAEEBgABBBgAAYACAAGAAwACgAEAAYADAAGAAQABgAEAAoACAAPAAQADgAMAAf8CAAH/
-        AwAC/wEAAf8DAAH/AQAB/wEAAv8CAAP//wD/AC4AAQwBwAwAAZkEAAGZCwABDALMAcAEAAKqBQABmQGQ
-        AgABCQGZAgABCwGwAQsBsAELAbADAATMAwABCgKqAaAEAAEJAZACAAEJAZACAAELAbABCwGwAQsBsAIA
-        AQwEzAHAAgABqgGgAQoBqgQAAQkBmQIAAZkBkAoAAcwBwALMAQwBzAEAAQoBqgIAAaoFAAGZAgABmQoA
-        AQwBzAEAAQwBwAEAAcwBwAEKAaACAAGqAaAEAAGZAgABmQoAAQwCAAEMAcACAAHABAABCgGgBAABCQKZ
-        AZANAAEMAcAHAAEKAaoEAAEJApkBkA0AAQwBwAgAAaoBoAMABJkNAAEMAcAIAAEKAaADAAGZAgABmQ0A
-        AQwBwAgAAQoBqgIAAQkBmQIAAZkBkAwAAQwBwAkAAaoBoAEAAQkBkAIAAQkBkAwAAQwBwAkAAQoBoAEA
-        AZkBkAIAAQkBmRoAAZkEAAGZIQABQgFNAT4HAAE+AwABKAMAAUADAAEgAwABAQEAAQEGAAEBFgAD/4EA
-        Cv8B/gF/Av8BzwHzAv8B+AEfAfAB/wHHAeMB5gFnAfABDwHgAX8C5wHmAWcB4AEHAcYBPwHjAccC/wHE
-        ASMBjwE/AfMBzwL/AY4BcQGfAR8B8wHPAv8BvgF9Af8BnwH4AR8C/wH+AX8B/wGPAfgBHwL/Af4BfwH/
-        AccB8AEPAv8B/gF/Af8B5wHzAc8C/wH+AX8B/wLjAccC/wH+AX8B/wHxAucC/wH+AX8B/wH5AccB4wb/
-        Ac8B8wj/Cw==
-</value>
-  </data>
 </root>

@@ -50,27 +50,27 @@ namespace youtube_dl_gui {
                             Finish = DialogResult.Ignore;
                         }
                     }
-                    else { this.Dispose(); }
                     break;
                 case DownloadStatus.Finished:
                     if (DownloadProcess.ExitCode == 0) {
-                        if (CurrentDownload.BatchDownload) { this.DialogResult = System.Windows.Forms.DialogResult.Yes; }
-                        else { this.Dispose(); }
+                        if (CurrentDownload.BatchDownload) {
+                            this.DialogResult = System.Windows.Forms.DialogResult.Yes;
+                        }
                     }
                     else {
-                        if (CurrentDownload.BatchDownload) { this.DialogResult = System.Windows.Forms.DialogResult.No; }
+                        if (CurrentDownload.BatchDownload) {
+                            this.DialogResult = System.Windows.Forms.DialogResult.No;
+                        }
                     }
                     break;
                 case DownloadStatus.ProgramError:
                 case DownloadStatus.YtdlError:
-                    if (CurrentDownload.BatchDownload) { Finish = DialogResult.No; }
-                    else { this.Dispose(); }
+                    if (CurrentDownload.BatchDownload) {
+                        Finish = DialogResult.No;
+                    }
                     break;
                 default:
                     if (DownloadThread != null && DownloadThread.IsAlive) {
-                        if (DownloadProcess != null && !DownloadProcess.HasExited) {
-                            DownloadProcess.Kill();
-                        }
                         DownloadThread.Abort();
                         CurrentDownload.Status = DownloadStatus.Aborted;
                         e.Cancel = true;
@@ -142,7 +142,9 @@ namespace youtube_dl_gui {
             }
             CurrentDownload.Status = DownloadStatus.GeneratingArguments;
             rtbConsoleOutput.AppendText("Beginning download, this box will output progress\n");
-            if (CurrentDownload.BatchDownload) { chkDownloaderCloseAfterDownload.Checked = true; }
+            if (CurrentDownload.BatchDownload) {
+                chkDownloaderCloseAfterDownload.Checked = true;
+            }
 
             #region URL cleaning
             if (!CurrentDownload.DownloadURL.StartsWith("https://")) {
@@ -481,10 +483,6 @@ sanitizecheck:
             rtbConsoleOutput.AppendText("Creating download thread\n");
             DownloadThread = new Thread(() => {
                 try {
-                    while (true) {
-                        Debug.Print("Sleeping");
-                        Thread.Sleep(2000);
-                    }
                     DownloadProcess = new Process() {
                         StartInfo = new System.Diagnostics.ProcessStartInfo(YoutubeDlFileName) {
                             UseShellExecute = false,

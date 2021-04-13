@@ -8,6 +8,7 @@ using System.Windows.Forms;
 
 namespace youtube_dl_gui {
     public partial class frmSettings : Form {
+
         #region vars
         Language lang = Language.GetInstance();
         Verification verif = Verification.GetInstance();
@@ -17,12 +18,6 @@ namespace youtube_dl_gui {
         List<string> extensionsName = new List<string>();
         List<string> extensionsShort = new List<string>();
         #endregion
-
-        [DllImport("user32.dll", CharSet = CharSet.Unicode)]
-        private static extern IntPtr SendMessage(IntPtr hWnd, int msg, IntPtr wp, string lp);
-        private void SetTextBoxHint(IntPtr TextboxHandle, string Hint) {
-            SendMessage(TextboxHandle, 0x1501, (IntPtr)1, Hint);
-        }
 
         public frmSettings() {
             InitializeComponent();
@@ -189,10 +184,10 @@ namespace youtube_dl_gui {
             lbSettingsExtensionsHeader.Text = lang.lbSettingsExtensionsHeader;
             //tipSettings.SetToolTip(lbSettingsExtensionsHeader, lang.lbSettingsExtensionsHeaderHint);
             lbSettingsExtensionsExtensionFullName.Text = lang.lbSettingsExtensionsExtensionFullName;
-            SetTextBoxHint(txtSettingsExtensionsExtensionFullName.Handle, lang.txtSettingsExtensionsExtensionFullName);
+            txtSettingsExtensionsExtensionFullName.TextHint = lang.txtSettingsExtensionsExtensionFullName;
             //tipSettings.SetToolTip(lbSettingsExtensionsExtensionFullName, lang.lbSettingsExtensionsExtensionFullNameHint);
             lbSettingsExtensionsExtensionShort.Text = lang.lbSettingsExtensionsExtensionShort;
-            SetTextBoxHint(txtSettingsExtensionsExtensionShort.Handle, lang.txtSettingsExtensionsExtensionShort);
+            txtSettingsExtensionsExtensionShort.TextHint = lang.txtSettingsExtensionsExtensionShort;
             //tipSettings.SetToolTip(lbSettingsExtensionsExtensionShort, lang.lbSettingsExtensionsExtensionShortHint);
             btnSettingsExtensionsAdd.Text = lang.btnSettingsExtensionsAdd;
             //tipSettings.SetToolTip(btnSettingsExtensionsAdd, lang.btnSettingsExtensionsAddHint);

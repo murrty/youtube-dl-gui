@@ -15,18 +15,12 @@ namespace youtube_dl_gui {
         Verification verif = Verification.GetInstance();
 
         public bool ProtocolInput = false;
-
-        [DllImport("user32.dll", CharSet = CharSet.Unicode)]
-        private static extern IntPtr SendMessage(IntPtr hWnd, int msg, IntPtr wp, string lp);
-        private void SetTextBoxHint(IntPtr TextboxHandle, string Hint) {
-            SendMessage(TextboxHandle, 0x1501, (IntPtr)1, Hint);
-        }
         #endregion
 
         #region form
         [DebuggerStepThrough]
         protected override void WndProc(ref Message m) {
-            if (m.Msg == Controller.WM_SHOWYTDLGUIFORM) {
+            if (m.Msg == NativeMethods.WM_SHOWYTDLGUIFORM) {
                 this.Show();
                 if (this.WindowState != FormWindowState.Normal)
                     this.WindowState = FormWindowState.Normal;
@@ -37,7 +31,6 @@ namespace youtube_dl_gui {
         public frmMain() {
             InitializeComponent();
             LoadLanguage();
-
             trayIcon.ContextMenu = cmTray;
             if (Program.IsDebug) {
                 lbDebug.Text = "debugging " + Properties.Settings.Default.debugDate;
@@ -115,7 +108,6 @@ namespace youtube_dl_gui {
                     rbConvertAuto.Checked = true;
                     break;
             }
-            CalculateLocations();
 
             if (ProtocolInput) {
                 if (Downloads.Default.AutomaticallyDownloadFromProtocol) {
@@ -183,7 +175,7 @@ namespace youtube_dl_gui {
             trayIcon.Visible = false;
         }
 
-        void LoadLanguage(bool ChangedLanguage = false) {
+        void LoadLanguage() {
             mSettings.Text = lang.mSettings;
             mTools.Text = lang.mTools;
             mBatchDownload.Text = lang.mBatchDownload;
@@ -199,7 +191,7 @@ namespace youtube_dl_gui {
             tabMerge.Text = lang.tabMerge;
 
             lbURL.Text = lang.lbURL;
-            SetTextBoxHint(txtUrl.Handle, lang.txtUrlHint);
+            txtUrl.TextHint = lang.txtUrlHint;
             gbDownloadType.Text = lang.gbDownloadType;
             rbVideo.Text = lang.GenericVideo;
             rbAudio.Text = lang.GenericAudio;
@@ -336,16 +328,20 @@ namespace youtube_dl_gui {
             using (frmLanguage language = new frmLanguage()) {
                 switch (language.ShowDialog()) {
                     case System.Windows.Forms.DialogResult.Yes:
-                        if (language.LanguageFile == null) { Settings.Default.LanguageFile = string.Empty; }
-                        else { Settings.Default.LanguageFile = language.LanguageFile; }
+                        if (language.LanguageFile == null) {
+                            Settings.Default.LanguageFile = string.Empty;
+                        }
+                        else {
+                            Settings.Default.LanguageFile = language.LanguageFile;
+                        
+                        }
                         if (!Program.IsPortable) {
                             Settings.Default.Save();
                         }
                         else {
                             Ini.WriteString("LanguageFile", language.LanguageFile, "Settings");
                         }
-                        LoadLanguage(true);
-                        CalculateLocations();
+                        LoadLanguage();
                         break;
                 }
             }
@@ -1203,6 +1199,17 @@ namespace youtube_dl_gui {
                 panelPlaylistItems.Visible = false;
                 panelDate.Visible = true;
                 chkUseSelection.Checked = true;
+            }
+        }
+
+        private void chkUseSelection_CheckedChanged(object sender, EventArgs e) {
+            if (chkUseSelection.Checked) {
+                gbSelection.Size = new Size(gbSelection.Size.Width, 106);
+                this.Size = new Size(this.Width, this.Height + 86);
+            }
+            else {
+                gbSelection.Size = new Size(gbSelection.Size.Width, 20);
+                this.Size = new Size(this.Width, this.Height - 86);
             }
         }
 

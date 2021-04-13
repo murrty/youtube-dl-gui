@@ -38,9 +38,9 @@
             this.btnSettingsGeneralBrowseYoutubeDl = new System.Windows.Forms.Button();
             this.chkSettingsGeneralUseStaticYoutubeDl = new System.Windows.Forms.CheckBox();
             this.chkSettingsGeneralUseStaticFFmpeg = new System.Windows.Forms.CheckBox();
-            this.txtSettingsGeneralFFmpegPath = new System.Windows.Forms.TextBox();
+            this.txtSettingsGeneralFFmpegPath = new youtube_dl_gui.Controls.ExtendedTextBox();
             this.lbSettingsGeneralFFmpegDirectory = new System.Windows.Forms.Label();
-            this.txtSettingsGeneralYoutubeDlPath = new System.Windows.Forms.TextBox();
+            this.txtSettingsGeneralYoutubeDlPath = new youtube_dl_gui.Controls.ExtendedTextBox();
             this.lbSettingsGeneralYoutubeDlPath = new System.Windows.Forms.Label();
             this.chkSettingsGeneralClearUrlOnDownload = new System.Windows.Forms.CheckBox();
             this.chkSettingsGeneralHoverOverUrlToPasteClipboard = new System.Windows.Forms.CheckBox();
@@ -67,8 +67,8 @@
             this.chkSettingsDownloadsFixVReddIt = new System.Windows.Forms.CheckBox();
             this.tabDownloadsConnection = new System.Windows.Forms.TabPage();
             this.cbSettingsDownloadsProxyType = new System.Windows.Forms.ComboBox();
-            this.txtSettingsDownloadsProxyPort = new youtube_dl_gui.HintTextBox();
-            this.txtSettingsDownloadsProxyIp = new youtube_dl_gui.HintTextBox();
+            this.txtSettingsDownloadsProxyPort = new youtube_dl_gui.Controls.ExtendedTextBox();
+            this.txtSettingsDownloadsProxyIp = new youtube_dl_gui.Controls.ExtendedTextBox();
             this.chkSettingsDownloadsForceIpv6 = new System.Windows.Forms.CheckBox();
             this.chkSettingsDownloadsForceIpv4 = new System.Windows.Forms.CheckBox();
             this.chkSettingsDownloadsUseProxy = new System.Windows.Forms.CheckBox();
@@ -82,7 +82,7 @@
             this.chksettingsDownloadsUseYoutubeDlsUpdater = new System.Windows.Forms.CheckBox();
             this.llSettingsDownloadsSchemaHelp = new System.Windows.Forms.LinkLabel();
             this.lbSettingsDownloadsDownloadPath = new System.Windows.Forms.Label();
-            this.txtSettingsDownloadsSavePath = new System.Windows.Forms.TextBox();
+            this.txtSettingsDownloadsSavePath = new youtube_dl_gui.Controls.ExtendedTextBox();
             this.btnSettingsDownloadsBrowseSavePath = new System.Windows.Forms.Button();
             this.lbSepDownloads = new System.Windows.Forms.Label();
             this.lbSettingsDownloadsFileNameSchema = new System.Windows.Forms.Label();
@@ -113,7 +113,7 @@
             this.lbConvertAudioThousands = new System.Windows.Forms.Label();
             this.lbSettingsConverterAudioBitrate = new System.Windows.Forms.Label();
             this.tcSettingsConverterCustom = new System.Windows.Forms.TabPage();
-            this.txtSettingsConverterCustomArguments = new System.Windows.Forms.TextBox();
+            this.txtSettingsConverterCustomArguments = new youtube_dl_gui.Controls.ExtendedTextBox();
             this.lbSettingsConverterCustomHeader = new System.Windows.Forms.Label();
             this.chkSettingsConverterClearInputAfterConverting = new System.Windows.Forms.CheckBox();
             this.chkSettingsConverterClearOutputAfterConverting = new System.Windows.Forms.CheckBox();
@@ -123,9 +123,9 @@
             this.btnSettingsExtensionsRemoveSelected = new System.Windows.Forms.Button();
             this.listExtensions = new System.Windows.Forms.ListBox();
             this.lbSettingsExtensionsExtensionShort = new System.Windows.Forms.Label();
-            this.txtSettingsExtensionsExtensionShort = new System.Windows.Forms.TextBox();
+            this.txtSettingsExtensionsExtensionShort = new youtube_dl_gui.Controls.ExtendedTextBox();
             this.lbSettingsExtensionsExtensionFullName = new System.Windows.Forms.Label();
-            this.txtSettingsExtensionsExtensionFullName = new System.Windows.Forms.TextBox();
+            this.txtSettingsExtensionsExtensionFullName = new youtube_dl_gui.Controls.ExtendedTextBox();
             this.lbSettingsExtensionsHeader = new System.Windows.Forms.Label();
             this.tabSettingsErrors = new System.Windows.Forms.TabPage();
             this.chkSettingsErrorsSaveErrorsAsErrorLog = new System.Windows.Forms.CheckBox();
@@ -1634,9 +1634,9 @@
         private System.Windows.Forms.Button btnSettingsGeneralBrowseYoutubeDl;
         private System.Windows.Forms.CheckBox chkSettingsGeneralUseStaticYoutubeDl;
         private System.Windows.Forms.CheckBox chkSettingsGeneralUseStaticFFmpeg;
-        private System.Windows.Forms.TextBox txtSettingsGeneralFFmpegPath;
+        private youtube_dl_gui.Controls.ExtendedTextBox txtSettingsGeneralFFmpegPath;
         private System.Windows.Forms.Label lbSettingsGeneralFFmpegDirectory;
-        private System.Windows.Forms.TextBox txtSettingsGeneralYoutubeDlPath;
+        private youtube_dl_gui.Controls.ExtendedTextBox txtSettingsGeneralYoutubeDlPath;
         private System.Windows.Forms.Label lbSettingsGeneralYoutubeDlPath;
         private System.Windows.Forms.TabPage tabSettingsDownloads;
         private System.Windows.Forms.TabPage tabSettingsConverter;
@@ -1651,7 +1651,7 @@
         private System.Windows.Forms.CheckBox chkSettingsGeneralCheckForUpdatesOnLaunch;
         private System.Windows.Forms.CheckBox chksettingsDownloadsUseYoutubeDlsUpdater;
         private System.Windows.Forms.Button btnSettingsDownloadsBrowseSavePath;
-        private System.Windows.Forms.TextBox txtSettingsDownloadsSavePath;
+        private youtube_dl_gui.Controls.ExtendedTextBox txtSettingsDownloadsSavePath;
         private System.Windows.Forms.Label lbSettingsDownloadsDownloadPath;
         private System.Windows.Forms.Label lbSepDownloads;
         private System.Windows.Forms.CheckBox chkSettingsDownloadsSeparateDownloadsToDifferentFolders;
@@ -1679,7 +1679,7 @@
         private System.Windows.Forms.NumericUpDown numConvertVideoCRF;
         private System.Windows.Forms.CheckBox chkSettingsConverterVideoFastStart;
         private System.Windows.Forms.TabPage tcSettingsConverterCustom;
-        private System.Windows.Forms.TextBox txtSettingsConverterCustomArguments;
+        private youtube_dl_gui.Controls.ExtendedTextBox txtSettingsConverterCustomArguments;
         private System.Windows.Forms.Label lbSettingsConverterCustomHeader;
         private System.Windows.Forms.CheckBox chkSettingsConverterHideFFmpegCompileInfo;
         private System.Windows.Forms.TabPage tabSettingsErrors;
@@ -1693,9 +1693,9 @@
         private System.Windows.Forms.Button btnSettingsExtensionsRemoveSelected;
         private System.Windows.Forms.ListBox listExtensions;
         private System.Windows.Forms.Label lbSettingsExtensionsExtensionShort;
-        private System.Windows.Forms.TextBox txtSettingsExtensionsExtensionShort;
+        private youtube_dl_gui.Controls.ExtendedTextBox txtSettingsExtensionsExtensionShort;
         private System.Windows.Forms.Label lbSettingsExtensionsExtensionFullName;
-        private System.Windows.Forms.TextBox txtSettingsExtensionsExtensionFullName;
+        private youtube_dl_gui.Controls.ExtendedTextBox txtSettingsExtensionsExtensionFullName;
         private System.Windows.Forms.Button btnSettingsExtensionsAdd;
         private System.Windows.Forms.Label lbSettingsExtensionsFileName;
         private System.Windows.Forms.CheckBox chkUseVideoCRF;
@@ -1724,8 +1724,8 @@
         private System.Windows.Forms.CheckBox chkSettingsDownloadsUseProxy;
         private System.Windows.Forms.CheckBox chkSettingsDownloadsForceIpv6;
         private System.Windows.Forms.CheckBox chkSettingsDownloadsForceIpv4;
-        private HintTextBox txtSettingsDownloadsProxyPort;
-        private HintTextBox txtSettingsDownloadsProxyIp;
+        private youtube_dl_gui.Controls.ExtendedTextBox txtSettingsDownloadsProxyPort;
+        private youtube_dl_gui.Controls.ExtendedTextBox txtSettingsDownloadsProxyIp;
         private System.Windows.Forms.Label lbSettingsDownloadsIpPort;
         private System.Windows.Forms.ComboBox cbSettingsDownloadsProxyType;
         private System.Windows.Forms.CheckBox chkSettingsDownloadsLimitDownload;
