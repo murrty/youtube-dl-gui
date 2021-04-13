@@ -116,11 +116,9 @@ namespace youtube_dl_gui {
             }
         }
         private void frmMain_FormClosing(object sender, FormClosingEventArgs e) {
-            if (this.Location.X == 0 || this.Location.Y == 0) {
-                Saved.Default.formTrue0 = true;
-            }
-            else {
-                Saved.Default.formTrue0 = false;
+            if (this.WindowState == FormWindowState.Minimized) {
+                this.Opacity = 0;
+                this.WindowState = FormWindowState.Normal;
             }
             Saved.Default.MainFormSize = this.Size;
 
@@ -257,54 +255,82 @@ namespace youtube_dl_gui {
             CalculateLocations();
         }
         void CalculateLocations() {
-            gbDownloadType.Size = new Size(((rbVideo.Size.Width + 2) + rbAudio.Size.Width +  (rbCustom.Size.Width - 2)) + 12, gbDownloadType.Size.Height);
+            gbDownloadType.Size = new Size(
+                ((rbVideo.Size.Width + 2) + rbAudio.Size.Width +  (rbCustom.Size.Width - 2)) + 12,
+                gbDownloadType.Size.Height
+            );
             gbDownloadType.Location = new System.Drawing.Point(
                 (tabDownload.Size.Width - gbDownloadType.Size.Width) / 2,
                 gbDownloadType.Location.Y
-                );
+            );
 
             rbVideo.Location = new System.Drawing.Point(
                 (gbDownloadType.Size.Width - (rbVideo.Size.Width + rbAudio.Size.Width + rbCustom.Size.Width)) / 2,
                 rbVideo.Location.Y
-                );
+            );
             rbAudio.Location = new System.Drawing.Point(
                 (rbVideo.Location.X + rbVideo.Size.Width) + 2,
                 rbAudio.Location.Y
-                );
+            );
             rbCustom.Location = new System.Drawing.Point(
                 ((rbAudio.Location.X + rbAudio.Size.Width) + 2),
                 rbCustom.Location.Y
-                );
+            );
+
+            gbSelection.Size = new Size(
+                (rbVideoSelectionBeforeDate.Size.Width + rbVideoSelectionOnDate.Size.Width + rbVideoSelectionAfterDate.Size.Width) + 12,
+                20
+            );
+            rbVideoSelectionPlaylistIndex.Location = new Point(
+                (gbSelection.Size.Width - (rbVideoSelectionPlaylistIndex.Size.Width + rbVideoSelectionPlaylistItems.Size.Width)) / 2,
+                rbVideoSelectionPlaylistIndex.Location.Y
+            );
+            rbVideoSelectionPlaylistItems.Location = new Point(
+                (rbVideoSelectionPlaylistIndex.Location.X + rbVideoSelectionPlaylistItems.Size.Width) + 2,
+                rbVideoSelectionPlaylistItems.Location.Y
+            );
+            rbVideoSelectionBeforeDate.Location = new Point(
+                (gbSelection.Size.Width - (rbVideoSelectionBeforeDate.Size.Width + rbVideoSelectionOnDate.Size.Width + rbVideoSelectionAfterDate.Size.Width)) / 2,
+                rbVideoSelectionBeforeDate.Location.Y
+            );
+            rbVideoSelectionOnDate.Location = new Point(
+                (rbVideoSelectionBeforeDate.Location.X + rbVideoSelectionOnDate.Size.Width + 12) + 2,
+                rbVideoSelectionOnDate.Location.Y
+            );
+            rbVideoSelectionAfterDate.Location = new Point(
+                (rbVideoSelectionOnDate.Location.X + rbVideoSelectionAfterDate.Size.Width) + 2,
+                rbVideoSelectionAfterDate.Location.Y
+            );
 
             rbConvertVideo.Location = new System.Drawing.Point(
                 (tabConvert.Size.Width - (rbConvertVideo.Size.Width + rbConvertAudio.Size.Width + rbConvertCustom.Size.Width)) / 2,
                 rbConvertVideo.Location.Y
-                );
+            );
             rbConvertAudio.Location = new System.Drawing.Point(
                 (rbConvertVideo.Location.X + rbConvertVideo.Width) - 2,
                 rbConvertVideo.Location.Y
-                );
+            );
             rbConvertCustom.Location = new System.Drawing.Point(
                 (rbConvertAudio.Location.X + rbConvertAudio.Size.Width) + 2,
                 rbConvertAudio.Location.Y
-                );
+            );
             rbConvertAuto.Location = new System.Drawing.Point(
                 ((tabConvert.Size.Width / 2) - ((rbConvertAuto.Width + rbConvertAutoFFmpeg.Width) / 2)),
                 rbConvertAuto.Location.Y
-                );
+            );
             rbConvertAutoFFmpeg.Location = new System.Drawing.Point(
                 (rbConvertAuto.Location.X + rbConvertAuto.Size.Width) + 2,
                 rbConvertAutoFFmpeg.Location.Y
-                );
+            );
 
             chkMergeAudioTracks.Location = new System.Drawing.Point(
                 (tabMerge.Size.Width - chkMergeAudioTracks.Size.Width) / 2,
                 chkMergeAudioTracks.Location.Y
-                );
+            );
             chkMergeDeleteInputFiles.Location = new System.Drawing.Point(
                 (tabMerge.Size.Width - chkMergeDeleteInputFiles.Size.Width) / 2,
                 chkMergeDeleteInputFiles.Location.Y
-                );
+            );
         }
         #endregion
 
@@ -1206,9 +1232,11 @@ namespace youtube_dl_gui {
             if (chkUseSelection.Checked) {
                 gbSelection.Size = new Size(gbSelection.Size.Width, 106);
                 this.Size = new Size(this.Width, this.Height + 86);
+                this.MinimumSize = new Size(this.MinimumSize.Width, this.MinimumSize.Height + 86);
             }
             else {
                 gbSelection.Size = new Size(gbSelection.Size.Width, 20);
+                this.MinimumSize = new Size(this.MinimumSize.Width, this.MinimumSize.Height - 86);
                 this.Size = new Size(this.Width, this.Height - 86);
             }
         }

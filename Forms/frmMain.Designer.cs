@@ -157,7 +157,7 @@
             this.tcMain.Location = new System.Drawing.Point(0, 0);
             this.tcMain.Name = "tcMain";
             this.tcMain.SelectedIndex = 0;
-            this.tcMain.Size = new System.Drawing.Size(343, 323);
+            this.tcMain.Size = new System.Drawing.Size(244, 282);
             this.tcMain.TabIndex = 0;
             // 
             // tabDownload
@@ -179,7 +179,7 @@
             this.tabDownload.Location = new System.Drawing.Point(4, 22);
             this.tabDownload.Name = "tabDownload";
             this.tabDownload.Padding = new System.Windows.Forms.Padding(3);
-            this.tabDownload.Size = new System.Drawing.Size(335, 297);
+            this.tabDownload.Size = new System.Drawing.Size(236, 256);
             this.tabDownload.TabIndex = 0;
             this.tabDownload.Text = "tabDownload";
             this.tabDownload.UseVisualStyleBackColor = true;
@@ -189,16 +189,15 @@
             this.cbCustomArguments.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cbCustomArguments.FormattingEnabled = true;
-            this.cbCustomArguments.Location = new System.Drawing.Point(22, 233);
+            this.cbCustomArguments.Location = new System.Drawing.Point(22, 192);
             this.cbCustomArguments.Name = "cbCustomArguments";
-            this.cbCustomArguments.Size = new System.Drawing.Size(291, 21);
+            this.cbCustomArguments.Size = new System.Drawing.Size(192, 21);
             this.cbCustomArguments.TabIndex = 21;
             // 
             // chkUseSelection
             // 
-            this.chkUseSelection.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.chkUseSelection.AutoSize = true;
-            this.chkUseSelection.Location = new System.Drawing.Point(57, 163);
+            this.chkUseSelection.Location = new System.Drawing.Point(8, 163);
             this.chkUseSelection.Name = "chkUseSelection";
             this.chkUseSelection.Size = new System.Drawing.Size(106, 17);
             this.chkUseSelection.TabIndex = 20;
@@ -208,7 +207,8 @@
             // 
             // gbSelection
             // 
-            this.gbSelection.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.gbSelection.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.gbSelection.Controls.Add(this.rbVideoSelectionPlaylistItems);
             this.gbSelection.Controls.Add(this.rbVideoSelectionAfterDate);
             this.gbSelection.Controls.Add(this.rbVideoSelectionOnDate);
@@ -217,7 +217,8 @@
             this.gbSelection.Controls.Add(this.panelDate);
             this.gbSelection.Controls.Add(this.panelPlaylistStartEnd);
             this.gbSelection.Controls.Add(this.panelPlaylistItems);
-            this.gbSelection.Location = new System.Drawing.Point(56, 163);
+            this.gbSelection.Location = new System.Drawing.Point(7, 163);
+            this.gbSelection.MinimumSize = new System.Drawing.Size(0, 20);
             this.gbSelection.Name = "gbSelection";
             this.gbSelection.Size = new System.Drawing.Size(225, 20);
             this.gbSelection.TabIndex = 19;
@@ -225,6 +226,7 @@
             // 
             // rbVideoSelectionPlaylistItems
             // 
+            this.rbVideoSelectionPlaylistItems.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.rbVideoSelectionPlaylistItems.AutoSize = true;
             this.rbVideoSelectionPlaylistItems.Location = new System.Drawing.Point(115, 19);
             this.rbVideoSelectionPlaylistItems.Name = "rbVideoSelectionPlaylistItems";
@@ -237,6 +239,7 @@
             // 
             // rbVideoSelectionAfterDate
             // 
+            this.rbVideoSelectionAfterDate.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.rbVideoSelectionAfterDate.AutoSize = true;
             this.rbVideoSelectionAfterDate.Location = new System.Drawing.Point(156, 42);
             this.rbVideoSelectionAfterDate.Name = "rbVideoSelectionAfterDate";
@@ -249,6 +252,7 @@
             // 
             // rbVideoSelectionOnDate
             // 
+            this.rbVideoSelectionOnDate.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.rbVideoSelectionOnDate.AutoSize = true;
             this.rbVideoSelectionOnDate.Location = new System.Drawing.Point(88, 42);
             this.rbVideoSelectionOnDate.Name = "rbVideoSelectionOnDate";
@@ -261,6 +265,7 @@
             // 
             // rbVideoSelectionBeforeDate
             // 
+            this.rbVideoSelectionBeforeDate.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.rbVideoSelectionBeforeDate.AutoSize = true;
             this.rbVideoSelectionBeforeDate.Location = new System.Drawing.Point(6, 42);
             this.rbVideoSelectionBeforeDate.Name = "rbVideoSelectionBeforeDate";
@@ -273,6 +278,7 @@
             // 
             // rbVideoSelectionPlaylistIndex
             // 
+            this.rbVideoSelectionPlaylistIndex.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.rbVideoSelectionPlaylistIndex.AutoSize = true;
             this.rbVideoSelectionPlaylistIndex.Location = new System.Drawing.Point(25, 19);
             this.rbVideoSelectionPlaylistIndex.Name = "rbVideoSelectionPlaylistIndex";
@@ -285,6 +291,8 @@
             // 
             // panelDate
             // 
+            this.panelDate.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.panelDate.Controls.Add(this.txtVideoDate);
             this.panelDate.Location = new System.Drawing.Point(7, 69);
             this.panelDate.Name = "panelDate";
@@ -294,6 +302,7 @@
             // 
             // panelPlaylistStartEnd
             // 
+            this.panelPlaylistStartEnd.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.panelPlaylistStartEnd.Controls.Add(this.txtPlaylistEnd);
             this.panelPlaylistStartEnd.Controls.Add(this.txtPlaylistStart);
             this.panelPlaylistStartEnd.Location = new System.Drawing.Point(7, 69);
@@ -304,6 +313,8 @@
             // 
             // panelPlaylistItems
             // 
+            this.panelPlaylistItems.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.panelPlaylistItems.Controls.Add(this.txtPlaylistItems);
             this.panelPlaylistItems.Location = new System.Drawing.Point(7, 69);
             this.panelPlaylistItems.Name = "panelPlaylistItems";
@@ -316,7 +327,7 @@
             this.cbFormat.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.cbFormat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbFormat.FormattingEnabled = true;
-            this.cbFormat.Location = new System.Drawing.Point(119, 136);
+            this.cbFormat.Location = new System.Drawing.Point(70, 136);
             this.cbFormat.Name = "cbFormat";
             this.cbFormat.Size = new System.Drawing.Size(80, 21);
             this.cbFormat.TabIndex = 11;
@@ -324,7 +335,7 @@
             // lbFormat
             // 
             this.lbFormat.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.lbFormat.Location = new System.Drawing.Point(53, 139);
+            this.lbFormat.Location = new System.Drawing.Point(4, 139);
             this.lbFormat.Name = "lbFormat";
             this.lbFormat.Size = new System.Drawing.Size(63, 13);
             this.lbFormat.TabIndex = 10;
@@ -335,7 +346,7 @@
             // 
             this.lbDownloadStatus.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.lbDownloadStatus.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbDownloadStatus.Location = new System.Drawing.Point(48, 290);
+            this.lbDownloadStatus.Location = new System.Drawing.Point(-1, 249);
             this.lbDownloadStatus.Name = "lbDownloadStatus";
             this.lbDownloadStatus.Size = new System.Drawing.Size(238, 20);
             this.lbDownloadStatus.TabIndex = 15;
@@ -367,7 +378,7 @@
             this.chkDownloadSound.AutoSize = true;
             this.chkDownloadSound.Checked = true;
             this.chkDownloadSound.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkDownloadSound.Location = new System.Drawing.Point(205, 109);
+            this.chkDownloadSound.Location = new System.Drawing.Point(156, 109);
             this.chkDownloadSound.Name = "chkDownloadSound";
             this.chkDownloadSound.Size = new System.Drawing.Size(122, 17);
             this.chkDownloadSound.TabIndex = 9;
@@ -380,7 +391,7 @@
             this.cbQuality.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.cbQuality.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbQuality.FormattingEnabled = true;
-            this.cbQuality.Location = new System.Drawing.Point(119, 107);
+            this.cbQuality.Location = new System.Drawing.Point(70, 107);
             this.cbQuality.Name = "cbQuality";
             this.cbQuality.Size = new System.Drawing.Size(80, 21);
             this.cbQuality.TabIndex = 8;
@@ -388,7 +399,7 @@
             // lbQuality
             // 
             this.lbQuality.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.lbQuality.Location = new System.Drawing.Point(53, 110);
+            this.lbQuality.Location = new System.Drawing.Point(4, 110);
             this.lbQuality.Name = "lbQuality";
             this.lbQuality.Size = new System.Drawing.Size(63, 15);
             this.lbQuality.TabIndex = 7;
@@ -399,7 +410,7 @@
             // 
             this.lbCustomArguments.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lbCustomArguments.AutoSize = true;
-            this.lbCustomArguments.Location = new System.Drawing.Point(15, 212);
+            this.lbCustomArguments.Location = new System.Drawing.Point(15, 171);
             this.lbCustomArguments.Name = "lbCustomArguments";
             this.lbCustomArguments.Size = new System.Drawing.Size(100, 13);
             this.lbCustomArguments.TabIndex = 12;
@@ -411,7 +422,7 @@
             this.gbDownloadType.Controls.Add(this.rbCustom);
             this.gbDownloadType.Controls.Add(this.rbAudio);
             this.gbDownloadType.Controls.Add(this.rbVideo);
-            this.gbDownloadType.Location = new System.Drawing.Point(56, 59);
+            this.gbDownloadType.Location = new System.Drawing.Point(7, 59);
             this.gbDownloadType.Name = "gbDownloadType";
             this.gbDownloadType.Size = new System.Drawing.Size(225, 40);
             this.gbDownloadType.TabIndex = 3;
@@ -475,7 +486,7 @@
             this.tabConvert.Location = new System.Drawing.Point(4, 22);
             this.tabConvert.Name = "tabConvert";
             this.tabConvert.Padding = new System.Windows.Forms.Padding(3);
-            this.tabConvert.Size = new System.Drawing.Size(335, 297);
+            this.tabConvert.Size = new System.Drawing.Size(396, 429);
             this.tabConvert.TabIndex = 1;
             this.tabConvert.Text = "tabConvert";
             this.tabConvert.UseVisualStyleBackColor = true;
@@ -484,7 +495,7 @@
             // 
             this.rbConvertCustom.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.rbConvertCustom.AutoSize = true;
-            this.rbConvertCustom.Location = new System.Drawing.Point(196, 143);
+            this.rbConvertCustom.Location = new System.Drawing.Point(227, 172);
             this.rbConvertCustom.Name = "rbConvertCustom";
             this.rbConvertCustom.Size = new System.Drawing.Size(105, 17);
             this.rbConvertCustom.TabIndex = 9;
@@ -496,7 +507,7 @@
             // 
             this.rbConvertAudio.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.rbConvertAudio.AutoSize = true;
-            this.rbConvertAudio.Location = new System.Drawing.Point(139, 143);
+            this.rbConvertAudio.Location = new System.Drawing.Point(170, 172);
             this.rbConvertAudio.Name = "rbConvertAudio";
             this.rbConvertAudio.Size = new System.Drawing.Size(97, 17);
             this.rbConvertAudio.TabIndex = 8;
@@ -508,7 +519,7 @@
             // 
             this.rbConvertAutoFFmpeg.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.rbConvertAutoFFmpeg.AutoSize = true;
-            this.rbConvertAutoFFmpeg.Location = new System.Drawing.Point(165, 166);
+            this.rbConvertAutoFFmpeg.Location = new System.Drawing.Point(196, 195);
             this.rbConvertAutoFFmpeg.Name = "rbConvertAutoFFmpeg";
             this.rbConvertAutoFFmpeg.Size = new System.Drawing.Size(130, 17);
             this.rbConvertAutoFFmpeg.TabIndex = 11;
@@ -520,7 +531,7 @@
             // 
             this.rbConvertAuto.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.rbConvertAuto.AutoSize = true;
-            this.rbConvertAuto.Location = new System.Drawing.Point(88, 166);
+            this.rbConvertAuto.Location = new System.Drawing.Point(119, 195);
             this.rbConvertAuto.Name = "rbConvertAuto";
             this.rbConvertAuto.Size = new System.Drawing.Size(92, 17);
             this.rbConvertAuto.TabIndex = 10;
@@ -532,7 +543,7 @@
             // 
             this.lbConvertStatus.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.lbConvertStatus.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbConvertStatus.Location = new System.Drawing.Point(48, 255);
+            this.lbConvertStatus.Location = new System.Drawing.Point(79, 313);
             this.lbConvertStatus.Name = "lbConvertStatus";
             this.lbConvertStatus.Size = new System.Drawing.Size(238, 22);
             this.lbConvertStatus.TabIndex = 13;
@@ -544,7 +555,7 @@
             // 
             this.btnConvert.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.btnConvert.Enabled = false;
-            this.btnConvert.Location = new System.Drawing.Point(128, 220);
+            this.btnConvert.Location = new System.Drawing.Point(159, 278);
             this.btnConvert.Name = "btnConvert";
             this.btnConvert.Size = new System.Drawing.Size(79, 25);
             this.btnConvert.TabIndex = 12;
@@ -556,7 +567,7 @@
             // 
             this.rbConvertVideo.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.rbConvertVideo.AutoSize = true;
-            this.rbConvertVideo.Location = new System.Drawing.Point(80, 143);
+            this.rbConvertVideo.Location = new System.Drawing.Point(111, 172);
             this.rbConvertVideo.Name = "rbConvertVideo";
             this.rbConvertVideo.Size = new System.Drawing.Size(97, 17);
             this.rbConvertVideo.TabIndex = 7;
@@ -568,7 +579,7 @@
             // 
             this.btnConvertOutput.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnConvertOutput.Enabled = false;
-            this.btnConvertOutput.Location = new System.Drawing.Point(284, 72);
+            this.btnConvertOutput.Location = new System.Drawing.Point(345, 72);
             this.btnConvertOutput.Name = "btnConvertOutput";
             this.btnConvertOutput.Size = new System.Drawing.Size(29, 23);
             this.btnConvertOutput.TabIndex = 6;
@@ -592,13 +603,13 @@
             this.txtConvertOutput.Location = new System.Drawing.Point(26, 74);
             this.txtConvertOutput.Name = "txtConvertOutput";
             this.txtConvertOutput.ReadOnly = true;
-            this.txtConvertOutput.Size = new System.Drawing.Size(252, 20);
+            this.txtConvertOutput.Size = new System.Drawing.Size(313, 20);
             this.txtConvertOutput.TabIndex = 5;
             // 
             // btnConvertInput
             // 
             this.btnConvertInput.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnConvertInput.Location = new System.Drawing.Point(284, 25);
+            this.btnConvertInput.Location = new System.Drawing.Point(345, 25);
             this.btnConvertInput.Name = "btnConvertInput";
             this.btnConvertInput.Size = new System.Drawing.Size(29, 23);
             this.btnConvertInput.TabIndex = 3;
@@ -622,7 +633,7 @@
             this.txtConvertInput.Location = new System.Drawing.Point(26, 27);
             this.txtConvertInput.Name = "txtConvertInput";
             this.txtConvertInput.ReadOnly = true;
-            this.txtConvertInput.Size = new System.Drawing.Size(252, 20);
+            this.txtConvertInput.Size = new System.Drawing.Size(313, 20);
             this.txtConvertInput.TabIndex = 2;
             // 
             // tabMerge
@@ -642,7 +653,7 @@
             this.tabMerge.Location = new System.Drawing.Point(4, 22);
             this.tabMerge.Name = "tabMerge";
             this.tabMerge.Padding = new System.Windows.Forms.Padding(3);
-            this.tabMerge.Size = new System.Drawing.Size(335, 297);
+            this.tabMerge.Size = new System.Drawing.Size(396, 429);
             this.tabMerge.TabIndex = 2;
             this.tabMerge.Text = "tabMerge";
             this.tabMerge.UseVisualStyleBackColor = true;
@@ -651,7 +662,7 @@
             // 
             this.chkMergeDeleteInputFiles.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.chkMergeDeleteInputFiles.AutoSize = true;
-            this.chkMergeDeleteInputFiles.Location = new System.Drawing.Point(109, 192);
+            this.chkMergeDeleteInputFiles.Location = new System.Drawing.Point(140, 221);
             this.chkMergeDeleteInputFiles.Name = "chkMergeDeleteInputFiles";
             this.chkMergeDeleteInputFiles.Size = new System.Drawing.Size(149, 17);
             this.chkMergeDeleteInputFiles.TabIndex = 11;
@@ -664,7 +675,7 @@
             this.chkMergeAudioTracks.AutoSize = true;
             this.chkMergeAudioTracks.Checked = true;
             this.chkMergeAudioTracks.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkMergeAudioTracks.Location = new System.Drawing.Point(109, 169);
+            this.chkMergeAudioTracks.Location = new System.Drawing.Point(140, 198);
             this.chkMergeAudioTracks.Name = "chkMergeAudioTracks";
             this.chkMergeAudioTracks.Size = new System.Drawing.Size(133, 17);
             this.chkMergeAudioTracks.TabIndex = 10;
@@ -675,7 +686,7 @@
             // 
             this.btnMerge.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.btnMerge.Enabled = false;
-            this.btnMerge.Location = new System.Drawing.Point(128, 232);
+            this.btnMerge.Location = new System.Drawing.Point(159, 290);
             this.btnMerge.Name = "btnMerge";
             this.btnMerge.Size = new System.Drawing.Size(79, 25);
             this.btnMerge.TabIndex = 12;
@@ -687,7 +698,7 @@
             // 
             this.btnBrwsMergeOutput.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnBrwsMergeOutput.Enabled = false;
-            this.btnBrwsMergeOutput.Location = new System.Drawing.Point(284, 119);
+            this.btnBrwsMergeOutput.Location = new System.Drawing.Point(345, 119);
             this.btnBrwsMergeOutput.Name = "btnBrwsMergeOutput";
             this.btnBrwsMergeOutput.Size = new System.Drawing.Size(29, 23);
             this.btnBrwsMergeOutput.TabIndex = 9;
@@ -702,7 +713,7 @@
             this.txtMergeOutput.Location = new System.Drawing.Point(26, 121);
             this.txtMergeOutput.Name = "txtMergeOutput";
             this.txtMergeOutput.ReadOnly = true;
-            this.txtMergeOutput.Size = new System.Drawing.Size(252, 20);
+            this.txtMergeOutput.Size = new System.Drawing.Size(313, 20);
             this.txtMergeOutput.TabIndex = 8;
             // 
             // lbMergeOutput
@@ -718,7 +729,7 @@
             // 
             this.btnBrwsMergeInput2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnBrwsMergeInput2.Enabled = false;
-            this.btnBrwsMergeInput2.Location = new System.Drawing.Point(284, 72);
+            this.btnBrwsMergeInput2.Location = new System.Drawing.Point(345, 72);
             this.btnBrwsMergeInput2.Name = "btnBrwsMergeInput2";
             this.btnBrwsMergeInput2.Size = new System.Drawing.Size(29, 23);
             this.btnBrwsMergeInput2.TabIndex = 6;
@@ -733,13 +744,13 @@
             this.txtMergeInput2.Location = new System.Drawing.Point(26, 74);
             this.txtMergeInput2.Name = "txtMergeInput2";
             this.txtMergeInput2.ReadOnly = true;
-            this.txtMergeInput2.Size = new System.Drawing.Size(252, 20);
+            this.txtMergeInput2.Size = new System.Drawing.Size(313, 20);
             this.txtMergeInput2.TabIndex = 5;
             // 
             // btnBrwsMergeInput1
             // 
             this.btnBrwsMergeInput1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnBrwsMergeInput1.Location = new System.Drawing.Point(284, 25);
+            this.btnBrwsMergeInput1.Location = new System.Drawing.Point(345, 25);
             this.btnBrwsMergeInput1.Name = "btnBrwsMergeInput1";
             this.btnBrwsMergeInput1.Size = new System.Drawing.Size(29, 23);
             this.btnBrwsMergeInput1.TabIndex = 3;
@@ -754,7 +765,7 @@
             this.txtMergeInput1.Location = new System.Drawing.Point(26, 27);
             this.txtMergeInput1.Name = "txtMergeInput1";
             this.txtMergeInput1.ReadOnly = true;
-            this.txtMergeInput1.Size = new System.Drawing.Size(252, 20);
+            this.txtMergeInput1.Size = new System.Drawing.Size(313, 20);
             this.txtMergeInput1.TabIndex = 2;
             // 
             // lbMergeInput2
@@ -785,7 +796,7 @@
             this.tabDebug.Location = new System.Drawing.Point(4, 22);
             this.tabDebug.Name = "tabDebug";
             this.tabDebug.Padding = new System.Windows.Forms.Padding(3);
-            this.tabDebug.Size = new System.Drawing.Size(335, 297);
+            this.tabDebug.Size = new System.Drawing.Size(396, 429);
             this.tabDebug.TabIndex = 3;
             this.tabDebug.Text = "Debug";
             this.tabDebug.UseVisualStyleBackColor = true;
@@ -911,7 +922,7 @@
             // 
             this.lbDebug.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.lbDebug.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbDebug.Location = new System.Drawing.Point(201, 308);
+            this.lbDebug.Location = new System.Drawing.Point(102, 267);
             this.lbDebug.Name = "lbDebug";
             this.lbDebug.Size = new System.Drawing.Size(146, 19);
             this.lbDebug.TabIndex = 3;
@@ -1075,6 +1086,8 @@
             // 
             // txtVideoDate
             // 
+            this.txtVideoDate.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtVideoDate.ButtonAlignment = youtube_dl_gui.Controls.ButtonAlignments.Left;
             this.txtVideoDate.ButtonCursor = System.Windows.Forms.Cursors.Default;
             this.txtVideoDate.ButtonFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -1127,6 +1140,8 @@
             // 
             // txtPlaylistItems
             // 
+            this.txtPlaylistItems.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtPlaylistItems.ButtonAlignment = youtube_dl_gui.Controls.ButtonAlignments.Left;
             this.txtPlaylistItems.ButtonCursor = System.Windows.Forms.Cursors.Default;
             this.txtPlaylistItems.ButtonFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -1147,7 +1162,7 @@
             this.sbDownload.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.sbDownload.DropDownContextMenu = this.cmDownload;
             this.sbDownload.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.sbDownload.Location = new System.Drawing.Point(126, 264);
+            this.sbDownload.Location = new System.Drawing.Point(77, 223);
             this.sbDownload.Name = "sbDownload";
             this.sbDownload.Size = new System.Drawing.Size(83, 25);
             this.sbDownload.TabIndex = 14;
@@ -1169,7 +1184,7 @@
             this.txtUrl.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.txtUrl.Location = new System.Drawing.Point(22, 26);
             this.txtUrl.Name = "txtUrl";
-            this.txtUrl.Size = new System.Drawing.Size(291, 20);
+            this.txtUrl.Size = new System.Drawing.Size(192, 20);
             this.txtUrl.TabIndex = 2;
             this.txtUrl.TextHint = "";
             this.txtUrl.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtUrl_KeyPress);
@@ -1179,7 +1194,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(343, 323);
+            this.ClientSize = new System.Drawing.Size(244, 282);
             this.Controls.Add(this.lbDebug);
             this.Controls.Add(this.tcMain);
             this.Icon = global::youtube_dl_gui.Properties.Resources.youtube_dl_gui;
