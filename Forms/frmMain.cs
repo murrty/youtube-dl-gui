@@ -305,11 +305,11 @@ namespace youtube_dl_gui {
             );
 
             rbConvertVideo.Location = new System.Drawing.Point(
-                (tabConvert.Size.Width - (rbConvertVideo.Size.Width + rbConvertAudio.Size.Width + rbConvertCustom.Size.Width)) / 2,
+                (tabConvert.Size.Width - (rbConvertVideo.Size.Width + rbConvertAudio.Size.Width + rbConvertCustom.Size.Width + 2)) / 2,
                 rbConvertVideo.Location.Y
             );
             rbConvertAudio.Location = new System.Drawing.Point(
-                (rbConvertVideo.Location.X + rbConvertVideo.Width) - 2,
+                (rbConvertVideo.Location.X + rbConvertVideo.Width) + 2,
                 rbConvertVideo.Location.Y
             );
             rbConvertCustom.Location = new System.Drawing.Point(
@@ -588,6 +588,68 @@ namespace youtube_dl_gui {
                         cbQuality.SelectedIndex = 0;
                     }
                 }
+            }
+        }
+        private void txtPlaylistItems_KeyPress(object sender, KeyPressEventArgs e) {
+            if (!char.IsDigit(e.KeyChar) && e.KeyChar != (char)8 && e.KeyChar != ',') {
+                e.Handled = true;
+            }
+        }
+        private void txtVideoDate_KeyPress(object sender, KeyPressEventArgs e) {
+            if (!char.IsDigit(e.KeyChar) && e.KeyChar != (char)8) {
+                e.Handled = true;
+            }
+        }
+        private void rbVideoSelectionPlaylistIndex_CheckedChanged(object sender, EventArgs e) {
+            if (rbVideoSelectionPlaylistIndex.Checked) {
+                panelPlaylistStartEnd.Visible = true;
+                panelPlaylistItems.Visible = false;
+                panelDate.Visible = false;
+                chkUseSelection.Checked = true;
+            }
+        }
+        private void rbVideoSelectionPlaylistItems_CheckedChanged(object sender, EventArgs e) {
+            if (rbVideoSelectionPlaylistItems.Checked) {
+                panelPlaylistStartEnd.Visible = false;
+                panelPlaylistItems.Visible = true;
+                panelDate.Visible = false;
+                chkUseSelection.Checked = true;
+            }
+        }
+        private void rbVideoSelectionBeforeDate_CheckedChanged(object sender, EventArgs e) {
+            if (rbVideoSelectionBeforeDate.Checked) {
+                panelPlaylistStartEnd.Visible = false;
+                panelPlaylistItems.Visible = false;
+                panelDate.Visible = true;
+                chkUseSelection.Checked = true;
+            }
+        }
+        private void rbVideoSelectionOnDate_CheckedChanged(object sender, EventArgs e) {
+            if (rbVideoSelectionOnDate.Checked) {
+                panelPlaylistStartEnd.Visible = false;
+                panelPlaylistItems.Visible = false;
+                panelDate.Visible = true;
+                chkUseSelection.Checked = true;
+            }
+        }
+        private void rbVideoSelectionAfterDate_CheckedChanged(object sender, EventArgs e) {
+            if (rbVideoSelectionAfterDate.Checked) {
+                panelPlaylistStartEnd.Visible = false;
+                panelPlaylistItems.Visible = false;
+                panelDate.Visible = true;
+                chkUseSelection.Checked = true;
+            }
+        }
+        private void chkUseSelection_CheckedChanged(object sender, EventArgs e) {
+            if (chkUseSelection.Checked) {
+                gbSelection.Size = new Size(gbSelection.Size.Width, 106);
+                this.Size = new Size(this.Width, this.Height + 86);
+                this.MinimumSize = new Size(this.MinimumSize.Width, this.MinimumSize.Height + 86);
+            }
+            else {
+                gbSelection.Size = new Size(gbSelection.Size.Width, 20);
+                this.MinimumSize = new Size(this.MinimumSize.Width, this.MinimumSize.Height - 86);
+                this.Size = new Size(this.Width, this.Height - 86);
             }
         }
 
@@ -1138,8 +1200,6 @@ namespace youtube_dl_gui {
             Downloader.Debugging = true;
             Downloader.Show();
         }
-        #endregion
-
         private void btnDebugRotateQualityFormat_Click(object sender, EventArgs e) {
             Point s = lbQuality.Location;
             Point t = lbFormat.Location;
@@ -1151,7 +1211,6 @@ namespace youtube_dl_gui {
             cbFormat.Location = u;
             cbQuality.Location = v;
         }
-
         private void btnDebugThrowException_Click(object sender, EventArgs e) {
             try {
                 throw new Exception("An exception has been thrown.");
@@ -1160,89 +1219,7 @@ namespace youtube_dl_gui {
                 ErrorLog.ReportException(ex, false);
             }
         }
-
-        private void txtPlaylistStart_KeyPress(object sender, KeyPressEventArgs e) {
-            if (!char.IsDigit(e.KeyChar) && e.KeyChar != (char)8) {
-                e.Handled = true;
-            }
-        }
-
-        private void txtPlaylistEnd_KeyPress(object sender, KeyPressEventArgs e) {
-            if (!char.IsDigit(e.KeyChar) && e.KeyChar != (char)8) {
-                e.Handled = true;
-            }
-        }
-
-        private void txtPlaylistItems_KeyPress(object sender, KeyPressEventArgs e) {
-            if (!char.IsDigit(e.KeyChar) && e.KeyChar != (char)8 && e.KeyChar != ',') {
-                e.Handled = true;
-            }
-        }
-
-        private void txtVideoDate_KeyPress(object sender, KeyPressEventArgs e) {
-            if (!char.IsDigit(e.KeyChar) && e.KeyChar != (char)8) {
-                e.Handled = true;
-            }
-        }
-
-        private void rbVideoSelectionPlaylistIndex_CheckedChanged(object sender, EventArgs e) {
-            if (rbVideoSelectionPlaylistIndex.Checked) {
-                panelPlaylistStartEnd.Visible = true;
-                panelPlaylistItems.Visible = false;
-                panelDate.Visible = false;
-                chkUseSelection.Checked = true;
-            }
-        }
-
-        private void rbVideoSelectionPlaylistItems_CheckedChanged(object sender, EventArgs e) {
-            if (rbVideoSelectionPlaylistItems.Checked) {
-                panelPlaylistStartEnd.Visible = false;
-                panelPlaylistItems.Visible = true;
-                panelDate.Visible = false;
-                chkUseSelection.Checked = true;
-            }
-        }
-
-        private void rbVideoSelectionBeforeDate_CheckedChanged(object sender, EventArgs e) {
-            if (rbVideoSelectionBeforeDate.Checked) {
-                panelPlaylistStartEnd.Visible = false;
-                panelPlaylistItems.Visible = false;
-                panelDate.Visible = true;
-                chkUseSelection.Checked = true;
-            }
-        }
-
-        private void rbVideoSelectionOnDate_CheckedChanged(object sender, EventArgs e) {
-            if (rbVideoSelectionOnDate.Checked) {
-                panelPlaylistStartEnd.Visible = false;
-                panelPlaylistItems.Visible = false;
-                panelDate.Visible = true;
-                chkUseSelection.Checked = true;
-            }
-        }
-
-        private void rbVideoSelectionAfterDate_CheckedChanged(object sender, EventArgs e) {
-            if (rbVideoSelectionAfterDate.Checked) {
-                panelPlaylistStartEnd.Visible = false;
-                panelPlaylistItems.Visible = false;
-                panelDate.Visible = true;
-                chkUseSelection.Checked = true;
-            }
-        }
-
-        private void chkUseSelection_CheckedChanged(object sender, EventArgs e) {
-            if (chkUseSelection.Checked) {
-                gbSelection.Size = new Size(gbSelection.Size.Width, 106);
-                this.Size = new Size(this.Width, this.Height + 86);
-                this.MinimumSize = new Size(this.MinimumSize.Width, this.MinimumSize.Height + 86);
-            }
-            else {
-                gbSelection.Size = new Size(gbSelection.Size.Width, 20);
-                this.MinimumSize = new Size(this.MinimumSize.Width, this.MinimumSize.Height - 86);
-                this.Size = new Size(this.Width, this.Height - 86);
-            }
-        }
-
+        #endregion
 
     }
 }

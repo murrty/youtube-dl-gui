@@ -4,6 +4,7 @@ using System.Windows.Forms;
 
 namespace youtube_dl_gui {
     public partial class frmBatchDownloader : Form {
+
         Language lang = Language.GetInstance();
 
         public bool Debugging = false;
@@ -61,13 +62,17 @@ namespace youtube_dl_gui {
                 }
                 cbBatchFormat.SelectedIndex = Batch.Default.SelectedAudioFormat;
             }
-            
 
-            if (Saved.Default.BatchFormX != -999999 && Saved.Default.BatchFormY != -999999) {
+
+            if (Saved.Default.BatchFormX != -32000 && Saved.Default.BatchFormY != -32000) {
                 this.Location = new System.Drawing.Point(Saved.Default.BatchFormX, Saved.Default.BatchFormY);
             }
         }
         private void frmBatchDownloader_FormClosing(object sender, FormClosingEventArgs e) {
+            if (this.WindowState == FormWindowState.Minimized) {
+                this.Opacity = 0;
+                this.WindowState = FormWindowState.Normal;
+            }
             Saved.Default.BatchFormX = this.Location.X;
             Saved.Default.BatchFormY = this.Location.Y;
             if (!Program.IsPortable) {
