@@ -120,6 +120,8 @@ namespace youtube_dl_gui {
                 this.Opacity = 0;
                 this.WindowState = FormWindowState.Normal;
             }
+
+            chkUseSelection.Checked = false;
             Saved.Default.MainFormSize = this.Size;
 
             switch (General.Default.SaveCustomArgs) {
@@ -294,11 +296,11 @@ namespace youtube_dl_gui {
                 rbVideoSelectionBeforeDate.Location.Y
             );
             rbVideoSelectionOnDate.Location = new Point(
-                (rbVideoSelectionBeforeDate.Location.X + rbVideoSelectionOnDate.Size.Width + 12) + 2,
+                (rbVideoSelectionBeforeDate.Location.X + rbVideoSelectionBeforeDate.Size.Width) + 2,
                 rbVideoSelectionOnDate.Location.Y
             );
             rbVideoSelectionAfterDate.Location = new Point(
-                (rbVideoSelectionOnDate.Location.X + rbVideoSelectionAfterDate.Size.Width) + 2,
+                (rbVideoSelectionOnDate.Location.X + rbVideoSelectionOnDate.Width) + 2,
                 rbVideoSelectionAfterDate.Location.Y
             );
 
