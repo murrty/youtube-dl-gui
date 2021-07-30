@@ -199,7 +199,7 @@
             this.chkUseSelection.AutoSize = true;
             this.chkUseSelection.Location = new System.Drawing.Point(8, 163);
             this.chkUseSelection.Name = "chkUseSelection";
-            this.chkUseSelection.Size = new System.Drawing.Size(106, 17);
+            this.chkUseSelection.Size = new System.Drawing.Size(109, 17);
             this.chkUseSelection.TabIndex = 20;
             this.chkUseSelection.Text = "chkUseSelection";
             this.chkUseSelection.UseVisualStyleBackColor = true;
@@ -230,7 +230,7 @@
             this.rbVideoSelectionPlaylistItems.AutoSize = true;
             this.rbVideoSelectionPlaylistItems.Location = new System.Drawing.Point(115, 19);
             this.rbVideoSelectionPlaylistItems.Name = "rbVideoSelectionPlaylistItems";
-            this.rbVideoSelectionPlaylistItems.Size = new System.Drawing.Size(161, 17);
+            this.rbVideoSelectionPlaylistItems.Size = new System.Drawing.Size(174, 17);
             this.rbVideoSelectionPlaylistItems.TabIndex = 20;
             this.rbVideoSelectionPlaylistItems.TabStop = true;
             this.rbVideoSelectionPlaylistItems.Text = "rbVideoSelectionPlaylistItems";
@@ -243,7 +243,7 @@
             this.rbVideoSelectionAfterDate.AutoSize = true;
             this.rbVideoSelectionAfterDate.Location = new System.Drawing.Point(156, 42);
             this.rbVideoSelectionAfterDate.Name = "rbVideoSelectionAfterDate";
-            this.rbVideoSelectionAfterDate.Size = new System.Drawing.Size(149, 17);
+            this.rbVideoSelectionAfterDate.Size = new System.Drawing.Size(161, 17);
             this.rbVideoSelectionAfterDate.TabIndex = 23;
             this.rbVideoSelectionAfterDate.TabStop = true;
             this.rbVideoSelectionAfterDate.Text = "rbVideoSelectionAfterDate";
@@ -256,7 +256,7 @@
             this.rbVideoSelectionOnDate.AutoSize = true;
             this.rbVideoSelectionOnDate.Location = new System.Drawing.Point(88, 42);
             this.rbVideoSelectionOnDate.Name = "rbVideoSelectionOnDate";
-            this.rbVideoSelectionOnDate.Size = new System.Drawing.Size(141, 17);
+            this.rbVideoSelectionOnDate.Size = new System.Drawing.Size(152, 17);
             this.rbVideoSelectionOnDate.TabIndex = 21;
             this.rbVideoSelectionOnDate.TabStop = true;
             this.rbVideoSelectionOnDate.Text = "rbVideoSelectionOnDate";
@@ -269,7 +269,7 @@
             this.rbVideoSelectionBeforeDate.AutoSize = true;
             this.rbVideoSelectionBeforeDate.Location = new System.Drawing.Point(6, 42);
             this.rbVideoSelectionBeforeDate.Name = "rbVideoSelectionBeforeDate";
-            this.rbVideoSelectionBeforeDate.Size = new System.Drawing.Size(158, 17);
+            this.rbVideoSelectionBeforeDate.Size = new System.Drawing.Size(169, 17);
             this.rbVideoSelectionBeforeDate.TabIndex = 22;
             this.rbVideoSelectionBeforeDate.TabStop = true;
             this.rbVideoSelectionBeforeDate.Text = "rbVideoSelectionBeforeDate";
@@ -282,7 +282,7 @@
             this.rbVideoSelectionPlaylistIndex.AutoSize = true;
             this.rbVideoSelectionPlaylistIndex.Location = new System.Drawing.Point(25, 19);
             this.rbVideoSelectionPlaylistIndex.Name = "rbVideoSelectionPlaylistIndex";
-            this.rbVideoSelectionPlaylistIndex.Size = new System.Drawing.Size(162, 17);
+            this.rbVideoSelectionPlaylistIndex.Size = new System.Drawing.Size(175, 17);
             this.rbVideoSelectionPlaylistIndex.TabIndex = 19;
             this.rbVideoSelectionPlaylistIndex.TabStop = true;
             this.rbVideoSelectionPlaylistIndex.Text = "rbVideoSelectionPlaylistIndex";
@@ -380,7 +380,7 @@
             this.chkDownloadSound.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkDownloadSound.Location = new System.Drawing.Point(156, 109);
             this.chkDownloadSound.Name = "chkDownloadSound";
-            this.chkDownloadSound.Size = new System.Drawing.Size(122, 17);
+            this.chkDownloadSound.Size = new System.Drawing.Size(131, 17);
             this.chkDownloadSound.TabIndex = 9;
             this.chkDownloadSound.Text = "chkDownloadSound";
             this.chkDownloadSound.UseVisualStyleBackColor = true;
@@ -412,7 +412,7 @@
             this.lbCustomArguments.AutoSize = true;
             this.lbCustomArguments.Location = new System.Drawing.Point(15, 192);
             this.lbCustomArguments.Name = "lbCustomArguments";
-            this.lbCustomArguments.Size = new System.Drawing.Size(100, 13);
+            this.lbCustomArguments.Size = new System.Drawing.Size(112, 13);
             this.lbCustomArguments.TabIndex = 12;
             this.lbCustomArguments.Text = "lbCustomArguments";
             // 
@@ -435,7 +435,7 @@
             this.rbCustom.AutoSize = true;
             this.rbCustom.Location = new System.Drawing.Point(151, 17);
             this.rbCustom.Name = "rbCustom";
-            this.rbCustom.Size = new System.Drawing.Size(68, 17);
+            this.rbCustom.Size = new System.Drawing.Size(74, 17);
             this.rbCustom.TabIndex = 6;
             this.rbCustom.TabStop = true;
             this.rbCustom.Text = "rbCustom";
@@ -448,7 +448,7 @@
             this.rbAudio.AutoSize = true;
             this.rbAudio.Location = new System.Drawing.Point(82, 17);
             this.rbAudio.Name = "rbAudio";
-            this.rbAudio.Size = new System.Drawing.Size(60, 17);
+            this.rbAudio.Size = new System.Drawing.Size(66, 17);
             this.rbAudio.TabIndex = 5;
             this.rbAudio.TabStop = true;
             this.rbAudio.Text = "rbAudio";
@@ -461,7 +461,7 @@
             this.rbVideo.AutoSize = true;
             this.rbVideo.Location = new System.Drawing.Point(8, 17);
             this.rbVideo.Name = "rbVideo";
-            this.rbVideo.Size = new System.Drawing.Size(60, 17);
+            this.rbVideo.Size = new System.Drawing.Size(65, 17);
             this.rbVideo.TabIndex = 4;
             this.rbVideo.TabStop = true;
             this.rbVideo.Text = "rbVideo";
@@ -497,7 +497,7 @@
             this.rbConvertCustom.AutoSize = true;
             this.rbConvertCustom.Location = new System.Drawing.Point(124, 154);
             this.rbConvertCustom.Name = "rbConvertCustom";
-            this.rbConvertCustom.Size = new System.Drawing.Size(105, 17);
+            this.rbConvertCustom.Size = new System.Drawing.Size(114, 17);
             this.rbConvertCustom.TabIndex = 9;
             this.rbConvertCustom.TabStop = true;
             this.rbConvertCustom.Text = "rbConvertCustom";
@@ -509,7 +509,7 @@
             this.rbConvertAudio.AutoSize = true;
             this.rbConvertAudio.Location = new System.Drawing.Point(67, 154);
             this.rbConvertAudio.Name = "rbConvertAudio";
-            this.rbConvertAudio.Size = new System.Drawing.Size(97, 17);
+            this.rbConvertAudio.Size = new System.Drawing.Size(106, 17);
             this.rbConvertAudio.TabIndex = 8;
             this.rbConvertAudio.TabStop = true;
             this.rbConvertAudio.Text = "rbConvertAudio";
@@ -521,7 +521,7 @@
             this.rbConvertAutoFFmpeg.AutoSize = true;
             this.rbConvertAutoFFmpeg.Location = new System.Drawing.Point(93, 177);
             this.rbConvertAutoFFmpeg.Name = "rbConvertAutoFFmpeg";
-            this.rbConvertAutoFFmpeg.Size = new System.Drawing.Size(130, 17);
+            this.rbConvertAutoFFmpeg.Size = new System.Drawing.Size(141, 17);
             this.rbConvertAutoFFmpeg.TabIndex = 11;
             this.rbConvertAutoFFmpeg.TabStop = true;
             this.rbConvertAutoFFmpeg.Text = "rbConvertAutoFFmpeg";
@@ -533,7 +533,7 @@
             this.rbConvertAuto.AutoSize = true;
             this.rbConvertAuto.Location = new System.Drawing.Point(16, 177);
             this.rbConvertAuto.Name = "rbConvertAuto";
-            this.rbConvertAuto.Size = new System.Drawing.Size(92, 17);
+            this.rbConvertAuto.Size = new System.Drawing.Size(100, 17);
             this.rbConvertAuto.TabIndex = 10;
             this.rbConvertAuto.TabStop = true;
             this.rbConvertAuto.Text = "rbConvertAuto";
@@ -569,7 +569,7 @@
             this.rbConvertVideo.AutoSize = true;
             this.rbConvertVideo.Location = new System.Drawing.Point(8, 154);
             this.rbConvertVideo.Name = "rbConvertVideo";
-            this.rbConvertVideo.Size = new System.Drawing.Size(97, 17);
+            this.rbConvertVideo.Size = new System.Drawing.Size(105, 17);
             this.rbConvertVideo.TabIndex = 7;
             this.rbConvertVideo.TabStop = true;
             this.rbConvertVideo.Text = "rbConvertVideo";
@@ -592,7 +592,7 @@
             this.lbConvertOutput.AutoSize = true;
             this.lbConvertOutput.Location = new System.Drawing.Point(19, 54);
             this.lbConvertOutput.Name = "lbConvertOutput";
-            this.lbConvertOutput.Size = new System.Drawing.Size(84, 13);
+            this.lbConvertOutput.Size = new System.Drawing.Size(95, 13);
             this.lbConvertOutput.TabIndex = 4;
             this.lbConvertOutput.Text = "lbConvertOutput";
             // 
@@ -603,7 +603,7 @@
             this.txtConvertOutput.Location = new System.Drawing.Point(26, 74);
             this.txtConvertOutput.Name = "txtConvertOutput";
             this.txtConvertOutput.ReadOnly = true;
-            this.txtConvertOutput.Size = new System.Drawing.Size(167, 20);
+            this.txtConvertOutput.Size = new System.Drawing.Size(167, 22);
             this.txtConvertOutput.TabIndex = 5;
             // 
             // btnConvertInput
@@ -622,7 +622,7 @@
             this.lbConvertInput.AutoSize = true;
             this.lbConvertInput.Location = new System.Drawing.Point(19, 7);
             this.lbConvertInput.Name = "lbConvertInput";
-            this.lbConvertInput.Size = new System.Drawing.Size(76, 13);
+            this.lbConvertInput.Size = new System.Drawing.Size(85, 13);
             this.lbConvertInput.TabIndex = 1;
             this.lbConvertInput.Text = "lbConvertInput";
             // 
@@ -633,7 +633,7 @@
             this.txtConvertInput.Location = new System.Drawing.Point(26, 27);
             this.txtConvertInput.Name = "txtConvertInput";
             this.txtConvertInput.ReadOnly = true;
-            this.txtConvertInput.Size = new System.Drawing.Size(167, 20);
+            this.txtConvertInput.Size = new System.Drawing.Size(167, 22);
             this.txtConvertInput.TabIndex = 2;
             // 
             // tabMerge
@@ -664,7 +664,7 @@
             this.chkMergeDeleteInputFiles.AutoSize = true;
             this.chkMergeDeleteInputFiles.Location = new System.Drawing.Point(52, 186);
             this.chkMergeDeleteInputFiles.Name = "chkMergeDeleteInputFiles";
-            this.chkMergeDeleteInputFiles.Size = new System.Drawing.Size(149, 17);
+            this.chkMergeDeleteInputFiles.Size = new System.Drawing.Size(160, 17);
             this.chkMergeDeleteInputFiles.TabIndex = 11;
             this.chkMergeDeleteInputFiles.Text = "chkMergeDeleteInputFiles";
             this.chkMergeDeleteInputFiles.UseVisualStyleBackColor = true;
@@ -677,7 +677,7 @@
             this.chkMergeAudioTracks.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkMergeAudioTracks.Location = new System.Drawing.Point(52, 163);
             this.chkMergeAudioTracks.Name = "chkMergeAudioTracks";
-            this.chkMergeAudioTracks.Size = new System.Drawing.Size(133, 17);
+            this.chkMergeAudioTracks.Size = new System.Drawing.Size(138, 17);
             this.chkMergeAudioTracks.TabIndex = 10;
             this.chkMergeAudioTracks.Text = "chkMergeAudioTracks";
             this.chkMergeAudioTracks.UseVisualStyleBackColor = true;
@@ -713,7 +713,7 @@
             this.txtMergeOutput.Location = new System.Drawing.Point(26, 121);
             this.txtMergeOutput.Name = "txtMergeOutput";
             this.txtMergeOutput.ReadOnly = true;
-            this.txtMergeOutput.Size = new System.Drawing.Size(167, 20);
+            this.txtMergeOutput.Size = new System.Drawing.Size(167, 22);
             this.txtMergeOutput.TabIndex = 8;
             // 
             // lbMergeOutput
@@ -721,7 +721,7 @@
             this.lbMergeOutput.AutoSize = true;
             this.lbMergeOutput.Location = new System.Drawing.Point(19, 101);
             this.lbMergeOutput.Name = "lbMergeOutput";
-            this.lbMergeOutput.Size = new System.Drawing.Size(77, 13);
+            this.lbMergeOutput.Size = new System.Drawing.Size(88, 13);
             this.lbMergeOutput.TabIndex = 7;
             this.lbMergeOutput.Text = "lbMergeOutput";
             // 
@@ -744,7 +744,7 @@
             this.txtMergeInput2.Location = new System.Drawing.Point(26, 74);
             this.txtMergeInput2.Name = "txtMergeInput2";
             this.txtMergeInput2.ReadOnly = true;
-            this.txtMergeInput2.Size = new System.Drawing.Size(167, 20);
+            this.txtMergeInput2.Size = new System.Drawing.Size(167, 22);
             this.txtMergeInput2.TabIndex = 5;
             // 
             // btnBrwsMergeInput1
@@ -765,7 +765,7 @@
             this.txtMergeInput1.Location = new System.Drawing.Point(26, 27);
             this.txtMergeInput1.Name = "txtMergeInput1";
             this.txtMergeInput1.ReadOnly = true;
-            this.txtMergeInput1.Size = new System.Drawing.Size(167, 20);
+            this.txtMergeInput1.Size = new System.Drawing.Size(167, 22);
             this.txtMergeInput1.TabIndex = 2;
             // 
             // lbMergeInput2
@@ -773,7 +773,7 @@
             this.lbMergeInput2.AutoSize = true;
             this.lbMergeInput2.Location = new System.Drawing.Point(19, 54);
             this.lbMergeInput2.Name = "lbMergeInput2";
-            this.lbMergeInput2.Size = new System.Drawing.Size(75, 13);
+            this.lbMergeInput2.Size = new System.Drawing.Size(84, 13);
             this.lbMergeInput2.TabIndex = 4;
             this.lbMergeInput2.Text = "lbMergeInput2";
             // 
@@ -782,7 +782,7 @@
             this.lbMergeInput1.AutoSize = true;
             this.lbMergeInput1.Location = new System.Drawing.Point(19, 7);
             this.lbMergeInput1.Name = "lbMergeInput1";
-            this.lbMergeInput1.Size = new System.Drawing.Size(75, 13);
+            this.lbMergeInput1.Size = new System.Drawing.Size(84, 13);
             this.lbMergeInput1.TabIndex = 1;
             this.lbMergeInput1.Text = "lbMergeInput1";
             // 
@@ -922,7 +922,7 @@
             // 
             this.lbDebug.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.lbDebug.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbDebug.Location = new System.Drawing.Point(102, 247);
+            this.lbDebug.Location = new System.Drawing.Point(102, 227);
             this.lbDebug.Name = "lbDebug";
             this.lbDebug.Size = new System.Drawing.Size(146, 19);
             this.lbDebug.TabIndex = 3;
@@ -1093,13 +1093,13 @@
             this.txtVideoDate.ButtonFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtVideoDate.ButtonImageIndex = -1;
             this.txtVideoDate.ButtonImageKey = "";
-            this.txtVideoDate.ButtonSize = new System.Drawing.Size(22, 19);
+            this.txtVideoDate.ButtonSize = new System.Drawing.Size(22, 21);
             this.txtVideoDate.ButtonText = "";
             this.txtVideoDate.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.txtVideoDate.Location = new System.Drawing.Point(3, 3);
             this.txtVideoDate.MaxLength = 8;
             this.txtVideoDate.Name = "txtVideoDate";
-            this.txtVideoDate.Size = new System.Drawing.Size(205, 20);
+            this.txtVideoDate.Size = new System.Drawing.Size(205, 22);
             this.txtVideoDate.TabIndex = 0;
             this.txtVideoDate.TextHint = "Date (YYYYMMDD)";
             this.txtVideoDate.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtVideoDate_KeyPress);
@@ -1111,12 +1111,12 @@
             this.txtPlaylistEnd.ButtonFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtPlaylistEnd.ButtonImageIndex = -1;
             this.txtPlaylistEnd.ButtonImageKey = "";
-            this.txtPlaylistEnd.ButtonSize = new System.Drawing.Size(22, 19);
+            this.txtPlaylistEnd.ButtonSize = new System.Drawing.Size(22, 21);
             this.txtPlaylistEnd.ButtonText = "";
             this.txtPlaylistEnd.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.txtPlaylistEnd.Location = new System.Drawing.Point(108, 3);
             this.txtPlaylistEnd.Name = "txtPlaylistEnd";
-            this.txtPlaylistEnd.Size = new System.Drawing.Size(100, 20);
+            this.txtPlaylistEnd.Size = new System.Drawing.Size(100, 22);
             this.txtPlaylistEnd.TabIndex = 1;
             this.txtPlaylistEnd.TextHint = "End Index";
             this.txtPlaylistEnd.TextType = youtube_dl_gui.Controls.AllowedTextTypes.NumericOnly;
@@ -1128,12 +1128,12 @@
             this.txtPlaylistStart.ButtonFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtPlaylistStart.ButtonImageIndex = -1;
             this.txtPlaylistStart.ButtonImageKey = "";
-            this.txtPlaylistStart.ButtonSize = new System.Drawing.Size(22, 19);
+            this.txtPlaylistStart.ButtonSize = new System.Drawing.Size(22, 21);
             this.txtPlaylistStart.ButtonText = "";
             this.txtPlaylistStart.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.txtPlaylistStart.Location = new System.Drawing.Point(3, 3);
             this.txtPlaylistStart.Name = "txtPlaylistStart";
-            this.txtPlaylistStart.Size = new System.Drawing.Size(100, 20);
+            this.txtPlaylistStart.Size = new System.Drawing.Size(100, 22);
             this.txtPlaylistStart.TabIndex = 0;
             this.txtPlaylistStart.TextHint = "Start Index";
             this.txtPlaylistStart.TextType = youtube_dl_gui.Controls.AllowedTextTypes.NumericOnly;
@@ -1147,12 +1147,12 @@
             this.txtPlaylistItems.ButtonFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtPlaylistItems.ButtonImageIndex = -1;
             this.txtPlaylistItems.ButtonImageKey = "";
-            this.txtPlaylistItems.ButtonSize = new System.Drawing.Size(22, 19);
+            this.txtPlaylistItems.ButtonSize = new System.Drawing.Size(22, 21);
             this.txtPlaylistItems.ButtonText = "";
             this.txtPlaylistItems.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.txtPlaylistItems.Location = new System.Drawing.Point(3, 3);
             this.txtPlaylistItems.Name = "txtPlaylistItems";
-            this.txtPlaylistItems.Size = new System.Drawing.Size(205, 20);
+            this.txtPlaylistItems.Size = new System.Drawing.Size(205, 22);
             this.txtPlaylistItems.TabIndex = 0;
             this.txtPlaylistItems.TextHint = "Video Indexes (separated by commas)";
             this.txtPlaylistItems.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPlaylistItems_KeyPress);
@@ -1179,12 +1179,12 @@
             this.txtUrl.ButtonFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtUrl.ButtonImageIndex = -1;
             this.txtUrl.ButtonImageKey = "";
-            this.txtUrl.ButtonSize = new System.Drawing.Size(22, 19);
+            this.txtUrl.ButtonSize = new System.Drawing.Size(22, 21);
             this.txtUrl.ButtonText = "";
             this.txtUrl.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.txtUrl.Location = new System.Drawing.Point(22, 26);
             this.txtUrl.Name = "txtUrl";
-            this.txtUrl.Size = new System.Drawing.Size(192, 20);
+            this.txtUrl.Size = new System.Drawing.Size(192, 22);
             this.txtUrl.TabIndex = 2;
             this.txtUrl.TextHint = "";
             this.txtUrl.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtUrl_KeyPress);
@@ -1197,6 +1197,7 @@
             this.ClientSize = new System.Drawing.Size(244, 303);
             this.Controls.Add(this.lbDebug);
             this.Controls.Add(this.tcMain);
+            this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = global::youtube_dl_gui.Properties.Resources.youtube_dl_gui;
             this.MaximizeBox = false;
             this.Menu = this.menu;

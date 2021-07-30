@@ -121,8 +121,8 @@ namespace youtube_dl_gui {
 
             try {
                 Process startConvert = new Process();
-                if (General.Default.UseStaticFFmpeg && File.Exists(General.Default.ffmpegPath)) {
-                    startConvert.StartInfo.FileName = General.Default.ffmpegPath;
+                if (Config.ProgramConfig.General.UseStaticFFmpeg && File.Exists(Config.ProgramConfig.General.ffmpegPath)) {
+                    startConvert.StartInfo.FileName = Config.ProgramConfig.General.ffmpegPath;
                 }
                 else {
                     if (verif.FFmpegPath == null) {
@@ -134,55 +134,55 @@ namespace youtube_dl_gui {
                 string convertArguments = "-i \"" + input + "\"";
                 switch (convType) {
                     case 0:
-                        if (Converts.Default.videoUseBitrate)
-                            convertArguments += " -b:v " + Converts.Default.videoBitrate.ToString() + "k";
+                        if (Config.ProgramConfig.Converts.videoUseBitrate)
+                            convertArguments += " -b:v " + Config.ProgramConfig.Converts.videoBitrate.ToString() + "k";
 
-                        if (Converts.Default.videoUsePreset)
-                            convertArguments += " -preset " + getVideoPreset(Converts.Default.videoPreset);
+                        if (Config.ProgramConfig.Converts.videoUsePreset)
+                            convertArguments += " -preset " + getVideoPreset(Config.ProgramConfig.Converts.videoPreset);
 
-                        if (Converts.Default.videoUseCRF)
-                            convertArguments += " -crf " + Converts.Default.videoCRF.ToString();
+                        if (Config.ProgramConfig.Converts.videoUseCRF)
+                            convertArguments += " -crf " + Config.ProgramConfig.Converts.videoCRF.ToString();
 
-                        if (!output.EndsWith(".wmv") && Converts.Default.videoUseProfile)
-                            convertArguments += " -profile:v " + getVideoProfile(Converts.Default.videoProfile);
+                        if (!output.EndsWith(".wmv") && Config.ProgramConfig.Converts.videoUseProfile)
+                            convertArguments += " -profile:v " + getVideoProfile(Config.ProgramConfig.Converts.videoProfile);
 
-                        if (Converts.Default.videoFastStart)
+                        if (Config.ProgramConfig.Converts.videoFastStart)
                             convertArguments += " -faststart";
 
                         break;
                     case 1:
-                        if (Converts.Default.audioUseBitrate)
-                            convertArguments += " -ab " + (Converts.Default.audioBitrate * 1000);
+                        if (Config.ProgramConfig.Converts.audioUseBitrate)
+                            convertArguments += " -ab " + (Config.ProgramConfig.Converts.audioBitrate * 1000);
 
                         break;
                     case 2:
-                        convertArguments += " " + Saved.Default.convertCustom;
+                        convertArguments += " " + Config.ProgramConfig.Saved.convertCustom;
                         break;
                     case 6:
                         // FFmpeg default
                         break;
                     default:
-                        if (Converts.Default.detectFiletype) {
+                        if (Config.ProgramConfig.Converts.detectFiletype) {
                             switch (getFiletype(output)) {
                                 case 0:
-                                    if (Converts.Default.videoUseBitrate)
-                                        convertArguments += " -b:v " + Converts.Default.videoBitrate.ToString() + "k";
+                                    if (Config.ProgramConfig.Converts.videoUseBitrate)
+                                        convertArguments += " -b:v " + Config.ProgramConfig.Converts.videoBitrate.ToString() + "k";
 
-                                    if (Converts.Default.videoUsePreset)
-                                        convertArguments += " -preset " + getVideoPreset(Converts.Default.videoPreset);
+                                    if (Config.ProgramConfig.Converts.videoUsePreset)
+                                        convertArguments += " -preset " + getVideoPreset(Config.ProgramConfig.Converts.videoPreset);
 
-                                    if (Converts.Default.videoUseCRF)
-                                        convertArguments += " -crf " + Converts.Default.videoCRF.ToString();
+                                    if (Config.ProgramConfig.Converts.videoUseCRF)
+                                        convertArguments += " -crf " + Config.ProgramConfig.Converts.videoCRF.ToString();
 
-                                    if (!output.EndsWith(".wmv") && Converts.Default.videoUseProfile)
-                                        convertArguments += " -profile:v " + getVideoProfile(Converts.Default.videoProfile);
+                                    if (!output.EndsWith(".wmv") && Config.ProgramConfig.Converts.videoUseProfile)
+                                        convertArguments += " -profile:v " + getVideoProfile(Config.ProgramConfig.Converts.videoProfile);
 
-                                    if (Converts.Default.videoFastStart)
+                                    if (Config.ProgramConfig.Converts.videoFastStart)
                                         convertArguments += " -faststart";
                                     break;
                                 case 1:
-                                    if (Converts.Default.audioUseBitrate)
-                                        convertArguments += " -ab " + (Converts.Default.audioBitrate * 1000);
+                                    if (Config.ProgramConfig.Converts.audioUseBitrate)
+                                        convertArguments += " -ab " + (Config.ProgramConfig.Converts.audioBitrate * 1000);
 
                                     break;
                                 default:
@@ -196,7 +196,7 @@ namespace youtube_dl_gui {
                         break;
                 }
 
-                if (Converts.Default.hideFFmpegCompile && convType != 2) {
+                if (Config.ProgramConfig.Converts.hideFFmpegCompile && convType != 2) {
                     convertArguments += " -hide_banner";
                 }
 
@@ -300,11 +300,11 @@ namespace youtube_dl_gui {
         /// <param name="returnSeparator">Determines if it'll return the filter list with the '|' char at the end.</param>
         /// <returns>The filter list of the user.</returns>
         public static string getCustomExtensions(bool returnSeparator = true) {
-            if (Settings.Default.extensionsName.Length > 0) {
+            if (Config.ProgramConfig.SettingsConfig.extensionsName.Length > 0) {
                 string extensionList = string.Empty;
 
-                List<string> Names = new List<string>(Settings.Default.extensionsName.Split('|').ToList());
-                List<string> Exts = new List<string>(Settings.Default.extensionsShort.Split('|').ToList());
+                List<string> Names = new List<string>(Config.ProgramConfig.SettingsConfig.extensionsName.Split('|').ToList());
+                List<string> Exts = new List<string>(Config.ProgramConfig.SettingsConfig.extensionsShort.Split('|').ToList());
 
                 for (int i = 0; i < Names.Count; i++) {
                     extensionList += Names[i] + " (*." + Exts[i] + ")|*." + Exts[i] + "|";

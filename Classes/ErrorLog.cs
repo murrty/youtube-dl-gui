@@ -13,7 +13,7 @@ namespace youtube_dl_gui {
         /// <param name="WebException">The WebException that was caught</param>
         /// <param name="url">The URL that (might-have) caused the problem</param>
         public static void ReportWebException(WebException WebException, string WebsiteAddress) {
-            if (Errors.Default.suppressErrors)
+            if (Config.ProgramConfig.Errors.suppressErrors)
                 return;
 
             string OutputFile = string.Empty;
@@ -417,7 +417,7 @@ namespace youtube_dl_gui {
             // build log file
 
 
-            if (Errors.Default.logErrors) {
+            if (Config.ProgramConfig.Errors.logErrors) {
                 if (UseCustomDescription) { WriteToFile(CustomDescriptionBuffer); }
                 else { WriteToFile(WebException.ToString()); }
             }
@@ -428,7 +428,7 @@ namespace youtube_dl_gui {
         /// </summary>
         /// <param name="Exception">The Exception that was caught</param>
         public static void ReportException(Exception Exception, bool IsWriteToFile = true) {
-            if (Errors.Default.suppressErrors)
+            if (Config.ProgramConfig.Errors.suppressErrors)
                 return;
 
             string OutputFile = string.Empty;
@@ -439,7 +439,7 @@ namespace youtube_dl_gui {
                 ExceptionDisplay.ShowDialog();
             }
 
-            if (Errors.Default.logErrors && !IsWriteToFile) {
+            if (Config.ProgramConfig.Errors.logErrors && !IsWriteToFile) {
                 WriteToFile(Exception.ToString());
             }
         }

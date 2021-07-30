@@ -278,6 +278,11 @@ namespace youtube_dl_gui {
         private static volatile string chkSettingsErrorsSaveErrorsAsErrorLogString = "chkSettingsErrorsSaveErrorsAsErrorLog";
         private static volatile string chkSettingsErrorsSuppressErrorsString = "chkSettingsErrorsSuppressErrors";
         #endregion
+        #region tabSettingsPortable
+        private static volatile string tabSettingsPortableString = "tabSettingsPortable";
+        private static volatile string lbSettingsPortableInformationString = "lbPortableInformation";
+        private static volatile string chkSettingsPortableToggleIniString = "chkPortableEnableIni";
+        #endregion
         #endregion
 
         #region tipSettings
@@ -945,6 +950,10 @@ namespace youtube_dl_gui {
             get { return tabSettingsErrorsString; }
             private set { tabSettingsErrorsString = value; }
         }
+        public string tabSettingsPortable {
+            get { return tabSettingsPortableString; }
+            private set { tabSettingsPortableString = value; }
+        }
 
         public string lbSettingsGeneralYoutubeDlPath {
             get { return lbSettingsGeneralYoutubeDlPathString; }
@@ -1233,6 +1242,15 @@ namespace youtube_dl_gui {
         public string chkSettingsErrorsSuppressErrors {
             get { return chkSettingsErrorsSuppressErrorsString; }
             private set { chkSettingsErrorsSuppressErrorsString = value; }
+        }
+
+        public string lbSettingsPortableInformation {
+            get { return lbSettingsPortableInformationString; }
+            private set { lbSettingsPortableInformationString = value; }
+        }
+        public string chkSettingsPortableToggleIni {
+            get { return chkSettingsPortableToggleIniString; }
+            private set { chkSettingsPortableToggleIniString = value; }
         }
         #endregion
 
@@ -1796,6 +1814,7 @@ namespace youtube_dl_gui {
             public static readonly string tabSettingsConverter = "Converter";
             public static readonly string tabSettingsExtensions = "Extensions";
             public static readonly string tabSettingsErrors = "Errors";
+            public static readonly string tabSettingsPortable = "Portable";
             #region tabGeneral
             //frmSettings / tcMain / tabGeneral
             public static readonly string lbSettingsGeneralYoutubeDlPath = "youtube-dl path";
@@ -1965,6 +1984,10 @@ namespace youtube_dl_gui {
             public static readonly string chkSettingsErrorsSaveErrorsAsErrorLogHint = "Saves the latest error as error.log in the exeucting directory of youtube-dl-gui";
             public static readonly string chkSettingsErrorsSuppressErrorsHint = "This will silence any errors and will not save any error.log files.\n\n" +
                                                                                 "This basically overrides all error settings. Use at your own risk.";
+            #endregion
+            #region tabSettingsPortable
+            public static readonly string lbSettingsPortableInformation = "You can toggle the use of a portable ini file here.\r\n\r\nIf enabled, the program will contain all your settings in the \"settings.ini\" file located in the same directory as youtube-dl-gui.\r\n\r\nThis is useful if you want to use this program with your settings on other systems, which is fine.\r\n\r\nToggling the ini file will transfer your current settings.\r\n\r\n";
+            public static readonly string chkSettingsPortableToggleIni = "Toggle portable ini";
             #endregion
 
             #endregion
@@ -2157,6 +2180,7 @@ namespace youtube_dl_gui {
             tabSettingsConverter = InternalEnglish.tabSettingsConverter;
             tabSettingsExtensions = InternalEnglish.tabSettingsExtensions;
             tabSettingsErrors = InternalEnglish.tabSettingsErrors;
+            tabSettingsPortable = InternalEnglish.tabSettingsPortable;
 
             lbSettingsGeneralYoutubeDlPath = InternalEnglish.lbSettingsGeneralYoutubeDlPath;
             chkSettingsGeneralUseStaticYoutubeDl = InternalEnglish.chkSettingsGeneralUseStaticYoutubeDl;
@@ -2235,6 +2259,9 @@ namespace youtube_dl_gui {
             chkSettingsErrorsSaveErrorsAsErrorLog = InternalEnglish.chkSettingsErrorsSaveErrorsAsErrorLog;
             chkSettingsErrorsSuppressErrors = InternalEnglish.chkSettingsErrorsSuppressErrors;
 
+            lbSettingsPortableInformation = InternalEnglish.lbSettingsPortableInformation;
+            chkSettingsPortableToggleIni = InternalEnglish.chkSettingsPortableToggleIni;
+
             // frmSettings tipSettings
             btnSettingsRedownloadYoutubeDlHint = InternalEnglish.btnSettingsRedownloadYoutubeDlHint;
             btnSettingsCancelHint = InternalEnglish.btnSettingsCancelHint;
@@ -2305,11 +2332,11 @@ namespace youtube_dl_gui {
             lbSettingsConverterAudioBitrateHint = InternalEnglish.lbSettingsConverterAudioBitrateHint;
             txtSettingsConverterCustomArgumentsHint = InternalEnglish.txtSettingsConverterCustomArgumentsHint;
 
-            lbSettingsExtensionsHeader = InternalEnglish.lbSettingsExtensionsHeader;
-            lbSettingsExtensionsExtensionFullName = InternalEnglish.lbSettingsExtensionsExtensionFullName;
-            lbSettingsExtensionsExtensionShort = InternalEnglish.lbSettingsExtensionsExtensionShort;
-            btnSettingsExtensionsAdd = InternalEnglish.btnSettingsExtensionsAdd;
-            btnSettingsExtensionsRemoveSelected = InternalEnglish.btnSettingsExtensionsRemoveSelected;
+            //lbSettingsExtensionsHeader = InternalEnglish.lbSettingsExtensionsHeader;
+            //lbSettingsExtensionsExtensionFullName = InternalEnglish.lbSettingsExtensionsExtensionFullName;
+            //lbSettingsExtensionsExtensionShort = InternalEnglish.lbSettingsExtensionsExtensionShort;
+            //btnSettingsExtensionsAdd = InternalEnglish.btnSettingsExtensionsAdd;
+            //btnSettingsExtensionsRemoveSelected = InternalEnglish.btnSettingsExtensionsRemoveSelected;
 
             chkSettingsErrorsShowDetailedErrorsHint = InternalEnglish.chkSettingsErrorsShowDetailedErrorsHint;
             chkSettingsErrorsSaveErrorsAsErrorLogHint = InternalEnglish.chkSettingsErrorsSaveErrorsAsErrorLogHint;
@@ -2499,6 +2526,7 @@ namespace youtube_dl_gui {
             tabSettingsConverter = "tabSettingsConverter";
             tabSettingsExtensions = "tabSettingsExtensions";
             tabSettingsErrors = "tabSettingsErrors";
+            tabSettingsPortable = "tabSettingsPortable";
 
             lbSettingsGeneralYoutubeDlPath = "lbSettingsGeneralYoutubeDlPath";
             chkSettingsGeneralUseStaticYoutubeDl = "chkSettingsGeneralUseStaticYoutubeDl";
@@ -2576,6 +2604,9 @@ namespace youtube_dl_gui {
             chkSettingsErrorsShowDetailedErrors = "chkSettingsErrorsShowDetailedErrors";
             chkSettingsErrorsSaveErrorsAsErrorLog = "chkSettingsErrorsSaveErrorsAsErrorLog";
             chkSettingsErrorsSuppressErrors = "chkSettingsErrorsSuppressErrors";
+
+            lbSettingsPortableInformation = "lbPortableInformation";
+            chkSettingsPortableToggleIni = "chkPortableToggleIni";
 
             // frmSettings tipSettings
             btnSettingsRedownloadYoutubeDlHint = "btnSettingsRedownloadYoutubeDlHint";
@@ -3157,6 +3188,10 @@ namespace youtube_dl_gui {
                                     tabSettingsErrors = ReadValue;
                                     continue;
 
+                                case "tabsettingsportable":
+                                    tabSettingsPortable = ReadValue;
+                                    continue;
+
                                 //frmSettings / tcMain / tabGeneral
                                 case "lbsettingsgeneralyoutubedlpath":
                                     lbSettingsGeneralYoutubeDlPath = ReadValue;
@@ -3573,6 +3608,15 @@ namespace youtube_dl_gui {
                                     continue;
                                 case "chksettingserrorssuppresserrorshint":
                                     chkSettingsErrorsSuppressErrorsHint = ReadValue;
+                                    continue;
+
+                                // frmSettings /tcMain /tabSettingsPortable
+                                case "lbsettingsportableinformation":
+                                    lbSettingsPortableInformation = ReadValue;
+                                    continue;
+
+                                case "chksettingsportabletoggleini":
+                                    chkSettingsPortableToggleIni = ReadValue;
                                     continue;
                                 #endregion
 

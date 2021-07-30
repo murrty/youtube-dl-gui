@@ -22,7 +22,7 @@ namespace youtube_dl_gui {
                 Debug.Print("-version " + GitData.UpdateVersion + " -name " + System.AppDomain.CurrentDomain.FriendlyName);
             }
             else {
-                if (!General.Default.CheckForUpdatesOnLaunch && !ForceCheck) { return; }
+                if (!Config.ProgramConfig.General.CheckForUpdatesOnLaunch && !ForceCheck) { return; }
 
 
                 if (GitData.UpdateAvailable) {
@@ -47,7 +47,7 @@ namespace youtube_dl_gui {
                             decimal GitVersion = UpdateChecker.GetGitVersion(0);
                             if (UpdateChecker.IsUpdateAvailable(GitVersion)) {
                                 GitData.UpdateAvailable = true;
-                                if (GitVersion != Properties.Settings.Default.SkippedVersion || ForceCheck) {
+                                if (GitVersion != Config.ProgramConfig.Initialization.SkippedVersion || ForceCheck) {
                                     using (frmUpdateAvailable Update = new frmUpdateAvailable()) {
                                         Update.BlockSkip = ForceCheck;
                                         switch (Update.ShowDialog()) {
@@ -61,13 +61,8 @@ namespace youtube_dl_gui {
                                                 }
                                                 break;
                                             case DialogResult.Ignore:
-                                                Properties.Settings.Default.SkippedVersion = GitVersion;
-                                                if (Program.IsPortable) {
-                                                    CheckSettings.SavePortableSettings();
-                                                }
-                                                else {
-                                                    Properties.Settings.Default.Save();
-                                                }
+                                                Config.ProgramConfig.Initialization.SkippedVersion = GitVersion;
+                                                Config.ProgramConfig.Save(ConfigType.Initialization);
                                                 break;
                                         }
                                     }
@@ -80,25 +75,6 @@ namespace youtube_dl_gui {
                     });
                     checkUpdates.Name = "Check for application update";
                     checkUpdates.Start();
-                }
-            }
-        }
-
-        public static bool CheckForYoutubeDlUpdate() {
-            if (DMCA) {
-                return false;
-            }
-
-            if (GitData.YoutubeDlUpdateAvailable) {
-                return GitData.YoutubeDlUpdateAvailable;
-            }
-            else {
-                if (string.IsNullOrEmpty(Properties.Settings.Default.YoutubeDlVersion)) {
-                    return true;
-                }
-                else {
-                    GetGitVersionString(1);
-                    return (GitData.YoutubeDlVersion == Properties.Settings.Default.YoutubeDlVersion);
                 }
             }
         }
@@ -139,39 +115,35 @@ namespace youtube_dl_gui {
 
             GetGitVersionString(1);
 
-            if (Downloads.Default.useYtdlUpdater && General.Default.UseStaticYtdl && !string.IsNullOrEmpty(General.Default.ytdlPath) && File.Exists(General.Default.ytdlPath) || File.Exists(Environment.CurrentDirectory + "\\youtube-dl.exe")) {
+            if (Config.ProgramConfig.Downloads.useYtdlUpdater && Config.ProgramConfig.General.UseStaticYtdl && !string.IsNullOrEmpty(Config.ProgramConfig.General.ytdlPath) && File.Exists(Config.ProgramConfig.General.ytdlPath) || File.Exists(Environment.CurrentDirectory + "\\youtube-dl.exe")) {
                 Process UpdateYoutubeDl = new Process();
                 UpdateYoutubeDl.StartInfo.Arguments = "-U";
 
-                if (!General.Default.UseStaticYtdl || string.IsNullOrEmpty(General.Default.ytdlPath)) {
+                if (!Config.ProgramConfig.General.UseStaticYtdl || string.IsNullOrEmpty(Config.ProgramConfig.General.ytdlPath)) {
                     UpdateYoutubeDl.StartInfo.FileName = Environment.CurrentDirectory + "\\youtube-dl.exe";
                 }
                 else {
-                    UpdateYoutubeDl.StartInfo.FileName = General.Default.ytdlPath;
+                    UpdateYoutubeDl.StartInfo.FileName = Config.ProgramConfig.General.ytdlPath;
                 }
 
                 UpdateYoutubeDl.Start();
                 UpdateYoutubeDl.WaitForExit();
             }
             else {
-                if (!General.Default.UseStaticYtdl || string.IsNullOrEmpty(General.Default.ytdlPath)) {
+                if (!Config.ProgramConfig.General.UseStaticYtdl || string.IsNullOrEmpty(Config.ProgramConfig.General.ytdlPath)) {
                     Thread DownloadYoutubeDl = new Thread(() => {
                         using (WebClient wc = new WebClient()) {
                             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
                             wc.Headers.Add("User-Agent: " + Program.UserAgent);
                             try {
                                 string ytdlDownloadPath = null;
-                                if (General.Default.UseStaticYtdl && !string.IsNullOrEmpty(General.Default.ytdlPath)) {
-                                    ytdlDownloadPath = General.Default.ytdlPath;
+                                if (Config.ProgramConfig.General.UseStaticYtdl && !string.IsNullOrEmpty(Config.ProgramConfig.General.ytdlPath)) {
+                                    ytdlDownloadPath = Config.ProgramConfig.General.ytdlPath;
                                 }
                                 else {
                                     ytdlDownloadPath = Environment.CurrentDirectory + "\\youtube-dl.exe";
                                 }
                                 wc.DownloadFile(string.Format(GitData.GitLinks.ApplicationDownloadUrl, GitData.GitLinks.Users[1], GitData.GitLinks.ApplciationNames[1], GitData.YoutubeDlVersion), ytdlDownloadPath);
-                                if (GitData.YoutubeDlVersion != Properties.Settings.Default.YoutubeDlVersion) {
-                                    Properties.Settings.Default.YoutubeDlVersion = GitData.YoutubeDlVersion;
-                                    Properties.Settings.Default.Save();
-                                }
                                 MessageBox.Show("Youtube-dl has been updated.");
                             }
                             catch (WebException webex) {
@@ -191,11 +163,7 @@ namespace youtube_dl_gui {
                             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
                             wc.Headers.Add("User-Agent: " + Program.UserAgent);
                             try {
-                                wc.DownloadFile(string.Format(GitData.GitLinks.ApplicationDownloadUrl, GitData.GitLinks.Users[1], GitData.GitLinks.ApplciationNames[1], GitData.YoutubeDlVersion), General.Default.ytdlPath);
-                                if (GitData.YoutubeDlVersion != Properties.Settings.Default.YoutubeDlVersion) {
-                                    Properties.Settings.Default.YoutubeDlVersion = GitData.YoutubeDlVersion;
-                                    Properties.Settings.Default.Save();
-                                }
+                                wc.DownloadFile(string.Format(GitData.GitLinks.ApplicationDownloadUrl, GitData.GitLinks.Users[1], GitData.GitLinks.ApplciationNames[1], GitData.YoutubeDlVersion), Config.ProgramConfig.General.ytdlPath);
                                 MessageBox.Show("Youtube-dl has been updated.");
                             }
                             catch (WebException webex) {
@@ -228,6 +196,7 @@ namespace youtube_dl_gui {
                         return xml.ToString();
                     }
                 }
+
                 // maybe having a task in a new thread is wrong, but for the sake of testing; nothing is.
                 //ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
                 //using (HttpClient ApiClient = new HttpClient()) {
@@ -243,6 +212,7 @@ namespace youtube_dl_gui {
                 //    }
                 //    return Task.FromResult(ReturnedString);
                 //}
+
             }
             catch (WebException WebE) {
                 ErrorLog.ReportWebException(WebE, url);
@@ -425,10 +395,6 @@ namespace youtube_dl_gui {
         public string YoutubeDlVersion {
             get { return YoutubeDlVersionString; }
             set { YoutubeDlVersionString = value; }
-        }
-        public bool YoutubeDlUpdateAvailable {
-            get { return YoutubeDlUpdateAvailableBool; }
-            set { YoutubeDlUpdateAvailableBool = value; }
         }
     }
 }

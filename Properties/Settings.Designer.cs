@@ -46,7 +46,7 @@ namespace youtube_dl_gui.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("2021-03-14")]
+        [global::System.Configuration.DefaultSettingValueAttribute("2021-07-30")]
         public string debugDate {
             get {
                 return ((string)(this["debugDate"]));
@@ -65,18 +65,6 @@ namespace youtube_dl_gui.Properties {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string YoutubeDlVersion {
-            get {
-                return ((string)(this["YoutubeDlVersion"]));
-            }
-            set {
-                this["YoutubeDlVersion"] = value;
-            }
-        }
-        
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
@@ -88,7 +76,7 @@ namespace youtube_dl_gui.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("2.26-pre3")]
+        [global::System.Configuration.DefaultSettingValueAttribute("2.27-pre1")]
         public string BetaVersion {
             get {
                 return ((string)(this["BetaVersion"]));

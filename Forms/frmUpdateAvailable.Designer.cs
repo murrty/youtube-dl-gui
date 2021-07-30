@@ -115,7 +115,7 @@
             this.txtUpdateAvailableName.Location = new System.Drawing.Point(12, 107);
             this.txtUpdateAvailableName.Name = "txtUpdateAvailableName";
             this.txtUpdateAvailableName.ReadOnly = true;
-            this.txtUpdateAvailableName.Size = new System.Drawing.Size(298, 20);
+            this.txtUpdateAvailableName.Size = new System.Drawing.Size(298, 22);
             this.txtUpdateAvailableName.TabIndex = 4;
             // 
             // frmUpdateAvailable
@@ -133,7 +133,8 @@
             this.Controls.Add(this.lbUpdateAvailableCurrentVersion);
             this.Controls.Add(this.lbUpdateAvailableUpdateVersion);
             this.Controls.Add(this.lbUpdateAvailableHeader);
-            this.Icon = Properties.Resources.youtube_dl_gui;
+            this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Icon = global::youtube_dl_gui.Properties.Resources.youtube_dl_gui;
             this.MaximizeBox = false;
             this.Name = "frmUpdateAvailable";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
