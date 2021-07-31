@@ -2762,18 +2762,18 @@ namespace youtube_dl_gui {
                     if (System.IO.File.Exists(LanguageFile)) {
                         string[] ReadFile = System.IO.File.ReadAllLines(LanguageFile);
 
-                        string ReadLine;
-                        string ReadControl;
-                        string ReadValue;
-                        string ReadHeader;
+                        string ReadLine;    // The line of the file
+                        string ReadHeader;  // The current section based on the header
+                        string ReadControl; // The name of the control
+                        string ReadValue;   // The value of the control
 
                         for (int i = 0; i < ReadFile.Length; i++) {
-                            if (Program.IsDebug) { System.Diagnostics.Debug.Print(ReadFile[i]); }
-                            ReadLine = ReadFile[i];
-                            if (string.IsNullOrEmpty(ReadFile[i]) || ReadLine.Split('=').Length < 2) { continue; }
-                            if (ReadLine.StartsWith("//")) { continue; }
+                            ReadLine = ReadFile[i].Trim(' ');
 
-                            if (ReadLine.StartsWith("[")) {
+                            if (ReadLine.StartsWith("//") || string.IsNullOrWhiteSpace(ReadFile[i])) {
+                                continue;
+                            }
+                            else if (ReadLine.StartsWith("[")) {
                                 ReadHeader = ReadHeaderValue(ReadLine);
 
                                 if (ReadHeader == null) {
@@ -2784,10 +2784,11 @@ namespace youtube_dl_gui {
                                     continue;
                                 }
                             }
-                            else {
+                            else if (ReadLine.Contains("=")) {
                                 ReadControl = GetControlName(ReadLine).ToLower();
                                 ReadValue = GetControlValue(ReadLine);
                             }
+                            else { continue; }
 
                             switch (ReadControl) {
 
@@ -3731,6 +3732,7 @@ namespace youtube_dl_gui {
                                     btnUpdateAvailableOk = ReadValue;
                                     continue;
                                 #endregion
+
                             }
                         }
 
@@ -3761,17 +3763,7 @@ namespace youtube_dl_gui {
             int CountedLength = 0;
             ReadValue = Input.Trim(' ');
             if (Input.Contains("//")) {
-                int CountedForwardSlashes = 0;
-                for (int j = 0; j < Input.Length; j++) {
-                    CountedLength++;
-                    if (Input[j] == '/') {
-                        CountedForwardSlashes++;
-                        if (CountedForwardSlashes == 2) { break; }
-                        continue;
-                    }
-                }
-                CountedLength = CountedLength - 2;
-                ReadValue = Input.Substring(0, CountedLength);
+                ReadValue = Input.Substring(0, Input.IndexOf("//")).Trim(' ');
             }
 
             if (ReadValue.Trim(' ').Trim('[').Trim(']') == null) {
@@ -3786,10 +3778,19 @@ namespace youtube_dl_gui {
         /// <param name="Input">The string that may contain a control name.</param>
         /// <returns>Returns the absolute control name.</returns>
         private string GetControlName(string Input) {
-            if (Input.Split('=').Length > 1) {
-                return Input.Split('=')[0].Trim(' ');
+
+            switch (Input.Split('=').Length) {
+                case 1: case 0: case -1:
+                    return null;
+
+                default:
+                    return Input.Split('=')[0].Trim(' ');
             }
-            else { return null; }
+
+            //if (Input.Split('=').Length > 1) {
+            //    return Input.Split('=')[0].Trim(' ');
+            //}
+            //else { return null; }
         }
         /// <summary>
         /// Parses the control value from a string.
@@ -3797,36 +3798,19 @@ namespace youtube_dl_gui {
         /// <param name="Input">The string that may contain a control value.</param>
         /// <returns>Returns the absolute conntrol value.</returns>
         private string GetControlValue(string Input) {
-            if (Input.Split('=').Length > 2) {
-                string OutputBuffer = null;
+            string OutputBuffer = null;
 
-                if (Input.Contains("//")) {
-                    int CountedForwardSlashes = 0;
-                    int CountedLength = 0;
-                    for (int i = 1; i < Input.Length; i++) {
-                        CountedLength++;
-                        if (Input[i] == '/') {
-                            CountedForwardSlashes++;
-                            if (CountedForwardSlashes == 2) { break; }
-                            else { continue; }
-                        }
-                    }
-                    CountedLength = CountedLength - 2;
-                    OutputBuffer = Input.Substring(0, CountedLength).Trim(' ');
-                }
-                for (int i = 1; i < Input.Split('=').Length; i++) {
-                    OutputBuffer += Input.Split('=')[i] + "=";
-                }
-                if (!Input.EndsWith("=")) {
-                    OutputBuffer = OutputBuffer.Trim('=');
-                }
-                else {
-                    OutputBuffer = OutputBuffer.Substring(0, OutputBuffer.Length - 1);
-                }
-                return OutputBuffer.Replace("\\n", "\n").Replace("\\r", "\r").Replace("\\\"", "\"").Replace("\\'", "'");
+            switch (Input.Contains("//")) {
+                case true:
+                    OutputBuffer = Input.Substring(0, Input.IndexOf("//")).Trim(' ');
+                    break;
+
+                case false:
+                    OutputBuffer = Input;
+                    break;
             }
-            else if (Input.Split('=').Length == 2) { return Input.Split('=')[1].Replace("\\n", "\n").Replace("\\r", "\r").Replace("\\\"", "\"").Replace("\\'", "'"); }
-            else { return null; }
+
+            return OutputBuffer.Substring(OutputBuffer.IndexOf('=') + 1);
         }
         #endregion
     }
