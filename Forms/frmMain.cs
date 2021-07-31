@@ -199,6 +199,10 @@ namespace youtube_dl_gui {
             rbVideoSelectionBeforeDate.Text = lang.rbVideoSelectionBeforeDate;
             rbVideoSelectionOnDate.Text = lang.rbVideoSelectionOnDate;
             rbVideoSelectionAfterDate.Text = lang.rbVideoSelectionAfterDate;
+            txtPlaylistStart.TextHint = lang.txtPlaylistStartHint;
+            txtPlaylistEnd.TextHint = lang.txtPlaylistEndHint;
+            txtPlaylistItems.TextHint = lang.txtPlaylistItemsHint;
+            txtVideoDate.TextHint = lang.txtVideoDateHint;
 
             lbCustomArguments.Text = lang.lbCustomArguments;
             sbDownload.Text = lang.sbDownload;

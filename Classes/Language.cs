@@ -129,6 +129,10 @@ namespace youtube_dl_gui {
         private static volatile string rbVideoSelectionBeforeDateString = "rbVideoSelectionBeforeDate";
         private static volatile string rbVideoSelectionOnDateString = "rbVideoSelectionOnDate";
         private static volatile string rbVideoSelectionAfterDateString = "rbVideoSelectionAfterDate";
+        private static volatile string txtPlaylistStartHintString = "txtPlaylistStartHint";
+        private static volatile string txtPlaylistEndHintString = "txtPlaylistEndHint";
+        private static volatile string txtPlaylistItemsHintString = "txtPlaylistItemsHint";
+        private static volatile string txtVideoDateHintString = "txtVideoDateHint";
         private static volatile string lbCustomArgumentsString = "lbCustomArguments";
         private static volatile string txtArgsHintString = "txtArgsHint";
         private static volatile string sbDownloadString = "sbDownload";
@@ -756,6 +760,22 @@ namespace youtube_dl_gui {
         public string rbVideoSelectionAfterDate {
             get { return rbVideoSelectionAfterDateString; }
             private set { rbVideoSelectionAfterDateString = value; }
+        }
+        public string txtPlaylistStartHint {
+            get { return txtPlaylistStartHintString; }
+            private set { txtPlaylistStartHintString = value; }
+        }
+        public string txtPlaylistEndHint {
+            get { return txtPlaylistEndHintString; }
+            private set { txtPlaylistEndHintString = value; }
+        }
+        public string txtPlaylistItemsHint {
+            get { return txtPlaylistItemsHintString; }
+            private set { txtPlaylistItemsHintString = value; }
+        }
+        public string txtVideoDateHint {
+            get { return txtVideoDateHintString; }
+            private set { txtVideoDateHintString = value; }
         }
         public string lbCustomArguments {
             get { return lbCustomArgumentsString; }
@@ -1753,6 +1773,10 @@ namespace youtube_dl_gui {
             public static readonly string rbVideoSelectionBeforeDate = "Before date";
             public static readonly string rbVideoSelectionOnDate = "On date";
             public static readonly string rbVideoSelectionAfterDate = "After date";
+            public static readonly string txtPlaylistStartHint = "Start index";
+            public static readonly string txtPlaylistEndHint = "End index";
+            public static readonly string txtPlaylistItemsHint = "Video indexes (separated by commas)";
+            public static readonly string txtVideoDateHint = "Date (YYYYMMDD)";
             public static readonly string lbCustomArguments = "Custom arguments";
             public static readonly string txtArgsHint = "Custom youtube-dl arguments";
             public static readonly string sbDownload = "Download";
@@ -2128,6 +2152,10 @@ namespace youtube_dl_gui {
             rbVideoSelectionBeforeDate = InternalEnglish.rbVideoSelectionBeforeDate;
             rbVideoSelectionOnDate = InternalEnglish.rbVideoSelectionOnDate;
             rbVideoSelectionAfterDate = InternalEnglish.rbVideoSelectionAfterDate;
+            txtPlaylistStartHint = InternalEnglish.txtPlaylistStartHint;
+            txtPlaylistEndHint = InternalEnglish.txtPlaylistEndHint;
+            txtPlaylistItemsHint = InternalEnglish.txtPlaylistItemsHint;
+            txtVideoDateHint = InternalEnglish.txtVideoDateHint;
             lbCustomArguments = InternalEnglish.lbCustomArguments;
             txtArgsHint = InternalEnglish.txtArgsHint;
             sbDownload = InternalEnglish.sbDownload;
@@ -2474,6 +2502,10 @@ namespace youtube_dl_gui {
             rbVideoSelectionBeforeDate = "rbVideoSelectionBeforeDate";
             rbVideoSelectionOnDate = "rbVideoSelectionOnDate";
             rbVideoSelectionAfterDate = "rbVideoSelectionAfterDate";
+            txtPlaylistStartHint = "txtPlaylistStartHint";
+            txtPlaylistEndHint = "txtPlaylistEndHint";
+            txtPlaylistItemsHint = "txtPlaylistItemsHint";
+            txtVideoDateHint = "txtVideoDateHint";
             lbCustomArguments = "lbCustomArguments";
             txtArgsHint = "txtArgsHint";
             sbDownload = "sbDownload";
@@ -2730,13 +2762,15 @@ namespace youtube_dl_gui {
                     if (System.IO.File.Exists(LanguageFile)) {
                         string[] ReadFile = System.IO.File.ReadAllLines(LanguageFile);
 
+                        string ReadLine;
+                        string ReadControl;
+                        string ReadValue;
+                        string ReadHeader;
+
                         for (int i = 0; i < ReadFile.Length; i++) {
                             if (Program.IsDebug) { System.Diagnostics.Debug.Print(ReadFile[i]); }
-                            string ReadLine = ReadFile[i];
+                            ReadLine = ReadFile[i];
                             if (string.IsNullOrEmpty(ReadFile[i]) || ReadLine.Split('=').Length < 2) { continue; }
-                            string ReadControl = null;
-                            string ReadValue = null;
-                            string ReadHeader = null;
                             if (ReadLine.StartsWith("//")) { continue; }
 
                             if (ReadLine.StartsWith("[")) {
@@ -3027,6 +3061,18 @@ namespace youtube_dl_gui {
                                     continue;
                                 case "rbvideoselectionafterdate":
                                     rbVideoSelectionAfterDate = ReadValue;
+                                    continue;
+                                case "txtplayliststarthint":
+                                    txtPlaylistStartHint = ReadValue;
+                                    continue;
+                                case "txtplaylistendhint":
+                                    txtPlaylistEndHint = ReadValue;
+                                    continue;
+                                case "txtplaylistitemshint":
+                                    lbDownloadStatusStarted = ReadValue;
+                                    continue;
+                                case "txtvideodatehint":
+                                    txtVideoDateHint = ReadValue;
                                     continue;
                                 case "lbcustomarguments":
                                     lbCustomArguments = ReadValue;

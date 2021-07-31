@@ -922,11 +922,11 @@
             // 
             this.lbDebug.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.lbDebug.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbDebug.Location = new System.Drawing.Point(102, 227);
+            this.lbDebug.Location = new System.Drawing.Point(102, 280);
             this.lbDebug.Name = "lbDebug";
             this.lbDebug.Size = new System.Drawing.Size(146, 19);
             this.lbDebug.TabIndex = 3;
-            this.lbDebug.Text = "debug 2019-07-24";
+            this.lbDebug.Text = "debug 2021-07-31";
             this.lbDebug.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.lbDebug.Visible = false;
             // 
@@ -1101,7 +1101,7 @@
             this.txtVideoDate.Name = "txtVideoDate";
             this.txtVideoDate.Size = new System.Drawing.Size(205, 22);
             this.txtVideoDate.TabIndex = 0;
-            this.txtVideoDate.TextHint = "Date (YYYYMMDD)";
+            this.txtVideoDate.TextHint = "txtVideoDateHint";
             this.txtVideoDate.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtVideoDate_KeyPress);
             // 
             // txtPlaylistEnd
@@ -1118,7 +1118,7 @@
             this.txtPlaylistEnd.Name = "txtPlaylistEnd";
             this.txtPlaylistEnd.Size = new System.Drawing.Size(100, 22);
             this.txtPlaylistEnd.TabIndex = 1;
-            this.txtPlaylistEnd.TextHint = "End Index";
+            this.txtPlaylistEnd.TextHint = "txtPlaylistEndHint";
             this.txtPlaylistEnd.TextType = youtube_dl_gui.Controls.AllowedTextTypes.NumericOnly;
             // 
             // txtPlaylistStart
@@ -1135,7 +1135,7 @@
             this.txtPlaylistStart.Name = "txtPlaylistStart";
             this.txtPlaylistStart.Size = new System.Drawing.Size(100, 22);
             this.txtPlaylistStart.TabIndex = 0;
-            this.txtPlaylistStart.TextHint = "Start Index";
+            this.txtPlaylistStart.TextHint = "txtPlaylistStartHint";
             this.txtPlaylistStart.TextType = youtube_dl_gui.Controls.AllowedTextTypes.NumericOnly;
             // 
             // txtPlaylistItems
@@ -1154,7 +1154,7 @@
             this.txtPlaylistItems.Name = "txtPlaylistItems";
             this.txtPlaylistItems.Size = new System.Drawing.Size(205, 22);
             this.txtPlaylistItems.TabIndex = 0;
-            this.txtPlaylistItems.TextHint = "Video Indexes (separated by commas)";
+            this.txtPlaylistItems.TextHint = "txtPlaylistItemsHint";
             this.txtPlaylistItems.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPlaylistItems_KeyPress);
             // 
             // sbDownload
