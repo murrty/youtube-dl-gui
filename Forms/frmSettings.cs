@@ -218,67 +218,70 @@ namespace youtube_dl_gui {
             chkSettingsGeneralCheckForUpdatesOnLaunch.Location = new System.Drawing.Point(
                 (tabSettingsGeneral.Size.Width - chkSettingsGeneralCheckForUpdatesOnLaunch.Size.Width) / 2,
                 chkSettingsGeneralCheckForUpdatesOnLaunch.Location.Y
-                );
+            );
+            chkSettingsGeneralCheckForBetaUpdates.Location = new System.Drawing.Point(
+                (tabSettingsGeneral.Size.Width - chkSettingsGeneralCheckForBetaUpdates.Size.Width) / 2,
+                chkSettingsGeneralCheckForBetaUpdates.Location.Y
+            );
             chkSettingsGeneralHoverOverUrlToPasteClipboard.Location = new System.Drawing.Point(
                 (tabSettingsGeneral.Size.Width - chkSettingsGeneralHoverOverUrlToPasteClipboard.Size.Width) / 2,
                 chkSettingsGeneralHoverOverUrlToPasteClipboard.Location.Y
-                );
+            );
             chkSettingsGeneralClearUrlOnDownload.Location = new System.Drawing.Point(
                 (tabSettingsGeneral.Size.Width - chkSettingsGeneralClearUrlOnDownload.Size.Width) / 2,
                 chkSettingsGeneralClearUrlOnDownload.Location.Y
-                );
+            );
             chkSettingsGeneralClearClipboardOnDownload.Location = new System.Drawing.Point(
                 (tabSettingsGeneral.Size.Width - chkSettingsGeneralClearClipboardOnDownload.Size.Width) / 2,
                 chkSettingsGeneralClearClipboardOnDownload.Location.Y
-                );
-
+            );
             rbSettingsGeneralCustomArgumentsDontSave.Location = new System.Drawing.Point(
                 (gbSettingsGeneralCustomArguments.Size.Width - (rbSettingsGeneralCustomArgumentsDontSave.Size.Width + rbSettingsGeneralCustomArgumentsSaveAsArgsText.Size.Width + rbSettingsGeneralCustomArgumentsSaveInSettings.Size.Width)) / 2,
                 rbSettingsGeneralCustomArgumentsDontSave.Location.Y
-                );
+            );
             rbSettingsGeneralCustomArgumentsSaveAsArgsText.Location = new System.Drawing.Point(
                 (rbSettingsGeneralCustomArgumentsDontSave.Location.X + rbSettingsGeneralCustomArgumentsDontSave.Size.Width) + 2,
                 rbSettingsGeneralCustomArgumentsDontSave.Location.Y
-                );
+            );
             rbSettingsGeneralCustomArgumentsSaveInSettings.Location = new System.Drawing.Point(
                 (rbSettingsGeneralCustomArgumentsSaveAsArgsText.Location.X + rbSettingsGeneralCustomArgumentsSaveAsArgsText.Size.Width) + 2,
                 rbSettingsGeneralCustomArgumentsSaveAsArgsText.Location.Y
-                );
+            );
 
 
             llSettingsDownloadsSchemaHelp.Location = new System.Drawing.Point(
                 (lbSettingsDownloadsFileNameSchema.Location.X + lbSettingsDownloadsFileNameSchema.Size.Width) - 4,
                 lbSettingsDownloadsFileNameSchema.Location.Y
-                );
+            );
             chkSettingsDownloadsEmbedThumbnails.Location = new System.Drawing.Point(
                 (chkSettingsDownloadsSaveThumbnails.Location.X + chkSettingsDownloadsSaveThumbnails.Size.Width + 2),
                 chkSettingsDownloadsSaveThumbnails.Location.Y
-                );
+            );
             chkSettingsDownloadsWriteMetadataToFile.Location = new System.Drawing.Point(
                 (chkSettingsDownloadsSaveVideoInfo.Location.X + chkSettingsDownloadsSaveVideoInfo.Size.Width + 2),
                 chkSettingsDownloadsSaveVideoInfo.Location.Y
-                );
+            );
             chkSettingsDownloadsKeepOriginalFiles.Location = new System.Drawing.Point(
                 (chkSettingsDownloadsSaveDescription.Location.X + chkSettingsDownloadsSaveDescription.Size.Width + 2),
                 chkSettingsDownloadsSaveDescription.Location.Y
-                );
+            );
             chkSettingsDownloadsEmbedSubtitles.Location = new System.Drawing.Point(
                 (chkSettingsDownloadsDownloadSubtitles.Location.X + chkSettingsDownloadsDownloadSubtitles.Size.Width + 2),
                 chkSettingsDownloadsDownloadSubtitles.Location.Y
-                );
+            );
 
             numSettingsDownloadsLimitDownload.Location = new System.Drawing.Point(
                 (chkSettingsDownloadsLimitDownload.Location.X + chkSettingsDownloadsLimitDownload.Size.Width) + 2,
                 numSettingsDownloadsLimitDownload.Location.Y
-                );
+            );
             cbSettingsDownloadsLimitDownload.Location = new System.Drawing.Point(
                 (numSettingsDownloadsLimitDownload.Location.X + numSettingsDownloadsLimitDownload.Size.Width) + 2,
                 cbSettingsDownloadsLimitDownload.Location.Y
-                );
+            );
             numSettingsDownloadsRetryAttempts.Location = new System.Drawing.Point(
                 (lbSettingsDownloadsRetryAttempts.Location.X + lbSettingsDownloadsRetryAttempts.Size.Width),
                 numSettingsDownloadsRetryAttempts.Location.Y
-                );
+            );
         }
         private void loadSettings() {
             if (Config.ProgramConfig.General.UseStaticYtdl && !string.IsNullOrEmpty(Config.ProgramConfig.General.ytdlPath)) {

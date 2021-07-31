@@ -12,7 +12,7 @@ namespace youtube_dl_gui {
             this.Text = lang.frmUpdateAvailable;
             lbUpdateAvailableHeader.Text = lang.lbUpdateAvailableHeader;
             lbUpdateAvailableUpdateVersion.Text = lang.lbUpdateAvailableUpdateVersion + " " + Cloud.UpdateVersion;
-            lbUpdateAvailableCurrentVersion.Text = lang.lbUpdateAvailableCurrentVersion + " " + Properties.Settings.Default.appVersion.ToString();
+            lbUpdateAvailableCurrentVersion.Text = lang.lbUpdateAvailableCurrentVersion + " " + Properties.Settings.Default.CurrentVersion.ToString();
             lbUpdateAvailableChangelog.Text = lang.lbUpdateAvailableChangelog;
             txtUpdateAvailableName.Text = Cloud.UpdateName;
             rtbUpdateAvailableChangelog.Text = Cloud.UpdateBody;

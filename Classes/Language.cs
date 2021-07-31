@@ -1,6 +1,7 @@
 ﻿using System;
 
 namespace youtube_dl_gui {
+
     /// <summary>
     /// Controls the language strings of the program. Most, if not all, strings get their text from here.
     /// </summary>
@@ -207,6 +208,7 @@ namespace youtube_dl_gui {
         private static volatile string ofdTitleFFmpegString = "ofdTitleFFmpeg";
         private static volatile string ofdFilterFFmpegString = "ofdFilterFFmpeg";
         private static volatile string chkSettingsGeneralCheckForUpdatesOnLaunchString = "chkSettingsGeneralCheckForUpdatesOnLaunch";
+        private static volatile string chkSettingsGeneralCheckForBetaUpdatesString = "chkSettingsGeneralCheckForBetaUpdates";
         private static volatile string chkSettingsGeneralHoverOverUrlToPasteClipboardString = "chkSettingsGeneralHoverOverUrlToPasteClipboard";
         private static volatile string chkSettingsGeneralClearUrlOnDownloadString = "chkSettingsGeneralClearUrlOnDownload";
         private static volatile string chkSettingsGeneralClearClipboardOnDownloadString = "chkSettingsGeneralClearClipboardOnDownload";
@@ -305,6 +307,7 @@ namespace youtube_dl_gui {
         private static volatile string txtSettingsGeneralFFmpegPathHintString = "txtSettingsGeneralFFmpegPathHint";
         private static volatile string btnSettingsGeneralBrowseFFmpegHintString = "btnSettingsGeneralBrowseFFmpegHint";
         private static volatile string chkSettingsGeneralCheckForUpdatesOnLaunchHintString = "chkSettingsGeneralCheckForUpdatesOnLaunchHint";
+        private static volatile string chkSettingsGeneralCheckForBetaUpdatesHintString = "chkSettingsGeneralCheckForBetaUpdatesHint";
         private static volatile string chkSettingsGeneralHoverOverUrlToPasteClipboardHintString = "chkSettingsGeneralHoverOverUrlToPasteClipboardHint";
         private static volatile string chkSettingsGeneralClearUrlOnDownloadHintString = "chkSettingsGeneralClearUrlOnDownloadHint";
         private static volatile string chkSettingsGeneralClearClipboardOnDownloadHintString = "chkSettingsGeneralClearClipboardOnDownloadHint";
@@ -1011,6 +1014,10 @@ namespace youtube_dl_gui {
             get { return chkSettingsGeneralCheckForUpdatesOnLaunchString; }
             private set { chkSettingsGeneralCheckForUpdatesOnLaunchString = value; }
         }
+        public string chkSettingsGeneralCheckForBetaUpdates {
+            get { return chkSettingsGeneralCheckForBetaUpdatesString; }
+            private set { chkSettingsGeneralCheckForBetaUpdatesString = value; }
+        }
         public string chkSettingsGeneralHoverOverUrlToPasteClipboard {
             get { return chkSettingsGeneralHoverOverUrlToPasteClipboardString; }
             private set { chkSettingsGeneralHoverOverUrlToPasteClipboardString = value; }
@@ -1323,6 +1330,10 @@ namespace youtube_dl_gui {
         public string chkSettingsGeneralCheckForUpdatesOnLaunchHint {
             get { return chkSettingsGeneralCheckForUpdatesOnLaunchHintString; }
             private set { chkSettingsGeneralCheckForUpdatesOnLaunchHintString = value; }
+        }
+        public string chkSettingsGeneralCheckForBetaUpdatesHint {
+            get { return chkSettingsGeneralCheckForBetaUpdatesHintString; }
+            private set { chkSettingsGeneralCheckForBetaUpdatesHintString = value; }
         }
         public string chkSettingsGeneralHoverOverUrlToPasteClipboardHint {
             get { return chkSettingsGeneralHoverOverUrlToPasteClipboardHintString; }
@@ -1853,7 +1864,9 @@ namespace youtube_dl_gui {
             public static readonly string btnSettingsGeneralBrowseFFmpegHint = "Browse for a new folder where you'll store ffmpeg";
             public static readonly string ofdTitleFFmpeg = "Select ffmpeg.exe and ffprobe.exe";
             public static readonly string ofdFilterFFmpeg = "ffmpeg and ffprobe executable";
+
             public static readonly string chkSettingsGeneralCheckForUpdatesOnLaunch = "Check for updates on launch";
+            public static readonly string chkSettingsGeneralCheckForBetaUpdates = "Check for beta updates";
             public static readonly string chkSettingsGeneralHoverOverUrlToPasteClipboard = "Hover over URL to paste clipboard";
             public static readonly string chkSettingsGeneralClearUrlOnDownload = "Clear URL on download";
             public static readonly string chkSettingsGeneralClearClipboardOnDownload = "Clear clipboard on download";
@@ -1869,6 +1882,7 @@ namespace youtube_dl_gui {
                                                                                  "Static ffmpeg means ffmpeg will always be located in that one directory.";
             public static readonly string chkSettingsGeneralUseStaticFFmpegHint = "Use a static placed ffmpeg.exe and ffprobe.exe files";
             public static readonly string chkSettingsGeneralCheckForUpdatesOnLaunchHint = "Check for updates on launch of youtube-dl-gui";
+            public static readonly string chkSettingsGeneralCheckForBetaUpdatesHint = "Checks for beta updates instead of regular updates";
             public static readonly string chkSettingsGeneralHoverOverUrlToPasteClipboardHint = "Hover over the URL textbox to paste the URL from the clipboard";
             public static readonly string chkSettingsGeneralClearUrlOnDownloadHint = "Clears the URL from the textbox on video download";
             public static readonly string chkSettingsGeneralClearClipboardOnDownloadHint = "Clears the clipboard on video download";
@@ -2219,6 +2233,7 @@ namespace youtube_dl_gui {
             ofdTitleFFmpeg = InternalEnglish.ofdTitleFFmpeg;
             ofdFilterFFmpeg = InternalEnglish.ofdFilterFFmpeg;
             chkSettingsGeneralCheckForUpdatesOnLaunch = InternalEnglish.chkSettingsGeneralCheckForUpdatesOnLaunch;
+            chkSettingsGeneralCheckForBetaUpdates = InternalEnglish.chkSettingsGeneralCheckForBetaUpdates;
             chkSettingsGeneralHoverOverUrlToPasteClipboard = InternalEnglish.chkSettingsGeneralHoverOverUrlToPasteClipboard;
             chkSettingsGeneralClearUrlOnDownload = InternalEnglish.chkSettingsGeneralClearUrlOnDownload;
             chkSettingsGeneralClearClipboardOnDownload = InternalEnglish.chkSettingsGeneralClearClipboardOnDownload;
@@ -2304,6 +2319,7 @@ namespace youtube_dl_gui {
             txtSettingsGeneralFFmpegPathHint = InternalEnglish.txtSettingsGeneralFFmpegPathHint;
             btnSettingsGeneralBrowseFFmpegHint = InternalEnglish.btnSettingsGeneralBrowseFFmpegHint;
             chkSettingsGeneralCheckForUpdatesOnLaunchHint = InternalEnglish.chkSettingsGeneralCheckForUpdatesOnLaunchHint;
+            chkSettingsGeneralCheckForBetaUpdatesHint = InternalEnglish.chkSettingsGeneralCheckForBetaUpdatesHint;
             chkSettingsGeneralHoverOverUrlToPasteClipboardHint = InternalEnglish.chkSettingsGeneralHoverOverUrlToPasteClipboardHint;
             chkSettingsGeneralClearUrlOnDownloadHint = InternalEnglish.chkSettingsGeneralClearUrlOnDownloadHint;
             chkSettingsGeneralClearClipboardOnDownloadHint = InternalEnglish.chkSettingsGeneralClearClipboardOnDownloadHint;
@@ -2569,6 +2585,7 @@ namespace youtube_dl_gui {
             ofdTitleFFmpeg = "ofdTitleFFmpeg";
             ofdFilterFFmpeg = "ofdFilterFFmpeg";
             chkSettingsGeneralCheckForUpdatesOnLaunch = "chkSettingsGeneralCheckForUpdatesOnLaunch";
+            chkSettingsGeneralCheckForBetaUpdates = "chkSettingsGeneralCheckForBetaUpdates";
             chkSettingsGeneralHoverOverUrlToPasteClipboard = "chkSettingsGeneralHoverOverUrlToPasteClipboard";
             chkSettingsGeneralClearUrlOnDownload = "chkSettingsGeneralClearUrlOnDownload";
             chkSettingsGeneralClearClipboardOnDownload = "chkSettingsGeneralClearClipboardOnDownload";
@@ -2654,6 +2671,7 @@ namespace youtube_dl_gui {
             txtSettingsGeneralFFmpegPathHint = "txtSettingsGeneralFFmpegPathHint";
             btnSettingsGeneralBrowseFFmpegHint = "btnSettingsGeneralBrowseFFmpegHint";
             chkSettingsGeneralCheckForUpdatesOnLaunchHint = "chkSettingsGeneralCheckForUpdatesOnLaunchHint";
+            chkSettingsGeneralCheckForBetaUpdatesHint = "chkSettingsGeneralCheckForBetaUpdatesHint";
             chkSettingsGeneralHoverOverUrlToPasteClipboardHint = "chkSettingsGeneralHoverOverUrlToPasteClipboardHint";
             chkSettingsGeneralClearUrlOnDownloadHint = "chkSettingsGeneralClearUrlOnDownloadHint";
             chkSettingsGeneralClearClipboardOnDownloadHint = "chkSettingsGeneralClearClipboardOnDownloadHint";
@@ -2750,7 +2768,7 @@ namespace youtube_dl_gui {
         /// <returns>Returns a boolean based on success.</returns>
         public bool LoadLanguage(string LanguageFile = null) {
             try {
-                if (LanguageFile == null || LanguageFile == string.Empty) {
+                if (string.IsNullOrWhiteSpace(LanguageFile)) {
                     LoadInternalEnglish();
                     return true;
                 }
@@ -3246,10 +3264,10 @@ namespace youtube_dl_gui {
                                 case "chksettingsgeneralusestaticyoutubedl":
                                     chkSettingsGeneralUseStaticYoutubeDl = ReadValue;
                                     continue;
-                                case "ofdTitleYoutubeDl":
+                                case "ofdtitleYoutubedl":
                                     ofdTitleYoutubeDl = ReadValue;
                                     continue;
-                                case "ofdFilterYoutubeDl":
+                                case "ofdfilteryoutubedl":
                                     ofdFilterYoutubeDl = ReadValue;
                                     continue;
                                 case "lbsettingsgeneralffmpegdirectory":
@@ -3258,14 +3276,17 @@ namespace youtube_dl_gui {
                                 case "chksettingsgeneralusestaticffmpeg":
                                     chkSettingsGeneralUseStaticFFmpeg = ReadValue;
                                     continue;
-                                case "ofdTitleFFmpeg":
+                                case "ofdtitleffmpeg":
                                     ofdTitleFFmpeg = ReadValue;
                                     continue;
-                                case "ofdFilterFFmpeg":
+                                case "ofdfilterffmpeg":
                                     ofdFilterFFmpeg = ReadValue;
                                     continue;
                                 case "chksettingsgeneralcheckforupdatesonlaunch":
                                     chkSettingsGeneralCheckForUpdatesOnLaunch = ReadValue;
+                                    continue;
+                                case "chksettingsgeneralcheckforbetaupdates":
+                                    chkSettingsGeneralCheckForBetaUpdates = ReadValue;
                                     continue;
                                 case "chksettingsgeneralhoveroverurltopasteclipboard":
                                     chkSettingsGeneralHoverOverUrlToPasteClipboard = ReadValue;
@@ -3314,6 +3335,9 @@ namespace youtube_dl_gui {
                                     continue;
                                 case "chksettingsgeneralcheckforupdatesonlaunchhint":
                                     chkSettingsGeneralCheckForUpdatesOnLaunchHint = ReadValue;
+                                    continue;
+                                case "chksettingsgeneralcheckforbetaupdateshint":
+                                    chkSettingsGeneralCheckForBetaUpdatesHint = ReadValue;
                                     continue;
                                 case "chksettingsgeneralhoveroverurltopasteclipboardhint":
                                     chkSettingsGeneralHoverOverUrlToPasteClipboardHint = ReadValue;
@@ -3813,5 +3837,6 @@ namespace youtube_dl_gui {
             return OutputBuffer.Substring(OutputBuffer.IndexOf('=') + 1);
         }
         #endregion
+
     }
 }

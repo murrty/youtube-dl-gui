@@ -14,6 +14,8 @@ namespace youtube_dl_gui {
         Language lang = Language.GetInstance();
         Verification verif = Verification.GetInstance();
 
+        Thread UpdateCheckThread;
+
         public bool ProtocolInput = false;
         #endregion
 
@@ -33,7 +35,7 @@ namespace youtube_dl_gui {
             LoadLanguage();
             trayIcon.ContextMenu = cmTray;
             if (Program.IsDebug) {
-                lbDebug.Text = "debugging " + Properties.Settings.Default.debugDate;
+                lbDebug.Text = "debugging " + Properties.Settings.Default.LastDebugDate;
                 lbDebug.Visible = true;
                 trayIcon.Visible = false;
                 trayIcon.Dispose();
@@ -42,10 +44,24 @@ namespace youtube_dl_gui {
                 tcMain.TabPages.RemoveAt(3);
                 lbDebug.Visible = false;
             }
+
+            UpdateCheckThread = new Thread(() => {
+                try {
+                    UpdateChecker.CheckForUpdate();
+                }
+                catch (ThreadAbortException) {
+                    // do nothing
+                }
+                catch (Exception ex) {
+                    ErrorLog.ReportException(ex);
+                }
+            });
+            UpdateCheckThread.Name = "Checks for updates";
+            UpdateCheckThread.IsBackground = true;
         }
 
         private void frmMain_Load(object sender, EventArgs e) {
-            UpdateChecker.CheckForUpdate();
+            UpdateCheckThread.Start();
             if (Config.ProgramConfig.Saved.MainFormSize != default(System.Drawing.Size)) {
                 this.Size = Config.ProgramConfig.Saved.MainFormSize;
             }
@@ -116,6 +132,10 @@ namespace youtube_dl_gui {
             }
         }
         private void frmMain_FormClosing(object sender, FormClosingEventArgs e) {
+            if (UpdateCheckThread != null && UpdateCheckThread.IsAlive) {
+                UpdateCheckThread.Abort();
+            }
+
             this.Opacity = 0;
             if (this.WindowState == FormWindowState.Minimized) {
                 this.WindowState = FormWindowState.Normal;
@@ -371,7 +391,6 @@ namespace youtube_dl_gui {
                         }
                         else {
                             Config.ProgramConfig.Initialization.LanguageFile = language.LanguageFile;
-                        
                         }
                         Config.ProgramConfig.Initialization.Save();
                         LoadLanguage();

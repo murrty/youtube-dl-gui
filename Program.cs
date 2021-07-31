@@ -6,10 +6,11 @@ using System.Windows.Forms;
 
 namespace youtube_dl_gui {
     static class Program {
-        public static readonly string UserAgent = "User-Agent: youtube-dl-gui/" + Properties.Settings.Default.appVersion;
+        public static readonly string UserAgent = "User-Agent: youtube-dl-gui/" + Properties.Settings.Default.CurrentVersion;
         public static volatile bool IsDebug = false;
         public static volatile bool UseIni = false;
         static Mutex mtx = new Mutex(true, "{youtube-dl-gui-2019-05-13}");
+        public static volatile string ProgramPath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
 
         static Language lang = Language.GetInstance();
         static Verification verif = Verification.GetInstance();

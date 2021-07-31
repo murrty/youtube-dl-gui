@@ -51,8 +51,14 @@ namespace youtube_dl_gui {
             this.DialogResult = DialogResult.Cancel;
         }
         private void btnLanguageSave_Click(object sender, EventArgs e) {
-            if (cbLanguages.SelectedIndex > 0) { LanguageFile = cbLanguages.GetItemText(cbLanguages.SelectedItem); }
-            else { LanguageFile = null; }
+            if (cbLanguages.SelectedIndex > 0) {
+                LanguageFile = cbLanguages.GetItemText(cbLanguages.SelectedItem);
+                lang.LoadLanguage(Program.ProgramPath + "\\lang\\" + LanguageFile + ".ini");
+            }
+            else {
+                LanguageFile = null;
+                lang.LoadInternalEnglish();
+            }
             this.DialogResult = DialogResult.Yes;
         }
     }

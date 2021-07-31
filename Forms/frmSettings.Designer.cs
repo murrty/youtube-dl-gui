@@ -126,13 +126,14 @@
             this.chkSettingsErrorsSaveErrorsAsErrorLog = new System.Windows.Forms.CheckBox();
             this.chkSettingsErrorsShowDetailedErrors = new System.Windows.Forms.CheckBox();
             this.chkSettingsErrorsSuppressErrors = new System.Windows.Forms.CheckBox();
+            this.tabSettingsPortable = new System.Windows.Forms.TabPage();
+            this.chkSettingsPortableToggleIni = new System.Windows.Forms.CheckBox();
+            this.lbSettingsPortableInformation = new System.Windows.Forms.Label();
             this.btnSettingsRedownloadYoutubeDl = new System.Windows.Forms.Button();
             this.btnSettingsCancel = new System.Windows.Forms.Button();
             this.btnSettingsSave = new System.Windows.Forms.Button();
             this.tipSettings = new System.Windows.Forms.ToolTip(this.components);
-            this.tabSettingsPortable = new System.Windows.Forms.TabPage();
-            this.lbSettingsPortableInformation = new System.Windows.Forms.Label();
-            this.chkSettingsPortableToggleIni = new System.Windows.Forms.CheckBox();
+            this.chkSettingsGeneralCheckForBetaUpdates = new System.Windows.Forms.CheckBox();
             this.txtSettingsGeneralFFmpegPath = new youtube_dl_gui.Controls.ExtendedTextBox();
             this.txtSettingsGeneralYoutubeDlPath = new youtube_dl_gui.Controls.ExtendedTextBox();
             this.txtSettingsDownloadsProxyPort = new youtube_dl_gui.Controls.ExtendedTextBox();
@@ -187,6 +188,7 @@
             // 
             // tabSettingsGeneral
             // 
+            this.tabSettingsGeneral.Controls.Add(this.chkSettingsGeneralCheckForBetaUpdates);
             this.tabSettingsGeneral.Controls.Add(this.chkSettingsGeneralRotateQualityFormat);
             this.tabSettingsGeneral.Controls.Add(this.chkSettingsGeneralClearClipboardOnDownload);
             this.tabSettingsGeneral.Controls.Add(this.gbSettingsGeneralCustomArguments);
@@ -214,7 +216,7 @@
             // 
             this.chkSettingsGeneralRotateQualityFormat.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.chkSettingsGeneralRotateQualityFormat.AutoSize = true;
-            this.chkSettingsGeneralRotateQualityFormat.Location = new System.Drawing.Point(53, 221);
+            this.chkSettingsGeneralRotateQualityFormat.Location = new System.Drawing.Point(53, 233);
             this.chkSettingsGeneralRotateQualityFormat.Name = "chkSettingsGeneralRotateQualityFormat";
             this.chkSettingsGeneralRotateQualityFormat.Size = new System.Drawing.Size(231, 17);
             this.chkSettingsGeneralRotateQualityFormat.TabIndex = 15;
@@ -227,7 +229,7 @@
             // 
             this.chkSettingsGeneralClearClipboardOnDownload.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.chkSettingsGeneralClearClipboardOnDownload.AutoSize = true;
-            this.chkSettingsGeneralClearClipboardOnDownload.Location = new System.Drawing.Point(36, 198);
+            this.chkSettingsGeneralClearClipboardOnDownload.Location = new System.Drawing.Point(36, 210);
             this.chkSettingsGeneralClearClipboardOnDownload.Name = "chkSettingsGeneralClearClipboardOnDownload";
             this.chkSettingsGeneralClearClipboardOnDownload.Size = new System.Drawing.Size(272, 17);
             this.chkSettingsGeneralClearClipboardOnDownload.TabIndex = 13;
@@ -371,7 +373,7 @@
             // 
             this.chkSettingsGeneralClearUrlOnDownload.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.chkSettingsGeneralClearUrlOnDownload.AutoSize = true;
-            this.chkSettingsGeneralClearUrlOnDownload.Location = new System.Drawing.Point(52, 175);
+            this.chkSettingsGeneralClearUrlOnDownload.Location = new System.Drawing.Point(52, 187);
             this.chkSettingsGeneralClearUrlOnDownload.Name = "chkSettingsGeneralClearUrlOnDownload";
             this.chkSettingsGeneralClearUrlOnDownload.Size = new System.Drawing.Size(236, 17);
             this.chkSettingsGeneralClearUrlOnDownload.TabIndex = 12;
@@ -385,7 +387,7 @@
             this.chkSettingsGeneralHoverOverUrlToPasteClipboard.AutoSize = true;
             this.chkSettingsGeneralHoverOverUrlToPasteClipboard.Checked = true;
             this.chkSettingsGeneralHoverOverUrlToPasteClipboard.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkSettingsGeneralHoverOverUrlToPasteClipboard.Location = new System.Drawing.Point(27, 152);
+            this.chkSettingsGeneralHoverOverUrlToPasteClipboard.Location = new System.Drawing.Point(27, 164);
             this.chkSettingsGeneralHoverOverUrlToPasteClipboard.Name = "chkSettingsGeneralHoverOverUrlToPasteClipboard";
             this.chkSettingsGeneralHoverOverUrlToPasteClipboard.Size = new System.Drawing.Size(284, 17);
             this.chkSettingsGeneralHoverOverUrlToPasteClipboard.TabIndex = 11;
@@ -397,7 +399,7 @@
             // 
             this.chkSettingsGeneralCheckForUpdatesOnLaunch.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.chkSettingsGeneralCheckForUpdatesOnLaunch.AutoSize = true;
-            this.chkSettingsGeneralCheckForUpdatesOnLaunch.Location = new System.Drawing.Point(33, 129);
+            this.chkSettingsGeneralCheckForUpdatesOnLaunch.Location = new System.Drawing.Point(33, 118);
             this.chkSettingsGeneralCheckForUpdatesOnLaunch.Name = "chkSettingsGeneralCheckForUpdatesOnLaunch";
             this.chkSettingsGeneralCheckForUpdatesOnLaunch.Size = new System.Drawing.Size(269, 17);
             this.chkSettingsGeneralCheckForUpdatesOnLaunch.TabIndex = 10;
@@ -1446,6 +1448,39 @@
             this.tipSettings.SetToolTip(this.chkSettingsErrorsSuppressErrors, "chkSettingsErrorsSuppressErrors");
             this.chkSettingsErrorsSuppressErrors.UseVisualStyleBackColor = true;
             // 
+            // tabSettingsPortable
+            // 
+            this.tabSettingsPortable.Controls.Add(this.chkSettingsPortableToggleIni);
+            this.tabSettingsPortable.Controls.Add(this.lbSettingsPortableInformation);
+            this.tabSettingsPortable.Location = new System.Drawing.Point(4, 22);
+            this.tabSettingsPortable.Name = "tabSettingsPortable";
+            this.tabSettingsPortable.Padding = new System.Windows.Forms.Padding(3);
+            this.tabSettingsPortable.Size = new System.Drawing.Size(320, 315);
+            this.tabSettingsPortable.TabIndex = 5;
+            this.tabSettingsPortable.Text = "tabSettingsPortable";
+            this.tabSettingsPortable.UseVisualStyleBackColor = true;
+            // 
+            // chkSettingsPortableToggleIni
+            // 
+            this.chkSettingsPortableToggleIni.Appearance = System.Windows.Forms.Appearance.Button;
+            this.chkSettingsPortableToggleIni.Location = new System.Drawing.Point(85, 275);
+            this.chkSettingsPortableToggleIni.Name = "chkSettingsPortableToggleIni";
+            this.chkSettingsPortableToggleIni.Size = new System.Drawing.Size(150, 24);
+            this.chkSettingsPortableToggleIni.TabIndex = 1;
+            this.chkSettingsPortableToggleIni.Text = "chkSettingsPortableToggleIni";
+            this.chkSettingsPortableToggleIni.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.chkSettingsPortableToggleIni.UseVisualStyleBackColor = true;
+            this.chkSettingsPortableToggleIni.CheckedChanged += new System.EventHandler(this.chkSettingsPortableToggleIni_CheckedChanged);
+            // 
+            // lbSettingsPortableInformation
+            // 
+            this.lbSettingsPortableInformation.Location = new System.Drawing.Point(6, 3);
+            this.lbSettingsPortableInformation.Name = "lbSettingsPortableInformation";
+            this.lbSettingsPortableInformation.Size = new System.Drawing.Size(308, 260);
+            this.lbSettingsPortableInformation.TabIndex = 0;
+            this.lbSettingsPortableInformation.Text = "lbSettingsPortableInformation";
+            this.lbSettingsPortableInformation.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // btnSettingsRedownloadYoutubeDl
             // 
             this.btnSettingsRedownloadYoutubeDl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
@@ -1489,38 +1524,16 @@
             this.tipSettings.ReshowDelay = 100;
             this.tipSettings.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
             // 
-            // tabSettingsPortable
+            // chkSettingsGeneralCheckForBetaUpdates
             // 
-            this.tabSettingsPortable.Controls.Add(this.chkSettingsPortableToggleIni);
-            this.tabSettingsPortable.Controls.Add(this.lbSettingsPortableInformation);
-            this.tabSettingsPortable.Location = new System.Drawing.Point(4, 22);
-            this.tabSettingsPortable.Name = "tabSettingsPortable";
-            this.tabSettingsPortable.Padding = new System.Windows.Forms.Padding(3);
-            this.tabSettingsPortable.Size = new System.Drawing.Size(320, 315);
-            this.tabSettingsPortable.TabIndex = 5;
-            this.tabSettingsPortable.Text = "tabSettingsPortable";
-            this.tabSettingsPortable.UseVisualStyleBackColor = true;
-            // 
-            // lbSettingsPortableInformation
-            // 
-            this.lbSettingsPortableInformation.Location = new System.Drawing.Point(6, 3);
-            this.lbSettingsPortableInformation.Name = "lbSettingsPortableInformation";
-            this.lbSettingsPortableInformation.Size = new System.Drawing.Size(308, 260);
-            this.lbSettingsPortableInformation.TabIndex = 0;
-            this.lbSettingsPortableInformation.Text = "lbSettingsPortableInformation";
-            this.lbSettingsPortableInformation.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // chkSettingsPortableToggleIni
-            // 
-            this.chkSettingsPortableToggleIni.Appearance = System.Windows.Forms.Appearance.Button;
-            this.chkSettingsPortableToggleIni.Location = new System.Drawing.Point(85, 275);
-            this.chkSettingsPortableToggleIni.Name = "chkSettingsPortableToggleIni";
-            this.chkSettingsPortableToggleIni.Size = new System.Drawing.Size(150, 24);
-            this.chkSettingsPortableToggleIni.TabIndex = 1;
-            this.chkSettingsPortableToggleIni.Text = "chkSettingsPortableToggleIni";
-            this.chkSettingsPortableToggleIni.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.chkSettingsPortableToggleIni.UseVisualStyleBackColor = true;
-            this.chkSettingsPortableToggleIni.CheckedChanged += new System.EventHandler(this.chkSettingsPortableToggleIni_CheckedChanged);
+            this.chkSettingsGeneralCheckForBetaUpdates.AutoSize = true;
+            this.chkSettingsGeneralCheckForBetaUpdates.Location = new System.Drawing.Point(41, 141);
+            this.chkSettingsGeneralCheckForBetaUpdates.Name = "chkSettingsGeneralCheckForBetaUpdates";
+            this.chkSettingsGeneralCheckForBetaUpdates.Size = new System.Drawing.Size(238, 17);
+            this.chkSettingsGeneralCheckForBetaUpdates.TabIndex = 16;
+            this.chkSettingsGeneralCheckForBetaUpdates.Text = "chkSettingsGeneralCheckForBetaUpdates";
+            this.tipSettings.SetToolTip(this.chkSettingsGeneralCheckForBetaUpdates, "chkSettingsGeneralCheckForBetaUpdatesHint");
+            this.chkSettingsGeneralCheckForBetaUpdates.UseVisualStyleBackColor = true;
             // 
             // txtSettingsGeneralFFmpegPath
             // 
@@ -1853,5 +1866,6 @@
         private System.Windows.Forms.TabPage tabSettingsPortable;
         private System.Windows.Forms.CheckBox chkSettingsPortableToggleIni;
         private System.Windows.Forms.Label lbSettingsPortableInformation;
+        private System.Windows.Forms.CheckBox chkSettingsGeneralCheckForBetaUpdates;
     }
 }

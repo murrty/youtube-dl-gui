@@ -164,10 +164,14 @@ namespace youtube_dl_gui {
         public string LanguageFile = string.Empty;
         public bool firstTime = true;
         public decimal SkippedVersion = -1;
+        public bool DownloadBetaVersions = false;
+        public string SkippedBetaVersion = "0";
 
         private string LanguageFile_First = string.Empty;
         private bool firstTime_First = true;
-        public decimal SkippedVersion_First = -1;
+        private decimal SkippedVersion_First = -1;
+        private bool DownloadBetaVersions_First = false;
+        private string SkippedBetaVersion_First = "0";
 
         public void Load() {
             switch (Program.UseIni) {
@@ -179,17 +183,31 @@ namespace youtube_dl_gui {
                             break;
                     }
 
-                    switch (Ini.KeyExists("firstTime", "youtube-dl-gui")) {
+                    switch (Ini.KeyExists("firstTime")) {
                         case true:
-                            firstTime = Ini.ReadBool("firstTime", "youtube-dl-gui");
+                            firstTime = Ini.ReadBool("firstTime");
                             firstTime_First = firstTime;
                             break;
                     }
 
-                    switch (Ini.KeyExists("SkippedVersion", "youtube-dl-gui")) {
+                    switch (Ini.KeyExists("SkippedVersion")) {
                         case true:
-                            SkippedVersion = Ini.ReadDecimal("SkippedVersion", "youtube-dl-gui");
+                            SkippedVersion = Ini.ReadDecimal("SkippedVersion");
                             SkippedVersion_First = SkippedVersion;
+                            break;
+                    }
+
+                    switch (Ini.KeyExists("DownloadBetaVersions")) {
+                        case true:
+                            DownloadBetaVersions = Ini.ReadBool("DownloadBetaVersions");
+                            DownloadBetaVersions_First = DownloadBetaVersions;
+                            break;
+                    }
+
+                    switch (Ini.KeyExists("SkippedBetaVersion")) {
+                        case true:
+                            SkippedBetaVersion = Ini.ReadString("SkippedBetaVersion");
+                            SkippedBetaVersion_First = SkippedBetaVersion;
                             break;
                     }
                     break;
@@ -198,6 +216,8 @@ namespace youtube_dl_gui {
                     LanguageFile = Settings.Settings.Default.LanguageFile;
                     firstTime = Properties.Settings.Default.firstTime;
                     SkippedVersion = Properties.Settings.Default.SkippedVersion;
+                    DownloadBetaVersions = Properties.Settings.Default.DownloadBetaVersions;
+                    SkippedBetaVersion = Properties.Settings.Default.SkippedBetaVersion;
                     break;
             }
         }
@@ -207,18 +227,35 @@ namespace youtube_dl_gui {
                     switch (LanguageFile != LanguageFile_First) {
                         case true:
                             Ini.Write("LanguageFile", LanguageFile, "Settings");
+                            LanguageFile_First = LanguageFile;
                             break;
                     }
 
                     switch (firstTime != firstTime_First) {
                         case true:
-                            Ini.Write("firstTime", firstTime, "youtube-dl-gui");
+                            Ini.Write("firstTime", firstTime);
+                            firstTime_First = firstTime;
                             break;
                     }
 
                     switch (SkippedVersion != SkippedVersion_First) {
                         case true:
-                            Ini.Write("SkippedVersion", SkippedVersion, "youtube-dl-gui");
+                            Ini.Write("SkippedVersion", SkippedVersion);
+                            SkippedVersion_First = SkippedVersion;
+                            break;
+                    }
+
+                    switch (DownloadBetaVersions != DownloadBetaVersions_First) {
+                        case true:
+                            Ini.Write("DownloadBetaVersions", DownloadBetaVersions);
+                            DownloadBetaVersions_First = DownloadBetaVersions;
+                            break;
+                    }
+
+                    switch (SkippedBetaVersion != SkippedBetaVersion_First) {
+                        case true:
+                            Ini.Write("SkippedBetaVersion", SkippedBetaVersion);
+                            SkippedBetaVersion_First = SkippedBetaVersion;
                             break;
                     }
                     break;
@@ -241,6 +278,16 @@ namespace youtube_dl_gui {
                         Save = true;
                     }
 
+                    if (Properties.Settings.Default.DownloadBetaVersions != DownloadBetaVersions) {
+                        Properties.Settings.Default.DownloadBetaVersions = DownloadBetaVersions;
+                        Save = true;
+                    }
+
+                    if (Properties.Settings.Default.SkippedBetaVersion != SkippedBetaVersion) {
+                        Properties.Settings.Default.SkippedBetaVersion = SkippedBetaVersion;
+                        Save = true;
+                    }
+
                     switch (Save) {
                         case true:
                             Settings.Settings.Default.Save();
@@ -255,14 +302,18 @@ namespace youtube_dl_gui {
             switch (Program.UseIni) {
                 case true:
                     Ini.Write("LanguageFile", LanguageFile, "Settings");
-                    Ini.Write("firstTime", firstTime, "youtube-dl-gui");
-                    Ini.Write("SkippedVersion", SkippedVersion, "youtube-dl-gui");
+                    Ini.Write("firstTime", firstTime);
+                    Ini.Write("SkippedVersion", SkippedVersion);
+                    Ini.Write("DownloadBetaVersions", DownloadBetaVersions);
+                    Ini.Write("SkippedBetaVersion", SkippedBetaVersion);
                     break;
 
                 case false:
                     Settings.Settings.Default.LanguageFile = LanguageFile;
                     Properties.Settings.Default.firstTime = firstTime;
                     Properties.Settings.Default.SkippedVersion = SkippedVersion;
+                    Properties.Settings.Default.DownloadBetaVersions = DownloadBetaVersions;
+                    Properties.Settings.Default.SkippedBetaVersion = SkippedBetaVersion;
                     Settings.Settings.Default.Save();
                     Properties.Settings.Default.Save();
                     break;
@@ -2724,7 +2775,8 @@ namespace youtube_dl_gui {
 
     class Ini {
         public static string Path = Environment.CurrentDirectory + "\\settings.ini";
-        public static string ExecutableName = Assembly.GetExecutingAssembly().GetName().Name;
+        //public static string ExecutableName = Assembly.GetExecutingAssembly().GetName().Name;
+        public static string ExecutableName = "youtube-dl-gui";
 
         public static string ReadString(string Key, string Section = null) {
             var RetVal = new StringBuilder(65535);

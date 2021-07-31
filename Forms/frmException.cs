@@ -98,8 +98,8 @@ namespace youtube_dl_gui {
                 lbVersion.Text = "v" + Properties.Settings.Default.BetaVersion;
             }
             else {
-                outputBuffer = string.Format(outputBuffer, Properties.Settings.Default.appVersion.ToString());
-                lbVersion.Text = "v" + Properties.Settings.Default.appVersion.ToString();
+                outputBuffer = string.Format(outputBuffer, Properties.Settings.Default.CurrentVersion.ToString());
+                lbVersion.Text = "v" + Properties.Settings.Default.CurrentVersion.ToString();
             }
             rtbExceptionDetails.Text += outputBuffer;
             System.Media.SystemSounds.Hand.Play();
