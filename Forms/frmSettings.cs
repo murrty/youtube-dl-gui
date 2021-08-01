@@ -23,17 +23,18 @@ namespace youtube_dl_gui {
 
         public frmSettings() {
             InitializeComponent();
+            LoadingForm = true;
             LoadLanguage();
             CalculatePositions();
             loadSettings();
         }
         private void frmSettings_Load(object sender, EventArgs e) {
-            LoadingForm = true;
             if (Config.Settings.Saved.SettingsFormSize != default(System.Drawing.Size)) {
                 this.Size = Config.Settings.Saved.SettingsFormSize;
             }
 
             chkSettingsPortableToggleIni.Checked = Program.UseIni;
+
             LoadingForm = false;
         }
 
@@ -327,10 +328,13 @@ namespace youtube_dl_gui {
             }
 
 
-            if (Config.Settings.Downloads.downloadPath == string.Empty) {
+            if (string.IsNullOrWhiteSpace(Config.Settings.Downloads.downloadPath)) {
                 txtSettingsDownloadsSavePath.Text = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Downloads";
             }
             else {
+                if (Config.Settings.Downloads.downloadPath.StartsWith(".\\") || Config.Settings.Downloads.downloadPath.StartsWith("./")) {
+                    chkSettingsDownloadsDownloadPathUseRelativePath.Checked = true;
+                }
                 txtSettingsDownloadsSavePath.Text = Config.Settings.Downloads.downloadPath;
             }
             txtSettingsDownloadsFileNameSchema.Text = Config.Settings.Downloads.fileNameSchema;
@@ -548,13 +552,33 @@ namespace youtube_dl_gui {
         #endregion
 
         #region Downloads
+        private void chkSettingsDownloadsDownloadPathUseRelativePath_CheckedChanged(object sender, EventArgs e) {
+            if (!LoadingForm) {
+                if (chkSettingsDownloadsDownloadPathUseRelativePath.Checked && txtSettingsDownloadsSavePath.Text.StartsWith(Program.ProgramPath)) {
+                    txtSettingsDownloadsSavePath.Text = ".\\" + txtSettingsDownloadsSavePath.Text.Substring(Program.ProgramPath.Length + 1);
+                }
+                else if (txtSettingsDownloadsSavePath.Text.StartsWith("./") || txtSettingsDownloadsSavePath.Text.StartsWith(".\\")) {
+                    txtSettingsDownloadsSavePath.Text = Program.ProgramPath + "\\" + txtSettingsDownloadsSavePath.Text.Substring(2);
+                }
+            }
+        }
         private void btnSettingsDownloadsBrowseSavePath_Click(object sender, EventArgs e) {
             using (FolderBrowserDialog fbd = new FolderBrowserDialog()) {
                 fbd.Description = "Select a destionation where downloads will be saved to";
-                fbd.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Downloads";
+                if (chkSettingsDownloadsDownloadPathUseRelativePath.Checked) {
+                    fbd.SelectedPath = Program.ProgramPath;
+                }
+                else {
+                    fbd.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Downloads";
+                }
 
                 if (fbd.ShowDialog() == DialogResult.OK) {
-                    txtSettingsDownloadsSavePath.Text = fbd.SelectedPath;
+                    if (chkSettingsDownloadsDownloadPathUseRelativePath.Checked && fbd.SelectedPath.StartsWith(Program.ProgramPath)) {
+                        txtSettingsDownloadsSavePath.Text = ".\\" + fbd.SelectedPath.Substring(Program.ProgramPath.Length + 1);
+                    }
+                    else {
+                        txtSettingsDownloadsSavePath.Text = fbd.SelectedPath;
+                    }
                 }
             }
         }

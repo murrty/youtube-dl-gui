@@ -47,6 +47,7 @@
             this.chkSettingsGeneralHoverOverUrlToPasteClipboard = new System.Windows.Forms.CheckBox();
             this.chkSettingsGeneralCheckForUpdatesOnLaunch = new System.Windows.Forms.CheckBox();
             this.tabSettingsDownloads = new System.Windows.Forms.TabPage();
+            this.chkSettingsDownloadsDownloadPathUseRelativePath = new System.Windows.Forms.CheckBox();
             this.tabDownloads = new System.Windows.Forms.TabControl();
             this.tabDownloadsGeneral = new System.Windows.Forms.TabPage();
             this.chkSettingsDownloadsKeepOriginalFiles = new System.Windows.Forms.CheckBox();
@@ -463,6 +464,7 @@
             // 
             // tabSettingsDownloads
             // 
+            this.tabSettingsDownloads.Controls.Add(this.chkSettingsDownloadsDownloadPathUseRelativePath);
             this.tabSettingsDownloads.Controls.Add(this.tabDownloads);
             this.tabSettingsDownloads.Controls.Add(this.llSettingsDownloadsSchemaHelp);
             this.tabSettingsDownloads.Controls.Add(this.lbSettingsDownloadsDownloadPath);
@@ -478,6 +480,16 @@
             this.tabSettingsDownloads.TabIndex = 1;
             this.tabSettingsDownloads.Text = "tabSettingsDownloads";
             this.tabSettingsDownloads.UseVisualStyleBackColor = true;
+            // 
+            // chkSettingsDownloadsDownloadPathUseRelativePath
+            // 
+            this.chkSettingsDownloadsDownloadPathUseRelativePath.AutoSize = true;
+            this.chkSettingsDownloadsDownloadPathUseRelativePath.Location = new System.Drawing.Point(10, 36);
+            this.chkSettingsDownloadsDownloadPathUseRelativePath.Name = "chkSettingsDownloadsDownloadPathUseRelativePath";
+            this.chkSettingsDownloadsDownloadPathUseRelativePath.Size = new System.Drawing.Size(14, 13);
+            this.chkSettingsDownloadsDownloadPathUseRelativePath.TabIndex = 10;
+            this.chkSettingsDownloadsDownloadPathUseRelativePath.UseVisualStyleBackColor = true;
+            this.chkSettingsDownloadsDownloadPathUseRelativePath.CheckedChanged += new System.EventHandler(this.chkSettingsDownloadsDownloadPathUseRelativePath_CheckedChanged);
             // 
             // tabDownloads
             // 
@@ -1887,5 +1899,6 @@
         private System.Windows.Forms.Label lbSettingsPortableInformation;
         private System.Windows.Forms.CheckBox chkSettingsGeneralCheckForBetaUpdates;
         private System.Windows.Forms.Button btnCleanIni;
+        private System.Windows.Forms.CheckBox chkSettingsDownloadsDownloadPathUseRelativePath;
     }
 }
