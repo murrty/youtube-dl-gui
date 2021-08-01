@@ -34,7 +34,7 @@ namespace youtube_dl_gui {
                 cbLanguages.Items.Clear();
                 cbLanguages.Items.Add("English (Internal)");
                 cbLanguages.Items.AddRange(Files.ToArray());
-                if (Config.ProgramConfig.Initialization.LanguageFile == "") {
+                if (string.IsNullOrWhiteSpace(Config.ProgramConfig.Initialization.LanguageFile)) {
                     cbLanguages.SelectedIndex = cbLanguages.SelectedIndex = 0;
                 }
                 else {
