@@ -19,19 +19,6 @@ namespace youtube_dl_gui {
             else {
                 lbVersion.Text = "v" + Properties.Settings.Default.CurrentVersion.ToString();
             }
-            UpdateCheckThread = new Thread(() => {
-                try {
-                    UpdateChecker.CheckForUpdate(true);
-                }
-                catch (ThreadAbortException) {
-                    // do nothing
-                }
-                catch (Exception ex) {
-                    ErrorLog.ReportException(ex);
-                }
-            });
-            UpdateCheckThread.Name = "Checks for updates";
-            UpdateCheckThread.IsBackground = true;
         }
 
         private void LoadLanguage() {
@@ -41,7 +28,22 @@ namespace youtube_dl_gui {
         }
 
         private void llbCheckForUpdates_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
-            UpdateCheckThread.Start();
+            if (UpdateCheckThread == null || !UpdateCheckThread.IsAlive) {
+                UpdateCheckThread = new Thread(() => {
+                    try {
+                        UpdateChecker.CheckForUpdate(true);
+                    }
+                    catch (ThreadAbortException) {
+                        // do nothing
+                    }
+                    catch (Exception ex) {
+                        ErrorLog.ReportException(ex);
+                    }
+                });
+                UpdateCheckThread.Name = "Checks for updates";
+                UpdateCheckThread.IsBackground = true;
+                UpdateCheckThread.Start();
+            }
         }
         private void pbIcon_Click(object sender, EventArgs e) {
             Process.Start("https://github.com/murrty/youtube-dl-gui/");
