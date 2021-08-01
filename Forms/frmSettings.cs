@@ -74,6 +74,8 @@ namespace youtube_dl_gui {
             tipSettings.SetToolTip(btnSettingsGeneralBrowseFFmpeg, lang.btnSettingsGeneralBrowseFFmpegHint);
             chkSettingsGeneralCheckForUpdatesOnLaunch.Text = lang.chkSettingsGeneralCheckForUpdatesOnLaunch;
             tipSettings.SetToolTip(chkSettingsGeneralCheckForUpdatesOnLaunch, lang.chkSettingsGeneralCheckForUpdatesOnLaunchHint);
+            chkSettingsGeneralCheckForBetaUpdates.Text = lang.chkSettingsGeneralCheckForBetaUpdates;
+            tipSettings.SetToolTip(chkSettingsGeneralCheckForBetaUpdates, lang.chkSettingsGeneralCheckForBetaUpdatesHint);
             chkSettingsGeneralHoverOverUrlToPasteClipboard.Text = lang.chkSettingsGeneralHoverOverUrlToPasteClipboard;
             tipSettings.SetToolTip(chkSettingsGeneralHoverOverUrlToPasteClipboard, lang.chkSettingsGeneralHoverOverUrlToPasteClipboardHint);
             chkSettingsGeneralClearUrlOnDownload.Text = lang.chkSettingsGeneralClearUrlOnDownload;
@@ -305,6 +307,7 @@ namespace youtube_dl_gui {
             }
 
             chkSettingsGeneralCheckForUpdatesOnLaunch.Checked = Config.ProgramConfig.General.CheckForUpdatesOnLaunch;
+            chkSettingsGeneralCheckForBetaUpdates.Checked = Config.ProgramConfig.Initialization.DownloadBetaVersions;
             chkSettingsGeneralHoverOverUrlToPasteClipboard.Checked = Config.ProgramConfig.General.HoverOverURLTextBoxToPaste;
             chkSettingsGeneralClearUrlOnDownload.Checked = Config.ProgramConfig.General.ClearURLOnDownload;
             chkSettingsGeneralClearClipboardOnDownload.Checked = Config.ProgramConfig.General.ClearClipboardOnDownload;
@@ -413,6 +416,7 @@ namespace youtube_dl_gui {
                 Config.ProgramConfig.General.ffmpegPath = txtSettingsGeneralFFmpegPath.Text;
             }
             Config.ProgramConfig.General.CheckForUpdatesOnLaunch = chkSettingsGeneralCheckForUpdatesOnLaunch.Checked;
+            Config.ProgramConfig.Initialization.DownloadBetaVersions = chkSettingsGeneralCheckForBetaUpdates.Checked;
             Config.ProgramConfig.General.HoverOverURLTextBoxToPaste = chkSettingsGeneralHoverOverUrlToPasteClipboard.Checked;
             Config.ProgramConfig.General.ClearURLOnDownload = chkSettingsGeneralClearUrlOnDownload.Checked;
             Config.ProgramConfig.General.ClearClipboardOnDownload = chkSettingsGeneralClearClipboardOnDownload.Checked;
@@ -488,6 +492,7 @@ namespace youtube_dl_gui {
             Config.ProgramConfig.Errors.logErrors = chkSettingsErrorsSaveErrorsAsErrorLog.Checked;
             Config.ProgramConfig.Errors.suppressErrors = chkSettingsErrorsSuppressErrors.Checked;
 
+            Config.ProgramConfig.Initialization.Save();
             Config.ProgramConfig.General.Save();
             Config.ProgramConfig.Downloads.Save();
             Config.ProgramConfig.Converts.Save();

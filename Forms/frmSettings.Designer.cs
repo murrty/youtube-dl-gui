@@ -27,6 +27,7 @@
             this.components = new System.ComponentModel.Container();
             this.tcMain = new System.Windows.Forms.TabControl();
             this.tabSettingsGeneral = new System.Windows.Forms.TabPage();
+            this.chkSettingsGeneralCheckForBetaUpdates = new System.Windows.Forms.CheckBox();
             this.chkSettingsGeneralRotateQualityFormat = new System.Windows.Forms.CheckBox();
             this.chkSettingsGeneralClearClipboardOnDownload = new System.Windows.Forms.CheckBox();
             this.gbSettingsGeneralCustomArguments = new System.Windows.Forms.GroupBox();
@@ -133,7 +134,6 @@
             this.btnSettingsCancel = new System.Windows.Forms.Button();
             this.btnSettingsSave = new System.Windows.Forms.Button();
             this.tipSettings = new System.Windows.Forms.ToolTip(this.components);
-            this.chkSettingsGeneralCheckForBetaUpdates = new System.Windows.Forms.CheckBox();
             this.txtSettingsGeneralFFmpegPath = new youtube_dl_gui.Controls.ExtendedTextBox();
             this.txtSettingsGeneralYoutubeDlPath = new youtube_dl_gui.Controls.ExtendedTextBox();
             this.txtSettingsDownloadsProxyPort = new youtube_dl_gui.Controls.ExtendedTextBox();
@@ -211,6 +211,18 @@
             this.tabSettingsGeneral.TabIndex = 0;
             this.tabSettingsGeneral.Text = "tabSettingsGeneral";
             this.tabSettingsGeneral.UseVisualStyleBackColor = true;
+            // 
+            // chkSettingsGeneralCheckForBetaUpdates
+            // 
+            this.chkSettingsGeneralCheckForBetaUpdates.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.chkSettingsGeneralCheckForBetaUpdates.AutoSize = true;
+            this.chkSettingsGeneralCheckForBetaUpdates.Location = new System.Drawing.Point(41, 141);
+            this.chkSettingsGeneralCheckForBetaUpdates.Name = "chkSettingsGeneralCheckForBetaUpdates";
+            this.chkSettingsGeneralCheckForBetaUpdates.Size = new System.Drawing.Size(238, 17);
+            this.chkSettingsGeneralCheckForBetaUpdates.TabIndex = 16;
+            this.chkSettingsGeneralCheckForBetaUpdates.Text = "chkSettingsGeneralCheckForBetaUpdates";
+            this.tipSettings.SetToolTip(this.chkSettingsGeneralCheckForBetaUpdates, "chkSettingsGeneralCheckForBetaUpdatesHint");
+            this.chkSettingsGeneralCheckForBetaUpdates.UseVisualStyleBackColor = true;
             // 
             // chkSettingsGeneralRotateQualityFormat
             // 
@@ -1523,17 +1535,6 @@
             this.tipSettings.InitialDelay = 500;
             this.tipSettings.ReshowDelay = 100;
             this.tipSettings.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
-            // 
-            // chkSettingsGeneralCheckForBetaUpdates
-            // 
-            this.chkSettingsGeneralCheckForBetaUpdates.AutoSize = true;
-            this.chkSettingsGeneralCheckForBetaUpdates.Location = new System.Drawing.Point(41, 141);
-            this.chkSettingsGeneralCheckForBetaUpdates.Name = "chkSettingsGeneralCheckForBetaUpdates";
-            this.chkSettingsGeneralCheckForBetaUpdates.Size = new System.Drawing.Size(238, 17);
-            this.chkSettingsGeneralCheckForBetaUpdates.TabIndex = 16;
-            this.chkSettingsGeneralCheckForBetaUpdates.Text = "chkSettingsGeneralCheckForBetaUpdates";
-            this.tipSettings.SetToolTip(this.chkSettingsGeneralCheckForBetaUpdates, "chkSettingsGeneralCheckForBetaUpdatesHint");
-            this.chkSettingsGeneralCheckForBetaUpdates.UseVisualStyleBackColor = true;
             // 
             // txtSettingsGeneralFFmpegPath
             // 
