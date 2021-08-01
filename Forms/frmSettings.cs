@@ -29,8 +29,8 @@ namespace youtube_dl_gui {
         }
         private void frmSettings_Load(object sender, EventArgs e) {
             LoadingForm = true;
-            if (Config.ProgramConfig.Saved.SettingsFormSize != default(System.Drawing.Size)) {
-                this.Size = Config.ProgramConfig.Saved.SettingsFormSize;
+            if (Config.Settings.Saved.SettingsFormSize != default(System.Drawing.Size)) {
+                this.Size = Config.Settings.Saved.SettingsFormSize;
             }
 
             chkSettingsPortableToggleIni.Checked = Program.UseIni;
@@ -286,9 +286,9 @@ namespace youtube_dl_gui {
             );
         }
         private void loadSettings() {
-            if (Config.ProgramConfig.General.UseStaticYtdl && !string.IsNullOrEmpty(Config.ProgramConfig.General.ytdlPath)) {
-                txtSettingsGeneralYoutubeDlPath.Text = Config.ProgramConfig.General.ytdlPath;
-                chkSettingsGeneralUseStaticYoutubeDl.Checked = Config.ProgramConfig.General.UseStaticYtdl;
+            if (Config.Settings.General.UseStaticYtdl && !string.IsNullOrEmpty(Config.Settings.General.ytdlPath)) {
+                txtSettingsGeneralYoutubeDlPath.Text = Config.Settings.General.ytdlPath;
+                chkSettingsGeneralUseStaticYoutubeDl.Checked = Config.Settings.General.UseStaticYtdl;
             }
             else {
                 if (verif.YoutubeDlPath != null) {
@@ -296,9 +296,9 @@ namespace youtube_dl_gui {
                 }
             }
 
-            if (Config.ProgramConfig.General.UseStaticFFmpeg && !string.IsNullOrEmpty(Config.ProgramConfig.General.ffmpegPath)) {
-                txtSettingsGeneralFFmpegPath.Text = Config.ProgramConfig.General.ffmpegPath;
-                chkSettingsGeneralUseStaticFFmpeg.Checked = Config.ProgramConfig.General.UseStaticFFmpeg;
+            if (Config.Settings.General.UseStaticFFmpeg && !string.IsNullOrEmpty(Config.Settings.General.ffmpegPath)) {
+                txtSettingsGeneralFFmpegPath.Text = Config.Settings.General.ffmpegPath;
+                chkSettingsGeneralUseStaticFFmpeg.Checked = Config.Settings.General.UseStaticFFmpeg;
             }
             else {
                 if (verif.FFmpegPath != null) {
@@ -306,12 +306,12 @@ namespace youtube_dl_gui {
                 }
             }
 
-            chkSettingsGeneralCheckForUpdatesOnLaunch.Checked = Config.ProgramConfig.General.CheckForUpdatesOnLaunch;
-            chkSettingsGeneralCheckForBetaUpdates.Checked = Config.ProgramConfig.Initialization.DownloadBetaVersions;
-            chkSettingsGeneralHoverOverUrlToPasteClipboard.Checked = Config.ProgramConfig.General.HoverOverURLTextBoxToPaste;
-            chkSettingsGeneralClearUrlOnDownload.Checked = Config.ProgramConfig.General.ClearURLOnDownload;
-            chkSettingsGeneralClearClipboardOnDownload.Checked = Config.ProgramConfig.General.ClearClipboardOnDownload;
-            switch (Config.ProgramConfig.General.SaveCustomArgs) {
+            chkSettingsGeneralCheckForUpdatesOnLaunch.Checked = Config.Settings.General.CheckForUpdatesOnLaunch;
+            chkSettingsGeneralCheckForBetaUpdates.Checked = Config.Settings.General.DownloadBetaVersions;
+            chkSettingsGeneralHoverOverUrlToPasteClipboard.Checked = Config.Settings.General.HoverOverURLTextBoxToPaste;
+            chkSettingsGeneralClearUrlOnDownload.Checked = Config.Settings.General.ClearURLOnDownload;
+            chkSettingsGeneralClearClipboardOnDownload.Checked = Config.Settings.General.ClearClipboardOnDownload;
+            switch (Config.Settings.General.SaveCustomArgs) {
                 case 0:
                     rbSettingsGeneralCustomArgumentsDontSave.Checked = true;
                     break;
@@ -327,19 +327,19 @@ namespace youtube_dl_gui {
             }
 
 
-            if (Config.ProgramConfig.Downloads.downloadPath == string.Empty) {
+            if (Config.Settings.Downloads.downloadPath == string.Empty) {
                 txtSettingsDownloadsSavePath.Text = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Downloads";
             }
             else {
-                txtSettingsDownloadsSavePath.Text = Config.ProgramConfig.Downloads.downloadPath;
+                txtSettingsDownloadsSavePath.Text = Config.Settings.Downloads.downloadPath;
             }
-            txtSettingsDownloadsFileNameSchema.Text = Config.ProgramConfig.Downloads.fileNameSchema;
-            if (!string.IsNullOrEmpty(Config.ProgramConfig.Saved.FileNameSchemaHistory)) {
-                txtSettingsDownloadsFileNameSchema.Items.AddRange(Config.ProgramConfig.Saved.FileNameSchemaHistory.Split('|'));
+            txtSettingsDownloadsFileNameSchema.Text = Config.Settings.Downloads.fileNameSchema;
+            if (!string.IsNullOrEmpty(Config.Settings.Saved.FileNameSchemaHistory)) {
+                txtSettingsDownloadsFileNameSchema.Items.AddRange(Config.Settings.Saved.FileNameSchemaHistory.Split('|'));
             }
 
-            chkSettingsDownloadsSaveFormatQuality.Checked = Config.ProgramConfig.Downloads.SaveFormatQuality;
-            if (Config.ProgramConfig.Downloads.SaveSubtitles) {
+            chkSettingsDownloadsSaveFormatQuality.Checked = Config.Settings.Downloads.SaveFormatQuality;
+            if (Config.Settings.Downloads.SaveSubtitles) {
                 chkSettingsDownloadsDownloadSubtitles.Checked = true;
                 chkSettingsDownloadsEmbedSubtitles.Enabled = true;
             }
@@ -347,13 +347,13 @@ namespace youtube_dl_gui {
                 chkSettingsDownloadsDownloadSubtitles.Checked = false;
                 chkSettingsDownloadsEmbedSubtitles.Enabled = false;
             }
-            chkSettingsDownloadsEmbedSubtitles.Checked = Config.ProgramConfig.Downloads.EmbedSubtitles;
-            chkSettingsDownloadsSaveVideoInfo.Checked = Config.ProgramConfig.Downloads.SaveVideoInfo;
-            chkSettingsDownloadsWriteMetadataToFile.Checked = Config.ProgramConfig.Downloads.WriteMetadata;
-            chkSettingsDownloadsSaveDescription.Checked = Config.ProgramConfig.Downloads.SaveDescription;
-            chkSettingsDownloadsKeepOriginalFiles.Checked = Config.ProgramConfig.Downloads.KeepOriginalFiles;
-            chkSettingsDownloadsSaveAnnotations.Checked = Config.ProgramConfig.Downloads.SaveAnnotations;
-            if (Config.ProgramConfig.Downloads.SaveThumbnail) {
+            chkSettingsDownloadsEmbedSubtitles.Checked = Config.Settings.Downloads.EmbedSubtitles;
+            chkSettingsDownloadsSaveVideoInfo.Checked = Config.Settings.Downloads.SaveVideoInfo;
+            chkSettingsDownloadsWriteMetadataToFile.Checked = Config.Settings.Downloads.WriteMetadata;
+            chkSettingsDownloadsSaveDescription.Checked = Config.Settings.Downloads.SaveDescription;
+            chkSettingsDownloadsKeepOriginalFiles.Checked = Config.Settings.Downloads.KeepOriginalFiles;
+            chkSettingsDownloadsSaveAnnotations.Checked = Config.Settings.Downloads.SaveAnnotations;
+            if (Config.Settings.Downloads.SaveThumbnail) {
                 chkSettingsDownloadsSaveThumbnails.Checked = true;
                 chkSettingsDownloadsEmbedThumbnails.Enabled = true;
             }
@@ -361,144 +361,142 @@ namespace youtube_dl_gui {
                 chkSettingsDownloadsSaveThumbnails.Checked = false;
                 chkSettingsDownloadsEmbedThumbnails.Enabled = false;
             }
-            chkSettingsDownloadsEmbedThumbnails.Checked = Config.ProgramConfig.Downloads.EmbedThumbnails;
-            chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing.Checked = Config.ProgramConfig.Downloads.deleteYtdlOnClose;
-            chkSettingsDownloadsSeparateDownloadsToDifferentFolders.Checked = Config.ProgramConfig.Downloads.separateDownloads;
-            chkSettingsDownloadsSeparateIntoWebsiteUrl.Checked = Config.ProgramConfig.Downloads.separateIntoWebsiteURL;
-            chkSettingsDownloadsFixVReddIt.Checked = Config.ProgramConfig.Downloads.fixReddit;
-            chkSettingsDownloadsPreferFFmpeg.Checked = Config.ProgramConfig.Downloads.PreferFFmpeg;
-            chkSettingsDownloadsLimitDownload.Checked = Config.ProgramConfig.Downloads.LimitDownloads;
-            numSettingsDownloadsLimitDownload.Value = Config.ProgramConfig.Downloads.DownloadLimit;
-            cbSettingsDownloadsLimitDownload.SelectedIndex = Config.ProgramConfig.Downloads.DownloadLimitType;
-            numSettingsDownloadsRetryAttempts.Value = Config.ProgramConfig.Downloads.RetryAttempts;
-            chkSettingsDownloadsForceIpv4.Checked = Config.ProgramConfig.Downloads.ForceIPv4;
-            chkSettingsDownloadsForceIpv6.Checked = Config.ProgramConfig.Downloads.ForceIPv6;
-            chkSettingsDownloadsUseProxy.Checked = Config.ProgramConfig.Downloads.UseProxy;
-            cbSettingsDownloadsProxyType.SelectedIndex = Config.ProgramConfig.Downloads.ProxyType;
-            txtSettingsDownloadsProxyIp.Text = Config.ProgramConfig.Downloads.ProxyIP;
-            txtSettingsDownloadsProxyPort.Text = Config.ProgramConfig.Downloads.ProxyPort;
-            chksettingsDownloadsUseYoutubeDlsUpdater.Checked = Config.ProgramConfig.Downloads.useYtdlUpdater;
+            chkSettingsDownloadsEmbedThumbnails.Checked = Config.Settings.Downloads.EmbedThumbnails;
+            chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing.Checked = Config.Settings.Downloads.deleteYtdlOnClose;
+            chkSettingsDownloadsSeparateDownloadsToDifferentFolders.Checked = Config.Settings.Downloads.separateDownloads;
+            chkSettingsDownloadsSeparateIntoWebsiteUrl.Checked = Config.Settings.Downloads.separateIntoWebsiteURL;
+            chkSettingsDownloadsFixVReddIt.Checked = Config.Settings.Downloads.fixReddit;
+            chkSettingsDownloadsPreferFFmpeg.Checked = Config.Settings.Downloads.PreferFFmpeg;
+            chkSettingsDownloadsLimitDownload.Checked = Config.Settings.Downloads.LimitDownloads;
+            numSettingsDownloadsLimitDownload.Value = Config.Settings.Downloads.DownloadLimit;
+            cbSettingsDownloadsLimitDownload.SelectedIndex = Config.Settings.Downloads.DownloadLimitType;
+            numSettingsDownloadsRetryAttempts.Value = Config.Settings.Downloads.RetryAttempts;
+            chkSettingsDownloadsForceIpv4.Checked = Config.Settings.Downloads.ForceIPv4;
+            chkSettingsDownloadsForceIpv6.Checked = Config.Settings.Downloads.ForceIPv6;
+            chkSettingsDownloadsUseProxy.Checked = Config.Settings.Downloads.UseProxy;
+            cbSettingsDownloadsProxyType.SelectedIndex = Config.Settings.Downloads.ProxyType;
+            txtSettingsDownloadsProxyIp.Text = Config.Settings.Downloads.ProxyIP;
+            txtSettingsDownloadsProxyPort.Text = Config.Settings.Downloads.ProxyPort;
+            chksettingsDownloadsUseYoutubeDlsUpdater.Checked = Config.Settings.Downloads.useYtdlUpdater;
 
-            chkSettingsConverterDetectOutputFileType.Checked = Config.ProgramConfig.Converts.detectFiletype;
-            chkSettingsConverterClearOutputAfterConverting.Checked = Config.ProgramConfig.Converts.clearOutput;
-            chkSettingsConverterClearInputAfterConverting.Checked = Config.ProgramConfig.Converts.clearInput;
-            chkSettingsConverterHideFFmpegCompileInfo.Checked = Config.ProgramConfig.Converts.hideFFmpegCompile;
+            chkSettingsConverterDetectOutputFileType.Checked = Config.Settings.Converts.detectFiletype;
+            chkSettingsConverterClearOutputAfterConverting.Checked = Config.Settings.Converts.clearOutput;
+            chkSettingsConverterClearInputAfterConverting.Checked = Config.Settings.Converts.clearInput;
+            chkSettingsConverterHideFFmpegCompileInfo.Checked = Config.Settings.Converts.hideFFmpegCompile;
 
-            chkUseVideoBitrate.Checked = Config.ProgramConfig.Converts.videoUseBitrate;
-            numConvertVideoBitrate.Value = Config.ProgramConfig.Converts.videoBitrate;
-            chkSettingsConverterVideoPreset.Checked = Config.ProgramConfig.Converts.videoUsePreset;
-            cbConvertVideoPreset.SelectedIndex = Config.ProgramConfig.Converts.videoPreset;
-            chkUseVideoProfile.Checked = Config.ProgramConfig.Converts.videoUseProfile;
-            cbConvertVideoProfile.SelectedIndex = Config.ProgramConfig.Converts.videoProfile;
-            chkUseVideoCRF.Checked = Config.ProgramConfig.Converts.videoUseCRF;
-            numConvertVideoCRF.Value = Config.ProgramConfig.Converts.videoCRF;
+            chkUseVideoBitrate.Checked = Config.Settings.Converts.videoUseBitrate;
+            numConvertVideoBitrate.Value = Config.Settings.Converts.videoBitrate;
+            chkSettingsConverterVideoPreset.Checked = Config.Settings.Converts.videoUsePreset;
+            cbConvertVideoPreset.SelectedIndex = Config.Settings.Converts.videoPreset;
+            chkUseVideoProfile.Checked = Config.Settings.Converts.videoUseProfile;
+            cbConvertVideoProfile.SelectedIndex = Config.Settings.Converts.videoProfile;
+            chkUseVideoCRF.Checked = Config.Settings.Converts.videoUseCRF;
+            numConvertVideoCRF.Value = Config.Settings.Converts.videoCRF;
 
-            chkSettingsConverterVideoFastStart.Checked = Config.ProgramConfig.Converts.videoFastStart;
+            chkSettingsConverterVideoFastStart.Checked = Config.Settings.Converts.videoFastStart;
 
-            chkUseAudioBitrate.Checked = Config.ProgramConfig.Converts.audioUseBitrate;
-            numConvertAudioBitrate.Value = Config.ProgramConfig.Converts.audioBitrate;
+            chkUseAudioBitrate.Checked = Config.Settings.Converts.audioUseBitrate;
+            numConvertAudioBitrate.Value = Config.Settings.Converts.audioBitrate;
 
-            txtSettingsConverterCustomArguments.Text = Config.ProgramConfig.Saved.convertCustom;
+            txtSettingsConverterCustomArguments.Text = Config.Settings.Saved.convertCustom;
 
             loadExtensions();
 
-            chkSettingsErrorsShowDetailedErrors.Checked = Config.ProgramConfig.Errors.detailedErrors;
-            chkSettingsErrorsSaveErrorsAsErrorLog.Checked = Config.ProgramConfig.Errors.logErrors;
-            chkSettingsErrorsSuppressErrors.Checked = Config.ProgramConfig.Errors.suppressErrors;
+            chkSettingsErrorsShowDetailedErrors.Checked = Config.Settings.Errors.detailedErrors;
+            chkSettingsErrorsSaveErrorsAsErrorLog.Checked = Config.Settings.Errors.logErrors;
+            chkSettingsErrorsSuppressErrors.Checked = Config.Settings.Errors.suppressErrors;
         }
         private void saveSettings() {
-            Config.ProgramConfig.General.UseStaticYtdl = chkSettingsGeneralUseStaticYoutubeDl.Checked;
+            Config.Settings.General.UseStaticYtdl = chkSettingsGeneralUseStaticYoutubeDl.Checked;
             if (chkSettingsGeneralUseStaticYoutubeDl.Checked) {
-                Config.ProgramConfig.General.ytdlPath = txtSettingsGeneralYoutubeDlPath.Text;
+                Config.Settings.General.ytdlPath = txtSettingsGeneralYoutubeDlPath.Text;
             }
-            Config.ProgramConfig.General.UseStaticFFmpeg = chkSettingsGeneralUseStaticFFmpeg.Checked;
+            Config.Settings.General.UseStaticFFmpeg = chkSettingsGeneralUseStaticFFmpeg.Checked;
             if (chkSettingsGeneralUseStaticFFmpeg.Checked && !string.IsNullOrEmpty(txtSettingsGeneralFFmpegPath.Text)) {
-                Config.ProgramConfig.General.ffmpegPath = txtSettingsGeneralFFmpegPath.Text;
+                Config.Settings.General.ffmpegPath = txtSettingsGeneralFFmpegPath.Text;
             }
-            Config.ProgramConfig.General.CheckForUpdatesOnLaunch = chkSettingsGeneralCheckForUpdatesOnLaunch.Checked;
-            Config.ProgramConfig.Initialization.DownloadBetaVersions = chkSettingsGeneralCheckForBetaUpdates.Checked;
-            Config.ProgramConfig.General.HoverOverURLTextBoxToPaste = chkSettingsGeneralHoverOverUrlToPasteClipboard.Checked;
-            Config.ProgramConfig.General.ClearURLOnDownload = chkSettingsGeneralClearUrlOnDownload.Checked;
-            Config.ProgramConfig.General.ClearClipboardOnDownload = chkSettingsGeneralClearClipboardOnDownload.Checked;
+            Config.Settings.General.CheckForUpdatesOnLaunch = chkSettingsGeneralCheckForUpdatesOnLaunch.Checked;
+            Config.Settings.General.DownloadBetaVersions = chkSettingsGeneralCheckForBetaUpdates.Checked;
+            Config.Settings.General.HoverOverURLTextBoxToPaste = chkSettingsGeneralHoverOverUrlToPasteClipboard.Checked;
+            Config.Settings.General.ClearURLOnDownload = chkSettingsGeneralClearUrlOnDownload.Checked;
+            Config.Settings.General.ClearClipboardOnDownload = chkSettingsGeneralClearClipboardOnDownload.Checked;
             if (rbSettingsGeneralCustomArgumentsDontSave.Checked)
-                Config.ProgramConfig.General.SaveCustomArgs = 0;
+                Config.Settings.General.SaveCustomArgs = 0;
             else if (rbSettingsGeneralCustomArgumentsSaveAsArgsText.Checked)
-                Config.ProgramConfig.General.SaveCustomArgs = 1;
+                Config.Settings.General.SaveCustomArgs = 1;
             else if (rbSettingsGeneralCustomArgumentsSaveInSettings.Checked)
-                Config.ProgramConfig.General.SaveCustomArgs = 2;
+                Config.Settings.General.SaveCustomArgs = 2;
             else
-                Config.ProgramConfig.General.SaveCustomArgs = 0;
+                Config.Settings.General.SaveCustomArgs = 0;
 
-            Config.ProgramConfig.Downloads.downloadPath = txtSettingsDownloadsSavePath.Text;
-            Config.ProgramConfig.Downloads.fileNameSchema = txtSettingsDownloadsFileNameSchema.Text;
+            Config.Settings.Downloads.downloadPath = txtSettingsDownloadsSavePath.Text;
+            Config.Settings.Downloads.fileNameSchema = txtSettingsDownloadsFileNameSchema.Text;
             if (!txtSettingsDownloadsFileNameSchema.Items.Contains(txtSettingsDownloadsFileNameSchema.Text)) {
                 txtSettingsDownloadsFileNameSchema.Items.Add(txtSettingsDownloadsFileNameSchema.Text);
             }
             string FileNameSchemaHistory = GetHistoryFromComboBox(txtSettingsDownloadsFileNameSchema);
-            if (Config.ProgramConfig.Saved.FileNameSchemaHistory != FileNameSchemaHistory) {
-                Config.ProgramConfig.Saved.FileNameSchemaHistory = FileNameSchemaHistory;
+            if (Config.Settings.Saved.FileNameSchemaHistory != FileNameSchemaHistory) {
+                Config.Settings.Saved.FileNameSchemaHistory = FileNameSchemaHistory;
             }
 
-            Config.ProgramConfig.Downloads.SaveFormatQuality = chkSettingsDownloadsSaveFormatQuality.Checked;
-            Config.ProgramConfig.Downloads.SaveSubtitles = chkSettingsDownloadsDownloadSubtitles.Checked;
-            Config.ProgramConfig.Downloads.EmbedSubtitles = chkSettingsDownloadsEmbedSubtitles.Checked;
-            Config.ProgramConfig.Downloads.SaveVideoInfo = chkSettingsDownloadsSaveVideoInfo.Checked;
-            Config.ProgramConfig.Downloads.WriteMetadata = chkSettingsDownloadsWriteMetadataToFile.Checked;
-            Config.ProgramConfig.Downloads.SaveDescription = chkSettingsDownloadsSaveDescription.Checked;
-            Config.ProgramConfig.Downloads.KeepOriginalFiles = chkSettingsDownloadsKeepOriginalFiles.Checked;
-            Config.ProgramConfig.Downloads.SaveAnnotations = chkSettingsDownloadsSaveAnnotations.Checked;
-            Config.ProgramConfig.Downloads.SaveThumbnail = chkSettingsDownloadsSaveThumbnails.Checked;
-            Config.ProgramConfig.Downloads.EmbedThumbnails = chkSettingsDownloadsEmbedThumbnails.Checked;
-            Config.ProgramConfig.Downloads.deleteYtdlOnClose = chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing.Checked;
-            Config.ProgramConfig.Downloads.separateDownloads = chkSettingsDownloadsSeparateDownloadsToDifferentFolders.Checked;
-            Config.ProgramConfig.Downloads.separateIntoWebsiteURL = chkSettingsDownloadsSeparateIntoWebsiteUrl.Checked;
-            Config.ProgramConfig.Downloads.fixReddit = chkSettingsDownloadsFixVReddIt.Checked;
-            Config.ProgramConfig.Downloads.PreferFFmpeg = chkSettingsDownloadsPreferFFmpeg.Checked;
-            Config.ProgramConfig.Downloads.LimitDownloads = chkSettingsDownloadsLimitDownload.Checked;
-            Config.ProgramConfig.Downloads.DownloadLimit = (int)numSettingsDownloadsLimitDownload.Value;
-            Config.ProgramConfig.Downloads.DownloadLimitType = cbSettingsDownloadsLimitDownload.SelectedIndex;
-            Config.ProgramConfig.Downloads.ForceIPv4 = chkSettingsDownloadsForceIpv4.Checked;
-            Config.ProgramConfig.Downloads.ForceIPv6 = chkSettingsDownloadsForceIpv6.Checked;
-            Config.ProgramConfig.Downloads.UseProxy = chkSettingsDownloadsUseProxy.Checked;
-            Config.ProgramConfig.Downloads.ProxyType = cbSettingsDownloadsProxyType.SelectedIndex;
-            Config.ProgramConfig.Downloads.ProxyIP = txtSettingsDownloadsProxyIp.Text;
-            Config.ProgramConfig.Downloads.ProxyPort = txtSettingsDownloadsProxyPort.Text;
-            Config.ProgramConfig.Downloads.useYtdlUpdater = chksettingsDownloadsUseYoutubeDlsUpdater.Checked;
+            Config.Settings.Downloads.SaveFormatQuality = chkSettingsDownloadsSaveFormatQuality.Checked;
+            Config.Settings.Downloads.SaveSubtitles = chkSettingsDownloadsDownloadSubtitles.Checked;
+            Config.Settings.Downloads.EmbedSubtitles = chkSettingsDownloadsEmbedSubtitles.Checked;
+            Config.Settings.Downloads.SaveVideoInfo = chkSettingsDownloadsSaveVideoInfo.Checked;
+            Config.Settings.Downloads.WriteMetadata = chkSettingsDownloadsWriteMetadataToFile.Checked;
+            Config.Settings.Downloads.SaveDescription = chkSettingsDownloadsSaveDescription.Checked;
+            Config.Settings.Downloads.KeepOriginalFiles = chkSettingsDownloadsKeepOriginalFiles.Checked;
+            Config.Settings.Downloads.SaveAnnotations = chkSettingsDownloadsSaveAnnotations.Checked;
+            Config.Settings.Downloads.SaveThumbnail = chkSettingsDownloadsSaveThumbnails.Checked;
+            Config.Settings.Downloads.EmbedThumbnails = chkSettingsDownloadsEmbedThumbnails.Checked;
+            Config.Settings.Downloads.deleteYtdlOnClose = chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing.Checked;
+            Config.Settings.Downloads.separateDownloads = chkSettingsDownloadsSeparateDownloadsToDifferentFolders.Checked;
+            Config.Settings.Downloads.separateIntoWebsiteURL = chkSettingsDownloadsSeparateIntoWebsiteUrl.Checked;
+            Config.Settings.Downloads.fixReddit = chkSettingsDownloadsFixVReddIt.Checked;
+            Config.Settings.Downloads.PreferFFmpeg = chkSettingsDownloadsPreferFFmpeg.Checked;
+            Config.Settings.Downloads.LimitDownloads = chkSettingsDownloadsLimitDownload.Checked;
+            Config.Settings.Downloads.DownloadLimit = (int)numSettingsDownloadsLimitDownload.Value;
+            Config.Settings.Downloads.DownloadLimitType = cbSettingsDownloadsLimitDownload.SelectedIndex;
+            Config.Settings.Downloads.ForceIPv4 = chkSettingsDownloadsForceIpv4.Checked;
+            Config.Settings.Downloads.ForceIPv6 = chkSettingsDownloadsForceIpv6.Checked;
+            Config.Settings.Downloads.UseProxy = chkSettingsDownloadsUseProxy.Checked;
+            Config.Settings.Downloads.ProxyType = cbSettingsDownloadsProxyType.SelectedIndex;
+            Config.Settings.Downloads.ProxyIP = txtSettingsDownloadsProxyIp.Text;
+            Config.Settings.Downloads.ProxyPort = txtSettingsDownloadsProxyPort.Text;
+            Config.Settings.Downloads.useYtdlUpdater = chksettingsDownloadsUseYoutubeDlsUpdater.Checked;
 
-            Config.ProgramConfig.Converts.detectFiletype = chkSettingsConverterDetectOutputFileType.Checked;
-            Config.ProgramConfig.Converts.clearOutput = chkSettingsConverterClearOutputAfterConverting.Checked;
-            Config.ProgramConfig.Converts.clearInput = chkSettingsConverterClearInputAfterConverting.Checked;
-            Config.ProgramConfig.Converts.hideFFmpegCompile = chkSettingsConverterHideFFmpegCompileInfo.Checked;
+            Config.Settings.Converts.detectFiletype = chkSettingsConverterDetectOutputFileType.Checked;
+            Config.Settings.Converts.clearOutput = chkSettingsConverterClearOutputAfterConverting.Checked;
+            Config.Settings.Converts.clearInput = chkSettingsConverterClearInputAfterConverting.Checked;
+            Config.Settings.Converts.hideFFmpegCompile = chkSettingsConverterHideFFmpegCompileInfo.Checked;
 
-            Config.ProgramConfig.Converts.videoUseBitrate = chkUseVideoBitrate.Checked;
-            Config.ProgramConfig.Converts.videoBitrate = Decimal.ToInt32(numConvertVideoBitrate.Value);
-            Config.ProgramConfig.Converts.videoUsePreset = chkSettingsConverterVideoPreset.Checked;
-            Config.ProgramConfig.Converts.videoPreset = cbConvertVideoPreset.SelectedIndex;
-            Config.ProgramConfig.Converts.videoUseProfile = chkUseVideoProfile.Checked;
-            Config.ProgramConfig.Converts.videoProfile = cbConvertVideoProfile.SelectedIndex;
-            Config.ProgramConfig.Converts.videoUseCRF = chkUseVideoCRF.Checked;
-            Config.ProgramConfig.Converts.videoCRF = Decimal.ToInt32(numConvertVideoCRF.Value);
-            Config.ProgramConfig.Converts.videoFastStart = chkSettingsConverterVideoFastStart.Checked;
+            Config.Settings.Converts.videoUseBitrate = chkUseVideoBitrate.Checked;
+            Config.Settings.Converts.videoBitrate = Decimal.ToInt32(numConvertVideoBitrate.Value);
+            Config.Settings.Converts.videoUsePreset = chkSettingsConverterVideoPreset.Checked;
+            Config.Settings.Converts.videoPreset = cbConvertVideoPreset.SelectedIndex;
+            Config.Settings.Converts.videoUseProfile = chkUseVideoProfile.Checked;
+            Config.Settings.Converts.videoProfile = cbConvertVideoProfile.SelectedIndex;
+            Config.Settings.Converts.videoUseCRF = chkUseVideoCRF.Checked;
+            Config.Settings.Converts.videoCRF = Decimal.ToInt32(numConvertVideoCRF.Value);
+            Config.Settings.Converts.videoFastStart = chkSettingsConverterVideoFastStart.Checked;
 
-            Config.ProgramConfig.Converts.audioUseBitrate = chkUseAudioBitrate.Checked;
-            Config.ProgramConfig.Converts.audioBitrate = Decimal.ToInt32(numConvertAudioBitrate.Value);
+            Config.Settings.Converts.audioUseBitrate = chkUseAudioBitrate.Checked;
+            Config.Settings.Converts.audioBitrate = Decimal.ToInt32(numConvertAudioBitrate.Value);
 
-            Config.ProgramConfig.Saved.convertCustom = txtSettingsConverterCustomArguments.Text;
-            Config.ProgramConfig.Saved.SettingsFormSize = this.Size;
+            Config.Settings.Saved.convertCustom = txtSettingsConverterCustomArguments.Text;
+            Config.Settings.Saved.SettingsFormSize = this.Size;
 
             saveExtensions();
 
-            Config.ProgramConfig.Errors.detailedErrors = chkSettingsErrorsShowDetailedErrors.Checked;
-            Config.ProgramConfig.Errors.logErrors = chkSettingsErrorsSaveErrorsAsErrorLog.Checked;
-            Config.ProgramConfig.Errors.suppressErrors = chkSettingsErrorsSuppressErrors.Checked;
+            Config.Settings.Errors.detailedErrors = chkSettingsErrorsShowDetailedErrors.Checked;
+            Config.Settings.Errors.logErrors = chkSettingsErrorsSaveErrorsAsErrorLog.Checked;
+            Config.Settings.Errors.suppressErrors = chkSettingsErrorsSuppressErrors.Checked;
 
-            Config.ProgramConfig.Initialization.Save();
-            Config.ProgramConfig.General.Save();
-            Config.ProgramConfig.Downloads.Save();
-            Config.ProgramConfig.Converts.Save();
-            Config.ProgramConfig.SettingsConfig.Save();
-            Config.ProgramConfig.Errors.Save();
-            Config.ProgramConfig.Saved.Save();
+            Config.Settings.General.Save();
+            Config.Settings.Downloads.Save();
+            Config.Settings.Converts.Save();
+            Config.Settings.Errors.Save();
+            Config.Settings.Saved.Save();
         }
 
         private void btnSettingsRedownloadYoutubeDl_Click(object sender, EventArgs e) {
@@ -516,10 +514,10 @@ namespace youtube_dl_gui {
 
         #region General
         private void chkSettingsGeneralUseStaticYoutubeDl_CheckedChanged(object sender, EventArgs e) {
-            Config.ProgramConfig.General.UseStaticYtdl = chkSettingsGeneralUseStaticYoutubeDl.Checked;
+            Config.Settings.General.UseStaticYtdl = chkSettingsGeneralUseStaticYoutubeDl.Checked;
         }
         private void chkSettingsGeneralUseStaticFFmpeg_CheckedChanged(object sender, EventArgs e) {
-            Config.ProgramConfig.General.UseStaticFFmpeg = chkSettingsGeneralUseStaticFFmpeg.Checked;
+            Config.Settings.General.UseStaticFFmpeg = chkSettingsGeneralUseStaticFFmpeg.Checked;
         }
         private void btnSettingsGeneralBrowseYoutubeDl_Click(object sender, EventArgs e) {
             using (OpenFileDialog ofd = new OpenFileDialog()) {
@@ -602,9 +600,9 @@ namespace youtube_dl_gui {
 
         #region Extensions
         private void loadExtensions() {
-            if (!string.IsNullOrEmpty(Config.ProgramConfig.SettingsConfig.extensionsName)) {
-                extensionsShort.AddRange(Config.ProgramConfig.SettingsConfig.extensionsShort.Split('|').ToList());
-                extensionsName.AddRange(Config.ProgramConfig.SettingsConfig.extensionsName.Split('|').ToList());
+            if (!string.IsNullOrEmpty(Config.Settings.General.extensionsName)) {
+                extensionsShort.AddRange(Config.Settings.General.extensionsShort.Split('|').ToList());
+                extensionsName.AddRange(Config.Settings.General.extensionsName.Split('|').ToList());
                 for (int i = 0; i < extensionsShort.Count; i++) {
                     listExtensions.Items.Add(extensionsName[i] + " (*." + extensionsShort[i] + ")");
                 }
@@ -621,12 +619,12 @@ namespace youtube_dl_gui {
                 ext = ext.TrimEnd('|');
                 shrt = shrt.TrimEnd('|');
 
-                Config.ProgramConfig.SettingsConfig.extensionsName = ext;
-                Config.ProgramConfig.SettingsConfig.extensionsShort = shrt;
+                Config.Settings.General.extensionsName = ext;
+                Config.Settings.General.extensionsShort = shrt;
             }
             else {
-                Config.ProgramConfig.SettingsConfig.extensionsName = string.Empty;
-                Config.ProgramConfig.SettingsConfig.extensionsShort = string.Empty;
+                Config.Settings.General.extensionsName = string.Empty;
+                Config.Settings.General.extensionsShort = string.Empty;
             }
         }
 
@@ -674,8 +672,12 @@ namespace youtube_dl_gui {
 
         private void chkSettingsPortableToggleIni_CheckedChanged(object sender, EventArgs e) {
             if (!LoadingForm) {
-                Config.ProgramConfig.ConvertConfig(chkSettingsPortableToggleIni.Checked);
+                Config.Settings.ConvertConfig(chkSettingsPortableToggleIni.Checked);
             }
+        }
+
+        private void btnCleanIni_Click(object sender, EventArgs e) {
+            Config.Settings.CleanIniFile();
         }
 
     }

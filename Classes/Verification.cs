@@ -56,7 +56,7 @@ namespace youtube_dl_gui {
             YoutubeDlInt = ytdlFullCheck();
             switch (YoutubeDlInt) {
                 case 0:
-                    YoutubeDlPath = Config.ProgramConfig.General.ytdlPath;
+                    YoutubeDlPath = Config.Settings.General.ytdlPath;
                     break;
                 case 1:
                     YoutubeDlPath = Environment.CurrentDirectory + "\\youtube-dl.exe";
@@ -76,7 +76,7 @@ namespace youtube_dl_gui {
             FFmpegInt = ffmpegFullCheck();
             switch (FFmpegInt) {
                 case 0:
-                    FFmpegPath = Config.ProgramConfig.General.ffmpegPath;
+                    FFmpegPath = Config.Settings.General.ffmpegPath;
                     break;
                 case 1:
                     FFmpegPath = Environment.CurrentDirectory;
@@ -154,7 +154,7 @@ namespace youtube_dl_gui {
         /// Check for youtube-dl using all possible routes
         /// </summary>
         private static int ytdlFullCheck() {
-            if (Config.ProgramConfig.General.UseStaticYtdl && File.Exists(Config.ProgramConfig.General.ytdlPath))
+            if (Config.Settings.General.UseStaticYtdl && File.Exists(Config.Settings.General.ytdlPath))
                 return ApplicationLocation.StaticDirectory;
             else if (ytdlInExecutingDirectory)
                 return ApplicationLocation.CurrentDirectory;
@@ -202,7 +202,7 @@ namespace youtube_dl_gui {
         /// Check for ffmpeg using all possible routes
         /// </summary>
         private static int ffmpegFullCheck() {
-            if (Config.ProgramConfig.General.UseStaticFFmpeg && File.Exists(Config.ProgramConfig.General.ffmpegPath))
+            if (Config.Settings.General.UseStaticFFmpeg && File.Exists(Config.Settings.General.ffmpegPath))
                 return ApplicationLocation.StaticDirectory;
             else if (ffmpegInExecutingDirectory)
                 return ApplicationLocation.CurrentDirectory;

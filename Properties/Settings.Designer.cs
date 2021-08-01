@@ -26,9 +26,9 @@ namespace youtube_dl_gui.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("2.252")]
-        public decimal appVersion {
+        public decimal CurrentVersion {
             get {
-                return ((decimal)(this["appVersion"]));
+                return ((decimal)(this["CurrentVersion"]));
             }
         }
         
@@ -46,10 +46,10 @@ namespace youtube_dl_gui.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("2021-07-30")]
-        public string debugDate {
+        [global::System.Configuration.DefaultSettingValueAttribute("2021-07-31")]
+        public string LastDebugDate {
             get {
-                return ((string)(this["debugDate"]));
+                return ((string)(this["LastDebugDate"]));
             }
         }
         
@@ -76,10 +76,34 @@ namespace youtube_dl_gui.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("2.27-pre1")]
+        [global::System.Configuration.DefaultSettingValueAttribute("2.26-pre4")]
         public string BetaVersion {
             get {
                 return ((string)(this["BetaVersion"]));
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string SkippedBetaVersion {
+            get {
+                return ((string)(this["SkippedBetaVersion"]));
+            }
+            set {
+                this["SkippedBetaVersion"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string LanguageFile {
+            get {
+                return ((string)(this["LanguageFile"]));
+            }
+            set {
+                this["LanguageFile"] = value;
             }
         }
     }

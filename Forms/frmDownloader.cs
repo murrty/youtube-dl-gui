@@ -33,7 +33,7 @@ namespace youtube_dl_gui {
             else {
                 btnDownloaderCancelExit.Text = lang.GenericCancel;
             }
-            chkDownloaderCloseAfterDownload.Checked = Config.ProgramConfig.Downloads.CloseDownloaderAfterFinish;
+            chkDownloaderCloseAfterDownload.Checked = Config.Settings.Downloads.CloseDownloaderAfterFinish;
         }
         private void frmDownloader_Shown(object sender, EventArgs e) {
             BeginDownload();
@@ -79,10 +79,10 @@ namespace youtube_dl_gui {
             }
 
             if (!e.Cancel) {
-                if (Config.ProgramConfig.Downloads.CloseDownloaderAfterFinish != chkDownloaderCloseAfterDownload.Checked && !CurrentDownload.BatchDownload) {
-                    Config.ProgramConfig.Downloads.CloseDownloaderAfterFinish = chkDownloaderCloseAfterDownload.Checked;
+                if (Config.Settings.Downloads.CloseDownloaderAfterFinish != chkDownloaderCloseAfterDownload.Checked && !CurrentDownload.BatchDownload) {
+                    Config.Settings.Downloads.CloseDownloaderAfterFinish = chkDownloaderCloseAfterDownload.Checked;
                     if (!Program.UseIni) {
-                        Config.ProgramConfig.Downloads.Save();
+                        Config.Settings.Downloads.Save();
                     }
                 }
 
@@ -175,8 +175,8 @@ sanitizecheck:
             string webFolder = string.Empty;
 
             #region youtube-dl path
-            if (Config.ProgramConfig.General.UseStaticYtdl && File.Exists(Config.ProgramConfig.General.ytdlPath)) {
-                YoutubeDlFileName = Config.ProgramConfig.General.ytdlPath;
+            if (Config.Settings.General.UseStaticYtdl && File.Exists(Config.Settings.General.ytdlPath)) {
+                YoutubeDlFileName = Config.Settings.General.ytdlPath;
             }
             else {
                 YoutubeDlFileName = verif.YoutubeDlPath;
@@ -199,22 +199,22 @@ sanitizecheck:
             #region Output
             rtbConsoleOutput.AppendText("Generating output directory structure\n");
 
-            if (Config.ProgramConfig.Downloads.separateIntoWebsiteURL) {
+            if (Config.Settings.Downloads.separateIntoWebsiteURL) {
                 webFolder = Download.getUrlBase(CurrentDownload.DownloadURL) + "\\";
             }
 
-            string OutputDirectory = "\"" + Config.ProgramConfig.Downloads.downloadPath;
-            if (CurrentDownload.BatchDownload && Config.ProgramConfig.Downloads.SeparateBatchDownloads) {
+            string OutputDirectory = "\"" + Config.Settings.Downloads.downloadPath;
+            if (CurrentDownload.BatchDownload && Config.Settings.Downloads.SeparateBatchDownloads) {
                 OutputDirectory += "\\# Batch Downloads #";
-                if (Config.ProgramConfig.Downloads.AddDateToBatchDownloadFolders) {
+                if (Config.Settings.Downloads.AddDateToBatchDownloadFolders) {
                     OutputDirectory += "\\" + CurrentDownload.BatchTime;
                 }
             }
-            OutputDirectory += "\\" + webFolder + "{0}" + Config.ProgramConfig.Downloads.fileNameSchema + "\"";
+            OutputDirectory += "\\" + webFolder + "{0}" + Config.Settings.Downloads.fileNameSchema + "\"";
 
             ArgumentsBuffer = CurrentDownload.DownloadURL + " -o " + OutputDirectory;
 
-            if (Config.ProgramConfig.Downloads.separateDownloads) {
+            if (Config.Settings.Downloads.separateDownloads) {
                 switch (CurrentDownload.Type) {
                     case DownloadType.Video:
                         ArgumentsBuffer = ArgumentsBuffer.Replace("{0}", "Video\\");
@@ -315,11 +315,11 @@ sanitizecheck:
                         break;
                 }
 
-                if (Config.ProgramConfig.Downloads.PreferFFmpeg || Download.isReddit(CurrentDownload.DownloadURL) && Config.ProgramConfig.Downloads.fixReddit) {
+                if (Config.Settings.Downloads.PreferFFmpeg || Download.isReddit(CurrentDownload.DownloadURL) && Config.Settings.Downloads.fixReddit) {
                     rtbConsoleOutput.AppendText("Looking for ffmpeg\n");
                     if (verif.FFmpegPath != null) {
-                        if (Config.ProgramConfig.General.UseStaticFFmpeg) {
-                            ArgumentsBuffer += " --ffmpeg-location \"" + Config.ProgramConfig.General.ffmpegPath + "\\ffmpeg.exe\"";
+                        if (Config.Settings.General.UseStaticFFmpeg) {
+                            ArgumentsBuffer += " --ffmpeg-location \"" + Config.Settings.General.ffmpegPath + "\\ffmpeg.exe\"";
                         }
                         else {
                             ArgumentsBuffer += " --ffmpeg-location \"" + verif.FFmpegPath + "\\ffmpeg.exe\" --hls-prefer-ffmpeg";
@@ -331,12 +331,12 @@ sanitizecheck:
                     }
                 }
 
-                if (Config.ProgramConfig.Downloads.SaveSubtitles) {
+                if (Config.Settings.Downloads.SaveSubtitles) {
                     ArgumentsBuffer += " --all-subs";
-                    if (!string.IsNullOrEmpty(Config.ProgramConfig.Downloads.SubtitleFormat)) {
-                        ArgumentsBuffer += " --sub-format " + Config.ProgramConfig.Downloads.SubtitleFormat + " ";
+                    if (!string.IsNullOrEmpty(Config.Settings.Downloads.SubtitleFormat)) {
+                        ArgumentsBuffer += " --sub-format " + Config.Settings.Downloads.SubtitleFormat + " ";
                     }
-                    if (Config.ProgramConfig.Downloads.EmbedSubtitles && CurrentDownload.Type == DownloadType.Video) {
+                    if (Config.Settings.Downloads.EmbedSubtitles && CurrentDownload.Type == DownloadType.Video) {
                         switch (CurrentDownload.VideoFormat) {
                             case VideoFormatType.flv: case VideoFormatType.mkv:
                                 break;
@@ -344,19 +344,19 @@ sanitizecheck:
                         ArgumentsBuffer += " --embed-subs";
                     }
                 }
-                if (Config.ProgramConfig.Downloads.SaveVideoInfo) {
+                if (Config.Settings.Downloads.SaveVideoInfo) {
                     ArgumentsBuffer += " --write-info-json";
                 }
-                if (Config.ProgramConfig.Downloads.SaveDescription) {
+                if (Config.Settings.Downloads.SaveDescription) {
                     ArgumentsBuffer += " --write-description";
                 }
-                if (Config.ProgramConfig.Downloads.SaveAnnotations) {
+                if (Config.Settings.Downloads.SaveAnnotations) {
                     ArgumentsBuffer += " --write-annotations";
                 }
-                if (Config.ProgramConfig.Downloads.SaveThumbnail) {
+                if (Config.Settings.Downloads.SaveThumbnail) {
                     // ArgumentsBuffer += "--write-all-thumbnails "; // Maybe?
                     //ArgumentsBuffer += " --write-thumbnail";
-                    if (Config.ProgramConfig.Downloads.EmbedThumbnails) {
+                    if (Config.Settings.Downloads.EmbedThumbnails) {
                         switch (CurrentDownload.Type) {
                             case DownloadType.Video:
                                 if (CurrentDownload.VideoFormat == VideoFormatType.mp4) {
@@ -392,17 +392,17 @@ sanitizecheck:
                     //    ArgumentsBuffer += " --embed-thumbnail";
                     //}
                 }
-                if (Config.ProgramConfig.Downloads.WriteMetadata) {
+                if (Config.Settings.Downloads.WriteMetadata) {
                     ArgumentsBuffer += " --add-metadata";
                 }
 
-                if (Config.ProgramConfig.Downloads.KeepOriginalFiles) {
+                if (Config.Settings.Downloads.KeepOriginalFiles) {
                     ArgumentsBuffer += " -k";
                 }
 
-                if (Config.ProgramConfig.Downloads.LimitDownloads && Config.ProgramConfig.Downloads.DownloadLimit > 0) {
-                    ArgumentsBuffer += " --limit-rate " + Config.ProgramConfig.Downloads.DownloadLimit;
-                    switch (Config.ProgramConfig.Downloads.DownloadLimitType) {
+                if (Config.Settings.Downloads.LimitDownloads && Config.Settings.Downloads.DownloadLimit > 0) {
+                    ArgumentsBuffer += " --limit-rate " + Config.Settings.Downloads.DownloadLimit;
+                    switch (Config.Settings.Downloads.DownloadLimitType) {
                         case 0: { // kb
                                 ArgumentsBuffer += "K ";
                                 break;
@@ -422,19 +422,19 @@ sanitizecheck:
                     }
                 }
 
-                if (Config.ProgramConfig.Downloads.RetryAttempts != 10 && Config.ProgramConfig.Downloads.RetryAttempts > 0) {
-                    ArgumentsBuffer += " --retries " + Config.ProgramConfig.Downloads.RetryAttempts;
+                if (Config.Settings.Downloads.RetryAttempts != 10 && Config.Settings.Downloads.RetryAttempts > 0) {
+                    ArgumentsBuffer += " --retries " + Config.Settings.Downloads.RetryAttempts;
                 }
 
-                if (Config.ProgramConfig.Downloads.ForceIPv4) {
+                if (Config.Settings.Downloads.ForceIPv4) {
                     ArgumentsBuffer += " --force-ipv4";
                 }
-                else if (Config.ProgramConfig.Downloads.ForceIPv6) {
+                else if (Config.Settings.Downloads.ForceIPv6) {
                     ArgumentsBuffer += " --force-ipv6";
                 }
 
-                if (Config.ProgramConfig.Downloads.UseProxy && Config.ProgramConfig.Downloads.ProxyType > -1 && !string.IsNullOrEmpty(Config.ProgramConfig.Downloads.ProxyIP) && !string.IsNullOrEmpty(Config.ProgramConfig.Downloads.ProxyPort)) {
-                    ArgumentsBuffer += " --proxy " + Download.ProxyProtocols[Config.ProgramConfig.Downloads.ProxyType] + Config.ProgramConfig.Downloads.ProxyIP + ":" + Config.ProgramConfig.Downloads.ProxyPort + "/ ";
+                if (Config.Settings.Downloads.UseProxy && Config.Settings.Downloads.ProxyType > -1 && !string.IsNullOrEmpty(Config.Settings.Downloads.ProxyIP) && !string.IsNullOrEmpty(Config.Settings.Downloads.ProxyPort)) {
+                    ArgumentsBuffer += " --proxy " + Download.ProxyProtocols[Config.Settings.Downloads.ProxyType] + Config.Settings.Downloads.ProxyIP + ":" + Config.Settings.Downloads.ProxyPort + "/ ";
                 }
             }
             #endregion

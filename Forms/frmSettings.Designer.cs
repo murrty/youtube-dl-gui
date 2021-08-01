@@ -134,6 +134,7 @@
             this.btnSettingsCancel = new System.Windows.Forms.Button();
             this.btnSettingsSave = new System.Windows.Forms.Button();
             this.tipSettings = new System.Windows.Forms.ToolTip(this.components);
+            this.btnCleanIni = new System.Windows.Forms.Button();
             this.txtSettingsGeneralFFmpegPath = new youtube_dl_gui.Controls.ExtendedTextBox();
             this.txtSettingsGeneralYoutubeDlPath = new youtube_dl_gui.Controls.ExtendedTextBox();
             this.txtSettingsDownloadsProxyPort = new youtube_dl_gui.Controls.ExtendedTextBox();
@@ -1462,6 +1463,7 @@
             // 
             // tabSettingsPortable
             // 
+            this.tabSettingsPortable.Controls.Add(this.btnCleanIni);
             this.tabSettingsPortable.Controls.Add(this.chkSettingsPortableToggleIni);
             this.tabSettingsPortable.Controls.Add(this.lbSettingsPortableInformation);
             this.tabSettingsPortable.Location = new System.Drawing.Point(4, 22);
@@ -1474,6 +1476,7 @@
             // 
             // chkSettingsPortableToggleIni
             // 
+            this.chkSettingsPortableToggleIni.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.chkSettingsPortableToggleIni.Appearance = System.Windows.Forms.Appearance.Button;
             this.chkSettingsPortableToggleIni.Location = new System.Drawing.Point(85, 275);
             this.chkSettingsPortableToggleIni.Name = "chkSettingsPortableToggleIni";
@@ -1486,6 +1489,8 @@
             // 
             // lbSettingsPortableInformation
             // 
+            this.lbSettingsPortableInformation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lbSettingsPortableInformation.Location = new System.Drawing.Point(6, 3);
             this.lbSettingsPortableInformation.Name = "lbSettingsPortableInformation";
             this.lbSettingsPortableInformation.Size = new System.Drawing.Size(308, 260);
@@ -1535,6 +1540,18 @@
             this.tipSettings.InitialDelay = 500;
             this.tipSettings.ReshowDelay = 100;
             this.tipSettings.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            // 
+            // btnCleanIni
+            // 
+            this.btnCleanIni.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.btnCleanIni.Location = new System.Drawing.Point(239, 276);
+            this.btnCleanIni.Name = "btnCleanIni";
+            this.btnCleanIni.Size = new System.Drawing.Size(75, 23);
+            this.btnCleanIni.TabIndex = 2;
+            this.btnCleanIni.Text = "btnCleanIni";
+            this.tipSettings.SetToolTip(this.btnCleanIni, "btnCleanIniHint");
+            this.btnCleanIni.UseVisualStyleBackColor = true;
+            this.btnCleanIni.Click += new System.EventHandler(this.btnCleanIni_Click);
             // 
             // txtSettingsGeneralFFmpegPath
             // 
@@ -1868,5 +1885,6 @@
         private System.Windows.Forms.CheckBox chkSettingsPortableToggleIni;
         private System.Windows.Forms.Label lbSettingsPortableInformation;
         private System.Windows.Forms.CheckBox chkSettingsGeneralCheckForBetaUpdates;
+        private System.Windows.Forms.Button btnCleanIni;
     }
 }

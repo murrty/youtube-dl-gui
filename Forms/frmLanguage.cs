@@ -34,11 +34,11 @@ namespace youtube_dl_gui {
                 cbLanguages.Items.Clear();
                 cbLanguages.Items.Add("English (Internal)");
                 cbLanguages.Items.AddRange(Files.ToArray());
-                if (string.IsNullOrWhiteSpace(Config.ProgramConfig.Initialization.LanguageFile)) {
+                if (string.IsNullOrWhiteSpace(Config.Settings.Initialization.LanguageFile)) {
                     cbLanguages.SelectedIndex = cbLanguages.SelectedIndex = 0;
                 }
                 else {
-                    cbLanguages.SelectedIndex = cbLanguages.FindStringExact(Config.ProgramConfig.Initialization.LanguageFile);
+                    cbLanguages.SelectedIndex = cbLanguages.FindStringExact(Config.Settings.Initialization.LanguageFile);
                 }
             }
         }

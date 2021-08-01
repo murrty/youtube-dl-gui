@@ -22,7 +22,7 @@ namespace youtube_dl_gui {
     }
 
     class Config {
-        public static volatile Config ProgramConfig;
+        public static volatile Config Settings;
 
         public Config_Initialization Initialization;
         public Config_Batch Batch;
@@ -31,7 +31,6 @@ namespace youtube_dl_gui {
         public Config_Errors Errors;
         public Config_General General;
         public Config_Saved Saved;
-        public Config_Settings SettingsConfig;
 
         public Config() {
             Initialization = new Config_Initialization();
@@ -41,7 +40,6 @@ namespace youtube_dl_gui {
             Errors = new Config_Errors();
             General = new Config_General();
             Saved = new Config_Saved();
-            SettingsConfig = new Config_Settings();
         }
 
         public void Load(ConfigType Type) {
@@ -53,7 +51,6 @@ namespace youtube_dl_gui {
                     Errors.Load();
                     General.Load();
                     Saved.Load();
-                    SettingsConfig.Load();
                     break;
 
                 case ConfigType.Initialization:
@@ -83,10 +80,6 @@ namespace youtube_dl_gui {
                 case ConfigType.Saved:
                     Saved.Load();
                     break;
-
-                case ConfigType.Settings:
-                    SettingsConfig.Load();
-                    break;
             }
         }
 
@@ -99,7 +92,6 @@ namespace youtube_dl_gui {
                     Errors.Save();
                     General.Save();
                     Saved.Save();
-                    SettingsConfig.Save();
                     break;
 
                 case ConfigType.Initialization:
@@ -129,18 +121,15 @@ namespace youtube_dl_gui {
                 case ConfigType.Saved:
                     Saved.Save();
                     break;
-
-                case ConfigType.Settings:
-                    SettingsConfig.Save();
-                    break;
             }
         }
+
         public void ConvertConfig(bool UseIni) {
             if (Program.UseIni && !UseIni) {
-                Ini.Write("useIni", false);
+                Ini.Write("UseIni", false);
             }
             else {
-                Ini.Write("useIni", true);
+                Ini.Write("UseIni", true);
             }
 
             Program.UseIni = UseIni;
@@ -151,9 +140,23 @@ namespace youtube_dl_gui {
             Errors.ForceSave();
             General.ForceSave();
             Saved.ForceSave();
-            SettingsConfig.ForceSave();
         }
 
+        public void CleanIniFile() {
+            if (Program.UseIni) {
+                System.IO.File.Delete(Program.ProgramPath + "\\settings.ini");
+
+                Initialization.ForceSave();
+                General.ForceSave();
+                Downloads.ForceSave();
+                Converts.ForceSave();
+                Errors.ForceSave();
+                Batch.ForceSave();
+                Saved.ForceSave();
+
+                Ini.Write("UseIni", true);
+            }
+        }
     }
 
     class Config_Initialization {
@@ -164,25 +167,16 @@ namespace youtube_dl_gui {
         public string LanguageFile = string.Empty;
         public bool firstTime = true;
         public decimal SkippedVersion = -1;
-        public bool DownloadBetaVersions = false;
         public string SkippedBetaVersion = "0";
 
         private string LanguageFile_First = string.Empty;
         private bool firstTime_First = true;
         private decimal SkippedVersion_First = -1;
-        private bool DownloadBetaVersions_First = false;
         private string SkippedBetaVersion_First = "0";
 
         public void Load() {
             switch (Program.UseIni) {
                 case true:
-                    switch (Ini.KeyExists("LanguageFile", "Settings")) {
-                        case true:
-                            LanguageFile = Ini.ReadString("LanguageFile", "Settings");
-                            LanguageFile_First = LanguageFile;
-                            break;
-                    }
-
                     switch (Ini.KeyExists("firstTime")) {
                         case true:
                             firstTime = Ini.ReadBool("firstTime");
@@ -190,17 +184,17 @@ namespace youtube_dl_gui {
                             break;
                     }
 
+                    switch (Ini.KeyExists("LanguageFile", "Settings")) {
+                        case true:
+                            LanguageFile = Ini.ReadString("LanguageFile");
+                            LanguageFile_First = LanguageFile;
+                            break;
+                    }
+
                     switch (Ini.KeyExists("SkippedVersion")) {
                         case true:
                             SkippedVersion = Ini.ReadDecimal("SkippedVersion");
                             SkippedVersion_First = SkippedVersion;
-                            break;
-                    }
-
-                    switch (Ini.KeyExists("DownloadBetaVersions")) {
-                        case true:
-                            DownloadBetaVersions = Ini.ReadBool("DownloadBetaVersions");
-                            DownloadBetaVersions_First = DownloadBetaVersions;
                             break;
                     }
 
@@ -213,10 +207,9 @@ namespace youtube_dl_gui {
                     break;
 
                 case false:
-                    LanguageFile = Settings.Settings.Default.LanguageFile;
                     firstTime = Properties.Settings.Default.firstTime;
+                    LanguageFile = Properties.Settings.Default.LanguageFile;
                     SkippedVersion = Properties.Settings.Default.SkippedVersion;
-                    DownloadBetaVersions = Properties.Settings.Default.DownloadBetaVersions;
                     SkippedBetaVersion = Properties.Settings.Default.SkippedBetaVersion;
                     break;
             }
@@ -224,13 +217,6 @@ namespace youtube_dl_gui {
         public void Save() {
             switch (Program.UseIni) {
                 case true:
-                    switch (LanguageFile != LanguageFile_First) {
-                        case true:
-                            Ini.Write("LanguageFile", LanguageFile, "Settings");
-                            LanguageFile_First = LanguageFile;
-                            break;
-                    }
-
                     switch (firstTime != firstTime_First) {
                         case true:
                             Ini.Write("firstTime", firstTime);
@@ -238,17 +224,17 @@ namespace youtube_dl_gui {
                             break;
                     }
 
+                    switch (LanguageFile != LanguageFile_First) {
+                        case true:
+                            Ini.Write("LanguageFile", LanguageFile);
+                            LanguageFile_First = LanguageFile;
+                            break;
+                    }
+
                     switch (SkippedVersion != SkippedVersion_First) {
                         case true:
                             Ini.Write("SkippedVersion", SkippedVersion);
                             SkippedVersion_First = SkippedVersion;
-                            break;
-                    }
-
-                    switch (DownloadBetaVersions != DownloadBetaVersions_First) {
-                        case true:
-                            Ini.Write("DownloadBetaVersions", DownloadBetaVersions);
-                            DownloadBetaVersions_First = DownloadBetaVersions;
                             break;
                     }
 
@@ -263,23 +249,18 @@ namespace youtube_dl_gui {
                 case false:
                     bool Save = false;
 
-                    if (Settings.Settings.Default.LanguageFile != LanguageFile) {
-                        Settings.Settings.Default.LanguageFile = LanguageFile;
-                        Save = true;
-                    }
-
                     if (Properties.Settings.Default.firstTime != firstTime) {
                         Properties.Settings.Default.firstTime = firstTime;
                         Save = true;
                     }
 
-                    if (Properties.Settings.Default.SkippedVersion != SkippedVersion) {
-                        Properties.Settings.Default.SkippedVersion = SkippedVersion;
+                    if (Properties.Settings.Default.LanguageFile != LanguageFile) {
+                        Properties.Settings.Default.LanguageFile = LanguageFile;
                         Save = true;
                     }
 
-                    if (Properties.Settings.Default.DownloadBetaVersions != DownloadBetaVersions) {
-                        Properties.Settings.Default.DownloadBetaVersions = DownloadBetaVersions;
+                    if (Properties.Settings.Default.SkippedVersion != SkippedVersion) {
+                        Properties.Settings.Default.SkippedVersion = SkippedVersion;
                         Save = true;
                     }
 
@@ -290,7 +271,6 @@ namespace youtube_dl_gui {
 
                     switch (Save) {
                         case true:
-                            Settings.Settings.Default.Save();
                             Properties.Settings.Default.Save();
                             break;
                     }
@@ -301,20 +281,17 @@ namespace youtube_dl_gui {
         public void ForceSave() {
             switch (Program.UseIni) {
                 case true:
-                    Ini.Write("LanguageFile", LanguageFile, "Settings");
                     Ini.Write("firstTime", firstTime);
+                    Ini.Write("LanguageFile", LanguageFile);
                     Ini.Write("SkippedVersion", SkippedVersion);
-                    Ini.Write("DownloadBetaVersions", DownloadBetaVersions);
                     Ini.Write("SkippedBetaVersion", SkippedBetaVersion);
                     break;
 
                 case false:
-                    Settings.Settings.Default.LanguageFile = LanguageFile;
                     Properties.Settings.Default.firstTime = firstTime;
+                    Properties.Settings.Default.LanguageFile = LanguageFile;
                     Properties.Settings.Default.SkippedVersion = SkippedVersion;
-                    Properties.Settings.Default.DownloadBetaVersions = DownloadBetaVersions;
                     Properties.Settings.Default.SkippedBetaVersion = SkippedBetaVersion;
-                    Settings.Settings.Default.Save();
                     Properties.Settings.Default.Save();
                     break;
             }
@@ -409,46 +386,46 @@ namespace youtube_dl_gui {
                 case false:
                     bool Save = false;
 
-                    if (Settings.Batch.Default.SelectedType != SelectedType) {
-                        Settings.Batch.Default.SelectedType = SelectedType;
+                    if (Configurations.Batch.Default.SelectedType != SelectedType) {
+                        Configurations.Batch.Default.SelectedType = SelectedType;
                         Save = true;
                     }
-                    if (Settings.Batch.Default.SelectedVideoQuality != SelectedVideoQuality) {
-                        Settings.Batch.Default.SelectedVideoQuality = SelectedVideoQuality;
+                    if (Configurations.Batch.Default.SelectedVideoQuality != SelectedVideoQuality) {
+                        Configurations.Batch.Default.SelectedVideoQuality = SelectedVideoQuality;
                         Save = true;
                     }
-                    if (Settings.Batch.Default.SelectedVideoFormat != SelectedVideoFormat) {
-                        Settings.Batch.Default.SelectedVideoFormat = SelectedVideoFormat;
+                    if (Configurations.Batch.Default.SelectedVideoFormat != SelectedVideoFormat) {
+                        Configurations.Batch.Default.SelectedVideoFormat = SelectedVideoFormat;
                         Save = true;
                     }
-                    if (Settings.Batch.Default.SelectedAudioQuality != SelectedAudioQuality) {
-                        Settings.Batch.Default.SelectedAudioQuality = SelectedAudioQuality;
+                    if (Configurations.Batch.Default.SelectedAudioQuality != SelectedAudioQuality) {
+                        Configurations.Batch.Default.SelectedAudioQuality = SelectedAudioQuality;
                         Save = true;
                     }
-                    if (Settings.Batch.Default.SelectedAudioFormat != SelectedAudioFormat) {
-                        Settings.Batch.Default.SelectedAudioFormat = SelectedAudioFormat;
+                    if (Configurations.Batch.Default.SelectedAudioFormat != SelectedAudioFormat) {
+                        Configurations.Batch.Default.SelectedAudioFormat = SelectedAudioFormat;
                         Save = true;
                     }
-                    if (Settings.Batch.Default.DownloadVideoSound != DownloadVideoSound) {
-                        Settings.Batch.Default.DownloadVideoSound = DownloadVideoSound;
+                    if (Configurations.Batch.Default.DownloadVideoSound != DownloadVideoSound) {
+                        Configurations.Batch.Default.DownloadVideoSound = DownloadVideoSound;
                         Save = true;
                     }
-                    if (Settings.Batch.Default.DownloadAudioVBR != DownloadAudioVBR) {
-                        Settings.Batch.Default.DownloadAudioVBR = DownloadAudioVBR;
+                    if (Configurations.Batch.Default.DownloadAudioVBR != DownloadAudioVBR) {
+                        Configurations.Batch.Default.DownloadAudioVBR = DownloadAudioVBR;
                         Save = true;
                     }
-                    if (Settings.Batch.Default.SelectedAudioQualityVBR != SelectedAudioQualityVBR) {
-                        Settings.Batch.Default.SelectedAudioQualityVBR = SelectedAudioQualityVBR;
+                    if (Configurations.Batch.Default.SelectedAudioQualityVBR != SelectedAudioQualityVBR) {
+                        Configurations.Batch.Default.SelectedAudioQualityVBR = SelectedAudioQualityVBR;
                         Save = true;
                     }
-                    if (Settings.Batch.Default.CustomArguments != CustomArguments) {
-                        Settings.Batch.Default.CustomArguments = CustomArguments;
+                    if (Configurations.Batch.Default.CustomArguments != CustomArguments) {
+                        Configurations.Batch.Default.CustomArguments = CustomArguments;
                         Save = true;
                     }
 
                     switch (Save) {
                         case true:
-                            Settings.Batch.Default.Save();
+                            Configurations.Batch.Default.Save();
                             break;
                     }
                     break;
@@ -496,15 +473,15 @@ namespace youtube_dl_gui {
                     break;
 
                 case false:
-                    SelectedType = Settings.Batch.Default.SelectedType;
-                    SelectedVideoQuality = Settings.Batch.Default.SelectedVideoQuality;
-                    SelectedVideoFormat = Settings.Batch.Default.SelectedVideoFormat;
-                    SelectedAudioQuality = Settings.Batch.Default.SelectedAudioQuality;
-                    SelectedAudioFormat = Settings.Batch.Default.SelectedAudioFormat;
-                    DownloadVideoSound = Settings.Batch.Default.DownloadVideoSound;
-                    DownloadAudioVBR = Settings.Batch.Default.DownloadAudioVBR;
-                    SelectedAudioQualityVBR = Settings.Batch.Default.SelectedAudioQualityVBR;
-                    CustomArguments = Settings.Batch.Default.CustomArguments;
+                    SelectedType = Configurations.Batch.Default.SelectedType;
+                    SelectedVideoQuality = Configurations.Batch.Default.SelectedVideoQuality;
+                    SelectedVideoFormat = Configurations.Batch.Default.SelectedVideoFormat;
+                    SelectedAudioQuality = Configurations.Batch.Default.SelectedAudioQuality;
+                    SelectedAudioFormat = Configurations.Batch.Default.SelectedAudioFormat;
+                    DownloadVideoSound = Configurations.Batch.Default.DownloadVideoSound;
+                    DownloadAudioVBR = Configurations.Batch.Default.DownloadAudioVBR;
+                    SelectedAudioQualityVBR = Configurations.Batch.Default.SelectedAudioQualityVBR;
+                    CustomArguments = Configurations.Batch.Default.CustomArguments;
                     break;
             }
         }
@@ -543,16 +520,16 @@ namespace youtube_dl_gui {
                     break;
 
                 case false:
-                    Settings.Batch.Default.SelectedType = SelectedType;
-                    Settings.Batch.Default.SelectedVideoQuality = SelectedVideoQuality;
-                    Settings.Batch.Default.SelectedVideoFormat = SelectedVideoFormat;
-                    Settings.Batch.Default.SelectedAudioQuality = SelectedAudioQuality;
-                    Settings.Batch.Default.SelectedAudioFormat = SelectedAudioFormat;
-                    Settings.Batch.Default.DownloadVideoSound = DownloadVideoSound;
-                    Settings.Batch.Default.DownloadAudioVBR = DownloadAudioVBR;
-                    Settings.Batch.Default.SelectedAudioQualityVBR = SelectedAudioQualityVBR;
-                    Settings.Batch.Default.CustomArguments = CustomArguments;
-                    Settings.Batch.Default.Save();
+                    Configurations.Batch.Default.SelectedType = SelectedType;
+                    Configurations.Batch.Default.SelectedVideoQuality = SelectedVideoQuality;
+                    Configurations.Batch.Default.SelectedVideoFormat = SelectedVideoFormat;
+                    Configurations.Batch.Default.SelectedAudioQuality = SelectedAudioQuality;
+                    Configurations.Batch.Default.SelectedAudioFormat = SelectedAudioFormat;
+                    Configurations.Batch.Default.DownloadVideoSound = DownloadVideoSound;
+                    Configurations.Batch.Default.DownloadAudioVBR = DownloadAudioVBR;
+                    Configurations.Batch.Default.SelectedAudioQualityVBR = SelectedAudioQualityVBR;
+                    Configurations.Batch.Default.CustomArguments = CustomArguments;
+                    Configurations.Batch.Default.Save();
                     break;
             }
         }
@@ -692,70 +669,70 @@ namespace youtube_dl_gui {
                 case false:
                     bool Save = false;
 
-                    if (Settings.Converts.Default.detectFiletype != detectFiletype) {
-                        Settings.Converts.Default.detectFiletype = detectFiletype;
+                    if (Configurations.Converts.Default.detectFiletype != detectFiletype) {
+                        Configurations.Converts.Default.detectFiletype = detectFiletype;
                         Save = true;
                     }
-                    if (Settings.Converts.Default.clearOutput != clearOutput) {
-                        Settings.Converts.Default.clearOutput = clearOutput;
+                    if (Configurations.Converts.Default.clearOutput != clearOutput) {
+                        Configurations.Converts.Default.clearOutput = clearOutput;
                         Save = true;
                     }
-                    if (Settings.Converts.Default.clearInput != clearInput) {
-                        Settings.Converts.Default.clearInput = clearInput;
+                    if (Configurations.Converts.Default.clearInput != clearInput) {
+                        Configurations.Converts.Default.clearInput = clearInput;
                         Save = true;
                     }
-                    if (Settings.Converts.Default.videoBitrate != videoBitrate) {
-                        Settings.Converts.Default.videoBitrate = videoBitrate;
+                    if (Configurations.Converts.Default.videoBitrate != videoBitrate) {
+                        Configurations.Converts.Default.videoBitrate = videoBitrate;
                         Save = true;
                     }
-                    if (Settings.Converts.Default.videoPreset != videoPreset) {
-                        Settings.Converts.Default.videoPreset = videoPreset;
+                    if (Configurations.Converts.Default.videoPreset != videoPreset) {
+                        Configurations.Converts.Default.videoPreset = videoPreset;
                         Save = true;
                     }
-                    if (Settings.Converts.Default.videoProfile != videoProfile) {
-                        Settings.Converts.Default.videoProfile = videoProfile;
+                    if (Configurations.Converts.Default.videoProfile != videoProfile) {
+                        Configurations.Converts.Default.videoProfile = videoProfile;
                         Save = true;
                     }
-                    if (Settings.Converts.Default.videoCRF != videoCRF) {
-                        Settings.Converts.Default.videoCRF = videoCRF;
+                    if (Configurations.Converts.Default.videoCRF != videoCRF) {
+                        Configurations.Converts.Default.videoCRF = videoCRF;
                         Save = true;
                     }
-                    if (Settings.Converts.Default.videoFastStart != videoFastStart) {
-                        Settings.Converts.Default.videoFastStart = videoFastStart;
+                    if (Configurations.Converts.Default.videoFastStart != videoFastStart) {
+                        Configurations.Converts.Default.videoFastStart = videoFastStart;
                         Save = true;
                     }
-                    if (Settings.Converts.Default.hideFFmpegCompile != hideFFmpegCompile) {
-                        Settings.Converts.Default.hideFFmpegCompile = hideFFmpegCompile;
+                    if (Configurations.Converts.Default.hideFFmpegCompile != hideFFmpegCompile) {
+                        Configurations.Converts.Default.hideFFmpegCompile = hideFFmpegCompile;
                         Save = true;
                     }
-                    if (Settings.Converts.Default.audioBitrate != audioBitrate) {
-                        Settings.Converts.Default.audioBitrate = audioBitrate;
+                    if (Configurations.Converts.Default.audioBitrate != audioBitrate) {
+                        Configurations.Converts.Default.audioBitrate = audioBitrate;
                         Save = true;
                     }
-                    if (Settings.Converts.Default.videoUseBitrate != videoUseBitrate) {
-                        Settings.Converts.Default.videoUseBitrate = videoUseBitrate;
+                    if (Configurations.Converts.Default.videoUseBitrate != videoUseBitrate) {
+                        Configurations.Converts.Default.videoUseBitrate = videoUseBitrate;
                         Save = true;
                     }
-                    if (Settings.Converts.Default.videoUsePreset != videoUsePreset) {
-                        Settings.Converts.Default.videoUsePreset = videoUsePreset;
+                    if (Configurations.Converts.Default.videoUsePreset != videoUsePreset) {
+                        Configurations.Converts.Default.videoUsePreset = videoUsePreset;
                         Save = true;
                     }
-                    if (Settings.Converts.Default.videoUseProfile != videoUseProfile) {
-                        Settings.Converts.Default.videoUseProfile = videoUseProfile;
+                    if (Configurations.Converts.Default.videoUseProfile != videoUseProfile) {
+                        Configurations.Converts.Default.videoUseProfile = videoUseProfile;
                         Save = true;
                     }
-                    if (Settings.Converts.Default.videoUseCRF != videoUseCRF) {
-                        Settings.Converts.Default.videoUseCRF = videoUseCRF;
+                    if (Configurations.Converts.Default.videoUseCRF != videoUseCRF) {
+                        Configurations.Converts.Default.videoUseCRF = videoUseCRF;
                         Save = true;
                     }
-                    if (Settings.Converts.Default.audioUseBitrate != audioUseBitrate) {
-                        Settings.Converts.Default.audioUseBitrate = audioUseBitrate;
+                    if (Configurations.Converts.Default.audioUseBitrate != audioUseBitrate) {
+                        Configurations.Converts.Default.audioUseBitrate = audioUseBitrate;
                         Save = true;
                     }
 
                     switch (Save) {
                         case true:
-                            Settings.Converts.Default.Save();
+                            Configurations.Converts.Default.Save();
                             break;
                     }
                     break;
@@ -830,21 +807,21 @@ namespace youtube_dl_gui {
 
                 #region Internal
                 case false:
-                    detectFiletype = Settings.Converts.Default.detectFiletype;
-                    clearOutput = Settings.Converts.Default.clearOutput;
-                    clearInput = Settings.Converts.Default.clearInput;
-                    videoBitrate = Settings.Converts.Default.videoBitrate;
-                    videoPreset = Settings.Converts.Default.videoPreset;
-                    videoProfile = Settings.Converts.Default.videoProfile;
-                    videoCRF = Settings.Converts.Default.videoCRF;
-                    videoFastStart = Settings.Converts.Default.videoFastStart;
-                    hideFFmpegCompile = Settings.Converts.Default.hideFFmpegCompile;
-                    audioBitrate = Settings.Converts.Default.audioBitrate;
-                    videoUseBitrate = Settings.Converts.Default.videoUseBitrate;
-                    videoUsePreset = Settings.Converts.Default.videoUsePreset;
-                    videoUseProfile = Settings.Converts.Default.videoUseProfile;
-                    videoUseCRF = Settings.Converts.Default.videoUseCRF;
-                    audioUseBitrate = Settings.Converts.Default.audioUseBitrate;
+                    detectFiletype = Configurations.Converts.Default.detectFiletype;
+                    clearOutput = Configurations.Converts.Default.clearOutput;
+                    clearInput = Configurations.Converts.Default.clearInput;
+                    videoBitrate = Configurations.Converts.Default.videoBitrate;
+                    videoPreset = Configurations.Converts.Default.videoPreset;
+                    videoProfile = Configurations.Converts.Default.videoProfile;
+                    videoCRF = Configurations.Converts.Default.videoCRF;
+                    videoFastStart = Configurations.Converts.Default.videoFastStart;
+                    hideFFmpegCompile = Configurations.Converts.Default.hideFFmpegCompile;
+                    audioBitrate = Configurations.Converts.Default.audioBitrate;
+                    videoUseBitrate = Configurations.Converts.Default.videoUseBitrate;
+                    videoUsePreset = Configurations.Converts.Default.videoUsePreset;
+                    videoUseProfile = Configurations.Converts.Default.videoUseProfile;
+                    videoUseCRF = Configurations.Converts.Default.videoUseCRF;
+                    audioUseBitrate = Configurations.Converts.Default.audioUseBitrate;
                     break;
                 #endregion
             }
@@ -901,22 +878,22 @@ namespace youtube_dl_gui {
                     break;
 
                 case false:
-                    Settings.Converts.Default.detectFiletype = detectFiletype;
-                    Settings.Converts.Default.clearOutput = clearOutput;
-                    Settings.Converts.Default.clearInput = clearInput;
-                    Settings.Converts.Default.videoBitrate = videoBitrate;
-                    Settings.Converts.Default.videoPreset = videoPreset;
-                    Settings.Converts.Default.videoProfile = videoProfile;
-                    Settings.Converts.Default.videoCRF = videoCRF;
-                    Settings.Converts.Default.videoFastStart = videoFastStart;
-                    Settings.Converts.Default.hideFFmpegCompile = hideFFmpegCompile;
-                    Settings.Converts.Default.audioBitrate = audioBitrate;
-                    Settings.Converts.Default.videoUseBitrate = videoUseBitrate;
-                    Settings.Converts.Default.videoUsePreset = videoUsePreset;
-                    Settings.Converts.Default.videoUseProfile = videoUseProfile;
-                    Settings.Converts.Default.videoUseCRF = videoUseCRF;
-                    Settings.Converts.Default.audioUseBitrate = audioUseBitrate;
-                    Settings.Converts.Default.Save();
+                    Configurations.Converts.Default.detectFiletype = detectFiletype;
+                    Configurations.Converts.Default.clearOutput = clearOutput;
+                    Configurations.Converts.Default.clearInput = clearInput;
+                    Configurations.Converts.Default.videoBitrate = videoBitrate;
+                    Configurations.Converts.Default.videoPreset = videoPreset;
+                    Configurations.Converts.Default.videoProfile = videoProfile;
+                    Configurations.Converts.Default.videoCRF = videoCRF;
+                    Configurations.Converts.Default.videoFastStart = videoFastStart;
+                    Configurations.Converts.Default.hideFFmpegCompile = hideFFmpegCompile;
+                    Configurations.Converts.Default.audioBitrate = audioBitrate;
+                    Configurations.Converts.Default.videoUseBitrate = videoUseBitrate;
+                    Configurations.Converts.Default.videoUsePreset = videoUsePreset;
+                    Configurations.Converts.Default.videoUseProfile = videoUseProfile;
+                    Configurations.Converts.Default.videoUseCRF = videoUseCRF;
+                    Configurations.Converts.Default.audioUseBitrate = audioUseBitrate;
+                    Configurations.Converts.Default.Save();
                     break;
             }
         }
@@ -1235,43 +1212,43 @@ namespace youtube_dl_gui {
                     break;
 
                 case false:
-                    downloadPath = Settings.Downloads.Default.downloadPath;
-                    separateDownloads = Settings.Downloads.Default.separateDownloads;
-                    SaveFormatQuality = Settings.Downloads.Default.SaveFormatQuality;
-                    deleteYtdlOnClose = Settings.Downloads.Default.deleteYtdlOnClose;
-                    useYtdlUpdater = Settings.Downloads.Default.useYtdlUpdater;
-                    fileNameSchema = Settings.Downloads.Default.fileNameSchema;
-                    fixReddit = Settings.Downloads.Default.fixReddit;
-                    separateIntoWebsiteURL = Settings.Downloads.Default.separateIntoWebsiteURL;
-                    SaveSubtitles = Settings.Downloads.Default.SaveSubtitles;
-                    subtitlesLanguages = Settings.Downloads.Default.subtitlesLanguages;
-                    CloseDownloaderAfterFinish = Settings.Downloads.Default.CloseDownloaderAfterFinish;
-                    UseProxy = Settings.Downloads.Default.UseProxy;
-                    ProxyType = Settings.Downloads.Default.ProxyType;
-                    ProxyIP = Settings.Downloads.Default.ProxyIP;
-                    ProxyPort = Settings.Downloads.Default.ProxyPort;
-                    SaveThumbnail = Settings.Downloads.Default.SaveThumbnail;
-                    SaveDescription = Settings.Downloads.Default.SaveDescription;
-                    SaveVideoInfo = Settings.Downloads.Default.SaveVideoInfo;
-                    SaveAnnotations = Settings.Downloads.Default.SaveAnnotations;
-                    SubtitleFormat = Settings.Downloads.Default.SubtitleFormat;
-                    DownloadLimit = Settings.Downloads.Default.DownloadLimit;
-                    RetryAttempts = Settings.Downloads.Default.RetryAttempts;
-                    DownloadLimitType = Settings.Downloads.Default.DownloadLimitType;
-                    ForceIPv4 = Settings.Downloads.Default.ForceIPv4;
-                    ForceIPv6 = Settings.Downloads.Default.ForceIPv6;
-                    LimitDownloads = Settings.Downloads.Default.LimitDownloads;
-                    EmbedSubtitles = Settings.Downloads.Default.EmbedSubtitles;
-                    EmbedThumbnails = Settings.Downloads.Default.EmbedThumbnails;
-                    VideoDownloadSound = Settings.Downloads.Default.VideoDownloadSound;
-                    AudioDownloadAsVBR = Settings.Downloads.Default.AudioDownloadAsVBR;
-                    KeepOriginalFiles = Settings.Downloads.Default.KeepOriginalFiles;
-                    WriteMetadata = Settings.Downloads.Default.WriteMetadata;
-                    SkipBatchTip = Settings.Downloads.Default.SkipBatchTip;
-                    AutomaticallyDownloadFromProtocol = Settings.Downloads.Default.AutomaticallyDownloadFromProtocol;
-                    PreferFFmpeg = Settings.Downloads.Default.PreferFFmpeg;
-                    SeparateBatchDownloads = Settings.Downloads.Default.SeparateBatchDownloads;
-                    AddDateToBatchDownloadFolders = Settings.Downloads.Default.AddDateToBatchDownloadFolders;
+                    downloadPath = Configurations.Downloads.Default.downloadPath;
+                    separateDownloads = Configurations.Downloads.Default.separateDownloads;
+                    SaveFormatQuality = Configurations.Downloads.Default.SaveFormatQuality;
+                    deleteYtdlOnClose = Configurations.Downloads.Default.deleteYtdlOnClose;
+                    useYtdlUpdater = Configurations.Downloads.Default.useYtdlUpdater;
+                    fileNameSchema = Configurations.Downloads.Default.fileNameSchema;
+                    fixReddit = Configurations.Downloads.Default.fixReddit;
+                    separateIntoWebsiteURL = Configurations.Downloads.Default.separateIntoWebsiteURL;
+                    SaveSubtitles = Configurations.Downloads.Default.SaveSubtitles;
+                    subtitlesLanguages = Configurations.Downloads.Default.subtitlesLanguages;
+                    CloseDownloaderAfterFinish = Configurations.Downloads.Default.CloseDownloaderAfterFinish;
+                    UseProxy = Configurations.Downloads.Default.UseProxy;
+                    ProxyType = Configurations.Downloads.Default.ProxyType;
+                    ProxyIP = Configurations.Downloads.Default.ProxyIP;
+                    ProxyPort = Configurations.Downloads.Default.ProxyPort;
+                    SaveThumbnail = Configurations.Downloads.Default.SaveThumbnail;
+                    SaveDescription = Configurations.Downloads.Default.SaveDescription;
+                    SaveVideoInfo = Configurations.Downloads.Default.SaveVideoInfo;
+                    SaveAnnotations = Configurations.Downloads.Default.SaveAnnotations;
+                    SubtitleFormat = Configurations.Downloads.Default.SubtitleFormat;
+                    DownloadLimit = Configurations.Downloads.Default.DownloadLimit;
+                    RetryAttempts = Configurations.Downloads.Default.RetryAttempts;
+                    DownloadLimitType = Configurations.Downloads.Default.DownloadLimitType;
+                    ForceIPv4 = Configurations.Downloads.Default.ForceIPv4;
+                    ForceIPv6 = Configurations.Downloads.Default.ForceIPv6;
+                    LimitDownloads = Configurations.Downloads.Default.LimitDownloads;
+                    EmbedSubtitles = Configurations.Downloads.Default.EmbedSubtitles;
+                    EmbedThumbnails = Configurations.Downloads.Default.EmbedThumbnails;
+                    VideoDownloadSound = Configurations.Downloads.Default.VideoDownloadSound;
+                    AudioDownloadAsVBR = Configurations.Downloads.Default.AudioDownloadAsVBR;
+                    KeepOriginalFiles = Configurations.Downloads.Default.KeepOriginalFiles;
+                    WriteMetadata = Configurations.Downloads.Default.WriteMetadata;
+                    SkipBatchTip = Configurations.Downloads.Default.SkipBatchTip;
+                    AutomaticallyDownloadFromProtocol = Configurations.Downloads.Default.AutomaticallyDownloadFromProtocol;
+                    PreferFFmpeg = Configurations.Downloads.Default.PreferFFmpeg;
+                    SeparateBatchDownloads = Configurations.Downloads.Default.SeparateBatchDownloads;
+                    AddDateToBatchDownloadFolders = Configurations.Downloads.Default.AddDateToBatchDownloadFolders;
 
                     break;
             }
@@ -1507,158 +1484,158 @@ namespace youtube_dl_gui {
                 case false:
                     bool Save = false;
 
-                    if (Settings.Downloads.Default.downloadPath != downloadPath) {
-                        Settings.Downloads.Default.downloadPath = downloadPath;
+                    if (Configurations.Downloads.Default.downloadPath != downloadPath) {
+                        Configurations.Downloads.Default.downloadPath = downloadPath;
                         Save = true;
                     }
-                    if (Settings.Downloads.Default.separateDownloads != separateDownloads) {
-                        Settings.Downloads.Default.separateDownloads = separateDownloads;
+                    if (Configurations.Downloads.Default.separateDownloads != separateDownloads) {
+                        Configurations.Downloads.Default.separateDownloads = separateDownloads;
                         Save = true;
                     }
-                    if (Settings.Downloads.Default.SaveFormatQuality != SaveFormatQuality) {
-                        Settings.Downloads.Default.SaveFormatQuality = SaveFormatQuality;
+                    if (Configurations.Downloads.Default.SaveFormatQuality != SaveFormatQuality) {
+                        Configurations.Downloads.Default.SaveFormatQuality = SaveFormatQuality;
                         Save = true;
                     }
-                    if (Settings.Downloads.Default.deleteYtdlOnClose != deleteYtdlOnClose) {
-                        Settings.Downloads.Default.deleteYtdlOnClose = deleteYtdlOnClose;
+                    if (Configurations.Downloads.Default.deleteYtdlOnClose != deleteYtdlOnClose) {
+                        Configurations.Downloads.Default.deleteYtdlOnClose = deleteYtdlOnClose;
                         Save = true;
                     }
-                    if (Settings.Downloads.Default.useYtdlUpdater != useYtdlUpdater) {
-                        Settings.Downloads.Default.useYtdlUpdater = useYtdlUpdater;
+                    if (Configurations.Downloads.Default.useYtdlUpdater != useYtdlUpdater) {
+                        Configurations.Downloads.Default.useYtdlUpdater = useYtdlUpdater;
                         Save = true;
                     }
-                    if (Settings.Downloads.Default.fileNameSchema != fileNameSchema) {
-                        Settings.Downloads.Default.fileNameSchema = fileNameSchema;
+                    if (Configurations.Downloads.Default.fileNameSchema != fileNameSchema) {
+                        Configurations.Downloads.Default.fileNameSchema = fileNameSchema;
                         Save = true;
                     }
-                    if (Settings.Downloads.Default.fixReddit != fixReddit) {
-                        Settings.Downloads.Default.fixReddit = fixReddit;
+                    if (Configurations.Downloads.Default.fixReddit != fixReddit) {
+                        Configurations.Downloads.Default.fixReddit = fixReddit;
                         Save = true;
                     }
-                    if (Settings.Downloads.Default.separateIntoWebsiteURL != separateIntoWebsiteURL) {
-                        Settings.Downloads.Default.separateIntoWebsiteURL = separateIntoWebsiteURL;
+                    if (Configurations.Downloads.Default.separateIntoWebsiteURL != separateIntoWebsiteURL) {
+                        Configurations.Downloads.Default.separateIntoWebsiteURL = separateIntoWebsiteURL;
                         Save = true;
                     }
-                    if (Settings.Downloads.Default.SaveSubtitles != SaveSubtitles) {
-                        Settings.Downloads.Default.SaveSubtitles = SaveSubtitles;
+                    if (Configurations.Downloads.Default.SaveSubtitles != SaveSubtitles) {
+                        Configurations.Downloads.Default.SaveSubtitles = SaveSubtitles;
                         Save = true;
                     }
-                    if (Settings.Downloads.Default.subtitlesLanguages != subtitlesLanguages) {
-                        Settings.Downloads.Default.subtitlesLanguages = subtitlesLanguages;
+                    if (Configurations.Downloads.Default.subtitlesLanguages != subtitlesLanguages) {
+                        Configurations.Downloads.Default.subtitlesLanguages = subtitlesLanguages;
                         Save = true;
                     }
-                    if (Settings.Downloads.Default.CloseDownloaderAfterFinish != CloseDownloaderAfterFinish) {
-                        Settings.Downloads.Default.CloseDownloaderAfterFinish = CloseDownloaderAfterFinish;
+                    if (Configurations.Downloads.Default.CloseDownloaderAfterFinish != CloseDownloaderAfterFinish) {
+                        Configurations.Downloads.Default.CloseDownloaderAfterFinish = CloseDownloaderAfterFinish;
                         Save = true;
                     }
-                    if (Settings.Downloads.Default.UseProxy != UseProxy) {
-                        Settings.Downloads.Default.UseProxy = UseProxy;
+                    if (Configurations.Downloads.Default.UseProxy != UseProxy) {
+                        Configurations.Downloads.Default.UseProxy = UseProxy;
                         Save = true;
                     }
-                    if (Settings.Downloads.Default.ProxyType != ProxyType) {
-                        Settings.Downloads.Default.ProxyType = ProxyType;
+                    if (Configurations.Downloads.Default.ProxyType != ProxyType) {
+                        Configurations.Downloads.Default.ProxyType = ProxyType;
                         Save = true;
                     }
-                    if (Settings.Downloads.Default.ProxyIP != ProxyIP) {
-                        Settings.Downloads.Default.ProxyIP = ProxyIP;
+                    if (Configurations.Downloads.Default.ProxyIP != ProxyIP) {
+                        Configurations.Downloads.Default.ProxyIP = ProxyIP;
                         Save = true;
                     }
-                    if (Settings.Downloads.Default.ProxyPort != ProxyPort) {
-                        Settings.Downloads.Default.ProxyPort = ProxyPort;
+                    if (Configurations.Downloads.Default.ProxyPort != ProxyPort) {
+                        Configurations.Downloads.Default.ProxyPort = ProxyPort;
                         Save = true;
                     }
-                    if (Settings.Downloads.Default.SaveThumbnail != SaveThumbnail) {
-                        Settings.Downloads.Default.SaveThumbnail = SaveThumbnail;
+                    if (Configurations.Downloads.Default.SaveThumbnail != SaveThumbnail) {
+                        Configurations.Downloads.Default.SaveThumbnail = SaveThumbnail;
                         Save = true;
                     }
-                    if (Settings.Downloads.Default.SaveDescription != SaveDescription) {
-                        Settings.Downloads.Default.SaveDescription = SaveDescription;
+                    if (Configurations.Downloads.Default.SaveDescription != SaveDescription) {
+                        Configurations.Downloads.Default.SaveDescription = SaveDescription;
                         Save = true;
                     }
-                    if (Settings.Downloads.Default.SaveVideoInfo != SaveVideoInfo) {
-                        Settings.Downloads.Default.SaveVideoInfo = SaveVideoInfo;
+                    if (Configurations.Downloads.Default.SaveVideoInfo != SaveVideoInfo) {
+                        Configurations.Downloads.Default.SaveVideoInfo = SaveVideoInfo;
                         Save = true;
                     }
-                    if (Settings.Downloads.Default.SaveAnnotations != SaveAnnotations) {
-                        Settings.Downloads.Default.SaveAnnotations = SaveAnnotations;
+                    if (Configurations.Downloads.Default.SaveAnnotations != SaveAnnotations) {
+                        Configurations.Downloads.Default.SaveAnnotations = SaveAnnotations;
                         Save = true;
                     }
-                    if (Settings.Downloads.Default.SubtitleFormat != SubtitleFormat) {
-                        Settings.Downloads.Default.SubtitleFormat = SubtitleFormat;
+                    if (Configurations.Downloads.Default.SubtitleFormat != SubtitleFormat) {
+                        Configurations.Downloads.Default.SubtitleFormat = SubtitleFormat;
                         Save = true;
                     }
-                    if (Settings.Downloads.Default.DownloadLimit != DownloadLimit) {
-                        Settings.Downloads.Default.DownloadLimit = DownloadLimit;
+                    if (Configurations.Downloads.Default.DownloadLimit != DownloadLimit) {
+                        Configurations.Downloads.Default.DownloadLimit = DownloadLimit;
                         Save = true;
                     }
-                    if (Settings.Downloads.Default.RetryAttempts != RetryAttempts) {
-                        Settings.Downloads.Default.RetryAttempts = RetryAttempts;
+                    if (Configurations.Downloads.Default.RetryAttempts != RetryAttempts) {
+                        Configurations.Downloads.Default.RetryAttempts = RetryAttempts;
                         Save = true;
                     }
-                    if (Settings.Downloads.Default.DownloadLimitType != DownloadLimitType) {
-                        Settings.Downloads.Default.DownloadLimitType = DownloadLimitType;
+                    if (Configurations.Downloads.Default.DownloadLimitType != DownloadLimitType) {
+                        Configurations.Downloads.Default.DownloadLimitType = DownloadLimitType;
                         Save = true;
                     }
-                    if (Settings.Downloads.Default.ForceIPv4 != ForceIPv4) {
-                        Settings.Downloads.Default.ForceIPv4 = ForceIPv4;
+                    if (Configurations.Downloads.Default.ForceIPv4 != ForceIPv4) {
+                        Configurations.Downloads.Default.ForceIPv4 = ForceIPv4;
                         Save = true;
                     }
-                    if (Settings.Downloads.Default.ForceIPv6 != ForceIPv6) {
-                        Settings.Downloads.Default.ForceIPv6 = ForceIPv6;
+                    if (Configurations.Downloads.Default.ForceIPv6 != ForceIPv6) {
+                        Configurations.Downloads.Default.ForceIPv6 = ForceIPv6;
                         Save = true;
                     }
-                    if (Settings.Downloads.Default.LimitDownloads != LimitDownloads) {
-                        Settings.Downloads.Default.LimitDownloads = LimitDownloads;
+                    if (Configurations.Downloads.Default.LimitDownloads != LimitDownloads) {
+                        Configurations.Downloads.Default.LimitDownloads = LimitDownloads;
                         Save = true;
                     }
-                    if (Settings.Downloads.Default.EmbedSubtitles != EmbedSubtitles) {
-                        Settings.Downloads.Default.EmbedSubtitles = EmbedSubtitles;
+                    if (Configurations.Downloads.Default.EmbedSubtitles != EmbedSubtitles) {
+                        Configurations.Downloads.Default.EmbedSubtitles = EmbedSubtitles;
                         Save = true;
                     }
-                    if (Settings.Downloads.Default.EmbedThumbnails != EmbedThumbnails) {
-                        Settings.Downloads.Default.EmbedThumbnails = EmbedThumbnails;
+                    if (Configurations.Downloads.Default.EmbedThumbnails != EmbedThumbnails) {
+                        Configurations.Downloads.Default.EmbedThumbnails = EmbedThumbnails;
                         Save = true;
                     }
-                    if (Settings.Downloads.Default.VideoDownloadSound != VideoDownloadSound) {
-                        Settings.Downloads.Default.VideoDownloadSound = VideoDownloadSound;
+                    if (Configurations.Downloads.Default.VideoDownloadSound != VideoDownloadSound) {
+                        Configurations.Downloads.Default.VideoDownloadSound = VideoDownloadSound;
                         Save = true;
                     }
-                    if (Settings.Downloads.Default.AudioDownloadAsVBR != AudioDownloadAsVBR) {
-                        Settings.Downloads.Default.AudioDownloadAsVBR = AudioDownloadAsVBR;
+                    if (Configurations.Downloads.Default.AudioDownloadAsVBR != AudioDownloadAsVBR) {
+                        Configurations.Downloads.Default.AudioDownloadAsVBR = AudioDownloadAsVBR;
                         Save = true;
                     }
-                    if (Settings.Downloads.Default.KeepOriginalFiles != KeepOriginalFiles) {
-                        Settings.Downloads.Default.KeepOriginalFiles = KeepOriginalFiles;
+                    if (Configurations.Downloads.Default.KeepOriginalFiles != KeepOriginalFiles) {
+                        Configurations.Downloads.Default.KeepOriginalFiles = KeepOriginalFiles;
                         Save = true;
                     }
-                    if (Settings.Downloads.Default.WriteMetadata != WriteMetadata) {
-                        Settings.Downloads.Default.WriteMetadata = WriteMetadata;
+                    if (Configurations.Downloads.Default.WriteMetadata != WriteMetadata) {
+                        Configurations.Downloads.Default.WriteMetadata = WriteMetadata;
                         Save = true;
                     }
-                    if (Settings.Downloads.Default.SkipBatchTip != SkipBatchTip) {
-                        Settings.Downloads.Default.SkipBatchTip = SkipBatchTip;
+                    if (Configurations.Downloads.Default.SkipBatchTip != SkipBatchTip) {
+                        Configurations.Downloads.Default.SkipBatchTip = SkipBatchTip;
                         Save = true;
                     }
-                    if (Settings.Downloads.Default.AutomaticallyDownloadFromProtocol != AutomaticallyDownloadFromProtocol) {
-                        Settings.Downloads.Default.AutomaticallyDownloadFromProtocol = AutomaticallyDownloadFromProtocol;
+                    if (Configurations.Downloads.Default.AutomaticallyDownloadFromProtocol != AutomaticallyDownloadFromProtocol) {
+                        Configurations.Downloads.Default.AutomaticallyDownloadFromProtocol = AutomaticallyDownloadFromProtocol;
                         Save = true;
                     }
-                    if (Settings.Downloads.Default.PreferFFmpeg != PreferFFmpeg) {
-                        Settings.Downloads.Default.PreferFFmpeg = PreferFFmpeg;
+                    if (Configurations.Downloads.Default.PreferFFmpeg != PreferFFmpeg) {
+                        Configurations.Downloads.Default.PreferFFmpeg = PreferFFmpeg;
                         Save = true;
                     }
-                    if (Settings.Downloads.Default.SeparateBatchDownloads != SeparateBatchDownloads) {
-                        Settings.Downloads.Default.SeparateBatchDownloads = SeparateBatchDownloads;
+                    if (Configurations.Downloads.Default.SeparateBatchDownloads != SeparateBatchDownloads) {
+                        Configurations.Downloads.Default.SeparateBatchDownloads = SeparateBatchDownloads;
                         Save = true;
                     }
-                    if (Settings.Downloads.Default.AddDateToBatchDownloadFolders != AddDateToBatchDownloadFolders) {
-                        Settings.Downloads.Default.AddDateToBatchDownloadFolders = AddDateToBatchDownloadFolders;
+                    if (Configurations.Downloads.Default.AddDateToBatchDownloadFolders != AddDateToBatchDownloadFolders) {
+                        Configurations.Downloads.Default.AddDateToBatchDownloadFolders = AddDateToBatchDownloadFolders;
                         Save = true;
                     }
 
                     switch (Save) {
                         case true:
-                            Settings.Downloads.Default.Save();
+                            Configurations.Downloads.Default.Save();
                             break;
                     }
                     break;
@@ -1781,45 +1758,45 @@ namespace youtube_dl_gui {
                     break;
 
                 case false:
-                    Settings.Downloads.Default.downloadPath = downloadPath;
-                    Settings.Downloads.Default.separateDownloads = separateDownloads;
-                    Settings.Downloads.Default.SaveFormatQuality = SaveFormatQuality;
-                    Settings.Downloads.Default.deleteYtdlOnClose = deleteYtdlOnClose;
-                    Settings.Downloads.Default.useYtdlUpdater = useYtdlUpdater;
-                    Settings.Downloads.Default.fileNameSchema = fileNameSchema;
-                    Settings.Downloads.Default.fixReddit = fixReddit;
-                    Settings.Downloads.Default.separateIntoWebsiteURL = separateIntoWebsiteURL;
-                    Settings.Downloads.Default.SaveSubtitles = SaveSubtitles;
-                    Settings.Downloads.Default.subtitlesLanguages = subtitlesLanguages;
-                    Settings.Downloads.Default.CloseDownloaderAfterFinish = CloseDownloaderAfterFinish;
-                    Settings.Downloads.Default.UseProxy = UseProxy;
-                    Settings.Downloads.Default.ProxyType = ProxyType;
-                    Settings.Downloads.Default.ProxyIP = ProxyIP;
-                    Settings.Downloads.Default.ProxyPort = ProxyPort;
-                    Settings.Downloads.Default.SaveThumbnail = SaveThumbnail;
-                    Settings.Downloads.Default.SaveDescription = SaveDescription;
-                    Settings.Downloads.Default.SaveVideoInfo = SaveVideoInfo;
-                    Settings.Downloads.Default.SaveAnnotations = SaveAnnotations;
-                    Settings.Downloads.Default.SubtitleFormat = SubtitleFormat;
-                    Settings.Downloads.Default.DownloadLimit = DownloadLimit;
-                    Settings.Downloads.Default.RetryAttempts = RetryAttempts;
-                    Settings.Downloads.Default.DownloadLimitType = DownloadLimitType;
-                    Settings.Downloads.Default.ForceIPv4 = ForceIPv4;
-                    Settings.Downloads.Default.ForceIPv6 = ForceIPv6;
-                    Settings.Downloads.Default.LimitDownloads = LimitDownloads;
-                    Settings.Downloads.Default.EmbedSubtitles = EmbedSubtitles;
-                    Settings.Downloads.Default.EmbedThumbnails = EmbedThumbnails;
-                    Settings.Downloads.Default.VideoDownloadSound = VideoDownloadSound;
-                    Settings.Downloads.Default.AudioDownloadAsVBR = AudioDownloadAsVBR;
-                    Settings.Downloads.Default.KeepOriginalFiles = KeepOriginalFiles;
-                    Settings.Downloads.Default.WriteMetadata = WriteMetadata;
-                    Settings.Downloads.Default.SkipBatchTip = SkipBatchTip;
-                    Settings.Downloads.Default.AutomaticallyDownloadFromProtocol = AutomaticallyDownloadFromProtocol;
-                    Settings.Downloads.Default.PreferFFmpeg = PreferFFmpeg;
-                    Settings.Downloads.Default.SeparateBatchDownloads = SeparateBatchDownloads;
-                    Settings.Downloads.Default.AddDateToBatchDownloadFolders = AddDateToBatchDownloadFolders;
+                    Configurations.Downloads.Default.downloadPath = downloadPath;
+                    Configurations.Downloads.Default.separateDownloads = separateDownloads;
+                    Configurations.Downloads.Default.SaveFormatQuality = SaveFormatQuality;
+                    Configurations.Downloads.Default.deleteYtdlOnClose = deleteYtdlOnClose;
+                    Configurations.Downloads.Default.useYtdlUpdater = useYtdlUpdater;
+                    Configurations.Downloads.Default.fileNameSchema = fileNameSchema;
+                    Configurations.Downloads.Default.fixReddit = fixReddit;
+                    Configurations.Downloads.Default.separateIntoWebsiteURL = separateIntoWebsiteURL;
+                    Configurations.Downloads.Default.SaveSubtitles = SaveSubtitles;
+                    Configurations.Downloads.Default.subtitlesLanguages = subtitlesLanguages;
+                    Configurations.Downloads.Default.CloseDownloaderAfterFinish = CloseDownloaderAfterFinish;
+                    Configurations.Downloads.Default.UseProxy = UseProxy;
+                    Configurations.Downloads.Default.ProxyType = ProxyType;
+                    Configurations.Downloads.Default.ProxyIP = ProxyIP;
+                    Configurations.Downloads.Default.ProxyPort = ProxyPort;
+                    Configurations.Downloads.Default.SaveThumbnail = SaveThumbnail;
+                    Configurations.Downloads.Default.SaveDescription = SaveDescription;
+                    Configurations.Downloads.Default.SaveVideoInfo = SaveVideoInfo;
+                    Configurations.Downloads.Default.SaveAnnotations = SaveAnnotations;
+                    Configurations.Downloads.Default.SubtitleFormat = SubtitleFormat;
+                    Configurations.Downloads.Default.DownloadLimit = DownloadLimit;
+                    Configurations.Downloads.Default.RetryAttempts = RetryAttempts;
+                    Configurations.Downloads.Default.DownloadLimitType = DownloadLimitType;
+                    Configurations.Downloads.Default.ForceIPv4 = ForceIPv4;
+                    Configurations.Downloads.Default.ForceIPv6 = ForceIPv6;
+                    Configurations.Downloads.Default.LimitDownloads = LimitDownloads;
+                    Configurations.Downloads.Default.EmbedSubtitles = EmbedSubtitles;
+                    Configurations.Downloads.Default.EmbedThumbnails = EmbedThumbnails;
+                    Configurations.Downloads.Default.VideoDownloadSound = VideoDownloadSound;
+                    Configurations.Downloads.Default.AudioDownloadAsVBR = AudioDownloadAsVBR;
+                    Configurations.Downloads.Default.KeepOriginalFiles = KeepOriginalFiles;
+                    Configurations.Downloads.Default.WriteMetadata = WriteMetadata;
+                    Configurations.Downloads.Default.SkipBatchTip = SkipBatchTip;
+                    Configurations.Downloads.Default.AutomaticallyDownloadFromProtocol = AutomaticallyDownloadFromProtocol;
+                    Configurations.Downloads.Default.PreferFFmpeg = PreferFFmpeg;
+                    Configurations.Downloads.Default.SeparateBatchDownloads = SeparateBatchDownloads;
+                    Configurations.Downloads.Default.AddDateToBatchDownloadFolders = AddDateToBatchDownloadFolders;
 
-                    Settings.Downloads.Default.Save();
+                    Configurations.Downloads.Default.Save();
                     break;
             }
         }
@@ -1864,9 +1841,9 @@ namespace youtube_dl_gui {
                     break;
 
                 case false:
-                    detailedErrors = Settings.Errors.Default.detailedErrors;
-                    logErrors = Settings.Errors.Default.logErrors;
-                    suppressErrors = Settings.Errors.Default.suppressErrors;
+                    detailedErrors = Configurations.Errors.Default.detailedErrors;
+                    logErrors = Configurations.Errors.Default.logErrors;
+                    suppressErrors = Configurations.Errors.Default.suppressErrors;
                     break;
             }
         }
@@ -1899,24 +1876,24 @@ namespace youtube_dl_gui {
                 case false:
                     bool Save = false;
 
-                    if (Settings.Errors.Default.suppressErrors != suppressErrors) {
-                        Settings.Errors.Default.suppressErrors = suppressErrors;
+                    if (Configurations.Errors.Default.suppressErrors != suppressErrors) {
+                        Configurations.Errors.Default.suppressErrors = suppressErrors;
                         Save = true;
                     }
 
-                    if (Settings.Errors.Default.logErrors != logErrors) {
-                        Settings.Errors.Default.logErrors = logErrors;
+                    if (Configurations.Errors.Default.logErrors != logErrors) {
+                        Configurations.Errors.Default.logErrors = logErrors;
                         Save = true;
                     }
 
-                    if (Settings.Errors.Default.suppressErrors != suppressErrors) {
-                        Settings.Errors.Default.suppressErrors = suppressErrors;
+                    if (Configurations.Errors.Default.suppressErrors != suppressErrors) {
+                        Configurations.Errors.Default.suppressErrors = suppressErrors;
                         Save = true;
                     }
 
                     switch (Save) {
                         case true:
-                            Settings.Errors.Default.Save();
+                            Configurations.Errors.Default.Save();
                             break;
                     }
                     break;
@@ -1937,11 +1914,11 @@ namespace youtube_dl_gui {
                     break;
 
                 case false:
-                    Settings.Errors.Default.suppressErrors = suppressErrors;
-                    Settings.Errors.Default.logErrors = logErrors;
-                    Settings.Errors.Default.suppressErrors = suppressErrors;
+                    Configurations.Errors.Default.suppressErrors = suppressErrors;
+                    Configurations.Errors.Default.logErrors = logErrors;
+                    Configurations.Errors.Default.suppressErrors = suppressErrors;
 
-                    Settings.Errors.Default.Save();
+                    Configurations.Errors.Default.Save();
                     break;
             }
         }
@@ -1958,20 +1935,27 @@ namespace youtube_dl_gui {
         public bool UseStaticFFmpeg = false;
         public string ffmpegPath = string.Empty;
         public bool CheckForUpdatesOnLaunch = false;
+        public bool DownloadBetaVersions = false;
         public bool HoverOverURLTextBoxToPaste = true;
         public bool ClearURLOnDownload = false;
         public int SaveCustomArgs = 2;
         public bool ClearClipboardOnDownload = false;
+        public string extensionsName = string.Empty;
+        public string extensionsShort = string.Empty;
+
 
         private bool UseStaticYtdl_First = false;
         private string ytdlPath_First = string.Empty;
         private bool UseStaticFFmpeg_First = false;
         private string ffmpegPath_First = string.Empty;
         private bool CheckForUpdatesOnLaunch_First = false;
+        private bool DownloadBetaVersions_First = false;
         private bool HoverOverURLTextBoxToPaste_First = true;
         private bool ClearURLOnDownload_First = false;
         private int SaveCustomArgs_First = 2;
         private bool ClearClipboardOnDownload_First = false;
+        private string extensionsName_First = string.Empty;
+        private string extensionsShort_First = string.Empty;
 
         public void Load() {
             switch (Program.UseIni) {
@@ -2006,6 +1990,12 @@ namespace youtube_dl_gui {
                             CheckForUpdatesOnLaunch_First = CheckForUpdatesOnLaunch;
                             break;
                     }
+                    switch (Ini.KeyExists("DownloadBetaVersions", "General")) {
+                        case true:
+                            DownloadBetaVersions = Ini.ReadBool("DownloadBetaVersions", "General");
+                            DownloadBetaVersions_First = DownloadBetaVersions;
+                            break;
+                    }
                     switch (Ini.KeyExists("HoverOverURLTextBoxToPaste", "General")) {
                         case true:
                             HoverOverURLTextBoxToPaste = Ini.ReadBool("HoverOverURLTextBoxToPaste", "General");
@@ -2030,18 +2020,34 @@ namespace youtube_dl_gui {
                             ClearClipboardOnDownload_First = ClearClipboardOnDownload;
                             break;
                     }
+                    switch (Ini.KeyExists("extensionsName", "General")) {
+                        case true:
+                            extensionsName = Ini.ReadString("extensionsName", "General");
+                            extensionsName_First = extensionsName;
+                            break;
+                    }
+
+                    switch (Ini.KeyExists("extensionsShort", "General")) {
+                        case true:
+                            extensionsShort = Ini.ReadString("extensionsShort", "General");
+                            extensionsShort_First = extensionsShort;
+                            break;
+                    }
                     break;
 
                 case false:
-                    UseStaticYtdl = Settings.General.Default.UseStaticYtdl;
-                    ytdlPath = Settings.General.Default.ytdlPath;
-                    UseStaticFFmpeg = Settings.General.Default.UseStaticFFmpeg;
-                    ffmpegPath = Settings.General.Default.ffmpegPath;
-                    CheckForUpdatesOnLaunch = Settings.General.Default.CheckForUpdatesOnLaunch;
-                    HoverOverURLTextBoxToPaste = Settings.General.Default.HoverOverURLTextBoxToPaste;
-                    ClearURLOnDownload = Settings.General.Default.ClearURLOnDownload;
-                    SaveCustomArgs = Settings.General.Default.SaveCustomArgs;
-                    ClearClipboardOnDownload = Settings.General.Default.ClearClipboardOnDownload;
+                    UseStaticYtdl = Configurations.General.Default.UseStaticYtdl;
+                    ytdlPath = Configurations.General.Default.ytdlPath;
+                    UseStaticFFmpeg = Configurations.General.Default.UseStaticFFmpeg;
+                    ffmpegPath = Configurations.General.Default.ffmpegPath;
+                    CheckForUpdatesOnLaunch = Configurations.General.Default.CheckForUpdatesOnLaunch;
+                    DownloadBetaVersions = Configurations.General.Default.DownloadBetaVersions;
+                    HoverOverURLTextBoxToPaste = Configurations.General.Default.HoverOverURLTextBoxToPaste;
+                    ClearURLOnDownload = Configurations.General.Default.ClearURLOnDownload;
+                    SaveCustomArgs = Configurations.General.Default.SaveCustomArgs;
+                    ClearClipboardOnDownload = Configurations.General.Default.ClearClipboardOnDownload;
+                    extensionsName = Configurations.General.Default.extensionsName;
+                    extensionsShort = Configurations.General.Default.extensionsShort;
                     break;
             }
         }
@@ -2078,6 +2084,12 @@ namespace youtube_dl_gui {
                             CheckForUpdatesOnLaunch_First = CheckForUpdatesOnLaunch;
                             break;
                     }
+                    switch (DownloadBetaVersions != DownloadBetaVersions_First) {
+                        case true:
+                            Ini.Write("DownloadBetaVersions", DownloadBetaVersions, "General");
+                            DownloadBetaVersions_First = DownloadBetaVersions;
+                            break;
+                    }
                     switch (HoverOverURLTextBoxToPaste != HoverOverURLTextBoxToPaste_First) {
                         case true:
                             Ini.Write("HoverOverURLTextBoxToPaste", HoverOverURLTextBoxToPaste, "General");
@@ -2102,59 +2114,87 @@ namespace youtube_dl_gui {
                             ClearClipboardOnDownload_First = ClearClipboardOnDownload;
                             break;
                     }
+                    switch (extensionsName != extensionsName_First) {
+                        case true:
+                            Ini.Write("extensionsName", extensionsName, "General");
+                            extensionsName_First = extensionsName;
+                            break;
+                    }
+                    switch (extensionsShort != extensionsShort_First) {
+                        case true:
+                            Ini.Write("extensionsShort", extensionsShort, "General");
+                            extensionsShort_First = extensionsShort;
+                            break;
+                    }
 
                     break;
 
                 case false:
                     bool Save = false;
 
-                    if (Settings.General.Default.UseStaticYtdl != UseStaticYtdl) {
-                        Settings.General.Default.UseStaticYtdl = UseStaticYtdl;
+                    if (Configurations.General.Default.UseStaticYtdl != UseStaticYtdl) {
+                        Configurations.General.Default.UseStaticYtdl = UseStaticYtdl;
                         Save = true;
                     }
 
-                    if (Settings.General.Default.ytdlPath != ytdlPath) {
-                        Settings.General.Default.ytdlPath = ytdlPath;
+                    if (Configurations.General.Default.ytdlPath != ytdlPath) {
+                        Configurations.General.Default.ytdlPath = ytdlPath;
                         Save = true;
                     }
 
-                    if (Settings.General.Default.UseStaticFFmpeg != UseStaticFFmpeg) {
-                        Settings.General.Default.UseStaticFFmpeg = UseStaticFFmpeg;
+                    if (Configurations.General.Default.UseStaticFFmpeg != UseStaticFFmpeg) {
+                        Configurations.General.Default.UseStaticFFmpeg = UseStaticFFmpeg;
                         Save = true;
                     }
 
-                    if (Settings.General.Default.ffmpegPath != ffmpegPath) {
-                        Settings.General.Default.ffmpegPath = ffmpegPath;
+                    if (Configurations.General.Default.ffmpegPath != ffmpegPath) {
+                        Configurations.General.Default.ffmpegPath = ffmpegPath;
                         Save = true;
                     }
 
-                    if (Settings.General.Default.CheckForUpdatesOnLaunch != CheckForUpdatesOnLaunch) {
-                        Settings.General.Default.CheckForUpdatesOnLaunch = CheckForUpdatesOnLaunch;
+                    if (Configurations.General.Default.CheckForUpdatesOnLaunch != CheckForUpdatesOnLaunch) {
+                        Configurations.General.Default.CheckForUpdatesOnLaunch = CheckForUpdatesOnLaunch;
                         Save = true;
                     }
 
-                    if (Settings.General.Default.HoverOverURLTextBoxToPaste != HoverOverURLTextBoxToPaste) {
-                        Settings.General.Default.HoverOverURLTextBoxToPaste = HoverOverURLTextBoxToPaste;
+                    if (Configurations.General.Default.DownloadBetaVersions != DownloadBetaVersions) {
+                        Configurations.General.Default.DownloadBetaVersions = DownloadBetaVersions;
                         Save = true;
                     }
 
-                    if (Settings.General.Default.ClearURLOnDownload != ClearURLOnDownload) {
-                        Settings.General.Default.ClearURLOnDownload = ClearURLOnDownload;
+                    if (Configurations.General.Default.HoverOverURLTextBoxToPaste != HoverOverURLTextBoxToPaste) {
+                        Configurations.General.Default.HoverOverURLTextBoxToPaste = HoverOverURLTextBoxToPaste;
                         Save = true;
                     }
 
-                    if (Settings.General.Default.SaveCustomArgs != SaveCustomArgs) {
-                        Settings.General.Default.SaveCustomArgs = SaveCustomArgs;
+                    if (Configurations.General.Default.ClearURLOnDownload != ClearURLOnDownload) {
+                        Configurations.General.Default.ClearURLOnDownload = ClearURLOnDownload;
                         Save = true;
                     }
 
-                    if (Settings.General.Default.ClearClipboardOnDownload != ClearClipboardOnDownload) {
-                        Settings.General.Default.ClearClipboardOnDownload = ClearClipboardOnDownload;
+                    if (Configurations.General.Default.SaveCustomArgs != SaveCustomArgs) {
+                        Configurations.General.Default.SaveCustomArgs = SaveCustomArgs;
                         Save = true;
                     }
+
+                    if (Configurations.General.Default.ClearClipboardOnDownload != ClearClipboardOnDownload) {
+                        Configurations.General.Default.ClearClipboardOnDownload = ClearClipboardOnDownload;
+                        Save = true;
+                    }
+
+                    if (Configurations.General.Default.extensionsName != extensionsName) {
+                        Configurations.General.Default.extensionsName = extensionsName;
+                        Save = true;
+                    }
+
+                    if (Configurations.General.Default.extensionsShort != extensionsShort) {
+                        Configurations.General.Default.extensionsShort = extensionsShort;
+                        Save = true;
+                    }
+
                     switch (Save) {
                         case true:
-                            Settings.General.Default.Save();
+                            Configurations.General.Default.Save();
                             break;
                     }
                     break;
@@ -2179,6 +2219,9 @@ namespace youtube_dl_gui {
                     Ini.Write("CheckForUpdatesOnLaunch", CheckForUpdatesOnLaunch, "General");
                     CheckForUpdatesOnLaunch_First = CheckForUpdatesOnLaunch;
 
+                    Ini.Write("DownloadBetaVersions", DownloadBetaVersions, "General");
+                    DownloadBetaVersions_First = DownloadBetaVersions;
+
                     Ini.Write("HoverOverURLTextBoxToPaste", HoverOverURLTextBoxToPaste, "General");
                     HoverOverURLTextBoxToPaste_First = HoverOverURLTextBoxToPaste;
 
@@ -2190,20 +2233,29 @@ namespace youtube_dl_gui {
 
                     Ini.Write("ClearClipboardOnDownload", ClearClipboardOnDownload, "General");
                     ClearClipboardOnDownload_First = ClearClipboardOnDownload;
+
+                    Ini.Write("extensionsName", extensionsName, "General");
+                    extensionsName_First = extensionsName;
+
+                    Ini.Write("extensionsShort", extensionsShort, "General");
+                    extensionsShort_First = extensionsShort;
                     break;
 
                 case false:
-                    Settings.General.Default.UseStaticYtdl = UseStaticYtdl;
-                    Settings.General.Default.ytdlPath = ytdlPath;
-                    Settings.General.Default.UseStaticFFmpeg = UseStaticFFmpeg;
-                    Settings.General.Default.ffmpegPath = ffmpegPath;
-                    Settings.General.Default.CheckForUpdatesOnLaunch = CheckForUpdatesOnLaunch;
-                    Settings.General.Default.HoverOverURLTextBoxToPaste = HoverOverURLTextBoxToPaste;
-                    Settings.General.Default.ClearURLOnDownload = ClearURLOnDownload;
-                    Settings.General.Default.SaveCustomArgs = SaveCustomArgs;
-                    Settings.General.Default.ClearClipboardOnDownload = ClearClipboardOnDownload;
+                    Configurations.General.Default.UseStaticYtdl = UseStaticYtdl;
+                    Configurations.General.Default.ytdlPath = ytdlPath;
+                    Configurations.General.Default.UseStaticFFmpeg = UseStaticFFmpeg;
+                    Configurations.General.Default.ffmpegPath = ffmpegPath;
+                    Configurations.General.Default.CheckForUpdatesOnLaunch = CheckForUpdatesOnLaunch;
+                    Configurations.General.Default.ClearClipboardOnDownload = DownloadBetaVersions;
+                    Configurations.General.Default.HoverOverURLTextBoxToPaste = HoverOverURLTextBoxToPaste;
+                    Configurations.General.Default.ClearURLOnDownload = ClearURLOnDownload;
+                    Configurations.General.Default.SaveCustomArgs = SaveCustomArgs;
+                    Configurations.General.Default.ClearClipboardOnDownload = ClearClipboardOnDownload;
+                    Configurations.General.Default.extensionsName = extensionsName;
+                    Configurations.General.Default.extensionsShort = extensionsShort;
 
-                    Settings.General.Default.Save();
+                    Configurations.General.Default.Save();
                     break;
             }
         }
@@ -2372,24 +2424,24 @@ namespace youtube_dl_gui {
                     break;
 
                 case false:
-                    downloadType = Settings.Saved.Default.downloadType;
-                    UseStaticYtdl = Settings.Saved.Default.UseStaticYtdl;
-                    convertSaveAudioIndex = Settings.Saved.Default.convertSaveAudioIndex;
-                    convertType = Settings.Saved.Default.convertType;
-                    convertCustom = Settings.Saved.Default.convertCustom;
-                    videoQuality = Settings.Saved.Default.videoQuality;
-                    audioQuality = Settings.Saved.Default.audioQuality;
-                    VideoFormat = Settings.Saved.Default.VideoFormat;
-                    AudioFormat = Settings.Saved.Default.AudioFormat;
-                    AudioVBRQuality = Settings.Saved.Default.AudioVBRQuality;
-                    BatchFormX = Settings.Saved.Default.BatchFormX;
-                    BatchFormY = Settings.Saved.Default.BatchFormY;
-                    MainFormSize = Settings.Saved.Default.MainFormSize;
-                    SettingsFormSize = Settings.Saved.Default.SettingsFormSize;
-                    FileNameSchemaHistory = Settings.Saved.Default.FileNameSchemaHistory;
-                    DownloadCustomArguments = Settings.Saved.Default.DownloadCustomArguments;
-                    CustomArgumentsIndex = Settings.Saved.Default.CustomArgumentsIndex;
-                    MainFormLocation = Settings.Saved.Default.MainFormLocation;
+                    downloadType = Configurations.Saved.Default.downloadType;
+                    UseStaticYtdl = Configurations.Saved.Default.UseStaticYtdl;
+                    convertSaveAudioIndex = Configurations.Saved.Default.convertSaveAudioIndex;
+                    convertType = Configurations.Saved.Default.convertType;
+                    convertCustom = Configurations.Saved.Default.convertCustom;
+                    videoQuality = Configurations.Saved.Default.videoQuality;
+                    audioQuality = Configurations.Saved.Default.audioQuality;
+                    VideoFormat = Configurations.Saved.Default.VideoFormat;
+                    AudioFormat = Configurations.Saved.Default.AudioFormat;
+                    AudioVBRQuality = Configurations.Saved.Default.AudioVBRQuality;
+                    BatchFormX = Configurations.Saved.Default.BatchFormX;
+                    BatchFormY = Configurations.Saved.Default.BatchFormY;
+                    MainFormSize = Configurations.Saved.Default.MainFormSize;
+                    SettingsFormSize = Configurations.Saved.Default.SettingsFormSize;
+                    FileNameSchemaHistory = Configurations.Saved.Default.FileNameSchemaHistory;
+                    DownloadCustomArguments = Configurations.Saved.Default.DownloadCustomArguments;
+                    CustomArgumentsIndex = Configurations.Saved.Default.CustomArgumentsIndex;
+                    MainFormLocation = Configurations.Saved.Default.MainFormLocation;
                     break;
             }
         }
@@ -2510,82 +2562,82 @@ namespace youtube_dl_gui {
                 case false:
                     bool Save = false;
 
-                    if (Settings.Saved.Default.downloadType != downloadType) {
-                        Settings.Saved.Default.downloadType = downloadType;
+                    if (Configurations.Saved.Default.downloadType != downloadType) {
+                        Configurations.Saved.Default.downloadType = downloadType;
                         Save = true;
                     }
-                    if (Settings.Saved.Default.UseStaticYtdl != UseStaticYtdl) {
-                        Settings.Saved.Default.UseStaticYtdl = UseStaticYtdl;
+                    if (Configurations.Saved.Default.UseStaticYtdl != UseStaticYtdl) {
+                        Configurations.Saved.Default.UseStaticYtdl = UseStaticYtdl;
                         Save = true;
                     }
-                    if (Settings.Saved.Default.convertSaveAudioIndex != convertSaveAudioIndex) {
-                        Settings.Saved.Default.convertSaveAudioIndex = convertSaveAudioIndex;
+                    if (Configurations.Saved.Default.convertSaveAudioIndex != convertSaveAudioIndex) {
+                        Configurations.Saved.Default.convertSaveAudioIndex = convertSaveAudioIndex;
                         Save = true;
                     }
-                    if (Settings.Saved.Default.convertType != convertType) {
-                        Settings.Saved.Default.convertType = convertType;
+                    if (Configurations.Saved.Default.convertType != convertType) {
+                        Configurations.Saved.Default.convertType = convertType;
                         Save = true;
                     }
-                    if (Settings.Saved.Default.convertCustom != convertCustom) {
-                        Settings.Saved.Default.convertCustom = convertCustom;
+                    if (Configurations.Saved.Default.convertCustom != convertCustom) {
+                        Configurations.Saved.Default.convertCustom = convertCustom;
                         Save = true;
                     }
-                    if (Settings.Saved.Default.videoQuality != videoQuality) {
-                        Settings.Saved.Default.videoQuality = videoQuality;
+                    if (Configurations.Saved.Default.videoQuality != videoQuality) {
+                        Configurations.Saved.Default.videoQuality = videoQuality;
                         Save = true;
                     }
-                    if (Settings.Saved.Default.audioQuality != audioQuality) {
-                        Settings.Saved.Default.audioQuality = audioQuality;
+                    if (Configurations.Saved.Default.audioQuality != audioQuality) {
+                        Configurations.Saved.Default.audioQuality = audioQuality;
                         Save = true;
                     }
-                    if (Settings.Saved.Default.VideoFormat != VideoFormat) {
-                        Settings.Saved.Default.VideoFormat = VideoFormat;
+                    if (Configurations.Saved.Default.VideoFormat != VideoFormat) {
+                        Configurations.Saved.Default.VideoFormat = VideoFormat;
                         Save = true;
                     }
-                    if (Settings.Saved.Default.AudioFormat != AudioFormat) {
-                        Settings.Saved.Default.AudioFormat = AudioFormat;
+                    if (Configurations.Saved.Default.AudioFormat != AudioFormat) {
+                        Configurations.Saved.Default.AudioFormat = AudioFormat;
                         Save = true;
                     }
-                    if (Settings.Saved.Default.AudioVBRQuality != AudioVBRQuality) {
-                        Settings.Saved.Default.AudioVBRQuality = AudioVBRQuality;
+                    if (Configurations.Saved.Default.AudioVBRQuality != AudioVBRQuality) {
+                        Configurations.Saved.Default.AudioVBRQuality = AudioVBRQuality;
                         Save = true;
                     }
-                    if (Settings.Saved.Default.BatchFormX != BatchFormX) {
-                        Settings.Saved.Default.BatchFormX = BatchFormX;
+                    if (Configurations.Saved.Default.BatchFormX != BatchFormX) {
+                        Configurations.Saved.Default.BatchFormX = BatchFormX;
                         Save = true;
                     }
-                    if (Settings.Saved.Default.BatchFormY != BatchFormY) {
-                        Settings.Saved.Default.BatchFormY = BatchFormY;
+                    if (Configurations.Saved.Default.BatchFormY != BatchFormY) {
+                        Configurations.Saved.Default.BatchFormY = BatchFormY;
                         Save = true;
                     }
-                    if (Settings.Saved.Default.MainFormSize != MainFormSize) {
-                        Settings.Saved.Default.MainFormSize = MainFormSize;
+                    if (Configurations.Saved.Default.MainFormSize != MainFormSize) {
+                        Configurations.Saved.Default.MainFormSize = MainFormSize;
                         Save = true;
                     }
-                    if (Settings.Saved.Default.SettingsFormSize != SettingsFormSize) {
-                        Settings.Saved.Default.SettingsFormSize = SettingsFormSize;
+                    if (Configurations.Saved.Default.SettingsFormSize != SettingsFormSize) {
+                        Configurations.Saved.Default.SettingsFormSize = SettingsFormSize;
                         Save = true;
                     }
-                    if (Settings.Saved.Default.FileNameSchemaHistory != FileNameSchemaHistory) {
-                        Settings.Saved.Default.FileNameSchemaHistory = FileNameSchemaHistory;
+                    if (Configurations.Saved.Default.FileNameSchemaHistory != FileNameSchemaHistory) {
+                        Configurations.Saved.Default.FileNameSchemaHistory = FileNameSchemaHistory;
                         Save = true;
                     }
-                    if (Settings.Saved.Default.DownloadCustomArguments != DownloadCustomArguments) {
-                        Settings.Saved.Default.DownloadCustomArguments = DownloadCustomArguments;
+                    if (Configurations.Saved.Default.DownloadCustomArguments != DownloadCustomArguments) {
+                        Configurations.Saved.Default.DownloadCustomArguments = DownloadCustomArguments;
                         Save = true;
                     }
-                    if (Settings.Saved.Default.CustomArgumentsIndex != CustomArgumentsIndex) {
-                        Settings.Saved.Default.CustomArgumentsIndex = CustomArgumentsIndex;
+                    if (Configurations.Saved.Default.CustomArgumentsIndex != CustomArgumentsIndex) {
+                        Configurations.Saved.Default.CustomArgumentsIndex = CustomArgumentsIndex;
                         Save = true;
                     }
-                    if (Settings.Saved.Default.MainFormLocation != MainFormLocation) {
-                        Settings.Saved.Default.MainFormLocation = MainFormLocation;
+                    if (Configurations.Saved.Default.MainFormLocation != MainFormLocation) {
+                        Configurations.Saved.Default.MainFormLocation = MainFormLocation;
                         Save = true;
                     }
 
                     switch (Save) {
                         case true:
-                            Settings.Saved.Default.Save();
+                            Configurations.Saved.Default.Save();
                             break;
                     }
                     break;
@@ -2652,122 +2704,25 @@ namespace youtube_dl_gui {
                     break;
 
                 case false:
-                    Settings.Saved.Default.downloadType = downloadType;
-                    Settings.Saved.Default.UseStaticYtdl = UseStaticYtdl;
-                    Settings.Saved.Default.convertSaveAudioIndex = convertSaveAudioIndex;
-                    Settings.Saved.Default.convertType = convertType;
-                    Settings.Saved.Default.convertCustom = convertCustom;
-                    Settings.Saved.Default.videoQuality = videoQuality;
-                    Settings.Saved.Default.audioQuality = audioQuality;
-                    Settings.Saved.Default.VideoFormat = VideoFormat;
-                    Settings.Saved.Default.AudioFormat = AudioFormat;
-                    Settings.Saved.Default.AudioVBRQuality = AudioVBRQuality;
-                    Settings.Saved.Default.BatchFormX = BatchFormX;
-                    Settings.Saved.Default.BatchFormY = BatchFormY;
-                    Settings.Saved.Default.MainFormSize = MainFormSize;
-                    Settings.Saved.Default.SettingsFormSize = SettingsFormSize;
-                    Settings.Saved.Default.FileNameSchemaHistory = FileNameSchemaHistory;
-                    Settings.Saved.Default.DownloadCustomArguments = DownloadCustomArguments;
-                    Settings.Saved.Default.CustomArgumentsIndex = CustomArgumentsIndex;
-                    Settings.Saved.Default.MainFormLocation = MainFormLocation;
-                    Settings.Saved.Default.Save();
-                    break;
-            }
-        }
-    }
-
-    class Config_Settings {
-        public Config_Settings() {
-            Load();
-        }
-
-        //LanguageFile is Initialization
-
-        public string extensionsName = string.Empty;
-        public string extensionsShort = string.Empty;
-
-        private string extensionsName_First = string.Empty;
-        private string extensionsShort_First = string.Empty;
-
-        //_First private
-        public void Load() {
-            switch (Program.UseIni) {
-                case true:
-                    switch (Ini.KeyExists("extensionsName", "Settings")) {
-                        case true:
-                            extensionsName = Ini.ReadString("extensionsName", "Settings");
-                            extensionsName_First = extensionsName;
-                            break;
-                    }
-
-                    switch (Ini.KeyExists("extensionsShort", "Settings")) {
-                        case true:
-                            extensionsShort = Ini.ReadString("extensionsShort", "Settings");
-                            extensionsShort_First = extensionsShort;
-                            break;
-                    }
-                    break;
-
-                case false:
-                    extensionsName = Settings.Settings.Default.extensionsName;
-                    extensionsShort = Settings.Settings.Default.extensionsShort;
-                    break;
-            }
-        }
-        public void Save() {
-            switch (Program.UseIni) {
-                case true:
-                    switch (extensionsName != extensionsName_First) {
-                        case true:
-                            Ini.Write("extensionsName", extensionsName, "Settings");
-                            extensionsName_First = extensionsName;
-                            break;
-                    }
-                    switch (extensionsShort != extensionsShort_First) {
-                        case true:
-                            Ini.Write("extensionsShort", extensionsShort, "Settings");
-                            extensionsShort_First = extensionsShort;
-                            break;
-                    }
-
-                    break;
-
-                case false:
-                    bool Save = false;
-
-                    if (Settings.Settings.Default.extensionsName != extensionsName) {
-                        Settings.Settings.Default.extensionsName = extensionsName;
-                        Save = true;
-                    }
-
-                    if (Settings.Settings.Default.extensionsShort != extensionsShort) {
-                        Settings.Settings.Default.extensionsShort = extensionsShort;
-                        Save = true;
-                    }
-
-                    switch (Save) {
-                        case true:
-                            Settings.Settings.Default.Save();
-                            break;
-                    }
-                    break;
-            }
-        }
-
-        public void ForceSave() {
-            switch (Program.UseIni) {
-                case true:
-                    Ini.Write("extensionsName", extensionsName, "Settings");
-                    extensionsName_First = extensionsName;
-
-                    Ini.Write("extensionsShort", extensionsShort, "Settings");
-                    extensionsShort_First = extensionsShort;
-                    break;
-
-                case false:
-                    Settings.Settings.Default.extensionsName = extensionsName;
-                    Settings.Settings.Default.extensionsShort = extensionsShort;
-                    Settings.Settings.Default.Save();
+                    Configurations.Saved.Default.downloadType = downloadType;
+                    Configurations.Saved.Default.UseStaticYtdl = UseStaticYtdl;
+                    Configurations.Saved.Default.convertSaveAudioIndex = convertSaveAudioIndex;
+                    Configurations.Saved.Default.convertType = convertType;
+                    Configurations.Saved.Default.convertCustom = convertCustom;
+                    Configurations.Saved.Default.videoQuality = videoQuality;
+                    Configurations.Saved.Default.audioQuality = audioQuality;
+                    Configurations.Saved.Default.VideoFormat = VideoFormat;
+                    Configurations.Saved.Default.AudioFormat = AudioFormat;
+                    Configurations.Saved.Default.AudioVBRQuality = AudioVBRQuality;
+                    Configurations.Saved.Default.BatchFormX = BatchFormX;
+                    Configurations.Saved.Default.BatchFormY = BatchFormY;
+                    Configurations.Saved.Default.MainFormSize = MainFormSize;
+                    Configurations.Saved.Default.SettingsFormSize = SettingsFormSize;
+                    Configurations.Saved.Default.FileNameSchemaHistory = FileNameSchemaHistory;
+                    Configurations.Saved.Default.DownloadCustomArguments = DownloadCustomArguments;
+                    Configurations.Saved.Default.CustomArgumentsIndex = CustomArgumentsIndex;
+                    Configurations.Saved.Default.MainFormLocation = MainFormLocation;
+                    Configurations.Saved.Default.Save();
                     break;
             }
         }

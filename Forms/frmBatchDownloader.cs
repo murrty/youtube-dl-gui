@@ -45,27 +45,27 @@ namespace youtube_dl_gui {
             cbBatchDownloadType.Items.Add(lang.GenericCustom);
         }
         private void frmBatchDownloader_Load(object sender, EventArgs e) {
-            cbBatchDownloadType.SelectedIndex = Config.ProgramConfig.Batch.SelectedType;
-            if (Config.ProgramConfig.Batch.SelectedType == 0) {
-                chkBatchDownloaderSoundVBR.Checked = Config.ProgramConfig.Batch.DownloadVideoSound;
-                cbBatchQuality.SelectedIndex = Config.ProgramConfig.Batch.SelectedVideoQuality;
-                cbBatchFormat.SelectedIndex = Config.ProgramConfig.Batch.SelectedVideoFormat;
+            cbBatchDownloadType.SelectedIndex = Config.Settings.Batch.SelectedType;
+            if (Config.Settings.Batch.SelectedType == 0) {
+                chkBatchDownloaderSoundVBR.Checked = Config.Settings.Batch.DownloadVideoSound;
+                cbBatchQuality.SelectedIndex = Config.Settings.Batch.SelectedVideoQuality;
+                cbBatchFormat.SelectedIndex = Config.Settings.Batch.SelectedVideoFormat;
             }
-            else if (Config.ProgramConfig.Batch.SelectedType == 1) {
-                if (Config.ProgramConfig.Batch.DownloadAudioVBR) {
+            else if (Config.Settings.Batch.SelectedType == 1) {
+                if (Config.Settings.Batch.DownloadAudioVBR) {
                     chkBatchDownloaderSoundVBR.Checked = true;
-                    cbBatchQuality.SelectedIndex = Config.ProgramConfig.Batch.SelectedAudioQualityVBR;
+                    cbBatchQuality.SelectedIndex = Config.Settings.Batch.SelectedAudioQualityVBR;
                 }
                 else {
                     chkBatchDownloaderSoundVBR.Checked = false;
-                    cbBatchQuality.SelectedIndex = Config.ProgramConfig.Batch.SelectedAudioQuality;
+                    cbBatchQuality.SelectedIndex = Config.Settings.Batch.SelectedAudioQuality;
                 }
-                cbBatchFormat.SelectedIndex = Config.ProgramConfig.Batch.SelectedAudioFormat;
+                cbBatchFormat.SelectedIndex = Config.Settings.Batch.SelectedAudioFormat;
             }
 
 
-            if (Config.ProgramConfig.Saved.BatchFormX != -32000 && Config.ProgramConfig.Saved.BatchFormY != -32000) {
-                this.Location = new System.Drawing.Point(Config.ProgramConfig.Saved.BatchFormX, Config.ProgramConfig.Saved.BatchFormY);
+            if (Config.Settings.Saved.BatchFormX != -32000 && Config.Settings.Saved.BatchFormY != -32000) {
+                this.Location = new System.Drawing.Point(Config.Settings.Saved.BatchFormX, Config.Settings.Saved.BatchFormY);
             }
         }
         private void frmBatchDownloader_FormClosing(object sender, FormClosingEventArgs e) {
@@ -73,10 +73,10 @@ namespace youtube_dl_gui {
                 this.Opacity = 0;
                 this.WindowState = FormWindowState.Normal;
             }
-            Config.ProgramConfig.Saved.BatchFormX = this.Location.X;
-            Config.ProgramConfig.Saved.BatchFormY = this.Location.Y;
+            Config.Settings.Saved.BatchFormX = this.Location.X;
+            Config.Settings.Saved.BatchFormY = this.Location.Y;
             if (!Program.UseIni) {
-                Config.ProgramConfig.Saved.Save();
+                Config.Settings.Saved.Save();
             }
             this.Dispose();
         }
@@ -99,15 +99,15 @@ namespace youtube_dl_gui {
             RemoveItemsFromList();
         }
         private void sbBatchDownloadLoadArgs_Click(object sender, EventArgs e) {
-            if (!string.IsNullOrEmpty(Config.ProgramConfig.Saved.DownloadCustomArguments)) {
-                cbArguments.Items.AddRange(Config.ProgramConfig.Saved.DownloadCustomArguments.Split('|'));
-                cbArguments.SelectedIndex = Config.ProgramConfig.Saved.CustomArgumentsIndex;
+            if (!string.IsNullOrEmpty(Config.Settings.Saved.DownloadCustomArguments)) {
+                cbArguments.Items.AddRange(Config.Settings.Saved.DownloadCustomArguments.Split('|'));
+                cbArguments.SelectedIndex = Config.Settings.Saved.CustomArgumentsIndex;
             }
 
             if (System.IO.File.Exists(Environment.CurrentDirectory + "\\args.txt")) {
                 cbArguments.Items.AddRange(System.IO.File.ReadAllLines(Environment.CurrentDirectory + "\\args.txt"));
-                if (Config.ProgramConfig.Saved.CustomArgumentsIndex > -1 && Config.ProgramConfig.Saved.CustomArgumentsIndex <= cbArguments.Items.Count) {
-                    cbArguments.SelectedIndex = Config.ProgramConfig.Saved.CustomArgumentsIndex;
+                if (Config.Settings.Saved.CustomArgumentsIndex > -1 && Config.Settings.Saved.CustomArgumentsIndex <= cbArguments.Items.Count) {
+                    cbArguments.SelectedIndex = Config.Settings.Saved.CustomArgumentsIndex;
                 }
             }
             using (OpenFileDialog ofd = new OpenFileDialog()) {
@@ -121,14 +121,14 @@ namespace youtube_dl_gui {
             }
         }
         private void mBatchDownloaderLoadArgsFromSettings_Click(object sender, EventArgs e) {
-            cbArguments.Items.AddRange(Config.ProgramConfig.Saved.DownloadCustomArguments.Split('|'));
-            cbArguments.SelectedIndex = Config.ProgramConfig.Saved.CustomArgumentsIndex;
+            cbArguments.Items.AddRange(Config.Settings.Saved.DownloadCustomArguments.Split('|'));
+            cbArguments.SelectedIndex = Config.Settings.Saved.CustomArgumentsIndex;
         }
         private void mBatchDownloaderLoadArgsFromArgsTxt_Click(object sender, EventArgs e) {
             if (System.IO.File.Exists(Environment.CurrentDirectory + "\\args.txt")) {
                 cbArguments.Items.AddRange(System.IO.File.ReadAllLines(Environment.CurrentDirectory + "\\args.txt"));
-                if (Config.ProgramConfig.Saved.CustomArgumentsIndex > -1 && Config.ProgramConfig.Saved.CustomArgumentsIndex <= cbArguments.Items.Count) {
-                    cbArguments.SelectedIndex = Config.ProgramConfig.Saved.CustomArgumentsIndex;
+                if (Config.Settings.Saved.CustomArgumentsIndex > -1 && Config.Settings.Saved.CustomArgumentsIndex <= cbArguments.Items.Count) {
+                    cbArguments.SelectedIndex = Config.Settings.Saved.CustomArgumentsIndex;
                 }
             }
         }
@@ -182,11 +182,11 @@ namespace youtube_dl_gui {
                 cbBatchQuality.Items.Clear();
                 if (chkBatchDownloaderSoundVBR.Checked) {
                     cbBatchQuality.Items.AddRange(new string[] { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" });
-                    cbBatchQuality.SelectedIndex = Config.ProgramConfig.Batch.SelectedAudioQualityVBR;
+                    cbBatchQuality.SelectedIndex = Config.Settings.Batch.SelectedAudioQualityVBR;
                 }
                 else {
                     cbBatchQuality.Items.AddRange(DownloadFormats.AudioQualityNamesArray);
-                    cbBatchQuality.SelectedIndex = Config.ProgramConfig.Batch.SelectedAudioQualityVBR;
+                    cbBatchQuality.SelectedIndex = Config.Settings.Batch.SelectedAudioQualityVBR;
                 }
             }
         }
@@ -214,9 +214,9 @@ namespace youtube_dl_gui {
                     cbBatchFormat.Items.AddRange(DownloadFormats.VideoFormatsNamesArray);
                     chkBatchDownloaderSoundVBR.Text = lang.chkDownloadSound;
                     chkBatchDownloaderSoundVBR.Enabled = true;
-                    cbBatchQuality.SelectedIndex = Config.ProgramConfig.Batch.SelectedVideoQuality;
-                    cbBatchFormat.SelectedIndex = Config.ProgramConfig.Batch.SelectedVideoFormat;
-                    chkBatchDownloaderSoundVBR.Checked = Config.ProgramConfig.Batch.DownloadVideoSound;
+                    cbBatchQuality.SelectedIndex = Config.Settings.Batch.SelectedVideoQuality;
+                    cbBatchFormat.SelectedIndex = Config.Settings.Batch.SelectedVideoFormat;
+                    chkBatchDownloaderSoundVBR.Checked = Config.Settings.Batch.DownloadVideoSound;
                     chkBatchDownloaderSoundVBR.Visible = true;
                     break;
                 case 1:
@@ -228,16 +228,16 @@ namespace youtube_dl_gui {
                     cbBatchFormat.Items.AddRange(DownloadFormats.AudioFormatsArray);
                     chkBatchDownloaderSoundVBR.Text = "VBR";
                     chkBatchDownloaderSoundVBR.Enabled = true;
-                    if (Config.ProgramConfig.Batch.DownloadAudioVBR) {
+                    if (Config.Settings.Batch.DownloadAudioVBR) {
                         cbBatchQuality.Items.AddRange(new string[] { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" });
-                        cbBatchQuality.SelectedIndex = Config.ProgramConfig.Batch.SelectedAudioQuality;
+                        cbBatchQuality.SelectedIndex = Config.Settings.Batch.SelectedAudioQuality;
                     }
                     else {
                         cbBatchQuality.Items.AddRange(DownloadFormats.AudioQualityNamesArray);
-                        cbBatchQuality.SelectedIndex = Config.ProgramConfig.Batch.SelectedAudioQualityVBR;
+                        cbBatchQuality.SelectedIndex = Config.Settings.Batch.SelectedAudioQualityVBR;
                     }
-                    cbBatchFormat.SelectedIndex = Config.ProgramConfig.Batch.SelectedAudioFormat;
-                    chkBatchDownloaderSoundVBR.Checked = Config.ProgramConfig.Batch.DownloadAudioVBR;
+                    cbBatchFormat.SelectedIndex = Config.Settings.Batch.SelectedAudioFormat;
+                    chkBatchDownloaderSoundVBR.Checked = Config.Settings.Batch.DownloadAudioVBR;
                     chkBatchDownloaderSoundVBR.Visible = true;
                     break;
                 case 2:
