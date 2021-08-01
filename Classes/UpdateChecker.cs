@@ -149,8 +149,6 @@ namespace youtube_dl_gui {
                 return;
             }
 
-            GetGitVersionString(1);
-
             if (Config.Settings.Downloads.useYtdlUpdater && Config.Settings.General.UseStaticYtdl && !string.IsNullOrEmpty(Config.Settings.General.ytdlPath) && File.Exists(Config.Settings.General.ytdlPath) || File.Exists(Environment.CurrentDirectory + "\\youtube-dl.exe")) {
                 Process UpdateYoutubeDl = new Process();
                 UpdateYoutubeDl.StartInfo.Arguments = "-U";
@@ -166,6 +164,7 @@ namespace youtube_dl_gui {
                 UpdateYoutubeDl.WaitForExit();
             }
             else {
+                GetGitVersionString(1);
                 if (!Config.Settings.General.UseStaticYtdl || string.IsNullOrEmpty(Config.Settings.General.ytdlPath)) {
                     Thread DownloadYoutubeDl = new Thread(() => {
                         using (WebClient wc = new WebClient()) {
