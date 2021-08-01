@@ -203,7 +203,14 @@ sanitizecheck:
                 webFolder = Download.getUrlBase(CurrentDownload.DownloadURL) + "\\";
             }
 
-            string OutputDirectory = "\"" + Config.Settings.Downloads.downloadPath;
+            string OutputDirectory = "\"";
+//            +Config.Settings.Downloads.downloadPath;
+            if (Config.Settings.Downloads.downloadPath.StartsWith("./") || Config.Settings.Downloads.downloadPath.StartsWith(".\\")){
+                OutputDirectory += Program.ProgramPath + "\\" + Config.Settings.Downloads.downloadPath.Substring(2);
+            }
+            else {
+                OutputDirectory += Config.Settings.Downloads.downloadPath;
+            }
             if (CurrentDownload.BatchDownload && Config.Settings.Downloads.SeparateBatchDownloads) {
                 OutputDirectory += "\\# Batch Downloads #";
                 if (Config.Settings.Downloads.AddDateToBatchDownloadFolders) {

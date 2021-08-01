@@ -542,6 +542,9 @@ namespace youtube_dl_gui {
                 }
             }
         }
+        private void chkSettingsGeneralCheckForUpdatesOnLaunch_CheckedChanged(object sender, EventArgs e) {
+            chkSettingsGeneralCheckForBetaUpdates.Enabled = chkSettingsGeneralCheckForUpdatesOnLaunch.Checked;
+        }
         #endregion
 
         #region Downloads
@@ -558,6 +561,16 @@ namespace youtube_dl_gui {
         private void llSettingsDownloadsSchemaHelp_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
             Process.Start("https://github.com/ytdl-org/youtube-dl/blob/master/README.md#output-template");
         }
+        private void txtSettingsDownloadsFileNameSchema_KeyPress(object sender, KeyPressEventArgs e) {
+            switch (e.KeyChar) {
+                case '\\': case '/': case ':': case '*':
+                case '?': case '"': case '<': case '>':
+                case '|':
+                    e.Handled = true;
+                    break;
+            }
+        }
+
         private void chkSettingsDownloadsDownloadSubtitles_CheckedChanged(object sender, EventArgs e) {
             if (chkSettingsDownloadsDownloadSubtitles.Checked) {
                 chkSettingsDownloadsEmbedSubtitles.Enabled = true;
@@ -660,16 +673,7 @@ namespace youtube_dl_gui {
         }
         #endregion
 
-        private void txtSettingsDownloadsFileNameSchema_KeyPress(object sender, KeyPressEventArgs e) {
-            switch (e.KeyChar) {
-                case '\\': case '/': case ':': case '*':
-                case '?': case '"': case '<': case '>':
-                case '|':
-                    e.Handled = true;
-                    break;
-            }
-        }
-
+        #region Portable
         private void chkSettingsPortableToggleIni_CheckedChanged(object sender, EventArgs e) {
             if (!LoadingForm) {
                 Config.Settings.ConvertConfig(chkSettingsPortableToggleIni.Checked);
@@ -679,6 +683,7 @@ namespace youtube_dl_gui {
         private void btnCleanIni_Click(object sender, EventArgs e) {
             Config.Settings.CleanIniFile();
         }
+        #endregion
 
     }
 }

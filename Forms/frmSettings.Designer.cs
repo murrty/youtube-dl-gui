@@ -39,7 +39,9 @@
             this.btnSettingsGeneralBrowseYoutubeDl = new System.Windows.Forms.Button();
             this.chkSettingsGeneralUseStaticYoutubeDl = new System.Windows.Forms.CheckBox();
             this.chkSettingsGeneralUseStaticFFmpeg = new System.Windows.Forms.CheckBox();
+            this.txtSettingsGeneralFFmpegPath = new youtube_dl_gui.Controls.ExtendedTextBox();
             this.lbSettingsGeneralFFmpegDirectory = new System.Windows.Forms.Label();
+            this.txtSettingsGeneralYoutubeDlPath = new youtube_dl_gui.Controls.ExtendedTextBox();
             this.lbSettingsGeneralYoutubeDlPath = new System.Windows.Forms.Label();
             this.chkSettingsGeneralClearUrlOnDownload = new System.Windows.Forms.CheckBox();
             this.chkSettingsGeneralHoverOverUrlToPasteClipboard = new System.Windows.Forms.CheckBox();
@@ -66,6 +68,8 @@
             this.chkSettingsDownloadsFixVReddIt = new System.Windows.Forms.CheckBox();
             this.tabDownloadsConnection = new System.Windows.Forms.TabPage();
             this.cbSettingsDownloadsProxyType = new System.Windows.Forms.ComboBox();
+            this.txtSettingsDownloadsProxyPort = new youtube_dl_gui.Controls.ExtendedTextBox();
+            this.txtSettingsDownloadsProxyIp = new youtube_dl_gui.Controls.ExtendedTextBox();
             this.chkSettingsDownloadsForceIpv6 = new System.Windows.Forms.CheckBox();
             this.chkSettingsDownloadsForceIpv4 = new System.Windows.Forms.CheckBox();
             this.chkSettingsDownloadsUseProxy = new System.Windows.Forms.CheckBox();
@@ -82,6 +86,7 @@
             this.chkSettingsDownloadsSeparateBatchDownloads = new System.Windows.Forms.CheckBox();
             this.llSettingsDownloadsSchemaHelp = new System.Windows.Forms.LinkLabel();
             this.lbSettingsDownloadsDownloadPath = new System.Windows.Forms.Label();
+            this.txtSettingsDownloadsSavePath = new youtube_dl_gui.Controls.ExtendedTextBox();
             this.btnSettingsDownloadsBrowseSavePath = new System.Windows.Forms.Button();
             this.lbSepDownloads = new System.Windows.Forms.Label();
             this.lbSettingsDownloadsFileNameSchema = new System.Windows.Forms.Label();
@@ -112,6 +117,7 @@
             this.lbConvertAudioThousands = new System.Windows.Forms.Label();
             this.lbSettingsConverterAudioBitrate = new System.Windows.Forms.Label();
             this.tcSettingsConverterCustom = new System.Windows.Forms.TabPage();
+            this.txtSettingsConverterCustomArguments = new youtube_dl_gui.Controls.ExtendedTextBox();
             this.lbSettingsConverterCustomHeader = new System.Windows.Forms.Label();
             this.chkSettingsConverterClearInputAfterConverting = new System.Windows.Forms.CheckBox();
             this.chkSettingsConverterClearOutputAfterConverting = new System.Windows.Forms.CheckBox();
@@ -121,28 +127,22 @@
             this.btnSettingsExtensionsRemoveSelected = new System.Windows.Forms.Button();
             this.listExtensions = new System.Windows.Forms.ListBox();
             this.lbSettingsExtensionsExtensionShort = new System.Windows.Forms.Label();
+            this.txtSettingsExtensionsExtensionShort = new youtube_dl_gui.Controls.ExtendedTextBox();
             this.lbSettingsExtensionsExtensionFullName = new System.Windows.Forms.Label();
+            this.txtSettingsExtensionsExtensionFullName = new youtube_dl_gui.Controls.ExtendedTextBox();
             this.lbSettingsExtensionsHeader = new System.Windows.Forms.Label();
             this.tabSettingsErrors = new System.Windows.Forms.TabPage();
             this.chkSettingsErrorsSaveErrorsAsErrorLog = new System.Windows.Forms.CheckBox();
             this.chkSettingsErrorsShowDetailedErrors = new System.Windows.Forms.CheckBox();
             this.chkSettingsErrorsSuppressErrors = new System.Windows.Forms.CheckBox();
             this.tabSettingsPortable = new System.Windows.Forms.TabPage();
+            this.btnCleanIni = new System.Windows.Forms.Button();
             this.chkSettingsPortableToggleIni = new System.Windows.Forms.CheckBox();
             this.lbSettingsPortableInformation = new System.Windows.Forms.Label();
             this.btnSettingsRedownloadYoutubeDl = new System.Windows.Forms.Button();
             this.btnSettingsCancel = new System.Windows.Forms.Button();
             this.btnSettingsSave = new System.Windows.Forms.Button();
             this.tipSettings = new System.Windows.Forms.ToolTip(this.components);
-            this.btnCleanIni = new System.Windows.Forms.Button();
-            this.txtSettingsGeneralFFmpegPath = new youtube_dl_gui.Controls.ExtendedTextBox();
-            this.txtSettingsGeneralYoutubeDlPath = new youtube_dl_gui.Controls.ExtendedTextBox();
-            this.txtSettingsDownloadsProxyPort = new youtube_dl_gui.Controls.ExtendedTextBox();
-            this.txtSettingsDownloadsProxyIp = new youtube_dl_gui.Controls.ExtendedTextBox();
-            this.txtSettingsDownloadsSavePath = new youtube_dl_gui.Controls.ExtendedTextBox();
-            this.txtSettingsConverterCustomArguments = new youtube_dl_gui.Controls.ExtendedTextBox();
-            this.txtSettingsExtensionsExtensionShort = new youtube_dl_gui.Controls.ExtendedTextBox();
-            this.txtSettingsExtensionsExtensionFullName = new youtube_dl_gui.Controls.ExtendedTextBox();
             this.tcMain.SuspendLayout();
             this.tabSettingsGeneral.SuspendLayout();
             this.gbSettingsGeneralCustomArguments.SuspendLayout();
@@ -217,7 +217,7 @@
             // 
             this.chkSettingsGeneralCheckForBetaUpdates.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.chkSettingsGeneralCheckForBetaUpdates.AutoSize = true;
-            this.chkSettingsGeneralCheckForBetaUpdates.Location = new System.Drawing.Point(41, 141);
+            this.chkSettingsGeneralCheckForBetaUpdates.Location = new System.Drawing.Point(41, 151);
             this.chkSettingsGeneralCheckForBetaUpdates.Name = "chkSettingsGeneralCheckForBetaUpdates";
             this.chkSettingsGeneralCheckForBetaUpdates.Size = new System.Drawing.Size(238, 17);
             this.chkSettingsGeneralCheckForBetaUpdates.TabIndex = 16;
@@ -229,7 +229,7 @@
             // 
             this.chkSettingsGeneralRotateQualityFormat.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.chkSettingsGeneralRotateQualityFormat.AutoSize = true;
-            this.chkSettingsGeneralRotateQualityFormat.Location = new System.Drawing.Point(53, 233);
+            this.chkSettingsGeneralRotateQualityFormat.Location = new System.Drawing.Point(53, 243);
             this.chkSettingsGeneralRotateQualityFormat.Name = "chkSettingsGeneralRotateQualityFormat";
             this.chkSettingsGeneralRotateQualityFormat.Size = new System.Drawing.Size(231, 17);
             this.chkSettingsGeneralRotateQualityFormat.TabIndex = 15;
@@ -242,7 +242,7 @@
             // 
             this.chkSettingsGeneralClearClipboardOnDownload.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.chkSettingsGeneralClearClipboardOnDownload.AutoSize = true;
-            this.chkSettingsGeneralClearClipboardOnDownload.Location = new System.Drawing.Point(36, 210);
+            this.chkSettingsGeneralClearClipboardOnDownload.Location = new System.Drawing.Point(36, 220);
             this.chkSettingsGeneralClearClipboardOnDownload.Name = "chkSettingsGeneralClearClipboardOnDownload";
             this.chkSettingsGeneralClearClipboardOnDownload.Size = new System.Drawing.Size(272, 17);
             this.chkSettingsGeneralClearClipboardOnDownload.TabIndex = 13;
@@ -362,6 +362,26 @@
             this.chkSettingsGeneralUseStaticFFmpeg.UseVisualStyleBackColor = true;
             this.chkSettingsGeneralUseStaticFFmpeg.CheckedChanged += new System.EventHandler(this.chkSettingsGeneralUseStaticFFmpeg_CheckedChanged);
             // 
+            // txtSettingsGeneralFFmpegPath
+            // 
+            this.txtSettingsGeneralFFmpegPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtSettingsGeneralFFmpegPath.ButtonAlignment = youtube_dl_gui.Controls.ButtonAlignments.Left;
+            this.txtSettingsGeneralFFmpegPath.ButtonCursor = System.Windows.Forms.Cursors.Default;
+            this.txtSettingsGeneralFFmpegPath.ButtonFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtSettingsGeneralFFmpegPath.ButtonImageIndex = -1;
+            this.txtSettingsGeneralFFmpegPath.ButtonImageKey = "";
+            this.txtSettingsGeneralFFmpegPath.ButtonSize = new System.Drawing.Size(22, 21);
+            this.txtSettingsGeneralFFmpegPath.ButtonText = "";
+            this.txtSettingsGeneralFFmpegPath.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.txtSettingsGeneralFFmpegPath.Location = new System.Drawing.Point(30, 79);
+            this.txtSettingsGeneralFFmpegPath.Name = "txtSettingsGeneralFFmpegPath";
+            this.txtSettingsGeneralFFmpegPath.ReadOnly = true;
+            this.txtSettingsGeneralFFmpegPath.Size = new System.Drawing.Size(233, 22);
+            this.txtSettingsGeneralFFmpegPath.TabIndex = 7;
+            this.txtSettingsGeneralFFmpegPath.TextHint = "";
+            this.tipSettings.SetToolTip(this.txtSettingsGeneralFFmpegPath, "txtFFmpeg");
+            // 
             // lbSettingsGeneralFFmpegDirectory
             // 
             this.lbSettingsGeneralFFmpegDirectory.AutoSize = true;
@@ -371,6 +391,26 @@
             this.lbSettingsGeneralFFmpegDirectory.TabIndex = 2;
             this.lbSettingsGeneralFFmpegDirectory.Text = "lbSettingsGeneralFFmpegDirectory";
             this.tipSettings.SetToolTip(this.lbSettingsGeneralFFmpegDirectory, "lbSettingsGeneralFFmpegDirectory");
+            // 
+            // txtSettingsGeneralYoutubeDlPath
+            // 
+            this.txtSettingsGeneralYoutubeDlPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtSettingsGeneralYoutubeDlPath.ButtonAlignment = youtube_dl_gui.Controls.ButtonAlignments.Left;
+            this.txtSettingsGeneralYoutubeDlPath.ButtonCursor = System.Windows.Forms.Cursors.Default;
+            this.txtSettingsGeneralYoutubeDlPath.ButtonFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtSettingsGeneralYoutubeDlPath.ButtonImageIndex = -1;
+            this.txtSettingsGeneralYoutubeDlPath.ButtonImageKey = "";
+            this.txtSettingsGeneralYoutubeDlPath.ButtonSize = new System.Drawing.Size(22, 21);
+            this.txtSettingsGeneralYoutubeDlPath.ButtonText = "";
+            this.txtSettingsGeneralYoutubeDlPath.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.txtSettingsGeneralYoutubeDlPath.Location = new System.Drawing.Point(30, 32);
+            this.txtSettingsGeneralYoutubeDlPath.Name = "txtSettingsGeneralYoutubeDlPath";
+            this.txtSettingsGeneralYoutubeDlPath.ReadOnly = true;
+            this.txtSettingsGeneralYoutubeDlPath.Size = new System.Drawing.Size(233, 22);
+            this.txtSettingsGeneralYoutubeDlPath.TabIndex = 3;
+            this.txtSettingsGeneralYoutubeDlPath.TextHint = "";
+            this.tipSettings.SetToolTip(this.txtSettingsGeneralYoutubeDlPath, "txtYtdl");
             // 
             // lbSettingsGeneralYoutubeDlPath
             // 
@@ -386,7 +426,7 @@
             // 
             this.chkSettingsGeneralClearUrlOnDownload.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.chkSettingsGeneralClearUrlOnDownload.AutoSize = true;
-            this.chkSettingsGeneralClearUrlOnDownload.Location = new System.Drawing.Point(52, 187);
+            this.chkSettingsGeneralClearUrlOnDownload.Location = new System.Drawing.Point(52, 197);
             this.chkSettingsGeneralClearUrlOnDownload.Name = "chkSettingsGeneralClearUrlOnDownload";
             this.chkSettingsGeneralClearUrlOnDownload.Size = new System.Drawing.Size(236, 17);
             this.chkSettingsGeneralClearUrlOnDownload.TabIndex = 12;
@@ -400,7 +440,7 @@
             this.chkSettingsGeneralHoverOverUrlToPasteClipboard.AutoSize = true;
             this.chkSettingsGeneralHoverOverUrlToPasteClipboard.Checked = true;
             this.chkSettingsGeneralHoverOverUrlToPasteClipboard.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkSettingsGeneralHoverOverUrlToPasteClipboard.Location = new System.Drawing.Point(27, 164);
+            this.chkSettingsGeneralHoverOverUrlToPasteClipboard.Location = new System.Drawing.Point(27, 174);
             this.chkSettingsGeneralHoverOverUrlToPasteClipboard.Name = "chkSettingsGeneralHoverOverUrlToPasteClipboard";
             this.chkSettingsGeneralHoverOverUrlToPasteClipboard.Size = new System.Drawing.Size(284, 17);
             this.chkSettingsGeneralHoverOverUrlToPasteClipboard.TabIndex = 11;
@@ -412,13 +452,14 @@
             // 
             this.chkSettingsGeneralCheckForUpdatesOnLaunch.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.chkSettingsGeneralCheckForUpdatesOnLaunch.AutoSize = true;
-            this.chkSettingsGeneralCheckForUpdatesOnLaunch.Location = new System.Drawing.Point(33, 118);
+            this.chkSettingsGeneralCheckForUpdatesOnLaunch.Location = new System.Drawing.Point(33, 128);
             this.chkSettingsGeneralCheckForUpdatesOnLaunch.Name = "chkSettingsGeneralCheckForUpdatesOnLaunch";
             this.chkSettingsGeneralCheckForUpdatesOnLaunch.Size = new System.Drawing.Size(269, 17);
             this.chkSettingsGeneralCheckForUpdatesOnLaunch.TabIndex = 10;
             this.chkSettingsGeneralCheckForUpdatesOnLaunch.Text = "chkSettingsGeneralCheckForUpdatesOnLaunch";
             this.tipSettings.SetToolTip(this.chkSettingsGeneralCheckForUpdatesOnLaunch, "chkSettingsGeneralCheckForUpdatesOnLaunch");
             this.chkSettingsGeneralCheckForUpdatesOnLaunch.UseVisualStyleBackColor = true;
+            this.chkSettingsGeneralCheckForUpdatesOnLaunch.CheckedChanged += new System.EventHandler(this.chkSettingsGeneralCheckForUpdatesOnLaunch_CheckedChanged);
             // 
             // tabSettingsDownloads
             // 
@@ -707,6 +748,46 @@
             this.cbSettingsDownloadsProxyType.TabIndex = 9;
             this.tipSettings.SetToolTip(this.cbSettingsDownloadsProxyType, "cbSettingsDownloadsProxyTypeHint");
             // 
+            // txtSettingsDownloadsProxyPort
+            // 
+            this.txtSettingsDownloadsProxyPort.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.txtSettingsDownloadsProxyPort.ButtonAlignment = youtube_dl_gui.Controls.ButtonAlignments.Left;
+            this.txtSettingsDownloadsProxyPort.ButtonCursor = System.Windows.Forms.Cursors.Default;
+            this.txtSettingsDownloadsProxyPort.ButtonFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtSettingsDownloadsProxyPort.ButtonImageIndex = -1;
+            this.txtSettingsDownloadsProxyPort.ButtonImageKey = "";
+            this.txtSettingsDownloadsProxyPort.ButtonSize = new System.Drawing.Size(22, 21);
+            this.txtSettingsDownloadsProxyPort.ButtonText = "";
+            this.txtSettingsDownloadsProxyPort.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.txtSettingsDownloadsProxyPort.Location = new System.Drawing.Point(189, 132);
+            this.txtSettingsDownloadsProxyPort.MaxLength = 5;
+            this.txtSettingsDownloadsProxyPort.Name = "txtSettingsDownloadsProxyPort";
+            this.txtSettingsDownloadsProxyPort.Size = new System.Drawing.Size(44, 22);
+            this.txtSettingsDownloadsProxyPort.TabIndex = 12;
+            this.txtSettingsDownloadsProxyPort.TextHint = "12345";
+            this.tipSettings.SetToolTip(this.txtSettingsDownloadsProxyPort, "txtSettingsDownloadsProxyPortHint");
+            this.txtSettingsDownloadsProxyPort.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtSettingsDownloadsProxyPort_KeyPress);
+            // 
+            // txtSettingsDownloadsProxyIp
+            // 
+            this.txtSettingsDownloadsProxyIp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.txtSettingsDownloadsProxyIp.ButtonAlignment = youtube_dl_gui.Controls.ButtonAlignments.Left;
+            this.txtSettingsDownloadsProxyIp.ButtonCursor = System.Windows.Forms.Cursors.Default;
+            this.txtSettingsDownloadsProxyIp.ButtonFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtSettingsDownloadsProxyIp.ButtonImageIndex = -1;
+            this.txtSettingsDownloadsProxyIp.ButtonImageKey = "";
+            this.txtSettingsDownloadsProxyIp.ButtonSize = new System.Drawing.Size(22, 21);
+            this.txtSettingsDownloadsProxyIp.ButtonText = "";
+            this.txtSettingsDownloadsProxyIp.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.txtSettingsDownloadsProxyIp.Location = new System.Drawing.Point(92, 132);
+            this.txtSettingsDownloadsProxyIp.MaxLength = 15;
+            this.txtSettingsDownloadsProxyIp.Name = "txtSettingsDownloadsProxyIp";
+            this.txtSettingsDownloadsProxyIp.Size = new System.Drawing.Size(89, 22);
+            this.txtSettingsDownloadsProxyIp.TabIndex = 10;
+            this.txtSettingsDownloadsProxyIp.TextHint = "255.255.255.255";
+            this.tipSettings.SetToolTip(this.txtSettingsDownloadsProxyIp, "txtSettingsDownloadsProxyIpHint");
+            this.txtSettingsDownloadsProxyIp.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtSettingsDownloadsProxyIp_KeyPress);
+            // 
             // chkSettingsDownloadsForceIpv6
             // 
             this.chkSettingsDownloadsForceIpv6.AutoSize = true;
@@ -886,6 +967,26 @@
             this.lbSettingsDownloadsDownloadPath.TabIndex = 1;
             this.lbSettingsDownloadsDownloadPath.Text = "lbSettingsDownloadsDownloadPath";
             this.tipSettings.SetToolTip(this.lbSettingsDownloadsDownloadPath, "lbSettingsDownloadsDownloadPath");
+            // 
+            // txtSettingsDownloadsSavePath
+            // 
+            this.txtSettingsDownloadsSavePath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtSettingsDownloadsSavePath.ButtonAlignment = youtube_dl_gui.Controls.ButtonAlignments.Left;
+            this.txtSettingsDownloadsSavePath.ButtonCursor = System.Windows.Forms.Cursors.Default;
+            this.txtSettingsDownloadsSavePath.ButtonFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtSettingsDownloadsSavePath.ButtonImageIndex = -1;
+            this.txtSettingsDownloadsSavePath.ButtonImageKey = "";
+            this.txtSettingsDownloadsSavePath.ButtonSize = new System.Drawing.Size(22, 21);
+            this.txtSettingsDownloadsSavePath.ButtonText = "";
+            this.txtSettingsDownloadsSavePath.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.txtSettingsDownloadsSavePath.Location = new System.Drawing.Point(30, 32);
+            this.txtSettingsDownloadsSavePath.Name = "txtSettingsDownloadsSavePath";
+            this.txtSettingsDownloadsSavePath.ReadOnly = true;
+            this.txtSettingsDownloadsSavePath.Size = new System.Drawing.Size(233, 22);
+            this.txtSettingsDownloadsSavePath.TabIndex = 2;
+            this.txtSettingsDownloadsSavePath.TextHint = "";
+            this.tipSettings.SetToolTip(this.txtSettingsDownloadsSavePath, "txtSaveto");
             // 
             // btnSettingsDownloadsBrowseSavePath
             // 
@@ -1287,6 +1388,24 @@
             this.tcSettingsConverterCustom.Text = "tcSettingsConverterCustom";
             this.tcSettingsConverterCustom.UseVisualStyleBackColor = true;
             // 
+            // txtSettingsConverterCustomArguments
+            // 
+            this.txtSettingsConverterCustomArguments.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtSettingsConverterCustomArguments.ButtonAlignment = youtube_dl_gui.Controls.ButtonAlignments.Left;
+            this.txtSettingsConverterCustomArguments.ButtonCursor = System.Windows.Forms.Cursors.Default;
+            this.txtSettingsConverterCustomArguments.ButtonFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtSettingsConverterCustomArguments.ButtonImageIndex = -1;
+            this.txtSettingsConverterCustomArguments.ButtonImageKey = "";
+            this.txtSettingsConverterCustomArguments.ButtonSize = new System.Drawing.Size(22, 21);
+            this.txtSettingsConverterCustomArguments.ButtonText = "";
+            this.txtSettingsConverterCustomArguments.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.txtSettingsConverterCustomArguments.Location = new System.Drawing.Point(36, 97);
+            this.txtSettingsConverterCustomArguments.Name = "txtSettingsConverterCustomArguments";
+            this.txtSettingsConverterCustomArguments.Size = new System.Drawing.Size(228, 22);
+            this.txtSettingsConverterCustomArguments.TabIndex = 2;
+            this.txtSettingsConverterCustomArguments.TextHint = "";
+            this.tipSettings.SetToolTip(this.txtSettingsConverterCustomArguments, "txtSettingsConverterCustomArguments");
+            // 
             // lbSettingsConverterCustomHeader
             // 
             this.lbSettingsConverterCustomHeader.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
@@ -1393,6 +1512,23 @@
             this.lbSettingsExtensionsExtensionShort.TabIndex = 3;
             this.lbSettingsExtensionsExtensionShort.Text = "lbSettingsExtensionsExtensionShort";
             // 
+            // txtSettingsExtensionsExtensionShort
+            // 
+            this.txtSettingsExtensionsExtensionShort.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtSettingsExtensionsExtensionShort.ButtonAlignment = youtube_dl_gui.Controls.ButtonAlignments.Left;
+            this.txtSettingsExtensionsExtensionShort.ButtonCursor = System.Windows.Forms.Cursors.Default;
+            this.txtSettingsExtensionsExtensionShort.ButtonFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtSettingsExtensionsExtensionShort.ButtonImageIndex = -1;
+            this.txtSettingsExtensionsExtensionShort.ButtonImageKey = "";
+            this.txtSettingsExtensionsExtensionShort.ButtonSize = new System.Drawing.Size(22, 21);
+            this.txtSettingsExtensionsExtensionShort.ButtonText = "";
+            this.txtSettingsExtensionsExtensionShort.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.txtSettingsExtensionsExtensionShort.Location = new System.Drawing.Point(166, 65);
+            this.txtSettingsExtensionsExtensionShort.Name = "txtSettingsExtensionsExtensionShort";
+            this.txtSettingsExtensionsExtensionShort.Size = new System.Drawing.Size(57, 22);
+            this.txtSettingsExtensionsExtensionShort.TabIndex = 5;
+            this.txtSettingsExtensionsExtensionShort.TextHint = "";
+            // 
             // lbSettingsExtensionsExtensionFullName
             // 
             this.lbSettingsExtensionsExtensionFullName.AutoSize = true;
@@ -1401,6 +1537,24 @@
             this.lbSettingsExtensionsExtensionFullName.Size = new System.Drawing.Size(212, 13);
             this.lbSettingsExtensionsExtensionFullName.TabIndex = 2;
             this.lbSettingsExtensionsExtensionFullName.Text = "lbSettingsExtensionsExtensionFullName";
+            // 
+            // txtSettingsExtensionsExtensionFullName
+            // 
+            this.txtSettingsExtensionsExtensionFullName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtSettingsExtensionsExtensionFullName.ButtonAlignment = youtube_dl_gui.Controls.ButtonAlignments.Left;
+            this.txtSettingsExtensionsExtensionFullName.ButtonCursor = System.Windows.Forms.Cursors.Default;
+            this.txtSettingsExtensionsExtensionFullName.ButtonFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtSettingsExtensionsExtensionFullName.ButtonImageIndex = -1;
+            this.txtSettingsExtensionsExtensionFullName.ButtonImageKey = "";
+            this.txtSettingsExtensionsExtensionFullName.ButtonSize = new System.Drawing.Size(22, 21);
+            this.txtSettingsExtensionsExtensionFullName.ButtonText = "";
+            this.txtSettingsExtensionsExtensionFullName.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.txtSettingsExtensionsExtensionFullName.Location = new System.Drawing.Point(31, 65);
+            this.txtSettingsExtensionsExtensionFullName.Name = "txtSettingsExtensionsExtensionFullName";
+            this.txtSettingsExtensionsExtensionFullName.Size = new System.Drawing.Size(129, 22);
+            this.txtSettingsExtensionsExtensionFullName.TabIndex = 4;
+            this.txtSettingsExtensionsExtensionFullName.TextHint = "";
             // 
             // lbSettingsExtensionsHeader
             // 
@@ -1474,6 +1628,18 @@
             this.tabSettingsPortable.Text = "tabSettingsPortable";
             this.tabSettingsPortable.UseVisualStyleBackColor = true;
             // 
+            // btnCleanIni
+            // 
+            this.btnCleanIni.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.btnCleanIni.Location = new System.Drawing.Point(239, 276);
+            this.btnCleanIni.Name = "btnCleanIni";
+            this.btnCleanIni.Size = new System.Drawing.Size(75, 23);
+            this.btnCleanIni.TabIndex = 2;
+            this.btnCleanIni.Text = "btnCleanIni";
+            this.tipSettings.SetToolTip(this.btnCleanIni, "btnCleanIniHint");
+            this.btnCleanIni.UseVisualStyleBackColor = true;
+            this.btnCleanIni.Click += new System.EventHandler(this.btnCleanIni_Click);
+            // 
             // chkSettingsPortableToggleIni
             // 
             this.chkSettingsPortableToggleIni.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
@@ -1540,171 +1706,6 @@
             this.tipSettings.InitialDelay = 500;
             this.tipSettings.ReshowDelay = 100;
             this.tipSettings.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
-            // 
-            // btnCleanIni
-            // 
-            this.btnCleanIni.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.btnCleanIni.Location = new System.Drawing.Point(239, 276);
-            this.btnCleanIni.Name = "btnCleanIni";
-            this.btnCleanIni.Size = new System.Drawing.Size(75, 23);
-            this.btnCleanIni.TabIndex = 2;
-            this.btnCleanIni.Text = "btnCleanIni";
-            this.tipSettings.SetToolTip(this.btnCleanIni, "btnCleanIniHint");
-            this.btnCleanIni.UseVisualStyleBackColor = true;
-            this.btnCleanIni.Click += new System.EventHandler(this.btnCleanIni_Click);
-            // 
-            // txtSettingsGeneralFFmpegPath
-            // 
-            this.txtSettingsGeneralFFmpegPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtSettingsGeneralFFmpegPath.ButtonAlignment = youtube_dl_gui.Controls.ButtonAlignments.Left;
-            this.txtSettingsGeneralFFmpegPath.ButtonCursor = System.Windows.Forms.Cursors.Default;
-            this.txtSettingsGeneralFFmpegPath.ButtonFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtSettingsGeneralFFmpegPath.ButtonImageIndex = -1;
-            this.txtSettingsGeneralFFmpegPath.ButtonImageKey = "";
-            this.txtSettingsGeneralFFmpegPath.ButtonSize = new System.Drawing.Size(22, 21);
-            this.txtSettingsGeneralFFmpegPath.ButtonText = "";
-            this.txtSettingsGeneralFFmpegPath.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.txtSettingsGeneralFFmpegPath.Location = new System.Drawing.Point(30, 79);
-            this.txtSettingsGeneralFFmpegPath.Name = "txtSettingsGeneralFFmpegPath";
-            this.txtSettingsGeneralFFmpegPath.ReadOnly = true;
-            this.txtSettingsGeneralFFmpegPath.Size = new System.Drawing.Size(233, 22);
-            this.txtSettingsGeneralFFmpegPath.TabIndex = 7;
-            this.txtSettingsGeneralFFmpegPath.TextHint = "";
-            this.tipSettings.SetToolTip(this.txtSettingsGeneralFFmpegPath, "txtFFmpeg");
-            // 
-            // txtSettingsGeneralYoutubeDlPath
-            // 
-            this.txtSettingsGeneralYoutubeDlPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtSettingsGeneralYoutubeDlPath.ButtonAlignment = youtube_dl_gui.Controls.ButtonAlignments.Left;
-            this.txtSettingsGeneralYoutubeDlPath.ButtonCursor = System.Windows.Forms.Cursors.Default;
-            this.txtSettingsGeneralYoutubeDlPath.ButtonFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtSettingsGeneralYoutubeDlPath.ButtonImageIndex = -1;
-            this.txtSettingsGeneralYoutubeDlPath.ButtonImageKey = "";
-            this.txtSettingsGeneralYoutubeDlPath.ButtonSize = new System.Drawing.Size(22, 21);
-            this.txtSettingsGeneralYoutubeDlPath.ButtonText = "";
-            this.txtSettingsGeneralYoutubeDlPath.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.txtSettingsGeneralYoutubeDlPath.Location = new System.Drawing.Point(30, 32);
-            this.txtSettingsGeneralYoutubeDlPath.Name = "txtSettingsGeneralYoutubeDlPath";
-            this.txtSettingsGeneralYoutubeDlPath.ReadOnly = true;
-            this.txtSettingsGeneralYoutubeDlPath.Size = new System.Drawing.Size(233, 22);
-            this.txtSettingsGeneralYoutubeDlPath.TabIndex = 3;
-            this.txtSettingsGeneralYoutubeDlPath.TextHint = "";
-            this.tipSettings.SetToolTip(this.txtSettingsGeneralYoutubeDlPath, "txtYtdl");
-            // 
-            // txtSettingsDownloadsProxyPort
-            // 
-            this.txtSettingsDownloadsProxyPort.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.txtSettingsDownloadsProxyPort.ButtonAlignment = youtube_dl_gui.Controls.ButtonAlignments.Left;
-            this.txtSettingsDownloadsProxyPort.ButtonCursor = System.Windows.Forms.Cursors.Default;
-            this.txtSettingsDownloadsProxyPort.ButtonFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtSettingsDownloadsProxyPort.ButtonImageIndex = -1;
-            this.txtSettingsDownloadsProxyPort.ButtonImageKey = "";
-            this.txtSettingsDownloadsProxyPort.ButtonSize = new System.Drawing.Size(22, 21);
-            this.txtSettingsDownloadsProxyPort.ButtonText = "";
-            this.txtSettingsDownloadsProxyPort.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.txtSettingsDownloadsProxyPort.Location = new System.Drawing.Point(189, 132);
-            this.txtSettingsDownloadsProxyPort.MaxLength = 5;
-            this.txtSettingsDownloadsProxyPort.Name = "txtSettingsDownloadsProxyPort";
-            this.txtSettingsDownloadsProxyPort.Size = new System.Drawing.Size(44, 22);
-            this.txtSettingsDownloadsProxyPort.TabIndex = 12;
-            this.txtSettingsDownloadsProxyPort.TextHint = "12345";
-            this.tipSettings.SetToolTip(this.txtSettingsDownloadsProxyPort, "txtSettingsDownloadsProxyPortHint");
-            this.txtSettingsDownloadsProxyPort.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtSettingsDownloadsProxyPort_KeyPress);
-            // 
-            // txtSettingsDownloadsProxyIp
-            // 
-            this.txtSettingsDownloadsProxyIp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.txtSettingsDownloadsProxyIp.ButtonAlignment = youtube_dl_gui.Controls.ButtonAlignments.Left;
-            this.txtSettingsDownloadsProxyIp.ButtonCursor = System.Windows.Forms.Cursors.Default;
-            this.txtSettingsDownloadsProxyIp.ButtonFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtSettingsDownloadsProxyIp.ButtonImageIndex = -1;
-            this.txtSettingsDownloadsProxyIp.ButtonImageKey = "";
-            this.txtSettingsDownloadsProxyIp.ButtonSize = new System.Drawing.Size(22, 21);
-            this.txtSettingsDownloadsProxyIp.ButtonText = "";
-            this.txtSettingsDownloadsProxyIp.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.txtSettingsDownloadsProxyIp.Location = new System.Drawing.Point(92, 132);
-            this.txtSettingsDownloadsProxyIp.MaxLength = 15;
-            this.txtSettingsDownloadsProxyIp.Name = "txtSettingsDownloadsProxyIp";
-            this.txtSettingsDownloadsProxyIp.Size = new System.Drawing.Size(89, 22);
-            this.txtSettingsDownloadsProxyIp.TabIndex = 10;
-            this.txtSettingsDownloadsProxyIp.TextHint = "255.255.255.255";
-            this.tipSettings.SetToolTip(this.txtSettingsDownloadsProxyIp, "txtSettingsDownloadsProxyIpHint");
-            this.txtSettingsDownloadsProxyIp.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtSettingsDownloadsProxyIp_KeyPress);
-            // 
-            // txtSettingsDownloadsSavePath
-            // 
-            this.txtSettingsDownloadsSavePath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtSettingsDownloadsSavePath.ButtonAlignment = youtube_dl_gui.Controls.ButtonAlignments.Left;
-            this.txtSettingsDownloadsSavePath.ButtonCursor = System.Windows.Forms.Cursors.Default;
-            this.txtSettingsDownloadsSavePath.ButtonFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtSettingsDownloadsSavePath.ButtonImageIndex = -1;
-            this.txtSettingsDownloadsSavePath.ButtonImageKey = "";
-            this.txtSettingsDownloadsSavePath.ButtonSize = new System.Drawing.Size(22, 21);
-            this.txtSettingsDownloadsSavePath.ButtonText = "";
-            this.txtSettingsDownloadsSavePath.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.txtSettingsDownloadsSavePath.Location = new System.Drawing.Point(30, 32);
-            this.txtSettingsDownloadsSavePath.Name = "txtSettingsDownloadsSavePath";
-            this.txtSettingsDownloadsSavePath.ReadOnly = true;
-            this.txtSettingsDownloadsSavePath.Size = new System.Drawing.Size(233, 22);
-            this.txtSettingsDownloadsSavePath.TabIndex = 2;
-            this.txtSettingsDownloadsSavePath.TextHint = "";
-            this.tipSettings.SetToolTip(this.txtSettingsDownloadsSavePath, "txtSaveto");
-            // 
-            // txtSettingsConverterCustomArguments
-            // 
-            this.txtSettingsConverterCustomArguments.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtSettingsConverterCustomArguments.ButtonAlignment = youtube_dl_gui.Controls.ButtonAlignments.Left;
-            this.txtSettingsConverterCustomArguments.ButtonCursor = System.Windows.Forms.Cursors.Default;
-            this.txtSettingsConverterCustomArguments.ButtonFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtSettingsConverterCustomArguments.ButtonImageIndex = -1;
-            this.txtSettingsConverterCustomArguments.ButtonImageKey = "";
-            this.txtSettingsConverterCustomArguments.ButtonSize = new System.Drawing.Size(22, 21);
-            this.txtSettingsConverterCustomArguments.ButtonText = "";
-            this.txtSettingsConverterCustomArguments.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.txtSettingsConverterCustomArguments.Location = new System.Drawing.Point(36, 97);
-            this.txtSettingsConverterCustomArguments.Name = "txtSettingsConverterCustomArguments";
-            this.txtSettingsConverterCustomArguments.Size = new System.Drawing.Size(228, 22);
-            this.txtSettingsConverterCustomArguments.TabIndex = 2;
-            this.txtSettingsConverterCustomArguments.TextHint = "";
-            this.tipSettings.SetToolTip(this.txtSettingsConverterCustomArguments, "txtSettingsConverterCustomArguments");
-            // 
-            // txtSettingsExtensionsExtensionShort
-            // 
-            this.txtSettingsExtensionsExtensionShort.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtSettingsExtensionsExtensionShort.ButtonAlignment = youtube_dl_gui.Controls.ButtonAlignments.Left;
-            this.txtSettingsExtensionsExtensionShort.ButtonCursor = System.Windows.Forms.Cursors.Default;
-            this.txtSettingsExtensionsExtensionShort.ButtonFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtSettingsExtensionsExtensionShort.ButtonImageIndex = -1;
-            this.txtSettingsExtensionsExtensionShort.ButtonImageKey = "";
-            this.txtSettingsExtensionsExtensionShort.ButtonSize = new System.Drawing.Size(22, 21);
-            this.txtSettingsExtensionsExtensionShort.ButtonText = "";
-            this.txtSettingsExtensionsExtensionShort.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.txtSettingsExtensionsExtensionShort.Location = new System.Drawing.Point(166, 65);
-            this.txtSettingsExtensionsExtensionShort.Name = "txtSettingsExtensionsExtensionShort";
-            this.txtSettingsExtensionsExtensionShort.Size = new System.Drawing.Size(57, 22);
-            this.txtSettingsExtensionsExtensionShort.TabIndex = 5;
-            this.txtSettingsExtensionsExtensionShort.TextHint = "";
-            // 
-            // txtSettingsExtensionsExtensionFullName
-            // 
-            this.txtSettingsExtensionsExtensionFullName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtSettingsExtensionsExtensionFullName.ButtonAlignment = youtube_dl_gui.Controls.ButtonAlignments.Left;
-            this.txtSettingsExtensionsExtensionFullName.ButtonCursor = System.Windows.Forms.Cursors.Default;
-            this.txtSettingsExtensionsExtensionFullName.ButtonFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtSettingsExtensionsExtensionFullName.ButtonImageIndex = -1;
-            this.txtSettingsExtensionsExtensionFullName.ButtonImageKey = "";
-            this.txtSettingsExtensionsExtensionFullName.ButtonSize = new System.Drawing.Size(22, 21);
-            this.txtSettingsExtensionsExtensionFullName.ButtonText = "";
-            this.txtSettingsExtensionsExtensionFullName.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.txtSettingsExtensionsExtensionFullName.Location = new System.Drawing.Point(31, 65);
-            this.txtSettingsExtensionsExtensionFullName.Name = "txtSettingsExtensionsExtensionFullName";
-            this.txtSettingsExtensionsExtensionFullName.Size = new System.Drawing.Size(129, 22);
-            this.txtSettingsExtensionsExtensionFullName.TabIndex = 4;
-            this.txtSettingsExtensionsExtensionFullName.TextHint = "";
             // 
             // frmSettings
             // 
