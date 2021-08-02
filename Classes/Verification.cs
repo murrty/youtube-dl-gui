@@ -100,7 +100,7 @@ namespace youtube_dl_gui {
             }
             else if (ProgramInExecutingDirectory("ffmpeg.exe")) {
                 //FFmpegLocation = ProgramLocation.CurrentDirectory;
-                TempPath = Program.ProgramPath + "\\" + "\\ffmpeg.exe";
+                TempPath = Program.ProgramPath + "\\ffmpeg.exe";
             }
             else if (ProgramInSystemPath("ffmpeg.exe", out TempPath)) {
                 //FFmpegLocation = ProgramLocation.SystemPATH;
