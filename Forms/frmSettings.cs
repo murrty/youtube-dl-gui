@@ -429,27 +429,49 @@ namespace youtube_dl_gui {
             chkSettingsErrorsSuppressErrors.Checked = Config.Settings.Errors.suppressErrors;
         }
         private void saveSettings() {
-            Config.Settings.General.UseStaticYtdl = chkSettingsGeneralUseStaticYoutubeDl.Checked;
-            if (chkSettingsGeneralUseStaticYoutubeDl.Checked) {
+            bool RefreshYtdl = false;
+            bool RefreshFFmpeg = false;
+
+            if (Config.Settings.General.UseStaticYtdl != chkSettingsGeneralUseStaticYoutubeDl.Checked) {
+                Config.Settings.General.UseStaticYtdl = chkSettingsGeneralUseStaticYoutubeDl.Checked;
+                RefreshYtdl = true;
+            }
+            if (chkSettingsGeneralUseStaticYoutubeDl.Checked && !string.IsNullOrEmpty(txtSettingsGeneralYoutubeDlPath.Text)) {
+                if (Config.Settings.General.ytdlPath != txtSettingsGeneralYoutubeDlPath.Text) {
+                    RefreshYtdl = true;
+                }
                 Config.Settings.General.ytdlPath = txtSettingsGeneralYoutubeDlPath.Text;
             }
-            Config.Settings.General.UseStaticFFmpeg = chkSettingsGeneralUseStaticFFmpeg.Checked;
+
+            if (Config.Settings.General.UseStaticFFmpeg != chkSettingsGeneralUseStaticFFmpeg.Checked) {
+                Config.Settings.General.UseStaticFFmpeg = chkSettingsGeneralUseStaticFFmpeg.Checked;
+                RefreshFFmpeg = true;
+            }
             if (chkSettingsGeneralUseStaticFFmpeg.Checked && !string.IsNullOrEmpty(txtSettingsGeneralFFmpegPath.Text)) {
+                if (Config.Settings.General.ffmpegPath != txtSettingsGeneralFFmpegPath.Text) {
+                    RefreshFFmpeg = true;
+                }
                 Config.Settings.General.ffmpegPath = txtSettingsGeneralFFmpegPath.Text;
             }
+
             Config.Settings.General.CheckForUpdatesOnLaunch = chkSettingsGeneralCheckForUpdatesOnLaunch.Checked;
             Config.Settings.General.DownloadBetaVersions = chkSettingsGeneralCheckForBetaUpdates.Checked;
             Config.Settings.General.HoverOverURLTextBoxToPaste = chkSettingsGeneralHoverOverUrlToPasteClipboard.Checked;
             Config.Settings.General.ClearURLOnDownload = chkSettingsGeneralClearUrlOnDownload.Checked;
             Config.Settings.General.ClearClipboardOnDownload = chkSettingsGeneralClearClipboardOnDownload.Checked;
-            if (rbSettingsGeneralCustomArgumentsDontSave.Checked)
+
+            if (rbSettingsGeneralCustomArgumentsDontSave.Checked) {
                 Config.Settings.General.SaveCustomArgs = 0;
-            else if (rbSettingsGeneralCustomArgumentsSaveAsArgsText.Checked)
+            }
+            else if (rbSettingsGeneralCustomArgumentsSaveAsArgsText.Checked) {
                 Config.Settings.General.SaveCustomArgs = 1;
-            else if (rbSettingsGeneralCustomArgumentsSaveInSettings.Checked)
+            }
+            else if (rbSettingsGeneralCustomArgumentsSaveInSettings.Checked) {
                 Config.Settings.General.SaveCustomArgs = 2;
-            else
+            }
+            else {
                 Config.Settings.General.SaveCustomArgs = 0;
+            }
 
             Config.Settings.Downloads.downloadPath = txtSettingsDownloadsSavePath.Text;
             Config.Settings.Downloads.fileNameSchema = txtSettingsDownloadsFileNameSchema.Text;
@@ -520,6 +542,13 @@ namespace youtube_dl_gui {
             Config.Settings.Converts.Save();
             Config.Settings.Errors.Save();
             Config.Settings.Saved.Save();
+
+            if (RefreshYtdl) {
+                verif.RefreshYoutubeDlLocation();
+            }
+            if (RefreshFFmpeg) {
+                verif.RefreshFFmpegLocation();
+            }
         }
 
         private void btnSettingsRedownloadYoutubeDl_Click(object sender, EventArgs e) {
@@ -528,7 +557,6 @@ namespace youtube_dl_gui {
 
         private void btnSettingsSave_Click(object sender, EventArgs e) {
             saveSettings();
-            verif.RefreshLocation();
             this.Dispose();
         }
         private void btnSettingsCancel_Click(object sender, EventArgs e) {

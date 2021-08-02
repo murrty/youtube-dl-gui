@@ -32,7 +32,6 @@ namespace youtube_dl_gui {
         }
         public frmMain() {
             InitializeComponent();
-            LoadLanguage();
             trayIcon.ContextMenu = cmTray;
             if (Program.IsDebug) {
                 lbDebug.Text = "debugging " + Properties.Settings.Default.LastDebugDate;
@@ -73,18 +72,23 @@ namespace youtube_dl_gui {
                 this.Location = Config.Settings.Saved.MainFormLocation;
             }
 
+            LoadLanguage();
+
             switch (Config.Settings.General.SaveCustomArgs) {
                 case 1:
                     if (System.IO.File.Exists(Environment.CurrentDirectory + "\\args.txt")) {
                         cbCustomArguments.Items.AddRange(System.IO.File.ReadAllLines(Environment.CurrentDirectory + "\\args.txt"));
-                        if (Config.Settings.Saved.CustomArgumentsIndex > -1 && Config.Settings.Saved.CustomArgumentsIndex <= cbCustomArguments.Items.Count) {
+                        if (Config.Settings.Saved.CustomArgumentsIndex > -1 && Config.Settings.Saved.CustomArgumentsIndex <= cbCustomArguments.Items.Count - 1) {
                             cbCustomArguments.SelectedIndex = Config.Settings.Saved.CustomArgumentsIndex;
                         }
                     }
                     break;
                 case 2:
-                    if (Config.Settings.Saved.CustomArgumentsIndex > -1) {
-                        cbCustomArguments.SelectedIndex = Config.Settings.Saved.CustomArgumentsIndex;
+                    if (!string.IsNullOrWhiteSpace(Config.Settings.Saved.DownloadCustomArguments)) {
+                        cbCustomArguments.Items.AddRange(Config.Settings.Saved.DownloadCustomArguments.Split('|'));
+                        if (Config.Settings.Saved.CustomArgumentsIndex > -1 && Config.Settings.Saved.CustomArgumentsIndex <= cbCustomArguments.Items.Count - 1) {
+                            cbCustomArguments.SelectedIndex = Config.Settings.Saved.CustomArgumentsIndex;
+                        }
                     }
                     break;
             }
@@ -275,6 +279,14 @@ namespace youtube_dl_gui {
             CalculateLocations();
         }
         void CalculateLocations() {
+
+            if (Program.IsDebug) {
+                lbDebug.Location = new Point(
+                    (this.Width - lbDebug.Width) - 20,
+                    (((this.Height - lbDebug.Height) - lbDebug.Height) - 50)
+                );
+            }
+
             gbDownloadType.Size = new Size(
                 ((rbVideo.Size.Width + 2) + rbAudio.Size.Width +  (rbCustom.Size.Width - 2)) + 12,
                 gbDownloadType.Size.Height
@@ -515,6 +527,7 @@ namespace youtube_dl_gui {
         #region downloader
         private void rbVideo_CheckedChanged(object sender, EventArgs e) {
             if (rbVideo.Checked) {
+                cbCustomArguments.Enabled = false;
                 cbQuality.SelectedIndex = -1;
                 cbQuality.Items.Clear();
                 cbQuality.Items.AddRange(DownloadFormats.VideoQualityArray);
@@ -540,6 +553,7 @@ namespace youtube_dl_gui {
         }
         private void rbAudio_CheckedChanged(object sender, EventArgs e) {
             if (rbAudio.Checked) {
+                cbCustomArguments.Enabled = false;
                 cbQuality.SelectedIndex = -1;
                 cbFormat.SelectedIndex = -1;
                 cbQuality.Items.Clear();
@@ -610,7 +624,7 @@ namespace youtube_dl_gui {
             }
         }
         private void chkUseSelection_CheckedChanged(object sender, EventArgs e) {
-            // 360 minimum height
+            // 375 minimum height
 
             // 86 difference
 
@@ -931,8 +945,14 @@ namespace youtube_dl_gui {
                 }
             }
 
-            Downloader.CurrentDownload = NewInfo;
-            Downloader.Show();
+            if (chkDebugDontDownload.Checked) {
+                NewInfo.Dispose();
+                Downloader.Dispose();
+            }
+            else {
+                Downloader.CurrentDownload = NewInfo;
+                Downloader.Show();
+            }
 
             if (Config.Settings.General.ClearURLOnDownload) {
                 txtUrl.Clear();
@@ -1247,7 +1267,15 @@ namespace youtube_dl_gui {
         private void btnYtdlVersion_Click(object sender, EventArgs e) {
             MessageBox.Show(verif.YoutubeDlVersion);
         }
+        private void btnDebugCheckVerification_Click(object sender, EventArgs e) {
+            MessageBox.Show(
+                "Youtube-DL Path: " + verif.YoutubeDlPath + "\r\nYotuube-DL Version: " + verif.YoutubeDlVersion + "\r\n\r\n" +
+                "FFmpeg Path: " + verif.FFmpegPath + "\r\n\r\n" +
+                "AtomicParlsey Path: " + verif.AtomicParsleyPath
+            );
+        }
         #endregion
+
 
     }
 }

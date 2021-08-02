@@ -121,15 +121,10 @@ namespace youtube_dl_gui {
 
             try {
                 Process startConvert = new Process();
-                if (Config.Settings.General.UseStaticFFmpeg && File.Exists(Config.Settings.General.ffmpegPath)) {
-                    startConvert.StartInfo.FileName = Config.Settings.General.ffmpegPath;
+                if (verif.FFmpegPath == null) {
+                    throw new Exception("FFmpegPath is null. Cannot convert. If you do not have ffmpeg, consider downloading it.");
                 }
-                else {
-                    if (verif.FFmpegPath == null) {
-                        throw new Exception("FFmpegPath is null. Cannot convert. If you do not have ffmpeg, consider downloading it.");
-                    }
-                    startConvert.StartInfo.FileName = verif.FFmpegPath + "\\ffmpeg.exe";
-                }
+                startConvert.StartInfo.FileName = verif.FFmpegPath;
 
                 string convertArguments = "-i \"" + input + "\"";
                 switch (convType) {

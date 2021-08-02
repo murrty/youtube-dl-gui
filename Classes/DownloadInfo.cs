@@ -1,5 +1,17 @@
-﻿namespace youtube_dl_gui {
-    public sealed class DownloadInfo {
+﻿using System;
+
+namespace youtube_dl_gui {
+    public sealed class DownloadInfo : IDisposable {
+
+        public void Dispose() {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+        public bool IsDisposed { get; private set; }
+        public void Dispose(bool disposing) {
+            IsDisposed = true;
+        }
+
         /// <summary>
         /// The URL of the video to download.
         /// </summary>

@@ -9,7 +9,7 @@
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="LastDebugDate" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">2021-07-31</Value>
+      <Value Profile="(Default)">2021-08-01</Value>
     </Setting>
     <Setting Name="SkippedVersion" Type="System.Decimal" Scope="User">
       <Value Profile="(Default)">-1</Value>
@@ -25,6 +25,9 @@
     </Setting>
     <Setting Name="LanguageFile" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="SkipInternalEnglish" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
     </Setting>
   </Settings>
 </SettingsFile>

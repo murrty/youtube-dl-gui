@@ -78,7 +78,6 @@ namespace youtube_dl_gui {
                     }
                     break;
             }
-
             if (!e.Cancel) {
                 if (Config.Settings.Downloads.CloseDownloaderAfterFinish != chkDownloaderCloseAfterDownload.Checked && !CurrentDownload.BatchDownload) {
                     Config.Settings.Downloads.CloseDownloaderAfterFinish = chkDownloaderCloseAfterDownload.Checked;
@@ -87,6 +86,7 @@ namespace youtube_dl_gui {
                     }
                 }
 
+                CurrentDownload.Dispose();
                 this.DialogResult = Finish;
                 this.Dispose();
             }
@@ -178,12 +178,7 @@ sanitizecheck:
             string webFolder = string.Empty;
 
             #region youtube-dl path
-            if (Config.Settings.General.UseStaticYtdl && File.Exists(Config.Settings.General.ytdlPath)) {
-                YoutubeDlFileName = Config.Settings.General.ytdlPath;
-            }
-            else {
-                YoutubeDlFileName = verif.YoutubeDlPath;
-            }
+            YoutubeDlFileName = verif.YoutubeDlPath;
             if (string.IsNullOrWhiteSpace(YoutubeDlFileName)) {
                 rtbConsoleOutput.AppendText("Youtube-DL has not been found\nA rescan for youtube-dl was called\n");
                 verif.RefreshYoutubeDlLocation();

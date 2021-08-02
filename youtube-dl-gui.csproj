@@ -67,32 +67,43 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Batch.Designer.cs">
+    <Compile Include="Configurations\Batch.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Batch.settings</DependentUpon>
     </Compile>
+    <Compile Include="Classes\Config.cs" />
     <Compile Include="Classes\Controller.cs" />
     <Compile Include="Classes\Convert.cs" />
     <Compile Include="Classes\Download.cs" />
+    <Compile Include="Classes\DownloadInfo.cs" />
     <Compile Include="Classes\Language.cs" />
-    <Compile Include="Classes\Controls.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Classes\CheckSettings.cs" />
+    <Compile Include="Classes\NativeMethods.cs" />
     <Compile Include="Classes\UpdateChecker.cs" />
     <Compile Include="Classes\ErrorLog.cs" />
-    <Compile Include="Converts.Designer.cs">
+    <Compile Include="Controls\ExtendedTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\LinkLabelHand.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\SplitButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\VistaListView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Configurations\Converts.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Converts.settings</DependentUpon>
     </Compile>
-    <Compile Include="Downloads.Designer.cs">
+    <Compile Include="Configurations\Downloads.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Downloads.settings</DependentUpon>
     </Compile>
-    <Compile Include="Errors.Designer.cs">
+    <Compile Include="Configurations\Errors.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Errors.settings</DependentUpon>
@@ -102,6 +113,12 @@
     </Compile>
     <Compile Include="Forms\frmAbout.Designer.cs">
       <DependentUpon>frmAbout.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmBatchConverter.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmBatchConverter.Designer.cs">
+      <DependentUpon>frmBatchConverter.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\frmBatchDownloader.cs">
       <SubType>Form</SubType>
@@ -169,22 +186,17 @@
     <Compile Include="Forms\frmAuthentication.Designer.cs">
       <DependentUpon>frmAuthentication.cs</DependentUpon>
     </Compile>
-    <Compile Include="General.Designer.cs">
+    <Compile Include="Configurations\General.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>General.settings</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Saved.Designer.cs">
+    <Compile Include="Configurations\Saved.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Saved.settings</DependentUpon>
-    </Compile>
-    <Compile Include="Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="Classes\Verification.cs" />
     <EmbeddedResource Include="Forms\frmAbout.resx">
@@ -192,6 +204,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmAuthentication.resx">
       <DependentUpon>frmAuthentication.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmBatchConverter.resx">
+      <DependentUpon>frmBatchConverter.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmBatchDownloader.resx">
       <DependentUpon>frmBatchDownloader.cs</DependentUpon>
@@ -233,23 +248,23 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <None Include="Batch.settings">
+    <None Include="Configurations\Batch.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Batch.Designer.cs</LastGenOutput>
     </None>
-    <None Include="Converts.settings">
+    <None Include="Configurations\Converts.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Converts.Designer.cs</LastGenOutput>
     </None>
-    <None Include="Downloads.settings">
+    <None Include="Configurations\Downloads.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Downloads.Designer.cs</LastGenOutput>
     </None>
-    <None Include="Errors.settings">
+    <None Include="Configurations\Errors.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Errors.Designer.cs</LastGenOutput>
     </None>
-    <None Include="General.settings">
+    <None Include="Configurations\General.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>General.Designer.cs</LastGenOutput>
     </None>
@@ -270,13 +285,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <None Include="Saved.settings">
+    <None Include="Configurations\Saved.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Saved.Designer.cs</LastGenOutput>
-    </None>
-    <None Include="Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>

@@ -46,7 +46,7 @@ namespace youtube_dl_gui.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("2021-07-31")]
+        [global::System.Configuration.DefaultSettingValueAttribute("2021-08-01")]
         public string LastDebugDate {
             get {
                 return ((string)(this["LastDebugDate"]));
@@ -104,6 +104,18 @@ namespace youtube_dl_gui.Properties {
             }
             set {
                 this["LanguageFile"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool SkipInternalEnglish {
+            get {
+                return ((bool)(this["SkipInternalEnglish"]));
+            }
+            set {
+                this["SkipInternalEnglish"] = value;
             }
         }
     }
