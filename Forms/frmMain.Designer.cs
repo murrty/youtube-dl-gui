@@ -666,7 +666,7 @@
             // 
             this.chkMergeDeleteInputFiles.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.chkMergeDeleteInputFiles.AutoSize = true;
-            this.chkMergeDeleteInputFiles.Location = new System.Drawing.Point(52, 186);
+            this.chkMergeDeleteInputFiles.Location = new System.Drawing.Point(52, 192);
             this.chkMergeDeleteInputFiles.Name = "chkMergeDeleteInputFiles";
             this.chkMergeDeleteInputFiles.Size = new System.Drawing.Size(160, 17);
             this.chkMergeDeleteInputFiles.TabIndex = 11;
@@ -679,7 +679,7 @@
             this.chkMergeAudioTracks.AutoSize = true;
             this.chkMergeAudioTracks.Checked = true;
             this.chkMergeAudioTracks.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkMergeAudioTracks.Location = new System.Drawing.Point(52, 163);
+            this.chkMergeAudioTracks.Location = new System.Drawing.Point(52, 169);
             this.chkMergeAudioTracks.Name = "chkMergeAudioTracks";
             this.chkMergeAudioTracks.Size = new System.Drawing.Size(138, 17);
             this.chkMergeAudioTracks.TabIndex = 10;
