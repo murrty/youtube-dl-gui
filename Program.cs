@@ -1,16 +1,18 @@
 ﻿using System;
 using System.IO;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
 
 namespace youtube_dl_gui {
     static class Program {
+        static GuidAttribute ProgramGUID = (GuidAttribute)Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(GuidAttribute), true)[0];
+        public static volatile string ProgramPath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
         public static readonly string UserAgent = "User-Agent: youtube-dl-gui/" + Properties.Settings.Default.CurrentVersion;
         public static volatile bool IsDebug = false;
         public static volatile bool UseIni = false;
         static Mutex mtx;
-        public static volatile string ProgramPath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
 
         static Language lang = Language.GetInstance();
         static Verification verif = Verification.GetInstance();
@@ -18,7 +20,7 @@ namespace youtube_dl_gui {
 
         [STAThread]
         static void Main(string[] args) {
-            mtx = new Mutex(true, "{youtube-dl-gui-2019-05-13}");
+            mtx = new Mutex(true, ProgramGUID.Value);
             DebugOnlyMethod();
 
             Application.EnableVisualStyles();
@@ -112,7 +114,7 @@ namespace youtube_dl_gui {
         [System.Diagnostics.Conditional("DEBUG")]
         static void DebugOnlyMethod() {
             IsDebug = true;
-            mtx = new Mutex(true, "{{{{{{yt-dl-gui-debug}}}}}}");
+            mtx = new Mutex(true, ProgramGUID + "{Debug}");
         }
 
         static void LoadClasses() {
