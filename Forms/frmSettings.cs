@@ -19,6 +19,9 @@ namespace youtube_dl_gui {
 
         List<string> extensionsName = new List<string>();
         List<string> extensionsShort = new List<string>();
+
+        private bool useYtdlUpdater_Last;
+        private int YtdlType_Last;
         #endregion
 
         public frmSettings() {
@@ -53,6 +56,13 @@ namespace youtube_dl_gui {
             tipSettings.SetToolTip(btnSettingsCancel, lang.btnSettingsCancelHint);
             btnSettingsSave.Text = lang.btnSettingsSave;
             tipSettings.SetToolTip(btnSettingsSave, lang.btnSettingsSaveHint);
+
+            //if (File.Exists(verif.YoutubeDlPath)) {
+            //    btnSettingsRedownloadYoutubeDl.Text = "Update youtube-dl";
+            //}
+            //else {
+            //    btnSettingsRedownloadYoutubeDl.Text = "Download youtube-dl";
+            //}
 
             tabSettingsGeneral.Text = lang.tabSettingsGeneral;
             tabSettingsDownloads.Text = lang.tabSettingsDownloads;
@@ -388,6 +398,8 @@ namespace youtube_dl_gui {
             txtSettingsDownloadsProxyPort.Text = Config.Settings.Downloads.ProxyPort;
             chksettingsDownloadsUseYoutubeDlsUpdater.Checked = Config.Settings.Downloads.useYtdlUpdater;
             cbSettingsDownloadsUpdatingYtdlType.SelectedIndex = Config.Settings.Downloads.YtdlType;
+            useYtdlUpdater_Last = Config.Settings.Downloads.useYtdlUpdater;
+            YtdlType_Last = Config.Settings.Downloads.YtdlType;
 
             chkSettingsConverterDetectOutputFileType.Checked = Config.Settings.Converts.detectFiletype;
             chkSettingsConverterClearOutputAfterConverting.Checked = Config.Settings.Converts.clearOutput;
@@ -520,6 +532,8 @@ namespace youtube_dl_gui {
             this.Dispose();
         }
         private void btnSettingsCancel_Click(object sender, EventArgs e) {
+            Config.Settings.Downloads.useYtdlUpdater = useYtdlUpdater_Last;
+            Config.Settings.Downloads.YtdlType = YtdlType_Last;
             this.Dispose();
         }
 
@@ -617,6 +631,13 @@ namespace youtube_dl_gui {
             else {
                 chkSettingsDownloadsEmbedThumbnails.Enabled = false;
             }
+        }
+
+        private void chksettingsDownloadsUseYoutubeDlsUpdater_CheckedChanged(object sender, EventArgs e) {
+            Config.Settings.Downloads.useYtdlUpdater = chksettingsDownloadsUseYoutubeDlsUpdater.Checked;
+        }
+        private void cbSettingsDownloadsUpdatingYtdlType_SelectedIndexChanged(object sender, EventArgs e) {
+            Config.Settings.Downloads.YtdlType = cbSettingsDownloadsUpdatingYtdlType.SelectedIndex;
         }
 
         private void chkSettingsDownloadsForceIpv4_CheckedChanged(object sender, EventArgs e) {
@@ -727,10 +748,6 @@ namespace youtube_dl_gui {
             Config.Settings.CleanIniFile();
         }
         #endregion
-
-        private void chksettingsDownloadsUseYoutubeDlsUpdater_CheckedChanged(object sender, EventArgs e) {
-            Config.Settings.Downloads.useYtdlUpdater = chksettingsDownloadsUseYoutubeDlsUpdater.Checked;
-        }
 
     }
 }

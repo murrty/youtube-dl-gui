@@ -19,6 +19,7 @@ namespace youtube_dl_gui {
         public frmDownloader() {
             InitializeComponent();
         }
+
         private void frmDownloader_Load(object sender, EventArgs e) {
             //CurrentDownload.BatchDownload = true;
             this.Text = lang.frmDownloader + " ";
@@ -95,6 +96,8 @@ namespace youtube_dl_gui {
                 case DownloadStatus.YtdlError: case DownloadStatus.ProgramError: case DownloadStatus.Aborted:
                     btnDownloaderAbortBatchDownload.Visible = false;
                     btnDownloaderAbortBatchDownload.Enabled = false;
+                    this.Text = lang.frmDownloader + " ";
+                    tmrTitleActivity.Start();
                     BeginDownload();
                     break;
                 default:

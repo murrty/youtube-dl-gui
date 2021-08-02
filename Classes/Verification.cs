@@ -19,9 +19,9 @@ namespace youtube_dl_gui {
         private static volatile string YoutubeDlPath_ = null;
         private static volatile string FFmpegPath_ = null;
         private static volatile string AtomicParsleyPath_ = null;
-        private static volatile ProgramLocation YtdlLocation = ProgramLocation.Unavailable;
-        private static volatile ProgramLocation FFmpegLocation = ProgramLocation.Unavailable;
-        private static volatile ProgramLocation AtomicParsleyLocation = ProgramLocation.Unavailable;
+        //private static volatile ProgramLocation YtdlLocation = ProgramLocation.Unavailable;
+        //private static volatile ProgramLocation FFmpegLocation = ProgramLocation.Unavailable;
+        //private static volatile ProgramLocation AtomicParsleyLocation = ProgramLocation.Unavailable;
         private static volatile string YtdlVersion_ = null;
         private static volatile GitData.GitID YoutubeDlGitType = GitData.GitID.YoutubeDlGui;
 
@@ -71,18 +71,18 @@ namespace youtube_dl_gui {
             }
 
             if (Config.Settings.General.UseStaticYtdl && File.Exists(Config.Settings.General.ytdlPath)) {
-                YtdlLocation = ProgramLocation.StaticPath;
+                //YtdlLocation = ProgramLocation.StaticPath;
                 TempPath = Config.Settings.General.ytdlPath;
             }
             else if (ProgramInExecutingDirectory(YoutubeDlName)) {
-                YtdlLocation = ProgramLocation.CurrentDirectory;
+                //YtdlLocation = ProgramLocation.CurrentDirectory;
                 TempPath = Program.ProgramPath + "\\youtube-dl.exe";
             }
             else if (ProgramInSystemPath(YoutubeDlName, out TempPath)) {
-                YtdlLocation = ProgramLocation.SystemPATH;
+                //YtdlLocation = ProgramLocation.SystemPATH;
             }
             else {
-                YtdlLocation = ProgramLocation.Unavailable;
+                //YtdlLocation = ProgramLocation.Unavailable;
             }
 
             YoutubeDlPath = TempPath;
@@ -95,18 +95,18 @@ namespace youtube_dl_gui {
             string TempPath = null;
 
             if (Config.Settings.General.UseStaticFFmpeg && File.Exists(Config.Settings.General.ffmpegPath)) {
-                FFmpegLocation = ProgramLocation.StaticPath;
+                //FFmpegLocation = ProgramLocation.StaticPath;
                 TempPath = Config.Settings.General.ffmpegPath;
             }
             else if (ProgramInExecutingDirectory("ffmpeg.exe")) {
-                FFmpegLocation = ProgramLocation.CurrentDirectory;
+                //FFmpegLocation = ProgramLocation.CurrentDirectory;
                 TempPath = Program.ProgramPath + "\\ffmpeg.exe";
             }
             else if (ProgramInSystemPath("ffmpeg.exe", out TempPath)) {
-                FFmpegLocation = ProgramLocation.SystemPATH;
+                //FFmpegLocation = ProgramLocation.SystemPATH;
             }
             else {
-                FFmpegLocation = ProgramLocation.Unavailable;
+                //FFmpegLocation = ProgramLocation.Unavailable;
             }
 
             FFmpegPath = TempPath;
@@ -115,14 +115,14 @@ namespace youtube_dl_gui {
             string TempPath = null;
 
             if (ProgramInExecutingDirectory("atomicparsley.exe")) {
-                AtomicParsleyLocation = ProgramLocation.CurrentDirectory;
+                //AtomicParsleyLocation = ProgramLocation.CurrentDirectory;
                 TempPath = Program.ProgramPath + "\\atomicparsley.exe";
             }
             else if (ProgramInSystemPath("atomicparsley.exe", out TempPath)) {
-                AtomicParsleyLocation = ProgramLocation.SystemPATH;
+                //AtomicParsleyLocation = ProgramLocation.SystemPATH;
             }
             else {
-                AtomicParsleyLocation = ProgramLocation.Unavailable;
+                //AtomicParsleyLocation = ProgramLocation.Unavailable;
             }
 
             AtomicParsleyPath = TempPath;

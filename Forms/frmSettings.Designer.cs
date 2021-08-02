@@ -955,6 +955,7 @@
             this.cbSettingsDownloadsUpdatingYtdlType.Size = new System.Drawing.Size(179, 21);
             this.cbSettingsDownloadsUpdatingYtdlType.TabIndex = 2;
             this.tipSettings.SetToolTip(this.cbSettingsDownloadsUpdatingYtdlType, "cbSettingsDownloadsUpdatingYtdlTypeHint");
+            this.cbSettingsDownloadsUpdatingYtdlType.SelectedIndexChanged += new System.EventHandler(this.cbSettingsDownloadsUpdatingYtdlType_SelectedIndexChanged);
             // 
             // chksettingsDownloadsUseYoutubeDlsUpdater
             // 
@@ -1694,6 +1695,7 @@
             this.btnCleanIni.Text = "btnCleanIni";
             this.tipSettings.SetToolTip(this.btnCleanIni, "btnCleanIniHint");
             this.btnCleanIni.UseVisualStyleBackColor = true;
+            this.btnCleanIni.Visible = false;
             this.btnCleanIni.Click += new System.EventHandler(this.btnCleanIni_Click);
             // 
             // chkSettingsPortableToggleIni
@@ -1723,9 +1725,9 @@
             // btnSettingsRedownloadYoutubeDl
             // 
             this.btnSettingsRedownloadYoutubeDl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnSettingsRedownloadYoutubeDl.Location = new System.Drawing.Point(4, 351);
+            this.btnSettingsRedownloadYoutubeDl.Location = new System.Drawing.Point(12, 351);
             this.btnSettingsRedownloadYoutubeDl.Name = "btnSettingsRedownloadYoutubeDl";
-            this.btnSettingsRedownloadYoutubeDl.Size = new System.Drawing.Size(140, 23);
+            this.btnSettingsRedownloadYoutubeDl.Size = new System.Drawing.Size(132, 23);
             this.btnSettingsRedownloadYoutubeDl.TabIndex = 1;
             this.btnSettingsRedownloadYoutubeDl.Text = "btnSettingsRedownloadYoutubeDl";
             this.tipSettings.SetToolTip(this.btnSettingsRedownloadYoutubeDl, "btnSettingsRedownloadYoutubeDl");
@@ -1735,7 +1737,7 @@
             // btnSettingsCancel
             // 
             this.btnSettingsCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSettingsCancel.Location = new System.Drawing.Point(168, 351);
+            this.btnSettingsCancel.Location = new System.Drawing.Point(160, 351);
             this.btnSettingsCancel.Name = "btnSettingsCancel";
             this.btnSettingsCancel.Size = new System.Drawing.Size(75, 23);
             this.btnSettingsCancel.TabIndex = 2;
@@ -1747,7 +1749,7 @@
             // btnSettingsSave
             // 
             this.btnSettingsSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSettingsSave.Location = new System.Drawing.Point(249, 351);
+            this.btnSettingsSave.Location = new System.Drawing.Point(241, 351);
             this.btnSettingsSave.Name = "btnSettingsSave";
             this.btnSettingsSave.Size = new System.Drawing.Size(75, 23);
             this.btnSettingsSave.TabIndex = 3;

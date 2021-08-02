@@ -1209,9 +1209,7 @@ namespace youtube_dl_gui {
                         case true:
                             YtdlType = Ini.ReadInt("YtdlType", "Downloads");
                             switch (YtdlType) {
-                                case 0:
-                                case 1:
-                                case 2:
+                                case 1: case 2:
                                     break;
 
                                 default:

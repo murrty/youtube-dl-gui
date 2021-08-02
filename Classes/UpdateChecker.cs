@@ -172,17 +172,16 @@ namespace youtube_dl_gui {
 
             }
             else {
-                GitData.YoutubeDlVersion = GetGitVersionString((GitData.GitID)(Config.Settings.Downloads.YtdlType));
+                GitData.YoutubeDlVersion = GetYoutubeDlVersion((Config.Settings.Downloads.YtdlType + 1));
 
                 if (verif.YoutubeDlVersion != GitData.YoutubeDlVersion) {
                     string FullSavePath = null;
                     string DownloadUrl = string.Format(GitData.GitLinks.ApplicationDownloadUrl,
-                                         GitData.GitLinks.Users[Config.Settings.Downloads.YtdlType],
-                                         GitData.GitLinks.Repos[Config.Settings.Downloads.YtdlType],
+                                         GitData.GitLinks.Users[Config.Settings.Downloads.YtdlType + 1],
+                                         GitData.GitLinks.Repos[Config.Settings.Downloads.YtdlType + 1],
                                          GitData.YoutubeDlVersion);
 
-                    if (Config.Settings.General.UseStaticYtdl
-                    && !string.IsNullOrEmpty(Config.Settings.General.ytdlPath)) {
+                    if (Config.Settings.General.UseStaticYtdl && !string.IsNullOrEmpty(Config.Settings.General.ytdlPath)) {
                         FullSavePath = Config.Settings.General.ytdlPath;
                     }
                     else {
@@ -209,6 +208,8 @@ namespace youtube_dl_gui {
 
                                 wc.DownloadFile( DownloadUrl, FullSavePath );
 
+                                verif.RefreshYoutubeDlLocation();
+
                                 MessageBox.Show("Youtube-dl has been updated.");
                             }
                             catch (WebException webex) {
@@ -217,8 +218,8 @@ namespace youtube_dl_gui {
                                     webex,
                                     string.Format(
                                         GitData.GitLinks.ApplicationDownloadUrl,
-                                        GitData.GitLinks.Users[Config.Settings.Downloads.YtdlType],
-                                        GitData.GitLinks.Repos[Config.Settings.Downloads.YtdlType],
+                                        GitData.GitLinks.Users[Config.Settings.Downloads.YtdlType + 1],
+                                        GitData.GitLinks.Repos[Config.Settings.Downloads.YtdlType + 1],
                                         GitData.YoutubeDlVersion
                                     )
                                 );
@@ -289,7 +290,7 @@ namespace youtube_dl_gui {
         }
 
         // These add 1 to GitID to work around this program being set as -1
-        public static string GetGitLatestReleaseString(GitData.GitID GitID) {
+        public static string GetGitLatestReleaseString(int GitID) {
             try {
                 GitID++;
                 string xml = GetJSON(
@@ -327,7 +328,7 @@ namespace youtube_dl_gui {
                 return null;
             }
         }
-        public static decimal GetGitVersion(GitData.GitID GitID) {
+        public static decimal GetGitVersion(int GitID) {
             try {
                 GitID++;
                 string xml = GetJSON(string.Format(
@@ -365,7 +366,7 @@ namespace youtube_dl_gui {
                 return -1;
             }
         }
-        public static string GetGitVersionString(GitData.GitID GitID) {
+        public static string GetYoutubeDlVersion(int GitID) {
             try {
                 GitID++;
                 string xml = GetJSON(string.Format(
@@ -458,7 +459,7 @@ namespace youtube_dl_gui {
             public static readonly string ApplicationDownloadUrl = "https://github.com/{0}/{1}/releases/download/{2}/{1}.exe";
 
             public static readonly string[] Users = { "murrty", "ytdl-org", "blackjack4494", "yt-dlp" };
-            public static readonly string[] Repos = { "youtube-dl-gui", "youtube-dl", "yt-dlc", "yt-dlp" };
+            public static readonly string[] Repos = { "youtube-dl-gui", "youtube-dl", "youtube-dlc", "yt-dlp" };
 
             public static decimal GetGitVersionDecimal(string InputVersion) {
                 return decimal.Parse(InputVersion.Replace(".", CultureInfo.InvariantCulture.NumberFormat.NumberDecimalSeparator), NumberStyles.Any, CultureInfo.InvariantCulture);
