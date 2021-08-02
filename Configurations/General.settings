@@ -1,5 +1,5 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="youtube_dl_gui.Settings" GeneratedClassName="General">
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="youtube_dl_gui.Configurations" GeneratedClassName="General">
   <Profiles />
   <Settings>
     <Setting Name="UseStaticYtdl" Type="System.Boolean" Scope="User">
@@ -37,6 +37,9 @@
     </Setting>
     <Setting Name="extensionsShort" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="YtdlType" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
     </Setting>
   </Settings>
 </SettingsFile>

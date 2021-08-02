@@ -1244,6 +1244,9 @@ namespace youtube_dl_gui {
                 ErrorLog.ReportException(ex, false);
             }
         }
+        private void btnYtdlVersion_Click(object sender, EventArgs e) {
+            MessageBox.Show(verif.YoutubeDlVersion);
+        }
         #endregion
 
     }

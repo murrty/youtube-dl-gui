@@ -4,16 +4,26 @@ using System.IO;
 
 namespace youtube_dl_gui {
     class Verification {
+
         private static volatile Verification Instance = new Verification();
+
         public static Verification GetInstance() { return Instance; }
+
+        private enum ProgramLocation {
+            StaticPath,
+            CurrentDirectory,
+            SystemPATH,
+            Unavailable
+        }
 
         private static volatile string YoutubeDlPathString_ = null;
         private static volatile string FFmpegPathString_ = null;
         private static volatile string AtomicParsleyPathString_ = null;
-        private static volatile int YoutubeDlPathInt_ = -1;
-        private static volatile int FFmpegPathInt_ = -1;
-        private static volatile int AtomicParsleyInt_ = -1;
+        private static volatile ProgramLocation YoutubeDlPathInt_ = ProgramLocation.Unavailable;
+        private static volatile ProgramLocation FFmpegPathInt_ = ProgramLocation.Unavailable;
+        private static volatile ProgramLocation AtomicParsleyInt_ = ProgramLocation.Unavailable;
         private static volatile string YoutubeDlVersionString = null;
+        private static volatile GitData.GitID YoutubeDlGitType = GitData.GitID.YoutubeDlGui;
 
         public string YoutubeDlPath {
             get { return YoutubeDlPathString_; }
@@ -30,15 +40,15 @@ namespace youtube_dl_gui {
             get { return AtomicParsleyPathString_; }
             private set { AtomicParsleyPathString_ = value; }
         }
-        public int YoutubeDlInt {
+        public ProgramLocation YoutubeDlInt {
             get { return YoutubeDlPathInt_; }
             private set { YoutubeDlPathInt_ = value; }
         }
-        public int FFmpegInt {
+        public ProgramLocation FFmpegInt {
             get { return FFmpegPathInt_; }
             private set { FFmpegPathInt_ = value; }
         }
-        public int AtomicParsleyInt {
+        public ProgramLocation AtomicParsleyInt {
             get { return AtomicParsleyInt_; }
             private set { AtomicParsleyInt_ = value; }
         }
@@ -54,20 +64,64 @@ namespace youtube_dl_gui {
         }
         public void RefreshYoutubeDlLocation() {
             YoutubeDlInt = ytdlFullCheck();
-            switch (YoutubeDlInt) {
-                case 0:
-                    YoutubeDlPath = Config.Settings.General.ytdlPath;
+
+            switch (YoutubeDlGitType) {
+                case GitData.GitID.YoutubeDl:
+                    switch (YoutubeDlInt) {
+                        case ProgramLocation.StaticPath:
+                            YoutubeDlPath = Config.Settings.General.ytdlPath;
+                            break;
+                        case ProgramLocation.CurrentDirectory:
+                            YoutubeDlPath = Program.ProgramPath + "\\youtube-dl.exe";
+                            break;
+                        case ProgramLocation.SystemPATH:
+                            YoutubeDlPath = ytdlPathLocation;
+                            break;
+                        default:
+                            YoutubeDlPath = null;
+                            break;
+                    }
                     break;
-                case 1:
-                    YoutubeDlPath = Environment.CurrentDirectory + "\\youtube-dl.exe";
+
+                case GitData.GitID.YoutubeDlc:
+                    switch (YoutubeDlInt) {
+                        case ProgramLocation.StaticPath:
+                            YoutubeDlPath = Config.Settings.General.ytdlPath;
+                            break;
+                        case ProgramLocation.CurrentDirectory:
+                            YoutubeDlPath = Program.ProgramPath + "\\youtube-dlc.exe";
+                            break;
+                        case ProgramLocation.SystemPATH:
+                            YoutubeDlPath = ytdlPathLocation;
+                            break;
+                        default:
+                            YoutubeDlPath = null;
+                            break;
+                    }
                     break;
-                case 2:
-                    YoutubeDlPath = ytdlPathLocation;
+
+                case GitData.GitID.YoutubeDlp:
+                    switch (YoutubeDlInt) {
+                        case ProgramLocation.StaticPath:
+                            YoutubeDlPath = Config.Settings.General.ytdlPath;
+                            break;
+                        case ProgramLocation.CurrentDirectory:
+                            YoutubeDlPath = Program.ProgramPath + "\\yt-dlp.exe";
+                            break;
+                        case ProgramLocation.SystemPATH:
+                            YoutubeDlPath = ytdlPathLocation;
+                            break;
+                        default:
+                            YoutubeDlPath = null;
+                            break;
+                    }
                     break;
+
                 default:
                     YoutubeDlPath = null;
                     break;
             }
+            
             if (YoutubeDlPath != null) {
                 YoutubeDlVersion = GetYtdlVersion(YoutubeDlPath);
             }
@@ -75,13 +129,13 @@ namespace youtube_dl_gui {
         public void RefreshFFmpegLocation() {
             FFmpegInt = ffmpegFullCheck();
             switch (FFmpegInt) {
-                case 0:
+                case ProgramLocation.StaticPath:
                     FFmpegPath = Config.Settings.General.ffmpegPath;
                     break;
-                case 1:
-                    FFmpegPath = Environment.CurrentDirectory;
+                case ProgramLocation.CurrentDirectory:
+                    FFmpegPath = Program.ProgramPath;
                     break;
-                case 2:
+                case ProgramLocation.SystemPATH:
                     FFmpegPath = ffmpegPathLocation;
                     break;
                 default:
@@ -92,23 +146,16 @@ namespace youtube_dl_gui {
         public void RefreshAtomicParsleyLocation() {
             AtomicParsleyInt = atomicParsleyFullCheck();
             switch (AtomicParsleyInt) {
-                case 1:
-                    AtomicParsleyPath = Environment.CurrentDirectory + "\\atomicparsley.exe";
+                case ProgramLocation.CurrentDirectory:
+                    AtomicParsleyPath = Program.ProgramPath + "\\atomicparsley.exe";
                     break;
-                case 2:
+                case ProgramLocation.SystemPATH:
                     AtomicParsleyPath = atomicParsleyPathLocation;
                     break;
                 default:
                     AtomicParsleyPath = null;
                     break;
             }
-        }
-
-        public static class ApplicationLocation {
-            public static int NoneFound { get { return -1; } }
-            public static int StaticDirectory { get { return 0; } }
-            public static int CurrentDirectory { get { return 1; } }
-            public static int SystemPath { get { return 2; } }
         }
 
         #region youtube-dl verification
@@ -124,27 +171,73 @@ namespace youtube_dl_gui {
         }
         private static bool ytdlInExecutingDirectory {
             get {
-                return File.Exists(Environment.CurrentDirectory + "\\youtube-dl.exe");
+                switch ((GitData.GitID)Config.Settings.Downloads.YtdlType) {
+                    default:
+                        return File.Exists(Environment.CurrentDirectory + "\\youtube-dl.exe");
+
+                    case GitData.GitID.YoutubeDlc:
+                        return File.Exists(Environment.CurrentDirectory + "\\youtube-dlc.exe");
+
+                    case GitData.GitID.YoutubeDlp:
+                        return File.Exists(Environment.CurrentDirectory + "\\yt-dlp.exe");
+                }
             }
         }
-
         private static string ytdlPathLocation {
             get {
                 var pathValues = Environment.GetEnvironmentVariable("PATH");
-                foreach (var foundPath in pathValues.Split(';')) {
-                    var ytdlPath = foundPath;
-                    if (File.Exists(ytdlPath + "\\youtube-dl.exe"))
-                        return ytdlPath + "\\youtube-dl.exe";
+                switch ((GitData.GitID)Config.Settings.Downloads.YtdlType) {
+                    default:
+                        foreach (var foundPath in pathValues.Split(';')) {
+                            var ytdlPath = foundPath;
+                            if (File.Exists(ytdlPath + "\\youtube-dl.exe"))
+                                return ytdlPath + "\\youtube-dl.exe";
+                        }
+                        break;
+
+                    case GitData.GitID.YoutubeDlc:
+                        foreach (var foundPath in pathValues.Split(';')) {
+                            var ytdlPath = foundPath;
+                            if (File.Exists(ytdlPath + "\\youtube-dlc.exe"))
+                                return ytdlPath + "\\youtube-dlc.exe";
+                        }
+                        break;
+
+                    case GitData.GitID.YoutubeDlp:
+                        foreach (var foundPath in pathValues.Split(';')) {
+                            var ytdlPath = foundPath;
+                            if (File.Exists(ytdlPath + "\\yt-dlp.exe"))
+                                return ytdlPath + "\\yt-dlp.exe";
+                        }
+                        break;
                 }
+
                 return null;
             }
         }
         private static bool ytdlInSystemPath {
             get {
                 string ytdlPath = ytdlPathLocation;
-                if (!string.IsNullOrEmpty(ytdlPath)) {
-                    return File.Exists(ytdlPath + "\\youtube-dl.exe");
+                switch ((GitData.GitID)Config.Settings.Downloads.YtdlType) {
+                    default:
+                        if (!string.IsNullOrEmpty(ytdlPath)) {
+                            return File.Exists(ytdlPath + "\\youtube-dl.exe");
+                        }
+                        break;
+
+                    case GitData.GitID.YoutubeDlc:
+                        if (!string.IsNullOrEmpty(ytdlPath)) {
+                            return File.Exists(ytdlPath + "\\youtube-dlc.exe");
+                        }
+                        break;
+
+                    case GitData.GitID.YoutubeDlp:
+                        if (!string.IsNullOrEmpty(ytdlPath)) {
+                            return File.Exists(ytdlPath + "\\yt-dlp.exe");
+                        }
+                        break;
                 }
+                
 
                 return false;
             }
@@ -153,15 +246,15 @@ namespace youtube_dl_gui {
         /// <summary>
         /// Check for youtube-dl using all possible routes
         /// </summary>
-        private static int ytdlFullCheck() {
+        private static ProgramLocation ytdlFullCheck() {
             if (Config.Settings.General.UseStaticYtdl && File.Exists(Config.Settings.General.ytdlPath))
-                return ApplicationLocation.StaticDirectory;
+                return ProgramLocation.StaticPath;
             else if (ytdlInExecutingDirectory)
-                return ApplicationLocation.CurrentDirectory;
+                return ProgramLocation.CurrentDirectory;
             else if (ytdlInSystemPath)
-                return ApplicationLocation.SystemPath;
+                return ProgramLocation.SystemPATH;
             else
-                return ApplicationLocation.NoneFound;
+                return ProgramLocation.Unavailable;
         }
         #endregion
 
@@ -201,15 +294,15 @@ namespace youtube_dl_gui {
         /// <summary>
         /// Check for ffmpeg using all possible routes
         /// </summary>
-        private static int ffmpegFullCheck() {
+        private static ProgramLocation ffmpegFullCheck() {
             if (Config.Settings.General.UseStaticFFmpeg && File.Exists(Config.Settings.General.ffmpegPath))
-                return ApplicationLocation.StaticDirectory;
+                return ProgramLocation.StaticPath;
             else if (ffmpegInExecutingDirectory)
-                return ApplicationLocation.CurrentDirectory;
+                return ProgramLocation.CurrentDirectory;
             else if (ffmpegInSystemPath)
-                return ApplicationLocation.SystemPath;
+                return ProgramLocation.SystemPATH;
             else
-                return ApplicationLocation.NoneFound;
+                return ProgramLocation.Unavailable;
         }
         #endregion
 
@@ -240,15 +333,15 @@ namespace youtube_dl_gui {
             }
         }
 
-        private static int atomicParsleyFullCheck() {
+        private static ProgramLocation atomicParsleyFullCheck() {
             if (atomicParsleyInExecutingDirectory) {
-                return ApplicationLocation.CurrentDirectory;
+                return ProgramLocation.CurrentDirectory;
             }
             else if (atomicParsleyInSystemPath) {
-                return ApplicationLocation.SystemPath;
+                return ProgramLocation.SystemPATH;
             }
             else {
-                return ApplicationLocation.NoneFound;
+                return ProgramLocation.Unavailable;
             }
         }
         #endregion

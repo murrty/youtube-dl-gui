@@ -17,11 +17,6 @@ namespace youtube_dl_gui {
         public static Verification verif = Verification.GetInstance();
         private static bool DMCA = false; // Will bypass the youtube-dl check if it gets DMCA'd
 
-        enum GitID {
-            YoutubeDlGui,
-            YoutubeDl
-        }
-
         public static void CheckForUpdate(bool ForceCheck = false) {
             if (Program.IsDebug && !bypassDebug) {
                 Debug.Print("-version " + GitData.UpdateVersion + " -name " + System.AppDomain.CurrentDomain.FriendlyName);
@@ -149,40 +144,85 @@ namespace youtube_dl_gui {
                 return;
             }
 
-            if (Config.Settings.Downloads.useYtdlUpdater && Config.Settings.General.UseStaticYtdl && !string.IsNullOrEmpty(Config.Settings.General.ytdlPath) && File.Exists(Config.Settings.General.ytdlPath) || File.Exists(Environment.CurrentDirectory + "\\youtube-dl.exe")) {
+            if (Config.Settings.Downloads.useYtdlUpdater && Config.Settings.General.UseStaticYtdl && !string.IsNullOrEmpty(Config.Settings.General.ytdlPath) && File.Exists(Config.Settings.General.ytdlPath) || File.Exists(Program.ProgramPath + "\\youtube-dl.exe") || File.Exists(Program.ProgramPath + "\\youtube-dlc.exe") || File.Exists(Program.ProgramPath + "\\yt-dlp.exe")) {
+
                 Process UpdateYoutubeDl = new Process();
                 UpdateYoutubeDl.StartInfo.Arguments = "-U";
 
-                if (!Config.Settings.General.UseStaticYtdl || string.IsNullOrEmpty(Config.Settings.General.ytdlPath)) {
-                    UpdateYoutubeDl.StartInfo.FileName = Environment.CurrentDirectory + "\\youtube-dl.exe";
+                if (Config.Settings.General.UseStaticYtdl && !string.IsNullOrWhiteSpace(Config.Settings.General.ytdlPath) && File.Exists(Config.Settings.General.ytdlPath)) {
+                        UpdateYoutubeDl.StartInfo.FileName = Config.Settings.General.ytdlPath;
                 }
                 else {
-                    UpdateYoutubeDl.StartInfo.FileName = Config.Settings.General.ytdlPath;
+                    if (File.Exists(Program.ProgramPath + "\\youtube-dl.exe")) {
+                        UpdateYoutubeDl.StartInfo.FileName = Program.ProgramPath + "\\youtube-dl.exe";
+                    }
+                    else if (File.Exists(Program.ProgramPath + "\\youtube-dlc.exe")) {
+                        UpdateYoutubeDl.StartInfo.FileName = Program.ProgramPath + "\\youtube-dlc.exe";
+                    }
+                    else if (File.Exists(Program.ProgramPath + "\\yt-dlp.exe")) {
+                        UpdateYoutubeDl.StartInfo.FileName = Program.ProgramPath + "\\yt-dlp.exe";
+                    }
+                    else {
+                        MessageBox.Show("Could not find a valid youtube-dl program.");
+                        return;
+                    }
                 }
 
                 UpdateYoutubeDl.Start();
-                UpdateYoutubeDl.WaitForExit();
+
             }
             else {
-                GetGitVersionString(1);
-                if (!Config.Settings.General.UseStaticYtdl || string.IsNullOrEmpty(Config.Settings.General.ytdlPath)) {
+                GitData.YoutubeDlVersion = GetGitVersionString((GitData.GitID)(Config.Settings.Downloads.YtdlType + 1));
+
+                if (verif.YoutubeDlVersion != GitData.YoutubeDlVersion) {
+                    string FullSavePath = null;
+                    string DownloadUrl = string.Format(GitData.GitLinks.ApplicationDownloadUrl,
+                                         GitData.GitLinks.Users[Config.Settings.Downloads.YtdlType + 1],
+                                         GitData.GitLinks.Repos[Config.Settings.Downloads.YtdlType + 1],
+                                         GitData.YoutubeDlVersion);
+
+                    if (Config.Settings.General.UseStaticYtdl
+                    && !string.IsNullOrEmpty(Config.Settings.General.ytdlPath)) {
+                        FullSavePath = Config.Settings.General.ytdlPath;
+                    }
+                    else {
+                        switch (Config.Settings.Downloads.YtdlType) {
+                            case 1:
+                                FullSavePath = Program.ProgramPath + "\\youtube-dlc.exe";
+                                break;
+
+                            case 2:
+                                FullSavePath = Program.ProgramPath + "\\yt-dlp.exe";
+                                break;
+
+                            default:
+                                FullSavePath = Program.ProgramPath + "\\youtube-dl.exe";
+                                break;
+                        }
+                    }
+
                     Thread DownloadYoutubeDl = new Thread(() => {
                         using (WebClient wc = new WebClient()) {
                             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
                             wc.Headers.Add("User-Agent: " + Program.UserAgent);
                             try {
-                                string ytdlDownloadPath = null;
-                                if (Config.Settings.General.UseStaticYtdl && !string.IsNullOrEmpty(Config.Settings.General.ytdlPath)) {
-                                    ytdlDownloadPath = Config.Settings.General.ytdlPath;
-                                }
-                                else {
-                                    ytdlDownloadPath = Environment.CurrentDirectory + "\\youtube-dl.exe";
-                                }
-                                wc.DownloadFile(string.Format(GitData.GitLinks.ApplicationDownloadUrl, GitData.GitLinks.Users[1], GitData.GitLinks.ApplicationNames[1], GitData.YoutubeDlVersion), ytdlDownloadPath);
+
+                                wc.DownloadFile( DownloadUrl, FullSavePath );
+
                                 MessageBox.Show("Youtube-dl has been updated.");
                             }
                             catch (WebException webex) {
-                                ErrorLog.ReportWebException(webex, string.Format(GitData.GitLinks.ApplicationDownloadUrl, GitData.GitLinks.Users[1], GitData.GitLinks.ApplicationNames[1], GitData.YoutubeDlVersion));
+
+                                ErrorLog.ReportWebException(
+                                    webex,
+                                    string.Format(
+                                        GitData.GitLinks.ApplicationDownloadUrl,
+                                        GitData.GitLinks.Users[Config.Settings.Downloads.YtdlType + 1],
+                                        GitData.GitLinks.Repos[Config.Settings.Downloads.YtdlType + 1],
+                                        GitData.YoutubeDlVersion
+                                    )
+                                );
+
                             }
                             catch (Exception ex) {
                                 ErrorLog.ReportException(ex);
@@ -191,27 +231,9 @@ namespace youtube_dl_gui {
                     });
                     DownloadYoutubeDl.Name = "Downloading youtube-dl";
                     DownloadYoutubeDl.Start();
+
                 }
-                else {
-                    Thread DownloadYoutubeDl = new Thread(() => {
-                        using (WebClient wc = new WebClient()) {
-                            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-                            wc.Headers.Add("User-Agent: " + Program.UserAgent);
-                            try {
-                                wc.DownloadFile(string.Format(GitData.GitLinks.ApplicationDownloadUrl, GitData.GitLinks.Users[1], GitData.GitLinks.ApplicationNames[1], GitData.YoutubeDlVersion), Config.Settings.General.ytdlPath);
-                                MessageBox.Show("Youtube-dl has been updated.");
-                            }
-                            catch (WebException webex) {
-                                ErrorLog.ReportWebException(webex, string.Format(GitData.GitLinks.ApplicationDownloadUrl, GitData.GitLinks.Users[1], GitData.GitLinks.ApplicationNames[1], GitData.YoutubeDlVersion));
-                            }
-                            catch (Exception ex) {
-                                ErrorLog.ReportException(ex);
-                            }
-                        }
-                    });
-                    DownloadYoutubeDl.Name = "Downloading youtube-dl";
-                    DownloadYoutubeDl.Start();
-                }
+
             }
         }
 
@@ -258,22 +280,13 @@ namespace youtube_dl_gui {
                 return null;
             }
         }
-        public static string GetGitLatestReleaseString(int GitID) {
+        public static string GetGitLatestReleaseString(GitData.GitID GitID) {
             try {
-                string xml = null;
-                if (Program.IsDebug && !bypassDebug) {
-                    switch (GitID) {
-                        case 0:
-                            xml = GetJSON("http://localhost/youtube-dl-gui/latest.json");
-                            break;
-                        case 1:
-                            xml = GetJSON("http://localhost/youtube-dl/latest.json");
-                            break;
-                    }
-                }
-                else {
-                    xml = GetJSON(string.Format(GitData.GitLinks.GithubAllReleasesJson, GitData.GitLinks.Users[GitID], GitData.GitLinks.ApplicationNames[GitID]));
-                }
+                string xml = GetJSON(
+                    string.Format(GitData.GitLinks.GithubAllReleasesJson,
+                    GitData.GitLinks.Users[(int)GitID],
+                    GitData.GitLinks.Repos[(int)GitID]
+                ));
 
                 if (xml == null)
                     return null;
@@ -304,22 +317,50 @@ namespace youtube_dl_gui {
                 return null;
             }
         }
-        public static string GetGitVersionString(int GitID) {
+        public static decimal GetGitVersion(GitData.GitID GitID) {
             try {
-                string xml = null;
-                if (Program.IsDebug && !bypassDebug) {
-                    switch (GitID) {
-                        case 0:
-                            xml = GetJSON("http://localhost/youtube-dl-gui/latest.json");
-                            break;
-                        case 1:
-                            xml = GetJSON("http://localhost/youtube-dl/latest.json");
-                            break;
-                    }
+                string xml = GetJSON(string.Format(
+                    GitData.GitLinks.GithubLatestJson,
+                    GitData.GitLinks.Users[(int)GitID],
+                    GitData.GitLinks.Repos[(int)GitID]
+                ));
+
+                if (xml == null)
+                    return -1;
+
+                XmlDocument doc = new XmlDocument();
+                doc.LoadXml(xml);
+                XmlNodeList xmlTag = doc.DocumentElement.SelectNodes("/root/tag_name");
+
+                if (GitID == 0) {
+                    XmlNodeList xmlName = doc.DocumentElement.SelectNodes("/root/name");
+                    XmlNodeList xmlBody = doc.DocumentElement.SelectNodes("/root/body");
+
+
+                    GitData.UpdateVersion = xmlTag[0].InnerText;
+                    GitData.UpdateName = xmlName[0].InnerText;
+                    GitData.UpdateBody = xmlBody[0].InnerText;
+                    return GitData.GitLinks.GetGitVersionDecimal(GitData.UpdateVersion);
                 }
                 else {
-                    xml = GetJSON(string.Format(GitData.GitLinks.GithubLatestJson, GitData.GitLinks.Users[GitID], GitData.GitLinks.ApplicationNames[GitID]));
+                    GitData.YoutubeDlVersion = xmlTag[0].InnerText;
+                    return GitData.GitLinks.GetGitVersionDecimal(GitData.YoutubeDlVersion);
                 }
+
+
+            }
+            catch (Exception ex) {
+                ErrorLog.ReportException(ex);
+                return -1;
+            }
+        }
+        public static string GetGitVersionString(GitData.GitID GitID) {
+            try {
+                string xml = GetJSON(string.Format(
+                    GitData.GitLinks.GithubLatestJson,
+                    GitData.GitLinks.Users[(int)GitID],
+                    GitData.GitLinks.Repos[(int)GitID]
+                ));
 
                 if (xml == null)
                     return null;
@@ -348,51 +389,6 @@ namespace youtube_dl_gui {
             catch (Exception ex) {
                 ErrorLog.ReportException(ex);
                 return null;
-            }
-        }
-        public static decimal GetGitVersion(int GitID) {
-            try {
-                string xml = null;
-                if (Program.IsDebug && !bypassDebug) {
-                    switch (GitID) {
-                        case 0:
-                            xml = GetJSON("http://localhost/youtube-dl-gui/latest.json");
-                            break;
-                        case 1:
-                            xml = GetJSON("http://localhost/youtube-dl/latest.json");
-                            break;
-                    }
-                }
-                else {
-                    xml = GetJSON(string.Format(GitData.GitLinks.GithubLatestJson, GitData.GitLinks.Users[GitID], GitData.GitLinks.ApplicationNames[GitID]));
-                }
-                if (xml == null)
-                    return -1;
-
-                XmlDocument doc = new XmlDocument();
-                doc.LoadXml(xml);
-                XmlNodeList xmlTag = doc.DocumentElement.SelectNodes("/root/tag_name");
-
-                if (GitID == 0) {
-                    XmlNodeList xmlName = doc.DocumentElement.SelectNodes("/root/name");
-                    XmlNodeList xmlBody = doc.DocumentElement.SelectNodes("/root/body");
-
-
-                    GitData.UpdateVersion = xmlTag[0].InnerText;
-                    GitData.UpdateName = xmlName[0].InnerText;
-                    GitData.UpdateBody = xmlBody[0].InnerText;
-                    return GitData.GitLinks.GetGitVersionDecimal(GitData.UpdateVersion);
-                }
-                else {
-                    GitData.YoutubeDlVersion = xmlTag[0].InnerText;
-                    return GitData.GitLinks.GetGitVersionDecimal(GitData.YoutubeDlVersion);
-                }
-
-
-            }
-            catch (Exception ex) {
-                ErrorLog.ReportException(ex);
-                return -1;
             }
         }
 
@@ -434,6 +430,13 @@ namespace youtube_dl_gui {
 
     public class GitData {
 
+        public enum GitID : int {
+            YoutubeDlGui = 0,
+            YoutubeDl = 1,
+            YoutubeDlc = 2,
+            YoutubeDlp = 3
+        }
+
         public class GitLinks {
             public static readonly string GithubRawUrl = "https://raw.githubusercontent.com/{0}/{1}";
             public static readonly string GithubRepoUrl = "https://github.com/{0}/{1}";
@@ -442,8 +445,8 @@ namespace youtube_dl_gui {
             public static readonly string GithubAllReleasesJson = "https://api.github.com/repos/{0}/{1}/releases";
             public static readonly string ApplicationDownloadUrl = "https://github.com/{0}/{1}/releases/download/{2}/{1}.exe";
 
-            public static readonly string[] Users = { "murrty", "ytdl-org", "blackjack4494" };
-            public static readonly string[] ApplicationNames = { "youtube-dl-gui", "youtube-dl", "yt-dlc" };
+            public static readonly string[] Users = { "murrty", "ytdl-org", "blackjack4494", "yt-dlp" };
+            public static readonly string[] Repos = { "youtube-dl-gui", "youtube-dl", "yt-dlc", "yt-dlp" };
 
             public static decimal GetGitVersionDecimal(string InputVersion) {
                 return decimal.Parse(InputVersion.Replace(".", CultureInfo.InvariantCulture.NumberFormat.NumberDecimalSeparator), NumberStyles.Any, CultureInfo.InvariantCulture);
@@ -455,15 +458,15 @@ namespace youtube_dl_gui {
         private static volatile string UpdateNameString = "UpdateNameString";
         private static volatile string UpdateBodyString = "UpdateBodyString";
         private static volatile bool UpdateAvailableBool = false;
-        private static volatile string YoutubeDlVersionString = "YoutubeDlVersion";
-        private static volatile bool YoutubeDlUpdateAvailableBool = false;
+        private static volatile string YoutubeDlVersionString = "0000.00.00";
+        //private static volatile bool YoutubeDlUpdateAvailableBool = false;
 
         public static GitData GetInstance() {
             return GitDataInstance;
         }
 
         public string GithubIssuesLink {
-            get { return string.Format(GitLinks.GithubIssuesUrl, GitLinks.Users[0], GitLinks.ApplicationNames[0]); }
+            get { return string.Format(GitLinks.GithubIssuesUrl, GitLinks.Users[0], GitLinks.Repos[0]); }
         }
         public string UpdateVersion {
             get { return UpdateVersionString; }

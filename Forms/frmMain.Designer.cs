@@ -126,6 +126,7 @@
             this.trayIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.tmrConvertLabel = new System.Windows.Forms.Timer(this.components);
             this.tmrDownloadLabel = new System.Windows.Forms.Timer(this.components);
+            this.btnYtdlVersion = new System.Windows.Forms.Button();
             this.tcMain.SuspendLayout();
             this.tabDownload.SuspendLayout();
             this.gbSelection.SuspendLayout();
@@ -592,7 +593,7 @@
             this.tabConvert.Location = new System.Drawing.Point(4, 22);
             this.tabConvert.Name = "tabConvert";
             this.tabConvert.Padding = new System.Windows.Forms.Padding(3);
-            this.tabConvert.Size = new System.Drawing.Size(236, 277);
+            this.tabConvert.Size = new System.Drawing.Size(236, 297);
             this.tabConvert.TabIndex = 1;
             this.tabConvert.Text = "tabConvert";
             this.tabConvert.UseVisualStyleBackColor = true;
@@ -759,7 +760,7 @@
             this.tabMerge.Location = new System.Drawing.Point(4, 22);
             this.tabMerge.Name = "tabMerge";
             this.tabMerge.Padding = new System.Windows.Forms.Padding(3);
-            this.tabMerge.Size = new System.Drawing.Size(236, 277);
+            this.tabMerge.Size = new System.Drawing.Size(236, 297);
             this.tabMerge.TabIndex = 2;
             this.tabMerge.Text = "tabMerge";
             this.tabMerge.UseVisualStyleBackColor = true;
@@ -894,6 +895,7 @@
             // 
             // tabDebug
             // 
+            this.tabDebug.Controls.Add(this.btnYtdlVersion);
             this.tabDebug.Controls.Add(this.btnDebugThrowException);
             this.tabDebug.Controls.Add(this.btnDebugRotateQualityFormat);
             this.tabDebug.Controls.Add(this.btnDebugDownloadArgs);
@@ -902,7 +904,7 @@
             this.tabDebug.Location = new System.Drawing.Point(4, 22);
             this.tabDebug.Name = "tabDebug";
             this.tabDebug.Padding = new System.Windows.Forms.Padding(3);
-            this.tabDebug.Size = new System.Drawing.Size(236, 277);
+            this.tabDebug.Size = new System.Drawing.Size(236, 297);
             this.tabDebug.TabIndex = 3;
             this.tabDebug.Text = "Debug";
             this.tabDebug.UseVisualStyleBackColor = true;
@@ -1190,6 +1192,16 @@
             this.tmrDownloadLabel.Interval = 5000;
             this.tmrDownloadLabel.Tick += new System.EventHandler(this.tmrDownloadLabel_Tick);
             // 
+            // btnYtdlVersion
+            // 
+            this.btnYtdlVersion.Location = new System.Drawing.Point(8, 153);
+            this.btnYtdlVersion.Name = "btnYtdlVersion";
+            this.btnYtdlVersion.Size = new System.Drawing.Size(123, 23);
+            this.btnYtdlVersion.TabIndex = 5;
+            this.btnYtdlVersion.Text = "Youtube-Dl Version";
+            this.btnYtdlVersion.UseVisualStyleBackColor = true;
+            this.btnYtdlVersion.Click += new System.EventHandler(this.btnYtdlVersion_Click);
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1332,6 +1344,7 @@
         private System.Windows.Forms.RadioButton rbVideoSelectionPlaylistIndex;
         private System.Windows.Forms.CheckBox chkUseSelection;
         private System.Windows.Forms.ComboBox cbCustomArguments;
+        private System.Windows.Forms.Button btnYtdlVersion;
     }
 }
 

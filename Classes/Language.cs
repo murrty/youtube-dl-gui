@@ -6,6 +6,7 @@ namespace youtube_dl_gui {
     /// Controls the language strings of the program. Most, if not all, strings get their text from here.
     /// </summary>
     public class Language {
+
         #region Instance
         /// <summary>
         /// The single instance of the language that contains all the strings.
@@ -19,6 +20,10 @@ namespace youtube_dl_gui {
             return LangInstance;
         }
         #endregion
+
+        public Language() {
+            //ResetControlNames();
+        }
 
         #region Variables
         #region Language identifier
@@ -247,6 +252,10 @@ namespace youtube_dl_gui {
         private static volatile string chkSettingsDownloadsForceIpv6String = "chkSettingsDownloadsForceIpv6";
         private static volatile string chkSettingsDownloadsUseProxyString = "chkSettingsDownloadsUseProxy";
         private static volatile string chksettingsDownloadsUseYoutubeDlsUpdaterString = "chksettingsDownloadsUseYoutubeDlsUpdater";
+        private static volatile string lbSettingsDownloadsUpdatingYtdlTypeString = "lbSettingsDownloadsUpdatingYtdlType";
+        private static volatile string cbSettingsDownloadsUpdatingYtdlTypeHintString = "cbSettingsDownloadsUpdatingYtdlTypeHint";
+        private static volatile string llbSettingsDownloadsYtdlTypeViewRepoString = "llbSettingsDownloadsYtdlTypeViewRepo";
+        private static volatile string llbSettingsDownloadsYtdlTypeViewRepoHintString = "llbSettingsDownloadsYtdlTypeViewRepoHint";
         private static volatile string chkSettingsDownloadsSeparateBatchDownloadsString = "chkSettingsDownloadsSeparateBatchDownloads";
         private static volatile string chkSettingsDownloadsAddDateToBatchDownloadFoldersString = "chkSettingsDownloadsAddDateToBatchDownloadFolders";
         #endregion
@@ -318,6 +327,7 @@ namespace youtube_dl_gui {
         #endregion
         #region tabDownloads
         private static volatile string lbSettingsDownloadsDownloadPathHintString = "lbSettingsDownloadsDownloadPathHint";
+        private static volatile string chkSettingsDownloadsDownloadPathUseRelativePathHintString = "chkSettingsDownloadsDownloadPathUseRelativePathHint";
         private static volatile string txtSettingsDownloadsSavePathHintString = "txtSettingsDownloadsSavePathHint";
         private static volatile string btnSettingsDownloadsBrowseSavePathHintString = "btnSettingsDownloadsBrowseSavePathHint";
         private static volatile string llSettingsDownloadsSchemaHelpHintString = "llSettingsDownloadsSchemaHelpHint";
@@ -1159,6 +1169,22 @@ namespace youtube_dl_gui {
             get { return chksettingsDownloadsUseYoutubeDlsUpdaterString; }
             private set { chksettingsDownloadsUseYoutubeDlsUpdaterString = value; }
         }
+        public string lbSettingsDownloadsUpdatingYtdlType {
+            get { return lbSettingsDownloadsUpdatingYtdlTypeString; }
+            private set { lbSettingsDownloadsUpdatingYtdlTypeString = value; }
+        }
+        public string cbSettingsDownloadsUpdatingYtdlTypeHint {
+            get { return cbSettingsDownloadsUpdatingYtdlTypeHintString; }
+            private set { cbSettingsDownloadsUpdatingYtdlTypeHintString = value; }
+        }
+        public string llbSettingsDownloadsYtdlTypeViewRepo {
+            get { return llbSettingsDownloadsYtdlTypeViewRepoString; }
+            private set { llbSettingsDownloadsYtdlTypeViewRepoString = value; }
+        }
+        public string llbSettingsDownloadsYtdlTypeViewRepoHint {
+            get { return llbSettingsDownloadsYtdlTypeViewRepoHintString; }
+            private set { llbSettingsDownloadsYtdlTypeViewRepoHintString = value; }
+        }
         public string chkSettingsDownloadsSeparateBatchDownloads {
             get { return chkSettingsDownloadsSeparateBatchDownloadsString; }
             private set { chkSettingsDownloadsSeparateBatchDownloadsString = value; }
@@ -1367,6 +1393,10 @@ namespace youtube_dl_gui {
         public string lbSettingsDownloadsDownloadPathHint {
             get { return lbSettingsDownloadsDownloadPathHintString; }
             private set { lbSettingsDownloadsDownloadPathHintString = value; }
+        }
+        public string chkSettingsDownloadsDownloadPathUseRelativePathHint {
+            get { return chkSettingsDownloadsDownloadPathUseRelativePathHintString; }
+            private set { chkSettingsDownloadsDownloadPathUseRelativePathHintString = value; }
         }
         public string txtSettingsDownloadsSavePathHint {
             get { return txtSettingsDownloadsSavePathHintString; }
@@ -1894,6 +1924,7 @@ namespace youtube_dl_gui {
             #region tabDownloads
             // frmSettings / tcMain / tabDownloads
             public static readonly string lbSettingsDownloadsDownloadPath = "download path";
+            public static readonly string chkSettingsDownloadsDownloadPathUseRelativePathHint = "Save to the program's relative path\r\n\r\nIf checked, the program will check the save path and use the current directory as the base path.\r\nSaving anywhere outside of the current directory will not set the flag and will set it to wherever you selected.";
             public static readonly string txtSettingsDownloadsSavePathHint = "where your downloads will be saved to";
             public static readonly string btnSettingsDownloadsBrowseSavePathHint = "browse for a new save folder";
             public static readonly string lbSettingsDownloadsFileNameSchema = "file name schema";
@@ -1925,6 +1956,8 @@ namespace youtube_dl_gui {
             public static readonly string chkSettingsDownloadsForceIpv6 = "Force IPv6";
             public static readonly string chkSettingsDownloadsUseProxy = "Use a proxy";
             public static readonly string chksettingsDownloadsUseYoutubeDlsUpdater = "Use youtube-dl's internal updater";
+            public static readonly string lbSettingsDownloadsUpdatingYtdlType = "Youtube-DL fork";
+            public static readonly string llbSettingsDownloadsYtdlTypeViewRepo = "View source repo";
             public static readonly string chkSettingsDownloadsSeparateBatchDownloads = "Separate Batch Downloads";
             public static readonly string chkSettingsDownloadsAddDateToBatchDownloadFolders = "Include Date onto Download Folders";
 
@@ -1961,6 +1994,8 @@ namespace youtube_dl_gui {
             public static readonly string txtSettingsDownloadsProxyIpHint = "The proxy IP that will be used";
             public static readonly string txtSettingsDownloadsProxyPortHint = "The proxy port that will be used";
             public static readonly string chksettingsDownloadsUseYoutubeDlsUpdaterHint = "Use youtube-dl's internal updater instead of this application's updater";
+            public static readonly string cbSettingsDownloadsUpdatingYtdlTypeHint = "The youtube-dl repo that will be targetted";
+            public static readonly string llbSettingsDownloadsYtdlTypeViewRepoHint = "Go to the repository page of the selected fork";
             public static readonly string chkSettingsDownloadsSeparateBatchDownloadsHint = "Batch downloads are separated into a new folder in the designated download path";
             public static readonly string chkSettingsDownloadsAddDateToBatchDownloadFoldersHint = "Batch downloads are further separated into a new folder that is the date and time the batch started";
 
@@ -2065,353 +2100,360 @@ namespace youtube_dl_gui {
         /// Loads all the internal English strings to the instance.
         /// </summary>
         public void LoadInternalEnglish() {
-            LoadedFile = null;
+            if (!Properties.Settings.Default.SkipInternalEnglish) {
+                LoadedFile = null;
 
-            // Langauge identifier
-            CurrentLanguageLong = InternalEnglish.CurrentLanguageLong;
-            CurrentLanguageShort = InternalEnglish.CurrentLanguageShort;
-            CurrentLanguageHint = InternalEnglish.CurrentLanguageHint;
+                // Langauge identifier
+                CurrentLanguageLong = InternalEnglish.CurrentLanguageLong;
+                CurrentLanguageShort = InternalEnglish.CurrentLanguageShort;
+                CurrentLanguageHint = InternalEnglish.CurrentLanguageHint;
 
-            // Generics
-            GenericInputBest = InternalEnglish.GenericInputBest;
-            GenericCancel = InternalEnglish.GenericCancel;
-            GenericSkip = InternalEnglish.GenericSkip;
-            GenericSound = InternalEnglish.GenericSound;
-            GenericVideo = InternalEnglish.GenericVideo;
-            GenericAudio = InternalEnglish.GenericAudio;
-            GenericCustom = InternalEnglish.GenericCustom;
-            GenericRetryString = InternalEnglish.GenericRetry;
+                // Generics
+                GenericInputBest = InternalEnglish.GenericInputBest;
+                GenericCancel = InternalEnglish.GenericCancel;
+                GenericSkip = InternalEnglish.GenericSkip;
+                GenericSound = InternalEnglish.GenericSound;
+                GenericVideo = InternalEnglish.GenericVideo;
+                GenericAudio = InternalEnglish.GenericAudio;
+                GenericCustom = InternalEnglish.GenericCustom;
+                GenericRetryString = InternalEnglish.GenericRetry;
 
-            // frmAbout
-            frmAbout = InternalEnglish.frmAbout;
-            lbAboutBody = InternalEnglish.lbAboutBody;
-            llbCheckForUpdates = InternalEnglish.llbCheckForUpdates;
+                // frmAbout
+                frmAbout = InternalEnglish.frmAbout;
+                lbAboutBody = InternalEnglish.lbAboutBody;
+                llbCheckForUpdates = InternalEnglish.llbCheckForUpdates;
 
-            // frmAuthentication
-            frmAuthentication = InternalEnglish.frmAuthentication;
-            lbAuthNotice = InternalEnglish.lbAuthNotice;
-            lbAuthUsername = InternalEnglish.lbAuthUsername;
-            lbAuthPassword = InternalEnglish.lbAuthPassword;
-            lbAuth2Factor = InternalEnglish.lbAuth2Factor;
-            lbAuthVideoPassword = InternalEnglish.lbAuthVideoPassword;
-            chkAuthUseNetrc = InternalEnglish.chkAuthUseNetrc;
-            lbAuthNoSave = InternalEnglish.lbAuthNoSave;
-            btnAuthBeginDownload = InternalEnglish.btnAuthBeginDownload;
+                // frmAuthentication
+                frmAuthentication = InternalEnglish.frmAuthentication;
+                lbAuthNotice = InternalEnglish.lbAuthNotice;
+                lbAuthUsername = InternalEnglish.lbAuthUsername;
+                lbAuthPassword = InternalEnglish.lbAuthPassword;
+                lbAuth2Factor = InternalEnglish.lbAuth2Factor;
+                lbAuthVideoPassword = InternalEnglish.lbAuthVideoPassword;
+                chkAuthUseNetrc = InternalEnglish.chkAuthUseNetrc;
+                lbAuthNoSave = InternalEnglish.lbAuthNoSave;
+                btnAuthBeginDownload = InternalEnglish.btnAuthBeginDownload;
 
-            // frmBatch
-            frmBatchDownload = InternalEnglish.frmBatchDownload;
-            lbBatchDownloadLink = InternalEnglish.lbBatchDownloadLink;
-            lbBatchDownloadType = InternalEnglish.lbBatchDownloadType;
-            lbBatchDownloadVideoSpecificArgument = InternalEnglish.lbBatchDownloadVideoSpecificArgument;
-            btnBatchDownloadAdd = InternalEnglish.btnBatchDownloadAdd;
-            sbBatchDownloadLoadArgs = InternalEnglish.sbBatchDownloadLoadArgs;
-            mBatchDownloaderLoadArgsFromSettings = InternalEnglish.mBatchDownloaderLoadArgsFromSettings;
-            mBatchDownloaderLoadArgsFromArgsTxt = InternalEnglish.mBatchDownloaderLoadArgsFromArgsTxt;
-            mBatchDownloaderLoadArgsFromFile = InternalEnglish.mBatchDownloaderLoadArgsFromFile;
-            btnBatchDownloadRemoveSelected = InternalEnglish.btnBatchDownloadRemoveSelected;
-            btnBatchDownloadStart = InternalEnglish.btnBatchDownloadStart;
-            btnBatchDownloadStop = InternalEnglish.btnBatchDownloadStop;
-            btnBatchDownloadExit = InternalEnglish.btnBatchDownloadExit;
-            sbBatchDownloaderIdle = InternalEnglish.sbBatchDownloaderIdle;
-            sbBatchDownloaderDownloading = InternalEnglish.sbBatchDownloaderDownloading;
-            sbBatchDownloaderFinished = InternalEnglish.sbBatchDownloaderFinished;
-            sbBatchDownloaderAborted = InternalEnglish.sbBatchDownloaderAborted;
+                // frmBatch
+                frmBatchDownload = InternalEnglish.frmBatchDownload;
+                lbBatchDownloadLink = InternalEnglish.lbBatchDownloadLink;
+                lbBatchDownloadType = InternalEnglish.lbBatchDownloadType;
+                lbBatchDownloadVideoSpecificArgument = InternalEnglish.lbBatchDownloadVideoSpecificArgument;
+                btnBatchDownloadAdd = InternalEnglish.btnBatchDownloadAdd;
+                sbBatchDownloadLoadArgs = InternalEnglish.sbBatchDownloadLoadArgs;
+                mBatchDownloaderLoadArgsFromSettings = InternalEnglish.mBatchDownloaderLoadArgsFromSettings;
+                mBatchDownloaderLoadArgsFromArgsTxt = InternalEnglish.mBatchDownloaderLoadArgsFromArgsTxt;
+                mBatchDownloaderLoadArgsFromFile = InternalEnglish.mBatchDownloaderLoadArgsFromFile;
+                btnBatchDownloadRemoveSelected = InternalEnglish.btnBatchDownloadRemoveSelected;
+                btnBatchDownloadStart = InternalEnglish.btnBatchDownloadStart;
+                btnBatchDownloadStop = InternalEnglish.btnBatchDownloadStop;
+                btnBatchDownloadExit = InternalEnglish.btnBatchDownloadExit;
+                sbBatchDownloaderIdle = InternalEnglish.sbBatchDownloaderIdle;
+                sbBatchDownloaderDownloading = InternalEnglish.sbBatchDownloaderDownloading;
+                sbBatchDownloaderFinished = InternalEnglish.sbBatchDownloaderFinished;
+                sbBatchDownloaderAborted = InternalEnglish.sbBatchDownloaderAborted;
 
-            // frmDownloader
-            frmDownloader = InternalEnglish.frmDownloader;
-            frmDownloaderComplete = InternalEnglish.frmDownloaderComplete;
-            frmDownloaderError = InternalEnglish.frmDownloaderError;
-            chkDownloaderCloseAfterDownload = InternalEnglish.chkDownloaderCloseAfterDownload;
-            btnDownloaderAbortBatch = InternalEnglish.btnDownloaderAbortBatch;
-            btnDownloaderExit = InternalEnglish.btnDownloaderExit;
+                // frmDownloader
+                frmDownloader = InternalEnglish.frmDownloader;
+                frmDownloaderComplete = InternalEnglish.frmDownloaderComplete;
+                frmDownloaderError = InternalEnglish.frmDownloaderError;
+                chkDownloaderCloseAfterDownload = InternalEnglish.chkDownloaderCloseAfterDownload;
+                btnDownloaderAbortBatch = InternalEnglish.btnDownloaderAbortBatch;
+                btnDownloaderExit = InternalEnglish.btnDownloaderExit;
 
-            // frmException
-            frmException = InternalEnglish.frmException;
-            lbExceptionHeader = InternalEnglish.lbExceptionHeader;
-            lbExceptionDescription = InternalEnglish.lbExceptionDescription;
-            rtbExceptionDetails = InternalEnglish.rtbExceptionDetails;
-            btnExceptionGithub = InternalEnglish.btnExceptionGithub;
-            btnExceptionOk = InternalEnglish.btnExceptionOk;
+                // frmException
+                frmException = InternalEnglish.frmException;
+                lbExceptionHeader = InternalEnglish.lbExceptionHeader;
+                lbExceptionDescription = InternalEnglish.lbExceptionDescription;
+                rtbExceptionDetails = InternalEnglish.rtbExceptionDetails;
+                btnExceptionGithub = InternalEnglish.btnExceptionGithub;
+                btnExceptionOk = InternalEnglish.btnExceptionOk;
 
-            // frmLanguage
-            frmLanguage = InternalEnglish.frmLanguage;
-            btnLanguageRefresh = InternalEnglish.btnLanguageRefresh;
-            btnLanguageCancel = InternalEnglish.btnLanguageCancel;
-            btnLanguageSave = InternalEnglish.btnLanguageSave;
+                // frmLanguage
+                frmLanguage = InternalEnglish.frmLanguage;
+                btnLanguageRefresh = InternalEnglish.btnLanguageRefresh;
+                btnLanguageCancel = InternalEnglish.btnLanguageCancel;
+                btnLanguageSave = InternalEnglish.btnLanguageSave;
 
-            // frmMain
-            mSettings = InternalEnglish.mSettings;
-            mTools = InternalEnglish.mTools;
-            mBatchDownload = InternalEnglish.mBatchDownload;
-            mDownloadSubtitles = InternalEnglish.mDownloadSubtitles;
-            mMiscTools = InternalEnglish.mMiscTools;
-            mHelp = InternalEnglish.mHelp;
-            mLanguage = InternalEnglish.mLanguage;
-            mSupportedSites = InternalEnglish.mSupportedSites;
-            mAbout = InternalEnglish.mAbout;
+                // frmMain
+                mSettings = InternalEnglish.mSettings;
+                mTools = InternalEnglish.mTools;
+                mBatchDownload = InternalEnglish.mBatchDownload;
+                mDownloadSubtitles = InternalEnglish.mDownloadSubtitles;
+                mMiscTools = InternalEnglish.mMiscTools;
+                mHelp = InternalEnglish.mHelp;
+                mLanguage = InternalEnglish.mLanguage;
+                mSupportedSites = InternalEnglish.mSupportedSites;
+                mAbout = InternalEnglish.mAbout;
 
-            tabDownload = InternalEnglish.tabDownload;
-            tabConvert = InternalEnglish.tabConvert;
-            tabMerge = InternalEnglish.tabMerge;
+                tabDownload = InternalEnglish.tabDownload;
+                tabConvert = InternalEnglish.tabConvert;
+                tabMerge = InternalEnglish.tabMerge;
 
-            lbURL = InternalEnglish.lbURL;
-            txtUrlHint = InternalEnglish.txtUrlHint;
-            gbDownloadType = InternalEnglish.gbDownloadType;
-            lbQuality = InternalEnglish.lbQuality;
-            lbFormat = InternalEnglish.lbFormat;
-            chkDownloadSound = InternalEnglish.chkDownloadSound;
-            chkUseSelection = InternalEnglish.chkUseSelection;
-            rbVideoSelectionPlaylistIndex = InternalEnglish.rbVideoSelectionPlaylistIndex;
-            rbVideoSelectionPlaylistItems = InternalEnglish.rbVideoSelectionPlaylistItems;
-            rbVideoSelectionBeforeDate = InternalEnglish.rbVideoSelectionBeforeDate;
-            rbVideoSelectionOnDate = InternalEnglish.rbVideoSelectionOnDate;
-            rbVideoSelectionAfterDate = InternalEnglish.rbVideoSelectionAfterDate;
-            txtPlaylistStartHint = InternalEnglish.txtPlaylistStartHint;
-            txtPlaylistEndHint = InternalEnglish.txtPlaylistEndHint;
-            txtPlaylistItemsHint = InternalEnglish.txtPlaylistItemsHint;
-            txtVideoDateHint = InternalEnglish.txtVideoDateHint;
-            lbCustomArguments = InternalEnglish.lbCustomArguments;
-            txtArgsHint = InternalEnglish.txtArgsHint;
-            sbDownload = InternalEnglish.sbDownload;
-            mDownloadWithAuthentication = InternalEnglish.mDownloadWithAuthentication;
-            msgBatchDownloadFromFile = InternalEnglish.msgBatchDownloadFromFile;
-            mBatchDownloadFromFile = InternalEnglish.mBatchDownloadFromFile;
-            lbDownloadStatusStarted = InternalEnglish.lbDownloadStatusStarted;
-            lbDownloadStatusError = InternalEnglish.lbDownloadStatusError;
+                lbURL = InternalEnglish.lbURL;
+                txtUrlHint = InternalEnglish.txtUrlHint;
+                gbDownloadType = InternalEnglish.gbDownloadType;
+                lbQuality = InternalEnglish.lbQuality;
+                lbFormat = InternalEnglish.lbFormat;
+                chkDownloadSound = InternalEnglish.chkDownloadSound;
+                chkUseSelection = InternalEnglish.chkUseSelection;
+                rbVideoSelectionPlaylistIndex = InternalEnglish.rbVideoSelectionPlaylistIndex;
+                rbVideoSelectionPlaylistItems = InternalEnglish.rbVideoSelectionPlaylistItems;
+                rbVideoSelectionBeforeDate = InternalEnglish.rbVideoSelectionBeforeDate;
+                rbVideoSelectionOnDate = InternalEnglish.rbVideoSelectionOnDate;
+                rbVideoSelectionAfterDate = InternalEnglish.rbVideoSelectionAfterDate;
+                txtPlaylistStartHint = InternalEnglish.txtPlaylistStartHint;
+                txtPlaylistEndHint = InternalEnglish.txtPlaylistEndHint;
+                txtPlaylistItemsHint = InternalEnglish.txtPlaylistItemsHint;
+                txtVideoDateHint = InternalEnglish.txtVideoDateHint;
+                lbCustomArguments = InternalEnglish.lbCustomArguments;
+                txtArgsHint = InternalEnglish.txtArgsHint;
+                sbDownload = InternalEnglish.sbDownload;
+                mDownloadWithAuthentication = InternalEnglish.mDownloadWithAuthentication;
+                msgBatchDownloadFromFile = InternalEnglish.msgBatchDownloadFromFile;
+                mBatchDownloadFromFile = InternalEnglish.mBatchDownloadFromFile;
+                lbDownloadStatusStarted = InternalEnglish.lbDownloadStatusStarted;
+                lbDownloadStatusError = InternalEnglish.lbDownloadStatusError;
 
-            lbConvertInput = InternalEnglish.lbConvertInput;
-            lbConvertOutput = InternalEnglish.lbConvertOutput;
-            rbConvertAuto = InternalEnglish.rbConvertAuto;
-            rbConvertAutoFFmpeg = InternalEnglish.rbConvertAutoFFmpeg;
-            btnConvert = InternalEnglish.btnConvert;
-            lbConvertStarted = InternalEnglish.lbConvertStarted;
-            lbConvertFailed = InternalEnglish.lbConvertFailed;
+                lbConvertInput = InternalEnglish.lbConvertInput;
+                lbConvertOutput = InternalEnglish.lbConvertOutput;
+                rbConvertAuto = InternalEnglish.rbConvertAuto;
+                rbConvertAutoFFmpeg = InternalEnglish.rbConvertAutoFFmpeg;
+                btnConvert = InternalEnglish.btnConvert;
+                lbConvertStarted = InternalEnglish.lbConvertStarted;
+                lbConvertFailed = InternalEnglish.lbConvertFailed;
 
-            lbMergeInput1 = InternalEnglish.lbMergeInput1;
-            lbMergeInput2 = InternalEnglish.lbMergeInput2;
-            lbMergeOutput = InternalEnglish.lbMergeOutput;
-            chkMergeAudioTracks = InternalEnglish.chkMergeAudioTracks;
-            chkMergeDeleteInputFiles = InternalEnglish.chkMergeDeleteInputFiles;
-            btnMerge = InternalEnglish.btnMerge;
+                lbMergeInput1 = InternalEnglish.lbMergeInput1;
+                lbMergeInput2 = InternalEnglish.lbMergeInput2;
+                lbMergeOutput = InternalEnglish.lbMergeOutput;
+                chkMergeAudioTracks = InternalEnglish.chkMergeAudioTracks;
+                chkMergeDeleteInputFiles = InternalEnglish.chkMergeDeleteInputFiles;
+                btnMerge = InternalEnglish.btnMerge;
 
-            cmTrayShowForm = InternalEnglish.cmTrayShowForm;
-            cmTrayDownloader = InternalEnglish.cmTrayDownloader;
-            cmTrayDownloadClipboard = InternalEnglish.cmTrayDownloadClipboard;
-            cmTrayDownloadBestVideo = InternalEnglish.cmTrayDownloadBestVideo;
-            cmTrayDownloadBestAudio = InternalEnglish.cmTrayDownloadBestAudio;
-            cmTrayDownloadCustom = InternalEnglish.cmTrayDownloadCustom;
-            cmTrayDownloadCustomTxtBox = InternalEnglish.cmTrayDownloadCustomTxtBox;
-            cmTrayDownloadCustomTxt = InternalEnglish.cmTrayDownloadCustomTxt;
-            cmTrayDownloadCustomSettings = InternalEnglish.cmTrayDownloadCustomSettings;
-            cmTrayConverter = InternalEnglish.cmTrayConverter;
-            cmTrayConvertTo = InternalEnglish.cmTrayConvertTo;
-            cmTrayConvertVideo = InternalEnglish.cmTrayConvertVideo;
-            cmTrayConvertAudio = InternalEnglish.cmTrayConvertAudio;
-            cmTrayConvertCustom = InternalEnglish.cmTrayConvertCustom;
-            cmTrayConvertAutomatic = InternalEnglish.cmTrayConvertAutomatic;
-            cmTrayConvertAutoFFmpeg = InternalEnglish.cmTrayConvertAutoFFmpeg;
-            cmTrayExit = InternalEnglish.cmTrayExit;
+                cmTrayShowForm = InternalEnglish.cmTrayShowForm;
+                cmTrayDownloader = InternalEnglish.cmTrayDownloader;
+                cmTrayDownloadClipboard = InternalEnglish.cmTrayDownloadClipboard;
+                cmTrayDownloadBestVideo = InternalEnglish.cmTrayDownloadBestVideo;
+                cmTrayDownloadBestAudio = InternalEnglish.cmTrayDownloadBestAudio;
+                cmTrayDownloadCustom = InternalEnglish.cmTrayDownloadCustom;
+                cmTrayDownloadCustomTxtBox = InternalEnglish.cmTrayDownloadCustomTxtBox;
+                cmTrayDownloadCustomTxt = InternalEnglish.cmTrayDownloadCustomTxt;
+                cmTrayDownloadCustomSettings = InternalEnglish.cmTrayDownloadCustomSettings;
+                cmTrayConverter = InternalEnglish.cmTrayConverter;
+                cmTrayConvertTo = InternalEnglish.cmTrayConvertTo;
+                cmTrayConvertVideo = InternalEnglish.cmTrayConvertVideo;
+                cmTrayConvertAudio = InternalEnglish.cmTrayConvertAudio;
+                cmTrayConvertCustom = InternalEnglish.cmTrayConvertCustom;
+                cmTrayConvertAutomatic = InternalEnglish.cmTrayConvertAutomatic;
+                cmTrayConvertAutoFFmpeg = InternalEnglish.cmTrayConvertAutoFFmpeg;
+                cmTrayExit = InternalEnglish.cmTrayExit;
 
-            // frmSettings
-            frmSettings = InternalEnglish.frmSettings;
-            btnSettingsRedownloadYoutubeDl = InternalEnglish.btnSettingsRedownloadYoutubeDl;
-            btnSettingsSave = InternalEnglish.btnSettingsSave;
+                // frmSettings
+                frmSettings = InternalEnglish.frmSettings;
+                btnSettingsRedownloadYoutubeDl = InternalEnglish.btnSettingsRedownloadYoutubeDl;
+                btnSettingsSave = InternalEnglish.btnSettingsSave;
 
-            tabSettingsGeneral = InternalEnglish.tabSettingsGeneral;
-            tabSettingsDownloads = InternalEnglish.tabSettingsDownloads;
-            tabSettingsConverter = InternalEnglish.tabSettingsConverter;
-            tabSettingsExtensions = InternalEnglish.tabSettingsExtensions;
-            tabSettingsErrors = InternalEnglish.tabSettingsErrors;
-            tabSettingsPortable = InternalEnglish.tabSettingsPortable;
+                tabSettingsGeneral = InternalEnglish.tabSettingsGeneral;
+                tabSettingsDownloads = InternalEnglish.tabSettingsDownloads;
+                tabSettingsConverter = InternalEnglish.tabSettingsConverter;
+                tabSettingsExtensions = InternalEnglish.tabSettingsExtensions;
+                tabSettingsErrors = InternalEnglish.tabSettingsErrors;
+                tabSettingsPortable = InternalEnglish.tabSettingsPortable;
 
-            lbSettingsGeneralYoutubeDlPath = InternalEnglish.lbSettingsGeneralYoutubeDlPath;
-            chkSettingsGeneralUseStaticYoutubeDl = InternalEnglish.chkSettingsGeneralUseStaticYoutubeDl;
-            ofdTitleYoutubeDl = InternalEnglish.ofdTitleYoutubeDl;
-            ofdFilterYoutubeDl = InternalEnglish.ofdFilterYoutubeDl;
-            lbSettingsGeneralFFmpegDirectory = InternalEnglish.lbSettingsGeneralFFmpegDirectory;
-            chkSettingsGeneralUseStaticFFmpeg = InternalEnglish.chkSettingsGeneralUseStaticFFmpeg;
-            ofdTitleFFmpeg = InternalEnglish.ofdTitleFFmpeg;
-            ofdFilterFFmpeg = InternalEnglish.ofdFilterFFmpeg;
-            chkSettingsGeneralCheckForUpdatesOnLaunch = InternalEnglish.chkSettingsGeneralCheckForUpdatesOnLaunch;
-            chkSettingsGeneralCheckForBetaUpdates = InternalEnglish.chkSettingsGeneralCheckForBetaUpdates;
-            chkSettingsGeneralHoverOverUrlToPasteClipboard = InternalEnglish.chkSettingsGeneralHoverOverUrlToPasteClipboard;
-            chkSettingsGeneralClearUrlOnDownload = InternalEnglish.chkSettingsGeneralClearUrlOnDownload;
-            chkSettingsGeneralClearClipboardOnDownload = InternalEnglish.chkSettingsGeneralClearClipboardOnDownload;
-            gbSettingsGeneralCustomArguments = InternalEnglish.gbSettingsGeneralCustomArguments;
-            rbSettingsGeneralCustomArgumentsDontSave = InternalEnglish.rbSettingsGeneralCustomArgumentsDontSave;
-            rbSettingsGeneralCustomArgumentsSaveAsArgsText = InternalEnglish.rbSettingsGeneralCustomArgumentsSaveAsArgsText;
-            rbSettingsGeneralCustomArgumentsSaveInSettings = InternalEnglish.rbSettingsGeneralCustomArgumentsSaveInSettings;
+                lbSettingsGeneralYoutubeDlPath = InternalEnglish.lbSettingsGeneralYoutubeDlPath;
+                chkSettingsGeneralUseStaticYoutubeDl = InternalEnglish.chkSettingsGeneralUseStaticYoutubeDl;
+                ofdTitleYoutubeDl = InternalEnglish.ofdTitleYoutubeDl;
+                ofdFilterYoutubeDl = InternalEnglish.ofdFilterYoutubeDl;
+                lbSettingsGeneralFFmpegDirectory = InternalEnglish.lbSettingsGeneralFFmpegDirectory;
+                chkSettingsGeneralUseStaticFFmpeg = InternalEnglish.chkSettingsGeneralUseStaticFFmpeg;
+                ofdTitleFFmpeg = InternalEnglish.ofdTitleFFmpeg;
+                ofdFilterFFmpeg = InternalEnglish.ofdFilterFFmpeg;
+                chkSettingsGeneralCheckForUpdatesOnLaunch = InternalEnglish.chkSettingsGeneralCheckForUpdatesOnLaunch;
+                chkSettingsGeneralCheckForBetaUpdates = InternalEnglish.chkSettingsGeneralCheckForBetaUpdates;
+                chkSettingsGeneralHoverOverUrlToPasteClipboard = InternalEnglish.chkSettingsGeneralHoverOverUrlToPasteClipboard;
+                chkSettingsGeneralClearUrlOnDownload = InternalEnglish.chkSettingsGeneralClearUrlOnDownload;
+                chkSettingsGeneralClearClipboardOnDownload = InternalEnglish.chkSettingsGeneralClearClipboardOnDownload;
+                gbSettingsGeneralCustomArguments = InternalEnglish.gbSettingsGeneralCustomArguments;
+                rbSettingsGeneralCustomArgumentsDontSave = InternalEnglish.rbSettingsGeneralCustomArgumentsDontSave;
+                rbSettingsGeneralCustomArgumentsSaveAsArgsText = InternalEnglish.rbSettingsGeneralCustomArgumentsSaveAsArgsText;
+                rbSettingsGeneralCustomArgumentsSaveInSettings = InternalEnglish.rbSettingsGeneralCustomArgumentsSaveInSettings;
 
-            lbSettingsDownloadsDownloadPath = InternalEnglish.lbSettingsDownloadsDownloadPath;
-            lbSettingsDownloadsFileNameSchema = InternalEnglish.lbSettingsDownloadsFileNameSchema;
-            tabDownloadsGeneral = InternalEnglish.tabDownloadsGeneral;
-            tabDownloadsSorting = InternalEnglish.tabDownloadsSorting;
-            tabDownloadsFixes = InternalEnglish.tabdownloadsFixes;
-            tabDownloadsConnection = InternalEnglish.tabDownloadsConnection;
-            tabDownloadsUpdating = InternalEnglish.tabDownloadsUpdating;
+                lbSettingsDownloadsDownloadPath = InternalEnglish.lbSettingsDownloadsDownloadPath;
+                lbSettingsDownloadsFileNameSchema = InternalEnglish.lbSettingsDownloadsFileNameSchema;
+                tabDownloadsGeneral = InternalEnglish.tabDownloadsGeneral;
+                tabDownloadsSorting = InternalEnglish.tabDownloadsSorting;
+                tabDownloadsFixes = InternalEnglish.tabdownloadsFixes;
+                tabDownloadsConnection = InternalEnglish.tabDownloadsConnection;
+                tabDownloadsUpdating = InternalEnglish.tabDownloadsUpdating;
 
-            chkSettingsDownloadsSaveFormatQuality = InternalEnglish.chkSettingsDownloadsSaveFormatQuality;
-            chkSettingsDownloadsDownloadSubtitles = InternalEnglish.chkSettingsDownloadsDownloadSubtitles;
-            chkSettingsDownloadsEmbedSubtitles = InternalEnglish.chkSettingsDownloadsEmbedSubtitles;
-            chkSettingsDownloadsSaveVideoInfo = InternalEnglish.chkSettingsDownloadsSaveVideoInfo;
-            chkSettingsDownloadsWriteMetadataToFile = InternalEnglish.chkSettingsDownloadsWriteMetadataToFile;
-            chkSettingsDownloadsSaveDescription = InternalEnglish.chkSettingsDownloadsSaveDescription;
-            chkSettingsDownloadsKeepOriginalFiles = InternalEnglish.chkSettingsDownloadsKeepOriginalFiles;
-            chkSettingsDownloadsSaveAnnotations = InternalEnglish.chkSettingsDownloadsSaveAnnotations;
-            chkSettingsDownloadsSaveThumbnails = InternalEnglish.chkSettingsDownloadsSaveThumbnails;
-            chkSettingsDownloadsEmbedThumbnails = InternalEnglish.chkSettingsDownloadsEmbedThumbnails;
-            chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing = InternalEnglish.chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing;
-            chkSettingsDownloadsSeparateDownloadsToDifferentFolders = InternalEnglish.chkSettingsDownloadsSeparateDownloadsToDifferentFolders;
-            chkSettingsDownloadsSeparateIntoWebsiteUrl = InternalEnglish.chkSettingsDownloadsSeparateIntoWebsiteUrl;
-            chkSettingsDownloadsFixVReddIt = InternalEnglish.chkSettingsDownloadsFixVReddIt;
-            chkSettingsDownloadsPreferFFmpeg = InternalEnglish.chkSettingsDownloadsPreferFFmpeg;
-            chkSettingsDownloadsLimitDownload = InternalEnglish.chkSettingsDownloadsLimitDownload;
-            lbSettingsDownloadsRetryAttempts = InternalEnglish.lbSettingsDownloadsRetryAttempts;
-            chkSettingsDownloadsForceIpv4 = InternalEnglish.chkSettingsDownloadsForceIpv4;
-            chkSettingsDownloadsForceIpv6 = InternalEnglish.chkSettingsDownloadsForceIpv6;
-            chkSettingsDownloadsUseProxy = InternalEnglish.chkSettingsDownloadsUseProxy;
-            chkSettingsDownloadsUseYoutubeDlsUpdater = InternalEnglish.chksettingsDownloadsUseYoutubeDlsUpdater;
-            chkSettingsDownloadsSeparateBatchDownloads = InternalEnglish.chkSettingsDownloadsSeparateBatchDownloads;
-            chkSettingsDownloadsAddDateToBatchDownloadFolders = InternalEnglish.chkSettingsDownloadsAddDateToBatchDownloadFolders;
+                chkSettingsDownloadsSaveFormatQuality = InternalEnglish.chkSettingsDownloadsSaveFormatQuality;
+                chkSettingsDownloadsDownloadSubtitles = InternalEnglish.chkSettingsDownloadsDownloadSubtitles;
+                chkSettingsDownloadsEmbedSubtitles = InternalEnglish.chkSettingsDownloadsEmbedSubtitles;
+                chkSettingsDownloadsSaveVideoInfo = InternalEnglish.chkSettingsDownloadsSaveVideoInfo;
+                chkSettingsDownloadsWriteMetadataToFile = InternalEnglish.chkSettingsDownloadsWriteMetadataToFile;
+                chkSettingsDownloadsSaveDescription = InternalEnglish.chkSettingsDownloadsSaveDescription;
+                chkSettingsDownloadsKeepOriginalFiles = InternalEnglish.chkSettingsDownloadsKeepOriginalFiles;
+                chkSettingsDownloadsSaveAnnotations = InternalEnglish.chkSettingsDownloadsSaveAnnotations;
+                chkSettingsDownloadsSaveThumbnails = InternalEnglish.chkSettingsDownloadsSaveThumbnails;
+                chkSettingsDownloadsEmbedThumbnails = InternalEnglish.chkSettingsDownloadsEmbedThumbnails;
+                chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing = InternalEnglish.chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing;
+                chkSettingsDownloadsSeparateDownloadsToDifferentFolders = InternalEnglish.chkSettingsDownloadsSeparateDownloadsToDifferentFolders;
+                chkSettingsDownloadsSeparateIntoWebsiteUrl = InternalEnglish.chkSettingsDownloadsSeparateIntoWebsiteUrl;
+                chkSettingsDownloadsFixVReddIt = InternalEnglish.chkSettingsDownloadsFixVReddIt;
+                chkSettingsDownloadsPreferFFmpeg = InternalEnglish.chkSettingsDownloadsPreferFFmpeg;
+                chkSettingsDownloadsLimitDownload = InternalEnglish.chkSettingsDownloadsLimitDownload;
+                lbSettingsDownloadsRetryAttempts = InternalEnglish.lbSettingsDownloadsRetryAttempts;
+                chkSettingsDownloadsForceIpv4 = InternalEnglish.chkSettingsDownloadsForceIpv4;
+                chkSettingsDownloadsForceIpv6 = InternalEnglish.chkSettingsDownloadsForceIpv6;
+                chkSettingsDownloadsUseProxy = InternalEnglish.chkSettingsDownloadsUseProxy;
+                chkSettingsDownloadsUseYoutubeDlsUpdater = InternalEnglish.chksettingsDownloadsUseYoutubeDlsUpdater;
+                lbSettingsDownloadsUpdatingYtdlType = InternalEnglish.lbSettingsDownloadsUpdatingYtdlType;
+                llbSettingsDownloadsYtdlTypeViewRepo = InternalEnglish.llbSettingsDownloadsYtdlTypeViewRepo;
+                chkSettingsDownloadsSeparateBatchDownloads = InternalEnglish.chkSettingsDownloadsSeparateBatchDownloads;
+                chkSettingsDownloadsAddDateToBatchDownloadFolders = InternalEnglish.chkSettingsDownloadsAddDateToBatchDownloadFolders;
 
-            chkSettingsConverterClearOutputAfterConverting = InternalEnglish.chkSettingsConverterClearOutputAfterConverting;
-            chkSettingsConverterDetectOutputFileType = InternalEnglish.chkSettingsConverterDetectOutputFileType;
-            chkSettingsConverterClearInputAfterConverting = InternalEnglish.chkSettingsConverterClearInputAfterConverting;
-            chkSettingsConverterHideFFmpegCompileInfo = InternalEnglish.chkSettingsConverterHideFFmpegCompileInfo;
-            tcSettingsConverterVideo = InternalEnglish.tcSettingsConverterVideo;
-            tcSettingsConverterAudio = InternalEnglish.tcSettingsConverterAudio;
-            tcSettingsConverterCustom = InternalEnglish.tcSettingsConverterCustom;
-            lbSettingsConverterVideoBitrate = InternalEnglish.lbSettingsConverterVideoBitrate;
-            lbSettingsConverterVideoPreset = InternalEnglish.lbSettingsConverterVideoPreset;
-            lbSettingsConverterVideoProfile = InternalEnglish.lbSettingsConverterVideoProfile;
-            lbSettingsConverterVideoCRF = InternalEnglish.lbSettingsConverterVideoCRF;
-            chkSettingsConverterVideoFastStart = InternalEnglish.chkSettingsConverterVideoFastStart;
-            lbSettingsConverterAudioBitrate = InternalEnglish.lbSettingsConverterAudioBitrate;
-            lbSettingsConverterCustomHeader = InternalEnglish.lbSettingsConverterCustomHeader;
+                chkSettingsConverterClearOutputAfterConverting = InternalEnglish.chkSettingsConverterClearOutputAfterConverting;
+                chkSettingsConverterDetectOutputFileType = InternalEnglish.chkSettingsConverterDetectOutputFileType;
+                chkSettingsConverterClearInputAfterConverting = InternalEnglish.chkSettingsConverterClearInputAfterConverting;
+                chkSettingsConverterHideFFmpegCompileInfo = InternalEnglish.chkSettingsConverterHideFFmpegCompileInfo;
+                tcSettingsConverterVideo = InternalEnglish.tcSettingsConverterVideo;
+                tcSettingsConverterAudio = InternalEnglish.tcSettingsConverterAudio;
+                tcSettingsConverterCustom = InternalEnglish.tcSettingsConverterCustom;
+                lbSettingsConverterVideoBitrate = InternalEnglish.lbSettingsConverterVideoBitrate;
+                lbSettingsConverterVideoPreset = InternalEnglish.lbSettingsConverterVideoPreset;
+                lbSettingsConverterVideoProfile = InternalEnglish.lbSettingsConverterVideoProfile;
+                lbSettingsConverterVideoCRF = InternalEnglish.lbSettingsConverterVideoCRF;
+                chkSettingsConverterVideoFastStart = InternalEnglish.chkSettingsConverterVideoFastStart;
+                lbSettingsConverterAudioBitrate = InternalEnglish.lbSettingsConverterAudioBitrate;
+                lbSettingsConverterCustomHeader = InternalEnglish.lbSettingsConverterCustomHeader;
 
-            lbSettingsExtensionsHeader = InternalEnglish.lbSettingsExtensionsHeader;
-            lbSettingsExtensionsExtensionFullName = InternalEnglish.lbSettingsExtensionsExtensionFullName;
-            txtSettingsExtensionsExtensionFullName = InternalEnglish.txtSettingsExtensionsExtensionFullName;
-            lbSettingsExtensionsExtensionShort = InternalEnglish.lbSettingsExtensionsExtensionShort;
-            txtSettingsExtensionsExtensionShort = InternalEnglish.txtSettingsExtensionsExtensionShort;
-            btnSettingsExtensionsAdd = InternalEnglish.btnSettingsExtensionsAdd;
-            lbSettingsExtensionsFileName = InternalEnglish.lbSettingsExtensionsFileName;
-            btnSettingsExtensionsRemoveSelected = InternalEnglish.btnSettingsExtensionsRemoveSelected;
+                lbSettingsExtensionsHeader = InternalEnglish.lbSettingsExtensionsHeader;
+                lbSettingsExtensionsExtensionFullName = InternalEnglish.lbSettingsExtensionsExtensionFullName;
+                txtSettingsExtensionsExtensionFullName = InternalEnglish.txtSettingsExtensionsExtensionFullName;
+                lbSettingsExtensionsExtensionShort = InternalEnglish.lbSettingsExtensionsExtensionShort;
+                txtSettingsExtensionsExtensionShort = InternalEnglish.txtSettingsExtensionsExtensionShort;
+                btnSettingsExtensionsAdd = InternalEnglish.btnSettingsExtensionsAdd;
+                lbSettingsExtensionsFileName = InternalEnglish.lbSettingsExtensionsFileName;
+                btnSettingsExtensionsRemoveSelected = InternalEnglish.btnSettingsExtensionsRemoveSelected;
 
-            chkSettingsErrorsShowDetailedErrors = InternalEnglish.chkSettingsErrorsShowDetailedErrors;
-            chkSettingsErrorsSaveErrorsAsErrorLog = InternalEnglish.chkSettingsErrorsSaveErrorsAsErrorLog;
-            chkSettingsErrorsSuppressErrors = InternalEnglish.chkSettingsErrorsSuppressErrors;
+                chkSettingsErrorsShowDetailedErrors = InternalEnglish.chkSettingsErrorsShowDetailedErrors;
+                chkSettingsErrorsSaveErrorsAsErrorLog = InternalEnglish.chkSettingsErrorsSaveErrorsAsErrorLog;
+                chkSettingsErrorsSuppressErrors = InternalEnglish.chkSettingsErrorsSuppressErrors;
 
-            lbSettingsPortableInformation = InternalEnglish.lbSettingsPortableInformation;
-            chkSettingsPortableToggleIni = InternalEnglish.chkSettingsPortableToggleIni;
+                lbSettingsPortableInformation = InternalEnglish.lbSettingsPortableInformation;
+                chkSettingsPortableToggleIni = InternalEnglish.chkSettingsPortableToggleIni;
 
-            // frmSettings tipSettings
-            btnSettingsRedownloadYoutubeDlHint = InternalEnglish.btnSettingsRedownloadYoutubeDlHint;
-            btnSettingsCancelHint = InternalEnglish.btnSettingsCancelHint;
-            btnSettingsSaveHint = InternalEnglish.btnSettingsSaveHint;
+                // frmSettings tipSettings
+                btnSettingsRedownloadYoutubeDlHint = InternalEnglish.btnSettingsRedownloadYoutubeDlHint;
+                btnSettingsCancelHint = InternalEnglish.btnSettingsCancelHint;
+                btnSettingsSaveHint = InternalEnglish.btnSettingsSaveHint;
 
-            lbSettingsGeneralYoutubeDlPathHint = InternalEnglish.lbSettingsGeneralYoutubeDlPathHint;
-            chkSettingsGeneralUseStaticYoutubeDlHint = InternalEnglish.chkSettingsGeneralUseStaticYoutubeDlHint;
-            txtSettingsGeneralYoutubeDlPathHint = InternalEnglish.txtSettingsGeneralYoutubeDlPathHint;
-            btnSettingsGeneralBrowseYoutubeDlHint = InternalEnglish.btnSettingsGeneralBrowseYoutubeDlHint;
-            lbSettingsGeneralFFmpegDirectoryHint = InternalEnglish.lbSettingsGeneralFFmpegDirectoryHint;
-            chkSettingsGeneralUseStaticFFmpegHint = InternalEnglish.chkSettingsGeneralUseStaticFFmpegHint;
-            txtSettingsGeneralFFmpegPathHint = InternalEnglish.txtSettingsGeneralFFmpegPathHint;
-            btnSettingsGeneralBrowseFFmpegHint = InternalEnglish.btnSettingsGeneralBrowseFFmpegHint;
-            chkSettingsGeneralCheckForUpdatesOnLaunchHint = InternalEnglish.chkSettingsGeneralCheckForUpdatesOnLaunchHint;
-            chkSettingsGeneralCheckForBetaUpdatesHint = InternalEnglish.chkSettingsGeneralCheckForBetaUpdatesHint;
-            chkSettingsGeneralHoverOverUrlToPasteClipboardHint = InternalEnglish.chkSettingsGeneralHoverOverUrlToPasteClipboardHint;
-            chkSettingsGeneralClearUrlOnDownloadHint = InternalEnglish.chkSettingsGeneralClearUrlOnDownloadHint;
-            chkSettingsGeneralClearClipboardOnDownloadHint = InternalEnglish.chkSettingsGeneralClearClipboardOnDownloadHint;
-            gbSettingsGeneralCustomArgumentsHint = InternalEnglish.gbSettingsGeneralCustomArgumentsHint;
-            rbSettingsGeneralCustomArgumentsDontSaveHint = InternalEnglish.rbSettingsGeneralCustomArgumentsDontSaveHint;
-            rbSettingsGeneralCustomArgumentsSaveAsArgsTextHint = InternalEnglish.rbSettingsGeneralCustomArgumentsSaveAsArgsTextHint;
-            rbSettingsGeneralCustomArgumentsSaveInSettingsHint = InternalEnglish.rbSettingsGeneralCustomArgumentsSaveInSettingsHint;
+                lbSettingsGeneralYoutubeDlPathHint = InternalEnglish.lbSettingsGeneralYoutubeDlPathHint;
+                chkSettingsGeneralUseStaticYoutubeDlHint = InternalEnglish.chkSettingsGeneralUseStaticYoutubeDlHint;
+                txtSettingsGeneralYoutubeDlPathHint = InternalEnglish.txtSettingsGeneralYoutubeDlPathHint;
+                btnSettingsGeneralBrowseYoutubeDlHint = InternalEnglish.btnSettingsGeneralBrowseYoutubeDlHint;
+                lbSettingsGeneralFFmpegDirectoryHint = InternalEnglish.lbSettingsGeneralFFmpegDirectoryHint;
+                chkSettingsGeneralUseStaticFFmpegHint = InternalEnglish.chkSettingsGeneralUseStaticFFmpegHint;
+                txtSettingsGeneralFFmpegPathHint = InternalEnglish.txtSettingsGeneralFFmpegPathHint;
+                btnSettingsGeneralBrowseFFmpegHint = InternalEnglish.btnSettingsGeneralBrowseFFmpegHint;
+                chkSettingsGeneralCheckForUpdatesOnLaunchHint = InternalEnglish.chkSettingsGeneralCheckForUpdatesOnLaunchHint;
+                chkSettingsGeneralCheckForBetaUpdatesHint = InternalEnglish.chkSettingsGeneralCheckForBetaUpdatesHint;
+                chkSettingsGeneralHoverOverUrlToPasteClipboardHint = InternalEnglish.chkSettingsGeneralHoverOverUrlToPasteClipboardHint;
+                chkSettingsGeneralClearUrlOnDownloadHint = InternalEnglish.chkSettingsGeneralClearUrlOnDownloadHint;
+                chkSettingsGeneralClearClipboardOnDownloadHint = InternalEnglish.chkSettingsGeneralClearClipboardOnDownloadHint;
+                gbSettingsGeneralCustomArgumentsHint = InternalEnglish.gbSettingsGeneralCustomArgumentsHint;
+                rbSettingsGeneralCustomArgumentsDontSaveHint = InternalEnglish.rbSettingsGeneralCustomArgumentsDontSaveHint;
+                rbSettingsGeneralCustomArgumentsSaveAsArgsTextHint = InternalEnglish.rbSettingsGeneralCustomArgumentsSaveAsArgsTextHint;
+                rbSettingsGeneralCustomArgumentsSaveInSettingsHint = InternalEnglish.rbSettingsGeneralCustomArgumentsSaveInSettingsHint;
 
-            lbSettingsDownloadsDownloadPathHint = InternalEnglish.lbSettingsDownloadsDownloadPathHint;
-            txtSettingsDownloadsSavePathHint = InternalEnglish.txtSettingsDownloadsSavePathHint;
-            btnSettingsDownloadsBrowseSavePathHint = InternalEnglish.btnSettingsDownloadsBrowseSavePathHint;
-            llSettingsDownloadsSchemaHelpHint = InternalEnglish.llSettingsDownloadsSchemaHelpHint;
-            lbSettingsDownloadsFileNameSchemaHint = InternalEnglish.lbSettingsDownloadsFileNameSchemaHint;
-            txtSettingsDownloadsFileNameSchemaHint = InternalEnglish.txtSettingsDownloadsFileNameSchemaHint;
+                lbSettingsDownloadsDownloadPathHint = InternalEnglish.lbSettingsDownloadsDownloadPathHint;
+                chkSettingsDownloadsDownloadPathUseRelativePathHint = InternalEnglish.chkSettingsDownloadsDownloadPathUseRelativePathHint;
+                txtSettingsDownloadsSavePathHint = InternalEnglish.txtSettingsDownloadsSavePathHint;
+                btnSettingsDownloadsBrowseSavePathHint = InternalEnglish.btnSettingsDownloadsBrowseSavePathHint;
+                llSettingsDownloadsSchemaHelpHint = InternalEnglish.llSettingsDownloadsSchemaHelpHint;
+                lbSettingsDownloadsFileNameSchemaHint = InternalEnglish.lbSettingsDownloadsFileNameSchemaHint;
+                txtSettingsDownloadsFileNameSchemaHint = InternalEnglish.txtSettingsDownloadsFileNameSchemaHint;
 
-            chkSettingsDownloadsSaveFormatQualityHint = InternalEnglish.chkSettingsDownloadsSaveFormatQualityHint;
-            chkSettingsDownloadsDownloadSubtitlesHint = InternalEnglish.chkSettingsDownloadsDownloadSubtitlesHint;
-            chkSettingsDownloadsEmbedSubtitlesHint = InternalEnglish.chkSettingsDownloadsEmbedSubtitlesHint;
-            chkSettingsDownloadsSaveVideoInfoHint = InternalEnglish.chkSettingsDownloadsSaveVideoInfoHint;
-            chkSettingsDownloadsWriteMetadataToFileHint = InternalEnglish.chkSettingsDownloadsWriteMetadataToFileHint;
-            chkSettingsDownloadsSaveDescriptionHint = InternalEnglish.chkSettingsDownloadsSaveDescriptionHint;
-            chkSettingsDownloadsKeepOriginalFilesHint = InternalEnglish.chkSettingsDownloadsKeepOriginalFilesHint;
-            chkSettingsDownloadsSaveAnnotationsHint = InternalEnglish.chkSettingsDownloadsSaveAnnotationsHint;
-            chkSettingsDownloadsSaveThumbnailsHint = InternalEnglish.chkSettingsDownloadsSaveThumbnailsHint;
-            chkSettingsDownloadsEmbedThumbnailsHint = InternalEnglish.chkSettingsDownloadsEmbedThumbnailsHint;
-            chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosingHint = InternalEnglish.chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosingHint;
-            chkSettingsDownloadsSeparateDownloadsToDifferentFoldersHint = InternalEnglish.chkSettingsDownloadsSeparateDownloadsToDifferentFoldersHint;
-            chkSettingsDownloadsSeparateIntoWebsiteUrlHint = InternalEnglish.chkSettingsDownloadsSeparateIntoWebsiteUrlHint;
-            chkSettingsDownloadsFixVReddItHint = InternalEnglish.chkSettingsDownloadsFixVReddItHint;
-            chkSettingsDownloadsPreferFFmpegHint = InternalEnglish.chkSettingsDownloadsPreferFFmpegHint;
-            chkSettingsDownloadsLimitDownloadHint = InternalEnglish.chkSettingsDownloadsLimitDownloadHint;
-            numSettingsDownloadsLimitDownloadHint = InternalEnglish.numSettingsDownloadsLimitDownloadHint;
-            cbSettingsDownloadsLimitDownloadHint = InternalEnglish.cbSettingsDownloadsLimitDownloadHint;
-            lbSettingsDownloadsRetryAttemptsHint = InternalEnglish.lbSettingsDownloadsRetryAttemptsHint;
-            numSettingsDownloadsRetryAttemptsHint = InternalEnglish.numSettingsDownloadsRetryAttemptsHint;
-            chkSettingsDownloadsForceIpv4Hint = InternalEnglish.chkSettingsDownloadsForceIpv4Hint;
-            chkSettingsDownloadsForceIpv6Hint = InternalEnglish.chkSettingsDownloadsForceIpv6Hint;
-            chkSettingsDownloadsUseProxyHint = InternalEnglish.chkSettingsDownloadsUseProxyHint;
-            cbSettingsDownloadsProxyTypeHint = InternalEnglish.cbSettingsDownloadsProxyTypeHint;
-            txtSettingsDownloadsProxyIpHint = InternalEnglish.txtSettingsDownloadsProxyIpHint;
-            txtSettingsDownloadsProxyPortHint = InternalEnglish.txtSettingsDownloadsProxyPortHint;
-            chksettingsDownloadsUseYoutubeDlsUpdaterHint = InternalEnglish.chksettingsDownloadsUseYoutubeDlsUpdaterHint;
-            chkSettingsDownloadsSeparateBatchDownloadsHint = InternalEnglish.chkSettingsDownloadsSeparateBatchDownloadsHint;
-            chkSettingsDownloadsAddDateToBatchDownloadFoldersHint = InternalEnglish.chkSettingsDownloadsAddDateToBatchDownloadFoldersHint;
+                chkSettingsDownloadsSaveFormatQualityHint = InternalEnglish.chkSettingsDownloadsSaveFormatQualityHint;
+                chkSettingsDownloadsDownloadSubtitlesHint = InternalEnglish.chkSettingsDownloadsDownloadSubtitlesHint;
+                chkSettingsDownloadsEmbedSubtitlesHint = InternalEnglish.chkSettingsDownloadsEmbedSubtitlesHint;
+                chkSettingsDownloadsSaveVideoInfoHint = InternalEnglish.chkSettingsDownloadsSaveVideoInfoHint;
+                chkSettingsDownloadsWriteMetadataToFileHint = InternalEnglish.chkSettingsDownloadsWriteMetadataToFileHint;
+                chkSettingsDownloadsSaveDescriptionHint = InternalEnglish.chkSettingsDownloadsSaveDescriptionHint;
+                chkSettingsDownloadsKeepOriginalFilesHint = InternalEnglish.chkSettingsDownloadsKeepOriginalFilesHint;
+                chkSettingsDownloadsSaveAnnotationsHint = InternalEnglish.chkSettingsDownloadsSaveAnnotationsHint;
+                chkSettingsDownloadsSaveThumbnailsHint = InternalEnglish.chkSettingsDownloadsSaveThumbnailsHint;
+                chkSettingsDownloadsEmbedThumbnailsHint = InternalEnglish.chkSettingsDownloadsEmbedThumbnailsHint;
+                chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosingHint = InternalEnglish.chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosingHint;
+                chkSettingsDownloadsSeparateDownloadsToDifferentFoldersHint = InternalEnglish.chkSettingsDownloadsSeparateDownloadsToDifferentFoldersHint;
+                chkSettingsDownloadsSeparateIntoWebsiteUrlHint = InternalEnglish.chkSettingsDownloadsSeparateIntoWebsiteUrlHint;
+                chkSettingsDownloadsFixVReddItHint = InternalEnglish.chkSettingsDownloadsFixVReddItHint;
+                chkSettingsDownloadsPreferFFmpegHint = InternalEnglish.chkSettingsDownloadsPreferFFmpegHint;
+                chkSettingsDownloadsLimitDownloadHint = InternalEnglish.chkSettingsDownloadsLimitDownloadHint;
+                numSettingsDownloadsLimitDownloadHint = InternalEnglish.numSettingsDownloadsLimitDownloadHint;
+                cbSettingsDownloadsLimitDownloadHint = InternalEnglish.cbSettingsDownloadsLimitDownloadHint;
+                lbSettingsDownloadsRetryAttemptsHint = InternalEnglish.lbSettingsDownloadsRetryAttemptsHint;
+                numSettingsDownloadsRetryAttemptsHint = InternalEnglish.numSettingsDownloadsRetryAttemptsHint;
+                chkSettingsDownloadsForceIpv4Hint = InternalEnglish.chkSettingsDownloadsForceIpv4Hint;
+                chkSettingsDownloadsForceIpv6Hint = InternalEnglish.chkSettingsDownloadsForceIpv6Hint;
+                chkSettingsDownloadsUseProxyHint = InternalEnglish.chkSettingsDownloadsUseProxyHint;
+                cbSettingsDownloadsProxyTypeHint = InternalEnglish.cbSettingsDownloadsProxyTypeHint;
+                txtSettingsDownloadsProxyIpHint = InternalEnglish.txtSettingsDownloadsProxyIpHint;
+                txtSettingsDownloadsProxyPortHint = InternalEnglish.txtSettingsDownloadsProxyPortHint;
+                chksettingsDownloadsUseYoutubeDlsUpdaterHint = InternalEnglish.chksettingsDownloadsUseYoutubeDlsUpdaterHint;
+                cbSettingsDownloadsUpdatingYtdlTypeHint = InternalEnglish.cbSettingsDownloadsUpdatingYtdlTypeHint;
+                llbSettingsDownloadsYtdlTypeViewRepoHint = InternalEnglish.llbSettingsDownloadsYtdlTypeViewRepoHint;
+                chkSettingsDownloadsSeparateBatchDownloadsHint = InternalEnglish.chkSettingsDownloadsSeparateBatchDownloadsHint;
+                chkSettingsDownloadsAddDateToBatchDownloadFoldersHint = InternalEnglish.chkSettingsDownloadsAddDateToBatchDownloadFoldersHint;
 
-            chkSettingsConverterClearOutputAfterConvertingHint = InternalEnglish.chkSettingsConverterClearOutputAfterConvertingHint;
-            chkSettingsConverterDetectOutputFileTypeHint = InternalEnglish.chkSettingsConverterDetectOutputFileTypeHint;
-            chkSettingsConverterClearInputAfterConvertingHint = InternalEnglish.chkSettingsConverterClearInputAfterConvertingHint;
-            chkSettingsConverterHideFFmpegCompileInfoHint = InternalEnglish.chkSettingsConverterHideFFmpegCompileInfoHint;
-            lbSettingsConverterVideoBitrateHint = InternalEnglish.lbSettingsConverterVideoBitrateHint;
-            lbSettingsConverterVideoPresetHint = InternalEnglish.lbSettingsConverterVideoPresetHint;
-            lbSettingsConverterVideoProfileHint = InternalEnglish.lbSettingsConverterVideoProfileHint;
-            lbSettingsConverterVideoCRFHint = InternalEnglish.lbSettingsConverterVideoCRFHint;
-            chkSettingsConverterVideoFastStartHint = InternalEnglish.chkSettingsConverterVideoFastStartHint;
-            lbSettingsConverterAudioBitrateHint = InternalEnglish.lbSettingsConverterAudioBitrateHint;
-            txtSettingsConverterCustomArgumentsHint = InternalEnglish.txtSettingsConverterCustomArgumentsHint;
+                chkSettingsConverterClearOutputAfterConvertingHint = InternalEnglish.chkSettingsConverterClearOutputAfterConvertingHint;
+                chkSettingsConverterDetectOutputFileTypeHint = InternalEnglish.chkSettingsConverterDetectOutputFileTypeHint;
+                chkSettingsConverterClearInputAfterConvertingHint = InternalEnglish.chkSettingsConverterClearInputAfterConvertingHint;
+                chkSettingsConverterHideFFmpegCompileInfoHint = InternalEnglish.chkSettingsConverterHideFFmpegCompileInfoHint;
+                lbSettingsConverterVideoBitrateHint = InternalEnglish.lbSettingsConverterVideoBitrateHint;
+                lbSettingsConverterVideoPresetHint = InternalEnglish.lbSettingsConverterVideoPresetHint;
+                lbSettingsConverterVideoProfileHint = InternalEnglish.lbSettingsConverterVideoProfileHint;
+                lbSettingsConverterVideoCRFHint = InternalEnglish.lbSettingsConverterVideoCRFHint;
+                chkSettingsConverterVideoFastStartHint = InternalEnglish.chkSettingsConverterVideoFastStartHint;
+                lbSettingsConverterAudioBitrateHint = InternalEnglish.lbSettingsConverterAudioBitrateHint;
+                txtSettingsConverterCustomArgumentsHint = InternalEnglish.txtSettingsConverterCustomArgumentsHint;
 
-            //lbSettingsExtensionsHeader = InternalEnglish.lbSettingsExtensionsHeader;
-            //lbSettingsExtensionsExtensionFullName = InternalEnglish.lbSettingsExtensionsExtensionFullName;
-            //lbSettingsExtensionsExtensionShort = InternalEnglish.lbSettingsExtensionsExtensionShort;
-            //btnSettingsExtensionsAdd = InternalEnglish.btnSettingsExtensionsAdd;
-            //btnSettingsExtensionsRemoveSelected = InternalEnglish.btnSettingsExtensionsRemoveSelected;
+                //lbSettingsExtensionsHeader = InternalEnglish.lbSettingsExtensionsHeader;
+                //lbSettingsExtensionsExtensionFullName = InternalEnglish.lbSettingsExtensionsExtensionFullName;
+                //lbSettingsExtensionsExtensionShort = InternalEnglish.lbSettingsExtensionsExtensionShort;
+                //btnSettingsExtensionsAdd = InternalEnglish.btnSettingsExtensionsAdd;
+                //btnSettingsExtensionsRemoveSelected = InternalEnglish.btnSettingsExtensionsRemoveSelected;
 
-            chkSettingsErrorsShowDetailedErrorsHint = InternalEnglish.chkSettingsErrorsShowDetailedErrorsHint;
-            chkSettingsErrorsSaveErrorsAsErrorLogHint = InternalEnglish.chkSettingsErrorsSaveErrorsAsErrorLogHint;
-            chkSettingsErrorsSuppressErrorsHint = InternalEnglish.chkSettingsErrorsSuppressErrorsHint;
+                chkSettingsErrorsShowDetailedErrorsHint = InternalEnglish.chkSettingsErrorsShowDetailedErrorsHint;
+                chkSettingsErrorsSaveErrorsAsErrorLogHint = InternalEnglish.chkSettingsErrorsSaveErrorsAsErrorLogHint;
+                chkSettingsErrorsSuppressErrorsHint = InternalEnglish.chkSettingsErrorsSuppressErrorsHint;
 
 
-            // frmSubtitles
-            frmSubtitles = InternalEnglish.frmSubtitles;
-            lbSubtitlesHeader = InternalEnglish.lbSubtitlesHeader;
-            lbSubtitlesUrl = InternalEnglish.lbSubtitlesUrl;
-            lbSubtitlesLanguages = InternalEnglish.lbSubtitlesLanguages;
-            btnSubtitlesAddLanguage = InternalEnglish.btnSubtitlesAddLanguage;
-            btnSubtitlesClearLanguages = InternalEnglish.btnSubtitlesClearLanguages;
-            btnSubtitlesDownload = InternalEnglish.btnSubtitlesDownload;
+                // frmSubtitles
+                frmSubtitles = InternalEnglish.frmSubtitles;
+                lbSubtitlesHeader = InternalEnglish.lbSubtitlesHeader;
+                lbSubtitlesUrl = InternalEnglish.lbSubtitlesUrl;
+                lbSubtitlesLanguages = InternalEnglish.lbSubtitlesLanguages;
+                btnSubtitlesAddLanguage = InternalEnglish.btnSubtitlesAddLanguage;
+                btnSubtitlesClearLanguages = InternalEnglish.btnSubtitlesClearLanguages;
+                btnSubtitlesDownload = InternalEnglish.btnSubtitlesDownload;
 
-            // frmTools
-            frmTools = InternalEnglish.frmTools;
-            btnMiscToolsRemoveAudio = InternalEnglish.btnMiscToolsRemoveAudio;
-            btnMiscToolsExtractAudio = InternalEnglish.btnMiscToolsExtractAudio;
-            btnMiscToolsVideoToGif = InternalEnglish.btnMiscToolsVideoToGif;
+                // frmTools
+                frmTools = InternalEnglish.frmTools;
+                btnMiscToolsRemoveAudio = InternalEnglish.btnMiscToolsRemoveAudio;
+                btnMiscToolsExtractAudio = InternalEnglish.btnMiscToolsExtractAudio;
+                btnMiscToolsVideoToGif = InternalEnglish.btnMiscToolsVideoToGif;
 
-            // frmUpdateAvailable
-            frmUpdateAvailable = InternalEnglish.frmUpdateAvailable;
-            lbUpdateAvailableHeader = InternalEnglish.lbUpdateAvailableHeader;
-            lbUpdateAvailableUpdateVersion = InternalEnglish.lbUpdateAvailableUpdateVersion;
-            lbUpdateAvailableCurrentVersion = InternalEnglish.lbUpdateAvailableCurrentVersion;
-            lbUpdateAvailableChangelog = InternalEnglish.lbUpdateAvailableChangelog;
-            btnUpdateAvailableSkipVersion = InternalEnglish.btnUpdateAvailableSkipVersion;
-            btnUpdateAvailableUpdate = InternalEnglish.btnUpdateAvailableUpdate;
-            btnUpdateAvailableOk = InternalEnglish.btnUpdateAvailableOk;
+                // frmUpdateAvailable
+                frmUpdateAvailable = InternalEnglish.frmUpdateAvailable;
+                lbUpdateAvailableHeader = InternalEnglish.lbUpdateAvailableHeader;
+                lbUpdateAvailableUpdateVersion = InternalEnglish.lbUpdateAvailableUpdateVersion;
+                lbUpdateAvailableCurrentVersion = InternalEnglish.lbUpdateAvailableCurrentVersion;
+                lbUpdateAvailableChangelog = InternalEnglish.lbUpdateAvailableChangelog;
+                btnUpdateAvailableSkipVersion = InternalEnglish.btnUpdateAvailableSkipVersion;
+                btnUpdateAvailableUpdate = InternalEnglish.btnUpdateAvailableUpdate;
+                btnUpdateAvailableOk = InternalEnglish.btnUpdateAvailableOk;
+            }
         }
 
         /// <summary>
@@ -2624,6 +2666,8 @@ namespace youtube_dl_gui {
             chkSettingsDownloadsForceIpv6 = "chkSettingsDownloadsForceIpv6";
             chkSettingsDownloadsUseProxy = "chkSettingsDownloadsUseProxy";
             chkSettingsDownloadsUseYoutubeDlsUpdater = "chksettingsDownloadsUseYoutubeDlsUpdater";
+            lbSettingsDownloadsUpdatingYtdlType = "lbSettingsDownloadsUpdatingYtdlType";
+            llbSettingsDownloadsYtdlTypeViewRepo = "llbSettingsDownloadsYtdlTypeViewRepo";
             chkSettingsDownloadsSeparateBatchDownloads = "chkSettingsDownloadsSeparateBatchDownloads";
             chkSettingsDownloadsAddDateToBatchDownloadFolders = "chkSettingsDownloadsAddDateToBatchDownloadFolders";
 
@@ -2682,6 +2726,7 @@ namespace youtube_dl_gui {
             rbSettingsGeneralCustomArgumentsSaveInSettingsHint = "rbSettingsGeneralCustomArgumentsSaveInSettingsHint";
 
             lbSettingsDownloadsDownloadPathHint = "lbSettingsDownloadsDownloadPathHint";
+            chkSettingsDownloadsDownloadPathUseRelativePathHint = "chkSettingsDownloadsDownloadPathUseRelativePathHint";
             txtSettingsDownloadsSavePathHint = "txtSettingsDownloadsSavePathHint";
             btnSettingsDownloadsBrowseSavePathHint = "btnSettingsDownloadsBrowseSavePathHint";
             llSettingsDownloadsSchemaHelpHint = "llSettingsDownloadsSchemaHelpHint";
@@ -2715,6 +2760,8 @@ namespace youtube_dl_gui {
             txtSettingsDownloadsProxyIpHint = "txtSettingsDownloadsProxyIpHint";
             txtSettingsDownloadsProxyPortHint = "txtSettingsDownloadsProxyPortHint";
             chksettingsDownloadsUseYoutubeDlsUpdaterHint = "chksettingsDownloadsUseYoutubeDlsUpdaterHint";
+            cbSettingsDownloadsUpdatingYtdlTypeHint = "cbSettingsDownloadsUpdatingYtdlTypeHint";
+            llbSettingsDownloadsYtdlTypeViewRepoHint = "llbSettingsDownloadsYtdlTypeViewRepoHint";
             chkSettingsDownloadsSeparateBatchDownloadsHint = "chkSettingsDownloadsSeparateBatchDownloadsHint";
             chkSettingsDownloadsAddDateToBatchDownloadFoldersHint = "chkSettingsDownloadsAddDateToBatchDownloadFoldersHint";
 
@@ -2771,7 +2818,12 @@ namespace youtube_dl_gui {
         public bool LoadLanguage(string LanguageFile = null) {
             try {
                 if (string.IsNullOrWhiteSpace(LanguageFile)) {
-                    LoadInternalEnglish();
+                    if (Properties.Settings.Default.SkipInternalEnglish) {
+                        ResetControlNames();
+                    }
+                    else {
+                        LoadInternalEnglish();
+                    }
                     return true;
                 }
                 else {
@@ -3448,6 +3500,12 @@ namespace youtube_dl_gui {
                                 case "chksettingsdownloadsuseyoutubedlsupdater":
                                     chkSettingsDownloadsUseYoutubeDlsUpdater = ReadValue;
                                     continue;
+                                case "lbsettingsdownloadsupdatingytdltype":
+                                    lbSettingsDownloadsUpdatingYtdlType = ReadValue;
+                                    continue;
+                                case "llbsettingsdownloadsytdltypeviewrepo":
+                                    llbSettingsDownloadsYtdlTypeViewRepo = ReadValue;
+                                    continue;
                                 case "chksettingsdownloadsseparatebatchdownloads":
                                     chkSettingsDownloadsSeparateBatchDownloads = ReadValue;
                                     continue;
@@ -3456,6 +3514,9 @@ namespace youtube_dl_gui {
                                     continue;
                                 case "lbsettingsdownloadsdownloadpathhint":
                                     lbSettingsDownloadsDownloadPathHint = ReadValue;
+                                    continue;
+                                case "chksettingsdownloadsdownloadpathuserelativepathhint":
+                                    chkSettingsDownloadsDownloadPathUseRelativePathHint = ReadValue;
                                     continue;
                                 case "txtsettingsdownloadssavepathhint":
                                     txtSettingsDownloadsSavePathHint = ReadValue;
@@ -3552,6 +3613,12 @@ namespace youtube_dl_gui {
                                     continue;
                                 case "chksettingsdownloadsuseyoutubedlsupdaterhint":
                                     chksettingsDownloadsUseYoutubeDlsUpdaterHint = ReadValue;
+                                    continue;
+                                case "cbsettingsdownloadsupdatingytdltypehint":
+                                    cbSettingsDownloadsUpdatingYtdlTypeHint = ReadValue;
+                                    continue;
+                                case "llbsettingsdownloadsytdltypeviewrepohint":
+                                    llbSettingsDownloadsYtdlTypeViewRepoHint = ReadValue;
                                     continue;
                                 case "chksettingsdownloadsseparatebatchdownloadshint":
                                     chkSettingsDownloadsSeparateBatchDownloadsHint = ReadValue;

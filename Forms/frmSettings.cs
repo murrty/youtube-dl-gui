@@ -94,6 +94,7 @@ namespace youtube_dl_gui {
 
             lbSettingsDownloadsDownloadPath.Text = lang.lbSettingsDownloadsDownloadPath;
             tipSettings.SetToolTip(lbSettingsDownloadsDownloadPath, lang.lbSettingsDownloadsDownloadPathHint);
+            tipSettings.SetToolTip(chkSettingsDownloadsDownloadPathUseRelativePath, lang.chkSettingsDownloadsDownloadPathUseRelativePathHint);
             tipSettings.SetToolTip(txtSettingsDownloadsSavePath, lang.txtSettingsDownloadsSavePathHint);
             tipSettings.SetToolTip(btnSettingsDownloadsBrowseSavePath, lang.btnSettingsDownloadsBrowseSavePathHint);
             tipSettings.SetToolTip(llSettingsDownloadsSchemaHelp, lang.llSettingsDownloadsSchemaHelpHint);
@@ -157,6 +158,10 @@ namespace youtube_dl_gui {
 
             chksettingsDownloadsUseYoutubeDlsUpdater.Text = lang.chkSettingsDownloadsUseYoutubeDlsUpdater;
             tipSettings.SetToolTip(chksettingsDownloadsUseYoutubeDlsUpdater, lang.chksettingsDownloadsUseYoutubeDlsUpdaterHint);
+            lbSettingsDownloadsUpdatingYtdlType.Text = lang.lbSettingsDownloadsUpdatingYtdlType;
+            tipSettings.SetToolTip(cbSettingsDownloadsUpdatingYtdlType, lang.cbSettingsDownloadsUpdatingYtdlTypeHint);
+            llbSettingsDownloadsYtdlTypeViewRepo.Text = lang.llbSettingsDownloadsYtdlTypeViewRepo;
+            tipSettings.SetToolTip(llbSettingsDownloadsYtdlTypeViewRepo, lang.llbSettingsDownloadsYtdlTypeViewRepoHint);
 
             chkSettingsDownloadsSeparateBatchDownloads.Text = lang.chkSettingsDownloadsSeparateBatchDownloads;
             tipSettings.SetToolTip(chkSettingsDownloadsSeparateBatchDownloads, lang.chkSettingsDownloadsSeparateBatchDownloadsHint);
@@ -382,6 +387,7 @@ namespace youtube_dl_gui {
             txtSettingsDownloadsProxyIp.Text = Config.Settings.Downloads.ProxyIP;
             txtSettingsDownloadsProxyPort.Text = Config.Settings.Downloads.ProxyPort;
             chksettingsDownloadsUseYoutubeDlsUpdater.Checked = Config.Settings.Downloads.useYtdlUpdater;
+            cbSettingsDownloadsUpdatingYtdlType.SelectedIndex = Config.Settings.Downloads.YtdlType;
 
             chkSettingsConverterDetectOutputFileType.Checked = Config.Settings.Converts.detectFiletype;
             chkSettingsConverterClearOutputAfterConverting.Checked = Config.Settings.Converts.clearOutput;
@@ -468,6 +474,7 @@ namespace youtube_dl_gui {
             Config.Settings.Downloads.ProxyIP = txtSettingsDownloadsProxyIp.Text;
             Config.Settings.Downloads.ProxyPort = txtSettingsDownloadsProxyPort.Text;
             Config.Settings.Downloads.useYtdlUpdater = chksettingsDownloadsUseYoutubeDlsUpdater.Checked;
+            Config.Settings.Downloads.YtdlType = cbSettingsDownloadsUpdatingYtdlType.SelectedIndex;
 
             Config.Settings.Converts.detectFiletype = chkSettingsConverterDetectOutputFileType.Checked;
             Config.Settings.Converts.clearOutput = chkSettingsConverterClearOutputAfterConverting.Checked;
@@ -633,6 +640,18 @@ namespace youtube_dl_gui {
                 e.Handled = true;
             }
         }
+
+        private void llbSettingsDownloadsYtdlTypeViewRepo_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
+            if (cbSettingsDownloadsUpdatingYtdlType.SelectedIndex > -1 && cbSettingsDownloadsUpdatingYtdlType.SelectedIndex < 3) {
+                Process.Start(
+                    string.Format(
+                        GitData.GitLinks.GithubRepoUrl,
+                        GitData.GitLinks.Users[cbSettingsDownloadsUpdatingYtdlType.SelectedIndex + 1],
+                        GitData.GitLinks.Repos[cbSettingsDownloadsUpdatingYtdlType.SelectedIndex + 1]
+                    )
+                );
+            }
+        }
         #endregion
 
         #region Extensions
@@ -708,6 +727,10 @@ namespace youtube_dl_gui {
             Config.Settings.CleanIniFile();
         }
         #endregion
+
+        private void chksettingsDownloadsUseYoutubeDlsUpdater_CheckedChanged(object sender, EventArgs e) {
+            Config.Settings.Downloads.useYtdlUpdater = chksettingsDownloadsUseYoutubeDlsUpdater.Checked;
+        }
 
     }
 }

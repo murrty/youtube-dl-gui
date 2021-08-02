@@ -8,17 +8,16 @@ using System.Threading.Tasks;
 
 namespace youtube_dl_gui {
 
-    public enum ConfigType : int {
-        None = -1,
-        All = 0,
-        Initialization = 1,
-        Batch = 2,
-        Converts = 3,
-        Downloads = 4,
-        Errors = 5,
-        General = 6,
-        Saved = 7,
-        Settings = 8
+    public enum ConfigType {
+        None,
+        All,
+        Initialization,
+        Batch,
+        Converts,
+        Downloads,
+        Errors,
+        General,
+        Saved
     }
 
     class Config {
@@ -160,9 +159,7 @@ namespace youtube_dl_gui {
     }
 
     class Config_Initialization {
-        public Config_Initialization() {
-            Load();
-        }
+        public Config_Initialization() { }
 
         public string LanguageFile = string.Empty;
         public bool firstTime = true;
@@ -299,9 +296,7 @@ namespace youtube_dl_gui {
     }
 
     class Config_Batch {
-        public Config_Batch() {
-            Load();
-        }
+        public Config_Batch() { }
 
         public int SelectedType = -1;
         public int SelectedVideoQuality = 0;
@@ -538,6 +533,7 @@ namespace youtube_dl_gui {
     class Config_Converts {
         public Config_Converts() { }
 
+        #region Variables
         public bool detectFiletype = true;
         public bool clearOutput = false;
         public bool clearInput = false;
@@ -569,6 +565,7 @@ namespace youtube_dl_gui {
         private bool videoUseProfile_First = false;
         private bool videoUseCRF_First = true;
         private bool audioUseBitrate_First = true;
+        #endregion
 
         public void Save() {
             switch (Program.UseIni) {
@@ -901,11 +898,9 @@ namespace youtube_dl_gui {
 
     class Config_Downloads {
 
-        public Config_Downloads() {
-            Load();
-        }
+        public Config_Downloads() { }
 
-        #region variables
+        #region Variables
         public string downloadPath = string.Empty;
         public bool separateDownloads = true;
         public bool SaveFormatQuality = true;
@@ -943,6 +938,7 @@ namespace youtube_dl_gui {
         public bool PreferFFmpeg = true;
         public bool SeparateBatchDownloads = true;
         public bool AddDateToBatchDownloadFolders = true;
+        public int YtdlType = 0;
 
         private string downloadPath_First = string.Empty;
         private bool separateDownloads_First = true;
@@ -981,6 +977,7 @@ namespace youtube_dl_gui {
         private bool PreferFFmpeg_First = true;
         private bool SeparateBatchDownloads_First = true;
         private bool AddDateToBatchDownloadFolders_First = true;
+        private int YtdlType_First = 0;
         #endregion
 
         public void Load() {
@@ -1208,6 +1205,12 @@ namespace youtube_dl_gui {
                             AddDateToBatchDownloadFolders_First = AddDateToBatchDownloadFolders;
                             break;
                     }
+                    switch (Ini.KeyExists("YtdlType", "Downloads")) {
+                        case true:
+                            YtdlType = Ini.ReadInt("YtdlType", "Downloads");
+                            YtdlType_First = YtdlType;
+                            break;
+                    }
 
                     break;
 
@@ -1249,6 +1252,7 @@ namespace youtube_dl_gui {
                     PreferFFmpeg = Configurations.Downloads.Default.PreferFFmpeg;
                     SeparateBatchDownloads = Configurations.Downloads.Default.SeparateBatchDownloads;
                     AddDateToBatchDownloadFolders = Configurations.Downloads.Default.AddDateToBatchDownloadFolders;
+                    YtdlType = Configurations.Downloads.Default.YtdlType;
 
                     break;
             }
@@ -1479,6 +1483,12 @@ namespace youtube_dl_gui {
                             break;
                     }
 
+                    switch (YtdlType != YtdlType_First) {
+                        case true:
+                            Ini.Write("YtdlType", YtdlType, "Downloads");
+                            YtdlType_First = YtdlType;
+                            break;
+                    }
                     break;
 
                 case false:
@@ -1632,6 +1642,10 @@ namespace youtube_dl_gui {
                         Configurations.Downloads.Default.AddDateToBatchDownloadFolders = AddDateToBatchDownloadFolders;
                         Save = true;
                     }
+                    if (Configurations.Downloads.Default.YtdlType != YtdlType) {
+                        Configurations.Downloads.Default.YtdlType = YtdlType;
+                        Save = true;
+                    }
 
                     switch (Save) {
                         case true:
@@ -1755,6 +1769,9 @@ namespace youtube_dl_gui {
 
                     Ini.Write("AddDateToBatchDownloadFolders", AddDateToBatchDownloadFolders, "Downloads");
                     AddDateToBatchDownloadFolders_First = AddDateToBatchDownloadFolders;
+
+                    Ini.Write("YtdlType", YtdlType, "Downloads");
+                    YtdlType_First = YtdlType;
                     break;
 
                 case false:
@@ -1795,6 +1812,7 @@ namespace youtube_dl_gui {
                     Configurations.Downloads.Default.PreferFFmpeg = PreferFFmpeg;
                     Configurations.Downloads.Default.SeparateBatchDownloads = SeparateBatchDownloads;
                     Configurations.Downloads.Default.AddDateToBatchDownloadFolders = AddDateToBatchDownloadFolders;
+                    Configurations.Downloads.Default.YtdlType = YtdlType;
 
                     Configurations.Downloads.Default.Save();
                     break;
@@ -1804,9 +1822,7 @@ namespace youtube_dl_gui {
 
     class Config_Errors {
 
-        public Config_Errors() {
-            Load();
-        }
+        public Config_Errors() { }
 
         public bool detailedErrors = false;
         public bool logErrors = false;
@@ -1926,10 +1942,9 @@ namespace youtube_dl_gui {
 
     class Config_General {
 
-        public Config_General() {
-            Load();
-        }
+        public Config_General() { }
 
+        #region Variables
         public bool UseStaticYtdl = false;
         public string ytdlPath = string.Empty;
         public bool UseStaticFFmpeg = false;
@@ -1942,6 +1957,7 @@ namespace youtube_dl_gui {
         public bool ClearClipboardOnDownload = false;
         public string extensionsName = string.Empty;
         public string extensionsShort = string.Empty;
+        public int YtdlType = 0;
 
 
         private bool UseStaticYtdl_First = false;
@@ -1956,6 +1972,8 @@ namespace youtube_dl_gui {
         private bool ClearClipboardOnDownload_First = false;
         private string extensionsName_First = string.Empty;
         private string extensionsShort_First = string.Empty;
+        private int YtdlType_First = 0;
+        #endregion
 
         public void Load() {
             switch (Program.UseIni) {
@@ -2033,6 +2051,13 @@ namespace youtube_dl_gui {
                             extensionsShort_First = extensionsShort;
                             break;
                     }
+
+                    switch (Ini.KeyExists("YtdlType", "General")) {
+                        case true:
+                            YtdlType = Ini.ReadInt("YtdlType", "General");
+                            YtdlType_First = YtdlType;
+                            break;
+                    }
                     break;
 
                 case false:
@@ -2048,6 +2073,7 @@ namespace youtube_dl_gui {
                     ClearClipboardOnDownload = Configurations.General.Default.ClearClipboardOnDownload;
                     extensionsName = Configurations.General.Default.extensionsName;
                     extensionsShort = Configurations.General.Default.extensionsShort;
+                    YtdlType = Configurations.General.Default.YtdlType;
                     break;
             }
         }
@@ -2126,6 +2152,12 @@ namespace youtube_dl_gui {
                             extensionsShort_First = extensionsShort;
                             break;
                     }
+                    switch (YtdlType != YtdlType_First) {
+                        case true:
+                            Ini.Write("YtdlType", YtdlType, "General");
+                            YtdlType_First = YtdlType;
+                            break;
+                    }
 
                     break;
 
@@ -2192,6 +2224,11 @@ namespace youtube_dl_gui {
                         Save = true;
                     }
 
+                    if (Configurations.General.Default.YtdlType != YtdlType) {
+                        Configurations.General.Default.YtdlType = YtdlType;
+                        Save = true;
+                    }
+
                     switch (Save) {
                         case true:
                             Configurations.General.Default.Save();
@@ -2239,6 +2276,9 @@ namespace youtube_dl_gui {
 
                     Ini.Write("extensionsShort", extensionsShort, "General");
                     extensionsShort_First = extensionsShort;
+
+                    Ini.Write("YtdlType", YtdlType, "General");
+                    YtdlType_First = YtdlType;
                     break;
 
                 case false:
@@ -2254,6 +2294,7 @@ namespace youtube_dl_gui {
                     Configurations.General.Default.ClearClipboardOnDownload = ClearClipboardOnDownload;
                     Configurations.General.Default.extensionsName = extensionsName;
                     Configurations.General.Default.extensionsShort = extensionsShort;
+                    Configurations.General.Default.YtdlType = YtdlType;
 
                     Configurations.General.Default.Save();
                     break;
@@ -2263,11 +2304,9 @@ namespace youtube_dl_gui {
 
     class Config_Saved {
 
-        public Config_Saved() {
-            Load();
-        }
+        public Config_Saved() { }
 
-        #region variables
+        #region Variables
         public int downloadType = 0;
         public int UseStaticYtdl = 0;
         public int convertSaveAudioIndex = 0;
@@ -2306,8 +2345,6 @@ namespace youtube_dl_gui {
         private int CustomArgumentsIndex_First = -1;
         private Point MainFormLocation_First = new Point(-32000, -32000);
         #endregion
-
-        //_First private
 
         public void Load() {
             switch (Program.UseIni) {
@@ -2722,6 +2759,7 @@ namespace youtube_dl_gui {
                     Configurations.Saved.Default.DownloadCustomArguments = DownloadCustomArguments;
                     Configurations.Saved.Default.CustomArgumentsIndex = CustomArgumentsIndex;
                     Configurations.Saved.Default.MainFormLocation = MainFormLocation;
+
                     Configurations.Saved.Default.Save();
                     break;
             }

@@ -81,6 +81,9 @@
             this.lbSettingsDownloadsIpPort = new System.Windows.Forms.Label();
             this.chkSettingsDownloadsLimitDownload = new System.Windows.Forms.CheckBox();
             this.tabDownloadsUpdating = new System.Windows.Forms.TabPage();
+            this.llbSettingsDownloadsYtdlTypeViewRepo = new System.Windows.Forms.LinkLabel();
+            this.lbSettingsDownloadsUpdatingYtdlType = new System.Windows.Forms.Label();
+            this.cbSettingsDownloadsUpdatingYtdlType = new System.Windows.Forms.ComboBox();
             this.chksettingsDownloadsUseYoutubeDlsUpdater = new System.Windows.Forms.CheckBox();
             this.tabDownloadsBatch = new System.Windows.Forms.TabPage();
             this.chkSettingsDownloadsAddDateToBatchDownloadFolders = new System.Windows.Forms.CheckBox();
@@ -488,6 +491,7 @@
             this.chkSettingsDownloadsDownloadPathUseRelativePath.Name = "chkSettingsDownloadsDownloadPathUseRelativePath";
             this.chkSettingsDownloadsDownloadPathUseRelativePath.Size = new System.Drawing.Size(14, 13);
             this.chkSettingsDownloadsDownloadPathUseRelativePath.TabIndex = 10;
+            this.tipSettings.SetToolTip(this.chkSettingsDownloadsDownloadPathUseRelativePath, "chkSettingsDownloadsDownloadPathUseRelativePathHint");
             this.chkSettingsDownloadsDownloadPathUseRelativePath.UseVisualStyleBackColor = true;
             this.chkSettingsDownloadsDownloadPathUseRelativePath.CheckedChanged += new System.EventHandler(this.chkSettingsDownloadsDownloadPathUseRelativePath_CheckedChanged);
             // 
@@ -904,6 +908,9 @@
             // 
             // tabDownloadsUpdating
             // 
+            this.tabDownloadsUpdating.Controls.Add(this.llbSettingsDownloadsYtdlTypeViewRepo);
+            this.tabDownloadsUpdating.Controls.Add(this.lbSettingsDownloadsUpdatingYtdlType);
+            this.tabDownloadsUpdating.Controls.Add(this.cbSettingsDownloadsUpdatingYtdlType);
             this.tabDownloadsUpdating.Controls.Add(this.chksettingsDownloadsUseYoutubeDlsUpdater);
             this.tabDownloadsUpdating.Location = new System.Drawing.Point(4, 22);
             this.tabDownloadsUpdating.Name = "tabDownloadsUpdating";
@@ -912,6 +919,42 @@
             this.tabDownloadsUpdating.TabIndex = 2;
             this.tabDownloadsUpdating.Text = "Updating";
             this.tabDownloadsUpdating.UseVisualStyleBackColor = true;
+            // 
+            // llbSettingsDownloadsYtdlTypeViewRepo
+            // 
+            this.llbSettingsDownloadsYtdlTypeViewRepo.AutoSize = true;
+            this.llbSettingsDownloadsYtdlTypeViewRepo.Location = new System.Drawing.Point(194, 54);
+            this.llbSettingsDownloadsYtdlTypeViewRepo.Name = "llbSettingsDownloadsYtdlTypeViewRepo";
+            this.llbSettingsDownloadsYtdlTypeViewRepo.Size = new System.Drawing.Size(215, 13);
+            this.llbSettingsDownloadsYtdlTypeViewRepo.TabIndex = 4;
+            this.llbSettingsDownloadsYtdlTypeViewRepo.TabStop = true;
+            this.llbSettingsDownloadsYtdlTypeViewRepo.Text = "llbSettingsDownloadsYtdlTypeViewRepo";
+            this.tipSettings.SetToolTip(this.llbSettingsDownloadsYtdlTypeViewRepo, "llbSettingsDownloadsYtdlTypeViewRepoHint");
+            this.llbSettingsDownloadsYtdlTypeViewRepo.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llbSettingsDownloadsYtdlTypeViewRepo_LinkClicked);
+            // 
+            // lbSettingsDownloadsUpdatingYtdlType
+            // 
+            this.lbSettingsDownloadsUpdatingYtdlType.AutoSize = true;
+            this.lbSettingsDownloadsUpdatingYtdlType.Location = new System.Drawing.Point(6, 35);
+            this.lbSettingsDownloadsUpdatingYtdlType.Name = "lbSettingsDownloadsUpdatingYtdlType";
+            this.lbSettingsDownloadsUpdatingYtdlType.Size = new System.Drawing.Size(209, 13);
+            this.lbSettingsDownloadsUpdatingYtdlType.TabIndex = 3;
+            this.lbSettingsDownloadsUpdatingYtdlType.Text = "lbSettingsDownloadsUpdatingYtdlType";
+            this.lbSettingsDownloadsUpdatingYtdlType.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // cbSettingsDownloadsUpdatingYtdlType
+            // 
+            this.cbSettingsDownloadsUpdatingYtdlType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbSettingsDownloadsUpdatingYtdlType.FormattingEnabled = true;
+            this.cbSettingsDownloadsUpdatingYtdlType.Items.AddRange(new object[] {
+            "ytdl-org/youtube-dl",
+            "blackjack4494/youtube-dlc",
+            "yt-dlp/yt-dlp"});
+            this.cbSettingsDownloadsUpdatingYtdlType.Location = new System.Drawing.Point(9, 51);
+            this.cbSettingsDownloadsUpdatingYtdlType.Name = "cbSettingsDownloadsUpdatingYtdlType";
+            this.cbSettingsDownloadsUpdatingYtdlType.Size = new System.Drawing.Size(179, 21);
+            this.cbSettingsDownloadsUpdatingYtdlType.TabIndex = 2;
+            this.tipSettings.SetToolTip(this.cbSettingsDownloadsUpdatingYtdlType, "cbSettingsDownloadsUpdatingYtdlTypeHint");
             // 
             // chksettingsDownloadsUseYoutubeDlsUpdater
             // 
@@ -923,6 +966,7 @@
             this.chksettingsDownloadsUseYoutubeDlsUpdater.Text = "chksettingsDownloadsUseYoutubeDlsUpdater";
             this.tipSettings.SetToolTip(this.chksettingsDownloadsUseYoutubeDlsUpdater, "chksettingsDownloadsUseYoutubeDlsUpdater");
             this.chksettingsDownloadsUseYoutubeDlsUpdater.UseVisualStyleBackColor = true;
+            this.chksettingsDownloadsUseYoutubeDlsUpdater.CheckedChanged += new System.EventHandler(this.chksettingsDownloadsUseYoutubeDlsUpdater_CheckedChanged);
             // 
             // tabDownloadsBatch
             // 
@@ -1900,5 +1944,8 @@
         private System.Windows.Forms.CheckBox chkSettingsGeneralCheckForBetaUpdates;
         private System.Windows.Forms.Button btnCleanIni;
         private System.Windows.Forms.CheckBox chkSettingsDownloadsDownloadPathUseRelativePath;
+        private System.Windows.Forms.Label lbSettingsDownloadsUpdatingYtdlType;
+        private System.Windows.Forms.ComboBox cbSettingsDownloadsUpdatingYtdlType;
+        private System.Windows.Forms.LinkLabel llbSettingsDownloadsYtdlTypeViewRepo;
     }
 }
