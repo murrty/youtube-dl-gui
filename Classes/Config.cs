@@ -1208,6 +1208,16 @@ namespace youtube_dl_gui {
                     switch (Ini.KeyExists("YtdlType", "Downloads")) {
                         case true:
                             YtdlType = Ini.ReadInt("YtdlType", "Downloads");
+                            switch (YtdlType) {
+                                case 0:
+                                case 1:
+                                case 2:
+                                    break;
+
+                                default:
+                                    YtdlType = 0;
+                                    break;
+                            }
                             YtdlType_First = YtdlType;
                             break;
                     }
@@ -1253,6 +1263,15 @@ namespace youtube_dl_gui {
                     SeparateBatchDownloads = Configurations.Downloads.Default.SeparateBatchDownloads;
                     AddDateToBatchDownloadFolders = Configurations.Downloads.Default.AddDateToBatchDownloadFolders;
                     YtdlType = Configurations.Downloads.Default.YtdlType;
+
+                    switch (YtdlType) {
+                        case 0: case 1: case 2:
+                            break;
+
+                        default:
+                            YtdlType = 0;
+                            break;
+                    }
 
                     break;
             }
@@ -1957,7 +1976,6 @@ namespace youtube_dl_gui {
         public bool ClearClipboardOnDownload = false;
         public string extensionsName = string.Empty;
         public string extensionsShort = string.Empty;
-        public int YtdlType = 0;
 
 
         private bool UseStaticYtdl_First = false;
@@ -1972,7 +1990,6 @@ namespace youtube_dl_gui {
         private bool ClearClipboardOnDownload_First = false;
         private string extensionsName_First = string.Empty;
         private string extensionsShort_First = string.Empty;
-        private int YtdlType_First = 0;
         #endregion
 
         public void Load() {
@@ -2051,13 +2068,6 @@ namespace youtube_dl_gui {
                             extensionsShort_First = extensionsShort;
                             break;
                     }
-
-                    switch (Ini.KeyExists("YtdlType", "General")) {
-                        case true:
-                            YtdlType = Ini.ReadInt("YtdlType", "General");
-                            YtdlType_First = YtdlType;
-                            break;
-                    }
                     break;
 
                 case false:
@@ -2073,7 +2083,6 @@ namespace youtube_dl_gui {
                     ClearClipboardOnDownload = Configurations.General.Default.ClearClipboardOnDownload;
                     extensionsName = Configurations.General.Default.extensionsName;
                     extensionsShort = Configurations.General.Default.extensionsShort;
-                    YtdlType = Configurations.General.Default.YtdlType;
                     break;
             }
         }
@@ -2152,12 +2161,6 @@ namespace youtube_dl_gui {
                             extensionsShort_First = extensionsShort;
                             break;
                     }
-                    switch (YtdlType != YtdlType_First) {
-                        case true:
-                            Ini.Write("YtdlType", YtdlType, "General");
-                            YtdlType_First = YtdlType;
-                            break;
-                    }
 
                     break;
 
@@ -2224,11 +2227,6 @@ namespace youtube_dl_gui {
                         Save = true;
                     }
 
-                    if (Configurations.General.Default.YtdlType != YtdlType) {
-                        Configurations.General.Default.YtdlType = YtdlType;
-                        Save = true;
-                    }
-
                     switch (Save) {
                         case true:
                             Configurations.General.Default.Save();
@@ -2276,9 +2274,6 @@ namespace youtube_dl_gui {
 
                     Ini.Write("extensionsShort", extensionsShort, "General");
                     extensionsShort_First = extensionsShort;
-
-                    Ini.Write("YtdlType", YtdlType, "General");
-                    YtdlType_First = YtdlType;
                     break;
 
                 case false:
@@ -2294,7 +2289,6 @@ namespace youtube_dl_gui {
                     Configurations.General.Default.ClearClipboardOnDownload = ClearClipboardOnDownload;
                     Configurations.General.Default.extensionsName = extensionsName;
                     Configurations.General.Default.extensionsShort = extensionsShort;
-                    Configurations.General.Default.YtdlType = YtdlType;
 
                     Configurations.General.Default.Save();
                     break;

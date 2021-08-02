@@ -166,17 +166,5 @@ namespace youtube_dl_gui.Configurations {
                 this["extensionsShort"] = value;
             }
         }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int YtdlType {
-            get {
-                return ((int)(this["YtdlType"]));
-            }
-            set {
-                this["YtdlType"] = value;
-            }
-        }
     }
 }

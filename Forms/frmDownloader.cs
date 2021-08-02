@@ -181,7 +181,7 @@ sanitizecheck:
             else {
                 YoutubeDlFileName = verif.YoutubeDlPath;
             }
-            if (YoutubeDlFileName == null) {
+            if (string.IsNullOrWhiteSpace(YoutubeDlFileName)) {
                 rtbConsoleOutput.AppendText("Youtube-DL has not been found\nA rescan for youtube-dl was called\n");
                 verif.RefreshYoutubeDlLocation();
                 if (verif.YoutubeDlPath != null) {

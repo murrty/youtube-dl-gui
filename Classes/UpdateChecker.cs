@@ -144,7 +144,7 @@ namespace youtube_dl_gui {
                 return;
             }
 
-            if (Config.Settings.Downloads.useYtdlUpdater && Config.Settings.General.UseStaticYtdl && !string.IsNullOrEmpty(Config.Settings.General.ytdlPath) && File.Exists(Config.Settings.General.ytdlPath) || File.Exists(Program.ProgramPath + "\\youtube-dl.exe") || File.Exists(Program.ProgramPath + "\\youtube-dlc.exe") || File.Exists(Program.ProgramPath + "\\yt-dlp.exe")) {
+            if (Config.Settings.Downloads.useYtdlUpdater && Config.Settings.General.UseStaticYtdl && !string.IsNullOrEmpty(Config.Settings.General.ytdlPath) && File.Exists(Config.Settings.General.ytdlPath) || Config.Settings.Downloads.useYtdlUpdater && File.Exists(Program.ProgramPath + "\\youtube-dl.exe") || Config.Settings.Downloads.useYtdlUpdater && File.Exists(Program.ProgramPath + "\\youtube-dlc.exe") || Config.Settings.Downloads.useYtdlUpdater && File.Exists(Program.ProgramPath + "\\yt-dlp.exe")) {
 
                 Process UpdateYoutubeDl = new Process();
                 UpdateYoutubeDl.StartInfo.Arguments = "-U";
@@ -172,13 +172,13 @@ namespace youtube_dl_gui {
 
             }
             else {
-                GitData.YoutubeDlVersion = GetGitVersionString((GitData.GitID)(Config.Settings.Downloads.YtdlType + 1));
+                GitData.YoutubeDlVersion = GetGitVersionString((GitData.GitID)(Config.Settings.Downloads.YtdlType));
 
                 if (verif.YoutubeDlVersion != GitData.YoutubeDlVersion) {
                     string FullSavePath = null;
                     string DownloadUrl = string.Format(GitData.GitLinks.ApplicationDownloadUrl,
-                                         GitData.GitLinks.Users[Config.Settings.Downloads.YtdlType + 1],
-                                         GitData.GitLinks.Repos[Config.Settings.Downloads.YtdlType + 1],
+                                         GitData.GitLinks.Users[Config.Settings.Downloads.YtdlType],
+                                         GitData.GitLinks.Repos[Config.Settings.Downloads.YtdlType],
                                          GitData.YoutubeDlVersion);
 
                     if (Config.Settings.General.UseStaticYtdl
@@ -217,8 +217,8 @@ namespace youtube_dl_gui {
                                     webex,
                                     string.Format(
                                         GitData.GitLinks.ApplicationDownloadUrl,
-                                        GitData.GitLinks.Users[Config.Settings.Downloads.YtdlType + 1],
-                                        GitData.GitLinks.Repos[Config.Settings.Downloads.YtdlType + 1],
+                                        GitData.GitLinks.Users[Config.Settings.Downloads.YtdlType],
+                                        GitData.GitLinks.Repos[Config.Settings.Downloads.YtdlType],
                                         GitData.YoutubeDlVersion
                                     )
                                 );
@@ -233,7 +233,14 @@ namespace youtube_dl_gui {
                     DownloadYoutubeDl.Start();
 
                 }
-
+                else {
+                    switch (MessageBox.Show("Youtube-dl does not require an update at this moment.\r\n\r\nCurrent version: " + verif.YoutubeDlVersion + "\r\nLatest release: " + GitData.YoutubeDlVersion, "youtube-dl-gui", MessageBoxButtons.RetryCancel)) {
+                        case DialogResult.Retry:
+                            UpdateYoutubeDl();
+                            break;
+                    }
+                    
+                }
             }
         }
 
@@ -280,12 +287,15 @@ namespace youtube_dl_gui {
                 return null;
             }
         }
+
+        // These add 1 to GitID to work around this program being set as -1
         public static string GetGitLatestReleaseString(GitData.GitID GitID) {
             try {
+                GitID++;
                 string xml = GetJSON(
                     string.Format(GitData.GitLinks.GithubAllReleasesJson,
-                    GitData.GitLinks.Users[(int)GitID],
-                    GitData.GitLinks.Repos[(int)GitID]
+                    GitData.GitLinks.Users[((int)GitID)],
+                    GitData.GitLinks.Repos[((int)GitID)]
                 ));
 
                 if (xml == null)
@@ -295,7 +305,7 @@ namespace youtube_dl_gui {
                 doc.LoadXml(xml);
                 XmlNodeList xmlTag = doc.DocumentElement.SelectNodes("/root/item/tag_name");
 
-                if (GitID == 0) {
+                if (((int)GitID) == 0) {
                     XmlNodeList xmlName = doc.DocumentElement.SelectNodes("/root/item/name");
                     XmlNodeList xmlBody = doc.DocumentElement.SelectNodes("/root/item/body");
 
@@ -319,10 +329,11 @@ namespace youtube_dl_gui {
         }
         public static decimal GetGitVersion(GitData.GitID GitID) {
             try {
+                GitID++;
                 string xml = GetJSON(string.Format(
                     GitData.GitLinks.GithubLatestJson,
-                    GitData.GitLinks.Users[(int)GitID],
-                    GitData.GitLinks.Repos[(int)GitID]
+                    GitData.GitLinks.Users[((int)GitID)],
+                    GitData.GitLinks.Repos[((int)GitID)]
                 ));
 
                 if (xml == null)
@@ -332,7 +343,7 @@ namespace youtube_dl_gui {
                 doc.LoadXml(xml);
                 XmlNodeList xmlTag = doc.DocumentElement.SelectNodes("/root/tag_name");
 
-                if (GitID == 0) {
+                if (((int)GitID) == 0) {
                     XmlNodeList xmlName = doc.DocumentElement.SelectNodes("/root/name");
                     XmlNodeList xmlBody = doc.DocumentElement.SelectNodes("/root/body");
 
@@ -356,10 +367,11 @@ namespace youtube_dl_gui {
         }
         public static string GetGitVersionString(GitData.GitID GitID) {
             try {
+                GitID++;
                 string xml = GetJSON(string.Format(
                     GitData.GitLinks.GithubLatestJson,
-                    GitData.GitLinks.Users[(int)GitID],
-                    GitData.GitLinks.Repos[(int)GitID]
+                    GitData.GitLinks.Users[((int)GitID)],
+                    GitData.GitLinks.Repos[((int)GitID)]
                 ));
 
                 if (xml == null)
@@ -369,7 +381,7 @@ namespace youtube_dl_gui {
                 doc.LoadXml(xml);
                 XmlNodeList xmlTag = doc.DocumentElement.SelectNodes("/root/tag_name");
 
-                if (GitID == 0) {
+                if (((int)GitID) == 0) {
                     XmlNodeList xmlName = doc.DocumentElement.SelectNodes("/root/name");
                     XmlNodeList xmlBody = doc.DocumentElement.SelectNodes("/root/body");
 
@@ -431,10 +443,10 @@ namespace youtube_dl_gui {
     public class GitData {
 
         public enum GitID : int {
-            YoutubeDlGui = 0,
-            YoutubeDl = 1,
-            YoutubeDlc = 2,
-            YoutubeDlp = 3
+            YoutubeDlGui = -1,
+            YoutubeDl = 0,
+            YoutubeDlc = 1,
+            YoutubeDlp = 2
         }
 
         public class GitLinks {
