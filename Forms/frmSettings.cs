@@ -591,7 +591,7 @@ namespace youtube_dl_gui {
 
 
                 if (ofd.ShowDialog() == DialogResult.OK) {
-                    txtSettingsGeneralFFmpegPath.Text = Path.GetDirectoryName(ofd.FileName);
+                    txtSettingsGeneralFFmpegPath.Text = ofd.FileName; // Path.GetDirectoryName(ofd.FileName);
                 }
             }
         }

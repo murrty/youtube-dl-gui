@@ -324,10 +324,10 @@ sanitizecheck:
                     rtbConsoleOutput.AppendText("Looking for ffmpeg\n");
                     if (verif.FFmpegPath != null) {
                         if (Config.Settings.General.UseStaticFFmpeg) {
-                            ArgumentsBuffer += " --ffmpeg-location \"" + Config.Settings.General.ffmpegPath + "\\ffmpeg.exe\"";
+                            ArgumentsBuffer += " --ffmpeg-location \"" + Config.Settings.General.ffmpegPath + "\"";
                         }
                         else {
-                            ArgumentsBuffer += " --ffmpeg-location \"" + verif.FFmpegPath + "\\ffmpeg.exe\" --hls-prefer-ffmpeg";
+                            ArgumentsBuffer += " --ffmpeg-location \"" + verif.FFmpegPath + "\" --hls-prefer-ffmpeg";
                         }
                         rtbConsoleOutput.AppendText("ffmpeg was found\n");
                     }
