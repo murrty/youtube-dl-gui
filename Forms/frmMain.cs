@@ -940,7 +940,7 @@ namespace youtube_dl_gui {
                 NewInfo.DownloadArguments = cbCustomArguments.Text;
                 NewInfo.DownloadURL = txtUrl.Text;
                 Config.Settings.Saved.downloadType = (int)DownloadType.Custom;
-                if (!cbCustomArguments.Items.Contains(cbCustomArguments.Text)) {
+                if (!cbCustomArguments.Items.Contains(cbCustomArguments.Text) && !string.IsNullOrWhiteSpace(cbCustomArguments.Text)) {
                     cbCustomArguments.Items.Add(cbCustomArguments.Text);
                 }
             }
