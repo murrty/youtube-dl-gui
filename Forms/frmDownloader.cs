@@ -245,37 +245,33 @@ sanitizecheck:
             #region Quality + format
             switch (CurrentDownload.Type) {
                 case DownloadType.Video: {
-                    if (CurrentDownload.SkipAudioForVideos) {
-                        ArgumentsBuffer += DownloadFormats.GetVideoQualityArgsNoSound(CurrentDownload.VideoQuality);
-                    }
-                    else {
-                        ArgumentsBuffer += DownloadFormats.GetVideoQualityArgs(CurrentDownload.VideoQuality);
-                    }
-                        
-                    ArgumentsBuffer += DownloadFormats.GetVideoRecodeInfo(CurrentDownload.VideoFormat);
+                        if (CurrentDownload.SkipAudioForVideos) {
+                            ArgumentsBuffer += DownloadFormats.GetVideoQualityArgsNoSound(CurrentDownload.VideoQuality);
+                        }
+                        else {
+                            ArgumentsBuffer += DownloadFormats.GetVideoQualityArgs(CurrentDownload.VideoQuality);
+                        }
+
+                        ArgumentsBuffer += DownloadFormats.GetVideoRecodeInfo(CurrentDownload.VideoFormat);
                         break;
-                }
+                    }
                 case DownloadType.Audio: {
                         if (CurrentDownload.AudioCBRQuality == AudioCBRQualityType.best || CurrentDownload.AudioVBRQuality == AudioVBRQualityType.q0) {
-                            ArgumentsBuffer += " -f  -x --audio-format best --audio-quality 0";
+                            ArgumentsBuffer += " --extract-audio --audio-quality 0";
                         }
                         else {
                             if (CurrentDownload.UseVBR) {
-                                if (CurrentDownload.AudioVBRQuality == AudioVBRQualityType.q0) {
-                                    ArgumentsBuffer += " -f bestaudio --extract-audio --audio-quality 0";
-                                }
-                                else {
-                                    ArgumentsBuffer += " --extract-audio --audio-quality " + CurrentDownload.AudioVBRQuality;
-                                }
+                                ArgumentsBuffer += " --extract-audio --audio-quality " + CurrentDownload.AudioVBRQuality;
                             }
                             else {
-                                if (CurrentDownload.AudioCBRQuality == AudioCBRQualityType.best) {
-                                    ArgumentsBuffer += " -f bestaudio --extract-audio --audio-quality 0";
-                                }
-                                else {
-                                    ArgumentsBuffer += " --extract-audio --audio-quality " + DownloadFormats.GetAudioQuality(CurrentDownload.AudioCBRQuality);
-                                }
+                                ArgumentsBuffer += " --extract-audio --audio-quality " + DownloadFormats.GetAudioQuality(CurrentDownload.AudioCBRQuality);
                             }
+                        }
+                        if (CurrentDownload.AudioFormat == AudioFormatType.best) {
+                            ArgumentsBuffer += " --audio-format bestaudio";
+                        }
+                        else {
+                            ArgumentsBuffer += " --extract-audio --audio-format " + DownloadFormats.GetAudioFormat(CurrentDownload.AudioFormat);
                         }
                         break;
                     }
@@ -324,7 +320,7 @@ sanitizecheck:
                     rtbConsoleOutput.AppendText("Looking for ffmpeg\n");
                     if (verif.FFmpegPath != null) {
                         if (Config.Settings.General.UseStaticFFmpeg) {
-                            ArgumentsBuffer += " --ffmpeg-location \"" + Config.Settings.General.ffmpegPath + "\"";
+                            ArgumentsBuffer += " --ffmpeg-location \"" + Config.Settings.General.ffmpegPath + "\" --hls-prefer-ffmpeg";
                         }
                         else {
                             ArgumentsBuffer += " --ffmpeg-location \"" + verif.FFmpegPath + "\" --hls-prefer-ffmpeg";
