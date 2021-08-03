@@ -111,8 +111,7 @@ namespace youtube_dl_gui {
         }
 
         public static void UpdateApplication() {
-            var UpdaterBytes = Properties.Resources.youtube_dl_gui_updater;
-            File.WriteAllBytes(Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe", UpdaterBytes);
+            File.WriteAllBytes(Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe", Properties.Resources.youtube_dl_gui_updater);
 
             Process Updater = new Process();
             Updater.StartInfo.FileName = Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe";
@@ -340,6 +339,7 @@ namespace youtube_dl_gui {
                 if (xml == null)
                     return -1;
 
+                decimal NewVersion;
                 XmlDocument doc = new XmlDocument();
                 doc.LoadXml(xml);
                 XmlNodeList xmlTag = doc.DocumentElement.SelectNodes("/root/tag_name");
@@ -352,13 +352,17 @@ namespace youtube_dl_gui {
                     GitData.UpdateVersion = xmlTag[0].InnerText;
                     GitData.UpdateName = xmlName[0].InnerText;
                     GitData.UpdateBody = xmlBody[0].InnerText;
-                    return GitData.GitLinks.GetGitVersionDecimal(GitData.UpdateVersion);
                 }
                 else {
                     GitData.YoutubeDlVersion = xmlTag[0].InnerText;
-                    return GitData.GitLinks.GetGitVersionDecimal(GitData.YoutubeDlVersion);
                 }
 
+                if (decimal.TryParse(GitData.UpdateVersion, out NewVersion)) {
+                    return NewVersion;
+                }
+                else {
+                    return 0;
+                }
 
             }
             catch (Exception ex) {
@@ -460,10 +464,6 @@ namespace youtube_dl_gui {
 
             public static readonly string[] Users = { "murrty", "ytdl-org", "blackjack4494", "yt-dlp" };
             public static readonly string[] Repos = { "youtube-dl-gui", "youtube-dl", "youtube-dlc", "yt-dlp" };
-
-            public static decimal GetGitVersionDecimal(string InputVersion) {
-                return decimal.Parse(InputVersion.Replace(".", CultureInfo.InvariantCulture.NumberFormat.NumberDecimalSeparator), NumberStyles.Any, CultureInfo.InvariantCulture);
-            }
         }
 
         private static GitData GitDataInstance = new GitData();
