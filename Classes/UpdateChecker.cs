@@ -134,7 +134,7 @@ namespace youtube_dl_gui {
                 UpdateYoutubeDl.StartInfo.Arguments = "-U";
 
                 if (Config.Settings.General.UseStaticYtdl && !string.IsNullOrWhiteSpace(Config.Settings.General.ytdlPath) && File.Exists(Config.Settings.General.ytdlPath)) {
-                        UpdateYoutubeDl.StartInfo.FileName = Config.Settings.General.ytdlPath;
+                    UpdateYoutubeDl.StartInfo.FileName = Config.Settings.General.ytdlPath;
                 }
                 else {
                     if (File.Exists(Program.ProgramPath + "\\youtube-dl.exe")) {
@@ -156,20 +156,33 @@ namespace youtube_dl_gui {
 
             }
             else {
-                GitData.YoutubeDlVersion = GetYoutubeDlVersion(Config.Settings.Downloads.YtdlType);
+                int TypeIndex;
+                switch (Config.Settings.Downloads.YtdlType) {
+                    case 1:
+                        TypeIndex = 1;
+                        break;
+                    case 2:
+                        TypeIndex = 2;
+                        break;
+
+                    default:
+                        TypeIndex = 0;
+                        break;
+                }
+                GitData.YoutubeDlVersion = GetYoutubeDlVersion(TypeIndex);
 
                 if (verif.YoutubeDlVersion != GitData.YoutubeDlVersion) {
                     string FullSavePath = null;
                     string DownloadUrl = string.Format(GitData.GitLinks.ApplicationDownloadUrl,
-                                         GitData.GitLinks.Users[Config.Settings.Downloads.YtdlType],
-                                         GitData.GitLinks.Repos[Config.Settings.Downloads.YtdlType],
+                                         GitData.GitLinks.Users[TypeIndex],
+                                         GitData.GitLinks.Repos[TypeIndex],
                                          GitData.YoutubeDlVersion);
 
                     if (Config.Settings.General.UseStaticYtdl && !string.IsNullOrEmpty(Config.Settings.General.ytdlPath)) {
                         FullSavePath = Config.Settings.General.ytdlPath;
                     }
                     else {
-                        switch (Config.Settings.Downloads.YtdlType) {
+                        switch (TypeIndex) {
                             case 1:
                                 FullSavePath = Program.ProgramPath + "\\youtube-dlc.exe";
                                 break;
@@ -190,7 +203,7 @@ namespace youtube_dl_gui {
                             wc.Headers.Add("User-Agent: " + Program.UserAgent);
                             try {
 
-                                wc.DownloadFile( DownloadUrl, FullSavePath );
+                                wc.DownloadFile(DownloadUrl, FullSavePath);
 
                                 verif.RefreshYoutubeDlLocation();
 
@@ -202,8 +215,8 @@ namespace youtube_dl_gui {
                                     webex,
                                     string.Format(
                                         GitData.GitLinks.ApplicationDownloadUrl,
-                                        GitData.GitLinks.Users[Config.Settings.Downloads.YtdlType],
-                                        GitData.GitLinks.Repos[Config.Settings.Downloads.YtdlType],
+                                        GitData.GitLinks.Users[TypeIndex],
+                                        GitData.GitLinks.Repos[TypeIndex],
                                         GitData.YoutubeDlVersion
                                     )
                                 );
@@ -224,7 +237,7 @@ namespace youtube_dl_gui {
                             UpdateYoutubeDl();
                             break;
                     }
-                    
+
                 }
             }
         }
