@@ -107,7 +107,7 @@ namespace youtube_dl_gui {
                                 }
                             }
                             else if (ForceCheck) {
-                                MessageBox.Show("No updates available.", "youtube-dl-gui");
+                                MessageBox.Show("No updates available.\r\n\r\nCurrent version: " + Properties.Settings.Default.CurrentVersion + "\r\nLatest version: " + GitVersion, "youtube-dl-gui");
                             }
                         }
 
