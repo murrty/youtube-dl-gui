@@ -3828,7 +3828,7 @@ namespace youtube_dl_gui {
 
                             }
                         }
-
+                        ReadFile = new string[] { };
                         return true;
                     }
                     else {
