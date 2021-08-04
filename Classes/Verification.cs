@@ -23,7 +23,7 @@ namespace youtube_dl_gui {
         //private static volatile ProgramLocation FFmpegLocation = ProgramLocation.Unavailable;
         //private static volatile ProgramLocation AtomicParsleyLocation = ProgramLocation.Unavailable;
         private static volatile string YtdlVersion_ = null;
-        private static volatile GitData.GitID YoutubeDlGitType = GitData.GitID.YoutubeDlGui;
+        private static volatile GitData.GitID YoutubeDlGitType = GitData.GitID.None;
 
         public string YoutubeDlPath {
             get { return YoutubeDlPath_; }
