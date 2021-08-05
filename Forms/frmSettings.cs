@@ -20,6 +20,9 @@ namespace youtube_dl_gui {
         List<string> extensionsName = new List<string>();
         List<string> extensionsShort = new List<string>();
 
+        bool RefreshYtdl = false;
+        bool RefreshFFmpeg = false;
+
         private bool useYtdlUpdater_Last;
         private int YtdlType_Last;
         #endregion
@@ -429,9 +432,6 @@ namespace youtube_dl_gui {
             chkSettingsErrorsSuppressErrors.Checked = Config.Settings.Errors.suppressErrors;
         }
         private void saveSettings() {
-            bool RefreshYtdl = false;
-            bool RefreshFFmpeg = false;
-
             if (Config.Settings.General.UseStaticYtdl != chkSettingsGeneralUseStaticYoutubeDl.Checked) {
                 Config.Settings.General.UseStaticYtdl = chkSettingsGeneralUseStaticYoutubeDl.Checked;
                 RefreshYtdl = true;
@@ -508,6 +508,9 @@ namespace youtube_dl_gui {
             Config.Settings.Downloads.ProxyIP = txtSettingsDownloadsProxyIp.Text;
             Config.Settings.Downloads.ProxyPort = txtSettingsDownloadsProxyPort.Text;
             Config.Settings.Downloads.useYtdlUpdater = chksettingsDownloadsUseYoutubeDlsUpdater.Checked;
+            if (cbSettingsDownloadsUpdatingYtdlType.SelectedIndex != YtdlType_Last) {
+                RefreshYtdl = true;
+            }
             Config.Settings.Downloads.YtdlType = cbSettingsDownloadsUpdatingYtdlType.SelectedIndex;
 
             Config.Settings.Converts.detectFiletype = chkSettingsConverterDetectOutputFileType.Checked;

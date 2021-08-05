@@ -391,21 +391,8 @@ namespace youtube_dl_gui {
                 XmlDocument doc = new XmlDocument();
                 doc.LoadXml(xml);
                 XmlNodeList xmlTag = doc.DocumentElement.SelectNodes("/root/tag_name");
-
-                if (((int)GitID) == 0) {
-                    XmlNodeList xmlName = doc.DocumentElement.SelectNodes("/root/name");
-                    XmlNodeList xmlBody = doc.DocumentElement.SelectNodes("/root/body");
-
-
-                    GitData.UpdateVersion = xmlTag[0].InnerText;
-                    GitData.UpdateName = xmlName[0].InnerText;
-                    GitData.UpdateBody = xmlBody[0].InnerText;
-                    return GitData.UpdateVersion;
-                }
-                else {
-                    GitData.YoutubeDlVersion = xmlTag[0].InnerText;
-                    return GitData.YoutubeDlVersion;
-                }
+                GitData.YoutubeDlVersion = xmlTag[0].InnerText;
+                return GitData.YoutubeDlVersion;
             }
             catch (WebException WebEx) {
                 ErrorLog.ReportWebException(WebEx,
