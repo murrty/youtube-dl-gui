@@ -695,8 +695,8 @@ namespace youtube_dl_gui {
                 Process.Start(
                     string.Format(
                         GitData.GitLinks.GithubRepoUrl,
-                        GitData.GitLinks.Users[cbSettingsDownloadsUpdatingYtdlType.SelectedIndex + 1],
-                        GitData.GitLinks.Repos[cbSettingsDownloadsUpdatingYtdlType.SelectedIndex + 1]
+                        GitData.GitLinks.Users[cbSettingsDownloadsUpdatingYtdlType.SelectedIndex],
+                        GitData.GitLinks.Repos[cbSettingsDownloadsUpdatingYtdlType.SelectedIndex]
                     )
                 );
             }

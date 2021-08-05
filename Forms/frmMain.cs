@@ -1269,7 +1269,7 @@ namespace youtube_dl_gui {
         }
         private void btnDebugCheckVerification_Click(object sender, EventArgs e) {
             MessageBox.Show(
-                "Youtube-DL Path: " + verif.YoutubeDlPath + "\r\nYotuube-DL Version: " + verif.YoutubeDlVersion + "\r\n\r\n" +
+                "Youtube-DL Path: " + verif.YoutubeDlPath + "\r\nYoutube-DL Version: " + verif.YoutubeDlVersion + "\r\n\r\n" +
                 "FFmpeg Path: " + verif.FFmpegPath + "\r\n\r\n" +
                 "AtomicParlsey Path: " + verif.AtomicParsleyPath
             );

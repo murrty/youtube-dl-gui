@@ -69,6 +69,13 @@ namespace youtube_dl_gui {
                                     }
                                 }
                             }
+                            else if (string.IsNullOrWhiteSpace(LatestReleaseVersion)) {
+                                switch (MessageBox.Show("The git version returned null/whitespace, which means it didn't properly check. Would you like to manually check?", "youtube-dl-gui", MessageBoxButtons.YesNo)) {
+                                    case DialogResult.Yes:
+                                        Process.Start(string.Format(GitData.GitLinks.GithubRepoUrl + "/releases/latest", "murrty", "youtube-dl-gui"));
+                                        break;
+                                }
+                            }
                             else if (ForceCheck) {
                                 MessageBox.Show("No updates available.");
                             }
@@ -316,6 +323,16 @@ namespace youtube_dl_gui {
                 }
 
             }
+            catch (WebException WebEx) {
+                ErrorLog.ReportWebException(WebEx,
+                    string.Format(
+                        GitData.GitLinks.GithubLatestJson,
+                        "murrty",
+                        "youtube-dl-gui"
+                    )
+                );
+                return -1;
+            }
             catch (Exception ex) {
                 ErrorLog.ReportException(ex);
                 return -1;
@@ -344,6 +361,16 @@ namespace youtube_dl_gui {
                 GitData.UpdateBody = xmlBody[0].InnerText;
                 return GitData.UpdateVersion;
 
+            }
+            catch (WebException WebEx) {
+                ErrorLog.ReportWebException(WebEx,
+                    string.Format(
+                        GitData.GitLinks.GithubLatestJson,
+                        "murrty",
+                        "youtube-dl-gui"
+                    )
+                );
+                return null;
             }
             catch (Exception ex) {
                 ErrorLog.ReportException(ex);
@@ -379,6 +406,16 @@ namespace youtube_dl_gui {
                     GitData.YoutubeDlVersion = xmlTag[0].InnerText;
                     return GitData.YoutubeDlVersion;
                 }
+            }
+            catch (WebException WebEx) {
+                ErrorLog.ReportWebException(WebEx,
+                    string.Format(
+                        GitData.GitLinks.GithubLatestJson,
+                        GitData.GitLinks.Users[((int)GitID)],
+                        GitData.GitLinks.Repos[((int)GitID)]
+                    )
+                );
+                return null;
             }
             catch (Exception ex) {
                 ErrorLog.ReportException(ex);

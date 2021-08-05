@@ -23,6 +23,7 @@ namespace youtube_dl_gui {
             using (frmException ExceptionDisplay = new frmException()) {
                 ExceptionDisplay.ReportedWebException = WebException;
                 ExceptionDisplay.FromLanguage = false;
+                ExceptionDisplay.WebAddress = WebsiteAddress;
 
                 switch (WebException.Status) {
                     #region NameResolutionFailure

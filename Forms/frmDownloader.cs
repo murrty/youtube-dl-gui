@@ -277,7 +277,9 @@ sanitizecheck:
                     }
                 case DownloadType.Custom: {
                         rtbConsoleOutput.AppendText("Custom was requested, skipping quality + format");
-                        ArgumentsBuffer += " " + CurrentDownload.DownloadArguments;
+                        if (!string.IsNullOrWhiteSpace(CurrentDownload.DownloadArguments)) {
+                            ArgumentsBuffer += " " + CurrentDownload.DownloadArguments;
+                        }
                         break;
                     }
                 default: {
