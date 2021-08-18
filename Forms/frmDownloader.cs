@@ -358,7 +358,7 @@ sanitizecheck:
                 }
                 if (Config.Settings.Downloads.SaveThumbnail) {
                     // ArgumentsBuffer += "--write-all-thumbnails "; // Maybe?
-                    //ArgumentsBuffer += " --write-thumbnail";
+                    ArgumentsBuffer += " --write-thumbnail";
                     if (Config.Settings.Downloads.EmbedThumbnails) {
                         switch (CurrentDownload.Type) {
                             case DownloadType.Video:
