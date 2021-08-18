@@ -268,7 +268,7 @@ sanitizecheck:
                             }
                         }
                         if (CurrentDownload.AudioFormat == AudioFormatType.best) {
-                            ArgumentsBuffer += " --audio-format bestaudio";
+                            ArgumentsBuffer += " --audio-format best";
                         }
                         else {
                             ArgumentsBuffer += " --extract-audio --audio-format " + DownloadFormats.GetAudioFormat(CurrentDownload.AudioFormat);
