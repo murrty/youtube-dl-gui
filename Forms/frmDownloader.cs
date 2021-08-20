@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Management;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -73,7 +74,6 @@ namespace youtube_dl_gui {
                 default:
                     if (DownloadThread != null && DownloadThread.IsAlive) {
                         DownloadThread.Abort();
-                        CurrentDownload.Status = DownloadStatus.Aborted;
                         e.Cancel = true;
                     }
                     break;
@@ -109,12 +109,9 @@ namespace youtube_dl_gui {
                             btnDownloaderAbortBatchDownload.Enabled = false;
                             break;
                         default:
-                            CurrentDownload.Status = DownloadStatus.Aborted;
                             if (DownloadThread != null && DownloadThread.IsAlive) {
                                 DownloadThread.Abort();
                             }
-                            System.Media.SystemSounds.Hand.Play();
-                            rtbConsoleOutput.AppendText("Downloading was aborted by the user.\n");
                             rtbConsoleOutput.AppendText("Additionally, the batch download has been canceled.");
                             this.Close();
                             break;
@@ -510,42 +507,52 @@ sanitizecheck:
                             }
                         }));
                     };
+                    DownloadProcess.Exited += (s, e) => {
+                        if (DownloadProcess.ExitCode == 0) {
+                            CurrentDownload.Status = DownloadStatus.Finished;
+                        }
+                        else if (CurrentDownload.Status != DownloadStatus.Aborted) {
+                            CurrentDownload.Status = DownloadStatus.YtdlError;
+                        }
+                    };
+                    DownloadProcess.EnableRaisingEvents = true;
 
-                    DownloadProcess.Start();
+                    if (CurrentDownload.Status != DownloadStatus.Aborted) {
+                        DownloadProcess.Start();
 
-                    ArgumentsBuffer = null;
-                    PreviewArguments = null;
+                        ArgumentsBuffer = null;
+                        PreviewArguments = null;
 
-                    DownloadProcess.BeginOutputReadLine();
-                    DownloadProcess.BeginErrorReadLine();
-                    DownloadProcess.WaitForExit();
+                        DownloadProcess.BeginOutputReadLine();
+                        DownloadProcess.BeginErrorReadLine();
 
-                    if (DownloadProcess.ExitCode == 0) {
-                        CurrentDownload.Status = DownloadStatus.Finished;
+                        while (!DownloadProcess.HasExited) {
+                            Thread.Sleep(1000);
+                        }
                     }
-                    else {
 
-                        CurrentDownload.Status = DownloadStatus.YtdlError;
-                    }
                 }
                 catch (ThreadAbortException) {
+                    System.Media.SystemSounds.Hand.Play();
+                    DownloadProcess.CancelErrorRead();
+                    DownloadProcess.CancelOutputRead();
+                    KillProcessTree((UInt32)DownloadProcess.Id);
+                    DownloadProcess.Kill();
                     this.BeginInvoke((MethodInvoker)delegate() {
-                        CurrentDownload.Status = DownloadStatus.Aborted;
-                        if (DownloadProcess != null && !DownloadProcess.HasExited) {
-                            DownloadProcess.Kill();
-                        }
-                        System.Media.SystemSounds.Hand.Play();
                         rtbConsoleOutput.AppendText("Downloading was aborted by the user.");
                     });
+                    CurrentDownload.Status = DownloadStatus.Aborted;
                 }
                 catch (Exception ex) {
                     ErrorLog.ReportException(ex);
                     CurrentDownload.Status = DownloadStatus.ProgramError;
                 }
                 finally {
-                    this.BeginInvoke((MethodInvoker)delegate() {
-                        DownloadFinished();
-                    });
+                    if (CurrentDownload.Status != DownloadStatus.Aborted) {
+                        this.BeginInvoke((MethodInvoker)delegate() {
+                            DownloadFinished();
+                        });
+                    }
                 }
             });
             rtbConsoleOutput.AppendText("Created, starting download thread\n");
@@ -622,6 +629,19 @@ sanitizecheck:
                         rtbConsoleOutput.AppendText("CurrentDownload.Status not defined (Not a batch download)\nAssuming success.");
                         if (chkDownloaderCloseAfterDownload.Checked) { this.Close(); }
                         break;
+                }
+            }
+        }
+        private void KillProcessTree(UInt32 ParentProcess) {
+            ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT * FROM Win32_Process WHERE ParentProcessId=" + ParentProcess);
+            ManagementObjectCollection collection = searcher.Get();
+            if (collection.Count > 0) {
+                foreach (var proc in collection) {
+                    UInt32 id = (UInt32)proc["ProcessID"];
+                    if ((int)id != ParentProcess) {
+                        Process subProcess = Process.GetProcessById((int)id);
+                        subProcess.Kill();
+                    }
                 }
             }
         }
