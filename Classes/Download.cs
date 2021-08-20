@@ -1,4 +1,6 @@
-﻿using System.Text.RegularExpressions;
+﻿using System;
+using System.IO;
+using System.Text.RegularExpressions;
 
 namespace youtube_dl_gui {
 
@@ -165,6 +167,36 @@ namespace youtube_dl_gui {
 
             return url.Split('/')[0];
         }
+
+        public static bool AddToHistory(string Url) {
+            try {
+                if (Program.UseIni) {
+                    if (!File.Exists(Program.ProgramPath + "\\history.txt")) {
+                        File.Create(Program.ProgramPath + "\\history.txt").Close();
+                        File.WriteAllText(Program.ProgramPath + "\\history.txt", Url);
+                    }
+                    else {
+                        File.AppendAllText(Program.LocalAppDataPath + "\\history.txt", "\r\n" + Url);
+                    }
+
+                }
+                else {
+                    if (!File.Exists(Program.LocalAppDataPath + "\\history.txt")) {
+                        File.Create(Program.LocalAppDataPath + "\\history.txt").Close();
+                        File.WriteAllText(Program.LocalAppDataPath + "\\history.txt", Url);
+                    }
+                    else {
+                        File.AppendAllText(Program.LocalAppDataPath + "\\history.txt", "\r\n" + Url);
+                    }
+                }
+                return true;
+            }
+            catch (Exception ex) {
+                ErrorLog.ReportException(ex);
+                return false;
+            }
+        }
+
     }
 
     class DownloadFormats {

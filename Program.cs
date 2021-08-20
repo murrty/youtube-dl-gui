@@ -10,6 +10,7 @@ namespace youtube_dl_gui {
         static GuidAttribute ProgramGUID = (GuidAttribute)Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(GuidAttribute), true)[0];
         //public static volatile string ProgramPath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
         public static volatile string ProgramPath = Environment.CurrentDirectory;
+        public static volatile string LocalAppDataPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\youtube-dl-gui";
         public static readonly string UserAgent = "User-Agent: youtube-dl-gui/" + Properties.Settings.Default.CurrentVersion;
         public static volatile bool IsDebug = false;
         public static volatile bool UseIni = false;
