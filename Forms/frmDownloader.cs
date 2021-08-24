@@ -107,6 +107,7 @@ namespace youtube_dl_gui {
                         case DownloadStatus.YtdlError: case DownloadStatus.ProgramError:
                             rtbConsoleOutput.AppendText("The user requested to abort subsequent batch downloads");
                             btnDownloaderAbortBatchDownload.Enabled = false;
+                            btnDownloaderAbortBatchDownload.Visible = false;
                             break;
                         default:
                             if (DownloadThread != null && DownloadThread.IsAlive) {
@@ -554,7 +555,7 @@ sanitizecheck:
                     CurrentDownload.Status = DownloadStatus.ProgramError;
                 }
                 finally {
-                    if (CurrentDownload.Status != DownloadStatus.Aborted) {
+                    if (CurrentDownload.Status != DownloadStatus.Aborted || CurrentDownload.BatchDownload) {
                         this.BeginInvoke((MethodInvoker)delegate() {
                             DownloadFinished();
                         });

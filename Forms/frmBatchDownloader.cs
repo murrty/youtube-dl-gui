@@ -305,6 +305,7 @@ namespace youtube_dl_gui {
 
                     bool AbortDownload = false;
                     sbBatchDownloader.Text = lang.sbBatchDownloaderDownloading;
+                    Downloader.CurrentDownload = NewInfo;
                     switch (Downloader.ShowDialog()) {
                         case System.Windows.Forms.DialogResult.Yes:
                             lvBatchDownloadQueue.Items[i].ImageIndex = (int)BatchDownloader.ConversionIcon.Finished;
@@ -314,10 +315,10 @@ namespace youtube_dl_gui {
                             break;
                         case System.Windows.Forms.DialogResult.Abort:
                             lvBatchDownloadQueue.Items[i].ImageIndex = (int)BatchDownloader.ConversionIcon.Waiting;
+                            AbortDownload = true;
                             break;
                         case System.Windows.Forms.DialogResult.Ignore:
                             lvBatchDownloadQueue.Items[i].ImageIndex = (int)BatchDownloader.ConversionIcon.Waiting;
-                            AbortDownload = true;
                             break;
                         default:
                             lvBatchDownloadQueue.Items[i].ImageIndex = (int)BatchDownloader.ConversionIcon.Finished;
