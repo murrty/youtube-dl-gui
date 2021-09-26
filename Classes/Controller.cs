@@ -1,27 +1,39 @@
 ﻿using Microsoft.Win32;
 using System;
-using System.Runtime.InteropServices;
 
-internal class Controller {
-    public static bool CreateProtocol() {
+internal class RegistryTool {
+    public static bool CreateProtocol(string Protocol, string ApplicationPath, string OptionArguments) {
         try {
-            Registry.ClassesRoot.CreateSubKey("ytdl");
-            RegistryKey Identifier = Registry.ClassesRoot.OpenSubKey("ytdl", true);
+            Registry.ClassesRoot.CreateSubKey(Protocol);
+            RegistryKey Identifier = Registry.ClassesRoot.OpenSubKey(Protocol, true);
             Identifier.SetValue("URL Protocol", "");
-            Registry.ClassesRoot.CreateSubKey("ytdl\\shell");
-            Registry.ClassesRoot.CreateSubKey("ytdl\\shell\\open");
-            Registry.ClassesRoot.CreateSubKey("ytdl\\shell\\open\\command");
-            RegistryKey setProtocol = Registry.ClassesRoot.OpenSubKey("ytdl\\shell\\open\\command", true);
-            setProtocol.SetValue("", "\"" + Environment.CurrentDirectory + "\\" + AppDomain.CurrentDomain.FriendlyName + "\" \" -download %1\"");
-            Registry.ClassesRoot.CreateSubKey("ytdl\\DefaultIcon");
-            RegistryKey setIcon = Registry.ClassesRoot.OpenSubKey("ytdl\\DefaultIcon", true);
-            setIcon.SetValue("", "\"" + Environment.CurrentDirectory + "\\ytdl.exe\",1");
+            Registry.ClassesRoot.CreateSubKey(Protocol + "\\shell");
+            Registry.ClassesRoot.CreateSubKey(Protocol + "\\shell\\open");
+            Registry.ClassesRoot.CreateSubKey(Protocol + "\\shell\\open\\command");
+            RegistryKey setProtocol = Registry.ClassesRoot.OpenSubKey(Protocol + "\\shell\\open\\command", true);
+            setProtocol.SetValue("", "\"" + ApplicationPath + "\" \"" + OptionArguments + " %1\"");
+            Registry.ClassesRoot.CreateSubKey(Protocol + "\\DefaultIcon");
+            RegistryKey setIcon = Registry.ClassesRoot.OpenSubKey(Protocol + "\\DefaultIcon", true);
+            setIcon.SetValue("", "\"" + ApplicationPath + "\",1");
 
             return true;
         }
-        catch (Exception ex) {
-            youtube_dl_gui.ErrorLog.ReportException(ex);
-            return false;
+        catch {
+            throw;
+        }
+    }
+
+    public static bool ProtocolExists(string Protocol, string ExpectedValue = null) {
+        try {
+            RegistryKey OpenKey = Registry.ClassesRoot.OpenSubKey(Protocol);
+            if (OpenKey != null && Registry.ClassesRoot.GetValue(Protocol, "URL Protocol") != null) {
+                if (ExpectedValue != null) return Registry.ClassesRoot.OpenSubKey(Protocol + "\\shell\\open\\command").GetValue("").ToString().Equals(ExpectedValue);
+                else return Registry.ClassesRoot.OpenSubKey(Protocol + "\\shell\\open\\command") != null;
+            }
+            else return false;
+        }
+        catch {
+            throw;
         }
     }
 }

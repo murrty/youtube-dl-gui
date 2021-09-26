@@ -16,7 +16,6 @@ namespace youtube_dl_gui {
             if (Config.Settings.Errors.suppressErrors)
                 return;
 
-            string OutputFile = string.Empty;
             string CustomDescriptionBuffer = string.Empty;
             bool UseCustomDescription = false;
 
@@ -72,7 +71,7 @@ namespace youtube_dl_gui {
                     #endregion
                     #region ProtocolError
                     case WebExceptionStatus.ProtocolError:
-                        var WebResponse = WebException.Response as HttpWebResponse;
+                        HttpWebResponse WebResponse = (HttpWebResponse)WebException.Response;
 
                         if (WebResponse != null) {
                             UseCustomDescription = true;
@@ -431,8 +430,6 @@ namespace youtube_dl_gui {
         public static void ReportException(Exception Exception, bool IsWriteToFile = true) {
             if (Config.Settings.Errors.suppressErrors)
                 return;
-
-            string OutputFile = string.Empty;
 
             using (frmException ExceptionDisplay = new frmException()){
                 ExceptionDisplay.ReportedException = Exception;

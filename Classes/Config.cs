@@ -2783,8 +2783,7 @@ namespace youtube_dl_gui {
             var RetVal = new StringBuilder(255);
             NativeMethods.GetPrivateProfileString(Section ?? ExecutableName, Key.ToLower(), "", RetVal, 255, Path);
             string RetStr = RetVal.ToString();
-            int RetInt;
-            if (int.TryParse(RetStr, out RetInt)) {
+            if (int.TryParse(RetStr, out int RetInt)) {
                 return RetInt;
             }
             else {
@@ -2794,8 +2793,7 @@ namespace youtube_dl_gui {
         public static decimal ReadDecimal(string Key, string Section = null) {
             var RetVal = new StringBuilder(255);
             NativeMethods.GetPrivateProfileString(Section ?? ExecutableName, Key, "", RetVal, 255, Path);
-            decimal RetDec;
-            if (decimal.TryParse(RetVal.ToString(), out RetDec)) {
+            if (decimal.TryParse(RetVal.ToString(), out decimal RetDec)) {
                 return RetDec;
             }
             else {
@@ -2807,16 +2805,15 @@ namespace youtube_dl_gui {
             NativeMethods.GetPrivateProfileString(Section ?? ExecutableName, Key, "", RetVal, 255, Path);
             string[] Value = RetVal.ToString().Split(',');
             if (Value.Length == 2) {
-                int Temp;
                 Point OutputPoint = new Point();
-                if (int.TryParse(Value[0], out Temp)) {
-                    OutputPoint.X = Temp;
+                if (int.TryParse(Value[0], out int XTemp)) {
+                    OutputPoint.X = XTemp;
                 }
                 else {
                     OutputPoint.X = -32000;
                 }
-                if (int.TryParse(Value[1], out Temp)) {
-                    OutputPoint.Y = Temp;
+                if (int.TryParse(Value[1], out int YTemp)) {
+                    OutputPoint.Y = YTemp;
                 }
                 else {
                     OutputPoint.Y = -32000;
@@ -2832,16 +2829,15 @@ namespace youtube_dl_gui {
             NativeMethods.GetPrivateProfileString(Section ?? ExecutableName, Key, "", RetVal, 255, Path);
             string[] Value = RetVal.ToString().Split(',');
             if (Value.Length == 2) {
-                int Temp;
                 Size OutputPoint = new Size();
-                if (int.TryParse(Value[0], out Temp)) {
-                    OutputPoint.Width = Temp;
+                if (int.TryParse(Value[0], out int WTemp)) {
+                    OutputPoint.Width = WTemp;
                 }
                 else {
                     OutputPoint.Width = -32000;
                 }
-                if (int.TryParse(Value[1], out Temp)) {
-                    OutputPoint.Height = Temp;
+                if (int.TryParse(Value[1], out int HTemp)) {
+                    OutputPoint.Height = HTemp;
                 }
                 else {
                     OutputPoint.Height = -32000;

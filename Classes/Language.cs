@@ -11,7 +11,7 @@ namespace youtube_dl_gui {
         /// <summary>
         /// The single instance of the language that contains all the strings.
         /// </summary>
-        private static volatile Language LangInstance = new Language();
+        private static readonly Language LangInstance = new Language();
         /// <summary>
         /// Returns the shared Language instance between all forms.
         /// </summary>
@@ -3852,7 +3852,7 @@ namespace youtube_dl_gui {
         /// <param name="Input">The string that may contain a header.</param>
         /// <returns>Returns the absolute header.</returns>
         private string ReadHeaderValue(string Input) {
-            string ReadValue = null;
+            string ReadValue;
             int CountedLength = 0;
             ReadValue = Input.Trim(' ');
             if (Input.Contains("//")) {

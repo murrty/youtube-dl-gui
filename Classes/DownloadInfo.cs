@@ -9,7 +9,7 @@ namespace youtube_dl_gui {
         }
         public bool IsDisposed { get; private set; }
         public void Dispose(bool disposing) {
-            IsDisposed = true;
+            IsDisposed = disposing;
         }
 
         /// <summary>

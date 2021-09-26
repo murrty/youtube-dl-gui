@@ -7,7 +7,7 @@ using System.Linq;
 namespace youtube_dl_gui {
     class Convert {
         #region Constants
-        private static Verification verif = Verification.GetInstance();
+        private static readonly Verification verif = Verification.GetInstance();
         /// <summary>
         /// All built-in video formats
         /// </summary>

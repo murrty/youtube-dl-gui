@@ -134,8 +134,9 @@ namespace youtube_dl_gui {
             Updater.Start();
             Environment.Exit(0);
         }
+        
         public static void UpdateYoutubeDl() {
-            if (Config.Settings.Downloads.useYtdlUpdater && Config.Settings.General.UseStaticYtdl && !string.IsNullOrEmpty(Config.Settings.General.ytdlPath) && File.Exists(Config.Settings.General.ytdlPath) || Config.Settings.Downloads.useYtdlUpdater && File.Exists(Program.ProgramPath + "\\youtube-dl.exe") || Config.Settings.Downloads.useYtdlUpdater && File.Exists(Program.ProgramPath + "\\youtube-dlc.exe") || Config.Settings.Downloads.useYtdlUpdater && File.Exists(Program.ProgramPath + "\\yt-dlp.exe")) {
+            if (Config.Settings.Downloads.useYtdlUpdater && Config.Settings.General.UseStaticYtdl && !string.IsNullOrEmpty(Config.Settings.General.ytdlPath) && File.Exists(Config.Settings.General.ytdlPath) || Config.Settings.Downloads.useYtdlUpdater && File.Exists(verif.YoutubeDlPath)) {
 
                 Process UpdateYoutubeDl = new Process();
                 UpdateYoutubeDl.StartInfo.Arguments = "-U";
@@ -233,8 +234,9 @@ namespace youtube_dl_gui {
                                 ErrorLog.ReportException(ex);
                             }
                         }
-                    });
-                    DownloadYoutubeDl.Name = "Downloading youtube-dl";
+                    }) {
+                        Name = "Downloading youtube-dl"
+                    };
                     DownloadYoutubeDl.Start();
 
                 }
@@ -283,11 +285,8 @@ namespace youtube_dl_gui {
                 //}
 
             }
-            catch (WebException WebE) {
-                throw WebE;
-            }
-            catch (Exception ex) {
-                throw ex;
+            catch {
+                throw;
             }
         }
 
@@ -302,7 +301,6 @@ namespace youtube_dl_gui {
                 if (xml == null)
                     return -1;
 
-                decimal NewVersion;
                 XmlDocument doc = new XmlDocument();
                 doc.LoadXml(xml);
                 XmlNodeList xmlTag = doc.DocumentElement.SelectNodes("/root/tag_name");
@@ -315,7 +313,7 @@ namespace youtube_dl_gui {
                 GitData.UpdateName = xmlName[0].InnerText;
                 GitData.UpdateBody = xmlBody[0].InnerText;
 
-                if (decimal.TryParse(GitData.UpdateVersion, out NewVersion)) {
+                if (decimal.TryParse(GitData.UpdateVersion, out decimal NewVersion)) {
                     return NewVersion;
                 }
                 else {
@@ -467,7 +465,7 @@ namespace youtube_dl_gui {
             public static readonly string[] Repos = { "youtube-dl", "youtube-dlc", "yt-dlp" };
         }
 
-        private static GitData GitDataInstance = new GitData();
+        private static readonly GitData GitDataInstance = new GitData();
         private static volatile string UpdateVersionString = "-1";
         private static volatile string UpdateNameString = "UpdateNameString";
         private static volatile string UpdateBodyString = "UpdateBodyString";
