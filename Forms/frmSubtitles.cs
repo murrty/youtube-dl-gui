@@ -3,7 +3,7 @@ using System.Windows.Forms;
 
 namespace youtube_dl_gui {
     public partial class frmSubtitles : Form {
-        Language lang = Language.GetInstance();
+        readonly Language lang = Language.GetInstance();
         //youtube-dl --sub-lang en --write-auto-sub --sub-format srt --skip-download
         // language - download auto generated subs - sub format - skip video
         //--write-sub                      Write subtitle file

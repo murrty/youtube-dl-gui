@@ -1,24 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
 namespace youtube_dl_gui {
     public partial class frmSettings : Form {
 
         #region vars
-        Language lang = Language.GetInstance();
-        Verification verif = Verification.GetInstance();
+        readonly Language lang = Language.GetInstance();
+        readonly Verification verif = Verification.GetInstance();
         public bool ffmpegAvailabled = false;
         public bool ytdlAvailable = false;
 
         private bool LoadingForm = false;
 
-        List<string> extensionsName = new List<string>();
-        List<string> extensionsShort = new List<string>();
+        readonly List<string> extensionsName = new List<string>();
+        readonly List<string> extensionsShort = new List<string>();
 
         bool RefreshYtdl = false;
         bool RefreshFFmpeg = false;
@@ -35,7 +33,7 @@ namespace youtube_dl_gui {
             loadSettings();
         }
         private void frmSettings_Load(object sender, EventArgs e) {
-            if (Config.Settings.Saved.SettingsFormSize != default(System.Drawing.Size)) {
+            if (Config.Settings.Saved.SettingsFormSize != default) {
                 this.Size = Config.Settings.Saved.SettingsFormSize;
             }
 
@@ -594,7 +592,7 @@ namespace youtube_dl_gui {
 
 
                 if (ofd.ShowDialog() == DialogResult.OK) {
-                    txtSettingsGeneralFFmpegPath.Text = ofd.FileName; // Path.GetDirectoryName(ofd.FileName);
+                    txtSettingsGeneralFFmpegPath.Text = ofd.FileName;
                 }
             }
         }

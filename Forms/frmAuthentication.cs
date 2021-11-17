@@ -1,16 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace youtube_dl_gui {
     public partial class frmAuthentication : Form {
-        Language lang = Language.GetInstance();
+        readonly Language lang = Language.GetInstance();
 
         public string Username = null;
         public string Password = null;
@@ -37,7 +31,7 @@ namespace youtube_dl_gui {
             btnAuthGenericCancel.Text = lang.GenericCancel;
         }
         private void CalculatePositions() {
-            chkAuthUseNetrc.Location = new System.Drawing.Point((this.Size.Width - chkAuthUseNetrc.Size.Width) / 2, chkAuthUseNetrc.Location.Y);
+            chkAuthUseNetrc.Location = new Point((this.Size.Width - chkAuthUseNetrc.Size.Width) / 2, chkAuthUseNetrc.Location.Y);
         }
 
         private void chkPasswordVisible_CheckedChanged(object sender, EventArgs e) {

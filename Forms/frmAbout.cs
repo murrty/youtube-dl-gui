@@ -5,8 +5,7 @@ using System.Windows.Forms;
 
 namespace youtube_dl_gui {
     public partial class frmAbout : Form {
-        Language lang = Language.GetInstance();
-        GitData GitCloud = GitData.GetInstance();
+        readonly Language lang = Language.GetInstance();
         Thread UpdateCheckThread;
 
         public frmAbout() {
@@ -39,9 +38,10 @@ namespace youtube_dl_gui {
                     catch (Exception ex) {
                         ErrorLog.ReportException(ex);
                     }
-                });
-                UpdateCheckThread.Name = "Checks for updates";
-                UpdateCheckThread.IsBackground = true;
+                }) {
+                    Name = "Checks for updates",
+                    IsBackground = true
+                };
                 UpdateCheckThread.Start();
             }
         }

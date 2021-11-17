@@ -21,7 +21,7 @@ namespace youtube_dl_gui.Controls {
     /// </summary>
     public class ExtendedTextBox : TextBox {
 
-        private Button btn = new Button() {
+        private readonly Button btn = new Button {
             Cursor = Cursors.Default,
             Enabled = false,
             TextAlign = ContentAlignment.MiddleCenter,
@@ -31,8 +31,8 @@ namespace youtube_dl_gui.Controls {
 
         public ExtendedTextBox() {
             UpdateButton();
-            this.Controls.Add(btn);
-            this.Refresh();
+            Controls.Add(btn);
+            Refresh();
         }
 
         #region Private variables
@@ -44,10 +44,10 @@ namespace youtube_dl_gui.Controls {
 
         #region Methods
         private void UpdateButton() {
-            btn.Size = new Size(22, this.ClientSize.Height + 3);
+            btn.Size = new Size(22, ClientSize.Height + 3);
             switch (_ButtonAlignment) {
                 default:
-                    btn.Location = new Point(this.ClientSize.Width - btn.Width, -2);
+                    btn.Location = new Point(ClientSize.Width - btn.Width, -2);
                     break;
 
                 case ButtonAlignments.Right:
@@ -66,18 +66,18 @@ namespace youtube_dl_gui.Controls {
                 case true:
                     switch (_ButtonAlignment) {
                         default:
-                            NativeMethods.SendMessage(this.Handle, NativeMethods.EM_SETMARGINS, (IntPtr)NativeMethods.EC_RIGHTMARGIN, (IntPtr)(btn.Width << 16));
+                            NativeMethods.SendMessage(Handle, NativeMethods.EM_SETMARGINS, (IntPtr)NativeMethods.EC_RIGHTMARGIN, (IntPtr)(btn.Width << 16));
                             break;
 
                         case ButtonAlignments.Right:
-                            NativeMethods.SendMessage(this.Handle, NativeMethods.EM_SETMARGINS, (IntPtr)NativeMethods.EC_LEFTMARGIN, (IntPtr)(btn.Width));
+                            NativeMethods.SendMessage(Handle, NativeMethods.EM_SETMARGINS, (IntPtr)NativeMethods.EC_LEFTMARGIN, (IntPtr)(btn.Width));
                             break;
                     }
                     break;
 
                 case false:
-                    NativeMethods.SendMessage(this.Handle, NativeMethods.EM_SETMARGINS, (IntPtr)NativeMethods.EC_LEFTMARGIN, IntPtr.Zero);
-                    NativeMethods.SendMessage(this.Handle, NativeMethods.EM_SETMARGINS, (IntPtr)NativeMethods.EC_RIGHTMARGIN, IntPtr.Zero);
+                    NativeMethods.SendMessage(Handle, NativeMethods.EM_SETMARGINS, (IntPtr)NativeMethods.EC_LEFTMARGIN, IntPtr.Zero);
+                    NativeMethods.SendMessage(Handle, NativeMethods.EM_SETMARGINS, (IntPtr)NativeMethods.EC_RIGHTMARGIN, IntPtr.Zero);
                     break;
             }
             base.Refresh();
@@ -85,7 +85,7 @@ namespace youtube_dl_gui.Controls {
 
         protected override void OnResize(EventArgs e) {
             UpdateButton();
-            this.Refresh();
+            Refresh();
             base.OnResize(e);
         }
 
@@ -176,7 +176,7 @@ namespace youtube_dl_gui.Controls {
 
                         case Keys.A:
                             e.SuppressKeyPress = true;
-                            this.SelectAll();
+                            SelectAll();
                             break;
                     }
                     break;

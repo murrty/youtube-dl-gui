@@ -9,9 +9,12 @@ namespace youtube_dl_gui.Controls {
 
 
         public SplitButton() {
-            this.FlatStyle = FlatStyle.System;
-            this.DropDown_Clicked += new DropDownClicked(this.LaunchMenu);
-            this._ContextMenu.Collapse += new EventHandler(this.CloseMenuDropdown);
+            SuspendLayout();
+            ResumeLayout(false);
+
+            FlatStyle = FlatStyle.System;
+            DropDown_Clicked += new DropDownClicked(LaunchMenu);
+            _ContextMenu.Collapse += new EventHandler(CloseMenuDropdown);
         }
 
         protected override CreateParams CreateParams {
@@ -29,45 +32,45 @@ namespace youtube_dl_gui.Controls {
         protected override void WndProc(ref Message WndMessage) {
             switch (WndMessage.Msg) {
                 case (0x00001600 + 0x0006):
-                    if (WndMessage.HWnd == this.Handle) {
-                        if (WndMessage.WParam.ToString() == "1") {
+                    if (WndMessage.HWnd == Handle) {
+                        if (WndMessage.WParam == (IntPtr)1) {
                             if (DropDownPushed == 0) {
-                                this.DropDownPushed = 1;
+                                DropDownPushed = 1;
                                 DropDown_Clicked();
                             }
                         }
-                        if (this.IsMouseDown == 1) {
-                            this.IsAtDropDown = 1;
+                        if (IsMouseDown == 1) {
+                            IsAtDropDown = 1;
                         }
                     }
                     break;
                 case (0x0F):
-                    if (this.DropDownPushed == 1) {
-                        this.SetDropDownState(1);
+                    if (DropDownPushed == 1) {
+                        SetDropDownState(1);
                     }
                     break;
                 case (0x201):
-                    this.IsMouseDown = 1;
+                    IsMouseDown = 1;
                     break;
                 case (0x2A3):
-                    if (this.IsAtDropDown == 1) {
-                        this.SetDropDownState(0);
-                        this.IsAtDropDown = 0;
-                        this.IsMouseDown = 0;
+                    if (IsAtDropDown == 1) {
+                        SetDropDownState(0);
+                        IsAtDropDown = 0;
+                        IsMouseDown = 0;
                     }
                     break;
                 case (0x202):
-                    if (this.IsAtDropDown == 1) {
-                        this.SetDropDownState(0);
-                        this.IsAtDropDown = 0;
-                        this.IsMouseDown = 0;
+                    if (IsAtDropDown == 1) {
+                        SetDropDownState(0);
+                        IsAtDropDown = 0;
+                        IsMouseDown = 0;
                     }
                     break;
                 case (0x08):
-                    if (this.IsAtDropDown == 1) {
-                        this.SetDropDownState(0);
-                        this.IsAtDropDown = 0;
-                        this.IsMouseDown = 0;
+                    if (IsAtDropDown == 1) {
+                        SetDropDownState(0);
+                        IsAtDropDown = 0;
+                        IsMouseDown = 0;
                     }
                     break;
             }
@@ -76,30 +79,26 @@ namespace youtube_dl_gui.Controls {
         public void SetDropDownState(int Pushed) {
             switch (Pushed) {
                 case 0:
-                    this.DropDownPushed = 0;
+                    DropDownPushed = 0;
                     break;
             }
-            NativeMethods.SendMessage(this.Handle, (0x1606 + 0x0006), (IntPtr)Pushed, IntPtr.Zero);
+            NativeMethods.SendMessage(Handle, (0x1606 + 0x0006), (IntPtr)Pushed, IntPtr.Zero);
         }
         public event DropDownClicked DropDown_Clicked;
-        private void InitializeComponent() {
-            this.SuspendLayout();
-            this.ResumeLayout(false);
-        }
 
         public void LaunchMenu() {
-            if (this._ContextMenu.MenuItems.Count > 0) {
-                this._ContextMenu.Show(this, new Point(this.Width + 190, this.Height), LeftRightAlignment.Left);
+            if (_ContextMenu.MenuItems.Count > 0) {
+                _ContextMenu.Show(this, new Point(Width + 190, Height), LeftRightAlignment.Left);
             }
         }
 
         public void CloseMenuDropdown(object sender, EventArgs e) {
-            this.SetDropDownState(0);
+            SetDropDownState(0);
         }
         ContextMenu _ContextMenu = new ContextMenu();
         public ContextMenu DropDownContextMenu {
-            get { return this._ContextMenu; }
-            set { this._ContextMenu = value; }
+            get { return _ContextMenu; }
+            set { _ContextMenu = value; }
         }
     }
 }

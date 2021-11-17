@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
@@ -11,10 +10,10 @@ namespace youtube_dl_gui {
     public partial class frmMain : Form {
 
         #region variables
-        Language lang = Language.GetInstance();
-        Verification verif = Verification.GetInstance();
+        readonly Language lang = Language.GetInstance();
+        readonly Verification verif = Verification.GetInstance();
 
-        Thread UpdateCheckThread;
+        readonly Thread UpdateCheckThread;
 
         public bool ProtocolInput = false;
         #endregion
@@ -22,13 +21,21 @@ namespace youtube_dl_gui {
         #region form
         [DebuggerStepThrough]
         protected override void WndProc(ref Message m) {
-            if (m.Msg == NativeMethods.WM_SHOWYTDLGUIFORM) {
-                this.Show();
-                if (this.WindowState != FormWindowState.Normal)
-                    this.WindowState = FormWindowState.Normal;
-                this.Activate();
+            switch (m.Msg) {
+                case Win32.WM_COPYDATA:
+                    break;
+
+                case Win32.WM_SHOWFORM:
+                    this.Show();
+                    if (this.WindowState != FormWindowState.Normal)
+                        this.WindowState = FormWindowState.Normal;
+                    this.Activate();
+                    break;
+
+                default:
+                    base.WndProc(ref m);
+                    break;
             }
-            base.WndProc(ref m);
         }
         public frmMain() {
             InitializeComponent();
@@ -44,24 +51,27 @@ namespace youtube_dl_gui {
                 lbDebug.Visible = false;
             }
 
-            UpdateCheckThread = new Thread(() => {
-                try {
-                    UpdateChecker.CheckForUpdate();
-                }
-                catch (ThreadAbortException) {
-                    // do nothing
-                }
-                catch (Exception ex) {
-                    ErrorLog.ReportException(ex);
-                }
-            });
-            UpdateCheckThread.Name = "Checks for updates";
-            UpdateCheckThread.IsBackground = true;
+            if (Config.Settings.General.CheckForUpdatesOnLaunch) {
+                UpdateCheckThread = new Thread(() => {
+                    try {
+                        UpdateChecker.CheckForUpdate();
+                    }
+                    catch (ThreadAbortException) {
+                        // do nothing
+                    }
+                    catch (Exception ex) {
+                        ErrorLog.ReportException(ex);
+                    }
+                }) {
+                    Name = "Checks for updates",
+                    IsBackground = true
+                };
+            }
         }
 
         private void frmMain_Load(object sender, EventArgs e) {
             UpdateCheckThread.Start();
-            if (Config.Settings.Saved.MainFormSize != default(System.Drawing.Size)) {
+            if (Config.Settings.Saved.MainFormSize != default) {
                 this.Size = Config.Settings.Saved.MainFormSize;
             }
             if (!Program.IsDebug) {
@@ -427,20 +437,22 @@ namespace youtube_dl_gui {
         private void cmTrayDownloadBestVideo_Click(object sender, EventArgs e) {
             if (!Clipboard.ContainsText()) { return; }
             frmDownloader Downloader = new frmDownloader();
-            DownloadInfo NewInfo = new DownloadInfo();
-            NewInfo.VideoQuality = (VideoQualityType)Config.Settings.Saved.videoQuality;
-            NewInfo.Type = 0;
-            NewInfo.DownloadURL = Clipboard.GetText();
+            DownloadInfo NewInfo = new DownloadInfo {
+                VideoQuality = (VideoQualityType)Config.Settings.Saved.videoQuality,
+                Type = 0,
+                DownloadURL = Clipboard.GetText()
+            };
             Downloader.CurrentDownload = NewInfo;
             Downloader.Show();
         }
 
         private void cmTrayDownloadBestAudio_Click(object sender, EventArgs e) {
             frmDownloader Downloader = new frmDownloader();
-            DownloadInfo NewInfo = new DownloadInfo();
-            NewInfo.AudioCBRQuality = AudioCBRQualityType.best;
-            NewInfo.Type = DownloadType.Audio;
-            NewInfo.DownloadURL = Clipboard.GetText();
+            DownloadInfo NewInfo = new DownloadInfo {
+                AudioCBRQuality = AudioCBRQualityType.best,
+                Type = DownloadType.Audio,
+                DownloadURL = Clipboard.GetText()
+            };
             Downloader.CurrentDownload = NewInfo;
             Downloader.Show();
         }
@@ -454,10 +466,11 @@ namespace youtube_dl_gui {
             }
             else {
                 frmDownloader Downloader = new frmDownloader();
-                DownloadInfo NewInfo = new DownloadInfo();
-                NewInfo.DownloadArguments = cbCustomArguments.Text;
-                NewInfo.Type = DownloadType.Custom;
-                NewInfo.DownloadURL = Clipboard.GetText();
+                DownloadInfo NewInfo = new DownloadInfo {
+                    DownloadArguments = cbCustomArguments.Text,
+                    Type = DownloadType.Custom,
+                    DownloadURL = Clipboard.GetText()
+                };
                 Downloader.CurrentDownload = NewInfo;
                 Downloader.Show();
             }
@@ -475,10 +488,11 @@ namespace youtube_dl_gui {
             }
             else {
                 frmDownloader Downloader = new frmDownloader();
-                DownloadInfo NewInfo = new DownloadInfo();
-                NewInfo.DownloadArguments = System.IO.File.ReadAllLines(Environment.CurrentDirectory + "\\args.txt")[0];
-                NewInfo.Type = DownloadType.Custom;
-                NewInfo.DownloadURL = Clipboard.GetText();
+                DownloadInfo NewInfo = new DownloadInfo {
+                    DownloadArguments = System.IO.File.ReadAllLines(Environment.CurrentDirectory + "\\args.txt")[0],
+                    Type = DownloadType.Custom,
+                    DownloadURL = Clipboard.GetText()
+            };
                 Downloader.CurrentDownload = NewInfo;
                 Downloader.Show();
             }
@@ -492,10 +506,11 @@ namespace youtube_dl_gui {
             else
             {
                 frmDownloader Downloader = new frmDownloader();
-                DownloadInfo NewInfo = new DownloadInfo();
-                NewInfo.DownloadArguments = Config.Settings.Saved.DownloadCustomArguments.Split('|')[Config.Settings.Saved.CustomArgumentsIndex];
-                NewInfo.Type = DownloadType.Custom;
-                NewInfo.DownloadURL = Clipboard.GetText();
+                DownloadInfo NewInfo = new DownloadInfo {
+                    DownloadArguments = Config.Settings.Saved.DownloadCustomArguments.Split('|')[Config.Settings.Saved.CustomArgumentsIndex],
+                    Type = DownloadType.Custom,
+                    DownloadURL = Clipboard.GetText()
+            };
                 Downloader.CurrentDownload = NewInfo;
                 Downloader.Show();
             }
@@ -530,11 +545,11 @@ namespace youtube_dl_gui {
                 cbCustomArguments.Enabled = false;
                 cbQuality.SelectedIndex = -1;
                 cbQuality.Items.Clear();
-                cbQuality.Items.AddRange(DownloadFormats.VideoQualityArray);
+                cbQuality.Items.AddRange(Download.Formats.VideoQualityArray);
                 cbQuality.Items[0] = lang.GenericInputBest;
                 cbFormat.SelectedIndex = -1;
                 cbFormat.Items.Clear();
-                cbFormat.Items.AddRange(DownloadFormats.VideoFormatsNamesArray);
+                cbFormat.Items.AddRange(Download.Formats.VideoFormatsNamesArray);
                 cbFormat.Items[0] = lang.GenericInputBest;
                 cbQuality.Enabled = true;
                 cbFormat.Enabled = true;
@@ -561,10 +576,10 @@ namespace youtube_dl_gui {
                     cbQuality.Items.AddRange(new string[] { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" });
                 }
                 else {
-                    cbQuality.Items.AddRange(DownloadFormats.AudioQualityNamesArray);
+                    cbQuality.Items.AddRange(Download.Formats.AudioQualityNamesArray);
                 }
                 cbFormat.Items.Clear();
-                cbFormat.Items.AddRange(DownloadFormats.AudioFormatsArray);
+                cbFormat.Items.AddRange(Download.Formats.AudioFormatsArray);
                 cbQuality.Enabled = true;
                 cbFormat.Enabled = true;
                 chkDownloadSound.Enabled = true;
@@ -612,7 +627,7 @@ namespace youtube_dl_gui {
                     }
                 }
                 else {
-                    cbQuality.Items.AddRange(DownloadFormats.AudioQualityNamesArray);
+                    cbQuality.Items.AddRange(Download.Formats.AudioQualityNamesArray);
                     cbQuality.Items[0] = lang.GenericInputBest;
                     if (Config.Settings.Downloads.SaveFormatQuality) {
                         cbQuality.SelectedIndex = Config.Settings.Saved.audioQuality;
@@ -742,9 +757,9 @@ namespace youtube_dl_gui {
         private void mBatchDownloadFromFile_Click(object sender, EventArgs e) {
             if (!Config.Settings.Downloads.SkipBatchTip) {
                 switch (MessageBox.Show(lang.msgBatchDownloadFromFile, "youtube-dl-gui", MessageBoxButtons.YesNoCancel)) {
-                    case System.Windows.Forms.DialogResult.Cancel:
+                    case DialogResult.Cancel:
                         return;
-                    case System.Windows.Forms.DialogResult.Yes:
+                    case DialogResult.Yes:
                         Config.Settings.Downloads.SkipBatchTip = true;
                         break;
                 }
@@ -786,9 +801,10 @@ namespace youtube_dl_gui {
                     }
                     for (int i = 0; i < ReadFile.Length; i++) {
                         using (frmDownloader Downloader = new frmDownloader()) {
-                            DownloadInfo NewInfo = new DownloadInfo();
-                            NewInfo.BatchDownload = true;
-                            NewInfo.DownloadURL = ReadFile[i].Trim(' ');
+                            DownloadInfo NewInfo = new DownloadInfo {
+                                BatchDownload = true,
+                                DownloadURL = ReadFile[i].Trim(' ')
+                            };
                             switch (Type) {
                                 case DownloadType.Video:
                                     if (!chkDownloadSound.Checked) {
@@ -812,7 +828,7 @@ namespace youtube_dl_gui {
                                     NewInfo.Type = DownloadType.Custom;
                                     break;
                                 case DownloadType.Unknown:
-                                    NewInfo.VideoQuality = (VideoQualityType)0;
+                                    NewInfo.VideoQuality = 0;
                                     NewInfo.Type = DownloadType.Video;
                                     break;
                             }
@@ -824,8 +840,9 @@ namespace youtube_dl_gui {
                         }
                     }
                 }
-            });
-            BatchThread.Name = "Batch download";
+            }) {
+                Name = "Batch download"
+            };
             BatchThread.Start();
         }
 
@@ -868,12 +885,10 @@ namespace youtube_dl_gui {
                 if (chkUseSelection.Checked) {
                     if (rbVideoSelectionPlaylistIndex.Checked && txtPlaylistStart.Text.Length > 0 || txtPlaylistEnd.Text.Length > 0) {
                         NewInfo.PlaylistSelection = PlaylistSelectionType.PlaylistStartPlaylistEnd;
-                        int PlaylistStart;
-                        int PlaylistEnd;
-                        if (int.TryParse(txtPlaylistStart.Text, out PlaylistStart)) {
+                        if (int.TryParse(txtPlaylistStart.Text, out int PlaylistStart)) {
                             NewInfo.PlaylistSelectionIndexStart = PlaylistStart;
                         }
-                        if (int.TryParse(txtPlaylistEnd.Text, out PlaylistEnd)) {
+                        if (int.TryParse(txtPlaylistEnd.Text, out int PlaylistEnd)) {
                             NewInfo.PlaylistSelectionIndexEnd = PlaylistEnd;
                         }
                     }
@@ -1119,14 +1134,14 @@ namespace youtube_dl_gui {
             string inputFile = string.Empty;
             string outputFile = string.Empty;
 
-            using (OpenFileDialog ofd = new OpenFileDialog()) {
+            using (OpenFileDialog ofd = new OpenFileDialog())
+            using (SaveFileDialog sfd = new SaveFileDialog()) {
                 ofd.Title = "Browse for file to convert";
                 if (ofd.ShowDialog() == DialogResult.OK) {
                     txtConvertInput.Text = ofd.FileName;
                     string fileWithoutExt = System.IO.Path.GetFileNameWithoutExtension(ofd.FileName);
                     btnConvertOutput.Enabled = true;
 
-                    SaveFileDialog sfd = new SaveFileDialog();
                     sfd.Title = "Save ouput to...";
                     sfd.FileName = fileWithoutExt;
                     switch (conversionType) {
@@ -1134,8 +1149,8 @@ namespace youtube_dl_gui {
                             sfd.Filter = Convert.videoFormatsFilter;
                             if (Config.Settings.Saved.UseStaticYtdl > -1 && Config.Settings.Converts.detectFiletype)
                                 sfd.FilterIndex = Config.Settings.Saved.UseStaticYtdl;
-                        else
-                            sfd.FilterIndex = 7;
+                            else
+                                sfd.FilterIndex = 7;
                             break;
                         case 1:
                             sfd.Filter = Convert.audioFormatsFilter;
@@ -1151,6 +1166,8 @@ namespace youtube_dl_gui {
                     if (sfd.ShowDialog() == DialogResult.OK) {
                         inputFile = sfd.FileName;
                     }
+
+
                 }
             }
 
@@ -1237,11 +1254,13 @@ namespace youtube_dl_gui {
         private void btnDebugDownloadArgs_Click(object sender, EventArgs e) {
             if (!Clipboard.ContainsText()) { return; }
             frmDownloader Downloader = new frmDownloader();
-            DownloadInfo NewInfo = new DownloadInfo();
-            NewInfo.VideoQuality = (VideoQualityType)Config.Settings.Saved.videoQuality;
-            NewInfo.Type = DownloadType.Video;
-            NewInfo.DownloadURL = Clipboard.GetText();
-            NewInfo.BatchDownload = true;
+            DownloadInfo NewInfo = new DownloadInfo {
+                VideoQuality = (VideoQualityType)Config.Settings.Saved.videoQuality,
+                Type = DownloadType.Video,
+                DownloadURL = Clipboard.GetText(),
+                BatchDownload = true
+            };
+            Downloader.CurrentDownload = NewInfo;
             Downloader.Debugging = true;
             Downloader.Show();
         }
@@ -1275,7 +1294,6 @@ namespace youtube_dl_gui {
             );
         }
         #endregion
-
 
     }
 }

@@ -5,16 +5,16 @@ using System.Windows.Forms;
 namespace youtube_dl_gui {
     public partial class frmBatchDownloader : Form {
 
-        Language lang = Language.GetInstance();
+        readonly Language lang = Language.GetInstance();
 
         public bool Debugging = false;
 
-        private List<int> DownloadTypes = new List<int>();      // List of types to download
-        private List<string> DownloadUrls = new List<string>(); // List of urls to download
-        private List<string> DownloadArgs = new List<string>(); // List of args to download
-        private List<int> DownloadQuality = new List<int>();    // List of the quality
-        private List<int> DownloadFormat = new List<int>();     // List of the formats
-        private List<bool> DownloadSoundVBR = new List<bool>(); // List of if sound/vbr should be downloaded
+        private readonly List<int> DownloadTypes = new List<int>();      // List of types to download
+        private readonly List<string> DownloadUrls = new List<string>(); // List of urls to download
+        private readonly List<string> DownloadArgs = new List<string>(); // List of args to download
+        private readonly List<int> DownloadQuality = new List<int>();    // List of the quality
+        private readonly List<int> DownloadFormat = new List<int>();     // List of the formats
+        private readonly List<bool> DownloadSoundVBR = new List<bool>(); // List of if sound/vbr should be downloaded
         private bool InProgress = false;                        // Bool if the batch download is in progress
         private int CurrentItem = -1;                           // Int of the current item being downloaded
         private frmDownloader Downloader;                       // The Downloader form that will be around. Will be disposed if aborted.
@@ -185,7 +185,7 @@ namespace youtube_dl_gui {
                     cbBatchQuality.SelectedIndex = Config.Settings.Batch.SelectedAudioQualityVBR;
                 }
                 else {
-                    cbBatchQuality.Items.AddRange(DownloadFormats.AudioQualityNamesArray);
+                    cbBatchQuality.Items.AddRange(Download.Formats.AudioQualityNamesArray);
                     cbBatchQuality.SelectedIndex = Config.Settings.Batch.SelectedAudioQualityVBR;
                 }
             }
@@ -208,10 +208,10 @@ namespace youtube_dl_gui {
                     cbArguments.Visible = false;
                     cbBatchQuality.Visible = true;
                     cbBatchQuality.Enabled = true;
-                    cbBatchQuality.Items.AddRange(DownloadFormats.VideoQualityArray);
+                    cbBatchQuality.Items.AddRange(Download.Formats.VideoQualityArray);
                     cbBatchFormat.Visible = true;
                     cbBatchFormat.Enabled = true;
-                    cbBatchFormat.Items.AddRange(DownloadFormats.VideoFormatsNamesArray);
+                    cbBatchFormat.Items.AddRange(Download.Formats.VideoFormatsNamesArray);
                     chkBatchDownloaderSoundVBR.Text = lang.chkDownloadSound;
                     chkBatchDownloaderSoundVBR.Enabled = true;
                     cbBatchQuality.SelectedIndex = Config.Settings.Batch.SelectedVideoQuality;
@@ -225,7 +225,7 @@ namespace youtube_dl_gui {
                     cbBatchQuality.Enabled = true;
                     cbBatchFormat.Visible = true;
                     cbBatchFormat.Enabled = true;
-                    cbBatchFormat.Items.AddRange(DownloadFormats.AudioFormatsArray);
+                    cbBatchFormat.Items.AddRange(Download.Formats.AudioFormatsArray);
                     chkBatchDownloaderSoundVBR.Text = "VBR";
                     chkBatchDownloaderSoundVBR.Enabled = true;
                     if (Config.Settings.Batch.DownloadAudioVBR) {
@@ -233,7 +233,7 @@ namespace youtube_dl_gui {
                         cbBatchQuality.SelectedIndex = Config.Settings.Batch.SelectedAudioQuality;
                     }
                     else {
-                        cbBatchQuality.Items.AddRange(DownloadFormats.AudioQualityNamesArray);
+                        cbBatchQuality.Items.AddRange(Download.Formats.AudioQualityNamesArray);
                         cbBatchQuality.SelectedIndex = Config.Settings.Batch.SelectedAudioQualityVBR;
                     }
                     cbBatchFormat.SelectedIndex = Config.Settings.Batch.SelectedAudioFormat;
@@ -271,10 +271,11 @@ namespace youtube_dl_gui {
                 for (int i = 0; i < DownloadUrls.Count; i++) {
                     CurrentItem = i;
                     Downloader = new frmDownloader();
-                    NewInfo = new DownloadInfo();
-                    NewInfo.BatchDownload = true;
-                    NewInfo.BatchTime = BatchTime;
-                    NewInfo.DownloadURL = DownloadUrls[i];
+                    NewInfo = new DownloadInfo {
+                        BatchDownload = true,
+                        BatchTime = BatchTime,
+                        DownloadURL = DownloadUrls[i]
+                    };
                     switch (DownloadTypes[i]) {
                         case 0:
                             NewInfo.Type = DownloadType.Video;
@@ -335,10 +336,11 @@ namespace youtube_dl_gui {
 
         private void AddItemToList() {
             if (!string.IsNullOrEmpty(txtBatchDownloadLink.Text) && cbBatchDownloadType.SelectedIndex != -1) {
-                ListViewItem lvi = new ListViewItem();
-                lvi.Checked = false;
+                ListViewItem lvi = new ListViewItem {
+                    Checked = false,
+                    Name = txtBatchDownloadLink.Text
+                };
 
-                lvi.Name = txtBatchDownloadLink.Text;
                 lvi.SubItems[0].Text = txtBatchDownloadLink.Text;
                 lvi.SubItems.Add(new ListViewItem.ListViewSubItem());
                 lvi.SubItems.Add(new ListViewItem.ListViewSubItem());

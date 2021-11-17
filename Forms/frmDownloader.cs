@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Diagnostics;
-using System.IO;
 using System.Management;
 using System.Threading;
 using System.Windows.Forms;
 
 namespace youtube_dl_gui {
     public partial class frmDownloader : Form {
-        Language lang = Language.GetInstance();
-        Verification verif = Verification.GetInstance();
+        readonly Language lang = Language.GetInstance();
+        readonly Verification verif = Verification.GetInstance();
 
         public DownloadInfo CurrentDownload;
         public bool Debugging = false;
@@ -250,13 +249,13 @@ sanitizecheck:
             switch (CurrentDownload.Type) {
                 case DownloadType.Video: {
                         if (CurrentDownload.SkipAudioForVideos) {
-                            ArgumentsBuffer += DownloadFormats.GetVideoQualityArgsNoSound(CurrentDownload.VideoQuality);
+                            ArgumentsBuffer += Download.Formats.GetVideoQualityArgsNoSound(CurrentDownload.VideoQuality);
                         }
                         else {
-                            ArgumentsBuffer += DownloadFormats.GetVideoQualityArgs(CurrentDownload.VideoQuality);
+                            ArgumentsBuffer += Download.Formats.GetVideoQualityArgs(CurrentDownload.VideoQuality);
                         }
 
-                        ArgumentsBuffer += DownloadFormats.GetVideoRecodeInfo(CurrentDownload.VideoFormat);
+                        ArgumentsBuffer += Download.Formats.GetVideoRecodeInfo(CurrentDownload.VideoFormat);
                         break;
                     }
                 case DownloadType.Audio: {
@@ -268,14 +267,14 @@ sanitizecheck:
                                 ArgumentsBuffer += " --extract-audio --audio-quality " + CurrentDownload.AudioVBRQuality;
                             }
                             else {
-                                ArgumentsBuffer += " --extract-audio --audio-quality " + DownloadFormats.GetAudioQuality(CurrentDownload.AudioCBRQuality);
+                                ArgumentsBuffer += " --extract-audio --audio-quality " + Download.Formats.GetAudioQuality(CurrentDownload.AudioCBRQuality);
                             }
                         }
                         if (CurrentDownload.AudioFormat == AudioFormatType.best) {
                             ArgumentsBuffer += " --audio-format best";
                         }
                         else {
-                            ArgumentsBuffer += " --extract-audio --audio-format " + DownloadFormats.GetAudioFormat(CurrentDownload.AudioFormat);
+                            ArgumentsBuffer += " --extract-audio --audio-format " + Download.Formats.GetAudioFormat(CurrentDownload.AudioFormat);
                         }
                         break;
                     }

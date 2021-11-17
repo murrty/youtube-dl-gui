@@ -13,15 +13,6 @@ namespace youtube_dl_gui {
         public static extern int GetPrivateProfileString(string Section, string Key, string Default, StringBuilder RetVal, int Size, string FilePath);
         #endregion
 
-        #region Single-Instance
-        public static IntPtr HWND_YTDLGUIBROADCAST = (IntPtr)0xffff;
-        public static readonly int WM_SHOWYTDLGUIFORM = RegisterWindowMessage("WM_SHOWYTDLGUIFORM");
-        [DllImport("user32")]
-        public static extern bool PostMessage(IntPtr hwnd, int msg, IntPtr wparam, IntPtr lparam);
-        [DllImport("user32", CharSet = CharSet.Unicode)]
-        public static extern int RegisterWindowMessage(string message);
-        #endregion
-
         #region TextBox Hint
         [DllImport("user32.dll", CharSet = CharSet.Unicode, ThrowOnUnmappableChar = true)]
         public static extern IntPtr SendMessage(IntPtr hWnd, int wMsg, IntPtr wParam, string lParam);

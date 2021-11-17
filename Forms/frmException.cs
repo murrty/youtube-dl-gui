@@ -5,13 +5,14 @@ using System.Windows.Forms;
 
 namespace youtube_dl_gui {
     public partial class frmException : Form {
+        readonly Language lang = Language.GetInstance();
+
         public Exception ReportedException = null;
         public WebException ReportedWebException = null;
         public string WebAddress = string.Empty;
         public int WebErrorCode = -1;
         public bool SetCustomDescription = false;
         public string CustomDescription = null;
-        Language lang = Language.GetInstance();
         public bool FromLanguage = false;
 
         public frmException() {
@@ -25,7 +26,7 @@ namespace youtube_dl_gui {
             RandomNumberGenerator RNG = new RNGCryptoServiceProvider();
             byte[] ByteData = new byte[sizeof(int)];
             RNG.GetBytes(ByteData);
-            UInt32 NewInt = BitConverter.ToUInt32(ByteData, 0);
+            uint NewInt = BitConverter.ToUInt32(ByteData, 0);
             uint GeneratedNumber = (uint)Math.Floor((0 + ((double)5001 - 0) * NewInt));
 
             switch (GeneratedNumber) {

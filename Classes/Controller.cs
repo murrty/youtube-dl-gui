@@ -1,5 +1,4 @@
 ﻿using Microsoft.Win32;
-using System;
 
 internal class RegistryTool {
     public static bool CreateProtocol(string Protocol, string ApplicationPath, string OptionArguments) {

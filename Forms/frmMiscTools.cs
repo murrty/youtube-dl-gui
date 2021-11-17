@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 namespace youtube_dl_gui {
     public partial class frmMiscTools : Form {
-        Language lang = Language.GetInstance();
+        readonly Language lang = Language.GetInstance();
 
         public frmMiscTools() {
             InitializeComponent();

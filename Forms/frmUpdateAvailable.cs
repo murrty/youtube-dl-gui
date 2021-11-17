@@ -3,8 +3,8 @@ using System.Windows.Forms;
 
 namespace youtube_dl_gui {
     public partial class frmUpdateAvailable : Form {
-        Language lang = Language.GetInstance();
-        GitData Cloud = GitData.GetInstance();
+        readonly Language lang = Language.GetInstance();
+        readonly GitData Cloud = GitData.GetInstance();
         public bool BlockSkip = false;
 
         public frmUpdateAvailable() {

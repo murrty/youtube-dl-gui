@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
-using System.Threading;
 using System.Windows.Forms;
 
 namespace youtube_dl_gui.Forms {
