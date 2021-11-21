@@ -13,7 +13,7 @@ namespace youtube_dl_gui {
         readonly Language lang = Language.GetInstance();
         readonly Verification verif = Verification.GetInstance();
 
-        readonly Thread UpdateCheckThread;
+        Thread UpdateCheckThread;
 
         public bool ProtocolInput = false;
         #endregion
@@ -50,7 +50,9 @@ namespace youtube_dl_gui {
                 tcMain.TabPages.RemoveAt(3);
                 lbDebug.Visible = false;
             }
+        }
 
+        private void frmMain_Load(object sender, EventArgs e) {
             if (Config.Settings.General.CheckForUpdatesOnLaunch) {
                 UpdateCheckThread = new Thread(() => {
                     try {
@@ -66,11 +68,8 @@ namespace youtube_dl_gui {
                     Name = "Checks for updates",
                     IsBackground = true
                 };
+                UpdateCheckThread.Start();
             }
-        }
-
-        private void frmMain_Load(object sender, EventArgs e) {
-            UpdateCheckThread.Start();
             if (Config.Settings.Saved.MainFormSize != default) {
                 this.Size = Config.Settings.Saved.MainFormSize;
             }

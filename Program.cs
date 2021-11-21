@@ -22,7 +22,7 @@ namespace youtube_dl_gui {
         static frmMain MainForm;
 
         [STAThread]
-        static void Main(string[] args) {
+        static int Main(string[] args) {
             mtx = new Mutex(true, ProgramGUID.Value);
             DebugOnlyMethod();
 
@@ -78,21 +78,22 @@ namespace youtube_dl_gui {
                             Config.Settings.Downloads.Save();
                         }
                         else {
-                            Environment.Exit(0);
-                            return;
+                            return 1;
                         }
                     }
 
+                    LoadClasses();
+
                     if (CheckArgs(args)) {
                         Environment.Exit(0);
-                        return;
+                        return 0;
                     }
-
 
                     MainForm = new frmMain();
                     Application.Run(MainForm);
                     mtx.ReleaseMutex();
                 }
+                return 0;
 
             }
             else {
@@ -111,6 +112,7 @@ namespace youtube_dl_gui {
                         DataStruct.Dispose();
                     }
                 }
+                return 0;
             }
         }
 
@@ -135,37 +137,38 @@ namespace youtube_dl_gui {
         }
 
         static bool CheckArgs(string[] args) {
-            if (args[0].StartsWith("ytdl:")) {
-                string url = args[0].Substring(5);
-                frmDownloader Downloader = new frmDownloader();
-                DownloadInfo NewInfo = new DownloadInfo() {
-                    DownloadURL = url
-                };
+            if (args.Length > 0) {
+                if (args[0].StartsWith("ytdl:")) {
+                    string url = args[0].Substring(5);
+                    frmDownloader Downloader = new frmDownloader();
+                    DownloadInfo NewInfo = new DownloadInfo() {
+                        DownloadURL = url
+                    };
 
-                switch (args[1]) {
-                    case "-video":
-                        NewInfo.Type = DownloadType.Video;
-                        NewInfo.VideoQuality = (VideoQualityType)Config.Settings.Saved.videoQuality;
-                        Downloader.ShowDialog();
-                        break;
-                    case "-audio":
-                        NewInfo.Type = DownloadType.Audio;
-                        if (Config.Settings.Downloads.AudioDownloadAsVBR) {
-                            NewInfo.AudioVBRQuality = (AudioVBRQualityType)Config.Settings.Saved.audioQuality;
-                        }
-                        else {
-                            NewInfo.AudioCBRQuality = (AudioCBRQualityType)Config.Settings.Saved.audioQuality;
-                        }
-                        Downloader.ShowDialog();
-                        break;
+                    switch (args[1]) {
+                        case "-video":
+                            NewInfo.Type = DownloadType.Video;
+                            NewInfo.VideoQuality = (VideoQualityType)Config.Settings.Saved.videoQuality;
+                            Downloader.ShowDialog();
+                            return true;
 
-                    default:
-                        NewInfo.Dispose();
-                        Downloader.Dispose();
-                        return false;
+                        case "-audio":
+                            NewInfo.Type = DownloadType.Audio;
+                            if (Config.Settings.Downloads.AudioDownloadAsVBR) {
+                                NewInfo.AudioVBRQuality = (AudioVBRQualityType)Config.Settings.Saved.audioQuality;
+                            }
+                            else {
+                                NewInfo.AudioCBRQuality = (AudioCBRQualityType)Config.Settings.Saved.audioQuality;
+                            }
+                            Downloader.ShowDialog();
+                            return true;
+
+                        default:
+                            NewInfo.Dispose();
+                            Downloader.Dispose();
+                            return false;
+                    }
                 }
-
-                return true;
             }
 
             return false;
