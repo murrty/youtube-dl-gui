@@ -7,20 +7,6 @@ namespace youtube_dl_gui {
     /// </summary>
     public class Language {
 
-        #region Instance
-        /// <summary>
-        /// The single instance of the language that contains all the strings.
-        /// </summary>
-        private static readonly Language LangInstance = new Language();
-        /// <summary>
-        /// Returns the shared Language instance between all forms.
-        /// </summary>
-        /// <returns>The Lanuage.LangInstance will be returned.</returns>
-        public static Language GetInstance() {
-            return LangInstance;
-        }
-        #endregion
-
         public Language() {
             //ResetControlNames();
         }

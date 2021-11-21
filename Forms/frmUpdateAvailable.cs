@@ -3,22 +3,20 @@ using System.Windows.Forms;
 
 namespace youtube_dl_gui {
     public partial class frmUpdateAvailable : Form {
-        readonly Language lang = Language.GetInstance();
-        readonly GitData Cloud = GitData.GetInstance();
         public bool BlockSkip = false;
 
         public frmUpdateAvailable() {
             InitializeComponent();
-            this.Text = lang.frmUpdateAvailable;
-            lbUpdateAvailableHeader.Text = lang.lbUpdateAvailableHeader;
-            lbUpdateAvailableUpdateVersion.Text = lang.lbUpdateAvailableUpdateVersion + " " + Cloud.UpdateVersion;
-            lbUpdateAvailableCurrentVersion.Text = lang.lbUpdateAvailableCurrentVersion + " " + Properties.Settings.Default.CurrentVersion.ToString();
-            lbUpdateAvailableChangelog.Text = lang.lbUpdateAvailableChangelog;
-            txtUpdateAvailableName.Text = Cloud.UpdateName;
-            rtbUpdateAvailableChangelog.Text = Cloud.UpdateBody;
-            btnUpdateAvailableUpdate.Text = lang.btnUpdateAvailableUpdate;
-            btnUpdateAvailableSkip.Text = lang.btnUpdateAvailableSkipVersion;
-            btnUpdateAvailableOk.Text = lang.btnUpdateAvailableOk;
+            this.Text = Program.lang.frmUpdateAvailable;
+            lbUpdateAvailableHeader.Text = Program.lang.lbUpdateAvailableHeader;
+            lbUpdateAvailableUpdateVersion.Text = Program.lang.lbUpdateAvailableUpdateVersion + " " + GitData.Instance.UpdateVersion;
+            lbUpdateAvailableCurrentVersion.Text = Program.lang.lbUpdateAvailableCurrentVersion + " " + Properties.Settings.Default.CurrentVersion.ToString();
+            lbUpdateAvailableChangelog.Text = Program.lang.lbUpdateAvailableChangelog;
+            txtUpdateAvailableName.Text = GitData.Instance.UpdateName;
+            rtbUpdateAvailableChangelog.Text = GitData.Instance.UpdateBody;
+            btnUpdateAvailableUpdate.Text = Program.lang.btnUpdateAvailableUpdate;
+            btnUpdateAvailableSkip.Text = Program.lang.btnUpdateAvailableSkipVersion;
+            btnUpdateAvailableOk.Text = Program.lang.btnUpdateAvailableOk;
 
         }
         private void frmUpdateAvailable_Load(object sender, EventArgs e) {

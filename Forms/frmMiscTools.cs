@@ -5,14 +5,12 @@ using System.Windows.Forms;
 
 namespace youtube_dl_gui {
     public partial class frmMiscTools : Form {
-        readonly Language lang = Language.GetInstance();
-
         public frmMiscTools() {
             InitializeComponent();
-            this.Text = lang.frmTools;
-            btnMiscToolsRemoveAudio.Text = lang.btnMiscToolsRemoveAudio;
-            btnMiscToolsExtractAudio.Text = lang.btnMiscToolsExtractAudio;
-            btnMiscToolsVideoToGif.Text = lang.btnMiscToolsVideoToGif;
+            this.Text = Program.lang.frmTools;
+            btnMiscToolsRemoveAudio.Text = Program.lang.btnMiscToolsRemoveAudio;
+            btnMiscToolsExtractAudio.Text = Program.lang.btnMiscToolsExtractAudio;
+            btnMiscToolsVideoToGif.Text = Program.lang.btnMiscToolsVideoToGif;
         }
         private void frmTools_FormClosing(object sender, FormClosingEventArgs e) {
             this.Dispose();

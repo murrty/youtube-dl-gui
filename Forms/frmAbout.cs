@@ -5,7 +5,6 @@ using System.Windows.Forms;
 
 namespace youtube_dl_gui {
     public partial class frmAbout : Form {
-        readonly Language lang = Language.GetInstance();
         Thread UpdateCheckThread;
 
         public frmAbout() {
@@ -21,9 +20,9 @@ namespace youtube_dl_gui {
         }
 
         private void LoadLanguage() {
-            lbAboutBody.Text = string.Format(lang.lbAboutBody + "\n\nlikulau best boye.", "ytdl-org", "murrty", Properties.Settings.Default.LastDebugDate);
-            llbCheckForUpdates.Text = lang.llbCheckForUpdates;
-            this.Text = string.Format("{0} youtube-dl-gui", lang.frmAbout);
+            lbAboutBody.Text = string.Format(Program.lang.lbAboutBody + "\n\nlikulau best boye.", "ytdl-org", "murrty", Properties.Settings.Default.LastDebugDate);
+            llbCheckForUpdates.Text = Program.lang.llbCheckForUpdates;
+            this.Text = string.Format("{0} youtube-dl-gui", Program.lang.frmAbout);
         }
 
         private void llbCheckForUpdates_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {

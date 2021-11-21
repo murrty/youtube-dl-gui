@@ -17,8 +17,8 @@ namespace youtube_dl_gui {
         public static bool UseIni = false;
         static Mutex mtx;
 
-        static readonly Language lang = Language.GetInstance();
-        static readonly Verification verif = Verification.GetInstance();
+        public static readonly Language lang = new Language();
+        public static readonly Verification verif = new Verification();
         static frmMain MainForm;
 
         [STAThread]

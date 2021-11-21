@@ -5,7 +5,6 @@ using System.Windows.Forms;
 
 namespace youtube_dl_gui {
     public partial class frmLanguage : Form {
-        readonly Language lang = Language.GetInstance();
         public string LanguageFile = null;
 
         public frmLanguage() {
@@ -14,13 +13,13 @@ namespace youtube_dl_gui {
             LoadFiles();
         }
         public void LoadLanguage() {
-            this.Text = lang.frmLanguage;
-            btnLanguageRefresh.Text = lang.btnLanguageRefresh;
-            btnLanguageCancel.Text = lang.btnLanguageCancel;
-            btnLanguageSave.Text = lang.btnLanguageSave;
+            this.Text = Program.lang.frmLanguage;
+            btnLanguageRefresh.Text = Program.lang.btnLanguageRefresh;
+            btnLanguageCancel.Text = Program.lang.btnLanguageCancel;
+            btnLanguageSave.Text = Program.lang.btnLanguageSave;
 
-            lbCurrentLanguageShort.Text = lang.CurrentLanguageShort;
-            ttLanguage.SetToolTip(lbCurrentLanguageShort, lang.CurrentLanguageLong + " (" + lang.CurrentLanguageShort + ")\nLang version " + lang.CurrentLanguageVersion);
+            lbCurrentLanguageShort.Text = Program.lang.CurrentLanguageShort;
+            ttLanguage.SetToolTip(lbCurrentLanguageShort, Program.lang.CurrentLanguageLong + " (" + Program.lang.CurrentLanguageShort + ")\nLang version " + Program.lang.CurrentLanguageVersion);
         }
 
         public void LoadFiles() {
@@ -53,11 +52,11 @@ namespace youtube_dl_gui {
         private void btnLanguageSave_Click(object sender, EventArgs e) {
             if (cbLanguages.SelectedIndex > 0) {
                 LanguageFile = cbLanguages.GetItemText(cbLanguages.SelectedItem);
-                lang.LoadLanguage(Program.ProgramPath + "\\lang\\" + LanguageFile + ".ini");
+                Program.lang.LoadLanguage(Program.ProgramPath + "\\lang\\" + LanguageFile + ".ini");
             }
             else {
                 LanguageFile = null;
-                lang.LoadInternalEnglish();
+                Program.lang.LoadInternalEnglish();
             }
             this.DialogResult = DialogResult.Yes;
         }

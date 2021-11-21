@@ -5,8 +5,6 @@ using System.Windows.Forms;
 
 namespace youtube_dl_gui {
     public partial class frmException : Form {
-        readonly Language lang = Language.GetInstance();
-
         public Exception ReportedException = null;
         public WebException ReportedWebException = null;
         public string WebAddress = string.Empty;
@@ -30,7 +28,7 @@ namespace youtube_dl_gui {
             uint GeneratedNumber = (uint)Math.Floor((0 + ((double)5001 - 0) * NewInt));
 
             switch (GeneratedNumber) {
-                case 420:
+                case 621:
                     this.Text = "Exception occowwed unu";
                     lbExceptionHeader.Text = "An exception occowwed qwq";
                     lbExceptionDescription.Text = "The pwogwam accidentawy made a fucky wucky";
@@ -49,12 +47,12 @@ namespace youtube_dl_gui {
                         btnExceptionOk.Text = Language.InternalEnglish.btnExceptionOk;
                     }
                     else {
-                        this.Text = lang.frmException;
-                        lbExceptionHeader.Text = lang.lbExceptionHeader;
-                        lbExceptionDescription.Text = lang.lbExceptionDescription;
-                        lbExceptionDescription.Text = lang.lbExceptionDescription;
-                        btnExceptionGithub.Text = lang.btnExceptionGithub;
-                        btnExceptionOk.Text = lang.btnExceptionOk;
+                        this.Text = Program.lang.frmException;
+                        lbExceptionHeader.Text = Program.lang.lbExceptionHeader;
+                        lbExceptionDescription.Text = Program.lang.lbExceptionDescription;
+                        lbExceptionDescription.Text = Program.lang.lbExceptionDescription;
+                        btnExceptionGithub.Text = Program.lang.btnExceptionGithub;
+                        btnExceptionOk.Text = Program.lang.btnExceptionOk;
                     }
                     break;
             }
@@ -112,7 +110,7 @@ namespace youtube_dl_gui {
         }
 
         private void btnGithub_Click(object sender, EventArgs e) {
-            System.Diagnostics.Process.Start(UpdateChecker.GitData.GithubIssuesLink);
+            System.Diagnostics.Process.Start(GitData.Instance.GithubIssuesLink);
         }
 
     }

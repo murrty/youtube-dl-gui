@@ -3,7 +3,6 @@ using System.Windows.Forms;
 
 namespace youtube_dl_gui {
     public partial class frmSubtitles : Form {
-        readonly Language lang = Language.GetInstance();
         //youtube-dl --sub-lang en --write-auto-sub --sub-format srt --skip-download
         // language - download auto generated subs - sub format - skip video
         //--write-sub                      Write subtitle file
@@ -18,13 +17,13 @@ namespace youtube_dl_gui {
         }
 
         void LoadLanguage() {
-            this.Text = lang.frmSubtitles;
-            lbSubtitlesHeader.Text = lang.lbSubtitlesHeader;
-            lbSubtitlesUrl.Text = lang.lbSubtitlesUrl;
-            lbSubtitlesLanguages.Text = lang.lbSubtitlesLanguages;
-            btnSubtitlesAddLanguages.Text = lang.btnSubtitlesAddLanguage;
-            btnSubtitlesClearLanguages.Text = lang.btnSubtitlesClearLanguages;
-            btnSubtitlesDownload.Text = lang.btnSubtitlesDownload;
+            this.Text = Program.lang.frmSubtitles;
+            lbSubtitlesHeader.Text = Program.lang.lbSubtitlesHeader;
+            lbSubtitlesUrl.Text = Program.lang.lbSubtitlesUrl;
+            lbSubtitlesLanguages.Text = Program.lang.lbSubtitlesLanguages;
+            btnSubtitlesAddLanguages.Text = Program.lang.btnSubtitlesAddLanguage;
+            btnSubtitlesClearLanguages.Text = Program.lang.btnSubtitlesClearLanguages;
+            btnSubtitlesDownload.Text = Program.lang.btnSubtitlesDownload;
         }
 
         private void txtLanguage_KeyPress(object sender, KeyPressEventArgs e) {

@@ -4,11 +4,6 @@ using System.IO;
 
 namespace youtube_dl_gui {
     class Verification {
-
-        private static readonly Verification Instance = new Verification();
-
-        public static Verification GetInstance() { return Instance; }
-
         private static volatile string YoutubeDlPath_ = null;
         private static volatile string FFmpegPath_ = null;
         private static volatile string AtomicParsleyPath_ = null;

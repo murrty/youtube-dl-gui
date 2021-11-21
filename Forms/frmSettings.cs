@@ -8,8 +8,6 @@ namespace youtube_dl_gui {
     public partial class frmSettings : Form {
 
         #region vars
-        readonly Language lang = Language.GetInstance();
-        readonly Verification verif = Verification.GetInstance();
         public bool ffmpegAvailabled = false;
         public bool ytdlAvailable = false;
 
@@ -50,187 +48,187 @@ namespace youtube_dl_gui {
             return History.Trim('|');
         }
         void LoadLanguage() {
-            this.Text = lang.frmSettings;
-            btnSettingsRedownloadYoutubeDl.Text = lang.btnSettingsRedownloadYoutubeDl;
-            tipSettings.SetToolTip(btnSettingsRedownloadYoutubeDl, lang.btnSettingsRedownloadYoutubeDlHint);
-            btnSettingsCancel.Text = lang.GenericCancel;
-            tipSettings.SetToolTip(btnSettingsCancel, lang.btnSettingsCancelHint);
-            btnSettingsSave.Text = lang.btnSettingsSave;
-            tipSettings.SetToolTip(btnSettingsSave, lang.btnSettingsSaveHint);
+            this.Text = Program.lang.frmSettings;
+            btnSettingsRedownloadYoutubeDl.Text = Program.lang.btnSettingsRedownloadYoutubeDl;
+            tipSettings.SetToolTip(btnSettingsRedownloadYoutubeDl, Program.lang.btnSettingsRedownloadYoutubeDlHint);
+            btnSettingsCancel.Text = Program.lang.GenericCancel;
+            tipSettings.SetToolTip(btnSettingsCancel, Program.lang.btnSettingsCancelHint);
+            btnSettingsSave.Text = Program.lang.btnSettingsSave;
+            tipSettings.SetToolTip(btnSettingsSave, Program.lang.btnSettingsSaveHint);
 
-            //if (File.Exists(verif.YoutubeDlPath)) {
+            //if (File.Exists(Program.verif.YoutubeDlPath)) {
             //    btnSettingsRedownloadYoutubeDl.Text = "Update youtube-dl";
             //}
             //else {
             //    btnSettingsRedownloadYoutubeDl.Text = "Download youtube-dl";
             //}
 
-            tabSettingsGeneral.Text = lang.tabSettingsGeneral;
-            tabSettingsDownloads.Text = lang.tabSettingsDownloads;
-            tabSettingsConverter.Text = lang.tabSettingsConverter;
-            tabSettingsExtensions.Text = lang.tabSettingsExtensions;
-            tabSettingsErrors.Text = lang.tabSettingsErrors;
-            tabSettingsPortable.Text = lang.tabSettingsPortable;
+            tabSettingsGeneral.Text = Program.lang.tabSettingsGeneral;
+            tabSettingsDownloads.Text = Program.lang.tabSettingsDownloads;
+            tabSettingsConverter.Text = Program.lang.tabSettingsConverter;
+            tabSettingsExtensions.Text = Program.lang.tabSettingsExtensions;
+            tabSettingsErrors.Text = Program.lang.tabSettingsErrors;
+            tabSettingsPortable.Text = Program.lang.tabSettingsPortable;
 
-            lbSettingsGeneralYoutubeDlPath.Text = lang.lbSettingsGeneralYoutubeDlPath;
-            tipSettings.SetToolTip(lbSettingsGeneralYoutubeDlPath, lang.lbSettingsGeneralYoutubeDlPathHint);
-            chkSettingsGeneralUseStaticYoutubeDl.Text = lang.chkSettingsGeneralUseStaticYoutubeDl;
-            tipSettings.SetToolTip(chkSettingsGeneralUseStaticYoutubeDl, lang.chkSettingsGeneralUseStaticYoutubeDlHint);
-            tipSettings.SetToolTip(txtSettingsGeneralYoutubeDlPath, lang.txtSettingsGeneralYoutubeDlPathHint);
-            tipSettings.SetToolTip(btnSettingsGeneralBrowseYoutubeDl, lang.btnSettingsGeneralBrowseYoutubeDlHint);
-            lbSettingsGeneralFFmpegDirectory.Text = lang.lbSettingsGeneralFFmpegDirectory;
-            tipSettings.SetToolTip(lbSettingsGeneralFFmpegDirectory, lang.lbSettingsGeneralFFmpegDirectoryHint);
-            chkSettingsGeneralUseStaticFFmpeg.Text = lang.chkSettingsGeneralUseStaticFFmpeg;
-            tipSettings.SetToolTip(chkSettingsGeneralUseStaticFFmpeg, lang.chkSettingsGeneralUseStaticFFmpegHint);
-            tipSettings.SetToolTip(txtSettingsGeneralFFmpegPath, lang.txtSettingsGeneralFFmpegPathHint);
-            tipSettings.SetToolTip(btnSettingsGeneralBrowseFFmpeg, lang.btnSettingsGeneralBrowseFFmpegHint);
-            chkSettingsGeneralCheckForUpdatesOnLaunch.Text = lang.chkSettingsGeneralCheckForUpdatesOnLaunch;
-            tipSettings.SetToolTip(chkSettingsGeneralCheckForUpdatesOnLaunch, lang.chkSettingsGeneralCheckForUpdatesOnLaunchHint);
-            chkSettingsGeneralCheckForBetaUpdates.Text = lang.chkSettingsGeneralCheckForBetaUpdates;
-            tipSettings.SetToolTip(chkSettingsGeneralCheckForBetaUpdates, lang.chkSettingsGeneralCheckForBetaUpdatesHint);
-            chkSettingsGeneralHoverOverUrlToPasteClipboard.Text = lang.chkSettingsGeneralHoverOverUrlToPasteClipboard;
-            tipSettings.SetToolTip(chkSettingsGeneralHoverOverUrlToPasteClipboard, lang.chkSettingsGeneralHoverOverUrlToPasteClipboardHint);
-            chkSettingsGeneralClearUrlOnDownload.Text = lang.chkSettingsGeneralClearUrlOnDownload;
-            tipSettings.SetToolTip(chkSettingsGeneralClearUrlOnDownload, lang.chkSettingsGeneralClearUrlOnDownloadHint);
-            chkSettingsGeneralClearClipboardOnDownload.Text = lang.chkSettingsGeneralClearClipboardOnDownload;
-            tipSettings.SetToolTip(chkSettingsGeneralClearClipboardOnDownload, lang.chkSettingsGeneralClearClipboardOnDownloadHint);
-            gbSettingsGeneralCustomArguments.Text = lang.gbSettingsGeneralCustomArguments;
-            tipSettings.SetToolTip(gbSettingsGeneralCustomArguments, lang.gbSettingsGeneralCustomArgumentsHint);
-            rbSettingsGeneralCustomArgumentsDontSave.Text = lang.rbSettingsGeneralCustomArgumentsDontSave;
-            tipSettings.SetToolTip(rbSettingsGeneralCustomArgumentsDontSave, lang.rbSettingsGeneralCustomArgumentsDontSaveHint);
-            rbSettingsGeneralCustomArgumentsSaveAsArgsText.Text = lang.rbSettingsGeneralCustomArgumentsSaveAsArgsText;
-            tipSettings.SetToolTip(rbSettingsGeneralCustomArgumentsSaveAsArgsText, lang.rbSettingsGeneralCustomArgumentsSaveAsArgsTextHint);
-            rbSettingsGeneralCustomArgumentsSaveInSettings.Text = lang.rbSettingsGeneralCustomArgumentsSaveInSettings;
-            tipSettings.SetToolTip(rbSettingsGeneralCustomArgumentsSaveInSettings, lang.rbSettingsGeneralCustomArgumentsSaveInSettingsHint);
+            lbSettingsGeneralYoutubeDlPath.Text = Program.lang.lbSettingsGeneralYoutubeDlPath;
+            tipSettings.SetToolTip(lbSettingsGeneralYoutubeDlPath, Program.lang.lbSettingsGeneralYoutubeDlPathHint);
+            chkSettingsGeneralUseStaticYoutubeDl.Text = Program.lang.chkSettingsGeneralUseStaticYoutubeDl;
+            tipSettings.SetToolTip(chkSettingsGeneralUseStaticYoutubeDl, Program.lang.chkSettingsGeneralUseStaticYoutubeDlHint);
+            tipSettings.SetToolTip(txtSettingsGeneralYoutubeDlPath, Program.lang.txtSettingsGeneralYoutubeDlPathHint);
+            tipSettings.SetToolTip(btnSettingsGeneralBrowseYoutubeDl, Program.lang.btnSettingsGeneralBrowseYoutubeDlHint);
+            lbSettingsGeneralFFmpegDirectory.Text = Program.lang.lbSettingsGeneralFFmpegDirectory;
+            tipSettings.SetToolTip(lbSettingsGeneralFFmpegDirectory, Program.lang.lbSettingsGeneralFFmpegDirectoryHint);
+            chkSettingsGeneralUseStaticFFmpeg.Text = Program.lang.chkSettingsGeneralUseStaticFFmpeg;
+            tipSettings.SetToolTip(chkSettingsGeneralUseStaticFFmpeg, Program.lang.chkSettingsGeneralUseStaticFFmpegHint);
+            tipSettings.SetToolTip(txtSettingsGeneralFFmpegPath, Program.lang.txtSettingsGeneralFFmpegPathHint);
+            tipSettings.SetToolTip(btnSettingsGeneralBrowseFFmpeg, Program.lang.btnSettingsGeneralBrowseFFmpegHint);
+            chkSettingsGeneralCheckForUpdatesOnLaunch.Text = Program.lang.chkSettingsGeneralCheckForUpdatesOnLaunch;
+            tipSettings.SetToolTip(chkSettingsGeneralCheckForUpdatesOnLaunch, Program.lang.chkSettingsGeneralCheckForUpdatesOnLaunchHint);
+            chkSettingsGeneralCheckForBetaUpdates.Text = Program.lang.chkSettingsGeneralCheckForBetaUpdates;
+            tipSettings.SetToolTip(chkSettingsGeneralCheckForBetaUpdates, Program.lang.chkSettingsGeneralCheckForBetaUpdatesHint);
+            chkSettingsGeneralHoverOverUrlToPasteClipboard.Text = Program.lang.chkSettingsGeneralHoverOverUrlToPasteClipboard;
+            tipSettings.SetToolTip(chkSettingsGeneralHoverOverUrlToPasteClipboard, Program.lang.chkSettingsGeneralHoverOverUrlToPasteClipboardHint);
+            chkSettingsGeneralClearUrlOnDownload.Text = Program.lang.chkSettingsGeneralClearUrlOnDownload;
+            tipSettings.SetToolTip(chkSettingsGeneralClearUrlOnDownload, Program.lang.chkSettingsGeneralClearUrlOnDownloadHint);
+            chkSettingsGeneralClearClipboardOnDownload.Text = Program.lang.chkSettingsGeneralClearClipboardOnDownload;
+            tipSettings.SetToolTip(chkSettingsGeneralClearClipboardOnDownload, Program.lang.chkSettingsGeneralClearClipboardOnDownloadHint);
+            gbSettingsGeneralCustomArguments.Text = Program.lang.gbSettingsGeneralCustomArguments;
+            tipSettings.SetToolTip(gbSettingsGeneralCustomArguments, Program.lang.gbSettingsGeneralCustomArgumentsHint);
+            rbSettingsGeneralCustomArgumentsDontSave.Text = Program.lang.rbSettingsGeneralCustomArgumentsDontSave;
+            tipSettings.SetToolTip(rbSettingsGeneralCustomArgumentsDontSave, Program.lang.rbSettingsGeneralCustomArgumentsDontSaveHint);
+            rbSettingsGeneralCustomArgumentsSaveAsArgsText.Text = Program.lang.rbSettingsGeneralCustomArgumentsSaveAsArgsText;
+            tipSettings.SetToolTip(rbSettingsGeneralCustomArgumentsSaveAsArgsText, Program.lang.rbSettingsGeneralCustomArgumentsSaveAsArgsTextHint);
+            rbSettingsGeneralCustomArgumentsSaveInSettings.Text = Program.lang.rbSettingsGeneralCustomArgumentsSaveInSettings;
+            tipSettings.SetToolTip(rbSettingsGeneralCustomArgumentsSaveInSettings, Program.lang.rbSettingsGeneralCustomArgumentsSaveInSettingsHint);
 
-            lbSettingsDownloadsDownloadPath.Text = lang.lbSettingsDownloadsDownloadPath;
-            tipSettings.SetToolTip(lbSettingsDownloadsDownloadPath, lang.lbSettingsDownloadsDownloadPathHint);
-            tipSettings.SetToolTip(chkSettingsDownloadsDownloadPathUseRelativePath, lang.chkSettingsDownloadsDownloadPathUseRelativePathHint);
-            tipSettings.SetToolTip(txtSettingsDownloadsSavePath, lang.txtSettingsDownloadsSavePathHint);
-            tipSettings.SetToolTip(btnSettingsDownloadsBrowseSavePath, lang.btnSettingsDownloadsBrowseSavePathHint);
-            tipSettings.SetToolTip(llSettingsDownloadsSchemaHelp, lang.llSettingsDownloadsSchemaHelpHint);
-            lbSettingsDownloadsFileNameSchema.Text = lang.lbSettingsDownloadsFileNameSchema;
-            tipSettings.SetToolTip(lbSettingsDownloadsFileNameSchema, lang.lbSettingsDownloadsFileNameSchemaHint);
-            tipSettings.SetToolTip(txtSettingsDownloadsFileNameSchema, lang.txtSettingsDownloadsFileNameSchemaHint);
+            lbSettingsDownloadsDownloadPath.Text = Program.lang.lbSettingsDownloadsDownloadPath;
+            tipSettings.SetToolTip(lbSettingsDownloadsDownloadPath, Program.lang.lbSettingsDownloadsDownloadPathHint);
+            tipSettings.SetToolTip(chkSettingsDownloadsDownloadPathUseRelativePath, Program.lang.chkSettingsDownloadsDownloadPathUseRelativePathHint);
+            tipSettings.SetToolTip(txtSettingsDownloadsSavePath, Program.lang.txtSettingsDownloadsSavePathHint);
+            tipSettings.SetToolTip(btnSettingsDownloadsBrowseSavePath, Program.lang.btnSettingsDownloadsBrowseSavePathHint);
+            tipSettings.SetToolTip(llSettingsDownloadsSchemaHelp, Program.lang.llSettingsDownloadsSchemaHelpHint);
+            lbSettingsDownloadsFileNameSchema.Text = Program.lang.lbSettingsDownloadsFileNameSchema;
+            tipSettings.SetToolTip(lbSettingsDownloadsFileNameSchema, Program.lang.lbSettingsDownloadsFileNameSchemaHint);
+            tipSettings.SetToolTip(txtSettingsDownloadsFileNameSchema, Program.lang.txtSettingsDownloadsFileNameSchemaHint);
 
-            tabDownloadsGeneral.Text = lang.tabDownloadsGeneral;
-            tabDownloadsSorting.Text = lang.tabDownloadsSorting;
-            tabDownloadsFixes.Text = lang.tabDownloadsFixes;
-            tabDownloadsConnection.Text = lang.tabDownloadsConnection;
-            tabDownloadsUpdating.Text = lang.tabDownloadsUpdating;
+            tabDownloadsGeneral.Text = Program.lang.tabDownloadsGeneral;
+            tabDownloadsSorting.Text = Program.lang.tabDownloadsSorting;
+            tabDownloadsFixes.Text = Program.lang.tabDownloadsFixes;
+            tabDownloadsConnection.Text = Program.lang.tabDownloadsConnection;
+            tabDownloadsUpdating.Text = Program.lang.tabDownloadsUpdating;
 
-            chkSettingsDownloadsSaveFormatQuality.Text = lang.chkSettingsDownloadsSaveFormatQuality;
-            tipSettings.SetToolTip(chkSettingsDownloadsSaveFormatQuality, lang.chkSettingsDownloadsSaveFormatQualityHint);
-            chkSettingsDownloadsDownloadSubtitles.Text = lang.chkSettingsDownloadsDownloadSubtitles;
-            tipSettings.SetToolTip(chkSettingsDownloadsDownloadSubtitles, lang.chkSettingsDownloadsDownloadSubtitlesHint);
-            chkSettingsDownloadsEmbedSubtitles.Text = lang.chkSettingsDownloadsEmbedSubtitles;
-            tipSettings.SetToolTip(chkSettingsDownloadsEmbedSubtitles, lang.chkSettingsDownloadsEmbedSubtitlesHint);
-            chkSettingsDownloadsSaveVideoInfo.Text = lang.chkSettingsDownloadsSaveVideoInfo;
-            tipSettings.SetToolTip(chkSettingsDownloadsSaveVideoInfo, lang.chkSettingsDownloadsSaveVideoInfoHint);
-            chkSettingsDownloadsWriteMetadataToFile.Text = lang.chkSettingsDownloadsWriteMetadataToFile;
-            tipSettings.SetToolTip(chkSettingsDownloadsWriteMetadataToFile, lang.chkSettingsDownloadsWriteMetadataToFileHint);
-            chkSettingsDownloadsSaveDescription.Text = lang.chkSettingsDownloadsSaveDescription;
-            tipSettings.SetToolTip(chkSettingsDownloadsSaveDescription, lang.chkSettingsDownloadsSaveDescriptionHint);
-            chkSettingsDownloadsKeepOriginalFiles.Text = lang.chkSettingsDownloadsKeepOriginalFiles;
-            tipSettings.SetToolTip(chkSettingsDownloadsKeepOriginalFiles, lang.chkSettingsDownloadsKeepOriginalFilesHint);
-            chkSettingsDownloadsSaveAnnotations.Text = lang.chkSettingsDownloadsSaveAnnotations;
-            tipSettings.SetToolTip(chkSettingsDownloadsSaveAnnotations, lang.chkSettingsDownloadsSaveAnnotationsHint);
-            chkSettingsDownloadsSaveThumbnails.Text = lang.chkSettingsDownloadsSaveThumbnails;
-            tipSettings.SetToolTip(chkSettingsDownloadsSaveThumbnails, lang.chkSettingsDownloadsSaveThumbnailsHint);
-            chkSettingsDownloadsEmbedThumbnails.Text = lang.chkSettingsDownloadsEmbedThumbnails;
-            tipSettings.SetToolTip(chkSettingsDownloadsEmbedThumbnails, lang.chkSettingsDownloadsEmbedThumbnailsHint);
-            chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing.Text = lang.chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing;
-            tipSettings.SetToolTip(chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing, lang.chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosingHint);
-            chkSettingsDownloadsSeparateDownloadsToDifferentFolders.Text = lang.chkSettingsDownloadsSeparateDownloadsToDifferentFolders;
-            tipSettings.SetToolTip(chkSettingsDownloadsSeparateDownloadsToDifferentFolders, lang.chkSettingsDownloadsSeparateDownloadsToDifferentFoldersHint);
-            chkSettingsDownloadsSeparateIntoWebsiteUrl.Text = lang.chkSettingsDownloadsSeparateIntoWebsiteUrl;
-            tipSettings.SetToolTip(chkSettingsDownloadsSeparateIntoWebsiteUrl, lang.chkSettingsDownloadsSeparateIntoWebsiteUrlHint);
-            chkSettingsDownloadsFixVReddIt.Text = lang.chkSettingsDownloadsFixVReddIt;
-            tipSettings.SetToolTip(chkSettingsDownloadsFixVReddIt, lang.chkSettingsDownloadsFixVReddItHint);
-            chkSettingsDownloadsPreferFFmpeg.Text = lang.chkSettingsDownloadsPreferFFmpeg;
-            tipSettings.SetToolTip(chkSettingsDownloadsPreferFFmpeg, lang.chkSettingsDownloadsPreferFFmpegHint);
+            chkSettingsDownloadsSaveFormatQuality.Text = Program.lang.chkSettingsDownloadsSaveFormatQuality;
+            tipSettings.SetToolTip(chkSettingsDownloadsSaveFormatQuality, Program.lang.chkSettingsDownloadsSaveFormatQualityHint);
+            chkSettingsDownloadsDownloadSubtitles.Text = Program.lang.chkSettingsDownloadsDownloadSubtitles;
+            tipSettings.SetToolTip(chkSettingsDownloadsDownloadSubtitles, Program.lang.chkSettingsDownloadsDownloadSubtitlesHint);
+            chkSettingsDownloadsEmbedSubtitles.Text = Program.lang.chkSettingsDownloadsEmbedSubtitles;
+            tipSettings.SetToolTip(chkSettingsDownloadsEmbedSubtitles, Program.lang.chkSettingsDownloadsEmbedSubtitlesHint);
+            chkSettingsDownloadsSaveVideoInfo.Text = Program.lang.chkSettingsDownloadsSaveVideoInfo;
+            tipSettings.SetToolTip(chkSettingsDownloadsSaveVideoInfo, Program.lang.chkSettingsDownloadsSaveVideoInfoHint);
+            chkSettingsDownloadsWriteMetadataToFile.Text = Program.lang.chkSettingsDownloadsWriteMetadataToFile;
+            tipSettings.SetToolTip(chkSettingsDownloadsWriteMetadataToFile, Program.lang.chkSettingsDownloadsWriteMetadataToFileHint);
+            chkSettingsDownloadsSaveDescription.Text = Program.lang.chkSettingsDownloadsSaveDescription;
+            tipSettings.SetToolTip(chkSettingsDownloadsSaveDescription, Program.lang.chkSettingsDownloadsSaveDescriptionHint);
+            chkSettingsDownloadsKeepOriginalFiles.Text = Program.lang.chkSettingsDownloadsKeepOriginalFiles;
+            tipSettings.SetToolTip(chkSettingsDownloadsKeepOriginalFiles, Program.lang.chkSettingsDownloadsKeepOriginalFilesHint);
+            chkSettingsDownloadsSaveAnnotations.Text = Program.lang.chkSettingsDownloadsSaveAnnotations;
+            tipSettings.SetToolTip(chkSettingsDownloadsSaveAnnotations, Program.lang.chkSettingsDownloadsSaveAnnotationsHint);
+            chkSettingsDownloadsSaveThumbnails.Text = Program.lang.chkSettingsDownloadsSaveThumbnails;
+            tipSettings.SetToolTip(chkSettingsDownloadsSaveThumbnails, Program.lang.chkSettingsDownloadsSaveThumbnailsHint);
+            chkSettingsDownloadsEmbedThumbnails.Text = Program.lang.chkSettingsDownloadsEmbedThumbnails;
+            tipSettings.SetToolTip(chkSettingsDownloadsEmbedThumbnails, Program.lang.chkSettingsDownloadsEmbedThumbnailsHint);
+            chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing.Text = Program.lang.chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing;
+            tipSettings.SetToolTip(chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing, Program.lang.chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosingHint);
+            chkSettingsDownloadsSeparateDownloadsToDifferentFolders.Text = Program.lang.chkSettingsDownloadsSeparateDownloadsToDifferentFolders;
+            tipSettings.SetToolTip(chkSettingsDownloadsSeparateDownloadsToDifferentFolders, Program.lang.chkSettingsDownloadsSeparateDownloadsToDifferentFoldersHint);
+            chkSettingsDownloadsSeparateIntoWebsiteUrl.Text = Program.lang.chkSettingsDownloadsSeparateIntoWebsiteUrl;
+            tipSettings.SetToolTip(chkSettingsDownloadsSeparateIntoWebsiteUrl, Program.lang.chkSettingsDownloadsSeparateIntoWebsiteUrlHint);
+            chkSettingsDownloadsFixVReddIt.Text = Program.lang.chkSettingsDownloadsFixVReddIt;
+            tipSettings.SetToolTip(chkSettingsDownloadsFixVReddIt, Program.lang.chkSettingsDownloadsFixVReddItHint);
+            chkSettingsDownloadsPreferFFmpeg.Text = Program.lang.chkSettingsDownloadsPreferFFmpeg;
+            tipSettings.SetToolTip(chkSettingsDownloadsPreferFFmpeg, Program.lang.chkSettingsDownloadsPreferFFmpegHint);
 
-            chkSettingsDownloadsLimitDownload.Text = lang.chkSettingsDownloadsLimitDownload;
-            tipSettings.SetToolTip(chkSettingsDownloadsLimitDownload, lang.chkSettingsDownloadsLimitDownloadHint);
-            tipSettings.SetToolTip(numSettingsDownloadsLimitDownload, lang.numSettingsDownloadsLimitDownloadHint);
-            tipSettings.SetToolTip(cbSettingsDownloadsLimitDownload, lang.cbSettingsDownloadsLimitDownloadHint);
-            lbSettingsDownloadsRetryAttempts.Text = lang.lbSettingsDownloadsRetryAttempts;
-            tipSettings.SetToolTip(lbSettingsDownloadsRetryAttempts, lang.lbSettingsDownloadsRetryAttemptsHint);
-            tipSettings.SetToolTip(numSettingsDownloadsRetryAttempts, lang.numSettingsDownloadsRetryAttemptsHint);
-            chkSettingsDownloadsForceIpv4.Text = lang.chkSettingsDownloadsForceIpv4;
-            tipSettings.SetToolTip(chkSettingsDownloadsForceIpv4, lang.chkSettingsDownloadsForceIpv4Hint);
-            chkSettingsDownloadsForceIpv6.Text = lang.chkSettingsDownloadsForceIpv6;
-            tipSettings.SetToolTip(chkSettingsDownloadsForceIpv6, lang.chkSettingsDownloadsForceIpv6Hint);
-            chkSettingsDownloadsUseProxy.Text = lang.chkSettingsDownloadsUseProxy;
-            tipSettings.SetToolTip(chkSettingsDownloadsUseProxy, lang.chkSettingsDownloadsUseProxyHint);
-            tipSettings.SetToolTip(cbSettingsDownloadsProxyType, lang.cbSettingsDownloadsProxyTypeHint);
-            tipSettings.SetToolTip(txtSettingsDownloadsProxyIp, lang.txtSettingsDownloadsProxyIpHint);
-            tipSettings.SetToolTip(txtSettingsDownloadsProxyPort, lang.txtSettingsDownloadsProxyPortHint);
+            chkSettingsDownloadsLimitDownload.Text = Program.lang.chkSettingsDownloadsLimitDownload;
+            tipSettings.SetToolTip(chkSettingsDownloadsLimitDownload, Program.lang.chkSettingsDownloadsLimitDownloadHint);
+            tipSettings.SetToolTip(numSettingsDownloadsLimitDownload, Program.lang.numSettingsDownloadsLimitDownloadHint);
+            tipSettings.SetToolTip(cbSettingsDownloadsLimitDownload, Program.lang.cbSettingsDownloadsLimitDownloadHint);
+            lbSettingsDownloadsRetryAttempts.Text = Program.lang.lbSettingsDownloadsRetryAttempts;
+            tipSettings.SetToolTip(lbSettingsDownloadsRetryAttempts, Program.lang.lbSettingsDownloadsRetryAttemptsHint);
+            tipSettings.SetToolTip(numSettingsDownloadsRetryAttempts, Program.lang.numSettingsDownloadsRetryAttemptsHint);
+            chkSettingsDownloadsForceIpv4.Text = Program.lang.chkSettingsDownloadsForceIpv4;
+            tipSettings.SetToolTip(chkSettingsDownloadsForceIpv4, Program.lang.chkSettingsDownloadsForceIpv4Hint);
+            chkSettingsDownloadsForceIpv6.Text = Program.lang.chkSettingsDownloadsForceIpv6;
+            tipSettings.SetToolTip(chkSettingsDownloadsForceIpv6, Program.lang.chkSettingsDownloadsForceIpv6Hint);
+            chkSettingsDownloadsUseProxy.Text = Program.lang.chkSettingsDownloadsUseProxy;
+            tipSettings.SetToolTip(chkSettingsDownloadsUseProxy, Program.lang.chkSettingsDownloadsUseProxyHint);
+            tipSettings.SetToolTip(cbSettingsDownloadsProxyType, Program.lang.cbSettingsDownloadsProxyTypeHint);
+            tipSettings.SetToolTip(txtSettingsDownloadsProxyIp, Program.lang.txtSettingsDownloadsProxyIpHint);
+            tipSettings.SetToolTip(txtSettingsDownloadsProxyPort, Program.lang.txtSettingsDownloadsProxyPortHint);
 
-            chksettingsDownloadsUseYoutubeDlsUpdater.Text = lang.chkSettingsDownloadsUseYoutubeDlsUpdater;
-            tipSettings.SetToolTip(chksettingsDownloadsUseYoutubeDlsUpdater, lang.chksettingsDownloadsUseYoutubeDlsUpdaterHint);
-            lbSettingsDownloadsUpdatingYtdlType.Text = lang.lbSettingsDownloadsUpdatingYtdlType;
-            tipSettings.SetToolTip(cbSettingsDownloadsUpdatingYtdlType, lang.cbSettingsDownloadsUpdatingYtdlTypeHint);
-            llbSettingsDownloadsYtdlTypeViewRepo.Text = lang.llbSettingsDownloadsYtdlTypeViewRepo;
-            tipSettings.SetToolTip(llbSettingsDownloadsYtdlTypeViewRepo, lang.llbSettingsDownloadsYtdlTypeViewRepoHint);
+            chksettingsDownloadsUseYoutubeDlsUpdater.Text = Program.lang.chkSettingsDownloadsUseYoutubeDlsUpdater;
+            tipSettings.SetToolTip(chksettingsDownloadsUseYoutubeDlsUpdater, Program.lang.chksettingsDownloadsUseYoutubeDlsUpdaterHint);
+            lbSettingsDownloadsUpdatingYtdlType.Text = Program.lang.lbSettingsDownloadsUpdatingYtdlType;
+            tipSettings.SetToolTip(cbSettingsDownloadsUpdatingYtdlType, Program.lang.cbSettingsDownloadsUpdatingYtdlTypeHint);
+            llbSettingsDownloadsYtdlTypeViewRepo.Text = Program.lang.llbSettingsDownloadsYtdlTypeViewRepo;
+            tipSettings.SetToolTip(llbSettingsDownloadsYtdlTypeViewRepo, Program.lang.llbSettingsDownloadsYtdlTypeViewRepoHint);
 
-            chkSettingsDownloadsSeparateBatchDownloads.Text = lang.chkSettingsDownloadsSeparateBatchDownloads;
-            tipSettings.SetToolTip(chkSettingsDownloadsSeparateBatchDownloads, lang.chkSettingsDownloadsSeparateBatchDownloadsHint);
-            chkSettingsDownloadsAddDateToBatchDownloadFolders.Text = lang.chkSettingsDownloadsAddDateToBatchDownloadFolders;
-            tipSettings.SetToolTip(chkSettingsDownloadsAddDateToBatchDownloadFolders, lang.chkSettingsDownloadsAddDateToBatchDownloadFoldersHint);
+            chkSettingsDownloadsSeparateBatchDownloads.Text = Program.lang.chkSettingsDownloadsSeparateBatchDownloads;
+            tipSettings.SetToolTip(chkSettingsDownloadsSeparateBatchDownloads, Program.lang.chkSettingsDownloadsSeparateBatchDownloadsHint);
+            chkSettingsDownloadsAddDateToBatchDownloadFolders.Text = Program.lang.chkSettingsDownloadsAddDateToBatchDownloadFolders;
+            tipSettings.SetToolTip(chkSettingsDownloadsAddDateToBatchDownloadFolders, Program.lang.chkSettingsDownloadsAddDateToBatchDownloadFoldersHint);
 
-            chkSettingsConverterClearOutputAfterConverting.Text = lang.chkSettingsConverterClearOutputAfterConverting;
-            tipSettings.SetToolTip(chkSettingsConverterClearOutputAfterConverting, lang.chkSettingsConverterClearOutputAfterConvertingHint);
-            chkSettingsConverterDetectOutputFileType.Text = lang.chkSettingsConverterDetectOutputFileType;
-            tipSettings.SetToolTip(chkSettingsConverterDetectOutputFileType, lang.chkSettingsConverterDetectOutputFileTypeHint);
-            chkSettingsConverterClearInputAfterConverting.Text = lang.chkSettingsConverterClearInputAfterConverting;
-            tipSettings.SetToolTip(chkSettingsConverterClearInputAfterConverting, lang.chkSettingsConverterClearInputAfterConvertingHint);
-            chkSettingsConverterHideFFmpegCompileInfo.Text = lang.chkSettingsConverterHideFFmpegCompileInfo;
-            tipSettings.SetToolTip(chkSettingsConverterHideFFmpegCompileInfo, lang.chkSettingsConverterHideFFmpegCompileInfoHint);
+            chkSettingsConverterClearOutputAfterConverting.Text = Program.lang.chkSettingsConverterClearOutputAfterConverting;
+            tipSettings.SetToolTip(chkSettingsConverterClearOutputAfterConverting, Program.lang.chkSettingsConverterClearOutputAfterConvertingHint);
+            chkSettingsConverterDetectOutputFileType.Text = Program.lang.chkSettingsConverterDetectOutputFileType;
+            tipSettings.SetToolTip(chkSettingsConverterDetectOutputFileType, Program.lang.chkSettingsConverterDetectOutputFileTypeHint);
+            chkSettingsConverterClearInputAfterConverting.Text = Program.lang.chkSettingsConverterClearInputAfterConverting;
+            tipSettings.SetToolTip(chkSettingsConverterClearInputAfterConverting, Program.lang.chkSettingsConverterClearInputAfterConvertingHint);
+            chkSettingsConverterHideFFmpegCompileInfo.Text = Program.lang.chkSettingsConverterHideFFmpegCompileInfo;
+            tipSettings.SetToolTip(chkSettingsConverterHideFFmpegCompileInfo, Program.lang.chkSettingsConverterHideFFmpegCompileInfoHint);
 
-            tcSettingsConverterVideo.Text = lang.tcSettingsConverterVideo;
-            tcSettingsConverterAudio.Text = lang.tcSettingsConverterAudio;
-            tcSettingsConverterCustom.Text = lang.tcSettingsConverterCustom;
+            tcSettingsConverterVideo.Text = Program.lang.tcSettingsConverterVideo;
+            tcSettingsConverterAudio.Text = Program.lang.tcSettingsConverterAudio;
+            tcSettingsConverterCustom.Text = Program.lang.tcSettingsConverterCustom;
 
-            lbSettingsConverterVideoBitrate.Text = lang.lbSettingsConverterVideoBitrate;
-            tipSettings.SetToolTip(lbSettingsConverterVideoBitrate, lang.lbSettingsConverterVideoBitrateHint);
-            lbSettingsConverterVideoPreset.Text = lang.lbSettingsConverterVideoPreset;
-            tipSettings.SetToolTip(lbSettingsConverterVideoPreset, lang.lbSettingsConverterVideoPresetHint);
-            lbSettingsConverterVideoProfile.Text = lang.lbSettingsConverterVideoProfile;
-            tipSettings.SetToolTip(lbSettingsConverterVideoProfile, lang.lbSettingsConverterVideoProfileHint);
-            lbSettingsConverterVideoCRF.Text = lang.lbSettingsConverterVideoCRF;
-            tipSettings.SetToolTip(lbSettingsConverterVideoCRF, lang.lbSettingsConverterVideoCRFHint);
-            chkSettingsConverterVideoFastStart.Text = lang.chkSettingsConverterVideoFastStart;
-            tipSettings.SetToolTip(chkSettingsConverterVideoFastStart, lang.chkSettingsConverterVideoFastStartHint);
-            lbSettingsConverterAudioBitrate.Text = lang.lbSettingsConverterAudioBitrate;
-            tipSettings.SetToolTip(lbSettingsConverterAudioBitrate, lang.lbSettingsConverterAudioBitrateHint);
-            lbSettingsConverterCustomHeader.Text = lang.lbSettingsConverterCustomHeader;
-            tipSettings.SetToolTip(txtSettingsConverterCustomArguments, lang.txtSettingsConverterCustomArgumentsHint);
+            lbSettingsConverterVideoBitrate.Text = Program.lang.lbSettingsConverterVideoBitrate;
+            tipSettings.SetToolTip(lbSettingsConverterVideoBitrate, Program.lang.lbSettingsConverterVideoBitrateHint);
+            lbSettingsConverterVideoPreset.Text = Program.lang.lbSettingsConverterVideoPreset;
+            tipSettings.SetToolTip(lbSettingsConverterVideoPreset, Program.lang.lbSettingsConverterVideoPresetHint);
+            lbSettingsConverterVideoProfile.Text = Program.lang.lbSettingsConverterVideoProfile;
+            tipSettings.SetToolTip(lbSettingsConverterVideoProfile, Program.lang.lbSettingsConverterVideoProfileHint);
+            lbSettingsConverterVideoCRF.Text = Program.lang.lbSettingsConverterVideoCRF;
+            tipSettings.SetToolTip(lbSettingsConverterVideoCRF, Program.lang.lbSettingsConverterVideoCRFHint);
+            chkSettingsConverterVideoFastStart.Text = Program.lang.chkSettingsConverterVideoFastStart;
+            tipSettings.SetToolTip(chkSettingsConverterVideoFastStart, Program.lang.chkSettingsConverterVideoFastStartHint);
+            lbSettingsConverterAudioBitrate.Text = Program.lang.lbSettingsConverterAudioBitrate;
+            tipSettings.SetToolTip(lbSettingsConverterAudioBitrate, Program.lang.lbSettingsConverterAudioBitrateHint);
+            lbSettingsConverterCustomHeader.Text = Program.lang.lbSettingsConverterCustomHeader;
+            tipSettings.SetToolTip(txtSettingsConverterCustomArguments, Program.lang.txtSettingsConverterCustomArgumentsHint);
 
-            lbSettingsExtensionsHeader.Text = lang.lbSettingsExtensionsHeader;
-            //tipSettings.SetToolTip(lbSettingsExtensionsHeader, lang.lbSettingsExtensionsHeaderHint);
-            lbSettingsExtensionsExtensionFullName.Text = lang.lbSettingsExtensionsExtensionFullName;
-            txtSettingsExtensionsExtensionFullName.TextHint = lang.txtSettingsExtensionsExtensionFullName;
-            //tipSettings.SetToolTip(lbSettingsExtensionsExtensionFullName, lang.lbSettingsExtensionsExtensionFullNameHint);
-            lbSettingsExtensionsExtensionShort.Text = lang.lbSettingsExtensionsExtensionShort;
-            txtSettingsExtensionsExtensionShort.TextHint = lang.txtSettingsExtensionsExtensionShort;
-            //tipSettings.SetToolTip(lbSettingsExtensionsExtensionShort, lang.lbSettingsExtensionsExtensionShortHint);
-            btnSettingsExtensionsAdd.Text = lang.btnSettingsExtensionsAdd;
-            //tipSettings.SetToolTip(btnSettingsExtensionsAdd, lang.btnSettingsExtensionsAddHint);
-            lbSettingsExtensionsFileName.Text = lang.lbSettingsExtensionsFileName + ".ext";
-            //tipSettings.SetToolTip(lbSettingsExtensionsFileName, lang.lbSettingsExtensionsFileNameHint);
-            btnSettingsExtensionsRemoveSelected.Text = lang.btnSettingsExtensionsRemoveSelected;
-            //tipSettings.SetToolTip(btnSettingsExtensionsRemoveSelected, lang.btnSettingsExtensionsRemoveSelectedHint);
+            lbSettingsExtensionsHeader.Text = Program.lang.lbSettingsExtensionsHeader;
+            //tipSettings.SetToolTip(lbSettingsExtensionsHeader, Program.lang.lbSettingsExtensionsHeaderHint);
+            lbSettingsExtensionsExtensionFullName.Text = Program.lang.lbSettingsExtensionsExtensionFullName;
+            txtSettingsExtensionsExtensionFullName.TextHint = Program.lang.txtSettingsExtensionsExtensionFullName;
+            //tipSettings.SetToolTip(lbSettingsExtensionsExtensionFullName, Program.lang.lbSettingsExtensionsExtensionFullNameHint);
+            lbSettingsExtensionsExtensionShort.Text = Program.lang.lbSettingsExtensionsExtensionShort;
+            txtSettingsExtensionsExtensionShort.TextHint = Program.lang.txtSettingsExtensionsExtensionShort;
+            //tipSettings.SetToolTip(lbSettingsExtensionsExtensionShort, Program.lang.lbSettingsExtensionsExtensionShortHint);
+            btnSettingsExtensionsAdd.Text = Program.lang.btnSettingsExtensionsAdd;
+            //tipSettings.SetToolTip(btnSettingsExtensionsAdd, Program.lang.btnSettingsExtensionsAddHint);
+            lbSettingsExtensionsFileName.Text = Program.lang.lbSettingsExtensionsFileName + ".ext";
+            //tipSettings.SetToolTip(lbSettingsExtensionsFileName, Program.lang.lbSettingsExtensionsFileNameHint);
+            btnSettingsExtensionsRemoveSelected.Text = Program.lang.btnSettingsExtensionsRemoveSelected;
+            //tipSettings.SetToolTip(btnSettingsExtensionsRemoveSelected, Program.lang.btnSettingsExtensionsRemoveSelectedHint);
 
-            chkSettingsErrorsShowDetailedErrors.Text = lang.chkSettingsErrorsShowDetailedErrors;
-            tipSettings.SetToolTip(chkSettingsErrorsShowDetailedErrors, lang.chkSettingsErrorsShowDetailedErrorsHint);
-            chkSettingsErrorsSaveErrorsAsErrorLog.Text = lang.chkSettingsErrorsSaveErrorsAsErrorLog;
-            tipSettings.SetToolTip(chkSettingsErrorsSaveErrorsAsErrorLog, lang.chkSettingsErrorsSaveErrorsAsErrorLogHint);
-            chkSettingsErrorsSuppressErrors.Text = lang.chkSettingsErrorsSuppressErrors;
-            tipSettings.SetToolTip(chkSettingsErrorsSuppressErrors, lang.chkSettingsErrorsSuppressErrorsHint);
+            chkSettingsErrorsShowDetailedErrors.Text = Program.lang.chkSettingsErrorsShowDetailedErrors;
+            tipSettings.SetToolTip(chkSettingsErrorsShowDetailedErrors, Program.lang.chkSettingsErrorsShowDetailedErrorsHint);
+            chkSettingsErrorsSaveErrorsAsErrorLog.Text = Program.lang.chkSettingsErrorsSaveErrorsAsErrorLog;
+            tipSettings.SetToolTip(chkSettingsErrorsSaveErrorsAsErrorLog, Program.lang.chkSettingsErrorsSaveErrorsAsErrorLogHint);
+            chkSettingsErrorsSuppressErrors.Text = Program.lang.chkSettingsErrorsSuppressErrors;
+            tipSettings.SetToolTip(chkSettingsErrorsSuppressErrors, Program.lang.chkSettingsErrorsSuppressErrorsHint);
 
-            lbSettingsPortableInformation.Text = lang.lbSettingsPortableInformation;
-            chkSettingsPortableToggleIni.Text = lang.chkSettingsPortableToggleIni;
+            lbSettingsPortableInformation.Text = Program.lang.lbSettingsPortableInformation;
+            chkSettingsPortableToggleIni.Text = Program.lang.chkSettingsPortableToggleIni;
 
         }
         void CalculatePositions() {
@@ -308,8 +306,8 @@ namespace youtube_dl_gui {
                 chkSettingsGeneralUseStaticYoutubeDl.Checked = Config.Settings.General.UseStaticYtdl;
             }
             else {
-                if (verif.YoutubeDlPath != null) {
-                    txtSettingsGeneralYoutubeDlPath.Text = verif.YoutubeDlPath;
+                if (Program.verif.YoutubeDlPath != null) {
+                    txtSettingsGeneralYoutubeDlPath.Text = Program.verif.YoutubeDlPath;
                 }
             }
 
@@ -318,8 +316,8 @@ namespace youtube_dl_gui {
                 chkSettingsGeneralUseStaticFFmpeg.Checked = Config.Settings.General.UseStaticFFmpeg;
             }
             else {
-                if (verif.FFmpegPath != null) {
-                    txtSettingsGeneralFFmpegPath.Text = verif.FFmpegPath;
+                if (Program.verif.FFmpegPath != null) {
+                    txtSettingsGeneralFFmpegPath.Text = Program.verif.FFmpegPath;
                 }
             }
 
@@ -545,10 +543,10 @@ namespace youtube_dl_gui {
             Config.Settings.Saved.Save();
 
             if (RefreshYtdl) {
-                verif.RefreshYoutubeDlLocation();
+                Program.verif.RefreshYoutubeDlLocation();
             }
             if (RefreshFFmpeg) {
-                verif.RefreshFFmpegLocation();
+                Program.verif.RefreshFFmpegLocation();
             }
         }
 
@@ -575,8 +573,8 @@ namespace youtube_dl_gui {
         }
         private void btnSettingsGeneralBrowseYoutubeDl_Click(object sender, EventArgs e) {
             using (OpenFileDialog ofd = new OpenFileDialog()) {
-                ofd.Title = lang.ofdTitleYoutubeDl;
-                ofd.Filter = lang.ofdFilterYoutubeDl + " (*.EXE)|*.exe";
+                ofd.Title = Program.lang.ofdTitleYoutubeDl;
+                ofd.Filter = Program.lang.ofdFilterYoutubeDl + " (*.EXE)|*.exe";
                 ofd.FileName = "youtube-dl.exe";
 
                 if (ofd.ShowDialog() == DialogResult.OK) {
@@ -586,8 +584,8 @@ namespace youtube_dl_gui {
         }
         private void btnSettingsGeneralBrowseFFmpeg_Click(object sender, EventArgs e) {
             using (OpenFileDialog ofd = new OpenFileDialog()) {
-                ofd.Title = lang.ofdTitleFFmpeg;
-                ofd.Filter = lang.ofdFilterFFmpeg + " (*.EXE)|*.exe";
+                ofd.Title = Program.lang.ofdTitleFFmpeg;
+                ofd.Filter = Program.lang.ofdFilterFFmpeg + " (*.EXE)|*.exe";
                 ofd.FileName = "ffmpeg.exe";
 
 

@@ -6,9 +6,6 @@ using System.Windows.Forms;
 
 namespace youtube_dl_gui {
     public partial class frmDownloader : Form {
-        readonly Language lang = Language.GetInstance();
-        readonly Verification verif = Verification.GetInstance();
-
         public DownloadInfo CurrentDownload;
         public bool Debugging = false;
 
@@ -22,17 +19,17 @@ namespace youtube_dl_gui {
 
         private void frmDownloader_Load(object sender, EventArgs e) {
             //CurrentDownload.BatchDownload = true;
-            this.Text = lang.frmDownloader + " ";
-            chkDownloaderCloseAfterDownload.Text = lang.chkDownloaderCloseAfterDownload;
+            this.Text = Program.lang.frmDownloader + " ";
+            chkDownloaderCloseAfterDownload.Text = Program.lang.chkDownloaderCloseAfterDownload;
             if (CurrentDownload.BatchDownload) {
                 this.WindowState = FormWindowState.Minimized;
                 btnDownloaderAbortBatchDownload.Enabled = true;
                 btnDownloaderAbortBatchDownload.Visible = true;
-                btnDownloaderAbortBatchDownload.Text = lang.btnDownloaderAbortBatch;
-                btnDownloaderCancelExit.Text = lang.GenericSkip;
+                btnDownloaderAbortBatchDownload.Text = Program.lang.btnDownloaderAbortBatch;
+                btnDownloaderCancelExit.Text = Program.lang.GenericSkip;
             }
             else {
-                btnDownloaderCancelExit.Text = lang.GenericCancel;
+                btnDownloaderCancelExit.Text = Program.lang.GenericCancel;
             }
             chkDownloaderCloseAfterDownload.Checked = Config.Settings.Downloads.CloseDownloaderAfterFinish;
         }
@@ -95,7 +92,7 @@ namespace youtube_dl_gui {
                 case DownloadStatus.YtdlError: case DownloadStatus.ProgramError: case DownloadStatus.Aborted:
                     btnDownloaderAbortBatchDownload.Visible = false;
                     btnDownloaderAbortBatchDownload.Enabled = false;
-                    this.Text = lang.frmDownloader + " ";
+                    this.Text = Program.lang.frmDownloader + " ";
                     tmrTitleActivity.Start();
                     BeginDownload();
                     break;
@@ -175,11 +172,11 @@ sanitizecheck:
             string webFolder = string.Empty;
 
             #region youtube-dl path
-            YoutubeDlFileName = verif.YoutubeDlPath;
+            YoutubeDlFileName = Program.verif.YoutubeDlPath;
             if (string.IsNullOrWhiteSpace(YoutubeDlFileName)) {
                 rtbConsoleOutput.AppendText("Youtube-DL has not been found\nA rescan for youtube-dl was called\n");
-                verif.RefreshYoutubeDlLocation();
-                if (verif.YoutubeDlPath != null) {
+                Program.verif.RefreshYoutubeDlLocation();
+                if (Program.verif.YoutubeDlPath != null) {
                     rtbConsoleOutput.AppendText("Rescan finished and found, continuing\n");
                 }
                 else {
@@ -323,12 +320,12 @@ sanitizecheck:
 
                 if (Config.Settings.Downloads.PreferFFmpeg || Download.isReddit(CurrentDownload.DownloadURL) && Config.Settings.Downloads.fixReddit) {
                     rtbConsoleOutput.AppendText("Looking for ffmpeg\n");
-                    if (verif.FFmpegPath != null) {
+                    if (Program.verif.FFmpegPath != null) {
                         if (Config.Settings.General.UseStaticFFmpeg) {
                             ArgumentsBuffer += " --ffmpeg-location \"" + Config.Settings.General.ffmpegPath + "\" --hls-prefer-ffmpeg";
                         }
                         else {
-                            ArgumentsBuffer += " --ffmpeg-location \"" + verif.FFmpegPath + "\" --hls-prefer-ffmpeg";
+                            ArgumentsBuffer += " --ffmpeg-location \"" + Program.verif.FFmpegPath + "\" --hls-prefer-ffmpeg";
                         }
                         rtbConsoleOutput.AppendText("ffmpeg was found\n");
                     }
@@ -569,7 +566,7 @@ sanitizecheck:
         private void DownloadFinished() {
             tmrTitleActivity.Stop();
             this.Text.Trim('.');
-            btnDownloaderCancelExit.Text = lang.btnBatchDownloadExit;
+            btnDownloaderCancelExit.Text = Program.lang.btnBatchDownloadExit;
 
             if (CurrentDownload.BatchDownload) {
                 switch (CurrentDownload.Status) {
@@ -585,12 +582,12 @@ sanitizecheck:
                         this.Activate();
                         System.Media.SystemSounds.Hand.Play();
                         rtbConsoleOutput.AppendText("\nAn error occured\nTHIS IS A YOUTUBE-DL ERROR, NOT A ERROR WITH THIS PROGRAM!\nExit the form to resume batch download.");
-                        this.Text = lang.frmDownloaderError;
+                        this.Text = Program.lang.frmDownloaderError;
                         break;
                     case DownloadStatus.ProgramError:
-                        btnDownloaderCancelExit.Text = lang.btnDownloaderExit;
+                        btnDownloaderCancelExit.Text = Program.lang.btnDownloaderExit;
                         rtbConsoleOutput.AppendText("\nAn error occured\nAn error log was presented, if enabled.\nExit the form to resume batch download.");
-                        this.Text = lang.frmDownloaderError;
+                        this.Text = Program.lang.frmDownloaderError;
                         this.Activate();
                         System.Media.SystemSounds.Hand.Play();
                         break;
@@ -607,31 +604,31 @@ sanitizecheck:
                     case DownloadStatus.Aborted:
                         break;
                     case DownloadStatus.YtdlError:
-                        btnDownloaderCancelExit.Text = lang.btnDownloaderExit;
+                        btnDownloaderCancelExit.Text = Program.lang.btnDownloaderExit;
                         rtbConsoleOutput.AppendText("\nAn error occured\nTHIS IS A YOUTUBE-DL ERROR, NOT A ERROR WITH THIS PROGRAM!");
                         btnDownloaderAbortBatchDownload.Visible = true;
                         btnDownloaderAbortBatchDownload.Enabled = true;
-                        btnDownloaderAbortBatchDownload.Text = lang.GenericRetry;
-                        this.Text = lang.frmDownloaderError;
+                        btnDownloaderAbortBatchDownload.Text = Program.lang.GenericRetry;
+                        this.Text = Program.lang.frmDownloaderError;
                         this.Activate();
                         System.Media.SystemSounds.Hand.Play();
                         break;
                     case DownloadStatus.ProgramError:
-                        btnDownloaderCancelExit.Text = lang.btnDownloaderExit;
+                        btnDownloaderCancelExit.Text = Program.lang.btnDownloaderExit;
                         rtbConsoleOutput.AppendText("\nAn error occured\nAn error log was presented, if enabled.");
-                        this.Text = lang.frmDownloaderError;
+                        this.Text = Program.lang.frmDownloaderError;
                         this.Activate();
                         System.Media.SystemSounds.Hand.Play();
                         break;
                     case DownloadStatus.Finished:
-                        btnDownloaderCancelExit.Text = lang.btnDownloaderExit;
-                        this.Text = lang.frmDownloaderComplete;
+                        btnDownloaderCancelExit.Text = Program.lang.btnDownloaderExit;
+                        this.Text = Program.lang.frmDownloaderComplete;
                         rtbConsoleOutput.AppendText("Download has finished.");
                         if (chkDownloaderCloseAfterDownload.Checked) { this.Close(); }
                         break;
                     default:
-                        btnDownloaderCancelExit.Text = lang.btnDownloaderExit;
-                        this.Text = lang.frmDownloaderComplete;
+                        btnDownloaderCancelExit.Text = Program.lang.btnDownloaderExit;
+                        this.Text = Program.lang.frmDownloaderComplete;
                         rtbConsoleOutput.AppendText("CurrentDownload.Status not defined (Not a batch download)\nAssuming success.");
                         if (chkDownloaderCloseAfterDownload.Checked) { this.Close(); }
                         break;

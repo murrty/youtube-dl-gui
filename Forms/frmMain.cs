@@ -10,10 +10,7 @@ namespace youtube_dl_gui {
     public partial class frmMain : Form {
 
         #region variables
-        readonly Language lang = Language.GetInstance();
-        readonly Verification verif = Verification.GetInstance();
-
-        Thread UpdateCheckThread;
+        private Thread UpdateCheckThread;
 
         public bool ProtocolInput = false;
         #endregion
@@ -203,86 +200,86 @@ namespace youtube_dl_gui {
         }
 
         void LoadLanguage() {
-            mSettings.Text = lang.mSettings;
-            mTools.Text = lang.mTools;
-            mBatchDownload.Text = lang.mBatchDownload;
-            mDownloadSubtitles.Text = lang.mDownloadSubtitles;
-            mMiscTools.Text = lang.mMiscTools;
-            mHelp.Text = lang.mHelp;
-            mLanguage.Text = lang.mLanguage;
-            mSupportedSites.Text = lang.mSupportedSites;
-            mAbout.Text = lang.mAbout;
+            mSettings.Text = Program.lang.mSettings;
+            mTools.Text = Program.lang.mTools;
+            mBatchDownload.Text = Program.lang.mBatchDownload;
+            mDownloadSubtitles.Text = Program.lang.mDownloadSubtitles;
+            mMiscTools.Text = Program.lang.mMiscTools;
+            mHelp.Text = Program.lang.mHelp;
+            mLanguage.Text = Program.lang.mLanguage;
+            mSupportedSites.Text = Program.lang.mSupportedSites;
+            mAbout.Text = Program.lang.mAbout;
 
-            tabDownload.Text = lang.tabDownload;
-            tabConvert.Text = lang.tabConvert;
-            tabMerge.Text = lang.tabMerge;
+            tabDownload.Text = Program.lang.tabDownload;
+            tabConvert.Text = Program.lang.tabConvert;
+            tabMerge.Text = Program.lang.tabMerge;
 
-            lbURL.Text = lang.lbURL;
-            txtUrl.TextHint = lang.txtUrlHint;
-            gbDownloadType.Text = lang.gbDownloadType;
-            rbVideo.Text = lang.GenericVideo;
-            rbAudio.Text = lang.GenericAudio;
-            rbCustom.Text = lang.GenericCustom;
-            lbQuality.Text = lang.lbQuality;
-            lbFormat.Text = lang.lbFormat;
-            chkDownloadSound.Text = lang.chkDownloadSound;
-            chkUseSelection.Text = lang.chkUseSelection;
-            rbVideoSelectionPlaylistIndex.Text = lang.rbVideoSelectionPlaylistIndex;
-            rbVideoSelectionPlaylistItems.Text = lang.rbVideoSelectionPlaylistItems;
-            rbVideoSelectionBeforeDate.Text = lang.rbVideoSelectionBeforeDate;
-            rbVideoSelectionOnDate.Text = lang.rbVideoSelectionOnDate;
-            rbVideoSelectionAfterDate.Text = lang.rbVideoSelectionAfterDate;
-            txtPlaylistStart.TextHint = lang.txtPlaylistStartHint;
-            txtPlaylistEnd.TextHint = lang.txtPlaylistEndHint;
-            txtPlaylistItems.TextHint = lang.txtPlaylistItemsHint;
-            txtVideoDate.TextHint = lang.txtVideoDateHint;
+            lbURL.Text = Program.lang.lbURL;
+            txtUrl.TextHint = Program.lang.txtUrlHint;
+            gbDownloadType.Text = Program.lang.gbDownloadType;
+            rbVideo.Text = Program.lang.GenericVideo;
+            rbAudio.Text = Program.lang.GenericAudio;
+            rbCustom.Text = Program.lang.GenericCustom;
+            lbQuality.Text = Program.lang.lbQuality;
+            lbFormat.Text = Program.lang.lbFormat;
+            chkDownloadSound.Text = Program.lang.chkDownloadSound;
+            chkUseSelection.Text = Program.lang.chkUseSelection;
+            rbVideoSelectionPlaylistIndex.Text = Program.lang.rbVideoSelectionPlaylistIndex;
+            rbVideoSelectionPlaylistItems.Text = Program.lang.rbVideoSelectionPlaylistItems;
+            rbVideoSelectionBeforeDate.Text = Program.lang.rbVideoSelectionBeforeDate;
+            rbVideoSelectionOnDate.Text = Program.lang.rbVideoSelectionOnDate;
+            rbVideoSelectionAfterDate.Text = Program.lang.rbVideoSelectionAfterDate;
+            txtPlaylistStart.TextHint = Program.lang.txtPlaylistStartHint;
+            txtPlaylistEnd.TextHint = Program.lang.txtPlaylistEndHint;
+            txtPlaylistItems.TextHint = Program.lang.txtPlaylistItemsHint;
+            txtVideoDate.TextHint = Program.lang.txtVideoDateHint;
 
-            lbCustomArguments.Text = lang.lbCustomArguments;
-            sbDownload.Text = lang.sbDownload;
-            mDownloadWithAuthentication.Text = lang.mDownloadWithAuthentication;
-            mBatchDownloadFromFile.Text = lang.mBatchDownloadFromFile;
+            lbCustomArguments.Text = Program.lang.lbCustomArguments;
+            sbDownload.Text = Program.lang.sbDownload;
+            mDownloadWithAuthentication.Text = Program.lang.mDownloadWithAuthentication;
+            mBatchDownloadFromFile.Text = Program.lang.mBatchDownloadFromFile;
             lbDownloadStatus.Text = "...";
 
-            lbConvertInput.Text = lang.lbConvertInput;
-            lbConvertOutput.Text = lang.lbConvertOutput;
-            rbConvertVideo.Text = lang.GenericVideo;
-            rbConvertAudio.Text = lang.GenericAudio;
-            rbConvertCustom.Text = lang.GenericCustom;
-            rbConvertAuto.Text = lang.rbConvertAuto;
-            rbConvertAutoFFmpeg.Text = lang.rbConvertAutoFFmpeg;
-            btnConvert.Text = lang.btnConvert;
+            lbConvertInput.Text = Program.lang.lbConvertInput;
+            lbConvertOutput.Text = Program.lang.lbConvertOutput;
+            rbConvertVideo.Text = Program.lang.GenericVideo;
+            rbConvertAudio.Text = Program.lang.GenericAudio;
+            rbConvertCustom.Text = Program.lang.GenericCustom;
+            rbConvertAuto.Text = Program.lang.rbConvertAuto;
+            rbConvertAutoFFmpeg.Text = Program.lang.rbConvertAutoFFmpeg;
+            btnConvert.Text = Program.lang.btnConvert;
             lbConvertStatus.Text = "...";
 
-            lbMergeInput1.Text = lang.lbMergeInput1;
-            lbMergeInput2.Text = lang.lbMergeInput2;
-            lbMergeOutput.Text = lang.lbMergeOutput;
-            chkMergeAudioTracks.Text = lang.chkMergeAudioTracks;
-            chkMergeDeleteInputFiles.Text = lang.chkMergeDeleteInputFiles;
-            btnMerge.Text = lang.btnMerge;
+            lbMergeInput1.Text = Program.lang.lbMergeInput1;
+            lbMergeInput2.Text = Program.lang.lbMergeInput2;
+            lbMergeOutput.Text = Program.lang.lbMergeOutput;
+            chkMergeAudioTracks.Text = Program.lang.chkMergeAudioTracks;
+            chkMergeDeleteInputFiles.Text = Program.lang.chkMergeDeleteInputFiles;
+            btnMerge.Text = Program.lang.btnMerge;
 
-            cmTrayShowForm.Text = lang.cmTrayShowForm;
-            cmTrayDownloader.Text = lang.cmTrayDownloader;
-            cmTrayDownloadClipboard.Text = lang.cmTrayDownloadClipboard;
-            cmTrayDownloadBestVideo.Text = lang.cmTrayDownloadBestVideo;
-            cmTrayDownloadBestAudio.Text = lang.cmTrayDownloadBestAudio;
-            cmTrayDownloadCustom.Text = lang.cmTrayDownloadCustom;
-            cmTrayDownloadCustomTxtBox.Text = lang.cmTrayDownloadCustomTxtBox;
-            cmTrayDownloadCustomTxt.Text = lang.cmTrayDownloadCustomTxt;
-            cmTrayDownloadCustomSettings.Text = lang.cmTrayDownloadCustomSettings;
-            cmTrayConverter.Text = lang.cmTrayConverter;
-            cmTrayConvertTo.Text = lang.cmTrayConvertTo;
-            cmTrayConvertVideo.Text = lang.cmTrayConvertVideo;
-            cmTrayConvertAudio.Text = lang.cmTrayConvertAudio;
-            cmTrayConvertCustom.Text = lang.cmTrayConvertCustom;
-            cmTrayConvertAutomatic.Text = lang.cmTrayConvertAutomatic;
-            cmTrayConvertAutoFFmpeg.Text = lang.cmTrayConvertAutoFFmpeg;
-            cmTrayExit.Text = lang.cmTrayExit;
+            cmTrayShowForm.Text = Program.lang.cmTrayShowForm;
+            cmTrayDownloader.Text = Program.lang.cmTrayDownloader;
+            cmTrayDownloadClipboard.Text = Program.lang.cmTrayDownloadClipboard;
+            cmTrayDownloadBestVideo.Text = Program.lang.cmTrayDownloadBestVideo;
+            cmTrayDownloadBestAudio.Text = Program.lang.cmTrayDownloadBestAudio;
+            cmTrayDownloadCustom.Text = Program.lang.cmTrayDownloadCustom;
+            cmTrayDownloadCustomTxtBox.Text = Program.lang.cmTrayDownloadCustomTxtBox;
+            cmTrayDownloadCustomTxt.Text = Program.lang.cmTrayDownloadCustomTxt;
+            cmTrayDownloadCustomSettings.Text = Program.lang.cmTrayDownloadCustomSettings;
+            cmTrayConverter.Text = Program.lang.cmTrayConverter;
+            cmTrayConvertTo.Text = Program.lang.cmTrayConvertTo;
+            cmTrayConvertVideo.Text = Program.lang.cmTrayConvertVideo;
+            cmTrayConvertAudio.Text = Program.lang.cmTrayConvertAudio;
+            cmTrayConvertCustom.Text = Program.lang.cmTrayConvertCustom;
+            cmTrayConvertAutomatic.Text = Program.lang.cmTrayConvertAutomatic;
+            cmTrayConvertAutoFFmpeg.Text = Program.lang.cmTrayConvertAutoFFmpeg;
+            cmTrayExit.Text = Program.lang.cmTrayExit;
 
             if (cbFormat.Items.Count > 0) {
-                cbFormat.Items[0] = lang.GenericInputBest;
+                cbFormat.Items[0] = Program.lang.GenericInputBest;
             }
             if (cbQuality.Items.Count > 0) {
-                cbQuality.Items[0] = lang.GenericInputBest;
+                cbQuality.Items[0] = Program.lang.GenericInputBest;
             }
 
             CalculateLocations();
@@ -545,11 +542,11 @@ namespace youtube_dl_gui {
                 cbQuality.SelectedIndex = -1;
                 cbQuality.Items.Clear();
                 cbQuality.Items.AddRange(Download.Formats.VideoQualityArray);
-                cbQuality.Items[0] = lang.GenericInputBest;
+                cbQuality.Items[0] = Program.lang.GenericInputBest;
                 cbFormat.SelectedIndex = -1;
                 cbFormat.Items.Clear();
                 cbFormat.Items.AddRange(Download.Formats.VideoFormatsNamesArray);
-                cbFormat.Items[0] = lang.GenericInputBest;
+                cbFormat.Items[0] = Program.lang.GenericInputBest;
                 cbQuality.Enabled = true;
                 cbFormat.Enabled = true;
                 chkDownloadSound.Enabled = true;
@@ -627,7 +624,7 @@ namespace youtube_dl_gui {
                 }
                 else {
                     cbQuality.Items.AddRange(Download.Formats.AudioQualityNamesArray);
-                    cbQuality.Items[0] = lang.GenericInputBest;
+                    cbQuality.Items[0] = Program.lang.GenericInputBest;
                     if (Config.Settings.Downloads.SaveFormatQuality) {
                         cbQuality.SelectedIndex = Config.Settings.Saved.audioQuality;
                     }
@@ -755,7 +752,7 @@ namespace youtube_dl_gui {
         }
         private void mBatchDownloadFromFile_Click(object sender, EventArgs e) {
             if (!Config.Settings.Downloads.SkipBatchTip) {
-                switch (MessageBox.Show(lang.msgBatchDownloadFromFile, "youtube-dl-gui", MessageBoxButtons.YesNoCancel)) {
+                switch (MessageBox.Show(Program.lang.msgBatchDownloadFromFile, "youtube-dl-gui", MessageBoxButtons.YesNoCancel)) {
                     case DialogResult.Cancel:
                         return;
                     case DialogResult.Yes:
@@ -1283,13 +1280,13 @@ namespace youtube_dl_gui {
             }
         }
         private void btnYtdlVersion_Click(object sender, EventArgs e) {
-            MessageBox.Show(verif.YoutubeDlVersion);
+            MessageBox.Show(Program.verif.YoutubeDlVersion);
         }
         private void btnDebugCheckVerification_Click(object sender, EventArgs e) {
             MessageBox.Show(
-                "Youtube-DL Path: {" + verif.YoutubeDlPath + "}\r\nYoutube-DL Version: {" + verif.YoutubeDlVersion + "}\r\n\r\n" +
-                "FFmpeg Path: {" + verif.FFmpegPath + "}\r\n\r\n" +
-                "AtomicParlsey Path: {" + verif.AtomicParsleyPath + "}"
+                "Youtube-DL Path: {" + Program.verif.YoutubeDlPath + "}\r\nYoutube-DL Version: {" + Program.verif.YoutubeDlVersion + "}\r\n\r\n" +
+                "FFmpeg Path: {" + Program.verif.FFmpegPath + "}\r\n\r\n" +
+                "AtomicParlsey Path: {" + Program.verif.AtomicParsleyPath + "}"
             );
         }
         #endregion

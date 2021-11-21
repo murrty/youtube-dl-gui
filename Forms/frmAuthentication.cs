@@ -4,7 +4,6 @@ using System.Windows.Forms;
 
 namespace youtube_dl_gui {
     public partial class frmAuthentication : Form {
-        readonly Language lang = Language.GetInstance();
 
         public string Username = null;
         public string Password = null;
@@ -19,16 +18,16 @@ namespace youtube_dl_gui {
         }
 
         private void LoadLanguage() {
-            this.Text = lang.frmAuthentication;
-            lbAuthNotice.Text = lang.lbAuthNotice;
-            lbAuthUsername.Text = lang.lbAuthUsername;
-            lbAuthPassword.Text = lang.lbAuthPassword;
-            lbAuth2Factor.Text = lang.lbAuth2Factor;
-            lbAuthVideoPassword.Text = lang.lbAuthVideoPassword;
-            chkAuthUseNetrc.Text = lang.chkAuthUseNetrc;
-            lbAuthNoSave.Text = lang.lbAuthNoSave;
-            btnAuthBeginDownload.Text = lang.btnAuthBeginDownload;
-            btnAuthGenericCancel.Text = lang.GenericCancel;
+            this.Text = Program.lang.frmAuthentication;
+            lbAuthNotice.Text = Program.lang.lbAuthNotice;
+            lbAuthUsername.Text = Program.lang.lbAuthUsername;
+            lbAuthPassword.Text = Program.lang.lbAuthPassword;
+            lbAuth2Factor.Text = Program.lang.lbAuth2Factor;
+            lbAuthVideoPassword.Text = Program.lang.lbAuthVideoPassword;
+            chkAuthUseNetrc.Text = Program.lang.chkAuthUseNetrc;
+            lbAuthNoSave.Text = Program.lang.lbAuthNoSave;
+            btnAuthBeginDownload.Text = Program.lang.btnAuthBeginDownload;
+            btnAuthGenericCancel.Text = Program.lang.GenericCancel;
         }
         private void CalculatePositions() {
             chkAuthUseNetrc.Location = new Point((this.Size.Width - chkAuthUseNetrc.Size.Width) / 2, chkAuthUseNetrc.Location.Y);

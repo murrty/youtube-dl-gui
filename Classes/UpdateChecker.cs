@@ -11,113 +11,108 @@ using System.Xml.Linq;
 
 namespace youtube_dl_gui {
     class UpdateChecker {
+        public static readonly GitData GitInfo = new GitData();
+
         public static bool bypassDebug = true;
-        public static GitData GitData = GitData.GetInstance();
-        public static Verification verif = Verification.GetInstance();
 
         public static void CheckForUpdate(bool ForceCheck = false) {
             if (Program.IsDebug && !bypassDebug) {
-                Debug.Print("-version " + GitData.UpdateVersion + " -name " + System.AppDomain.CurrentDomain.FriendlyName);
+                Debug.Print("-version " + GitInfo.UpdateVersion + " -name " + AppDomain.CurrentDomain.FriendlyName);
+                return;
+            }
+
+            if (GitInfo.UpdateAvailable) {
+                using (frmUpdateAvailable Update = new frmUpdateAvailable()) {
+                    Update.BlockSkip = ForceCheck;
+                    switch (Update.ShowDialog()) {
+                        case DialogResult.Yes:
+                            try {
+                                UpdateApplication();
+                            }
+                            catch (Exception ex) {
+                                ErrorLog.ReportException(ex);
+                                return;
+                            }
+                            break;
+                    }
+                }
             }
             else {
-                if (!Config.Settings.General.CheckForUpdatesOnLaunch && !ForceCheck) {
-                    return;
-                }
-
-                if (GitData.UpdateAvailable) {
-                    using (frmUpdateAvailable Update = new frmUpdateAvailable()) {
-                        Update.BlockSkip = ForceCheck;
-                        switch (Update.ShowDialog()) {
-                            case DialogResult.Yes:
-                                try {
-                                    UpdateApplication();
-                                }
-                                catch (Exception ex) {
-                                    ErrorLog.ReportException(ex);
-                                    return;
-                                }
-                                break;
-                        }
-                    }
-                }
-                else {
-                    if (GitData.UpdateVersion == "-1" || ForceCheck) {
-
-                        if (Config.Settings.General.DownloadBetaVersions) {
-                            string LatestReleaseVersion = GetGitLatestReleaseString();
-                            if (IsBetaUpdateAvailable(LatestReleaseVersion)) {
-                                GitData.UpdateAvailable = true;
-                                if (LatestReleaseVersion != Config.Settings.Initialization.SkippedBetaVersion || ForceCheck) {
-                                    using (frmUpdateAvailable Update = new frmUpdateAvailable()) {
-                                        Update.BlockSkip = ForceCheck;
-                                        switch (Update.ShowDialog()) {
-                                            case DialogResult.Yes:
-                                                try {
-                                                    UpdateApplication();
-                                                }
-                                                catch (Exception ex) {
-                                                    ErrorLog.ReportException(ex);
-                                                    return;
-                                                }
-                                                break;
-                                            case DialogResult.Ignore:
-                                                Config.Settings.Initialization.SkippedBetaVersion = LatestReleaseVersion;
-                                                Config.Settings.Save(ConfigType.Initialization);
-                                                break;
-                                        }
+                if (GitInfo.UpdateVersion == "-1" || ForceCheck) {
+                    if (Config.Settings.General.DownloadBetaVersions) {
+                        string LatestReleaseVersion = GetGitLatestReleaseString();
+                        if (IsBetaUpdateAvailable(LatestReleaseVersion)) {
+                            GitInfo.UpdateAvailable = true;
+                            if (LatestReleaseVersion != Config.Settings.Initialization.SkippedBetaVersion || ForceCheck) {
+                                using (frmUpdateAvailable Update = new frmUpdateAvailable()) {
+                                    Update.BlockSkip = ForceCheck;
+                                    switch (Update.ShowDialog()) {
+                                        case DialogResult.Yes:
+                                            try {
+                                                UpdateApplication();
+                                            }
+                                            catch (Exception ex) {
+                                                ErrorLog.ReportException(ex);
+                                                return;
+                                            }
+                                            break;
+                                        case DialogResult.Ignore:
+                                            Config.Settings.Initialization.SkippedBetaVersion = LatestReleaseVersion;
+                                            Config.Settings.Save(ConfigType.Initialization);
+                                            break;
                                     }
                                 }
                             }
-                            else if (string.IsNullOrWhiteSpace(LatestReleaseVersion)) {
-                                switch (MessageBox.Show("The git version returned null/whitespace, which means it didn't properly check. Would you like to manually check?", "youtube-dl-gui", MessageBoxButtons.YesNo)) {
-                                    case DialogResult.Yes:
-                                        Process.Start(string.Format(GitData.GitLinks.GithubRepoUrl + "/releases/latest", "murrty", "youtube-dl-gui"));
-                                        break;
-                                }
-                            }
-                            else if (ForceCheck) {
-                                MessageBox.Show("No updates available.");
+                        }
+                        else if (string.IsNullOrWhiteSpace(LatestReleaseVersion)) {
+                            switch (MessageBox.Show("The git version returned null/whitespace, which means it didn't properly check. Would you like to manually check?", "youtube-dl-gui", MessageBoxButtons.YesNo)) {
+                                case DialogResult.Yes:
+                                    Process.Start(string.Format(GitData.GitLinks.GithubRepoUrl + "/releases/latest", "murrty", "youtube-dl-gui"));
+                                    break;
                             }
                         }
-                        else {
-                            decimal GitVersion = GetGitVersion();
-                            Debug.Print(GitVersion.ToString());
-                            if (UpdateChecker.IsUpdateAvailable(GitVersion)) {
-                                GitData.UpdateAvailable = true;
-                                if (GitVersion != Config.Settings.Initialization.SkippedVersion || ForceCheck) {
-                                    using (frmUpdateAvailable Update = new frmUpdateAvailable()) {
-                                        Update.BlockSkip = ForceCheck;
-                                        switch (Update.ShowDialog()) {
-                                            case DialogResult.Yes:
-                                                try {
-                                                    UpdateApplication();
-                                                }
-                                                catch (Exception ex) {
-                                                    ErrorLog.ReportException(ex);
-                                                    return;
-                                                }
-                                                break;
-                                            case DialogResult.Ignore:
-                                                Config.Settings.Initialization.SkippedVersion = GitVersion;
-                                                Config.Settings.Save(ConfigType.Initialization);
-                                                break;
-                                        }
+                        else if (ForceCheck) {
+                            MessageBox.Show("No updates available.");
+                        }
+                    }
+                    else {
+                        decimal GitVersion = GetGitVersion();
+                        Debug.Print(GitVersion.ToString());
+                        if (IsUpdateAvailable(GitVersion)) {
+                            GitInfo.UpdateAvailable = true;
+                            if (GitVersion != Config.Settings.Initialization.SkippedVersion || ForceCheck) {
+                                using (frmUpdateAvailable Update = new frmUpdateAvailable()) {
+                                    Update.BlockSkip = ForceCheck;
+                                    switch (Update.ShowDialog()) {
+                                        case DialogResult.Yes:
+                                            try {
+                                                UpdateApplication();
+                                            }
+                                            catch (Exception ex) {
+                                                ErrorLog.ReportException(ex);
+                                                return;
+                                            }
+                                            break;
+                                        case DialogResult.Ignore:
+                                            Config.Settings.Initialization.SkippedVersion = GitVersion;
+                                            Config.Settings.Save(ConfigType.Initialization);
+                                            break;
                                     }
                                 }
                             }
-                            else if (GitVersion == -1) {
-                                switch (MessageBox.Show("The git version returned -1, which means it didn't properly check. Would you like to manually check?", "youtube-dl-gui", MessageBoxButtons.YesNo)){
-                                    case DialogResult.Yes:
-                                        Process.Start(string.Format(GitData.GitLinks.GithubRepoUrl + "/releases/latest", "murrty", "youtube-dl-gui"));
-                                        break;
-                                }
-                            }
-                            else if (ForceCheck) {
-                                MessageBox.Show("No updates available.\r\n\r\nCurrent version: " + Properties.Settings.Default.CurrentVersion + "\r\nLatest version: " + GitVersion, "youtube-dl-gui");
+                        }
+                        else if (GitVersion == -1) {
+                            switch (MessageBox.Show("The git version returned -1, which means it didn't properly check. Would you like to manually check?", "youtube-dl-gui", MessageBoxButtons.YesNo)) {
+                                case DialogResult.Yes:
+                                    Process.Start(string.Format(GitData.GitLinks.GithubRepoUrl + "/releases/latest", "murrty", "youtube-dl-gui"));
+                                    break;
                             }
                         }
-
+                        else if (ForceCheck) {
+                            MessageBox.Show("No updates available.\r\n\r\nCurrent version: " + Properties.Settings.Default.CurrentVersion + "\r\nLatest version: " + GitVersion, "youtube-dl-gui");
+                        }
                     }
+
                 }
             }
         }
@@ -128,14 +123,14 @@ namespace youtube_dl_gui {
             Process Updater = new Process();
             Updater.StartInfo.FileName = Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe";
             string ArgumentsBuffer = "";
-            ArgumentsBuffer += "-v " + GitData.UpdateVersion + " -n " + System.AppDomain.CurrentDomain.FriendlyName;
+            ArgumentsBuffer += "-v " + GitInfo.UpdateVersion + " -n " + System.AppDomain.CurrentDomain.FriendlyName;
             Updater.StartInfo.Arguments = ArgumentsBuffer;
             Updater.Start();
             Environment.Exit(0);
         }
         
         public static void UpdateYoutubeDl() {
-            if (Config.Settings.Downloads.useYtdlUpdater && Config.Settings.General.UseStaticYtdl && !string.IsNullOrEmpty(Config.Settings.General.ytdlPath) && File.Exists(Config.Settings.General.ytdlPath) || Config.Settings.Downloads.useYtdlUpdater && File.Exists(verif.YoutubeDlPath)) {
+            if (Config.Settings.Downloads.useYtdlUpdater && Config.Settings.General.UseStaticYtdl && !string.IsNullOrEmpty(Config.Settings.General.ytdlPath) && File.Exists(Config.Settings.General.ytdlPath) || Config.Settings.Downloads.useYtdlUpdater && File.Exists(Program.verif.YoutubeDlPath)) {
 
                 Process UpdateYoutubeDl = new Process();
                 UpdateYoutubeDl.StartInfo.Arguments = "-U";
@@ -176,14 +171,14 @@ namespace youtube_dl_gui {
                         TypeIndex = 0;
                         break;
                 }
-                GitData.YoutubeDlVersion = GetYoutubeDlVersion(TypeIndex);
+                GitInfo.YoutubeDlVersion = GetYoutubeDlVersion(TypeIndex);
 
-                if (verif.YoutubeDlVersion != GitData.YoutubeDlVersion) {
+                if (Program.verif.YoutubeDlVersion != GitInfo.YoutubeDlVersion) {
                     string FullSavePath = null;
                     string DownloadUrl = string.Format(GitData.GitLinks.ApplicationDownloadUrl,
                                          GitData.GitLinks.Users[TypeIndex],
                                          GitData.GitLinks.Repos[TypeIndex],
-                                         GitData.YoutubeDlVersion);
+                                         GitInfo.YoutubeDlVersion);
 
                     if (Config.Settings.General.UseStaticYtdl && !string.IsNullOrEmpty(Config.Settings.General.ytdlPath)) {
                         FullSavePath = Config.Settings.General.ytdlPath;
@@ -212,7 +207,7 @@ namespace youtube_dl_gui {
 
                                 wc.DownloadFile(DownloadUrl, FullSavePath);
 
-                                verif.RefreshYoutubeDlLocation();
+                                Program.verif.RefreshYoutubeDlLocation();
 
                                 MessageBox.Show("Youtube-dl has been updated.");
                             }
@@ -224,7 +219,7 @@ namespace youtube_dl_gui {
                                         GitData.GitLinks.ApplicationDownloadUrl,
                                         GitData.GitLinks.Users[TypeIndex],
                                         GitData.GitLinks.Repos[TypeIndex],
-                                        GitData.YoutubeDlVersion
+                                        GitInfo.YoutubeDlVersion
                                     )
                                 );
 
@@ -240,7 +235,7 @@ namespace youtube_dl_gui {
 
                 }
                 else {
-                    switch (MessageBox.Show("Youtube-dl does not require an update at this moment.\r\n\r\nCurrent version: " + verif.YoutubeDlVersion + "\r\nLatest release: " + GitData.YoutubeDlVersion, "youtube-dl-gui", MessageBoxButtons.RetryCancel)) {
+                    switch (MessageBox.Show("Youtube-dl does not require an update at this moment.\r\n\r\nCurrent version: " + Program.verif.YoutubeDlVersion + "\r\nLatest release: " + GitInfo.YoutubeDlVersion, "youtube-dl-gui", MessageBoxButtons.RetryCancel)) {
                         case DialogResult.Retry:
                             UpdateYoutubeDl();
                             break;
@@ -291,14 +286,16 @@ namespace youtube_dl_gui {
 
         private static decimal GetGitVersion() {
             try {
+
                 string xml = GetJSON(string.Format(
                     GitData.GitLinks.GithubLatestJson,
                     "murrty",
                     "youtube-dl-gui"
                 ));
 
-                if (xml == null)
+                if (xml == null) {
                     return -1;
+                }
 
                 XmlDocument doc = new XmlDocument();
                 doc.LoadXml(xml);
@@ -308,11 +305,11 @@ namespace youtube_dl_gui {
                 XmlNodeList xmlBody = doc.DocumentElement.SelectNodes("/root/body");
 
 
-                GitData.UpdateVersion = xmlTag[0].InnerText;
-                GitData.UpdateName = xmlName[0].InnerText;
-                GitData.UpdateBody = xmlBody[0].InnerText;
+                GitInfo.UpdateVersion = xmlTag[0].InnerText;
+                GitInfo.UpdateName = xmlName[0].InnerText;
+                GitInfo.UpdateBody = xmlBody[0].InnerText;
 
-                if (decimal.TryParse(GitData.UpdateVersion, out decimal NewVersion)) {
+                if (decimal.TryParse(GitInfo.UpdateVersion, out decimal NewVersion)) {
                     return NewVersion;
                 }
                 else {
@@ -353,10 +350,10 @@ namespace youtube_dl_gui {
                 XmlNodeList xmlName = doc.DocumentElement.SelectNodes("/root/item/name");
                 XmlNodeList xmlBody = doc.DocumentElement.SelectNodes("/root/item/body");
 
-                GitData.UpdateVersion = xmlTag[0].InnerText;
-                GitData.UpdateName = xmlName[0].InnerText;
-                GitData.UpdateBody = xmlBody[0].InnerText;
-                return GitData.UpdateVersion;
+                GitInfo.UpdateVersion = xmlTag[0].InnerText;
+                GitInfo.UpdateName = xmlName[0].InnerText;
+                GitInfo.UpdateBody = xmlBody[0].InnerText;
+                return GitInfo.UpdateVersion;
 
             }
             catch (WebException WebEx) {
@@ -388,8 +385,8 @@ namespace youtube_dl_gui {
                 XmlDocument doc = new XmlDocument();
                 doc.LoadXml(xml);
                 XmlNodeList xmlTag = doc.DocumentElement.SelectNodes("/root/tag_name");
-                GitData.YoutubeDlVersion = xmlTag[0].InnerText;
-                return GitData.YoutubeDlVersion;
+                GitInfo.YoutubeDlVersion = xmlTag[0].InnerText;
+                return GitInfo.YoutubeDlVersion;
             }
             catch (WebException WebEx) {
                 ErrorLog.ReportWebException(WebEx,
@@ -428,17 +425,17 @@ namespace youtube_dl_gui {
 
         public class UpdateDebug {
             public static void UpdateAvailable() {
-                bool OldGitUpdateAvailable = GitData.UpdateAvailable;
-                string[] UpdateArray = { GitData.UpdateName, GitData.UpdateBody, GitData.UpdateVersion };
-                GitData.UpdateAvailable = true;
-                GitData.UpdateName = "An update";
-                GitData.UpdateBody = "A new update is available. Not really.\nNew line escape sequence works! Use \\n\n\nhello world";
-                GitData.UpdateVersion = "1.0";
+                bool OldGitUpdateAvailable = GitInfo.UpdateAvailable;
+                string[] UpdateArray = { GitInfo.UpdateName, GitInfo.UpdateBody, GitInfo.UpdateVersion };
+                GitInfo.UpdateAvailable = true;
+                GitInfo.UpdateName = "An update";
+                GitInfo.UpdateBody = "A new update is available. Not really.\nNew line escape sequence works! Use \\n\n\nhello world";
+                GitInfo.UpdateVersion = "1.0";
                 using (frmUpdateAvailable Update = new frmUpdateAvailable()) { Update.ShowDialog(); }
-                GitData.UpdateAvailable = OldGitUpdateAvailable;
-                GitData.UpdateName = UpdateArray[0];
-                GitData.UpdateBody = UpdateArray[1];
-                GitData.UpdateVersion = UpdateArray[2];
+                GitInfo.UpdateAvailable = OldGitUpdateAvailable;
+                GitInfo.UpdateName = UpdateArray[0];
+                GitInfo.UpdateBody = UpdateArray[1];
+                GitInfo.UpdateVersion = UpdateArray[2];
             }
         }
     }
@@ -464,17 +461,12 @@ namespace youtube_dl_gui {
             public static readonly string[] Repos = { "youtube-dl", "youtube-dlc", "yt-dlp" };
         }
 
-        private static readonly GitData GitDataInstance = new GitData();
         private static volatile string UpdateVersionString = "-1";
         private static volatile string UpdateNameString = "UpdateNameString";
         private static volatile string UpdateBodyString = "UpdateBodyString";
         private static volatile bool UpdateAvailableBool = false;
         private static volatile string YoutubeDlVersionString = "0000.00.00";
         //private static volatile bool YoutubeDlUpdateAvailableBool = false;
-
-        public static GitData GetInstance() {
-            return GitDataInstance;
-        }
 
         public string GithubIssuesLink {
             get { return string.Format(GitLinks.GithubIssuesUrl, GitLinks.Users[0], GitLinks.Repos[0]); }

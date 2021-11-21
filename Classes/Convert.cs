@@ -7,7 +7,6 @@ using System.Linq;
 namespace youtube_dl_gui {
     class Convert {
         #region Constants
-        private static readonly Verification verif = Verification.GetInstance();
         /// <summary>
         /// All built-in video formats
         /// </summary>
@@ -121,10 +120,10 @@ namespace youtube_dl_gui {
 
             try {
                 Process startConvert = new Process();
-                if (verif.FFmpegPath == null) {
+                if (Program.verif.FFmpegPath == null) {
                     throw new Exception("FFmpegPath is null. Cannot convert. If you do not have ffmpeg, consider downloading it.");
                 }
-                startConvert.StartInfo.FileName = verif.FFmpegPath;
+                startConvert.StartInfo.FileName = Program.verif.FFmpegPath;
 
                 string convertArguments = "-i \"" + input + "\"";
                 switch (convType) {
