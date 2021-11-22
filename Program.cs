@@ -80,7 +80,6 @@ namespace youtube_dl_gui {
                     LoadClasses();
 
                     if (CheckArgs(args)) {
-                        Environment.Exit(0);
                         return 0;
                     }
 
@@ -135,7 +134,6 @@ namespace youtube_dl_gui {
             if (args.Length > 0) {
                 if (args[0].StartsWith("ytdl:")) {
                     string url = args[0].Substring(5);
-                    frmDownloader Downloader = new frmDownloader();
                     DownloadInfo NewInfo = new DownloadInfo() {
                         DownloadURL = url
                     };
@@ -144,7 +142,8 @@ namespace youtube_dl_gui {
                         case "-video":
                             NewInfo.Type = DownloadType.Video;
                             NewInfo.VideoQuality = (VideoQualityType)Config.Settings.Saved.videoQuality;
-                            Downloader.ShowDialog();
+                            frmDownloader VideoDownloader = new frmDownloader(NewInfo);
+                            VideoDownloader.ShowDialog();
                             return true;
 
                         case "-audio":
@@ -155,14 +154,15 @@ namespace youtube_dl_gui {
                             else {
                                 NewInfo.AudioCBRQuality = (AudioCBRQualityType)Config.Settings.Saved.audioQuality;
                             }
-                            Downloader.ShowDialog();
+                            frmDownloader AudioDownloader = new frmDownloader(NewInfo);
+                            AudioDownloader.ShowDialog();
                             return true;
 
                         default:
                             NewInfo.Dispose();
-                            Downloader.Dispose();
                             return false;
                     }
+
                 }
             }
 

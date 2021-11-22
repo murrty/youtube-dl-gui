@@ -268,7 +268,6 @@ namespace youtube_dl_gui {
                 string BatchTime = BatchDownloader.CurrentTime();
                 for (int i = 0; i < DownloadUrls.Count; i++) {
                     CurrentItem = i;
-                    Downloader = new frmDownloader();
                     NewInfo = new DownloadInfo {
                         BatchDownload = true,
                         BatchTime = BatchTime,
@@ -304,7 +303,7 @@ namespace youtube_dl_gui {
 
                     bool AbortDownload = false;
                     sbBatchDownloader.Text = Program.lang.sbBatchDownloaderDownloading;
-                    Downloader.CurrentDownload = NewInfo;
+                    Downloader = new frmDownloader(NewInfo);
                     switch (Downloader.ShowDialog()) {
                         case System.Windows.Forms.DialogResult.Yes:
                             lvBatchDownloadQueue.Items[i].ImageIndex = (int)BatchDownloader.ConversionIcon.Finished;

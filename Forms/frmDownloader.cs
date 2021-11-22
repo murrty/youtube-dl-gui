@@ -13,8 +13,9 @@ namespace youtube_dl_gui {
         private Thread DownloadThread;          // The thread of the process for youtube-dl.
         private bool AbortBatch = false;        // Determines if the rest of the batch downloads should be cancelled.
 
-        public frmDownloader() {
+        public frmDownloader(DownloadInfo Info) {
             InitializeComponent();
+            CurrentDownload = Info;
         }
 
         private void frmDownloader_Load(object sender, EventArgs e) {
