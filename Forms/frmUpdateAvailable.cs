@@ -9,11 +9,11 @@ namespace youtube_dl_gui {
             InitializeComponent();
             this.Text = Program.lang.frmUpdateAvailable;
             lbUpdateAvailableHeader.Text = Program.lang.lbUpdateAvailableHeader;
-            lbUpdateAvailableUpdateVersion.Text = Program.lang.lbUpdateAvailableUpdateVersion + " " + GitData.Instance.UpdateVersion;
+            lbUpdateAvailableUpdateVersion.Text = Program.lang.lbUpdateAvailableUpdateVersion + " " + UpdateChecker.GitInfo.UpdateVersion;
             lbUpdateAvailableCurrentVersion.Text = Program.lang.lbUpdateAvailableCurrentVersion + " " + Properties.Settings.Default.CurrentVersion.ToString();
             lbUpdateAvailableChangelog.Text = Program.lang.lbUpdateAvailableChangelog;
-            txtUpdateAvailableName.Text = GitData.Instance.UpdateName;
-            rtbUpdateAvailableChangelog.Text = GitData.Instance.UpdateBody;
+            txtUpdateAvailableName.Text = UpdateChecker.GitInfo.UpdateName;
+            rtbUpdateAvailableChangelog.Text = UpdateChecker.GitInfo.UpdateBody;
             btnUpdateAvailableUpdate.Text = Program.lang.btnUpdateAvailableUpdate;
             btnUpdateAvailableSkip.Text = Program.lang.btnUpdateAvailableSkipVersion;
             btnUpdateAvailableOk.Text = Program.lang.btnUpdateAvailableOk;

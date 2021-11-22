@@ -59,7 +59,7 @@ namespace youtube_dl_gui {
                         // do nothing
                     }
                     catch (Exception ex) {
-                        ErrorLog.ReportException(ex);
+                        ErrorLog.Report(ex);
                     }
                 }) {
                     Name = "Checks for updates",
@@ -942,7 +942,7 @@ namespace youtube_dl_gui {
                         throw new Exception("Video, Audio, or Custom was not selected in the form, please select an actual download option to proceed.");
                     }
                     catch (Exception ex) {
-                        ErrorLog.ReportException(ex);
+                        ErrorLog.Report(ex);
                     }
                 }
             }
@@ -1276,7 +1276,7 @@ namespace youtube_dl_gui {
                 throw new Exception("An exception has been thrown.");
             }
             catch (Exception ex) {
-                ErrorLog.ReportException(ex, false);
+                ErrorLog.Report(ex, false);
             }
         }
         private void btnYtdlVersion_Click(object sender, EventArgs e) {

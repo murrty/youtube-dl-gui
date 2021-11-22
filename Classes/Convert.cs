@@ -203,7 +203,7 @@ namespace youtube_dl_gui {
                 return true;
             }
             catch (Exception ex) {
-                ErrorLog.ReportException(ex);
+                ErrorLog.Report(ex);
                 return false;
             }
         }
@@ -283,7 +283,7 @@ namespace youtube_dl_gui {
                 return true;
             }
             catch (Exception ex) {
-                ErrorLog.ReportException(ex);
+                ErrorLog.Report(ex);
                 return false;
             }
         }

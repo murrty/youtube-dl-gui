@@ -116,7 +116,7 @@ namespace youtube_dl_gui {
                 return FileVersionInfo.GetVersionInfo(ProgramPath).ProductVersion;
             }
             catch (Exception ex) {
-                ErrorLog.ReportException(ex);
+                ErrorLog.Report(ex);
                 return null;
             }
         }

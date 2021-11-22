@@ -35,7 +35,7 @@ namespace youtube_dl_gui {
                         // do nothing
                     }
                     catch (Exception ex) {
-                        ErrorLog.ReportException(ex);
+                        ErrorLog.Report(ex);
                     }
                 }) {
                     Name = "Checks for updates",

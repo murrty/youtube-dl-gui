@@ -37,12 +37,7 @@ namespace youtube_dl_gui {
                     File.Delete(Environment.CurrentDirectory + "\\youtube-dl-gui.old.exe");
                 }
 
-                if (File.Exists(Ini.Path) && Ini.KeyExists("useIni") && Ini.ReadBool("useIni")) {
-                    UseIni = true;
-                }
-                else {
-                    UseIni = false;
-                }
+                UseIni = File.Exists(Ini.Path) && Ini.KeyExists("useIni") && Ini.ReadBool("useIni");
 
                 Config.Settings = new Config();
                 Config.Settings.Load(ConfigType.Initialization);

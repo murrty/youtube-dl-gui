@@ -7,6 +7,8 @@ namespace youtube_dl_gui {
     public partial class frmException : Form {
         public Exception ReportedException = null;
         public WebException ReportedWebException = null;
+        public DecimalParsingException ReportedDecimalParsingException = null;
+        public ApiParsingException ReportedApiParsingException = null;
         public string WebAddress = string.Empty;
         public int WebErrorCode = -1;
         public bool SetCustomDescription = false;
@@ -69,38 +71,70 @@ namespace youtube_dl_gui {
                 Exception += "Target Site: " + ReportedException.TargetSite + "\n";
 
 
-                Exception += "Full report:\n" + ReportedException.ToString();
+                Exception += "\n========== FULL REPORT ==========\n" + ReportedException.ToString();
+                Exception += "========== END  REPORT ==========";
             }
             else if (ReportedWebException != null) {
                 Exception += "A web exception occured" + "\n";
+                Exception += "Web Address: " + WebAddress + "\n";
                 Exception += "Message: " + ReportedWebException.Message + "\n";
                 Exception += "Stacktrace: " + ReportedWebException.StackTrace + "\n";
                 Exception += "Source: " + ReportedWebException.Source + "\n";
                 Exception += "Target Site: " + ReportedWebException.TargetSite + "\n";
                 Exception += "Inner Exception: " + ReportedWebException.InnerException + "\n";
                 Exception += "Response: " + ReportedWebException.Response + "\n";
-                Exception += "Web Address: " + WebAddress + "\n";
 
 
-                Exception += "Full report:\n" + ReportedWebException.ToString();
+                Exception += "\n========== FULL REPORT ==========\n" + ReportedWebException.ToString();
+                Exception += "========== END  REPORT ==========";
             }
-            else if (CustomDescription != null) {
-                rtbExceptionDetails.Text = CustomDescription;
+            else if (ReportedDecimalParsingException != null) {
+                Exception += "A decimal parsing exception occured" + "\n";
+                if (ReportedDecimalParsingException.ExtraInfo != null) {
+                    Exception += "Extra information will now be posted before stacktraces, and etc.";
+                    Exception += "\n========== EXTRA INFO ==========\n";
+                    Exception += ReportedDecimalParsingException.ExtraInfo;
+                    Exception += "\n========== EXTRA  END ==========";
+                }
+
+                Exception += "Message: " + ReportedDecimalParsingException.Message + "\n";
+                Exception += "Stacktrace: " + ReportedDecimalParsingException.StackTrace + "\n";
+                Exception += "Source: " + ReportedDecimalParsingException.Source + "\n";
+                Exception += "Target Site: " + ReportedDecimalParsingException.TargetSite + "\n";
+
+
+                Exception += "\n========== FULL REPORT ==========\n" + ReportedDecimalParsingException.ToString();
+                Exception += "========== END  REPORT ==========";
+
+            }
+            else if (ReportedApiParsingException != null) {
+                Exception += "A API parsing exception occured" + "\n";
+                if (ReportedApiParsingException.ExtraInfo != null) {
+                    Exception += "Extra information will now be posted before stacktraces, and etc.";
+                    Exception += "\n========== EXTRA INFO ==========\n";
+                    Exception += "\n========== EXTRA  END ==========";
+                }
+
+                Exception += "API URL: " + ReportedApiParsingException.ApiUrl + "\n";
+                Exception += "Message: " + ReportedApiParsingException.Message + "\n";
+                Exception += "Stacktrace: " + ReportedApiParsingException.StackTrace + "\n";
+                Exception += "Source: " + ReportedApiParsingException.Source + "\n";
+                Exception += "Target Site: " + ReportedApiParsingException.TargetSite + "\n";
+
+
+                Exception += "\n========== FULL REPORT ==========\n" + ReportedApiParsingException.ToString();
+                Exception += "========== END  REPORT ==========";
             }
             else {
-                Exception = "An exception occured, but it didn't parse properly.\nCreate a new issue and tell me how you got here.";
+                Exception = "An unhandled exception has occured. Please let me know how you got here.";
             }
 
-            string outputBuffer = "\n\nVersion: {0}\n" + Exception;
-            if (Properties.Settings.Default.IsBetaVersion) {
-                outputBuffer = string.Format(outputBuffer, Properties.Settings.Default.BetaVersion);
-                lbVersion.Text = "v" + Properties.Settings.Default.BetaVersion;
-            }
-            else {
-                outputBuffer = string.Format(outputBuffer, Properties.Settings.Default.CurrentVersion.ToString());
-                lbVersion.Text = "v" + Properties.Settings.Default.CurrentVersion.ToString();
-            }
-            rtbExceptionDetails.Text += outputBuffer;
+            rtbExceptionDetails.Text = CustomDescription ?? Exception;
+
+            lbVersion.Text = Properties.Settings.Default.IsBetaVersion?
+                "v" + Properties.Settings.Default.BetaVersion :
+                "v" + Properties.Settings.Default.CurrentVersion.ToString();
+
             System.Media.SystemSounds.Hand.Play();
         }
 
@@ -110,7 +144,7 @@ namespace youtube_dl_gui {
         }
 
         private void btnGithub_Click(object sender, EventArgs e) {
-            System.Diagnostics.Process.Start(GitData.Instance.GithubIssuesLink);
+            System.Diagnostics.Process.Start(UpdateChecker.GitInfo.GithubIssuesLink);
         }
 
     }
