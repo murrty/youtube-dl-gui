@@ -979,7 +979,7 @@ namespace youtube_dl_gui {
             using (OpenFileDialog ofd = new OpenFileDialog()) {
                 ofd.Title = "Browse for file to convert";
                 ofd.AutoUpgradeEnabled = true;
-                string filter = Convert.getCustomExtensions() + Convert.allVideoFormats + "|" + Convert.allAudioFormats + "|" + Convert.allMediaFormats + "|" + Convert.allFormatsFilter;
+                string filter = Convert.GetCustomExtensions() + Convert.allVideoFormats + "|" + Convert.allAudioFormats + "|" + Convert.allMediaFormats + "|" + Convert.allFormatsFilter;
 
                 ofd.Filter = filter;
                 ofd.FilterIndex = 4;
@@ -1030,7 +1030,7 @@ namespace youtube_dl_gui {
                 sfd.Title = "Save ouput to...";
                 sfd.FileName = System.IO.Path.GetFileNameWithoutExtension(txtConvertInput.Text);
                 if (rbConvertVideo.Checked) {
-                    string filter = Convert.getCustomExtensions() + Convert.videoFormatsFilter;
+                    string filter = Convert.GetCustomExtensions() + Convert.videoFormatsFilter;
                     sfd.Filter = filter;
                     if (Config.Settings.Saved.UseStaticYtdl > -1 && Config.Settings.Converts.detectFiletype)
                         sfd.FilterIndex = Config.Settings.Saved.UseStaticYtdl;
@@ -1038,7 +1038,7 @@ namespace youtube_dl_gui {
                         sfd.FilterIndex = 7;
                 }
                 else if (rbConvertAudio.Checked) {
-                    string filter = Convert.getCustomExtensions() +  Convert.audioFormatsFilter;
+                    string filter = Convert.GetCustomExtensions() +  Convert.audioFormatsFilter;
                     if (Config.Settings.General.extensionsShort.Length > 0) {
                         List<string> ext = new List<string>(Config.Settings.General.extensionsShort.Split('|'));
                         List<string> name = new List<string>(Config.Settings.General.extensionsName.Split('|'));
@@ -1054,7 +1054,7 @@ namespace youtube_dl_gui {
                         sfd.FilterIndex = 7;
                 }
                 else {
-                    sfd.Filter = Convert.getCustomExtensions() + Convert.allVideoFormats + "|" + Convert.allAudioFormats + "|" + Convert.allMediaFormats + "|" + Convert.allFormatsFilter;
+                    sfd.Filter = Convert.GetCustomExtensions() + Convert.allVideoFormats + "|" + Convert.allAudioFormats + "|" + Convert.allMediaFormats + "|" + Convert.allFormatsFilter;
                 }
                 if (sfd.ShowDialog() == DialogResult.OK) {
                     txtConvertOutput.Text = sfd.FileName;

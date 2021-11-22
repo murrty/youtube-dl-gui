@@ -582,5 +582,4 @@ namespace youtube_dl_gui {
         }
     }
 
-
 }

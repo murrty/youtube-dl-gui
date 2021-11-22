@@ -9,16 +9,16 @@
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="LastDebugDate" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">2021-08-20</Value>
+      <Value Profile="(Default)">2021-11-22</Value>
     </Setting>
     <Setting Name="SkippedVersion" Type="System.Decimal" Scope="User">
       <Value Profile="(Default)">-1</Value>
     </Setting>
     <Setting Name="IsBetaVersion" Type="System.Boolean" Scope="Application">
-      <Value Profile="(Default)">False</Value>
+      <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="BetaVersion" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">0</Value>
+      <Value Profile="(Default)">2.27pre1</Value>
     </Setting>
     <Setting Name="SkippedBetaVersion" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
