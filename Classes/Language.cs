@@ -8,1671 +8,382 @@ namespace youtube_dl_gui {
     public class Language {
 
         public Language() {
-            //ResetControlNames();
+            // ResetControlNames(); ???
         }
 
-        #region Variables
+        #region GetSetRadio (AKA Properties)
         #region Language identifier
-        // Language identifier
-        private static volatile string LoadedFileString = null;
-        private static volatile string CurrentLanguageLongString = "CurrentLanguageLong";
-        private static volatile string CurrentLanguageShortString = "CurrentLanguageShort";
-        private static volatile string CurrentLanguageHintString = "CurrentLanguageHint";
-        private static volatile string CurrentLanguageVersionString = "1";
+        public string CurrentLanguageShort { get; private set; }
+        public string CurrentLanguageLong { get; private set; }
+        public string CurrentLanguageHint { get; private set; }
+        public string CurrentLanguageVersion { get; private set; }
         #endregion
 
         #region Generics
-        private static volatile string GenericInputBestString = "GenericInputBest";
-        private static volatile string GenericCancelString = "GenericCancel";
-        private static volatile string GenericSkipString = "GenericSkip";
-        private static volatile string GenericSoundString = "GenericSound";
-        private static volatile string GenericVideoString = "GenericVideo";
-        private static volatile string GenericAudioString = "GenericAudio";
-        private static volatile string GenericCustomString = "GenericCustom";
-        private static volatile string GenericRetryString = "GenericRetry";
+        public string GenericInputBest { get; private set; }
+        public string GenericCancel { get; private set; }
+        public string GenericSkip { get; private set; }
+        public string GenericSound { get; private set; }
+        public string GenericVideo { get; private set; }
+        public string GenericAudio { get; private set; }
+        public string GenericCustom { get; private set; }
+        public string GenericRetry { get; private set; }
+        public string GenericExit { get; private set; }
         #endregion
 
         #region frmAbout
-        private static volatile string frmAboutString = "frmAbout";
-        private static volatile string lbAboutBodyString = "lbAboutBody";
-        private static volatile string llbCheckForUpdatesString = "llbCheckForUpdates";
+        public string frmAbout { get; private set; }
+        public string lbAboutBody { get; private set; }
+        public string llbCheckForUpdates { get; private set; }
         #endregion
 
         #region frmAuthentication
-        private static volatile string frmAuthenticationString = "frmAuthentication";
-
-        private static volatile string lbAuthNoticeString = "lbAuthNotice";
-
-        private static volatile string lbAuthUsernameString = "lbAuthUsername";
-        private static volatile string lbAuthPasswordString = "lbAuthPassword";
-        private static volatile string lbAuth2FactorString = "lbAuth2Factor";
-        private static volatile string lbAuthVideoPasswordString = "lbAuthVideoPassword";
-        private static volatile string chkAuthUseNetrcString = "chkAuthUseNetrc";
-
-        private static volatile string lbAuthNoSaveString = "lbAuthNoSave";
-
-        private static volatile string btnAuthBeginDownloadString = "btnAuthBeginDownload";
-        #endregion
-
-        #region frmBatchDownload
-        private static volatile string frmBatchDownloadString = "frmBatchDownload";
-        private static volatile string lbBatchDownloadLinkString = "lbBatchDownloadLink";
-        private static volatile string lbBatchDownloadTypeString = "lbBatchDownloadType";
-        private static volatile string lbBatchDownloadVideoSpecificArgumentString = "lbBatchDownloadVideoSpecificArgument";
-        private static volatile string btnBatchDownloadAddString = "btnBatchDownloadAdd";
-        private static volatile string sbBatchDownloadLoadArgsString = "sbBatchDownloadLoadArgs";
-        private static volatile string mBatchDownloaderLoadArgsFromSettingsString = "mBatchDownloaderLoadArgsFromSettings";
-        private static volatile string mBatchDownloaderLoadArgsFromArgsTxtString = "mBatchDownloaderLoadArgsFromArgsTxt";
-        private static volatile string mBatchDownloaderLoadArgsFromFileString = "mBatchDownloaderLoadArgsFromFile";
-        private static volatile string btnBatchDownloadRemoveSelectedString = "btnBatchDownloadRemoveSelected";
-        private static volatile string btnBatchDownloadStartString = "btnBatchDownloadStart";
-        private static volatile string btnBatchDownloadStopString = "btnBatchDownloadStop";
-        private static volatile string btnBatchDownloadExitString = "btnBatchDownloadExit";
-        private static volatile string sbBatchDownloaderIdleString = "sbBatchDownloaderIdle";
-        private static volatile string sbBatchDownloaderDownloadingString = "sbBatchDownloaderDownloading";
-        private static volatile string sbBatchDownloaderFinishedString = "sbBatchDownloaderFinished";
-        private static volatile string sbBatchDownloaderAbortedString = "sbBatchDownloaderAborted";
-        #endregion
-
-        #region frmDownloader
-        private static volatile string frmDownloaderString = "frmDownloader";
-        private static volatile string frmDownloaderCompleteString = "frmDownloaderComplete";
-        private static volatile string frmDownloaderErrorString = "frmDownloaderError";
-        private static volatile string chkDownloaderCloseAfterDownloadString = "chkDownloaderCloseAfterDownload";
-        private static volatile string btnDownloaderAbortBatchString = "btnDownloaderAbortBatch";
-        private static volatile string btnDownloaderExitString = "btnDownloaderExit";
-        #endregion
-
-        #region frmException
-        // frmException
-        private static volatile string frmExceptionString = "frmException";
-        private static volatile string lbExceptionHeaderString = "lbExceptionHeader";
-        private static volatile string lbExceptionDescriptionString = "lbExceptionDescription";
-        private static volatile string rtbExceptionDetailsString = "rtbExceptionDetails";
-        private static volatile string btnExceptionGithubString = "btnExceptionGithub";
-        private static volatile string btnExceptionOkString = "btnExceptionOk";
-        #endregion
-
-        #region frmMain
-        // frmMain / menu
-        private static volatile string mSettingsString = "mSettings";
-        private static volatile string mToolsString = "mTools";
-        private static volatile string mBatchDownloadString = "mBatchDownload";
-        private static volatile string mDownloadSubtitlesString = "mDownloadSubtitles";
-        private static volatile string mMiscToolsString = "mMiscTools";
-        private static volatile string mHelpString = "mHelp";
-        private static volatile string mLanguageString = "mLanguage";
-        private static volatile string mSupportedSitesString = "mSupportedSites";
-        private static volatile string mAboutString = "mAbout";
-        // frmMain /  tcMain
-        private static volatile string tabDownloadString = "tabDownload";
-        private static volatile string tabConvertString = "tabConvert";
-        private static volatile string tabMergeString = "tabMerge";
-        // frmMain / tcMain / Download (16 total)
-        private static volatile string lbURLString = "lbURL";
-        private static volatile string txtUrlHintString = "txtUrlHint";
-        private static volatile string gbDownloadTypeString = "gbDownloadType";
-        private static volatile string lbQualityString = "lbQuality";
-        private static volatile string lbFormatString = "lbFormat";
-        private static volatile string chkDownloadSoundString = "chkDownloadSound";
-        private static volatile string chkUseSelectionString = "chkUseSelection";
-        private static volatile string rbVideoSelectionPlaylistIndexString = "rbVideoSelectionPlaylistIndex";
-        private static volatile string rbVideoSelectionPlaylistItemsString = "rbVideoSelectionPlaylistItems";
-        private static volatile string rbVideoSelectionBeforeDateString = "rbVideoSelectionBeforeDate";
-        private static volatile string rbVideoSelectionOnDateString = "rbVideoSelectionOnDate";
-        private static volatile string rbVideoSelectionAfterDateString = "rbVideoSelectionAfterDate";
-        private static volatile string txtPlaylistStartHintString = "txtPlaylistStartHint";
-        private static volatile string txtPlaylistEndHintString = "txtPlaylistEndHint";
-        private static volatile string txtPlaylistItemsHintString = "txtPlaylistItemsHint";
-        private static volatile string txtVideoDateHintString = "txtVideoDateHint";
-        private static volatile string lbCustomArgumentsString = "lbCustomArguments";
-        private static volatile string txtArgsHintString = "txtArgsHint";
-        private static volatile string sbDownloadString = "sbDownload";
-        private static volatile string mDownloadWithAuthenticationString = "mDownloadWithAuthentication";
-        private static volatile string mBatchDownloadFromFileString = "mBatchDownloadFromFile";
-        private static volatile string msgBatchDownloadFromFileString = "msgBatchDownloadFromFile";
-        private static volatile string lbDownloadStatusStartedString = "lbDownloadStatusStarted";
-        private static volatile string lbDownloadStatusErrorString = "lbDownloadStatusError";
-        // frmMain / tcMain / Convert (10 total)
-        private static volatile string lbConvertInputString = "lbConvertInput";
-        private static volatile string lbConvertOutputString = "lbConvertOutput";
-        private static volatile string rbConvertAutoString = "rbConvertAutomatic";
-        private static volatile string rbConvertAutoFFmpegString = "rbConvertAutoFFmpeg";
-        private static volatile string btnConvertString = "btnConvert";
-        private static volatile string lbConvertStartedString = "lbConvertStarted";
-        private static volatile string lbConvertFailedString = "lbConvertFailed";
-        // frmMain / tcMain / Merge (6 total)
-        private static volatile string lbMergeInput1String = "lbMergeInput1";
-        private static volatile string lbMergeInput2String = "lbMergeInput2";
-        private static volatile string lbMergeOutputString = "lbMergeoutput";
-        private static volatile string chkMergeAudioTracksString = "chkMergeAudioTracks";
-        private static volatile string chkMergeDeleteInputFilesString = "chkMergeDeleteInputFiles";
-        private static volatile string btnMergeString = "btnMerge";
-        // frmMain / tcMain / cmTray (17 total)
-        private static volatile string cmTrayShowFormString = "cmTrayShowForm";
-        private static volatile string cmTrayDownloaderString = "cmTrayDownloader";
-        private static volatile string cmTrayDownloadClipboardString = "cmTrayDownloadClipboard";
-        private static volatile string cmTrayDownloadBestVideoString = "cmTrayDownloadBestVideo";
-        private static volatile string cmTrayDownloadBestAudioString = "cmTrayDownloadBestAudio";
-        private static volatile string cmTrayDownloadCustomString = "cmTrayDownloadCustom";
-        private static volatile string cmTrayDownloadCustomTxtBoxString = "cmTrayDownloadCustomTxtBox";
-        private static volatile string cmTrayDownloadCustomTxtString = "cmTrayDownloadCustomTxt";
-        private static volatile string cmTrayDownloadCustomSettingsString = "cmTrayDownloadCustomSettings";
-        private static volatile string cmTrayConverterString = "cmTrayConverter";
-        private static volatile string cmTrayConvertToString = "cmTrayConvertTo";
-        private static volatile string cmTrayConvertVideoString = "cmTrayConvertVideo";
-        private static volatile string cmTrayConvertAudioString = "cmTrayConvertAudio";
-        private static volatile string cmTrayConvertCustomString = "cmTrayConvertCustom";
-        private static volatile string cmTrayConvertAutomaticString = "cmTrayConvertAutomatic";
-        private static volatile string cmTrayConvertAutoFFmpegString = "cmTrayConvertAutoFFmpeg";
-        private static volatile string cmTrayExitString = "cmTrayExit";
-        #endregion
-
-        #region frmLanguage
-        private static volatile string frmLanguageString = "frmLanguage";
-        private static volatile string btnLanguageRefreshString = "btnLanguageRefresh";
-        private static volatile string btnLanguageCancelString = "btnLanguageCancel";
-        private static volatile string btnLanguageSaveString = "btnLanguageSave";
-        #endregion
-
-        #region frmSettings
-
-        #region frmSettings form
-        // frmSettings
-        private static volatile string frmSettingsString = "frmSettings";
-        private static volatile string btnSettingsRedownloadYoutubeDlString = "btnSettingsRedownloadYoutubeDl";
-        private static volatile string btnSettingsSaveString = "btnSettingsSave";
-        // frmSettings / tcMain
-        private static volatile string tabSettingsGeneralString = "tabSettingsGeneral";
-        private static volatile string tabSettingsDownloadsString = "tabSettingsDownloads";
-        private static volatile string tabSettingsConverterString = "tabSettingsConverter";
-        private static volatile string tabSettingsExtensionsString = "tabSettingsExtensions";
-        private static volatile string tabSettingsErrorsString = "tabSettingsErrors";
-        #region tabGeneral
-        // frmSettings / tcMain / tabGeneral
-        private static volatile string lbSettingsGeneralYoutubeDlPathString = "lbSettingsGeneralYoutubeDlPath";
-        private static volatile string chkSettingsGeneralUseStaticYoutubeDlString = "chkSettingsGeneralUseStaticYoutubeDl";
-        private static volatile string ofdTitleYoutubeDlString = "ofdTitleYoutubeDl";
-        private static volatile string ofdFilterYoutubeDlString = "ofdFilterYoutubeDl";
-        private static volatile string lbSettingsGeneralFFmpegDirectoryString = "lbSettingsGeneralFFmpegDirectory";
-        private static volatile string chkSettingsGeneralUseStaticFFmpegString = "chkSettingsGeneralUseStaticFFmpeg";
-        private static volatile string ofdTitleFFmpegString = "ofdTitleFFmpeg";
-        private static volatile string ofdFilterFFmpegString = "ofdFilterFFmpeg";
-        private static volatile string chkSettingsGeneralCheckForUpdatesOnLaunchString = "chkSettingsGeneralCheckForUpdatesOnLaunch";
-        private static volatile string chkSettingsGeneralCheckForBetaUpdatesString = "chkSettingsGeneralCheckForBetaUpdates";
-        private static volatile string chkSettingsGeneralHoverOverUrlToPasteClipboardString = "chkSettingsGeneralHoverOverUrlToPasteClipboard";
-        private static volatile string chkSettingsGeneralClearUrlOnDownloadString = "chkSettingsGeneralClearUrlOnDownload";
-        private static volatile string chkSettingsGeneralClearClipboardOnDownloadString = "chkSettingsGeneralClearClipboardOnDownload";
-        private static volatile string gbSettingsGeneralCustomArgumentsString = "gbSettingsGeneralCustomArguments";
-        private static volatile string rbSettingsGeneralCustomArgumentsDontSaveString = "rbSettingsGeneralCustomArgumentsDontSave";
-        private static volatile string rbSettingsGeneralCustomArgumentsSaveAsArgsTextString = "rbSettingsGeneralCustomArgumentsSaveAsArgsText";
-        private static volatile string rbSettingsGeneralCustomArgumentsSaveInSettingsString = "rbSettingsGeneralCustomArgumentsSaveInSettings";
-        #endregion
-        #region tabDownloads
-        // frmSettings / tcMain / tabDownloads
-        private static volatile string lbSettingsDownloadsDownloadPathString = "lbSettingsDownloadsDownloadPath";
-        private static volatile string lbSettingsDownloadsFileNameSchemaString = "lbSettingsDownloadsFileNameSchema";
-        private static volatile string tabDownloadsGeneralString = "tabDownloadsGeneral";
-        private static volatile string tabDownloadsSortingString = "tabDownloadsSorting";
-        private static volatile string tabDownloadsFixesString = "tabsDownloadsFixes";
-        private static volatile string tabDownloadsConnectionString = "tabsDownloadsConnection";
-        private static volatile string tabDownloadsUpdatingString = "tabDownloadsUpdating";
-        private static volatile string chkSettingsDownloadsSaveFormatQualityString = "chkSettingsDownloadsSaveFormatQuality";
-        private static volatile string chkSettingsDownloadsDownloadSubtitlesString = "chkSettingsDownloadsDownloadSubtitles";
-        private static volatile string chkSettingsDownloadsEmbedSubtitlesString = "chkSettingsDownloadsEmbedSubtitles";
-        private static volatile string chkSettingsDownloadsSaveVideoInfoString = "chkSettingsDownloadsSaveVideoInfo";
-        private static volatile string chkSettingsDownloadsWriteMetadataToFileString = "chkSettingsDownloadsWriteMetadataToFile";
-        private static volatile string chkSettingsDownloadsSaveDescriptionString = "chkSettingsDownloadsSaveDescription";
-        private static volatile string chkSettingsDownloadsKeepOriginalFilesString = "chkSettingsDownloadsKeepOriginalFiles";
-        private static volatile string chkSettingsDownloadsSaveAnnotationsString = "chkSettingsDownloadsSaveAnnotations";
-        private static volatile string chkSettingsDownloadsSaveThumbnailsString = "chkSettingsDownloadsSaveThumbnails";
-        private static volatile string chkSettingsDownloadsEmbedThumbnailsString = "chkSettingsDownloadsEmbedThumbnails";
-        private static volatile string chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosingString = "chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing";
-        private static volatile string chkSettingsDownloadsSeparateDownloadsToDifferentFoldersString = "chkSettingsDownloadsSeparateDownloadsToDifferentFolders";
-        private static volatile string chkSettingsDownloadsSeparateIntoWebsiteUrlString = "chkSettingsDownloadsSeparateIntoWebsiteUrl";
-        private static volatile string chkSettingsDownloadsFixVReddItString = "chkSettingsDownloadsFixVReddIt";
-        private static volatile string chkSettingsDownloadsPreferFFmpegString = "chkSettingsDownloadsPreferFFmpeg";
-        private static volatile string chkSettingsDownloadsLimitDownloadString = "chkSettingsDownloadsLimitDownload";
-        private static volatile string lbSettingsDownloadsRetryAttemptsString = "lbSettingsDownloadsRetryAttempts";
-        private static volatile string chkSettingsDownloadsForceIpv4String = "chkSettingsDownloadsForceIpv4";
-        private static volatile string chkSettingsDownloadsForceIpv6String = "chkSettingsDownloadsForceIpv6";
-        private static volatile string chkSettingsDownloadsUseProxyString = "chkSettingsDownloadsUseProxy";
-        private static volatile string chksettingsDownloadsUseYoutubeDlsUpdaterString = "chksettingsDownloadsUseYoutubeDlsUpdater";
-        private static volatile string lbSettingsDownloadsUpdatingYtdlTypeString = "lbSettingsDownloadsUpdatingYtdlType";
-        private static volatile string cbSettingsDownloadsUpdatingYtdlTypeHintString = "cbSettingsDownloadsUpdatingYtdlTypeHint";
-        private static volatile string llbSettingsDownloadsYtdlTypeViewRepoString = "llbSettingsDownloadsYtdlTypeViewRepo";
-        private static volatile string llbSettingsDownloadsYtdlTypeViewRepoHintString = "llbSettingsDownloadsYtdlTypeViewRepoHint";
-        private static volatile string chkSettingsDownloadsSeparateBatchDownloadsString = "chkSettingsDownloadsSeparateBatchDownloads";
-        private static volatile string chkSettingsDownloadsAddDateToBatchDownloadFoldersString = "chkSettingsDownloadsAddDateToBatchDownloadFolders";
-        #endregion
-        #region tabConverter
-        // frmSettings / tcMain / tabConverter
-        private static volatile string chkSettingsConverterClearOutputAfterConvertingString = "chkSettingsConverterClearOutputAfterConverting";
-        private static volatile string chkSettingsConverterDetectOutputFileTypeString = "chkSettingsConverterDetectOutputFileType";
-        private static volatile string chkSettingsConverterClearInputAfterConvertingString = "chkSettingsConverterClearInputAfterConverting";
-        private static volatile string chkSettingsConverterHideFFmpegCompileInfoString = "chkSettingsConverterHideFFmpegCompileInfo";
-        private static volatile string tcSettingsConverterVideoString = "tcSettingsConverterVideo";
-        private static volatile string tcSettingsConverterAudioString = "tcSettingsConverterAudio";
-        private static volatile string tcSettingsConverterCustomString = "tcSettingsConverterCustom";
-        private static volatile string lbSettingsConverterVideoBitrateString = "lbSettingsConverterVideoBitrate";
-        private static volatile string lbSettingsConverterVideoPresetString = "lbSettingsConverterVideoPreset";
-        private static volatile string lbSettingsConverterVideoProfileString = "lbSettingsConverterVideoProfile";
-        private static volatile string lbSettingsConverterVideoCRFString = "lbSettingsConverterVideoCRF";
-        private static volatile string chkSettingsConverterVideoFastStartString = "chkSettingsConverterVideoFastStart";
-        private static volatile string lbSettingsConverterAudioBitrateString = "lbSettingsConverterAudioBitrate";
-        private static volatile string lbSettingsConverterCustomHeaderString = "lbSettingsConverterCustomHeader";
-        #endregion
-        #region tabExtensions
-        // frmSettings / tcMain / tabExtensions
-        private static volatile string lbSettingsExtensionsHeaderString = "lbSettingsExtensionsHeader";
-        private static volatile string lbSettingsExtensionsExtensionFullNameString = "lbSettingsExtensionsExtensionFullName";
-        private static volatile string txtSettingsExtensionsExtensionFullNameString = "txtSettingsExtensionsExtensionFullName";
-        private static volatile string lbSettingsExtensionsExtensionShortString = "lbSettingsExtensionsExtensionShort";
-        private static volatile string txtSettingsExtensionsExtensionShortString = "txtSettingsExtensionsExtensionShort";
-        private static volatile string btnSettingsExtensionsAddString = "btnSettingsExtensionsAdd";
-        private static volatile string lbSettingsExtensionsFileNameString = "lbSettingsExtensionsFileName";
-        private static volatile string btnSettingsExtensionsRemoveSelectedString = "btnSettingsExtensionsRemoveSelected";
-        #endregion
-        #region tabErrors
-        // frmSettings / tcMain / tabErrors
-        private static volatile string chkSettingsErrorsShowDetailedErrorsString = "chkSettingsErrorsShowDetailedErrors";
-        private static volatile string chkSettingsErrorsSaveErrorsAsErrorLogString = "chkSettingsErrorsSaveErrorsAsErrorLog";
-        private static volatile string chkSettingsErrorsSuppressErrorsString = "chkSettingsErrorsSuppressErrors";
-        #endregion
-        #region tabSettingsPortable
-        private static volatile string tabSettingsPortableString = "tabSettingsPortable";
-        private static volatile string lbSettingsPortableInformationString = "lbPortableInformation";
-        private static volatile string chkSettingsPortableToggleIniString = "chkPortableEnableIni";
-        #endregion
-        #endregion
-
-        #region tipSettings
-        // frmSettings / tipSettings
-        private static volatile string btnSettingsRedownloadYoutubeDlHintString = "btnSettingsRedownloadYoutubeDlHint";
-        private static volatile string btnSettingsCancelHintString = "btnSettingsCancelHint";
-        private static volatile string btnSettingsSaveHintString = "btnSettingsSaveHint";
-
-        #region tabGeneral
-        private static volatile string lbSettingsGeneralYoutubeDlPathHintString = "lbSettingsGeneralYoutubeDlPathHint";
-        private static volatile string chkSettingsGeneralUseStaticYoutubeDlHintString = "chkSettingsGeneralUseStaticYoutubeDlHint";
-        private static volatile string txtSettingsGeneralYoutubeDlPathHintString = "txtSettingsGeneralYoutubeDlPathHint";
-        private static volatile string btnSettingsGeneralBrowseYoutubeDlHintString = "btnSettingsGeneralBrowseYoutubeDlHint";
-        private static volatile string lbSettingsGeneralFFmpegDirectoryHintString = "lbSettingsGeneralFFmpegDirectoryHint";
-        private static volatile string chkSettingsGeneralUseStaticFFmpegHintString = "chkSettingsGeneralUseStaticFFmpegHint";
-        private static volatile string txtSettingsGeneralFFmpegPathHintString = "txtSettingsGeneralFFmpegPathHint";
-        private static volatile string btnSettingsGeneralBrowseFFmpegHintString = "btnSettingsGeneralBrowseFFmpegHint";
-        private static volatile string chkSettingsGeneralCheckForUpdatesOnLaunchHintString = "chkSettingsGeneralCheckForUpdatesOnLaunchHint";
-        private static volatile string chkSettingsGeneralCheckForBetaUpdatesHintString = "chkSettingsGeneralCheckForBetaUpdatesHint";
-        private static volatile string chkSettingsGeneralHoverOverUrlToPasteClipboardHintString = "chkSettingsGeneralHoverOverUrlToPasteClipboardHint";
-        private static volatile string chkSettingsGeneralClearUrlOnDownloadHintString = "chkSettingsGeneralClearUrlOnDownloadHint";
-        private static volatile string chkSettingsGeneralClearClipboardOnDownloadHintString = "chkSettingsGeneralClearClipboardOnDownloadHint";
-        private static volatile string gbSettingsGeneralCustomArgumentsHintString = "gbSettingsGeneralCustomArgumentsHint";
-        private static volatile string rbSettingsGeneralCustomArgumentsDontSaveHintString = "rbSettingsGeneralCustomArgumentsDontSaveHint";
-        private static volatile string rbSettingsGeneralCustomArgumentsSaveAsArgsTextHintString = "rbSettingsGeneralCustomArgumentsSaveAsArgsTextHint";
-        private static volatile string rbSettingsGeneralCustomArgumentsSaveInSettingsHintString = "rbSettingsGeneralCustomArgumentsSaveInSettingsHint";
-        #endregion
-        #region tabDownloads
-        private static volatile string lbSettingsDownloadsDownloadPathHintString = "lbSettingsDownloadsDownloadPathHint";
-        private static volatile string chkSettingsDownloadsDownloadPathUseRelativePathHintString = "chkSettingsDownloadsDownloadPathUseRelativePathHint";
-        private static volatile string txtSettingsDownloadsSavePathHintString = "txtSettingsDownloadsSavePathHint";
-        private static volatile string btnSettingsDownloadsBrowseSavePathHintString = "btnSettingsDownloadsBrowseSavePathHint";
-        private static volatile string llSettingsDownloadsSchemaHelpHintString = "llSettingsDownloadsSchemaHelpHint";
-        private static volatile string lbSettingsDownloadsFileNameSchemaHintString = "lbSettingsDownloadsFileNameSchemaHint";
-        private static volatile string txtSettingsDownloadsFileNameSchemaHintString = "txtSettingsDownloadsFileNameSchemaHint";
-
-
-        private static volatile string chkSettingsDownloadsSaveFormatQualityHintString = "chkSettingsDownloadsSaveFormatQualityHint";
-        private static volatile string chkSettingsDownloadsDownloadSubtitlesHintString = "chkSettingsDownloadsDownloadSubtitlesHint";
-        private static volatile string chkSettingsDownloadsEmbedSubtitlesHintString = "chkSettingsDownloadsEmbedSubtitlesHint";
-        private static volatile string chkSettingsDownloadsSaveVideoInfoHintString = "chkSettingsDownloadsSaveVideoInfoHint";
-        private static volatile string chkSettingsDownloadsWriteMetadataToFileHintString = "chkSettingsDownloadsWriteMetadataToFileHint";
-        private static volatile string chkSettingsDownloadsSaveDescriptionHintString = "chkSettingsDownloadsSaveDescriptionHint";
-        private static volatile string chkSettingsDownloadsKeepOriginalFilesHintString = "chkSettingsDownloadsKeepOriginalFilesHint";
-        private static volatile string chkSettingsDownloadsSaveAnnotationsHintString = "chkSettingsDownloadsSaveAnnotationsHint";
-        private static volatile string chkSettingsDownloadsSaveThumbnailsHintString = "chkSettingsDownloadsSaveThumbnailsHint";
-        private static volatile string chkSettingsDownloadsEmbedThumbnailsHintString = "chkSettingsDownloadsEmbedThumbnails";
-        private static volatile string chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosingHintString = "chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosingHint";
-        private static volatile string chkSettingsDownloadsSeparateDownloadsToDifferentFoldersHintString = "chkSettingsDownloadsSeparateDownloadsToDifferentFoldersHint";
-        private static volatile string chkSettingsDownloadsSeparateIntoWebsiteUrlHintString = "chkSettingsDownloadsSeparateIntoWebsiteUrlHint";
-        private static volatile string chkSettingsDownloadsFixVReddItHintString = "chkSettingsDownloadsFixVReddItHint";
-        private static volatile string chkSettingsDownloadsPreferFFmpegHintString = "chkSettingsDownloadsPreferFFmpegHint";
-        private static volatile string chkSettingsDownloadsLimitDownloadHintString = "chkSettingsDownloadsLimitDownloadHint";
-        private static volatile string numSettingsDownloadsLimitDownloadHintString = "numSettingsDownloadsLimitDownloadHint";
-        private static volatile string cbSettingsDownloadsLimitDownloadHintString = "cbSettingsDownloadsDownloadLimitHint";
-        private static volatile string lbSettingsDownloadsRetryAttemptsHintString = "lbSettingsDownloadsRetryAttemptsHint";
-        private static volatile string numSettingsDownloadsRetryAttemptsHintString = "numSettingsDownloadsRetryAttemptsHint";
-        private static volatile string chkSettingsDownloadsForceIpv4HintString = "chkSettingsDownloadsForceIpv4Hint";
-        private static volatile string chkSettingsDownloadsForceIpv6HintString = "chkSettingsDownloadsForceIpv6Hint";
-        private static volatile string chkSettingsDownloadsUseProxyHintString = "chkSettingsDownloadsUseProxyHint";
-        private static volatile string cbSettingsDownloadsProxyTypeHintString = "cbSettingsDownloadsProxyTypeHint";
-        private static volatile string txtSettingsDownloadsProxyIpHintString = "txtSettingsDownloadsProxyIpHint";
-        private static volatile string txtSettingsDownloadsProxyPortHintString = "txtSettingsDownloadsProxyPortHint";
-        private static volatile string chksettingsDownloadsUseYoutubeDlsUpdaterHintString = "chksettingsDownloadsUseYoutubeDlsUpdaterHint";
-        private static volatile string chkSettingsDownloadsSeparateBatchDownloadsHintString = "chkSettingsDownloadsSeparateBatchDownloadsHint";
-        private static volatile string chkSettingsDownloadsAddDateToBatchDownloadFoldersHintString = "chkSettingsDownloadsAddDateToBatchDownloadFoldersHint";
-        #endregion
-        #region tabConverter
-        private static volatile string chkSettingsConverterClearOutputAfterConvertingHintString = "chkSettingsConverterClearOutputAfterConvertingHint";
-        private static volatile string chkSettingsConverterDetectOutputFileTypeHintString = "chkSettingsConverterDetectOutputFileTypeHint";
-        private static volatile string chkSettingsConverterClearInputAfterConvertingHintString = "chkSettingsConverterClearInputAfterConvertingHint";
-        private static volatile string chkSettingsConverterHideFFmpegCompileInfoHintString = "chkSettingsConverterHideFFmpegCompileInfoHint";
-        private static volatile string lbSettingsConverterVideoBitrateHintString = "lbSettingsConverterVideoBitrateHint";
-        private static volatile string lbSettingsConverterVideoPresetHintString = "lbSettingsConverterVideoPresetHint";
-        private static volatile string lbSettingsConverterVideoProfileHintString = "lbSettingsConverterVideoProfileHint";
-        private static volatile string lbSettingsConverterVideoCRFHintString = "lbSettingsConverterVideoCRFHint";
-        private static volatile string chkSettingsConverterVideoFastStartHintString = "chkSettingsConverterVideoFastStartHint";
-        private static volatile string lbSettingsConverterAudioBitrateHintString = "lbSettingsConverterAudioBitrateHint";
-        private static volatile string txtSettingsConverterCustomArgumentsHintString = "txtSettingsConverterCustomArgumentsHint";
-        #endregion
-        #region tabExtension
-
-        #endregion
-        #region tabErrors
-        private static volatile string chkSettingsErrorsShowDetailedErrorsHintString = "chkSettingsErrorsShowDetailedErrorsHint";
-        private static volatile string chkSettingsErrorsSaveErrorsAsErrorLogHintString = "chkSettingsErrorsSaveErrorsAsErrorLogHint";
-        private static volatile string chkSettingsErrorsSuppressErrorsHintString = "chkSettingsErrorsSuppressErrorsHint";
-        #endregion
-
-        #endregion
-
-        #endregion
-
-        #region frmSubtitles
-        //frmSubtitles
-        private static volatile string frmSubtitlesString = "frmSubtitles";
-        private static volatile string lbSubtitlesHeaderString = "lbSubtitlesHeader";
-        private static volatile string lbSubtitlesUrlString = "lbSubtitlesUrl";
-        private static volatile string lbSubtitlesLanguagesString = "lbSubtitlesLanguages";
-        private static volatile string btnSubtitlesAddLanguageString = "btnSubtitlesAddLanguages";
-        private static volatile string btnSubtitlesClearLanguagesString = "btnSubtitlesClearLanguages";
-        private static volatile string btnSubtitlesDownloadString = "btnSubtitlesDownload";
-        #endregion
-
-        #region frmTools
-        // frmTools
-        private static volatile string frmToolsString = "frmTools";
-        private static volatile string btnMiscToolsRemoveAudioString = "btnMiscToolsRemoveAudio";
-        private static volatile string btnMiscToolsExtractAudioString = "btnExtractAudio";
-        private static volatile string btnMiscToolsVideoToGifString = "btnVideoToGif";
-        #endregion
-
-        #region frmUpdateAvailable
-        private static volatile string frmUpdateAvailableString = "frmUpdateAvailable";
-        private static volatile string lbUpdateAvailableHeaderString = "lbUpdateAvailableHeader";
-        private static volatile string lbUpdateAvailableUpdateVersionString = "lbUpdateAvailableUpdateVersion";
-        private static volatile string lbUpdateAvailableCurrentVersionString = "lbUpdateAvailableCurrentVersion";
-        private static volatile string lbUpdateAvailableChangelogString = "lbUpdateAvailableChangelog";
-        private static volatile string btnUpdateAvailableSkipVersionString = "btnUpdateAvailableSkipVersion";
-        private static volatile string btnUpdateAvailableUpdateString = "btnUpdateAvailableUpdate";
-        private static volatile string btnUpdateAvailableOkString = "btnUpdateAvailableOk";
-        #endregion
-        #endregion
-
-        #region GetSetRadio
-        #region Language identifier
-        public string CurrentLanguageShort {
-            get { return CurrentLanguageShortString; }
-            private set { CurrentLanguageShortString = value; }
-        }
-        public string CurrentLanguageLong {
-            get { return CurrentLanguageLongString; }
-            private set { CurrentLanguageLongString = value; }
-        }
-        public string CurrentLanguageHint {
-            get { return CurrentLanguageHintString; }
-            private set { CurrentLanguageHintString = value; }
-        }
-        public string CurrentLanguageVersion {
-            get { return CurrentLanguageVersionString; }
-            private set { CurrentLanguageVersionString = value; }
-        }
-        #endregion
-
-        #region Generics
-        public string GenericInputBest {
-            get { return GenericInputBestString; }
-            private set { GenericInputBestString = value; }
-        }
-        public string GenericCancel {
-            get { return GenericCancelString; }
-            private set { GenericCancelString = value; }
-        }
-        public string GenericSkip {
-            get { return GenericSkipString; }
-            private set { GenericSkipString = value; }
-        }
-        public string GenericSound {
-            get { return GenericSoundString; }
-            private set { GenericSoundString = value; }
-        }
-        public string GenericVideo {
-            get { return GenericVideoString; }
-            private set { GenericVideoString = value; }
-        }
-        public string GenericAudio {
-            get { return GenericAudioString; }
-            private set { GenericAudioString = value; }
-        }
-        public string GenericCustom {
-            get { return GenericCustomString; }
-            private set { GenericCustomString = value; }
-        }
-        public string GenericRetry {
-            get { return GenericRetryString; }
-            private set { GenericRetryString = value; }
-        }
-        #endregion
-
-        #region frmAbout
-        public string frmAbout {
-            get { return frmAboutString; }
-            private set { frmAboutString = value; }
-        }
-        public string lbAboutBody {
-            get { return lbAboutBodyString; }
-            private set { lbAboutBodyString = value; }
-        }
-        public string llbCheckForUpdates {
-            get { return llbCheckForUpdatesString; }
-            private set { llbCheckForUpdatesString = value; }
-        }
-        #endregion
-
-        #region frmAuthentication
-        public string frmAuthentication {
-            get { return frmAuthenticationString; }
-            private set { frmAuthenticationString = value; }
-        }
-        public string lbAuthNotice {
-            get { return lbAuthNoticeString; }
-            private set { lbAuthNoticeString = value; }
-        }
-        public string lbAuthUsername {
-            get { return lbAuthUsernameString; }
-            private set { lbAuthUsernameString = value; }
-        }
-        public string lbAuthPassword {
-            get { return lbAuthPasswordString; }
-            private set { lbAuthPasswordString = value; }
-        }
-        public string lbAuth2Factor {
-            get { return lbAuth2FactorString; }
-            private set { lbAuth2FactorString = value; }
-        }
-        public string lbAuthVideoPassword {
-            get { return lbAuthVideoPasswordString; }
-            private set { lbAuthVideoPasswordString = value; }
-        }
-        public string chkAuthUseNetrc {
-            get { return chkAuthUseNetrcString; }
-            private set { chkAuthUseNetrcString = value; }
-        }
-        public string lbAuthNoSave {
-            get { return lbAuthNoSaveString; }
-            private set { lbAuthNoSaveString = value; }
-        }
-        public string btnAuthBeginDownload {
-            get { return btnAuthBeginDownloadString; }
-            private set { btnAuthBeginDownloadString = value; }
-        }
+        public string frmAuthentication { get; private set; }
+        public string lbAuthNotice { get; private set; }
+        public string lbAuthUsername { get; private set; }
+        public string lbAuthPassword { get; private set; }
+        public string lbAuth2Factor { get; private set; }
+        public string lbAuthVideoPassword { get; private set; }
+        public string chkAuthUseNetrc { get; private set; }
+        public string lbAuthNoSave { get; private set; }
+        public string btnAuthBeginDownload { get; private set; }
         #endregion
 
         #region frmBatchDownloader
-        public string frmBatchDownload {
-            get { return frmBatchDownloadString; }
-            private set { frmBatchDownloadString = value; }
-        }
-        public string lbBatchDownloadLink {
-            get { return lbBatchDownloadLinkString; }
-            private set { lbBatchDownloadLinkString = value; }
-        }
-        public string lbBatchDownloadType {
-            get { return lbBatchDownloadTypeString; }
-            private set { lbBatchDownloadTypeString = value; }
-        }
-        public string lbBatchDownloadVideoSpecificArgument {
-            get { return lbBatchDownloadVideoSpecificArgumentString; }
-            private set { lbBatchDownloadVideoSpecificArgumentString = value; }
-        }
-        public string btnBatchDownloadAdd {
-            get { return btnBatchDownloadAddString; }
-            private set { btnBatchDownloadAddString = value; }
-        }
-        public string btnBatchDownloadRemoveSelected {
-            get { return btnBatchDownloadRemoveSelectedString; }
-            private set { btnBatchDownloadRemoveSelectedString = value; }
-        }
-        public string sbBatchDownloadLoadArgs {
-            get { return sbBatchDownloadLoadArgsString; }
-            private set { sbBatchDownloadLoadArgsString = value; }
-        }
-        public string mBatchDownloaderLoadArgsFromSettings {
-            get { return mBatchDownloaderLoadArgsFromSettingsString; }
-            private set { mBatchDownloaderLoadArgsFromSettingsString = value; }
-        }
-        public string mBatchDownloaderLoadArgsFromArgsTxt {
-            get { return mBatchDownloaderLoadArgsFromArgsTxtString; }
-            private set { mBatchDownloaderLoadArgsFromArgsTxtString = value; }
-        }
-        public string mBatchDownloaderLoadArgsFromFile {
-            get { return mBatchDownloaderLoadArgsFromFileString; }
-            private set { mBatchDownloaderLoadArgsFromFileString = value; }
-        }
-        public string btnBatchDownloadStart {
-            get { return btnBatchDownloadStartString; }
-            private set { btnBatchDownloadStartString = value; }
-        }
-        public string btnBatchDownloadStop {
-            get { return btnBatchDownloadStopString; }
-            private set { btnBatchDownloadStopString = value; }
-        }
-        public string btnBatchDownloadExit {
-            get { return btnBatchDownloadExitString; }
-            private set { btnBatchDownloadExitString = value; }
-        }
-        public string sbBatchDownloaderIdle {
-            get { return sbBatchDownloaderIdleString; }
-            private set { sbBatchDownloaderIdleString = value; }
-        }
-        public string sbBatchDownloaderDownloading {
-            get { return sbBatchDownloaderDownloadingString; }
-            private set { sbBatchDownloaderDownloadingString = value; }
-        }
-        public string sbBatchDownloaderFinished {
-            get { return sbBatchDownloaderFinishedString; }
-            private set { sbBatchDownloaderFinishedString = value; }
-        }
-        public string sbBatchDownloaderAborted {
-            get { return sbBatchDownloaderAbortedString; }
-            private set { sbBatchDownloaderAbortedString = value; }
-        }
+        public string frmBatchDownload { get; private set; }
+        public string lbBatchDownloadLink { get; private set; }
+        public string lbBatchDownloadType { get; private set; }
+        public string lbBatchDownloadVideoSpecificArgument { get; private set; }
+        public string btnBatchDownloadAdd { get; private set; }
+        public string btnBatchDownloadRemoveSelected { get; private set; }
+        public string sbBatchDownloadLoadArgs { get; private set; }
+        public string mBatchDownloaderLoadArgsFromSettings { get; private set; }
+        public string mBatchDownloaderLoadArgsFromArgsTxt { get; private set; }
+        public string mBatchDownloaderLoadArgsFromFile { get; private set; }
+        public string btnBatchDownloadStart { get; private set; }
+        public string btnBatchDownloadStop { get; private set; }
+        public string btnBatchDownloadExit { get; private set; }
+        public string sbBatchDownloaderIdle { get; private set; }
+        public string sbBatchDownloaderDownloading { get; private set; }
+        public string sbBatchDownloaderFinished { get; private set; }
+        public string sbBatchDownloaderAborted { get; private set; }
+        #endregion
+
+        #region frmConverter
+        public string frmConverter { get; private set; }
+        public string frmConverterComplete { get; private set; }
+        public string frmConverterError { get; private set; }
+        public string chkConverterCloseAfterConversion { get; private set; }
+        public string btnConverterAbortBatch { get; private set; }
         #endregion
 
         #region frmDownloader
-        public string frmDownloader {
-            get { return frmDownloaderString; }
-            private set { frmDownloaderString = value; }
-        }
-        public string frmDownloaderComplete {
-            get { return frmDownloaderCompleteString; }
-            private set { frmDownloaderCompleteString = value; }
-        }
-        public string frmDownloaderError {
-            get { return frmDownloaderErrorString; }
-            private set { frmDownloaderErrorString = value; }
-        }
-        public string chkDownloaderCloseAfterDownload {
-            get { return chkDownloaderCloseAfterDownloadString; }
-            private set { chkDownloaderCloseAfterDownloadString = value; }
-        }
-        public string btnDownloaderAbortBatch {
-            get { return btnDownloaderAbortBatchString; }
-            private set { btnDownloaderAbortBatchString = value; }
-        }
-        public string btnDownloaderExit {
-            get { return btnDownloaderExitString; }
-            private set { btnDownloaderExitString = value; }
-        }
+        public string frmDownloader { get; private set; }
+        public string frmDownloaderComplete { get; private set; }
+        public string frmDownloaderError { get; private set; }
+        public string chkDownloaderCloseAfterDownload { get; private set; }
+        public string btnDownloaderAbortBatch { get; private set; }
         #endregion
 
         #region frmException
-        public string frmException {
-            get { return frmExceptionString; }
-            private set { frmExceptionString = value; }
-        }
-        public string lbExceptionHeader {
-            get { return lbExceptionHeaderString; }
-            private set { lbExceptionHeaderString = value; }
-        }
-        public string lbExceptionDescription {
-            get { return lbExceptionDescriptionString; }
-            private set { lbExceptionDescriptionString = value; }
-        }
-        public string rtbExceptionDetails {
-            get { return rtbExceptionDetailsString; }
-            private set { rtbExceptionDetailsString = value; }
-        }
-        public string btnExceptionGithub {
-            get { return btnExceptionGithubString; }
-            private set { btnExceptionGithubString = value; }
-        }
-        public string btnExceptionOk {
-            get { return btnExceptionOkString; }
-            private set { btnExceptionOkString = value; }
-        }
+        public string frmException { get; private set; }
+        public string lbExceptionHeader { get; private set; }
+        public string lbExceptionDescription { get; private set; }
+        public string rtbExceptionDetails { get; private set; }
+        public string btnExceptionGithub { get; private set; }
+        public string btnExceptionOk { get; private set; }
         #endregion
 
         #region frmLanguage
-        public string frmLanguage {
-            get { return frmLanguageString; }
-            private set { frmLanguageString = value; }
-        }
-        public string btnLanguageRefresh {
-            get { return btnLanguageRefreshString; }
-            private set { btnLanguageRefreshString = value; }
-        }
-        public string btnLanguageCancel {
-            get { return btnLanguageCancelString; }
-            private set { btnLanguageCancelString = value; }
-        }
-        public string btnLanguageSave {
-            get { return btnLanguageSaveString; }
-            private set { btnLanguageSaveString = value; }
-        }
+        public string frmLanguage { get; private set; }
+        public string btnLanguageRefresh { get; private set; }
+        public string btnLanguageCancel { get; private set; }
+        public string btnLanguageSave { get; private set; }
         #endregion
 
         #region frmMain
-        public string mSettings {
-            get { return mSettingsString; }
-            private set { mSettingsString = value; }
-        }
-        public string mTools {
-            get { return mToolsString; }
-            private set { mToolsString = value; }
-        }
-        public string mBatchDownload {
-            get { return mBatchDownloadString; }
-            private set { mBatchDownloadString = value; }
-        }
-        public string mDownloadSubtitles {
-            get { return mDownloadSubtitlesString; }
-            private set { mDownloadSubtitlesString = value; }
-        }
-        public string mMiscTools {
-            get { return mMiscToolsString; }
-            private set { mMiscToolsString = value; }
-        }
-        public string mHelp {
-            get { return mHelpString; }
-            private set { mHelpString = value; }
-        }
-        public string mLanguage {
-            get { return mLanguageString; }
-            private set { mLanguageString = value; }
-        }
-        public string mSupportedSites {
-            get { return mSupportedSitesString; }
-            private set { mSupportedSitesString = value; }
-        }
-        public string mAbout {
-            get { return mAboutString; }
-            private set { mAboutString = value; }
-        }
+        public string mSettings { get; private set; }
+        public string mTools { get; private set; }
+        public string mBatchDownload { get; private set; }
+        public string mDownloadSubtitles { get; private set; }
+        public string mMiscTools { get; private set; }
+        public string mHelp { get; private set; }
+        public string mLanguage { get; private set; }
+        public string mSupportedSites { get; private set; }
+        public string mAbout { get; private set; }
 
-        public string tabDownload {
-            get { return tabDownloadString; }
-            private set { tabDownloadString = value; }
-        }
-        public string tabConvert {
-            get { return tabConvertString; }
-            private set { tabConvertString = value; }
-        }
-        public string tabMerge {
-            get { return tabMergeString; }
-            private set { tabMergeString = value; }
-        }
+        public string tabDownload { get; private set; }
+        public string tabConvert { get; private set; }
+        public string tabMerge { get; private set; }
 
-        public string lbURL {
-            get { return lbURLString; }
-            private set { lbURLString = value; }
-        }
-        public string txtUrlHint {
-            get { return txtUrlHintString; }
-            private set { txtUrlHintString = value; }
-        }
-        public string gbDownloadType {
-            get { return gbDownloadTypeString; }
-            private set { gbDownloadTypeString = value; }
-        }
-        public string lbQuality {
-            get { return lbQualityString; }
-            private set { lbQualityString = value; }
-        }
-        public string lbFormat {
-            get { return lbFormatString; }
-            private set { lbFormatString = value; }
-        }
-        public string chkDownloadSound {
-            get { return chkDownloadSoundString; }
-            private set { chkDownloadSoundString = value; }
-        }
-        public string chkUseSelection {
-            get { return chkUseSelectionString; }
-            private set { chkUseSelectionString = value; }
-        }
-        public string rbVideoSelectionPlaylistIndex {
-            get { return rbVideoSelectionPlaylistIndexString; }
-            private set { rbVideoSelectionPlaylistIndexString = value; }
-        }
-        public string rbVideoSelectionPlaylistItems {
-            get { return rbVideoSelectionPlaylistItemsString; }
-            private set { rbVideoSelectionPlaylistItemsString = value; }
-        }
-        public string rbVideoSelectionBeforeDate {
-            get { return rbVideoSelectionBeforeDateString; }
-            private set { rbVideoSelectionBeforeDateString = value; }
-        }
-        public string rbVideoSelectionOnDate {
-            get { return rbVideoSelectionOnDateString; }
-            private set { rbVideoSelectionOnDateString = value; }
-        }
-        public string rbVideoSelectionAfterDate {
-            get { return rbVideoSelectionAfterDateString; }
-            private set { rbVideoSelectionAfterDateString = value; }
-        }
-        public string txtPlaylistStartHint {
-            get { return txtPlaylistStartHintString; }
-            private set { txtPlaylistStartHintString = value; }
-        }
-        public string txtPlaylistEndHint {
-            get { return txtPlaylistEndHintString; }
-            private set { txtPlaylistEndHintString = value; }
-        }
-        public string txtPlaylistItemsHint {
-            get { return txtPlaylistItemsHintString; }
-            private set { txtPlaylistItemsHintString = value; }
-        }
-        public string txtVideoDateHint {
-            get { return txtVideoDateHintString; }
-            private set { txtVideoDateHintString = value; }
-        }
-        public string lbCustomArguments {
-            get { return lbCustomArgumentsString; }
-            private set { lbCustomArgumentsString = value; }
-        }
-        public string txtArgsHint {
-            get { return txtArgsHintString; }
-            private set { txtArgsHintString = value; }
-        }
-        public string sbDownload {
-            get { return sbDownloadString; }
-            private set { sbDownloadString = value; }
-        }
-        public string mDownloadWithAuthentication {
-            get { return mDownloadWithAuthenticationString; }
-            private set { mDownloadWithAuthenticationString = value; }
-        }
-        public string mBatchDownloadFromFile {
-            get { return mBatchDownloadFromFileString; }
-            private set { mBatchDownloadFromFileString = value; }
-        }
-        public string msgBatchDownloadFromFile {
-            get { return msgBatchDownloadFromFileString; }
-            private set { msgBatchDownloadFromFileString = value; }
-        }
-        public string lbDownloadStatusStarted {
-            get { return lbDownloadStatusStartedString; }
-            private set { lbDownloadStatusStartedString = value; }
-        }
-        public string lbDownloadStatusError {
-            get { return lbDownloadStatusErrorString; }
-            private set { lbDownloadStatusErrorString = value; }
-        }
+        public string lbURL { get; private set; }
+        public string txtUrlHint { get; private set; }
+        public string gbDownloadType { get; private set; }
+        public string lbQuality { get; private set; }
+        public string lbFormat { get; private set; }
+        public string chkDownloadSound { get; private set; }
+        public string chkUseSelection { get; private set; }
+        public string rbVideoSelectionPlaylistIndex { get; private set; }
+        public string rbVideoSelectionPlaylistItems { get; private set; }
+        public string rbVideoSelectionBeforeDate { get; private set; }
+        public string rbVideoSelectionOnDate { get; private set; }
+        public string rbVideoSelectionAfterDate { get; private set; }
+        public string txtPlaylistStartHint { get; private set; }
+        public string txtPlaylistEndHint { get; private set; }
+        public string txtPlaylistItemsHint { get; private set; }
+        public string txtVideoDateHint { get; private set; }
+        public string lbCustomArguments { get; private set; }
+        public string txtArgsHint { get; private set; }
+        public string sbDownload { get; private set; }
+        public string mDownloadWithAuthentication { get; private set; }
+        public string mBatchDownloadFromFile { get; private set; }
+        public string msgBatchDownloadFromFile { get; private set; }
+        public string lbDownloadStatusStarted { get; private set; }
+        public string lbDownloadStatusError { get; private set; }
 
-        public string lbConvertInput {
-            get { return lbConvertInputString; }
-            private set { lbConvertInputString = value; }
-        }
-        public string lbConvertOutput {
-            get { return lbConvertOutputString; }
-            private set { lbConvertOutputString = value; }
-        }
-        public string rbConvertAuto {
-            get { return rbConvertAutoString; }
-            private set { rbConvertAutoString = value; }
-        }
-        public string rbConvertAutoFFmpeg {
-            get { return rbConvertAutoFFmpegString; }
-            private set { rbConvertAutoFFmpegString = value; }
-        }
-        public string btnConvert {
-            get { return btnConvertString; }
-            private set { btnConvertString = value; }
-        }
-        public string lbConvertStarted {
-            get { return lbConvertStartedString; }
-            private set { lbConvertStartedString = value; }
-        }
-        public string lbConvertFailed {
-            get { return lbConvertFailedString; }
-            private set { lbConvertFailedString = value; }
-        }
+        public string lbConvertInput { get; private set; }
+        public string lbConvertOutput { get; private set; }
+        public string rbConvertAuto { get; private set; }
+        public string rbConvertAutoFFmpeg { get; private set; }
+        public string btnConvert { get; private set; }
+        public string lbConvertStarted { get; private set; }
+        public string lbConvertFailed { get; private set; }
 
-        public string lbMergeInput1 {
-            get { return lbMergeInput1String; }
-            private set { lbMergeInput1String = value; }
-        }
-        public string lbMergeInput2 {
-            get { return lbMergeInput2String; }
-            private set { lbMergeInput2String = value; }
-        }
-        public string lbMergeOutput {
-            get { return lbMergeOutputString; }
-            private set { lbMergeOutputString = value; }
-        }
-        public string chkMergeAudioTracks {
-            get { return chkMergeAudioTracksString; }
-            private set { chkMergeAudioTracksString = value; }
-        }
-        public string chkMergeDeleteInputFiles {
-            get { return chkMergeDeleteInputFilesString; }
-            private set { chkMergeDeleteInputFilesString = value; }
-        }
-        public string btnMerge {
-            get { return btnMergeString; }
-            private set { btnMergeString = value; }
-        }
+        public string lbMergeInput1 { get; private set; }
+        public string lbMergeInput2 { get; private set; }
+        public string lbMergeOutput { get; private set; }
+        public string chkMergeAudioTracks { get; private set; }
+        public string chkMergeDeleteInputFiles { get; private set; }
+        public string btnMerge { get; private set; }
 
-        public string cmTrayShowForm {
-            get { return cmTrayShowFormString; }
-            private set { cmTrayShowFormString = value; }
-        }
-        public string cmTrayDownloader {
-            get { return cmTrayDownloaderString; }
-            private set { cmTrayDownloaderString = value; }
-        }
-        public string cmTrayDownloadClipboard {
-            get { return cmTrayDownloadClipboardString; }
-            private set { cmTrayDownloadClipboardString = value; }
-        }
-        public string cmTrayDownloadBestVideo {
-            get { return cmTrayDownloadBestVideoString; }
-            private set { cmTrayDownloadBestVideoString = value; }
-        }
-        public string cmTrayDownloadBestAudio {
-            get { return cmTrayDownloadBestAudioString; }
-            private set { cmTrayDownloadBestAudioString = value; }
-        }
-        public string cmTrayDownloadCustom {
-            get { return cmTrayDownloadCustomString; }
-            private set { cmTrayDownloadCustomString = value; }
-        }
-        public string cmTrayDownloadCustomTxtBox {
-            get { return cmTrayDownloadCustomTxtBoxString; }
-            private set { cmTrayDownloadCustomTxtBoxString = value; }
-        }
-        public string cmTrayDownloadCustomTxt {
-            get { return cmTrayDownloadCustomTxtString; }
-            private set { cmTrayDownloadCustomTxtString = value; }
-        }
-        public string cmTrayDownloadCustomSettings {
-            get { return cmTrayDownloadCustomSettingsString; }
-            private set { cmTrayDownloadCustomSettingsString = value; }
-        }
-        public string cmTrayConverter {
-            get { return cmTrayConverterString; }
-            private set { cmTrayConverterString = value; }
-        }
-        public string cmTrayConvertTo {
-            get { return cmTrayConvertToString; }
-            private set { cmTrayConvertToString = value; }
-        }
-        public string cmTrayConvertVideo {
-            get { return cmTrayConvertVideoString; }
-            private set { cmTrayConvertVideoString = value; }
-        }
-        public string cmTrayConvertAudio {
-            get { return cmTrayConvertAudioString; }
-            private set { cmTrayConvertAudioString = value; }
-        }
-        public string cmTrayConvertCustom {
-            get { return cmTrayConvertCustomString; }
-            private set { cmTrayConvertCustomString = value; }
-        }
-        public string cmTrayConvertAutomatic {
-            get { return cmTrayConvertAutomaticString; }
-            private set { cmTrayConvertAutomaticString = value; }
-        }
-        public string cmTrayConvertAutoFFmpeg {
-            get { return cmTrayConvertAutoFFmpegString; }
-            private set { cmTrayConvertAutoFFmpegString = value; }
-        }
-        public string cmTrayExit {
-            get { return cmTrayExitString; }
-            private set { cmTrayExitString = value; }
-        }
+        public string cmTrayShowForm { get; private set; }
+        public string cmTrayDownloader { get; private set; }
+        public string cmTrayDownloadClipboard { get; private set; }
+        public string cmTrayDownloadBestVideo { get; private set; }
+        public string cmTrayDownloadBestAudio { get; private set; }
+        public string cmTrayDownloadCustom { get; private set; }
+        public string cmTrayDownloadCustomTxtBox { get; private set; }
+        public string cmTrayDownloadCustomTxt { get; private set; }
+        public string cmTrayDownloadCustomSettings { get; private set; }
+        public string cmTrayConverter { get; private set; }
+        public string cmTrayConvertTo { get; private set; }
+        public string cmTrayConvertVideo { get; private set; }
+        public string cmTrayConvertAudio { get; private set; }
+        public string cmTrayConvertCustom { get; private set; }
+        public string cmTrayConvertAutomatic { get; private set; }
+        public string cmTrayConvertAutoFFmpeg { get; private set; }
+        public string cmTrayExit { get; private set; }
         #endregion
 
         #region frmSettings
 
         #region frmSettings form
-        public string frmSettings {
-            get { return frmSettingsString; }
-            private set { frmSettingsString = value; }
-        }
-        public string btnSettingsRedownloadYoutubeDl {
-            get { return btnSettingsRedownloadYoutubeDlString; }
-            private set { btnSettingsRedownloadYoutubeDlString = value; }
-        }
-        public string btnSettingsSave {
-            get { return btnSettingsSaveString; }
-            private set { btnSettingsSaveString = value; }
-        }
+        public string frmSettings { get; private set; }
+        public string btnSettingsRedownloadYoutubeDl { get; private set; }
+        public string btnSettingsSave { get; private set; }
 
-        public string tabSettingsGeneral {
-            get { return tabSettingsGeneralString; }
-            private set { tabSettingsGeneralString = value; }
-        }
-        public string tabSettingsDownloads {
-            get { return tabSettingsDownloadsString; }
-            private set { tabSettingsDownloadsString = value; }
-        }
-        public string tabSettingsConverter {
-            get { return tabSettingsConverterString; }
-            private set { tabSettingsConverterString = value; }
-        }
-        public string tabSettingsExtensions {
-            get { return tabSettingsExtensionsString; }
-            private set { tabSettingsExtensionsString = value; }
-        }
-        public string tabSettingsErrors {
-            get { return tabSettingsErrorsString; }
-            private set { tabSettingsErrorsString = value; }
-        }
-        public string tabSettingsPortable {
-            get { return tabSettingsPortableString; }
-            private set { tabSettingsPortableString = value; }
-        }
+        public string tabSettingsGeneral { get; private set; }
+        public string tabSettingsDownloads { get; private set; }
+        public string tabSettingsConverter { get; private set; }
+        public string tabSettingsExtensions { get; private set; }
+        public string tabSettingsErrors { get; private set; }
+        public string tabSettingsPortable { get; private set; }
 
-        public string lbSettingsGeneralYoutubeDlPath {
-            get { return lbSettingsGeneralYoutubeDlPathString; }
-            private set { lbSettingsGeneralYoutubeDlPathString = value; }
-        }
-        public string chkSettingsGeneralUseStaticYoutubeDl {
-            get { return chkSettingsGeneralUseStaticYoutubeDlString; }
-            private set { chkSettingsGeneralUseStaticYoutubeDlString = value; }
-        }
-        public string ofdTitleYoutubeDl {
-            get { return ofdTitleYoutubeDlString; }
-            private set { ofdTitleYoutubeDlString = value; }
-        }
-        public string ofdFilterYoutubeDl {
-            get { return ofdFilterYoutubeDlString; }
-            private set { ofdFilterYoutubeDlString = value; }
-        }
-        public string lbSettingsGeneralFFmpegDirectory {
-            get { return lbSettingsGeneralFFmpegDirectoryString; }
-            private set { lbSettingsGeneralFFmpegDirectoryString = value; }
-        }
-        public string chkSettingsGeneralUseStaticFFmpeg {
-            get { return chkSettingsGeneralUseStaticFFmpegString; }
-            private set { chkSettingsGeneralUseStaticFFmpegString = value; }
-        }
-        public string ofdTitleFFmpeg {
-            get { return ofdTitleFFmpegString; }
-            private set { ofdTitleFFmpegString = value; }
-        }
-        public string ofdFilterFFmpeg {
-            get { return ofdFilterFFmpegString; }
-            private set { ofdFilterFFmpegString = value; }
-        }
-        public string chkSettingsGeneralCheckForUpdatesOnLaunch {
-            get { return chkSettingsGeneralCheckForUpdatesOnLaunchString; }
-            private set { chkSettingsGeneralCheckForUpdatesOnLaunchString = value; }
-        }
-        public string chkSettingsGeneralCheckForBetaUpdates {
-            get { return chkSettingsGeneralCheckForBetaUpdatesString; }
-            private set { chkSettingsGeneralCheckForBetaUpdatesString = value; }
-        }
-        public string chkSettingsGeneralHoverOverUrlToPasteClipboard {
-            get { return chkSettingsGeneralHoverOverUrlToPasteClipboardString; }
-            private set { chkSettingsGeneralHoverOverUrlToPasteClipboardString = value; }
-        }
-        public string chkSettingsGeneralClearUrlOnDownload {
-            get { return chkSettingsGeneralClearUrlOnDownloadString; }
-            private set { chkSettingsGeneralClearUrlOnDownloadString = value; }
-        }
-        public string chkSettingsGeneralClearClipboardOnDownload {
-            get { return chkSettingsGeneralClearClipboardOnDownloadString; }
-            private set { chkSettingsGeneralClearClipboardOnDownloadString = value; }
-        }
-        public string gbSettingsGeneralCustomArguments {
-            get { return gbSettingsGeneralCustomArgumentsString; }
-            private set { gbSettingsGeneralCustomArgumentsString = value; }
-        }
-        public string rbSettingsGeneralCustomArgumentsDontSave {
-            get { return rbSettingsGeneralCustomArgumentsDontSaveString; }
-            private set { rbSettingsGeneralCustomArgumentsDontSaveString = value; }
-        }
-        public string rbSettingsGeneralCustomArgumentsSaveAsArgsText {
-            get { return rbSettingsGeneralCustomArgumentsSaveAsArgsTextString; }
-            private set { rbSettingsGeneralCustomArgumentsSaveAsArgsTextString = value; }
-        }
-        public string rbSettingsGeneralCustomArgumentsSaveInSettings {
-            get { return rbSettingsGeneralCustomArgumentsSaveInSettingsString; }
-            private set { rbSettingsGeneralCustomArgumentsSaveInSettingsString = value; }
-        }
+        public string lbSettingsGeneralYoutubeDlPath { get; private set; }
+        public string chkSettingsGeneralUseStaticYoutubeDl { get; private set; }
+        public string ofdTitleYoutubeDl { get; private set; }
+        public string ofdFilterYoutubeDl { get; private set; }
+        public string lbSettingsGeneralFFmpegDirectory { get; private set; }
+        public string chkSettingsGeneralUseStaticFFmpeg { get; private set; }
+        public string ofdTitleFFmpeg { get; private set; }
+        public string ofdFilterFFmpeg { get; private set; }
+        public string chkSettingsGeneralCheckForUpdatesOnLaunch { get; private set; }
+        public string chkSettingsGeneralCheckForBetaUpdates { get; private set; }
+        public string chkSettingsGeneralHoverOverUrlToPasteClipboard { get; private set; }
+        public string chkSettingsGeneralClearUrlOnDownload { get; private set; }
+        public string chkSettingsGeneralClearClipboardOnDownload { get; private set; }
+        public string gbSettingsGeneralCustomArguments { get; private set; }
+        public string rbSettingsGeneralCustomArgumentsDontSave { get; private set; }
+        public string rbSettingsGeneralCustomArgumentsSaveAsArgsText { get; private set; }
+        public string rbSettingsGeneralCustomArgumentsSaveInSettings { get; private set; }
 
-        public string lbSettingsDownloadsDownloadPath {
-            get { return lbSettingsDownloadsDownloadPathString; }
-            private set { lbSettingsDownloadsDownloadPathString = value; }
-        }
-        public string lbSettingsDownloadsFileNameSchema {
-            get { return lbSettingsDownloadsFileNameSchemaString; }
-            private set { lbSettingsDownloadsFileNameSchemaString = value; }
-        }
-        public string tabDownloadsGeneral {
-            get { return tabDownloadsGeneralString; }
-            private set { tabDownloadsGeneralString = value; }
-        }
-        public string tabDownloadsSorting {
-            get { return tabDownloadsSortingString; }
-            private set { tabDownloadsSortingString = value; }
-        }
-        public string tabDownloadsFixes {
-            get { return tabDownloadsFixesString; }
-            private set { tabDownloadsFixesString = value; }
-        }
-        public string tabDownloadsConnection {
-            get { return tabDownloadsConnectionString; }
-            private set { tabDownloadsConnectionString = value; }
-        }
-        public string tabDownloadsUpdating {
-            get { return tabDownloadsUpdatingString; }
-            private set { tabDownloadsUpdatingString = value; }
-        }
-        public string chkSettingsDownloadsSaveFormatQuality {
-            get { return chkSettingsDownloadsSaveFormatQualityString; }
-            private set { chkSettingsDownloadsSaveFormatQualityString = value; }
-        }
-        public string chkSettingsDownloadsDownloadSubtitles {
-            get { return chkSettingsDownloadsDownloadSubtitlesString; }
-            private set { chkSettingsDownloadsDownloadSubtitlesString = value; }
-        }
-        public string chkSettingsDownloadsEmbedSubtitles {
-            get { return chkSettingsDownloadsEmbedSubtitlesString; }
-            private set { chkSettingsDownloadsEmbedSubtitlesString = value; }
-        }
-        public string chkSettingsDownloadsSaveVideoInfo {
-            get { return chkSettingsDownloadsSaveVideoInfoString; }
-            private set { chkSettingsDownloadsSaveVideoInfoString = value; }
-        }
-        public string chkSettingsDownloadsWriteMetadataToFile {
-            get { return chkSettingsDownloadsWriteMetadataToFileString; }
-            private set { chkSettingsDownloadsWriteMetadataToFileString = value; }
-        }
-        public string chkSettingsDownloadsSaveDescription {
-            get { return chkSettingsDownloadsSaveDescriptionString; }
-            private set { chkSettingsDownloadsSaveDescriptionString = value; }
-        }
-        public string chkSettingsDownloadsKeepOriginalFiles {
-            get { return chkSettingsDownloadsKeepOriginalFilesString; }
-            private set { chkSettingsDownloadsKeepOriginalFilesString = value; }
-        }
-        public string chkSettingsDownloadsSaveAnnotations {
-            get { return chkSettingsDownloadsSaveAnnotationsString; }
-            private set { chkSettingsDownloadsSaveAnnotationsString = value; }
-        }
-        public string chkSettingsDownloadsSaveThumbnails {
-            get { return chkSettingsDownloadsSaveThumbnailsString; }
-            private set { chkSettingsDownloadsSaveThumbnailsString = value; }
-        }
-        public string chkSettingsDownloadsEmbedThumbnails {
-            get { return chkSettingsDownloadsEmbedThumbnailsString; }
-            private set { chkSettingsDownloadsEmbedThumbnailsString = value; }
-        }
-        public string chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing {
-            get { return chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosingString; }
-            private set { chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosingString = value; }
-        }
-        public string chkSettingsDownloadsSeparateDownloadsToDifferentFolders {
-            get { return chkSettingsDownloadsSeparateDownloadsToDifferentFoldersString; }
-            private set { chkSettingsDownloadsSeparateDownloadsToDifferentFoldersString = value; }
-        }
-        public string chkSettingsDownloadsSeparateIntoWebsiteUrl {
-            get { return chkSettingsDownloadsSeparateIntoWebsiteUrlString; }
-            private set { chkSettingsDownloadsSeparateIntoWebsiteUrlString = value; }
-        }
-        public string chkSettingsDownloadsFixVReddIt {
-            get { return chkSettingsDownloadsFixVReddItString; }
-            private set { chkSettingsDownloadsFixVReddItString = value; }
-        }
-        public string chkSettingsDownloadsPreferFFmpeg {
-            get { return chkSettingsDownloadsPreferFFmpegString; }
-            private set { chkSettingsDownloadsPreferFFmpegString = value; }
-        }
-        public string chkSettingsDownloadsLimitDownload {
-            get { return chkSettingsDownloadsLimitDownloadString; }
-            private set { chkSettingsDownloadsLimitDownloadString = value; }
-        }
-        public string lbSettingsDownloadsRetryAttempts {
-            get { return lbSettingsDownloadsRetryAttemptsString; }
-            private set { lbSettingsDownloadsRetryAttemptsString = value; }
-        }
-        public string chkSettingsDownloadsForceIpv4 {
-            get { return chkSettingsDownloadsForceIpv4String; }
-            private set { chkSettingsDownloadsForceIpv4String = value; }
-        }
-        public string chkSettingsDownloadsForceIpv6 {
-            get { return chkSettingsDownloadsForceIpv6String; }
-            private set { chkSettingsDownloadsForceIpv6String = value; }
-        }
-        public string chkSettingsDownloadsUseProxy {
-            get { return chkSettingsDownloadsUseProxyString; }
-            private set { chkSettingsDownloadsUseProxyString = value; }
-        }
-        public string chkSettingsDownloadsUseYoutubeDlsUpdater {
-            get { return chksettingsDownloadsUseYoutubeDlsUpdaterString; }
-            private set { chksettingsDownloadsUseYoutubeDlsUpdaterString = value; }
-        }
-        public string lbSettingsDownloadsUpdatingYtdlType {
-            get { return lbSettingsDownloadsUpdatingYtdlTypeString; }
-            private set { lbSettingsDownloadsUpdatingYtdlTypeString = value; }
-        }
-        public string cbSettingsDownloadsUpdatingYtdlTypeHint {
-            get { return cbSettingsDownloadsUpdatingYtdlTypeHintString; }
-            private set { cbSettingsDownloadsUpdatingYtdlTypeHintString = value; }
-        }
-        public string llbSettingsDownloadsYtdlTypeViewRepo {
-            get { return llbSettingsDownloadsYtdlTypeViewRepoString; }
-            private set { llbSettingsDownloadsYtdlTypeViewRepoString = value; }
-        }
-        public string llbSettingsDownloadsYtdlTypeViewRepoHint {
-            get { return llbSettingsDownloadsYtdlTypeViewRepoHintString; }
-            private set { llbSettingsDownloadsYtdlTypeViewRepoHintString = value; }
-        }
-        public string chkSettingsDownloadsSeparateBatchDownloads {
-            get { return chkSettingsDownloadsSeparateBatchDownloadsString; }
-            private set { chkSettingsDownloadsSeparateBatchDownloadsString = value; }
-        }
-        public string chkSettingsDownloadsAddDateToBatchDownloadFolders {
-            get { return chkSettingsDownloadsAddDateToBatchDownloadFoldersString; }
-            private set { chkSettingsDownloadsAddDateToBatchDownloadFoldersString = value; }
-        }
+        public string lbSettingsDownloadsDownloadPath { get; private set; }
+        public string lbSettingsDownloadsFileNameSchema { get; private set; }
+        public string tabDownloadsGeneral { get; private set; }
+        public string tabDownloadsSorting { get; private set; }
+        public string tabDownloadsFixes { get; private set; }
+        public string tabDownloadsConnection { get; private set; }
+        public string tabDownloadsUpdating { get; private set; }
+        public string chkSettingsDownloadsSaveFormatQuality { get; private set; }
+        public string chkSettingsDownloadsDownloadSubtitles { get; private set; }
+        public string chkSettingsDownloadsEmbedSubtitles { get; private set; }
+        public string chkSettingsDownloadsSaveVideoInfo { get; private set; }
+        public string chkSettingsDownloadsWriteMetadataToFile { get; private set; }
+        public string chkSettingsDownloadsSaveDescription { get; private set; }
+        public string chkSettingsDownloadsKeepOriginalFiles { get; private set; }
+        public string chkSettingsDownloadsSaveAnnotations { get; private set; }
+        public string chkSettingsDownloadsSaveThumbnails { get; private set; }
+        public string chkSettingsDownloadsEmbedThumbnails { get; private set; }
+        public string chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing { get; private set; }
+        public string chkSettingsDownloadsSeparateDownloadsToDifferentFolders { get; private set; }
+        public string chkSettingsDownloadsSeparateIntoWebsiteUrl { get; private set; }
+        public string chkSettingsDownloadsFixVReddIt { get; private set; }
+        public string chkSettingsDownloadsPreferFFmpeg { get; private set; }
+        public string chkSettingsDownloadsLimitDownload { get; private set; }
+        public string lbSettingsDownloadsRetryAttempts { get; private set; }
+        public string chkSettingsDownloadsForceIpv4 { get; private set; }
+        public string chkSettingsDownloadsForceIpv6 { get; private set; }
+        public string chkSettingsDownloadsUseProxy { get; private set; }
+        public string chkSettingsDownloadsUseYoutubeDlsUpdater { get; private set; }
+        public string lbSettingsDownloadsUpdatingYtdlType { get; private set; }
+        public string cbSettingsDownloadsUpdatingYtdlTypeHint { get; private set; }
+        public string llbSettingsDownloadsYtdlTypeViewRepo { get; private set; }
+        public string llbSettingsDownloadsYtdlTypeViewRepoHint { get; private set; }
+        public string chkSettingsDownloadsSeparateBatchDownloads { get; private set; }
+        public string chkSettingsDownloadsAddDateToBatchDownloadFolders { get; private set; }
 
-        public string chkSettingsConverterClearOutputAfterConverting {
-            get { return chkSettingsConverterClearOutputAfterConvertingString; }
-            private set { chkSettingsConverterClearOutputAfterConvertingString = value; }
-        }
-        public string chkSettingsConverterDetectOutputFileType {
-            get { return chkSettingsConverterDetectOutputFileTypeString; }
-            private set { chkSettingsConverterDetectOutputFileTypeString = value; }
-        }
-        public string chkSettingsConverterClearInputAfterConverting {
-            get { return chkSettingsConverterClearInputAfterConvertingString; }
-            private set { chkSettingsConverterClearInputAfterConvertingString = value; }
-        }
-        public string chkSettingsConverterHideFFmpegCompileInfo {
-            get { return chkSettingsConverterHideFFmpegCompileInfoString; }
-            private set { chkSettingsConverterHideFFmpegCompileInfoString = value; }
-        }
-        public string tcSettingsConverterVideo {
-            get { return tcSettingsConverterVideoString; }
-            private set { tcSettingsConverterVideoString = value; }
-        }
-        public string tcSettingsConverterAudio {
-            get { return tcSettingsConverterAudioString; }
-            private set { tcSettingsConverterAudioString = value; }
-        }
-        public string tcSettingsConverterCustom {
-            get { return tcSettingsConverterCustomString; }
-            private set { tcSettingsConverterCustomString = value; }
-        }
-        public string lbSettingsConverterVideoBitrate {
-            get { return lbSettingsConverterVideoBitrateString; }
-            private set { lbSettingsConverterVideoBitrateString = value; }
-        }
-        public string lbSettingsConverterVideoPreset {
-            get { return lbSettingsConverterVideoPresetString; }
-            private set { lbSettingsConverterVideoPresetString = value; }
-        }
-        public string lbSettingsConverterVideoProfile {
-            get { return lbSettingsConverterVideoProfileString; }
-            private set { lbSettingsConverterVideoProfileString = value; }
-        }
-        public string lbSettingsConverterVideoCRF {
-            get { return lbSettingsConverterVideoCRFString; }
-            private set { lbSettingsConverterVideoCRFString = value; }
-        }
-        public string chkSettingsConverterVideoFastStart {
-            get { return chkSettingsConverterVideoFastStartString; }
-            private set { chkSettingsConverterVideoFastStartString = value; }
-        }
-        public string lbSettingsConverterAudioBitrate {
-            get { return lbSettingsConverterAudioBitrateString; }
-            private set { lbSettingsConverterAudioBitrateString = value; }
-        }
-        public string lbSettingsConverterCustomHeader {
-            get { return lbSettingsConverterCustomHeaderString; }
-            private set { lbSettingsConverterCustomHeaderString = value; }
-        }
+        public string chkSettingsConverterClearOutputAfterConverting { get; private set; }
+        public string chkSettingsConverterDetectOutputFileType { get; private set; }
+        public string chkSettingsConverterClearInputAfterConverting { get; private set; }
+        public string chkSettingsConverterHideFFmpegCompileInfo { get; private set; }
+        public string tcSettingsConverterVideo { get; private set; }
+        public string tcSettingsConverterAudio { get; private set; }
+        public string tcSettingsConverterCustom { get; private set; }
+        public string lbSettingsConverterVideoBitrate { get; private set; }
+        public string lbSettingsConverterVideoPreset { get; private set; }
+        public string lbSettingsConverterVideoProfile { get; private set; }
+        public string lbSettingsConverterVideoCRF { get; private set; }
+        public string chkSettingsConverterVideoFastStart { get; private set; }
+        public string lbSettingsConverterAudioBitrate { get; private set; }
+        public string lbSettingsConverterCustomHeader { get; private set; }
 
-        public string lbSettingsExtensionsHeader {
-            get { return lbSettingsExtensionsHeaderString; }
-            private set { lbSettingsExtensionsHeaderString = value; }
-        }
-        public string lbSettingsExtensionsExtensionFullName {
-            get { return lbSettingsExtensionsExtensionFullNameString; }
-            private set { lbSettingsExtensionsExtensionFullNameString = value; }
-        }
-        public string txtSettingsExtensionsExtensionFullName {
-            get { return txtSettingsExtensionsExtensionFullNameString; }
-            private set { txtSettingsExtensionsExtensionFullNameString = value; }
-        }
-        public string lbSettingsExtensionsExtensionShort {
-            get { return lbSettingsExtensionsExtensionShortString; }
-            private set { lbSettingsExtensionsExtensionShortString = value; }
-        }
-        public string txtSettingsExtensionsExtensionShort {
-            get { return txtSettingsExtensionsExtensionShortString; }
-            private set { txtSettingsExtensionsExtensionShortString = value; }
-        }
-        public string btnSettingsExtensionsAdd {
-            get { return btnSettingsExtensionsAddString; }
-            private set { btnSettingsExtensionsAddString = value; }
-        }
-        public string lbSettingsExtensionsFileName {
-            get { return lbSettingsExtensionsFileNameString; }
-            private set { lbSettingsExtensionsFileNameString = value; }
-        }
-        public string btnSettingsExtensionsRemoveSelected {
-            get { return btnSettingsExtensionsRemoveSelectedString; }
-            private set { btnSettingsExtensionsRemoveSelectedString = value; }
-        }
+        public string lbSettingsExtensionsHeader { get; private set; }
+        public string lbSettingsExtensionsExtensionFullName { get; private set; }
+        public string txtSettingsExtensionsExtensionFullName { get; private set; }
+        public string lbSettingsExtensionsExtensionShort { get; private set; }
+        public string txtSettingsExtensionsExtensionShort { get; private set; }
+        public string btnSettingsExtensionsAdd { get; private set; }
+        public string lbSettingsExtensionsFileName { get; private set; }
+        public string btnSettingsExtensionsRemoveSelected { get; private set; }
 
-        public string chkSettingsErrorsShowDetailedErrors {
-            get { return chkSettingsErrorsShowDetailedErrorsString; }
-            private set { chkSettingsErrorsShowDetailedErrorsString = value; }
-        }
-        public string chkSettingsErrorsSaveErrorsAsErrorLog {
-            get { return chkSettingsErrorsSaveErrorsAsErrorLogString; }
-            private set { chkSettingsErrorsSaveErrorsAsErrorLogString = value; }
-        }
-        public string chkSettingsErrorsSuppressErrors {
-            get { return chkSettingsErrorsSuppressErrorsString; }
-            private set { chkSettingsErrorsSuppressErrorsString = value; }
-        }
+        public string chkSettingsErrorsShowDetailedErrors { get; private set; }
+        public string chkSettingsErrorsSaveErrorsAsErrorLog { get; private set; }
+        public string chkSettingsErrorsSuppressErrors { get; private set; }
 
-        public string lbSettingsPortableInformation {
-            get { return lbSettingsPortableInformationString; }
-            private set { lbSettingsPortableInformationString = value; }
-        }
-        public string chkSettingsPortableToggleIni {
-            get { return chkSettingsPortableToggleIniString; }
-            private set { chkSettingsPortableToggleIniString = value; }
-        }
+        public string lbSettingsPortableInformation { get; private set; }
+        public string chkSettingsPortableToggleIni { get; private set; }
         #endregion
 
         #region tipSettings
-        public string btnSettingsRedownloadYoutubeDlHint {
-            get { return btnSettingsRedownloadYoutubeDlHintString; }
-            private set { btnSettingsRedownloadYoutubeDlHintString = value; }
-        }
-        public string btnSettingsCancelHint {
-            get { return btnSettingsCancelHintString; }
-            private set { btnSettingsCancelHintString = value; }
-        }
-        public string btnSettingsSaveHint {
-            get { return btnSettingsSaveHintString; }
-            private set { btnSettingsSaveHintString = value; }
-        }
+        public string btnSettingsRedownloadYoutubeDlHint { get; private set; }
+        public string btnSettingsCancelHint { get; private set; }
+        public string btnSettingsSaveHint { get; private set; }
 
-        public string lbSettingsGeneralYoutubeDlPathHint {
-            get { return lbSettingsGeneralYoutubeDlPathHintString; }
-            private set { lbSettingsGeneralYoutubeDlPathHintString = value; }
-        }
-        public string chkSettingsGeneralUseStaticYoutubeDlHint {
-            get { return chkSettingsGeneralUseStaticYoutubeDlHintString; }
-            private set { chkSettingsGeneralUseStaticYoutubeDlHintString = value; }
-        }
-        public string txtSettingsGeneralYoutubeDlPathHint {
-            get { return txtSettingsGeneralYoutubeDlPathHintString; }
-            private set { txtSettingsGeneralYoutubeDlPathHintString = value; }
-        }
-        public string btnSettingsGeneralBrowseYoutubeDlHint {
-            get { return btnSettingsGeneralBrowseYoutubeDlHintString; }
-            private set { btnSettingsGeneralBrowseYoutubeDlHintString = value; }
-        }
-        public string lbSettingsGeneralFFmpegDirectoryHint {
-            get { return lbSettingsGeneralFFmpegDirectoryHintString; }
-            private set { lbSettingsGeneralFFmpegDirectoryHintString = value; }
-        }
-        public string chkSettingsGeneralUseStaticFFmpegHint {
-            get { return chkSettingsGeneralUseStaticFFmpegHintString; }
-            private set { chkSettingsGeneralUseStaticFFmpegHintString = value; }
-        }
-        public string txtSettingsGeneralFFmpegPathHint {
-            get { return txtSettingsGeneralFFmpegPathHintString; }
-            private set { txtSettingsGeneralFFmpegPathHintString = value; }
-        }
-        public string btnSettingsGeneralBrowseFFmpegHint {
-            get { return btnSettingsGeneralBrowseFFmpegHintString; }
-            private set { btnSettingsGeneralBrowseFFmpegHintString = value; }
-        }
-        public string chkSettingsGeneralCheckForUpdatesOnLaunchHint {
-            get { return chkSettingsGeneralCheckForUpdatesOnLaunchHintString; }
-            private set { chkSettingsGeneralCheckForUpdatesOnLaunchHintString = value; }
-        }
-        public string chkSettingsGeneralCheckForBetaUpdatesHint {
-            get { return chkSettingsGeneralCheckForBetaUpdatesHintString; }
-            private set { chkSettingsGeneralCheckForBetaUpdatesHintString = value; }
-        }
-        public string chkSettingsGeneralHoverOverUrlToPasteClipboardHint {
-            get { return chkSettingsGeneralHoverOverUrlToPasteClipboardHintString; }
-            private set { chkSettingsGeneralHoverOverUrlToPasteClipboardHintString = value; }
-        }
-        public string chkSettingsGeneralClearUrlOnDownloadHint {
-            get { return chkSettingsGeneralClearUrlOnDownloadHintString; }
-            private set { chkSettingsGeneralClearUrlOnDownloadHintString = value; }
-        }
-        public string chkSettingsGeneralClearClipboardOnDownloadHint {
-            get { return chkSettingsGeneralClearClipboardOnDownloadHintString; }
-            private set { chkSettingsGeneralClearClipboardOnDownloadHintString = value; }
-        }
-        public string gbSettingsGeneralCustomArgumentsHint {
-            get { return gbSettingsGeneralCustomArgumentsHintString; }
-            private set { gbSettingsGeneralCustomArgumentsHintString = value; }
-        }
-        public string rbSettingsGeneralCustomArgumentsDontSaveHint {
-            get { return rbSettingsGeneralCustomArgumentsDontSaveHintString; }
-            private set { rbSettingsGeneralCustomArgumentsDontSaveHintString = value; }
-        }
-        public string rbSettingsGeneralCustomArgumentsSaveAsArgsTextHint {
-            get { return rbSettingsGeneralCustomArgumentsSaveAsArgsTextHintString; }
-            private set { rbSettingsGeneralCustomArgumentsSaveAsArgsTextHintString = value; }
-        }
-        public string rbSettingsGeneralCustomArgumentsSaveInSettingsHint {
-            get { return rbSettingsGeneralCustomArgumentsSaveInSettingsHintString; }
-            private set { rbSettingsGeneralCustomArgumentsSaveInSettingsHintString = value; }
-        }
+        public string lbSettingsGeneralYoutubeDlPathHint { get; private set; }
+        public string chkSettingsGeneralUseStaticYoutubeDlHint { get; private set; }
+        public string txtSettingsGeneralYoutubeDlPathHint { get; private set; }
+        public string btnSettingsGeneralBrowseYoutubeDlHint { get; private set; }
+        public string lbSettingsGeneralFFmpegDirectoryHint { get; private set; }
+        public string chkSettingsGeneralUseStaticFFmpegHint { get; private set; }
+        public string txtSettingsGeneralFFmpegPathHint { get; private set; }
+        public string btnSettingsGeneralBrowseFFmpegHint { get; private set; }
+        public string chkSettingsGeneralCheckForUpdatesOnLaunchHint { get; private set; }
+        public string chkSettingsGeneralCheckForBetaUpdatesHint { get; private set; }
+        public string chkSettingsGeneralHoverOverUrlToPasteClipboardHint { get; private set; }
+        public string chkSettingsGeneralClearUrlOnDownloadHint { get; private set; }
+        public string chkSettingsGeneralClearClipboardOnDownloadHint { get; private set; }
+        public string gbSettingsGeneralCustomArgumentsHint { get; private set; }
+        public string rbSettingsGeneralCustomArgumentsDontSaveHint { get; private set; }
+        public string rbSettingsGeneralCustomArgumentsSaveAsArgsTextHint { get; private set; }
+        public string rbSettingsGeneralCustomArgumentsSaveInSettingsHint { get; private set; }
 
-        public string lbSettingsDownloadsDownloadPathHint {
-            get { return lbSettingsDownloadsDownloadPathHintString; }
-            private set { lbSettingsDownloadsDownloadPathHintString = value; }
-        }
-        public string chkSettingsDownloadsDownloadPathUseRelativePathHint {
-            get { return chkSettingsDownloadsDownloadPathUseRelativePathHintString; }
-            private set { chkSettingsDownloadsDownloadPathUseRelativePathHintString = value; }
-        }
-        public string txtSettingsDownloadsSavePathHint {
-            get { return txtSettingsDownloadsSavePathHintString; }
-            private set { txtSettingsDownloadsSavePathHintString = value; }
-        }
-        public string btnSettingsDownloadsBrowseSavePathHint {
-            get { return btnSettingsDownloadsBrowseSavePathHintString; }
-            private set { btnSettingsDownloadsBrowseSavePathHintString = value; }
-        }
-        public string llSettingsDownloadsSchemaHelpHint {
-            get { return llSettingsDownloadsSchemaHelpHintString; }
-            private set { llSettingsDownloadsSchemaHelpHintString = value; }
-        }
-        public string lbSettingsDownloadsFileNameSchemaHint {
-            get { return lbSettingsDownloadsFileNameSchemaHintString; }
-            private set { lbSettingsDownloadsFileNameSchemaHintString = value; }
-        }
-        public string txtSettingsDownloadsFileNameSchemaHint {
-            get { return txtSettingsDownloadsFileNameSchemaHintString; }
-            private set { txtSettingsDownloadsFileNameSchemaHintString = value; }
-        }
-        public string chkSettingsDownloadsSaveFormatQualityHint {
-            get { return chkSettingsDownloadsSaveFormatQualityHintString; }
-            private set { chkSettingsDownloadsSaveFormatQualityHintString = value; }
-        }
-        public string chkSettingsDownloadsDownloadSubtitlesHint {
-            get { return chkSettingsDownloadsDownloadSubtitlesHintString; }
-            private set { chkSettingsDownloadsDownloadSubtitlesHintString = value; }
-        }
-        public string chkSettingsDownloadsEmbedSubtitlesHint {
-            get { return chkSettingsDownloadsEmbedSubtitlesHintString; }
-            private set { chkSettingsDownloadsEmbedSubtitlesHintString = value; }
-        }
-        public string chkSettingsDownloadsSaveVideoInfoHint {
-            get { return chkSettingsDownloadsSaveVideoInfoHintString; }
-            private set { chkSettingsDownloadsSaveVideoInfoHintString = value; }
-        }
-        public string chkSettingsDownloadsWriteMetadataToFileHint {
-            get { return chkSettingsDownloadsWriteMetadataToFileHintString; }
-            private set { chkSettingsDownloadsWriteMetadataToFileHintString = value; }
-        }
-        public string chkSettingsDownloadsSaveDescriptionHint {
-            get { return chkSettingsDownloadsSaveDescriptionHintString; }
-            private set { chkSettingsDownloadsSaveDescriptionHintString = value; }
-        }
-        public string chkSettingsDownloadsKeepOriginalFilesHint {
-            get { return chkSettingsDownloadsKeepOriginalFilesHintString; }
-            private set { chkSettingsDownloadsKeepOriginalFilesHintString = value; }
-        }
-        public string chkSettingsDownloadsSaveAnnotationsHint {
-            get { return chkSettingsDownloadsSaveAnnotationsHintString; }
-            private set { chkSettingsDownloadsSaveAnnotationsHintString = value; }
-        }
-        public string chkSettingsDownloadsSaveThumbnailsHint {
-            get { return chkSettingsDownloadsSaveThumbnailsHintString; }
-            private set { chkSettingsDownloadsSaveThumbnailsHintString = value; }
-        }
-        public string chkSettingsDownloadsEmbedThumbnailsHint {
-            get { return chkSettingsDownloadsEmbedThumbnailsHintString; }
-            private set { chkSettingsDownloadsEmbedThumbnailsHintString = value; }
-        }
-        public string chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosingHint {
-            get { return chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosingHintString; }
-            private set { chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosingHintString = value; }
-        }
-        public string chkSettingsDownloadsSeparateDownloadsToDifferentFoldersHint {
-            get { return chkSettingsDownloadsSeparateDownloadsToDifferentFoldersHintString; }
-            private set { chkSettingsDownloadsSeparateDownloadsToDifferentFoldersHintString = value; }
-        }
-        public string chkSettingsDownloadsSeparateIntoWebsiteUrlHint {
-            get { return chkSettingsDownloadsSeparateIntoWebsiteUrlHintString; }
-            private set { chkSettingsDownloadsSeparateIntoWebsiteUrlHintString = value; }
-        }
-        public string chkSettingsDownloadsFixVReddItHint {
-            get { return chkSettingsDownloadsFixVReddItHintString; }
-            private set { chkSettingsDownloadsFixVReddItHintString = value; }
-        }
-        public string chkSettingsDownloadsPreferFFmpegHint {
-            get { return chkSettingsDownloadsPreferFFmpegHintString; }
-            private set { chkSettingsDownloadsPreferFFmpegHintString = value; }
-        }
-        public string chkSettingsDownloadsLimitDownloadHint {
-            get { return chkSettingsDownloadsLimitDownloadHintString; }
-            private set { chkSettingsDownloadsLimitDownloadHintString = value; }
-        }
-        public string numSettingsDownloadsLimitDownloadHint {
-            get { return numSettingsDownloadsLimitDownloadHintString; }
-            private set { numSettingsDownloadsLimitDownloadHintString = value; }
-        }
-        public string cbSettingsDownloadsLimitDownloadHint {
-            get { return cbSettingsDownloadsLimitDownloadHintString; }
-            private set { cbSettingsDownloadsLimitDownloadHintString = value; }
-        }
-        public string lbSettingsDownloadsRetryAttemptsHint {
-            get { return lbSettingsDownloadsRetryAttemptsHintString; }
-            private set { lbSettingsDownloadsRetryAttemptsHintString = value; }
-        }
-        public string numSettingsDownloadsRetryAttemptsHint {
-            get { return numSettingsDownloadsRetryAttemptsHintString; }
-            private set { numSettingsDownloadsRetryAttemptsHintString = value; }
-        }
-        public string chkSettingsDownloadsForceIpv4Hint {
-            get { return chkSettingsDownloadsForceIpv4HintString; }
-            private set { chkSettingsDownloadsForceIpv4HintString = value; }
-        }
-        public string chkSettingsDownloadsForceIpv6Hint {
-            get { return chkSettingsDownloadsForceIpv6HintString; }
-            private set { chkSettingsDownloadsForceIpv6HintString = value; }
-        }
-        public string chkSettingsDownloadsUseProxyHint {
-            get { return chkSettingsDownloadsUseProxyHintString; }
-            private set { chkSettingsDownloadsUseProxyHintString = value; }
-        }
-        public string cbSettingsDownloadsProxyTypeHint {
-            get { return cbSettingsDownloadsProxyTypeHintString; }
-            private set { cbSettingsDownloadsProxyTypeHintString = value; }
-        }
-        public string txtSettingsDownloadsProxyIpHint {
-            get { return txtSettingsDownloadsProxyIpHintString; }
-            private set { txtSettingsDownloadsProxyIpHintString = value; }
-        }
-        public string txtSettingsDownloadsProxyPortHint {
-            get { return txtSettingsDownloadsProxyPortHintString; }
-            private set { txtSettingsDownloadsProxyPortHintString = value; }
-        }
-        public string chksettingsDownloadsUseYoutubeDlsUpdaterHint {
-            get { return chksettingsDownloadsUseYoutubeDlsUpdaterHintString; }
-            private set { chksettingsDownloadsUseYoutubeDlsUpdaterHintString = value; }
-        }
-        public string chkSettingsDownloadsSeparateBatchDownloadsHint {
-            get { return chkSettingsDownloadsSeparateBatchDownloadsHintString; }
-            private set { chkSettingsDownloadsSeparateBatchDownloadsHintString = value; }
-        }
-        public string chkSettingsDownloadsAddDateToBatchDownloadFoldersHint {
-            get { return chkSettingsDownloadsAddDateToBatchDownloadFoldersHintString; }
-            private set { chkSettingsDownloadsAddDateToBatchDownloadFoldersHintString = value; }
-        }
+        public string lbSettingsDownloadsDownloadPathHint { get; private set; }
+        public string chkSettingsDownloadsDownloadPathUseRelativePathHint { get; private set; }
+        public string txtSettingsDownloadsSavePathHint { get; private set; }
+        public string btnSettingsDownloadsBrowseSavePathHint { get; private set; }
+        public string llSettingsDownloadsSchemaHelpHint { get; private set; }
+        public string lbSettingsDownloadsFileNameSchemaHint { get; private set; }
+        public string txtSettingsDownloadsFileNameSchemaHint { get; private set; }
+        public string chkSettingsDownloadsSaveFormatQualityHint { get; private set; }
+        public string chkSettingsDownloadsDownloadSubtitlesHint { get; private set; }
+        public string chkSettingsDownloadsEmbedSubtitlesHint { get; private set; }
+        public string chkSettingsDownloadsSaveVideoInfoHint { get; private set; }
+        public string chkSettingsDownloadsWriteMetadataToFileHint { get; private set; }
+        public string chkSettingsDownloadsSaveDescriptionHint { get; private set; }
+        public string chkSettingsDownloadsKeepOriginalFilesHint { get; private set; }
+        public string chkSettingsDownloadsSaveAnnotationsHint { get; private set; }
+        public string chkSettingsDownloadsSaveThumbnailsHint { get; private set; }
+        public string chkSettingsDownloadsEmbedThumbnailsHint { get; private set; }
+        public string chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosingHint { get; private set; }
+        public string chkSettingsDownloadsSeparateDownloadsToDifferentFoldersHint { get; private set; }
+        public string chkSettingsDownloadsSeparateIntoWebsiteUrlHint { get; private set; }
+        public string chkSettingsDownloadsFixVReddItHint { get; private set; }
+        public string chkSettingsDownloadsPreferFFmpegHint { get; private set; }
+        public string chkSettingsDownloadsLimitDownloadHint { get; private set; }
+        public string numSettingsDownloadsLimitDownloadHint { get; private set; }
+        public string cbSettingsDownloadsLimitDownloadHint { get; private set; }
+        public string lbSettingsDownloadsRetryAttemptsHint { get; private set; }
+        public string numSettingsDownloadsRetryAttemptsHint { get; private set; }
+        public string chkSettingsDownloadsForceIpv4Hint { get; private set; }
+        public string chkSettingsDownloadsForceIpv6Hint { get; private set; }
+        public string chkSettingsDownloadsUseProxyHint { get; private set; }
+        public string cbSettingsDownloadsProxyTypeHint { get; private set; }
+        public string txtSettingsDownloadsProxyIpHint { get; private set; }
+        public string txtSettingsDownloadsProxyPortHint { get; private set; }
+        public string chksettingsDownloadsUseYoutubeDlsUpdaterHint { get; private set; }
+        public string chkSettingsDownloadsSeparateBatchDownloadsHint { get; private set; }
+        public string chkSettingsDownloadsAddDateToBatchDownloadFoldersHint { get; private set; }
 
-        public string chkSettingsConverterClearOutputAfterConvertingHint {
-            get { return chkSettingsConverterClearOutputAfterConvertingHintString; }
-            private set { chkSettingsConverterClearOutputAfterConvertingHintString = value; }
-        }
-        public string chkSettingsConverterDetectOutputFileTypeHint {
-            get { return chkSettingsConverterDetectOutputFileTypeHintString; }
-            private set { chkSettingsConverterDetectOutputFileTypeHintString = value; }
-        }
-        public string chkSettingsConverterClearInputAfterConvertingHint {
-            get { return chkSettingsConverterClearInputAfterConvertingHintString; }
-            private set { chkSettingsConverterClearInputAfterConvertingHintString = value; }
-        }
-        public string chkSettingsConverterHideFFmpegCompileInfoHint {
-            get { return chkSettingsConverterHideFFmpegCompileInfoHintString; }
-            private set { chkSettingsConverterHideFFmpegCompileInfoHintString = value; }
-        }
-        public string lbSettingsConverterVideoBitrateHint {
-            get { return lbSettingsConverterVideoBitrateHintString; }
-            private set { lbSettingsConverterVideoBitrateHintString = value; }
-        }
-        public string lbSettingsConverterVideoPresetHint {
-            get { return lbSettingsConverterVideoPresetHintString; }
-            private set { lbSettingsConverterVideoPresetHintString = value; }
-        }
-        public string lbSettingsConverterVideoProfileHint {
-            get { return lbSettingsConverterVideoProfileHintString; }
-            private set { lbSettingsConverterVideoProfileHintString = value; }
-        }
-        public string lbSettingsConverterVideoCRFHint {
-            get { return lbSettingsConverterVideoCRFHintString; }
-            private set { lbSettingsConverterVideoCRFHintString = value; }
-        }
-        public string chkSettingsConverterVideoFastStartHint {
-            get { return chkSettingsConverterVideoFastStartHintString; }
-            private set { chkSettingsConverterVideoFastStartHintString = value; }
-        }
-        public string lbSettingsConverterAudioBitrateHint {
-            get { return lbSettingsConverterAudioBitrateHintString; }
-            private set { lbSettingsConverterAudioBitrateHintString = value; }
-        }
-        public string txtSettingsConverterCustomArgumentsHint {
-            get { return txtSettingsConverterCustomArgumentsHintString; }
-            private set { txtSettingsConverterCustomArgumentsHintString = value; }
-        }
+        public string chkSettingsConverterClearOutputAfterConvertingHint { get; private set; }
+        public string chkSettingsConverterDetectOutputFileTypeHint { get; private set; }
+        public string chkSettingsConverterClearInputAfterConvertingHint { get; private set; }
+        public string chkSettingsConverterHideFFmpegCompileInfoHint { get; private set; }
+        public string lbSettingsConverterVideoBitrateHint { get; private set; }
+        public string lbSettingsConverterVideoPresetHint { get; private set; }
+        public string lbSettingsConverterVideoProfileHint { get; private set; }
+        public string lbSettingsConverterVideoCRFHint { get; private set; }
+        public string chkSettingsConverterVideoFastStartHint { get; private set; }
+        public string lbSettingsConverterAudioBitrateHint { get; private set; }
+        public string txtSettingsConverterCustomArgumentsHint { get; private set; }
 
-        public string chkSettingsErrorsShowDetailedErrorsHint {
-            get { return chkSettingsErrorsShowDetailedErrorsHintString; }
-            private set { chkSettingsErrorsShowDetailedErrorsHintString = value; }
-        }
-        public string chkSettingsErrorsSaveErrorsAsErrorLogHint {
-            get { return chkSettingsErrorsSaveErrorsAsErrorLogHintString; }
-            private set { chkSettingsErrorsSaveErrorsAsErrorLogHintString = value; }
-        }
-        public string chkSettingsErrorsSuppressErrorsHint {
-            get { return chkSettingsErrorsSuppressErrorsHintString; }
-            private set { chkSettingsErrorsSuppressErrorsHintString = value; }
-        }
+        public string chkSettingsErrorsShowDetailedErrorsHint { get; private set; }
+        public string chkSettingsErrorsSaveErrorsAsErrorLogHint { get; private set; }
+        public string chkSettingsErrorsSuppressErrorsHint { get; private set; }
         #endregion
 
         #endregion
 
         #region frmSubtitles
-        public string frmSubtitles {
-            get { return frmSubtitlesString; }
-            private set { frmSubtitlesString = value; }
-        }
-        public string lbSubtitlesHeader {
-            get { return lbSubtitlesHeaderString; }
-            private set { lbSubtitlesHeaderString = value; }
-        }
-        public string lbSubtitlesUrl {
-            get { return lbSubtitlesUrlString; }
-            private set { lbSubtitlesUrlString = value; }
-        }
-        public string lbSubtitlesLanguages {
-            get { return lbSubtitlesLanguagesString; }
-            private set { lbSubtitlesLanguagesString = value; }
-        }
-        public string btnSubtitlesAddLanguage {
-            get { return btnSubtitlesAddLanguageString; }
-            private set { btnSubtitlesAddLanguageString = value; }
-        }
-        public string btnSubtitlesClearLanguages {
-            get { return btnSubtitlesClearLanguagesString; }
-            private set { btnSubtitlesClearLanguagesString = value; }
-        }
-        public string btnSubtitlesDownload {
-            get { return btnSubtitlesDownloadString; }
-            private set { btnSubtitlesDownloadString = value; }
-        }
+        public string frmSubtitles { get; private set; }
+        public string lbSubtitlesHeader { get; private set; }
+        public string lbSubtitlesUrl { get; private set; }
+        public string lbSubtitlesLanguages { get; private set; }
+        public string btnSubtitlesAddLanguage { get; private set; }
+        public string btnSubtitlesClearLanguages { get; private set; }
+        public string btnSubtitlesDownload { get; private set; }
         #endregion
 
         #region frmTools
-        public string frmTools {
-            get { return frmToolsString; }
-            private set { frmToolsString = value; }
-        }
-        public string btnMiscToolsRemoveAudio {
-            get { return btnMiscToolsRemoveAudioString; }
-            private set { btnMiscToolsRemoveAudioString = value; }
-        }
-        public string btnMiscToolsExtractAudio {
-            get { return btnMiscToolsExtractAudioString; }
-            private set { btnMiscToolsExtractAudioString = value; }
-        }
-        public string btnMiscToolsVideoToGif {
-            get { return btnMiscToolsVideoToGifString; }
-            private set { btnMiscToolsVideoToGifString = value; }
-        }
+        public string frmTools { get; private set; }
+        public string btnMiscToolsRemoveAudio { get; private set; }
+        public string btnMiscToolsExtractAudio { get; private set; }
+        public string btnMiscToolsVideoToGif { get; private set; }
         #endregion
 
         #region frmUpdateAvailable
-        public string frmUpdateAvailable {
-            get { return frmUpdateAvailableString; }
-            private set { frmUpdateAvailableString = value; }
-        }
-        public string lbUpdateAvailableHeader {
-            get { return lbUpdateAvailableHeaderString; }
-            private set { lbUpdateAvailableHeaderString = value; }
-        }
-        public string lbUpdateAvailableUpdateVersion {
-            get { return lbUpdateAvailableUpdateVersionString; }
-            private set { lbUpdateAvailableUpdateVersionString = value; }
-        }
-        public string lbUpdateAvailableCurrentVersion {
-            get { return lbUpdateAvailableCurrentVersionString; }
-            private set { lbUpdateAvailableCurrentVersionString = value; }
-        }
-        public string lbUpdateAvailableChangelog {
-            get { return lbUpdateAvailableChangelogString; }
-            private set { lbUpdateAvailableChangelogString = value; }
-        }
-        public string btnUpdateAvailableSkipVersion {
-            get { return btnUpdateAvailableSkipVersionString; }
-            private set { btnUpdateAvailableSkipVersionString = value; }
-        }
-        public string btnUpdateAvailableUpdate {
-            get { return btnUpdateAvailableUpdateString; }
-            private set { btnUpdateAvailableUpdateString = value; }
-        }
-        public string btnUpdateAvailableOk {
-            get { return btnUpdateAvailableOkString; }
-            private set { btnUpdateAvailableOkString = value; }
-        }
+        public string frmUpdateAvailable { get; private set; }
+        public string lbUpdateAvailableHeader { get; private set; }
+        public string lbUpdateAvailableUpdateVersion { get; private set; }
+        public string lbUpdateAvailableCurrentVersion { get; private set; }
+        public string lbUpdateAvailableChangelog { get; private set; }
+        public string btnUpdateAvailableSkipVersion { get; private set; }
+        public string btnUpdateAvailableUpdate { get; private set; }
+        public string btnUpdateAvailableOk { get; private set; }
         #endregion
 
         //////////////// Language class \\\\\\\\\\\\\\\\
         #region Instance manager
-        public string LoadedFile {
-            get { return LoadedFileString; }
-            private set { LoadedFileString = value; }
-        }
+        public string LoadedFile { get; private set; }
         #endregion
 
         #endregion
@@ -1697,6 +408,7 @@ namespace youtube_dl_gui {
             public static readonly string GenericAudio = "Audio";
             public static readonly string GenericCustom = "Custom";
             public static readonly string GenericRetry = "Retry";
+            public static readonly string GenericExit = "Exit";
 
             #region frmAbout
             public static readonly string frmAbout = "About";
@@ -1741,13 +453,20 @@ namespace youtube_dl_gui {
             public static readonly string sbBatchDownloaderAborted = "The batch process has been aborted";
             #endregion
 
+            #region frmConverter
+            public static readonly string frmConverter = "Converting";
+            public static readonly string frmConverterComplete = "Conversion finished";
+            public static readonly string frmConverterError = "Error converting";
+            public static readonly string chkConverterCloseAfterConversion = "Close after converting";
+            public static readonly string btnConverterAbortBatch = "Abort batch conversion";
+            #endregion
+
             #region frmDownloader
             public static readonly string frmDownloader = "Downloading";
             public static readonly string frmDownloaderComplete = "Download finished";
             public static readonly string frmDownloaderError = "Error downloading";
             public static readonly string chkDownloaderCloseAfterDownload = "Close after download";
             public static readonly string btnDownloaderAbortBatch = "Abort batch download";
-            public static readonly string btnDownloaderExit = "Exit";
             #endregion
 
             #region frmException
@@ -2102,7 +821,8 @@ namespace youtube_dl_gui {
                 GenericVideo = InternalEnglish.GenericVideo;
                 GenericAudio = InternalEnglish.GenericAudio;
                 GenericCustom = InternalEnglish.GenericCustom;
-                GenericRetryString = InternalEnglish.GenericRetry;
+                GenericRetry = InternalEnglish.GenericRetry;
+                GenericExit = InternalEnglish.GenericExit;
 
                 // frmAbout
                 frmAbout = InternalEnglish.frmAbout;
@@ -2139,13 +859,20 @@ namespace youtube_dl_gui {
                 sbBatchDownloaderFinished = InternalEnglish.sbBatchDownloaderFinished;
                 sbBatchDownloaderAborted = InternalEnglish.sbBatchDownloaderAborted;
 
+                // frmConverter
+                frmConverter = InternalEnglish.frmConverter;
+                frmConverterComplete = InternalEnglish.frmConverterComplete;
+                frmConverterError = InternalEnglish.frmConverterError;
+                chkConverterCloseAfterConversion = InternalEnglish.chkConverterCloseAfterConversion;
+                btnConverterAbortBatch = InternalEnglish.btnConverterAbortBatch;
+
+
                 // frmDownloader
                 frmDownloader = InternalEnglish.frmDownloader;
                 frmDownloaderComplete = InternalEnglish.frmDownloaderComplete;
                 frmDownloaderError = InternalEnglish.frmDownloaderError;
                 chkDownloaderCloseAfterDownload = InternalEnglish.chkDownloaderCloseAfterDownload;
                 btnDownloaderAbortBatch = InternalEnglish.btnDownloaderAbortBatch;
-                btnDownloaderExit = InternalEnglish.btnDownloaderExit;
 
                 // frmException
                 frmException = InternalEnglish.frmException;
@@ -2462,6 +1189,7 @@ namespace youtube_dl_gui {
             GenericAudio = "GenericAudio";
             GenericCustom = "GenericCustom";
             GenericRetry = "GenericRetry";
+            GenericExit = "GenericExit";
 
             // frmAbout
             frmAbout = "frmAbout";
@@ -2498,13 +1226,19 @@ namespace youtube_dl_gui {
             sbBatchDownloaderFinished = "sbBatchDownloaderFinished";
             sbBatchDownloaderAborted = "sbBatchDownloaderAborted";
 
+            // frmConverter
+            frmConverter = "frmConverter";
+            frmConverterComplete = "frmConverterComplete";
+            frmConverterError = "frmConverterError";
+            chkConverterCloseAfterConversion = "chkConverterCloseAfterConversion";
+            btnConverterAbortBatch = "btnConverterAbortBatch";
+
             // frmDownloader
             frmDownloader = "frmDownloader";
             frmDownloaderComplete = "frmDownloaderComplete";
             frmDownloaderError = "frmDownloaderError";
             chkDownloaderCloseAfterDownload = "chkDownloaderCloseAfterDownload";
             btnDownloaderAbortBatch = "btnDownloaderAbortBatch";
-            btnDownloaderExit = "btnDownloaderExit";
 
             // frmException
             frmException = "frmException";
@@ -2887,6 +1621,9 @@ namespace youtube_dl_gui {
                                 case "genericretry":
                                     GenericRetry = ReadValue;
                                     continue;
+                                case "genericexit":
+                                    GenericExit = ReadValue;
+                                    continue;
                                 #endregion
 
                                 #region frmAbout
@@ -2986,6 +1723,24 @@ namespace youtube_dl_gui {
                                     continue;
                                 #endregion
 
+                                #region frmConverter
+                                case "frmconverter":
+                                    frmConverter = ReadValue;
+                                    continue;
+                                case "frmconvertercomplete":
+                                    frmConverterComplete = ReadValue;
+                                    continue;
+                                case "frmconvertererror":
+                                    frmConverterError = ReadValue;
+                                    continue;
+                                case "chkconvertercloseafterconversion":
+                                    chkConverterCloseAfterConversion = ReadValue;
+                                    continue;
+                                case "btnconverterabortbatch":
+                                    btnConverterAbortBatch = ReadValue;
+                                    continue;
+                                #endregion
+
                                 #region frmDownloader
                                 case "frmdownloader":
                                     frmDownloader = ReadValue;
@@ -3001,9 +1756,6 @@ namespace youtube_dl_gui {
                                     continue;
                                 case "btndownloaderabortbatch":
                                     btnDownloaderAbortBatch = ReadValue;
-                                    continue;
-                                case "btndownloaderexit":
-                                    btnDownloaderExit = ReadValue;
                                     continue;
                                 #endregion
 
@@ -3778,10 +2530,10 @@ namespace youtube_dl_gui {
                                     btnMiscToolsRemoveAudio = ReadValue;
                                     continue;
                                 case "btnmisctoolsextractaudio":
-                                    btnMiscToolsExtractAudioString = ReadValue;
+                                    btnMiscToolsExtractAudio = ReadValue;
                                     continue;
                                 case "btnmisctoolsvideotogif":
-                                    btnMiscToolsVideoToGifString = ReadValue;
+                                    btnMiscToolsVideoToGif = ReadValue;
                                     continue;
                                 #endregion
 
