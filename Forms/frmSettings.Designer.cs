@@ -100,10 +100,10 @@
             this.chkSettingsConverterDetectOutputFileType = new System.Windows.Forms.CheckBox();
             this.tcConverter = new System.Windows.Forms.TabControl();
             this.tcSettingsConverterVideo = new System.Windows.Forms.TabPage();
-            this.chkUseVideoCRF = new System.Windows.Forms.CheckBox();
-            this.chkUseVideoProfile = new System.Windows.Forms.CheckBox();
+            this.chkSettingsConverterVideoCRF = new System.Windows.Forms.CheckBox();
+            this.chkSettingsConverterVideoProfile = new System.Windows.Forms.CheckBox();
             this.chkSettingsConverterVideoPreset = new System.Windows.Forms.CheckBox();
-            this.chkUseVideoBitrate = new System.Windows.Forms.CheckBox();
+            this.chkSettingsConverterVideoBitrate = new System.Windows.Forms.CheckBox();
             this.chkSettingsConverterVideoFastStart = new System.Windows.Forms.CheckBox();
             this.numConvertVideoCRF = new System.Windows.Forms.NumericUpDown();
             this.cbConvertVideoProfile = new System.Windows.Forms.ComboBox();
@@ -1145,10 +1145,10 @@
             // 
             // tcSettingsConverterVideo
             // 
-            this.tcSettingsConverterVideo.Controls.Add(this.chkUseVideoCRF);
-            this.tcSettingsConverterVideo.Controls.Add(this.chkUseVideoProfile);
+            this.tcSettingsConverterVideo.Controls.Add(this.chkSettingsConverterVideoCRF);
+            this.tcSettingsConverterVideo.Controls.Add(this.chkSettingsConverterVideoProfile);
             this.tcSettingsConverterVideo.Controls.Add(this.chkSettingsConverterVideoPreset);
-            this.tcSettingsConverterVideo.Controls.Add(this.chkUseVideoBitrate);
+            this.tcSettingsConverterVideo.Controls.Add(this.chkSettingsConverterVideoBitrate);
             this.tcSettingsConverterVideo.Controls.Add(this.chkSettingsConverterVideoFastStart);
             this.tcSettingsConverterVideo.Controls.Add(this.numConvertVideoCRF);
             this.tcSettingsConverterVideo.Controls.Add(this.cbConvertVideoProfile);
@@ -1167,27 +1167,27 @@
             this.tcSettingsConverterVideo.Text = "tcSettingsConverterVideo";
             this.tcSettingsConverterVideo.UseVisualStyleBackColor = true;
             // 
-            // chkUseVideoCRF
+            // chkSettingsConverterVideoCRF
             // 
-            this.chkUseVideoCRF.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.chkUseVideoCRF.AutoSize = true;
-            this.chkUseVideoCRF.Checked = true;
-            this.chkUseVideoCRF.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkUseVideoCRF.Location = new System.Drawing.Point(72, 96);
-            this.chkUseVideoCRF.Name = "chkUseVideoCRF";
-            this.chkUseVideoCRF.Size = new System.Drawing.Size(14, 13);
-            this.chkUseVideoCRF.TabIndex = 11;
-            this.chkUseVideoCRF.UseVisualStyleBackColor = true;
+            this.chkSettingsConverterVideoCRF.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.chkSettingsConverterVideoCRF.AutoSize = true;
+            this.chkSettingsConverterVideoCRF.Checked = true;
+            this.chkSettingsConverterVideoCRF.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkSettingsConverterVideoCRF.Location = new System.Drawing.Point(72, 96);
+            this.chkSettingsConverterVideoCRF.Name = "chkSettingsConverterVideoCRF";
+            this.chkSettingsConverterVideoCRF.Size = new System.Drawing.Size(14, 13);
+            this.chkSettingsConverterVideoCRF.TabIndex = 11;
+            this.chkSettingsConverterVideoCRF.UseVisualStyleBackColor = true;
             // 
-            // chkUseVideoProfile
+            // chkSettingsConverterVideoProfile
             // 
-            this.chkUseVideoProfile.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.chkUseVideoProfile.AutoSize = true;
-            this.chkUseVideoProfile.Location = new System.Drawing.Point(72, 70);
-            this.chkUseVideoProfile.Name = "chkUseVideoProfile";
-            this.chkUseVideoProfile.Size = new System.Drawing.Size(14, 13);
-            this.chkUseVideoProfile.TabIndex = 8;
-            this.chkUseVideoProfile.UseVisualStyleBackColor = true;
+            this.chkSettingsConverterVideoProfile.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.chkSettingsConverterVideoProfile.AutoSize = true;
+            this.chkSettingsConverterVideoProfile.Location = new System.Drawing.Point(72, 70);
+            this.chkSettingsConverterVideoProfile.Name = "chkSettingsConverterVideoProfile";
+            this.chkSettingsConverterVideoProfile.Size = new System.Drawing.Size(14, 13);
+            this.chkSettingsConverterVideoProfile.TabIndex = 8;
+            this.chkSettingsConverterVideoProfile.UseVisualStyleBackColor = true;
             // 
             // chkSettingsConverterVideoPreset
             // 
@@ -1199,15 +1199,15 @@
             this.chkSettingsConverterVideoPreset.TabIndex = 5;
             this.chkSettingsConverterVideoPreset.UseVisualStyleBackColor = true;
             // 
-            // chkUseVideoBitrate
+            // chkSettingsConverterVideoBitrate
             // 
-            this.chkUseVideoBitrate.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.chkUseVideoBitrate.AutoSize = true;
-            this.chkUseVideoBitrate.Location = new System.Drawing.Point(72, 16);
-            this.chkUseVideoBitrate.Name = "chkUseVideoBitrate";
-            this.chkUseVideoBitrate.Size = new System.Drawing.Size(14, 13);
-            this.chkUseVideoBitrate.TabIndex = 1;
-            this.chkUseVideoBitrate.UseVisualStyleBackColor = true;
+            this.chkSettingsConverterVideoBitrate.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.chkSettingsConverterVideoBitrate.AutoSize = true;
+            this.chkSettingsConverterVideoBitrate.Location = new System.Drawing.Point(72, 16);
+            this.chkSettingsConverterVideoBitrate.Name = "chkSettingsConverterVideoBitrate";
+            this.chkSettingsConverterVideoBitrate.Size = new System.Drawing.Size(14, 13);
+            this.chkSettingsConverterVideoBitrate.TabIndex = 1;
+            this.chkSettingsConverterVideoBitrate.UseVisualStyleBackColor = true;
             // 
             // chkSettingsConverterVideoFastStart
             // 
@@ -1316,6 +1316,7 @@
             this.lbSettingsConverterVideoBitrate.TabIndex = 2;
             this.lbSettingsConverterVideoBitrate.Text = "lbSettingsConverterVideoBitrate";
             this.tipSettings.SetToolTip(this.lbSettingsConverterVideoBitrate, "lbSettingsConverterVideoBitrate");
+            this.lbSettingsConverterVideoBitrate.Click += new System.EventHandler(this.lbSettingsConverterVideoBitrate_Click);
             // 
             // lbSettingsConverterVideoPreset
             // 
@@ -1327,6 +1328,7 @@
             this.lbSettingsConverterVideoPreset.TabIndex = 6;
             this.lbSettingsConverterVideoPreset.Text = "lbkSettingsConverterVideoPreset";
             this.tipSettings.SetToolTip(this.lbSettingsConverterVideoPreset, "lbSettingsConverterVideoPreset");
+            this.lbSettingsConverterVideoPreset.Click += new System.EventHandler(this.lbSettingsConverterVideoPreset_Click);
             // 
             // lbSettingsConverterVideoProfile
             // 
@@ -1338,6 +1340,7 @@
             this.lbSettingsConverterVideoProfile.TabIndex = 9;
             this.lbSettingsConverterVideoProfile.Text = "lbSettingsConverterVideoProfile";
             this.tipSettings.SetToolTip(this.lbSettingsConverterVideoProfile, "lbSettingsConverterVideoProfile");
+            this.lbSettingsConverterVideoProfile.Click += new System.EventHandler(this.lbSettingsConverterVideoProfile_Click);
             // 
             // lbSettingsConverterVideoCRF
             // 
@@ -1349,6 +1352,7 @@
             this.lbSettingsConverterVideoCRF.TabIndex = 12;
             this.lbSettingsConverterVideoCRF.Text = "lbSettingsConverterVideoCRF";
             this.tipSettings.SetToolTip(this.lbSettingsConverterVideoCRF, "lbSettingsConverterVideoCRF");
+            this.lbSettingsConverterVideoCRF.Click += new System.EventHandler(this.lbSettingsConverterVideoCRF_Click);
             // 
             // tcSettingsConverterAudio
             // 
@@ -1898,10 +1902,10 @@
         private youtube_dl_gui.Controls.ExtendedTextBox txtSettingsExtensionsExtensionFullName;
         private System.Windows.Forms.Button btnSettingsExtensionsAdd;
         private System.Windows.Forms.Label lbSettingsExtensionsFileName;
-        private System.Windows.Forms.CheckBox chkUseVideoCRF;
-        private System.Windows.Forms.CheckBox chkUseVideoProfile;
+        private System.Windows.Forms.CheckBox chkSettingsConverterVideoCRF;
+        private System.Windows.Forms.CheckBox chkSettingsConverterVideoProfile;
         private System.Windows.Forms.CheckBox chkSettingsConverterVideoPreset;
-        private System.Windows.Forms.CheckBox chkUseVideoBitrate;
+        private System.Windows.Forms.CheckBox chkSettingsConverterVideoBitrate;
         private System.Windows.Forms.CheckBox chkUseAudioBitrate;
         private System.Windows.Forms.Label lbSettingsConverterAudioBitrate;
         private System.Windows.Forms.CheckBox chkSettingsDownloadsFixVReddIt;

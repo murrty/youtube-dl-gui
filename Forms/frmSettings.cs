@@ -53,7 +53,7 @@ namespace youtube_dl_gui {
             tipSettings.SetToolTip(btnSettingsRedownloadYoutubeDl, Program.lang.btnSettingsRedownloadYoutubeDlHint);
             btnSettingsCancel.Text = Program.lang.GenericCancel;
             tipSettings.SetToolTip(btnSettingsCancel, Program.lang.btnSettingsCancelHint);
-            btnSettingsSave.Text = Program.lang.btnSettingsSave;
+            btnSettingsSave.Text = Program.lang.GenericSave;
             tipSettings.SetToolTip(btnSettingsSave, Program.lang.btnSettingsSaveHint);
 
             //if (File.Exists(Program.verif.YoutubeDlPath)) {
@@ -405,13 +405,13 @@ namespace youtube_dl_gui {
             chkSettingsConverterClearInputAfterConverting.Checked = Config.Settings.Converts.clearInput;
             chkSettingsConverterHideFFmpegCompileInfo.Checked = Config.Settings.Converts.hideFFmpegCompile;
 
-            chkUseVideoBitrate.Checked = Config.Settings.Converts.videoUseBitrate;
+            chkSettingsConverterVideoBitrate.Checked = Config.Settings.Converts.videoUseBitrate;
             numConvertVideoBitrate.Value = Config.Settings.Converts.videoBitrate;
             chkSettingsConverterVideoPreset.Checked = Config.Settings.Converts.videoUsePreset;
             cbConvertVideoPreset.SelectedIndex = Config.Settings.Converts.videoPreset;
-            chkUseVideoProfile.Checked = Config.Settings.Converts.videoUseProfile;
+            chkSettingsConverterVideoProfile.Checked = Config.Settings.Converts.videoUseProfile;
             cbConvertVideoProfile.SelectedIndex = Config.Settings.Converts.videoProfile;
-            chkUseVideoCRF.Checked = Config.Settings.Converts.videoUseCRF;
+            chkSettingsConverterVideoCRF.Checked = Config.Settings.Converts.videoUseCRF;
             numConvertVideoCRF.Value = Config.Settings.Converts.videoCRF;
 
             chkSettingsConverterVideoFastStart.Checked = Config.Settings.Converts.videoFastStart;
@@ -514,13 +514,13 @@ namespace youtube_dl_gui {
             Config.Settings.Converts.clearInput = chkSettingsConverterClearInputAfterConverting.Checked;
             Config.Settings.Converts.hideFFmpegCompile = chkSettingsConverterHideFFmpegCompileInfo.Checked;
 
-            Config.Settings.Converts.videoUseBitrate = chkUseVideoBitrate.Checked;
+            Config.Settings.Converts.videoUseBitrate = chkSettingsConverterVideoBitrate.Checked;
             Config.Settings.Converts.videoBitrate = Decimal.ToInt32(numConvertVideoBitrate.Value);
             Config.Settings.Converts.videoUsePreset = chkSettingsConverterVideoPreset.Checked;
             Config.Settings.Converts.videoPreset = cbConvertVideoPreset.SelectedIndex;
-            Config.Settings.Converts.videoUseProfile = chkUseVideoProfile.Checked;
+            Config.Settings.Converts.videoUseProfile = chkSettingsConverterVideoProfile.Checked;
             Config.Settings.Converts.videoProfile = cbConvertVideoProfile.SelectedIndex;
-            Config.Settings.Converts.videoUseCRF = chkUseVideoCRF.Checked;
+            Config.Settings.Converts.videoUseCRF = chkSettingsConverterVideoCRF.Checked;
             Config.Settings.Converts.videoCRF = Decimal.ToInt32(numConvertVideoCRF.Value);
             Config.Settings.Converts.videoFastStart = chkSettingsConverterVideoFastStart.Checked;
 
@@ -638,6 +638,7 @@ namespace youtube_dl_gui {
                 case '\\': case '/': case ':': case '*':
                 case '?': case '"': case '<': case '>':
                 case '|':
+                    System.Media.SystemSounds.Beep.Play();
                     e.Handled = true;
                     break;
             }
@@ -680,11 +681,13 @@ namespace youtube_dl_gui {
 
         private void txtSettingsDownloadsProxyIp_KeyPress(object sender, KeyPressEventArgs e) {
             if (!char.IsDigit(e.KeyChar) && e.KeyChar != (char)46 && e.KeyChar != (char)8) {
+                System.Media.SystemSounds.Beep.Play();
                 e.Handled = true;
             }
         }
         private void txtSettingsDownloadsProxyPort_KeyPress(object sender, KeyPressEventArgs e) {
             if (!char.IsDigit(e.KeyChar)) {
+                System.Media.SystemSounds.Beep.Play();
                 e.Handled = true;
             }
         }
@@ -699,6 +702,24 @@ namespace youtube_dl_gui {
                     )
                 );
             }
+        }
+        #endregion
+
+        #region Converts
+        private void lbSettingsConverterVideoBitrate_Click(object sender, EventArgs e) {
+            chkSettingsConverterVideoBitrate.Checked ^= true;
+        }
+
+        private void lbSettingsConverterVideoPreset_Click(object sender, EventArgs e) {
+            chkSettingsConverterVideoPreset.Checked ^= true;
+        }
+
+        private void lbSettingsConverterVideoProfile_Click(object sender, EventArgs e) {
+            chkSettingsConverterVideoProfile.Checked ^= true;
+        }
+
+        private void lbSettingsConverterVideoCRF_Click(object sender, EventArgs e) {
+            chkSettingsConverterVideoCRF.Checked ^= true;
         }
         #endregion
 

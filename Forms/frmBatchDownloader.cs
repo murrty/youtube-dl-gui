@@ -34,7 +34,7 @@ namespace youtube_dl_gui {
             mBatchDownloaderLoadArgsFromArgsTxt.Text = Program.lang.mBatchDownloaderLoadArgsFromArgsTxt;
             mBatchDownloaderLoadArgsFromFile.Text = Program.lang.mBatchDownloaderLoadArgsFromFile;
             btnBatchDownloadRemoveSelected.Text = Program.lang.btnBatchDownloadRemoveSelected;
-            btnBatchDownloadStartStopExit.Text = Program.lang.btnBatchDownloadStart;
+            btnBatchDownloadStartStopExit.Text = Program.lang.GenericStart;
             sbBatchDownloader.Text = Program.lang.sbBatchDownloaderIdle;
             lvBatchDownloadQueue.Columns[1].Text = Program.lang.lbBatchDownloadType;
             lvBatchDownloadQueue.Columns[2].Text = Program.lang.lbBatchDownloadVideoSpecificArgument;
@@ -263,7 +263,7 @@ namespace youtube_dl_gui {
             }
             else if (lvBatchDownloadQueue.Items.Count > 0) {
                 btnBatchDownloadRemoveSelected.Enabled = false;
-                btnBatchDownloadStartStopExit.Text = Program.lang.btnBatchDownloadStop;
+                btnBatchDownloadStartStopExit.Text = Program.lang.GenericStop;
                 InProgress = true;
                 string BatchTime = BatchDownloader.CurrentTime();
                 for (int i = 0; i < DownloadUrls.Count; i++) {
@@ -305,17 +305,17 @@ namespace youtube_dl_gui {
                     sbBatchDownloader.Text = Program.lang.sbBatchDownloaderDownloading;
                     Downloader = new frmDownloader(NewInfo);
                     switch (Downloader.ShowDialog()) {
-                        case System.Windows.Forms.DialogResult.Yes:
+                        case DialogResult.Yes:
                             lvBatchDownloadQueue.Items[i].ImageIndex = (int)BatchDownloader.ConversionIcon.Finished;
                             break;
-                        case System.Windows.Forms.DialogResult.No:
+                        case DialogResult.No:
                             lvBatchDownloadQueue.Items[i].ImageIndex = (int)BatchDownloader.ConversionIcon.Errored;
                             break;
-                        case System.Windows.Forms.DialogResult.Abort:
+                        case DialogResult.Abort:
                             lvBatchDownloadQueue.Items[i].ImageIndex = (int)BatchDownloader.ConversionIcon.Waiting;
                             AbortDownload = true;
                             break;
-                        case System.Windows.Forms.DialogResult.Ignore:
+                        case DialogResult.Ignore:
                             lvBatchDownloadQueue.Items[i].ImageIndex = (int)BatchDownloader.ConversionIcon.Waiting;
                             break;
                         default:
@@ -327,7 +327,7 @@ namespace youtube_dl_gui {
                 InProgress = false;
                 System.Media.SystemSounds.Exclamation.Play();
                 sbBatchDownloader.Text = Program.lang.sbBatchDownloaderFinished;
-                btnBatchDownloadStartStopExit.Text = Program.lang.btnBatchDownloadStart;
+                btnBatchDownloadStartStopExit.Text = Program.lang.GenericStart;
             }
         }
 

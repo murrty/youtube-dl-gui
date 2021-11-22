@@ -21,7 +21,6 @@ namespace youtube_dl_gui {
         private void frmDownloader_Load(object sender, EventArgs e) {
             //CurrentDownload.BatchDownload = true;
             this.Text = Program.lang.frmDownloader + " ";
-            chkDownloaderCloseAfterDownload.Text = Program.lang.chkDownloaderCloseAfterDownload;
             if (CurrentDownload.BatchDownload) {
                 this.WindowState = FormWindowState.Minimized;
                 btnDownloaderAbortBatchDownload.Enabled = true;
@@ -32,6 +31,7 @@ namespace youtube_dl_gui {
             else {
                 btnDownloaderCancelExit.Text = Program.lang.GenericCancel;
             }
+            chkDownloaderCloseAfterDownload.Text = Program.lang.chkDownloaderCloseAfterDownload;
             chkDownloaderCloseAfterDownload.Checked = Config.Settings.Downloads.CloseDownloaderAfterFinish;
         }
         private void frmDownloader_Shown(object sender, EventArgs e) {
@@ -53,12 +53,12 @@ namespace youtube_dl_gui {
                 case DownloadStatus.Finished:
                     if (DownloadProcess.ExitCode == 0) {
                         if (CurrentDownload.BatchDownload) {
-                            this.DialogResult = System.Windows.Forms.DialogResult.Yes;
+                            this.DialogResult = DialogResult.Yes;
                         }
                     }
                     else {
                         if (CurrentDownload.BatchDownload) {
-                            this.DialogResult = System.Windows.Forms.DialogResult.No;
+                            this.DialogResult = DialogResult.No;
                         }
                     }
                     break;
@@ -110,7 +110,7 @@ namespace youtube_dl_gui {
                             if (DownloadThread != null && DownloadThread.IsAlive) {
                                 DownloadThread.Abort();
                             }
-                            rtbConsoleOutput.AppendText("Additionally, the batch download has been canceled.");
+                            rtbConsoleOutput.AppendText("Additionally, the batch download has been cancelled.");
                             this.Close();
                             break;
                     }
@@ -135,7 +135,7 @@ namespace youtube_dl_gui {
         private void BeginDownload() {
             Debug.Print("BeginDownload()");
             if (string.IsNullOrEmpty(CurrentDownload.DownloadURL)) {
-                MessageBox.Show("The URL is null or empty. Please enter a URL or Download path.");
+                rtbConsoleOutput.AppendText("The URL is null or empty. Please enter a URL to download.");
                 return;
             }
             CurrentDownload.Status = DownloadStatus.GeneratingArguments;
@@ -165,7 +165,7 @@ sanitizecheck:
             }
             #endregion
 
-            string YoutubeDlFileName = null;
+            string YoutubeDlPath = null;
             string ArgumentsBuffer = string.Empty;
             string PreviewArguments = string.Empty;
             string QualityFormatBuffer = string.Empty;
@@ -173,8 +173,8 @@ sanitizecheck:
             string webFolder = string.Empty;
 
             #region youtube-dl path
-            YoutubeDlFileName = Program.verif.YoutubeDlPath;
-            if (string.IsNullOrWhiteSpace(YoutubeDlFileName)) {
+            YoutubeDlPath = Program.verif.YoutubeDlPath;
+            if (string.IsNullOrWhiteSpace(YoutubeDlPath)) {
                 rtbConsoleOutput.AppendText("Youtube-DL has not been found\nA rescan for youtube-dl was called\n");
                 Program.verif.RefreshYoutubeDlLocation();
                 if (Program.verif.YoutubeDlPath != null) {
@@ -243,7 +243,7 @@ sanitizecheck:
             rtbConsoleOutput.AppendText("The output was generated and will be used\n");
             #endregion
 
-            #region Quality + format
+            #region Quality & format
             switch (CurrentDownload.Type) {
                 case DownloadType.Video: {
                         if (CurrentDownload.SkipAudioForVideos) {
@@ -488,7 +488,7 @@ sanitizecheck:
             DownloadThread = new Thread(() => {
                 try {
                     DownloadProcess = new Process() {
-                        StartInfo = new System.Diagnostics.ProcessStartInfo(YoutubeDlFileName) {
+                        StartInfo = new ProcessStartInfo(YoutubeDlPath) {
                             UseShellExecute = false,
                             RedirectStandardOutput = true,
                             RedirectStandardError = true,
@@ -540,9 +540,9 @@ sanitizecheck:
                     System.Media.SystemSounds.Hand.Play();
                     DownloadProcess.CancelErrorRead();
                     DownloadProcess.CancelOutputRead();
-                    KillProcessTree((UInt32)DownloadProcess.Id);
+                    Win32.KillProcessTree((uint)DownloadProcess.Id);
                     DownloadProcess.Kill();
-                    this.BeginInvoke((MethodInvoker)delegate() {
+                    this.BeginInvoke((Action)delegate {
                         rtbConsoleOutput.AppendText("Downloading was aborted by the user.");
                     });
                     CurrentDownload.Status = DownloadStatus.Aborted;
@@ -559,24 +559,24 @@ sanitizecheck:
                     }
                 }
             });
-            rtbConsoleOutput.AppendText("Created, starting download thread\n");
+            rtbConsoleOutput.AppendText("Created download thread, starting...\n");
             DownloadThread.Name = "Downloading video";
             DownloadThread.Start();
             #endregion
         }
         private void DownloadFinished() {
             tmrTitleActivity.Stop();
-            this.Text.Trim('.');
-            btnDownloaderCancelExit.Text = Program.lang.btnBatchDownloadExit;
+            this.Text = this.Text.Trim('.');
+            btnDownloaderCancelExit.Text = Program.lang.GenericExit;
 
             if (CurrentDownload.BatchDownload) {
                 switch (CurrentDownload.Status) {
                     case DownloadStatus.Aborted:
                         if (AbortBatch) {
-                            this.DialogResult = System.Windows.Forms.DialogResult.Abort;
+                            this.DialogResult = DialogResult.Abort;
                         }
                         else {
-                            this.DialogResult = System.Windows.Forms.DialogResult.Ignore;
+                            this.DialogResult = DialogResult.Ignore;
                         }
                         break;
                     case DownloadStatus.YtdlError:
@@ -586,17 +586,17 @@ sanitizecheck:
                         this.Text = Program.lang.frmDownloaderError;
                         break;
                     case DownloadStatus.ProgramError:
-                        btnDownloaderCancelExit.Text = Program.lang.btnDownloaderExit;
+                        btnDownloaderCancelExit.Text = Program.lang.GenericExit;
                         rtbConsoleOutput.AppendText("\nAn error occured\nAn error log was presented, if enabled.\nExit the form to resume batch download.");
                         this.Text = Program.lang.frmDownloaderError;
                         this.Activate();
                         System.Media.SystemSounds.Hand.Play();
                         break;
                     case DownloadStatus.Finished:
-                        this.DialogResult = System.Windows.Forms.DialogResult.Yes;
+                        this.DialogResult = DialogResult.Yes;
                         break;
                     default:
-                        this.DialogResult = System.Windows.Forms.DialogResult.No;
+                        this.DialogResult = DialogResult.No;
                         break;
                 }
             }
@@ -605,7 +605,7 @@ sanitizecheck:
                     case DownloadStatus.Aborted:
                         break;
                     case DownloadStatus.YtdlError:
-                        btnDownloaderCancelExit.Text = Program.lang.btnDownloaderExit;
+                        btnDownloaderCancelExit.Text = Program.lang.GenericExit;
                         rtbConsoleOutput.AppendText("\nAn error occured\nTHIS IS A YOUTUBE-DL ERROR, NOT A ERROR WITH THIS PROGRAM!");
                         btnDownloaderAbortBatchDownload.Visible = true;
                         btnDownloaderAbortBatchDownload.Enabled = true;
@@ -615,37 +615,24 @@ sanitizecheck:
                         System.Media.SystemSounds.Hand.Play();
                         break;
                     case DownloadStatus.ProgramError:
-                        btnDownloaderCancelExit.Text = Program.lang.btnDownloaderExit;
+                        btnDownloaderCancelExit.Text = Program.lang.GenericExit;
                         rtbConsoleOutput.AppendText("\nAn error occured\nAn error log was presented, if enabled.");
                         this.Text = Program.lang.frmDownloaderError;
                         this.Activate();
                         System.Media.SystemSounds.Hand.Play();
                         break;
                     case DownloadStatus.Finished:
-                        btnDownloaderCancelExit.Text = Program.lang.btnDownloaderExit;
+                        btnDownloaderCancelExit.Text = Program.lang.GenericExit;
                         this.Text = Program.lang.frmDownloaderComplete;
                         rtbConsoleOutput.AppendText("Download has finished.");
                         if (chkDownloaderCloseAfterDownload.Checked) { this.Close(); }
                         break;
                     default:
-                        btnDownloaderCancelExit.Text = Program.lang.btnDownloaderExit;
+                        btnDownloaderCancelExit.Text = Program.lang.GenericExit;
                         this.Text = Program.lang.frmDownloaderComplete;
                         rtbConsoleOutput.AppendText("CurrentDownload.Status not defined (Not a batch download)\nAssuming success.");
                         if (chkDownloaderCloseAfterDownload.Checked) { this.Close(); }
                         break;
-                }
-            }
-        }
-        private void KillProcessTree(UInt32 ParentProcess) {
-            ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT * FROM Win32_Process WHERE ParentProcessId=" + ParentProcess);
-            ManagementObjectCollection collection = searcher.Get();
-            if (collection.Count > 0) {
-                foreach (var proc in collection) {
-                    UInt32 id = (UInt32)proc["ProcessID"];
-                    if ((int)id != ParentProcess) {
-                        Process subProcess = Process.GetProcessById((int)id);
-                        subProcess.Kill();
-                    }
                 }
             }
         }

@@ -28,7 +28,11 @@ namespace youtube_dl_gui {
         public string GenericAudio { get; private set; }
         public string GenericCustom { get; private set; }
         public string GenericRetry { get; private set; }
+        public string GenericStart { get; private set; }
+        public string GenericStop { get; private set; }
         public string GenericExit { get; private set; }
+        public string GenericOk { get; private set; }
+        public string GenericSave { get; private set; }
         #endregion
 
         #region frmAbout
@@ -60,9 +64,6 @@ namespace youtube_dl_gui {
         public string mBatchDownloaderLoadArgsFromSettings { get; private set; }
         public string mBatchDownloaderLoadArgsFromArgsTxt { get; private set; }
         public string mBatchDownloaderLoadArgsFromFile { get; private set; }
-        public string btnBatchDownloadStart { get; private set; }
-        public string btnBatchDownloadStop { get; private set; }
-        public string btnBatchDownloadExit { get; private set; }
         public string sbBatchDownloaderIdle { get; private set; }
         public string sbBatchDownloaderDownloading { get; private set; }
         public string sbBatchDownloaderFinished { get; private set; }
@@ -74,7 +75,7 @@ namespace youtube_dl_gui {
         public string frmConverterComplete { get; private set; }
         public string frmConverterError { get; private set; }
         public string chkConverterCloseAfterConversion { get; private set; }
-        public string btnConverterAbortBatch { get; private set; }
+        public string btnConverterAbortBatchConversions { get; private set; }
         #endregion
 
         #region frmDownloader
@@ -91,14 +92,11 @@ namespace youtube_dl_gui {
         public string lbExceptionDescription { get; private set; }
         public string rtbExceptionDetails { get; private set; }
         public string btnExceptionGithub { get; private set; }
-        public string btnExceptionOk { get; private set; }
         #endregion
 
         #region frmLanguage
         public string frmLanguage { get; private set; }
         public string btnLanguageRefresh { get; private set; }
-        public string btnLanguageCancel { get; private set; }
-        public string btnLanguageSave { get; private set; }
         #endregion
 
         #region frmMain
@@ -180,7 +178,6 @@ namespace youtube_dl_gui {
         #region frmSettings form
         public string frmSettings { get; private set; }
         public string btnSettingsRedownloadYoutubeDl { get; private set; }
-        public string btnSettingsSave { get; private set; }
 
         public string tabSettingsGeneral { get; private set; }
         public string tabSettingsDownloads { get; private set; }
@@ -378,7 +375,6 @@ namespace youtube_dl_gui {
         public string lbUpdateAvailableChangelog { get; private set; }
         public string btnUpdateAvailableSkipVersion { get; private set; }
         public string btnUpdateAvailableUpdate { get; private set; }
-        public string btnUpdateAvailableOk { get; private set; }
         #endregion
 
         //////////////// Language class \\\\\\\\\\\\\\\\
@@ -408,7 +404,11 @@ namespace youtube_dl_gui {
             public static readonly string GenericAudio = "Audio";
             public static readonly string GenericCustom = "Custom";
             public static readonly string GenericRetry = "Retry";
+            public static readonly string GenericStart = "Start";
+            public static readonly string GenericStop = "Stop";
             public static readonly string GenericExit = "Exit";
+            public static readonly string GenericOk = "OK";
+            public static readonly string GenericSave = "Save";
 
             #region frmAbout
             public static readonly string frmAbout = "About";
@@ -444,9 +444,6 @@ namespace youtube_dl_gui {
             public static readonly string mBatchDownloaderLoadArgsFromArgsTxt = "Load args from ./args.txt";
             public static readonly string mBatchDownloaderLoadArgsFromFile = "Load args from file...";
             public static readonly string btnBatchDownloadRemoveSelected = "Remove selected";
-            public static readonly string btnBatchDownloadStart = "Start";
-            public static readonly string btnBatchDownloadStop = "Stop";
-            public static readonly string btnBatchDownloadExit = "Exit";
             public static readonly string sbBatchDownloaderIdle = "Waiting for batch download start";
             public static readonly string sbBatchDownloaderDownloading = "Batch download in progress...";
             public static readonly string sbBatchDownloaderFinished = "Batch download finished. Add more items to start another batch, or exit";
@@ -458,7 +455,7 @@ namespace youtube_dl_gui {
             public static readonly string frmConverterComplete = "Conversion finished";
             public static readonly string frmConverterError = "Error converting";
             public static readonly string chkConverterCloseAfterConversion = "Close after converting";
-            public static readonly string btnConverterAbortBatch = "Abort batch conversion";
+            public static readonly string btnConverterAbortBatchConversions = "Abort batch conversions";
             #endregion
 
             #region frmDownloader
@@ -476,14 +473,11 @@ namespace youtube_dl_gui {
             public static readonly string lbExceptionDescription = "Below is the error that occured. Feel free to open a new issue and report it.";
             public static readonly string rtbExceptionDetails = "Feel free to copy + paste this entire text wall into a new issue on Github";
             public static readonly string btnExceptionGithub = "Open Github";
-            public static readonly string btnExceptionOk = "OK";
             #endregion
 
             #region frmLanguage
             public static readonly string frmLanguage = "Language select";
             public static readonly string btnLanguageRefresh = "Refresh";
-            public static readonly string btnLanguageCancel = "Cancel";
-            public static readonly string btnLanguageSave = "Save";
             #endregion
 
             #region frmMain
@@ -574,7 +568,6 @@ namespace youtube_dl_gui {
             // frmSettings
             public static readonly string frmSettings = "youtube-dl-gui settings";
             public static readonly string btnSettingsRedownloadYoutubeDl = "(re)download youtube-dl";
-            public static readonly string btnSettingsSave = "Save";
             public static readonly string btnSettingsRedownloadYoutubeDlHint = "Redownloads youtube-dl if one is already present, otherwise, updates youtube-dl";
             public static readonly string btnSettingsCancelHint = "Discard any changed settings";
             public static readonly string btnSettingsSaveHint = "Save all configured settings";
@@ -797,7 +790,6 @@ namespace youtube_dl_gui {
             public static readonly string lbUpdateAvailableChangelog = "Changelog:";
             public static readonly string btnUpdateAvailableSkipVersion = "Skip version";
             public static readonly string btnUpdateAvailableUpdate = "Update";
-            public static readonly string btnUpdateAvailableOk = "OK";
             #endregion
         }
 
@@ -822,7 +814,11 @@ namespace youtube_dl_gui {
                 GenericAudio = InternalEnglish.GenericAudio;
                 GenericCustom = InternalEnglish.GenericCustom;
                 GenericRetry = InternalEnglish.GenericRetry;
+                GenericStart = InternalEnglish.GenericStart;
+                GenericStop = InternalEnglish.GenericStop;
                 GenericExit = InternalEnglish.GenericExit;
+                GenericOk = InternalEnglish.GenericOk;
+                GenericSave = InternalEnglish.GenericSave;
 
                 // frmAbout
                 frmAbout = InternalEnglish.frmAbout;
@@ -851,9 +847,6 @@ namespace youtube_dl_gui {
                 mBatchDownloaderLoadArgsFromArgsTxt = InternalEnglish.mBatchDownloaderLoadArgsFromArgsTxt;
                 mBatchDownloaderLoadArgsFromFile = InternalEnglish.mBatchDownloaderLoadArgsFromFile;
                 btnBatchDownloadRemoveSelected = InternalEnglish.btnBatchDownloadRemoveSelected;
-                btnBatchDownloadStart = InternalEnglish.btnBatchDownloadStart;
-                btnBatchDownloadStop = InternalEnglish.btnBatchDownloadStop;
-                btnBatchDownloadExit = InternalEnglish.btnBatchDownloadExit;
                 sbBatchDownloaderIdle = InternalEnglish.sbBatchDownloaderIdle;
                 sbBatchDownloaderDownloading = InternalEnglish.sbBatchDownloaderDownloading;
                 sbBatchDownloaderFinished = InternalEnglish.sbBatchDownloaderFinished;
@@ -864,7 +857,7 @@ namespace youtube_dl_gui {
                 frmConverterComplete = InternalEnglish.frmConverterComplete;
                 frmConverterError = InternalEnglish.frmConverterError;
                 chkConverterCloseAfterConversion = InternalEnglish.chkConverterCloseAfterConversion;
-                btnConverterAbortBatch = InternalEnglish.btnConverterAbortBatch;
+                btnConverterAbortBatchConversions = InternalEnglish.btnConverterAbortBatchConversions;
 
 
                 // frmDownloader
@@ -880,13 +873,10 @@ namespace youtube_dl_gui {
                 lbExceptionDescription = InternalEnglish.lbExceptionDescription;
                 rtbExceptionDetails = InternalEnglish.rtbExceptionDetails;
                 btnExceptionGithub = InternalEnglish.btnExceptionGithub;
-                btnExceptionOk = InternalEnglish.btnExceptionOk;
 
                 // frmLanguage
                 frmLanguage = InternalEnglish.frmLanguage;
                 btnLanguageRefresh = InternalEnglish.btnLanguageRefresh;
-                btnLanguageCancel = InternalEnglish.btnLanguageCancel;
-                btnLanguageSave = InternalEnglish.btnLanguageSave;
 
                 // frmMain
                 mSettings = InternalEnglish.mSettings;
@@ -964,7 +954,6 @@ namespace youtube_dl_gui {
                 // frmSettings
                 frmSettings = InternalEnglish.frmSettings;
                 btnSettingsRedownloadYoutubeDl = InternalEnglish.btnSettingsRedownloadYoutubeDl;
-                btnSettingsSave = InternalEnglish.btnSettingsSave;
 
                 tabSettingsGeneral = InternalEnglish.tabSettingsGeneral;
                 tabSettingsDownloads = InternalEnglish.tabSettingsDownloads;
@@ -1165,7 +1154,6 @@ namespace youtube_dl_gui {
                 lbUpdateAvailableChangelog = InternalEnglish.lbUpdateAvailableChangelog;
                 btnUpdateAvailableSkipVersion = InternalEnglish.btnUpdateAvailableSkipVersion;
                 btnUpdateAvailableUpdate = InternalEnglish.btnUpdateAvailableUpdate;
-                btnUpdateAvailableOk = InternalEnglish.btnUpdateAvailableOk;
             }
         }
 
@@ -1189,7 +1177,11 @@ namespace youtube_dl_gui {
             GenericAudio = "GenericAudio";
             GenericCustom = "GenericCustom";
             GenericRetry = "GenericRetry";
+            GenericStart = "GenericStart";
+            GenericStop = "GenericStop";
             GenericExit = "GenericExit";
+            GenericOk = "GenericOk";
+            GenericSave = "GenericSave";
 
             // frmAbout
             frmAbout = "frmAbout";
@@ -1218,9 +1210,6 @@ namespace youtube_dl_gui {
             mBatchDownloaderLoadArgsFromArgsTxt = "mBatchDownloaderLoadArgsFromArgsTxt";
             mBatchDownloaderLoadArgsFromFile = "mBatchDownloaderLoadArgsFromFile";
             btnBatchDownloadRemoveSelected = "btnBatchDownloadRemoveSelected";
-            btnBatchDownloadStart = "btnBatchDownloadStart";
-            btnBatchDownloadStop = "btnBatchDownloadStop";
-            btnBatchDownloadExit = "btnBatchDownloadExit";
             sbBatchDownloaderIdle = "sbBatchDownloaderIdle";
             sbBatchDownloaderDownloading = "sbBatchDownloaderDownloading";
             sbBatchDownloaderFinished = "sbBatchDownloaderFinished";
@@ -1231,7 +1220,7 @@ namespace youtube_dl_gui {
             frmConverterComplete = "frmConverterComplete";
             frmConverterError = "frmConverterError";
             chkConverterCloseAfterConversion = "chkConverterCloseAfterConversion";
-            btnConverterAbortBatch = "btnConverterAbortBatch";
+            btnConverterAbortBatchConversions = "btnConverterAbortBatchConversions";
 
             // frmDownloader
             frmDownloader = "frmDownloader";
@@ -1246,13 +1235,10 @@ namespace youtube_dl_gui {
             lbExceptionDescription = "lbExceptionDescription";
             rtbExceptionDetails = "rtbExceptionDetails";
             btnExceptionGithub = "btnExceptionGithub";
-            btnExceptionOk = "btnExceptionOk";
 
             // frmLanguage
             frmLanguage = "frmLanguage";
             btnLanguageRefresh = "btnLanguageRefresh";
-            btnLanguageCancel = "btnLanguageCancel";
-            btnLanguageSave = "btnLanguageSave";
 
             // frmMain
             mSettings = "mSettings";
@@ -1330,7 +1316,6 @@ namespace youtube_dl_gui {
             // frmSettings
             frmSettings = "frmSettings";
             btnSettingsRedownloadYoutubeDl = "btnSettingsRedownloadYoutubeDl";
-            btnSettingsSave = "btnSettingsSave";
 
             tabSettingsGeneral = "tabSettingsGeneral";
             tabSettingsDownloads = "tabSettingsDownloads";
@@ -1525,7 +1510,6 @@ namespace youtube_dl_gui {
             lbUpdateAvailableChangelog = "lbUpdateAvailableChangelog";
             btnUpdateAvailableSkipVersion = "btnUpdateAvailableSkipVersion";
             btnUpdateAvailableUpdate = "btnUpdateAvailableUpdate";
-            btnUpdateAvailableOk = "btnUpdateAvailableOk";
         }
         #endregion
 
@@ -1621,8 +1605,20 @@ namespace youtube_dl_gui {
                                 case "genericretry":
                                     GenericRetry = ReadValue;
                                     continue;
+                                case "genericstart":
+                                    GenericStart = ReadValue;
+                                    continue;
+                                case "genericstop":
+                                    GenericStop = ReadValue;
+                                    continue;
                                 case "genericexit":
                                     GenericExit = ReadValue;
+                                    continue;
+                                case "genericok":
+                                    GenericOk = ReadValue;
+                                    continue;
+                                case "genericsave":
+                                    GenericSave = ReadValue;
                                     continue;
                                 #endregion
 
@@ -1700,15 +1696,6 @@ namespace youtube_dl_gui {
                                 case "btnbatchdownloadremoveselected":
                                     btnBatchDownloadRemoveSelected = ReadValue;
                                     continue;
-                                case "btnbatchdownloadstart":
-                                    btnBatchDownloadStart = ReadValue;
-                                    continue;
-                                case "btnbatchdownloadstop":
-                                    btnBatchDownloadStop = ReadValue;
-                                    continue;
-                                case "btnbatchdownloadexit":
-                                    btnBatchDownloadExit = ReadValue;
-                                    continue;
                                 case "sbbatchdownloaderidle":
                                     sbBatchDownloaderIdle = ReadValue;
                                     continue;
@@ -1736,8 +1723,8 @@ namespace youtube_dl_gui {
                                 case "chkconvertercloseafterconversion":
                                     chkConverterCloseAfterConversion = ReadValue;
                                     continue;
-                                case "btnconverterabortbatch":
-                                    btnConverterAbortBatch = ReadValue;
+                                case "btnconverterabortbatchconversions":
+                                    btnConverterAbortBatchConversions = ReadValue;
                                     continue;
                                 #endregion
 
@@ -1775,9 +1762,6 @@ namespace youtube_dl_gui {
                                 case "btnexceptiongithub":
                                     btnExceptionGithub = ReadValue;
                                     continue;
-                                case "btnexceptionok":
-                                    btnExceptionOk = ReadValue;
-                                    continue;
                                 #endregion
 
                                 #region frmLanguage
@@ -1786,12 +1770,6 @@ namespace youtube_dl_gui {
                                     continue;
                                 case "btnlanguagerefresh":
                                     btnLanguageRefresh = ReadValue;
-                                    continue;
-                                case "btnlanguagecancel":
-                                    btnLanguageCancel = ReadValue;
-                                    continue;
-                                case "btnlanguagesave":
-                                    btnLanguageSave = ReadValue;
                                     continue;
                                 #endregion
 
@@ -2014,9 +1992,6 @@ namespace youtube_dl_gui {
                                     continue;
                                 case "btnsettingsredownloadyoutubedl":
                                     btnSettingsRedownloadYoutubeDl = ReadValue;
-                                    continue;
-                                case "btnsettingssave":
-                                    btnSettingsSave = ReadValue;
                                     continue;
                                 case "btnsettingsredownloadyoutubedlhint":
                                     btnSettingsRedownloadYoutubeDlHint = ReadValue;
@@ -2558,9 +2533,6 @@ namespace youtube_dl_gui {
                                     continue;
                                 case "btnupdateavailableupdate":
                                     btnUpdateAvailableUpdate = ReadValue;
-                                    continue;
-                                case "btnupdateavailableok":
-                                    btnUpdateAvailableOk = ReadValue;
                                     continue;
                                 #endregion
 

@@ -15,8 +15,8 @@ namespace youtube_dl_gui {
         public void LoadLanguage() {
             this.Text = Program.lang.frmLanguage;
             btnLanguageRefresh.Text = Program.lang.btnLanguageRefresh;
-            btnLanguageCancel.Text = Program.lang.btnLanguageCancel;
-            btnLanguageSave.Text = Program.lang.btnLanguageSave;
+            btnLanguageCancel.Text = Program.lang.GenericCancel;
+            btnLanguageSave.Text = Program.lang.GenericSave;
 
             lbCurrentLanguageShort.Text = Program.lang.CurrentLanguageShort;
             ttLanguage.SetToolTip(lbCurrentLanguageShort, Program.lang.CurrentLanguageLong + " (" + Program.lang.CurrentLanguageShort + ")\nLang version " + Program.lang.CurrentLanguageVersion);

@@ -546,6 +546,7 @@ namespace youtube_dl_gui {
         public bool videoUseProfile = false;
         public bool videoUseCRF = true;
         public bool audioUseBitrate = true;
+        public bool CloseAfterFinish = false;
 
         private bool detectFiletype_First = true;
         private bool clearOutput_First = false;
@@ -562,6 +563,7 @@ namespace youtube_dl_gui {
         private bool videoUseProfile_First = false;
         private bool videoUseCRF_First = true;
         private bool audioUseBitrate_First = true;
+        private bool CloseAfterFinish_First = false;
         #endregion
 
         public void Save() {
@@ -657,6 +659,12 @@ namespace youtube_dl_gui {
                             audioUseBitrate_First = audioUseBitrate;
                             break;
                     }
+                    switch (CloseAfterFinish != CloseAfterFinish_First) {
+                        case true:
+                            Ini.Write("CloseAfterFinish", CloseAfterFinish, "Converts");
+                            CloseAfterFinish_First = CloseAfterFinish;
+                            break;
+                    }
 
                     break;
 
@@ -721,6 +729,10 @@ namespace youtube_dl_gui {
                     }
                     if (Configurations.Converts.Default.audioUseBitrate != audioUseBitrate) {
                         Configurations.Converts.Default.audioUseBitrate = audioUseBitrate;
+                        Save = true;
+                    }
+                    if (Configurations.Converts.Default.CloseAfterFinish != CloseAfterFinish) {
+                        Configurations.Converts.Default.CloseAfterFinish = CloseAfterFinish;
                         Save = true;
                     }
 
@@ -796,6 +808,10 @@ namespace youtube_dl_gui {
                         audioUseBitrate = Ini.ReadBool("audioUseBitrate", "Converts");
                         audioUseBitrate_First = audioUseBitrate;
                     }
+                    if (Ini.KeyExists("CloseAfterFinish", "Converts")) {
+                        CloseAfterFinish = Ini.ReadBool("CloseAfterFinish", "Converts");
+                        CloseAfterFinish_First = CloseAfterFinish;
+                    }
                     break;
                 #endregion
 
@@ -816,6 +832,7 @@ namespace youtube_dl_gui {
                     videoUseProfile = Configurations.Converts.Default.videoUseProfile;
                     videoUseCRF = Configurations.Converts.Default.videoUseCRF;
                     audioUseBitrate = Configurations.Converts.Default.audioUseBitrate;
+                    CloseAfterFinish = Configurations.Converts.Default.CloseAfterFinish;
                     break;
                 #endregion
             }
@@ -869,6 +886,9 @@ namespace youtube_dl_gui {
                     Ini.Write("audioUseBitrate", audioUseBitrate, "Converts");
                     audioUseBitrate_First = audioUseBitrate;
 
+                    Ini.Write("CloseAfterFinish", CloseAfterFinish, "Converts");
+                    CloseAfterFinish_First = CloseAfterFinish;
+
                     break;
 
                 case false:
@@ -887,6 +907,7 @@ namespace youtube_dl_gui {
                     Configurations.Converts.Default.videoUseProfile = videoUseProfile;
                     Configurations.Converts.Default.videoUseCRF = videoUseCRF;
                     Configurations.Converts.Default.audioUseBitrate = audioUseBitrate;
+                    Configurations.Converts.Default.CloseAfterFinish = CloseAfterFinish;
                     Configurations.Converts.Default.Save();
                     break;
             }

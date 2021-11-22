@@ -46,7 +46,7 @@ namespace youtube_dl_gui {
                         lbExceptionDescription.Text = Language.InternalEnglish.lbExceptionDescription;
                         rtbExceptionDetails.Text = Language.InternalEnglish.rtbExceptionDetails;
                         btnExceptionGithub.Text = Language.InternalEnglish.btnExceptionGithub;
-                        btnExceptionOk.Text = Language.InternalEnglish.btnExceptionOk;
+                        btnExceptionOk.Text = Language.InternalEnglish.GenericOk;
                     }
                     else {
                         this.Text = Program.lang.frmException;
@@ -54,7 +54,7 @@ namespace youtube_dl_gui {
                         lbExceptionDescription.Text = Program.lang.lbExceptionDescription;
                         lbExceptionDescription.Text = Program.lang.lbExceptionDescription;
                         btnExceptionGithub.Text = Program.lang.btnExceptionGithub;
-                        btnExceptionOk.Text = Program.lang.btnExceptionOk;
+                        btnExceptionOk.Text = Program.lang.GenericOk;
                     }
                     break;
             }

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Diagnostics;
+using System.Management;
 using System.Runtime.InteropServices;
 
 namespace youtube_dl_gui {
@@ -71,6 +73,20 @@ namespace youtube_dl_gui {
         /// Deconstructor
         /// </summary>
         ~Win32() {
+        }
+
+        public static void KillProcessTree(uint ParentProcess) {
+            ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT * FROM Win32_Process WHERE ParentProcessId=" + ParentProcess);
+            ManagementObjectCollection collection = searcher.Get();
+            if (collection.Count > 0) {
+                foreach (var proc in collection) {
+                    uint id = (uint)proc["ProcessID"];
+                    if ((int)id != ParentProcess) {
+                        Process subProcess = Process.GetProcessById((int)id);
+                        subProcess.Kill();
+                    }
+                }
+            }
         }
     }
 }

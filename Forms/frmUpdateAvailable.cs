@@ -16,7 +16,7 @@ namespace youtube_dl_gui {
             rtbUpdateAvailableChangelog.Text = UpdateChecker.GitInfo.UpdateBody;
             btnUpdateAvailableUpdate.Text = Program.lang.btnUpdateAvailableUpdate;
             btnUpdateAvailableSkip.Text = Program.lang.btnUpdateAvailableSkipVersion;
-            btnUpdateAvailableOk.Text = Program.lang.btnUpdateAvailableOk;
+            btnUpdateAvailableOk.Text = Program.lang.GenericOk;
 
         }
         private void frmUpdateAvailable_Load(object sender, EventArgs e) {
