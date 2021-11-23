@@ -109,25 +109,8 @@ namespace youtube_dl_gui {
 
         public string CustomArguments = Config.Settings.Saved.convertCustom;
 
-        public ConvertInfo(ConversionType Type = ConversionType.Unspecified) {
-            // Check if the conversion type was specified.
-            // if it was, check if it's supported for specifics.
-            if (Type == ConversionType.Unspecified) {
-                if (Config.Settings.Converts.detectFiletype) {
-                    switch (Convert.GetFiletype(OutputFile)) {
-                        case 0:
-                            this.Type = ConversionType.Video;
-                            break;
-                        case 1:
-                            this.Type = ConversionType.Audio;
-                            break;
-                        default:
-                            this.Type = ConversionType.FfmpegDefault;
-                            break;
-                    }
-                }
-            }
-            else this.Type = Type;
+        public ConvertInfo() {
+            
         }
     }
     
@@ -457,8 +440,6 @@ namespace youtube_dl_gui {
                     return "faster";
                 case 4:
                     return "fast";
-                case 5:
-                    return "medium";
                 case 6:
                     return "slow";
                 case 7:
@@ -478,8 +459,6 @@ namespace youtube_dl_gui {
             switch (index) {
                 case 0:
                     return "baseline";
-                case 1:
-                    return "main";
                 case 2:
                     return "high";
                 case 3:
@@ -498,14 +477,14 @@ namespace youtube_dl_gui {
         /// </summary>
         /// <param name="file">The file to test</param>
         /// <returns>An int of the file type; video, audio, and default</returns>
-        public static int GetFiletype(string file) {
+        public static ConversionType GetFiletype(string file) {
             if (file.EndsWith(".avi")
              || file.EndsWith(".flv")
              || file.EndsWith(".mp4")
              || file.EndsWith(".mkv")
              || file.EndsWith(".mov")
              || file.EndsWith(".webm")
-             || file.EndsWith(".wmv")) { return 0; }
+             || file.EndsWith(".wmv")) { return ConversionType.Video; }
 
             else if (file.EndsWith(".aac")
                   || file.EndsWith(".flac")
@@ -513,9 +492,27 @@ namespace youtube_dl_gui {
                   || file.EndsWith(".mp3")
                   || file.EndsWith(".opus")
                   || file.EndsWith(".ogg")
-                  || file.EndsWith(".wav")) { return 1; }
+                  || file.EndsWith(".wav")) { return ConversionType.Audio; }
 
-            else { return 3; }
+            else { return ConversionType.FfmpegDefault; }
+
+            //if (file.EndsWith(".avi")
+            // || file.EndsWith(".flv")
+            // || file.EndsWith(".mp4")
+            // || file.EndsWith(".mkv")
+            // || file.EndsWith(".mov")
+            // || file.EndsWith(".webm")
+            // || file.EndsWith(".wmv")) { return 0; }
+
+            //else if (file.EndsWith(".aac")
+            //      || file.EndsWith(".flac")
+            //      || file.EndsWith(".m4a")
+            //      || file.EndsWith(".mp3")
+            //      || file.EndsWith(".opus")
+            //      || file.EndsWith(".ogg")
+            //      || file.EndsWith(".wav")) { return 1; }
+
+            //else { return 3; }
         }
     }
 }

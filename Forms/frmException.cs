@@ -27,7 +27,7 @@ namespace youtube_dl_gui {
             byte[] ByteData = new byte[sizeof(int)];
             RNG.GetBytes(ByteData);
             uint NewInt = BitConverter.ToUInt32(ByteData, 0);
-            uint GeneratedNumber = (uint)Math.Floor((0 + ((double)5001 - 0) * NewInt));
+            uint GeneratedNumber = (uint)Math.Floor(0 + ((double)5001 - 0) * NewInt);
 
             switch (GeneratedNumber) {
                 case 621:
@@ -72,7 +72,7 @@ namespace youtube_dl_gui {
 
 
                 Exception += "\n========== FULL REPORT ==========\n" + ReportedException.ToString();
-                Exception += "========== END  REPORT ==========";
+                Exception += "\n========== END  REPORT ==========";
             }
             else if (ReportedWebException != null) {
                 Exception += "A web exception occured" + "\n";
@@ -86,7 +86,7 @@ namespace youtube_dl_gui {
 
 
                 Exception += "\n========== FULL REPORT ==========\n" + ReportedWebException.ToString();
-                Exception += "========== END  REPORT ==========";
+                Exception += "\n========== END  REPORT ==========";
             }
             else if (ReportedDecimalParsingException != null) {
                 Exception += "A decimal parsing exception occured" + "\n";
@@ -104,7 +104,7 @@ namespace youtube_dl_gui {
 
 
                 Exception += "\n========== FULL REPORT ==========\n" + ReportedDecimalParsingException.ToString();
-                Exception += "========== END  REPORT ==========";
+                Exception += "\n========== END  REPORT ==========";
 
             }
             else if (ReportedApiParsingException != null) {
@@ -112,7 +112,8 @@ namespace youtube_dl_gui {
                 if (ReportedApiParsingException.ExtraInfo != null) {
                     Exception += "Extra information will now be posted before stacktraces, and etc.";
                     Exception += "\n========== EXTRA INFO ==========\n";
-                    Exception += "\n========== EXTRA  END ==========";
+                    Exception += ReportedApiParsingException.ExtraInfo;
+                    Exception += "\n========== EXTRA  END ==========\n";
                 }
 
                 Exception += "API URL: " + ReportedApiParsingException.ApiUrl + "\n";
@@ -123,7 +124,7 @@ namespace youtube_dl_gui {
 
 
                 Exception += "\n========== FULL REPORT ==========\n" + ReportedApiParsingException.ToString();
-                Exception += "========== END  REPORT ==========";
+                Exception += "\n========== END  REPORT ==========";
             }
             else {
                 Exception = "An unhandled exception has occured. Please let me know how you got here.";

@@ -113,23 +113,23 @@ namespace youtube_dl_gui {
                     break;
             }
 
-            switch (Config.Settings.Saved.convertType) {
-                case 0:
-                    rbConvertVideo.Checked = true;
-                    break;
-                case 1:
-                    rbConvertAudio.Checked = true;
-                    break;
-                case 2:
-                    rbConvertCustom.Checked = true;
-                    break;
-                case 6:
-                    rbConvertAutoFFmpeg.Checked = true;
-                    break;
-                default:
-                    rbConvertAuto.Checked = true;
-                    break;
-            }
+            //switch (Config.Settings.Saved.convertType) {
+            //    case 0:
+            //        rbConvertVideo.Checked = true;
+            //        break;
+            //    case 1:
+            //        rbConvertAudio.Checked = true;
+            //        break;
+            //    case 2:
+            //        rbConvertCustom.Checked = true;
+            //        break;
+            //    case 6:
+            //        rbConvertAutoFFmpeg.Checked = true;
+            //        break;
+            //    default:
+            //        rbConvertAuto.Checked = true;
+            //        break;
+            //}
 
             if (ProtocolInput) {
                 if (Config.Settings.Downloads.AutomaticallyDownloadFromProtocol) {
@@ -507,19 +507,19 @@ namespace youtube_dl_gui {
         }
 
         private void cmTrayConvertVideo_Click(object sender, EventArgs e) {
-            convertFromTray(0);
+            convertFromTray(ConversionType.Video);
         }
         private void cmTrayConvertAudio_Click(object sender, EventArgs e) {
-            convertFromTray(1);
+            convertFromTray(ConversionType.Audio);
         }
         private void cmTrayConvertCustom_Click(object sender, EventArgs e) {
-            convertFromTray(2);
+            convertFromTray(ConversionType.Custom);
         }
         private void cmTrayConvertAutomatic_Click(object sender, EventArgs e) {
             convertFromTray();
         }
         private void cmTrayConvertAutoFFmpeg_Click(object sender, EventArgs e) {
-            convertFromTray(6);
+            convertFromTray(ConversionType.FfmpegDefault);
         }
 
         private void cmTrayExit_Click(object sender, EventArgs e) {
@@ -1044,7 +1044,8 @@ namespace youtube_dl_gui {
                         sfd.FilterIndex = 7;
                 }
                 else {
-                    sfd.Filter = Convert.GetCustomExtensions() + Convert.allVideoFormats + "|" + Convert.allAudioFormats + "|" + Convert.allMediaFormats + "|" + Convert.allFormatsFilter;
+                    sfd.Filter = "All Files (*.*)|*.*";
+                    //sfd.Filter = Convert.GetCustomExtensions() + Convert.allVideoFormats + "|" + Convert.allAudioFormats + "|" + Convert.allMediaFormats + "|" + Convert.allFormatsFilter;
                 }
                 if (sfd.ShowDialog() == DialogResult.OK) {
                     txtConvertOutput.Text = sfd.FileName;
@@ -1073,58 +1074,42 @@ namespace youtube_dl_gui {
             btnConvertInput.Enabled = false;
             btnConvertOutput.Enabled = false;
 
-            int convType = -1;
+            ConvertInfo NewConversion = new ConvertInfo();
 
             if (rbConvertVideo.Checked)
-                convType = 0;
+                NewConversion.Type = ConversionType.Video;
             else if (rbConvertAudio.Checked)
-                convType = 1;
+                NewConversion.Type = ConversionType.Audio;
             else if (rbConvertCustom.Checked)
-                convType = 2;
-            else if (rbConvertAutoFFmpeg.Checked)
-                convType = 6;
+                NewConversion.Type = ConversionType.Custom;
+            else if (rbConvertAuto.Checked)
+                NewConversion.Type = Convert.GetFiletype(txtConvertOutput.Text);
+            else
+                NewConversion.Type = ConversionType.FfmpegDefault;
 
-            if (Convert.convertFile(txtConvertInput.Text, txtConvertOutput.Text, convType)) {
-                lbConvertStatus.Text = "Conversion started";
-                tmrConvertLabel.Enabled = true;
-                if (Config.Settings.Converts.clearOutput) {
-                    txtConvertOutput.Clear();
-                    btnConvert.Enabled = false;
-                }
-                if (Config.Settings.Converts.clearInput) {
-                    txtConvertInput.Clear();
-                    btnConvert.Enabled = false;
-                }
-            }
-            else {
-                lbConvertStatus.Text = "Conversion failed";
-                tmrConvertLabel.Enabled = true;
-            }
+            NewConversion.InputFile = txtConvertInput.Text;
+            NewConversion.OutputFile = txtConvertOutput.Text;
 
             btnConvert.Enabled = true;
             btnConvertInput.Enabled = true;
             btnConvertOutput.Enabled = true;
 
-            Config.Settings.Saved.convertType = convType;
-
-            GC.Collect();
+            frmConverter Converter = new frmConverter(NewConversion);
+            Converter.Show();
         }
 
-        private void convertFromTray(int conversionType = -1) {
+        private void convertFromTray(ConversionType conversionType = ConversionType.Unspecified) {
             // -1 = automatic
             // 0 = video
             // 1 = audio
             // 2 = custom
             // 6 = ffmpeg auto
 
-            string inputFile = string.Empty;
-            string outputFile = string.Empty;
 
             using (OpenFileDialog ofd = new OpenFileDialog())
             using (SaveFileDialog sfd = new SaveFileDialog()) {
                 ofd.Title = "Browse for file to convert";
                 if (ofd.ShowDialog() == DialogResult.OK) {
-                    txtConvertInput.Text = ofd.FileName;
                     string fileWithoutExt = System.IO.Path.GetFileNameWithoutExtension(ofd.FileName);
                     btnConvertOutput.Enabled = true;
 
@@ -1133,59 +1118,45 @@ namespace youtube_dl_gui {
                     switch (conversionType) {
                         case 0:
                             sfd.Filter = Convert.videoFormatsFilter;
-                            if (Config.Settings.Saved.UseStaticYtdl > -1 && Config.Settings.Converts.detectFiletype)
-                                sfd.FilterIndex = Config.Settings.Saved.UseStaticYtdl;
-                            else
-                                sfd.FilterIndex = 7;
                             break;
                         case 1:
                             sfd.Filter = Convert.audioFormatsFilter;
-                            if (Config.Settings.Saved.convertSaveAudioIndex > -1 && Config.Settings.Converts.detectFiletype)
-                                sfd.FilterIndex = Config.Settings.Saved.convertSaveAudioIndex;
-                            else
-                                sfd.FilterIndex = 7;
                             break;
                         default:
                             sfd.Filter = "All File Formats (*.*)|*.*";
                             break;
                     }
                     if (sfd.ShowDialog() == DialogResult.OK) {
-                        inputFile = sfd.FileName;
+                        ConvertInfo NewConversion = new ConvertInfo();
+
+                        switch (conversionType) {
+                            case ConversionType.Video:
+                                NewConversion.Type = ConversionType.Video;
+                                break;
+
+                            case ConversionType.Audio:
+                                NewConversion.Type = ConversionType.Audio;
+                                break;
+
+                            case ConversionType.Custom:
+                                NewConversion.Type = ConversionType.Custom;
+                                break;
+
+                            default:
+                                NewConversion.Type = ConversionType.FfmpegDefault;
+                                break;
+                        }
+
+                        NewConversion.InputFile = ofd.FileName;
+                        NewConversion.OutputFile = sfd.FileName;
+
+                        frmConverter Converter = new frmConverter(NewConversion);
+                        Converter.Show();
+                        //Convert.convertFile(inputFile, outputFile, conversionType);
                     }
-
-
                 }
             }
 
-            using (SaveFileDialog sfd = new SaveFileDialog()) {
-                sfd.Title = "Save ouput to...";
-                sfd.FileName = System.IO.Path.GetFileNameWithoutExtension(txtConvertInput.Text);
-                switch (conversionType) {
-                    case 0:
-                        sfd.Filter = Convert.videoFormatsFilter;
-                        if (Config.Settings.Saved.UseStaticYtdl > -1 && Config.Settings.Converts.detectFiletype)
-                            sfd.FilterIndex = Config.Settings.Saved.UseStaticYtdl;
-                        else
-                            sfd.FilterIndex = 7;
-                        break;
-                    case 1:
-                        sfd.Filter = Convert.audioFormatsFilter;
-                        if (Config.Settings.Saved.convertSaveAudioIndex > -1 && Config.Settings.Converts.detectFiletype)
-                            sfd.FilterIndex = Config.Settings.Saved.convertSaveAudioIndex;
-                        else
-                            sfd.FilterIndex = 7;
-                        break;
-                    default:
-                        sfd.Filter = "All File Formats (*.*)|(*.*)";
-                        break;
-                }
-
-                if (sfd.ShowDialog() == DialogResult.OK) {
-                    txtConvertOutput.Text = sfd.FileName;
-                }
-            }
-
-            Convert.convertFile(inputFile, outputFile, conversionType);
         }
         #endregion
 

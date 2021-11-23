@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Threading;
 using System.Windows.Forms;
 
-namespace youtube_dl_gui.Forms {
+namespace youtube_dl_gui {
     public partial class frmConverter : Form {
         public bool Debugging = false;
         public ConvertInfo CurrentConversion;
@@ -117,6 +117,8 @@ namespace youtube_dl_gui.Forms {
                 chkConverterCloseAfterConversion.Checked = true;
             }
 
+            CurrentConversion.Status = ConversionStatus.GeneratingArguments;
+
             string FFmpegPath = null;
             string ArgumentsBuffer = "-i \"" + CurrentConversion.InputFile + "\"";
             // string PreviewArguments = null; ???
@@ -134,6 +136,7 @@ namespace youtube_dl_gui.Forms {
                     return;
                 }
             }
+            FFmpegPath = Program.verif.FFmpegPath;
             rtbConsoleOutput.AppendText("ffmpeg has been found and set\n");
             #endregion
 
@@ -183,6 +186,7 @@ namespace youtube_dl_gui.Forms {
 
             rtbConsoleOutput.AppendText("Arguments have been generated and are readonly in the textbox.\n");
             txtArgumentsGenerated.Text = ArgumentsBuffer;
+            CurrentConversion.Status = ConversionStatus.Converting;
 
             #region Conversion thread
             ConverterThread = new Thread(() => {
@@ -240,7 +244,7 @@ namespace youtube_dl_gui.Forms {
                     Win32.KillProcessTree((uint)ConverterProcess.Id);
                     ConverterProcess.Kill();
                     this.Invoke((Action)delegate {
-                    
+                        rtbConsoleOutput.AppendText("Conversion was aborted by the user.");
                     });
                 }
                 catch (Exception ex) {
@@ -279,7 +283,7 @@ namespace youtube_dl_gui.Forms {
                     case ConversionStatus.FfmpegError:
                         this.Activate();
                         System.Media.SystemSounds.Hand.Play();
-                        rtbConsoleOutput.AppendText("\nAn error occured\nTHIS IS A YOUTUBE-DL ERROR, NOT A ERROR WITH THIS PROGRAM!\nExit the form to resume batch download.");
+                        rtbConsoleOutput.AppendText("\nAn error occured\nTHIS IS A FFMPEG ERROR, NOT A ERROR WITH THIS PROGRAM!\nExit the form to resume batch download.");
                         this.Text = Program.lang.frmConverterError;
                         break;
                     case ConversionStatus.ProgramError:
@@ -303,7 +307,7 @@ namespace youtube_dl_gui.Forms {
                         break;
                     case ConversionStatus.FfmpegError:
                         btnConverterCancelExit.Text = Program.lang.GenericExit;
-                        rtbConsoleOutput.AppendText("\nAn error occured\nTHIS IS A YOUTUBE-DL ERROR, NOT A ERROR WITH THIS PROGRAM!");
+                        rtbConsoleOutput.AppendText("\nAn error occured\nTHIS IS A FFMPEG ERROR, NOT A ERROR WITH THIS PROGRAM!");
                         btnConverterAbortBatchConversions.Visible = true;
                         btnConverterAbortBatchConversions.Enabled = true;
                         btnConverterAbortBatchConversions.Text = Program.lang.GenericRetry;
@@ -321,13 +325,13 @@ namespace youtube_dl_gui.Forms {
                     case ConversionStatus.Finished:
                         btnConverterCancelExit.Text = Program.lang.GenericExit;
                         this.Text = Program.lang.frmConverterComplete;
-                        rtbConsoleOutput.AppendText("Download has finished.");
+                        rtbConsoleOutput.AppendText("Conversion has finished.");
                         if (chkConverterCloseAfterConversion.Checked) { this.Close(); }
                         break;
                     default:
                         btnConverterCancelExit.Text = Program.lang.GenericExit;
                         this.Text = Program.lang.frmConverterComplete;
-                        rtbConsoleOutput.AppendText("CurrentDownload.Status not defined (Not a batch download)\nAssuming success.");
+                        rtbConsoleOutput.AppendText("CurrentConversion.Status not defined (Not a batch download)\nAssuming success.");
                         if (chkConverterCloseAfterConversion.Checked) { this.Close(); }
                         break;
                 }

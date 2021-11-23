@@ -1,4 +1,4 @@
-﻿namespace youtube_dl_gui.Forms {
+﻿namespace youtube_dl_gui {
     partial class frmConverter {
         /// <summary>
         /// Required designer variable.

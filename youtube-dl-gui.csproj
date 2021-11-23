@@ -68,7 +68,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Classes\Convert.cs" />
     <Compile Include="Classes\ConvertInfo.cs" />
     <Compile Include="Classes\Win32.cs" />
     <Compile Include="Configurations\Batch.Designer.cs">
