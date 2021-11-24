@@ -30,7 +30,7 @@ namespace youtube_dl_gui {
                     return;
                 }
 
-                if (GitInfo.UpdateAvailable) {
+                if (GitInfo.UpdateAvailable && !ForceCheck) {
                     using (frmUpdateAvailable Update = new frmUpdateAvailable()) {
                         Update.BlockSkip = ForceCheck;
                         switch (Update.ShowDialog()) {
@@ -47,78 +47,71 @@ namespace youtube_dl_gui {
                     }
                 }
                 else {
-                    if (GitInfo.UpdateVersion == "-1" || ForceCheck) {
-                        if (Config.Settings.General.DownloadBetaVersions) {
-                            string LatestReleaseVersion = GetLatestPreRelease();
-                            if (IsBetaUpdateAvailable(LatestReleaseVersion)) {
-                                GitInfo.UpdateAvailable = true;
-                                if (LatestReleaseVersion != Config.Settings.Initialization.SkippedBetaVersion || ForceCheck) {
-                                    using (frmUpdateAvailable Update = new frmUpdateAvailable()) {
-                                        Update.BlockSkip = ForceCheck;
-                                        switch (Update.ShowDialog()) {
-                                            case DialogResult.Yes:
-                                                try {
-                                                    UpdateApplication();
-                                                }
-                                                catch (Exception ex) {
-                                                    ErrorLog.Report(ex);
-                                                    return;
-                                                }
-                                                break;
-                                            case DialogResult.Ignore:
-                                                Config.Settings.Initialization.SkippedBetaVersion = LatestReleaseVersion;
-                                                Config.Settings.Save(ConfigType.Initialization);
-                                                break;
-                                        }
+                    if (Config.Settings.General.DownloadBetaVersions) {
+                        string LatestReleaseVersion = GetLatestPreRelease();
+                        if (IsBetaUpdateAvailable(LatestReleaseVersion)) {
+                            GitInfo.UpdateAvailable = true;
+                            if (LatestReleaseVersion != Config.Settings.Initialization.SkippedBetaVersion || ForceCheck) {
+                                using (frmUpdateAvailable Update = new frmUpdateAvailable()) {
+                                    Update.BlockSkip = ForceCheck;
+                                    switch (Update.ShowDialog()) {
+                                        case DialogResult.Yes:
+                                            try {
+                                                UpdateApplication();
+                                            }
+                                            catch (Exception ex) {
+                                                ErrorLog.Report(ex);
+                                                return;
+                                            }
+                                            break;
+                                        case DialogResult.Ignore:
+                                            Config.Settings.Initialization.SkippedBetaVersion = LatestReleaseVersion;
+                                            Config.Settings.Save(ConfigType.Initialization);
+                                            break;
                                     }
                                 }
                             }
-                            else if (string.IsNullOrWhiteSpace(LatestReleaseVersion)) {
-                                switch (MessageBox.Show("The git version returned null/whitespace, which means it didn't properly check. Would you like to manually check?", "youtube-dl-gui", MessageBoxButtons.YesNo)) {
-                                    case DialogResult.Yes:
-                                        Process.Start(string.Format(GitData.GitLinks.GithubRepoUrl + "/releases/latest", "murrty", "youtube-dl-gui"));
-                                        break;
-                                }
-                            }
-                            else if (ForceCheck) {
-                                MessageBox.Show("No updates available.");
-                            }
                         }
-                        else {
-                            decimal GitVersion = GetLatestRelease();
-                            Debug.Print(GitVersion.ToString());
-                            if (IsUpdateAvailable(GitVersion)) {
-                                GitInfo.UpdateAvailable = true;
-                                if (GitVersion != Config.Settings.Initialization.SkippedVersion || ForceCheck) {
-                                    using (frmUpdateAvailable Update = new frmUpdateAvailable()) {
-                                        Update.BlockSkip = ForceCheck;
-                                        switch (Update.ShowDialog()) {
-                                            case DialogResult.Yes:
-                                                try {
-                                                    UpdateApplication();
-                                                }
-                                                catch (Exception ex) {
-                                                    ErrorLog.Report(ex);
-                                                    return;
-                                                }
-                                                break;
-                                            case DialogResult.Ignore:
-                                                Config.Settings.Initialization.SkippedVersion = GitVersion;
-                                                Config.Settings.Save(ConfigType.Initialization);
-                                                break;
-                                        }
+                        else if (string.IsNullOrWhiteSpace(LatestReleaseVersion)) {
+                            FailedToCheck = true;
+                        }
+                        else if (ForceCheck) {
+                            MessageBox.Show("No updates available.");
+                        }
+                    }
+                    else {
+                        decimal GitVersion = GetLatestRelease();
+                        Debug.Print(GitVersion.ToString());
+                        if (IsUpdateAvailable(GitVersion)) {
+                            GitInfo.UpdateAvailable = true;
+                            if (GitVersion != Config.Settings.Initialization.SkippedVersion || ForceCheck) {
+                                using (frmUpdateAvailable Update = new frmUpdateAvailable()) {
+                                    Update.BlockSkip = ForceCheck;
+                                    switch (Update.ShowDialog()) {
+                                        case DialogResult.Yes:
+                                            try {
+                                                UpdateApplication();
+                                            }
+                                            catch (Exception ex) {
+                                                ErrorLog.Report(ex);
+                                                return;
+                                            }
+                                            break;
+                                        case DialogResult.Ignore:
+                                            Config.Settings.Initialization.SkippedVersion = GitVersion;
+                                            Config.Settings.Save(ConfigType.Initialization);
+                                            break;
                                     }
                                 }
                             }
-                            else if (GitVersion == -1) {
-                                // if the GitVersion is STILL -1 for some ungodly reason, set it as failed to check.
-                                FailedToCheck = true;
-                            }
-                            else if (ForceCheck) {
-                                MessageBox.Show("No updates available.\r\n\r\nCurrent version: " + Properties.Settings.Default.CurrentVersion + "\r\nLatest version: " + GitVersion, "youtube-dl-gui");
-                            }
                         }
-
+                        else if (GitVersion == -1) {
+                            // if the GitVersion is STILL -1 for some ungodly reason, set it as failed to check.
+                            FailedToCheck = true;
+                        }
+                        else if (ForceCheck) {
+                            MessageBox.Show("No updates available.\r\n\r\nCurrent version: " + Properties.Settings.Default.CurrentVersion + "\r\nLatest version: " + GitVersion, "youtube-dl-gui");
+                        }
                     }
                 }
             }
@@ -431,18 +424,22 @@ namespace youtube_dl_gui {
                 doc.LoadXml(Xml);
 
                 // Check the ChildNodes count
-                switch (doc.ChildNodes.Count) {
+                switch (doc.DocumentElement.ChildNodes.Count) {
                     case 0: // Critical, no information is in the xml document.
                         throw new ApiParsingException("The retrieved Xml does not contain any information.", Url, Xml);
 
                     case 1: // Highly suspicious, may only be the declaration.
                         throw new ApiParsingException("The retrieved Xml only contains 1 ChildNode, and will not be parsed.", Url, Xml);
+
+                    default:
+                        if (Program.IsDebug) MessageBox.Show(doc.DocumentElement.ChildNodes.Count.ToString());
+                        break;
                 }
 
                 // Initialize the NoteLists of the 3 required pieces of info.
-                XmlNodeList xmlTag = doc.DocumentElement.SelectNodes("/root/tag_name");
-                XmlNodeList xmlName = doc.DocumentElement.SelectNodes("/root/name");
-                XmlNodeList xmlBody = doc.DocumentElement.SelectNodes("/root/body");
+                XmlNodeList xmlTag = doc.DocumentElement.SelectNodes("/root/item/tag_name");
+                XmlNodeList xmlName = doc.DocumentElement.SelectNodes("/root/item/name");
+                XmlNodeList xmlBody = doc.DocumentElement.SelectNodes("/root/item/body");
 
                 // If the tag does not contain any information, the API did not retrieve properly.
                 // Throw an API Parsing Exception if it's empty, this is a critical variable.
