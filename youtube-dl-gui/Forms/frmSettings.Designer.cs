@@ -463,7 +463,6 @@
             this.chkSettingsGeneralCheckForUpdatesOnLaunch.Text = "chkSettingsGeneralCheckForUpdatesOnLaunch";
             this.tipSettings.SetToolTip(this.chkSettingsGeneralCheckForUpdatesOnLaunch, "chkSettingsGeneralCheckForUpdatesOnLaunch");
             this.chkSettingsGeneralCheckForUpdatesOnLaunch.UseVisualStyleBackColor = true;
-            this.chkSettingsGeneralCheckForUpdatesOnLaunch.CheckedChanged += new System.EventHandler(this.chkSettingsGeneralCheckForUpdatesOnLaunch_CheckedChanged);
             // 
             // tabSettingsDownloads
             // 

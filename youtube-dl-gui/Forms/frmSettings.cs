@@ -594,9 +594,6 @@ namespace youtube_dl_gui {
                 }
             }
         }
-        private void chkSettingsGeneralCheckForUpdatesOnLaunch_CheckedChanged(object sender, EventArgs e) {
-            chkSettingsGeneralCheckForBetaUpdates.Enabled = chkSettingsGeneralCheckForUpdatesOnLaunch.Checked;
-        }
         #endregion
 
         #region Downloads
