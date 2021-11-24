@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 
 namespace youtube_dl_gui {
 
@@ -1535,1005 +1536,999 @@ namespace youtube_dl_gui {
 
                     if (!LanguageFile.EndsWith(".ini")) { LanguageFile += ".ini"; }
 
-                    if (System.IO.File.Exists(LanguageFile)) {
-                        string[] ReadFile = System.IO.File.ReadAllLines(LanguageFile);
-
+                    if (File.Exists(LanguageFile)) {
+                        string[] ReadFile = File.ReadAllLines(LanguageFile);
                         string ReadLine;    // The line of the file
-                        string ReadHeader;  // The current section based on the header
 
-                        for (int i = 0; i < ReadFile.Length; i++) {
-                            ReadLine = ReadFile[i].Trim();
+                        using (StreamReader ReadLanguageFile = new StreamReader(LanguageFile)) {
+                            while ((ReadLine = ReadLanguageFile.ReadLine()) != null) {
+                                if (ReadLine.StartsWith("//") || string.IsNullOrWhiteSpace(ReadLine)) continue;
+                                else if (ReadLine.StartsWith("[") && ReadLine.Contains("]")) {
+                                    ReadHeaderValue(ReadLine, out string ReadHeader);
 
-                            if (ReadLine.StartsWith("//") || string.IsNullOrWhiteSpace(ReadFile[i])) continue;
-                            else if (ReadLine.StartsWith("[")) {
-                                ReadHeader = ReadHeaderValue(ReadLine);
-
-                                if (ReadHeader == null) {
-                                    throw new Exception("Unable to read the language ini header\nReadValue returned null.\nProblematic line is \"" + ReadLine + "\"\n\n");
+                                    if (ReadHeader == null) {
+                                        throw new Exception("Unable to read the language ini header\nReadValue returned null.\nProblematic line is \"" + ReadLine + "\"\n\n");
+                                    }
+                                    else CurrentLanguageLong = ReadHeader;
                                 }
-                                else {
-                                    CurrentLanguageLong = ReadHeader;
-                                    continue;
+                                else if (ReadLine.Contains("=")) {
+                                    GetControlInfo(ReadLine, out string ReadControl, out string ReadValue);
+
+                                    switch (ReadControl) {
+
+                                        #region Language File
+                                        case "currentlanguageshort":
+                                            CurrentLanguageShort = ReadValue;
+                                            continue;
+                                        case "currentlanguagehint":
+                                            CurrentLanguageHint = ReadValue;
+                                            continue;
+                                        case "currentlanguageversion":
+                                            CurrentLanguageVersion = ReadValue;
+                                            continue;
+                                        #endregion
+
+                                        #region Generics
+                                        case "genericinputbest":
+                                            GenericInputBest = ReadValue;
+                                            continue;
+                                        case "genericcancel":
+                                            GenericCancel = ReadValue;
+                                            continue;
+                                        case "genericskip":
+                                            GenericSkip = ReadValue;
+                                            continue;
+                                        case "genericsound":
+                                            GenericSound = ReadValue;
+                                            continue;
+                                        case "genericvideo":
+                                            GenericVideo = ReadValue;
+                                            continue;
+                                        case "genericaudio":
+                                            GenericAudio = ReadValue;
+                                            continue;
+                                        case "genericcustom":
+                                            GenericCustom = ReadValue;
+                                            continue;
+                                        case "genericretry":
+                                            GenericRetry = ReadValue;
+                                            continue;
+                                        case "genericstart":
+                                            GenericStart = ReadValue;
+                                            continue;
+                                        case "genericstop":
+                                            GenericStop = ReadValue;
+                                            continue;
+                                        case "genericexit":
+                                            GenericExit = ReadValue;
+                                            continue;
+                                        case "genericok":
+                                            GenericOk = ReadValue;
+                                            continue;
+                                        case "genericsave":
+                                            GenericSave = ReadValue;
+                                            continue;
+                                        #endregion
+
+                                        #region frmAbout
+                                        case "frmabout":
+                                            frmAbout = ReadValue;
+                                            continue;
+                                        case "lbaboutbody":
+                                            lbAboutBody = ReadValue;
+                                            continue;
+                                        case "llbcheckforupdates":
+                                            llbCheckForUpdates = ReadValue;
+                                            continue;
+                                        #endregion
+
+                                        #region frmAuthentication
+                                        case "frmauthentication":
+                                            frmAuthentication = ReadValue;
+                                            continue;
+                                        case "lbauthnotice":
+                                            lbAuthNotice = ReadValue;
+                                            continue;
+                                        case "lbauthusername":
+                                            lbAuthUsername = ReadValue;
+                                            continue;
+                                        case "lbauthpassword":
+                                            lbAuthPassword = ReadValue;
+                                            continue;
+                                        case "lbauth2factor":
+                                            lbAuth2Factor = ReadValue;
+                                            continue;
+                                        case "lbauthvideopassword":
+                                            lbAuthVideoPassword = ReadValue;
+                                            continue;
+                                        case "chkauthusenetrc":
+                                            chkAuthUseNetrc = ReadValue;
+                                            continue;
+                                        case "lbauthnosave":
+                                            lbAuthNoSave = ReadValue;
+                                            continue;
+                                        case "btnauthbegindownload":
+                                            btnAuthBeginDownload = ReadValue;
+                                            continue;
+                                        #endregion
+
+                                        #region frmBatchDownloader
+                                        // frmBatchDownloader
+                                        case "frmbatchdownload":
+                                            frmBatchDownload = ReadValue;
+                                            continue;
+                                        case "lbbatchdownloadlink":
+                                            lbBatchDownloadLink = ReadValue;
+                                            continue;
+                                        case "lbbatchdownloadtype":
+                                            lbBatchDownloadType = ReadValue;
+                                            continue;
+                                        case "lbbatchdownloadvideospecificargument":
+                                            lbBatchDownloadVideoSpecificArgument = ReadValue;
+                                            continue;
+                                        case "btnbatchdownloadadd":
+                                            btnBatchDownloadAdd = ReadValue;
+                                            continue;
+                                        case "sbbatchdownloadloadargs":
+                                            sbBatchDownloadLoadArgs = ReadValue;
+                                            continue;
+                                        case "mbatchdownloaderloadargsfromsettings":
+                                            mBatchDownloaderLoadArgsFromSettings = ReadValue;
+                                            continue;
+                                        case "mbatchdownloaderloadargsfromargstxt":
+                                            mBatchDownloaderLoadArgsFromArgsTxt = ReadValue;
+                                            continue;
+                                        case "mbatchdownloaderloadargsfromfile":
+                                            mBatchDownloaderLoadArgsFromFile = ReadValue;
+                                            continue;
+                                        case "btnbatchdownloadremoveselected":
+                                            btnBatchDownloadRemoveSelected = ReadValue;
+                                            continue;
+                                        case "sbbatchdownloaderidle":
+                                            sbBatchDownloaderIdle = ReadValue;
+                                            continue;
+                                        case "sbbatchdownloaderdownloading":
+                                            sbBatchDownloaderDownloading = ReadValue;
+                                            continue;
+                                        case "sbbatchdownloaderfinished":
+                                            sbBatchDownloaderFinished = ReadValue;
+                                            continue;
+                                        case "sbbatchdownloaderaborted":
+                                            sbBatchDownloaderAborted = ReadValue;
+                                            continue;
+                                        #endregion
+
+                                        #region frmConverter
+                                        case "frmconverter":
+                                            frmConverter = ReadValue;
+                                            continue;
+                                        case "frmconvertercomplete":
+                                            frmConverterComplete = ReadValue;
+                                            continue;
+                                        case "frmconvertererror":
+                                            frmConverterError = ReadValue;
+                                            continue;
+                                        case "chkconvertercloseafterconversion":
+                                            chkConverterCloseAfterConversion = ReadValue;
+                                            continue;
+                                        case "btnconverterabortbatchconversions":
+                                            btnConverterAbortBatchConversions = ReadValue;
+                                            continue;
+                                        #endregion
+
+                                        #region frmDownloader
+                                        case "frmdownloader":
+                                            frmDownloader = ReadValue;
+                                            continue;
+                                        case "frmdownloadercomplete":
+                                            frmDownloaderComplete = ReadValue;
+                                            continue;
+                                        case "frmdownloadererror":
+                                            frmDownloaderError = ReadValue;
+                                            continue;
+                                        case "chkdownloadercloseafterdownload":
+                                            chkDownloaderCloseAfterDownload = ReadValue;
+                                            continue;
+                                        case "btndownloaderabortbatch":
+                                            btnDownloaderAbortBatch = ReadValue;
+                                            continue;
+                                        #endregion
+
+                                        #region frmException
+                                        case "frmexception":
+                                            frmException = ReadValue;
+                                            continue;
+                                        case "lbexceptionheader":
+                                            lbExceptionHeader = ReadValue;
+                                            continue;
+                                        case "lbexceptiondescription":
+                                            lbExceptionDescription = ReadValue;
+                                            continue;
+                                        case "rtbexceptiondetails":
+                                            rtbExceptionDetails = ReadValue;
+                                            continue;
+                                        case "btnexceptiongithub":
+                                            btnExceptionGithub = ReadValue;
+                                            continue;
+                                        #endregion
+
+                                        #region frmLanguage
+                                        case "frmlanguage":
+                                            frmLanguage = ReadValue;
+                                            continue;
+                                        case "btnlanguagerefresh":
+                                            btnLanguageRefresh = ReadValue;
+                                            continue;
+                                        #endregion
+
+                                        #region frmMain
+                                        // frmMain / menu
+                                        case "msettings":
+                                            mSettings = ReadValue;
+                                            continue;
+                                        case "mtools":
+                                            mTools = ReadValue;
+                                            continue;
+                                        case "mbatchdownload":
+                                            mBatchDownload = ReadValue;
+                                            continue;
+                                        case "mdownloadsubtitles":
+                                            mDownloadSubtitles = ReadValue;
+                                            continue;
+                                        case "mmisctools":
+                                            mMiscTools = ReadValue;
+                                            continue;
+                                        case "mhelp":
+                                            mHelp = ReadValue;
+                                            continue;
+                                        case "mlanguage":
+                                            mLanguage = ReadValue;
+                                            continue;
+                                        case "msupportedsites":
+                                            mSupportedSites = ReadValue;
+                                            continue;
+                                        case "mabout":
+                                            mAbout = ReadValue;
+                                            continue;
+
+                                        // frmMain / tcMain
+                                        case "tabdownload":
+                                            tabDownload = ReadValue;
+                                            continue;
+                                        case "tabconvert":
+                                            tabConvert = ReadValue;
+                                            continue;
+                                        case "tabmerge":
+                                            tabMerge = ReadValue;
+                                            continue;
+
+                                        // frmMain / tcMain / Download
+                                        case "lburl":
+                                            lbURL = ReadValue;
+                                            continue;
+                                        case "txturlhint":
+                                            txtUrlHint = ReadValue;
+                                            continue;
+                                        case "gbdownloadtype":
+                                            gbDownloadType = ReadValue;
+                                            continue;
+                                        case "lbquality":
+                                            lbQuality = ReadValue;
+                                            continue;
+                                        case "lbformat":
+                                            lbFormat = ReadValue;
+                                            continue;
+                                        case "chkdownloadsound":
+                                            chkDownloadSound = ReadValue;
+                                            continue;
+                                        case "chkuseselection":
+                                            chkUseSelection = ReadValue;
+                                            continue;
+                                        case "rbvideoselectionplaylistindex":
+                                            rbVideoSelectionPlaylistIndex = ReadValue;
+                                            continue;
+                                        case "rbvideoselectionplaylistitems":
+                                            rbVideoSelectionPlaylistItems = ReadValue;
+                                            continue;
+                                        case "rbvideoselectionbeforedate":
+                                            rbVideoSelectionBeforeDate = ReadValue;
+                                            continue;
+                                        case "rbvideoselectionondate":
+                                            rbVideoSelectionOnDate = ReadValue;
+                                            continue;
+                                        case "rbvideoselectionafterdate":
+                                            rbVideoSelectionAfterDate = ReadValue;
+                                            continue;
+                                        case "txtplayliststarthint":
+                                            txtPlaylistStartHint = ReadValue;
+                                            continue;
+                                        case "txtplaylistendhint":
+                                            txtPlaylistEndHint = ReadValue;
+                                            continue;
+                                        case "txtplaylistitemshint":
+                                            lbDownloadStatusStarted = ReadValue;
+                                            continue;
+                                        case "txtvideodatehint":
+                                            txtVideoDateHint = ReadValue;
+                                            continue;
+                                        case "lbcustomarguments":
+                                            lbCustomArguments = ReadValue;
+                                            continue;
+                                        case "txtargshint":
+                                            txtArgsHint = ReadValue;
+                                            continue;
+                                        case "sbdownload":
+                                            sbDownload = ReadValue;
+                                            continue;
+                                        case "mdownloadwithauthentication":
+                                            mDownloadWithAuthentication = ReadValue;
+                                            continue;
+                                        case "mbatchdownloadfromfile":
+                                            mBatchDownloadFromFile = ReadValue;
+                                            continue;
+                                        case "msgbatchdownloadfromfile":
+                                            msgBatchDownloadFromFile = ReadValue;
+                                            continue;
+                                        case "lbdownloadstatusstarted":
+                                            lbDownloadStatusStarted = ReadValue;
+                                            continue;
+                                        case "lbdownloadstatuserror":
+                                            lbDownloadStatusError = ReadValue;
+                                            continue;
+
+                                        // frmMain / tcMain / Convert
+                                        case "lbconvertinput":
+                                            lbConvertInput = ReadValue;
+                                            continue;
+                                        case "lbconvertoutput":
+                                            lbConvertOutput = ReadValue;
+                                            continue;
+                                        case "rbconvertauto":
+                                            rbConvertAuto = ReadValue;
+                                            continue;
+                                        case "rbconvertautoffmpeg":
+                                            rbConvertAutoFFmpeg = ReadValue;
+                                            continue;
+                                        case "btnconvert":
+                                            btnConvert = ReadValue;
+                                            continue;
+                                        case "lbconvertstarted":
+                                            lbConvertStarted = ReadValue;
+                                            continue;
+                                        case "lbconvertfailed":
+                                            lbConvertFailed = ReadValue;
+                                            continue;
+
+                                        // frmMain / tcMain / Merge
+                                        case "lbmergeinput1":
+                                            lbMergeInput1 = ReadValue;
+                                            continue;
+                                        case "lbmergeinput2":
+                                            lbMergeInput2 = ReadValue;
+                                            continue;
+                                        case "lbmergeoutput":
+                                            lbMergeOutput = ReadValue;
+                                            continue;
+                                        case "chkmergeaudiotracks":
+                                            chkMergeAudioTracks = ReadValue;
+                                            continue;
+                                        case "chkmergedeleteinputfiles":
+                                            chkMergeDeleteInputFiles = ReadValue;
+                                            continue;
+                                        case "btnmerge":
+                                            btnMerge = ReadValue;
+                                            continue;
+
+                                        // frmMain / tcMain / cmTray
+                                        case "cmTrayShowForm":
+                                            cmTrayShowForm = ReadValue;
+                                            continue;
+                                        case "cmtraydownloader":
+                                            cmTrayDownloader = ReadValue;
+                                            continue;
+                                        case "cmtraydownloadclipboard":
+                                            cmTrayDownloadClipboard = ReadValue;
+                                            continue;
+                                        case "cmtraydownloadbestvideo":
+                                            cmTrayDownloadBestVideo = ReadValue;
+                                            continue;
+                                        case "cmtraydownloadbestaudio":
+                                            cmTrayDownloadBestAudio = ReadValue;
+                                            continue;
+                                        case "cmtraydownloadcustom":
+                                            cmTrayDownloadCustom = ReadValue;
+                                            continue;
+                                        case "cmtraydownloadcustomtxtbox":
+                                            cmTrayDownloadCustomTxtBox = ReadValue;
+                                            continue;
+                                        case "cmtraydownloadcustomtxt":
+                                            cmTrayDownloadCustomTxt = ReadValue;
+                                            continue;
+                                        case "cmtraydownloadcustomsettings":
+                                            cmTrayDownloadCustomSettings = ReadValue;
+                                            continue;
+                                        case "cmtrayconverter":
+                                            cmTrayConverter = ReadValue;
+                                            continue;
+                                        case "cmtrayconvertto":
+                                            cmTrayConvertTo = ReadValue;
+                                            continue;
+                                        case "cmtrayconvertvideo":
+                                            cmTrayConvertVideo = ReadValue;
+                                            continue;
+                                        case "cmtrayconvertaudio":
+                                            cmTrayConvertAudio = ReadValue;
+                                            continue;
+                                        case "cmtrayconvertcustom":
+                                            cmTrayConvertCustom = ReadValue;
+                                            continue;
+                                        case "cmtrayconvertautomatic":
+                                            cmTrayConvertAutomatic = ReadValue;
+                                            continue;
+                                        case "cmtrayconvertautoffmpeg":
+                                            cmTrayConvertAutoFFmpeg = ReadValue;
+                                            continue;
+                                        case "cmtrayexit":
+                                            cmTrayExit = ReadValue;
+                                            continue;
+                                        #endregion
+
+                                        #region frmSettings
+                                        // frmSettings
+                                        case "frmsettings":
+                                            frmSettings = ReadValue;
+                                            continue;
+                                        case "btnsettingsredownloadyoutubedl":
+                                            btnSettingsRedownloadYoutubeDl = ReadValue;
+                                            continue;
+                                        case "btnsettingsredownloadyoutubedlhint":
+                                            btnSettingsRedownloadYoutubeDlHint = ReadValue;
+                                            continue;
+                                        case "btnsettingscancelhint":
+                                            btnSettingsCancelHint = ReadValue;
+                                            continue;
+                                        case "btnsettingssavehint":
+                                            btnSettingsSaveHint = ReadValue;
+                                            continue;
+
+                                        // frmSettings / tcMain
+                                        case "tabsettingsgeneral":
+                                            tabSettingsGeneral = ReadValue;
+                                            continue;
+                                        case "tabsettingsdownloads":
+                                            tabSettingsDownloads = ReadValue;
+                                            continue;
+                                        case "tabsettingsconverter":
+                                            tabSettingsConverter = ReadValue;
+                                            continue;
+                                        case "tabsettingsextensions":
+                                            tabSettingsExtensions = ReadValue;
+                                            continue;
+                                        case "tabsettingserrors":
+                                            tabSettingsErrors = ReadValue;
+                                            continue;
+
+                                        case "tabsettingsportable":
+                                            tabSettingsPortable = ReadValue;
+                                            continue;
+
+                                        //frmSettings / tcMain / tabGeneral
+                                        case "lbsettingsgeneralyoutubedlpath":
+                                            lbSettingsGeneralYoutubeDlPath = ReadValue;
+                                            continue;
+                                        case "chksettingsgeneralusestaticyoutubedl":
+                                            chkSettingsGeneralUseStaticYoutubeDl = ReadValue;
+                                            continue;
+                                        case "ofdtitleYoutubedl":
+                                            ofdTitleYoutubeDl = ReadValue;
+                                            continue;
+                                        case "ofdfilteryoutubedl":
+                                            ofdFilterYoutubeDl = ReadValue;
+                                            continue;
+                                        case "lbsettingsgeneralffmpegdirectory":
+                                            lbSettingsGeneralFFmpegDirectory = ReadValue;
+                                            continue;
+                                        case "chksettingsgeneralusestaticffmpeg":
+                                            chkSettingsGeneralUseStaticFFmpeg = ReadValue;
+                                            continue;
+                                        case "ofdtitleffmpeg":
+                                            ofdTitleFFmpeg = ReadValue;
+                                            continue;
+                                        case "ofdfilterffmpeg":
+                                            ofdFilterFFmpeg = ReadValue;
+                                            continue;
+                                        case "chksettingsgeneralcheckforupdatesonlaunch":
+                                            chkSettingsGeneralCheckForUpdatesOnLaunch = ReadValue;
+                                            continue;
+                                        case "chksettingsgeneralcheckforbetaupdates":
+                                            chkSettingsGeneralCheckForBetaUpdates = ReadValue;
+                                            continue;
+                                        case "chksettingsgeneralhoveroverurltopasteclipboard":
+                                            chkSettingsGeneralHoverOverUrlToPasteClipboard = ReadValue;
+                                            continue;
+                                        case "chksettingsgeneralclearurlondownload":
+                                            chkSettingsGeneralClearUrlOnDownload = ReadValue;
+                                            continue;
+                                        case "chksettingsgeneralclearclipboardondownload":
+                                            chkSettingsGeneralClearClipboardOnDownload = ReadValue;
+                                            continue;
+                                        case "gbsettingsgeneralcustomarguments":
+                                            gbSettingsGeneralCustomArguments = ReadValue;
+                                            continue;
+                                        case "rbsettingsgeneralcustomargumentsdontsave":
+                                            rbSettingsGeneralCustomArgumentsDontSave = ReadValue;
+                                            continue;
+                                        case "rbsettingsgeneralcustomargumentssaveasargstext":
+                                            rbSettingsGeneralCustomArgumentsSaveAsArgsText = ReadValue;
+                                            continue;
+                                        case "rbsettingsgeneralcustomargumentssaveinsettings":
+                                            rbSettingsGeneralCustomArgumentsSaveInSettings = ReadValue;
+                                            continue;
+                                        case "lbsettingsgeneralyoutubedlpathhint":
+                                            lbSettingsGeneralYoutubeDlPathHint = ReadValue;
+                                            continue;
+                                        case "chksettingsgeneralusestaticyoutubedlhint":
+                                            chkSettingsGeneralUseStaticYoutubeDlHint = ReadValue;
+                                            continue;
+                                        case "txtsettingsgeneralyoutubedlpathhint":
+                                            txtSettingsGeneralYoutubeDlPathHint = ReadValue;
+                                            continue;
+                                        case "btnsettingsgeneralbrowseyoutubedlhint":
+                                            btnSettingsGeneralBrowseYoutubeDlHint = ReadValue;
+                                            continue;
+                                        case "lbsettingsgeneralffmpegdirectoryhint":
+                                            lbSettingsGeneralFFmpegDirectoryHint = ReadValue;
+                                            continue;
+                                        case "chksettingsgeneralusestaticffmpeghint":
+                                            chkSettingsGeneralUseStaticFFmpegHint = ReadValue;
+                                            continue;
+                                        case "txtsettingsgeneralffmpegpathhint":
+                                            txtSettingsGeneralFFmpegPathHint = ReadValue;
+                                            continue;
+                                        case "btnsettingsgeneralbrowseffmpeghint":
+                                            btnSettingsGeneralBrowseFFmpegHint = ReadValue;
+                                            continue;
+                                        case "chksettingsgeneralcheckforupdatesonlaunchhint":
+                                            chkSettingsGeneralCheckForUpdatesOnLaunchHint = ReadValue;
+                                            continue;
+                                        case "chksettingsgeneralcheckforbetaupdateshint":
+                                            chkSettingsGeneralCheckForBetaUpdatesHint = ReadValue;
+                                            continue;
+                                        case "chksettingsgeneralhoveroverurltopasteclipboardhint":
+                                            chkSettingsGeneralHoverOverUrlToPasteClipboardHint = ReadValue;
+                                            continue;
+                                        case "chksettingsgeneralclearurlondownloadhint":
+                                            chkSettingsGeneralClearUrlOnDownloadHint = ReadValue;
+                                            continue;
+                                        case "chksettingsgeneralclearclipboardondownloadhint":
+                                            chkSettingsGeneralClearClipboardOnDownloadHint = ReadValue;
+                                            continue;
+                                        case "gbsettingsgeneralcustomargumentshint":
+                                            gbSettingsGeneralCustomArgumentsHint = ReadValue;
+                                            continue;
+                                        case "rbsettingsgeneralcustomargumentsdontsavehint":
+                                            rbSettingsGeneralCustomArgumentsDontSaveHint = ReadValue;
+                                            continue;
+                                        case "rbsettingsgeneralcustomargumentssaveasargstexthint":
+                                            rbSettingsGeneralCustomArgumentsSaveAsArgsTextHint = ReadValue;
+                                            continue;
+                                        case "rbsettingsgeneralcustomargumentssaveinsettingshint":
+                                            rbSettingsGeneralCustomArgumentsSaveInSettingsHint = ReadValue;
+                                            continue;
+
+                                        // frmSettings / tcMain / tabDownloads
+                                        case "lbsettingsdownloadsdownloadpath":
+                                            lbSettingsDownloadsDownloadPath = ReadValue;
+                                            continue;
+                                        case "lbsettingsdownloadsfilenameschema":
+                                            lbSettingsDownloadsFileNameSchema = ReadValue;
+                                            continue;
+                                        case "tabdownloadsgeneral":
+                                            tabDownloadsGeneral = ReadValue;
+                                            continue;
+                                        case "tabdownloadssorting":
+                                            tabDownloadsSorting = ReadValue;
+                                            continue;
+                                        case "tabdownloadsfixes":
+                                            tabDownloadsFixes = ReadValue;
+                                            continue;
+                                        case "tabdownloadsconnection":
+                                            tabDownloadsConnection = ReadValue;
+                                            continue;
+                                        case "tabdownloadsupdating":
+                                            tabDownloadsUpdating = ReadValue;
+                                            continue;
+                                        case "chksettingsdownloadssaveformatquality":
+                                            chkSettingsDownloadsSaveFormatQuality = ReadValue;
+                                            continue;
+                                        case "chksettingsdownloadsdownloadsubtitles":
+                                            chkSettingsDownloadsDownloadSubtitles = ReadValue;
+                                            continue;
+                                        case "chksettingsdownloadsembedsubtitles":
+                                            chkSettingsDownloadsEmbedSubtitles = ReadValue;
+                                            continue;
+                                        case "chksettingsdownloadssavevideoinfo":
+                                            chkSettingsDownloadsSaveVideoInfo = ReadValue;
+                                            continue;
+                                        case "chksettingsdownloadswritemetadatatofile":
+                                            chkSettingsDownloadsWriteMetadataToFile = ReadValue;
+                                            continue;
+                                        case "chksettingsdownloadssavedescription":
+                                            chkSettingsDownloadsSaveDescription = ReadValue;
+                                            continue;
+                                        case "chksettingsdownloadskeeporiginalfiles":
+                                            chkSettingsDownloadsKeepOriginalFiles = ReadValue;
+                                            continue;
+                                        case "chksettingsdownloadssaveannotations":
+                                            chkSettingsDownloadsSaveAnnotations = ReadValue;
+                                            continue;
+                                        case "chksettingsdownloadssavethumbnails":
+                                            chkSettingsDownloadsSaveThumbnails = ReadValue;
+                                            continue;
+                                        case "chksettingsdownloadsembedthumbnails":
+                                            chkSettingsDownloadsEmbedThumbnails = ReadValue;
+                                            continue;
+                                        case "chksettingsdownloadsautomaticallydeleteyoutubedlwhenclosing":
+                                            chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing = ReadValue;
+                                            continue;
+                                        case "chksettingsdownloadsseparatedownloadstodifferentfolders":
+                                            chkSettingsDownloadsSeparateDownloadsToDifferentFolders = ReadValue;
+                                            continue;
+                                        case "chksettingsdownloadsseparateintowebsiteurl":
+                                            chkSettingsDownloadsSeparateIntoWebsiteUrl = ReadValue;
+                                            continue;
+                                        case "chksettingsdownloadsfixvreddit":
+                                            chkSettingsDownloadsFixVReddIt = ReadValue;
+                                            continue;
+                                        case "chksettingsdownloadspreferffmpeg":
+                                            chkSettingsDownloadsPreferFFmpeg = ReadValue;
+                                            continue;
+                                        case "chksettingsdownloadslimitdownload":
+                                            chkSettingsDownloadsLimitDownload = ReadValue;
+                                            continue;
+                                        case "lbsettingsdownloadsretryattempts":
+                                            lbSettingsDownloadsRetryAttempts = ReadValue;
+                                            continue;
+                                        case "chksettingsdownloadsforceipv4":
+                                            chkSettingsDownloadsForceIpv4 = ReadValue;
+                                            continue;
+                                        case "chksettingsdownloadsforceipv6":
+                                            chkSettingsDownloadsForceIpv6 = ReadValue;
+                                            continue;
+                                        case "chksettingsdownloadsuseproxy":
+                                            chkSettingsDownloadsUseProxy = ReadValue;
+                                            continue;
+                                        case "chksettingsdownloadsuseyoutubedlsupdater":
+                                            chkSettingsDownloadsUseYoutubeDlsUpdater = ReadValue;
+                                            continue;
+                                        case "lbsettingsdownloadsupdatingytdltype":
+                                            lbSettingsDownloadsUpdatingYtdlType = ReadValue;
+                                            continue;
+                                        case "llbsettingsdownloadsytdltypeviewrepo":
+                                            llbSettingsDownloadsYtdlTypeViewRepo = ReadValue;
+                                            continue;
+                                        case "chksettingsdownloadsseparatebatchdownloads":
+                                            chkSettingsDownloadsSeparateBatchDownloads = ReadValue;
+                                            continue;
+                                        case "chksettingsdownloadsadddatetobatchdownloadfolders":
+                                            chkSettingsDownloadsAddDateToBatchDownloadFolders = ReadValue;
+                                            continue;
+                                        case "lbsettingsdownloadsdownloadpathhint":
+                                            lbSettingsDownloadsDownloadPathHint = ReadValue;
+                                            continue;
+                                        case "chksettingsdownloadsdownloadpathuserelativepathhint":
+                                            chkSettingsDownloadsDownloadPathUseRelativePathHint = ReadValue;
+                                            continue;
+                                        case "txtsettingsdownloadssavepathhint":
+                                            txtSettingsDownloadsSavePathHint = ReadValue;
+                                            continue;
+                                        case "btnsettingsdownloadsbrowsesavepathhint":
+                                            btnSettingsDownloadsBrowseSavePathHint = ReadValue;
+                                            continue;
+                                        case "llsettingsdownloadsschemahelphint":
+                                            llSettingsDownloadsSchemaHelpHint = ReadValue;
+                                            continue;
+                                        case "lbsettingsdownloadsfilenameschemahint":
+                                            lbSettingsDownloadsFileNameSchemaHint = ReadValue;
+                                            continue;
+                                        case "txtsettingsdownloadsfilenameschemahint":
+                                            txtSettingsDownloadsFileNameSchemaHint = ReadValue;
+                                            continue;
+                                        case "chksettingsdownloadssaveformatqualityhint":
+                                            chkSettingsDownloadsSaveFormatQualityHint = ReadValue;
+                                            continue;
+                                        case "chksettingsdownloadsdownloadsubtitleshint":
+                                            chkSettingsDownloadsDownloadSubtitlesHint = ReadValue;
+                                            continue;
+                                        case "chksettingsdownloadsembedsubtitleshint":
+                                            chkSettingsDownloadsEmbedSubtitlesHint = ReadValue;
+                                            continue;
+                                        case "chksettingsdownloadssavevideoinfohint":
+                                            chkSettingsDownloadsSaveVideoInfoHint = ReadValue;
+                                            continue;
+                                        case "chksettingsdownloadswritemetadatatofilehint":
+                                            chkSettingsDownloadsWriteMetadataToFileHint = ReadValue;
+                                            continue;
+                                        case "chksettingsdownloadssavedescriptionhint":
+                                            chkSettingsDownloadsSaveDescriptionHint = ReadValue;
+                                            continue;
+                                        case "chksettingsdownloadskeeporiginalfileshint":
+                                            chkSettingsDownloadsKeepOriginalFilesHint = ReadValue;
+                                            continue;
+                                        case "chksettingsdownloadssaveannotationshint":
+                                            chkSettingsDownloadsSaveAnnotationsHint = ReadValue;
+                                            continue;
+                                        case "chksettingsdownloadssavethumbnailshint":
+                                            chkSettingsDownloadsSaveThumbnailsHint = ReadValue;
+                                            continue;
+                                        case "chksettingsdownloadsembedthumbnailshint":
+                                            chkSettingsDownloadsEmbedThumbnailsHint = ReadValue;
+                                            continue;
+                                        case "chksettingsdownloadsautomaticallydeleteyoutubedlwhenclosinghint":
+                                            chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosingHint = ReadValue;
+                                            continue;
+                                        case "chksettingsdownloadsseparatedownloadstodifferentfoldershint":
+                                            chkSettingsDownloadsSeparateDownloadsToDifferentFoldersHint = ReadValue;
+                                            continue;
+                                        case "chksettingsdownloadsseparateintowebsiteurlhint":
+                                            chkSettingsDownloadsSeparateIntoWebsiteUrlHint = ReadValue;
+                                            continue;
+                                        case "chksettingsdownloadsfixvreddithint":
+                                            chkSettingsDownloadsFixVReddItHint = ReadValue;
+                                            continue;
+                                        case "chksettingsdownloadspreferffmpeghint":
+                                            chkSettingsDownloadsPreferFFmpegHint = ReadValue;
+                                            continue;
+                                        case "chksettingsdownloadslimitdownloadhint":
+                                            chkSettingsDownloadsLimitDownloadHint = ReadValue;
+                                            continue;
+                                        case "numsettingsdownloadslimitdownloadhint":
+                                            numSettingsDownloadsLimitDownloadHint = ReadValue;
+                                            continue;
+                                        case "cbsettingsdownloadslimitdownloadhint":
+                                            cbSettingsDownloadsLimitDownloadHint = ReadValue;
+                                            continue;
+                                        case "lbsettingsdownloadsretryattemptshint":
+                                            lbSettingsDownloadsRetryAttemptsHint = ReadValue;
+                                            continue;
+                                        case "numsettingsdownloadsretryattemptshint":
+                                            numSettingsDownloadsRetryAttemptsHint = ReadValue;
+                                            continue;
+                                        case "chksettingsdownloadsforceipv4hint":
+                                            chkSettingsDownloadsForceIpv4Hint = ReadValue;
+                                            continue;
+                                        case "chksettingsdownloadsforceipv6hint":
+                                            chkSettingsDownloadsForceIpv6Hint = ReadValue;
+                                            continue;
+                                        case "chksettingsdownloadsuseproxyhint":
+                                            chkSettingsDownloadsUseProxyHint = ReadValue;
+                                            continue;
+                                        case "cbsettingsdownloadsproxytypehint":
+                                            cbSettingsDownloadsProxyTypeHint = ReadValue;
+                                            continue;
+                                        case "txtsettingsdownloadsproxyiphint":
+                                            txtSettingsDownloadsProxyIpHint = ReadValue;
+                                            continue;
+                                        case "txtsettingsdownloadsproxyporthint":
+                                            txtSettingsDownloadsProxyPortHint = ReadValue;
+                                            continue;
+                                        case "chksettingsdownloadsuseyoutubedlsupdaterhint":
+                                            chksettingsDownloadsUseYoutubeDlsUpdaterHint = ReadValue;
+                                            continue;
+                                        case "cbsettingsdownloadsupdatingytdltypehint":
+                                            cbSettingsDownloadsUpdatingYtdlTypeHint = ReadValue;
+                                            continue;
+                                        case "llbsettingsdownloadsytdltypeviewrepohint":
+                                            llbSettingsDownloadsYtdlTypeViewRepoHint = ReadValue;
+                                            continue;
+                                        case "chksettingsdownloadsseparatebatchdownloadshint":
+                                            chkSettingsDownloadsSeparateBatchDownloadsHint = ReadValue;
+                                            continue;
+                                        case "chksettingsdownloadsadddatetobatchdownloadfoldershint":
+                                            chkSettingsDownloadsAddDateToBatchDownloadFoldersHint = ReadValue;
+                                            continue;
+
+                                        // frmSettings / tcMain / tabConverter
+                                        case "chksettingsconverterclearoutputafterconverting":
+                                            chkSettingsConverterClearOutputAfterConverting = ReadValue;
+                                            continue;
+                                        case "chksettingsconverterdetectoutputfiletype":
+                                            chkSettingsConverterDetectOutputFileType = ReadValue;
+                                            continue;
+                                        case "chksettingsconverterclearinputafterconverting":
+                                            chkSettingsConverterClearInputAfterConverting = ReadValue;
+                                            continue;
+                                        case "chksettingsconverterhideffmpegcompileinfo":
+                                            chkSettingsConverterHideFFmpegCompileInfo = ReadValue;
+                                            continue;
+                                        case "tcsettingsconvertervideo":
+                                            tcSettingsConverterVideo = ReadValue;
+                                            continue;
+                                        case "tcsettingsconverteraudio":
+                                            tcSettingsConverterAudio = ReadValue;
+                                            continue;
+                                        case "tcsettingsconvertercustom":
+                                            tcSettingsConverterCustom = ReadValue;
+                                            continue;
+                                        case "lbsettingsconvertervideobitrate":
+                                            lbSettingsConverterVideoBitrate = ReadValue;
+                                            continue;
+                                        case "lbsettingsconvertervideopreset":
+                                            lbSettingsConverterVideoPreset = ReadValue;
+                                            continue;
+                                        case "lbsettingsconvertervideoprofile":
+                                            lbSettingsConverterVideoProfile = ReadValue;
+                                            continue;
+                                        case "lbsettingsconvertervideocrf":
+                                            lbSettingsConverterVideoCRF = ReadValue;
+                                            continue;
+                                        case "chksettingsconvertervideofaststart":
+                                            chkSettingsConverterVideoFastStart = ReadValue;
+                                            continue;
+                                        case "lbsettingsconverteraudiobitrate":
+                                            lbSettingsConverterAudioBitrate = ReadValue;
+                                            continue;
+                                        case "lbsettingsconvertercustomheader":
+                                            lbSettingsConverterCustomHeader = ReadValue;
+                                            continue;
+                                        case "chksettingsconverterclearoutputafterconvertinghint":
+                                            chkSettingsConverterClearOutputAfterConvertingHint = ReadValue;
+                                            continue;
+                                        case "chksettingsconverterdetectoutputfiletypehint":
+                                            chkSettingsConverterDetectOutputFileTypeHint = ReadValue;
+                                            continue;
+                                        case "chksettingsconverterclearinputafterconvertinghint":
+                                            chkSettingsConverterClearInputAfterConvertingHint = ReadValue;
+                                            continue;
+                                        case "chksettingsconverterhideffmpegcompileinfohint":
+                                            chkSettingsConverterHideFFmpegCompileInfoHint = ReadValue;
+                                            continue;
+                                        case "lbsettingsconvertervideobitratehint":
+                                            lbSettingsConverterVideoBitrateHint = ReadValue;
+                                            continue;
+                                        case "lbsettingsconvertervideopresethint":
+                                            lbSettingsConverterVideoPresetHint = ReadValue;
+                                            continue;
+                                        case "lbsettingsconvertervideoprofilehint":
+                                            lbSettingsConverterVideoProfileHint = ReadValue;
+                                            continue;
+                                        case "lbsettingsconvertervideocrfhint":
+                                            lbSettingsConverterVideoCRFHint = ReadValue;
+                                            continue;
+                                        case "chksettingsconvertervideofaststarthint":
+                                            chkSettingsConverterVideoFastStartHint = ReadValue;
+                                            continue;
+                                        case "lbsettingsconverteraudiobitratehint":
+                                            lbSettingsConverterAudioBitrateHint = ReadValue;
+                                            continue;
+                                        case "txtsettingsconvertercustomargumentshint":
+                                            txtSettingsConverterCustomArgumentsHint = ReadValue;
+                                            continue;
+
+                                        // frmSettings / tcMain / tabExtensions
+                                        case "lbsettingsextensionsheader":
+                                            lbSettingsExtensionsHeader = ReadValue;
+                                            continue;
+                                        case "lbsettingsextensionsextensionfullname":
+                                            lbSettingsExtensionsExtensionFullName = ReadValue;
+                                            continue;
+                                        case "txtsettingsextensionsextensionfullname":
+                                            txtSettingsExtensionsExtensionFullName = ReadValue;
+                                            continue;
+                                        case "lbsettingsextensionsextensionshort":
+                                            lbSettingsExtensionsExtensionShort = ReadValue;
+                                            continue;
+                                        case "txtsettingsextensionsextensionshort":
+                                            txtSettingsExtensionsExtensionShort = ReadValue;
+                                            continue;
+                                        case "btnsettingsextensionsadd":
+                                            btnSettingsExtensionsAdd = ReadValue;
+                                            continue;
+                                        case "lbsettingsextensionsfilename":
+                                            lbSettingsExtensionsFileName = ReadValue;
+                                            continue;
+                                        case "btnsettingsextensionsremoveselected":
+                                            btnSettingsExtensionsRemoveSelected = ReadValue;
+                                            continue;
+
+                                        // frmSettings / tcMain / tabErrors
+                                        case "chksettingserrorsshowdetailederrors":
+                                            chkSettingsErrorsShowDetailedErrors = ReadValue;
+                                            continue;
+                                        case "chksettingserrorssaveerrorsaserrorlog":
+                                            chkSettingsErrorsSaveErrorsAsErrorLog = ReadValue;
+                                            continue;
+                                        case "chksettingserrorssuppresserrors":
+                                            chkSettingsErrorsSuppressErrors = ReadValue;
+                                            continue;
+                                        case "chksettingserrorsshowdetailederrorshint":
+                                            chkSettingsErrorsShowDetailedErrorsHint = ReadValue;
+                                            continue;
+                                        case "chksettingserrorssaveerrorsaserrorloghint":
+                                            chkSettingsErrorsSaveErrorsAsErrorLogHint = ReadValue;
+                                            continue;
+                                        case "chksettingserrorssuppresserrorshint":
+                                            chkSettingsErrorsSuppressErrorsHint = ReadValue;
+                                            continue;
+
+                                        // frmSettings /tcMain /tabSettingsPortable
+                                        case "lbsettingsportableinformation":
+                                            lbSettingsPortableInformation = ReadValue;
+                                            continue;
+
+                                        case "chksettingsportabletoggleini":
+                                            chkSettingsPortableToggleIni = ReadValue;
+                                            continue;
+                                        #endregion
+
+                                        #region frmSubtitles
+                                        case "frmsubtitles":
+                                            frmSubtitles = ReadValue;
+                                            continue;
+                                        case "lbsubtitlesheader":
+                                            lbSubtitlesHeader = ReadValue;
+                                            continue;
+                                        case "lbsubtitlesurl":
+                                            lbSubtitlesUrl = ReadValue;
+                                            continue;
+                                        case "lbsubtitleslanguages":
+                                            lbSubtitlesLanguages = ReadValue;
+                                            continue;
+                                        case "btnsubtitlesaddlanguage":
+                                            btnSubtitlesAddLanguage = ReadValue;
+                                            continue;
+                                        case "btnsubtitlesclearlanguages":
+                                            btnSubtitlesClearLanguages = ReadValue;
+                                            continue;
+                                        case "btnsubtitlesdownload":
+                                            btnSubtitlesDownload = ReadValue;
+                                            continue;
+                                        #endregion
+
+                                        #region frmTools
+                                        case "frmtools":
+                                            frmTools = ReadValue;
+                                            continue;
+                                        case "btnmisctoolsremoveaudio":
+                                            btnMiscToolsRemoveAudio = ReadValue;
+                                            continue;
+                                        case "btnmisctoolsextractaudio":
+                                            btnMiscToolsExtractAudio = ReadValue;
+                                            continue;
+                                        case "btnmisctoolsvideotogif":
+                                            btnMiscToolsVideoToGif = ReadValue;
+                                            continue;
+                                        #endregion
+
+                                        #region frmUpdateAvailable
+                                        case "frmupdateavailable":
+                                            frmUpdateAvailable = ReadValue;
+                                            continue;
+                                        case "lbupdateavailableheader":
+                                            lbUpdateAvailableHeader = ReadValue;
+                                            continue;
+                                        case "lbupdateavailableupdateversion":
+                                            lbUpdateAvailableUpdateVersion = ReadValue;
+                                            continue;
+                                        case "lbupdateavailablecurrentversion":
+                                            lbUpdateAvailableCurrentVersion = ReadValue;
+                                            continue;
+                                        case "lbupdateavailablechangelog":
+                                            lbUpdateAvailableChangelog = ReadValue;
+                                            continue;
+                                        case "btnupdateavailableskipversion":
+                                            btnUpdateAvailableSkipVersion = ReadValue;
+                                            continue;
+                                        case "btnupdateavailableupdate":
+                                            btnUpdateAvailableUpdate = ReadValue;
+                                            continue;
+                                            #endregion
+
+                                    }
                                 }
-                            }
-                            else if (!ReadLine.Contains("=")) continue;
-
-                            GetControlInfo(ReadLine, out string ReadControl, out string ReadValue);
-
-                            switch (ReadControl) {
-
-                                #region Language File
-                                case "currentlanguageshort":
-                                    CurrentLanguageShort = ReadValue;
-                                    continue;
-                                case "currentlanguagehint":
-                                    CurrentLanguageHint = ReadValue;
-                                    continue;
-                                case "currentlanguageversion":
-                                    CurrentLanguageVersion = ReadValue;
-                                    continue;
-                                #endregion
-
-                                #region Generics
-                                case "genericinputbest":
-                                    GenericInputBest = ReadValue;
-                                    continue;
-                                case "genericcancel":
-                                    GenericCancel = ReadValue;
-                                    continue;
-                                case "genericskip":
-                                    GenericSkip = ReadValue;
-                                    continue;
-                                case "genericsound":
-                                    GenericSound = ReadValue;
-                                    continue;
-                                case "genericvideo":
-                                    GenericVideo = ReadValue;
-                                    continue;
-                                case "genericaudio":
-                                    GenericAudio = ReadValue;
-                                    continue;
-                                case "genericcustom":
-                                    GenericCustom = ReadValue;
-                                    continue;
-                                case "genericretry":
-                                    GenericRetry = ReadValue;
-                                    continue;
-                                case "genericstart":
-                                    GenericStart = ReadValue;
-                                    continue;
-                                case "genericstop":
-                                    GenericStop = ReadValue;
-                                    continue;
-                                case "genericexit":
-                                    GenericExit = ReadValue;
-                                    continue;
-                                case "genericok":
-                                    GenericOk = ReadValue;
-                                    continue;
-                                case "genericsave":
-                                    GenericSave = ReadValue;
-                                    continue;
-                                #endregion
-
-                                #region frmAbout
-                                case "frmabout":
-                                    frmAbout = ReadValue;
-                                    continue;
-                                case "lbaboutbody":
-                                    lbAboutBody = ReadValue;
-                                    continue;
-                                case "llbcheckforupdates":
-                                    llbCheckForUpdates = ReadValue;
-                                    continue;
-                                #endregion
-
-                                #region frmAuthentication
-                                case "frmauthentication":
-                                    frmAuthentication = ReadValue;
-                                    continue;
-                                case "lbauthnotice":
-                                    lbAuthNotice = ReadValue;
-                                    continue;
-                                case "lbauthusername":
-                                    lbAuthUsername = ReadValue;
-                                    continue;
-                                case "lbauthpassword":
-                                    lbAuthPassword = ReadValue;
-                                    continue;
-                                case "lbauth2factor":
-                                    lbAuth2Factor = ReadValue;
-                                    continue;
-                                case "lbauthvideopassword":
-                                    lbAuthVideoPassword = ReadValue;
-                                    continue;
-                                case "chkauthusenetrc":
-                                    chkAuthUseNetrc = ReadValue;
-                                    continue;
-                                case "lbauthnosave":
-                                    lbAuthNoSave = ReadValue;
-                                    continue;
-                                case "btnauthbegindownload":
-                                    btnAuthBeginDownload = ReadValue;
-                                    continue;
-                                #endregion
-
-                                #region frmBatchDownloader
-                                // frmBatchDownloader
-                                case "frmbatchdownload":
-                                    frmBatchDownload = ReadValue;
-                                    continue;
-                                case "lbbatchdownloadlink":
-                                    lbBatchDownloadLink = ReadValue;
-                                    continue;
-                                case "lbbatchdownloadtype":
-                                    lbBatchDownloadType = ReadValue;
-                                    continue;
-                                case "lbbatchdownloadvideospecificargument":
-                                    lbBatchDownloadVideoSpecificArgument = ReadValue;
-                                    continue;
-                                case "btnbatchdownloadadd":
-                                    btnBatchDownloadAdd = ReadValue;
-                                    continue;
-                                case "sbbatchdownloadloadargs":
-                                    sbBatchDownloadLoadArgs = ReadValue;
-                                    continue;
-                                case "mbatchdownloaderloadargsfromsettings":
-                                    mBatchDownloaderLoadArgsFromSettings = ReadValue;
-                                    continue;
-                                case "mbatchdownloaderloadargsfromargstxt":
-                                    mBatchDownloaderLoadArgsFromArgsTxt = ReadValue;
-                                    continue;
-                                case "mbatchdownloaderloadargsfromfile":
-                                    mBatchDownloaderLoadArgsFromFile = ReadValue;
-                                    continue;
-                                case "btnbatchdownloadremoveselected":
-                                    btnBatchDownloadRemoveSelected = ReadValue;
-                                    continue;
-                                case "sbbatchdownloaderidle":
-                                    sbBatchDownloaderIdle = ReadValue;
-                                    continue;
-                                case "sbbatchdownloaderdownloading":
-                                    sbBatchDownloaderDownloading = ReadValue;
-                                    continue;
-                                case "sbbatchdownloaderfinished":
-                                    sbBatchDownloaderFinished = ReadValue;
-                                    continue;
-                                case "sbbatchdownloaderaborted":
-                                    sbBatchDownloaderAborted = ReadValue;
-                                    continue;
-                                #endregion
-
-                                #region frmConverter
-                                case "frmconverter":
-                                    frmConverter = ReadValue;
-                                    continue;
-                                case "frmconvertercomplete":
-                                    frmConverterComplete = ReadValue;
-                                    continue;
-                                case "frmconvertererror":
-                                    frmConverterError = ReadValue;
-                                    continue;
-                                case "chkconvertercloseafterconversion":
-                                    chkConverterCloseAfterConversion = ReadValue;
-                                    continue;
-                                case "btnconverterabortbatchconversions":
-                                    btnConverterAbortBatchConversions = ReadValue;
-                                    continue;
-                                #endregion
-
-                                #region frmDownloader
-                                case "frmdownloader":
-                                    frmDownloader = ReadValue;
-                                    continue;
-                                case "frmdownloadercomplete":
-                                    frmDownloaderComplete = ReadValue;
-                                    continue;
-                                case "frmdownloadererror":
-                                    frmDownloaderError = ReadValue;
-                                    continue;
-                                case "chkdownloadercloseafterdownload":
-                                    chkDownloaderCloseAfterDownload = ReadValue;
-                                    continue;
-                                case "btndownloaderabortbatch":
-                                    btnDownloaderAbortBatch = ReadValue;
-                                    continue;
-                                #endregion
-
-                                #region frmException
-                                case "frmexception":
-                                    frmException = ReadValue;
-                                    continue;
-                                case "lbexceptionheader":
-                                    lbExceptionHeader = ReadValue;
-                                    continue;
-                                case "lbexceptiondescription":
-                                    lbExceptionDescription = ReadValue;
-                                    continue;
-                                case "rtbexceptiondetails":
-                                    rtbExceptionDetails = ReadValue;
-                                    continue;
-                                case "btnexceptiongithub":
-                                    btnExceptionGithub = ReadValue;
-                                    continue;
-                                #endregion
-
-                                #region frmLanguage
-                                case "frmlanguage":
-                                    frmLanguage = ReadValue;
-                                    continue;
-                                case "btnlanguagerefresh":
-                                    btnLanguageRefresh = ReadValue;
-                                    continue;
-                                #endregion
-
-                                #region frmMain
-                                // frmMain / menu
-                                case "msettings":
-                                    mSettings = ReadValue;
-                                    continue;
-                                case "mtools":
-                                    mTools = ReadValue;
-                                    continue;
-                                case "mbatchdownload":
-                                    mBatchDownload = ReadValue;
-                                    continue;
-                                case "mdownloadsubtitles":
-                                    mDownloadSubtitles = ReadValue;
-                                    continue;
-                                case "mmisctools":
-                                    mMiscTools = ReadValue;
-                                    continue;
-                                case "mhelp":
-                                    mHelp = ReadValue;
-                                    continue;
-                                case "mlanguage":
-                                    mLanguage = ReadValue;
-                                    continue;
-                                case "msupportedsites":
-                                    mSupportedSites = ReadValue;
-                                    continue;
-                                case "mabout":
-                                    mAbout = ReadValue;
-                                    continue;
-
-                                // frmMain / tcMain
-                                case "tabdownload":
-                                    tabDownload = ReadValue;
-                                    continue;
-                                case "tabconvert":
-                                    tabConvert = ReadValue;
-                                    continue;
-                                case "tabmerge":
-                                    tabMerge = ReadValue;
-                                    continue;
-
-                                // frmMain / tcMain / Download
-                                case "lburl":
-                                    lbURL = ReadValue;
-                                    continue;
-                                case "txturlhint":
-                                    txtUrlHint = ReadValue;
-                                    continue;
-                                case "gbdownloadtype":
-                                    gbDownloadType = ReadValue;
-                                    continue;
-                                case "lbquality":
-                                    lbQuality = ReadValue;
-                                    continue;
-                                case "lbformat":
-                                    lbFormat = ReadValue;
-                                    continue;
-                                case "chkdownloadsound":
-                                    chkDownloadSound = ReadValue;
-                                    continue;
-                                case "chkuseselection":
-                                    chkUseSelection = ReadValue;
-                                    continue;
-                                case "rbvideoselectionplaylistindex":
-                                    rbVideoSelectionPlaylistIndex = ReadValue;
-                                    continue;
-                                case "rbvideoselectionplaylistitems":
-                                    rbVideoSelectionPlaylistItems = ReadValue;
-                                    continue;
-                                case "rbvideoselectionbeforedate":
-                                    rbVideoSelectionBeforeDate = ReadValue;
-                                    continue;
-                                case "rbvideoselectionondate":
-                                    rbVideoSelectionOnDate = ReadValue;
-                                    continue;
-                                case "rbvideoselectionafterdate":
-                                    rbVideoSelectionAfterDate = ReadValue;
-                                    continue;
-                                case "txtplayliststarthint":
-                                    txtPlaylistStartHint = ReadValue;
-                                    continue;
-                                case "txtplaylistendhint":
-                                    txtPlaylistEndHint = ReadValue;
-                                    continue;
-                                case "txtplaylistitemshint":
-                                    lbDownloadStatusStarted = ReadValue;
-                                    continue;
-                                case "txtvideodatehint":
-                                    txtVideoDateHint = ReadValue;
-                                    continue;
-                                case "lbcustomarguments":
-                                    lbCustomArguments = ReadValue;
-                                    continue;
-                                case "txtargshint":
-                                    txtArgsHint = ReadValue;
-                                    continue;
-                                case "sbdownload":
-                                    sbDownload = ReadValue;
-                                    continue;
-                                case "mdownloadwithauthentication":
-                                    mDownloadWithAuthentication = ReadValue;
-                                    continue;
-                                case "mbatchdownloadfromfile":
-                                    mBatchDownloadFromFile = ReadValue;
-                                    continue;
-                                case "msgbatchdownloadfromfile":
-                                    msgBatchDownloadFromFile = ReadValue;
-                                    continue;
-                                case "lbdownloadstatusstarted":
-                                    lbDownloadStatusStarted = ReadValue;
-                                    continue;
-                                case "lbdownloadstatuserror":
-                                    lbDownloadStatusError = ReadValue;
-                                    continue;
-
-                                // frmMain / tcMain / Convert
-                                case "lbconvertinput":
-                                    lbConvertInput = ReadValue;
-                                    continue;
-                                case "lbconvertoutput":
-                                    lbConvertOutput = ReadValue;
-                                    continue;
-                                case "rbconvertauto":
-                                    rbConvertAuto = ReadValue;
-                                    continue;
-                                case "rbconvertautoffmpeg":
-                                    rbConvertAutoFFmpeg = ReadValue;
-                                    continue;
-                                case "btnconvert":
-                                    btnConvert = ReadValue;
-                                    continue;
-                                case "lbconvertstarted":
-                                    lbConvertStarted = ReadValue;
-                                    continue;
-                                case "lbconvertfailed":
-                                    lbConvertFailed = ReadValue;
-                                    continue;
-
-                                // frmMain / tcMain / Merge
-                                case "lbmergeinput1":
-                                    lbMergeInput1 = ReadValue;
-                                    continue;
-                                case "lbmergeinput2":
-                                    lbMergeInput2 = ReadValue;
-                                    continue;
-                                case "lbmergeoutput":
-                                    lbMergeOutput = ReadValue;
-                                    continue;
-                                case "chkmergeaudiotracks":
-                                    chkMergeAudioTracks = ReadValue;
-                                    continue;
-                                case "chkmergedeleteinputfiles":
-                                    chkMergeDeleteInputFiles = ReadValue;
-                                    continue;
-                                case "btnmerge":
-                                    btnMerge = ReadValue;
-                                    continue;
-
-                                // frmMain / tcMain / cmTray
-                                case "cmTrayShowForm":
-                                    cmTrayShowForm = ReadValue;
-                                    continue;
-                                case "cmtraydownloader":
-                                    cmTrayDownloader = ReadValue;
-                                    continue;
-                                case "cmtraydownloadclipboard":
-                                    cmTrayDownloadClipboard = ReadValue;
-                                    continue;
-                                case "cmtraydownloadbestvideo":
-                                    cmTrayDownloadBestVideo = ReadValue;
-                                    continue;
-                                case "cmtraydownloadbestaudio":
-                                    cmTrayDownloadBestAudio = ReadValue;
-                                    continue;
-                                case "cmtraydownloadcustom":
-                                    cmTrayDownloadCustom = ReadValue;
-                                    continue;
-                                case "cmtraydownloadcustomtxtbox":
-                                    cmTrayDownloadCustomTxtBox = ReadValue;
-                                    continue;
-                                case "cmtraydownloadcustomtxt":
-                                    cmTrayDownloadCustomTxt = ReadValue;
-                                    continue;
-                                case "cmtraydownloadcustomsettings":
-                                    cmTrayDownloadCustomSettings = ReadValue;
-                                    continue;
-                                case "cmtrayconverter":
-                                    cmTrayConverter = ReadValue;
-                                    continue;
-                                case "cmtrayconvertto":
-                                    cmTrayConvertTo = ReadValue;
-                                    continue;
-                                case "cmtrayconvertvideo":
-                                    cmTrayConvertVideo = ReadValue;
-                                    continue;
-                                case "cmtrayconvertaudio":
-                                    cmTrayConvertAudio = ReadValue;
-                                    continue;
-                                case "cmtrayconvertcustom":
-                                    cmTrayConvertCustom = ReadValue;
-                                    continue;
-                                case "cmtrayconvertautomatic":
-                                    cmTrayConvertAutomatic = ReadValue;
-                                    continue;
-                                case "cmtrayconvertautoffmpeg":
-                                    cmTrayConvertAutoFFmpeg = ReadValue;
-                                    continue;
-                                case "cmtrayexit":
-                                    cmTrayExit = ReadValue;
-                                    continue;
-                                #endregion
-
-                                #region frmSettings
-                                // frmSettings
-                                case "frmsettings":
-                                    frmSettings = ReadValue;
-                                    continue;
-                                case "btnsettingsredownloadyoutubedl":
-                                    btnSettingsRedownloadYoutubeDl = ReadValue;
-                                    continue;
-                                case "btnsettingsredownloadyoutubedlhint":
-                                    btnSettingsRedownloadYoutubeDlHint = ReadValue;
-                                    continue;
-                                case "btnsettingscancelhint":
-                                    btnSettingsCancelHint = ReadValue;
-                                    continue;
-                                case "btnsettingssavehint":
-                                    btnSettingsSaveHint = ReadValue;
-                                    continue;
-
-                                // frmSettings / tcMain
-                                case "tabsettingsgeneral":
-                                    tabSettingsGeneral = ReadValue;
-                                    continue;
-                                case "tabsettingsdownloads":
-                                    tabSettingsDownloads = ReadValue;
-                                    continue;
-                                case "tabsettingsconverter":
-                                    tabSettingsConverter = ReadValue;
-                                    continue;
-                                case "tabsettingsextensions":
-                                    tabSettingsExtensions = ReadValue;
-                                    continue;
-                                case "tabsettingserrors":
-                                    tabSettingsErrors = ReadValue;
-                                    continue;
-
-                                case "tabsettingsportable":
-                                    tabSettingsPortable = ReadValue;
-                                    continue;
-
-                                //frmSettings / tcMain / tabGeneral
-                                case "lbsettingsgeneralyoutubedlpath":
-                                    lbSettingsGeneralYoutubeDlPath = ReadValue;
-                                    continue;
-                                case "chksettingsgeneralusestaticyoutubedl":
-                                    chkSettingsGeneralUseStaticYoutubeDl = ReadValue;
-                                    continue;
-                                case "ofdtitleYoutubedl":
-                                    ofdTitleYoutubeDl = ReadValue;
-                                    continue;
-                                case "ofdfilteryoutubedl":
-                                    ofdFilterYoutubeDl = ReadValue;
-                                    continue;
-                                case "lbsettingsgeneralffmpegdirectory":
-                                    lbSettingsGeneralFFmpegDirectory = ReadValue;
-                                    continue;
-                                case "chksettingsgeneralusestaticffmpeg":
-                                    chkSettingsGeneralUseStaticFFmpeg = ReadValue;
-                                    continue;
-                                case "ofdtitleffmpeg":
-                                    ofdTitleFFmpeg = ReadValue;
-                                    continue;
-                                case "ofdfilterffmpeg":
-                                    ofdFilterFFmpeg = ReadValue;
-                                    continue;
-                                case "chksettingsgeneralcheckforupdatesonlaunch":
-                                    chkSettingsGeneralCheckForUpdatesOnLaunch = ReadValue;
-                                    continue;
-                                case "chksettingsgeneralcheckforbetaupdates":
-                                    chkSettingsGeneralCheckForBetaUpdates = ReadValue;
-                                    continue;
-                                case "chksettingsgeneralhoveroverurltopasteclipboard":
-                                    chkSettingsGeneralHoverOverUrlToPasteClipboard = ReadValue;
-                                    continue;
-                                case "chksettingsgeneralclearurlondownload":
-                                    chkSettingsGeneralClearUrlOnDownload = ReadValue;
-                                    continue;
-                                case "chksettingsgeneralclearclipboardondownload":
-                                    chkSettingsGeneralClearClipboardOnDownload = ReadValue;
-                                    continue;
-                                case "gbsettingsgeneralcustomarguments":
-                                    gbSettingsGeneralCustomArguments = ReadValue;
-                                    continue;
-                                case "rbsettingsgeneralcustomargumentsdontsave":
-                                    rbSettingsGeneralCustomArgumentsDontSave = ReadValue;
-                                    continue;
-                                case "rbsettingsgeneralcustomargumentssaveasargstext":
-                                    rbSettingsGeneralCustomArgumentsSaveAsArgsText = ReadValue;
-                                    continue;
-                                case "rbsettingsgeneralcustomargumentssaveinsettings":
-                                    rbSettingsGeneralCustomArgumentsSaveInSettings = ReadValue;
-                                    continue;
-                                case "lbsettingsgeneralyoutubedlpathhint":
-                                    lbSettingsGeneralYoutubeDlPathHint = ReadValue;
-                                    continue;
-                                case "chksettingsgeneralusestaticyoutubedlhint":
-                                    chkSettingsGeneralUseStaticYoutubeDlHint = ReadValue;
-                                    continue;
-                                case "txtsettingsgeneralyoutubedlpathhint":
-                                    txtSettingsGeneralYoutubeDlPathHint = ReadValue;
-                                    continue;
-                                case "btnsettingsgeneralbrowseyoutubedlhint":
-                                    btnSettingsGeneralBrowseYoutubeDlHint = ReadValue;
-                                    continue;
-                                case "lbsettingsgeneralffmpegdirectoryhint":
-                                    lbSettingsGeneralFFmpegDirectoryHint = ReadValue;
-                                    continue;
-                                case "chksettingsgeneralusestaticffmpeghint":
-                                    chkSettingsGeneralUseStaticFFmpegHint = ReadValue;
-                                    continue;
-                                case "txtsettingsgeneralffmpegpathhint":
-                                    txtSettingsGeneralFFmpegPathHint = ReadValue;
-                                    continue;
-                                case "btnsettingsgeneralbrowseffmpeghint":
-                                    btnSettingsGeneralBrowseFFmpegHint = ReadValue;
-                                    continue;
-                                case "chksettingsgeneralcheckforupdatesonlaunchhint":
-                                    chkSettingsGeneralCheckForUpdatesOnLaunchHint = ReadValue;
-                                    continue;
-                                case "chksettingsgeneralcheckforbetaupdateshint":
-                                    chkSettingsGeneralCheckForBetaUpdatesHint = ReadValue;
-                                    continue;
-                                case "chksettingsgeneralhoveroverurltopasteclipboardhint":
-                                    chkSettingsGeneralHoverOverUrlToPasteClipboardHint = ReadValue;
-                                    continue;
-                                case "chksettingsgeneralclearurlondownloadhint":
-                                    chkSettingsGeneralClearUrlOnDownloadHint = ReadValue;
-                                    continue;
-                                case "chksettingsgeneralclearclipboardondownloadhint":
-                                    chkSettingsGeneralClearClipboardOnDownloadHint = ReadValue;
-                                    continue;
-                                case "gbsettingsgeneralcustomargumentshint":
-                                    gbSettingsGeneralCustomArgumentsHint = ReadValue;
-                                    continue;
-                                case "rbsettingsgeneralcustomargumentsdontsavehint":
-                                    rbSettingsGeneralCustomArgumentsDontSaveHint = ReadValue;
-                                    continue;
-                                case "rbsettingsgeneralcustomargumentssaveasargstexthint":
-                                    rbSettingsGeneralCustomArgumentsSaveAsArgsTextHint = ReadValue;
-                                    continue;
-                                case "rbsettingsgeneralcustomargumentssaveinsettingshint":
-                                    rbSettingsGeneralCustomArgumentsSaveInSettingsHint = ReadValue;
-                                    continue;
-
-                                // frmSettings / tcMain / tabDownloads
-                                case "lbsettingsdownloadsdownloadpath":
-                                    lbSettingsDownloadsDownloadPath = ReadValue;
-                                    continue;
-                                case "lbsettingsdownloadsfilenameschema":
-                                    lbSettingsDownloadsFileNameSchema = ReadValue;
-                                    continue;
-                                case "tabdownloadsgeneral":
-                                    tabDownloadsGeneral = ReadValue;
-                                    continue;
-                                case "tabdownloadssorting":
-                                    tabDownloadsSorting = ReadValue;
-                                    continue;
-                                case "tabdownloadsfixes":
-                                    tabDownloadsFixes = ReadValue;
-                                    continue;
-                                case "tabdownloadsconnection":
-                                    tabDownloadsConnection = ReadValue;
-                                    continue;
-                                case "tabdownloadsupdating":
-                                    tabDownloadsUpdating = ReadValue;
-                                    continue;
-                                case "chksettingsdownloadssaveformatquality":
-                                    chkSettingsDownloadsSaveFormatQuality = ReadValue;
-                                    continue;
-                                case "chksettingsdownloadsdownloadsubtitles":
-                                    chkSettingsDownloadsDownloadSubtitles = ReadValue;
-                                    continue;
-                                case "chksettingsdownloadsembedsubtitles":
-                                    chkSettingsDownloadsEmbedSubtitles = ReadValue;
-                                    continue;
-                                case "chksettingsdownloadssavevideoinfo":
-                                    chkSettingsDownloadsSaveVideoInfo = ReadValue;
-                                    continue;
-                                case "chksettingsdownloadswritemetadatatofile":
-                                    chkSettingsDownloadsWriteMetadataToFile = ReadValue;
-                                    continue;
-                                case "chksettingsdownloadssavedescription":
-                                    chkSettingsDownloadsSaveDescription = ReadValue;
-                                    continue;
-                                case "chksettingsdownloadskeeporiginalfiles":
-                                    chkSettingsDownloadsKeepOriginalFiles = ReadValue;
-                                    continue;
-                                case "chksettingsdownloadssaveannotations":
-                                    chkSettingsDownloadsSaveAnnotations = ReadValue;
-                                    continue;
-                                case "chksettingsdownloadssavethumbnails":
-                                    chkSettingsDownloadsSaveThumbnails = ReadValue;
-                                    continue;
-                                case "chksettingsdownloadsembedthumbnails":
-                                    chkSettingsDownloadsEmbedThumbnails = ReadValue;
-                                    continue;
-                                case "chksettingsdownloadsautomaticallydeleteyoutubedlwhenclosing":
-                                    chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing = ReadValue;
-                                    continue;
-                                case "chksettingsdownloadsseparatedownloadstodifferentfolders":
-                                    chkSettingsDownloadsSeparateDownloadsToDifferentFolders = ReadValue;
-                                    continue;
-                                case "chksettingsdownloadsseparateintowebsiteurl":
-                                    chkSettingsDownloadsSeparateIntoWebsiteUrl = ReadValue;
-                                    continue;
-                                case "chksettingsdownloadsfixvreddit":
-                                    chkSettingsDownloadsFixVReddIt = ReadValue;
-                                    continue;
-                                case "chksettingsdownloadspreferffmpeg":
-                                    chkSettingsDownloadsPreferFFmpeg = ReadValue;
-                                    continue;
-                                case "chksettingsdownloadslimitdownload":
-                                    chkSettingsDownloadsLimitDownload = ReadValue;
-                                    continue;
-                                case "lbsettingsdownloadsretryattempts":
-                                    lbSettingsDownloadsRetryAttempts = ReadValue;
-                                    continue;
-                                case "chksettingsdownloadsforceipv4":
-                                    chkSettingsDownloadsForceIpv4 = ReadValue;
-                                    continue;
-                                case "chksettingsdownloadsforceipv6":
-                                    chkSettingsDownloadsForceIpv6 = ReadValue;
-                                    continue;
-                                case "chksettingsdownloadsuseproxy":
-                                    chkSettingsDownloadsUseProxy = ReadValue;
-                                    continue;
-                                case "chksettingsdownloadsuseyoutubedlsupdater":
-                                    chkSettingsDownloadsUseYoutubeDlsUpdater = ReadValue;
-                                    continue;
-                                case "lbsettingsdownloadsupdatingytdltype":
-                                    lbSettingsDownloadsUpdatingYtdlType = ReadValue;
-                                    continue;
-                                case "llbsettingsdownloadsytdltypeviewrepo":
-                                    llbSettingsDownloadsYtdlTypeViewRepo = ReadValue;
-                                    continue;
-                                case "chksettingsdownloadsseparatebatchdownloads":
-                                    chkSettingsDownloadsSeparateBatchDownloads = ReadValue;
-                                    continue;
-                                case "chksettingsdownloadsadddatetobatchdownloadfolders":
-                                    chkSettingsDownloadsAddDateToBatchDownloadFolders = ReadValue;
-                                    continue;
-                                case "lbsettingsdownloadsdownloadpathhint":
-                                    lbSettingsDownloadsDownloadPathHint = ReadValue;
-                                    continue;
-                                case "chksettingsdownloadsdownloadpathuserelativepathhint":
-                                    chkSettingsDownloadsDownloadPathUseRelativePathHint = ReadValue;
-                                    continue;
-                                case "txtsettingsdownloadssavepathhint":
-                                    txtSettingsDownloadsSavePathHint = ReadValue;
-                                    continue;
-                                case "btnsettingsdownloadsbrowsesavepathhint":
-                                    btnSettingsDownloadsBrowseSavePathHint = ReadValue;
-                                    continue;
-                                case "llsettingsdownloadsschemahelphint":
-                                    llSettingsDownloadsSchemaHelpHint = ReadValue;
-                                    continue;
-                                case "lbsettingsdownloadsfilenameschemahint":
-                                    lbSettingsDownloadsFileNameSchemaHint = ReadValue;
-                                    continue;
-                                case "txtsettingsdownloadsfilenameschemahint":
-                                    txtSettingsDownloadsFileNameSchemaHint = ReadValue;
-                                    continue;
-                                case "chksettingsdownloadssaveformatqualityhint":
-                                    chkSettingsDownloadsSaveFormatQualityHint = ReadValue;
-                                    continue;
-                                case "chksettingsdownloadsdownloadsubtitleshint":
-                                    chkSettingsDownloadsDownloadSubtitlesHint = ReadValue;
-                                    continue;
-                                case "chksettingsdownloadsembedsubtitleshint":
-                                    chkSettingsDownloadsEmbedSubtitlesHint = ReadValue;
-                                    continue;
-                                case "chksettingsdownloadssavevideoinfohint":
-                                    chkSettingsDownloadsSaveVideoInfoHint = ReadValue;
-                                    continue;
-                                case "chksettingsdownloadswritemetadatatofilehint":
-                                    chkSettingsDownloadsWriteMetadataToFileHint = ReadValue;
-                                    continue;
-                                case "chksettingsdownloadssavedescriptionhint":
-                                    chkSettingsDownloadsSaveDescriptionHint = ReadValue;
-                                    continue;
-                                case "chksettingsdownloadskeeporiginalfileshint":
-                                    chkSettingsDownloadsKeepOriginalFilesHint = ReadValue;
-                                    continue;
-                                case "chksettingsdownloadssaveannotationshint":
-                                    chkSettingsDownloadsSaveAnnotationsHint = ReadValue;
-                                    continue;
-                                case "chksettingsdownloadssavethumbnailshint":
-                                    chkSettingsDownloadsSaveThumbnailsHint = ReadValue;
-                                    continue;
-                                case "chksettingsdownloadsembedthumbnailshint":
-                                    chkSettingsDownloadsEmbedThumbnailsHint = ReadValue;
-                                    continue;
-                                case "chksettingsdownloadsautomaticallydeleteyoutubedlwhenclosinghint":
-                                    chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosingHint = ReadValue;
-                                    continue;
-                                case "chksettingsdownloadsseparatedownloadstodifferentfoldershint":
-                                    chkSettingsDownloadsSeparateDownloadsToDifferentFoldersHint = ReadValue;
-                                    continue;
-                                case "chksettingsdownloadsseparateintowebsiteurlhint":
-                                    chkSettingsDownloadsSeparateIntoWebsiteUrlHint = ReadValue;
-                                    continue;
-                                case "chksettingsdownloadsfixvreddithint":
-                                    chkSettingsDownloadsFixVReddItHint = ReadValue;
-                                    continue;
-                                case "chksettingsdownloadspreferffmpeghint":
-                                    chkSettingsDownloadsPreferFFmpegHint = ReadValue;
-                                    continue;
-                                case "chksettingsdownloadslimitdownloadhint":
-                                    chkSettingsDownloadsLimitDownloadHint = ReadValue;
-                                    continue;
-                                case "numsettingsdownloadslimitdownloadhint":
-                                    numSettingsDownloadsLimitDownloadHint = ReadValue;
-                                    continue;
-                                case "cbsettingsdownloadslimitdownloadhint":
-                                    cbSettingsDownloadsLimitDownloadHint = ReadValue;
-                                    continue;
-                                case "lbsettingsdownloadsretryattemptshint":
-                                    lbSettingsDownloadsRetryAttemptsHint = ReadValue;
-                                    continue;
-                                case "numsettingsdownloadsretryattemptshint":
-                                    numSettingsDownloadsRetryAttemptsHint = ReadValue;
-                                    continue;
-                                case "chksettingsdownloadsforceipv4hint":
-                                    chkSettingsDownloadsForceIpv4Hint = ReadValue;
-                                    continue;
-                                case "chksettingsdownloadsforceipv6hint":
-                                    chkSettingsDownloadsForceIpv6Hint = ReadValue;
-                                    continue;
-                                case "chksettingsdownloadsuseproxyhint":
-                                    chkSettingsDownloadsUseProxyHint = ReadValue;
-                                    continue;
-                                case "cbsettingsdownloadsproxytypehint":
-                                    cbSettingsDownloadsProxyTypeHint = ReadValue;
-                                    continue;
-                                case "txtsettingsdownloadsproxyiphint":
-                                    txtSettingsDownloadsProxyIpHint = ReadValue;
-                                    continue;
-                                case "txtsettingsdownloadsproxyporthint":
-                                    txtSettingsDownloadsProxyPortHint = ReadValue;
-                                    continue;
-                                case "chksettingsdownloadsuseyoutubedlsupdaterhint":
-                                    chksettingsDownloadsUseYoutubeDlsUpdaterHint = ReadValue;
-                                    continue;
-                                case "cbsettingsdownloadsupdatingytdltypehint":
-                                    cbSettingsDownloadsUpdatingYtdlTypeHint = ReadValue;
-                                    continue;
-                                case "llbsettingsdownloadsytdltypeviewrepohint":
-                                    llbSettingsDownloadsYtdlTypeViewRepoHint = ReadValue;
-                                    continue;
-                                case "chksettingsdownloadsseparatebatchdownloadshint":
-                                    chkSettingsDownloadsSeparateBatchDownloadsHint = ReadValue;
-                                    continue;
-                                case "chksettingsdownloadsadddatetobatchdownloadfoldershint":
-                                    chkSettingsDownloadsAddDateToBatchDownloadFoldersHint = ReadValue;
-                                    continue;
-
-                                // frmSettings / tcMain / tabConverter
-                                case "chksettingsconverterclearoutputafterconverting":
-                                    chkSettingsConverterClearOutputAfterConverting = ReadValue;
-                                    continue;
-                                case "chksettingsconverterdetectoutputfiletype":
-                                    chkSettingsConverterDetectOutputFileType = ReadValue;
-                                    continue;
-                                case "chksettingsconverterclearinputafterconverting":
-                                    chkSettingsConverterClearInputAfterConverting = ReadValue;
-                                    continue;
-                                case "chksettingsconverterhideffmpegcompileinfo":
-                                    chkSettingsConverterHideFFmpegCompileInfo = ReadValue;
-                                    continue;
-                                case "tcsettingsconvertervideo":
-                                    tcSettingsConverterVideo = ReadValue;
-                                    continue;
-                                case "tcsettingsconverteraudio":
-                                    tcSettingsConverterAudio = ReadValue;
-                                    continue;
-                                case "tcsettingsconvertercustom":
-                                    tcSettingsConverterCustom = ReadValue;
-                                    continue;
-                                case "lbsettingsconvertervideobitrate":
-                                    lbSettingsConverterVideoBitrate = ReadValue;
-                                    continue;
-                                case "lbsettingsconvertervideopreset":
-                                    lbSettingsConverterVideoPreset = ReadValue;
-                                    continue;
-                                case "lbsettingsconvertervideoprofile":
-                                    lbSettingsConverterVideoProfile = ReadValue;
-                                    continue;
-                                case "lbsettingsconvertervideocrf":
-                                    lbSettingsConverterVideoCRF = ReadValue;
-                                    continue;
-                                case "chksettingsconvertervideofaststart":
-                                    chkSettingsConverterVideoFastStart = ReadValue;
-                                    continue;
-                                case "lbsettingsconverteraudiobitrate":
-                                    lbSettingsConverterAudioBitrate = ReadValue;
-                                    continue;
-                                case "lbsettingsconvertercustomheader":
-                                    lbSettingsConverterCustomHeader = ReadValue;
-                                    continue;
-                                case "chksettingsconverterclearoutputafterconvertinghint":
-                                    chkSettingsConverterClearOutputAfterConvertingHint = ReadValue;
-                                    continue;
-                                case "chksettingsconverterdetectoutputfiletypehint":
-                                    chkSettingsConverterDetectOutputFileTypeHint = ReadValue;
-                                    continue;
-                                case "chksettingsconverterclearinputafterconvertinghint":
-                                    chkSettingsConverterClearInputAfterConvertingHint = ReadValue;
-                                    continue;
-                                case "chksettingsconverterhideffmpegcompileinfohint":
-                                    chkSettingsConverterHideFFmpegCompileInfoHint = ReadValue;
-                                    continue;
-                                case "lbsettingsconvertervideobitratehint":
-                                    lbSettingsConverterVideoBitrateHint = ReadValue;
-                                    continue;
-                                case "lbsettingsconvertervideopresethint":
-                                    lbSettingsConverterVideoPresetHint = ReadValue;
-                                    continue;
-                                case "lbsettingsconvertervideoprofilehint":
-                                    lbSettingsConverterVideoProfileHint = ReadValue;
-                                    continue;
-                                case "lbsettingsconvertervideocrfhint":
-                                    lbSettingsConverterVideoCRFHint = ReadValue;
-                                    continue;
-                                case "chksettingsconvertervideofaststarthint":
-                                    chkSettingsConverterVideoFastStartHint = ReadValue;
-                                    continue;
-                                case "lbsettingsconverteraudiobitratehint":
-                                    lbSettingsConverterAudioBitrateHint = ReadValue;
-                                    continue;
-                                case "txtsettingsconvertercustomargumentshint":
-                                    txtSettingsConverterCustomArgumentsHint = ReadValue;
-                                    continue;
-
-                                // frmSettings / tcMain / tabExtensions
-                                case "lbsettingsextensionsheader":
-                                    lbSettingsExtensionsHeader = ReadValue;
-                                    continue;
-                                case "lbsettingsextensionsextensionfullname":
-                                    lbSettingsExtensionsExtensionFullName = ReadValue;
-                                    continue;
-                                case "txtsettingsextensionsextensionfullname":
-                                    txtSettingsExtensionsExtensionFullName = ReadValue;
-                                    continue;
-                                case "lbsettingsextensionsextensionshort":
-                                    lbSettingsExtensionsExtensionShort = ReadValue;
-                                    continue;
-                                case "txtsettingsextensionsextensionshort":
-                                    txtSettingsExtensionsExtensionShort = ReadValue;
-                                    continue;
-                                case "btnsettingsextensionsadd":
-                                    btnSettingsExtensionsAdd = ReadValue;
-                                    continue;
-                                case "lbsettingsextensionsfilename":
-                                    lbSettingsExtensionsFileName = ReadValue;
-                                    continue;
-                                case "btnsettingsextensionsremoveselected":
-                                    btnSettingsExtensionsRemoveSelected = ReadValue;
-                                    continue;
-
-                                // frmSettings / tcMain / tabErrors
-                                case "chksettingserrorsshowdetailederrors":
-                                    chkSettingsErrorsShowDetailedErrors = ReadValue;
-                                    continue;
-                                case "chksettingserrorssaveerrorsaserrorlog":
-                                    chkSettingsErrorsSaveErrorsAsErrorLog = ReadValue;
-                                    continue;
-                                case "chksettingserrorssuppresserrors":
-                                    chkSettingsErrorsSuppressErrors = ReadValue;
-                                    continue;
-                                case "chksettingserrorsshowdetailederrorshint":
-                                    chkSettingsErrorsShowDetailedErrorsHint = ReadValue;
-                                    continue;
-                                case "chksettingserrorssaveerrorsaserrorloghint":
-                                    chkSettingsErrorsSaveErrorsAsErrorLogHint = ReadValue;
-                                    continue;
-                                case "chksettingserrorssuppresserrorshint":
-                                    chkSettingsErrorsSuppressErrorsHint = ReadValue;
-                                    continue;
-
-                                // frmSettings /tcMain /tabSettingsPortable
-                                case "lbsettingsportableinformation":
-                                    lbSettingsPortableInformation = ReadValue;
-                                    continue;
-
-                                case "chksettingsportabletoggleini":
-                                    chkSettingsPortableToggleIni = ReadValue;
-                                    continue;
-                                #endregion
-
-                                #region frmSubtitles
-                                case "frmsubtitles":
-                                    frmSubtitles = ReadValue;
-                                    continue;
-                                case "lbsubtitlesheader":
-                                    lbSubtitlesHeader = ReadValue;
-                                    continue;
-                                case "lbsubtitlesurl":
-                                    lbSubtitlesUrl = ReadValue;
-                                    continue;
-                                case "lbsubtitleslanguages":
-                                    lbSubtitlesLanguages = ReadValue;
-                                    continue;
-                                case "btnsubtitlesaddlanguage":
-                                    btnSubtitlesAddLanguage = ReadValue;
-                                    continue;
-                                case "btnsubtitlesclearlanguages":
-                                    btnSubtitlesClearLanguages = ReadValue;
-                                    continue;
-                                case "btnsubtitlesdownload":
-                                    btnSubtitlesDownload = ReadValue;
-                                    continue;
-                                #endregion
-
-                                #region frmTools
-                                case "frmtools":
-                                    frmTools = ReadValue;
-                                    continue;
-                                case "btnmisctoolsremoveaudio":
-                                    btnMiscToolsRemoveAudio = ReadValue;
-                                    continue;
-                                case "btnmisctoolsextractaudio":
-                                    btnMiscToolsExtractAudio = ReadValue;
-                                    continue;
-                                case "btnmisctoolsvideotogif":
-                                    btnMiscToolsVideoToGif = ReadValue;
-                                    continue;
-                                #endregion
-
-                                #region frmUpdateAvailable
-                                case "frmupdateavailable":
-                                    frmUpdateAvailable = ReadValue;
-                                    continue;
-                                case "lbupdateavailableheader":
-                                    lbUpdateAvailableHeader = ReadValue;
-                                    continue;
-                                case "lbupdateavailableupdateversion":
-                                    lbUpdateAvailableUpdateVersion = ReadValue;
-                                    continue;
-                                case "lbupdateavailablecurrentversion":
-                                    lbUpdateAvailableCurrentVersion = ReadValue;
-                                    continue;
-                                case "lbupdateavailablechangelog":
-                                    lbUpdateAvailableChangelog = ReadValue;
-                                    continue;
-                                case "btnupdateavailableskipversion":
-                                    btnUpdateAvailableSkipVersion = ReadValue;
-                                    continue;
-                                case "btnupdateavailableupdate":
-                                    btnUpdateAvailableUpdate = ReadValue;
-                                    continue;
-                                #endregion
 
                             }
                         }
-
-                        ReadFile = new string[] { };
                         return true;
                     }
                     else {
@@ -2556,19 +2551,9 @@ namespace youtube_dl_gui {
         /// </summary>
         /// <param name="Input">The string that may contain a header.</param>
         /// <returns>Returns the absolute header.</returns>
-        private string ReadHeaderValue(string Input) {
-            string ReadValue;
-            int CountedLength = 0;
-            ReadValue = Input.Trim(' ');
-            if (Input.Contains("//")) {
-                ReadValue = Input.Substring(0, Input.IndexOf("//")).Trim(' ');
-            }
-
-            if (ReadValue.Trim(' ').Trim('[').Trim(']') == null) {
-                throw new Exception("Unable to read the language ini header\nReadValue returned null.\nProblematic line is \"" + Input + "\" on line " + CountedLength.ToString() + "\n\n");
-            }
-
-            return ReadValue.Trim(' ').Trim('[').Trim(']').Trim(' ');
+        private void ReadHeaderValue(string Input, out string Header) {
+            if (Input.Contains("//")) Input = Input.Substring(0, Input.IndexOf("//"));
+            Header = Input.Substring(1, Input.IndexOf(']') - 1);
         }
         /// <summary>
         /// Parses the control name and value from a string.

@@ -417,7 +417,20 @@ namespace youtube_dl_gui {
             }
         }
         private void mSupportedSites_Click(object sender, EventArgs e) {
-            System.Diagnostics.Process.Start("https://web.archive.org/web/20201004065152/http://ytdl-org.github.io/youtube-dl/supportedsites.html");
+            switch (Config.Settings.Downloads.YtdlType) {
+                case 1:
+                    Process.Start("https://github.com/blackjack4494/youtube-dlc/blob/master/docs/supportedsites.md");
+                    break;
+
+                case 2:
+                    Process.Start("https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md");
+                    break;
+
+
+                default:
+                    Process.Start("https://github.com/ytdl-org/youtube-dl/blob/master/docs/supportedsites.md");
+                    break;
+            }
         }
 
         private void mAbout_Click(object sender, EventArgs e) {
@@ -1216,8 +1229,9 @@ namespace youtube_dl_gui {
                 DownloadURL = Clipboard.GetText(),
                 BatchDownload = true
             };
-            frmDownloader Downloader = new frmDownloader(NewInfo);
-            Downloader.Debugging = true;
+            frmDownloader Downloader = new frmDownloader(NewInfo) {
+                Debugging = true
+            };
             Downloader.Show();
         }
         private void btnDebugRotateQualityFormat_Click(object sender, EventArgs e) {
