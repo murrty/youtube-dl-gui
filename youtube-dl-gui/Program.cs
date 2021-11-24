@@ -83,6 +83,7 @@ namespace youtube_dl_gui {
                         return 0;
                     }
 
+                    System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
                     MainForm = new frmMain();
                     Application.Run(MainForm);
                     mtx.ReleaseMutex();
