@@ -7,6 +7,26 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "youtube-dl-gui", "youtube-d
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "youtube-dl-gui-updater", "youtube-dl-gui-updater\youtube-dl-gui-updater.csproj", "{A2764A32-330B-482F-85B0-62D72793C3A0}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{71D880B8-8870-41FD-92CE-B811A4461D41}"
+	ProjectSection(SolutionItems) = preProject
+		LICENSE = LICENSE
+		README.MD = README.MD
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Languages", "Languages", "{DD30229F-1AD3-4677-AAA6-D3C9E1D93487}"
+	ProjectSection(SolutionItems) = preProject
+		Languages\Arabic.ini = Languages\Arabic.ini
+		Languages\Brazilian_Portuguese.ini = Languages\Brazilian_Portuguese.ini
+		Languages\Dutch.ini = Languages\Dutch.ini
+		Languages\English.ini = Languages\English.ini
+		Languages\French.ini = Languages\French.ini
+		Languages\German.ini = Languages\German.ini
+		Languages\Italian.ini = Languages\Italian.ini
+		Languages\Japanese.ini = Languages\Japanese.ini
+		Languages\Russian.ini = Languages\Russian.ini
+		Languages\Spanish.ini = Languages\Spanish.ini
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

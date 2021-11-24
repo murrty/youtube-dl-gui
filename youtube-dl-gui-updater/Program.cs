@@ -5,14 +5,14 @@ namespace youtube_dl_gui_updater {
     static class Program {
 
         public static volatile bool IsDebug = false;
+        public static readonly Language lang = new Language();
 
         [STAThread]
         static void Main() {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-
             DebugOnlyMethod();
 
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new frmUpdater());
         }
 

@@ -74,7 +74,7 @@
             this.Controls.Add(this.lbUpdaterDescription);
             this.Controls.Add(this.lbUpdaterHeader);
             this.Controls.Add(this.pbDownloadProgress);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Icon = Properties.Resources.youtube_dl_gui;
             this.MaximizeBox = false;
             this.Name = "frmUpdater";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;

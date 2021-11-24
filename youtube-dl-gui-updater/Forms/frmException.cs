@@ -3,8 +3,7 @@ using System.Windows.Forms;
 
 namespace youtube_dl_gui_updater {
     public partial class frmException : Form {
-        Language lang = Language.GetLangInstance();
-        public Exception reportedException;
+        public Exception ReportedException;
         public bool FromLanguage = false;
         public bool AllowRetry = false;
 
@@ -26,18 +25,18 @@ namespace youtube_dl_gui_updater {
                 btnExceptionRetry.Text = Language.InternalEnglish.btnExceptionRetry;
             }
             else {
-                this.Text = lang.frmException;
-                lbExceptionHeader.Text = lang.lbExceptionHeader;
-                lbExceptionDescription.Text = lang.lbExceptionDescription;
-                lbExceptionDescription.Text = lang.lbExceptionDescription;
-                btnExceptionGithub.Text = lang.btnExceptionGithub;
-                btnExceptionOk.Text = lang.btnExceptionOk;
-                btnExceptionOk.Text = lang.btnExceptionRetry;
+                this.Text = Program.lang.frmException;
+                lbExceptionHeader.Text = Program.lang.lbExceptionHeader;
+                lbExceptionDescription.Text = Program.lang.lbExceptionDescription;
+                lbExceptionDescription.Text = Program.lang.lbExceptionDescription;
+                btnExceptionGithub.Text = Program.lang.btnExceptionGithub;
+                btnExceptionOk.Text = Program.lang.btnExceptionOk;
+                btnExceptionOk.Text = Program.lang.btnExceptionRetry;
             }
         }
 
         private void frmError_Load(object sender, EventArgs e) {
-            string outputBuffer = lang.rtbExceptionDetails + "\n\nUpdater version: " + Properties.Settings.Default.CurrentVersion + "\nReported Exception: " + reportedException.ToString();
+            string outputBuffer = Program.lang.rtbExceptionDetails + "\n\nUpdater version: " + Properties.Settings.Default.CurrentVersion + "\nReported Exception: " + ReportedException.ToString();
             rtbExceptionDetails.Text = outputBuffer;
             lbVersion.Text = "v" + Properties.Settings.Default.CurrentVersion;
             System.Media.SystemSounds.Hand.Play();

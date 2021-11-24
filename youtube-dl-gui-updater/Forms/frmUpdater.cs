@@ -7,19 +7,17 @@ using System.Windows.Forms;
 namespace youtube_dl_gui_updater {
     public partial class frmUpdater : Form {
 
-        Language lang = Language.GetLangInstance();
         public static string ApplicationDownloadUrl = "https://github.com/murrty/{0}/releases/download/{1}/{0}.exe";
         private Thread DownloadThread;
 
         private int ThrottleCount = 0;
 
-        private string DownloadVersion;
-        private string OldName;
+        private readonly string DownloadVersion;
+        private readonly string OldName;
         private string FileUrl;
 
         public frmUpdater() {
             InitializeComponent();
-            lang.LoadLanguage();
             SetLanguage();
 
             string[] args = Environment.GetCommandLineArgs();
@@ -49,9 +47,9 @@ namespace youtube_dl_gui_updater {
         }
 
         private void SetLanguage() {
-            this.Text = lang.frmUpdater;
-            lbUpdaterHeader.Text = lang.lbUpdaterHeader;
-            lbUpdaterDescription.Text = lang.lbUpdaterDescription;
+            this.Text = Program.lang.frmUpdater;
+            lbUpdaterHeader.Text = Program.lang.lbUpdaterHeader;
+            lbUpdaterDescription.Text = Program.lang.lbUpdaterDescription;
         }
         private void SetDownloadThread() {
             FileUrl = string.Format(ApplicationDownloadUrl, "youtube-dl-gui", DownloadVersion);
@@ -96,11 +94,12 @@ RetryDownload:
 
                     if (System.IO.File.Exists(Environment.CurrentDirectory + "\\ytdlg.part")) { System.IO.File.Delete(Environment.CurrentDirectory + "\\ytdlg.part"); }
 
-                    frmException Exception = new frmException();
-                    Exception.reportedException = ex;
-                    Exception.AllowRetry = true;
+                    frmException Exception = new frmException {
+                        ReportedException = ex,
+                        AllowRetry = true
+                    };
                     switch (Exception.ShowDialog()) {
-                        case System.Windows.Forms.DialogResult.Retry:
+                        case DialogResult.Retry:
                             goto RetryDownload;
 
                         default:
@@ -112,9 +111,10 @@ RetryDownload:
                             break;
                     }
                 }
-            });
-            DownloadThread.Name = "Download thread";
-            DownloadThread.IsBackground = false;
+            }) {
+                Name = "Download thread",
+                IsBackground = false
+            };
         }
 
         private void tmrForm_Tick(object sender, EventArgs e) {
