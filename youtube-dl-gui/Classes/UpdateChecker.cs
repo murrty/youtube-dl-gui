@@ -517,7 +517,12 @@ namespace youtube_dl_gui {
         /// <param name="cloudVersion">The <seealso cref="decimal"/> version of the latest version on Github.</param>
         /// <returns>A bool based on if the Github version is greater than the current version.</returns>
         private static bool IsUpdateAvailable(decimal cloudVersion) {
-            return Properties.Settings.Default.CurrentVersion < cloudVersion;
+            if (Properties.Settings.Default.IsBetaVersion) {
+                return true;
+            }
+            else {
+                return Properties.Settings.Default.CurrentVersion < cloudVersion;
+            }
         }
         /// <summary>
         /// Determines if an update is available from the latest releases, including pre-releases.
