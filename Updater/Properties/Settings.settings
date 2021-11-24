@@ -1,9 +1,0 @@
-﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="youtube_dl_gui_updater.Properties" GeneratedClassName="Settings">
-  <Profiles />
-  <Settings>
-    <Setting Name="CurrentVersion" Type="System.Decimal" Scope="User">
-      <Value Profile="(Default)">1.1</Value>
-    </Setting>
-  </Settings>
-</SettingsFile>
