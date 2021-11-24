@@ -2584,6 +2584,7 @@ namespace youtube_dl_gui {
                     return;
 
                 default:
+                    if (Input.Contains("//")) Input.Substring(0, Input.IndexOf("//"));
                     Name = Input.Split('=')[0].ToLower().Trim();
                     Value = Input.Substring(Input.IndexOf('=') + 1).Trim();
                     break;
