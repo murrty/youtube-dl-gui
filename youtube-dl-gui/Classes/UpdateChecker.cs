@@ -324,6 +324,7 @@ namespace youtube_dl_gui {
         private static string GetJSON(string Url) {
             try {
                 using (WebClient wc = new WebClient()) {
+                    ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
                     wc.Headers.Add("User-Agent: " + Program.UserAgent);
 
                     using (MemoryStream stream = new MemoryStream(Encoding.ASCII.GetBytes(wc.DownloadString(Url)))) {
@@ -362,12 +363,16 @@ namespace youtube_dl_gui {
                 doc.LoadXml(Xml);
 
                 // Check the ChildNodes count
-                switch (doc.ChildNodes.Count) {
+                switch (doc.DocumentElement.ChildNodes.Count) {
                     case 0: // Critical, no information is in the xml document.
                         throw new ApiParsingException("The retrieved Xml does not contain any information.", Url, Xml);
 
                     case 1: // Highly suspicious, may only be the declaration.
                         throw new ApiParsingException("The retrieved Xml only contains 1 ChildNode, and will not be parsed.", Url, Xml);
+
+                    default:
+                        MessageBox.Show(doc.DocumentElement.ChildNodes.Count.ToString());
+                        break;
                 }
 
                 // Initialize the NoteLists of the 3 required pieces of info.
