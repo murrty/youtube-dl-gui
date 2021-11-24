@@ -371,7 +371,7 @@ namespace youtube_dl_gui {
                         throw new ApiParsingException("The retrieved Xml only contains 1 ChildNode, and will not be parsed.", Url, Xml);
 
                     default:
-                        MessageBox.Show(doc.DocumentElement.ChildNodes.Count.ToString());
+                        if (Program.IsDebug) MessageBox.Show(doc.DocumentElement.ChildNodes.Count.ToString());
                         break;
                 }
 
