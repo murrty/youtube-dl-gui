@@ -5,6 +5,7 @@ using System.Windows.Forms;
 
 namespace youtube_dl_gui {
     public partial class frmException : Form {
+
         public Exception ReportedException = null;
         public WebException ReportedWebException = null;
         public DecimalParsingException ReportedDecimalParsingException = null;
@@ -14,12 +15,14 @@ namespace youtube_dl_gui {
         public bool SetCustomDescription = false;
         public string CustomDescription = null;
         public bool FromLanguage = false;
+        public bool EnableRetry = false;
 
         public frmException() {
             InitializeComponent();
             loadLanguage();
             DateTime TimeNow = DateTime.Now;
             lbDate.Text = string.Format("{0}/{1}/{2} {3}:{4}:{5}", TimeNow.Year, TimeNow.Month, TimeNow.Day, TimeNow.Hour, TimeNow.Minute, TimeNow.Second);
+            btnExceptionRetry.Enabled = EnableRetry;
         }
 
         void loadLanguage() {
@@ -148,5 +151,9 @@ namespace youtube_dl_gui {
             System.Diagnostics.Process.Start(UpdateChecker.GitInfo.GithubIssuesLink);
         }
 
+        private void btnExceptionRetry_Click(object sender, EventArgs e) {
+            this.DialogResult = DialogResult.Retry;
+            this.Dispose();
+        }
     }
 }

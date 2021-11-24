@@ -1,6 +1,7 @@
 ﻿// 1.0
 using System;
 using System.Net;
+using System.Windows.Forms;
 
 namespace youtube_dl_gui {
 
@@ -8,12 +9,13 @@ namespace youtube_dl_gui {
     /// This class will control the Errors that get reported in try statements.
     /// </summary>
     class ErrorLog {
+
         /// <summary>
         /// Reports any web errors that are caught
         /// </summary>
         /// <param name="WebException">The WebException that was caught</param>
         /// <param name="url">The URL that (might-have) caused the problem</param>
-        public static void Report(WebException ReceivedException, string WebsiteAddress) {
+        public static DialogResult Report(WebException ReceivedException, string WebsiteAddress) {
             if (!Config.Settings.Errors.suppressErrors) {
                 string CustomDescriptionBuffer = string.Empty;
                 bool UseCustomDescription = false;
@@ -66,7 +68,7 @@ namespace youtube_dl_gui {
                         #endregion
                         #region RequestCanceled
                         case WebExceptionStatus.RequestCanceled:
-                            return;
+                            return DialogResult.OK;
                         #endregion
                         #region ProtocolError
                         case WebExceptionStatus.ProtocolError:
@@ -407,34 +409,31 @@ namespace youtube_dl_gui {
                                                    ReceivedException.StackTrace;
                     }
 
+                    if (UseCustomDescription) { WriteToFile(CustomDescriptionBuffer); }
+                    else { WriteToFile(ReceivedException.ToString()); }
+
                     ExceptionDisplay.SetCustomDescription = UseCustomDescription;
                     ExceptionDisplay.CustomDescription = CustomDescriptionBuffer;
-                    ExceptionDisplay.ShowDialog();
+                    return ExceptionDisplay.ShowDialog();
                 }
-
-                // build log file
-
-                if (UseCustomDescription) { WriteToFile(CustomDescriptionBuffer); }
-                else { WriteToFile(ReceivedException.ToString()); }
             }
+            else return DialogResult.OK;
         }
 
         /// <summary>
         /// Reports any general exceptions that are caught
         /// </summary>
         /// <param name="Exception">The Exception that was caught</param>
-        public static void Report(Exception ReceivedException, bool IsWriteToFile = false) {
+        public static DialogResult Report(Exception ReceivedException, bool IsWriteToFile = false) {
             if (!Config.Settings.Errors.suppressErrors) {
+                if (!IsWriteToFile) WriteToFile(ReceivedException.ToString());
                 using (frmException ExceptionDisplay = new frmException()) {
                     ExceptionDisplay.ReportedException = ReceivedException;
                     ExceptionDisplay.FromLanguage = false;
-                    ExceptionDisplay.ShowDialog();
-                }
-
-                if (!IsWriteToFile) {
-                    WriteToFile(ReceivedException.ToString());
+                    return ExceptionDisplay.ShowDialog();
                 }
             }
+            else return DialogResult.OK;
 
         }
 
@@ -442,32 +441,32 @@ namespace youtube_dl_gui {
         /// Reports a decimal parsing exception that may get caught.
         /// </summary>
         /// <param name="ReceivedException">The <seealso cref="DecimalParsingException"/> received.</param>
-        public static void Report(DecimalParsingException ReceivedException) {
+        public static DialogResult Report(DecimalParsingException ReceivedException) {
             if (!Config.Settings.Errors.suppressErrors) {
+                WriteToFile(ReceivedException.ToString());
                 using (frmException ExceptionDisplay = new frmException()) {
                     ExceptionDisplay.ReportedDecimalParsingException = ReceivedException;
                     ExceptionDisplay.FromLanguage = false;
-                    ExceptionDisplay.ShowDialog();
+                    return ExceptionDisplay.ShowDialog();
                 }
-
-                WriteToFile(ReceivedException.ToString());
             }
+            else return DialogResult.OK;
         }
 
         /// <summary>
         /// Reports a api parsing exception that may get caught.
         /// </summary>
         /// <param name="ReceivedException">The <seealso cref="ApiParsingException"/> received.</param>
-        public static void Report (ApiParsingException ReceivedException) {
+        public static DialogResult Report (ApiParsingException ReceivedException) {
             if (!Config.Settings.Errors.suppressErrors) {
+                WriteToFile(ReceivedException.ToString());
                 using (frmException ExceptionDisplay = new frmException()) {
                     ExceptionDisplay.ReportedApiParsingException = ReceivedException;
                     ExceptionDisplay.FromLanguage = false;
-                    ExceptionDisplay.ShowDialog();
+                    return ExceptionDisplay.ShowDialog();
                 }
-
-                WriteToFile(ReceivedException.ToString());
             }
+            else return DialogResult.OK;
         }
 
         /// <summary>
@@ -483,6 +482,7 @@ namespace youtube_dl_gui {
                 catch (Exception ex) { Report(ex, true); }
             }
         }
+
     }
 
     /// <summary>

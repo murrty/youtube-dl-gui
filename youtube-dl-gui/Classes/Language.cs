@@ -8,14 +8,12 @@ namespace youtube_dl_gui {
     /// </summary>
     public class Language {
 
-        public Language() {
-            // ResetControlNames(); ???
-        }
-
         #region GetSetRadio (AKA Properties)
+
         #region Language identifier
-        public string CurrentLanguageShort { get; private set; }
+        public bool UsingInternalEnglish { get; private set; }
         public string CurrentLanguageLong { get; private set; }
+        public string CurrentLanguageShort { get; private set; }
         public string CurrentLanguageHint { get; private set; }
         public string CurrentLanguageVersion { get; private set; }
         #endregion
@@ -1529,6 +1527,7 @@ namespace youtube_dl_gui {
                     else {
                         LoadInternalEnglish();
                     }
+                    UsingInternalEnglish = true;
                     return true;
                 }
                 else {
@@ -2527,6 +2526,7 @@ namespace youtube_dl_gui {
 
                             }
                         }
+                        UsingInternalEnglish = false;
                         return true;
                     }
                     else {

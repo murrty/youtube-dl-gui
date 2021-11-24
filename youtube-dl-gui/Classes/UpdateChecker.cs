@@ -169,8 +169,10 @@ namespace youtube_dl_gui {
 
             Process Updater = new Process();
             Updater.StartInfo.FileName = Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe";
-            string ArgumentsBuffer = "";
-            ArgumentsBuffer += "-v " + GitInfo.UpdateVersion + " -n " + System.AppDomain.CurrentDomain.FriendlyName;
+            string ArgumentsBuffer = string.Format("-v \"{0}\" -n \"{1}\" -l \"{2}\"",
+                                                  GitInfo.UpdateVersion,
+                                                  AppDomain.CurrentDomain.FriendlyName,
+                                                  Environment.CurrentDirectory + "\\lang\\" + Config.Settings.Initialization.LanguageFile + ".ini");
             Updater.StartInfo.Arguments = ArgumentsBuffer;
             Updater.Start();
             Environment.Exit(0);
@@ -250,7 +252,6 @@ namespace youtube_dl_gui {
 
                         Thread DownloadYoutubeDl = new Thread(() => {
                             using (WebClient wc = new WebClient()) {
-                                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
                                 wc.Headers.Add("User-Agent: " + Program.UserAgent);
                                 try {
 
@@ -323,7 +324,6 @@ namespace youtube_dl_gui {
         private static string GetJSON(string Url) {
             try {
                 using (WebClient wc = new WebClient()) {
-                    ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
                     wc.Headers.Add("User-Agent: " + Program.UserAgent);
 
                     using (MemoryStream stream = new MemoryStream(Encoding.ASCII.GetBytes(wc.DownloadString(Url)))) {

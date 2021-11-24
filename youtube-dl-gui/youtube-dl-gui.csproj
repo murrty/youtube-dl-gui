@@ -269,14 +269,6 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>General.Designer.cs</LastGenOutput>
     </None>
-    <None Include="lang\Arabic.ini" />
-    <None Include="lang\Brazilian_Portuguese.ini" />
-    <None Include="lang\English.ini" />
-    <None Include="lang\French.ini" />
-    <None Include="lang\German.ini" />
-    <None Include="lang\Italian.ini" />
-    <None Include="lang\Russian.ini" />
-    <None Include="lang\Spanish.ini" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -322,7 +314,7 @@
     </PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>if $(ConfigurationName) == Release xcopy "$(ProjectDir)lang\*.ini" "$(SolutionDir)Release\lang\*.ini" /y
+    <PostBuildEvent>if $(ConfigurationName) == Release xcopy "$(SolutionDir)Languages\*.ini" "$(SolutionDir)Release\lang\*.ini" /y
 if $(ConfigurationName) == Release copy "$(TargetPath)" "$(SolutionDir)Release"
 if $(ConfigurationName) == Release (del "$(SolutionDir)Release\$(ProjectName).zip")
 if $(ConfigurationName) == Release (7z a -mm=Deflate -mfb=128 -r "$(SolutionDir)Release\$(ProjectName).zip" "$(SolutionDir)Release\*")</PostBuildEvent>

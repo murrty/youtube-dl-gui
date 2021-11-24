@@ -403,7 +403,7 @@ namespace youtube_dl_gui {
         private void mLanguage_Click(object sender, EventArgs e) {
             using (frmLanguage language = new frmLanguage()) {
                 switch (language.ShowDialog()) {
-                    case System.Windows.Forms.DialogResult.Yes:
+                    case DialogResult.Yes:
                         if (language.LanguageFile == null) {
                             Config.Settings.Initialization.LanguageFile = string.Empty;
                         }
