@@ -86,4 +86,7 @@
     <None Include="Resources\youtube-dl-gui.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>if $(ConfigurationName) == Release copy "$(TargetPath)" "$(SolutionDir)youtube-dl-gui\Resources"</PostBuildEvent>
+  </PropertyGroup>
 </Project>
