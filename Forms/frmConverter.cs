@@ -238,7 +238,6 @@ namespace youtube_dl_gui {
                     }
                 }
                 catch (ThreadAbortException) {
-                    System.Media.SystemSounds.Hand.Play();
                     ConverterProcess.CancelErrorRead();
                     ConverterProcess.CancelOutputRead();
                     Win32.KillProcessTree((uint)ConverterProcess.Id);
@@ -287,7 +286,6 @@ namespace youtube_dl_gui {
                         this.Text = Program.lang.frmConverterError;
                         break;
                     case ConversionStatus.ProgramError:
-                        btnConverterCancelExit.Text = Program.lang.GenericExit;
                         rtbConsoleOutput.AppendText("\nAn error occured\nAn error log was presented, if enabled.\nExit the form to resume batch download.");
                         this.Text = Program.lang.frmConverterError;
                         this.Activate();
@@ -306,7 +304,6 @@ namespace youtube_dl_gui {
                     case ConversionStatus.Aborted:
                         break;
                     case ConversionStatus.FfmpegError:
-                        btnConverterCancelExit.Text = Program.lang.GenericExit;
                         rtbConsoleOutput.AppendText("\nAn error occured\nTHIS IS A FFMPEG ERROR, NOT A ERROR WITH THIS PROGRAM!");
                         btnConverterAbortBatchConversions.Visible = true;
                         btnConverterAbortBatchConversions.Enabled = true;
@@ -316,20 +313,17 @@ namespace youtube_dl_gui {
                         System.Media.SystemSounds.Hand.Play();
                         break;
                     case ConversionStatus.ProgramError:
-                        btnConverterCancelExit.Text = Program.lang.GenericExit;
                         rtbConsoleOutput.AppendText("\nAn error occured\nAn error log was presented, if enabled.");
                         this.Text = Program.lang.frmConverterError;
                         this.Activate();
                         System.Media.SystemSounds.Hand.Play();
                         break;
                     case ConversionStatus.Finished:
-                        btnConverterCancelExit.Text = Program.lang.GenericExit;
                         this.Text = Program.lang.frmConverterComplete;
                         rtbConsoleOutput.AppendText("Conversion has finished.");
                         if (chkConverterCloseAfterConversion.Checked) { this.Close(); }
                         break;
                     default:
-                        btnConverterCancelExit.Text = Program.lang.GenericExit;
                         this.Text = Program.lang.frmConverterComplete;
                         rtbConsoleOutput.AppendText("CurrentConversion.Status not defined (Not a batch download)\nAssuming success.");
                         if (chkConverterCloseAfterConversion.Checked) { this.Close(); }

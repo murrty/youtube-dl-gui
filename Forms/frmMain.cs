@@ -1116,10 +1116,10 @@ namespace youtube_dl_gui {
                     sfd.Title = "Save ouput to...";
                     sfd.FileName = fileWithoutExt;
                     switch (conversionType) {
-                        case 0:
+                        case ConversionType.Video:
                             sfd.Filter = Convert.videoFormatsFilter;
                             break;
-                        case 1:
+                        case ConversionType.Audio:
                             sfd.Filter = Convert.audioFormatsFilter;
                             break;
                         default:

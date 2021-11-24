@@ -1540,15 +1540,11 @@ namespace youtube_dl_gui {
 
                         string ReadLine;    // The line of the file
                         string ReadHeader;  // The current section based on the header
-                        string ReadControl; // The name of the control
-                        string ReadValue;   // The value of the control
 
                         for (int i = 0; i < ReadFile.Length; i++) {
-                            ReadLine = ReadFile[i].Trim(' ');
+                            ReadLine = ReadFile[i].Trim();
 
-                            if (ReadLine.StartsWith("//") || string.IsNullOrWhiteSpace(ReadFile[i])) {
-                                continue;
-                            }
+                            if (ReadLine.StartsWith("//") || string.IsNullOrWhiteSpace(ReadFile[i])) continue;
                             else if (ReadLine.StartsWith("[")) {
                                 ReadHeader = ReadHeaderValue(ReadLine);
 
@@ -1560,11 +1556,9 @@ namespace youtube_dl_gui {
                                     continue;
                                 }
                             }
-                            else if (ReadLine.Contains("=")) {
-                                ReadControl = GetControlName(ReadLine).ToLower();
-                                ReadValue = GetControlValue(ReadLine);
-                            }
-                            else { continue; }
+                            else if (!ReadLine.Contains("=")) continue;
+
+                            GetControlInfo(ReadLine, out string ReadControl, out string ReadValue);
 
                             switch (ReadControl) {
 
@@ -2538,6 +2532,7 @@ namespace youtube_dl_gui {
 
                             }
                         }
+
                         ReadFile = new string[] { };
                         return true;
                     }
@@ -2576,44 +2571,23 @@ namespace youtube_dl_gui {
             return ReadValue.Trim(' ').Trim('[').Trim(']').Trim(' ');
         }
         /// <summary>
-        /// Parses the control name from a string.
+        /// Parses the control name and value from a string.
         /// </summary>
-        /// <param name="Input">The string that may contain a control name.</param>
-        /// <returns>Returns the absolute control name.</returns>
-        private string GetControlName(string Input) {
-
+        /// <param name="Input">The string that will be parsed.</param>
+        /// <param name="Name">The output of the Name of the control to be named, as lowercase.</param>
+        /// <param name="Value">The vlaue of the control.</param>
+        private void GetControlInfo(string Input, out string Name, out string Value) {
             switch (Input.Split('=').Length) {
-                case 1: case 0: case -1:
-                    return null;
+                case -1: case 0: case 1:
+                    Name = null;
+                    Value = null;
+                    return;
 
                 default:
-                    return Input.Split('=')[0].Trim(' ');
-            }
-
-            //if (Input.Split('=').Length > 1) {
-            //    return Input.Split('=')[0].Trim(' ');
-            //}
-            //else { return null; }
-        }
-        /// <summary>
-        /// Parses the control value from a string.
-        /// </summary>
-        /// <param name="Input">The string that may contain a control value.</param>
-        /// <returns>Returns the absolute conntrol value.</returns>
-        private string GetControlValue(string Input) {
-            string OutputBuffer = null;
-
-            switch (Input.Contains("//")) {
-                case true:
-                    OutputBuffer = Input.Substring(0, Input.IndexOf("//")).Trim(' ');
-                    break;
-
-                case false:
-                    OutputBuffer = Input;
+                    Name = Input.Split('=')[0].ToLower().Trim();
+                    Value = Input.Substring(Input.IndexOf('=') + 1).Trim();
                     break;
             }
-
-            return OutputBuffer.Substring(OutputBuffer.IndexOf('=') + 1);
         }
         #endregion
 

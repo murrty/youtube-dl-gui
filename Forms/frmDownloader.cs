@@ -537,7 +537,6 @@ sanitizecheck:
 
                 }
                 catch (ThreadAbortException) {
-                    System.Media.SystemSounds.Hand.Play();
                     DownloadProcess.CancelErrorRead();
                     DownloadProcess.CancelOutputRead();
                     Win32.KillProcessTree((uint)DownloadProcess.Id);
@@ -586,7 +585,6 @@ sanitizecheck:
                         this.Text = Program.lang.frmDownloaderError;
                         break;
                     case DownloadStatus.ProgramError:
-                        btnDownloaderCancelExit.Text = Program.lang.GenericExit;
                         rtbConsoleOutput.AppendText("\nAn error occured\nAn error log was presented, if enabled.\nExit the form to resume batch download.");
                         this.Text = Program.lang.frmDownloaderError;
                         this.Activate();
@@ -605,7 +603,6 @@ sanitizecheck:
                     case DownloadStatus.Aborted:
                         break;
                     case DownloadStatus.YtdlError:
-                        btnDownloaderCancelExit.Text = Program.lang.GenericExit;
                         rtbConsoleOutput.AppendText("\nAn error occured\nTHIS IS A YOUTUBE-DL ERROR, NOT A ERROR WITH THIS PROGRAM!");
                         btnDownloaderAbortBatchDownload.Visible = true;
                         btnDownloaderAbortBatchDownload.Enabled = true;
@@ -615,20 +612,17 @@ sanitizecheck:
                         System.Media.SystemSounds.Hand.Play();
                         break;
                     case DownloadStatus.ProgramError:
-                        btnDownloaderCancelExit.Text = Program.lang.GenericExit;
                         rtbConsoleOutput.AppendText("\nAn error occured\nAn error log was presented, if enabled.");
                         this.Text = Program.lang.frmDownloaderError;
                         this.Activate();
                         System.Media.SystemSounds.Hand.Play();
                         break;
                     case DownloadStatus.Finished:
-                        btnDownloaderCancelExit.Text = Program.lang.GenericExit;
                         this.Text = Program.lang.frmDownloaderComplete;
                         rtbConsoleOutput.AppendText("Download has finished.");
                         if (chkDownloaderCloseAfterDownload.Checked) { this.Close(); }
                         break;
                     default:
-                        btnDownloaderCancelExit.Text = Program.lang.GenericExit;
                         this.Text = Program.lang.frmDownloaderComplete;
                         rtbConsoleOutput.AppendText("CurrentDownload.Status not defined (Not a batch download)\nAssuming success.");
                         if (chkDownloaderCloseAfterDownload.Checked) { this.Close(); }

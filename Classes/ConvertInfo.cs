@@ -221,100 +221,101 @@ namespace youtube_dl_gui {
         /// <param name="convType">Determines what conversion it'll attempt to do; To-Video, To-Audio, To-Custom, To-Automatic</param>
         /// <returns>A boolean based on the success of the conversion</returns>
         public static bool convertFile(string input, string output, int convType = -1) {
+            return true;
             /// -1 = Automatic
             /// 0 = Video
             /// 1 = Audio
             /// 2 = Custom
             /// 6 = No params at all, just an option to look back to. aka ffmpeg auto
 
-            try {
-                Process startConvert = new Process();
-                if (Program.verif.FFmpegPath == null) {
-                    throw new Exception("FFmpegPath is null. Cannot convert. If you do not have ffmpeg, consider downloading it.");
-                }
-                startConvert.StartInfo.FileName = Program.verif.FFmpegPath;
+            //try {
+            //    Process startConvert = new Process();
+            //    if (Program.verif.FFmpegPath == null) {
+            //        throw new Exception("FFmpegPath is null. Cannot convert. If you do not have ffmpeg, consider downloading it.");
+            //    }
+            //    startConvert.StartInfo.FileName = Program.verif.FFmpegPath;
 
-                string convertArguments = "-i \"" + input + "\"";
-                switch (convType) {
-                    case 0:
-                        if (Config.Settings.Converts.videoUseBitrate)
-                            convertArguments += " -b:v " + Config.Settings.Converts.videoBitrate.ToString() + "k";
+            //    string convertArguments = "-i \"" + input + "\"";
+            //    switch (convType) {
+            //        case 0:
+            //            if (Config.Settings.Converts.videoUseBitrate)
+            //                convertArguments += " -b:v " + Config.Settings.Converts.videoBitrate.ToString() + "k";
 
-                        if (Config.Settings.Converts.videoUsePreset)
-                            convertArguments += " -preset " + GetVideoPreset(Config.Settings.Converts.videoPreset);
+            //            if (Config.Settings.Converts.videoUsePreset)
+            //                convertArguments += " -preset " + GetVideoPreset(Config.Settings.Converts.videoPreset);
 
-                        if (Config.Settings.Converts.videoUseCRF)
-                            convertArguments += " -crf " + Config.Settings.Converts.videoCRF.ToString();
+            //            if (Config.Settings.Converts.videoUseCRF)
+            //                convertArguments += " -crf " + Config.Settings.Converts.videoCRF.ToString();
 
-                        if (!output.EndsWith(".wmv") && Config.Settings.Converts.videoUseProfile)
-                            convertArguments += " -profile:v " + GetVideoProfile(Config.Settings.Converts.videoProfile);
+            //            if (!output.EndsWith(".wmv") && Config.Settings.Converts.videoUseProfile)
+            //                convertArguments += " -profile:v " + GetVideoProfile(Config.Settings.Converts.videoProfile);
 
-                        if (Config.Settings.Converts.videoFastStart)
-                            convertArguments += " -faststart";
+            //            if (Config.Settings.Converts.videoFastStart)
+            //                convertArguments += " -faststart";
 
-                        break;
-                    case 1:
-                        if (Config.Settings.Converts.audioUseBitrate)
-                            convertArguments += " -ab " + (Config.Settings.Converts.audioBitrate * 1000);
+            //            break;
+            //        case 1:
+            //            if (Config.Settings.Converts.audioUseBitrate)
+            //                convertArguments += " -ab " + (Config.Settings.Converts.audioBitrate * 1000);
 
-                        break;
-                    case 2:
-                        convertArguments += " " + Config.Settings.Saved.convertCustom;
-                        break;
-                    case 6:
-                        // FFmpeg default
-                        break;
-                    default:
-                        if (Config.Settings.Converts.detectFiletype) {
-                            switch (GetFiletype(output)) {
-                                case 0:
-                                    if (Config.Settings.Converts.videoUseBitrate)
-                                        convertArguments += " -b:v " + Config.Settings.Converts.videoBitrate.ToString() + "k";
+            //            break;
+            //        case 2:
+            //            convertArguments += " " + Config.Settings.Saved.convertCustom;
+            //            break;
+            //        case 6:
+            //            // FFmpeg default
+            //            break;
+            //        default:
+            //            if (Config.Settings.Converts.detectFiletype) {
+            //                switch (GetFiletype(output)) {
+            //                    case 0:
+            //                        if (Config.Settings.Converts.videoUseBitrate)
+            //                            convertArguments += " -b:v " + Config.Settings.Converts.videoBitrate.ToString() + "k";
 
-                                    if (Config.Settings.Converts.videoUsePreset)
-                                        convertArguments += " -preset " + GetVideoPreset(Config.Settings.Converts.videoPreset);
+            //                        if (Config.Settings.Converts.videoUsePreset)
+            //                            convertArguments += " -preset " + GetVideoPreset(Config.Settings.Converts.videoPreset);
 
-                                    if (Config.Settings.Converts.videoUseCRF)
-                                        convertArguments += " -crf " + Config.Settings.Converts.videoCRF.ToString();
+            //                        if (Config.Settings.Converts.videoUseCRF)
+            //                            convertArguments += " -crf " + Config.Settings.Converts.videoCRF.ToString();
 
-                                    if (!output.EndsWith(".wmv") && Config.Settings.Converts.videoUseProfile)
-                                        convertArguments += " -profile:v " + GetVideoProfile(Config.Settings.Converts.videoProfile);
+            //                        if (!output.EndsWith(".wmv") && Config.Settings.Converts.videoUseProfile)
+            //                            convertArguments += " -profile:v " + GetVideoProfile(Config.Settings.Converts.videoProfile);
 
-                                    if (Config.Settings.Converts.videoFastStart)
-                                        convertArguments += " -faststart";
-                                    break;
-                                case 1:
-                                    if (Config.Settings.Converts.audioUseBitrate)
-                                        convertArguments += " -ab " + (Config.Settings.Converts.audioBitrate * 1000);
+            //                        if (Config.Settings.Converts.videoFastStart)
+            //                            convertArguments += " -faststart";
+            //                        break;
+            //                    case 1:
+            //                        if (Config.Settings.Converts.audioUseBitrate)
+            //                            convertArguments += " -ab " + (Config.Settings.Converts.audioBitrate * 1000);
 
-                                    break;
-                                default:
-                                    convertArguments += " -preset fast -b 3000k";
-                                    break;
-                            }
-                        }
-                        else {
-                            convertArguments += " -preset fast -b 3000k";
-                        }
-                        break;
-                }
+            //                        break;
+            //                    default:
+            //                        convertArguments += " -preset fast -b 3000k";
+            //                        break;
+            //                }
+            //            }
+            //            else {
+            //                convertArguments += " -preset fast -b 3000k";
+            //            }
+            //            break;
+            //    }
 
-                if (Config.Settings.Converts.hideFFmpegCompile && convType != 2) {
-                    convertArguments += " -hide_banner";
-                }
+            //    if (Config.Settings.Converts.hideFFmpegCompile && convType != 2) {
+            //        convertArguments += " -hide_banner";
+            //    }
 
-                convertArguments += " \"" + output + "\"";
+            //    convertArguments += " \"" + output + "\"";
 
-                startConvert.StartInfo.Arguments = convertArguments;
-                startConvert.Start();
-                //startConvert.WaitForExit();
+            //    startConvert.StartInfo.Arguments = convertArguments;
+            //    startConvert.Start();
+            //    //startConvert.WaitForExit();
 
-                return true;
-            }
-            catch (Exception ex) {
-                ErrorLog.Report(ex);
-                return false;
-            }
+            //    return true;
+            //}
+            //catch (Exception ex) {
+            //    ErrorLog.Report(ex);
+            //    return false;
+            //}
         }
 
         /// <summary>
