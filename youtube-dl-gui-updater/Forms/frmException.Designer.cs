@@ -57,21 +57,25 @@
             // 
             // rtbExceptionDetails
             // 
+            this.rtbExceptionDetails.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.rtbExceptionDetails.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.rtbExceptionDetails.Location = new System.Drawing.Point(12, 61);
             this.rtbExceptionDetails.Name = "rtbExceptionDetails";
             this.rtbExceptionDetails.ReadOnly = true;
-            this.rtbExceptionDetails.Size = new System.Drawing.Size(448, 146);
+            this.rtbExceptionDetails.Size = new System.Drawing.Size(448, 152);
             this.rtbExceptionDetails.TabIndex = 2;
             this.rtbExceptionDetails.Text = "rtbExceptionDetails";
             // 
             // btnExceptionOk
             // 
             this.btnExceptionOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnExceptionOk.Location = new System.Drawing.Point(385, 8);
+            this.btnExceptionOk.Location = new System.Drawing.Point(385, 7);
             this.btnExceptionOk.Name = "btnExceptionOk";
             this.btnExceptionOk.Size = new System.Drawing.Size(75, 23);
             this.btnExceptionOk.TabIndex = 3;
-            this.btnExceptionOk.Text = "btnExceptionOk";
+            this.btnExceptionOk.Text = "GenericOk";
             this.btnExceptionOk.UseVisualStyleBackColor = true;
             this.btnExceptionOk.Click += new System.EventHandler(this.btnOk_Click);
             // 
@@ -80,14 +84,14 @@
             this.lbVersion.AutoSize = true;
             this.lbVersion.Location = new System.Drawing.Point(12, 13);
             this.lbVersion.Name = "lbVersion";
-            this.lbVersion.Size = new System.Drawing.Size(50, 13);
+            this.lbVersion.Size = new System.Drawing.Size(55, 13);
             this.lbVersion.TabIndex = 4;
             this.lbVersion.Text = "lbVersion";
             // 
             // btnExceptionGithub
             // 
             this.btnExceptionGithub.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnExceptionGithub.Location = new System.Drawing.Point(213, 8);
+            this.btnExceptionGithub.Location = new System.Drawing.Point(213, 7);
             this.btnExceptionGithub.Name = "btnExceptionGithub";
             this.btnExceptionGithub.Size = new System.Drawing.Size(85, 23);
             this.btnExceptionGithub.TabIndex = 5;
@@ -99,11 +103,11 @@
             // 
             this.btnExceptionRetry.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnExceptionRetry.Enabled = false;
-            this.btnExceptionRetry.Location = new System.Drawing.Point(304, 8);
+            this.btnExceptionRetry.Location = new System.Drawing.Point(304, 7);
             this.btnExceptionRetry.Name = "btnExceptionRetry";
             this.btnExceptionRetry.Size = new System.Drawing.Size(75, 23);
             this.btnExceptionRetry.TabIndex = 14;
-            this.btnExceptionRetry.Text = "Retry";
+            this.btnExceptionRetry.Text = "GenericRetry";
             this.btnExceptionRetry.UseVisualStyleBackColor = true;
             this.btnExceptionRetry.Click += new System.EventHandler(this.btnExceptionRetry_Click);
             // 
@@ -126,7 +130,7 @@
             this.pnLower.Controls.Add(this.btnExceptionGithub);
             this.pnLower.Controls.Add(this.btnExceptionRetry);
             this.pnLower.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnLower.Location = new System.Drawing.Point(0, 219);
+            this.pnLower.Location = new System.Drawing.Point(0, 221);
             this.pnLower.Name = "pnLower";
             this.pnLower.Size = new System.Drawing.Size(472, 42);
             this.pnLower.TabIndex = 16;
@@ -136,19 +140,21 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(472, 261);
+            this.ClientSize = new System.Drawing.Size(472, 263);
             this.Controls.Add(this.pnLower);
             this.Controls.Add(this.rtbExceptionDetails);
             this.Controls.Add(this.lbExceptionDescription);
             this.Controls.Add(this.lbExceptionHeader);
-            this.Icon = Properties.Resources.youtube_dl_gui;
+            this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Icon = global::youtube_dl_gui_updater.Properties.Resources.youtube_dl_gui;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(490, 300);
             this.Name = "frmException";
             this.ShowIcon = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "frmError";
+            this.Text = "frmException";
             this.Load += new System.EventHandler(this.frmError_Load);
             this.pnLower.ResumeLayout(false);
             this.pnLower.PerformLayout();

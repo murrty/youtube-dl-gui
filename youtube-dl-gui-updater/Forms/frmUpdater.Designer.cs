@@ -24,10 +24,9 @@
         /// </summary>
         private void InitializeComponent() {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmUpdater));
             this.pbDownloadProgress = new System.Windows.Forms.ProgressBar();
             this.lbUpdaterHeader = new System.Windows.Forms.Label();
-            this.lbUpdaterDescription = new System.Windows.Forms.Label();
+            this.lbUpdaterDetails = new System.Windows.Forms.Label();
             this.tmrForm = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
@@ -49,15 +48,15 @@
             this.lbUpdaterHeader.Text = "lbUpdaterHeader";
             this.lbUpdaterHeader.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
-            // lbUpdaterDescription
+            // lbUpdaterDetails
             // 
-            this.lbUpdaterDescription.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbUpdaterDescription.Location = new System.Drawing.Point(12, 38);
-            this.lbUpdaterDescription.Name = "lbUpdaterDescription";
-            this.lbUpdaterDescription.Size = new System.Drawing.Size(208, 38);
-            this.lbUpdaterDescription.TabIndex = 2;
-            this.lbUpdaterDescription.Text = "lbUpdaterDescription";
-            this.lbUpdaterDescription.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.lbUpdaterDetails.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbUpdaterDetails.Location = new System.Drawing.Point(12, 38);
+            this.lbUpdaterDetails.Name = "lbUpdaterDetails";
+            this.lbUpdaterDetails.Size = new System.Drawing.Size(208, 38);
+            this.lbUpdaterDetails.TabIndex = 2;
+            this.lbUpdaterDetails.Text = "lbUpdaterDetails";
+            this.lbUpdaterDetails.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // tmrForm
             // 
@@ -71,10 +70,10 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(232, 113);
-            this.Controls.Add(this.lbUpdaterDescription);
+            this.Controls.Add(this.lbUpdaterDetails);
             this.Controls.Add(this.lbUpdaterHeader);
             this.Controls.Add(this.pbDownloadProgress);
-            this.Icon = Properties.Resources.youtube_dl_gui;
+            this.Icon = global::youtube_dl_gui_updater.Properties.Resources.youtube_dl_gui;
             this.MaximizeBox = false;
             this.Name = "frmUpdater";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
@@ -89,7 +88,7 @@
 
         private System.Windows.Forms.ProgressBar pbDownloadProgress;
         private System.Windows.Forms.Label lbUpdaterHeader;
-        private System.Windows.Forms.Label lbUpdaterDescription;
+        private System.Windows.Forms.Label lbUpdaterDetails;
         private System.Windows.Forms.Timer tmrForm;
     }
 }

@@ -12,6 +12,7 @@ namespace youtube_dl_gui_updater {
             loadLanguage();
             DateTime TimeNow = DateTime.Now;
             lbDate.Text = string.Format("{0}/{1}/{2} {3}:{4}:{5}", TimeNow.Year, TimeNow.Month, TimeNow.Day, TimeNow.Hour, TimeNow.Minute, TimeNow.Second);
+            btnExceptionRetry.Enabled = AllowRetry;
         }
 
         void loadLanguage() {
@@ -19,10 +20,10 @@ namespace youtube_dl_gui_updater {
                 this.Text = Language.InternalEnglish.frmException;
                 lbExceptionHeader.Text = Language.InternalEnglish.lbExceptionHeader;
                 lbExceptionDescription.Text = Language.InternalEnglish.lbExceptionDescription;
-                rtbExceptionDetails.Text = Language.InternalEnglish.rtbExceptionDetails;
+                rtbExceptionDetails.Text = Language.InternalEnglish.rtbUpdaterExceptionDetails;
                 btnExceptionGithub.Text = Language.InternalEnglish.btnExceptionGithub;
-                btnExceptionOk.Text = Language.InternalEnglish.btnExceptionOk;
-                btnExceptionRetry.Text = Language.InternalEnglish.btnExceptionRetry;
+                btnExceptionOk.Text = Language.InternalEnglish.GenericOk;
+                btnExceptionRetry.Text = Language.InternalEnglish.GenericRetry;
             }
             else {
                 this.Text = Program.lang.frmException;
@@ -30,14 +31,18 @@ namespace youtube_dl_gui_updater {
                 lbExceptionDescription.Text = Program.lang.lbExceptionDescription;
                 lbExceptionDescription.Text = Program.lang.lbExceptionDescription;
                 btnExceptionGithub.Text = Program.lang.btnExceptionGithub;
-                btnExceptionOk.Text = Program.lang.btnExceptionOk;
-                btnExceptionOk.Text = Program.lang.btnExceptionRetry;
+                btnExceptionOk.Text = Program.lang.GenericOk;
+                btnExceptionRetry.Text = Program.lang.GenericRetry;
             }
         }
 
         private void frmError_Load(object sender, EventArgs e) {
-            string outputBuffer = Program.lang.rtbExceptionDetails + "\n\nUpdater version: " + Properties.Settings.Default.CurrentVersion + "\nReported Exception: " + ReportedException.ToString();
-            rtbExceptionDetails.Text = outputBuffer;
+            if (ReportedException == null) {
+                rtbExceptionDetails.Text = Program.lang.rtbUpdaterExceptionDetails + "\n\nUpdater version: " + Properties.Settings.Default.CurrentVersion + "\nReported Exception: No exception has occured, but this form still appeared. Something is wrong.";
+            }
+            else {
+                rtbExceptionDetails.Text = Program.lang.rtbUpdaterExceptionDetails + "\n\nUpdater version: " + Properties.Settings.Default.CurrentVersion + "\nReported Exception: " + ReportedException.ToString();
+            }
             lbVersion.Text = "v" + Properties.Settings.Default.CurrentVersion;
             System.Media.SystemSounds.Hand.Play();
         }
