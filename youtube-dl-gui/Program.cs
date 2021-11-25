@@ -25,6 +25,7 @@ namespace youtube_dl_gui {
         static int Main(string[] args) {
             mtx = new Mutex(true, ProgramGUID.Value);
             DebugOnlyMethod();
+            ErrorLog.AssembleComputerVersionInformation();
 
             if (mtx.WaitOne(TimeSpan.Zero, true) || IsDebug) {
                 Application.EnableVisualStyles();

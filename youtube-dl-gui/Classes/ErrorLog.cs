@@ -1,5 +1,7 @@
 ﻿// 1.0
 using System;
+using System.Linq;
+using System.Management;
 using System.Net;
 using System.Windows.Forms;
 
@@ -9,6 +11,24 @@ namespace youtube_dl_gui {
     /// This class will control the Errors that get reported in try statements.
     /// </summary>
     class ErrorLog {
+        public static string ComputerVersionInformation;
+
+        /// <summary>
+        /// Assembles the computer information one time so exceptions do not require parsing through the management objects.
+        /// </summary>
+        public static void AssembleComputerVersionInformation() {
+            ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT * FROM Win32_OperatingSystem");
+            ManagementObject info = searcher.Get().Cast<ManagementObject>().FirstOrDefault();
+            ComputerVersionInformation = string.Format(
+                "Version: {0}, Service Pack Major: {1}, Service Pack Minor: {2}, Caption: {3}",
+                new object[] {
+                    info.Properties["Version"].Value.ToString(),
+                    info.Properties["ServicePackMajorVersion"].Value.ToString(),
+                    info.Properties["ServicePackMinorVersion"].Value.ToString(),
+                    info.Properties["Caption"].Value.ToString()
+                }
+            );
+        }
 
         /// <summary>
         /// Reports any web errors that are caught

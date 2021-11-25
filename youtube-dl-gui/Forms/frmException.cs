@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Linq;
-using System.Management;
 using System.Net;
 using System.Security.Cryptography;
 using System.Windows.Forms;
@@ -69,23 +67,19 @@ namespace youtube_dl_gui {
         public static string GetRelevantInformation() {
             string NewRelevantInfo = "Lanugage: {0}\n Current Culture: {1}\nOS: {2}";
 
-            ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT * FROM Win32_OperatingSystem");
-            ManagementObject info = searcher.Get().Cast<ManagementObject>().FirstOrDefault();
-            string OsVersion = string.Format(
-                "Version: {0}, Service Pack Major: {1}, Service Pack Minor: {2}, Caption: {3}",
-                new object[] {
-                    info.Properties["Version"].Value.ToString(),
-                    info.Properties["ServicePackMajorVersion"].Value.ToString(),
-                    info.Properties["ServicePackMinorVersion"].Value.ToString(),
-                    info.Properties["Caption"].Value.ToString()
-                }
-            );
-
             if (Properties.Settings.Default.IsBetaVersion) {
-                return string.Format(NewRelevantInfo, Properties.Settings.Default.BetaVersion, System.Threading.Thread.CurrentThread.CurrentCulture.EnglishName, OsVersion);
+                return string.Format(NewRelevantInfo,
+                    Properties.Settings.Default.BetaVersion,
+                    System.Threading.Thread.CurrentThread.CurrentCulture.EnglishName,
+                    ErrorLog.ComputerVersionInformation
+                );
             }
             else {
-                return string.Format(NewRelevantInfo,Properties.Settings.Default.CurrentVersion.ToString(), System.Threading.Thread.CurrentThread.CurrentCulture.EnglishName, OsVersion);
+                return string.Format(NewRelevantInfo,
+                    Properties.Settings.Default.CurrentVersion.ToString(),
+                    System.Threading.Thread.CurrentThread.CurrentCulture.EnglishName,
+                    ErrorLog.ComputerVersionInformation
+                );
             }
         }
 
