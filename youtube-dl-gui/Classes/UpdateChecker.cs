@@ -14,6 +14,7 @@ namespace youtube_dl_gui {
 
         public static readonly GitData GitInfo = new GitData();
         private static readonly bool bypassDebug = true;
+        private static string NoUpdateBase = "No updates available.\r\n\r\nCurrent version: {0}\r\nLatest version: {1}";
 
         #region Major methods
         /// <summary>
@@ -24,6 +25,12 @@ namespace youtube_dl_gui {
             bool FailedToCheck = false;
 
             try {
+                // Set the current thread's culture information.
+                Thread.CurrentThread.CurrentCulture = 
+                     new System.Globalization.CultureInfo("en-US");
+                Thread.CurrentThread.CurrentUICulture =
+                    new System.Globalization.CultureInfo("en-US");
+
                 // Debug some things from here, if the program is debug and bypass debug is false.
                 if (Program.IsDebug && !bypassDebug) {
                     Debug.Print("-version " + GitInfo.UpdateVersion + " -name " + AppDomain.CurrentDomain.FriendlyName);
@@ -76,7 +83,12 @@ namespace youtube_dl_gui {
                             FailedToCheck = true;
                         }
                         else if (ForceCheck) {
-                            MessageBox.Show("No updates available.");
+                            if (Properties.Settings.Default.IsBetaVersion) {
+                                MessageBox.Show(string.Format(NoUpdateBase, Properties.Settings.Default.BetaVersion, LatestReleaseVersion));
+                            }
+                            else {
+                                MessageBox.Show(string.Format(NoUpdateBase, Properties.Settings.Default.CurrentVersion, LatestReleaseVersion));
+                            }
                         }
                     }
                     else {
@@ -110,7 +122,12 @@ namespace youtube_dl_gui {
                             FailedToCheck = true;
                         }
                         else if (ForceCheck) {
-                            MessageBox.Show("No updates available.\r\n\r\nCurrent version: " + Properties.Settings.Default.CurrentVersion + "\r\nLatest version: " + GitVersion, "youtube-dl-gui");
+                            if (Properties.Settings.Default.IsBetaVersion) {
+                                MessageBox.Show(string.Format(NoUpdateBase, Properties.Settings.Default.BetaVersion, GitVersion));
+                            }
+                            else {
+                                MessageBox.Show(string.Format(NoUpdateBase, Properties.Settings.Default.CurrentVersion, GitVersion));
+                            }
                         }
                     }
                 }
