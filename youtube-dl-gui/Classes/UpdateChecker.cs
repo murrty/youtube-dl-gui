@@ -12,13 +12,10 @@ using System.Xml.Linq;
 namespace youtube_dl_gui {
     class UpdateChecker {
 
-        // TODO: Convert culture variants to en-US (or culture agnostic)
-        // when checking for decimal updates.
-
         public static readonly GitData GitInfo = new GitData();
         private static readonly bool bypassDebug = true;
-        private static string NoUpdateBase = "No updates available.\r\n\r\nCurrent version: {0}\r\nLatest version: {1}";
-        private static readonly System.Globalization.CultureInfo UpdateCulture = new System.Globalization.CultureInfo("en-US");
+        private static readonly string NoUpdateBase = "No updates available.\r\n\r\nCurrent version: {0}\r\nLatest version: {1}";
+        private static readonly string NoBetaUpdateBase = "No beta updates available.\r\n\r\nCurrent beta version: {0}\r\nNewest beta version: {1}";
 
         #region Major methods
         /// <summary>
@@ -29,10 +26,6 @@ namespace youtube_dl_gui {
             bool FailedToCheck = false;
 
             try {
-                // Set the current thread's culture information.
-                //Thread.CurrentThread.CurrentCulture = UpdateCulture;
-                //Thread.CurrentThread.CurrentUICulture = UpdateCulture;
-
                 // Debug some things from here, if the program is debug and bypass debug is false.
                 if (Program.IsDebug && !bypassDebug) {
                     Debug.Print("-version " + GitInfo.UpdateVersion + " -name " + AppDomain.CurrentDomain.FriendlyName);
@@ -86,7 +79,7 @@ namespace youtube_dl_gui {
                         }
                         else if (ForceCheck) {
                             if (Properties.Settings.Default.IsBetaVersion) {
-                                MessageBox.Show(string.Format(NoUpdateBase, Properties.Settings.Default.BetaVersion, LatestReleaseVersion));
+                                MessageBox.Show(string.Format(NoBetaUpdateBase, Properties.Settings.Default.BetaVersion, LatestReleaseVersion));
                             }
                             else {
                                 MessageBox.Show(string.Format(NoUpdateBase, Properties.Settings.Default.CurrentVersion, LatestReleaseVersion));
@@ -125,7 +118,7 @@ namespace youtube_dl_gui {
                         }
                         else if (ForceCheck) {
                             if (Properties.Settings.Default.IsBetaVersion) {
-                                MessageBox.Show(string.Format(NoUpdateBase, Properties.Settings.Default.BetaVersion, GitVersion));
+                                MessageBox.Show(string.Format(NoBetaUpdateBase + "\r\n\r\nThis may be a wild message to receive.", Properties.Settings.Default.BetaVersion, GitVersion));
                             }
                             else {
                                 MessageBox.Show(string.Format(NoUpdateBase, Properties.Settings.Default.CurrentVersion, GitVersion));
@@ -369,11 +362,6 @@ namespace youtube_dl_gui {
 
                 // if the xml is null, throw a parsing exception
                 if (Xml == null) throw new ApiParsingException("The retrieved xml returned null.", Url);
-
-                // Work on XML in the user's Culture environment
-                System.Globalization.CultureInfo LastCulture = Thread.CurrentThread.CurrentCulture;
-                Thread.CurrentThread.CurrentCulture = UpdateCulture;
-                Thread.CurrentThread.CurrentUICulture = UpdateCulture;
 
                 // Load the api data into an xml document
                 XmlDocument doc = new XmlDocument();

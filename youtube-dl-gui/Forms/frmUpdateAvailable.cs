@@ -10,7 +10,12 @@ namespace youtube_dl_gui {
             this.Text = Program.lang.frmUpdateAvailable;
             lbUpdateAvailableHeader.Text = Program.lang.lbUpdateAvailableHeader;
             lbUpdateAvailableUpdateVersion.Text = Program.lang.lbUpdateAvailableUpdateVersion + " " + UpdateChecker.GitInfo.UpdateVersion;
-            lbUpdateAvailableCurrentVersion.Text = Program.lang.lbUpdateAvailableCurrentVersion + " " + Properties.Settings.Default.CurrentVersion.ToString();
+            if (Properties.Settings.Default.IsBetaVersion) {
+                lbUpdateAvailableCurrentVersion.Text = Program.lang.lbUpdateAvailableCurrentVersion + " " + Properties.Settings.Default.BetaVersion;
+            }
+            else {
+                lbUpdateAvailableCurrentVersion.Text = Program.lang.lbUpdateAvailableCurrentVersion + " " + Properties.Settings.Default.CurrentVersion.ToString();
+            }
             lbUpdateAvailableChangelog.Text = Program.lang.lbUpdateAvailableChangelog;
             txtUpdateAvailableName.Text = UpdateChecker.GitInfo.UpdateName;
             rtbUpdateAvailableChangelog.Text = UpdateChecker.GitInfo.UpdateBody;

@@ -88,5 +88,10 @@ namespace youtube_dl_gui {
                 }
             }
         }
+
+        public static string ReceiveData(IntPtr Param) {
+            CopyDataStruct Data = (CopyDataStruct)Marshal.PtrToStructure(Param, typeof(CopyDataStruct));
+            return Marshal.PtrToStringUni(Data.lpData);
+        }
     }
 }

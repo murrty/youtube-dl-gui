@@ -79,7 +79,7 @@ namespace youtube_dl_gui {
 
                     LoadClasses();
 
-                    if (CheckArgs(args)) {
+                    if (CheckArgs(args, true)) {
                         return 0;
                     }
 
@@ -100,7 +100,14 @@ namespace youtube_dl_gui {
                 if (hwnd != 0) {
                     Win32.CopyDataStruct DataStruct = new Win32.CopyDataStruct();
                     try {
-                        // check args?
+                        if (args.Length >= 1) {
+                            string NewArgumnet = string.Join("|", args);
+                            DataStruct.cbData = (NewArgumnet.Length + 1) * 2;
+                            DataStruct.lpData = Win32.LocalAlloc(0x40, DataStruct.cbData);
+                            Marshal.Copy(NewArgumnet.ToCharArray(), 0, DataStruct.lpData, NewArgumnet.Length);
+                            DataStruct.dwData = (IntPtr)1;
+                            Win32.SendMessage((IntPtr)hwnd, Win32.WM_COPYDATA, IntPtr.Zero, ref DataStruct);
+                        }
                         Win32.SendMessage((IntPtr)hwnd, Win32.WM_SHOWFORM, IntPtr.Zero, ref DataStruct);
                     }
                     finally {
@@ -131,39 +138,53 @@ namespace youtube_dl_gui {
             }
         }
 
-        static bool CheckArgs(string[] args) {
-            if (args.Length > 0) {
-                if (args[0].StartsWith("ytdl:")) {
-                    string url = args[0].Substring(5);
-                    DownloadInfo NewInfo = new DownloadInfo() {
-                        DownloadURL = url
-                    };
-
-                    switch (args[1]) {
-                        case "-video":
-                            NewInfo.Type = DownloadType.Video;
-                            NewInfo.VideoQuality = (VideoQualityType)Config.Settings.Saved.videoQuality;
-                            frmDownloader VideoDownloader = new frmDownloader(NewInfo);
-                            VideoDownloader.ShowDialog();
-                            return true;
-
-                        case "-audio":
-                            NewInfo.Type = DownloadType.Audio;
-                            if (Config.Settings.Downloads.AudioDownloadAsVBR) {
-                                NewInfo.AudioVBRQuality = (AudioVBRQualityType)Config.Settings.Saved.audioQuality;
-                            }
-                            else {
-                                NewInfo.AudioCBRQuality = (AudioCBRQualityType)Config.Settings.Saved.audioQuality;
-                            }
-                            frmDownloader AudioDownloader = new frmDownloader(NewInfo);
-                            AudioDownloader.ShowDialog();
-                            return true;
-
-                        default:
-                            NewInfo.Dispose();
-                            return false;
+        public static bool CheckArgs(string[] args, bool UseDialog) {
+            if (args.Length > 1) {
+                for (int i = 0; i < args.Length; i++) {
+                    string CurrentArgument = args[i];
+                    if (CurrentArgument.StartsWith("ytdl:")) {
+                        CurrentArgument = CurrentArgument.Substring(5);
                     }
 
+                    switch (CurrentArgument) {
+                        case "-v": case "-video":
+                            i++;
+                            DownloadInfo NewVideo = new DownloadInfo() {
+                                DownloadURL = args[i],
+                                Type = DownloadType.Video,
+                                VideoQuality = (VideoQualityType)Config.Settings.Saved.videoQuality
+                            };
+                            frmDownloader VideoDownloader = new frmDownloader(NewVideo);
+                            if (UseDialog) {
+                                VideoDownloader.ShowDialog();
+                            }
+                            else {
+                                VideoDownloader.Show();
+                            }
+                            break;
+
+                        case "-a": case "-audio":
+                            i++;
+                            DownloadInfo NewAudio = new DownloadInfo() {
+                                DownloadURL = args[i],
+                                Type = DownloadType.Audio
+                            };
+                            if (Config.Settings.Downloads.AudioDownloadAsVBR) {
+                                NewAudio.AudioVBRQuality = (AudioVBRQualityType)Config.Settings.Saved.audioQuality;
+                            }
+                            else {
+                                NewAudio.AudioCBRQuality = (AudioCBRQualityType)Config.Settings.Saved.audioQuality;
+                            }
+
+                            frmDownloader AudioDownloader = new frmDownloader(NewAudio);
+                            if (UseDialog) {
+                                AudioDownloader.ShowDialog();
+                            }
+                            else {
+                                AudioDownloader.Show();
+                            }
+                            break;
+                    }
                 }
             }
 

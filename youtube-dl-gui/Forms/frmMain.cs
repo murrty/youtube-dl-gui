@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
@@ -20,12 +21,22 @@ namespace youtube_dl_gui {
         protected override void WndProc(ref Message m) {
             switch (m.Msg) {
                 case Win32.WM_COPYDATA:
+                    Win32.CopyDataStruct ReceivedData = (Win32.CopyDataStruct)Marshal.PtrToStructure(m.LParam, typeof(Win32.CopyDataStruct));
+                    string[] ReceivedArguments = Marshal.PtrToStringUni(ReceivedData.lpData).Split('|');
+                    if (ReceivedArguments.Length > 0) {
+                        if (ReceivedArguments.Length > 1) {
+                            Program.CheckArgs(ReceivedArguments, false);
+                        }
+                        else {
+                            txtUrl.Text = ReceivedArguments[0];
+                        }
+                    }
                     break;
 
                 case Win32.WM_SHOWFORM:
-                    this.Show();
                     if (this.WindowState != FormWindowState.Normal)
                         this.WindowState = FormWindowState.Normal;
+                    this.Show();
                     this.Activate();
                     break;
 
