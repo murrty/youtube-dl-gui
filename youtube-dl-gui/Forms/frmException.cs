@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using System.Management;
 using System.Net;
 using System.Security.Cryptography;
 using System.Windows.Forms;
@@ -25,7 +27,7 @@ namespace youtube_dl_gui {
             btnExceptionRetry.Enabled = EnableRetry;
         }
 
-        void loadLanguage() {
+        private void loadLanguage() {
             RandomNumberGenerator RNG = new RNGCryptoServiceProvider();
             byte[] ByteData = new byte[sizeof(int)];
             RNG.GetBytes(ByteData);
@@ -64,21 +66,45 @@ namespace youtube_dl_gui {
 
         }
 
+        public static string GetRelevantInformation() {
+            string NewRelevantInfo = "Lanugage: {0}\n Current Culture: {1}\nOS: {2}";
+
+            ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT * FROM Win32_OperatingSystem");
+            ManagementObject info = searcher.Get().Cast<ManagementObject>().FirstOrDefault();
+            string OsVersion = string.Format(
+                "Version: {0}, Service Pack Major: {1}, Service Pack Minor: {2}, Caption: {3}",
+                new object[] {
+                    info.Properties["Version"].Value.ToString(),
+                    info.Properties["ServicePackMajorVersion"].Value.ToString(),
+                    info.Properties["ServicePackMinorVersion"].Value.ToString(),
+                    info.Properties["Caption"].Value.ToString()
+                }
+            );
+
+            if (Properties.Settings.Default.IsBetaVersion) {
+                return string.Format(NewRelevantInfo, Properties.Settings.Default.BetaVersion, System.Threading.Thread.CurrentThread.CurrentCulture.EnglishName, OsVersion);
+            }
+            else {
+                return string.Format(NewRelevantInfo,Properties.Settings.Default.CurrentVersion.ToString(), System.Threading.Thread.CurrentThread.CurrentCulture.EnglishName, OsVersion);
+            }
+        }
+
         private void frmError_Load(object sender, EventArgs e) {
             string Exception = string.Empty;
             if (ReportedException != null) {
                 Exception += "An exception occured" + "\n";
+                Exception += GetRelevantInformation();
                 Exception += "Message: " + ReportedException.Message + "\n";
                 Exception += "Stacktrace: " + ReportedException.StackTrace + "\n";
                 Exception += "Source: " + ReportedException.Source + "\n";
                 Exception += "Target Site: " + ReportedException.TargetSite + "\n";
-
 
                 Exception += "\n========== FULL REPORT ==========\n" + ReportedException.ToString();
                 Exception += "\n========== END  REPORT ==========";
             }
             else if (ReportedWebException != null) {
                 Exception += "A web exception occured" + "\n";
+                Exception += GetRelevantInformation();
                 Exception += "Web Address: " + WebAddress + "\n";
                 Exception += "Message: " + ReportedWebException.Message + "\n";
                 Exception += "Stacktrace: " + ReportedWebException.StackTrace + "\n";
@@ -93,6 +119,7 @@ namespace youtube_dl_gui {
             }
             else if (ReportedDecimalParsingException != null) {
                 Exception += "A decimal parsing exception occured" + "\n";
+                Exception += GetRelevantInformation();
                 if (ReportedDecimalParsingException.ExtraInfo != null) {
                     Exception += "Extra information will now be posted before stacktraces, and etc.";
                     Exception += "\n========== EXTRA INFO ==========\n";
@@ -112,6 +139,7 @@ namespace youtube_dl_gui {
             }
             else if (ReportedApiParsingException != null) {
                 Exception += "A API parsing exception occured" + "\n";
+                Exception += GetRelevantInformation();
                 if (ReportedApiParsingException.ExtraInfo != null) {
                     Exception += "Extra information will now be posted before stacktraces, and etc.";
                     Exception += "\n========== EXTRA INFO ==========\n";
