@@ -12,9 +12,13 @@ using System.Xml.Linq;
 namespace youtube_dl_gui {
     class UpdateChecker {
 
+        // TODO: Convert culture variants to en-US (or culture agnostic)
+        // when checking for decimal updates.
+
         public static readonly GitData GitInfo = new GitData();
         private static readonly bool bypassDebug = true;
         private static string NoUpdateBase = "No updates available.\r\n\r\nCurrent version: {0}\r\nLatest version: {1}";
+        private static readonly System.Globalization.CultureInfo UpdateCulture = new System.Globalization.CultureInfo("en-US");
 
         #region Major methods
         /// <summary>
@@ -26,10 +30,8 @@ namespace youtube_dl_gui {
 
             try {
                 // Set the current thread's culture information.
-                Thread.CurrentThread.CurrentCulture = 
-                     new System.Globalization.CultureInfo("en-US");
-                Thread.CurrentThread.CurrentUICulture =
-                    new System.Globalization.CultureInfo("en-US");
+                //Thread.CurrentThread.CurrentCulture = UpdateCulture;
+                //Thread.CurrentThread.CurrentUICulture = UpdateCulture;
 
                 // Debug some things from here, if the program is debug and bypass debug is false.
                 if (Program.IsDebug && !bypassDebug) {
@@ -366,8 +368,13 @@ namespace youtube_dl_gui {
                 string Xml = GetJSON(Url);
 
                 // if the xml is null, throw a parsing exception
-                if (Xml == null) throw new ApiParsingException("The retrieved xml returned null.",Url);
-                
+                if (Xml == null) throw new ApiParsingException("The retrieved xml returned null.", Url);
+
+                // Work on XML in the user's Culture environment
+                System.Globalization.CultureInfo LastCulture = Thread.CurrentThread.CurrentCulture;
+                Thread.CurrentThread.CurrentCulture = UpdateCulture;
+                Thread.CurrentThread.CurrentUICulture = UpdateCulture;
+
                 // Load the api data into an xml document
                 XmlDocument doc = new XmlDocument();
                 doc.LoadXml(Xml);
@@ -403,9 +410,12 @@ namespace youtube_dl_gui {
                 if (xmlBody.Count == 0) GitInfo.UpdateBody = "Unable to retrieve the update body from the API. This may be a change in API, or a temporary issue.";
                 else GitInfo.UpdateBody = xmlBody[0].InnerText;
 
-                // Tries to parse the UpdateVersion as a decimal for comparison.
+                // Tries to parse the UpdateVersion as a decimal with an invariant culture for comparison.
                 // Throw a decimal parsing exception if it fails, this is a critical parse.
-                if (decimal.TryParse(GitInfo.UpdateVersion, out decimal NewVersion)) return NewVersion;
+                if (decimal.TryParse(GitInfo.UpdateVersion,
+                    System.Globalization.NumberStyles.AllowDecimalPoint,
+                    System.Globalization.CultureInfo.InvariantCulture,
+                    out decimal NewVersion)) return NewVersion;
                 else throw new DecimalParsingException("The Github version was not able to be parsed.", Xml);
 
             }
