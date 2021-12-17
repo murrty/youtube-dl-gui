@@ -26,7 +26,7 @@
             this.components = new System.ComponentModel.Container();
             this.chkConverterCloseAfterConversion = new System.Windows.Forms.CheckBox();
             this.btnConverterCancelExit = new System.Windows.Forms.Button();
-            this.rtbConsoleOutput = new System.Windows.Forms.RichTextBox();
+            this.rtbConsoleOutput = new Controls.ExtendedRichTextBox();
             this.tmrTitleActivity = new System.Windows.Forms.Timer(this.components);
             this.txtArgumentsGenerated = new System.Windows.Forms.TextBox();
             this.btnConverterAbortBatchConversions = new System.Windows.Forms.Button();
@@ -135,7 +135,7 @@
 
         private System.Windows.Forms.CheckBox chkConverterCloseAfterConversion;
         private System.Windows.Forms.Button btnConverterCancelExit;
-        private System.Windows.Forms.RichTextBox rtbConsoleOutput;
+        private Controls.ExtendedRichTextBox rtbConsoleOutput;
         private System.Windows.Forms.Timer tmrTitleActivity;
         private System.Windows.Forms.TextBox txtArgumentsGenerated;
         private System.Windows.Forms.Button btnConverterAbortBatchConversions;

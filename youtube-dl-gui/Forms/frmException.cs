@@ -65,7 +65,7 @@ namespace youtube_dl_gui {
         }
 
         public static string GetRelevantInformation() {
-            string NewRelevantInfo = "Lanugage: {0}\n Current Culture: {1}\nOS: {2}";
+            string NewRelevantInfo = "Current version: {0}\nCurrent culture: {1}\nOS: {2}\n";
 
             if (Properties.Settings.Default.IsBetaVersion) {
                 return string.Format(NewRelevantInfo,

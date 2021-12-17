@@ -81,6 +81,9 @@
     <Compile Include="Classes\NativeMethods.cs" />
     <Compile Include="Classes\UpdateChecker.cs" />
     <Compile Include="Classes\ErrorLog.cs" />
+    <Compile Include="Controls\ExtendedRichTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controls\ExtendedTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
