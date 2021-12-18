@@ -32,7 +32,7 @@ namespace youtube_dl_gui {
         public static extern int SetWindowTheme(IntPtr hwnd, string pszSubAppName, string pszSubIdList);
         #endregion
 
-        #region SplitButton, ExtendedTextBox
+        #region SplitButton, ExtendedTextBox, ExtendedRichTextBox
 
         #region TextBox Text Margins
         public const int EM_SETMARGINS = 0xd3;

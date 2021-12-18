@@ -18,7 +18,7 @@
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="BetaVersion" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">2.27-pre2</Value>
+      <Value Profile="(Default)">2.27-pre3</Value>
     </Setting>
     <Setting Name="SkippedBetaVersion" Type="System.String" Scope="User">
       <Value Profile="(Default)" />

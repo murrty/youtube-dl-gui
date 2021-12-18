@@ -76,7 +76,7 @@ namespace youtube_dl_gui.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("2.27-pre2")]
+        [global::System.Configuration.DefaultSettingValueAttribute("2.27-pre3")]
         public string BetaVersion {
             get {
                 return ((string)(this["BetaVersion"]));

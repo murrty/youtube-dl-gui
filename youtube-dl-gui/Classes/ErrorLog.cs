@@ -19,15 +19,11 @@ namespace youtube_dl_gui {
         public static void AssembleComputerVersionInformation() {
             ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT * FROM Win32_OperatingSystem");
             ManagementObject info = searcher.Get().Cast<ManagementObject>().FirstOrDefault();
-            ComputerVersionInformation = string.Format(
-                "Version: {0}, Service Pack Major: {1}, Service Pack Minor: {2}, Caption: {3}",
-                new object[] {
-                    info.Properties["Version"].Value.ToString(),
-                    info.Properties["ServicePackMajorVersion"].Value.ToString(),
-                    info.Properties["ServicePackMinorVersion"].Value.ToString(),
-                    info.Properties["Caption"].Value.ToString()
-                }
-            );
+            ComputerVersionInformation =
+                $"Version: {info.Properties["Version"].Value} " +
+                $"Service Pack Major: {info.Properties["ServicePackMajorVersion"].Value} " +
+                $"Service Pack Minor: {info.Properties["ServicePackMinorVersion"].Value} " +
+                $"System Caption: {info.Properties["Caption"].Value}";
         }
 
         /// <summary>
@@ -496,7 +492,7 @@ namespace youtube_dl_gui {
         private static void WriteToFile(string LogData) {
             if (Config.Settings.Errors.logErrors && !Program.IsDebug) {
                 try {
-                    string FileName = string.Format("\\error_{0}.log", DateTime.Now);
+                    string FileName = $"\\error_{DateTime.Now}.log";
                     System.IO.File.WriteAllText(FileName, LogData);
                 }
                 catch (Exception ex) { Report(ex, true); }
