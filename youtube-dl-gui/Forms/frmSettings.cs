@@ -13,8 +13,8 @@ namespace youtube_dl_gui {
 
         private bool LoadingForm = false;
 
-        readonly List<string> extensionsName = new List<string>();
-        readonly List<string> extensionsShort = new List<string>();
+        readonly List<string> extensionsName = new();
+        readonly List<string> extensionsShort = new();
 
         bool RefreshYtdl = false;
         bool RefreshFFmpeg = false;
@@ -572,26 +572,26 @@ namespace youtube_dl_gui {
             Config.Settings.General.UseStaticFFmpeg = chkSettingsGeneralUseStaticFFmpeg.Checked;
         }
         private void btnSettingsGeneralBrowseYoutubeDl_Click(object sender, EventArgs e) {
-            using (OpenFileDialog ofd = new OpenFileDialog()) {
-                ofd.Title = Program.lang.ofdTitleYoutubeDl;
-                ofd.Filter = Program.lang.ofdFilterYoutubeDl + " (*.EXE)|*.exe";
-                ofd.FileName = "youtube-dl.exe";
+            using OpenFileDialog ofd = new() {
+                Title = Program.lang.ofdTitleYoutubeDl,
+                Filter = Program.lang.ofdFilterYoutubeDl + " (*.EXE)|*.exe",
+                FileName = "youtube-dl.exe"
+            };
 
-                if (ofd.ShowDialog() == DialogResult.OK) {
-                    txtSettingsGeneralYoutubeDlPath.Text = ofd.FileName;
-                }
+            if (ofd.ShowDialog() == DialogResult.OK) {
+                txtSettingsGeneralYoutubeDlPath.Text = ofd.FileName;
             }
         }
         private void btnSettingsGeneralBrowseFFmpeg_Click(object sender, EventArgs e) {
-            using (OpenFileDialog ofd = new OpenFileDialog()) {
-                ofd.Title = Program.lang.ofdTitleFFmpeg;
-                ofd.Filter = Program.lang.ofdFilterFFmpeg + " (*.EXE)|*.exe";
-                ofd.FileName = "ffmpeg.exe";
+            using OpenFileDialog ofd = new() {
+                Title = Program.lang.ofdTitleFFmpeg,
+                Filter = Program.lang.ofdFilterFFmpeg + " (*.EXE)|*.exe",
+                FileName = "ffmpeg.exe"
+            };
 
 
-                if (ofd.ShowDialog() == DialogResult.OK) {
-                    txtSettingsGeneralFFmpegPath.Text = ofd.FileName;
-                }
+            if (ofd.ShowDialog() == DialogResult.OK) {
+                txtSettingsGeneralFFmpegPath.Text = ofd.FileName;
             }
         }
         #endregion
@@ -608,22 +608,20 @@ namespace youtube_dl_gui {
             }
         }
         private void btnSettingsDownloadsBrowseSavePath_Click(object sender, EventArgs e) {
-            using (FolderBrowserDialog fbd = new FolderBrowserDialog()) {
-                fbd.Description = "Select a destionation where downloads will be saved to";
-                if (chkSettingsDownloadsDownloadPathUseRelativePath.Checked) {
-                    fbd.SelectedPath = Program.ProgramPath;
+            using BetterFolderBrowserNS.BetterFolderBrowser fbd = new();
+            if (chkSettingsDownloadsDownloadPathUseRelativePath.Checked) {
+                fbd.RootFolder = Program.ProgramPath;
+            }
+            else {
+                fbd.RootFolder = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Downloads";
+            }
+
+            if (fbd.ShowDialog() == DialogResult.OK) {
+                if (chkSettingsDownloadsDownloadPathUseRelativePath.Checked && fbd.SelectedPath.StartsWith(Program.ProgramPath)) {
+                    txtSettingsDownloadsSavePath.Text = ".\\" + fbd.SelectedPath.Substring(Program.ProgramPath.Length + 1);
                 }
                 else {
-                    fbd.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Downloads";
-                }
-
-                if (fbd.ShowDialog() == DialogResult.OK) {
-                    if (chkSettingsDownloadsDownloadPathUseRelativePath.Checked && fbd.SelectedPath.StartsWith(Program.ProgramPath)) {
-                        txtSettingsDownloadsSavePath.Text = ".\\" + fbd.SelectedPath.Substring(Program.ProgramPath.Length + 1);
-                    }
-                    else {
-                        txtSettingsDownloadsSavePath.Text = fbd.SelectedPath;
-                    }
+                    txtSettingsDownloadsSavePath.Text = fbd.SelectedPath;
                 }
             }
         }

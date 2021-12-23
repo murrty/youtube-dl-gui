@@ -26,6 +26,7 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <LangVersion>9.0</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -68,6 +69,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\BetterFolderBrowser.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\BetterFolderBrowser.designer.cs">
+      <DependentUpon>BetterFolderBrowser.cs</DependentUpon>
+    </Compile>
     <Compile Include="Classes\ConvertInfo.cs" />
     <Compile Include="Classes\Win32.cs" />
     <Compile Include="Configurations\Batch.Designer.cs">

@@ -17,8 +17,8 @@ namespace youtube_dl_gui {
         public static bool UseIni = false;
         static Mutex mtx;
 
-        public static readonly Language lang = new Language();
-        public static readonly Verification verif = new Verification();
+        public static readonly Language lang = new();
+        public static readonly Verification verif = new();
         static frmMain MainForm;
 
         [STAThread]
@@ -54,16 +54,14 @@ namespace youtube_dl_gui {
                             Config.Settings.Initialization.firstTime = false;
 
                             if (MessageBox.Show("Downloads are saved to your downloads folder by default, would you like to specify a different location now?\n(You can change this in the settings at any time)", "youtube-dl-gui", MessageBoxButtons.YesNo) == DialogResult.Yes) {
-                                using (FolderBrowserDialog fbd = new FolderBrowserDialog()) {
-                                    fbd.Description = "Select a location to save downloads to";
-                                    fbd.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Downloads";
-                                    if (fbd.ShowDialog() == DialogResult.OK) {
-                                        Config.Settings.Downloads.downloadPath = fbd.SelectedPath;
-                                    }
-                                    else {
-                                        Config.Settings.Downloads.downloadPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Downloads";
-                                    }
-
+                                using BetterFolderBrowserNS.BetterFolderBrowser fbd = new();
+                                fbd.Title = "Select a directory to save downloads to...";
+                                fbd.RootFolder = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Downloads";
+                                if (fbd.ShowDialog() == DialogResult.OK) {
+                                    Config.Settings.Downloads.downloadPath = fbd.SelectedPath;
+                                }
+                                else {
+                                    Config.Settings.Downloads.downloadPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Downloads";
                                 }
                             }
                             else {
@@ -85,7 +83,7 @@ namespace youtube_dl_gui {
                     }
 
                     System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
-                    MainForm = new frmMain();
+                    MainForm = new();
                     Application.Run(MainForm);
                     mtx.ReleaseMutex();
                 }
@@ -99,7 +97,7 @@ namespace youtube_dl_gui {
                 }
 
                 if (hwnd != 0) {
-                    Win32.CopyDataStruct DataStruct = new Win32.CopyDataStruct();
+                    Win32.CopyDataStruct DataStruct = new();
                     try {
                         if (args.Length >= 1) {
                             string NewArgumnet = string.Join("|", args);
@@ -150,12 +148,12 @@ namespace youtube_dl_gui {
                     switch (CurrentArgument) {
                         case "-v": case "-video":
                             i++;
-                            DownloadInfo NewVideo = new DownloadInfo() {
+                            DownloadInfo NewVideo = new() {
                                 DownloadURL = args[i],
                                 Type = DownloadType.Video,
                                 VideoQuality = (VideoQualityType)Config.Settings.Saved.videoQuality
                             };
-                            frmDownloader VideoDownloader = new frmDownloader(NewVideo);
+                            frmDownloader VideoDownloader = new(NewVideo);
                             if (UseDialog) {
                                 VideoDownloader.ShowDialog();
                             }
@@ -166,7 +164,7 @@ namespace youtube_dl_gui {
 
                         case "-a": case "-audio":
                             i++;
-                            DownloadInfo NewAudio = new DownloadInfo() {
+                            DownloadInfo NewAudio = new() {
                                 DownloadURL = args[i],
                                 Type = DownloadType.Audio
                             };
@@ -177,7 +175,7 @@ namespace youtube_dl_gui {
                                 NewAudio.AudioCBRQuality = (AudioCBRQualityType)Config.Settings.Saved.audioQuality;
                             }
 
-                            frmDownloader AudioDownloader = new frmDownloader(NewAudio);
+                            frmDownloader AudioDownloader = new(NewAudio);
                             if (UseDialog) {
                                 AudioDownloader.ShowDialog();
                             }
