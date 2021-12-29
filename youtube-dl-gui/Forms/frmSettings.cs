@@ -721,8 +721,8 @@ namespace youtube_dl_gui {
         #region Extensions
         private void loadExtensions() {
             if (!string.IsNullOrEmpty(Config.Settings.General.extensionsName)) {
-                extensionsShort.AddRange(Config.Settings.General.extensionsShort.Split('|').ToList());
-                extensionsName.AddRange(Config.Settings.General.extensionsName.Split('|').ToList());
+                extensionsShort.AddRange(Config.Settings.General.extensionsShort.Split('|'));
+                extensionsName.AddRange(Config.Settings.General.extensionsName.Split('|'));
                 for (int i = 0; i < extensionsShort.Count; i++) {
                     listExtensions.Items.Add(extensionsName[i] + " (*." + extensionsShort[i] + ")");
                 }
@@ -746,6 +746,8 @@ namespace youtube_dl_gui {
                 Config.Settings.General.extensionsName = string.Empty;
                 Config.Settings.General.extensionsShort = string.Empty;
             }
+
+            Formats.LoadCustomFormats();
         }
 
         private void btnSettingsExtensionsAdd_Click(object sender, EventArgs e) {

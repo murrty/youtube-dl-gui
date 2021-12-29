@@ -69,6 +69,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\Formats.cs" />
     <Compile Include="Controls\BetterFolderBrowser.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -82,7 +83,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Batch.settings</DependentUpon>
     </Compile>
-    <Compile Include="Classes\Config.cs" />
+    <Compile Include="Config.cs" />
     <Compile Include="Classes\DownloadInfo.cs" />
     <Compile Include="Classes\Language.cs" />
     <Compile Include="Classes\NativeMethods.cs" />

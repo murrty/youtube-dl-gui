@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Windows.Forms;
 
 namespace youtube_dl_gui.Controls {
+
     public enum AllowedTextTypes {
         All,
         AlphabeticalOnly,
@@ -21,7 +22,7 @@ namespace youtube_dl_gui.Controls {
     /// </summary>
     public class ExtendedTextBox : TextBox {
 
-        private readonly Button btn = new Button {
+        private readonly Button btn = new() {
             Cursor = Cursors.Default,
             Enabled = false,
             TextAlign = ContentAlignment.MiddleCenter,

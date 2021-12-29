@@ -23,6 +23,9 @@ namespace youtube_dl_gui {
 
         [STAThread]
         static int Main(string[] args) {
+
+            Convert.GetFiletype("Test.flv");
+
             mtx = new Mutex(true, ProgramGUID.Value);
             DebugOnlyMethod();
             ErrorLog.AssembleComputerVersionInformation();
@@ -126,6 +129,7 @@ namespace youtube_dl_gui {
             Config.Settings.Load(ConfigType.All);
 
             verif.RefreshLocation();
+            Formats.LoadCustomFormats();
 
             if (Config.Settings.Initialization.LanguageFile != string.Empty) {
                 if (File.Exists(Environment.CurrentDirectory + "\\lang\\" + Config.Settings.Initialization.LanguageFile + ".ini")) {

@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 
 namespace youtube_dl_gui {
 
@@ -115,104 +113,6 @@ namespace youtube_dl_gui {
     }
     
     class Convert {
-        #region Constants
-        /// <summary>
-        /// All built-in video formats
-        /// </summary>
-        public static readonly string videoFormatsFilter = "All File Formats (*.*)|*.*|" +
-                                                           "Audio Video Interleave (*.AVI)|*.avi|" +
-                                                           "Flash Video (*.FLV)|*.flv|" +
-                                                           "Matroska Video (*.MKV)|*.mkv|" +
-                                                           "Ogg Vorbis (*.OGV, *.OGX)|*.ogv;*.ogx|" +
-                                                           "QuickTime Movie (*.MOV)|*.mov|" +
-                                                           "MPEG-4 Part 14 (*.M4A, *.MP4)|*.m4v;*.mp4|" +
-                                                           "WebM (*.WEBM)|*.webm|" +
-                                                           "Windows Media Video (*.WMV)|*.wmv";
-
-        /// <summary>
-        /// All built-in audio formats
-        /// </summary>
-        public static readonly string audioFormatsFilter = "All File Formats (*.*)|*.*|" +
-                                                           "Advanced Audio Codec (*.AAC)|*.aac|" +
-                                                           "Free Lossless Audio Codec (*.FLAC)|*.flac|" +
-                                                           "MPEG-4 Audio (*.M4A, *.MP4)|*.m4a;*.mp4|" +
-                                                           "MPEG-1 AudioLayer III (*.MP3)|*.mp3|" +
-                                                           "Ogg Vorbis (*.OGA, *.OGG)|*.oga;*.ogg|" +
-                                                           "Opus (*.OPUS)|*.opus|" +
-                                                           "Waveform Audio (*.WAV)|*.wav";
-
-        /// <summary>
-        /// All built-in audio and video formats
-        /// </summary>
-        public static readonly string allFormatsFilter = "All File Formats (*.*)|*.*|" +
-                                                         "Advanced Audio Codec (*.AAC)|*.aac|" +
-                                                         "Audio Video Interleave (*.AVI)|*.avi|" +
-                                                         "Free Lossless Audio Codec (*.FLAC)|*.flac|" +
-                                                         "Flash Video (*.FLV)|*.flv|" +
-                                                         "MPEG-4 Audio (*.M4A)|*.m4a|" +
-                                                         "Matroska Video (*.MKV)|*.mkv|" +
-                                                         "QuickTime Movie (*.MOV)|*.mov|" +
-                                                         "MPEG-1 AudioLayer III (*.MP3)|*.mp3|" +
-                                                         "MPEG-4 Part 14 (*.MP4)|*.mp4|" +
-                                                         "Ogg Vorbis Audio (*.OGA, *.OGG)|*.oga;*.ogg|" +
-                                                         "Ogg Vorbis Video (*.OGV, *.OGX)|*.ogv;*.ogx|" +
-                                                         "Opus (*.OPUS)|*.opus|" +
-                                                         "Waveform Audio (*.WAV)|*.wav|" +
-                                                         "WebM (*.WEBM)|*.webm|" +
-                                                         "Windows Media Video (*.WMV)|*.wmv";
-
-        /// <summary>
-        /// All built-in video formats in a single filter
-        /// </summary>
-        public static readonly string allVideoFormats = "All Video Formats|" + "*.avi;*.flv;*.mkv;*.mov;*.ogv;*.ogx;*.m4a;*.mp4;*.webm;*.wmv";
-        /// <summary>
-        /// All built-in audio formats in a single filter
-        /// </summary>
-        public static readonly string allAudioFormats = "All Audio Formats|" +
-            "*.aac;*.flac;*.m4a;*.mp4;*.mp3;*.opus;*.oga;*.ogg;*.wav";
-        /// <summary>
-        /// All built-in audio and video formats in a single filter
-        /// </summary>
-        public static readonly string allMediaFormats = "All Media Formats|" +
-            "*.aac;*.avi;*.flac;*.flv;*.m4a;*.mkv;*.mov;*.mp3;*.mp4;*.ogg;*.opus;*.wav;*.webm;*.wmv";
-
-        /// <summary>
-        /// Temporary array of video qualities. Not used, just for reference.
-        /// </summary>
-        public static readonly string[] videoQuality = {
-                                                           "1920x1080",
-                                                           "1600x900",
-                                                           "1280x720",
-                                                           "960x540",
-                                                           "640x360"
-                                                       };
-
-        /// <summary>
-        /// Temporary array of audio qualities. Not used, just for reference.
-        /// </summary>
-        public static readonly string[] audioQuality = {
-                                                           "best",
-                                                           "8K",
-                                                           "16K",
-                                                           "24K",
-                                                           "32K",
-                                                           "40K",
-                                                           "48K",
-                                                           "56K",
-                                                           "64K",
-                                                           "80K",
-                                                           "96K",
-                                                           "112K",
-                                                           "128K",
-                                                           "160K",
-                                                           "192K",
-                                                           "224K",
-                                                           "256K",
-                                                           "320K"
-                                                       };
-
-        #endregion
-
         /// <summary>
         /// Merges 2 files together
         /// </summary>
@@ -227,7 +127,7 @@ namespace youtube_dl_gui {
                 string[] formatsV = { ".avi", ".flv", ".mkv", ".mov", ".mp4", ".webm", ".wmv" };
                 bool input1IsVideo = false; // is input1 video?
 
-                Process ffMerge = new Process();
+                using Process ffMerge = new();
                 ffMerge.StartInfo.UseShellExecute = true;
                 ffMerge.StartInfo.FileName = "ffmpeg.exe";
                 for (int i = 0; i < formatsV.Length; i++) {
@@ -294,78 +194,38 @@ namespace youtube_dl_gui {
         }
 
         /// <summary>
-        /// Get the custom extensions provided by the user.
-        /// </summary>
-        /// <param name="returnSeparator">Determines if it'll return the filter list with the '|' char at the end.</param>
-        /// <returns>The filter list of the user.</returns>
-        public static string GetCustomExtensions(bool returnSeparator = true) {
-            if (Config.Settings.General.extensionsName.Length > 0) {
-                string extensionList = string.Empty;
-
-                List<string> Names = new List<string>(Config.Settings.General.extensionsName.Split('|').ToList());
-                List<string> Exts = new List<string>(Config.Settings.General.extensionsShort.Split('|').ToList());
-
-                for (int i = 0; i < Names.Count; i++) {
-                    extensionList += Names[i] + " (*." + Exts[i] + ")|*." + Exts[i] + "|";
-                }
-
-                if (returnSeparator)
-                    return extensionList;
-                else
-                    return extensionList.TrimEnd('|');
-            }
-            else {
-                return string.Empty;
-            }
-        }
-
-        /// <summary>
         /// Gets a preset name in the built-in presets
         /// </summary>
         /// <param name="index">Index of the preset that was requested</param>
         /// <returns>The preset string</returns>
         public static string GetVideoPreset(int index) {
-            switch (index) {
-                case 0:
-                    return "ultrafast";
-                case 1:
-                    return "superfast";
-                case 2:
-                    return "veryfast";
-                case 3:
-                    return "faster";
-                case 4:
-                    return "fast";
-                case 6:
-                    return "slow";
-                case 7:
-                    return "slower";
-                case 8:
-                    return "veryslow";
-                default:
-                    return "medium";
-            }
+            return index switch {
+                0 => "ultrafast",
+                1 => "superfast",
+                2 => "veryfast",
+                3 => "faster",
+                4 => "fast",
+                6 => "slow",
+                7 => "slower",
+                8 => "veryslow",
+                _ => "medium",
+            };
         }
+
         /// <summary>
         /// Gets a profile name in the built-in profiles
         /// </summary>
         /// <param name="index">Index of the profile that was requested</param>
         /// <returns>The profile string</returns>
         public static string GetVideoProfile(int index) {
-            switch (index) {
-                case 0:
-                    return "baseline";
-                case 2:
-                    return "high";
-                case 3:
-                    return "high10";
-                case 4:
-                    return "high442";
-                case 5:
-                    return "high444";
-                default:
-                    return "main";
-            }
+            return index switch {
+                0 => "baseline",
+                2 => "high",
+                3 => "high10",
+                4 => "high442",
+                5 => "high444",
+                _ => "main",
+            };
         }
 
         /// <summary>
@@ -373,42 +233,14 @@ namespace youtube_dl_gui {
         /// </summary>
         /// <param name="file">The file to test</param>
         /// <returns>An int of the file type; video, audio, and default</returns>
-        public static ConversionType GetFiletype(string file) {
-            if (file.EndsWith(".avi")
-             || file.EndsWith(".flv")
-             || file.EndsWith(".mp4")
-             || file.EndsWith(".mkv")
-             || file.EndsWith(".mov")
-             || file.EndsWith(".webm")
-             || file.EndsWith(".wmv")) { return ConversionType.Video; }
-
-            else if (file.EndsWith(".aac")
-                  || file.EndsWith(".flac")
-                  || file.EndsWith(".m4a")
-                  || file.EndsWith(".mp3")
-                  || file.EndsWith(".opus")
-                  || file.EndsWith(".ogg")
-                  || file.EndsWith(".wav")) { return ConversionType.Audio; }
-
-            else { return ConversionType.FfmpegDefault; }
-
-            //if (file.EndsWith(".avi")
-            // || file.EndsWith(".flv")
-            // || file.EndsWith(".mp4")
-            // || file.EndsWith(".mkv")
-            // || file.EndsWith(".mov")
-            // || file.EndsWith(".webm")
-            // || file.EndsWith(".wmv")) { return 0; }
-
-            //else if (file.EndsWith(".aac")
-            //      || file.EndsWith(".flac")
-            //      || file.EndsWith(".m4a")
-            //      || file.EndsWith(".mp3")
-            //      || file.EndsWith(".opus")
-            //      || file.EndsWith(".ogg")
-            //      || file.EndsWith(".wav")) { return 1; }
-
-            //else { return 3; }
+        public static ConversionType GetFiletype(string InputFile) {
+            string[] File = InputFile.Split('.');
+            if (File.Length > 0) {
+                string Format = File[File.Length - 1];
+                return Formats.VideoFormats.Contains(Format) ? ConversionType.Video : (Formats.AudioFormats.Contains(Format) ? ConversionType.Audio : ConversionType.FfmpegDefault);
+            }
+            
+            return ConversionType.FfmpegDefault;
         }
     }
 }

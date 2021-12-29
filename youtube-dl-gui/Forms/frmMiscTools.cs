@@ -19,7 +19,7 @@ namespace youtube_dl_gui {
         private void btnMiscToolsRemoveAudio_Click(object sender, EventArgs e) {
             using (OpenFileDialog ofd = new OpenFileDialog()) {
                 ofd.Title = "Select a file to remove the audio from";
-                ofd.Filter = Convert.videoFormatsFilter;
+                ofd.Filter = Formats.VideoFormats;
                 ofd.FilterIndex = 0;
                 if (ofd.ShowDialog() == DialogResult.OK) {
                     string newFile = Path.GetDirectoryName(ofd.FileName) + "\\" + Path.GetFileNameWithoutExtension(ofd.FileName) + "-noaudio" + Path.GetExtension(ofd.FileName);
@@ -44,12 +44,12 @@ namespace youtube_dl_gui {
         private void btnMiscToolsExtractAudio_Click(object sender, EventArgs e) {
             using (OpenFileDialog ofd = new OpenFileDialog()) {
                 ofd.Title = "Select a file to extract the audio from";
-                ofd.Filter = Convert.videoFormatsFilter;
+                ofd.Filter = Formats.VideoFormats;
                 ofd.FilterIndex = 0;
                 if (ofd.ShowDialog() == DialogResult.OK) {
                     using (SaveFileDialog sfd = new SaveFileDialog()) {
                         sfd.Title = "Save audio as...";
-                        sfd.Filter = Convert.audioFormatsFilter;
+                        sfd.Filter = Formats.AudioFormats;
                         sfd.FileName = Path.GetFileNameWithoutExtension(ofd.FileName);
                         sfd.FilterIndex = 5;
                         if (sfd.ShowDialog() == DialogResult.OK) {

@@ -993,10 +993,15 @@ namespace youtube_dl_gui {
             using (OpenFileDialog ofd = new OpenFileDialog()) {
                 ofd.Title = "Browse for file to convert";
                 ofd.AutoUpgradeEnabled = true;
-                string filter = Convert.GetCustomExtensions() + Convert.allVideoFormats + "|" + Convert.allAudioFormats + "|" + Convert.allMediaFormats + "|" + Convert.allFormatsFilter;
+                string AllFormats = Formats.JoinFormats(new[] {
+                    Formats.AllFiles,
+                    Formats.VideoFormats,
+                    Formats.AudioFormats,
+                    !string.IsNullOrWhiteSpace(Formats.CustomFormats) ? Formats.CustomFormats : ""
+                });
 
-                ofd.Filter = filter;
-                ofd.FilterIndex = 4;
+                ofd.Filter = AllFormats;
+
                 if (!string.IsNullOrEmpty(txtConvertOutput.Text))
                     btnConvert.Enabled = true;
 
@@ -1009,28 +1014,33 @@ namespace youtube_dl_gui {
                         sfd.Title = "Save ouput to...";
                         sfd.FileName = fileWithoutExt;
                         if (rbConvertVideo.Checked) {
-                            sfd.Filter = Convert.allVideoFormats + "|" + Convert.allAudioFormats + "|" + Convert.allMediaFormats + "|" + Convert.videoFormatsFilter;
-                            if (Config.Settings.Saved.UseStaticYtdl > -1 && Config.Settings.Converts.detectFiletype)
-                                sfd.FilterIndex = Config.Settings.Saved.UseStaticYtdl;
-                            else
-                                sfd.FilterIndex = 7;
+                            sfd.Filter = Formats.JoinFormats(new[] {
+                                Formats.VideoFormats,
+                                !string.IsNullOrWhiteSpace(Formats.CustomFormats) ? Formats.CustomFormats : "",
+                                Formats.AllFiles
+                            });
+
+                            if (Config.Settings.Saved.convertSaveVideoIndex > -1 && Config.Settings.Converts.detectFiletype)
+                                sfd.FilterIndex = Config.Settings.Saved.convertSaveVideoIndex;
                         }
                         else if (rbConvertAudio.Checked) {
-                            sfd.Filter = Convert.allVideoFormats + "|" + Convert.allAudioFormats + "|" + Convert.allMediaFormats + "|" + Convert.audioFormatsFilter;
+                            sfd.Filter = Formats.JoinFormats(new[] {
+                                Formats.AudioFormats,
+                                !string.IsNullOrWhiteSpace(Formats.CustomFormats) ? Formats.CustomFormats : "",
+                                Formats.AllFiles
+                            });
                             if (Config.Settings.Saved.convertSaveAudioIndex > -1 && Config.Settings.Converts.detectFiletype)
                                 sfd.FilterIndex = Config.Settings.Saved.convertSaveAudioIndex;
-                            else
-                                sfd.FilterIndex = 7;
                         }
                         else {
-                            sfd.Filter = Convert.allVideoFormats + "|" + Convert.allAudioFormats + "|" + Convert.allMediaFormats + "|" + "All File Formats (*.*)|(*.*)";
+                            sfd.Filter = AllFormats;
                         }
                         if (sfd.ShowDialog() == DialogResult.OK) {
                             txtConvertOutput.Text = sfd.FileName;
                             if (rbConvertVideo.Checked && Config.Settings.Converts.detectFiletype)
                                 Config.Settings.Saved.convertSaveAudioIndex = sfd.FilterIndex;
                             else if (rbConvertAudio.Checked && Config.Settings.Converts.detectFiletype)
-                                Config.Settings.Saved.UseStaticYtdl = sfd.FilterIndex;
+                                Config.Settings.Saved.convertSaveVideoIndex = sfd.FilterIndex;
 
                             btnConvert.Enabled = true;
                         }
@@ -1044,39 +1054,35 @@ namespace youtube_dl_gui {
                 sfd.Title = "Save ouput to...";
                 sfd.FileName = System.IO.Path.GetFileNameWithoutExtension(txtConvertInput.Text);
                 if (rbConvertVideo.Checked) {
-                    string filter = Convert.GetCustomExtensions() + Convert.videoFormatsFilter;
-                    sfd.Filter = filter;
-                    if (Config.Settings.Saved.UseStaticYtdl > -1 && Config.Settings.Converts.detectFiletype)
-                        sfd.FilterIndex = Config.Settings.Saved.UseStaticYtdl;
-                    else
-                        sfd.FilterIndex = 7;
+                    sfd.Filter = Formats.JoinFormats(new[] {
+                        Formats.VideoFormats,
+                        !string.IsNullOrWhiteSpace(Formats.CustomFormats) ? Formats.CustomFormats : ""
+                    });
+                    if (Config.Settings.Saved.convertSaveVideoIndex > -1 && Config.Settings.Converts.detectFiletype)
+                        sfd.FilterIndex = Config.Settings.Saved.convertSaveVideoIndex;
                 }
                 else if (rbConvertAudio.Checked) {
-                    string filter = Convert.GetCustomExtensions() +  Convert.audioFormatsFilter;
-                    if (Config.Settings.General.extensionsShort.Length > 0) {
-                        List<string> ext = new List<string>(Config.Settings.General.extensionsShort.Split('|'));
-                        List<string> name = new List<string>(Config.Settings.General.extensionsName.Split('|'));
-
-                        for (int i = 0; i < ext.Count; i++) {
-                            filter += "|" + name[i] + " (*." + ext[i] + ")|*." + ext[i];
-                        }
-                    }
-                    sfd.Filter = filter;
+                    sfd.Filter = Formats.JoinFormats(new[] {
+                        Formats.AudioFormats,
+                        !string.IsNullOrWhiteSpace(Formats.CustomFormats) ? Formats.CustomFormats : ""
+                    });
                     if (Config.Settings.Saved.convertSaveAudioIndex > -1 && Config.Settings.Converts.detectFiletype)
                         sfd.FilterIndex = Config.Settings.Saved.convertSaveAudioIndex;
-                    else
-                        sfd.FilterIndex = 7;
                 }
                 else {
-                    sfd.Filter = "All Files (*.*)|*.*";
-                    //sfd.Filter = Convert.GetCustomExtensions() + Convert.allVideoFormats + "|" + Convert.allAudioFormats + "|" + Convert.allMediaFormats + "|" + Convert.allFormatsFilter;
+                    sfd.Filter = Formats.JoinFormats(new[] {
+                        Formats.AllFiles,
+                        Formats.VideoFormats,
+                        Formats.AudioFormats,
+                        !string.IsNullOrWhiteSpace(Formats.CustomFormats) ? Formats.CustomFormats : ""
+                    });
                 }
                 if (sfd.ShowDialog() == DialogResult.OK) {
                     txtConvertOutput.Text = sfd.FileName;
                     if (rbConvertVideo.Checked && Config.Settings.Converts.detectFiletype)
                         Config.Settings.Saved.convertSaveAudioIndex = sfd.FilterIndex;
                     else if (rbConvertAudio.Checked && Config.Settings.Converts.detectFiletype)
-                        Config.Settings.Saved.UseStaticYtdl = sfd.FilterIndex;
+                        Config.Settings.Saved.convertSaveVideoIndex = sfd.FilterIndex;
 
                     btnConvert.Enabled = true;
                 }
@@ -1141,10 +1147,10 @@ namespace youtube_dl_gui {
                     sfd.FileName = fileWithoutExt;
                     switch (conversionType) {
                         case ConversionType.Video:
-                            sfd.Filter = Convert.videoFormatsFilter;
+                            sfd.Filter = Formats.VideoFormats;
                             break;
                         case ConversionType.Audio:
-                            sfd.Filter = Convert.audioFormatsFilter;
+                            sfd.Filter = Formats.AudioFormats;
                             break;
                         default:
                             sfd.Filter = "All File Formats (*.*)|*.*";
@@ -1188,7 +1194,12 @@ namespace youtube_dl_gui {
         private void btnBrwsMergeInput1_Click(object sender, EventArgs e) {
             using (OpenFileDialog ofd = new OpenFileDialog()) {
                 ofd.Title = "Browsing for file to convert";
-                ofd.Filter = Convert.allMediaFormats;
+                ofd.Filter = Formats.JoinFormats(new[] {
+                    Formats.AllFiles,
+                    Formats.VideoFormats,
+                    Formats.AudioFormats,
+                    !string.IsNullOrWhiteSpace(Formats.CustomFormats) ? Formats.CustomFormats : ""
+                });
                 if (ofd.ShowDialog() == DialogResult.OK) {
                     txtMergeInput1.Text = ofd.FileName;
                     btnBrwsMergeInput2.Enabled = true;
@@ -1199,7 +1210,12 @@ namespace youtube_dl_gui {
         private void btnBrwsMergeInput2_Click(object sender, EventArgs e) {
             using (OpenFileDialog ofd = new OpenFileDialog()) {
                 ofd.Title = "Browsing for file to convert";
-                ofd.Filter = Convert.allMediaFormats;
+                ofd.Filter = Formats.JoinFormats(new[] {
+                    Formats.AllFiles,
+                    Formats.VideoFormats,
+                    Formats.AudioFormats,
+                    !string.IsNullOrWhiteSpace(Formats.CustomFormats) ? Formats.CustomFormats : ""
+                });
                 if (ofd.ShowDialog() == DialogResult.OK) {
                     txtMergeInput2.Text = ofd.FileName;
                     btnBrwsMergeOutput.Enabled = true;
@@ -1212,7 +1228,12 @@ namespace youtube_dl_gui {
         private void btnBrwsMergeOutput_Click(object sender, EventArgs e) {
             using (SaveFileDialog sfd = new SaveFileDialog()) {
                 sfd.Title = "Browsing for file to convert";
-                sfd.Filter = Convert.allMediaFormats;
+                sfd.Filter = Formats.JoinFormats(new[] {
+                    Formats.AllFiles,
+                    Formats.VideoFormats,
+                    Formats.AudioFormats,
+                    !string.IsNullOrWhiteSpace(Formats.CustomFormats) ? Formats.CustomFormats : ""
+                });
                 if (sfd.ShowDialog() == DialogResult.OK) {
                     txtMergeOutput.Text = sfd.FileName;
                     btnMerge.Enabled = true;

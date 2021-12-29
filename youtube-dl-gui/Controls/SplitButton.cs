@@ -95,7 +95,7 @@ namespace youtube_dl_gui.Controls {
         public void CloseMenuDropdown(object sender, EventArgs e) {
             SetDropDownState(0);
         }
-        ContextMenu _ContextMenu = new ContextMenu();
+        ContextMenu _ContextMenu = new();
         public ContextMenu DropDownContextMenu {
             get { return _ContextMenu; }
             set { _ContextMenu = value; }

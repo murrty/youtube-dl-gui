@@ -29,13 +29,13 @@ namespace youtube_dl_gui {
         public Config_Saved Saved;
 
         public Config() {
-            Initialization = new Config_Initialization();
-            Batch = new Config_Batch();
-            Converts = new Config_Converts();
-            Downloads = new Config_Downloads();
-            Errors = new Config_Errors();
-            General = new Config_General();
-            Saved = new Config_Saved();
+            Initialization = new();
+            Batch = new();
+            Converts = new();
+            Downloads = new();
+            Errors = new();
+            General = new();
+            Saved = new();
         }
 
         public void Load(ConfigType Type) {
@@ -156,7 +156,6 @@ namespace youtube_dl_gui {
     }
 
     class Config_Initialization {
-        public Config_Initialization() { }
 
         public string LanguageFile = string.Empty;
         public bool firstTime = true;
@@ -168,6 +167,8 @@ namespace youtube_dl_gui {
         private decimal SkippedVersion_First = -1;
         private string SkippedBetaVersion_First = "0";
 
+        public Config_Initialization() { }
+
         public void Load() {
             switch (Program.UseIni) {
                 case true:
@@ -178,7 +179,7 @@ namespace youtube_dl_gui {
                             break;
                     }
 
-                    switch (Ini.KeyExists("LanguageFile", "Settings")) {
+                    switch (Ini.KeyExists("LanguageFile")) {
                         case true:
                             LanguageFile = Ini.ReadString("LanguageFile");
                             LanguageFile_First = LanguageFile;
@@ -293,7 +294,7 @@ namespace youtube_dl_gui {
     }
 
     class Config_Batch {
-        public Config_Batch() { }
+        private const string ConfigName = "Batch";
 
         public int SelectedType = -1;
         public int SelectedVideoQuality = 0;
@@ -315,60 +316,62 @@ namespace youtube_dl_gui {
         private int SelectedAudioQualityVBR_First = 0;
         private string CustomArguments_First = string.Empty;
 
+        public Config_Batch() { }
+
         public void Save() {
             switch (Program.UseIni) {
                 case true:
                     switch (SelectedType != SelectedType_First) {
                         case true:
-                            Ini.Write("SelectedType", SelectedType, "Batch");
+                            Ini.Write("SelectedType", SelectedType, ConfigName);
                             SelectedType_First = SelectedType;
                             break;
                     }
                     switch (SelectedVideoQuality != SelectedVideoQuality_First) {
                         case true:
-                            Ini.Write("SelectedVideoQuality", SelectedVideoQuality, "Batch");
+                            Ini.Write("SelectedVideoQuality", SelectedVideoQuality, ConfigName);
                             SelectedVideoQuality_First = SelectedVideoQuality;
                             break;
                     }
                     switch (SelectedVideoFormat != SelectedVideoFormat_First) {
                         case true:
-                            Ini.Write("SelectedVideoFormat", SelectedVideoFormat, "Batch");
+                            Ini.Write("SelectedVideoFormat", SelectedVideoFormat, ConfigName);
                             SelectedVideoFormat_First = SelectedVideoFormat;
                             break;
                     }
                     switch (SelectedAudioQuality != SelectedAudioQuality_First) {
                         case true:
-                            Ini.Write("SelectedAudioQuality", SelectedAudioQuality, "Batch");
+                            Ini.Write("SelectedAudioQuality", SelectedAudioQuality, ConfigName);
                             SelectedAudioQuality_First = SelectedAudioQuality;
                             break;
                     }
                     switch (SelectedAudioFormat != SelectedAudioFormat_First) {
                         case true:
-                            Ini.Write("SelectedAudioFormat", SelectedAudioFormat, "Batch");
+                            Ini.Write("SelectedAudioFormat", SelectedAudioFormat, ConfigName);
                             SelectedAudioFormat_First = SelectedAudioFormat;
                             break;
                     }
                     switch (DownloadVideoSound != DownloadVideoSound_First) {
                         case true:
-                            Ini.Write("DownloadVideoSound", DownloadVideoSound, "Batch");
+                            Ini.Write("DownloadVideoSound", DownloadVideoSound, ConfigName);
                             DownloadVideoSound_First = DownloadVideoSound;
                             break;
                     }
                     switch (DownloadAudioVBR != DownloadAudioVBR_First) {
                         case true:
-                            Ini.Write("DownloadAudioVBR", DownloadAudioVBR, "Batch");
+                            Ini.Write("DownloadAudioVBR", DownloadAudioVBR, ConfigName);
                             DownloadAudioVBR_First = DownloadAudioVBR;
                             break;
                     }
                     switch (SelectedAudioQualityVBR != SelectedAudioQualityVBR_First) {
                         case true:
-                            Ini.Write("SelectedAudioQualityVBR", SelectedAudioQualityVBR, "Batch");
+                            Ini.Write("SelectedAudioQualityVBR", SelectedAudioQualityVBR, ConfigName);
                             SelectedAudioQualityVBR_First = SelectedAudioQualityVBR;
                             break;
                     }
                     switch (CustomArguments != CustomArguments_First) {
                         case true:
-                            Ini.Write("CustomArguments", CustomArguments, "Batch");
+                            Ini.Write("CustomArguments", CustomArguments, ConfigName);
                             CustomArguments_First = CustomArguments;
                             break;
                     }
@@ -426,40 +429,40 @@ namespace youtube_dl_gui {
         public void Load() {
             switch (Program.UseIni) {
                 case true:
-                    if (Ini.KeyExists("SelectedType", "Batch")) {
-                        SelectedType = Ini.ReadInt("SelectedType", "Batch");
+                    if (Ini.KeyExists("SelectedType", ConfigName)) {
+                        SelectedType = Ini.ReadInt("SelectedType", ConfigName);
                         SelectedType_First = SelectedType;
                     }
-                    if (Ini.KeyExists("SelectedVideoQuality", "Batch")) {
-                        SelectedVideoQuality = Ini.ReadInt("SelectedVideoQuality", "Batch");
+                    if (Ini.KeyExists("SelectedVideoQuality", ConfigName)) {
+                        SelectedVideoQuality = Ini.ReadInt("SelectedVideoQuality", ConfigName);
                         SelectedVideoQuality_First = SelectedVideoQuality;
                     }
-                    if (Ini.KeyExists("SelectedVideoFormat", "Batch")) {
-                        SelectedVideoFormat = Ini.ReadInt("SelectedVideoFormat", "Batch");
+                    if (Ini.KeyExists("SelectedVideoFormat", ConfigName)) {
+                        SelectedVideoFormat = Ini.ReadInt("SelectedVideoFormat", ConfigName);
                         SelectedVideoFormat_First = SelectedVideoFormat;
                     }
-                    if (Ini.KeyExists("SelectedAudioQuality", "Batch")) {
-                        SelectedAudioQuality = Ini.ReadInt("SelectedAudioQuality", "Batch");
+                    if (Ini.KeyExists("SelectedAudioQuality", ConfigName)) {
+                        SelectedAudioQuality = Ini.ReadInt("SelectedAudioQuality", ConfigName);
                         SelectedAudioQuality_First = SelectedAudioQuality;
                     }
-                    if (Ini.KeyExists("SelectedAudioFormat", "Batch")) {
-                        SelectedAudioFormat = Ini.ReadInt("SelectedAudioFormat", "Batch");
+                    if (Ini.KeyExists("SelectedAudioFormat", ConfigName)) {
+                        SelectedAudioFormat = Ini.ReadInt("SelectedAudioFormat", ConfigName);
                         SelectedAudioFormat_First = SelectedAudioFormat;
                     }
-                    if (Ini.KeyExists("DownloadVideoSound", "Batch")) {
-                        DownloadVideoSound = Ini.ReadBool("DownloadVideoSound", "Batch");
+                    if (Ini.KeyExists("DownloadVideoSound", ConfigName)) {
+                        DownloadVideoSound = Ini.ReadBool("DownloadVideoSound", ConfigName);
                         DownloadVideoSound_First = DownloadVideoSound;
                     }
-                    if (Ini.KeyExists("DownloadAudioVBR", "Batch")) {
-                        DownloadAudioVBR = Ini.ReadBool("DownloadAudioVBR", "Batch");
+                    if (Ini.KeyExists("DownloadAudioVBR", ConfigName)) {
+                        DownloadAudioVBR = Ini.ReadBool("DownloadAudioVBR", ConfigName);
                         DownloadAudioVBR_First = DownloadAudioVBR;
                     }
-                    if (Ini.KeyExists("SelectedAudioQualityVBR", "Batch")) {
-                        SelectedAudioQualityVBR = Ini.ReadInt("SelectedAudioQualityVBR", "Batch");
+                    if (Ini.KeyExists("SelectedAudioQualityVBR", ConfigName)) {
+                        SelectedAudioQualityVBR = Ini.ReadInt("SelectedAudioQualityVBR", ConfigName);
                         SelectedAudioQualityVBR_First = SelectedAudioQualityVBR;
                     }
-                    if (Ini.KeyExists("CustomArguments", "Batch")) {
-                        CustomArguments = Ini.ReadString("CustomArguments", "Batch");
+                    if (Ini.KeyExists("CustomArguments", ConfigName)) {
+                        CustomArguments = Ini.ReadString("CustomArguments", ConfigName);
                         CustomArguments_First = CustomArguments;
                     }
                     break;
@@ -482,31 +485,31 @@ namespace youtube_dl_gui {
             switch (Program.UseIni) {
                 case true:
 
-                    Ini.Write("SelectedType", SelectedType, "Batch");
+                    Ini.Write("SelectedType", SelectedType, ConfigName);
                     SelectedType_First = SelectedType;
 
-                    Ini.Write("SelectedVideoQuality", SelectedVideoQuality, "Batch");
+                    Ini.Write("SelectedVideoQuality", SelectedVideoQuality, ConfigName);
                     SelectedVideoQuality_First = SelectedVideoQuality;
 
-                    Ini.Write("SelectedVideoFormat", SelectedVideoFormat, "Batch");
+                    Ini.Write("SelectedVideoFormat", SelectedVideoFormat, ConfigName);
                     SelectedVideoFormat_First = SelectedVideoFormat;
 
-                    Ini.Write("SelectedAudioQuality", SelectedAudioQuality, "Batch");
+                    Ini.Write("SelectedAudioQuality", SelectedAudioQuality, ConfigName);
                     SelectedAudioQuality_First = SelectedAudioQuality;
 
-                    Ini.Write("SelectedAudioFormat", SelectedAudioFormat, "Batch");
+                    Ini.Write("SelectedAudioFormat", SelectedAudioFormat, ConfigName);
                     SelectedAudioFormat_First = SelectedAudioFormat;
 
-                    Ini.Write("DownloadVideoSound", DownloadVideoSound, "Batch");
+                    Ini.Write("DownloadVideoSound", DownloadVideoSound, ConfigName);
                     DownloadVideoSound_First = DownloadVideoSound;
 
-                    Ini.Write("DownloadAudioVBR", DownloadAudioVBR, "Batch");
+                    Ini.Write("DownloadAudioVBR", DownloadAudioVBR, ConfigName);
                     DownloadAudioVBR_First = DownloadAudioVBR;
 
-                    Ini.Write("SelectedAudioQualityVBR", SelectedAudioQualityVBR, "Batch");
+                    Ini.Write("SelectedAudioQualityVBR", SelectedAudioQualityVBR, ConfigName);
                     SelectedAudioQualityVBR_First = SelectedAudioQualityVBR;
 
-                    Ini.Write("CustomArguments", CustomArguments, "Batch");
+                    Ini.Write("CustomArguments", CustomArguments, ConfigName);
                     CustomArguments_First = CustomArguments;
 
                     break;
@@ -528,7 +531,7 @@ namespace youtube_dl_gui {
     }
 
     class Config_Converts {
-        public Config_Converts() { }
+        private const string ConfigName = "Converts";
 
         #region Variables
         public bool detectFiletype = true;
@@ -566,102 +569,104 @@ namespace youtube_dl_gui {
         private bool CloseAfterFinish_First = false;
         #endregion
 
+        public Config_Converts() { }
+
         public void Save() {
             switch (Program.UseIni) {
                 case true:
                     switch (detectFiletype != detectFiletype_First) {
                         case true:
-                            Ini.Write("detectFiletype", detectFiletype, "Converts");
+                            Ini.Write("detectFiletype", detectFiletype, ConfigName);
                             detectFiletype_First = detectFiletype;
                             break;
                     }
                     switch (clearOutput != clearOutput_First) {
                         case true:
-                            Ini.Write("clearOutput", clearOutput, "Converts");
+                            Ini.Write("clearOutput", clearOutput, ConfigName);
                             clearOutput_First = clearOutput;
                             break;
                     }
                     switch (clearInput != clearInput_First) {
                         case true:
-                            Ini.Write("clearInput", clearInput, "Converts");
+                            Ini.Write("clearInput", clearInput, ConfigName);
                             clearInput_First = clearInput;
                             break;
                     }
                     switch (videoBitrate != videoBitrate_First) {
                         case true:
-                            Ini.Write("videoBitrate", videoBitrate, "Converts");
+                            Ini.Write("videoBitrate", videoBitrate, ConfigName);
                             videoBitrate_First = videoBitrate;
                             break;
                     }
                     switch (videoPreset != videoPreset_First) {
                         case true:
-                            Ini.Write("videoPreset", videoPreset, "Converts");
+                            Ini.Write("videoPreset", videoPreset, ConfigName);
                             videoPreset_First = videoPreset;
                             break;
                     }
                     switch (videoProfile != videoProfile_First) {
                         case true:
-                            Ini.Write("videoProfile", videoProfile, "Converts");
+                            Ini.Write("videoProfile", videoProfile, ConfigName);
                             videoProfile_First = videoProfile;
                             break;
                     }
                     switch (videoCRF != videoCRF_First) {
                         case true:
-                            Ini.Write("videoCRF", videoCRF, "Converts");
+                            Ini.Write("videoCRF", videoCRF, ConfigName);
                             videoCRF_First = videoCRF;
                             break;
                     }
                     switch (videoFastStart != videoFastStart_First) {
                         case true:
-                            Ini.Write("videoFastStart", videoFastStart, "Converts");
+                            Ini.Write("videoFastStart", videoFastStart, ConfigName);
                             videoFastStart_First = videoFastStart;
                             break;
                     }
                     switch (hideFFmpegCompile != hideFFmpegCompile_First) {
                         case true:
-                            Ini.Write("hideFFmpegCompile", hideFFmpegCompile, "Converts");
+                            Ini.Write("hideFFmpegCompile", hideFFmpegCompile, ConfigName);
                             hideFFmpegCompile_First = hideFFmpegCompile;
                             break;
                     }
                     switch (audioBitrate != audioBitrate_First) {
                         case true:
-                            Ini.Write("audioBitrate", audioBitrate, "Converts");
+                            Ini.Write("audioBitrate", audioBitrate, ConfigName);
                             audioBitrate_First = audioBitrate;
                             break;
                     }
                     switch (videoUseBitrate != videoUseBitrate_First) {
                         case true:
-                            Ini.Write("videoUseBitrate", videoUseBitrate, "Converts");
+                            Ini.Write("videoUseBitrate", videoUseBitrate, ConfigName);
                             videoUseBitrate_First = videoUseBitrate;
                             break;
                     }
                     switch (videoUsePreset != videoUsePreset_First) {
                         case true:
-                            Ini.Write("videoUsePreset", videoUsePreset, "Converts");
+                            Ini.Write("videoUsePreset", videoUsePreset, ConfigName);
                             videoUsePreset_First = videoUsePreset;
                             break;
                     }
                     switch (videoUseProfile != videoUseProfile_First) {
                         case true:
-                            Ini.Write("videoUseProfile", videoUseProfile, "Converts");
+                            Ini.Write("videoUseProfile", videoUseProfile, ConfigName);
                             videoUseProfile_First = videoUseProfile;
                             break;
                     }
                     switch (videoUseCRF != videoUseCRF_First) {
                         case true:
-                            Ini.Write("videoUseCRF", videoUseCRF, "Converts");
+                            Ini.Write("videoUseCRF", videoUseCRF, ConfigName);
                             videoUseCRF_First = videoUseCRF;
                             break;
                     }
                     switch (audioUseBitrate != audioUseBitrate_First) {
                         case true:
-                            Ini.Write("audioUseBitrate", audioUseBitrate, "Converts");
+                            Ini.Write("audioUseBitrate", audioUseBitrate, ConfigName);
                             audioUseBitrate_First = audioUseBitrate;
                             break;
                     }
                     switch (CloseAfterFinish != CloseAfterFinish_First) {
                         case true:
-                            Ini.Write("CloseAfterFinish", CloseAfterFinish, "Converts");
+                            Ini.Write("CloseAfterFinish", CloseAfterFinish, ConfigName);
                             CloseAfterFinish_First = CloseAfterFinish;
                             break;
                     }
@@ -748,68 +753,68 @@ namespace youtube_dl_gui {
             switch (Program.UseIni) {
                 #region Portable Ini
                 case true:
-                    if (Ini.KeyExists("detectFiletype", "Converts")) {
-                        detectFiletype = Ini.ReadBool("detectFiletype", "Converts");
+                    if (Ini.KeyExists("detectFiletype", ConfigName)) {
+                        detectFiletype = Ini.ReadBool("detectFiletype", ConfigName);
                         detectFiletype_First = detectFiletype;
                     }
-                    if (Ini.KeyExists("clearOutput", "Converts")) {
-                        clearOutput = Ini.ReadBool("clearOutput", "Converts");
+                    if (Ini.KeyExists("clearOutput", ConfigName)) {
+                        clearOutput = Ini.ReadBool("clearOutput", ConfigName);
                         clearOutput_First = clearOutput;
                     }
-                    if (Ini.KeyExists("clearInput", "Converts")) {
-                        clearInput = Ini.ReadBool("clearInput", "Converts");
+                    if (Ini.KeyExists("clearInput", ConfigName)) {
+                        clearInput = Ini.ReadBool("clearInput", ConfigName);
                         clearInput_First = clearInput;
                     }
-                    if (Ini.KeyExists("videoBitrate", "Converts")) {
-                        videoBitrate = Ini.ReadInt("videoBitrate", "Converts");
+                    if (Ini.KeyExists("videoBitrate", ConfigName)) {
+                        videoBitrate = Ini.ReadInt("videoBitrate", ConfigName);
                         videoBitrate_First = videoBitrate;
                     }
-                    if (Ini.KeyExists("videoPreset", "Converts")) {
-                        videoPreset = Ini.ReadInt("videoPreset", "Converts");
+                    if (Ini.KeyExists("videoPreset", ConfigName)) {
+                        videoPreset = Ini.ReadInt("videoPreset", ConfigName);
                         videoPreset_First = videoPreset;
                     }
-                    if (Ini.KeyExists("videoProfile", "Converts")) {
-                        videoProfile = Ini.ReadInt("videoProfile", "Converts");
+                    if (Ini.KeyExists("videoProfile", ConfigName)) {
+                        videoProfile = Ini.ReadInt("videoProfile", ConfigName);
                         videoProfile_First = videoProfile;
                     }
-                    if (Ini.KeyExists("videoCRF", "Converts")) {
-                        videoCRF = Ini.ReadInt("videoCRF", "Converts");
+                    if (Ini.KeyExists("videoCRF", ConfigName)) {
+                        videoCRF = Ini.ReadInt("videoCRF", ConfigName);
                         videoCRF_First = videoCRF;
                     }
-                    if (Ini.KeyExists("videoFastStart", "Converts")) {
-                        videoFastStart = Ini.ReadBool("videoFastStart", "Converts");
+                    if (Ini.KeyExists("videoFastStart", ConfigName)) {
+                        videoFastStart = Ini.ReadBool("videoFastStart", ConfigName);
                         videoFastStart_First = videoFastStart;
                     }
-                    if (Ini.KeyExists("hideFFmpegCompile", "Converts")) {
-                        hideFFmpegCompile = Ini.ReadBool("hideFFmpegCompile", "Converts");
+                    if (Ini.KeyExists("hideFFmpegCompile", ConfigName)) {
+                        hideFFmpegCompile = Ini.ReadBool("hideFFmpegCompile", ConfigName);
                         hideFFmpegCompile_First = hideFFmpegCompile;
                     }
-                    if (Ini.KeyExists("audioBitrate", "Converts")) {
-                        audioBitrate = Ini.ReadInt("audioBitrate", "Converts");
+                    if (Ini.KeyExists("audioBitrate", ConfigName)) {
+                        audioBitrate = Ini.ReadInt("audioBitrate", ConfigName);
                         audioBitrate_First = audioBitrate;
                     }
-                    if (Ini.KeyExists("videoUseBitrate", "Converts")) {
-                        videoUseBitrate = Ini.ReadBool("videoUseBitrate", "Converts");
+                    if (Ini.KeyExists("videoUseBitrate", ConfigName)) {
+                        videoUseBitrate = Ini.ReadBool("videoUseBitrate", ConfigName);
                         videoUseBitrate_First = videoUseBitrate;
                     }
-                    if (Ini.KeyExists("videoUsePreset", "Converts")) {
-                        videoUsePreset = Ini.ReadBool("videoUsePreset", "Converts");
+                    if (Ini.KeyExists("videoUsePreset", ConfigName)) {
+                        videoUsePreset = Ini.ReadBool("videoUsePreset", ConfigName);
                         videoUsePreset_First = videoUsePreset;
                     }
-                    if (Ini.KeyExists("videoUseProfile", "Converts")) {
-                        videoUseProfile = Ini.ReadBool("videoUseProfile", "Converts");
+                    if (Ini.KeyExists("videoUseProfile", ConfigName)) {
+                        videoUseProfile = Ini.ReadBool("videoUseProfile", ConfigName);
                         videoUseProfile_First = videoUseProfile;
                     }
-                    if (Ini.KeyExists("videoUseCRF", "Converts")) {
-                        videoUseCRF = Ini.ReadBool("videoUseCRF", "Converts");
+                    if (Ini.KeyExists("videoUseCRF", ConfigName)) {
+                        videoUseCRF = Ini.ReadBool("videoUseCRF", ConfigName);
                         videoUseCRF_First = videoUseCRF;
                     }
-                    if (Ini.KeyExists("audioUseBitrate", "Converts")) {
-                        audioUseBitrate = Ini.ReadBool("audioUseBitrate", "Converts");
+                    if (Ini.KeyExists("audioUseBitrate", ConfigName)) {
+                        audioUseBitrate = Ini.ReadBool("audioUseBitrate", ConfigName);
                         audioUseBitrate_First = audioUseBitrate;
                     }
-                    if (Ini.KeyExists("CloseAfterFinish", "Converts")) {
-                        CloseAfterFinish = Ini.ReadBool("CloseAfterFinish", "Converts");
+                    if (Ini.KeyExists("CloseAfterFinish", ConfigName)) {
+                        CloseAfterFinish = Ini.ReadBool("CloseAfterFinish", ConfigName);
                         CloseAfterFinish_First = CloseAfterFinish;
                     }
                     break;
@@ -841,52 +846,52 @@ namespace youtube_dl_gui {
         public void ForceSave() {
             switch (Program.UseIni) {
                 case true:
-                    Ini.Write("detectFiletype", detectFiletype, "Converts");
+                    Ini.Write("detectFiletype", detectFiletype, ConfigName);
                     detectFiletype_First = detectFiletype;
 
-                    Ini.Write("clearOutput", clearOutput, "Converts");
+                    Ini.Write("clearOutput", clearOutput, ConfigName);
                     clearOutput_First = clearOutput;
 
-                    Ini.Write("clearInput", clearInput, "Converts");
+                    Ini.Write("clearInput", clearInput, ConfigName);
                     clearInput_First = clearInput;
 
-                    Ini.Write("videoBitrate", videoBitrate, "Converts");
+                    Ini.Write("videoBitrate", videoBitrate, ConfigName);
                     videoBitrate_First = videoBitrate;
 
-                    Ini.Write("videoPreset", videoPreset, "Converts");
+                    Ini.Write("videoPreset", videoPreset, ConfigName);
                     videoPreset_First = videoPreset;
 
-                    Ini.Write("videoProfile", videoProfile, "Converts");
+                    Ini.Write("videoProfile", videoProfile, ConfigName);
                     videoProfile_First = videoProfile;
 
-                    Ini.Write("videoCRF", videoCRF, "Converts");
+                    Ini.Write("videoCRF", videoCRF, ConfigName);
                     videoCRF_First = videoCRF;
 
-                    Ini.Write("videoFastStart", videoFastStart, "Converts");
+                    Ini.Write("videoFastStart", videoFastStart, ConfigName);
                     videoFastStart_First = videoFastStart;
 
-                    Ini.Write("hideFFmpegCompile", hideFFmpegCompile, "Converts");
+                    Ini.Write("hideFFmpegCompile", hideFFmpegCompile, ConfigName);
                     hideFFmpegCompile_First = hideFFmpegCompile;
 
-                    Ini.Write("audioBitrate", audioBitrate, "Converts");
+                    Ini.Write("audioBitrate", audioBitrate, ConfigName);
                     audioBitrate_First = audioBitrate;
 
-                    Ini.Write("videoUseBitrate", videoUseBitrate, "Converts");
+                    Ini.Write("videoUseBitrate", videoUseBitrate, ConfigName);
                     videoUseBitrate_First = videoUseBitrate;
 
-                    Ini.Write("videoUsePreset", videoUsePreset, "Converts");
+                    Ini.Write("videoUsePreset", videoUsePreset, ConfigName);
                     videoUsePreset_First = videoUsePreset;
 
-                    Ini.Write("videoUseProfile", videoUseProfile, "Converts");
+                    Ini.Write("videoUseProfile", videoUseProfile, ConfigName);
                     videoUseProfile_First = videoUseProfile;
 
-                    Ini.Write("videoUseCRF", videoUseCRF, "Converts");
+                    Ini.Write("videoUseCRF", videoUseCRF, ConfigName);
                     videoUseCRF_First = videoUseCRF;
 
-                    Ini.Write("audioUseBitrate", audioUseBitrate, "Converts");
+                    Ini.Write("audioUseBitrate", audioUseBitrate, ConfigName);
                     audioUseBitrate_First = audioUseBitrate;
 
-                    Ini.Write("CloseAfterFinish", CloseAfterFinish, "Converts");
+                    Ini.Write("CloseAfterFinish", CloseAfterFinish, ConfigName);
                     CloseAfterFinish_First = CloseAfterFinish;
 
                     break;
@@ -915,8 +920,7 @@ namespace youtube_dl_gui {
     }
 
     class Config_Downloads {
-
-        public Config_Downloads() { }
+        private const string ConfigName = "Downloads";
 
         #region Variables
         public string downloadPath = string.Empty;
@@ -998,234 +1002,236 @@ namespace youtube_dl_gui {
         private int YtdlType_First = 0;
         #endregion
 
+        public Config_Downloads() { }
+
         public void Load() {
             switch (Program.UseIni) {
                 case true:
-                    switch (Ini.KeyExists("downloadPath", "Downloads")) {
+                    switch (Ini.KeyExists("downloadPath", ConfigName)) {
                         case true:
-                            downloadPath = Ini.ReadString("downloadPath", "Downloads");
+                            downloadPath = Ini.ReadString("downloadPath", ConfigName);
                             downloadPath_First = downloadPath;
                             break;
                     }
-                    switch (Ini.KeyExists("separateDownloads", "Downloads")) {
+                    switch (Ini.KeyExists("separateDownloads", ConfigName)) {
                         case true:
-                            separateDownloads = Ini.ReadBool("separateDownloads", "Downloads");
+                            separateDownloads = Ini.ReadBool("separateDownloads", ConfigName);
                             separateDownloads_First = separateDownloads;
                             break;
                     }
-                    switch (Ini.KeyExists("SaveFormatQuality", "Downloads")) {
+                    switch (Ini.KeyExists("SaveFormatQuality", ConfigName)) {
                         case true:
-                            SaveFormatQuality = Ini.ReadBool("SaveFormatQuality", "Downloads");
+                            SaveFormatQuality = Ini.ReadBool("SaveFormatQuality", ConfigName);
                             SaveFormatQuality_First = SaveFormatQuality;
                             break;
                     }
-                    switch (Ini.KeyExists("deleteYtdlOnClose", "Downloads")) {
+                    switch (Ini.KeyExists("deleteYtdlOnClose", ConfigName)) {
                         case true:
-                            deleteYtdlOnClose = Ini.ReadBool("deleteYtdlOnClose", "Downloads");
+                            deleteYtdlOnClose = Ini.ReadBool("deleteYtdlOnClose", ConfigName);
                             deleteYtdlOnClose_First = deleteYtdlOnClose;
                             break;
                     }
-                    switch (Ini.KeyExists("useYtdlUpdater", "Downloads")) {
+                    switch (Ini.KeyExists("useYtdlUpdater", ConfigName)) {
                         case true:
-                            useYtdlUpdater = Ini.ReadBool("useYtdlUpdater", "Downloads");
+                            useYtdlUpdater = Ini.ReadBool("useYtdlUpdater", ConfigName);
                             useYtdlUpdater_First = useYtdlUpdater;
                             break;
                     }
-                    switch (Ini.KeyExists("fileNameSchema", "Downloads")) {
+                    switch (Ini.KeyExists("fileNameSchema", ConfigName)) {
                         case true:
-                            fileNameSchema = Ini.ReadString("fileNameSchema", "Downloads");
+                            fileNameSchema = Ini.ReadString("fileNameSchema", ConfigName);
                             fileNameSchema_First = fileNameSchema;
                             break;
                     }
-                    switch (Ini.KeyExists("fixReddit", "Downloads")) {
+                    switch (Ini.KeyExists("fixReddit", ConfigName)) {
                         case true:
-                            fixReddit = Ini.ReadBool("fixReddit", "Downloads");
+                            fixReddit = Ini.ReadBool("fixReddit", ConfigName);
                             fixReddit_First = fixReddit;
                             break;
                     }
-                    switch (Ini.KeyExists("separateIntoWebsiteURL", "Downloads")) {
+                    switch (Ini.KeyExists("separateIntoWebsiteURL", ConfigName)) {
                         case true:
-                            separateIntoWebsiteURL = Ini.ReadBool("separateIntoWebsiteURL", "Downloads");
+                            separateIntoWebsiteURL = Ini.ReadBool("separateIntoWebsiteURL", ConfigName);
                             separateIntoWebsiteURL_First = separateIntoWebsiteURL;
                             break;
                     }
-                    switch (Ini.KeyExists("SaveSubtitles", "Downloads")) {
+                    switch (Ini.KeyExists("SaveSubtitles", ConfigName)) {
                         case true:
-                            SaveSubtitles = Ini.ReadBool("SaveSubtitles", "Downloads");
+                            SaveSubtitles = Ini.ReadBool("SaveSubtitles", ConfigName);
                             SaveSubtitles_First = SaveSubtitles;
                             break;
                     }
-                    switch (Ini.KeyExists("subtitlesLanguages", "Downloads")) {
+                    switch (Ini.KeyExists("subtitlesLanguages", ConfigName)) {
                         case true:
-                            subtitlesLanguages = Ini.ReadString("subtitlesLanguages", "Downloads");
+                            subtitlesLanguages = Ini.ReadString("subtitlesLanguages", ConfigName);
                             subtitlesLanguages_First = subtitlesLanguages;
                             break;
                     }
-                    switch (Ini.KeyExists("CloseDownloaderAfterFinish", "Downloads")) {
+                    switch (Ini.KeyExists("CloseDownloaderAfterFinish", ConfigName)) {
                         case true:
-                            CloseDownloaderAfterFinish = Ini.ReadBool("CloseDownloaderAfterFinish", "Downloads");
+                            CloseDownloaderAfterFinish = Ini.ReadBool("CloseDownloaderAfterFinish", ConfigName);
                             CloseDownloaderAfterFinish_First = CloseDownloaderAfterFinish;
                             break;
                     }
-                    switch (Ini.KeyExists("UseProxy", "Downloads")) {
+                    switch (Ini.KeyExists("UseProxy", ConfigName)) {
                         case true:
-                            UseProxy = Ini.ReadBool("UseProxy", "Downloads");
+                            UseProxy = Ini.ReadBool("UseProxy", ConfigName);
                             UseProxy_First = UseProxy;
                             break;
                     }
-                    switch (Ini.KeyExists("ProxyType", "Downloads")) {
+                    switch (Ini.KeyExists("ProxyType", ConfigName)) {
                         case true:
-                            ProxyType = Ini.ReadInt("ProxyType", "Downloads");
+                            ProxyType = Ini.ReadInt("ProxyType", ConfigName);
                             ProxyType_First = ProxyType;
                             break;
                     }
-                    switch (Ini.KeyExists("ProxyIP", "Downloads")) {
+                    switch (Ini.KeyExists("ProxyIP", ConfigName)) {
                         case true:
-                            ProxyIP = Ini.ReadString("ProxyIP", "Downloads");
+                            ProxyIP = Ini.ReadString("ProxyIP", ConfigName);
                             ProxyIP_First = ProxyIP;
                             break;
                     }
-                    switch (Ini.KeyExists("ProxyPort", "Downloads")) {
+                    switch (Ini.KeyExists("ProxyPort", ConfigName)) {
                         case true:
-                            ProxyPort = Ini.ReadString("ProxyPort", "Downloads");
+                            ProxyPort = Ini.ReadString("ProxyPort", ConfigName);
                             ProxyPort_First = ProxyPort;
                             break;
                     }
-                    switch (Ini.KeyExists("SaveThumbnail", "Downloads")) {
+                    switch (Ini.KeyExists("SaveThumbnail", ConfigName)) {
                         case true:
-                            SaveThumbnail = Ini.ReadBool("SaveThumbnail", "Downloads");
+                            SaveThumbnail = Ini.ReadBool("SaveThumbnail", ConfigName);
                             SaveThumbnail_First = SaveThumbnail;
                             break;
                     }
-                    switch (Ini.KeyExists("SaveDescription", "Downloads")) {
+                    switch (Ini.KeyExists("SaveDescription", ConfigName)) {
                         case true:
-                            SaveDescription = Ini.ReadBool("SaveDescription", "Downloads");
+                            SaveDescription = Ini.ReadBool("SaveDescription", ConfigName);
                             SaveDescription_First = SaveDescription;
                             break;
                     }
-                    switch (Ini.KeyExists("SaveVideoInfo", "Downloads")) {
+                    switch (Ini.KeyExists("SaveVideoInfo", ConfigName)) {
                         case true:
-                            SaveVideoInfo = Ini.ReadBool("SaveVideoInfo", "Downloads");
+                            SaveVideoInfo = Ini.ReadBool("SaveVideoInfo", ConfigName);
                             SaveVideoInfo_First = SaveVideoInfo;
                             break;
                     }
-                    switch (Ini.KeyExists("SaveAnnotations", "Downloads")) {
+                    switch (Ini.KeyExists("SaveAnnotations", ConfigName)) {
                         case true:
-                            SaveAnnotations = Ini.ReadBool("SaveAnnotations", "Downloads");
+                            SaveAnnotations = Ini.ReadBool("SaveAnnotations", ConfigName);
                             SaveAnnotations_First = SaveAnnotations;
                             break;
                     }
-                    switch (Ini.KeyExists("SubtitleFormat", "Downloads")) {
+                    switch (Ini.KeyExists("SubtitleFormat", ConfigName)) {
                         case true:
-                            SubtitleFormat = Ini.ReadString("SubtitleFormat", "Downloads");
+                            SubtitleFormat = Ini.ReadString("SubtitleFormat", ConfigName);
                             SubtitleFormat_First = SubtitleFormat;
                             break;
                     }
-                    switch (Ini.KeyExists("DownloadLimit", "Downloads")) {
+                    switch (Ini.KeyExists("DownloadLimit", ConfigName)) {
                         case true:
-                            DownloadLimit = Ini.ReadInt("DownloadLimit", "Downloads");
+                            DownloadLimit = Ini.ReadInt("DownloadLimit", ConfigName);
                             DownloadLimit_First = DownloadLimit;
                             break;
                     }
-                    switch (Ini.KeyExists("RetryAttempts", "Downloads")) {
+                    switch (Ini.KeyExists("RetryAttempts", ConfigName)) {
                         case true:
-                            RetryAttempts = Ini.ReadInt("RetryAttempts", "Downloads");
+                            RetryAttempts = Ini.ReadInt("RetryAttempts", ConfigName);
                             RetryAttempts_First = RetryAttempts;
                             break;
                     }
-                    switch (Ini.KeyExists("DownloadLimitType", "Downloads")) {
+                    switch (Ini.KeyExists("DownloadLimitType", ConfigName)) {
                         case true:
-                            DownloadLimitType = Ini.ReadInt("DownloadLimitType", "Downloads");
+                            DownloadLimitType = Ini.ReadInt("DownloadLimitType", ConfigName);
                             DownloadLimitType_First = DownloadLimitType;
                             break;
                     }
-                    switch (Ini.KeyExists("ForceIPv4", "Downloads")) {
+                    switch (Ini.KeyExists("ForceIPv4", ConfigName)) {
                         case true:
-                            ForceIPv4 = Ini.ReadBool("ForceIPv4", "Downloads");
+                            ForceIPv4 = Ini.ReadBool("ForceIPv4", ConfigName);
                             ForceIPv4_First = ForceIPv4;
                             break;
                     }
-                    switch (Ini.KeyExists("ForceIPv6", "Downloads")) {
+                    switch (Ini.KeyExists("ForceIPv6", ConfigName)) {
                         case true:
-                            ForceIPv6 = Ini.ReadBool("ForceIPv6", "Downloads");
+                            ForceIPv6 = Ini.ReadBool("ForceIPv6", ConfigName);
                             ForceIPv6_First = ForceIPv6;
                             break;
                     }
-                    switch (Ini.KeyExists("LimitDownloads", "Downloads")) {
+                    switch (Ini.KeyExists("LimitDownloads", ConfigName)) {
                         case true:
-                            LimitDownloads = Ini.ReadBool("LimitDownloads", "Downloads");
+                            LimitDownloads = Ini.ReadBool("LimitDownloads", ConfigName);
                             LimitDownloads_First = LimitDownloads;
                             break;
                     }
-                    switch (Ini.KeyExists("EmbedSubtitles", "Downloads")) {
+                    switch (Ini.KeyExists("EmbedSubtitles", ConfigName)) {
                         case true:
-                            EmbedSubtitles = Ini.ReadBool("EmbedSubtitles", "Downloads");
+                            EmbedSubtitles = Ini.ReadBool("EmbedSubtitles", ConfigName);
                             EmbedSubtitles_First = EmbedSubtitles;
                             break;
                     }
-                    switch (Ini.KeyExists("EmbedThumbnails", "Downloads")) {
+                    switch (Ini.KeyExists("EmbedThumbnails", ConfigName)) {
                         case true:
-                            EmbedThumbnails = Ini.ReadBool("EmbedThumbnails", "Downloads");
+                            EmbedThumbnails = Ini.ReadBool("EmbedThumbnails", ConfigName);
                             EmbedThumbnails_First = EmbedThumbnails;
                             break;
                     }
-                    switch (Ini.KeyExists("VideoDownloadSound", "Downloads")) {
+                    switch (Ini.KeyExists("VideoDownloadSound", ConfigName)) {
                         case true:
-                            VideoDownloadSound = Ini.ReadBool("VideoDownloadSound", "Downloads");
+                            VideoDownloadSound = Ini.ReadBool("VideoDownloadSound", ConfigName);
                             VideoDownloadSound_First = VideoDownloadSound;
                             break;
                     }
-                    switch (Ini.KeyExists("AudioDownloadAsVBR", "Downloads")) {
+                    switch (Ini.KeyExists("AudioDownloadAsVBR", ConfigName)) {
                         case true:
-                            AudioDownloadAsVBR = Ini.ReadBool("AudioDownloadAsVBR", "Downloads");
+                            AudioDownloadAsVBR = Ini.ReadBool("AudioDownloadAsVBR", ConfigName);
                             AudioDownloadAsVBR_First = AudioDownloadAsVBR;
                             break;
                     }
-                    switch (Ini.KeyExists("KeepOriginalFiles", "Downloads")) {
+                    switch (Ini.KeyExists("KeepOriginalFiles", ConfigName)) {
                         case true:
-                            KeepOriginalFiles = Ini.ReadBool("KeepOriginalFiles", "Downloads");
+                            KeepOriginalFiles = Ini.ReadBool("KeepOriginalFiles", ConfigName);
                             KeepOriginalFiles_First = KeepOriginalFiles;
                             break;
                     }
-                    switch (Ini.KeyExists("WriteMetadata", "Downloads")) {
+                    switch (Ini.KeyExists("WriteMetadata", ConfigName)) {
                         case true:
-                            WriteMetadata = Ini.ReadBool("WriteMetadata", "Downloads");
+                            WriteMetadata = Ini.ReadBool("WriteMetadata", ConfigName);
                             WriteMetadata_First = WriteMetadata;
                             break;
                     }
-                    switch (Ini.KeyExists("SkipBatchTip", "Downloads")) {
+                    switch (Ini.KeyExists("SkipBatchTip", ConfigName)) {
                         case true:
-                            SkipBatchTip = Ini.ReadBool("SkipBatchTip", "Downloads");
+                            SkipBatchTip = Ini.ReadBool("SkipBatchTip", ConfigName);
                             SkipBatchTip_First = SkipBatchTip;
                             break;
                     }
-                    switch (Ini.KeyExists("AutomaticallyDownloadFromProtocol", "Downloads")) {
+                    switch (Ini.KeyExists("AutomaticallyDownloadFromProtocol", ConfigName)) {
                         case true:
-                            AutomaticallyDownloadFromProtocol = Ini.ReadBool("AutomaticallyDownloadFromProtocol", "Downloads");
+                            AutomaticallyDownloadFromProtocol = Ini.ReadBool("AutomaticallyDownloadFromProtocol", ConfigName);
                             AutomaticallyDownloadFromProtocol_First = AutomaticallyDownloadFromProtocol;
                             break;
                     }
-                    switch (Ini.KeyExists("PreferFFmpeg", "Downloads")) {
+                    switch (Ini.KeyExists("PreferFFmpeg", ConfigName)) {
                         case true:
-                            PreferFFmpeg = Ini.ReadBool("PreferFFmpeg", "Downloads");
+                            PreferFFmpeg = Ini.ReadBool("PreferFFmpeg", ConfigName);
                             PreferFFmpeg_First = PreferFFmpeg;
                             break;
                     }
-                    switch (Ini.KeyExists("SeparateBatchDownloads", "Downloads")) {
+                    switch (Ini.KeyExists("SeparateBatchDownloads", ConfigName)) {
                         case true:
-                            SeparateBatchDownloads = Ini.ReadBool("SeparateBatchDownloads", "Downloads");
+                            SeparateBatchDownloads = Ini.ReadBool("SeparateBatchDownloads", ConfigName);
                             SeparateBatchDownloads_First = SeparateBatchDownloads;
                             break;
                     }
-                    switch (Ini.KeyExists("AddDateToBatchDownloadFolders", "Downloads")) {
+                    switch (Ini.KeyExists("AddDateToBatchDownloadFolders", ConfigName)) {
                         case true:
-                            AddDateToBatchDownloadFolders = Ini.ReadBool("AddDateToBatchDownloadFolders", "Downloads");
+                            AddDateToBatchDownloadFolders = Ini.ReadBool("AddDateToBatchDownloadFolders", ConfigName);
                             AddDateToBatchDownloadFolders_First = AddDateToBatchDownloadFolders;
                             break;
                     }
-                    switch (Ini.KeyExists("YtdlType", "Downloads")) {
+                    switch (Ini.KeyExists("YtdlType", ConfigName)) {
                         case true:
-                            YtdlType = Ini.ReadInt("YtdlType", "Downloads");
+                            YtdlType = Ini.ReadInt("YtdlType", ConfigName);
                             switch (YtdlType) {
                                 case 1: case 2:
                                     break;
@@ -1297,230 +1303,230 @@ namespace youtube_dl_gui {
                 case true:
                     switch (downloadPath != downloadPath_First) {
                         case true:
-                            Ini.Write("downloadPath", downloadPath, "Downloads");
+                            Ini.Write("downloadPath", downloadPath, ConfigName);
                             downloadPath_First = downloadPath;
                             break;
                     }
                     switch (separateDownloads != separateDownloads_First) {
                         case true:
-                            Ini.Write("separateDownloads", separateDownloads, "Downloads");
+                            Ini.Write("separateDownloads", separateDownloads, ConfigName);
                             separateDownloads_First = separateDownloads;
                             break;
                     }
                     switch (SaveFormatQuality != SaveFormatQuality_First) {
                         case true:
-                            Ini.Write("SaveFormatQuality", SaveFormatQuality, "Downloads");
+                            Ini.Write("SaveFormatQuality", SaveFormatQuality, ConfigName);
                             SaveFormatQuality_First = SaveFormatQuality;
                             break;
                     }
                     switch (deleteYtdlOnClose != deleteYtdlOnClose_First) {
                         case true:
-                            Ini.Write("deleteYtdlOnClose", deleteYtdlOnClose, "Downloads");
+                            Ini.Write("deleteYtdlOnClose", deleteYtdlOnClose, ConfigName);
                             deleteYtdlOnClose_First = deleteYtdlOnClose;
                             break;
                     }
                     switch (useYtdlUpdater != useYtdlUpdater_First) {
                         case true:
-                            Ini.Write("useYtdlUpdater", useYtdlUpdater, "Downloads");
+                            Ini.Write("useYtdlUpdater", useYtdlUpdater, ConfigName);
                             useYtdlUpdater_First = useYtdlUpdater;
                             break;
                     }
                     switch (fileNameSchema != fileNameSchema_First) {
                         case true:
-                            Ini.Write("fileNameSchema", fileNameSchema, "Downloads");
+                            Ini.Write("fileNameSchema", fileNameSchema, ConfigName);
                             fileNameSchema_First = fileNameSchema;
                             break;
                     }
                     switch (fixReddit != fixReddit_First) {
                         case true:
-                            Ini.Write("fixReddit", fixReddit, "Downloads");
+                            Ini.Write("fixReddit", fixReddit, ConfigName);
                             fixReddit_First = fixReddit;
                             break;
                     }
                     switch (separateIntoWebsiteURL != separateIntoWebsiteURL_First) {
                         case true:
-                            Ini.Write("separateIntoWebsiteURL", separateIntoWebsiteURL, "Downloads");
+                            Ini.Write("separateIntoWebsiteURL", separateIntoWebsiteURL, ConfigName);
                             separateIntoWebsiteURL_First = separateIntoWebsiteURL;
                             break;
                     }
                     switch (SaveSubtitles != SaveSubtitles_First) {
                         case true:
-                            Ini.Write("SaveSubtitles", SaveSubtitles, "Downloads");
+                            Ini.Write("SaveSubtitles", SaveSubtitles, ConfigName);
                             SaveSubtitles_First = SaveSubtitles;
                             break;
                     }
                     switch (subtitlesLanguages != subtitlesLanguages_First) {
                         case true:
-                            Ini.Write("subtitlesLanguages", subtitlesLanguages, "Downloads");
+                            Ini.Write("subtitlesLanguages", subtitlesLanguages, ConfigName);
                             subtitlesLanguages_First = subtitlesLanguages;
                             break;
                     }
                     switch (CloseDownloaderAfterFinish != CloseDownloaderAfterFinish_First) {
                         case true:
-                            Ini.Write("CloseDownloaderAfterFinish", CloseDownloaderAfterFinish, "Downloads");
+                            Ini.Write("CloseDownloaderAfterFinish", CloseDownloaderAfterFinish, ConfigName);
                             CloseDownloaderAfterFinish_First = CloseDownloaderAfterFinish;
                             break;
                     }
                     switch (UseProxy != UseProxy_First) {
                         case true:
-                            Ini.Write("UseProxy", UseProxy, "Downloads");
+                            Ini.Write("UseProxy", UseProxy, ConfigName);
                             UseProxy_First = UseProxy;
                             break;
                     }
                     switch (ProxyType != ProxyType_First) {
                         case true:
-                            Ini.Write("ProxyType", ProxyType, "Downloads");
+                            Ini.Write("ProxyType", ProxyType, ConfigName);
                             ProxyType_First = ProxyType;
                             break;
                     }
                     switch (ProxyIP != ProxyIP_First) {
                         case true:
-                            Ini.Write("ProxyIP", ProxyIP, "Downloads");
+                            Ini.Write("ProxyIP", ProxyIP, ConfigName);
                             ProxyIP_First = ProxyIP;
                             break;
                     }
                     switch (ProxyPort != ProxyPort_First) {
                         case true:
-                            Ini.Write("ProxyPort", ProxyPort, "Downloads");
+                            Ini.Write("ProxyPort", ProxyPort, ConfigName);
                             ProxyPort_First = ProxyPort;
                             break;
                     }
                     switch (SaveThumbnail != SaveThumbnail_First) {
                         case true:
-                            Ini.Write("SaveThumbnail", SaveThumbnail, "Downloads");
+                            Ini.Write("SaveThumbnail", SaveThumbnail, ConfigName);
                             SaveThumbnail_First = SaveThumbnail;
                             break;
                     }
                     switch (SaveDescription != SaveDescription_First) {
                         case true:
-                            Ini.Write("SaveDescription", SaveDescription, "Downloads");
+                            Ini.Write("SaveDescription", SaveDescription, ConfigName);
                             SaveDescription_First = SaveDescription;
                             break;
                     }
                     switch (SaveVideoInfo != SaveVideoInfo_First) {
                         case true:
-                            Ini.Write("SaveVideoInfo", SaveVideoInfo, "Downloads");
+                            Ini.Write("SaveVideoInfo", SaveVideoInfo, ConfigName);
                             SaveVideoInfo_First = SaveVideoInfo;
                             break;
                     }
                     switch (SaveAnnotations != SaveAnnotations_First) {
                         case true:
-                            Ini.Write("SaveAnnotations", SaveAnnotations, "Downloads");
+                            Ini.Write("SaveAnnotations", SaveAnnotations, ConfigName);
                             SaveAnnotations_First = SaveAnnotations;
                             break;
                     }
                     switch (SubtitleFormat != SubtitleFormat_First) {
                         case true:
-                            Ini.Write("SubtitleFormat", SubtitleFormat, "Downloads");
+                            Ini.Write("SubtitleFormat", SubtitleFormat, ConfigName);
                             SubtitleFormat_First = SubtitleFormat;
                             break;
                     }
                     switch (DownloadLimit != DownloadLimit_First) {
                         case true:
-                            Ini.Write("DownloadLimit", DownloadLimit, "Downloads");
+                            Ini.Write("DownloadLimit", DownloadLimit, ConfigName);
                             DownloadLimit_First = DownloadLimit;
                             break;
                     }
                     switch (RetryAttempts != RetryAttempts_First) {
                         case true:
-                            Ini.Write("RetryAttempts", RetryAttempts, "Downloads");
+                            Ini.Write("RetryAttempts", RetryAttempts, ConfigName);
                             RetryAttempts_First = RetryAttempts;
                             break;
                     }
                     switch (DownloadLimitType != DownloadLimitType_First) {
                         case true:
-                            Ini.Write("DownloadLimitType", DownloadLimitType, "Downloads");
+                            Ini.Write("DownloadLimitType", DownloadLimitType, ConfigName);
                             DownloadLimitType_First = DownloadLimitType;
                             break;
                     }
                     switch (ForceIPv4 != ForceIPv4_First) {
                         case true:
-                            Ini.Write("ForceIPv4", ForceIPv4, "Downloads");
+                            Ini.Write("ForceIPv4", ForceIPv4, ConfigName);
                             ForceIPv4_First = ForceIPv4;
                             break;
                     }
                     switch (ForceIPv6 != ForceIPv6_First) {
                         case true:
-                            Ini.Write("ForceIPv6", ForceIPv6, "Downloads");
+                            Ini.Write("ForceIPv6", ForceIPv6, ConfigName);
                             ForceIPv6_First = ForceIPv6;
                             break;
                     }
                     switch (LimitDownloads != LimitDownloads_First) {
                         case true:
-                            Ini.Write("LimitDownloads", LimitDownloads, "Downloads");
+                            Ini.Write("LimitDownloads", LimitDownloads, ConfigName);
                             LimitDownloads_First = LimitDownloads;
                             break;
                     }
                     switch (EmbedSubtitles != EmbedSubtitles_First) {
                         case true:
-                            Ini.Write("EmbedSubtitles", EmbedSubtitles, "Downloads");
+                            Ini.Write("EmbedSubtitles", EmbedSubtitles, ConfigName);
                             EmbedSubtitles_First = EmbedSubtitles;
                             break;
                     }
                     switch (EmbedThumbnails != EmbedThumbnails_First) {
                         case true:
-                            Ini.Write("EmbedThumbnails", EmbedThumbnails, "Downloads");
+                            Ini.Write("EmbedThumbnails", EmbedThumbnails, ConfigName);
                             EmbedThumbnails_First = EmbedThumbnails;
                             break;
                     }
                     switch (VideoDownloadSound != VideoDownloadSound_First) {
                         case true:
-                            Ini.Write("VideoDownloadSound", VideoDownloadSound, "Downloads");
+                            Ini.Write("VideoDownloadSound", VideoDownloadSound, ConfigName);
                             VideoDownloadSound_First = VideoDownloadSound;
                             break;
                     }
                     switch (AudioDownloadAsVBR != AudioDownloadAsVBR_First) {
                         case true:
-                            Ini.Write("AudioDownloadAsVBR", AudioDownloadAsVBR, "Downloads");
+                            Ini.Write("AudioDownloadAsVBR", AudioDownloadAsVBR, ConfigName);
                             AudioDownloadAsVBR_First = AudioDownloadAsVBR;
                             break;
                     }
                     switch (KeepOriginalFiles != KeepOriginalFiles_First) {
                         case true:
-                            Ini.Write("KeepOriginalFiles", KeepOriginalFiles, "Downloads");
+                            Ini.Write("KeepOriginalFiles", KeepOriginalFiles, ConfigName);
                             KeepOriginalFiles_First = KeepOriginalFiles;
                             break;
                     }
                     switch (WriteMetadata != WriteMetadata_First) {
                         case true:
-                            Ini.Write("WriteMetadata", WriteMetadata, "Downloads");
+                            Ini.Write("WriteMetadata", WriteMetadata, ConfigName);
                             WriteMetadata_First = WriteMetadata;
                             break;
                     }
                     switch (SkipBatchTip != SkipBatchTip_First) {
                         case true:
-                            Ini.Write("SkipBatchTip", SkipBatchTip, "Downloads");
+                            Ini.Write("SkipBatchTip", SkipBatchTip, ConfigName);
                             SkipBatchTip_First = SkipBatchTip;
                             break;
                     }
                     switch (AutomaticallyDownloadFromProtocol != AutomaticallyDownloadFromProtocol_First) {
                         case true:
-                            Ini.Write("AutomaticallyDownloadFromProtocol", AutomaticallyDownloadFromProtocol, "Downloads");
+                            Ini.Write("AutomaticallyDownloadFromProtocol", AutomaticallyDownloadFromProtocol, ConfigName);
                             AutomaticallyDownloadFromProtocol_First = AutomaticallyDownloadFromProtocol;
                             break;
                     }
                     switch (PreferFFmpeg != PreferFFmpeg_First) {
                         case true:
-                            Ini.Write("PreferFFmpeg", PreferFFmpeg, "Downloads");
+                            Ini.Write("PreferFFmpeg", PreferFFmpeg, ConfigName);
                             PreferFFmpeg_First = PreferFFmpeg;
                             break;
                     }
                     switch (SeparateBatchDownloads != SeparateBatchDownloads_First) {
                         case true:
-                            Ini.Write("SeparateBatchDownloads", SeparateBatchDownloads, "Downloads");
+                            Ini.Write("SeparateBatchDownloads", SeparateBatchDownloads, ConfigName);
                             SeparateBatchDownloads_First = SeparateBatchDownloads;
                             break;
                     }
                     switch (AddDateToBatchDownloadFolders != AddDateToBatchDownloadFolders_First) {
                         case true:
-                            Ini.Write("AddDateToBatchDownloadFolders", AddDateToBatchDownloadFolders, "Downloads");
+                            Ini.Write("AddDateToBatchDownloadFolders", AddDateToBatchDownloadFolders, ConfigName);
                             AddDateToBatchDownloadFolders_First = AddDateToBatchDownloadFolders;
                             break;
                     }
 
                     switch (YtdlType != YtdlType_First) {
                         case true:
-                            Ini.Write("YtdlType", YtdlType, "Downloads");
+                            Ini.Write("YtdlType", YtdlType, ConfigName);
                             YtdlType_First = YtdlType;
                             break;
                     }
@@ -1694,118 +1700,118 @@ namespace youtube_dl_gui {
         public void ForceSave() {
             switch (Program.UseIni) {
                 case true:
-                    Ini.Write("downloadPath", downloadPath, "Downloads");
+                    Ini.Write("downloadPath", downloadPath, ConfigName);
                     downloadPath_First = downloadPath;
 
-                    Ini.Write("separateDownloads", separateDownloads, "Downloads");
+                    Ini.Write("separateDownloads", separateDownloads, ConfigName);
                     separateDownloads_First = separateDownloads;
 
-                    Ini.Write("SaveFormatQuality", SaveFormatQuality, "Downloads");
+                    Ini.Write("SaveFormatQuality", SaveFormatQuality, ConfigName);
                     SaveFormatQuality_First = SaveFormatQuality;
 
-                    Ini.Write("deleteYtdlOnClose", deleteYtdlOnClose, "Downloads");
+                    Ini.Write("deleteYtdlOnClose", deleteYtdlOnClose, ConfigName);
                     deleteYtdlOnClose_First = deleteYtdlOnClose;
 
-                    Ini.Write("useYtdlUpdater", useYtdlUpdater, "Downloads");
+                    Ini.Write("useYtdlUpdater", useYtdlUpdater, ConfigName);
                     useYtdlUpdater_First = useYtdlUpdater;
 
-                    Ini.Write("fileNameSchema", fileNameSchema, "Downloads");
+                    Ini.Write("fileNameSchema", fileNameSchema, ConfigName);
                     fileNameSchema_First = fileNameSchema;
 
-                    Ini.Write("fixReddit", fixReddit, "Downloads");
+                    Ini.Write("fixReddit", fixReddit, ConfigName);
                     fixReddit_First = fixReddit;
 
-                    Ini.Write("separateIntoWebsiteURL", separateIntoWebsiteURL, "Downloads");
+                    Ini.Write("separateIntoWebsiteURL", separateIntoWebsiteURL, ConfigName);
                     separateIntoWebsiteURL_First = separateIntoWebsiteURL;
 
-                    Ini.Write("SaveSubtitles", SaveSubtitles, "Downloads");
+                    Ini.Write("SaveSubtitles", SaveSubtitles, ConfigName);
                     SaveSubtitles_First = SaveSubtitles;
 
-                    Ini.Write("subtitlesLanguages", subtitlesLanguages, "Downloads");
+                    Ini.Write("subtitlesLanguages", subtitlesLanguages, ConfigName);
                     subtitlesLanguages_First = subtitlesLanguages;
 
-                    Ini.Write("CloseDownloaderAfterFinish", CloseDownloaderAfterFinish, "Downloads");
+                    Ini.Write("CloseDownloaderAfterFinish", CloseDownloaderAfterFinish, ConfigName);
                     CloseDownloaderAfterFinish_First = CloseDownloaderAfterFinish;
 
-                    Ini.Write("UseProxy", UseProxy, "Downloads");
+                    Ini.Write("UseProxy", UseProxy, ConfigName);
                     UseProxy_First = UseProxy;
 
-                    Ini.Write("ProxyType", ProxyType, "Downloads");
+                    Ini.Write("ProxyType", ProxyType, ConfigName);
                     ProxyType_First = ProxyType;
 
-                    Ini.Write("ProxyIP", ProxyIP, "Downloads");
+                    Ini.Write("ProxyIP", ProxyIP, ConfigName);
                     ProxyIP_First = ProxyIP;
 
-                    Ini.Write("ProxyPort", ProxyPort, "Downloads");
+                    Ini.Write("ProxyPort", ProxyPort, ConfigName);
                     ProxyPort_First = ProxyPort;
 
-                    Ini.Write("SaveThumbnail", SaveThumbnail, "Downloads");
+                    Ini.Write("SaveThumbnail", SaveThumbnail, ConfigName);
                     SaveThumbnail_First = SaveThumbnail;
 
-                    Ini.Write("SaveDescription", SaveDescription, "Downloads");
+                    Ini.Write("SaveDescription", SaveDescription, ConfigName);
                     SaveDescription_First = SaveDescription;
 
-                    Ini.Write("SaveVideoInfo", SaveVideoInfo, "Downloads");
+                    Ini.Write("SaveVideoInfo", SaveVideoInfo, ConfigName);
                     SaveVideoInfo_First = SaveVideoInfo;
 
-                    Ini.Write("SaveAnnotations", SaveAnnotations, "Downloads");
+                    Ini.Write("SaveAnnotations", SaveAnnotations, ConfigName);
                     SaveAnnotations_First = SaveAnnotations;
 
-                    Ini.Write("SubtitleFormat", SubtitleFormat, "Downloads");
+                    Ini.Write("SubtitleFormat", SubtitleFormat, ConfigName);
                     SubtitleFormat_First = SubtitleFormat;
 
-                    Ini.Write("DownloadLimit", DownloadLimit, "Downloads");
+                    Ini.Write("DownloadLimit", DownloadLimit, ConfigName);
                     DownloadLimit_First = DownloadLimit;
 
-                    Ini.Write("RetryAttempts", RetryAttempts, "Downloads");
+                    Ini.Write("RetryAttempts", RetryAttempts, ConfigName);
                     RetryAttempts_First = RetryAttempts;
 
-                    Ini.Write("DownloadLimitType", DownloadLimitType, "Downloads");
+                    Ini.Write("DownloadLimitType", DownloadLimitType, ConfigName);
                     DownloadLimitType_First = DownloadLimitType;
 
-                    Ini.Write("ForceIPv4", ForceIPv4, "Downloads");
+                    Ini.Write("ForceIPv4", ForceIPv4, ConfigName);
                     ForceIPv4_First = ForceIPv4;
 
-                    Ini.Write("ForceIPv6", ForceIPv6, "Downloads");
+                    Ini.Write("ForceIPv6", ForceIPv6, ConfigName);
                     ForceIPv6_First = ForceIPv6;
 
-                    Ini.Write("LimitDownloads", LimitDownloads, "Downloads");
+                    Ini.Write("LimitDownloads", LimitDownloads, ConfigName);
                     LimitDownloads_First = LimitDownloads;
 
-                    Ini.Write("EmbedSubtitles", EmbedSubtitles, "Downloads");
+                    Ini.Write("EmbedSubtitles", EmbedSubtitles, ConfigName);
                     EmbedSubtitles_First = EmbedSubtitles;
 
-                    Ini.Write("EmbedThumbnails", EmbedThumbnails, "Downloads");
+                    Ini.Write("EmbedThumbnails", EmbedThumbnails, ConfigName);
                     EmbedThumbnails_First = EmbedThumbnails;
 
-                    Ini.Write("VideoDownloadSound", VideoDownloadSound, "Downloads");
+                    Ini.Write("VideoDownloadSound", VideoDownloadSound, ConfigName);
                     VideoDownloadSound_First = VideoDownloadSound;
 
-                    Ini.Write("AudioDownloadAsVBR", AudioDownloadAsVBR, "Downloads");
+                    Ini.Write("AudioDownloadAsVBR", AudioDownloadAsVBR, ConfigName);
                     AudioDownloadAsVBR_First = AudioDownloadAsVBR;
 
-                    Ini.Write("KeepOriginalFiles", KeepOriginalFiles, "Downloads");
+                    Ini.Write("KeepOriginalFiles", KeepOriginalFiles, ConfigName);
                     KeepOriginalFiles_First = KeepOriginalFiles;
 
-                    Ini.Write("WriteMetadata", WriteMetadata, "Downloads");
+                    Ini.Write("WriteMetadata", WriteMetadata, ConfigName);
                     WriteMetadata_First = WriteMetadata;
 
-                    Ini.Write("SkipBatchTip", SkipBatchTip, "Downloads");
+                    Ini.Write("SkipBatchTip", SkipBatchTip, ConfigName);
                     SkipBatchTip_First = SkipBatchTip;
 
-                    Ini.Write("AutomaticallyDownloadFromProtocol", AutomaticallyDownloadFromProtocol, "Downloads");
+                    Ini.Write("AutomaticallyDownloadFromProtocol", AutomaticallyDownloadFromProtocol, ConfigName);
                     AutomaticallyDownloadFromProtocol_First = AutomaticallyDownloadFromProtocol;
 
-                    Ini.Write("PreferFFmpeg", PreferFFmpeg, "Downloads");
+                    Ini.Write("PreferFFmpeg", PreferFFmpeg, ConfigName);
                     PreferFFmpeg_First = PreferFFmpeg;
 
-                    Ini.Write("SeparateBatchDownloads", SeparateBatchDownloads, "Downloads");
+                    Ini.Write("SeparateBatchDownloads", SeparateBatchDownloads, ConfigName);
                     SeparateBatchDownloads_First = SeparateBatchDownloads;
 
-                    Ini.Write("AddDateToBatchDownloadFolders", AddDateToBatchDownloadFolders, "Downloads");
+                    Ini.Write("AddDateToBatchDownloadFolders", AddDateToBatchDownloadFolders, ConfigName);
                     AddDateToBatchDownloadFolders_First = AddDateToBatchDownloadFolders;
 
-                    Ini.Write("YtdlType", YtdlType, "Downloads");
+                    Ini.Write("YtdlType", YtdlType, ConfigName);
                     YtdlType_First = YtdlType;
                     break;
 
@@ -1856,8 +1862,7 @@ namespace youtube_dl_gui {
     }
 
     class Config_Errors {
-
-        public Config_Errors() { }
+        private const string ConfigName = "Errors";
 
         public bool detailedErrors = false;
         public bool logErrors = false;
@@ -1867,24 +1872,26 @@ namespace youtube_dl_gui {
         private bool logErrors_First = false;
         private bool suppressErrors_First = false;
 
+        public Config_Errors() { }
+
         public void Load() {
             switch (Program.UseIni) {
                 case true:
-                    switch (Ini.KeyExists("detailedErrors", "Errors")) {
+                    switch (Ini.KeyExists("detailedErrors", ConfigName)) {
                         case true:
-                            detailedErrors = Ini.ReadBool("detailedErrors", "Errors");
+                            detailedErrors = Ini.ReadBool("detailedErrors", ConfigName);
                             detailedErrors_First = detailedErrors;
                             break;
                     }
-                    switch (Ini.KeyExists("logErrors", "Errors")) {
+                    switch (Ini.KeyExists("logErrors", ConfigName)) {
                         case true:
-                            logErrors = Ini.ReadBool("logErrors", "Errors");
+                            logErrors = Ini.ReadBool("logErrors", ConfigName);
                             logErrors_First = logErrors;
                             break;
                     }
-                    switch (Ini.KeyExists("suppressErrors", "Errors")) {
+                    switch (Ini.KeyExists("suppressErrors", ConfigName)) {
                         case true:
-                            suppressErrors = Ini.ReadBool("suppressErrors", "Errors");
+                            suppressErrors = Ini.ReadBool("suppressErrors", ConfigName);
                             suppressErrors_First = suppressErrors;
                             break;
                     }
@@ -1903,21 +1910,21 @@ namespace youtube_dl_gui {
                 case true:
                     switch (detailedErrors != detailedErrors_First) {
                         case true:
-                            Ini.Write("detailedErrors", detailedErrors, "Errors");
+                            Ini.Write("detailedErrors", detailedErrors, ConfigName);
                             detailedErrors_First = detailedErrors;
                             break;
                     }
 
                     switch (logErrors != logErrors_First) {
                         case true:
-                            Ini.Write("logErrors", logErrors, "Errors");
+                            Ini.Write("logErrors", logErrors, ConfigName);
                             logErrors_First = logErrors;
                             break;
                     }
 
                     switch (suppressErrors != suppressErrors_First) {
                         case true:
-                            Ini.Write("suppressErrors", suppressErrors, "Errors");
+                            Ini.Write("suppressErrors", suppressErrors, ConfigName);
                             suppressErrors_First = suppressErrors;
                             break;
                     }
@@ -1954,13 +1961,13 @@ namespace youtube_dl_gui {
         public void ForceSave() {
             switch (Program.UseIni) {
                 case true:
-                    Ini.Write("suppressErrors", suppressErrors, "Errors");
+                    Ini.Write("suppressErrors", suppressErrors, ConfigName);
                     suppressErrors_First = suppressErrors;
 
-                    Ini.Write("logErrors", logErrors, "Errors");
+                    Ini.Write("logErrors", logErrors, ConfigName);
                     logErrors_First = logErrors;
 
-                    Ini.Write("suppressErrors", suppressErrors, "Errors");
+                    Ini.Write("suppressErrors", suppressErrors, ConfigName);
                     suppressErrors_First = suppressErrors;
                     break;
 
@@ -1976,8 +1983,7 @@ namespace youtube_dl_gui {
     }
 
     class Config_General {
-
-        public Config_General() { }
+        private const string ConfigName = "General";
 
         #region Variables
         public bool UseStaticYtdl = false;
@@ -2008,79 +2014,81 @@ namespace youtube_dl_gui {
         private string extensionsShort_First = string.Empty;
         #endregion
 
+        public Config_General() { }
+
         public void Load() {
             switch (Program.UseIni) {
                 case true:
-                    switch (Ini.KeyExists("UseStaticYtdl", "General")) {
+                    switch (Ini.KeyExists("UseStaticYtdl", ConfigName)) {
                         case true:
-                            UseStaticYtdl = Ini.ReadBool("UseStaticYtdl", "General");
+                            UseStaticYtdl = Ini.ReadBool("UseStaticYtdl", ConfigName);
                             UseStaticYtdl_First = UseStaticYtdl;
                             break;
                     }
-                    switch (Ini.KeyExists("ytdlPath", "General")) {
+                    switch (Ini.KeyExists("ytdlPath", ConfigName)) {
                         case true:
-                            ytdlPath = Ini.ReadString("ytdlPath", "General");
+                            ytdlPath = Ini.ReadString("ytdlPath", ConfigName);
                             ytdlPath_First = ytdlPath;
                             break;
                     }
-                    switch (Ini.KeyExists("UseStaticFFmpeg", "General")) {
+                    switch (Ini.KeyExists("UseStaticFFmpeg", ConfigName)) {
                         case true:
-                            UseStaticFFmpeg = Ini.ReadBool("UseStaticFFmpeg", "General");
+                            UseStaticFFmpeg = Ini.ReadBool("UseStaticFFmpeg", ConfigName);
                             UseStaticFFmpeg_First = UseStaticFFmpeg;
                             break;
                     }
-                    switch (Ini.KeyExists("ffmpegPath", "General")) {
+                    switch (Ini.KeyExists("ffmpegPath", ConfigName)) {
                         case true:
-                            ffmpegPath = Ini.ReadString("ffmpegPath", "General");
+                            ffmpegPath = Ini.ReadString("ffmpegPath", ConfigName);
                             ffmpegPath_First = ffmpegPath;
                             break;
                     }
-                    switch (Ini.KeyExists("CheckForUpdatesOnLaunch", "General")) {
+                    switch (Ini.KeyExists("CheckForUpdatesOnLaunch", ConfigName)) {
                         case true:
-                            CheckForUpdatesOnLaunch = Ini.ReadBool("CheckForUpdatesOnLaunch", "General");
+                            CheckForUpdatesOnLaunch = Ini.ReadBool("CheckForUpdatesOnLaunch", ConfigName);
                             CheckForUpdatesOnLaunch_First = CheckForUpdatesOnLaunch;
                             break;
                     }
-                    switch (Ini.KeyExists("DownloadBetaVersions", "General")) {
+                    switch (Ini.KeyExists("DownloadBetaVersions", ConfigName)) {
                         case true:
-                            DownloadBetaVersions = Ini.ReadBool("DownloadBetaVersions", "General");
+                            DownloadBetaVersions = Ini.ReadBool("DownloadBetaVersions", ConfigName);
                             DownloadBetaVersions_First = DownloadBetaVersions;
                             break;
                     }
-                    switch (Ini.KeyExists("HoverOverURLTextBoxToPaste", "General")) {
+                    switch (Ini.KeyExists("HoverOverURLTextBoxToPaste", ConfigName)) {
                         case true:
-                            HoverOverURLTextBoxToPaste = Ini.ReadBool("HoverOverURLTextBoxToPaste", "General");
+                            HoverOverURLTextBoxToPaste = Ini.ReadBool("HoverOverURLTextBoxToPaste", ConfigName);
                             HoverOverURLTextBoxToPaste_First = HoverOverURLTextBoxToPaste;
                             break;
                     }
-                    switch (Ini.KeyExists("ClearURLOnDownload", "General")) {
+                    switch (Ini.KeyExists("ClearURLOnDownload", ConfigName)) {
                         case true:
-                            ClearURLOnDownload = Ini.ReadBool("ClearURLOnDownload", "General");
+                            ClearURLOnDownload = Ini.ReadBool("ClearURLOnDownload", ConfigName);
                             ClearURLOnDownload_First = ClearURLOnDownload;
                             break;
                     }
-                    switch (Ini.KeyExists("SaveCustomArgs", "General")) {
+                    switch (Ini.KeyExists("SaveCustomArgs", ConfigName)) {
                         case true:
-                            SaveCustomArgs = Ini.ReadInt("SaveCustomArgs", "General");
+                            SaveCustomArgs = Ini.ReadInt("SaveCustomArgs", ConfigName);
                             SaveCustomArgs_First = SaveCustomArgs;
                             break;
                     }
-                    switch (Ini.KeyExists("ClearClipboardOnDownload", "General")) {
+                    switch (Ini.KeyExists("ClearClipboardOnDownload", ConfigName)) {
                         case true:
-                            ClearClipboardOnDownload = Ini.ReadBool("ClearClipboardOnDownload", "General");
+                            ClearClipboardOnDownload = Ini.ReadBool("ClearClipboardOnDownload", ConfigName);
                             ClearClipboardOnDownload_First = ClearClipboardOnDownload;
                             break;
                     }
-                    switch (Ini.KeyExists("extensionsName", "General")) {
+                    switch (Ini.KeyExists("extensionsName", ConfigName)) {
                         case true:
-                            extensionsName = Ini.ReadString("extensionsName", "General");
+                            extensionsName = Ini.ReadString("extensionsName", ConfigName);
                             extensionsName_First = extensionsName;
                             break;
                     }
 
-                    switch (Ini.KeyExists("extensionsShort", "General")) {
+                    switch (Ini.KeyExists("extensionsShort", ConfigName)) {
                         case true:
-                            extensionsShort = Ini.ReadString("extensionsShort", "General");
+                            extensionsShort = Ini.ReadString("extensionsShort", ConfigName);
                             extensionsShort_First = extensionsShort;
                             break;
                     }
@@ -2107,73 +2115,73 @@ namespace youtube_dl_gui {
                 case true:
                     switch (UseStaticYtdl != UseStaticYtdl_First) {
                         case true:
-                            Ini.Write("UseStaticYtdl", UseStaticYtdl, "General");
+                            Ini.Write("UseStaticYtdl", UseStaticYtdl, ConfigName);
                             UseStaticYtdl_First = UseStaticYtdl;
                             break;
                     }
                     switch (ytdlPath != ytdlPath_First) {
                         case true:
-                            Ini.Write("ytdlPath", ytdlPath, "General");
+                            Ini.Write("ytdlPath", ytdlPath, ConfigName);
                             ytdlPath_First = ytdlPath;
                             break;
                     }
                     switch (UseStaticFFmpeg != UseStaticFFmpeg_First) {
                         case true:
-                            Ini.Write("UseStaticFFmpeg", UseStaticFFmpeg, "General");
+                            Ini.Write("UseStaticFFmpeg", UseStaticFFmpeg, ConfigName);
                             UseStaticFFmpeg_First = UseStaticFFmpeg;
                             break;
                     }
                     switch (ffmpegPath != ffmpegPath_First) {
                         case true:
-                            Ini.Write("ffmpegPath", ffmpegPath, "General");
+                            Ini.Write("ffmpegPath", ffmpegPath, ConfigName);
                             ffmpegPath_First = ffmpegPath;
                             break;
                     }
                     switch (CheckForUpdatesOnLaunch != CheckForUpdatesOnLaunch_First) {
                         case true:
-                            Ini.Write("CheckForUpdatesOnLaunch", CheckForUpdatesOnLaunch, "General");
+                            Ini.Write("CheckForUpdatesOnLaunch", CheckForUpdatesOnLaunch, ConfigName);
                             CheckForUpdatesOnLaunch_First = CheckForUpdatesOnLaunch;
                             break;
                     }
                     switch (DownloadBetaVersions != DownloadBetaVersions_First) {
                         case true:
-                            Ini.Write("DownloadBetaVersions", DownloadBetaVersions, "General");
+                            Ini.Write("DownloadBetaVersions", DownloadBetaVersions, ConfigName);
                             DownloadBetaVersions_First = DownloadBetaVersions;
                             break;
                     }
                     switch (HoverOverURLTextBoxToPaste != HoverOverURLTextBoxToPaste_First) {
                         case true:
-                            Ini.Write("HoverOverURLTextBoxToPaste", HoverOverURLTextBoxToPaste, "General");
+                            Ini.Write("HoverOverURLTextBoxToPaste", HoverOverURLTextBoxToPaste, ConfigName);
                             HoverOverURLTextBoxToPaste_First = HoverOverURLTextBoxToPaste;
                             break;
                     }
                     switch (ClearURLOnDownload != ClearURLOnDownload_First) {
                         case true:
-                            Ini.Write("ClearURLOnDownload", ClearURLOnDownload, "General");
+                            Ini.Write("ClearURLOnDownload", ClearURLOnDownload, ConfigName);
                             ClearURLOnDownload_First = ClearURLOnDownload;
                             break;
                     }
                     switch (SaveCustomArgs != SaveCustomArgs_First) {
                         case true:
-                            Ini.Write("SaveCustomArgs", SaveCustomArgs, "General");
+                            Ini.Write("SaveCustomArgs", SaveCustomArgs, ConfigName);
                             SaveCustomArgs_First = SaveCustomArgs;
                             break;
                     }
                     switch (ClearClipboardOnDownload != ClearClipboardOnDownload_First) {
                         case true:
-                            Ini.Write("ClearClipboardOnDownload", ClearClipboardOnDownload, "General");
+                            Ini.Write("ClearClipboardOnDownload", ClearClipboardOnDownload, ConfigName);
                             ClearClipboardOnDownload_First = ClearClipboardOnDownload;
                             break;
                     }
                     switch (extensionsName != extensionsName_First) {
                         case true:
-                            Ini.Write("extensionsName", extensionsName, "General");
+                            Ini.Write("extensionsName", extensionsName, ConfigName);
                             extensionsName_First = extensionsName;
                             break;
                     }
                     switch (extensionsShort != extensionsShort_First) {
                         case true:
-                            Ini.Write("extensionsShort", extensionsShort, "General");
+                            Ini.Write("extensionsShort", extensionsShort, ConfigName);
                             extensionsShort_First = extensionsShort;
                             break;
                     }
@@ -2255,40 +2263,40 @@ namespace youtube_dl_gui {
         public void ForceSave() {
             switch (Program.UseIni) {
                 case true:
-                    Ini.Write("UseStaticYtdl", UseStaticYtdl, "General");
+                    Ini.Write("UseStaticYtdl", UseStaticYtdl, ConfigName);
                     UseStaticYtdl_First = UseStaticYtdl;
 
-                    Ini.Write("ytdlPath", ytdlPath, "General");
+                    Ini.Write("ytdlPath", ytdlPath, ConfigName);
                     ytdlPath_First = ytdlPath;
 
-                    Ini.Write("UseStaticFFmpeg", UseStaticFFmpeg, "General");
+                    Ini.Write("UseStaticFFmpeg", UseStaticFFmpeg, ConfigName);
                     UseStaticFFmpeg_First = UseStaticFFmpeg;
 
-                    Ini.Write("ffmpegPath", ffmpegPath, "General");
+                    Ini.Write("ffmpegPath", ffmpegPath, ConfigName);
                     ffmpegPath_First = ffmpegPath;
 
-                    Ini.Write("CheckForUpdatesOnLaunch", CheckForUpdatesOnLaunch, "General");
+                    Ini.Write("CheckForUpdatesOnLaunch", CheckForUpdatesOnLaunch, ConfigName);
                     CheckForUpdatesOnLaunch_First = CheckForUpdatesOnLaunch;
 
-                    Ini.Write("DownloadBetaVersions", DownloadBetaVersions, "General");
+                    Ini.Write("DownloadBetaVersions", DownloadBetaVersions, ConfigName);
                     DownloadBetaVersions_First = DownloadBetaVersions;
 
-                    Ini.Write("HoverOverURLTextBoxToPaste", HoverOverURLTextBoxToPaste, "General");
+                    Ini.Write("HoverOverURLTextBoxToPaste", HoverOverURLTextBoxToPaste, ConfigName);
                     HoverOverURLTextBoxToPaste_First = HoverOverURLTextBoxToPaste;
 
-                    Ini.Write("ClearURLOnDownload", ClearURLOnDownload, "General");
+                    Ini.Write("ClearURLOnDownload", ClearURLOnDownload, ConfigName);
                     ClearURLOnDownload_First = ClearURLOnDownload;
 
-                    Ini.Write("SaveCustomArgs", SaveCustomArgs, "General");
+                    Ini.Write("SaveCustomArgs", SaveCustomArgs, ConfigName);
                     SaveCustomArgs_First = SaveCustomArgs;
 
-                    Ini.Write("ClearClipboardOnDownload", ClearClipboardOnDownload, "General");
+                    Ini.Write("ClearClipboardOnDownload", ClearClipboardOnDownload, ConfigName);
                     ClearClipboardOnDownload_First = ClearClipboardOnDownload;
 
-                    Ini.Write("extensionsName", extensionsName, "General");
+                    Ini.Write("extensionsName", extensionsName, ConfigName);
                     extensionsName_First = extensionsName;
 
-                    Ini.Write("extensionsShort", extensionsShort, "General");
+                    Ini.Write("extensionsShort", extensionsShort, ConfigName);
                     extensionsShort_First = extensionsShort;
                     break;
 
@@ -2313,13 +2321,10 @@ namespace youtube_dl_gui {
     }
 
     class Config_Saved {
-
-        public Config_Saved() { }
+        private const string ConfigName = "Saved";
 
         #region Variables
         public int downloadType = 0;
-        public int UseStaticYtdl = 0;
-        public int convertSaveAudioIndex = 0;
         public int convertType = 0;
         public string convertCustom = string.Empty;
         public int videoQuality = 0;
@@ -2329,16 +2334,14 @@ namespace youtube_dl_gui {
         public int AudioVBRQuality = 0;
         public int BatchFormX = -32000;
         public int BatchFormY = -32000;
-        public Size MainFormSize = new Size(0, 0);
-        public Size SettingsFormSize = new Size(0, 0);
+        public Size MainFormSize = new(0, 0);
+        public Size SettingsFormSize = new(0, 0);
         public string FileNameSchemaHistory = "%(title)s-%(id)s.%(ext)s|%(uploader)s\\(%(playlist_index)s) %(title)s-%(id)s.%(ext)s";
         public string DownloadCustomArguments = string.Empty;
         public int CustomArgumentsIndex = -1;
-        public Point MainFormLocation = new Point(-32000, -32000);
+        public Point MainFormLocation = new(-32000, -32000);
 
         private int downloadType_First = 0;
-        private int UseStaticYtdl_First = 0;
-        private int convertSaveAudioIndex_First = 0;
         private int convertType_First = 0;
         private string convertCustom_First = string.Empty;
         private int videoQuality_First = 0;
@@ -2348,122 +2351,112 @@ namespace youtube_dl_gui {
         private int AudioVBRQuality_First = 0;
         private int BatchFormX_First = -32000;
         private int BatchFormY_First = -32000;
-        private Size MainFormSize_First = new Size(0, 0);
-        private Size SettingsFormSize_First = new Size(0, 0);
+        private Size MainFormSize_First = new(0, 0);
+        private Size SettingsFormSize_First = new(0, 0);
         private string FileNameSchemaHistory_First = "%(title)s-%(id)s.%(ext)s|%(uploader)s\\(%(playlist_index)s) %(title)s-%(id)s.%(ext)s";
         private string DownloadCustomArguments_First = string.Empty;
         private int CustomArgumentsIndex_First = -1;
-        private Point MainFormLocation_First = new Point(-32000, -32000);
+        private Point MainFormLocation_First = new(-32000, -32000);
         #endregion
+
+        public Config_Saved() { }
 
         public void Load() {
             switch (Program.UseIni) {
                 case true:
-                    switch (Ini.KeyExists("downloadType", "Saved")) {
+                    switch (Ini.KeyExists("downloadType", ConfigName)) {
                         case true:
-                            downloadType = Ini.ReadInt("downloadType", "Saved");
+                            downloadType = Ini.ReadInt("downloadType", ConfigName);
                             downloadType_First = downloadType;
                             break;
                     }
-                    switch (Ini.KeyExists("UseStaticYtdl", "Saved")) {
+                    switch (Ini.KeyExists("convertType", ConfigName)) {
                         case true:
-                            UseStaticYtdl = Ini.ReadInt("UseStaticYtdl", "Saved");
-                            UseStaticYtdl_First = UseStaticYtdl;
-                            break;
-                    }
-                    switch (Ini.KeyExists("convertSaveAudioIndex", "Saved")) {
-                        case true:
-                            convertSaveAudioIndex = Ini.ReadInt("convertSaveAudioIndex", "Saved");
-                            convertSaveAudioIndex_First = convertSaveAudioIndex;
-                            break;
-                    }
-                    switch (Ini.KeyExists("convertType", "Saved")) {
-                        case true:
-                            convertType = Ini.ReadInt("convertType", "Saved");
+                            convertType = Ini.ReadInt("convertType", ConfigName);
                             convertType_First = convertType;
                             break;
                     }
-                    switch (Ini.KeyExists("convertCustom", "Saved")) {
+                    switch (Ini.KeyExists("convertCustom", ConfigName)) {
                         case true:
-                            convertCustom = Ini.ReadString("convertCustom", "Saved");
+                            convertCustom = Ini.ReadString("convertCustom", ConfigName);
                             convertCustom_First = convertCustom;
                             break;
                     }
-                    switch (Ini.KeyExists("videoQuality", "Saved")) {
+                    switch (Ini.KeyExists("videoQuality", ConfigName)) {
                         case true:
-                            videoQuality = Ini.ReadInt("videoQuality", "Saved");
+                            videoQuality = Ini.ReadInt("videoQuality", ConfigName);
                             videoQuality_First = videoQuality;
                             break;
                     }
-                    switch (Ini.KeyExists("audioQuality", "Saved")) {
+                    switch (Ini.KeyExists("audioQuality", ConfigName)) {
                         case true:
-                            audioQuality = Ini.ReadInt("audioQuality", "Saved");
+                            audioQuality = Ini.ReadInt("audioQuality", ConfigName);
                             audioQuality_First = audioQuality;
                             break;
                     }
-                    switch (Ini.KeyExists("VideoFormat", "Saved")) {
+                    switch (Ini.KeyExists("VideoFormat", ConfigName)) {
                         case true:
-                            VideoFormat = Ini.ReadInt("VideoFormat", "Saved");
+                            VideoFormat = Ini.ReadInt("VideoFormat", ConfigName);
                             VideoFormat_First = VideoFormat;
                             break;
                     }
-                    switch (Ini.KeyExists("AudioFormat", "Saved")) {
+                    switch (Ini.KeyExists("AudioFormat", ConfigName)) {
                         case true:
-                            AudioFormat = Ini.ReadInt("AudioFormat", "Saved");
+                            AudioFormat = Ini.ReadInt("AudioFormat", ConfigName);
                             AudioFormat_First = AudioFormat;
                             break;
                     }
-                    switch (Ini.KeyExists("AudioVBRQuality", "Saved")) {
+                    switch (Ini.KeyExists("AudioVBRQuality", ConfigName)) {
                         case true:
-                            AudioVBRQuality = Ini.ReadInt("AudioVBRQuality", "Saved");
+                            AudioVBRQuality = Ini.ReadInt("AudioVBRQuality", ConfigName);
                             AudioVBRQuality_First = AudioVBRQuality;
                             break;
                     }
-                    switch (Ini.KeyExists("BatchFormX", "Saved")) {
+                    switch (Ini.KeyExists("BatchFormX", ConfigName)) {
                         case true:
-                            BatchFormX = Ini.ReadInt("BatchFormX", "Saved");
+                            BatchFormX = Ini.ReadInt("BatchFormX", ConfigName);
                             BatchFormX_First = BatchFormX;
                             break;
                     }
-                    switch (Ini.KeyExists("BatchFormY", "Saved")) {
+                    switch (Ini.KeyExists("BatchFormY", ConfigName)) {
                         case true:
-                            BatchFormY = Ini.ReadInt("BatchFormY", "Saved");
+                            BatchFormY = Ini.ReadInt("BatchFormY", ConfigName);
                             BatchFormY_First = BatchFormY;
                             break;
                     }
-                    switch (Ini.KeyExists("MainFormSize", "Saved")) {
+                    switch (Ini.KeyExists("MainFormSize", ConfigName)) {
                         case true:
-                            MainFormSize = Ini.ReadSize("MainFormSize", "Saved");
+                            MainFormSize = Ini.ReadSize("MainFormSize", ConfigName);
                             MainFormSize_First = MainFormSize;
                             break;
                     }
-                    switch (Ini.KeyExists("SettingsFormSize", "Saved")) {
+                    switch (Ini.KeyExists("SettingsFormSize", ConfigName)) {
                         case true:
-                            SettingsFormSize = Ini.ReadSize("SettingsFormSize", "Saved");
+                            SettingsFormSize = Ini.ReadSize("SettingsFormSize", ConfigName);
                             SettingsFormSize_First = SettingsFormSize;
                             break;
                     }
-                    switch (Ini.KeyExists("FileNameSchemaHistory", "Saved")) {
+                    switch (Ini.KeyExists("FileNameSchemaHistory", ConfigName)) {
                         case true:
-                            FileNameSchemaHistory = Ini.ReadString("FileNameSchemaHistory", "Saved");
+                            FileNameSchemaHistory = Ini.ReadString("FileNameSchemaHistory", ConfigName);
                             FileNameSchemaHistory_First = FileNameSchemaHistory;
                             break;
                     }
-                    switch (Ini.KeyExists("DownloadCustomArguments", "Saved")) {
+                    switch (Ini.KeyExists("DownloadCustomArguments", ConfigName)) {
                         case true:
-                            DownloadCustomArguments = Ini.ReadString("DownloadCustomArguments", "Saved");
+                            DownloadCustomArguments = Ini.ReadString("DownloadCustomArguments", ConfigName);
                             DownloadCustomArguments_First = DownloadCustomArguments;
                             break;
                     }
-                    switch (Ini.KeyExists("CustomArgumentsIndex", "Saved")) {
+                    switch (Ini.KeyExists("CustomArgumentsIndex", ConfigName)) {
                         case true:
-                            CustomArgumentsIndex = Ini.ReadInt("CustomArgumentsIndex", "Saved");
+                            CustomArgumentsIndex = Ini.ReadInt("CustomArgumentsIndex", ConfigName);
                             CustomArgumentsIndex_First = CustomArgumentsIndex;
                             break;
                     }
-                    switch (Ini.KeyExists("MainFormLocation", "Saved")) {
+                    switch (Ini.KeyExists("MainFormLocation", ConfigName)) {
                         case true:
-                            MainFormLocation = Ini.ReadPoint("MainFormLocation", "Saved");
+                            MainFormLocation = Ini.ReadPoint("MainFormLocation", ConfigName);
                             MainFormLocation_First = MainFormLocation;
                             break;
                     }
@@ -2472,8 +2465,6 @@ namespace youtube_dl_gui {
 
                 case false:
                     downloadType = Configurations.Saved.Default.downloadType;
-                    UseStaticYtdl = Configurations.Saved.Default.UseStaticYtdl;
-                    convertSaveAudioIndex = Configurations.Saved.Default.convertSaveAudioIndex;
                     convertType = Configurations.Saved.Default.convertType;
                     convertCustom = Configurations.Saved.Default.convertCustom;
                     videoQuality = Configurations.Saved.Default.videoQuality;
@@ -2497,109 +2488,97 @@ namespace youtube_dl_gui {
                 case true:
                     switch (downloadType != downloadType_First) {
                         case true:
-                            Ini.Write("downloadType", downloadType, "Saved");
+                            Ini.Write("downloadType", downloadType, ConfigName);
                             downloadType_First = downloadType;
-                            break;
-                    }
-                    switch (UseStaticYtdl != UseStaticYtdl_First) {
-                        case true:
-                            Ini.Write("UseStaticYtdl", UseStaticYtdl, "Saved");
-                            UseStaticYtdl_First = UseStaticYtdl;
-                            break;
-                    }
-                    switch (convertSaveAudioIndex != convertSaveAudioIndex_First) {
-                        case true:
-                            Ini.Write("convertSaveAudioIndex", convertSaveAudioIndex, "Saved");
-                            convertSaveAudioIndex_First = convertSaveAudioIndex;
                             break;
                     }
                     switch (convertType != convertType_First) {
                         case true:
-                            Ini.Write("convertType", convertType, "Saved");
+                            Ini.Write("convertType", convertType, ConfigName);
                             convertType_First = convertType;
                             break;
                     }
                     switch (convertCustom != convertCustom_First) {
                         case true:
-                            Ini.Write("convertCustom", convertCustom, "Saved");
+                            Ini.Write("convertCustom", convertCustom, ConfigName);
                             convertCustom_First = convertCustom;
                             break;
                     }
                     switch (videoQuality != videoQuality_First) {
                         case true:
-                            Ini.Write("videoQuality", videoQuality, "Saved");
+                            Ini.Write("videoQuality", videoQuality, ConfigName);
                             videoQuality_First = videoQuality;
                             break;
                     }
                     switch (audioQuality != audioQuality_First) {
                         case true:
-                            Ini.Write("audioQuality", audioQuality, "Saved");
+                            Ini.Write("audioQuality", audioQuality, ConfigName);
                             audioQuality_First = audioQuality;
                             break;
                     }
                     switch (VideoFormat != VideoFormat_First) {
                         case true:
-                            Ini.Write("VideoFormat", VideoFormat, "Saved");
+                            Ini.Write("VideoFormat", VideoFormat, ConfigName);
                             VideoFormat_First = VideoFormat;
                             break;
                     }
                     switch (AudioFormat != AudioFormat_First) {
                         case true:
-                            Ini.Write("AudioFormat", AudioFormat, "Saved");
+                            Ini.Write("AudioFormat", AudioFormat, ConfigName);
                             AudioFormat_First = AudioFormat;
                             break;
                     }
                     switch (AudioVBRQuality != AudioVBRQuality_First) {
                         case true:
-                            Ini.Write("AudioVBRQuality", AudioVBRQuality, "Saved");
+                            Ini.Write("AudioVBRQuality", AudioVBRQuality, ConfigName);
                             AudioVBRQuality_First = AudioVBRQuality;
                             break;
                     }
                     switch (BatchFormX != BatchFormX_First) {
                         case true:
-                            Ini.Write("BatchFormX", BatchFormX, "Saved");
+                            Ini.Write("BatchFormX", BatchFormX, ConfigName);
                             BatchFormX_First = BatchFormX;
                             break;
                     }
                     switch (BatchFormY != BatchFormY_First) {
                         case true:
-                            Ini.Write("BatchFormY", BatchFormY, "Saved");
+                            Ini.Write("BatchFormY", BatchFormY, ConfigName);
                             BatchFormY_First = BatchFormY;
                             break;
                     }
                     switch (MainFormSize != MainFormSize_First) {
                         case true:
-                            Ini.Write("MainFormSize", MainFormSize, "Saved");
+                            Ini.Write("MainFormSize", MainFormSize, ConfigName);
                             MainFormSize_First = MainFormSize;
                             break;
                     }
                     switch (SettingsFormSize != SettingsFormSize_First) {
                         case true:
-                            Ini.Write("SettingsFormSize", SettingsFormSize, "Saved");
+                            Ini.Write("SettingsFormSize", SettingsFormSize, ConfigName);
                             SettingsFormSize_First = SettingsFormSize;
                             break;
                     }
                     switch (FileNameSchemaHistory != FileNameSchemaHistory_First) {
                         case true:
-                            Ini.Write("FileNameSchemaHistory", FileNameSchemaHistory, "Saved");
+                            Ini.Write("FileNameSchemaHistory", FileNameSchemaHistory, ConfigName);
                             FileNameSchemaHistory_First = FileNameSchemaHistory;
                             break;
                     }
                     switch (DownloadCustomArguments != DownloadCustomArguments_First) {
                         case true:
-                            Ini.Write("DownloadCustomArguments", DownloadCustomArguments, "Saved");
+                            Ini.Write("DownloadCustomArguments", DownloadCustomArguments, ConfigName);
                             DownloadCustomArguments_First = DownloadCustomArguments;
                             break;
                     }
                     switch (CustomArgumentsIndex != CustomArgumentsIndex_First) {
                         case true:
-                            Ini.Write("CustomArgumentsIndex", CustomArgumentsIndex, "Saved");
+                            Ini.Write("CustomArgumentsIndex", CustomArgumentsIndex, ConfigName);
                             CustomArgumentsIndex_First = CustomArgumentsIndex;
                             break;
                     }
                     switch (MainFormLocation != MainFormLocation_First) {
                         case true:
-                            Ini.Write("MainFormLocation", MainFormLocation, "Saved");
+                            Ini.Write("MainFormLocation", MainFormLocation, ConfigName);
                             MainFormLocation_First = MainFormLocation;
                             break;
                     }
@@ -2611,14 +2590,6 @@ namespace youtube_dl_gui {
 
                     if (Configurations.Saved.Default.downloadType != downloadType) {
                         Configurations.Saved.Default.downloadType = downloadType;
-                        Save = true;
-                    }
-                    if (Configurations.Saved.Default.UseStaticYtdl != UseStaticYtdl) {
-                        Configurations.Saved.Default.UseStaticYtdl = UseStaticYtdl;
-                        Save = true;
-                    }
-                    if (Configurations.Saved.Default.convertSaveAudioIndex != convertSaveAudioIndex) {
-                        Configurations.Saved.Default.convertSaveAudioIndex = convertSaveAudioIndex;
                         Save = true;
                     }
                     if (Configurations.Saved.Default.convertType != convertType) {
@@ -2694,66 +2665,58 @@ namespace youtube_dl_gui {
         public void ForceSave() {
             switch (Program.UseIni) {
                 case true:
-                    Ini.Write("downloadType", downloadType, "Saved");
+                    Ini.Write("downloadType", downloadType, ConfigName);
                     downloadType_First = downloadType;
 
-                    Ini.Write("UseStaticYtdl", UseStaticYtdl, "Saved");
-                    UseStaticYtdl_First = UseStaticYtdl;
-
-                    Ini.Write("convertSaveAudioIndex", convertSaveAudioIndex, "Saved");
-                    convertSaveAudioIndex_First = convertSaveAudioIndex;
-
-                    Ini.Write("convertType", convertType, "Saved");
+                    Ini.Write("convertType", convertType, ConfigName);
                     convertType_First = convertType;
 
-                    Ini.Write("convertCustom", convertCustom, "Saved");
+                    Ini.Write("convertCustom", convertCustom, ConfigName);
                     convertCustom_First = convertCustom;
 
-                    Ini.Write("videoQuality", videoQuality, "Saved");
+                    Ini.Write("videoQuality", videoQuality, ConfigName);
                     videoQuality_First = videoQuality;
 
-                    Ini.Write("audioQuality", audioQuality, "Saved");
+                    Ini.Write("audioQuality", audioQuality, ConfigName);
                     audioQuality_First = audioQuality;
 
-                    Ini.Write("VideoFormat", VideoFormat, "Saved");
+                    Ini.Write("VideoFormat", VideoFormat, ConfigName);
                     VideoFormat_First = VideoFormat;
 
-                    Ini.Write("AudioFormat", AudioFormat, "Saved");
+                    Ini.Write("AudioFormat", AudioFormat, ConfigName);
                     AudioFormat_First = AudioFormat;
 
-                    Ini.Write("AudioVBRQuality", AudioVBRQuality, "Saved");
+                    Ini.Write("AudioVBRQuality", AudioVBRQuality, ConfigName);
                     AudioVBRQuality_First = AudioVBRQuality;
 
-                    Ini.Write("BatchFormX", BatchFormX, "Saved");
+                    Ini.Write("BatchFormX", BatchFormX, ConfigName);
                     BatchFormX_First = BatchFormX;
 
-                    Ini.Write("BatchFormY", BatchFormY, "Saved");
+                    Ini.Write("BatchFormY", BatchFormY, ConfigName);
                     BatchFormY_First = BatchFormY;
 
-                    Ini.Write("MainFormSize", MainFormSize, "Saved");
+                    Ini.Write("MainFormSize", MainFormSize, ConfigName);
                     MainFormSize_First = MainFormSize;
 
-                    Ini.Write("SettingsFormSize", SettingsFormSize, "Saved");
+                    Ini.Write("SettingsFormSize", SettingsFormSize, ConfigName);
                     SettingsFormSize_First = SettingsFormSize;
 
-                    Ini.Write("FileNameSchemaHistory", FileNameSchemaHistory, "Saved");
+                    Ini.Write("FileNameSchemaHistory", FileNameSchemaHistory, ConfigName);
                     FileNameSchemaHistory_First = FileNameSchemaHistory;
 
-                    Ini.Write("DownloadCustomArguments", DownloadCustomArguments, "Saved");
+                    Ini.Write("DownloadCustomArguments", DownloadCustomArguments, ConfigName);
                     DownloadCustomArguments_First = DownloadCustomArguments;
 
-                    Ini.Write("CustomArgumentsIndex", CustomArgumentsIndex, "Saved");
+                    Ini.Write("CustomArgumentsIndex", CustomArgumentsIndex, ConfigName);
                     CustomArgumentsIndex_First = CustomArgumentsIndex;
 
-                    Ini.Write("MainFormLocation", MainFormLocation, "Saved");
+                    Ini.Write("MainFormLocation", MainFormLocation, ConfigName);
                     MainFormLocation_First = MainFormLocation;
 
                     break;
 
                 case false:
                     Configurations.Saved.Default.downloadType = downloadType;
-                    Configurations.Saved.Default.UseStaticYtdl = UseStaticYtdl;
-                    Configurations.Saved.Default.convertSaveAudioIndex = convertSaveAudioIndex;
                     Configurations.Saved.Default.convertType = convertType;
                     Configurations.Saved.Default.convertCustom = convertCustom;
                     Configurations.Saved.Default.videoQuality = videoQuality;
@@ -2778,93 +2741,42 @@ namespace youtube_dl_gui {
 
     class Ini {
         public static string Path = Environment.CurrentDirectory + "\\settings.ini";
-        //public static string ExecutableName = Assembly.GetExecutingAssembly().GetName().Name;
         public static string ExecutableName = "youtube-dl-gui";
 
+        private static string Read(string Key, string Section = null) {
+            var Value = new StringBuilder(65535);
+            NativeMethods.GetPrivateProfileString(Section ?? ExecutableName, Key, "", Value, 65535, Path);
+            return Value.ToString();
+        }
+
         public static string ReadString(string Key, string Section = null) {
-            var RetVal = new StringBuilder(65535);
-            NativeMethods.GetPrivateProfileString(Section ?? ExecutableName, Key, "", RetVal, 65535, Path);
-            return RetVal.ToString();
+            return Read(Key, Section);
         }
         public static bool ReadBool(string Key, string Section = null) {
-            var RetVal = new StringBuilder(255);
-            NativeMethods.GetPrivateProfileString(Section ?? ExecutableName, Key.ToLower(), "", RetVal, 255, Path);
-            switch (RetVal.ToString().ToLower()) {
-                case "true":
-                    return true;
-
-                default:
-                    return false;
-            }
+            return Read(Key, Section).ToLower() switch {
+                "true" => true,
+                _ => false
+            };
         }
         public static int ReadInt(string Key, string Section = null) {
-            var RetVal = new StringBuilder(255);
-            NativeMethods.GetPrivateProfileString(Section ?? ExecutableName, Key.ToLower(), "", RetVal, 255, Path);
-            string RetStr = RetVal.ToString();
-            if (int.TryParse(RetStr, out int RetInt)) {
-                return RetInt;
-            }
-            else {
-                return -1;
-            }
+            return int.TryParse(Read(Key, Section), out int Value) ? Value : -1;
         }
         public static decimal ReadDecimal(string Key, string Section = null) {
-            var RetVal = new StringBuilder(255);
-            NativeMethods.GetPrivateProfileString(Section ?? ExecutableName, Key, "", RetVal, 255, Path);
-            if (decimal.TryParse(RetVal.ToString(), out decimal RetDec)) {
-                return RetDec;
-            }
-            else {
-                return -1;
-            }
+            return decimal.TryParse(Read(Key, Section), out decimal Value) ? Value : -1;
         }
         public static Point ReadPoint(string Key, string Section = null) {
-            var RetVal = new StringBuilder(255);
-            NativeMethods.GetPrivateProfileString(Section ?? ExecutableName, Key, "", RetVal, 255, Path);
-            string[] Value = RetVal.ToString().Split(',');
-            if (Value.Length == 2) {
-                Point OutputPoint = new Point();
-                if (int.TryParse(Value[0], out int XTemp)) {
-                    OutputPoint.X = XTemp;
-                }
-                else {
-                    OutputPoint.X = -32000;
-                }
-                if (int.TryParse(Value[1], out int YTemp)) {
-                    OutputPoint.Y = YTemp;
-                }
-                else {
-                    OutputPoint.Y = -32000;
-                }
-                return OutputPoint;
+            string[] Value = Read(Key, Section).Split(',');
+            if (Value.Length == 2 && int.TryParse(Value[0], out int OutX) && int.TryParse(Value[1], out int OutY)) {
+                return new(OutX, OutY);
             }
-            else {
-                return new Point(-32000, -32000);
-            }
+            return new(-32000, -32000);
         }
         public static Size ReadSize(string Key, string Section = null) {
-            var RetVal = new StringBuilder(255);
-            NativeMethods.GetPrivateProfileString(Section ?? ExecutableName, Key, "", RetVal, 255, Path);
-            string[] Value = RetVal.ToString().Split(',');
-            if (Value.Length == 2) {
-                Size OutputPoint = new Size();
-                if (int.TryParse(Value[0], out int WTemp)) {
-                    OutputPoint.Width = WTemp;
-                }
-                else {
-                    OutputPoint.Width = -32000;
-                }
-                if (int.TryParse(Value[1], out int HTemp)) {
-                    OutputPoint.Height = HTemp;
-                }
-                else {
-                    OutputPoint.Height = -32000;
-                }
-                return OutputPoint;
+            string[] Value = Read(Key, Section).Split(',');
+            if (Value.Length == 2 && int.TryParse(Value[0], out int OutW) && int.TryParse(Value[1], out int OutH)) {
+                return new(OutW, OutH);
             }
-            else {
-                return new Size(-32000, -32000);
-            }
+            return new(-32000, -32000);
         }
 
         public static void Write(string Key, string Value, string Section = null) {

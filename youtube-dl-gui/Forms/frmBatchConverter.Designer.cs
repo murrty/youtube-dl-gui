@@ -93,6 +93,7 @@
             this.Controls.Add(this.lvBatchConvertQueue);
             this.Controls.Add(this.btnBatchConvertStartStopExit);
             this.Controls.Add(this.sbBatchDownloader);
+            this.Icon = Properties.Resources.youtube_dl_gui;
             this.MinimumSize = new System.Drawing.Size(670, 340);
             this.Name = "frmBatchConverter";
             this.Text = "frmBatchConverter";
