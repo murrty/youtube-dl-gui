@@ -58,7 +58,7 @@ namespace youtube_dl_gui {
                 string[] FormatExtensions = Config.Settings.General.extensionsShort.Split('|');
                 int MinimumList = Math.Min(FormatNames.Length, FormatExtensions.Length);
                 for (int i = 0; i < MinimumList; i++) {
-                    TempList += FormatNames[i] + "|*." + FormatExtensions[i];
+                    TempList += $"{FormatNames[i]} (*.{FormatExtensions[i]})|*.{FormatExtensions[i]}";
                 }
 
                 CustomFormats = TempList;
