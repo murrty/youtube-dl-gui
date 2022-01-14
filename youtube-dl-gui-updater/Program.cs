@@ -1,11 +1,15 @@
 ﻿using System;
+using System.Linq;
+using System.Management;
 using System.Windows.Forms;
 
 namespace youtube_dl_gui_updater {
     static class Program {
 
         public static bool IsDebug = false;
-        public static readonly Language lang = new Language();
+        public static string ComputerVersionInformation;
+        public static readonly Language lang = new();
+
 
         [STAThread]
         static int Main(string[] args) {
@@ -14,9 +18,8 @@ namespace youtube_dl_gui_updater {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-
             if (args.Length >= 4) {
-                UpdateInfo NewInfo = new UpdateInfo();
+                UpdateInfo NewInfo = new();
 
                 for (int CurrentArg = 0; CurrentArg < args.Length; CurrentArg++) {
                     switch (args[CurrentArg]) {
@@ -47,6 +50,7 @@ namespace youtube_dl_gui_updater {
                     NewInfo.OldFileName = "youtube-dl-gui.exe";
                 }
 
+                InitializeExceptions();
                 lang.LoadLanguage(NewInfo.LanguageFile);
 
                 System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
@@ -60,6 +64,68 @@ namespace youtube_dl_gui_updater {
                 }
                 return 1;
             }
+        }
+
+        public static void InitializeExceptions() {
+            using ManagementObjectSearcher searcher = new("SELECT * FROM Win32_OperatingSystem");
+            using ManagementObject info = searcher.Get().Cast<ManagementObject>().FirstOrDefault();
+
+            ComputerVersionInformation = string.Empty;
+
+            try {
+                ComputerVersionInformation +=
+                    $"Version: {info.Properties["Version"].Value}\n";
+            }
+            catch {
+                ComputerVersionInformation +=
+                    $"Version: Couldn't retrieve data.\n";
+            }
+
+            try {
+                ComputerVersionInformation +=
+                    $"Service Pack Major: {info.Properties["ServicePackMajorVersion"].Value}\n";
+            }
+            catch {
+                ComputerVersionInformation +=
+                    $"Service Pack Major: Couldn't retrieve data.\n";
+            }
+
+            try {
+                ComputerVersionInformation +=
+                    $"Service Pack Minor: {info.Properties["ServicePackMinorVersion"].Value}\n";
+            }
+            catch {
+                ComputerVersionInformation +=
+                    $"Service Pack Minor: Couldn't retrieve data.\n";
+            }
+
+            try {
+                ComputerVersionInformation +=
+                    $"System Caption: {info.Properties["Caption"].Value}";
+            }
+            catch {
+                ComputerVersionInformation +=
+                    $"System Caption: Couldn't retrieve data.";
+            }
+
+            //ComputerVersionInformation =
+            //    $"Version: {info.Properties["Version"].Value} " +
+            //    $"Service Pack Major: {info.Properties["ServicePackMajorVersion"].Value} " +
+            //    $"Service Pack Minor: {info.Properties["ServicePackMinorVersion"].Value} " +
+            //    $"System Caption: {info.Properties["Caption"].Value}";
+
+            AppDomain.CurrentDomain.UnhandledException += (sender, exception) => {
+                using murrty.frmException UnrecoverableException = new(new(exception) {
+                    Unrecoverable = true
+                });
+                UnrecoverableException.ShowDialog();
+            };
+            Application.ThreadException += (sender, exception) => {
+                using murrty.frmException UnrecoverableException = new(new(exception) {
+                    Unrecoverable = true
+                });
+                UnrecoverableException.ShowDialog();
+            };
         }
 
         [System.Diagnostics.Conditional("DEBUG")]

@@ -1,14 +1,7 @@
 ﻿namespace youtube_dl_gui_updater {
     partial class frmUpdater {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing) {
             if (disposing && (components != null)) {
                 components.Dispose();
@@ -18,25 +11,13 @@
 
         #region Windows Form Designer generated code
 
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
         private void InitializeComponent() {
             this.components = new System.ComponentModel.Container();
-            this.pbDownloadProgress = new System.Windows.Forms.ProgressBar();
             this.lbUpdaterHeader = new System.Windows.Forms.Label();
             this.lbUpdaterDetails = new System.Windows.Forms.Label();
             this.tmrForm = new System.Windows.Forms.Timer(this.components);
+            this.pbDownloadProgress = new murrty.controls.ExtendedProgressBar();
             this.SuspendLayout();
-            // 
-            // pbDownloadProgress
-            // 
-            this.pbDownloadProgress.Location = new System.Drawing.Point(12, 83);
-            this.pbDownloadProgress.Name = "pbDownloadProgress";
-            this.pbDownloadProgress.Size = new System.Drawing.Size(208, 19);
-            this.pbDownloadProgress.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
-            this.pbDownloadProgress.TabIndex = 0;
             // 
             // lbUpdaterHeader
             // 
@@ -64,15 +45,30 @@
             this.tmrForm.Interval = 1000;
             this.tmrForm.Tick += new System.EventHandler(this.tmrForm_Tick);
             // 
+            // pbDownloadProgress
+            // 
+            this.pbDownloadProgress.ContainerParent = this;
+            this.pbDownloadProgress.FastValueUpdate = true;
+            this.pbDownloadProgress.Location = new System.Drawing.Point(12, 78);
+            this.pbDownloadProgress.Maximum = 200;
+            this.pbDownloadProgress.Name = "pbDownloadProgress";
+            this.pbDownloadProgress.ProgressState = murrty.controls.ProgressBarState.Normal;
+            this.pbDownloadProgress.Size = new System.Drawing.Size(208, 24);
+            this.pbDownloadProgress.Style = System.Windows.Forms.ProgressBarStyle.Blocks;
+            this.pbDownloadProgress.TabIndex = 0;
+            this.pbDownloadProgress.Text = "Preparing download to do things ";
+            this.pbDownloadProgress.TextColor = System.Drawing.SystemColors.ControlText;
+            this.pbDownloadProgress.TextFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            // 
             // frmUpdater
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(232, 113);
+            this.Controls.Add(this.pbDownloadProgress);
             this.Controls.Add(this.lbUpdaterDetails);
             this.Controls.Add(this.lbUpdaterHeader);
-            this.Controls.Add(this.pbDownloadProgress);
             this.Icon = global::youtube_dl_gui_updater.Properties.Resources.youtube_dl_gui;
             this.MaximizeBox = false;
             this.Name = "frmUpdater";
@@ -86,7 +82,7 @@
 
         #endregion
 
-        private System.Windows.Forms.ProgressBar pbDownloadProgress;
+        private murrty.controls.ExtendedProgressBar pbDownloadProgress;
         private System.Windows.Forms.Label lbUpdaterHeader;
         private System.Windows.Forms.Label lbUpdaterDetails;
         private System.Windows.Forms.Timer tmrForm;

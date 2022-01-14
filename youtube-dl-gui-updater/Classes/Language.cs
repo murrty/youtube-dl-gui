@@ -4,6 +4,7 @@ using System.IO;
 namespace youtube_dl_gui_updater {
     public class Language {
 
+        #region Get Set Radio
         public string GenericRetry { get; private set; }
         public string GenericOk { get; private set; }
 
@@ -16,7 +17,9 @@ namespace youtube_dl_gui_updater {
         public string lbExceptionDescription { get; private set; }
         public string btnExceptionGithub { get; private set; }
         public string rtbUpdaterExceptionDetails { get; private set; }
+        #endregion
 
+        #region Interal English
         public class InternalEnglish {
             public static readonly string GenericRetry = "Retry";
             public static readonly string GenericOk = "OK";
@@ -46,6 +49,7 @@ namespace youtube_dl_gui_updater {
             lbUpdaterDetails = InternalEnglish.lbUpdaterDetails;
             rtbUpdaterExceptionDetails = InternalEnglish.rtbUpdaterExceptionDetails;
         }
+        #endregion
 
         public bool LoadLanguage(string LanguageFile = null) {
             try {
@@ -57,55 +61,54 @@ namespace youtube_dl_gui_updater {
                     if (!LanguageFile.EndsWith(".ini")) { LanguageFile += ".ini"; }
 
                     if (File.Exists(LanguageFile)) {
-                        using (StreamReader ReadLanguageFile = new StreamReader(LanguageFile)) {
-                            string ReadLine;    // The line of the file
-                            while ((ReadLine = ReadLanguageFile.ReadLine()) != null) {
-                                if (ReadLine.StartsWith("//") || string.IsNullOrWhiteSpace(ReadLine))
-                                    continue;
-                                else if (ReadLine.StartsWith("[") && ReadLine.Contains("]")) {
-                                    ReadHeaderValue(ReadLine, out string ReadHeader);
+                        using StreamReader ReadLanguageFile = new(LanguageFile);
+                        string ReadLine;    // The line of the file
+                        while ((ReadLine = ReadLanguageFile.ReadLine()) != null) {
+                            if (ReadLine.StartsWith("//") || string.IsNullOrWhiteSpace(ReadLine))
+                                continue;
+                            else if (ReadLine.StartsWith("[") && ReadLine.Contains("]")) {
+                                ReadHeaderValue(ReadLine, out string ReadHeader);
 
-                                    if (ReadHeader == null) {
-                                        throw new Exception("Unable to read the language ini header\nReadValue returned null.\nProblematic line is \"" + ReadLine + "\"\n\n");
-                                    }
+                                if (ReadHeader == null) {
+                                    throw new Exception("Unable to read the language ini header\nReadValue returned null.\nProblematic line is \"" + ReadLine + "\"\n\n");
                                 }
-                                else if (ReadLine.Contains("=")) {
-                                    GetControlInfo(ReadLine, out string ReadControl, out string ReadValue);
+                            }
+                            else if (ReadLine.Contains("=")) {
+                                GetControlInfo(ReadLine, out string ReadControl, out string ReadValue);
 
-                                    switch (ReadControl) {
-                                        case "genericretry":
-                                            GenericRetry = ReadValue;
-                                            continue;
-                                        case "genericok":
-                                            GenericOk = ReadValue;
-                                            continue;
+                                switch (ReadControl) {
+                                    case "genericretry":
+                                        GenericRetry = ReadValue;
+                                        continue;
+                                    case "genericok":
+                                        GenericOk = ReadValue;
+                                        continue;
 
-                                        case "frmexception":
-                                            frmException = ReadValue;
-                                            continue;
-                                        case "lbexceptionheader":
-                                            lbExceptionHeader = ReadValue;
-                                            continue;
-                                        case "lbexceptiondescription":
-                                            lbExceptionDescription = ReadValue;
-                                            continue;
-                                        case "btnexceptiongithub":
-                                            btnExceptionGithub = ReadValue;
-                                            continue;
+                                    case "frmexception":
+                                        frmException = ReadValue;
+                                        continue;
+                                    case "lbexceptionheader":
+                                        lbExceptionHeader = ReadValue;
+                                        continue;
+                                    case "lbexceptiondescription":
+                                        lbExceptionDescription = ReadValue;
+                                        continue;
+                                    case "btnexceptiongithub":
+                                        btnExceptionGithub = ReadValue;
+                                        continue;
 
-                                        case "frmupdater":
-                                            frmUpdater = ReadValue;
-                                            continue;
-                                        case "lbupdaterheader":
-                                            lbUpdaterHeader = ReadValue;
-                                            continue;
-                                        case "lbupdaterdetails":
-                                            lbUpdaterDetails = ReadValue;
-                                            continue;
-                                        case "rtbupdaterexceptiondetails":
-                                            rtbUpdaterExceptionDetails = ReadValue;
-                                            continue;
-                                    }
+                                    case "frmupdater":
+                                        frmUpdater = ReadValue;
+                                        continue;
+                                    case "lbupdaterheader":
+                                        lbUpdaterHeader = ReadValue;
+                                        continue;
+                                    case "lbupdaterdetails":
+                                        lbUpdaterDetails = ReadValue;
+                                        continue;
+                                    case "rtbupdaterexceptiondetails":
+                                        rtbUpdaterExceptionDetails = ReadValue;
+                                        continue;
                                 }
                             }
                         }
@@ -118,11 +121,10 @@ namespace youtube_dl_gui_updater {
                 }
             }
             catch (Exception ex) {
-                using (frmException error = new frmException()) {
-                    error.ReportedException = ex;
-                    error.FromLanguage = true;
-                    error.ShowDialog();
-                }
+                using murrty.frmException error = new(new(ex) {
+                    FromLanguage = true
+                });
+                error.ShowDialog();
                 return false;
             }
         }
@@ -133,8 +135,7 @@ namespace youtube_dl_gui_updater {
         /// <param name="Input">The string that may contain a header.</param>
         /// <returns>Returns the absolute header.</returns>
         private void ReadHeaderValue(string Input, out string Header) {
-            if (Input.Contains("//"))
-                Input = Input.Substring(0, Input.IndexOf("//"));
+            Input = Input.Contains("//") ? Input.Substring(0, Input.IndexOf("//")) : Input;
             Header = Input.Substring(1, Input.IndexOf(']') - 1);
         }
         /// <summary>
@@ -145,19 +146,16 @@ namespace youtube_dl_gui_updater {
         /// <param name="Value">The vlaue of the control.</param>
         private void GetControlInfo(string Input, out string Name, out string Value) {
             switch (Input.Split('=').Length) {
-                case -1:
-                case 0:
-                case 1:
+                case -1: case 0: {
                     Name = null;
                     Value = null;
-                    return;
+                } return;
 
-                default:
-                    if (Input.Contains("//"))
-                        Input.Substring(0, Input.IndexOf("//"));
+                default: {
+                    Input = Input.Contains("//") ? Input.Substring(0, Input.IndexOf("//")) : Input;
                     Name = Input.Split('=')[0].ToLower().Trim();
                     Value = Input.Substring(Input.IndexOf('=') + 1).Trim();
-                    break;
+                } break;
             }
         }
     }

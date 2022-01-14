@@ -1,4 +1,4 @@
-﻿namespace youtube_dl_gui_updater {
+﻿namespace murrty {
     partial class frmException {
         /// <summary>
         /// Required designer variable.
@@ -77,7 +77,7 @@
             this.btnExceptionOk.TabIndex = 3;
             this.btnExceptionOk.Text = "GenericOk";
             this.btnExceptionOk.UseVisualStyleBackColor = true;
-            this.btnExceptionOk.Click += new System.EventHandler(this.btnOk_Click);
+            this.btnExceptionOk.Click += new System.EventHandler(this.btnExceptionOk_Click);
             // 
             // lbVersion
             // 
@@ -97,7 +97,7 @@
             this.btnExceptionGithub.TabIndex = 5;
             this.btnExceptionGithub.Text = "btnExceptionGithub";
             this.btnExceptionGithub.UseVisualStyleBackColor = true;
-            this.btnExceptionGithub.Click += new System.EventHandler(this.btnGithub_Click);
+            this.btnExceptionGithub.Click += new System.EventHandler(this.btnExceptionGithub_Click);
             // 
             // btnExceptionRetry
             // 
