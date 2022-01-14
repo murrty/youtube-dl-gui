@@ -83,7 +83,6 @@ RetryDownload:
                 #region Download catch blocks (retry-enabled)
 
                 catch (ThreadAbortException) {
-                    Console.WriteLine("Thread aborted");
                     DownloadError = true;
 
                     this.Invoke((Action)delegate {
