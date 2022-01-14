@@ -26,13 +26,14 @@ namespace youtube_dl_gui_updater {
         }
 
         private void SetDownloadThread() {
-            DownloadThread = new Thread(() => {
+            DownloadThread = new Thread(async () => {
                 // The URL that will be downloaded using the client
                 string FileUrl = string.Format(ApplicationDownloadUrl, "youtube-dl-gui", Info.NewVersion);
                 // The temp path of the file.
                 string FileDestination = $"{Environment.CurrentDirectory}\\ytdlg.part";
                 // If the download errored or not to delete the temp files or whatnot.
                 bool DownloadError;
+                using murrty.classcontrols.ExtendedWebClient wc = new();
 
                 #region Download try block
 
@@ -47,7 +48,6 @@ RetryDownload:
                     });
 
                     // WebClient declaration
-                    using murrty.classcontrols.ExtendedWebClient wc = new();
                     wc.DownloadProgressChanged += (s, e) => {
                         // We throttle the progress changed event to prevent overloading.
                         // Maybe 25 is too low, but.
@@ -68,10 +68,6 @@ RetryDownload:
                             pbDownloadProgress.Style = ProgressBarStyle.Continuous;
                             pbDownloadProgress.Text = "100%";
                         });
-
-                        lock (e.UserState) {
-                            Monitor.Pulse(e.UserState);
-                        }
                     };
 
                     // GetRequest pre-reqs
@@ -79,13 +75,7 @@ RetryDownload:
                     wc.Method = murrty.classcontrols.HttpMethod.GET;
 
                     // Download the file to the destination
-                    // Lock's the object to... you know, I have no idea.
-                    object SyncLock = new();
-                    lock (SyncLock) {
-                        // Why does it not give a WebException when it has no connection?
-                        wc.DownloadFileAsync(new Uri(FileUrl), FileDestination, SyncLock);
-                        Monitor.Wait(SyncLock);
-                    }
+                    await wc.DownloadFileTaskAsync(new Uri(FileUrl), FileDestination);
                 }
 
                 #endregion
@@ -93,6 +83,7 @@ RetryDownload:
                 #region Download catch blocks (retry-enabled)
 
                 catch (ThreadAbortException) {
+                    Console.WriteLine("Thread aborted");
                     DownloadError = true;
 
                     this.Invoke((Action)delegate {
@@ -110,6 +101,7 @@ RetryDownload:
                         tmrForm.Stop();
                         this.Text = this.Text.Trim('.');
                         pbDownloadProgress.ProgressState = murrty.controls.ProgressBarState.Error;
+                        pbDownloadProgress.Text = "Download exception occurred";
                     });
 
                     using murrty.frmException NewException = new(new(webEx) {
