@@ -1,5 +1,7 @@
 ﻿using System;
+using System.IO;
 using System.Net;
+using System.Security.Cryptography;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -76,6 +78,43 @@ RetryDownload:
 
                     // Download the file to the destination
                     await wc.DownloadFileTaskAsync(new Uri(FileUrl), FileDestination);
+
+                    if (Info.UpdateHash != null) {
+                        this.Invoke((Action)delegate {
+                            pbDownloadProgress.Text = "Calculating hash";
+                        });
+
+                        using SHA256 ComputeUpdateHash = SHA256Cng.Create();
+                        using FileStream UpdateStream = File.OpenRead($"{Environment.CurrentDirectory}\\ytdlg.part");
+                        string UpdateHash = BitConverter.ToString(ComputeUpdateHash.ComputeHash(UpdateStream)).Replace("-", "").ToLower();
+                        UpdateStream.Close();
+
+                        if (Info.UpdateHash != UpdateHash) {
+                            this.Invoke((Action)delegate {
+                                pbDownloadProgress.Text = "Hash does not match";
+                                pbDownloadProgress.ProgressState = murrty.controls.ProgressBarState.Paused;
+                            });
+                            switch (MessageBox.Show($"The hash calculated by the updater does not match the known hash of the update.\r\n\r\nExpected: {Info.UpdateHash}\r\n\r\nCalculated: {UpdateHash}", "youtube-dl-gui-updater", MessageBoxButtons.AbortRetryIgnore, MessageBoxIcon.Warning)) {
+                                case DialogResult.Abort: {
+                                } throw new CryptographicException("The known hash of the file does not match the hash caluclated by the updater.");
+
+                                case DialogResult.Retry: {
+                                    File.Delete(Environment.CurrentDirectory + "\\ytdlg.part");
+                                    this.Invoke((Action)delegate {
+                                        tmrForm.Start();
+                                        pbDownloadProgress.Value = 50;
+                                        pbDownloadProgress.ProgressState = murrty.controls.ProgressBarState.Normal;
+                                    });
+                                } goto RetryDownload;
+
+                                case DialogResult.Ignore: {
+                                    this.Invoke((Action)delegate {
+                                        pbDownloadProgress.ProgressState = murrty.controls.ProgressBarState.Normal;
+                                    });
+                                } break;
+                            }
+                        }
+                    }
                 }
 
                 #endregion
@@ -148,8 +187,8 @@ RetryDownload:
 
                 try {
                     // If a download error occurred, we need to delete the temp file.
-                    if (DownloadError && System.IO.File.Exists(FileDestination)) {
-                        System.IO.File.Delete(FileDestination);
+                    if (DownloadError && File.Exists(FileDestination)) {
+                        File.Delete(FileDestination);
                         this.Invoke((Action)delegate {
                             tmrForm.Stop();
                             this.Text = this.Text.Trim('.');
@@ -161,8 +200,8 @@ RetryDownload:
                     else {
                         // Sanity check the file, if it's less than or equal to 512 bytes.
                         // Who knows, this may be the real size :)
-                        if (new System.IO.FileInfo(FileDestination).Length <= 512) {
-                            System.IO.File.Delete(FileDestination);
+                        if (new FileInfo(FileDestination).Length <= 512) {
+                            File.Delete(FileDestination);
                             this.Invoke((Action)delegate {
                                 tmrForm.Stop();
                                 this.Text = this.Text.Trim('.');
@@ -172,9 +211,6 @@ RetryDownload:
                             });
                         }
                         else {
-                            // We can assume it may be a complete program.
-                            // Should we sanity check the hash?
-                            // This point is the best time to do it.
                             this.Invoke((Action)delegate {
                                 // We are going to assume it's properly downloaded.
                                 tmrForm.Stop();
@@ -182,12 +218,12 @@ RetryDownload:
                                 pbDownloadProgress.Value += 25;
 
                                 // We're saving the old version as a temp backup, at least until the program launches.
-                                if (System.IO.File.Exists(Environment.CurrentDirectory + "\\" + Info.OldFileName)) {
-                                    System.IO.File.Move(Environment.CurrentDirectory + "\\" + Info.OldFileName, Environment.CurrentDirectory + "\\youtube-dl-gui.old.exe");
+                                if (File.Exists(Environment.CurrentDirectory + "\\" + Info.OldFileName)) {
+                                    File.Move(Environment.CurrentDirectory + "\\" + Info.OldFileName, Environment.CurrentDirectory + "\\youtube-dl-gui.old.exe");
                                 }
 
                                 // Move the new file to the old file.
-                                System.IO.File.Move(Environment.CurrentDirectory + "\\ytdlg.part", Environment.CurrentDirectory + "\\" + Info.OldFileName);
+                                File.Move(Environment.CurrentDirectory + "\\ytdlg.part", Environment.CurrentDirectory + "\\" + Info.OldFileName);
 
                                 // Set the progress bar.
                                 pbDownloadProgress.Value = pbDownloadProgress.Maximum;

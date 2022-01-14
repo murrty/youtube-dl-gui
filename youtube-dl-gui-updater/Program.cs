@@ -14,29 +14,40 @@ namespace youtube_dl_gui_updater {
         [STAThread]
         static int Main(string[] args) {
             DebugOnlyMethod();
+            //string TestString = "exe sha-256: 7B72019C7800821B81710509B6D0E97EDFE27456A93CFE44E21BAB0BF2F92471\r\nzip sha-256: DD916EFF6F34CEE4AB1479165768CA7D3BF37AE1E04D109852AD4C12332C75EA(languages updated)";
+
+            //TestString = TestString.Substring(TestString.IndexOf("exe sha-256: ") + 13);
+            //TestString = TestString.Substring(0, TestString.IndexOf("\r\nzip sha"));
+            //MessageBox.Show(TestString);
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
             if (args.Length >= 4) {
                 UpdateInfo NewInfo = new();
-
                 for (int CurrentArg = 0; CurrentArg < args.Length; CurrentArg++) {
                     switch (args[CurrentArg]) {
-                        case "-v": case "-version":
+
+                        case "-v": case "-version": {
                             CurrentArg++;
                             NewInfo.NewVersion = args[CurrentArg];
-                            break;
+                        } break;
 
-                        case "-n": case "-name":
+                        case "-n": case "-name": {
                             CurrentArg++;
                             NewInfo.OldFileName = args[CurrentArg];
-                            break;
+                        } break;
 
-                        case "-l": case "-language":
+                        case "-l": case "-language": {
                             CurrentArg++;
                             NewInfo.LanguageFile = args[CurrentArg];
-                            break;
+                        } break;
+
+                        case "-h": case "-hash": {
+                            CurrentArg++;
+                            NewInfo.UpdateHash = args[CurrentArg].ToLower();
+                        } break;
+
                     }
                 }
 

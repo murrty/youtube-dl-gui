@@ -3,5 +3,6 @@
         public string NewVersion;
         public string OldFileName;
         public string LanguageFile;
+        public string UpdateHash;
     }
 }

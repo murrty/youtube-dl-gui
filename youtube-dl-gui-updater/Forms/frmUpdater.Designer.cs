@@ -53,6 +53,7 @@
             this.pbDownloadProgress.Maximum = 200;
             this.pbDownloadProgress.Name = "pbDownloadProgress";
             this.pbDownloadProgress.ProgressState = murrty.controls.ProgressBarState.Normal;
+            this.pbDownloadProgress.ShowInTaskbar = true;
             this.pbDownloadProgress.Size = new System.Drawing.Size(208, 24);
             this.pbDownloadProgress.Style = System.Windows.Forms.ProgressBarStyle.Blocks;
             this.pbDownloadProgress.TabIndex = 0;
