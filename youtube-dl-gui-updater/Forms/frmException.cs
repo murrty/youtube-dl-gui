@@ -67,7 +67,7 @@ namespace murrty {
                     } break;
 
                     case WebException WebEx: {
-                        rtbExceptionDetails.Text = (ReportedException.Unrecoverable ? "An unrecoverable web exception occurred, and the application will exit." : "A web exception occured.") + "\n\n" + $"Web Address: {ReportedException.ExtraInfo}\n" +
+                        rtbExceptionDetails.Text = (ReportedException.Unrecoverable ? "An unrecoverable WebException occurred, and the application will exit." : "A caught WebException occured.") + "\n\n" + $"Web Address: {ReportedException.ExtraInfo}\n" +
                                                  $"Message: {WebEx.Message}\n" +
                                                  $"Stacktrace: {WebEx.StackTrace}\n" +
                                                  $"Source: {WebEx.Source}\n" +
@@ -77,11 +77,11 @@ namespace murrty {
                     } break;
 
                     case System.Threading.ThreadAbortException ThrAbrEx: {
-                        rtbExceptionDetails.Text = (ReportedException.Unrecoverable ? "An unrecoverable thread abort exception occurred, and the application will exit." : "A thread abort exception occurred.") + "\n\n" + "This exception may have been thrown on accident.";
+                        rtbExceptionDetails.Text = (ReportedException.Unrecoverable ? "An unrecoverable ThreadAbortException occurred, and the application will exit." : "A caught ThreadAbortException occurred.") + "\n\n" + "This exception may have been pushed here on accident.";
                     } break;
 
                     case Exception Ex: {
-                        rtbExceptionDetails.Text = (ReportedException.Unrecoverable ? "An unrecoverable exception occurred, and the application will exit." : "An exception occured.") + "\n\n" +
+                        rtbExceptionDetails.Text = (ReportedException.Unrecoverable ? $"An unrecoverable {Ex.GetType().Name} occurred, and the application will exit." : $"A caught {Ex.GetType().Name} occured.") + "\n\n" +
                                                    $"Message: {Ex.Message}\n" +
                                                    $"Stacktrace: {Ex.StackTrace}\n" +
                                                    $"Source: {Ex.Source}\n" +
@@ -93,15 +93,6 @@ namespace murrty {
                         rtbExceptionDetails.Text = $"An uncast exception occurred. The updater may exit after this dialog closes.\n";
                     } break;
                 }
-
-                rtbExceptionDetails.Text += "\n========== FULL REPORT ==========\n" +
-                                            ReportedException.ReceivedException.ToString() +
-                                            "\n========== END  REPORT ==========\n";
-
-                rtbExceptionDetails.Text += "\n========== OS  INFO ==========\n" +
-                                            "(Please don't omit this info, it may be important)\n" +
-                                            GetRelevantInformation() +
-                                            "\n========== END INFO ==========";
             }
             else {
                 rtbExceptionDetails.Text = ReportedException.CustomDescription;
