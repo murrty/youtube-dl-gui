@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Runtime.Serialization.Json;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
@@ -16,6 +17,7 @@ namespace youtube_dl_gui {
         private static readonly bool bypassDebug = true;
         private static readonly string NoUpdateBase = "No updates available.\r\n\r\nCurrent version: {0}\r\nLatest version: {1}";
         private static readonly string NoBetaUpdateBase = "No beta updates available.\r\n\r\nCurrent beta version: {0}\r\nNewest beta version: {1}";
+        private const string KnownUpdaterHash = "B4C6813E0F226A2882C7269F7287BB24612A74DC235D134E886AA9902285545A";
 
         #region Major methods
         /// <summary>
@@ -162,7 +164,7 @@ namespace youtube_dl_gui {
             }
             finally {
                 if (FailedToCheck) {
-                    if (MessageBox.Show("The update check has failed. Would you like to manually check?", "youtube-dl-gui", MessageBoxButtons.YesNo) == DialogResult.Yes) {
+                    if (MessageBox.Show("The update check has failed. Would you like to manually check?", "youtube-dl-gui", MessageBoxButtons.YesNo, MessageBoxIcon.Error) == DialogResult.Yes) {
                         Process.Start(string.Format(GitData.GitLinks.GithubRepoUrl + "/releases/latest", "murrty", "youtube-dl-gui"));
                     }
                 }
@@ -170,9 +172,27 @@ namespace youtube_dl_gui {
         }
 
         public static void UpdateApplication() {
+            // Delete the file that already exists
+            if (File.Exists(Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe")) {
+                File.Delete(Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe");
+            }
+            // Write the one from resource.
             File.WriteAllBytes(Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe", Properties.Resources.youtube_dl_gui_updater);
 
-            Process Updater = new Process();
+            // Sanity check the updater.
+            using SHA256 ComputeUpdaterHash = SHA256Cng.Create();
+            using FileStream UpdaterStream = File.OpenRead(Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe");
+            string UpdaterHash = BitConverter.ToString(ComputeUpdaterHash.ComputeHash(UpdaterStream)).Replace("-", "").ToLower();
+            UpdaterStream.Close();
+
+            if (UpdaterHash != KnownUpdaterHash.ToLower()) {
+                if (MessageBox.Show("The hash of the updater does not match the internally known hash. It might still work but yknow. Update anyways?", "youtube-dl-gui", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No) {
+                    File.Delete(Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe");
+                    return;
+                }
+            }
+
+            Process Updater = new();
             Updater.StartInfo.FileName = Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe";
             string ArgumentsBuffer = string.Format("-v \"{0}\" -n \"{1}\" -l \"{2}\"",
                                                   GitInfo.UpdateVersion,
