@@ -5,7 +5,7 @@
     <Setting Name="downloadType" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="UseStaticYtdl" Type="System.Int32" Scope="User">
+    <Setting Name="convertSaveVideoIndex" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
     <Setting Name="convertSaveAudioIndex" Type="System.Int32" Scope="User">
@@ -55,6 +55,9 @@
     </Setting>
     <Setting Name="MainFormLocation" Type="System.Drawing.Point" Scope="User">
       <Value Profile="(Default)">-32000, -32000</Value>
+    </Setting>
+    <Setting Name="convertSaveUnknownIndex" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
     </Setting>
   </Settings>
 </SettingsFile>

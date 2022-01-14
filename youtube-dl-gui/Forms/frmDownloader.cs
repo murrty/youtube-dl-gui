@@ -209,12 +209,12 @@ sanitizecheck:
                     OutputDirectory += "\\" + CurrentDownload.BatchTime;
                 }
             }
-            if (string.IsNullOrWhiteSpace(Config.Settings.Downloads.fileNameSchema)) {
-                rtbConsoleOutput.AppendText("The file name schema is not properly set, falling back to the default one. Consider setting it in the settings.");
+            if (string.IsNullOrWhiteSpace(CurrentDownload.FileNameSchema)) {
+                rtbConsoleOutput.AppendText("The file name schema is not properly set, falling back to the default one. Consider setting it in the settings, or making sure the schema list has a proper schema format on the main form.");
                 OutputDirectory += "\\" + webFolder + "{0}" + Configurations.Downloads.Default.Properties["fileNameSchema"].DefaultValue as string + "\"";
             }
             else {
-                OutputDirectory += "\\" + webFolder + "{0}" + Config.Settings.Downloads.fileNameSchema + "\"";
+                OutputDirectory += "\\" + webFolder + "{0}" + CurrentDownload.FileNameSchema + "\"";
             }
 
             ArgumentsBuffer = CurrentDownload.DownloadURL + " -o " + OutputDirectory;

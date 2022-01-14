@@ -5,6 +5,7 @@ using System.Net;
 using System.Runtime.Serialization.Json;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
 using System.Xml;
@@ -18,6 +19,7 @@ namespace youtube_dl_gui {
         private static readonly string NoUpdateBase = "No updates available.\r\n\r\nCurrent version: {0}\r\nLatest version: {1}";
         private static readonly string NoBetaUpdateBase = "No beta updates available.\r\n\r\nCurrent beta version: {0}\r\nNewest beta version: {1}";
         private const string KnownUpdaterHash = "B4C6813E0F226A2882C7269F7287BB24612A74DC235D134E886AA9902285545A";
+        private const string SHARegex = "\\b[A-Fa-f0-9]{64}\\b";
 
         #region Major methods
         /// <summary>
@@ -194,11 +196,7 @@ namespace youtube_dl_gui {
 
             Process Updater = new();
             Updater.StartInfo.FileName = Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe";
-            string ArgumentsBuffer = string.Format("-v \"{0}\" -n \"{1}\" -l \"{2}\"",
-                                                  GitInfo.UpdateVersion,
-                                                  AppDomain.CurrentDomain.FriendlyName,
-                                                  Environment.CurrentDirectory + "\\lang\\" + Config.Settings.Initialization.LanguageFile + ".ini");
-            Updater.StartInfo.Arguments = ArgumentsBuffer;
+            Updater.StartInfo.Arguments =  $"-v {GitInfo.UpdateVersion} -n {AppDomain.CurrentDomain.FriendlyName} -l {Environment.CurrentDirectory + "\\lang\\" + Config.Settings.Initialization.LanguageFile + ".ini"}{(GitInfo.UpdateHash != null ? $" -h {GitInfo.UpdateHash}" : "")}";
             Updater.Start();
             Environment.Exit(0);
         }
@@ -396,7 +394,7 @@ namespace youtube_dl_gui {
                         throw new ApiParsingException("The retrieved Xml only contains 1 ChildNode, and will not be parsed.", Url, Xml);
 
                     default:
-                        if (Program.IsDebug) MessageBox.Show(doc.DocumentElement.ChildNodes.Count.ToString());
+                        if (Program.IsDebug) MessageBox.Show($"{doc.DocumentElement.ChildNodes.Count} total child nodes");
                         break;
                 }
 
@@ -416,7 +414,21 @@ namespace youtube_dl_gui {
 
                 // Same thing as above, placeholder if it failed to retrieve.
                 if (xmlBody.Count == 0) GitInfo.UpdateBody = "Unable to retrieve the update body from the API. This may be a change in API, or a temporary issue.";
-                else GitInfo.UpdateBody = xmlBody[0].InnerText;
+                else {
+                    GitInfo.UpdateBody = xmlBody[0].InnerText;
+                    string[] Lines = GitInfo.UpdateBody.ToLower().Replace("\r\n", "\n").Split('\n');
+                    if (Lines.Length > 0) {
+                        for (int i = 0; i < Lines.Length; i++) {
+                            if (Lines[i].Contains("exe") && Lines[i].Contains("sha256") || Lines[i].Contains("sha 256") || Lines[i].Contains("sha-256")) {
+                                Match HashMatch = Regex.Match(Lines[i], SHARegex);
+                                if (HashMatch.Success) {
+                                    GitInfo.UpdateHash = HashMatch.Value;
+                                }
+                                break;
+                            }
+                        }
+                    }
+                }
 
                 // Tries to parse the UpdateVersion as a decimal with an invariant culture for comparison.
                 // Throw a decimal parsing exception if it fails, this is a critical parse.
@@ -467,7 +479,7 @@ namespace youtube_dl_gui {
                         throw new ApiParsingException("The retrieved Xml only contains 1 ChildNode, and will not be parsed.", Url, Xml);
 
                     default:
-                        if (Program.IsDebug) MessageBox.Show(doc.DocumentElement.ChildNodes.Count.ToString());
+                        if (Program.IsDebug) MessageBox.Show($"{doc.DocumentElement.ChildNodes.Count} total child nodes");
                         break;
                 }
 
@@ -487,7 +499,21 @@ namespace youtube_dl_gui {
 
                 // Same thing as above, placeholder if it failed to retrieve.
                 if (xmlBody.Count == 0) GitInfo.UpdateBody = "Unable to retrieve the update body from the API. This may be a change in API, or a temporary issue.";
-                else GitInfo.UpdateBody = xmlBody[0].InnerText;
+                else {
+                    GitInfo.UpdateBody = xmlBody[0].InnerText;
+                    string[] Lines = GitInfo.UpdateBody.ToLower().Replace("\r\n", "\n").Split('\n');
+                    if (Lines.Length > 0) {
+                        for (int i = 0; i < Lines.Length; i++) {
+                            if (Lines[i].Contains("exe") && Lines[i].Contains("sha256") || Lines[i].Contains("sha 256") || Lines[i].Contains("sha-256")) {
+                                Match HashMatch = Regex.Match(Lines[i], SHARegex);
+                                if (HashMatch.Success) {
+                                    GitInfo.UpdateHash = HashMatch.Value;
+                                }
+                                break;
+                            }
+                        }
+                    }
+                }
 
                 return GitInfo.UpdateVersion;
             }
@@ -612,9 +638,10 @@ namespace youtube_dl_gui {
             public static readonly string[] Repos = { "youtube-dl", "youtube-dlc", "yt-dlp" };
         }
 
-        public string UpdateVersion = "-1";
-        public string UpdateName = "UpdateNameString";
         public string UpdateBody = "UpdateBodyString";
+        public string UpdateHash = null;
+        public string UpdateName = "UpdateNameString";
+        public string UpdateVersion = "-1";
         public bool UpdateAvailable = false;
         public string YoutubeDlVersion = "0000.00.00";
         //public bool YoutubeDlUpdateAvailableBool = false;

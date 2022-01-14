@@ -27,6 +27,10 @@ namespace youtube_dl_gui {
         /// The status of the current download
         /// </summary>
         public DownloadStatus Status = DownloadStatus.None;
+        /// <summary>
+        /// The file-name schema of the download.
+        /// </summary>
+        public string FileNameSchema = null;
 
         /// <summary>
         /// The type of the download.
@@ -105,6 +109,10 @@ namespace youtube_dl_gui {
         /// The int index of the end of the playlist.
         /// </summary>
         public int PlaylistSelectionIndexEnd = -1;
+
+        public DownloadInfo() {
+            FileNameSchema = Config.Settings.Downloads.fileNameSchema;
+        }
 
     }
 

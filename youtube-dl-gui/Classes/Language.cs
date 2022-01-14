@@ -2535,9 +2535,7 @@ namespace youtube_dl_gui {
                 }
             }
             catch (Exception ex) {
-                using (frmException error = new frmException()) {
-                    error.ReportedException = ex;
-                    error.FromLanguage = true;
+                using (murrty.frmException error = new murrty.frmException(new murrty.ExceptionInfo(ex) { FromLanguage = true })) {
                     error.ShowDialog();
                 }
                 return false;
@@ -2556,21 +2554,27 @@ namespace youtube_dl_gui {
         /// <summary>
         /// Parses the control name and value from a string.
         /// </summary>
-        /// <param name="Input">The string that will be parsed.</param>
+        /// <param name="Input">The string that will be parsed. Empty values are permitted.</param>
         /// <param name="Name">The output of the Name of the control to be named, as lowercase.</param>
-        /// <param name="Value">The vlaue of the control.</param>
+        /// <param name="Value">The value of the control.</param>
         private void GetControlInfo(string Input, out string Name, out string Value) {
             switch (Input.Split('=').Length) {
-                case -1: case 0: case 1:
+                case -1: case 0: {
                     Name = null;
                     Value = null;
-                    return;
+                } return;
 
-                default:
+                case 1: {
+                    if (Input.Contains("//")) Input.Substring(0, Input.IndexOf("//"));
+                    Name = Input.Split('=')[0].ToLower().Trim();
+                    Value = string.Empty;
+                } break;
+
+                default: {
                     if (Input.Contains("//")) Input.Substring(0, Input.IndexOf("//"));
                     Name = Input.Split('=')[0].ToLower().Trim();
                     Value = Input.Substring(Input.IndexOf('=') + 1).Trim();
-                    break;
+                } break;
             }
         }
         #endregion

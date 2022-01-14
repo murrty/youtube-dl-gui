@@ -2325,6 +2325,9 @@ namespace youtube_dl_gui {
 
         #region Variables
         public int downloadType = 0;
+        public int convertSaveVideoIndex = 0;
+        public int convertSaveAudioIndex = 0;
+        public int convertSaveUnknownIndex = 0;
         public int convertType = 0;
         public string convertCustom = string.Empty;
         public int videoQuality = 0;
@@ -2342,6 +2345,9 @@ namespace youtube_dl_gui {
         public Point MainFormLocation = new(-32000, -32000);
 
         private int downloadType_First = 0;
+        private int convertSaveVideoIndex_First = 0;
+        private int convertSaveAudioIndex_First = 0;
+        private int convertSaveUnknownIndex_First = 0;
         private int convertType_First = 0;
         private string convertCustom_First = string.Empty;
         private int videoQuality_First = 0;
@@ -2368,6 +2374,24 @@ namespace youtube_dl_gui {
                         case true:
                             downloadType = Ini.ReadInt("downloadType", ConfigName);
                             downloadType_First = downloadType;
+                            break;
+                    }
+                    switch (Ini.KeyExists("convertSaveVideoIndex", ConfigName)) {
+                        case true:
+                            convertSaveVideoIndex = Ini.ReadInt("convertSaveVideoIndex", "Saved");
+                            convertSaveVideoIndex_First = convertSaveVideoIndex;
+                            break;
+                    }
+                    switch (Ini.KeyExists("convertSaveAudioIndex", "Saved")) {
+                        case true:
+                            convertSaveAudioIndex = Ini.ReadInt("convertSaveAudioIndex", "Saved");
+                            convertSaveAudioIndex_First = convertSaveAudioIndex;
+                            break;
+                    }
+                    switch (Ini.KeyExists("convertSaveUnknownIndex", ConfigName)) {
+                        case true:
+                            convertSaveUnknownIndex = Ini.ReadInt("convertSaveUnknownIndex", "Saved");
+                            convertSaveUnknownIndex_First = convertSaveUnknownIndex;
                             break;
                     }
                     switch (Ini.KeyExists("convertType", ConfigName)) {
@@ -2465,6 +2489,9 @@ namespace youtube_dl_gui {
 
                 case false:
                     downloadType = Configurations.Saved.Default.downloadType;
+                    convertSaveVideoIndex = Configurations.Saved.Default.convertSaveVideoIndex;
+                    convertSaveAudioIndex = Configurations.Saved.Default.convertSaveAudioIndex;
+                    convertSaveUnknownIndex = Configurations.Saved.Default.convertSaveUnknownIndex;
                     convertType = Configurations.Saved.Default.convertType;
                     convertCustom = Configurations.Saved.Default.convertCustom;
                     videoQuality = Configurations.Saved.Default.videoQuality;
@@ -2490,6 +2517,24 @@ namespace youtube_dl_gui {
                         case true:
                             Ini.Write("downloadType", downloadType, ConfigName);
                             downloadType_First = downloadType;
+                            break;
+                    }
+                    switch (convertSaveVideoIndex != convertSaveVideoIndex_First) {
+                        case true:
+                            Ini.Write("convertSaveVideoIndex", convertSaveVideoIndex, ConfigName);
+                            convertSaveVideoIndex_First = convertSaveVideoIndex;
+                            break;
+                    }
+                    switch (convertSaveAudioIndex != convertSaveAudioIndex_First) {
+                        case true:
+                            Ini.Write("convertSaveAudioIndex", convertSaveAudioIndex, ConfigName);
+                            convertSaveAudioIndex_First = convertSaveAudioIndex;
+                            break;
+                    }
+                    switch (convertSaveUnknownIndex != convertSaveUnknownIndex_First) {
+                        case true:
+                            Ini.Write("convertSaveUnknownIndex", convertSaveUnknownIndex, ConfigName);
+                            convertSaveUnknownIndex_First = convertSaveUnknownIndex;
                             break;
                     }
                     switch (convertType != convertType_First) {
@@ -2592,6 +2637,18 @@ namespace youtube_dl_gui {
                         Configurations.Saved.Default.downloadType = downloadType;
                         Save = true;
                     }
+                    if (Configurations.Saved.Default.convertSaveVideoIndex != convertSaveVideoIndex) {
+                        Configurations.Saved.Default.convertSaveVideoIndex = convertSaveVideoIndex;
+                        Save = true;
+                    }
+                    if (Configurations.Saved.Default.convertSaveAudioIndex != convertSaveAudioIndex) {
+                        Configurations.Saved.Default.convertSaveAudioIndex = convertSaveAudioIndex;
+                        Save = true;
+                    }
+                    if (Configurations.Saved.Default.convertSaveUnknownIndex != convertSaveUnknownIndex) {
+                        Configurations.Saved.Default.convertSaveUnknownIndex = convertSaveUnknownIndex;
+                        Save = true;
+                    }
                     if (Configurations.Saved.Default.convertType != convertType) {
                         Configurations.Saved.Default.convertType = convertType;
                         Save = true;
@@ -2668,6 +2725,15 @@ namespace youtube_dl_gui {
                     Ini.Write("downloadType", downloadType, ConfigName);
                     downloadType_First = downloadType;
 
+                    Ini.Write("convertSaveVideoIndex", convertSaveVideoIndex, ConfigName);
+                    convertSaveVideoIndex_First = convertSaveVideoIndex;
+
+                    Ini.Write("convertSaveAudioIndex", convertSaveAudioIndex, ConfigName);
+                    convertSaveAudioIndex_First = convertSaveAudioIndex;
+
+                    Ini.Write("convertSaveUnknownIndex", convertSaveUnknownIndex, ConfigName);
+                    convertSaveUnknownIndex_First = convertSaveUnknownIndex;
+
                     Ini.Write("convertType", convertType, ConfigName);
                     convertType_First = convertType;
 
@@ -2717,6 +2783,9 @@ namespace youtube_dl_gui {
 
                 case false:
                     Configurations.Saved.Default.downloadType = downloadType;
+                    Configurations.Saved.Default.convertSaveVideoIndex = convertSaveVideoIndex;
+                    Configurations.Saved.Default.convertSaveAudioIndex = convertSaveAudioIndex;
+                    Configurations.Saved.Default.convertSaveUnknownIndex = convertSaveUnknownIndex;
                     Configurations.Saved.Default.convertType = convertType;
                     Configurations.Saved.Default.convertCustom = convertCustom;
                     Configurations.Saved.Default.videoQuality = videoQuality;
@@ -2747,6 +2816,9 @@ namespace youtube_dl_gui {
             var Value = new StringBuilder(65535);
             NativeMethods.GetPrivateProfileString(Section ?? ExecutableName, Key, "", Value, 65535, Path);
             return Value.ToString();
+        }
+        private static void WriteString(string Key, string Value, string Section = null) {
+            NativeMethods.WritePrivateProfileString(Section ?? ExecutableName, Key, Value, Path);
         }
 
         public static string ReadString(string Key, string Section = null) {
@@ -2780,22 +2852,22 @@ namespace youtube_dl_gui {
         }
 
         public static void Write(string Key, string Value, string Section = null) {
-            NativeMethods.WritePrivateProfileString(Section ?? ExecutableName, Key, Value, Path);
+            WriteString(Key, Value, Section);
         }
         public static void Write(string Key, bool Value, string Section = null) {
-            NativeMethods.WritePrivateProfileString(Section ?? ExecutableName, Key, Value ? "True" : "False", Path);
+            WriteString(Key, Value ? "True" : "False", Section);
         }
         public static void Write(string Key, int Value, string Section = null) {
-            NativeMethods.WritePrivateProfileString(Section ?? ExecutableName, Key, Value.ToString(), Path);
+            WriteString(Key, Value.ToString(), Section);
         }
         public static void Write(string Key, decimal Value, string Section = null) {
-            NativeMethods.WritePrivateProfileString(Section ?? ExecutableName, Key, Value.ToString(), Path);
+            WriteString(Key, Value.ToString(), Section);
         }
         public static void Write(string Key, Point Value, string Section = null) {
-            NativeMethods.WritePrivateProfileString(Section ?? ExecutableName, Key, Value.X + "," + Value.Y, Path);
+            WriteString(Key, $"{Value.X},{Value.Y}", Section);
         }
         public static void Write(string Key, Size Value, string Section = null) {
-            NativeMethods.WritePrivateProfileString(Section ?? ExecutableName, Key, Value.Width + "," + Value.Height, Path);
+            WriteString(Key, $"{Value.Width},{Value.Height}", Section);
         }
 
         public static void DeleteKey(string Key, string Section = null) {

@@ -18,11 +18,17 @@ namespace youtube_dl_gui {
                                            "Ogg Video (*.ogv, *ogx)|*.ogv;*.ogx"        + "|" +
                                            "QuickTime Movie (*.mov, *.qt)|*.mov;*.qt"   + "|" +
                                            "MPEG Video (*.mpeg, *.mpg)|*.mpeg;*.mpg"    + "|" +
-                                           "MPEG-II Video Stream (*.m2v)|*.m2v"          + "|" +
-                                           "MPEG-IV Part 14 (*.mp4)|*.mp4"               + "|" +
-                                           "VP8/9 (*.webm)|*.webm" + "|"                + "|" +
+                                           "MPEG-II Video Stream (*.m2v)|*.m2v"         + "|" +
+                                           "MPEG-IV Part 14 (*.mp4)|*.mp4"              + "|" +
+                                           "VP8/9 (*.webm)|*.webm"                      + "|" +
                                            "Windows Media Video (*.wmv)|*.wmv"          + "|" +
-        "All known video formats|*.avi;*.flv;*.mkv;*.ogv;*.ogx;*.mov;*.qt;*.mpeg;*.mpg;*.m2v;*.mp4;*.webm;*.wmv";
+                                           AllKnownVideoFormats;
+
+        /// <summary>
+        /// All the known video formats, as a single filter.
+        /// </summary>
+        public const string AllKnownVideoFormats =
+            "All known video formats|*.avi;*.flv;*.mkv;*.ogv;*.ogx;*.mov;*.qt;*.mpeg;*.mpg;*.m2v;*.mp4;*.webm;*.wmv";
 
         /// <summary>
         /// All known audio formats, as a filter.
@@ -30,14 +36,20 @@ namespace youtube_dl_gui {
         public const string AudioFormats = "Advanced Audo Codec (*.aac)|*.aac"                                          + "|" +
                                            "Audio Interchange File Format (*.aiff, *.aif, *.aifc)|*.aiff;*.aif;*.aifc"  + "|" +
                                            "Audio Interchange File Format Compressed (*.aifc)|*.aifc"                   + "|" +
-                                           "Free Lossless Audio Codec (*.flac)*.flac"                                   + "|" +
+                                           "Free Lossless Audio Codec (*.flac)|*.flac"                                  + "|" +
                                            "MPEG-4 Audio (*.m4a, *.mp4)|*.m4a;*.mp4"                                    + "|" +
                                            "MPEG-1 AudioLayer II (*.mp2)|*.mp2"                                         + "|" +
                                            "MPEG-1 AudioLayer III (*.mp3)|*.mp3"                                        + "|" +
                                            "OGG Vorbis (*.oga, *.ogg, *.opus)|*.oga;*.ogg;*.opus"                       + "|" +
                                            "Opus OGG Compressed (*.opus)|*.opus"                                        + "|" +
                                            "Waveform Audio (*.wav)|*.wav"                                               + "|" +
-        "All known audio formats|*.aac;*.aiff;*.aif;*.aifc;*.flac;*.m4a;*.mp4;*.mp2;*.mp3;*.oga;*.ogg;*.opus;*.wav";
+                                           AllKnownAudioFormats;
+
+        /// <summary>
+        /// All the known audio formats, as a single filter.
+        /// </summary>
+        public const string AllKnownAudioFormats =
+            "All known audio formats|*.aac;*.aiff;*.aif;*.aifc;*.flac;*.m4a;*.mp4;*.mp2;*.mp3;*.oga;*.ogg;*.opus;*.wav";
 
         // Could this be replaced with video formats? Because they could contain video, but don't necessarily need to.
         /// <summary>
@@ -45,24 +57,38 @@ namespace youtube_dl_gui {
         /// </summary>
         public const string InterFormats = null;
 
-        public static string CustomFormats = null;
+        /// <summary>
+        /// Custom formats inputted by the user.
+        /// </summary>
+        public static string CustomFormats;
 
         /// <summary>
         /// Loads the custom formats into memory.
         /// </summary>
         public static void LoadCustomFormats() {
             if (Config.Settings.General.extensionsName.Length > 0) {
-                string TempList = string.Empty;
-
-                string[] FormatNames = Config.Settings.General.extensionsName.Split('|');
-                string[] FormatExtensions = Config.Settings.General.extensionsShort.Split('|');
-                int MinimumList = Math.Min(FormatNames.Length, FormatExtensions.Length);
-                for (int i = 0; i < MinimumList; i++) {
-                    TempList += $"{FormatNames[i]} (*.{FormatExtensions[i]})|*.{FormatExtensions[i]}";
-                }
-
-                CustomFormats = TempList;
+                string[] Names = Config.Settings.General.extensionsName.Split('|');
+                string[] Extensions = Config.Settings.General.extensionsShort.Split('|');
+                int MinimumList = Math.Min(Names.Length, Extensions.Length);
+                if (MinimumList > 0) {
+                    CustomFormats = string.Empty;
+                    for (int i = 0; i < MinimumList; i++) {
+                        CustomFormats += $"{Names[i]} (*.{Extensions[i]})|*.{Extensions[i]}";
+                    }
+                } else CustomFormats = null;
             }
+        }
+
+        // i dont remember what i was going to use this for.
+        /// <summary>
+        /// Get a filter-ready string of all known formats, including user-defined formats.
+        /// </summary>
+        /// <returns>A filter-ready string containing all known and user-defined formats.</returns>
+        public static string GetAllKnownFormats() {
+            return $"All known media formats|" +
+                $"{AllKnownVideoFormats.Split('|')[1]};" +
+                $"{AllKnownAudioFormats.Split('|')[1]}" +
+                $"{(Config.Settings.General.extensionsShort.Length > 0 ? ";*." + Config.Settings.General.extensionsShort.Replace("|", "*.") : "")}";
         }
 
         /// <summary>

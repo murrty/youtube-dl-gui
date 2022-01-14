@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
 
 namespace youtube_dl_gui {
@@ -11,7 +10,7 @@ namespace youtube_dl_gui {
         public string AtomicParsleyPath { get; private set; }
         public string YoutubeDlVersion { get; private set; }
 
-        public void RefreshLocation() {
+        public void Refresh() {
             RefreshYoutubeDlLocation();
             RefreshFFmpegLocation();
             RefreshAtomicParsleyLocation();
@@ -97,7 +96,7 @@ namespace youtube_dl_gui {
         #region Shared methods
         private static string GetProgramVersion(string ProgramPath) {
             try {
-                return FileVersionInfo.GetVersionInfo(ProgramPath).ProductVersion;
+                return System.Diagnostics.FileVersionInfo.GetVersionInfo(ProgramPath).ProductVersion;
             }
             catch (Exception ex) {
                 ErrorLog.Report(ex);
@@ -108,6 +107,7 @@ namespace youtube_dl_gui {
         private static bool ProgramInExecutingDirectory(string ProgramName) {
             return File.Exists(Program.ProgramPath + "\\" + ProgramName);
         }
+
         private static bool ProgramInSystemPath(string ProgramName, out string OutputDir) {
             string[] PathLocations = Environment.GetEnvironmentVariable("PATH").Split(';');
 

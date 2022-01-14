@@ -12,7 +12,7 @@ namespace youtube_dl_gui.Configurations {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "12.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.10.0.0")]
     internal sealed partial class Saved : global::System.Configuration.ApplicationSettingsBase {
         
         private static Saved defaultInstance = ((Saved)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Saved())));
@@ -38,12 +38,12 @@ namespace youtube_dl_gui.Configurations {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int UseStaticYtdl {
+        public int convertSaveVideoIndex {
             get {
-                return ((int)(this["UseStaticYtdl"]));
+                return ((int)(this["convertSaveVideoIndex"]));
             }
             set {
-                this["UseStaticYtdl"] = value;
+                this["convertSaveVideoIndex"] = value;
             }
         }
         
@@ -237,6 +237,18 @@ namespace youtube_dl_gui.Configurations {
             }
             set {
                 this["MainFormLocation"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int convertSaveUnknownIndex {
+            get {
+                return ((int)(this["convertSaveUnknownIndex"]));
+            }
+            set {
+                this["convertSaveUnknownIndex"] = value;
             }
         }
     }

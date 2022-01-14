@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading;
@@ -23,22 +24,24 @@ namespace youtube_dl_gui {
 
         [STAThread]
         static int Main(string[] args) {
-
-            Convert.GetFiletype("Test.flv");
+            ErrorLog.AssembleComputerVersionInformation();
 
             mtx = new Mutex(true, ProgramGUID.Value);
             DebugOnlyMethod();
-            ErrorLog.AssembleComputerVersionInformation();
 
             if (mtx.WaitOne(TimeSpan.Zero, true) || IsDebug) {
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
 
-                if (File.Exists(Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe")) {
-                    File.Delete(Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe");
+                if (args.Any(currentarg => currentarg == "-keepupdater")) {
+                    if (File.Exists(Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe")) {
+                        File.Delete(Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe");
+                    }
                 }
-                if (File.Exists(Environment.CurrentDirectory + "\\youtube-dl-gui.old.exe")) {
-                    File.Delete(Environment.CurrentDirectory + "\\youtube-dl-gui.old.exe");
+                if (args.Any(currentarg => currentarg == "-keeppreviousversion")) {
+                    if (File.Exists(Environment.CurrentDirectory + "\\youtube-dl-gui.old.exe")) {
+                        File.Delete(Environment.CurrentDirectory + "\\youtube-dl-gui.old.exe");
+                    }
                 }
 
                 UseIni = File.Exists(Ini.Path) && Ini.KeyExists("useIni") && Ini.ReadBool("useIni");
@@ -128,7 +131,7 @@ namespace youtube_dl_gui {
         static void LoadClasses() {
             Config.Settings.Load(ConfigType.All);
 
-            verif.RefreshLocation();
+            verif.Refresh();
             Formats.LoadCustomFormats();
 
             if (Config.Settings.Initialization.LanguageFile != string.Empty) {

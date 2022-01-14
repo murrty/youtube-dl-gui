@@ -73,12 +73,8 @@ namespace youtube_dl_gui {
                     break;
             }
             if (!e.Cancel) {
-                if (Config.Settings.Converts.CloseAfterFinish != chkConverterCloseAfterConversion.Checked && !CurrentConversion.BatchConversion) {
-                    Config.Settings.Converts.CloseAfterFinish = chkConverterCloseAfterConversion.Checked;
-                    if (!Program.UseIni) {
-                        Config.Settings.Downloads.Save();
-                    }
-                }
+                Config.Settings.Converts.CloseAfterFinish = chkConverterCloseAfterConversion.Checked;
+                Config.Settings.Converts.Save();
 
                 CurrentConversion.Dispose();
                 this.DialogResult = Finish;
