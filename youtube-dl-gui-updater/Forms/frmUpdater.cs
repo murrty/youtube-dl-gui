@@ -94,7 +94,7 @@ RetryDownload:
                                 pbDownloadProgress.Text = "Hash does not match";
                                 pbDownloadProgress.ProgressState = murrty.controls.ProgressBarState.Paused;
                             });
-                            switch (MessageBox.Show($"The hash calculated by the updater does not match the known hash of the update.\r\n\r\nExpected: {Info.UpdateHash}\r\n\r\nCalculated: {UpdateHash}", "youtube-dl-gui-updater", MessageBoxButtons.AbortRetryIgnore, MessageBoxIcon.Warning)) {
+                            switch (MessageBox.Show($"The hash calculated by the updater does not match the known hash of the update.\r\n\r\nExpected: {Info.UpdateHash}\r\n\r\nCalculated: {UpdateHash}\r\n\r\nYou can continue without it matching, there are some instances where it may be different.", "youtube-dl-gui-updater", MessageBoxButtons.AbortRetryIgnore, MessageBoxIcon.Warning)) {
                                 case DialogResult.Abort: {
                                 } throw new CryptographicException("The known hash of the file does not match the hash caluclated by the updater.");
 
@@ -114,6 +114,13 @@ RetryDownload:
                                 } break;
                             }
                         }
+                    }
+                    else {
+                        this.Invoke((Action)delegate {
+                            pbDownloadProgress.Text = "Skipping hash calculating...";
+                        });
+
+                        MessageBox.Show("The UpdateHash hasn't been set, so I can't calculate the hash to sanity-check that it's the one from release. Your mileage may vary.", "youtube-dl-gui-updater", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
                 }
 
