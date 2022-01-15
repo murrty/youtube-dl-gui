@@ -89,6 +89,10 @@ namespace youtube_dl_gui {
             tipSettings.SetToolTip(chkSettingsGeneralCheckForUpdatesOnLaunch, Program.lang.chkSettingsGeneralCheckForUpdatesOnLaunchHint);
             chkSettingsGeneralCheckForBetaUpdates.Text = Program.lang.chkSettingsGeneralCheckForBetaUpdates;
             tipSettings.SetToolTip(chkSettingsGeneralCheckForBetaUpdates, Program.lang.chkSettingsGeneralCheckForBetaUpdatesHint);
+            chkSettingsGeneralDeleteUpdaterAfterUpdating.Text = Program.lang.chkSettingsGeneralDeleteUpdaterAfterUpdating;
+            tipSettings.SetToolTip(chkSettingsGeneralDeleteUpdaterAfterUpdating, Program.lang.chkSettingsGeneralDeleteUpdaterAfterUpdatingHint);
+            chkDeleteOldVersionAfterUpdating.Text = Program.lang.chkDeleteOldVersionAfterUpdating;
+            tipSettings.SetToolTip(chkDeleteOldVersionAfterUpdating, Program.lang.chkDeleteOldVersionAfterUpdatingHint);
             chkSettingsGeneralHoverOverUrlToPasteClipboard.Text = Program.lang.chkSettingsGeneralHoverOverUrlToPasteClipboard;
             tipSettings.SetToolTip(chkSettingsGeneralHoverOverUrlToPasteClipboard, Program.lang.chkSettingsGeneralHoverOverUrlToPasteClipboardHint);
             chkSettingsGeneralClearUrlOnDownload.Text = Program.lang.chkSettingsGeneralClearUrlOnDownload;
@@ -243,6 +247,14 @@ namespace youtube_dl_gui {
             chkSettingsGeneralCheckForBetaUpdates.Location = new(
                 (tabSettingsGeneral.Size.Width - chkSettingsGeneralCheckForBetaUpdates.Size.Width) / 2,
                 chkSettingsGeneralCheckForBetaUpdates.Location.Y
+            );
+            chkSettingsGeneralDeleteUpdaterAfterUpdating.Location = new(
+                (tabSettingsGeneral.Size.Width - chkSettingsGeneralDeleteUpdaterAfterUpdating.Size.Width) / 2,
+                chkSettingsGeneralDeleteUpdaterAfterUpdating.Location.Y
+            );
+            chkDeleteOldVersionAfterUpdating.Location = new(
+                (tabSettingsGeneral.Size.Width - chkDeleteOldVersionAfterUpdating.Size.Width) / 2,
+                chkDeleteOldVersionAfterUpdating.Location.Y
             );
             chkSettingsGeneralHoverOverUrlToPasteClipboard.Location = new(
                 (tabSettingsGeneral.Size.Width - chkSettingsGeneralHoverOverUrlToPasteClipboard.Size.Width) / 2,

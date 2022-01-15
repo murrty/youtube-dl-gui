@@ -25,7 +25,6 @@
         [System.Diagnostics.DebuggerStepThrough]
         private void InitializeComponent() {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmBatchDownloader));
             this.cbBatchDownloadType = new System.Windows.Forms.ComboBox();
             this.lbBatchDownloadLink = new System.Windows.Forms.Label();
             this.lbBatchDownloadType = new System.Windows.Forms.Label();
@@ -161,12 +160,9 @@
             // 
             // ilBatchDownloadProgress
             // 
-            this.ilBatchDownloadProgress.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("ilBatchDownloadProgress.ImageStream")));
-            this.ilBatchDownloadProgress.TransparentColor = System.Drawing.Color.Fuchsia;
-            this.ilBatchDownloadProgress.Images.SetKeyName(0, "waiting.bmp");
-            this.ilBatchDownloadProgress.Images.SetKeyName(1, "downloading.bmp");
-            this.ilBatchDownloadProgress.Images.SetKeyName(2, "finished.bmp");
-            this.ilBatchDownloadProgress.Images.SetKeyName(3, "errored.bmp");
+            this.ilBatchDownloadProgress.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
+            this.ilBatchDownloadProgress.ImageSize = new System.Drawing.Size(16, 16);
+            this.ilBatchDownloadProgress.TransparentColor = System.Drawing.Color.Transparent;
             // 
             // chkBatchDownloaderSoundVBR
             // 
@@ -220,6 +216,14 @@
             // txtBatchDownloadLink
             // 
             this.txtBatchDownloadLink.AllowDrop = true;
+            this.txtBatchDownloadLink.ButtonAlignment = youtube_dl_gui.Controls.ButtonAlignments.Left;
+            this.txtBatchDownloadLink.ButtonCursor = System.Windows.Forms.Cursors.Default;
+            this.txtBatchDownloadLink.ButtonFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtBatchDownloadLink.ButtonImageIndex = -1;
+            this.txtBatchDownloadLink.ButtonImageKey = "";
+            this.txtBatchDownloadLink.ButtonSize = new System.Drawing.Size(22, 19);
+            this.txtBatchDownloadLink.ButtonText = "";
+            this.txtBatchDownloadLink.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.txtBatchDownloadLink.Location = new System.Drawing.Point(12, 26);
             this.txtBatchDownloadLink.Name = "txtBatchDownloadLink";
             this.txtBatchDownloadLink.Size = new System.Drawing.Size(256, 20);
@@ -240,6 +244,7 @@
             this.clArgs});
             this.lvBatchDownloadQueue.EnableVistaView = true;
             this.lvBatchDownloadQueue.FullRowSelect = true;
+            this.lvBatchDownloadQueue.HideSelection = false;
             this.lvBatchDownloadQueue.Location = new System.Drawing.Point(12, 51);
             this.lvBatchDownloadQueue.Name = "lvBatchDownloadQueue";
             this.lvBatchDownloadQueue.Size = new System.Drawing.Size(547, 224);

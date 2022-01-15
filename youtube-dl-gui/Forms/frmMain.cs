@@ -155,6 +155,13 @@ namespace youtube_dl_gui {
             if (Program.UseIni) {
                 this.Text += " (ini)";
             }
+
+            if (Config.Settings.General.DeleteUpdaterOnStartup) {
+                System.IO.File.Delete(Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe");
+            }
+            if (Config.Settings.General.DeleteBackupOnStartup) {
+                System.IO.File.Delete(Environment.CurrentDirectory + "\\youtube-dl-gui.old.exe");
+            }
         }
 
         private void frmMain_FormClosing(object sender, FormClosingEventArgs e) {

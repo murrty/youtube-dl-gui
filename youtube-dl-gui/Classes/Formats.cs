@@ -2,6 +2,45 @@
 using System.Linq;
 
 namespace youtube_dl_gui {
+
+    /// <summary>
+    /// Contains batch-process helpers
+    /// </summary>
+    public class BatchHelpers {
+
+        /// <summary>
+        /// Enumeration of indexes of icons based on item status.
+        /// </summary>
+        public enum StatusIcon : int {
+            /// <summary>
+            /// The item is waiting to be processed.
+            /// </summary>
+            Waiting = 0,
+            /// <summary>
+            /// The item is being processed.
+            /// </summary>
+            Processing = 1,
+            /// <summary>
+            /// The item process has finished.
+            /// </summary>
+            Finished = 2,
+            /// <summary>
+            /// The item process encountered an error.
+            /// </summary>
+            Errored = 3
+        }
+
+        /// <summary>
+        /// Gets the current date and time in "yyyy_MM_dd-HH_mm_ss" format.
+        /// </summary>
+        /// <returns>The current date and time formatted.</returns>
+        public static string CurrentTime {
+            get {
+                return $"{DateTime.Now:yyyy_MM_dd-HH_mm_ss}";
+            }
+        }
+    }
+
     class Formats {
 
         /// <summary>

@@ -147,6 +147,8 @@
             this.btnSettingsCancel = new System.Windows.Forms.Button();
             this.btnSettingsSave = new System.Windows.Forms.Button();
             this.tipSettings = new System.Windows.Forms.ToolTip(this.components);
+            this.chkSettingsGeneralDeleteUpdaterAfterUpdating = new System.Windows.Forms.CheckBox();
+            this.chkDeleteOldVersionAfterUpdating = new System.Windows.Forms.CheckBox();
             this.tcMain.SuspendLayout();
             this.tabSettingsGeneral.SuspendLayout();
             this.gbSettingsGeneralCustomArguments.SuspendLayout();
@@ -188,11 +190,13 @@
             this.tcMain.Location = new System.Drawing.Point(0, 0);
             this.tcMain.Name = "tcMain";
             this.tcMain.SelectedIndex = 0;
-            this.tcMain.Size = new System.Drawing.Size(328, 341);
+            this.tcMain.Size = new System.Drawing.Size(328, 384);
             this.tcMain.TabIndex = 0;
             // 
             // tabSettingsGeneral
             // 
+            this.tabSettingsGeneral.Controls.Add(this.chkDeleteOldVersionAfterUpdating);
+            this.tabSettingsGeneral.Controls.Add(this.chkSettingsGeneralDeleteUpdaterAfterUpdating);
             this.tabSettingsGeneral.Controls.Add(this.chkSettingsGeneralCheckForBetaUpdates);
             this.tabSettingsGeneral.Controls.Add(this.chkSettingsGeneralRotateQualityFormat);
             this.tabSettingsGeneral.Controls.Add(this.chkSettingsGeneralClearClipboardOnDownload);
@@ -212,7 +216,7 @@
             this.tabSettingsGeneral.Location = new System.Drawing.Point(4, 22);
             this.tabSettingsGeneral.Name = "tabSettingsGeneral";
             this.tabSettingsGeneral.Padding = new System.Windows.Forms.Padding(3);
-            this.tabSettingsGeneral.Size = new System.Drawing.Size(320, 315);
+            this.tabSettingsGeneral.Size = new System.Drawing.Size(320, 358);
             this.tabSettingsGeneral.TabIndex = 0;
             this.tabSettingsGeneral.Text = "tabSettingsGeneral";
             this.tabSettingsGeneral.UseVisualStyleBackColor = true;
@@ -221,7 +225,7 @@
             // 
             this.chkSettingsGeneralCheckForBetaUpdates.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.chkSettingsGeneralCheckForBetaUpdates.AutoSize = true;
-            this.chkSettingsGeneralCheckForBetaUpdates.Location = new System.Drawing.Point(41, 151);
+            this.chkSettingsGeneralCheckForBetaUpdates.Location = new System.Drawing.Point(41, 140);
             this.chkSettingsGeneralCheckForBetaUpdates.Name = "chkSettingsGeneralCheckForBetaUpdates";
             this.chkSettingsGeneralCheckForBetaUpdates.Size = new System.Drawing.Size(238, 17);
             this.chkSettingsGeneralCheckForBetaUpdates.TabIndex = 16;
@@ -233,7 +237,7 @@
             // 
             this.chkSettingsGeneralRotateQualityFormat.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.chkSettingsGeneralRotateQualityFormat.AutoSize = true;
-            this.chkSettingsGeneralRotateQualityFormat.Location = new System.Drawing.Point(53, 243);
+            this.chkSettingsGeneralRotateQualityFormat.Location = new System.Drawing.Point(53, 278);
             this.chkSettingsGeneralRotateQualityFormat.Name = "chkSettingsGeneralRotateQualityFormat";
             this.chkSettingsGeneralRotateQualityFormat.Size = new System.Drawing.Size(231, 17);
             this.chkSettingsGeneralRotateQualityFormat.TabIndex = 15;
@@ -246,7 +250,7 @@
             // 
             this.chkSettingsGeneralClearClipboardOnDownload.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.chkSettingsGeneralClearClipboardOnDownload.AutoSize = true;
-            this.chkSettingsGeneralClearClipboardOnDownload.Location = new System.Drawing.Point(36, 220);
+            this.chkSettingsGeneralClearClipboardOnDownload.Location = new System.Drawing.Point(36, 255);
             this.chkSettingsGeneralClearClipboardOnDownload.Name = "chkSettingsGeneralClearClipboardOnDownload";
             this.chkSettingsGeneralClearClipboardOnDownload.Size = new System.Drawing.Size(272, 17);
             this.chkSettingsGeneralClearClipboardOnDownload.TabIndex = 13;
@@ -261,7 +265,7 @@
             this.gbSettingsGeneralCustomArguments.Controls.Add(this.rbSettingsGeneralCustomArgumentsSaveInSettings);
             this.gbSettingsGeneralCustomArguments.Controls.Add(this.rbSettingsGeneralCustomArgumentsSaveAsArgsText);
             this.gbSettingsGeneralCustomArguments.Controls.Add(this.rbSettingsGeneralCustomArgumentsDontSave);
-            this.gbSettingsGeneralCustomArguments.Location = new System.Drawing.Point(6, 258);
+            this.gbSettingsGeneralCustomArguments.Location = new System.Drawing.Point(6, 301);
             this.gbSettingsGeneralCustomArguments.Name = "gbSettingsGeneralCustomArguments";
             this.gbSettingsGeneralCustomArguments.Size = new System.Drawing.Size(308, 46);
             this.gbSettingsGeneralCustomArguments.TabIndex = 14;
@@ -430,7 +434,7 @@
             // 
             this.chkSettingsGeneralClearUrlOnDownload.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.chkSettingsGeneralClearUrlOnDownload.AutoSize = true;
-            this.chkSettingsGeneralClearUrlOnDownload.Location = new System.Drawing.Point(52, 197);
+            this.chkSettingsGeneralClearUrlOnDownload.Location = new System.Drawing.Point(52, 232);
             this.chkSettingsGeneralClearUrlOnDownload.Name = "chkSettingsGeneralClearUrlOnDownload";
             this.chkSettingsGeneralClearUrlOnDownload.Size = new System.Drawing.Size(236, 17);
             this.chkSettingsGeneralClearUrlOnDownload.TabIndex = 12;
@@ -444,7 +448,7 @@
             this.chkSettingsGeneralHoverOverUrlToPasteClipboard.AutoSize = true;
             this.chkSettingsGeneralHoverOverUrlToPasteClipboard.Checked = true;
             this.chkSettingsGeneralHoverOverUrlToPasteClipboard.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkSettingsGeneralHoverOverUrlToPasteClipboard.Location = new System.Drawing.Point(27, 174);
+            this.chkSettingsGeneralHoverOverUrlToPasteClipboard.Location = new System.Drawing.Point(27, 209);
             this.chkSettingsGeneralHoverOverUrlToPasteClipboard.Name = "chkSettingsGeneralHoverOverUrlToPasteClipboard";
             this.chkSettingsGeneralHoverOverUrlToPasteClipboard.Size = new System.Drawing.Size(284, 17);
             this.chkSettingsGeneralHoverOverUrlToPasteClipboard.TabIndex = 11;
@@ -456,7 +460,7 @@
             // 
             this.chkSettingsGeneralCheckForUpdatesOnLaunch.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.chkSettingsGeneralCheckForUpdatesOnLaunch.AutoSize = true;
-            this.chkSettingsGeneralCheckForUpdatesOnLaunch.Location = new System.Drawing.Point(33, 128);
+            this.chkSettingsGeneralCheckForUpdatesOnLaunch.Location = new System.Drawing.Point(33, 117);
             this.chkSettingsGeneralCheckForUpdatesOnLaunch.Name = "chkSettingsGeneralCheckForUpdatesOnLaunch";
             this.chkSettingsGeneralCheckForUpdatesOnLaunch.Size = new System.Drawing.Size(269, 17);
             this.chkSettingsGeneralCheckForUpdatesOnLaunch.TabIndex = 10;
@@ -478,7 +482,7 @@
             this.tabSettingsDownloads.Location = new System.Drawing.Point(4, 22);
             this.tabSettingsDownloads.Name = "tabSettingsDownloads";
             this.tabSettingsDownloads.Padding = new System.Windows.Forms.Padding(3);
-            this.tabSettingsDownloads.Size = new System.Drawing.Size(320, 315);
+            this.tabSettingsDownloads.Size = new System.Drawing.Size(320, 341);
             this.tabSettingsDownloads.TabIndex = 1;
             this.tabSettingsDownloads.Text = "tabSettingsDownloads";
             this.tabSettingsDownloads.UseVisualStyleBackColor = true;
@@ -508,7 +512,7 @@
             this.tabDownloads.Location = new System.Drawing.Point(6, 116);
             this.tabDownloads.Name = "tabDownloads";
             this.tabDownloads.SelectedIndex = 0;
-            this.tabDownloads.Size = new System.Drawing.Size(308, 193);
+            this.tabDownloads.Size = new System.Drawing.Size(308, 219);
             this.tabDownloads.TabIndex = 8;
             // 
             // tabDownloadsGeneral
@@ -527,7 +531,7 @@
             this.tabDownloadsGeneral.Location = new System.Drawing.Point(4, 22);
             this.tabDownloadsGeneral.Name = "tabDownloadsGeneral";
             this.tabDownloadsGeneral.Padding = new System.Windows.Forms.Padding(3);
-            this.tabDownloadsGeneral.Size = new System.Drawing.Size(300, 167);
+            this.tabDownloadsGeneral.Size = new System.Drawing.Size(300, 193);
             this.tabDownloadsGeneral.TabIndex = 0;
             this.tabDownloadsGeneral.Text = "Downloads";
             this.tabDownloadsGeneral.UseVisualStyleBackColor = true;
@@ -658,7 +662,7 @@
             this.tabDownloadsSorting.Location = new System.Drawing.Point(4, 22);
             this.tabDownloadsSorting.Name = "tabDownloadsSorting";
             this.tabDownloadsSorting.Padding = new System.Windows.Forms.Padding(3);
-            this.tabDownloadsSorting.Size = new System.Drawing.Size(300, 167);
+            this.tabDownloadsSorting.Size = new System.Drawing.Size(300, 193);
             this.tabDownloadsSorting.TabIndex = 3;
             this.tabDownloadsSorting.Text = "Sorting";
             this.tabDownloadsSorting.UseVisualStyleBackColor = true;
@@ -696,7 +700,7 @@
             this.tabDownloadsFixes.Location = new System.Drawing.Point(4, 22);
             this.tabDownloadsFixes.Name = "tabDownloadsFixes";
             this.tabDownloadsFixes.Padding = new System.Windows.Forms.Padding(3);
-            this.tabDownloadsFixes.Size = new System.Drawing.Size(300, 167);
+            this.tabDownloadsFixes.Size = new System.Drawing.Size(300, 193);
             this.tabDownloadsFixes.TabIndex = 4;
             this.tabDownloadsFixes.Text = "Fixes";
             this.tabDownloadsFixes.UseVisualStyleBackColor = true;
@@ -742,7 +746,7 @@
             this.tabDownloadsConnection.Location = new System.Drawing.Point(4, 22);
             this.tabDownloadsConnection.Name = "tabDownloadsConnection";
             this.tabDownloadsConnection.Padding = new System.Windows.Forms.Padding(3);
-            this.tabDownloadsConnection.Size = new System.Drawing.Size(300, 167);
+            this.tabDownloadsConnection.Size = new System.Drawing.Size(300, 193);
             this.tabDownloadsConnection.TabIndex = 1;
             this.tabDownloadsConnection.Text = "Connection";
             this.tabDownloadsConnection.UseVisualStyleBackColor = true;
@@ -757,7 +761,7 @@
             "http://",
             "socks4://",
             "socks5://"});
-            this.cbSettingsDownloadsProxyType.Location = new System.Drawing.Point(9, 131);
+            this.cbSettingsDownloadsProxyType.Location = new System.Drawing.Point(9, 157);
             this.cbSettingsDownloadsProxyType.Name = "cbSettingsDownloadsProxyType";
             this.cbSettingsDownloadsProxyType.Size = new System.Drawing.Size(77, 21);
             this.cbSettingsDownloadsProxyType.TabIndex = 9;
@@ -774,7 +778,7 @@
             this.txtSettingsDownloadsProxyPort.ButtonSize = new System.Drawing.Size(22, 21);
             this.txtSettingsDownloadsProxyPort.ButtonText = "";
             this.txtSettingsDownloadsProxyPort.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.txtSettingsDownloadsProxyPort.Location = new System.Drawing.Point(189, 132);
+            this.txtSettingsDownloadsProxyPort.Location = new System.Drawing.Point(189, 158);
             this.txtSettingsDownloadsProxyPort.MaxLength = 5;
             this.txtSettingsDownloadsProxyPort.Name = "txtSettingsDownloadsProxyPort";
             this.txtSettingsDownloadsProxyPort.Size = new System.Drawing.Size(44, 22);
@@ -794,7 +798,7 @@
             this.txtSettingsDownloadsProxyIp.ButtonSize = new System.Drawing.Size(22, 21);
             this.txtSettingsDownloadsProxyIp.ButtonText = "";
             this.txtSettingsDownloadsProxyIp.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.txtSettingsDownloadsProxyIp.Location = new System.Drawing.Point(92, 132);
+            this.txtSettingsDownloadsProxyIp.Location = new System.Drawing.Point(92, 158);
             this.txtSettingsDownloadsProxyIp.MaxLength = 15;
             this.txtSettingsDownloadsProxyIp.Name = "txtSettingsDownloadsProxyIp";
             this.txtSettingsDownloadsProxyIp.Size = new System.Drawing.Size(89, 22);
@@ -831,7 +835,7 @@
             // 
             this.chkSettingsDownloadsUseProxy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.chkSettingsDownloadsUseProxy.AutoSize = true;
-            this.chkSettingsDownloadsUseProxy.Location = new System.Drawing.Point(6, 110);
+            this.chkSettingsDownloadsUseProxy.Location = new System.Drawing.Point(6, 136);
             this.chkSettingsDownloadsUseProxy.Name = "chkSettingsDownloadsUseProxy";
             this.chkSettingsDownloadsUseProxy.Size = new System.Drawing.Size(190, 17);
             this.chkSettingsDownloadsUseProxy.TabIndex = 8;
@@ -888,7 +892,7 @@
             // 
             this.lbSettingsDownloadsIpPort.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lbSettingsDownloadsIpPort.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbSettingsDownloadsIpPort.Location = new System.Drawing.Point(178, 132);
+            this.lbSettingsDownloadsIpPort.Location = new System.Drawing.Point(178, 158);
             this.lbSettingsDownloadsIpPort.Name = "lbSettingsDownloadsIpPort";
             this.lbSettingsDownloadsIpPort.Size = new System.Drawing.Size(12, 20);
             this.lbSettingsDownloadsIpPort.TabIndex = 11;
@@ -914,7 +918,7 @@
             this.tabDownloadsUpdating.Location = new System.Drawing.Point(4, 22);
             this.tabDownloadsUpdating.Name = "tabDownloadsUpdating";
             this.tabDownloadsUpdating.Padding = new System.Windows.Forms.Padding(3);
-            this.tabDownloadsUpdating.Size = new System.Drawing.Size(300, 167);
+            this.tabDownloadsUpdating.Size = new System.Drawing.Size(300, 193);
             this.tabDownloadsUpdating.TabIndex = 2;
             this.tabDownloadsUpdating.Text = "Updating";
             this.tabDownloadsUpdating.UseVisualStyleBackColor = true;
@@ -1728,7 +1732,7 @@
             // btnSettingsRedownloadYoutubeDl
             // 
             this.btnSettingsRedownloadYoutubeDl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnSettingsRedownloadYoutubeDl.Location = new System.Drawing.Point(12, 351);
+            this.btnSettingsRedownloadYoutubeDl.Location = new System.Drawing.Point(12, 394);
             this.btnSettingsRedownloadYoutubeDl.Name = "btnSettingsRedownloadYoutubeDl";
             this.btnSettingsRedownloadYoutubeDl.Size = new System.Drawing.Size(132, 23);
             this.btnSettingsRedownloadYoutubeDl.TabIndex = 1;
@@ -1740,7 +1744,7 @@
             // btnSettingsCancel
             // 
             this.btnSettingsCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSettingsCancel.Location = new System.Drawing.Point(160, 351);
+            this.btnSettingsCancel.Location = new System.Drawing.Point(160, 394);
             this.btnSettingsCancel.Name = "btnSettingsCancel";
             this.btnSettingsCancel.Size = new System.Drawing.Size(75, 23);
             this.btnSettingsCancel.TabIndex = 2;
@@ -1752,7 +1756,7 @@
             // btnSettingsSave
             // 
             this.btnSettingsSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSettingsSave.Location = new System.Drawing.Point(241, 351);
+            this.btnSettingsSave.Location = new System.Drawing.Point(241, 394);
             this.btnSettingsSave.Name = "btnSettingsSave";
             this.btnSettingsSave.Size = new System.Drawing.Size(75, 23);
             this.btnSettingsSave.TabIndex = 3;
@@ -1768,11 +1772,35 @@
             this.tipSettings.ReshowDelay = 100;
             this.tipSettings.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
             // 
+            // chkSettingsGeneralDeleteUpdaterAfterUpdating
+            // 
+            this.chkSettingsGeneralDeleteUpdaterAfterUpdating.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.chkSettingsGeneralDeleteUpdaterAfterUpdating.AutoSize = true;
+            this.chkSettingsGeneralDeleteUpdaterAfterUpdating.Location = new System.Drawing.Point(23, 163);
+            this.chkSettingsGeneralDeleteUpdaterAfterUpdating.Name = "chkSettingsGeneralDeleteUpdaterAfterUpdating";
+            this.chkSettingsGeneralDeleteUpdaterAfterUpdating.Size = new System.Drawing.Size(274, 17);
+            this.chkSettingsGeneralDeleteUpdaterAfterUpdating.TabIndex = 17;
+            this.chkSettingsGeneralDeleteUpdaterAfterUpdating.Text = "chkSettingsGeneralDeleteUpdaterAfterUpdating";
+            this.tipSettings.SetToolTip(this.chkSettingsGeneralDeleteUpdaterAfterUpdating, "chkSettingsGeneralDeleteUpdaterAfterUpdatingHint");
+            this.chkSettingsGeneralDeleteUpdaterAfterUpdating.UseVisualStyleBackColor = true;
+            // 
+            // chkDeleteOldVersionAfterUpdating
+            // 
+            this.chkDeleteOldVersionAfterUpdating.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.chkDeleteOldVersionAfterUpdating.AutoSize = true;
+            this.chkDeleteOldVersionAfterUpdating.Location = new System.Drawing.Point(57, 186);
+            this.chkDeleteOldVersionAfterUpdating.Name = "chkDeleteOldVersionAfterUpdating";
+            this.chkDeleteOldVersionAfterUpdating.Size = new System.Drawing.Size(207, 17);
+            this.chkDeleteOldVersionAfterUpdating.TabIndex = 18;
+            this.chkDeleteOldVersionAfterUpdating.Text = "chkDeleteOldVersionAfterUpdating";
+            this.tipSettings.SetToolTip(this.chkDeleteOldVersionAfterUpdating, "chkDeleteOldVersionAfterUpdatingHint");
+            this.chkDeleteOldVersionAfterUpdating.UseVisualStyleBackColor = true;
+            // 
             // frmSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(328, 386);
+            this.ClientSize = new System.Drawing.Size(328, 429);
             this.Controls.Add(this.btnSettingsSave);
             this.Controls.Add(this.btnSettingsCancel);
             this.Controls.Add(this.tcMain);
@@ -1952,5 +1980,7 @@
         private System.Windows.Forms.Label lbSettingsDownloadsUpdatingYtdlType;
         private System.Windows.Forms.ComboBox cbSettingsDownloadsUpdatingYtdlType;
         private System.Windows.Forms.LinkLabel llbSettingsDownloadsYtdlTypeViewRepo;
+        private System.Windows.Forms.CheckBox chkDeleteOldVersionAfterUpdating;
+        private System.Windows.Forms.CheckBox chkSettingsGeneralDeleteUpdaterAfterUpdating;
     }
 }

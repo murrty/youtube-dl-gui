@@ -172,15 +172,23 @@ namespace youtube_dl_gui {
 
         public static void UpdateApplication() {
             // Delete the file that already exists
-            if (File.Exists(Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe")) {
+            if (File.Exists(Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe") && Program.CalculateSha256Hash(Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe") != KnownUpdaterHash.ToLower()) {
+                // Delete the old one & Write the one from resource.
                 File.Delete(Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe");
-            }
-            // Write the one from resource.
-            File.WriteAllBytes(Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe", Properties.Resources.youtube_dl_gui_updater);
+                File.WriteAllBytes(Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe", Properties.Resources.youtube_dl_gui_updater);
 
-            // Sanity check the updater.
-            if (Program.CalculateSha256Hash(Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe") != KnownUpdaterHash.ToLower()) {
-                if (MessageBox.Show(Program.lang.dlgUpdaterHashNoMatch, "youtube-dl-gui", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No) {
+                // Sanity check the updater.
+                if (Program.CalculateSha256Hash(Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe") != KnownUpdaterHash.ToLower() && MessageBox.Show(Program.lang.dlgUpdaterHashNoMatch, "youtube-dl-gui", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No) {
+                    File.Delete(Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe");
+                    return;
+                }
+            }
+            else {
+                // Write it.
+                File.WriteAllBytes(Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe", Properties.Resources.youtube_dl_gui_updater);
+
+                // Sanity check the updater.
+                if (Program.CalculateSha256Hash(Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe") != KnownUpdaterHash.ToLower() && MessageBox.Show(Program.lang.dlgUpdaterHashNoMatch, "youtube-dl-gui", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No) {
                     File.Delete(Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe");
                     return;
                 }

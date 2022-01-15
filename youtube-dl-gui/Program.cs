@@ -28,17 +28,12 @@ namespace youtube_dl_gui {
         static int Main(string[] args) {
             ErrorLog.AssembleComputerVersionInformation();
 
-
             mtx = new Mutex(true, ProgramGUID.Value);
             CheckDebug();
 
             if (mtx.WaitOne(TimeSpan.Zero, true) || IsDebug) {
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
-
-
-                //using frmDownloadLanguage DownloadLanguage = new();
-                //DownloadLanguage.ShowDialog();
 
                 if (args.Any(currentarg => currentarg == "-keepupdater")) {
                     if (File.Exists(Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe")) {

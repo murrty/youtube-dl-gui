@@ -3,16 +3,18 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace youtube_dl_gui {
+
     public partial class frmBatchDownloader : Form {
 
         public bool Debugging = false;
 
-        private readonly List<int> DownloadTypes = new();      // List of types to download
-        private readonly List<string> DownloadUrls = new(); // List of urls to download
-        private readonly List<string> DownloadArgs = new(); // List of args to download
-        private readonly List<int> DownloadQuality = new();    // List of the quality
-        private readonly List<int> DownloadFormat = new();     // List of the formats
-        private readonly List<bool> DownloadSoundVBR = new(); // List of if sound/vbr should be downloaded
+        private readonly List<int> DownloadTypes = new();       // List of types to download
+        private readonly List<string> DownloadUrls = new();     // List of urls to download
+        private readonly List<string> DownloadArgs = new();     // List of args to download
+        private readonly List<int> DownloadQuality = new();     // List of the quality
+        private readonly List<int> DownloadFormat = new();      // List of the formats
+        private readonly List<bool> DownloadSoundVBR = new();   // List of if sound/vbr should be downloaded
+        private readonly ImageList StatusImages;                // The images for each individual item
         private bool InProgress = false;                        // Bool if the batch download is in progress
         private frmDownloader Downloader;                       // The Downloader form that will be around. Will be disposed if aborted.
         private DownloadInfo NewInfo;                           // The info of the download
@@ -20,6 +22,16 @@ namespace youtube_dl_gui {
         public frmBatchDownloader() {
             InitializeComponent();
             LoadLanguage();
+
+            StatusImages = new() {
+                ColorDepth = ColorDepth.Depth32Bit,
+                TransparentColor = System.Drawing.Color.Transparent,
+            };
+
+            StatusImages.Images.Add(Properties.Resources.waiting);
+            StatusImages.Images.Add(Properties.Resources.download);
+            StatusImages.Images.Add(Properties.Resources.finished);
+            StatusImages.Images.Add(Properties.Resources.error);
         }
 
         void LoadLanguage() {
@@ -278,7 +290,7 @@ namespace youtube_dl_gui {
                 btnBatchDownloadRemoveSelected.Enabled = false;
                 btnBatchDownloadStartStopExit.Text = Program.lang.GenericStop;
                 InProgress = true;
-                string BatchTime = BatchDownloader.CurrentTime();
+                string BatchTime = BatchHelpers.CurrentTime();
                 for (int i = 0; i < DownloadUrls.Count; i++) {
                     NewInfo = new DownloadInfo {
                         BatchDownload = true,
@@ -311,27 +323,27 @@ namespace youtube_dl_gui {
                         default:
                             continue;
                     }
-                    lvBatchDownloadQueue.Items[i].ImageIndex = (int)BatchDownloader.ConversionIcon.Downloading;
+                    lvBatchDownloadQueue.Items[i].ImageIndex = (int)BatchHelpers.StatusIcon.Processing;
 
                     bool AbortDownload = false;
                     sbBatchDownloader.Text = Program.lang.sbBatchDownloaderDownloading;
                     Downloader = new frmDownloader(NewInfo);
                     switch (Downloader.ShowDialog()) {
                         case DialogResult.Yes:
-                            lvBatchDownloadQueue.Items[i].ImageIndex = (int)BatchDownloader.ConversionIcon.Finished;
+                            lvBatchDownloadQueue.Items[i].ImageIndex = (int)BatchHelpers.StatusIcon.Finished;
                             break;
                         case DialogResult.No:
-                            lvBatchDownloadQueue.Items[i].ImageIndex = (int)BatchDownloader.ConversionIcon.Errored;
+                            lvBatchDownloadQueue.Items[i].ImageIndex = (int)BatchHelpers.StatusIcon.Errored;
                             break;
                         case DialogResult.Abort:
-                            lvBatchDownloadQueue.Items[i].ImageIndex = (int)BatchDownloader.ConversionIcon.Waiting;
+                            lvBatchDownloadQueue.Items[i].ImageIndex = (int)BatchHelpers.StatusIcon.Waiting;
                             AbortDownload = true;
                             break;
                         case DialogResult.Ignore:
-                            lvBatchDownloadQueue.Items[i].ImageIndex = (int)BatchDownloader.ConversionIcon.Waiting;
+                            lvBatchDownloadQueue.Items[i].ImageIndex = (int)BatchHelpers.StatusIcon.Waiting;
                             break;
                         default:
-                            lvBatchDownloadQueue.Items[i].ImageIndex = (int)BatchDownloader.ConversionIcon.Finished;
+                            lvBatchDownloadQueue.Items[i].ImageIndex = (int)BatchHelpers.StatusIcon.Finished;
                             break;
                     }
                     if (AbortDownload) { break; }
@@ -391,7 +403,7 @@ namespace youtube_dl_gui {
                 else {
                     lvi.SubItems[2].Text = cbArguments.Text;
                 }
-                lvi.ImageIndex = (int)BatchDownloader.ConversionIcon.Waiting;
+                lvi.ImageIndex = (int)BatchHelpers.StatusIcon.Waiting;
                 DownloadArgs.Add(cbArguments.Text);
                 DownloadUrls.Add(txtBatchDownloadLink.Text);
                 DownloadQuality.Add(cbBatchQuality.SelectedIndex);
@@ -425,24 +437,4 @@ namespace youtube_dl_gui {
         }
     }
 
-    public class BatchDownloader {
-        public enum ConversionIcon : int {
-            Waiting = 0,
-            Downloading = 1,
-            Finished = 2,
-            Errored = 3
-        }
-
-        public static string CurrentTime() {
-            DateTime Now = DateTime.Now;
-            string DateTimeBuffer = string.Empty;
-            DateTimeBuffer += Now.Year.ToString("0.####") + "_";
-            DateTimeBuffer += Now.Month.ToString("00.##") + "_";
-            DateTimeBuffer += Now.Day.ToString("00.##") + " - ";
-            DateTimeBuffer += Now.Hour.ToString("00.##") + "_";
-            DateTimeBuffer += Now.Minute.ToString("00.##") + "_";
-            DateTimeBuffer += Now.Second.ToString("00.##");
-            return DateTimeBuffer;
-        }
-    }
 }

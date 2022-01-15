@@ -222,6 +222,8 @@ namespace youtube_dl_gui {
         public string ofdFilterFFmpeg { get; private set; }
         public string chkSettingsGeneralCheckForUpdatesOnLaunch { get; private set; }
         public string chkSettingsGeneralCheckForBetaUpdates { get; private set; }
+        public string chkSettingsGeneralDeleteUpdaterAfterUpdating { get; private set; }
+        public string chkDeleteOldVersionAfterUpdating { get; private set; }
         public string chkSettingsGeneralHoverOverUrlToPasteClipboard { get; private set; }
         public string chkSettingsGeneralClearUrlOnDownload { get; private set; }
         public string chkSettingsGeneralClearClipboardOnDownload { get; private set; }
@@ -312,6 +314,8 @@ namespace youtube_dl_gui {
         public string btnSettingsGeneralBrowseFFmpegHint { get; private set; }
         public string chkSettingsGeneralCheckForUpdatesOnLaunchHint { get; private set; }
         public string chkSettingsGeneralCheckForBetaUpdatesHint { get; private set; }
+        public string chkSettingsGeneralDeleteUpdaterAfterUpdatingHint { get; private set; }
+        public string chkDeleteOldVersionAfterUpdatingHint { get; private set; }
         public string chkSettingsGeneralHoverOverUrlToPasteClipboardHint { get; private set; }
         public string chkSettingsGeneralClearUrlOnDownloadHint { get; private set; }
         public string chkSettingsGeneralClearClipboardOnDownloadHint { get; private set; }
@@ -645,6 +649,8 @@ namespace youtube_dl_gui {
 
             public const string chkSettingsGeneralCheckForUpdatesOnLaunch = "Check for updates on launch";
             public const string chkSettingsGeneralCheckForBetaUpdates = "Check for beta updates";
+            public const string chkSettingsGeneralDeleteUpdaterAfterUpdating = "Delete updater after updating";
+            public const string chkDeleteOldVersionAfterUpdating = "Delete old version after updating";
             public const string chkSettingsGeneralHoverOverUrlToPasteClipboard = "Hover over URL to paste clipboard";
             public const string chkSettingsGeneralClearUrlOnDownload = "Clear URL on download";
             public const string chkSettingsGeneralClearClipboardOnDownload = "Clear clipboard on download";
@@ -661,6 +667,8 @@ namespace youtube_dl_gui {
             public const string chkSettingsGeneralUseStaticFFmpegHint = "Use a static placed ffmpeg.exe and ffprobe.exe files";
             public const string chkSettingsGeneralCheckForUpdatesOnLaunchHint = "Check for updates on launch of youtube-dl-gui";
             public const string chkSettingsGeneralCheckForBetaUpdatesHint = "Checks for beta updates instead of regular updates";
+            public const string chkSettingsGeneralDeleteUpdaterAfterUpdatingHint = "Deletes the youtube-dl-gui updater when it successfully updates.";
+            public const string chkDeleteOldVersionAfterUpdatingHint = "Deletes the old version of youtube-dl-gui when it successfully updates.";
             public const string chkSettingsGeneralHoverOverUrlToPasteClipboardHint = "Hover over the URL textbox to paste the URL from the clipboard";
             public const string chkSettingsGeneralClearUrlOnDownloadHint = "Clears the URL from the textbox on video download";
             public const string chkSettingsGeneralClearClipboardOnDownloadHint = "Clears the clipboard on video download";
@@ -1046,6 +1054,8 @@ namespace youtube_dl_gui {
                 ofdFilterFFmpeg = InternalEnglish.ofdFilterFFmpeg;
                 chkSettingsGeneralCheckForUpdatesOnLaunch = InternalEnglish.chkSettingsGeneralCheckForUpdatesOnLaunch;
                 chkSettingsGeneralCheckForBetaUpdates = InternalEnglish.chkSettingsGeneralCheckForBetaUpdates;
+                chkSettingsGeneralDeleteUpdaterAfterUpdating = InternalEnglish.chkSettingsGeneralDeleteUpdaterAfterUpdating;
+                chkDeleteOldVersionAfterUpdating = InternalEnglish.chkDeleteOldVersionAfterUpdating;
                 chkSettingsGeneralHoverOverUrlToPasteClipboard = InternalEnglish.chkSettingsGeneralHoverOverUrlToPasteClipboard;
                 chkSettingsGeneralClearUrlOnDownload = InternalEnglish.chkSettingsGeneralClearUrlOnDownload;
                 chkSettingsGeneralClearClipboardOnDownload = InternalEnglish.chkSettingsGeneralClearClipboardOnDownload;
@@ -1134,6 +1144,8 @@ namespace youtube_dl_gui {
                 btnSettingsGeneralBrowseFFmpegHint = InternalEnglish.btnSettingsGeneralBrowseFFmpegHint;
                 chkSettingsGeneralCheckForUpdatesOnLaunchHint = InternalEnglish.chkSettingsGeneralCheckForUpdatesOnLaunchHint;
                 chkSettingsGeneralCheckForBetaUpdatesHint = InternalEnglish.chkSettingsGeneralCheckForBetaUpdatesHint;
+                chkSettingsGeneralDeleteUpdaterAfterUpdatingHint = InternalEnglish.chkSettingsGeneralDeleteUpdaterAfterUpdatingHint;
+                chkDeleteOldVersionAfterUpdatingHint = InternalEnglish.chkDeleteOldVersionAfterUpdatingHint;
                 chkSettingsGeneralHoverOverUrlToPasteClipboardHint = InternalEnglish.chkSettingsGeneralHoverOverUrlToPasteClipboardHint;
                 chkSettingsGeneralClearUrlOnDownloadHint = InternalEnglish.chkSettingsGeneralClearUrlOnDownloadHint;
                 chkSettingsGeneralClearClipboardOnDownloadHint = InternalEnglish.chkSettingsGeneralClearClipboardOnDownloadHint;
@@ -1431,6 +1443,8 @@ namespace youtube_dl_gui {
             ofdFilterFFmpeg = "ofdFilterFFmpeg";
             chkSettingsGeneralCheckForUpdatesOnLaunch = "chkSettingsGeneralCheckForUpdatesOnLaunch";
             chkSettingsGeneralCheckForBetaUpdates = "chkSettingsGeneralCheckForBetaUpdates";
+            chkSettingsGeneralDeleteUpdaterAfterUpdating = "chkSettingsGeneralDeleteUpdaterAfterUpdating";
+            chkDeleteOldVersionAfterUpdating = "chkDeleteOldVersionAfterUpdating";
             chkSettingsGeneralHoverOverUrlToPasteClipboard = "chkSettingsGeneralHoverOverUrlToPasteClipboard";
             chkSettingsGeneralClearUrlOnDownload = "chkSettingsGeneralClearUrlOnDownload";
             chkSettingsGeneralClearClipboardOnDownload = "chkSettingsGeneralClearClipboardOnDownload";
@@ -1519,6 +1533,8 @@ namespace youtube_dl_gui {
             btnSettingsGeneralBrowseFFmpegHint = "btnSettingsGeneralBrowseFFmpegHint";
             chkSettingsGeneralCheckForUpdatesOnLaunchHint = "chkSettingsGeneralCheckForUpdatesOnLaunchHint";
             chkSettingsGeneralCheckForBetaUpdatesHint = "chkSettingsGeneralCheckForBetaUpdatesHint";
+            chkSettingsGeneralDeleteUpdaterAfterUpdatingHint = "chkSettingsGeneralDeleteUpdaterAfterUpdatingHint";
+            chkDeleteOldVersionAfterUpdatingHint = "chkDeleteOldVersionAfterUpdatingHint";
             chkSettingsGeneralHoverOverUrlToPasteClipboardHint = "chkSettingsGeneralHoverOverUrlToPasteClipboardHint";
             chkSettingsGeneralClearUrlOnDownloadHint = "chkSettingsGeneralClearUrlOnDownloadHint";
             chkSettingsGeneralClearClipboardOnDownloadHint = "chkSettingsGeneralClearClipboardOnDownloadHint";
@@ -2203,6 +2219,12 @@ namespace youtube_dl_gui {
                                     case "chksettingsgeneralcheckforbetaupdates":
                                         chkSettingsGeneralCheckForBetaUpdates = ReadValue;
                                         continue;
+                                    case "chksettingsgeneraldeleteupdaterafterupdating":
+                                        chkSettingsGeneralDeleteUpdaterAfterUpdating = ReadValue;
+                                        continue;
+                                    case "chkdeleteoldversionafterupdating":
+                                        chkDeleteOldVersionAfterUpdating = ReadValue;
+                                        continue;
                                     case "chksettingsgeneralhoveroverurltopasteclipboard":
                                         chkSettingsGeneralHoverOverUrlToPasteClipboard = ReadValue;
                                         continue;
@@ -2253,6 +2275,12 @@ namespace youtube_dl_gui {
                                         continue;
                                     case "chksettingsgeneralcheckforbetaupdateshint":
                                         chkSettingsGeneralCheckForBetaUpdatesHint = ReadValue;
+                                        continue;
+                                    case "chksettingsgeneraldeleteupdaterafterupdatinghint":
+                                        chkSettingsGeneralDeleteUpdaterAfterUpdatingHint = ReadValue;
+                                        continue;
+                                    case "chkdeleteoldversionafterupdatinghint":
+                                        chkDeleteOldVersionAfterUpdatingHint = ReadValue;
                                         continue;
                                     case "chksettingsgeneralhoveroverurltopasteclipboardhint":
                                         chkSettingsGeneralHoverOverUrlToPasteClipboardHint = ReadValue;
