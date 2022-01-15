@@ -30,24 +30,15 @@ namespace youtube_dl_gui {
             btnAuthGenericCancel.Text = Program.lang.GenericCancel;
         }
         private void CalculatePositions() {
-            chkAuthUseNetrc.Location = new Point((this.Size.Width - chkAuthUseNetrc.Size.Width) / 2, chkAuthUseNetrc.Location.Y);
+            chkAuthUseNetrc.Location = new((this.Size.Width - chkAuthUseNetrc.Size.Width) / 2, chkAuthUseNetrc.Location.Y);
         }
 
         private void chkPasswordVisible_CheckedChanged(object sender, EventArgs e) {
-            if (chkPasswordVisible.Checked) {
-                txtPassword.PasswordChar = '\0';
-            }
-            else {
-                txtPassword.PasswordChar = '●';
-            }
+            txtPassword.PasswordChar = chkPasswordVisible.Checked ? '\0' : '●';
         }
+
         private void chkVideoPassVisible_CheckedChanged(object sender, EventArgs e) {
-            if (chkVideoPassVisible.Checked) {
-                txtVideoPassword.PasswordChar = '\0';
-            }
-            else {
-                txtVideoPassword.PasswordChar = '●';
-            }
+            txtVideoPassword.PasswordChar = chkVideoPassVisible.Checked ? '\0' : '●';
         }
 
         private void btnAuthBeginDownload_Click(object sender, EventArgs e) {

@@ -153,6 +153,24 @@ namespace youtube_dl_gui {
                 Ini.Write("UseIni", true);
             }
         }
+
+        /// <summary>
+        /// Checks if a point is a valid one to use.
+        /// </summary>
+        /// <param name="input">The <seealso cref="Point"/> value to validate.</param>
+        /// <returns>If the input is a valid point.</returns>
+        public static bool ValidPoint(Point input) {
+            return input.X != -32000 && input.Y != -32000;
+        }
+
+        /// <summary>
+        /// Checks if a size is a valid one to use.
+        /// </summary>
+        /// <param name="input">The <seealso cref="Size"/> value to validate.</param>
+        /// <returns>If the input is a valid size.</returns>
+        public static bool ValidSize(Size input) {
+            return input.Width > 0 && input.Height > 0;
+        }
     }
 
     class Config_Initialization {
@@ -174,29 +192,25 @@ namespace youtube_dl_gui {
                 case true:
                     switch (Ini.KeyExists("firstTime")) {
                         case true:
-                            firstTime = Ini.ReadBool("firstTime");
-                            firstTime_First = firstTime;
+                            firstTime_First = firstTime = Ini.ReadBool("firstTime");
                             break;
                     }
 
                     switch (Ini.KeyExists("LanguageFile")) {
                         case true:
-                            LanguageFile = Ini.ReadString("LanguageFile");
-                            LanguageFile_First = LanguageFile;
+                            LanguageFile_First = LanguageFile = Ini.ReadString("LanguageFile");
                             break;
                     }
 
                     switch (Ini.KeyExists("SkippedVersion")) {
                         case true:
-                            SkippedVersion = Ini.ReadDecimal("SkippedVersion");
-                            SkippedVersion_First = SkippedVersion;
+                            SkippedVersion_First = SkippedVersion = Ini.ReadDecimal("SkippedVersion");
                             break;
                     }
 
                     switch (Ini.KeyExists("SkippedBetaVersion")) {
                         case true:
-                            SkippedBetaVersion = Ini.ReadString("SkippedBetaVersion");
-                            SkippedBetaVersion_First = SkippedBetaVersion;
+                            SkippedBetaVersion_First = SkippedBetaVersion = Ini.ReadString("SkippedBetaVersion");
                             break;
                     }
                     break;
@@ -1998,6 +2012,8 @@ namespace youtube_dl_gui {
         public bool ClearClipboardOnDownload = false;
         public string extensionsName = string.Empty;
         public string extensionsShort = string.Empty;
+        public bool DeleteUpdaterOnStartup = true;
+        public bool DeleteBackupOnStartup = false;
 
 
         private bool UseStaticYtdl_First = false;
@@ -2921,4 +2937,5 @@ namespace youtube_dl_gui {
             }
         }
     }
+
 }

@@ -7,12 +7,12 @@ namespace youtube_dl_gui {
 
         public bool Debugging = false;
 
-        private readonly List<int> DownloadTypes = new List<int>();      // List of types to download
-        private readonly List<string> DownloadUrls = new List<string>(); // List of urls to download
-        private readonly List<string> DownloadArgs = new List<string>(); // List of args to download
-        private readonly List<int> DownloadQuality = new List<int>();    // List of the quality
-        private readonly List<int> DownloadFormat = new List<int>();     // List of the formats
-        private readonly List<bool> DownloadSoundVBR = new List<bool>(); // List of if sound/vbr should be downloaded
+        private readonly List<int> DownloadTypes = new();      // List of types to download
+        private readonly List<string> DownloadUrls = new(); // List of urls to download
+        private readonly List<string> DownloadArgs = new(); // List of args to download
+        private readonly List<int> DownloadQuality = new();    // List of the quality
+        private readonly List<int> DownloadFormat = new();     // List of the formats
+        private readonly List<bool> DownloadSoundVBR = new(); // List of if sound/vbr should be downloaded
         private bool InProgress = false;                        // Bool if the batch download is in progress
         private frmDownloader Downloader;                       // The Downloader form that will be around. Will be disposed if aborted.
         private DownloadInfo NewInfo;                           // The info of the download
@@ -41,6 +41,7 @@ namespace youtube_dl_gui {
             cbBatchDownloadType.Items.Add(Program.lang.GenericAudio);
             cbBatchDownloadType.Items.Add(Program.lang.GenericCustom);
         }
+
         private void frmBatchDownloader_Load(object sender, EventArgs e) {
             cbBatchDownloadType.SelectedIndex = Config.Settings.Batch.SelectedType;
             if (Config.Settings.Batch.SelectedType == 0) {
@@ -60,11 +61,11 @@ namespace youtube_dl_gui {
                 cbBatchFormat.SelectedIndex = Config.Settings.Batch.SelectedAudioFormat;
             }
 
-
             if (Config.Settings.Saved.BatchFormX != -32000 && Config.Settings.Saved.BatchFormY != -32000) {
-                this.Location = new System.Drawing.Point(Config.Settings.Saved.BatchFormX, Config.Settings.Saved.BatchFormY);
+                this.Location = new(Config.Settings.Saved.BatchFormX, Config.Settings.Saved.BatchFormY);
             }
         }
+
         private void frmBatchDownloader_FormClosing(object sender, FormClosingEventArgs e) {
             if (this.WindowState == FormWindowState.Minimized) {
                 this.Opacity = 0;
@@ -72,9 +73,6 @@ namespace youtube_dl_gui {
             }
             Config.Settings.Saved.BatchFormX = this.Location.X;
             Config.Settings.Saved.BatchFormY = this.Location.Y;
-            if (!Program.UseIni) {
-                Config.Settings.Saved.Save();
-            }
             this.Dispose();
         }
 
@@ -86,15 +84,19 @@ namespace youtube_dl_gui {
                 btnBatchDownloadAdd.Enabled = true;
             }
         }
+
         private void txtBatchDownloadLink_KeyPress(object sender, KeyPressEventArgs e) {
             if (e.KeyChar == 13) { AddItemToList(); }
         }
+
         private void btnBatchDownloadAdd_Click(object sender, EventArgs e) {
             AddItemToList();
         }
+
         private void btnBatchDownloadRemoveSelected_Click(object sender, EventArgs e) {
             RemoveItemsFromList();
         }
+
         private void sbBatchDownloadLoadArgs_Click(object sender, EventArgs e) {
             if (!string.IsNullOrEmpty(Config.Settings.Saved.DownloadCustomArguments)) {
                 cbArguments.Items.AddRange(Config.Settings.Saved.DownloadCustomArguments.Split('|'));
@@ -107,20 +109,23 @@ namespace youtube_dl_gui {
                     cbArguments.SelectedIndex = Config.Settings.Saved.CustomArgumentsIndex;
                 }
             }
-            using (OpenFileDialog ofd = new OpenFileDialog()) {
-                ofd.Title = "Select a file to read as arguments";
-                ofd.Filter = "All files (*.*)|*.*";
-                if (ofd.ShowDialog() == DialogResult.OK) {
-                    if (System.IO.File.Exists(ofd.FileName)) {
-                        cbArguments.Text = System.IO.File.ReadAllText(ofd.FileName).Trim(' ').Replace('\n', ' ').Trim(' ');
-                    }
+            using OpenFileDialog ofd = new();
+            ofd.Title = "Select a file to read as arguments";
+            ofd.Filter = "All files (*.*)|*.*";
+            if (ofd.ShowDialog() == DialogResult.OK) {
+                if (System.IO.File.Exists(ofd.FileName)) {
+                    cbArguments.Text = System.IO.File.ReadAllText(ofd.FileName).Trim(' ').Replace('\n', ' ').Trim(' ');
                 }
             }
         }
+
         private void mBatchDownloaderLoadArgsFromSettings_Click(object sender, EventArgs e) {
-            cbArguments.Items.AddRange(Config.Settings.Saved.DownloadCustomArguments.Split('|'));
-            cbArguments.SelectedIndex = Config.Settings.Saved.CustomArgumentsIndex;
+            if (Config.Settings.Saved.DownloadCustomArguments.Length > 0) {
+                cbArguments.Items.AddRange(Config.Settings.Saved.DownloadCustomArguments.Split('|'));
+                cbArguments.SelectedIndex = Config.Settings.Saved.CustomArgumentsIndex;
+            }
         }
+
         private void mBatchDownloaderLoadArgsFromArgsTxt_Click(object sender, EventArgs e) {
             if (System.IO.File.Exists(Environment.CurrentDirectory + "\\args.txt")) {
                 cbArguments.Items.AddRange(System.IO.File.ReadAllLines(Environment.CurrentDirectory + "\\args.txt"));
@@ -129,27 +134,32 @@ namespace youtube_dl_gui {
                 }
             }
         }
+
         private void mBatchDownloaderLoadArgsFromFile_Click(object sender, EventArgs e) {
-            using (OpenFileDialog ofd = new OpenFileDialog()) {
-                ofd.Title = "Select a file to read as arguments";
-                ofd.Filter = "All files (*.*)|*.*";
-                if (ofd.ShowDialog() == DialogResult.OK) {
-                    if (System.IO.File.Exists(ofd.FileName)) {
-                        cbArguments.Text = System.IO.File.ReadAllText(ofd.FileName).Trim(' ').Replace('\n', ' ').Trim(' ');
-                    }
+            using OpenFileDialog ofd = new();
+            ofd.Title = "Select a file to read as arguments";
+            ofd.Filter = "All files (*.*)|*.*";
+            if (ofd.ShowDialog() == DialogResult.OK) {
+                if (System.IO.File.Exists(ofd.FileName)) {
+                    cbArguments.Text = System.IO.File.ReadAllText(ofd.FileName).Trim(' ').Replace('\n', ' ').Trim(' ');
                 }
             }
         }
+
         private void lvBatchDownloadQueue_KeyDown(object sender, KeyEventArgs e) {
             if (e.Control && e.KeyCode == Keys.A) {
-                for (int i = 0; i < lvBatchDownloadQueue.Items.Count; i++) { lvBatchDownloadQueue.Items[i].Selected = true; }
+                for (int i = 0; i < lvBatchDownloadQueue.Items.Count; i++) {
+                    lvBatchDownloadQueue.Items[i].Selected = true;
+                }
             }
         }
+
         private void lvBatchDownloadQueue_KeyUp(object sender, KeyEventArgs e) {
             if (e.KeyValue == 46) {
                 RemoveItemsFromList();
             }
         }
+
         private void lvBatchDownloadQueue_SelectedIndexChanged(object sender, EventArgs e) {
             //cbBatchDownloadType.SelectedIndexChanged -= cbBatchDownloadType_SelectedIndexChanged;
             if (lvBatchDownloadQueue.SelectedIndices.Count > 0) {
@@ -173,6 +183,7 @@ namespace youtube_dl_gui {
             }
             //cbBatchDownloadType.SelectedIndexChanged += cbBatchDownloadType_SelectedIndexChanged;
         }
+
         private void chkBatchDownloaderSoundVBR_CheckedChanged(object sender, EventArgs e) {
             if (cbBatchDownloadType.SelectedIndex == 1) {
                 cbBatchQuality.SelectedIndex = -1;
@@ -187,80 +198,83 @@ namespace youtube_dl_gui {
                 }
             }
         }
+
         private void cbBatchDownloadType_SelectedIndexChanged(object sender, EventArgs e) {
-            if (cbBatchDownloadType.SelectedIndex == -1)
-                return;
+            if (cbBatchDownloadType.SelectedIndex > -1) {
 
-            if (!string.IsNullOrEmpty(txtBatchDownloadLink.Text)) {
-                btnBatchDownloadAdd.Enabled = true;
+                if (!string.IsNullOrEmpty(txtBatchDownloadLink.Text)) {
+                    btnBatchDownloadAdd.Enabled = true;
+                }
+
+                cbBatchQuality.SelectedIndex = -1;
+                cbBatchFormat.SelectedIndex = -1;
+                cbBatchQuality.Items.Clear();
+                cbBatchFormat.Items.Clear();
+
+                switch (cbBatchDownloadType.SelectedIndex) {
+                    case 0: {
+                        cbArguments.Visible = false;
+                        cbBatchQuality.Visible = true;
+                        cbBatchQuality.Enabled = true;
+                        cbBatchQuality.Items.AddRange(Download.Formats.VideoQualityArray);
+                        cbBatchFormat.Visible = true;
+                        cbBatchFormat.Enabled = true;
+                        cbBatchFormat.Items.AddRange(Download.Formats.VideoFormatsNamesArray);
+                        chkBatchDownloaderSoundVBR.Text = Program.lang.chkDownloadSound;
+                        chkBatchDownloaderSoundVBR.Enabled = true;
+                        cbBatchQuality.SelectedIndex = Config.Settings.Batch.SelectedVideoQuality;
+                        cbBatchFormat.SelectedIndex = Config.Settings.Batch.SelectedVideoFormat;
+                        chkBatchDownloaderSoundVBR.Checked = Config.Settings.Batch.DownloadVideoSound;
+                        chkBatchDownloaderSoundVBR.Visible = true;
+                    } break;
+
+                    case 1: {
+                        cbArguments.Visible = false;
+                        cbBatchQuality.Visible = true;
+                        cbBatchQuality.Enabled = true;
+                        cbBatchFormat.Visible = true;
+                        cbBatchFormat.Enabled = true;
+                        cbBatchFormat.Items.AddRange(Download.Formats.AudioFormatsArray);
+                        chkBatchDownloaderSoundVBR.Text = "VBR";
+                        chkBatchDownloaderSoundVBR.Enabled = true;
+                        if (Config.Settings.Batch.DownloadAudioVBR) {
+                            cbBatchQuality.Items.AddRange(new string[] { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" });
+                            cbBatchQuality.SelectedIndex = Config.Settings.Batch.SelectedAudioQuality;
+                        }
+                        else {
+                            cbBatchQuality.Items.AddRange(Download.Formats.AudioQualityNamesArray);
+                            cbBatchQuality.SelectedIndex = Config.Settings.Batch.SelectedAudioQualityVBR;
+                        }
+                        cbBatchFormat.SelectedIndex = Config.Settings.Batch.SelectedAudioFormat;
+                        chkBatchDownloaderSoundVBR.Checked = Config.Settings.Batch.DownloadAudioVBR;
+                        chkBatchDownloaderSoundVBR.Visible = true;
+                    } break;
+
+                    case 2: {
+                        cbArguments.Visible = true;
+                        cbBatchFormat.Visible = false;
+                        cbBatchQuality.Visible = false;
+                        cbBatchFormat.Enabled = false;
+                        cbBatchQuality.Enabled = false;
+                        chkBatchDownloaderSoundVBR.Enabled = false;
+                        chkBatchDownloaderSoundVBR.Checked = false;
+                        chkBatchDownloaderSoundVBR.Visible = false;
+                    } break;
+                }
+
+                //if (lvBatchDownloadQueue.SelectedItems.Count > 0) {
+                //    for (int i = 0; i < lvBatchDownloadQueue.SelectedItems.Count; i++) {
+                //        lvBatchDownloadQueue.SelectedItems[i].SubItems[1].Text = cbBatchDownloadType.GetItemText(cbBatchDownloadType.SelectedItem);
+                //    }
+                //}
             }
-
-            cbBatchQuality.SelectedIndex = -1;
-            cbBatchFormat.SelectedIndex = -1;
-            cbBatchQuality.Items.Clear();
-            cbBatchFormat.Items.Clear();
-
-            switch (cbBatchDownloadType.SelectedIndex) {
-                case 0:
-                    cbArguments.Visible = false;
-                    cbBatchQuality.Visible = true;
-                    cbBatchQuality.Enabled = true;
-                    cbBatchQuality.Items.AddRange(Download.Formats.VideoQualityArray);
-                    cbBatchFormat.Visible = true;
-                    cbBatchFormat.Enabled = true;
-                    cbBatchFormat.Items.AddRange(Download.Formats.VideoFormatsNamesArray);
-                    chkBatchDownloaderSoundVBR.Text = Program.lang.chkDownloadSound;
-                    chkBatchDownloaderSoundVBR.Enabled = true;
-                    cbBatchQuality.SelectedIndex = Config.Settings.Batch.SelectedVideoQuality;
-                    cbBatchFormat.SelectedIndex = Config.Settings.Batch.SelectedVideoFormat;
-                    chkBatchDownloaderSoundVBR.Checked = Config.Settings.Batch.DownloadVideoSound;
-                    chkBatchDownloaderSoundVBR.Visible = true;
-                    break;
-                case 1:
-                    cbArguments.Visible = false;
-                    cbBatchQuality.Visible = true;
-                    cbBatchQuality.Enabled = true;
-                    cbBatchFormat.Visible = true;
-                    cbBatchFormat.Enabled = true;
-                    cbBatchFormat.Items.AddRange(Download.Formats.AudioFormatsArray);
-                    chkBatchDownloaderSoundVBR.Text = "VBR";
-                    chkBatchDownloaderSoundVBR.Enabled = true;
-                    if (Config.Settings.Batch.DownloadAudioVBR) {
-                        cbBatchQuality.Items.AddRange(new string[] { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" });
-                        cbBatchQuality.SelectedIndex = Config.Settings.Batch.SelectedAudioQuality;
-                    }
-                    else {
-                        cbBatchQuality.Items.AddRange(Download.Formats.AudioQualityNamesArray);
-                        cbBatchQuality.SelectedIndex = Config.Settings.Batch.SelectedAudioQualityVBR;
-                    }
-                    cbBatchFormat.SelectedIndex = Config.Settings.Batch.SelectedAudioFormat;
-                    chkBatchDownloaderSoundVBR.Checked = Config.Settings.Batch.DownloadAudioVBR;
-                    chkBatchDownloaderSoundVBR.Visible = true;
-                    break;
-                case 2:
-                    cbArguments.Visible = true;
-                    cbBatchFormat.Visible = false;
-                    cbBatchQuality.Visible = false;
-                    cbBatchFormat.Enabled = false;
-                    cbBatchQuality.Enabled = false;
-                    chkBatchDownloaderSoundVBR.Enabled = false;
-                    chkBatchDownloaderSoundVBR.Checked = false;
-                    chkBatchDownloaderSoundVBR.Visible = false;
-                    break;
-            }
-
-            //if (lvBatchDownloadQueue.SelectedItems.Count > 0) {
-            //    for (int i = 0; i < lvBatchDownloadQueue.SelectedItems.Count; i++) {
-            //        lvBatchDownloadQueue.SelectedItems[i].SubItems[1].Text = cbBatchDownloadType.GetItemText(cbBatchDownloadType.SelectedItem);
-            //    }
-            //}
         }
+
         private void btnBatchDownloadStartStopExit_Click(object sender, EventArgs e) {
-            if (DownloadUrls.Count == 0) { return; }
             if (InProgress) {
                 Downloader.Dispose();
             }
-            else if (lvBatchDownloadQueue.Items.Count > 0) {
+            else if (DownloadUrls.Count > 0) {
                 btnBatchDownloadRemoveSelected.Enabled = false;
                 btnBatchDownloadStartStopExit.Text = Program.lang.GenericStop;
                 InProgress = true;
@@ -331,7 +345,7 @@ namespace youtube_dl_gui {
 
         private void AddItemToList() {
             if (!string.IsNullOrEmpty(txtBatchDownloadLink.Text) && cbBatchDownloadType.SelectedIndex != -1) {
-                ListViewItem lvi = new ListViewItem {
+                ListViewItem lvi = new() {
                     Checked = false,
                     Name = txtBatchDownloadLink.Text
                 };
@@ -341,7 +355,7 @@ namespace youtube_dl_gui {
                 lvi.SubItems.Add(new ListViewItem.ListViewSubItem());
                 switch (cbBatchDownloadType.SelectedIndex) {
                     case -1:
-                        MessageBox.Show("Please select a download type");
+                        System.Media.SystemSounds.Asterisk.Play();
                         return;
                     case 0:
                         lvi.SubItems[1].Text = "Video";
@@ -389,25 +403,24 @@ namespace youtube_dl_gui {
                 btnBatchDownloadStartStopExit.Enabled = true;
             }
         }
+
         private void RemoveItemsFromList() {
-            if (lvBatchDownloadQueue.SelectedIndices.Count == 0 || InProgress) {
-                return;
-            }
-
-            for (int i = lvBatchDownloadQueue.Items.Count - 1; i >= 0; i--) {
-                if (lvBatchDownloadQueue.Items[i].Selected) {
-                    lvBatchDownloadQueue.Items[i].Remove();
-                    DownloadUrls.RemoveAt(i);
-                    DownloadTypes.RemoveAt(i);
-                    DownloadArgs.RemoveAt(i);
-                    DownloadQuality.RemoveAt(i);
-                    DownloadFormat.RemoveAt(i);
-                    DownloadSoundVBR.RemoveAt(i);
+            if (lvBatchDownloadQueue.SelectedIndices.Count > 0 && !InProgress) {
+                for (int i = lvBatchDownloadQueue.Items.Count - 1; i >= 0; i--) {
+                    if (lvBatchDownloadQueue.Items[i].Selected) {
+                        lvBatchDownloadQueue.Items[i].Remove();
+                        DownloadUrls.RemoveAt(i);
+                        DownloadTypes.RemoveAt(i);
+                        DownloadArgs.RemoveAt(i);
+                        DownloadQuality.RemoveAt(i);
+                        DownloadFormat.RemoveAt(i);
+                        DownloadSoundVBR.RemoveAt(i);
+                    }
                 }
-            }
 
-            if (lvBatchDownloadQueue.Items.Count == 0) {
-                btnBatchDownloadStartStopExit.Enabled = false;
+                if (lvBatchDownloadQueue.Items.Count == 0) {
+                    btnBatchDownloadStartStopExit.Enabled = false;
+                }
             }
         }
     }
@@ -421,13 +434,14 @@ namespace youtube_dl_gui {
         }
 
         public static string CurrentTime() {
+            DateTime Now = DateTime.Now;
             string DateTimeBuffer = string.Empty;
-            DateTimeBuffer += DateTime.Now.Year.ToString("0.####") + "_";
-            DateTimeBuffer += DateTime.Now.Month.ToString("00.##") + "_";
-            DateTimeBuffer += DateTime.Now.Day.ToString("00.##") + " - ";
-            DateTimeBuffer += DateTime.Now.Hour.ToString("00.##") + "_";
-            DateTimeBuffer += DateTime.Now.Minute.ToString("00.##") + "_";
-            DateTimeBuffer += DateTime.Now.Second.ToString("00.##");
+            DateTimeBuffer += Now.Year.ToString("0.####") + "_";
+            DateTimeBuffer += Now.Month.ToString("00.##") + "_";
+            DateTimeBuffer += Now.Day.ToString("00.##") + " - ";
+            DateTimeBuffer += Now.Hour.ToString("00.##") + "_";
+            DateTimeBuffer += Now.Minute.ToString("00.##") + "_";
+            DateTimeBuffer += Now.Second.ToString("00.##");
             return DateTimeBuffer;
         }
     }

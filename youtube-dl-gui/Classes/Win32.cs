@@ -76,7 +76,7 @@ namespace youtube_dl_gui {
         }
 
         public static void KillProcessTree(uint ParentProcess) {
-            ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT * FROM Win32_Process WHERE ParentProcessId=" + ParentProcess);
+            ManagementObjectSearcher searcher = new("SELECT * FROM Win32_Process WHERE ParentProcessId=" + ParentProcess);
             ManagementObjectCollection collection = searcher.Get();
             if (collection.Count > 0) {
                 foreach (var proc in collection) {

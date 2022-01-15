@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Net;
@@ -14,12 +15,11 @@ using System.Xml.Linq;
 namespace youtube_dl_gui {
     class UpdateChecker {
 
-        public static readonly GitData GitInfo = new GitData();
+        public static readonly GitData GitInfo = new();
         private static readonly bool bypassDebug = true;
-        private static readonly string NoUpdateBase = "No updates available.\r\n\r\nCurrent version: {0}\r\nLatest version: {1}";
-        private static readonly string NoBetaUpdateBase = "No beta updates available.\r\n\r\nCurrent beta version: {0}\r\nNewest beta version: {1}";
-        private const string KnownUpdaterHash = "B4C6813E0F226A2882C7269F7287BB24612A74DC235D134E886AA9902285545A";
+        private const string KnownUpdaterHash = "E88DC3393363067DE7DC88885C8F81C5F9174A920B60B93D0E40099FC87EC9E8";
         private const string SHARegex = "\\b[A-Fa-f0-9]{64}\\b";
+        private const string BetaRegex = "[0-9]\\.[0-9]+";
 
         #region Major methods
         /// <summary>
@@ -37,44 +37,42 @@ namespace youtube_dl_gui {
                 }
 
                 if (GitInfo.UpdateAvailable && !ForceCheck) {
-                    using (frmUpdateAvailable Update = new frmUpdateAvailable()) {
-                        Update.BlockSkip = ForceCheck;
-                        switch (Update.ShowDialog()) {
-                            case DialogResult.Yes:
-                                try {
-                                    UpdateApplication();
-                                }
-                                catch (Exception ex) {
-                                    ErrorLog.Report(ex);
-                                    return;
-                                }
-                                break;
-                        }
+                    using frmUpdateAvailable Update = new();
+                    Update.BlockSkip = ForceCheck;
+                    switch (Update.ShowDialog()) {
+                        case DialogResult.Yes:
+                            try {
+                                UpdateApplication();
+                            }
+                            catch (Exception ex) {
+                                ErrorLog.Report(ex);
+                                return;
+                            }
+                            break;
                     }
                 }
                 else {
                     if (Config.Settings.General.DownloadBetaVersions) {
                         string LatestReleaseVersion = GetLatestPreRelease();
-                        if (IsBetaUpdateAvailable(LatestReleaseVersion)) {
+                        if (IsBetaUpdateAvailable()) {
                             GitInfo.UpdateAvailable = true;
                             if (LatestReleaseVersion != Config.Settings.Initialization.SkippedBetaVersion || ForceCheck) {
-                                using (frmUpdateAvailable Update = new frmUpdateAvailable()) {
-                                    Update.BlockSkip = ForceCheck;
-                                    switch (Update.ShowDialog()) {
-                                        case DialogResult.Yes:
-                                            try {
-                                                UpdateApplication();
-                                            }
-                                            catch (Exception ex) {
-                                                ErrorLog.Report(ex);
-                                                return;
-                                            }
-                                            break;
-                                        case DialogResult.Ignore:
-                                            Config.Settings.Initialization.SkippedBetaVersion = LatestReleaseVersion;
-                                            Config.Settings.Save(ConfigType.Initialization);
-                                            break;
-                                    }
+                                using frmUpdateAvailable Update = new();
+                                Update.BlockSkip = ForceCheck;
+                                switch (Update.ShowDialog()) {
+                                    case DialogResult.Yes:
+                                        try {
+                                            UpdateApplication();
+                                        }
+                                        catch (Exception ex) {
+                                            ErrorLog.Report(ex);
+                                            return;
+                                        }
+                                        break;
+                                    case DialogResult.Ignore:
+                                        Config.Settings.Initialization.SkippedBetaVersion = LatestReleaseVersion;
+                                        Config.Settings.Save(ConfigType.Initialization);
+                                        break;
                                 }
                             }
                         }
@@ -83,10 +81,10 @@ namespace youtube_dl_gui {
                         }
                         else if (ForceCheck) {
                             if (Properties.Settings.Default.IsBetaVersion) {
-                                MessageBox.Show(string.Format(NoBetaUpdateBase, Properties.Settings.Default.BetaVersion, LatestReleaseVersion));
+                                MessageBox.Show(string.Format(Program.lang.dlgUpdateNoBetaUpdateAvailable, Properties.Settings.Default.BetaVersion, LatestReleaseVersion));
                             }
                             else {
-                                MessageBox.Show(string.Format(NoUpdateBase, Properties.Settings.Default.CurrentVersion, LatestReleaseVersion));
+                                MessageBox.Show(string.Format(Program.lang.dlgUpdateNoUpdateAvailable, Properties.Settings.Default.CurrentVersion, LatestReleaseVersion));
                             }
                         }
                     }
@@ -96,23 +94,22 @@ namespace youtube_dl_gui {
                         if (IsUpdateAvailable(GitVersion)) {
                             GitInfo.UpdateAvailable = true;
                             if (GitVersion != Config.Settings.Initialization.SkippedVersion || ForceCheck) {
-                                using (frmUpdateAvailable Update = new frmUpdateAvailable()) {
-                                    Update.BlockSkip = ForceCheck;
-                                    switch (Update.ShowDialog()) {
-                                        case DialogResult.Yes:
-                                            try {
-                                                UpdateApplication();
-                                            }
-                                            catch (Exception ex) {
-                                                ErrorLog.Report(ex);
-                                                return;
-                                            }
-                                            break;
-                                        case DialogResult.Ignore:
-                                            Config.Settings.Initialization.SkippedVersion = GitVersion;
-                                            Config.Settings.Save(ConfigType.Initialization);
-                                            break;
-                                    }
+                                using frmUpdateAvailable Update = new();
+                                Update.BlockSkip = ForceCheck;
+                                switch (Update.ShowDialog()) {
+                                    case DialogResult.Yes:
+                                        try {
+                                            UpdateApplication();
+                                        }
+                                        catch (Exception ex) {
+                                            ErrorLog.Report(ex);
+                                            return;
+                                        }
+                                        break;
+                                    case DialogResult.Ignore:
+                                        Config.Settings.Initialization.SkippedVersion = GitVersion;
+                                        Config.Settings.Save(ConfigType.Initialization);
+                                        break;
                                 }
                             }
                         }
@@ -122,10 +119,10 @@ namespace youtube_dl_gui {
                         }
                         else if (ForceCheck) {
                             if (Properties.Settings.Default.IsBetaVersion) {
-                                MessageBox.Show(string.Format(NoBetaUpdateBase + "\r\n\r\nThis may be a wild message to receive.", Properties.Settings.Default.BetaVersion, GitVersion));
+                                MessageBox.Show(string.Format(Program.lang.dlgUpdateNoBetaUpdateAvailable + "\r\n\r\nThis may be a wild message to receive.", Properties.Settings.Default.BetaVersion, GitVersion));
                             }
                             else {
-                                MessageBox.Show(string.Format(NoUpdateBase, Properties.Settings.Default.CurrentVersion, GitVersion));
+                                MessageBox.Show(string.Format(Program.lang.dlgUpdateNoUpdateAvailable, Properties.Settings.Default.CurrentVersion, GitVersion));
                             }
                         }
                     }
@@ -166,7 +163,7 @@ namespace youtube_dl_gui {
             }
             finally {
                 if (FailedToCheck) {
-                    if (MessageBox.Show("The update check has failed. Would you like to manually check?", "youtube-dl-gui", MessageBoxButtons.YesNo, MessageBoxIcon.Error) == DialogResult.Yes) {
+                    if (MessageBox.Show(Program.lang.dlgUpdateFailedToCheck, "youtube-dl-gui", MessageBoxButtons.YesNo, MessageBoxIcon.Error) == DialogResult.Yes) {
                         Process.Start(string.Format(GitData.GitLinks.GithubRepoUrl + "/releases/latest", "murrty", "youtube-dl-gui"));
                     }
                 }
@@ -182,13 +179,8 @@ namespace youtube_dl_gui {
             File.WriteAllBytes(Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe", Properties.Resources.youtube_dl_gui_updater);
 
             // Sanity check the updater.
-            using SHA256 ComputeUpdaterHash = SHA256Cng.Create();
-            using FileStream UpdaterStream = File.OpenRead(Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe");
-            string UpdaterHash = BitConverter.ToString(ComputeUpdaterHash.ComputeHash(UpdaterStream)).Replace("-", "").ToLower();
-            UpdaterStream.Close();
-
-            if (UpdaterHash != KnownUpdaterHash.ToLower()) {
-                if (MessageBox.Show("The hash of the updater does not match the internally known hash. It might still work but yknow. Update anyways?", "youtube-dl-gui", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No) {
+            if (Program.CalculateSha256Hash(Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe") != KnownUpdaterHash.ToLower()) {
+                if (MessageBox.Show(Program.lang.dlgUpdaterHashNoMatch, "youtube-dl-gui", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No) {
                     File.Delete(Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe");
                     return;
                 }
@@ -206,7 +198,7 @@ namespace youtube_dl_gui {
                 GetLatestYoutubeDl(3);
                 if (Config.Settings.Downloads.useYtdlUpdater && Config.Settings.General.UseStaticYtdl && !string.IsNullOrEmpty(Config.Settings.General.ytdlPath) && File.Exists(Config.Settings.General.ytdlPath) || Config.Settings.Downloads.useYtdlUpdater && File.Exists(Program.verif.YoutubeDlPath)) {
 
-                    Process UpdateYoutubeDl = new Process();
+                    Process UpdateYoutubeDl = new();
                     UpdateYoutubeDl.StartInfo.Arguments = "-U";
 
                     if (Config.Settings.General.UseStaticYtdl && !string.IsNullOrWhiteSpace(Config.Settings.General.ytdlPath) && File.Exists(Config.Settings.General.ytdlPath)) {
@@ -223,7 +215,7 @@ namespace youtube_dl_gui {
                             UpdateYoutubeDl.StartInfo.FileName = Program.ProgramPath + "\\yt-dlp.exe";
                         }
                         else {
-                            MessageBox.Show("Could not find a valid youtube-dl program.", "youtube-dl-gui");
+                            MessageBox.Show(Program.lang.dlgUpdateNoValidYoutubeDl, "youtube-dl-gui");
                             return;
                         }
                     }
@@ -232,19 +224,12 @@ namespace youtube_dl_gui {
 
                 }
                 else {
-                    int TypeIndex;
-                    switch (Config.Settings.Downloads.YtdlType) {
-                        case 1:
-                            TypeIndex = 1;
-                            break;
-                        case 2:
-                            TypeIndex = 2;
-                            break;
+                    int TypeIndex = Config.Settings.Downloads.YtdlType switch {
+                        1 => 1,
+                        2 => 2,
+                        _ => 0,
+                    };
 
-                        default:
-                            TypeIndex = 0;
-                            break;
-                    }
                     GitInfo.YoutubeDlVersion = GetLatestYoutubeDl(TypeIndex);
 
                     if (Program.verif.YoutubeDlVersion != GitInfo.YoutubeDlVersion) {
@@ -258,48 +243,36 @@ namespace youtube_dl_gui {
                             FullSavePath = Config.Settings.General.ytdlPath;
                         }
                         else {
-                            switch (TypeIndex) {
-                                case 1:
-                                    FullSavePath = Program.ProgramPath + "\\youtube-dlc.exe";
-                                    break;
-
-                                case 2:
-                                    FullSavePath = Program.ProgramPath + "\\yt-dlp.exe";
-                                    break;
-
-                                default:
-                                    FullSavePath = Program.ProgramPath + "\\youtube-dl.exe";
-                                    break;
-                            }
+                            FullSavePath = Program.ProgramPath + TypeIndex switch {
+                                1 => "\\youtube-dlc.exe",
+                                2 => "\\yt-dlp.exe",
+                                _ => "\\youtube-dl.exe",
+                            };
                         }
 
-                        Thread DownloadYoutubeDl = new Thread(() => {
-                            using (WebClient wc = new WebClient()) {
-                                wc.Headers.Add("User-Agent: " + Program.UserAgent);
-                                try {
+                        Thread DownloadYoutubeDl = new(() => {
+                            using WebClient wc = new();
+                            wc.Headers.Add("User-Agent: " + Program.UserAgent);
+                            try {
+                                wc.DownloadFile(DownloadUrl, FullSavePath);
+                                Program.verif.RefreshYoutubeDlLocation();
+                                MessageBox.Show(Program.lang.dlgUpdatedYoutubeDl, "youtube-dl-gui");
+                            }
+                            catch (WebException webex) {
 
-                                    wc.DownloadFile(DownloadUrl, FullSavePath);
+                                ErrorLog.Report(
+                                    webex,
+                                    string.Format(
+                                        GitData.GitLinks.ApplicationDownloadUrl,
+                                        GitData.GitLinks.Users[TypeIndex],
+                                        GitData.GitLinks.Repos[TypeIndex],
+                                        GitInfo.YoutubeDlVersion
+                                    )
+                                );
 
-                                    Program.verif.RefreshYoutubeDlLocation();
-
-                                    MessageBox.Show("Youtube-dl has been updated.");
-                                }
-                                catch (WebException webex) {
-
-                                    ErrorLog.Report(
-                                        webex,
-                                        string.Format(
-                                            GitData.GitLinks.ApplicationDownloadUrl,
-                                            GitData.GitLinks.Users[TypeIndex],
-                                            GitData.GitLinks.Repos[TypeIndex],
-                                            GitInfo.YoutubeDlVersion
-                                        )
-                                    );
-
-                                }
-                                catch (Exception ex) {
-                                    ErrorLog.Report(ex);
-                                }
+                            }
+                            catch (Exception ex) {
+                                ErrorLog.Report(ex);
                             }
                         }) {
                             Name = "Downloading youtube-dl"
@@ -308,7 +281,7 @@ namespace youtube_dl_gui {
 
                     }
                     else {
-                        switch (MessageBox.Show("Youtube-dl does not require an update at this moment.\r\n\r\nCurrent version: " + Program.verif.YoutubeDlVersion + "\r\nLatest release: " + GitInfo.YoutubeDlVersion, "youtube-dl-gui", MessageBoxButtons.RetryCancel)) {
+                        switch (MessageBox.Show(string.Format(Program.lang.dlgUpateYoutubeDlNoUpdateRequired, Program.verif.YoutubeDlVersion, GitInfo.YoutubeDlVersion), "youtube-dl-gui", MessageBoxButtons.RetryCancel)) {
                             case DialogResult.Retry:
                                 UpdateYoutubeDl();
                                 break;
@@ -344,24 +317,23 @@ namespace youtube_dl_gui {
         /// </summary>
         /// <param name="Url"> The Url of the API to download and convert.</param>
         /// <returns>The string of the (Json converted) Xml data from the input Url</returns>
-        private static string GetJSON(string Url) {
+        public static string GetJSON(string Url) {
             try {
-                using (WebClient wc = new WebClient()) {
-                    ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
-                    wc.Headers.Add("User-Agent: " + Program.UserAgent);
+                using WebClient wc = new();
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+                wc.Headers.Add("User-Agent: " + Program.UserAgent);
 
-                    using (MemoryStream stream = new MemoryStream(Encoding.ASCII.GetBytes(wc.DownloadString(Url)))) {
-                        XDocument xml = XDocument.Load(JsonReaderWriterFactory.CreateJsonReader(stream, new XmlDictionaryReaderQuotas()));
-                        stream.Flush();
-                        stream.Close();
-                        return xml.ToString();
-                    }
-                }
+                using MemoryStream stream = new(Encoding.ASCII.GetBytes(wc.DownloadString(Url)));
+                XDocument xml = XDocument.Load(JsonReaderWriterFactory.CreateJsonReader(stream, new XmlDictionaryReaderQuotas()));
+                stream.Flush();
+                stream.Close();
+                return xml.ToString();
             }
             catch {
                 throw;
             }
         }
+
         /// <summary>
         /// Gets the latest release from Github.
         /// </summary>
@@ -382,7 +354,7 @@ namespace youtube_dl_gui {
                 if (Xml == null) throw new ApiParsingException("The retrieved xml returned null.", Url);
 
                 // Load the api data into an xml document
-                XmlDocument doc = new XmlDocument();
+                XmlDocument doc = new();
                 doc.LoadXml(Xml);
 
                 // Check the ChildNodes count
@@ -447,6 +419,7 @@ namespace youtube_dl_gui {
                 throw;
             }
         }
+
         /// <summary>
         /// Gets the latest release, including pre-releases, from Github.
         /// </summary>
@@ -467,7 +440,7 @@ namespace youtube_dl_gui {
                 if (Xml == null) throw new ApiParsingException("The retrieved xml returned null.", Url);
                 
                 // Load the api data into an xml document
-                XmlDocument doc = new XmlDocument();
+                XmlDocument doc = new();
                 doc.LoadXml(Xml);
 
                 // Check the ChildNodes count
@@ -525,6 +498,7 @@ namespace youtube_dl_gui {
                 throw;
             }
         }
+
         /// <summary>
         /// Gets the latest github version of the specified fork ID.
         /// </summary>
@@ -549,7 +523,7 @@ namespace youtube_dl_gui {
 
                 if (Xml == null) throw new ApiParsingException("The retrieved xml returned null.", Url);
 
-                XmlDocument doc = new XmlDocument();
+                XmlDocument doc = new();
                 doc.LoadXml(Xml);
                 switch (doc.ChildNodes.Count) {
                     case 0: // Critical, no information is in the xml document.
@@ -585,17 +559,29 @@ namespace youtube_dl_gui {
                 return Properties.Settings.Default.CurrentVersion < cloudVersion;
             }
         }
+
         /// <summary>
         /// Determines if an update is available from the latest releases, including pre-releases.
         /// </summary>
         /// <param name="cloudVersion">The <seealso cref="string"/> version of the latest version on Github.</param>
         /// <returns>A bool based on if the Github version is different than the current version.</returns>
-        private static bool IsBetaUpdateAvailable(string cloudVersion) {
+        public static bool IsBetaUpdateAvailable() {
             if (Properties.Settings.Default.IsBetaVersion) {
-                return cloudVersion != Properties.Settings.Default.BetaVersion;
+                return GitInfo.UpdateVersion != Properties.Settings.Default.BetaVersion;
             }
             else {
-                return cloudVersion != Properties.Settings.Default.CurrentVersion.ToString();
+                // We gotta try to parse the decimal :(
+                Match FindVersion = Regex.Match(GitInfo.UpdateVersion, BetaRegex);
+                if (FindVersion.Success) {
+                    if (decimal.TryParse(FindVersion.Value,
+                        System.Globalization.NumberStyles.AllowDecimalPoint,
+                        System.Globalization.CultureInfo.InvariantCulture,
+                        out decimal NewVersion)) {
+                        return NewVersion > Properties.Settings.Default.CurrentVersion;
+                    }
+                    else throw new DecimalParsingException("Couldn't parse the decimal from the regex match.");
+                }
+                else throw new DecimalParsingException("The regex couldn't find a match for the version schema.");
             }
         }
         #endregion
@@ -608,7 +594,8 @@ namespace youtube_dl_gui {
                 GitInfo.UpdateName = "An update";
                 GitInfo.UpdateBody = "A new update is available. Not really.\nNew line escape sequence works! Use \\n\n\nhello world";
                 GitInfo.UpdateVersion = "1.0";
-                using (frmUpdateAvailable Update = new frmUpdateAvailable()) { Update.ShowDialog(); }
+                using frmUpdateAvailable Update = new();
+                Update.ShowDialog();
                 GitInfo.UpdateAvailable = OldGitUpdateAvailable;
                 GitInfo.UpdateName = UpdateArray[0];
                 GitInfo.UpdateBody = UpdateArray[1];
@@ -647,8 +634,67 @@ namespace youtube_dl_gui {
         //public bool YoutubeDlUpdateAvailableBool = false;
 
         public string GithubIssuesLink {
-            get { return string.Format(GitLinks.GithubIssuesUrl, "murrty", "youtube-dl-gui"); }
+            get {
+                return string.Format(GitLinks.GithubIssuesUrl, "murrty", "youtube-dl-gui");
+            }
         }
+
+        public static List<GitLanguageFile> Languages {
+            get {
+                string Url = "https://api.github.com/repos/murrty/youtube-dl-gui/contents/Languages";
+                string Xml = UpdateChecker.GetJSON(Url);
+
+                // if the xml is null, throw a parsing exception
+                if (Xml == null) throw new ApiParsingException("The retrieved xml returned null.", Url);
+
+                // Load the api data into an xml document
+                XmlDocument doc = new();
+                doc.LoadXml(Xml);
+
+                // Check the ChildNodes count
+                switch (doc.DocumentElement.ChildNodes.Count) {
+                    case 0: // Critical, no information is in the xml document.
+                        throw new ApiParsingException("The retrieved Xml does not contain any information.", Url, Xml);
+
+                    case 1: // Highly suspicious, may only be the declaration.
+                        throw new ApiParsingException("The retrieved Xml only contains 1 ChildNode, and will not be parsed.", Url, Xml);
+
+                    default:
+                        if (Program.IsDebug) MessageBox.Show($"{doc.DocumentElement.ChildNodes.Count} total child nodes");
+                        break;
+                }
+
+                // Initialize the NoteLists of the 3 required pieces of info.
+                XmlNodeList xmlName = doc.DocumentElement.SelectNodes("/root/item/name");
+                XmlNodeList xmlSha = doc.DocumentElement.SelectNodes("/root/item/sha");
+                XmlNodeList xmlDownloadUrl = doc.DocumentElement.SelectNodes("/root/item/download_url");
+
+                // If the tag does not contain any information, the API did not retrieve properly.
+                // Throw an API Parsing Exception if it's empty, this is a critical variable.
+                if (xmlName.Count == 0) throw new ApiParsingException("The tag xmlNames was not properly retrieved. It may be a change in API, repo structure (update would be required), or a temporary issue.", Url, Xml);
+
+                if (xmlName.Count != xmlSha.Count) throw new ApiParsingException("The tags xmlName and xmlSha do not match in count. This is a problem, if you can't tell.", Url, Xml);
+                if (xmlName.Count != xmlDownloadUrl.Count) throw new ApiParsingException("The tags xmlName and xmlDownloadUrl do not match in count. This is a problem, if you can't tell.", Url, Xml);
+
+
+                List<GitLanguageFile> EnumeratedLangs = new();
+                for (int i = 0; i < xmlName.Count; i++) {
+                    EnumeratedLangs.Add(new() {
+                        Name = xmlName[i].InnerText,
+                        Sha = xmlSha[i].InnerText,
+                        DownloadUrl = xmlDownloadUrl[i].InnerText
+                    }) ;
+                }
+
+                return EnumeratedLangs;
+            }
+        }
+    }
+
+    public class GitLanguageFile {
+        public string Name;
+        public string Sha;
+        public string DownloadUrl;
     }
 
 }

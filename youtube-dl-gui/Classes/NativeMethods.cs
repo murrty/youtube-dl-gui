@@ -24,7 +24,7 @@ namespace youtube_dl_gui {
         public static extern IntPtr LoadCursor(IntPtr hInstance, IntPtr lpCursorName);
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         public static extern IntPtr SetCursor(IntPtr hCursor);
-        public static readonly Cursor SystemHandCursor = new Cursor(LoadCursor(IntPtr.Zero, HAND));
+        public static readonly Cursor SystemHandCursor = new(LoadCursor(IntPtr.Zero, HAND));
         #endregion
 
         #region Vista Visuals for VistaListView

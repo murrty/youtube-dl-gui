@@ -24,7 +24,7 @@ namespace murrty {
                 lbDate.Location = new(btnExceptionRetry.Location.X - 119, lbDate.Location.Y);
             }
             
-            lbDate.Text = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss}"; // Add ".fff" to the formatter for milliseconds.
+            lbDate.Text = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss}";
             btnExceptionRetry.Enabled = ReportedException.AllowRetry;
         }
 
@@ -116,7 +116,7 @@ namespace murrty {
                     } break;
 
                     case System.Threading.ThreadAbortException ThrAbrEx: {
-                        rtbExceptionDetails.Text = (ReportedException.Unrecoverable ? "An unrecoverable thread abort exception occurred, and the application will exit." : "A thread abort exception occurred.") + "\n\n" + "This exception may have been thrown on accident.";
+                        rtbExceptionDetails.Text = (ReportedException.Unrecoverable ? "An unrecoverable thread abort exception occurred, and the application will exit." : "A thread abort exception occurred.") + "\n\n" + $"This exception may have been thrown on accident.\n\nStacktrace: {ThrAbrEx.StackTrace}\n";
                     } break;
 
                     case Exception Ex: {

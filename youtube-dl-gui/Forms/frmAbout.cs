@@ -11,18 +11,13 @@ namespace youtube_dl_gui {
             InitializeComponent();
             pbIcon.Image = Properties.Resources.youtube_dl_gui32;
             LoadLanguage();
-            if (Properties.Settings.Default.IsBetaVersion) {
-                lbVersion.Text = "v" + Properties.Settings.Default.BetaVersion;
-            }
-            else {
-                lbVersion.Text = "v" + Properties.Settings.Default.CurrentVersion.ToString();
-            }
+            lbVersion.Text = $"v{(Properties.Settings.Default.IsBetaVersion ? Properties.Settings.Default.BetaVersion : Properties.Settings.Default.CurrentVersion)}";
         }
 
         private void LoadLanguage() {
             lbAboutBody.Text = string.Format(Program.lang.lbAboutBody + "\n\nlikulau best boye.", "ytdl-org", "murrty", Properties.Settings.Default.LastDebugDate);
             llbCheckForUpdates.Text = Program.lang.llbCheckForUpdates;
-            this.Text = string.Format("{0} youtube-dl-gui", Program.lang.frmAbout);
+            this.Text = $"{Program.lang.frmAbout} youtube-dl-gui";
         }
 
         private void llbCheckForUpdates_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
@@ -44,6 +39,7 @@ namespace youtube_dl_gui {
                 UpdateCheckThread.Start();
             }
         }
+
         private void pbIcon_Click(object sender, EventArgs e) {
             Process.Start("https://github.com/murrty/youtube-dl-gui/");
         }
@@ -51,5 +47,6 @@ namespace youtube_dl_gui {
         private void llbGithub_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
             Process.Start("https://github.com/murrty/youtube-dl-gui");
         }
+
     }
 }

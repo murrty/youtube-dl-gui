@@ -140,7 +140,6 @@
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Update available";
-            this.Load += new System.EventHandler(this.frmUpdateAvailable_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

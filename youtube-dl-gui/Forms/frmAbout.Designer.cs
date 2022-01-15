@@ -33,8 +33,8 @@
             this.lbHeader = new System.Windows.Forms.Label();
             this.lbAboutBody = new System.Windows.Forms.Label();
             this.pbIcon = new System.Windows.Forms.PictureBox();
-            this.llbGithub = new youtube_dl_gui.Controls.LinkLabelHand();
-            this.llbCheckForUpdates = new youtube_dl_gui.Controls.LinkLabelHand();
+            this.llbGithub = new murrty.controls.ExtendedLinkLabel();
+            this.llbCheckForUpdates = new murrty.controls.ExtendedLinkLabel();
             ((System.ComponentModel.ISupportInitialize)(this.pbIcon)).BeginInit();
             this.SuspendLayout();
             // 
@@ -133,7 +133,7 @@
         private System.Windows.Forms.Label lbHeader;
         private System.Windows.Forms.Label lbAboutBody;
         private System.Windows.Forms.PictureBox pbIcon;
-        private youtube_dl_gui.Controls.LinkLabelHand llbCheckForUpdates;
-        private youtube_dl_gui.Controls.LinkLabelHand llbGithub;
+        private murrty.controls.ExtendedLinkLabel llbCheckForUpdates;
+        private murrty.controls.ExtendedLinkLabel llbGithub;
     }
 }

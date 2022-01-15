@@ -7,6 +7,7 @@ namespace youtube_dl_gui.Controls {
     [System.Diagnostics.DebuggerStepThrough]
     public class SplitButton : Button {
 
+        private const int BS_SPLITBUTTON = 0x0000000C;
 
         public SplitButton() {
             SuspendLayout();
@@ -20,7 +21,7 @@ namespace youtube_dl_gui.Controls {
         protected override CreateParams CreateParams {
             get {
                 CreateParams cParams = base.CreateParams;
-                cParams.Style |= 0x0000000C;
+                cParams.Style |= BS_SPLITBUTTON;
                 return cParams;
             }
         }

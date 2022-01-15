@@ -26,7 +26,6 @@
 
 using System;
 using System.ComponentModel;
-using System.ComponentModel.Design;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Design;
@@ -449,9 +448,7 @@ namespace BetterFolderBrowserNS.Helpers {
 
         #endregion
     }
-}
 
-namespace BetterFolderBrowserNS.Helpers {
     /// <summary>
     /// Wraps System.Windows.Forms.OpenFileDialog to make it present
     /// a vista-style dialog.

@@ -19,21 +19,11 @@ namespace youtube_dl_gui {
         public void RefreshYoutubeDlLocation() {
             YoutubeDlGitType = (GitData.GitID)Config.Settings.Downloads.YtdlType;
             string TempPath;
-            string YoutubeDlName;
-
-            switch (YoutubeDlGitType) {
-                default:
-                    YoutubeDlName = "youtube-dl.exe";
-                    break;
-
-                case GitData.GitID.YoutubeDlc:
-                    YoutubeDlName = "youtube-dlc.exe";
-                    break;
-
-                case GitData.GitID.YoutubeDlp:
-                    YoutubeDlName = "yt-dlp.exe";
-                    break;
-            }
+            string YoutubeDlName = YoutubeDlGitType switch {
+                GitData.GitID.YoutubeDlc => "youtube-dlc.exe",
+                GitData.GitID.YoutubeDlp => "yt-dlp.exe",
+                _ => "youtube-dl.exe",
+            };
 
             if (Config.Settings.General.UseStaticYtdl && File.Exists(Config.Settings.General.ytdlPath)) {
                 TempPath = Config.Settings.General.ytdlPath;
