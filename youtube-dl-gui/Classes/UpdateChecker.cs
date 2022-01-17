@@ -203,7 +203,6 @@ namespace youtube_dl_gui {
 
         public static void UpdateYoutubeDl() {
             try {
-                GetLatestYoutubeDl(3);
                 if (Config.Settings.Downloads.useYtdlUpdater && Config.Settings.General.UseStaticYtdl && !string.IsNullOrEmpty(Config.Settings.General.ytdlPath) && File.Exists(Config.Settings.General.ytdlPath) || Config.Settings.Downloads.useYtdlUpdater && File.Exists(Program.verif.YoutubeDlPath)) {
 
                     Process UpdateYoutubeDl = new();
