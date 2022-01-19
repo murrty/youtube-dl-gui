@@ -12,7 +12,7 @@ namespace youtube_dl_gui.Configurations {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "12.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.1.0.0")]
     internal sealed partial class General : global::System.Configuration.ApplicationSettingsBase {
         
         private static General defaultInstance = ((General)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new General())));
@@ -164,6 +164,30 @@ namespace youtube_dl_gui.Configurations {
             }
             set {
                 this["extensionsShort"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool DeleteUpdaterOnStartup {
+            get {
+                return ((bool)(this["DeleteUpdaterOnStartup"]));
+            }
+            set {
+                this["DeleteUpdaterOnStartup"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool DeleteBackupOnStartup {
+            get {
+                return ((bool)(this["DeleteBackupOnStartup"]));
+            }
+            set {
+                this["DeleteBackupOnStartup"] = value;
             }
         }
     }

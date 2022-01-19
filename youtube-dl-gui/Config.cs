@@ -2028,6 +2028,8 @@ namespace youtube_dl_gui {
         private bool ClearClipboardOnDownload_First = false;
         private string extensionsName_First = string.Empty;
         private string extensionsShort_First = string.Empty;
+        private bool DeleteUpdaterOnStartup_First = true;
+        private bool DeleteBackupOnStartup_First = false;
         #endregion
 
         public Config_General() { }
@@ -2085,27 +2087,35 @@ namespace youtube_dl_gui {
                     }
                     switch (Ini.KeyExists("SaveCustomArgs", ConfigName)) {
                         case true:
-                            SaveCustomArgs = Ini.ReadInt("SaveCustomArgs", ConfigName);
-                            SaveCustomArgs_First = SaveCustomArgs;
+                            SaveCustomArgs_First = SaveCustomArgs = Ini.ReadInt("SaveCustomArgs", ConfigName);
                             break;
                     }
                     switch (Ini.KeyExists("ClearClipboardOnDownload", ConfigName)) {
                         case true:
-                            ClearClipboardOnDownload = Ini.ReadBool("ClearClipboardOnDownload", ConfigName);
-                            ClearClipboardOnDownload_First = ClearClipboardOnDownload;
+                            ClearClipboardOnDownload_First = ClearClipboardOnDownload = Ini.ReadBool("ClearClipboardOnDownload", ConfigName);
                             break;
                     }
                     switch (Ini.KeyExists("extensionsName", ConfigName)) {
                         case true:
-                            extensionsName = Ini.ReadString("extensionsName", ConfigName);
-                            extensionsName_First = extensionsName;
+                            extensionsName_First = extensionsName = Ini.ReadString("extensionsName", ConfigName);
                             break;
                     }
 
                     switch (Ini.KeyExists("extensionsShort", ConfigName)) {
                         case true:
-                            extensionsShort = Ini.ReadString("extensionsShort", ConfigName);
-                            extensionsShort_First = extensionsShort;
+                            extensionsShort_First = extensionsShort = Ini.ReadString("extensionsShort", ConfigName);
+                            break;
+                    }
+
+                    switch (Ini.KeyExists("extensionsShort", ConfigName)) {
+                        case true:
+                            DeleteUpdaterOnStartup_First = DeleteUpdaterOnStartup = Ini.ReadBool("DeleteUpdaterOnStartup", ConfigName);
+                            break;
+                    }
+
+                    switch (Ini.KeyExists("extensionsShort", ConfigName)) {
+                        case true:
+                            DeleteBackupOnStartup_First = DeleteBackupOnStartup = Ini.ReadBool("DeleteUpdaterOnStartup", ConfigName);
                             break;
                     }
                     break;
@@ -2123,6 +2133,8 @@ namespace youtube_dl_gui {
                     ClearClipboardOnDownload = Configurations.General.Default.ClearClipboardOnDownload;
                     extensionsName = Configurations.General.Default.extensionsName;
                     extensionsShort = Configurations.General.Default.extensionsShort;
+                    DeleteUpdaterOnStartup = Configurations.General.Default.DeleteUpdaterOnStartup;
+                    DeleteBackupOnStartup = Configurations.General.Default.DeleteBackupOnStartup;
                     break;
             }
         }
@@ -2201,6 +2213,18 @@ namespace youtube_dl_gui {
                             extensionsShort_First = extensionsShort;
                             break;
                     }
+                    switch (DeleteUpdaterOnStartup != DeleteUpdaterOnStartup_First) {
+                        case true:
+                            Ini.Write("DeleteUpdaterOnStartup", DeleteUpdaterOnStartup, ConfigName);
+                            DeleteUpdaterOnStartup_First = DeleteUpdaterOnStartup;
+                            break;
+                    }
+                    switch (DeleteBackupOnStartup != DeleteBackupOnStartup_First) {
+                        case true:
+                            Ini.Write("DeleteBackupOnStartup", DeleteBackupOnStartup, ConfigName);
+                            DeleteBackupOnStartup_First = DeleteBackupOnStartup;
+                            break;
+                    }
 
                     break;
 
@@ -2267,6 +2291,16 @@ namespace youtube_dl_gui {
                         Save = true;
                     }
 
+                    if (Configurations.General.Default.DeleteUpdaterOnStartup != DeleteUpdaterOnStartup) {
+                        Configurations.General.Default.DeleteUpdaterOnStartup = DeleteUpdaterOnStartup;
+                        Save = true;
+                    }
+
+                    if (Configurations.General.Default.DeleteBackupOnStartup != DeleteBackupOnStartup) {
+                        Configurations.General.Default.DeleteBackupOnStartup = DeleteBackupOnStartup;
+                        Save = true;
+                    }
+
                     switch (Save) {
                         case true:
                             Configurations.General.Default.Save();
@@ -2314,6 +2348,12 @@ namespace youtube_dl_gui {
 
                     Ini.Write("extensionsShort", extensionsShort, ConfigName);
                     extensionsShort_First = extensionsShort;
+
+                    Ini.Write("DeleteUpdaterOnStartup", DeleteUpdaterOnStartup, ConfigName);
+                    DeleteUpdaterOnStartup_First = DeleteUpdaterOnStartup;
+
+                    Ini.Write("DeleteBackupOnStartup", DeleteBackupOnStartup, ConfigName);
+                    DeleteBackupOnStartup_First = DeleteBackupOnStartup;
                     break;
 
                 case false:
@@ -2329,6 +2369,8 @@ namespace youtube_dl_gui {
                     Configurations.General.Default.ClearClipboardOnDownload = ClearClipboardOnDownload;
                     Configurations.General.Default.extensionsName = extensionsName;
                     Configurations.General.Default.extensionsShort = extensionsShort;
+                    Configurations.General.Default.DeleteUpdaterOnStartup = DeleteUpdaterOnStartup;
+                    Configurations.General.Default.DeleteBackupOnStartup = DeleteBackupOnStartup;
 
                     Configurations.General.Default.Save();
                     break;
