@@ -340,6 +340,8 @@ namespace youtube_dl_gui {
 
             chkSettingsGeneralCheckForUpdatesOnLaunch.Checked = Config.Settings.General.CheckForUpdatesOnLaunch;
             chkSettingsGeneralCheckForBetaUpdates.Checked = Config.Settings.General.DownloadBetaVersions;
+            chkSettingsGeneralDeleteUpdaterAfterUpdating.Checked = Config.Settings.General.DeleteUpdaterOnStartup;
+            chkDeleteOldVersionAfterUpdating.Checked = Config.Settings.General.DeleteBackupOnStartup;
             chkSettingsGeneralHoverOverUrlToPasteClipboard.Checked = Config.Settings.General.HoverOverURLTextBoxToPaste;
             chkSettingsGeneralClearUrlOnDownload.Checked = Config.Settings.General.ClearURLOnDownload;
             chkSettingsGeneralClearClipboardOnDownload.Checked = Config.Settings.General.ClearClipboardOnDownload;
@@ -459,6 +461,8 @@ namespace youtube_dl_gui {
 
             Config.Settings.General.CheckForUpdatesOnLaunch = chkSettingsGeneralCheckForUpdatesOnLaunch.Checked;
             Config.Settings.General.DownloadBetaVersions = chkSettingsGeneralCheckForBetaUpdates.Checked;
+            Config.Settings.General.DeleteUpdaterOnStartup = chkSettingsGeneralDeleteUpdaterAfterUpdating.Checked;
+            Config.Settings.General.DeleteBackupOnStartup = chkDeleteOldVersionAfterUpdating.Checked;
             Config.Settings.General.HoverOverURLTextBoxToPaste = chkSettingsGeneralHoverOverUrlToPasteClipboard.Checked;
             Config.Settings.General.ClearURLOnDownload = chkSettingsGeneralClearUrlOnDownload.Checked;
             Config.Settings.General.ClearClipboardOnDownload = chkSettingsGeneralClearClipboardOnDownload.Checked;
