@@ -290,7 +290,7 @@ namespace youtube_dl_gui {
                 btnBatchDownloadRemoveSelected.Enabled = false;
                 btnBatchDownloadStartStopExit.Text = Program.lang.GenericStop;
                 InProgress = true;
-                string BatchTime = BatchHelpers.CurrentTime();
+                string BatchTime = BatchHelpers.CurrentTime;
                 for (int i = 0; i < DownloadUrls.Count; i++) {
                     NewInfo = new DownloadInfo {
                         BatchDownload = true,

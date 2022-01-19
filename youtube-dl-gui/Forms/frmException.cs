@@ -66,7 +66,7 @@ namespace murrty {
         }
 
         public static string GetRelevantInformation() {
-            return $"Current version: {(youtube_dl_gui.Properties.Settings.Default.IsBetaVersion ? youtube_dl_gui.Properties.Settings.Default.BetaVersion : youtube_dl_gui.Properties.Settings.Default.CurrentVersion)}\nCurrent culture: {System.Threading.Thread.CurrentThread.CurrentCulture.EnglishName}\nOS: {youtube_dl_gui.ErrorLog.ComputerVersionInformation}\n";
+            return $"Current version: {(youtube_dl_gui.Properties.Settings.Default.IsBetaVersion ? youtube_dl_gui.Properties.Settings.Default.BetaVersion : youtube_dl_gui.Properties.Settings.Default.CurrentVersion)}\nCurrent culture: {System.Threading.Thread.CurrentThread.CurrentCulture.EnglishName}\nOS: {youtube_dl_gui.ErrorLog.ComputerVersionInformation}";
         }
 
         private void frmError_Load(object sender, EventArgs e) {
@@ -116,7 +116,12 @@ namespace murrty {
                     } break;
 
                     case System.Threading.ThreadAbortException ThrAbrEx: {
-                        rtbExceptionDetails.Text = (ReportedException.Unrecoverable ? "An unrecoverable thread abort exception occurred, and the application will exit." : "A thread abort exception occurred.") + "\n\n" + $"This exception may have been thrown on accident.\n\nStacktrace: {ThrAbrEx.StackTrace}\n";
+                        rtbExceptionDetails.Text = (ReportedException.Unrecoverable ? "An unrecoverable thread abort exception occurred, and the application will exit." : "A thread abort exception occurred.") + "\n\n" + "This exception may have been pushed here on accident and not handled where it should've been.\n\n" +
+                                                   $"Message: {ThrAbrEx.Message}\n" +
+                                                   $"Stacktrace: {ThrAbrEx.StackTrace}\n" +
+                                                   $"Source: {ThrAbrEx.Source}\n" +
+                                                   $"Target Site: {ThrAbrEx.TargetSite}\n" +
+                                                   $"Inner Exception: {ThrAbrEx.InnerException}\n";
                     } break;
 
                     case Exception Ex: {

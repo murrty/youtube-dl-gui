@@ -22,9 +22,9 @@ namespace youtube_dl_gui {
             ManagementObjectSearcher searcher = new("SELECT * FROM Win32_OperatingSystem");
             ManagementObject info = searcher.Get().Cast<ManagementObject>().FirstOrDefault();
             ComputerVersionInformation =
-                $"Version: {info.Properties["Version"].Value} " +
-                $"Service Pack Major: {info.Properties["ServicePackMajorVersion"].Value} " +
-                $"Service Pack Minor: {info.Properties["ServicePackMinorVersion"].Value} " +
+                $"Version: {info.Properties["Version"].Value}\n" +
+                $"Service Pack Major: {info.Properties["ServicePackMajorVersion"].Value}\n" +
+                $"Service Pack Minor: {info.Properties["ServicePackMinorVersion"].Value}\n" +
                 $"System Caption: {info.Properties["Caption"].Value}";
         }
 

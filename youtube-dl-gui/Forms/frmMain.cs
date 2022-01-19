@@ -127,25 +127,7 @@ namespace youtube_dl_gui {
                     rbVideo.Checked = true;
                     break;
             }
-
-            //switch (Config.Settings.Saved.convertType) {
-            //    case 0:
-            //        rbConvertVideo.Checked = true;
-            //        break;
-            //    case 1:
-            //        rbConvertAudio.Checked = true;
-            //        break;
-            //    case 2:
-            //        rbConvertCustom.Checked = true;
-            //        break;
-            //    case 6:
-            //        rbConvertAutoFFmpeg.Checked = true;
-            //        break;
-            //    default:
-            //        rbConvertAuto.Checked = true;
-            //        break;
-            //}
-
+            
             if (ProtocolInput) {
                 if (Config.Settings.Downloads.AutomaticallyDownloadFromProtocol) {
                     // download ...

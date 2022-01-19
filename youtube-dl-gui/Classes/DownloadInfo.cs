@@ -141,7 +141,8 @@ namespace youtube_dl_gui {
         q480p = 11,
         q360p = 12,
         q240p = 13,
-        q144p = 14
+        q144p = 14,
+        worst = 15
     }
 
     public enum VideoFormatType : int {
@@ -353,40 +354,42 @@ namespace youtube_dl_gui {
 
             public static string GetVideoQualityArgs(VideoQualityType Quality) {
                 return Quality switch {
-                    VideoQualityType.q4320p60 => " -f \"bestvideo[ext=mp4][height<=4320][fps>=48]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",
-                    VideoQualityType.q4320p => " -f \"bestvideo[ext=mp4][height<=4320][fps<=32]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",
-                    VideoQualityType.q2160p60 => " -f \"bestvideo[ext=mp4][height<=2160][fps>=48]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",
-                    VideoQualityType.q2160p => " -f \"bestvideo[ext=mp4][height<=2160][fps<=32]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",
-                    VideoQualityType.q1440p60 => " -f \"bestvideo[ext=mp4][height<=1440][fps>=48]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",
-                    VideoQualityType.q1440p => " -f \"bestvideo[ext=mp4][height<=1440][fps<=32]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",
-                    VideoQualityType.q1080p60 => " -f \"bestvideo[ext=mp4][height<=1080][fps>=48]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",
-                    VideoQualityType.q1080p => " -f \"bestvideo[ext=mp4][height<=1080][fps<=32]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",
-                    VideoQualityType.q720p60 => " -f \"bestvideo[ext=mp4][height<=720][fps>=48]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",
-                    VideoQualityType.q720p => " -f \"bestvideo[ext=mp4][height<=720][fps<=32]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",
-                    VideoQualityType.q480p => " -f \"bestvideo[ext=mp4][height<=480]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",
-                    VideoQualityType.q360p => " -f \"bestvideo[ext=mp4][height<=360]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",
-                    VideoQualityType.q240p => " -f \"bestvideo[ext=mp4][height<=240]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",
-                    VideoQualityType.q144p => " -f \"bestvideo[ext=mp4][height<=144]+bestaudio[ext=m4a]/best[ext=mp4]/best\"",
-                    _ => " -f \"bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]\"",
+                    VideoQualityType.q4320p60 => " -f \"bestvideo[height<=4320][fps>=48]+bestaudio/best\"",//[ext=mp4]/best\"",
+                    VideoQualityType.q4320p => " -f \"bestvideo[height<=4320][fps<=32]+bestaudio/best\"",//[ext=mp4]/best\"",
+                    VideoQualityType.q2160p60 => " -f \"bestvideo[height<=2160][fps>=48]+bestaudio/best\"",//[ext=mp4]/best\"",
+                    VideoQualityType.q2160p => " -f \"bestvideo[height<=2160][fps<=32]+bestaudio/best\"",//[ext=mp4]/best\"",
+                    VideoQualityType.q1440p60 => " -f \"bestvideo[height<=1440][fps>=48]+bestaudio/best\"",//[ext=mp4]/best\"",
+                    VideoQualityType.q1440p => " -f \"bestvideo[height<=1440][fps<=32]+bestaudio/best\"",//[ext=mp4]/best\"",
+                    VideoQualityType.q1080p60 => " -f \"bestvideo[height<=1080][fps>=48]+bestaudio/best\"",//[ext=mp4]/best\"",
+                    VideoQualityType.q1080p => " -f \"bestvideo[height<=1080][fps<=32]+bestaudio/best\"",//[ext=mp4]/best\"",
+                    VideoQualityType.q720p60 => " -f \"bestvideo[height<=720][fps>=48]+bestaudio/best\"",//[ext=mp4]/best\"",
+                    VideoQualityType.q720p => " -f \"bestvideo[height<=720][fps<=32]+bestaudio/best\"",//[ext=mp4]/best\"",
+                    VideoQualityType.q480p => " -f \"bestvideo[height<=480]+bestaudio/best\"",//[ext=mp4]/best\"",
+                    VideoQualityType.q360p => " -f \"bestvideo[height<=360]+bestaudio/best\"",//[ext=mp4]/best\"",
+                    VideoQualityType.q240p => " -f \"bestvideo[height<=240]+bestaudio/best\"",//[ext=mp4]/best\"",
+                    VideoQualityType.q144p => " -f \"bestvideo[height<=144]+bestaudio/best\"",//[ext=mp4]/best\"",
+                    VideoQualityType.worst => " -f \"worstvideo+worstaudio/worst\"", // lol
+                    _ => "",//" -f \"bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]\"",
                 };
             }
             public static string GetVideoQualityArgsNoSound(VideoQualityType Quality) {
                 return Quality switch {
-                    VideoQualityType.q4320p60 => " -f \"bestvideo[height<=4320][fps>=48]/best[ext=mp4]/best\"",
-                    VideoQualityType.q4320p => " -f \"bestvideo[height<=4320][fps<=32]/best[ext=mp4]/best\"",
-                    VideoQualityType.q2160p60 => " -f \"bestvideo[height<=2160][fps>=48]/best[ext=mp4]/best\"",
-                    VideoQualityType.q2160p => " -f \"bestvideo[height<=2160][fps<=32]/best[ext=mp4]/best\"",
-                    VideoQualityType.q1440p60 => " -f \"bestvideo[height<=1440][fps>=48]/best[ext=mp4]/best\"",
-                    VideoQualityType.q1440p => " -f \"bestvideo[height<=1440][fps<=32]/best[ext=mp4]/best\"",
-                    VideoQualityType.q1080p60 => " -f \"bestvideo[height<=1080][fps>=48]/best[ext=mp4]/best\"",
-                    VideoQualityType.q1080p => " -f \"bestvideo[height<=1080][fps<=32]/best[ext=mp4]/best\"",
-                    VideoQualityType.q720p60 => " -f \"bestvideo[height<=720][fps>=48]/best[ext=mp4]/best\"",
-                    VideoQualityType.q720p => " -f \"bestvideo[height<=720][fps<=32]/best[ext=mp4]/best\"",
-                    VideoQualityType.q480p => " -f \"bestvideo[height<=480]/best[ext=mp4]/best\"",
-                    VideoQualityType.q360p => " -f \"bestvideo[height<=360]/best[ext=mp4]/best\"",
-                    VideoQualityType.q240p => " -f \"bestvideo[height<=240]/best[ext=mp4]/best\"",
-                    VideoQualityType.q144p => " -f \"bestvideo[height<=144]/best[ext=mp4]/best\"",
-                    _ => " -f \"bestvideo[ext=mp4]/best[ext=mp4]/best\"",
+                    VideoQualityType.q4320p60 => " -f \"bestvideo[height<=4320][fps>=48]/best\"",//[ext=mp4]/best\"",
+                    VideoQualityType.q4320p => " -f \"bestvideo[height<=4320][fps<=32]/best\"",//[ext=mp4]/best\"",
+                    VideoQualityType.q2160p60 => " -f \"bestvideo[height<=2160][fps>=48]/best\"",//[ext=mp4]/best\"",
+                    VideoQualityType.q2160p => " -f \"bestvideo[height<=2160][fps<=32]/best\"",//[ext=mp4]/best\"",
+                    VideoQualityType.q1440p60 => " -f \"bestvideo[height<=1440][fps>=48]/best\"",//[ext=mp4]/best\"",
+                    VideoQualityType.q1440p => " -f \"bestvideo[height<=1440][fps<=32]/best\"",//[ext=mp4]/best\"",
+                    VideoQualityType.q1080p60 => " -f \"bestvideo[height<=1080][fps>=48]/best\"",//[ext=mp4]/best\"",
+                    VideoQualityType.q1080p => " -f \"bestvideo[height<=1080][fps<=32]/best\"",//[ext=mp4]/best\"",
+                    VideoQualityType.q720p60 => " -f \"bestvideo[height<=720][fps>=48]/best\"",//[ext=mp4]/best\"",
+                    VideoQualityType.q720p => " -f \"bestvideo[height<=720][fps<=32]/best\"",//[ext=mp4]/best\"",
+                    VideoQualityType.q480p => " -f \"bestvideo[height<=480]/best\"",//[ext=mp4]/best\"",
+                    VideoQualityType.q360p => " -f \"bestvideo[height<=360]/best\"",//[ext=mp4]/best\"",
+                    VideoQualityType.q240p => " -f \"bestvideo[height<=240]/best\"",//[ext=mp4]/best\"",
+                    VideoQualityType.q144p => " -f \"bestvideo[height<=144]/best\"",//[ext=mp4]/best\"",
+                    VideoQualityType.worst => " -f \"worstvideo\"",
+                    _ => "",//" -f \"bestvideo[ext=mp4]/best[ext=mp4]/best\"",
                 };
             }
             public static string GetVideoRecodeInfo(VideoFormatType Format) {

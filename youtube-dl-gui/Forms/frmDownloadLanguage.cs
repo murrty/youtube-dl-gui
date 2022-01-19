@@ -26,7 +26,7 @@ namespace youtube_dl_gui {
                 if (EnumeratedLanguages.Count > 0) {
                     // Uncomment these out when the SHA calcuation gets fixed.
                     for (int i = 0; i < EnumeratedLanguages.Count; i++) {
-                        ListViewItem NewItem = new($"Item {EnumeratedLanguages[i]}");
+                        ListViewItem NewItem = new($"Item {EnumeratedLanguages[i].Name}");
                         NewItem.SubItems[0].Text = $"{i + 1}: {EnumeratedLanguages[i].Name}";
                         NewItem.UseItemStyleForSubItems = false;
                         NewItem.SubItems.Add(new ListViewItem.ListViewSubItem());

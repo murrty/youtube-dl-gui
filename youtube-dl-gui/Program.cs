@@ -9,6 +9,7 @@ using System.Windows.Forms;
 
 namespace youtube_dl_gui {
     static class Program {
+
         private static readonly GuidAttribute ProgramGUID = (GuidAttribute)Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(GuidAttribute), true)[0];
         //public static readonly string ProgramPath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
         public static readonly string ProgramPath = Environment.CurrentDirectory;
@@ -34,17 +35,6 @@ namespace youtube_dl_gui {
             if (mtx.WaitOne(TimeSpan.Zero, true) || IsDebug) {
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
-
-                if (args.Any(currentarg => currentarg == "-keepupdater")) {
-                    if (File.Exists(Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe")) {
-                        File.Delete(Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe");
-                    }
-                }
-                if (args.Any(currentarg => currentarg == "-keeppreviousversion")) {
-                    if (File.Exists(Environment.CurrentDirectory + "\\youtube-dl-gui.old.exe")) {
-                        File.Delete(Environment.CurrentDirectory + "\\youtube-dl-gui.old.exe");
-                    }
-                }
 
                 UseIni = File.Exists(Ini.Path) && Ini.KeyExists("useIni") && Ini.ReadBool("useIni");
                 Config.Settings = new Config();
@@ -101,8 +91,7 @@ namespace youtube_dl_gui {
                     }
 
                     System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
-                    MainForm = new();
-                    Application.Run(MainForm);
+                    Application.Run(MainForm = new());
                     mtx.ReleaseMutex();
                 }
                 return 0;

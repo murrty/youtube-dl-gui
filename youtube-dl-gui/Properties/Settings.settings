@@ -3,13 +3,13 @@
   <Profiles />
   <Settings>
     <Setting Name="CurrentVersion" Type="System.Decimal" Scope="Application">
-      <Value Profile="(Default)">2.27</Value>
+      <Value Profile="(Default)">2.281</Value>
     </Setting>
     <Setting Name="firstTime" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="LastDebugDate" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">2021-12-29</Value>
+      <Value Profile="(Default)">2022-01-17</Value>
     </Setting>
     <Setting Name="SkippedVersion" Type="System.Decimal" Scope="User">
       <Value Profile="(Default)">-1</Value>

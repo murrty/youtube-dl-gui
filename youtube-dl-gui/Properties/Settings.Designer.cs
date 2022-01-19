@@ -25,7 +25,7 @@ namespace youtube_dl_gui.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("2.27")]
+        [global::System.Configuration.DefaultSettingValueAttribute("2.281")]
         public decimal CurrentVersion {
             get {
                 return ((decimal)(this["CurrentVersion"]));
@@ -46,7 +46,7 @@ namespace youtube_dl_gui.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("2021-12-29")]
+        [global::System.Configuration.DefaultSettingValueAttribute("2022-01-17")]
         public string LastDebugDate {
             get {
                 return ((string)(this["LastDebugDate"]));

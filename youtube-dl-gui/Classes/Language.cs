@@ -20,6 +20,7 @@ namespace youtube_dl_gui {
 
         #region Generics
         public string GenericInputBest { get; private set; }
+        public string GenericInputWorst { get; private set; }
         public string GenericCancel { get; private set; }
         public string GenericSkip { get; private set; }
         public string GenericSound { get; private set; }
@@ -427,6 +428,7 @@ namespace youtube_dl_gui {
 
             // Generics
             public const string GenericInputBest = "best";
+            public const string GenericInputWorst = "worst";
             public const string GenericCancel = "Cancel";
             public const string GenericSkip = "Skip";
             public const string GenericSound = "Sound";
@@ -865,6 +867,7 @@ namespace youtube_dl_gui {
 
                 // Generics
                 GenericInputBest = InternalEnglish.GenericInputBest;
+                GenericInputWorst = InternalEnglish.GenericInputWorst;
                 GenericCancel = InternalEnglish.GenericCancel;
                 GenericSkip = InternalEnglish.GenericSkip;
                 GenericSound = InternalEnglish.GenericSound;
@@ -1256,6 +1259,7 @@ namespace youtube_dl_gui {
 
             // Generics
             GenericInputBest = "GenericInputBest";
+            GenericInputWorst = "GenericInputWorst";
             GenericCancel = "GenericCancel";
             GenericSkip = "GenericSkip";
             GenericSound = "GenericSound";
@@ -1684,6 +1688,9 @@ namespace youtube_dl_gui {
                                     #region Generics
                                     case "genericinputbest":
                                         GenericInputBest = ReadValue;
+                                        continue;
+                                    case "genericinputworst":
+                                        GenericInputWorst = ReadValue;
                                         continue;
                                     case "genericcancel":
                                         GenericCancel = ReadValue;

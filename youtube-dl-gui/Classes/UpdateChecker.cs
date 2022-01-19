@@ -17,7 +17,7 @@ namespace youtube_dl_gui {
 
         public static readonly GitData GitInfo = new();
         private static readonly bool bypassDebug = true;
-        private const string KnownUpdaterHash = "E88DC3393363067DE7DC88885C8F81C5F9174A920B60B93D0E40099FC87EC9E8";
+        private const string KnownUpdaterHash = "1C22AA572E0D05E0666138B73DD1739B359C97E08A26D363047E949C849CD3BD";
         private const string SHARegex = "\\b[A-Fa-f0-9]{64}\\b";
         private const string BetaRegex = "[0-9]\\.[0-9]+";
 
@@ -513,7 +513,7 @@ namespace youtube_dl_gui {
         /// <returns>The string of the latest version of the specified fork ID.</returns>
         private static string GetLatestYoutubeDl(int GitID) {
             try {
-                if (GitID > 0 || GitID + 1 < GitData.GitLinks.Repos.Length)
+                if (GitID < 0 || GitID + 1 > GitData.GitLinks.Repos.Length)
                     throw new ArgumentOutOfRangeException("GitID", GitID, "The GitID is invalid, youtube-dl cannot be redownloaded.");
             }
             catch {
@@ -532,7 +532,8 @@ namespace youtube_dl_gui {
 
                 XmlDocument doc = new();
                 doc.LoadXml(Xml);
-                switch (doc.ChildNodes.Count) {
+
+                switch (doc.DocumentElement.ChildNodes.Count) {
                     case 0: // Critical, no information is in the xml document.
                         throw new ApiParsingException("The retrieved Xml does not contain any information.", Url, Xml);
 
@@ -690,7 +691,7 @@ namespace youtube_dl_gui {
                         Name = xmlName[i].InnerText,
                         Sha = xmlSha[i].InnerText,
                         DownloadUrl = xmlDownloadUrl[i].InnerText
-                    }) ;
+                    });
                 }
 
                 return EnumeratedLangs;
@@ -698,7 +699,7 @@ namespace youtube_dl_gui {
         }
     }
 
-    public class GitLanguageFile {
+    public class GitLanguageFile : object {
         public string Name;
         public string Sha;
         public string DownloadUrl;
