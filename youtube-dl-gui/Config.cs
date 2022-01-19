@@ -2107,15 +2107,15 @@ namespace youtube_dl_gui {
                             break;
                     }
 
-                    switch (Ini.KeyExists("extensionsShort", ConfigName)) {
+                    switch (Ini.KeyExists("DeleteUpdaterOnStartup", ConfigName)) {
                         case true:
                             DeleteUpdaterOnStartup_First = DeleteUpdaterOnStartup = Ini.ReadBool("DeleteUpdaterOnStartup", ConfigName);
                             break;
                     }
 
-                    switch (Ini.KeyExists("extensionsShort", ConfigName)) {
+                    switch (Ini.KeyExists("DeleteBackupOnStartup", ConfigName)) {
                         case true:
-                            DeleteBackupOnStartup_First = DeleteBackupOnStartup = Ini.ReadBool("DeleteUpdaterOnStartup", ConfigName);
+                            DeleteBackupOnStartup_First = DeleteBackupOnStartup = Ini.ReadBool("DeleteBackupOnStartup", ConfigName);
                             break;
                     }
                     break;
