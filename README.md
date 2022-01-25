@@ -1,16 +1,19 @@
 fuck you riaa
 
 # youtube-dl-gui
-GUI for [youtube-dl](https://rg3.github.io/youtube-dl) + [FFmpeg](https://ffmpeg.org/) (ffmpeg.exe & ffprobe.exe) (which is used for converting).
+GUI for [youtube-dl](https://ytdl-org.github.io/youtube-dl/) (and forks) + [FFmpeg](https://ffmpeg.org/) (ffmpeg.exe & ffprobe.exe) which is used for converting.
 
-The goal of youtube-dl-gui is to make it as accessible to as many people as possible, which means a lot of power-user options aren't available in the general settings.
+The goal of youtube-dl-gui is to make it as accessible to as many people as possible, with as many arguments added as options as I use them... or get requested to add them. If at all.
 
-That doesn't mean that power users can't use it, either. I included custom arguments for anyone who wants to set their own for downloading or converting.
+Powerusers can use the custom arguments option to have almost absolute control of the input arguments, excepting the URL and the output.
+
+The forks that are supported are [youtube-dl](https://github.com/ytdl-org/youtube-dl), [yt-dlc](https://github.com/blackjack4494/yt-dlc), and [yt-dlp](https://github.com/yt-dlp/yt-dlp). Additional forks can be added, by request.
 
 # Prerequisites
-This requires .NET Framework 4.5 or higher, the reasoning is because this program frequently uses Github's API which now only allows TLS 1.2, which isn't available on previous frameworks because... Microsoft.
 
-As soon as everything is settled, I can work on a more compatible version for < NET 4.5.
+This requires .NET Framework 4.5 or higher, the reasoning is because this program frequently uses Github's API which now only allows TLS 1.2, which isn't available on previous frameworks because... Microsoft. On the plus side, everything that isn't older than Windows 7 (bless up, Windows 7) supports it.
+
+Sorry to Windows XP users, it's just the world we live in. Even though it's a terrible world, and one that I don't want to live in, it's the world we live in.
 
 # Usage
 
@@ -32,14 +35,14 @@ Ex:
 
 # Compatible sites
 
-https://rg3.github.io/youtube-dl/supportedsites.html
+Each fork may have differences in compatible sites. It's recommended to do your own research. Or just try it, and see if it works. The worst that can happen is you blow up.
 
 # Contributing
 
-For anyone looking to translate, feel free to open a pull request with the new language file in the `lang` folder. Check if a language you're translating exists already, and you can edit it off of that.
+For anyone looking to translate, feel free to open a pull request with the new language file in the `Language` folder. Check if a language you're translating exists already, and you can edit it off of that.
 
 For anyone looking to contribute to the code, make a pull request with the changed code.
 
 # Future plans
 
-stuff and things
+things and stuff
