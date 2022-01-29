@@ -56,6 +56,9 @@ namespace youtube_dl_gui {
                             Config.Settings.Initialization.LanguageFile = LangPicker.LanguageFile;
                             lang.LoadLanguage(LangPicker.LanguageFile);
                         }
+                        else {
+                            return 1;
+                        }
 
 
                         if (MessageBox.Show(lang.dlgFirstTimeInitialMessage, "youtube-dl-gui", MessageBoxButtons.YesNo) == DialogResult.Yes) {
