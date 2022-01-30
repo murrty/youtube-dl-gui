@@ -312,6 +312,7 @@
     <None Include="Resources\finished.png" />
     <None Include="Resources\download.png" />
     <None Include="Resources\error.png" />
+    <None Include="Resources\BuildDate.txt" />
     <Content Include="Resources\youtube-dl-gui.ico" />
     <Content Include="Resources\youtube-dl-gui32.png" />
   </ItemGroup>
@@ -334,8 +335,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PreBuildEvent>
-    </PreBuildEvent>
+    <PreBuildEvent>if $(ConfigurationName) == Release "$(SolutionDir)\BuildDateWriter.exe" "$(ProjectDir)\Resources\BuildDate.txt"</PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PostBuildEvent>if $(ConfigurationName) == Release xcopy "$(SolutionDir)Languages\*.ini" "$(SolutionDir)Release\lang\*.ini" /y

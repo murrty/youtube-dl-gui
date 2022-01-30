@@ -61,6 +61,15 @@ namespace youtube_dl_gui.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 0000-00-00.
+        /// </summary>
+        public static string BuildDate {
+            get {
+                return ResourceManager.GetString("BuildDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         public static System.Drawing.Bitmap download {

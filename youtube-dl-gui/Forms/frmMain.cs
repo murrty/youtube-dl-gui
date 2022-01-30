@@ -49,7 +49,7 @@ namespace youtube_dl_gui {
             InitializeComponent();
             trayIcon.ContextMenu = cmTray;
             if (Program.IsDebug) {
-                lbDebug.Text = "debugging " + Properties.Settings.Default.LastDebugDate;
+                lbDebug.Text = "debug mode";
                 lbDebug.Visible = true;
                 trayIcon.Visible = false;
                 trayIcon.Dispose();
