@@ -170,6 +170,9 @@ namespace youtube_dl_gui {
             }
         }
 
+        /// <summary>
+        /// Updates youtube-dl-gui with the newer version.
+        /// </summary>
         public static void UpdateApplication() {
             // Delete the file that already exists
             if (File.Exists(Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe") && Program.CalculateSha256Hash(Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe") != KnownUpdaterHash.ToLower()) {
@@ -201,6 +204,9 @@ namespace youtube_dl_gui {
             Environment.Exit(0);
         }
 
+        /// <summary>
+        /// Updates youtube-dl (or a fork) to their latest.
+        /// </summary>
         public static void UpdateYoutubeDl() {
             try {
                 if (Config.Settings.Downloads.useYtdlUpdater && Config.Settings.General.UseStaticYtdl && !string.IsNullOrEmpty(Config.Settings.General.ytdlPath) && File.Exists(Config.Settings.General.ytdlPath) || Config.Settings.Downloads.useYtdlUpdater && File.Exists(Program.verif.YoutubeDlPath)) {
@@ -418,10 +424,6 @@ namespace youtube_dl_gui {
                 else throw new DecimalParsingException("The Github version was not able to be parsed.", Xml);
 
             }
-            catch (WebException WebEx) {
-                ErrorLog.Report(WebEx, Url);
-                return -1;
-            }
             catch {
                 throw;
             }
@@ -496,10 +498,6 @@ namespace youtube_dl_gui {
                 }
 
                 return GitInfo.UpdateVersion;
-            }
-            catch (WebException WebEx) {
-                ErrorLog.Report(WebEx, Url);
-                return null;
             }
             catch {
                 throw;
@@ -640,12 +638,6 @@ namespace youtube_dl_gui {
         public bool UpdateAvailable = false;
         public string YoutubeDlVersion = "0000.00.00";
         //public bool YoutubeDlUpdateAvailableBool = false;
-
-        public string GithubIssuesLink {
-            get {
-                return string.Format(GitLinks.GithubIssuesUrl, "murrty", "youtube-dl-gui");
-            }
-        }
 
         public static List<GitLanguageFile> Languages {
             get {

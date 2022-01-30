@@ -29,10 +29,12 @@ namespace murrty {
         }
 
         void LoadLanguage() {
+            // Just fuck my shit up
             RandomNumberGenerator RNG = new RNGCryptoServiceProvider();
-            byte[] ByteData = new byte[sizeof(int)];
+            byte[] ByteData = new byte[sizeof(double)];
             RNG.GetBytes(ByteData);
-            uint GeneratedNumber = (uint)Math.Floor(0 + ((double)5001 - 0) * BitConverter.ToUInt32(ByteData, 0));
+            uint RandUint = BitConverter.ToUInt32(ByteData, 0);
+            int GeneratedNumber = (int)Math.Floor(0 + ((double)5000 - 0) * (RandUint / (uint.MaxValue + 1.0)));
 
             switch (GeneratedNumber) {
                 case 621: {
@@ -41,6 +43,7 @@ namespace murrty {
                     lbExceptionDescription.Text = "The pwogwam accidentawy made a fucky wucky";
                     rtbExceptionDetails.Text = "Sowwy for fucky wucky, u can powst dis as a new issue on githuwb :3";
                     btnExceptionGithub.Text = "Githuwb >w<";
+                    btnExceptionRetry.Text = "Retwy";
                     btnExceptionOk.Text = "Okie uwu";
                 } break;
 
@@ -51,6 +54,7 @@ namespace murrty {
                         lbExceptionDescription.Text = youtube_dl_gui.Language.InternalEnglish.lbExceptionDescription;
                         rtbExceptionDetails.Text = youtube_dl_gui.Language.InternalEnglish.rtbExceptionDetails;
                         btnExceptionGithub.Text = youtube_dl_gui.Language.InternalEnglish.btnExceptionGithub;
+                        btnExceptionRetry.Text = youtube_dl_gui.Language.InternalEnglish.GenericRetry;
                         btnExceptionOk.Text = youtube_dl_gui.Language.InternalEnglish.GenericOk;
                     }
                     else {
@@ -59,6 +63,7 @@ namespace murrty {
                         lbExceptionDescription.Text = youtube_dl_gui.Program.lang.lbExceptionDescription;
                         lbExceptionDescription.Text = youtube_dl_gui.Program.lang.lbExceptionDescription;
                         btnExceptionGithub.Text = youtube_dl_gui.Program.lang.btnExceptionGithub;
+                        btnExceptionRetry.Text = youtube_dl_gui.Program.lang.GenericRetry;
                         btnExceptionOk.Text = youtube_dl_gui.Program.lang.GenericOk;
                     }
                 } break;
