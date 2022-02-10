@@ -1,6 +1,7 @@
 fuck you riaa
 
 # youtube-dl-gui
+
 GUI for [youtube-dl](https://ytdl-org.github.io/youtube-dl/) (and forks) + [FFmpeg](https://ffmpeg.org/) (ffmpeg.exe & ffprobe.exe) which is used for converting.
 
 The goal of youtube-dl-gui is to make it as accessible to as many people as possible, with as many arguments added as options as I use them... or get requested to add them. If at all.
@@ -11,9 +12,9 @@ The forks that are supported are [youtube-dl](https://github.com/ytdl-org/youtub
 
 # Prerequisites
 
-This requires .NET Framework 4.5 or higher, the reasoning is because this program frequently uses Github's API which now only allows TLS 1.2, which isn't available on previous frameworks because... Microsoft. On the plus side, everything that isn't older than Windows 7 (bless up, Windows 7) supports it.
+A Windows computer (or any computer) that has support for **[.NET Framework 4.7](https://dotnet.microsoft.com/en-us/download/dotnet-framework/net47)**.
 
-Sorry to Windows XP users, it's just the world we live in. Even though it's a terrible world, and one that I don't want to live in, it's the world we live in.
+Youtube-dl (or any fork) may require ffmpeg to be present along side it.
 
 # Usage
 
@@ -31,9 +32,9 @@ The static paths for youtube-dl and ffmpeg may be set, which will allow you to s
 
 When using custom arguments, the url and save directory are automatically passed, url being the first thing passed, followed by custom arguments, and the save-to directory being the final one passed.
 
-Ex:  
-* youtube-dl.exe https://awebsite.tld/video.html \<custom arguments> -o "C:\Users\User\Downloads\"  
-* ffmpeg.exe -i "C:\Users\User\Downloads\VideoToConvert.ext" \<custom arguments> "C:\Users\User\Downloads\FileOutput.ext"
+Examples:  
+`youtube-dl.exe https://awebsite.tld/video.html \<custom arguments> -o "C:\Users\User\Downloads\"`  
+`ffmpeg.exe -i "C:\Users\User\Downloads\VideoToConvert.ext" \<custom arguments> "C:\Users\User\Downloads\FileOutput.ext"`
 
 # Compatible sites
 

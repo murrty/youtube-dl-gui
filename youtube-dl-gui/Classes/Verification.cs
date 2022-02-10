@@ -44,15 +44,15 @@ namespace youtube_dl_gui {
 
                     case GitData.GitID.YoutubeDlc: // blackjack###/youtube-dlc {YYYY.MM.DD | git.io/link}
                         if (YoutubeDlVersion.Contains("-1 | ")) {
-                            YoutubeDlVersion = YoutubeDlVersion.Substring(0, YoutubeDlVersion.IndexOf("-1"));
+                            YoutubeDlVersion = YoutubeDlVersion[..YoutubeDlVersion.IndexOf("-1")];
                         }
                         else {
-                            YoutubeDlVersion = YoutubeDlVersion.Substring(0, YoutubeDlVersion.IndexOf(" | "));
+                            YoutubeDlVersion = YoutubeDlVersion[..YoutubeDlVersion.IndexOf(" | ")];
                         }
                         break;
 
                     case GitData.GitID.YoutubeDlp: //yt-dlp/yt-dlp {YYYY.MM.DD on Python 3.8.10}
-                        YoutubeDlVersion = YoutubeDlVersion.Substring(0, YoutubeDlVersion.IndexOf(" on "));
+                        YoutubeDlVersion = YoutubeDlVersion[..YoutubeDlVersion.IndexOf(" on ")];
                         break;
                 }
             }

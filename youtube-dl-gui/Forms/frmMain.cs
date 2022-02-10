@@ -7,6 +7,7 @@ using System.Threading;
 using System.Windows.Forms;
 
 namespace youtube_dl_gui {
+
     public partial class frmMain : Form {
 
         #region variables
@@ -19,7 +20,7 @@ namespace youtube_dl_gui {
         [DebuggerStepThrough]
         protected override void WndProc(ref Message m) {
             switch (m.Msg) {
-                case Win32.WM_COPYDATA:
+                case Win32.WM_COPYDATA: {
                     Win32.CopyDataStruct ReceivedData = (Win32.CopyDataStruct)Marshal.PtrToStructure(m.LParam, typeof(Win32.CopyDataStruct));
                     string[] ReceivedArguments = Marshal.PtrToStringUni(ReceivedData.lpData).Split('|');
                     if (ReceivedArguments.Length > 0) {
@@ -30,18 +31,18 @@ namespace youtube_dl_gui {
                             txtUrl.Text = ReceivedArguments[0];
                         }
                     }
-                    break;
+                } break;
 
-                case Win32.WM_SHOWFORM:
+                case Win32.WM_SHOWFORM: {
                     if (this.WindowState != FormWindowState.Normal)
                         this.WindowState = FormWindowState.Normal;
                     this.Show();
                     this.Activate();
-                    break;
+                } break;
 
-                default:
+                default: {
                     base.WndProc(ref m);
-                    break;
+                } break;
             }
         }
 
@@ -49,14 +50,11 @@ namespace youtube_dl_gui {
             InitializeComponent();
             trayIcon.ContextMenu = cmTray;
             if (Program.IsDebug) {
-                lbDebug.Text = "debug mode";
-                lbDebug.Visible = true;
                 trayIcon.Visible = false;
                 trayIcon.Dispose();
             }
             else {
                 tcMain.TabPages.RemoveAt(3);
-                lbDebug.Visible = false;
             }
             cbSchema.Text = Config.Settings.Downloads.fileNameSchema;
             if (!string.IsNullOrEmpty(Config.Settings.Saved.FileNameSchemaHistory)) {
@@ -244,7 +242,6 @@ namespace youtube_dl_gui {
             sbDownload.Text = Program.lang.sbDownload;
             mDownloadWithAuthentication.Text = Program.lang.mDownloadWithAuthentication;
             mBatchDownloadFromFile.Text = Program.lang.mBatchDownloadFromFile;
-            lbDownloadStatus.Text = "...";
 
             lbConvertInput.Text = Program.lang.lbConvertInput;
             lbConvertOutput.Text = Program.lang.lbConvertOutput;
@@ -254,7 +251,6 @@ namespace youtube_dl_gui {
             rbConvertAuto.Text = Program.lang.rbConvertAuto;
             rbConvertAutoFFmpeg.Text = Program.lang.rbConvertAutoFFmpeg;
             btnConvert.Text = Program.lang.btnConvert;
-            lbConvertStatus.Text = "...";
 
             lbMergeInput1.Text = Program.lang.lbMergeInput1;
             lbMergeInput2.Text = Program.lang.lbMergeInput2;
@@ -292,13 +288,6 @@ namespace youtube_dl_gui {
         }
 
         void CalculateLocations() {
-            if (Program.IsDebug) {
-                lbDebug.Location = new(
-                    (this.Width - lbDebug.Width) - 20,
-                    (((this.Height - lbDebug.Height) - lbDebug.Height) - 50)
-                );
-            }
-
             gbDownloadType.Size = new(
                 ((rbVideo.Size.Width + 2) + rbAudio.Size.Width +  (rbCustom.Size.Width - 2)) + 12,
                 gbDownloadType.Size.Height
@@ -380,7 +369,6 @@ namespace youtube_dl_gui {
                 chkMergeDeleteInputFiles.Location.Y
             );
         }
-
         #endregion
 
         #region main menu
@@ -391,7 +379,7 @@ namespace youtube_dl_gui {
                 this.Text += " (ini)";
             }
             else if (!Program.UseIni && this.Text.EndsWith(" (ini)")) {
-                this.Text = this.Text.Substring(0, this.Text.Length - 6);
+                this.Text = this.Text[0..^6];
             }
             cbSchema.Text = Config.Settings.Downloads.fileNameSchema;
             cbSchema.Items.Clear();
@@ -757,15 +745,6 @@ namespace youtube_dl_gui {
                 StartDownload(false);
             }
         }
-        private void tmrDownloadLabel_Tick(object sender, EventArgs e) {
-            if (!lbDownloadStatus.Visible) {
-                lbDownloadStatus.Visible = true;
-            }
-            else {
-                lbDownloadStatus.Visible = false;
-                tmrDownloadLabel.Enabled = false;
-            }
-        }
         private void sbDownload_Click(object sender, EventArgs e) {
             StartDownload(false);
         }
@@ -1119,16 +1098,6 @@ namespace youtube_dl_gui {
                 else {
                     Config.Settings.Saved.convertSaveUnknownIndex = sfd.FilterIndex;
                 }
-            }
-        }
-
-        private void tmrConvertLabel_Tick(object sender, EventArgs e) {
-            if (!lbConvertStatus.Visible) {
-                lbConvertStatus.Visible = true;
-            }
-            else {
-                lbConvertStatus.Visible = false;
-                tmrConvertLabel.Enabled = false;
             }
         }
 

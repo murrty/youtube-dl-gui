@@ -11,7 +11,7 @@ namespace youtube_dl_gui {
             InitializeComponent();
             LoadLanguage();
             pbIcon.Image = Properties.Resources.youtube_dl_gui32;
-            lbVersion.Text = $"v{(Properties.Settings.Default.IsBetaVersion ? Properties.Settings.Default.BetaVersion : Properties.Settings.Default.CurrentVersion)}";
+            lbVersion.Text = $"v{(Program.IsBetaVersion ? Program.BetaVersion : Program.CurrentVersion)}";
         }
 
         private void LoadLanguage() {

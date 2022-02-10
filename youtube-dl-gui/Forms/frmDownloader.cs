@@ -154,12 +154,12 @@ sanitizecheck:
                 CurrentDownload.DownloadURL.StartsWith("\\0")    || // null char
                 CurrentDownload.DownloadURL.StartsWith("\\b")    || // backspace
                 CurrentDownload.DownloadURL.StartsWith("\\")) {     // backslash
-                    CurrentDownload.DownloadURL = CurrentDownload.DownloadURL.Substring(4);
+                    CurrentDownload.DownloadURL = CurrentDownload.DownloadURL[4..];
                     goto sanitizecheck;
                 }
 
                 if (CurrentDownload.DownloadURL.StartsWith("http://")) {
-                    CurrentDownload.DownloadURL = "https" + CurrentDownload.DownloadURL.Substring(4);
+                    CurrentDownload.DownloadURL = "https" + CurrentDownload.DownloadURL[4..];
                 }
             }
             #endregion
@@ -198,7 +198,7 @@ sanitizecheck:
             string OutputDirectory = "\"";
 //            +Config.Settings.Downloads.downloadPath;
             if (Config.Settings.Downloads.downloadPath.StartsWith("./") || Config.Settings.Downloads.downloadPath.StartsWith(".\\")){
-                OutputDirectory += Program.ProgramPath + "\\" + Config.Settings.Downloads.downloadPath.Substring(2);
+                OutputDirectory += Program.ProgramPath + "\\" + Config.Settings.Downloads.downloadPath[2..];
             }
             else {
                 OutputDirectory += Config.Settings.Downloads.downloadPath;
@@ -479,10 +479,6 @@ sanitizecheck:
             txtArgumentsGenerated.Text = PreviewArguments;
 
             #region Download thread
-            //if (Program.IsDebug) {
-            //    rtbConsoleOutput.Text = "===ARGUMENTS===\n" + ArgumentsBuffer.Replace(' ', '\n') + "\n\n===PREVIEW ARGUMENTS===\n" + PreviewArguments.Replace(' ', '\n');
-            //    return;
-            //}
             rtbConsoleOutput.AppendText("Creating download thread\n");
             DownloadThread = new Thread(() => {
                 try {
@@ -496,28 +492,23 @@ sanitizecheck:
                         },
                         EnableRaisingEvents = true
                     };
-
                     DownloadProcess.OutputDataReceived += (s, e) => {
                         this.BeginInvoke(new MethodInvoker(() => {
-                            if (e.Data != null && rtbConsoleOutput != null)
-                                rtbConsoleOutput.AppendText(e.Data + "\n");
+                            if (e.Data != null)
+                                rtbConsoleOutput?.AppendText($"{e.Data}\n");
                         }));
                     };
                     DownloadProcess.ErrorDataReceived += (s, e) => {
                         this.BeginInvoke(new MethodInvoker(() => {
-                            if (e.Data != null && rtbConsoleOutput != null) {
-                                rtbConsoleOutput.AppendText("Error:\n");
-                                rtbConsoleOutput.AppendText(e.Data + "\n");
-                            }
+                            if (e.Data != null)
+                                rtbConsoleOutput?.AppendText($"Error: {e.Data}\n");
                         }));
                     };
                     DownloadProcess.Exited += (s, e) => {
-                        if (DownloadProcess.ExitCode == 0) {
-                            CurrentDownload.Status = DownloadStatus.Finished;
-                        }
-                        else if (CurrentDownload.Status != DownloadStatus.Aborted) {
-                            CurrentDownload.Status = DownloadStatus.YtdlError;
-                        }
+                        CurrentDownload.Status = DownloadProcess.ExitCode switch {
+                            0 => DownloadStatus.Finished,
+                            _ => CurrentDownload.Status == DownloadStatus.Aborted ? DownloadStatus.Aborted : DownloadStatus.YtdlError
+                        };
                     };
 
                     if (CurrentDownload.Status != DownloadStatus.Aborted) {

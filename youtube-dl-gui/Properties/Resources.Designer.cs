@@ -61,7 +61,7 @@ namespace youtube_dl_gui.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 0000-00-00.
+        ///   Looks up a localized string similar to 2022-01-30.
         /// </summary>
         public static string BuildDate {
             get {

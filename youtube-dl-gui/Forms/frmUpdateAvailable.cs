@@ -16,7 +16,7 @@ namespace youtube_dl_gui {
             this.Text = Program.lang.frmUpdateAvailable;
             lbUpdateAvailableHeader.Text = Program.lang.lbUpdateAvailableHeader;
             lbUpdateAvailableUpdateVersion.Text = $"{Program.lang.lbUpdateAvailableUpdateVersion} {UpdateChecker.GitInfo.UpdateVersion}";
-            lbUpdateAvailableCurrentVersion.Text = $"{Program.lang.lbUpdateAvailableCurrentVersion} {(Properties.Settings.Default.IsBetaVersion ? Properties.Settings.Default.BetaVersion : Properties.Settings.Default.CurrentVersion)}";
+            lbUpdateAvailableCurrentVersion.Text = $"{Program.lang.lbUpdateAvailableCurrentVersion} {(Program.IsBetaVersion ? Program.BetaVersion : Program.CurrentVersion)}";
             lbUpdateAvailableChangelog.Text = Program.lang.lbUpdateAvailableChangelog;
             txtUpdateAvailableName.Text = UpdateChecker.GitInfo.UpdateName;
             rtbUpdateAvailableChangelog.Text = UpdateChecker.GitInfo.UpdateBody;

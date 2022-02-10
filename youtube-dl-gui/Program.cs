@@ -10,12 +10,24 @@ using System.Windows.Forms;
 namespace youtube_dl_gui {
     static class Program {
 
-        private static readonly GuidAttribute ProgramGUID = (GuidAttribute)Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(GuidAttribute), true)[0];
+        /// <summary>
+        /// The current version of the program.
+        /// </summary>
+        public const decimal CurrentVersion = 2.3m;
+        /// <summary>
+        /// Whether the program is a beta version.
+        /// </summary>
+        public const bool IsBetaVersion = false;
+        /// <summary>
+        /// The version of the current beta program.
+        /// </summary>
+        public const string BetaVersion = "2.4-pre1";
+
         //public static readonly string ProgramPath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+        private static readonly GuidAttribute ProgramGUID = (GuidAttribute)Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(GuidAttribute), true)[0];
+        public static readonly string LocalAppDataPath = $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\youtube_dl_gui";
         public static readonly string ProgramPath = Environment.CurrentDirectory;
-        public static readonly string LocalAppDataPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) +
-                                                         "\\youtube_dl_gui";
-        public static readonly string UserAgent = "User-Agent: youtube-dl-gui/" + Properties.Settings.Default.CurrentVersion;
+        public static readonly string UserAgent = "User-Agent: youtube-dl-gui/" + CurrentVersion;
         public static bool IsDebug = false;
         public static bool UseIni = false;
         static Mutex mtx;
@@ -153,7 +165,7 @@ namespace youtube_dl_gui {
                 for (int i = 0; i < args.Length; i++) {
                     string CurrentArgument = args[i];
                     if (CurrentArgument.StartsWith("ytdl:")) {
-                        CurrentArgument = CurrentArgument.Substring(5);
+                        CurrentArgument = CurrentArgument[5..];
                     }
 
                     switch (CurrentArgument) {

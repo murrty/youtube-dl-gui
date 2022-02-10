@@ -611,10 +611,10 @@ namespace youtube_dl_gui {
         private void chkSettingsDownloadsDownloadPathUseRelativePath_CheckedChanged(object sender, EventArgs e) {
             if (!LoadingForm) {
                 if (chkSettingsDownloadsDownloadPathUseRelativePath.Checked && txtSettingsDownloadsSavePath.Text.StartsWith(Program.ProgramPath)) {
-                    txtSettingsDownloadsSavePath.Text = ".\\" + txtSettingsDownloadsSavePath.Text.Substring(Program.ProgramPath.Length + 1);
+                    txtSettingsDownloadsSavePath.Text = ".\\" + txtSettingsDownloadsSavePath.Text[(Program.ProgramPath.Length + 1)..];
                 }
                 else if (txtSettingsDownloadsSavePath.Text.StartsWith("./") || txtSettingsDownloadsSavePath.Text.StartsWith(".\\")) {
-                    txtSettingsDownloadsSavePath.Text = Program.ProgramPath + "\\" + txtSettingsDownloadsSavePath.Text.Substring(2);
+                    txtSettingsDownloadsSavePath.Text = Program.ProgramPath + "\\" + txtSettingsDownloadsSavePath.Text[2..];
                 }
             }
         }
@@ -631,7 +631,7 @@ namespace youtube_dl_gui {
 
             if (fbd.ShowDialog() == DialogResult.OK) {
                 if (chkSettingsDownloadsDownloadPathUseRelativePath.Checked && fbd.SelectedPath.StartsWith(Program.ProgramPath)) {
-                    txtSettingsDownloadsSavePath.Text = ".\\" + fbd.SelectedPath.Substring(Program.ProgramPath.Length + 1);
+                    txtSettingsDownloadsSavePath.Text = ".\\" + fbd.SelectedPath[(Program.ProgramPath.Length + 1)..];
                 }
                 else {
                     txtSettingsDownloadsSavePath.Text = fbd.SelectedPath;

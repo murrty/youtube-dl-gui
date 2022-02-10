@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Runtime.Serialization.Json;
-using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -13,6 +12,8 @@ using System.Xml;
 using System.Xml.Linq;
 
 namespace youtube_dl_gui {
+// I'm aware that Program.IsBetaVersion is a constant.
+#pragma warning disable CS0162 // Unreachable code detected
     class UpdateChecker {
 
         public static readonly GitData GitInfo = new();
@@ -80,11 +81,11 @@ namespace youtube_dl_gui {
                             FailedToCheck = true;
                         }
                         else if (ForceCheck) {
-                            if (Properties.Settings.Default.IsBetaVersion) {
-                                MessageBox.Show(string.Format(Program.lang.dlgUpdateNoBetaUpdateAvailable, Properties.Settings.Default.BetaVersion, LatestReleaseVersion));
+                            if (Program.IsBetaVersion) {
+                                MessageBox.Show(string.Format(Program.lang.dlgUpdateNoBetaUpdateAvailable, Program.BetaVersion, LatestReleaseVersion));
                             }
                             else {
-                                MessageBox.Show(string.Format(Program.lang.dlgUpdateNoUpdateAvailable, Properties.Settings.Default.CurrentVersion, LatestReleaseVersion));
+                                MessageBox.Show(string.Format(Program.lang.dlgUpdateNoUpdateAvailable, Program.CurrentVersion, LatestReleaseVersion));
                             }
                         }
                     }
@@ -118,11 +119,11 @@ namespace youtube_dl_gui {
                             FailedToCheck = true;
                         }
                         else if (ForceCheck) {
-                            if (Properties.Settings.Default.IsBetaVersion) {
-                                MessageBox.Show(string.Format(Program.lang.dlgUpdateNoBetaUpdateAvailable + "\r\n\r\nThis may be a wild message to receive.", Properties.Settings.Default.BetaVersion, GitVersion));
+                            if (Program.IsBetaVersion) {
+                                MessageBox.Show(string.Format(Program.lang.dlgUpdateNoBetaUpdateAvailable + "\r\n\r\nThis may be a wild message to receive.", Program.BetaVersion, GitVersion));
                             }
                             else {
-                                MessageBox.Show(string.Format(Program.lang.dlgUpdateNoUpdateAvailable, Properties.Settings.Default.CurrentVersion, GitVersion));
+                                MessageBox.Show(string.Format(Program.lang.dlgUpdateNoUpdateAvailable, Program.CurrentVersion, GitVersion));
                             }
                         }
                     }
@@ -558,11 +559,15 @@ namespace youtube_dl_gui {
         /// <param name="cloudVersion">The <seealso cref="decimal"/> version of the latest version on Github.</param>
         /// <returns>A bool based on if the Github version is greater than the current version.</returns>
         private static bool IsUpdateAvailable(decimal cloudVersion) {
-            if (Properties.Settings.Default.IsBetaVersion) {
-                return true;
+            if (Program.IsBetaVersion) {
+                if (decimal.TryParse(Program.BetaVersion.Split('-')[0], out decimal BetaDecimalVersion)) {
+
+                }
+                else throw new DecimalParsingException("The decimal for Program.BetaVersion could not be parsed.", $"BetaVersion is currently {Program.BetaVersion}");
+                return decimal.Parse(Program.BetaVersion.Split('-')[0]) > cloudVersion;
             }
             else {
-                return Properties.Settings.Default.CurrentVersion < cloudVersion;
+                return Program.CurrentVersion < cloudVersion;
             }
         }
 
@@ -572,8 +577,8 @@ namespace youtube_dl_gui {
         /// <param name="cloudVersion">The <seealso cref="string"/> version of the latest version on Github.</param>
         /// <returns>A bool based on if the Github version is different than the current version.</returns>
         public static bool IsBetaUpdateAvailable() {
-            if (Properties.Settings.Default.IsBetaVersion) {
-                return GitInfo.UpdateVersion != Properties.Settings.Default.BetaVersion;
+            if (Program.IsBetaVersion) {
+                return GitInfo.UpdateVersion != Program.BetaVersion;
             }
             else {
                 // We gotta try to parse the decimal :(
@@ -583,7 +588,7 @@ namespace youtube_dl_gui {
                         System.Globalization.NumberStyles.AllowDecimalPoint,
                         System.Globalization.CultureInfo.InvariantCulture,
                         out decimal NewVersion)) {
-                        return NewVersion > Properties.Settings.Default.CurrentVersion;
+                        return NewVersion > Program.CurrentVersion;
                     }
                     else throw new DecimalParsingException("Couldn't parse the decimal from the regex match.");
                 }
@@ -609,6 +614,7 @@ namespace youtube_dl_gui {
             }
         }
     }
+#pragma warning restore CS0162 // Unreachable code detected
 
     public class GitData {
 

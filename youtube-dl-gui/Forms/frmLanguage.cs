@@ -44,7 +44,7 @@ namespace youtube_dl_gui {
                 DirectoryInfo LangFolder = new(Environment.CurrentDirectory + "\\lang\\");
                 FileInfo[] LangFiles = LangFolder.GetFiles("*.ini");
                 foreach (FileInfo File in LangFiles) {
-                    Files.Add(File.Name.Substring(0, File.Name.Length - 4));
+                    Files.Add(File.Name[0..^4]);
                 }
                 cbLanguages.Items.Clear();
                 cbLanguages.Items.Add("English (Internal)");

@@ -71,7 +71,7 @@ namespace murrty {
         }
 
         public static string GetRelevantInformation() {
-            return $"Current version: {(youtube_dl_gui.Properties.Settings.Default.IsBetaVersion ? youtube_dl_gui.Properties.Settings.Default.BetaVersion : youtube_dl_gui.Properties.Settings.Default.CurrentVersion)}\nCurrent culture: {System.Threading.Thread.CurrentThread.CurrentCulture.EnglishName}\nOS: {youtube_dl_gui.ErrorLog.ComputerVersionInformation}";
+            return $"Current version: {(youtube_dl_gui.Program.IsBetaVersion ? youtube_dl_gui.Program.BetaVersion : youtube_dl_gui.Program.CurrentVersion)}\nCurrent culture: {System.Threading.Thread.CurrentThread.CurrentCulture.EnglishName}\nOS: {youtube_dl_gui.ErrorLog.ComputerVersionInformation}";
         }
 
         private void frmError_Load(object sender, EventArgs e) {
@@ -156,9 +156,9 @@ namespace murrty {
                 rtbExceptionDetails.Text = ReportedException.CustomDescription;
             }
 
-            lbVersion.Text = youtube_dl_gui.Properties.Settings.Default.IsBetaVersion ?
-                "v" + youtube_dl_gui.Properties.Settings.Default.BetaVersion :
-                "v" + youtube_dl_gui.Properties.Settings.Default.CurrentVersion.ToString();
+            lbVersion.Text = youtube_dl_gui.Program.IsBetaVersion ?
+                "v" + youtube_dl_gui.Program.BetaVersion :
+                "v" + youtube_dl_gui.Program.CurrentVersion.ToString();
             
             System.Media.SystemSounds.Hand.Play();
         }

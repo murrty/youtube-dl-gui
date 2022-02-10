@@ -37,24 +37,19 @@ namespace youtube_dl_gui.Controls {
         }
 
         #region Private variables
-        private ButtonAlignments _ButtonAlignment = ButtonAlignments.Left;
-        private string _TextHint = string.Empty;
-        private AllowedTextTypes _TextType = AllowedTextTypes.All;
-        private bool _ButtonEnabled = false;
+        private ButtonAlignments fButtonAlignment = ButtonAlignments.Left;
+        private string fTextHint = string.Empty;
+        private AllowedTextTypes fTextType = AllowedTextTypes.All;
+        private bool fButtonEnabled = false;
         #endregion
 
         #region Methods
         private void UpdateButton() {
-            btn.Size = new Size(22, ClientSize.Height + 3);
-            switch (_ButtonAlignment) {
-                default:
-                    btn.Location = new Point(ClientSize.Width - btn.Width, -2);
-                    break;
-
-                case ButtonAlignments.Right:
-                    btn.Location = new Point(0, -2);
-                    break;
-            }
+            btn.Size = new(22, ClientSize.Height + 3);
+            btn.Location = fButtonAlignment switch {
+                ButtonAlignments.Right => new(0, -2),
+                _ => new(ClientSize.Width - btn.Width, -2),
+            };
         }
         #endregion
 
@@ -63,9 +58,9 @@ namespace youtube_dl_gui.Controls {
         /// Refreshes the TextBox and realigns the Text to fit with the Button.
         /// </summary>
         public override void Refresh() {
-            switch (_ButtonEnabled) {
+            switch (fButtonEnabled) {
                 case true:
-                    switch (_ButtonAlignment) {
+                    switch (fButtonAlignment) {
                         default:
                             NativeMethods.SendMessage(Handle, NativeMethods.EM_SETMARGINS, (IntPtr)NativeMethods.EC_RIGHTMARGIN, (IntPtr)(btn.Width << 16));
                             break;
@@ -92,70 +87,26 @@ namespace youtube_dl_gui.Controls {
 
         protected override void OnKeyPress(KeyPressEventArgs e) {
 
-            switch (_TextType) {
+            switch (fTextType) {
                 case AllowedTextTypes.AlphabeticalOnly:
-                    switch (e.KeyChar) {
-                        case (char)Keys.Back: case (char)Keys.Space:
-                        case (char)Keys.Return:
-                        case 'a': case 'A': case 'b': case 'B': case 'c': case 'C':
-                        case 'd': case 'D': case 'e': case 'E': case 'f': case 'F':
-                        case 'g': case 'G': case 'h': case 'H': case 'i': case 'I':
-                        case 'j': case 'J': case 'k': case 'K': case 'l': case 'L':
-                        case 'm': case 'M': case 'o': case 'O': case 'p': case 'P':
-                        case 'q': case 'Q': case 'r': case 'R': case 's': case 'S':
-                        case 't': case 'T': case 'u': case 'U': case 'v': case 'V':
-                        case 'w': case 'W': case 'x': case 'X': case 'y': case 'Y':
-                        case 'z': case 'Z':
-                            e.Handled = false;
-                            break;
-
-                        default:
-                            e.Handled = true;
-                            break;
-                    }
+                    e.Handled = e.KeyChar switch {
+                        (char)Keys.Back or (char)Keys.Space or (char)Keys.Return or 'a' or 'A' or 'b' or 'B' or 'c' or 'C' or 'd' or 'D' or 'e' or 'E' or 'f' or 'F' or 'g' or 'G' or 'h' or 'H' or 'i' or 'I' or 'j' or 'J' or 'k' or 'K' or 'l' or 'L' or 'm' or 'M' or 'o' or 'O' or 'p' or 'P' or 'q' or 'Q' or 'r' or 'R' or 's' or 'S' or 't' or 'T' or 'u' or 'U' or 'v' or 'V' or 'w' or 'W' or 'x' or 'X' or 'y' or 'Y' or 'z' or 'Z' => false,
+                        _ => true,
+                    };
                     break;
 
                 case AllowedTextTypes.NumericOnly:
-                    switch (e.KeyChar) {
-                        case (char)Keys.Back: case (char)Keys.Space:
-                        case (char)Keys.Return:
-                        case '.': case '0':
-                        case '1': case '2': case '3':
-                        case '4': case '5': case '6':
-                        case '7': case '8': case '9':
-                            e.Handled = false;
-                            break;
-
-                        default:
-                            e.Handled = true;
-                            break;
-                    }
+                    e.Handled = e.KeyChar switch {
+                        (char)Keys.Back or (char)Keys.Space or (char)Keys.Return or '.' or '0' or '1' or '2' or '3' or '4' or '5' or '6' or '7' or '8' or '9' => false,
+                        _ => true,
+                    };
                     break;
 
                 case AllowedTextTypes.AlphaNumericOnly:
-                    switch (e.KeyChar) {
-                        case (char)Keys.Back: case (char)Keys.Space:
-                        case (char)Keys.Return:
-                        case '.': case '0':
-                        case '1': case '2': case '3':
-                        case '4': case '5': case '6':
-                        case '7': case '8': case '9':
-                        case 'a': case 'A': case 'b': case 'B': case 'c': case 'C':
-                        case 'd': case 'D': case 'e': case 'E': case 'f': case 'F':
-                        case 'g': case 'G': case 'h': case 'H': case 'i': case 'I':
-                        case 'j': case 'J': case 'k': case 'K': case 'l': case 'L':
-                        case 'm': case 'M': case 'o': case 'O': case 'p': case 'P':
-                        case 'q': case 'Q': case 'r': case 'R': case 's': case 'S':
-                        case 't': case 'T': case 'u': case 'U': case 'v': case 'V':
-                        case 'w': case 'W': case 'x': case 'X': case 'y': case 'Y':
-                        case 'z': case 'Z':
-                            e.Handled = false;
-                            break;
-
-                        default:
-                            e.Handled = true;
-                            break;
-                    }
+                    e.Handled = e.KeyChar switch {
+                        (char)Keys.Back or (char)Keys.Space or (char)Keys.Return or '.' or '0' or '1' or '2' or '3' or '4' or '5' or '6' or '7' or '8' or '9' or 'a' or 'A' or 'b' or 'B' or 'c' or 'C' or 'd' or 'D' or 'e' or 'E' or 'f' or 'F' or 'g' or 'G' or 'h' or 'H' or 'i' or 'I' or 'j' or 'J' or 'k' or 'K' or 'l' or 'L' or 'm' or 'M' or 'o' or 'O' or 'p' or 'P' or 'q' or 'Q' or 'r' or 'R' or 's' or 'S' or 't' or 'T' or 'u' or 'U' or 'v' or 'V' or 'w' or 'W' or 'x' or 'X' or 'y' or 'Y' or 'z' or 'Z' => false,
+                        _ => true,
+                    };
                     break;
             }
 
@@ -199,8 +150,8 @@ namespace youtube_dl_gui.Controls {
         #region Public Properties
         [Category("Appearance"), Description("The position of the button inside the Text Box."), DefaultValue(ButtonAlignments.Right)]
         public ButtonAlignments ButtonAlignment {
-            get { return _ButtonAlignment; }
-            set { _ButtonAlignment = value; UpdateButton(); this.Refresh(); }
+            get { return fButtonAlignment; }
+            set { fButtonAlignment = value; UpdateButton(); this.Refresh(); }
         }
 
         [Category("Appearance"), Description("The cursor that will appear when hovering over the Button.")]
@@ -265,27 +216,27 @@ namespace youtube_dl_gui.Controls {
 
         [Category("Appearance"), Description("The Button on the Text Box is enabled and usable."), DefaultValue(false)]
         public bool ButtonEnabled {
-            get { return _ButtonEnabled; }
+            get { return fButtonEnabled; }
             set {
                 btn.Visible = value;
                 btn.Enabled = value;
-                _ButtonEnabled = value;
+                fButtonEnabled = value;
             }
         }
 
         [Category("Appearance"), Description("The Text that will appear as a hint in the Text Box."), DefaultValue(null)]
         public string TextHint {
-            get { return _TextHint; }
+            get { return fTextHint; }
             set {
-                _TextHint = value;
+                fTextHint = value;
                 NativeMethods.SendMessage(this.Handle, 0x1501, (IntPtr)1, value);
             }
         }
 
         [Category("Appearance"), Description("Determines if the Text Box wil only accept certain kinds of characters."), DefaultValue(AllowedTextTypes.All)]
         public AllowedTextTypes TextType {
-            get { return _TextType; }
-            set { _TextType = value; }
+            get { return fTextType; }
+            set { fTextType = value; }
         }
         #endregion
 

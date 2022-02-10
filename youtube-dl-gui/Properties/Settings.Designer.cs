@@ -12,7 +12,7 @@ namespace youtube_dl_gui.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.1.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.0.3.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -20,15 +20,6 @@ namespace youtube_dl_gui.Properties {
         public static Settings Default {
             get {
                 return defaultInstance;
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("2.3")]
-        public decimal CurrentVersion {
-            get {
-                return ((decimal)(this["CurrentVersion"]));
             }
         }
         
@@ -53,24 +44,6 @@ namespace youtube_dl_gui.Properties {
             }
             set {
                 this["SkippedVersion"] = value;
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool IsBetaVersion {
-            get {
-                return ((bool)(this["IsBetaVersion"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("2.27-pre3")]
-        public string BetaVersion {
-            get {
-                return ((string)(this["BetaVersion"]));
             }
         }
         

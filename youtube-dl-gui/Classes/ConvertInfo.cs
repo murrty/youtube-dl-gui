@@ -236,7 +236,7 @@ namespace youtube_dl_gui {
         public static ConversionType GetFiletype(string InputFile) {
             string[] File = InputFile.Split('.');
             if (File.Length > 0) {
-                string Format = File[File.Length - 1];
+                string Format = File[^1];
                 return Formats.VideoFormats.Contains(Format) ? ConversionType.Video : (Formats.AudioFormats.Contains(Format) ? ConversionType.Audio : ConversionType.FfmpegDefault);
             }
             

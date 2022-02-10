@@ -2746,8 +2746,8 @@ namespace youtube_dl_gui {
         /// <returns>Returns the absolute header.</returns>
         private void ReadHeaderValue(string Input, out string Header) {
             if (Input.Contains("//"))
-                Input = Input.Substring(0, Input.IndexOf("//"));
-            Header = Input.Substring(1, Input.IndexOf(']') - 1);
+                Input = Input[..Input.IndexOf("//")];
+            Header = Input[1..Input.IndexOf(']')];
         }
 
         /// <summary>
@@ -2765,16 +2765,16 @@ namespace youtube_dl_gui {
 
                 case 1: {
                     if (Input.Contains("//"))
-                        Input.Substring(0, Input.IndexOf("//"));
+                        Input = Input[..Input.IndexOf("//")];
                     Name = Input.Split('=')[0].ToLower().Trim();
                     Value = string.Empty;
                 } break;
 
                 default: {
                     if (Input.Contains("//"))
-                        Input.Substring(0, Input.IndexOf("//"));
+                        Input = Input[..Input.IndexOf("//")];
                     Name = Input.Split('=')[0].ToLower().Trim();
-                    Value = Input.Substring(Input.IndexOf('=') + 1).Trim();
+                    Value = Input[(Input.IndexOf('=') + 1)..].Trim();
                 } break;
             }
         }

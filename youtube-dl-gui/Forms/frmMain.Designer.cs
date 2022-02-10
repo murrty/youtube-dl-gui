@@ -47,7 +47,6 @@
             this.txtPlaylistItems = new youtube_dl_gui.Controls.ExtendedTextBox();
             this.cbFormat = new System.Windows.Forms.ComboBox();
             this.lbFormat = new System.Windows.Forms.Label();
-            this.lbDownloadStatus = new System.Windows.Forms.Label();
             this.sbDownload = new youtube_dl_gui.Controls.SplitButton();
             this.cmDownload = new System.Windows.Forms.ContextMenu();
             this.mDownloadWithAuthentication = new System.Windows.Forms.MenuItem();
@@ -66,7 +65,6 @@
             this.rbConvertAudio = new System.Windows.Forms.RadioButton();
             this.rbConvertAutoFFmpeg = new System.Windows.Forms.RadioButton();
             this.rbConvertAuto = new System.Windows.Forms.RadioButton();
-            this.lbConvertStatus = new System.Windows.Forms.Label();
             this.btnConvert = new System.Windows.Forms.Button();
             this.rbConvertVideo = new System.Windows.Forms.RadioButton();
             this.btnConvertOutput = new System.Windows.Forms.Button();
@@ -107,7 +105,6 @@
             this.mLanguage = new System.Windows.Forms.MenuItem();
             this.mSupportedSites = new System.Windows.Forms.MenuItem();
             this.mAbout = new System.Windows.Forms.MenuItem();
-            this.lbDebug = new System.Windows.Forms.Label();
             this.cmTray = new System.Windows.Forms.ContextMenu();
             this.cmTrayShowForm = new System.Windows.Forms.MenuItem();
             this.cmTrayDownloader = new System.Windows.Forms.MenuItem();
@@ -129,8 +126,6 @@
             this.cmTraySep = new System.Windows.Forms.MenuItem();
             this.cmTrayExit = new System.Windows.Forms.MenuItem();
             this.trayIcon = new System.Windows.Forms.NotifyIcon(this.components);
-            this.tmrConvertLabel = new System.Windows.Forms.Timer(this.components);
-            this.tmrDownloadLabel = new System.Windows.Forms.Timer(this.components);
             this.tcMain.SuspendLayout();
             this.tabDownload.SuspendLayout();
             this.gbSelection.SuspendLayout();
@@ -174,7 +169,6 @@
             this.tabDownload.Controls.Add(this.gbSelection);
             this.tabDownload.Controls.Add(this.cbFormat);
             this.tabDownload.Controls.Add(this.lbFormat);
-            this.tabDownload.Controls.Add(this.lbDownloadStatus);
             this.tabDownload.Controls.Add(this.sbDownload);
             this.tabDownload.Controls.Add(this.chkDownloadSound);
             this.tabDownload.Controls.Add(this.cbQuality);
@@ -444,18 +438,6 @@
             this.lbFormat.Text = "lbFormat";
             this.lbFormat.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // lbDownloadStatus
-            // 
-            this.lbDownloadStatus.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.lbDownloadStatus.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbDownloadStatus.Location = new System.Drawing.Point(-1, 310);
-            this.lbDownloadStatus.Name = "lbDownloadStatus";
-            this.lbDownloadStatus.Size = new System.Drawing.Size(238, 20);
-            this.lbDownloadStatus.TabIndex = 15;
-            this.lbDownloadStatus.Text = "waiting";
-            this.lbDownloadStatus.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lbDownloadStatus.Visible = false;
-            // 
             // sbDownload
             // 
             this.sbDownload.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
@@ -609,7 +591,6 @@
             this.tabConvert.Controls.Add(this.rbConvertAudio);
             this.tabConvert.Controls.Add(this.rbConvertAutoFFmpeg);
             this.tabConvert.Controls.Add(this.rbConvertAuto);
-            this.tabConvert.Controls.Add(this.lbConvertStatus);
             this.tabConvert.Controls.Add(this.btnConvert);
             this.tabConvert.Controls.Add(this.rbConvertVideo);
             this.tabConvert.Controls.Add(this.btnConvertOutput);
@@ -673,18 +654,6 @@
             this.rbConvertAuto.TabStop = true;
             this.rbConvertAuto.Text = "rbConvertAuto";
             this.rbConvertAuto.UseVisualStyleBackColor = true;
-            // 
-            // lbConvertStatus
-            // 
-            this.lbConvertStatus.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.lbConvertStatus.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbConvertStatus.Location = new System.Drawing.Point(79, 293);
-            this.lbConvertStatus.Name = "lbConvertStatus";
-            this.lbConvertStatus.Size = new System.Drawing.Size(238, 22);
-            this.lbConvertStatus.TabIndex = 13;
-            this.lbConvertStatus.Text = "waiting";
-            this.lbConvertStatus.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.lbConvertStatus.Visible = false;
             // 
             // btnConvert
             // 
@@ -1086,18 +1055,6 @@
             this.mAbout.Text = "ma";
             this.mAbout.Click += new System.EventHandler(this.mAbout_Click);
             // 
-            // lbDebug
-            // 
-            this.lbDebug.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.lbDebug.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbDebug.Location = new System.Drawing.Point(102, 336);
-            this.lbDebug.Name = "lbDebug";
-            this.lbDebug.Size = new System.Drawing.Size(146, 19);
-            this.lbDebug.TabIndex = 3;
-            this.lbDebug.Text = "debug 2021-07-31";
-            this.lbDebug.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.lbDebug.Visible = false;
-            // 
             // cmTray
             // 
             this.cmTray.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
@@ -1242,22 +1199,11 @@
             this.trayIcon.Text = "youtube-dl-gui";
             this.trayIcon.Visible = true;
             // 
-            // tmrConvertLabel
-            // 
-            this.tmrConvertLabel.Interval = 5000;
-            this.tmrConvertLabel.Tick += new System.EventHandler(this.tmrConvertLabel_Tick);
-            // 
-            // tmrDownloadLabel
-            // 
-            this.tmrDownloadLabel.Interval = 5000;
-            this.tmrDownloadLabel.Tick += new System.EventHandler(this.tmrDownloadLabel_Tick);
-            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(244, 363);
-            this.Controls.Add(this.lbDebug);
             this.Controls.Add(this.tcMain);
             this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = global::youtube_dl_gui.Properties.Resources.youtube_dl_gui;
@@ -1301,7 +1247,6 @@
         private System.Windows.Forms.MainMenu menu;
         private System.Windows.Forms.MenuItem mSettings;
         private System.Windows.Forms.MenuItem mHelp;
-        private System.Windows.Forms.Label lbDebug;
         private System.Windows.Forms.GroupBox gbDownloadType;
         private System.Windows.Forms.RadioButton rbCustom;
         private System.Windows.Forms.RadioButton rbAudio;
@@ -1331,8 +1276,6 @@
         private System.Windows.Forms.RadioButton rbConvertAudio;
         private System.Windows.Forms.RadioButton rbConvertVideo;
         private System.Windows.Forms.Button btnConvert;
-        private System.Windows.Forms.Label lbConvertStatus;
-        private System.Windows.Forms.Timer tmrConvertLabel;
         private System.Windows.Forms.RadioButton rbConvertAuto;
         private System.Windows.Forms.RadioButton rbConvertAutoFFmpeg;
         private System.Windows.Forms.RadioButton rbConvertCustom;
@@ -1345,8 +1288,6 @@
         private System.Windows.Forms.MenuItem cmTrayConvertAutomatic;
         private System.Windows.Forms.MenuItem cmTrayConvertAutoFFmpeg;
         private System.Windows.Forms.TabPage tabMerge;
-        private System.Windows.Forms.Label lbDownloadStatus;
-        private System.Windows.Forms.Timer tmrDownloadLabel;
         private System.Windows.Forms.ComboBox cbQuality;
         private System.Windows.Forms.Label lbQuality;
         private System.Windows.Forms.Button btnMerge;
