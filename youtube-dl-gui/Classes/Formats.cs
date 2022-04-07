@@ -35,9 +35,7 @@ namespace youtube_dl_gui {
         /// </summary>
         /// <returns>The current date and time formatted.</returns>
         public static string CurrentTime {
-            get {
-                return $"{DateTime.Now:yyyy_MM_dd-HH_mm_ss}";
-            }
+            get => $"{DateTime.Now:yyyy_MM_dd-HH_mm_ss}";
         }
     }
 

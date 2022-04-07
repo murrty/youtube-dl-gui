@@ -13,7 +13,7 @@ namespace youtube_dl_gui.Controls {
             set {
                 this.UseVistaStyle = value;
                 if (value) {
-                    NativeMethods.SetWindowTheme(this.Handle, "eplorer", null);
+                    NativeMethods.SetWindowTheme(this.Handle, "explorer", null);
                 }
                 else {
                     NativeMethods.SetWindowTheme(this.Handle, null, null);

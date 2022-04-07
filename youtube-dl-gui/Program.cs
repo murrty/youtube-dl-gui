@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
@@ -23,6 +22,13 @@ namespace youtube_dl_gui {
         /// </summary>
         public const string BetaVersion = "2.4-pre1";
 
+        /// <summary>
+        /// Gets or sets whether the update was checked this run.
+        /// </summary>
+        public static bool UpdateChecked {
+            get; set;
+        }
+
         //public static readonly string ProgramPath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
         private static readonly GuidAttribute ProgramGUID = (GuidAttribute)Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(GuidAttribute), true)[0];
         public static readonly string LocalAppDataPath = $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\youtube_dl_gui";
@@ -39,14 +45,15 @@ namespace youtube_dl_gui {
 
         [STAThread]
         static int Main(string[] args) {
-            ErrorLog.AssembleComputerVersionInformation();
-
             mtx = new Mutex(true, ProgramGUID.Value);
-            CheckDebug();
+#if DEBUG
+            IsDebug = true;
+#endif
 
             if (mtx.WaitOne(TimeSpan.Zero, true) || IsDebug) {
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
+                Log.InitializeLogging();
 
                 UseIni = File.Exists(Ini.Path) && Ini.KeyExists("useIni") && Ini.ReadBool("useIni");
                 Config.Settings = new Config();
@@ -137,11 +144,6 @@ namespace youtube_dl_gui {
                 }
                 return 0;
             }
-        }
-
-        [System.Diagnostics.Conditional("DEBUG")]
-        static void CheckDebug() {
-            IsDebug = true;
         }
 
         static void LoadClasses() {

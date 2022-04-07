@@ -5,7 +5,7 @@ using System.Net;
 using System.Security.Cryptography;
 using System.Windows.Forms;
 
-namespace murrty {
+namespace murrty.forms {
 
     public partial class frmException : Form {
 
@@ -70,12 +70,9 @@ namespace murrty {
             }
         }
 
-        public static string GetRelevantInformation() {
-            return $"Current version: {(youtube_dl_gui.Program.IsBetaVersion ? youtube_dl_gui.Program.BetaVersion : youtube_dl_gui.Program.CurrentVersion)}\nCurrent culture: {System.Threading.Thread.CurrentThread.CurrentCulture.EnglishName}\nOS: {youtube_dl_gui.ErrorLog.ComputerVersionInformation}";
-        }
-
         private void frmError_Load(object sender, EventArgs e) {
             if (ReportedException.CustomDescription is null) {
+                bool SkipFullReport = false;
                 switch (ReportedException.ReceivedException) {
                     case UnhandledExceptionEventArgs UnEx: {
                         rtbExceptionDetails.Text = "An unhandled exception occurred." +
@@ -140,25 +137,26 @@ namespace murrty {
 
                     default: {
                         rtbExceptionDetails.Text = $"An uncast exception occurred. The updater may exit after this dialog closes.\n";
+                        SkipFullReport = true;
                     } break;
                 }
 
-                rtbExceptionDetails.Text += "\n========== FULL REPORT ==========\n" +
-                                            ReportedException.ReceivedException.ToString() +
-                                            "\n========== END  REPORT ==========\n";
+                if (!SkipFullReport) {
+                    rtbExceptionDetails.Text += "\n========== FULL REPORT ==========\n" +
+                                                ReportedException.ReceivedException.ToString() +
+                                                "\n========== END  REPORT ==========\n";
+                }
 
                 rtbExceptionDetails.Text += "\n========== OS  INFO ==========\n" +
                                             "(Please don't omit this info, it may be important)\n" +
-                                            GetRelevantInformation() +
+                                            youtube_dl_gui.Log.DiagnosticInformation +
                                             "\n========== END INFO ==========";
             }
-            else {
-                rtbExceptionDetails.Text = ReportedException.CustomDescription;
-            }
+            else rtbExceptionDetails.Text = ReportedException.CustomDescription;
 
-            lbVersion.Text = youtube_dl_gui.Program.IsBetaVersion ?
-                "v" + youtube_dl_gui.Program.BetaVersion :
-                "v" + youtube_dl_gui.Program.CurrentVersion.ToString();
+            lbVersion.Text = "v" + (youtube_dl_gui.Program.IsBetaVersion ?
+                                    youtube_dl_gui.Program.BetaVersion :
+                                    youtube_dl_gui.Program.CurrentVersion.ToString());
             
             System.Media.SystemSounds.Hand.Play();
         }

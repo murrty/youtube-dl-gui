@@ -41,9 +41,9 @@
             this.btnSettingsGeneralBrowseYoutubeDl = new System.Windows.Forms.Button();
             this.chkSettingsGeneralUseStaticYoutubeDl = new System.Windows.Forms.CheckBox();
             this.chkSettingsGeneralUseStaticFFmpeg = new System.Windows.Forms.CheckBox();
-            this.txtSettingsGeneralFFmpegPath = new youtube_dl_gui.Controls.ExtendedTextBox();
+            this.txtSettingsGeneralFFmpegPath = new murrty.controls.ExtendedTextBox();
             this.lbSettingsGeneralFFmpegDirectory = new System.Windows.Forms.Label();
-            this.txtSettingsGeneralYoutubeDlPath = new youtube_dl_gui.Controls.ExtendedTextBox();
+            this.txtSettingsGeneralYoutubeDlPath = new murrty.controls.ExtendedTextBox();
             this.lbSettingsGeneralYoutubeDlPath = new System.Windows.Forms.Label();
             this.chkSettingsGeneralClearUrlOnDownload = new System.Windows.Forms.CheckBox();
             this.chkSettingsGeneralHoverOverUrlToPasteClipboard = new System.Windows.Forms.CheckBox();
@@ -71,8 +71,8 @@
             this.chkSettingsDownloadsFixVReddIt = new System.Windows.Forms.CheckBox();
             this.tabDownloadsConnection = new System.Windows.Forms.TabPage();
             this.cbSettingsDownloadsProxyType = new System.Windows.Forms.ComboBox();
-            this.txtSettingsDownloadsProxyPort = new youtube_dl_gui.Controls.ExtendedTextBox();
-            this.txtSettingsDownloadsProxyIp = new youtube_dl_gui.Controls.ExtendedTextBox();
+            this.txtSettingsDownloadsProxyPort = new murrty.controls.ExtendedTextBox();
+            this.txtSettingsDownloadsProxyIp = new murrty.controls.ExtendedTextBox();
             this.chkSettingsDownloadsForceIpv6 = new System.Windows.Forms.CheckBox();
             this.chkSettingsDownloadsForceIpv4 = new System.Windows.Forms.CheckBox();
             this.chkSettingsDownloadsUseProxy = new System.Windows.Forms.CheckBox();
@@ -92,7 +92,7 @@
             this.chkSettingsDownloadsSeparateBatchDownloads = new System.Windows.Forms.CheckBox();
             this.llSettingsDownloadsSchemaHelp = new System.Windows.Forms.LinkLabel();
             this.lbSettingsDownloadsDownloadPath = new System.Windows.Forms.Label();
-            this.txtSettingsDownloadsSavePath = new youtube_dl_gui.Controls.ExtendedTextBox();
+            this.txtSettingsDownloadsSavePath = new murrty.controls.ExtendedTextBox();
             this.btnSettingsDownloadsBrowseSavePath = new System.Windows.Forms.Button();
             this.lbSepDownloads = new System.Windows.Forms.Label();
             this.lbSettingsDownloadsFileNameSchema = new System.Windows.Forms.Label();
@@ -123,7 +123,7 @@
             this.lbConvertAudioThousands = new System.Windows.Forms.Label();
             this.lbSettingsConverterAudioBitrate = new System.Windows.Forms.Label();
             this.tcSettingsConverterCustom = new System.Windows.Forms.TabPage();
-            this.txtSettingsConverterCustomArguments = new youtube_dl_gui.Controls.ExtendedTextBox();
+            this.txtSettingsConverterCustomArguments = new murrty.controls.ExtendedTextBox();
             this.lbSettingsConverterCustomHeader = new System.Windows.Forms.Label();
             this.chkSettingsConverterClearInputAfterConverting = new System.Windows.Forms.CheckBox();
             this.chkSettingsConverterClearOutputAfterConverting = new System.Windows.Forms.CheckBox();
@@ -133,9 +133,9 @@
             this.btnSettingsExtensionsRemoveSelected = new System.Windows.Forms.Button();
             this.listExtensions = new System.Windows.Forms.ListBox();
             this.lbSettingsExtensionsExtensionShort = new System.Windows.Forms.Label();
-            this.txtSettingsExtensionsExtensionShort = new youtube_dl_gui.Controls.ExtendedTextBox();
+            this.txtSettingsExtensionsExtensionShort = new murrty.controls.ExtendedTextBox();
             this.lbSettingsExtensionsExtensionFullName = new System.Windows.Forms.Label();
-            this.txtSettingsExtensionsExtensionFullName = new youtube_dl_gui.Controls.ExtendedTextBox();
+            this.txtSettingsExtensionsExtensionFullName = new murrty.controls.ExtendedTextBox();
             this.lbSettingsExtensionsHeader = new System.Windows.Forms.Label();
             this.tabSettingsErrors = new System.Windows.Forms.TabPage();
             this.chkSettingsErrorsSaveErrorsAsErrorLog = new System.Windows.Forms.CheckBox();
@@ -398,7 +398,7 @@
             // 
             this.txtSettingsGeneralFFmpegPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtSettingsGeneralFFmpegPath.ButtonAlignment = youtube_dl_gui.Controls.ButtonAlignments.Left;
+            this.txtSettingsGeneralFFmpegPath.ButtonAlignment = murrty.controls.ButtonAlignment.Left;
             this.txtSettingsGeneralFFmpegPath.ButtonCursor = System.Windows.Forms.Cursors.Default;
             this.txtSettingsGeneralFFmpegPath.ButtonFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtSettingsGeneralFFmpegPath.ButtonImageIndex = -1;
@@ -428,7 +428,7 @@
             // 
             this.txtSettingsGeneralYoutubeDlPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtSettingsGeneralYoutubeDlPath.ButtonAlignment = youtube_dl_gui.Controls.ButtonAlignments.Left;
+            this.txtSettingsGeneralYoutubeDlPath.ButtonAlignment = murrty.controls.ButtonAlignment.Left;
             this.txtSettingsGeneralYoutubeDlPath.ButtonCursor = System.Windows.Forms.Cursors.Default;
             this.txtSettingsGeneralYoutubeDlPath.ButtonFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtSettingsGeneralYoutubeDlPath.ButtonImageIndex = -1;
@@ -794,7 +794,7 @@
             // txtSettingsDownloadsProxyPort
             // 
             this.txtSettingsDownloadsProxyPort.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.txtSettingsDownloadsProxyPort.ButtonAlignment = youtube_dl_gui.Controls.ButtonAlignments.Left;
+            this.txtSettingsDownloadsProxyPort.ButtonAlignment = murrty.controls.ButtonAlignment.Left;
             this.txtSettingsDownloadsProxyPort.ButtonCursor = System.Windows.Forms.Cursors.Default;
             this.txtSettingsDownloadsProxyPort.ButtonFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtSettingsDownloadsProxyPort.ButtonImageIndex = -1;
@@ -814,7 +814,7 @@
             // txtSettingsDownloadsProxyIp
             // 
             this.txtSettingsDownloadsProxyIp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.txtSettingsDownloadsProxyIp.ButtonAlignment = youtube_dl_gui.Controls.ButtonAlignments.Left;
+            this.txtSettingsDownloadsProxyIp.ButtonAlignment = murrty.controls.ButtonAlignment.Left;
             this.txtSettingsDownloadsProxyIp.ButtonCursor = System.Windows.Forms.Cursors.Default;
             this.txtSettingsDownloadsProxyIp.ButtonFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtSettingsDownloadsProxyIp.ButtonImageIndex = -1;
@@ -1056,7 +1056,7 @@
             // 
             this.txtSettingsDownloadsSavePath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtSettingsDownloadsSavePath.ButtonAlignment = youtube_dl_gui.Controls.ButtonAlignments.Left;
+            this.txtSettingsDownloadsSavePath.ButtonAlignment = murrty.controls.ButtonAlignment.Left;
             this.txtSettingsDownloadsSavePath.ButtonCursor = System.Windows.Forms.Cursors.Default;
             this.txtSettingsDownloadsSavePath.ButtonFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtSettingsDownloadsSavePath.ButtonImageIndex = -1;
@@ -1479,7 +1479,7 @@
             // txtSettingsConverterCustomArguments
             // 
             this.txtSettingsConverterCustomArguments.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtSettingsConverterCustomArguments.ButtonAlignment = youtube_dl_gui.Controls.ButtonAlignments.Left;
+            this.txtSettingsConverterCustomArguments.ButtonAlignment = murrty.controls.ButtonAlignment.Left;
             this.txtSettingsConverterCustomArguments.ButtonCursor = System.Windows.Forms.Cursors.Default;
             this.txtSettingsConverterCustomArguments.ButtonFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtSettingsConverterCustomArguments.ButtonImageIndex = -1;
@@ -1603,7 +1603,7 @@
             // txtSettingsExtensionsExtensionShort
             // 
             this.txtSettingsExtensionsExtensionShort.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtSettingsExtensionsExtensionShort.ButtonAlignment = youtube_dl_gui.Controls.ButtonAlignments.Left;
+            this.txtSettingsExtensionsExtensionShort.ButtonAlignment = murrty.controls.ButtonAlignment.Left;
             this.txtSettingsExtensionsExtensionShort.ButtonCursor = System.Windows.Forms.Cursors.Default;
             this.txtSettingsExtensionsExtensionShort.ButtonFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtSettingsExtensionsExtensionShort.ButtonImageIndex = -1;
@@ -1630,7 +1630,7 @@
             // 
             this.txtSettingsExtensionsExtensionFullName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtSettingsExtensionsExtensionFullName.ButtonAlignment = youtube_dl_gui.Controls.ButtonAlignments.Left;
+            this.txtSettingsExtensionsExtensionFullName.ButtonAlignment = murrty.controls.ButtonAlignment.Left;
             this.txtSettingsExtensionsExtensionFullName.ButtonCursor = System.Windows.Forms.Cursors.Default;
             this.txtSettingsExtensionsExtensionFullName.ButtonFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtSettingsExtensionsExtensionFullName.ButtonImageIndex = -1;
@@ -1865,9 +1865,9 @@
         private System.Windows.Forms.Button btnSettingsGeneralBrowseYoutubeDl;
         private System.Windows.Forms.CheckBox chkSettingsGeneralUseStaticYoutubeDl;
         private System.Windows.Forms.CheckBox chkSettingsGeneralUseStaticFFmpeg;
-        private youtube_dl_gui.Controls.ExtendedTextBox txtSettingsGeneralFFmpegPath;
+        private murrty.controls.ExtendedTextBox txtSettingsGeneralFFmpegPath;
         private System.Windows.Forms.Label lbSettingsGeneralFFmpegDirectory;
-        private youtube_dl_gui.Controls.ExtendedTextBox txtSettingsGeneralYoutubeDlPath;
+        private murrty.controls.ExtendedTextBox txtSettingsGeneralYoutubeDlPath;
         private System.Windows.Forms.Label lbSettingsGeneralYoutubeDlPath;
         private System.Windows.Forms.TabPage tabSettingsDownloads;
         private System.Windows.Forms.TabPage tabSettingsConverter;
@@ -1882,7 +1882,7 @@
         private System.Windows.Forms.CheckBox chkSettingsGeneralCheckForUpdatesOnLaunch;
         private System.Windows.Forms.CheckBox chksettingsDownloadsUseYoutubeDlsUpdater;
         private System.Windows.Forms.Button btnSettingsDownloadsBrowseSavePath;
-        private youtube_dl_gui.Controls.ExtendedTextBox txtSettingsDownloadsSavePath;
+        private murrty.controls.ExtendedTextBox txtSettingsDownloadsSavePath;
         private System.Windows.Forms.Label lbSettingsDownloadsDownloadPath;
         private System.Windows.Forms.Label lbSepDownloads;
         private System.Windows.Forms.CheckBox chkSettingsDownloadsSeparateDownloadsToDifferentFolders;
@@ -1910,7 +1910,7 @@
         private System.Windows.Forms.NumericUpDown numConvertVideoCRF;
         private System.Windows.Forms.CheckBox chkSettingsConverterVideoFastStart;
         private System.Windows.Forms.TabPage tcSettingsConverterCustom;
-        private youtube_dl_gui.Controls.ExtendedTextBox txtSettingsConverterCustomArguments;
+        private murrty.controls.ExtendedTextBox txtSettingsConverterCustomArguments;
         private System.Windows.Forms.Label lbSettingsConverterCustomHeader;
         private System.Windows.Forms.CheckBox chkSettingsConverterHideFFmpegCompileInfo;
         private System.Windows.Forms.TabPage tabSettingsErrors;
@@ -1924,9 +1924,9 @@
         private System.Windows.Forms.Button btnSettingsExtensionsRemoveSelected;
         private System.Windows.Forms.ListBox listExtensions;
         private System.Windows.Forms.Label lbSettingsExtensionsExtensionShort;
-        private youtube_dl_gui.Controls.ExtendedTextBox txtSettingsExtensionsExtensionShort;
+        private murrty.controls.ExtendedTextBox txtSettingsExtensionsExtensionShort;
         private System.Windows.Forms.Label lbSettingsExtensionsExtensionFullName;
-        private youtube_dl_gui.Controls.ExtendedTextBox txtSettingsExtensionsExtensionFullName;
+        private murrty.controls.ExtendedTextBox txtSettingsExtensionsExtensionFullName;
         private System.Windows.Forms.Button btnSettingsExtensionsAdd;
         private System.Windows.Forms.Label lbSettingsExtensionsFileName;
         private System.Windows.Forms.CheckBox chkSettingsConverterVideoCRF;
@@ -1955,8 +1955,8 @@
         private System.Windows.Forms.CheckBox chkSettingsDownloadsUseProxy;
         private System.Windows.Forms.CheckBox chkSettingsDownloadsForceIpv6;
         private System.Windows.Forms.CheckBox chkSettingsDownloadsForceIpv4;
-        private youtube_dl_gui.Controls.ExtendedTextBox txtSettingsDownloadsProxyPort;
-        private youtube_dl_gui.Controls.ExtendedTextBox txtSettingsDownloadsProxyIp;
+        private murrty.controls.ExtendedTextBox txtSettingsDownloadsProxyPort;
+        private murrty.controls.ExtendedTextBox txtSettingsDownloadsProxyIp;
         private System.Windows.Forms.Label lbSettingsDownloadsIpPort;
         private System.Windows.Forms.ComboBox cbSettingsDownloadsProxyType;
         private System.Windows.Forms.CheckBox chkSettingsDownloadsLimitDownload;

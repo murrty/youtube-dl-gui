@@ -69,7 +69,6 @@
             // 
             // pbIcon
             // 
-            this.pbIcon.Cursor = NativeMethods.SystemHandCursor;
             this.pbIcon.InitialImage = null;
             this.pbIcon.Location = new System.Drawing.Point(38, 3);
             this.pbIcon.Name = "pbIcon";
@@ -87,17 +86,20 @@
             this.llbGithub.TabIndex = 7;
             this.llbGithub.TabStop = true;
             this.llbGithub.Text = "Github";
+            this.llbGithub.VisitedLinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(0)))), ((int)(((byte)(128)))));
             this.llbGithub.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llbGithub_LinkClicked);
             // 
             // llbCheckForUpdates
             // 
-            this.llbCheckForUpdates.Location = new System.Drawing.Point(12, 119);
+            this.llbCheckForUpdates.AutoSize = true;
+            this.llbCheckForUpdates.Location = new System.Drawing.Point(85, 120);
             this.llbCheckForUpdates.Name = "llbCheckForUpdates";
-            this.llbCheckForUpdates.Size = new System.Drawing.Size(240, 14);
+            this.llbCheckForUpdates.Size = new System.Drawing.Size(94, 13);
             this.llbCheckForUpdates.TabIndex = 6;
             this.llbCheckForUpdates.TabStop = true;
             this.llbCheckForUpdates.Text = "Check for updates";
             this.llbCheckForUpdates.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.llbCheckForUpdates.VisitedLinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(0)))), ((int)(((byte)(128)))));
             this.llbCheckForUpdates.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llbCheckForUpdates_LinkClicked);
             // 
             // frmAbout
@@ -105,14 +107,14 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(264, 141);
+            this.ClientSize = new System.Drawing.Size(264, 145);
             this.Controls.Add(this.llbGithub);
             this.Controls.Add(this.pbIcon);
             this.Controls.Add(this.lbAboutBody);
             this.Controls.Add(this.lbHeader);
             this.Controls.Add(this.lbVersion);
             this.Controls.Add(this.llbCheckForUpdates);
-            this.Icon = Properties.Resources.youtube_dl_gui;
+            this.Icon = global::youtube_dl_gui.Properties.Resources.youtube_dl_gui;
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(280, 180);
             this.MinimumSize = new System.Drawing.Size(280, 180);

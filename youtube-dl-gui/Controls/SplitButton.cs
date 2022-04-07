@@ -89,7 +89,8 @@ namespace youtube_dl_gui.Controls {
 
         public void LaunchMenu() {
             if (_ContextMenu.MenuItems.Count > 0) {
-                _ContextMenu.Show(this, new Point(Width + 190, Height), LeftRightAlignment.Left);
+                //_ContextMenu.Show(this, new Point(Width + 190, Height), LeftRightAlignment.Left);
+                _ContextMenu.Show(this, new Point(Width, Height), LeftRightAlignment.Left);
             }
         }
 

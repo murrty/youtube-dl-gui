@@ -6,12 +6,16 @@ using System.Windows.Forms;
 namespace youtube_dl_gui {
     public partial class frmAbout : Form {
         Thread UpdateCheckThread;
-
         public frmAbout() {
             InitializeComponent();
             LoadLanguage();
             pbIcon.Image = Properties.Resources.youtube_dl_gui32;
             lbVersion.Text = $"v{(Program.IsBetaVersion ? Program.BetaVersion : Program.CurrentVersion)}";
+            llbCheckForUpdates.LinkVisited = Program.UpdateChecked;
+            llbCheckForUpdates.Location = new(
+                (this.ClientSize.Width - llbCheckForUpdates.Width) / 2,
+                llbCheckForUpdates.Location.Y
+            );
         }
 
         private void LoadLanguage() {
@@ -25,12 +29,18 @@ namespace youtube_dl_gui {
                 UpdateCheckThread = new Thread(() => {
                     try {
                         UpdateChecker.CheckForUpdate(true);
+                        Program.UpdateChecked = true;
+                        if (!this.IsDisposed) {
+                            llbCheckForUpdates.Invoke((Action)delegate {
+                                llbCheckForUpdates.LinkVisited = true;
+                            });
+                        }
                     }
                     catch (ThreadAbortException) {
                         // do nothing
                     }
                     catch (Exception ex) {
-                        ErrorLog.Report(ex);
+                        Log.ReportException(ex);
                     }
                 }) {
                     Name = "Checks for updates",
@@ -45,6 +55,5 @@ namespace youtube_dl_gui {
 
         private void llbGithub_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) =>
             Process.Start("https://github.com/murrty/youtube-dl-gui");
-
     }
 }

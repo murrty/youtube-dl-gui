@@ -82,6 +82,41 @@ namespace youtube_dl_gui {
             }
         }
 
+        public void Abort() {
+            switch (CurrentConversion.Status) {
+                case ConversionStatus.FfmpegError:
+                case ConversionStatus.ProgramError:
+                case ConversionStatus.Aborted:
+                    btnConverterAbortBatchConversions.Visible = false;
+                    btnConverterAbortBatchConversions.Enabled = false;
+                    this.Text = Program.lang.frmDownloader + " ";
+                    tmrTitleActivity.Start();
+                    BeginConversion();
+                    break;
+                default:
+                    AbortBatch = true;
+                    switch (CurrentConversion.Status) {
+                        case ConversionStatus.Finished:
+                        case ConversionStatus.Aborted:
+                        case ConversionStatus.FfmpegError:
+                        case ConversionStatus.ProgramError:
+                            rtbConsoleOutput.AppendText("The user requested to abort subsequent batch conversions");
+                            btnConverterAbortBatchConversions.Enabled = false;
+                            btnConverterAbortBatchConversions.Visible = false;
+                            break;
+                        default:
+                            if (ConverterThread != null && ConverterThread.IsAlive) {
+                                ConverterThread.Abort();
+                            }
+                            rtbConsoleOutput.AppendText("Additionally, the batch conversion has been cancelled.");
+                            CurrentConversion.Status = ConversionStatus.Aborted;
+                            this.Close();
+                            break;
+                    }
+                    break;
+            }
+        }
+
         private void tmrTitleActivity_Tick(object sender, EventArgs e) {
             if (this.Text.EndsWith("....")) this.Text = this.Text.TrimEnd('.');
             else this.Text += ".";
@@ -235,7 +270,7 @@ namespace youtube_dl_gui {
                     });
                 }
                 catch (Exception ex) {
-                    ErrorLog.Report(ex);
+                    Log.ReportException(ex);
                     CurrentConversion.Status = ConversionStatus.ProgramError;
                 }
                 finally {
@@ -336,37 +371,7 @@ namespace youtube_dl_gui {
         }
 
         private void btnConverterAbortBatchConversions_Click(object sender, EventArgs e) {
-            switch (CurrentConversion.Status) {
-                case ConversionStatus.FfmpegError:
-                case ConversionStatus.ProgramError:
-                case ConversionStatus.Aborted:
-                    btnConverterAbortBatchConversions.Visible = false;
-                    btnConverterAbortBatchConversions.Enabled = false;
-                    this.Text = Program.lang.frmDownloader + " ";
-                    tmrTitleActivity.Start();
-                    BeginConversion();
-                    break;
-                default:
-                    AbortBatch = true;
-                    switch (CurrentConversion.Status) {
-                        case ConversionStatus.Finished:
-                        case ConversionStatus.Aborted:
-                        case ConversionStatus.FfmpegError:
-                        case ConversionStatus.ProgramError:
-                            rtbConsoleOutput.AppendText("The user requested to abort subsequent batch conversions");
-                            btnConverterAbortBatchConversions.Enabled = false;
-                            btnConverterAbortBatchConversions.Visible = false;
-                            break;
-                        default:
-                            if (ConverterThread != null && ConverterThread.IsAlive) {
-                                ConverterThread.Abort();
-                            }
-                            rtbConsoleOutput.AppendText("Additionally, the batch conversion has been cancelled.");
-                            this.Close();
-                            break;
-                    }
-                    break;
-            }
+            Abort();
         }
 
         private void btnClearOutput_Click(object sender, EventArgs e) {

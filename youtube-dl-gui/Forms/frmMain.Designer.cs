@@ -39,12 +39,12 @@
             this.rbVideoSelectionBeforeDate = new System.Windows.Forms.RadioButton();
             this.rbVideoSelectionPlaylistIndex = new System.Windows.Forms.RadioButton();
             this.panelDate = new System.Windows.Forms.Panel();
-            this.txtVideoDate = new youtube_dl_gui.Controls.ExtendedTextBox();
+            this.txtVideoDate = new murrty.controls.ExtendedTextBox();
             this.panelPlaylistStartEnd = new System.Windows.Forms.Panel();
-            this.txtPlaylistEnd = new youtube_dl_gui.Controls.ExtendedTextBox();
-            this.txtPlaylistStart = new youtube_dl_gui.Controls.ExtendedTextBox();
+            this.txtPlaylistEnd = new murrty.controls.ExtendedTextBox();
+            this.txtPlaylistStart = new murrty.controls.ExtendedTextBox();
             this.panelPlaylistItems = new System.Windows.Forms.Panel();
-            this.txtPlaylistItems = new youtube_dl_gui.Controls.ExtendedTextBox();
+            this.txtPlaylistItems = new murrty.controls.ExtendedTextBox();
             this.cbFormat = new System.Windows.Forms.ComboBox();
             this.lbFormat = new System.Windows.Forms.Label();
             this.sbDownload = new youtube_dl_gui.Controls.SplitButton();
@@ -59,7 +59,7 @@
             this.rbCustom = new System.Windows.Forms.RadioButton();
             this.rbAudio = new System.Windows.Forms.RadioButton();
             this.rbVideo = new System.Windows.Forms.RadioButton();
-            this.txtUrl = new youtube_dl_gui.Controls.ExtendedTextBox();
+            this.txtUrl = new murrty.controls.ExtendedTextBox();
             this.tabConvert = new System.Windows.Forms.TabPage();
             this.rbConvertCustom = new System.Windows.Forms.RadioButton();
             this.rbConvertAudio = new System.Windows.Forms.RadioButton();
@@ -99,6 +99,7 @@
             this.mSettings = new System.Windows.Forms.MenuItem();
             this.mTools = new System.Windows.Forms.MenuItem();
             this.mBatchDownload = new System.Windows.Forms.MenuItem();
+            this.mBatchConverter = new System.Windows.Forms.MenuItem();
             this.mDownloadSubtitles = new System.Windows.Forms.MenuItem();
             this.mMiscTools = new System.Windows.Forms.MenuItem();
             this.mHelp = new System.Windows.Forms.MenuItem();
@@ -157,7 +158,7 @@
             this.tcMain.Location = new System.Drawing.Point(0, 0);
             this.tcMain.Name = "tcMain";
             this.tcMain.SelectedIndex = 0;
-            this.tcMain.Size = new System.Drawing.Size(244, 363);
+            this.tcMain.Size = new System.Drawing.Size(246, 344);
             this.tcMain.TabIndex = 0;
             // 
             // tabDownload
@@ -180,7 +181,7 @@
             this.tabDownload.Location = new System.Drawing.Point(4, 22);
             this.tabDownload.Name = "tabDownload";
             this.tabDownload.Padding = new System.Windows.Forms.Padding(3);
-            this.tabDownload.Size = new System.Drawing.Size(236, 337);
+            this.tabDownload.Size = new System.Drawing.Size(238, 318);
             this.tabDownload.TabIndex = 0;
             this.tabDownload.Text = "tabDownload";
             this.tabDownload.UseVisualStyleBackColor = true;
@@ -188,7 +189,7 @@
             // lbSchema
             // 
             this.lbSchema.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lbSchema.Location = new System.Drawing.Point(-5, 215);
+            this.lbSchema.Location = new System.Drawing.Point(-5, 196);
             this.lbSchema.Name = "lbSchema";
             this.lbSchema.Size = new System.Drawing.Size(63, 15);
             this.lbSchema.TabIndex = 23;
@@ -200,9 +201,9 @@
             this.cbSchema.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cbSchema.FormattingEnabled = true;
-            this.cbSchema.Location = new System.Drawing.Point(60, 213);
+            this.cbSchema.Location = new System.Drawing.Point(60, 194);
             this.cbSchema.Name = "cbSchema";
-            this.cbSchema.Size = new System.Drawing.Size(165, 21);
+            this.cbSchema.Size = new System.Drawing.Size(167, 21);
             this.cbSchema.TabIndex = 22;
             this.cbSchema.Text = "%(title)s-%(id)s.%(ext)s";
             // 
@@ -212,9 +213,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cbCustomArguments.Enabled = false;
             this.cbCustomArguments.FormattingEnabled = true;
-            this.cbCustomArguments.Location = new System.Drawing.Point(22, 263);
+            this.cbCustomArguments.Location = new System.Drawing.Point(22, 244);
             this.cbCustomArguments.Name = "cbCustomArguments";
-            this.cbCustomArguments.Size = new System.Drawing.Size(192, 21);
+            this.cbCustomArguments.Size = new System.Drawing.Size(194, 21);
             this.cbCustomArguments.TabIndex = 21;
             // 
             // chkUseSelection
@@ -243,7 +244,7 @@
             this.gbSelection.Location = new System.Drawing.Point(7, 163);
             this.gbSelection.MinimumSize = new System.Drawing.Size(0, 20);
             this.gbSelection.Name = "gbSelection";
-            this.gbSelection.Size = new System.Drawing.Size(225, 20);
+            this.gbSelection.Size = new System.Drawing.Size(227, 20);
             this.gbSelection.TabIndex = 19;
             this.gbSelection.TabStop = false;
             // 
@@ -251,7 +252,7 @@
             // 
             this.rbVideoSelectionPlaylistItems.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.rbVideoSelectionPlaylistItems.AutoSize = true;
-            this.rbVideoSelectionPlaylistItems.Location = new System.Drawing.Point(115, 19);
+            this.rbVideoSelectionPlaylistItems.Location = new System.Drawing.Point(116, 19);
             this.rbVideoSelectionPlaylistItems.Name = "rbVideoSelectionPlaylistItems";
             this.rbVideoSelectionPlaylistItems.Size = new System.Drawing.Size(174, 17);
             this.rbVideoSelectionPlaylistItems.TabIndex = 20;
@@ -264,7 +265,7 @@
             // 
             this.rbVideoSelectionAfterDate.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.rbVideoSelectionAfterDate.AutoSize = true;
-            this.rbVideoSelectionAfterDate.Location = new System.Drawing.Point(156, 42);
+            this.rbVideoSelectionAfterDate.Location = new System.Drawing.Point(157, 42);
             this.rbVideoSelectionAfterDate.Name = "rbVideoSelectionAfterDate";
             this.rbVideoSelectionAfterDate.Size = new System.Drawing.Size(161, 17);
             this.rbVideoSelectionAfterDate.TabIndex = 23;
@@ -277,7 +278,7 @@
             // 
             this.rbVideoSelectionOnDate.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.rbVideoSelectionOnDate.AutoSize = true;
-            this.rbVideoSelectionOnDate.Location = new System.Drawing.Point(88, 42);
+            this.rbVideoSelectionOnDate.Location = new System.Drawing.Point(89, 42);
             this.rbVideoSelectionOnDate.Name = "rbVideoSelectionOnDate";
             this.rbVideoSelectionOnDate.Size = new System.Drawing.Size(152, 17);
             this.rbVideoSelectionOnDate.TabIndex = 21;
@@ -290,7 +291,7 @@
             // 
             this.rbVideoSelectionBeforeDate.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.rbVideoSelectionBeforeDate.AutoSize = true;
-            this.rbVideoSelectionBeforeDate.Location = new System.Drawing.Point(6, 42);
+            this.rbVideoSelectionBeforeDate.Location = new System.Drawing.Point(7, 42);
             this.rbVideoSelectionBeforeDate.Name = "rbVideoSelectionBeforeDate";
             this.rbVideoSelectionBeforeDate.Size = new System.Drawing.Size(169, 17);
             this.rbVideoSelectionBeforeDate.TabIndex = 22;
@@ -303,7 +304,7 @@
             // 
             this.rbVideoSelectionPlaylistIndex.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.rbVideoSelectionPlaylistIndex.AutoSize = true;
-            this.rbVideoSelectionPlaylistIndex.Location = new System.Drawing.Point(25, 19);
+            this.rbVideoSelectionPlaylistIndex.Location = new System.Drawing.Point(26, 19);
             this.rbVideoSelectionPlaylistIndex.Name = "rbVideoSelectionPlaylistIndex";
             this.rbVideoSelectionPlaylistIndex.Size = new System.Drawing.Size(175, 17);
             this.rbVideoSelectionPlaylistIndex.TabIndex = 19;
@@ -319,7 +320,7 @@
             this.panelDate.Controls.Add(this.txtVideoDate);
             this.panelDate.Location = new System.Drawing.Point(7, 69);
             this.panelDate.Name = "panelDate";
-            this.panelDate.Size = new System.Drawing.Size(211, 26);
+            this.panelDate.Size = new System.Drawing.Size(213, 26);
             this.panelDate.TabIndex = 18;
             this.panelDate.Visible = false;
             // 
@@ -327,18 +328,18 @@
             // 
             this.txtVideoDate.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtVideoDate.ButtonAlignment = youtube_dl_gui.Controls.ButtonAlignments.Left;
+            this.txtVideoDate.ButtonAlignment = murrty.controls.ButtonAlignment.Left;
             this.txtVideoDate.ButtonCursor = System.Windows.Forms.Cursors.Default;
             this.txtVideoDate.ButtonFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtVideoDate.ButtonImageIndex = -1;
-            this.txtVideoDate.ButtonImageKey = "";
             this.txtVideoDate.ButtonSize = new System.Drawing.Size(22, 21);
             this.txtVideoDate.ButtonText = "";
             this.txtVideoDate.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.txtVideoDate.Location = new System.Drawing.Point(3, 3);
             this.txtVideoDate.MaxLength = 8;
             this.txtVideoDate.Name = "txtVideoDate";
-            this.txtVideoDate.Size = new System.Drawing.Size(205, 22);
+            this.txtVideoDate.RegexPatterns = null;
+            this.txtVideoDate.Size = new System.Drawing.Size(207, 22);
             this.txtVideoDate.TabIndex = 0;
             this.txtVideoDate.TextHint = "txtVideoDateHint";
             this.txtVideoDate.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtVideoDate_KeyPress);
@@ -348,7 +349,7 @@
             this.panelPlaylistStartEnd.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.panelPlaylistStartEnd.Controls.Add(this.txtPlaylistEnd);
             this.panelPlaylistStartEnd.Controls.Add(this.txtPlaylistStart);
-            this.panelPlaylistStartEnd.Location = new System.Drawing.Point(7, 69);
+            this.panelPlaylistStartEnd.Location = new System.Drawing.Point(8, 69);
             this.panelPlaylistStartEnd.Name = "panelPlaylistStartEnd";
             this.panelPlaylistStartEnd.Size = new System.Drawing.Size(211, 26);
             this.panelPlaylistStartEnd.TabIndex = 16;
@@ -356,37 +357,37 @@
             // 
             // txtPlaylistEnd
             // 
-            this.txtPlaylistEnd.ButtonAlignment = youtube_dl_gui.Controls.ButtonAlignments.Left;
+            this.txtPlaylistEnd.ButtonAlignment = murrty.controls.ButtonAlignment.Left;
             this.txtPlaylistEnd.ButtonCursor = System.Windows.Forms.Cursors.Default;
             this.txtPlaylistEnd.ButtonFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtPlaylistEnd.ButtonImageIndex = -1;
-            this.txtPlaylistEnd.ButtonImageKey = "";
             this.txtPlaylistEnd.ButtonSize = new System.Drawing.Size(22, 21);
             this.txtPlaylistEnd.ButtonText = "";
             this.txtPlaylistEnd.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.txtPlaylistEnd.Location = new System.Drawing.Point(108, 3);
             this.txtPlaylistEnd.Name = "txtPlaylistEnd";
+            this.txtPlaylistEnd.RegexPatterns = null;
             this.txtPlaylistEnd.Size = new System.Drawing.Size(100, 22);
             this.txtPlaylistEnd.TabIndex = 1;
             this.txtPlaylistEnd.TextHint = "txtPlaylistEndHint";
-            this.txtPlaylistEnd.TextType = youtube_dl_gui.Controls.AllowedTextTypes.NumericOnly;
+            this.txtPlaylistEnd.TextType = murrty.controls.AllowedCharacters.NumericOnly;
             // 
             // txtPlaylistStart
             // 
-            this.txtPlaylistStart.ButtonAlignment = youtube_dl_gui.Controls.ButtonAlignments.Left;
+            this.txtPlaylistStart.ButtonAlignment = murrty.controls.ButtonAlignment.Left;
             this.txtPlaylistStart.ButtonCursor = System.Windows.Forms.Cursors.Default;
             this.txtPlaylistStart.ButtonFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtPlaylistStart.ButtonImageIndex = -1;
-            this.txtPlaylistStart.ButtonImageKey = "";
             this.txtPlaylistStart.ButtonSize = new System.Drawing.Size(22, 21);
             this.txtPlaylistStart.ButtonText = "";
             this.txtPlaylistStart.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.txtPlaylistStart.Location = new System.Drawing.Point(3, 3);
             this.txtPlaylistStart.Name = "txtPlaylistStart";
+            this.txtPlaylistStart.RegexPatterns = null;
             this.txtPlaylistStart.Size = new System.Drawing.Size(100, 22);
             this.txtPlaylistStart.TabIndex = 0;
             this.txtPlaylistStart.TextHint = "txtPlaylistStartHint";
-            this.txtPlaylistStart.TextType = youtube_dl_gui.Controls.AllowedTextTypes.NumericOnly;
+            this.txtPlaylistStart.TextType = murrty.controls.AllowedCharacters.NumericOnly;
             // 
             // panelPlaylistItems
             // 
@@ -395,7 +396,7 @@
             this.panelPlaylistItems.Controls.Add(this.txtPlaylistItems);
             this.panelPlaylistItems.Location = new System.Drawing.Point(7, 69);
             this.panelPlaylistItems.Name = "panelPlaylistItems";
-            this.panelPlaylistItems.Size = new System.Drawing.Size(211, 26);
+            this.panelPlaylistItems.Size = new System.Drawing.Size(213, 26);
             this.panelPlaylistItems.TabIndex = 17;
             this.panelPlaylistItems.Visible = false;
             // 
@@ -403,17 +404,17 @@
             // 
             this.txtPlaylistItems.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtPlaylistItems.ButtonAlignment = youtube_dl_gui.Controls.ButtonAlignments.Left;
+            this.txtPlaylistItems.ButtonAlignment = murrty.controls.ButtonAlignment.Left;
             this.txtPlaylistItems.ButtonCursor = System.Windows.Forms.Cursors.Default;
             this.txtPlaylistItems.ButtonFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtPlaylistItems.ButtonImageIndex = -1;
-            this.txtPlaylistItems.ButtonImageKey = "";
             this.txtPlaylistItems.ButtonSize = new System.Drawing.Size(22, 21);
             this.txtPlaylistItems.ButtonText = "";
             this.txtPlaylistItems.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.txtPlaylistItems.Location = new System.Drawing.Point(3, 3);
             this.txtPlaylistItems.Name = "txtPlaylistItems";
-            this.txtPlaylistItems.Size = new System.Drawing.Size(205, 22);
+            this.txtPlaylistItems.RegexPatterns = null;
+            this.txtPlaylistItems.Size = new System.Drawing.Size(207, 22);
             this.txtPlaylistItems.TabIndex = 0;
             this.txtPlaylistItems.TextHint = "txtPlaylistItemsHint";
             this.txtPlaylistItems.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPlaylistItems_KeyPress);
@@ -423,7 +424,7 @@
             this.cbFormat.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.cbFormat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbFormat.FormattingEnabled = true;
-            this.cbFormat.Location = new System.Drawing.Point(70, 136);
+            this.cbFormat.Location = new System.Drawing.Point(71, 136);
             this.cbFormat.Name = "cbFormat";
             this.cbFormat.Size = new System.Drawing.Size(80, 21);
             this.cbFormat.TabIndex = 11;
@@ -431,7 +432,7 @@
             // lbFormat
             // 
             this.lbFormat.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.lbFormat.Location = new System.Drawing.Point(4, 139);
+            this.lbFormat.Location = new System.Drawing.Point(5, 139);
             this.lbFormat.Name = "lbFormat";
             this.lbFormat.Size = new System.Drawing.Size(63, 13);
             this.lbFormat.TabIndex = 10;
@@ -443,7 +444,7 @@
             this.sbDownload.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.sbDownload.DropDownContextMenu = this.cmDownload;
             this.sbDownload.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.sbDownload.Location = new System.Drawing.Point(77, 295);
+            this.sbDownload.Location = new System.Drawing.Point(78, 276);
             this.sbDownload.Name = "sbDownload";
             this.sbDownload.Size = new System.Drawing.Size(83, 25);
             this.sbDownload.TabIndex = 14;
@@ -475,7 +476,7 @@
             this.chkDownloadSound.AutoSize = true;
             this.chkDownloadSound.Checked = true;
             this.chkDownloadSound.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkDownloadSound.Location = new System.Drawing.Point(156, 109);
+            this.chkDownloadSound.Location = new System.Drawing.Point(157, 109);
             this.chkDownloadSound.Name = "chkDownloadSound";
             this.chkDownloadSound.Size = new System.Drawing.Size(131, 17);
             this.chkDownloadSound.TabIndex = 9;
@@ -488,7 +489,7 @@
             this.cbQuality.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.cbQuality.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbQuality.FormattingEnabled = true;
-            this.cbQuality.Location = new System.Drawing.Point(70, 107);
+            this.cbQuality.Location = new System.Drawing.Point(71, 107);
             this.cbQuality.Name = "cbQuality";
             this.cbQuality.Size = new System.Drawing.Size(80, 21);
             this.cbQuality.TabIndex = 8;
@@ -496,7 +497,7 @@
             // lbQuality
             // 
             this.lbQuality.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.lbQuality.Location = new System.Drawing.Point(4, 109);
+            this.lbQuality.Location = new System.Drawing.Point(5, 109);
             this.lbQuality.Name = "lbQuality";
             this.lbQuality.Size = new System.Drawing.Size(63, 15);
             this.lbQuality.TabIndex = 7;
@@ -507,7 +508,7 @@
             // 
             this.lbCustomArguments.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lbCustomArguments.AutoSize = true;
-            this.lbCustomArguments.Location = new System.Drawing.Point(15, 242);
+            this.lbCustomArguments.Location = new System.Drawing.Point(15, 223);
             this.lbCustomArguments.Name = "lbCustomArguments";
             this.lbCustomArguments.Size = new System.Drawing.Size(112, 13);
             this.lbCustomArguments.TabIndex = 12;
@@ -519,7 +520,7 @@
             this.gbDownloadType.Controls.Add(this.rbCustom);
             this.gbDownloadType.Controls.Add(this.rbAudio);
             this.gbDownloadType.Controls.Add(this.rbVideo);
-            this.gbDownloadType.Location = new System.Drawing.Point(7, 59);
+            this.gbDownloadType.Location = new System.Drawing.Point(8, 59);
             this.gbDownloadType.Name = "gbDownloadType";
             this.gbDownloadType.Size = new System.Drawing.Size(225, 40);
             this.gbDownloadType.TabIndex = 3;
@@ -569,19 +570,18 @@
             // 
             this.txtUrl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtUrl.ButtonAlignment = youtube_dl_gui.Controls.ButtonAlignments.Left;
+            this.txtUrl.ButtonAlignment = murrty.controls.ButtonAlignment.Left;
             this.txtUrl.ButtonCursor = System.Windows.Forms.Cursors.Default;
             this.txtUrl.ButtonFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtUrl.ButtonImageIndex = -1;
-            this.txtUrl.ButtonImageKey = "";
             this.txtUrl.ButtonSize = new System.Drawing.Size(22, 21);
             this.txtUrl.ButtonText = "";
             this.txtUrl.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.txtUrl.Location = new System.Drawing.Point(22, 26);
             this.txtUrl.Name = "txtUrl";
-            this.txtUrl.Size = new System.Drawing.Size(192, 22);
+            this.txtUrl.RegexPatterns = null;
+            this.txtUrl.Size = new System.Drawing.Size(194, 22);
             this.txtUrl.TabIndex = 2;
-            this.txtUrl.TextHint = "";
             this.txtUrl.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtUrl_KeyPress);
             this.txtUrl.MouseEnter += new System.EventHandler(this.txtUrl_MouseEnter);
             // 
@@ -602,7 +602,7 @@
             this.tabConvert.Location = new System.Drawing.Point(4, 22);
             this.tabConvert.Name = "tabConvert";
             this.tabConvert.Padding = new System.Windows.Forms.Padding(3);
-            this.tabConvert.Size = new System.Drawing.Size(236, 337);
+            this.tabConvert.Size = new System.Drawing.Size(238, 339);
             this.tabConvert.TabIndex = 1;
             this.tabConvert.Text = "tabConvert";
             this.tabConvert.UseVisualStyleBackColor = true;
@@ -757,7 +757,7 @@
             this.tabMerge.Location = new System.Drawing.Point(4, 22);
             this.tabMerge.Name = "tabMerge";
             this.tabMerge.Padding = new System.Windows.Forms.Padding(3);
-            this.tabMerge.Size = new System.Drawing.Size(236, 337);
+            this.tabMerge.Size = new System.Drawing.Size(238, 339);
             this.tabMerge.TabIndex = 2;
             this.tabMerge.Text = "tabMerge";
             this.tabMerge.UseVisualStyleBackColor = true;
@@ -903,7 +903,7 @@
             this.tabDebug.Location = new System.Drawing.Point(4, 22);
             this.tabDebug.Name = "tabDebug";
             this.tabDebug.Padding = new System.Windows.Forms.Padding(3);
-            this.tabDebug.Size = new System.Drawing.Size(236, 337);
+            this.tabDebug.Size = new System.Drawing.Size(238, 339);
             this.tabDebug.TabIndex = 3;
             this.tabDebug.Text = "Debug";
             this.tabDebug.UseVisualStyleBackColor = true;
@@ -1007,6 +1007,7 @@
             this.mTools.Index = 1;
             this.mTools.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.mBatchDownload,
+            this.mBatchConverter,
             this.mDownloadSubtitles,
             this.mMiscTools});
             this.mTools.Text = "mt";
@@ -1017,15 +1018,21 @@
             this.mBatchDownload.Text = "mBatchDownload";
             this.mBatchDownload.Click += new System.EventHandler(this.mBatchDownload_Click);
             // 
+            // mBatchConverter
+            // 
+            this.mBatchConverter.Index = 1;
+            this.mBatchConverter.Text = "mBatchConverter";
+            this.mBatchConverter.Click += new System.EventHandler(this.mBatchConverter_Click);
+            // 
             // mDownloadSubtitles
             // 
-            this.mDownloadSubtitles.Index = 1;
+            this.mDownloadSubtitles.Index = 2;
             this.mDownloadSubtitles.Text = "mDownloadSubtitles";
             this.mDownloadSubtitles.Click += new System.EventHandler(this.mDownloadSubtitles_Click);
             // 
             // mMiscTools
             // 
-            this.mMiscTools.Index = 2;
+            this.mMiscTools.Index = 3;
             this.mMiscTools.Text = "mMiscTools";
             this.mMiscTools.Click += new System.EventHandler(this.mMiscTools_Click);
             // 
@@ -1203,7 +1210,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(244, 363);
+            this.ClientSize = new System.Drawing.Size(246, 344);
             this.Controls.Add(this.tcMain);
             this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = global::youtube_dl_gui.Properties.Resources.youtube_dl_gui;
@@ -1318,16 +1325,16 @@
         private System.Windows.Forms.ComboBox cbFormat;
         private System.Windows.Forms.Label lbFormat;
         private System.Windows.Forms.Button btnDebugRotateQualityFormat;
-        public youtube_dl_gui.Controls.ExtendedTextBox txtUrl;
+        public murrty.controls.ExtendedTextBox txtUrl;
         private System.Windows.Forms.MenuItem mDownloadWithAuthentication;
         private System.Windows.Forms.Button btnDebugThrowException;
         private System.Windows.Forms.Panel panelPlaylistStartEnd;
-        private youtube_dl_gui.Controls.ExtendedTextBox txtPlaylistEnd;
-        private youtube_dl_gui.Controls.ExtendedTextBox txtPlaylistStart;
+        private murrty.controls.ExtendedTextBox txtPlaylistEnd;
+        private murrty.controls.ExtendedTextBox txtPlaylistStart;
         private System.Windows.Forms.Panel panelPlaylistItems;
-        private youtube_dl_gui.Controls.ExtendedTextBox txtPlaylistItems;
+        private murrty.controls.ExtendedTextBox txtPlaylistItems;
         private System.Windows.Forms.Panel panelDate;
-        private youtube_dl_gui.Controls.ExtendedTextBox txtVideoDate;
+        private murrty.controls.ExtendedTextBox txtVideoDate;
         private System.Windows.Forms.GroupBox gbSelection;
         private System.Windows.Forms.RadioButton rbVideoSelectionAfterDate;
         private System.Windows.Forms.RadioButton rbVideoSelectionBeforeDate;
@@ -1341,6 +1348,7 @@
         private System.Windows.Forms.CheckBox chkDebugDontDownload;
         private System.Windows.Forms.Label lbSchema;
         private System.Windows.Forms.ComboBox cbSchema;
+        private System.Windows.Forms.MenuItem mBatchConverter;
     }
 }
 

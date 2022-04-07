@@ -188,7 +188,7 @@ namespace youtube_dl_gui {
                 return true;
             }
             catch (Exception ex) {
-                ErrorLog.Report(ex);
+                Log.ReportException(ex);
                 return false;
             }
         }

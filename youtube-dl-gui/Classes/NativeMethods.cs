@@ -4,18 +4,13 @@ using System.Text;
 using System.Windows.Forms;
 
 namespace youtube_dl_gui {
-    class NativeMethods {
+    internal class NativeMethods {
 
         #region Ini
         [DllImport("kernel32", CharSet = CharSet.Unicode)]
         public static extern int WritePrivateProfileString(string Section, string Key, string Value, string FilePath);
         [DllImport("kernel32", CharSet = CharSet.Unicode)]
         public static extern int GetPrivateProfileString(string Section, string Key, string Default, StringBuilder RetVal, int Size, string FilePath);
-        #endregion
-
-        #region TextBox Hint
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, ThrowOnUnmappableChar = true)]
-        public static extern IntPtr SendMessage(IntPtr hWnd, int wMsg, IntPtr wParam, string lParam);
         #endregion
 
         #region System Hand Cursor for LinkLabelHand and Other Controls

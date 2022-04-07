@@ -6,7 +6,7 @@ namespace youtube_dl_gui {
     /// <summary>
     /// Controls the language strings of the program. Most, if not all, strings get their text from here.
     /// </summary>
-    public class Language {
+    public sealed class Language {
 
         #region GetSetRadio (AKA Properties)
 
@@ -33,6 +33,8 @@ namespace youtube_dl_gui {
         public string GenericExit { get; private set; }
         public string GenericOk { get; private set; }
         public string GenericSave { get; private set; }
+        public string GenericAdd { get; private set; }
+        public string GenericRemoveSelected { get; private set; }
         #endregion
 
         #region Dialogs
@@ -75,17 +77,31 @@ namespace youtube_dl_gui {
         public string btnAuthBeginDownload { get; private set; }
         #endregion
 
+        #region frmBatchConverter
+        public string frmBatchConverter { get; private set; }
+        public string lbBatchConverterInput { get; private set; }
+        public string txtBatchConverterInputFile { get; private set; }
+        public string lbBatchConverterOutput { get; private set; }
+        public string txtBatchConverterOutputFile { get; private set; }
+        public string txtBatchConverterCustomConversionArguments { get; private set; }
+        public string sbBatchConverterIdle { get; private set; }
+        public string sbBatchConverterConverting { get; private set; }
+        public string sbBatchConverterFinished { get; private set; }
+        public string sbBatchConverterAborted { get; private set; }
+        #endregion
+
         #region frmBatchDownloader
         public string frmBatchDownload { get; private set; }
         public string lbBatchDownloadLink { get; private set; }
         public string lbBatchDownloadType { get; private set; }
         public string lbBatchDownloadVideoSpecificArgument { get; private set; }
-        public string btnBatchDownloadAdd { get; private set; }
-        public string btnBatchDownloadRemoveSelected { get; private set; }
         public string sbBatchDownloadLoadArgs { get; private set; }
         public string mBatchDownloaderLoadArgsFromSettings { get; private set; }
         public string mBatchDownloaderLoadArgsFromArgsTxt { get; private set; }
         public string mBatchDownloaderLoadArgsFromFile { get; private set; }
+        public string sbBatchDownloaderImportLinks { get; private set; }
+        public string mBatchDownloaderImportLinksFromFile { get; private set; }
+        public string mBatchDownloaderImportLinksFromClipboard { get; private set; }
         public string sbBatchDownloaderIdle { get; private set; }
         public string sbBatchDownloaderDownloading { get; private set; }
         public string sbBatchDownloaderFinished { get; private set; }
@@ -130,6 +146,7 @@ namespace youtube_dl_gui {
         public string mSettings { get; private set; }
         public string mTools { get; private set; }
         public string mBatchDownload { get; private set; }
+        public string mBatchConvert { get; private set; }
         public string mDownloadSubtitles { get; private set; }
         public string mMiscTools { get; private set; }
         public string mHelp { get; private set; }
@@ -441,6 +458,8 @@ namespace youtube_dl_gui {
             public const string GenericExit = "Exit";
             public const string GenericOk = "OK";
             public const string GenericSave = "Save";
+            public const string GenericAdd = "Add";
+            public const string GenericRemoveSelected = "Remove selected";
 
             #region Dialogs
             public const string dlgFirstTimeInitialMessage = "youtube-dl-gui is a visual extension to youtube-dl and is not affiliated with the developers of youtube-dl in any way.\n\nThis program (and I) does not condone piracy or illegally downloading of any video you do not own the rights to or is not in public domain.\n\nAny help regarding any problems when downloading anything illegal (in my jurisdiction) will be ignored. This message will not appear again.\n\nHave you read the above?";
@@ -484,22 +503,36 @@ namespace youtube_dl_gui {
             public const string btnAuthBeginDownload = "Begin download";
             #endregion
 
+            #region frmBatchConverter
+            public const string frmBatchConverter = "Batch converter";
+            public const string lbBatchConverterInput = "Input file";
+            public const string txtBatchConverterInputFile = "File to be converted...";
+            public const string lbBatchConverterOutput = "Output file";
+            public const string txtBatchConverterOutputFile = "File to be created...";
+            public const string txtBatchConverterCustomConversionArguments = "Custom arguments (Leave empty for defaults)";
+            public const string sbBatchConverterIdle = "Waiting for batch conversion to start";
+            public const string sbBatchConverterConverting = "Batch conversion in progress...";
+            public const string sbBatchConverterFinished = "Batch conversion finished. Add more items to start another batch, or exit";
+            public const string sbBatchConverterAborted = "The batch conversion has been aborted";
+            #endregion
+
             #region frmBatchDownloader
             // frmBatch
             public const string frmBatchDownload = "Batch downloader";
             public const string lbBatchDownloadLink = "Download link";
             public const string lbBatchDownloadType = "Download type";
             public const string lbBatchDownloadVideoSpecificArgument = "Video-specific argument";
-            public const string btnBatchDownloadAdd = "Add";
             public const string sbBatchDownloadLoadArgs = "Load args";
             public const string mBatchDownloaderLoadArgsFromSettings = "Load args from settings";
             public const string mBatchDownloaderLoadArgsFromArgsTxt = "Load args from ./args.txt";
             public const string mBatchDownloaderLoadArgsFromFile = "Load args from file...";
-            public const string btnBatchDownloadRemoveSelected = "Remove selected";
+            public const string sbBatchDownloaderImportLinks = "Import links...";
+            public const string mBatchDownloaderImportLinksFromFile = "Import links from a file";
+            public const string mBatchDownloaderImportLinksFromClipboard = "Import links from the clipboard";
             public const string sbBatchDownloaderIdle = "Waiting for batch download start";
             public const string sbBatchDownloaderDownloading = "Batch download in progress...";
             public const string sbBatchDownloaderFinished = "Batch download finished. Add more items to start another batch, or exit";
-            public const string sbBatchDownloaderAborted = "The batch process has been aborted";
+            public const string sbBatchDownloaderAborted = "The batch download has been aborted";
             #endregion
 
             #region frmConverter
@@ -543,6 +576,7 @@ namespace youtube_dl_gui {
             public const string mSettings = "Settings";
             public const string mTools = "Tools";
             public const string mBatchDownload = "Batch download";
+            public const string mBatchConvert = "Batch convert";
             public const string mDownloadSubtitles = "Download subtitles";
             public const string mMiscTools = "Misc tools";
             public const string mHelp = "Help";
@@ -880,6 +914,8 @@ namespace youtube_dl_gui {
                 GenericExit = InternalEnglish.GenericExit;
                 GenericOk = InternalEnglish.GenericOk;
                 GenericSave = InternalEnglish.GenericSave;
+                GenericAdd = InternalEnglish.GenericAdd;
+                GenericRemoveSelected = InternalEnglish.GenericRemoveSelected;
 
                 // Dialogs
                 dlgFirstTimeInitialMessage = InternalEnglish.dlgFirstTimeInitialMessage;
@@ -918,17 +954,30 @@ namespace youtube_dl_gui {
                 lbAuthNoSave = InternalEnglish.lbAuthNoSave;
                 btnAuthBeginDownload = InternalEnglish.btnAuthBeginDownload;
 
-                // frmBatch
+                // frmBatchConvert
+                frmBatchConverter = InternalEnglish.frmBatchConverter;
+                lbBatchConverterInput = InternalEnglish.lbBatchConverterInput;
+                txtBatchConverterInputFile = InternalEnglish.txtBatchConverterInputFile;
+                lbBatchConverterOutput = InternalEnglish.lbBatchConverterOutput;
+                txtBatchConverterOutputFile = InternalEnglish.txtBatchConverterOutputFile;
+                txtBatchConverterCustomConversionArguments = InternalEnglish.txtBatchConverterCustomConversionArguments;
+                sbBatchConverterIdle = InternalEnglish.sbBatchConverterIdle;
+                sbBatchConverterConverting = InternalEnglish.sbBatchConverterConverting;
+                sbBatchConverterFinished = InternalEnglish.sbBatchConverterFinished;
+                sbBatchConverterAborted = InternalEnglish.sbBatchConverterAborted;
+
+                // frmBatchDownload
                 frmBatchDownload = InternalEnglish.frmBatchDownload;
                 lbBatchDownloadLink = InternalEnglish.lbBatchDownloadLink;
                 lbBatchDownloadType = InternalEnglish.lbBatchDownloadType;
                 lbBatchDownloadVideoSpecificArgument = InternalEnglish.lbBatchDownloadVideoSpecificArgument;
-                btnBatchDownloadAdd = InternalEnglish.btnBatchDownloadAdd;
                 sbBatchDownloadLoadArgs = InternalEnglish.sbBatchDownloadLoadArgs;
                 mBatchDownloaderLoadArgsFromSettings = InternalEnglish.mBatchDownloaderLoadArgsFromSettings;
                 mBatchDownloaderLoadArgsFromArgsTxt = InternalEnglish.mBatchDownloaderLoadArgsFromArgsTxt;
                 mBatchDownloaderLoadArgsFromFile = InternalEnglish.mBatchDownloaderLoadArgsFromFile;
-                btnBatchDownloadRemoveSelected = InternalEnglish.btnBatchDownloadRemoveSelected;
+                sbBatchDownloaderImportLinks = InternalEnglish.sbBatchDownloaderImportLinks;
+                mBatchDownloaderImportLinksFromFile = InternalEnglish.mBatchDownloaderImportLinksFromFile;
+                mBatchDownloaderImportLinksFromClipboard = InternalEnglish.mBatchDownloaderImportLinksFromClipboard;
                 sbBatchDownloaderIdle = InternalEnglish.sbBatchDownloaderIdle;
                 sbBatchDownloaderDownloading = InternalEnglish.sbBatchDownloaderDownloading;
                 sbBatchDownloaderFinished = InternalEnglish.sbBatchDownloaderFinished;
@@ -967,6 +1016,7 @@ namespace youtube_dl_gui {
                 mSettings = InternalEnglish.mSettings;
                 mTools = InternalEnglish.mTools;
                 mBatchDownload = InternalEnglish.mBatchDownload;
+                mBatchConvert = InternalEnglish.mBatchConvert;
                 mDownloadSubtitles = InternalEnglish.mDownloadSubtitles;
                 mMiscTools = InternalEnglish.mMiscTools;
                 mHelp = InternalEnglish.mHelp;
@@ -1272,6 +1322,8 @@ namespace youtube_dl_gui {
             GenericExit = "GenericExit";
             GenericOk = "GenericOk";
             GenericSave = "GenericSave";
+            GenericAdd = "GenericAdd";
+            GenericRemoveSelected = "GenericRemoveSelected";
 
             // Dialogs
             dlgFirstTimeInitialMessage = "dlgFirstTimeInitialMessage";
@@ -1308,17 +1360,30 @@ namespace youtube_dl_gui {
             lbAuthNoSave = "lbAuthNoSave";
             btnAuthBeginDownload = "btnAuthBeginDownload";
 
-            // frmBatch
+            // frmBatchConvert
+            frmBatchConverter = "frmBatchConverter";
+            lbBatchConverterInput = "lbBatchConverterInput";
+            txtBatchConverterInputFile = "txtBatchConverterInputFile";
+            lbBatchConverterOutput = "lbBatchConverterOutput";
+            txtBatchConverterOutputFile = "txtBatchConverterOutputFile";
+            txtBatchConverterCustomConversionArguments = "txtBatchConverterCustomConversionArguments";
+            sbBatchConverterIdle = "sbBatchConverterIdle";
+            sbBatchConverterConverting = "sbBatchConverterConverting";
+            sbBatchConverterFinished = "sbBatchConverterFinished";
+            sbBatchConverterAborted = "sbBatchConverterAborted";
+
+            // frmBatchDownload
             frmBatchDownload = "frmBatchDownload";
             lbBatchDownloadLink = "lbBatchDownloadLink";
             lbBatchDownloadType = "lbBatchDownloadType";
             lbBatchDownloadVideoSpecificArgument = "lbBatchDownloadVideoSpecificArgument";
-            btnBatchDownloadAdd = "btnBatchDownloadAdd";
             sbBatchDownloadLoadArgs = "sbBatchDownloadLoadArgs";
             mBatchDownloaderLoadArgsFromSettings = "mBatchDownloaderLoadArgsFromSettings";
             mBatchDownloaderLoadArgsFromArgsTxt = "mBatchDownloaderLoadArgsFromArgsTxt";
             mBatchDownloaderLoadArgsFromFile = "mBatchDownloaderLoadArgsFromFile";
-            btnBatchDownloadRemoveSelected = "btnBatchDownloadRemoveSelected";
+            sbBatchDownloaderImportLinks = "sbBatchDownloaderImportLinks";
+            mBatchDownloaderImportLinksFromFile = "mBatchDownloaderImportLinksFromFile";
+            mBatchDownloaderImportLinksFromClipboard = "mBatchDownloaderImportLinksFromClipboard";
             sbBatchDownloaderIdle = "sbBatchDownloaderIdle";
             sbBatchDownloaderDownloading = "sbBatchDownloaderDownloading";
             sbBatchDownloaderFinished = "sbBatchDownloaderFinished";
@@ -1357,6 +1422,7 @@ namespace youtube_dl_gui {
             mSettings = "mSettings";
             mTools = "mTools";
             mBatchDownload = "mBatchDownload";
+            mBatchConvert = "mBatchConvert";
             mDownloadSubtitles = "mDownloadSubtitles";
             mMiscTools = "mMiscTools";
             mHelp = "mHelp";
@@ -1728,6 +1794,12 @@ namespace youtube_dl_gui {
                                     case "genericsave":
                                         GenericSave = ReadValue;
                                         continue;
+                                    case "genericadd":
+                                        GenericAdd = ReadValue;
+                                        continue;
+                                    case "genericremoveselected":
+                                        GenericRemoveSelected = ReadValue;
+                                        continue;
                                     #endregion
 
                                     #region Dialogs
@@ -1826,6 +1898,39 @@ namespace youtube_dl_gui {
                                         continue;
                                     #endregion
 
+                                    #region frmBatchConverter
+                                    case "frmbatchconverter":
+                                        frmBatchConverter = ReadValue;
+                                        continue;
+                                    case "lbbatchconverterinput":
+                                        lbBatchConverterInput = ReadValue;
+                                        continue;
+                                    case "txtbatchconverterinputfile":
+                                        txtBatchConverterInputFile = ReadValue;
+                                        continue;
+                                    case "lbbatchconverteroutput":
+                                        lbBatchConverterOutput = ReadValue;
+                                        continue;
+                                    case "txtbatchconverteroutputfile":
+                                        txtBatchConverterOutputFile = ReadValue;
+                                        continue;
+                                    case "txtbatchconvertercustomconversionarguments":
+                                        txtBatchConverterCustomConversionArguments = ReadValue;
+                                        continue;
+                                    case "sbbatchconverteridle":
+                                        sbBatchConverterIdle = ReadValue;
+                                        continue;
+                                    case "sbbatchconverterconverting":
+                                        sbBatchConverterConverting = ReadValue;
+                                        continue;
+                                    case "sbbatchconverterfinished":
+                                        sbBatchConverterFinished = ReadValue;
+                                        continue;
+                                    case "sbbatchconverteraborted":
+                                        sbBatchConverterAborted = ReadValue;
+                                        continue;
+                                    #endregion
+
                                     #region frmBatchDownloader
                                     // frmBatchDownloader
                                     case "frmbatchdownload":
@@ -1840,9 +1945,6 @@ namespace youtube_dl_gui {
                                     case "lbbatchdownloadvideospecificargument":
                                         lbBatchDownloadVideoSpecificArgument = ReadValue;
                                         continue;
-                                    case "btnbatchdownloadadd":
-                                        btnBatchDownloadAdd = ReadValue;
-                                        continue;
                                     case "sbbatchdownloadloadargs":
                                         sbBatchDownloadLoadArgs = ReadValue;
                                         continue;
@@ -1855,8 +1957,14 @@ namespace youtube_dl_gui {
                                     case "mbatchdownloaderloadargsfromfile":
                                         mBatchDownloaderLoadArgsFromFile = ReadValue;
                                         continue;
-                                    case "btnbatchdownloadremoveselected":
-                                        btnBatchDownloadRemoveSelected = ReadValue;
+                                    case "sbbatchdownloaderimportlinks":
+                                        sbBatchDownloaderImportLinks = ReadValue;
+                                        continue;
+                                    case "mbatchdownloaderimportlinksfromfile":
+                                        mBatchDownloaderImportLinksFromFile = ReadValue;
+                                        continue;
+                                    case "mbatchdownloaderimportlinksfromclipboard":
+                                        mBatchDownloaderImportLinksFromClipboard = ReadValue;
                                         continue;
                                     case "sbbatchdownloaderidle":
                                         sbBatchDownloaderIdle = ReadValue;
@@ -1954,6 +2062,9 @@ namespace youtube_dl_gui {
                                         continue;
                                     case "mbatchdownload":
                                         mBatchDownload = ReadValue;
+                                        continue;
+                                    case "mbatchconvert":
+                                        mBatchConvert = ReadValue;
                                         continue;
                                     case "mdownloadsubtitles":
                                         mDownloadSubtitles = ReadValue;
@@ -2731,10 +2842,13 @@ namespace youtube_dl_gui {
                 }
             }
             catch (Exception ex) {
-                using murrty.frmException error = new(new(ex) {
-                    FromLanguage = true
+                using murrty.forms.frmException error = new(new(ex) {
+                    FromLanguage = true,
+                    AllowRetry = true
                 });
-                error.ShowDialog();
+                if (error.ShowDialog() == System.Windows.Forms.DialogResult.Retry) {
+                    return LoadLanguage(LanguageFile);
+                }
                 return false;
             }
         }

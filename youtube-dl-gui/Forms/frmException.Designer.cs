@@ -1,4 +1,4 @@
-﻿namespace murrty {
+﻿namespace murrty.forms {
     partial class frmException {
         private System.ComponentModel.IContainer components = null;
 

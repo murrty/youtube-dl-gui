@@ -24,7 +24,6 @@
         /// </summary>
         [System.Diagnostics.DebuggerStepThrough]
         private void InitializeComponent() {
-            this.components = new System.ComponentModel.Container();
             this.cbBatchDownloadType = new System.Windows.Forms.ComboBox();
             this.lbBatchDownloadLink = new System.Windows.Forms.Label();
             this.lbBatchDownloadType = new System.Windows.Forms.Label();
@@ -37,24 +36,29 @@
             this.mBatchDownloaderLoadArgsFromArgsTxt = new System.Windows.Forms.MenuItem();
             this.mBatchDownloaderLoadArgsFromFile = new System.Windows.Forms.MenuItem();
             this.sbBatchDownloader = new System.Windows.Forms.StatusBar();
-            this.ilBatchDownloadProgress = new System.Windows.Forms.ImageList(this.components);
             this.chkBatchDownloaderSoundVBR = new System.Windows.Forms.CheckBox();
             this.cbBatchQuality = new System.Windows.Forms.ComboBox();
             this.cbBatchFormat = new System.Windows.Forms.ComboBox();
+            this.cbArguments = new System.Windows.Forms.ComboBox();
+            this.cmBatchDownloaderImportLinks = new System.Windows.Forms.ContextMenu();
+            this.mBatchDownloaderImportLinksFromFile = new System.Windows.Forms.MenuItem();
+            this.mBatchDownloaderImportLinksFromClipboard = new System.Windows.Forms.MenuItem();
+            this.pnAudioVBR = new System.Windows.Forms.Panel();
+            this.sbBatchDownloaderImportLinks = new youtube_dl_gui.Controls.SplitButton();
             this.sbBatchDownloadLoadArgs = new youtube_dl_gui.Controls.SplitButton();
-            this.txtBatchDownloadLink = new youtube_dl_gui.Controls.ExtendedTextBox();
+            this.txtBatchDownloadLink = new murrty.controls.ExtendedTextBox();
             this.lvBatchDownloadQueue = new youtube_dl_gui.Controls.VistaListView();
             this.clUrl = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.clType = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.clArgs = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.cbArguments = new System.Windows.Forms.ComboBox();
+            this.pnAudioVBR.SuspendLayout();
             this.SuspendLayout();
             // 
             // cbBatchDownloadType
             // 
             this.cbBatchDownloadType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbBatchDownloadType.FormattingEnabled = true;
-            this.cbBatchDownloadType.Location = new System.Drawing.Point(278, 25);
+            this.cbBatchDownloadType.Location = new System.Drawing.Point(244, 25);
             this.cbBatchDownloadType.Name = "cbBatchDownloadType";
             this.cbBatchDownloadType.Size = new System.Drawing.Size(121, 21);
             this.cbBatchDownloadType.TabIndex = 4;
@@ -63,7 +67,7 @@
             // lbBatchDownloadLink
             // 
             this.lbBatchDownloadLink.AutoSize = true;
-            this.lbBatchDownloadLink.Location = new System.Drawing.Point(9, 9);
+            this.lbBatchDownloadLink.Location = new System.Drawing.Point(12, 9);
             this.lbBatchDownloadLink.Name = "lbBatchDownloadLink";
             this.lbBatchDownloadLink.Size = new System.Drawing.Size(111, 13);
             this.lbBatchDownloadLink.TabIndex = 0;
@@ -72,7 +76,7 @@
             // lbBatchDownloadType
             // 
             this.lbBatchDownloadType.AutoSize = true;
-            this.lbBatchDownloadType.Location = new System.Drawing.Point(275, 9);
+            this.lbBatchDownloadType.Location = new System.Drawing.Point(241, 9);
             this.lbBatchDownloadType.Name = "lbBatchDownloadType";
             this.lbBatchDownloadType.Size = new System.Drawing.Size(115, 13);
             this.lbBatchDownloadType.TabIndex = 1;
@@ -82,7 +86,7 @@
             // 
             this.lbBatchVideoSpecificArgument.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.lbBatchVideoSpecificArgument.AutoSize = true;
-            this.lbBatchVideoSpecificArgument.Location = new System.Drawing.Point(406, 9);
+            this.lbBatchVideoSpecificArgument.Location = new System.Drawing.Point(372, 9);
             this.lbBatchVideoSpecificArgument.Name = "lbBatchVideoSpecificArgument";
             this.lbBatchVideoSpecificArgument.Size = new System.Drawing.Size(153, 13);
             this.lbBatchVideoSpecificArgument.TabIndex = 2;
@@ -92,11 +96,11 @@
             // 
             this.btnBatchDownloadAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnBatchDownloadAdd.Enabled = false;
-            this.btnBatchDownloadAdd.Location = new System.Drawing.Point(565, 24);
+            this.btnBatchDownloadAdd.Location = new System.Drawing.Point(536, 24);
             this.btnBatchDownloadAdd.Name = "btnBatchDownloadAdd";
-            this.btnBatchDownloadAdd.Size = new System.Drawing.Size(75, 23);
+            this.btnBatchDownloadAdd.Size = new System.Drawing.Size(106, 23);
             this.btnBatchDownloadAdd.TabIndex = 8;
-            this.btnBatchDownloadAdd.Text = "btnBatchDownloadAdd";
+            this.btnBatchDownloadAdd.Text = "GenericAdd";
             this.btnBatchDownloadAdd.UseVisualStyleBackColor = true;
             this.btnBatchDownloadAdd.Click += new System.EventHandler(this.btnBatchDownloadAdd_Click);
             // 
@@ -104,11 +108,11 @@
             // 
             this.btnBatchDownloadRemoveSelected.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnBatchDownloadRemoveSelected.Enabled = false;
-            this.btnBatchDownloadRemoveSelected.Location = new System.Drawing.Point(565, 53);
+            this.btnBatchDownloadRemoveSelected.Location = new System.Drawing.Point(536, 53);
             this.btnBatchDownloadRemoveSelected.Name = "btnBatchDownloadRemoveSelected";
-            this.btnBatchDownloadRemoveSelected.Size = new System.Drawing.Size(75, 37);
+            this.btnBatchDownloadRemoveSelected.Size = new System.Drawing.Size(106, 37);
             this.btnBatchDownloadRemoveSelected.TabIndex = 10;
-            this.btnBatchDownloadRemoveSelected.Text = "btnBatchDownloadRemoveSelected";
+            this.btnBatchDownloadRemoveSelected.Text = "GenericRemoveSelected";
             this.btnBatchDownloadRemoveSelected.UseVisualStyleBackColor = true;
             this.btnBatchDownloadRemoveSelected.Click += new System.EventHandler(this.btnBatchDownloadRemoveSelected_Click);
             // 
@@ -116,9 +120,9 @@
             // 
             this.btnBatchDownloadStartStopExit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnBatchDownloadStartStopExit.Enabled = false;
-            this.btnBatchDownloadStartStopExit.Location = new System.Drawing.Point(565, 252);
+            this.btnBatchDownloadStartStopExit.Location = new System.Drawing.Point(536, 254);
             this.btnBatchDownloadStartStopExit.Name = "btnBatchDownloadStartStopExit";
-            this.btnBatchDownloadStartStopExit.Size = new System.Drawing.Size(75, 23);
+            this.btnBatchDownloadStartStopExit.Size = new System.Drawing.Size(106, 23);
             this.btnBatchDownloadStartStopExit.TabIndex = 13;
             this.btnBatchDownloadStartStopExit.Text = "btnBatchDownloadStart";
             this.btnBatchDownloadStartStopExit.UseVisualStyleBackColor = true;
@@ -151,30 +155,21 @@
             // 
             // sbBatchDownloader
             // 
-            this.sbBatchDownloader.Location = new System.Drawing.Point(0, 281);
+            this.sbBatchDownloader.Location = new System.Drawing.Point(0, 283);
             this.sbBatchDownloader.Name = "sbBatchDownloader";
-            this.sbBatchDownloader.Size = new System.Drawing.Size(652, 22);
-            this.sbBatchDownloader.SizingGrip = false;
+            this.sbBatchDownloader.Size = new System.Drawing.Size(654, 22);
             this.sbBatchDownloader.TabIndex = 14;
             this.sbBatchDownloader.Text = "sbBatchDownloader";
             // 
-            // ilBatchDownloadProgress
-            // 
-            this.ilBatchDownloadProgress.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
-            this.ilBatchDownloadProgress.ImageSize = new System.Drawing.Size(16, 16);
-            this.ilBatchDownloadProgress.TransparentColor = System.Drawing.Color.Transparent;
-            // 
             // chkBatchDownloaderSoundVBR
             // 
-            this.chkBatchDownloaderSoundVBR.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.chkBatchDownloaderSoundVBR.AutoSize = true;
-            this.chkBatchDownloaderSoundVBR.Location = new System.Drawing.Point(575, 100);
+            this.chkBatchDownloaderSoundVBR.Location = new System.Drawing.Point(6, 3);
             this.chkBatchDownloaderSoundVBR.Name = "chkBatchDownloaderSoundVBR";
             this.chkBatchDownloaderSoundVBR.Size = new System.Drawing.Size(181, 17);
             this.chkBatchDownloaderSoundVBR.TabIndex = 11;
             this.chkBatchDownloaderSoundVBR.Text = "chkBatchDownloaderSoundVBR";
             this.chkBatchDownloaderSoundVBR.UseVisualStyleBackColor = true;
-            this.chkBatchDownloaderSoundVBR.Visible = false;
             this.chkBatchDownloaderSoundVBR.CheckedChanged += new System.EventHandler(this.chkBatchDownloaderSoundVBR_CheckedChanged);
             // 
             // cbBatchQuality
@@ -182,7 +177,7 @@
             this.cbBatchQuality.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.cbBatchQuality.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbBatchQuality.FormattingEnabled = true;
-            this.cbBatchQuality.Location = new System.Drawing.Point(404, 25);
+            this.cbBatchQuality.Location = new System.Drawing.Point(370, 25);
             this.cbBatchQuality.Name = "cbBatchQuality";
             this.cbBatchQuality.Size = new System.Drawing.Size(77, 21);
             this.cbBatchQuality.TabIndex = 5;
@@ -193,20 +188,72 @@
             this.cbBatchFormat.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.cbBatchFormat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbBatchFormat.FormattingEnabled = true;
-            this.cbBatchFormat.Location = new System.Drawing.Point(487, 25);
+            this.cbBatchFormat.Location = new System.Drawing.Point(453, 25);
             this.cbBatchFormat.Name = "cbBatchFormat";
             this.cbBatchFormat.Size = new System.Drawing.Size(77, 21);
             this.cbBatchFormat.TabIndex = 6;
             this.cbBatchFormat.Visible = false;
+            // 
+            // cbArguments
+            // 
+            this.cbArguments.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cbArguments.FormattingEnabled = true;
+            this.cbArguments.Location = new System.Drawing.Point(375, 26);
+            this.cbArguments.Name = "cbArguments";
+            this.cbArguments.Size = new System.Drawing.Size(150, 21);
+            this.cbArguments.TabIndex = 15;
+            // 
+            // cmBatchDownloaderImportLinks
+            // 
+            this.cmBatchDownloaderImportLinks.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+            this.mBatchDownloaderImportLinksFromFile,
+            this.mBatchDownloaderImportLinksFromClipboard});
+            // 
+            // mBatchDownloaderImportLinksFromFile
+            // 
+            this.mBatchDownloaderImportLinksFromFile.Index = 0;
+            this.mBatchDownloaderImportLinksFromFile.Text = "mBatchDownloaderImportLinksFromFile";
+            this.mBatchDownloaderImportLinksFromFile.Click += new System.EventHandler(this.mBatchDownloaderImportLinksFromFile_Click);
+            // 
+            // mBatchDownloaderImportLinksFromClipboard
+            // 
+            this.mBatchDownloaderImportLinksFromClipboard.Index = 1;
+            this.mBatchDownloaderImportLinksFromClipboard.Text = "mBatchDownloaderImportLinksFromClipboard";
+            this.mBatchDownloaderImportLinksFromClipboard.Click += new System.EventHandler(this.mBatchDownloadImportLinksFromClipboard_Click);
+            // 
+            // pnAudioVBR
+            // 
+            this.pnAudioVBR.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pnAudioVBR.Controls.Add(this.chkBatchDownloaderSoundVBR);
+            this.pnAudioVBR.Location = new System.Drawing.Point(536, 96);
+            this.pnAudioVBR.Name = "pnAudioVBR";
+            this.pnAudioVBR.Size = new System.Drawing.Size(113, 23);
+            this.pnAudioVBR.TabIndex = 17;
+            this.pnAudioVBR.Visible = false;
+            // 
+            // sbBatchDownloaderImportLinks
+            // 
+            this.sbBatchDownloaderImportLinks.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.sbBatchDownloaderImportLinks.DropDownContextMenu = this.cmBatchDownloaderImportLinks;
+            this.sbBatchDownloaderImportLinks.Enabled = false;
+            this.sbBatchDownloaderImportLinks.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.sbBatchDownloaderImportLinks.Location = new System.Drawing.Point(536, 125);
+            this.sbBatchDownloaderImportLinks.Name = "sbBatchDownloaderImportLinks";
+            this.sbBatchDownloaderImportLinks.Size = new System.Drawing.Size(106, 23);
+            this.sbBatchDownloaderImportLinks.TabIndex = 16;
+            this.sbBatchDownloaderImportLinks.Text = "sbBatchDownloaderImportLinks";
+            this.sbBatchDownloaderImportLinks.UseVisualStyleBackColor = true;
+            this.sbBatchDownloaderImportLinks.Click += new System.EventHandler(this.sbImportLinks_Click);
             // 
             // sbBatchDownloadLoadArgs
             // 
             this.sbBatchDownloadLoadArgs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.sbBatchDownloadLoadArgs.DropDownContextMenu = this.mBatchDownloaderArgs;
             this.sbBatchDownloadLoadArgs.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.sbBatchDownloadLoadArgs.Location = new System.Drawing.Point(575, 96);
+            this.sbBatchDownloadLoadArgs.Location = new System.Drawing.Point(536, 96);
             this.sbBatchDownloadLoadArgs.Name = "sbBatchDownloadLoadArgs";
-            this.sbBatchDownloadLoadArgs.Size = new System.Drawing.Size(75, 23);
+            this.sbBatchDownloadLoadArgs.Size = new System.Drawing.Size(106, 23);
             this.sbBatchDownloadLoadArgs.TabIndex = 12;
             this.sbBatchDownloadLoadArgs.Text = "sbBatchDownloadLoadArgs";
             this.sbBatchDownloadLoadArgs.UseVisualStyleBackColor = true;
@@ -216,17 +263,17 @@
             // txtBatchDownloadLink
             // 
             this.txtBatchDownloadLink.AllowDrop = true;
-            this.txtBatchDownloadLink.ButtonAlignment = youtube_dl_gui.Controls.ButtonAlignments.Left;
+            this.txtBatchDownloadLink.ButtonAlignment = murrty.controls.ButtonAlignment.Left;
             this.txtBatchDownloadLink.ButtonCursor = System.Windows.Forms.Cursors.Default;
             this.txtBatchDownloadLink.ButtonFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtBatchDownloadLink.ButtonImageIndex = -1;
-            this.txtBatchDownloadLink.ButtonImageKey = "";
             this.txtBatchDownloadLink.ButtonSize = new System.Drawing.Size(22, 19);
             this.txtBatchDownloadLink.ButtonText = "";
             this.txtBatchDownloadLink.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.txtBatchDownloadLink.Location = new System.Drawing.Point(12, 26);
+            this.txtBatchDownloadLink.Location = new System.Drawing.Point(15, 26);
             this.txtBatchDownloadLink.Name = "txtBatchDownloadLink";
-            this.txtBatchDownloadLink.Size = new System.Drawing.Size(256, 20);
+            this.txtBatchDownloadLink.RegexPatterns = null;
+            this.txtBatchDownloadLink.Size = new System.Drawing.Size(223, 20);
             this.txtBatchDownloadLink.TabIndex = 3;
             this.txtBatchDownloadLink.TextHint = "https://...";
             this.txtBatchDownloadLink.TextChanged += new System.EventHandler(this.txtBatchDownloadLink_TextChanged);
@@ -245,10 +292,9 @@
             this.lvBatchDownloadQueue.EnableVistaView = true;
             this.lvBatchDownloadQueue.FullRowSelect = true;
             this.lvBatchDownloadQueue.HideSelection = false;
-            this.lvBatchDownloadQueue.Location = new System.Drawing.Point(12, 51);
+            this.lvBatchDownloadQueue.Location = new System.Drawing.Point(12, 52);
             this.lvBatchDownloadQueue.Name = "lvBatchDownloadQueue";
-            this.lvBatchDownloadQueue.Size = new System.Drawing.Size(547, 224);
-            this.lvBatchDownloadQueue.SmallImageList = this.ilBatchDownloadProgress;
+            this.lvBatchDownloadQueue.Size = new System.Drawing.Size(518, 225);
             this.lvBatchDownloadQueue.TabIndex = 9;
             this.lvBatchDownloadQueue.UseCompatibleStateImageBehavior = false;
             this.lvBatchDownloadQueue.View = System.Windows.Forms.View.Details;
@@ -269,24 +315,14 @@
             // clArgs
             // 
             this.clArgs.Text = "Args";
-            this.clArgs.Width = 210;
-            // 
-            // cbArguments
-            // 
-            this.cbArguments.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.cbArguments.FormattingEnabled = true;
-            this.cbArguments.Location = new System.Drawing.Point(409, 26);
-            this.cbArguments.Name = "cbArguments";
-            this.cbArguments.Size = new System.Drawing.Size(150, 21);
-            this.cbArguments.TabIndex = 15;
+            this.clArgs.Width = 138;
             // 
             // frmBatchDownloader
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(652, 303);
-            this.Controls.Add(this.chkBatchDownloaderSoundVBR);
+            this.ClientSize = new System.Drawing.Size(654, 305);
+            this.Controls.Add(this.sbBatchDownloaderImportLinks);
             this.Controls.Add(this.sbBatchDownloader);
             this.Controls.Add(this.sbBatchDownloadLoadArgs);
             this.Controls.Add(this.txtBatchDownloadLink);
@@ -301,6 +337,7 @@
             this.Controls.Add(this.cbBatchQuality);
             this.Controls.Add(this.cbBatchFormat);
             this.Controls.Add(this.cbArguments);
+            this.Controls.Add(this.pnAudioVBR);
             this.Icon = global::youtube_dl_gui.Properties.Resources.youtube_dl_gui;
             this.MinimumSize = new System.Drawing.Size(670, 340);
             this.Name = "frmBatchDownloader";
@@ -309,6 +346,8 @@
             this.Text = "frmBatchDownloader";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmBatchDownloader_FormClosing);
             this.Load += new System.EventHandler(this.frmBatchDownloader_Load);
+            this.pnAudioVBR.ResumeLayout(false);
+            this.pnAudioVBR.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -326,18 +365,22 @@
         private youtube_dl_gui.Controls.VistaListView lvBatchDownloadQueue;
         private System.Windows.Forms.ColumnHeader clUrl;
         private System.Windows.Forms.ColumnHeader clArgs;
-        private youtube_dl_gui.Controls.ExtendedTextBox txtBatchDownloadLink;
+        private murrty.controls.ExtendedTextBox txtBatchDownloadLink;
         private youtube_dl_gui.Controls.SplitButton sbBatchDownloadLoadArgs;
         private System.Windows.Forms.ContextMenu mBatchDownloaderArgs;
         private System.Windows.Forms.MenuItem mBatchDownloaderLoadArgsFromSettings;
         private System.Windows.Forms.MenuItem mBatchDownloaderLoadArgsFromArgsTxt;
         private System.Windows.Forms.MenuItem mBatchDownloaderLoadArgsFromFile;
         private System.Windows.Forms.StatusBar sbBatchDownloader;
-        private System.Windows.Forms.ImageList ilBatchDownloadProgress;
         private System.Windows.Forms.CheckBox chkBatchDownloaderSoundVBR;
         private System.Windows.Forms.ComboBox cbBatchQuality;
         private System.Windows.Forms.ComboBox cbBatchFormat;
         private System.Windows.Forms.ColumnHeader clType;
         private System.Windows.Forms.ComboBox cbArguments;
+        private Controls.SplitButton sbBatchDownloaderImportLinks;
+        private System.Windows.Forms.ContextMenu cmBatchDownloaderImportLinks;
+        private System.Windows.Forms.MenuItem mBatchDownloaderImportLinksFromFile;
+        private System.Windows.Forms.MenuItem mBatchDownloaderImportLinksFromClipboard;
+        private System.Windows.Forms.Panel pnAudioVBR;
     }
 }

@@ -90,14 +90,14 @@
     <Compile Include="Classes\Language.cs" />
     <Compile Include="Classes\NativeMethods.cs" />
     <Compile Include="Classes\UpdateChecker.cs" />
-    <Compile Include="Classes\ErrorLog.cs" />
+    <Compile Include="Log.cs" />
     <Compile Include="Controls\ExtendedRichTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controls\ExtendedTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controls\LinkLabelHand.cs">
+    <Compile Include="Controls\ExtendedLinkLabel.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controls\SplitButton.cs">
@@ -339,7 +339,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PreBuildEvent>if $(ConfigurationName) == Release "$(SolutionDir)\BuildDateWriter.exe" "$(ProjectDir)\Resources\BuildDate.txt"</PreBuildEvent>
+    <PreBuildEvent>if $(ConfigurationName) == Release "$BuildDateWriter.exe" "$(ProjectDir)\Resources\BuildDate.txt"</PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PostBuildEvent>if $(ConfigurationName) == Release xcopy "$(SolutionDir)Languages\*.ini" "$(SolutionDir)Release\lang\*.ini" /y

@@ -30,7 +30,11 @@ namespace youtube_dl_gui {
             btnAuthGenericCancel.Text = Program.lang.GenericCancel;
         }
         private void CalculatePositions() {
-            chkAuthUseNetrc.Location = new((this.Size.Width - chkAuthUseNetrc.Size.Width) / 2, chkAuthUseNetrc.Location.Y);
+            chkAuthUseNetrc.Location = new(
+                //(this.Size.Width - chkAuthUseNetrc.Size.Width) / 2,
+                (this.ClientSize.Width - chkAuthUseNetrc.Size.Width) / 2,
+                chkAuthUseNetrc.Location.Y
+            );
         }
 
         private void chkPasswordVisible_CheckedChanged(object sender, EventArgs e) {

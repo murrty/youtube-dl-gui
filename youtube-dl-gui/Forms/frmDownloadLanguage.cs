@@ -41,7 +41,7 @@ namespace youtube_dl_gui {
                 }
             }
             catch (Exception ex) {
-                ErrorLog.Report(ex);
+                Log.ReportException(ex);
             }
             if (Config.Settings.Initialization.firstTime) {
                 btnCancel.Text = Language.InternalEnglish.GenericCancel;
@@ -59,13 +59,14 @@ namespace youtube_dl_gui {
 
         private void DownloadSelectedLanguageFile() {
             using System.Net.WebClient wc = new();
-RetryDownload:
+            string URL = EnumeratedLanguages[listView1.SelectedIndices[0]].DownloadUrl;
+
             try {
                 if (!System.IO.Directory.Exists(Environment.CurrentDirectory + "\\lang")) {
                     System.IO.Directory.CreateDirectory(Environment.CurrentDirectory + "\\lang");
                 }
 
-                wc.DownloadFile(EnumeratedLanguages[listView1.SelectedIndices[0]].DownloadUrl, Environment.CurrentDirectory + "\\lang\\" + EnumeratedLanguages[listView1.SelectedIndices[0]].Name);
+                wc.DownloadFile(URL, Environment.CurrentDirectory + "\\lang\\" + EnumeratedLanguages[listView1.SelectedIndices[0]].Name);
 
                 // The SHA on github doesn't match what I can calculate here.
                 //if (Program.CalculateSha1Hash(Environment.CurrentDirectory + "\\lang\\" + EnumeratedLanguages[listView1.SelectedIndices[0]].Name).ToLower() != EnumeratedLanguages[listView1.SelectedIndices[0]].Sha.ToLower()) {
@@ -74,27 +75,18 @@ RetryDownload:
                 Downloaded[listView1.SelectedIndices[0]] = true;
             }
             catch (System.Net.WebException wex) {
-                using murrty.frmException ShowEx = new(new(wex) {
-                    AllowRetry = true
-                });
-
-                if (ShowEx.ShowDialog() == DialogResult.Retry) {
-                    goto RetryDownload;
+                if (Log.ReportRetriableException(wex, URL) == DialogResult.Retry) {
+                    DownloadSelectedLanguageFile();
                 }
             }
             catch (Exception ex) {
-                using murrty.frmException ShowEx = new(new(ex) {
-                    AllowRetry = true
-                });
-
-                if (ShowEx.ShowDialog() == DialogResult.Retry) {
-                    goto RetryDownload;
+                if (Log.ReportRetriableException(ex) == DialogResult.Retry) {
+                    DownloadSelectedLanguageFile();
                 }
             }
         }
 
         private void btnDownloadSelected_Click(object sender, EventArgs e) {
-
             DownloadSelectedLanguageFile();
         }
 

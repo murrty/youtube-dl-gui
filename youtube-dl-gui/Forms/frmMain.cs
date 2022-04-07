@@ -72,7 +72,7 @@ namespace youtube_dl_gui {
                         // do nothing
                     }
                     catch (Exception ex) {
-                        ErrorLog.Report(ex);
+                        Log.ReportException(ex);
                     }
                 }) {
                     Name = "Checks for updates",
@@ -206,6 +206,7 @@ namespace youtube_dl_gui {
             mSettings.Text = Program.lang.mSettings;
             mTools.Text = Program.lang.mTools;
             mBatchDownload.Text = Program.lang.mBatchDownload;
+            mBatchConverter.Text = Program.lang.mBatchConvert;
             mDownloadSubtitles.Text = Program.lang.mDownloadSubtitles;
             mMiscTools.Text = Program.lang.mMiscTools;
             mHelp.Text = Program.lang.mHelp;
@@ -391,6 +392,10 @@ namespace youtube_dl_gui {
         private void mBatchDownload_Click(object sender, EventArgs e) {
             frmBatchDownloader batch = new();
             batch.Show();
+        }
+        private void mBatchConverter_Click(object sender, EventArgs e) {
+            using frmBatchConverter BatchConvert = new();
+            BatchConvert.ShowDialog();
         }
         private void mDownloadSubtitles_Click(object sender, EventArgs e) {
             frmSubtitles downloadSubtitles = new();
@@ -992,7 +997,7 @@ namespace youtube_dl_gui {
                 }
             }
             catch (Exception ex) {
-                ErrorLog.Report(ex);
+                Log.ReportException(ex);
             }
         }
         #endregion
@@ -1002,12 +1007,13 @@ namespace youtube_dl_gui {
             using OpenFileDialog ofd = new();
             ofd.Title = Program.lang.dlgConvertSelectFileToConvert;
             ofd.AutoUpgradeEnabled = true;
+            ofd.Multiselect = false;
             string AllFormats = Formats.JoinFormats(new[] {
-                    Formats.AllFiles,
-                    Formats.VideoFormats,
-                    Formats.AudioFormats,
-                    !string.IsNullOrWhiteSpace(Formats.CustomFormats) ? Formats.CustomFormats : ""
-                });
+                Formats.AllFiles,
+                Formats.VideoFormats,
+                Formats.AudioFormats,
+                !string.IsNullOrWhiteSpace(Formats.CustomFormats) ? Formats.CustomFormats : ""
+            });
 
             ofd.Filter = AllFormats;
 
@@ -1265,7 +1271,7 @@ namespace youtube_dl_gui {
                 throw new Exception("An exception has been thrown.");
             }
             catch (Exception ex) {
-                ErrorLog.Report(ex, false);
+                Log.ReportException(ex, false);
             }
         }
         private void btnYtdlVersion_Click(object sender, EventArgs e) {

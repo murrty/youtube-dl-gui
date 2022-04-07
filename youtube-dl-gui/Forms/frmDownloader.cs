@@ -537,7 +537,7 @@ sanitizecheck:
                     CurrentDownload.Status = DownloadStatus.Aborted;
                 }
                 catch (Exception ex) {
-                    ErrorLog.Report(ex);
+                    Log.ReportException(ex);
                     CurrentDownload.Status = DownloadStatus.ProgramError;
                 }
                 finally {

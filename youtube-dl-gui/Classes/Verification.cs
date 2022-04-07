@@ -89,7 +89,7 @@ namespace youtube_dl_gui {
                 return System.Diagnostics.FileVersionInfo.GetVersionInfo(ProgramPath).ProductVersion;
             }
             catch (Exception ex) {
-                ErrorLog.Report(ex);
+                Log.ReportException(ex);
                 return null;
             }
         }

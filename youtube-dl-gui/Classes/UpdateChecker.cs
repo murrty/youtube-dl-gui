@@ -46,7 +46,7 @@ namespace youtube_dl_gui {
                                 UpdateApplication();
                             }
                             catch (Exception ex) {
-                                ErrorLog.Report(ex);
+                                Log.ReportException(ex);
                                 return;
                             }
                             break;
@@ -66,7 +66,7 @@ namespace youtube_dl_gui {
                                             UpdateApplication();
                                         }
                                         catch (Exception ex) {
-                                            ErrorLog.Report(ex);
+                                            Log.ReportException(ex);
                                             return;
                                         }
                                         break;
@@ -103,7 +103,7 @@ namespace youtube_dl_gui {
                                             UpdateApplication();
                                         }
                                         catch (Exception ex) {
-                                            ErrorLog.Report(ex);
+                                            Log.ReportException(ex);
                                             return;
                                         }
                                         break;
@@ -131,16 +131,16 @@ namespace youtube_dl_gui {
             }
             catch (ApiParsingException APEx) {
                 FailedToCheck = true;
-                ErrorLog.Report(APEx);
+                Log.ReportException(APEx);
             }
             catch (DecimalParsingException DPEx) {
                 FailedToCheck = true;
-                ErrorLog.Report(DPEx);
+                Log.ReportException(DPEx);
             }
             catch (WebException WebEx) {
                 FailedToCheck = true;
                 if (Config.Settings.General.DownloadBetaVersions) {
-                    ErrorLog.Report(WebEx,
+                    Log.ReportException(WebEx,
                         string.Format(
                             GitData.GitLinks.GithubAllReleasesJson,
                             "murrty",
@@ -149,7 +149,7 @@ namespace youtube_dl_gui {
                     );
                 }
                 else {
-                    ErrorLog.Report(WebEx,
+                    Log.ReportException(WebEx,
                         string.Format(
                             GitData.GitLinks.GithubLatestJson,
                             "murrty",
@@ -160,7 +160,7 @@ namespace youtube_dl_gui {
             }
             catch (Exception ex) {
                 FailedToCheck = true;
-                ErrorLog.Report(ex);
+                Log.ReportException(ex);
             }
             finally {
                 if (FailedToCheck) {
@@ -274,7 +274,7 @@ namespace youtube_dl_gui {
                             }
                             catch (WebException webex) {
 
-                                ErrorLog.Report(
+                                Log.ReportException(
                                     webex,
                                     string.Format(
                                         GitData.GitLinks.ApplicationDownloadUrl,
@@ -286,7 +286,7 @@ namespace youtube_dl_gui {
 
                             }
                             catch (Exception ex) {
-                                ErrorLog.Report(ex);
+                                Log.ReportException(ex);
                             }
                         }) {
                             Name = "Downloading youtube-dl"
@@ -305,13 +305,13 @@ namespace youtube_dl_gui {
                 }
             }
             catch (ApiParsingException APEx) {
-                ErrorLog.Report(APEx);
+                Log.ReportException(APEx);
             }
             catch (DecimalParsingException DPEx) {
-                ErrorLog.Report(DPEx);
+                Log.ReportException(DPEx);
             }
             catch (WebException WebEx) {
-                ErrorLog.Report(WebEx,
+                Log.ReportException(WebEx,
                     string.Format(
                         GitData.GitLinks.GithubLatestJson,
                         "murrty",
@@ -320,7 +320,7 @@ namespace youtube_dl_gui {
                 );
             }
             catch (Exception ex) {
-                ErrorLog.Report(ex);
+                Log.ReportException(ex);
             }
         }
         #endregion
@@ -545,7 +545,7 @@ namespace youtube_dl_gui {
                 return GitInfo.YoutubeDlVersion;
             }
             catch (WebException WebEx) {
-                ErrorLog.Report(WebEx, Url);
+                Log.ReportException(WebEx, Url);
                 return null;
             }
             catch {

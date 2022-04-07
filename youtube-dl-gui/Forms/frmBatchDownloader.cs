@@ -32,6 +32,7 @@ namespace youtube_dl_gui {
             StatusImages.Images.Add(Properties.Resources.download);
             StatusImages.Images.Add(Properties.Resources.finished);
             StatusImages.Images.Add(Properties.Resources.error);
+            lvBatchDownloadQueue.SmallImageList = StatusImages;
         }
 
         void LoadLanguage() {
@@ -39,12 +40,12 @@ namespace youtube_dl_gui {
             lbBatchDownloadLink.Text = Program.lang.lbBatchDownloadLink;
             lbBatchDownloadType.Text = Program.lang.lbBatchDownloadType;
             lbBatchVideoSpecificArgument.Text = Program.lang.lbBatchDownloadVideoSpecificArgument;
-            btnBatchDownloadAdd.Text = Program.lang.btnBatchDownloadAdd;
+            btnBatchDownloadAdd.Text = Program.lang.GenericAdd;
             sbBatchDownloadLoadArgs.Text = Program.lang.sbBatchDownloadLoadArgs;
             mBatchDownloaderLoadArgsFromSettings.Text = Program.lang.mBatchDownloaderLoadArgsFromSettings;
             mBatchDownloaderLoadArgsFromArgsTxt.Text = Program.lang.mBatchDownloaderLoadArgsFromArgsTxt;
             mBatchDownloaderLoadArgsFromFile.Text = Program.lang.mBatchDownloaderLoadArgsFromFile;
-            btnBatchDownloadRemoveSelected.Text = Program.lang.btnBatchDownloadRemoveSelected;
+            btnBatchDownloadRemoveSelected.Text = Program.lang.GenericRemoveSelected;
             btnBatchDownloadStartStopExit.Text = Program.lang.GenericStart;
             sbBatchDownloader.Text = Program.lang.sbBatchDownloaderIdle;
             lvBatchDownloadQueue.Columns[1].Text = Program.lang.lbBatchDownloadType;
@@ -52,6 +53,7 @@ namespace youtube_dl_gui {
             cbBatchDownloadType.Items.Add(Program.lang.GenericVideo);
             cbBatchDownloadType.Items.Add(Program.lang.GenericAudio);
             cbBatchDownloadType.Items.Add(Program.lang.GenericCustom);
+            sbBatchDownloaderImportLinks.Text = Program.lang.sbBatchDownloaderImportLinks;
         }
 
         private void frmBatchDownloader_Load(object sender, EventArgs e) {
@@ -89,20 +91,19 @@ namespace youtube_dl_gui {
         }
 
         private void txtBatchDownloadLink_TextChanged(object sender, EventArgs e) {
-            if (string.IsNullOrEmpty(txtBatchDownloadLink.Text) || cbBatchDownloadType.SelectedIndex < 0) {
-                btnBatchDownloadAdd.Enabled = false;
-            }
-            else {
-                btnBatchDownloadAdd.Enabled = true;
-            }
+            btnBatchDownloadAdd.Enabled = !string.IsNullOrWhiteSpace(txtBatchDownloadLink.Text) && cbBatchDownloadType.SelectedIndex > -1;
         }
 
         private void txtBatchDownloadLink_KeyPress(object sender, KeyPressEventArgs e) {
-            if (e.KeyChar == 13) { AddItemToList(); }
+            if (e.KeyChar == 13) {
+                AddItemToList(txtBatchDownloadLink.Text);
+                txtBatchDownloadLink.Clear();
+            }
         }
 
         private void btnBatchDownloadAdd_Click(object sender, EventArgs e) {
-            AddItemToList();
+            AddItemToList(txtBatchDownloadLink.Text);
+            txtBatchDownloadLink.Clear();
         }
 
         private void btnBatchDownloadRemoveSelected_Click(object sender, EventArgs e) {
@@ -167,7 +168,7 @@ namespace youtube_dl_gui {
         }
 
         private void lvBatchDownloadQueue_KeyUp(object sender, KeyEventArgs e) {
-            if (e.KeyValue == 46) {
+            if (e.KeyCode == Keys.Delete) {
                 RemoveItemsFromList();
             }
         }
@@ -186,9 +187,7 @@ namespace youtube_dl_gui {
                 //        }
                 //    }
                 //}
-                if (!InProgress) {
-                    btnBatchDownloadRemoveSelected.Enabled = true;
-                }
+                btnBatchDownloadRemoveSelected.Enabled = !InProgress;
             }
             else {
                 btnBatchDownloadRemoveSelected.Enabled = false;
@@ -212,12 +211,10 @@ namespace youtube_dl_gui {
         }
 
         private void cbBatchDownloadType_SelectedIndexChanged(object sender, EventArgs e) {
+            btnBatchDownloadAdd.Enabled = !string.IsNullOrWhiteSpace(txtBatchDownloadLink.Text) && cbBatchDownloadType.SelectedIndex > -1;
+
             if (cbBatchDownloadType.SelectedIndex > -1) {
-
-                if (!string.IsNullOrEmpty(txtBatchDownloadLink.Text)) {
-                    btnBatchDownloadAdd.Enabled = true;
-                }
-
+                sbBatchDownloaderImportLinks.Enabled = true;
                 cbBatchQuality.SelectedIndex = -1;
                 cbBatchFormat.SelectedIndex = -1;
                 cbBatchQuality.Items.Clear();
@@ -225,52 +222,35 @@ namespace youtube_dl_gui {
 
                 switch (cbBatchDownloadType.SelectedIndex) {
                     case 0: {
-                        cbArguments.Visible = false;
-                        cbBatchQuality.Visible = true;
-                        cbBatchQuality.Enabled = true;
                         cbBatchQuality.Items.AddRange(Download.Formats.VideoQualityArray);
-                        cbBatchFormat.Visible = true;
-                        cbBatchFormat.Enabled = true;
                         cbBatchFormat.Items.AddRange(Download.Formats.VideoFormatsNamesArray);
-                        chkBatchDownloaderSoundVBR.Text = Program.lang.chkDownloadSound;
-                        chkBatchDownloaderSoundVBR.Enabled = true;
                         cbBatchQuality.SelectedIndex = Config.Settings.Batch.SelectedVideoQuality;
                         cbBatchFormat.SelectedIndex = Config.Settings.Batch.SelectedVideoFormat;
+                        chkBatchDownloaderSoundVBR.Text = Program.lang.chkDownloadSound;
                         chkBatchDownloaderSoundVBR.Checked = Config.Settings.Batch.DownloadVideoSound;
-                        chkBatchDownloaderSoundVBR.Visible = true;
+
+                        SetControls(false);
                     } break;
 
                     case 1: {
-                        cbArguments.Visible = false;
-                        cbBatchQuality.Visible = true;
-                        cbBatchQuality.Enabled = true;
-                        cbBatchFormat.Visible = true;
-                        cbBatchFormat.Enabled = true;
-                        cbBatchFormat.Items.AddRange(Download.Formats.AudioFormatsArray);
-                        chkBatchDownloaderSoundVBR.Text = "VBR";
-                        chkBatchDownloaderSoundVBR.Enabled = true;
                         if (Config.Settings.Batch.DownloadAudioVBR) {
                             cbBatchQuality.Items.AddRange(new string[] { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" });
-                            cbBatchQuality.SelectedIndex = Config.Settings.Batch.SelectedAudioQuality;
+                            cbBatchQuality.SelectedIndex = Config.Settings.Batch.SelectedAudioQualityVBR;
                         }
                         else {
                             cbBatchQuality.Items.AddRange(Download.Formats.AudioQualityNamesArray);
-                            cbBatchQuality.SelectedIndex = Config.Settings.Batch.SelectedAudioQualityVBR;
+                            cbBatchQuality.SelectedIndex = Config.Settings.Batch.SelectedAudioQuality;
                         }
+                        cbBatchFormat.Items.AddRange(Download.Formats.AudioFormatsArray);
                         cbBatchFormat.SelectedIndex = Config.Settings.Batch.SelectedAudioFormat;
+                        chkBatchDownloaderSoundVBR.Text = "VBR";
                         chkBatchDownloaderSoundVBR.Checked = Config.Settings.Batch.DownloadAudioVBR;
-                        chkBatchDownloaderSoundVBR.Visible = true;
+
+                        SetControls(false);
                     } break;
 
                     case 2: {
-                        cbArguments.Visible = true;
-                        cbBatchFormat.Visible = false;
-                        cbBatchQuality.Visible = false;
-                        cbBatchFormat.Enabled = false;
-                        cbBatchQuality.Enabled = false;
-                        chkBatchDownloaderSoundVBR.Enabled = false;
-                        chkBatchDownloaderSoundVBR.Checked = false;
-                        chkBatchDownloaderSoundVBR.Visible = false;
+                        SetControls(true);
                     } break;
                 }
 
@@ -280,6 +260,7 @@ namespace youtube_dl_gui {
                 //    }
                 //}
             }
+
         }
 
         private void btnBatchDownloadStartStopExit_Click(object sender, EventArgs e) {
@@ -355,63 +336,62 @@ namespace youtube_dl_gui {
             }
         }
 
-        private void AddItemToList() {
-            if (!string.IsNullOrEmpty(txtBatchDownloadLink.Text) && cbBatchDownloadType.SelectedIndex != -1) {
+        private void SetControls(bool Custom) {
+            cbArguments.Visible = Custom;
+            cbBatchQuality.Visible = !Custom;
+            cbBatchQuality.Enabled = !Custom;
+            cbBatchFormat.Visible = !Custom;
+            cbBatchFormat.Enabled = !Custom;
+            pnAudioVBR.Visible = !Custom;
+            chkBatchDownloaderSoundVBR.Enabled = !Custom;
+            chkBatchDownloaderSoundVBR.Visible = !Custom;
+            sbBatchDownloadLoadArgs.Visible = Custom;
+        }
+
+        private void AddItemToList(string URL) {
+            if (!string.IsNullOrEmpty(URL) && cbBatchDownloadType.SelectedIndex != -1) {
                 ListViewItem lvi = new() {
                     Checked = false,
-                    Name = txtBatchDownloadLink.Text
+                    Name = URL
                 };
 
-                lvi.SubItems[0].Text = txtBatchDownloadLink.Text;
-                lvi.SubItems.Add(new ListViewItem.ListViewSubItem());
-                lvi.SubItems.Add(new ListViewItem.ListViewSubItem());
+                lvi.SubItems[0].Text = $" {URL}";
                 switch (cbBatchDownloadType.SelectedIndex) {
                     case -1:
                         System.Media.SystemSounds.Asterisk.Play();
                         return;
                     case 0:
-                        lvi.SubItems[1].Text = "Video";
+                        lvi.SubItems.Add("Video");
                         DownloadTypes.Add(0);
                         break;
                     case 1:
-                        lvi.SubItems[1].Text = "Audio";
+                        lvi.SubItems.Add("Audio");
                         DownloadTypes.Add(1);
                         break;
                     case 2:
-                        lvi.SubItems[1].Text = "Custom...";
+                        lvi.SubItems.Add("Custom");
                         DownloadTypes.Add(2);
                         break;
                 }
                 if (cbBatchDownloadType.SelectedIndex != 2) {
                     if (cbBatchDownloadType.SelectedIndex == 0) {
-                        if (chkBatchDownloaderSoundVBR.Checked) {
-                            lvi.SubItems[2].Text = cbBatchQuality.GetItemText(cbBatchQuality.SelectedItem) + ", " + cbBatchFormat.GetItemText(cbBatchFormat.SelectedItem) + ", sound";
-                        }
-                        else {
-                            lvi.SubItems[2].Text = cbBatchQuality.GetItemText(cbBatchQuality.SelectedItem) + ", " + cbBatchFormat.GetItemText(cbBatchFormat.SelectedItem) + ", no sound";
-                        }
+                        lvi.SubItems.Add($"Q: {cbBatchQuality.GetItemText(cbBatchQuality.SelectedItem)}, F: {cbBatchFormat.GetItemText(cbBatchFormat.SelectedItem)}, {(chkBatchDownloaderSoundVBR.Checked ? "sound" : "no sound")}");
                     }
                     else if (cbBatchDownloadType.SelectedIndex == 1) {
-                        if (chkBatchDownloaderSoundVBR.Checked) {
-                            lvi.SubItems[2].Text = cbBatchQuality.GetItemText(cbBatchQuality.SelectedItem) + ", " + cbBatchFormat.GetItemText(cbBatchFormat.SelectedItem) + ", vbr";
-                        }
-                        else {
-                            lvi.SubItems[2].Text = cbBatchQuality.GetItemText(cbBatchQuality.SelectedItem) + ", " + cbBatchFormat.GetItemText(cbBatchFormat.SelectedItem) + ", no vbr";
-                        }
+                        lvi.SubItems.Add($"Q: {cbBatchQuality.GetItemText(cbBatchQuality.SelectedItem)}, F: {cbBatchFormat.GetItemText(cbBatchFormat.SelectedItem)}, {(chkBatchDownloaderSoundVBR.Checked ? "vbr" : "no vbr")}");
                     }
                 }
                 else {
-                    lvi.SubItems[2].Text = cbArguments.Text;
+                    lvi.SubItems.Add(cbArguments.Text);
                 }
                 lvi.ImageIndex = (int)BatchHelpers.StatusIcon.Waiting;
                 DownloadArgs.Add(cbArguments.Text);
-                DownloadUrls.Add(txtBatchDownloadLink.Text);
+                DownloadUrls.Add(URL);
                 DownloadQuality.Add(cbBatchQuality.SelectedIndex);
                 DownloadFormat.Add(cbBatchFormat.SelectedIndex);
                 DownloadSoundVBR.Add(chkBatchDownloaderSoundVBR.Checked);
                 lvBatchDownloadQueue.Items.Add(lvi);
 
-                txtBatchDownloadLink.Clear();
                 btnBatchDownloadStartStopExit.Enabled = true;
             }
         }
@@ -434,6 +414,24 @@ namespace youtube_dl_gui {
                     btnBatchDownloadStartStopExit.Enabled = false;
                 }
             }
+        }
+
+        private void sbImportLinks_Click(object sender, EventArgs e) {
+            sbBatchDownloaderImportLinks.LaunchMenu();
+        }
+
+        private void mBatchDownloaderImportLinksFromFile_Click(object sender, EventArgs e) {
+
+        }
+
+        private void mBatchDownloadImportLinksFromClipboard_Click(object sender, EventArgs e) {
+            if (Clipboard.ContainsText()) {
+                string[] Data = Clipboard.GetText().Replace("\r\n", "\n").Split('\n');
+                for (int i = 0; i < Data.Length; i++) {
+                    AddItemToList(Data[i]);
+                }
+            }
+            else MessageBox.Show("The clipboard does not contain text that can be added.");
         }
     }
 
