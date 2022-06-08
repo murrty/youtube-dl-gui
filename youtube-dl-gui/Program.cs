@@ -147,9 +147,6 @@ namespace youtube_dl_gui {
         }
 
         static void LoadClasses() {
-            verif.Refresh();
-            Formats.LoadCustomFormats();
-
             if (!IsFirstTime) {
                 Config.Settings.Load(ConfigType.All);
 
@@ -160,6 +157,9 @@ namespace youtube_dl_gui {
                     lang.LoadInternalEnglish();
                 }
             }
+
+            verif.Refresh();
+            Formats.LoadCustomFormats();
         }
 
         public static bool CheckArgs(string[] args, bool UseDialog) {
