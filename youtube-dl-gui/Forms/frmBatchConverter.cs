@@ -140,12 +140,9 @@ namespace youtube_dl_gui {
 
         private void btnBatchConverterStartStopExit_Click(object sender, EventArgs e) {
             if (InProgress) {
-                if (Converter.InvokeRequired) {
-                    Converter.Invoke((Action)delegate { Converter.Abort(); });
-                }
-                else {
+                Converter.Invoke((Action)delegate {
                     Converter.Abort();
-                }
+                });
             }
             else if (lvBatchConvertQueue.Items.Count > 0) {
                 InProgress = true;
@@ -207,7 +204,6 @@ namespace youtube_dl_gui {
                         if (AbortConversions)
                             break;
                     }
-
                     InProgress = false;
                     lvBatchConvertQueue.Invoke((Action)delegate {
                         if (AbortConversions) {
@@ -222,7 +218,6 @@ namespace youtube_dl_gui {
                     System.Media.SystemSounds.Exclamation.Play();
                 }) {
                     Name = "Conversion thread",
-                    IsBackground = true
                 };
                 ConversionThread.SetApartmentState(ApartmentState.STA);
                 ConversionThread.Start();
@@ -264,6 +259,18 @@ namespace youtube_dl_gui {
         private void lvBatchConvertQueue_KeyUp(object sender, KeyEventArgs e) {
             if (e.KeyCode == Keys.Delete) {
                 RemoveItemsFromList();
+            }
+        }
+
+        private void frmBatchConverter_FormClosing(object sender, FormClosingEventArgs e) {
+            if (InProgress) {
+                Converter.Invoke((Action)delegate {
+                    Converter.Abort();
+                });
+                e.Cancel = true;
+            }
+            else {
+                this.Dispose();
             }
         }
     }

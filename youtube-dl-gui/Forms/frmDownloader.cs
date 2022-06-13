@@ -131,6 +131,40 @@ namespace youtube_dl_gui {
             }
         }
 
+        public void Abort() {
+            switch (CurrentDownload.Status) {
+                case DownloadStatus.YtdlError:
+                case DownloadStatus.ProgramError:
+                case DownloadStatus.Aborted:
+                    btnDownloaderAbortBatchDownload.Visible = false;
+                    btnDownloaderAbortBatchDownload.Enabled = false;
+                    this.Text = Program.lang.frmDownloader + " ";
+                    tmrTitleActivity.Start();
+                    BeginDownload();
+                    break;
+                default:
+                    AbortBatch = true;
+                    switch (CurrentDownload.Status) {
+                        case DownloadStatus.Finished:
+                        case DownloadStatus.Aborted:
+                        case DownloadStatus.YtdlError:
+                        case DownloadStatus.ProgramError:
+                            rtbConsoleOutput.AppendText("The user requested to abort subsequent batch downloads");
+                            btnDownloaderAbortBatchDownload.Enabled = false;
+                            btnDownloaderAbortBatchDownload.Visible = false;
+                            break;
+                        default:
+                            if (DownloadThread != null && DownloadThread.IsAlive) {
+                                DownloadThread.Abort();
+                            }
+                            rtbConsoleOutput.AppendText("Additionally, the batch download has been cancelled.");
+                            CurrentDownload.Status = DownloadStatus.Aborted;
+                            this.Close();
+                            break;
+                    }
+                    break;
+            }
+        }
         private void BeginDownload() {
             Debug.Print("BeginDownload()");
             if (string.IsNullOrEmpty(CurrentDownload.DownloadURL)) {
@@ -480,30 +514,36 @@ sanitizecheck:
 
             #region Download thread
             rtbConsoleOutput.AppendText("Creating download thread\n");
+            bool IsYtdlp = Config.Settings.Downloads.YtdlType == 2;
+            if (IsYtdlp) {
+                rtbConsoleOutput.AppendText("Due to youtube-dlp changing how download progress is updated, a console with download progress will appear.\n");
+            }
             DownloadThread = new Thread(() => {
                 try {
                     DownloadProcess = new Process() {
                         StartInfo = new ProcessStartInfo(YoutubeDlPath) {
                             UseShellExecute = false,
-                            RedirectStandardOutput = true,
-                            RedirectStandardError = true,
-                            CreateNoWindow = true,
+                            //RedirectStandardOutput = true,
+                            //RedirectStandardError = true,
+                            //CreateNoWindow = true,
                             Arguments = ArgumentsBuffer
                         },
                         EnableRaisingEvents = true
                     };
-                    DownloadProcess.OutputDataReceived += (s, e) => {
-                        this.BeginInvoke(new MethodInvoker(() => {
-                            if (e.Data != null)
-                                rtbConsoleOutput?.AppendText($"{e.Data}\n");
-                        }));
-                    };
-                    DownloadProcess.ErrorDataReceived += (s, e) => {
-                        this.BeginInvoke(new MethodInvoker(() => {
-                            if (e.Data != null)
-                                rtbConsoleOutput?.AppendText($"Error: {e.Data}\n");
-                        }));
-                    };
+                    if (!IsYtdlp) {
+                        DownloadProcess.OutputDataReceived += (s, e) => {
+                            this.BeginInvoke(new MethodInvoker(() => {
+                                if (e.Data != null)
+                                    rtbConsoleOutput?.AppendText($"{e.Data}\n");
+                            }));
+                        };
+                        DownloadProcess.ErrorDataReceived += (s, e) => {
+                            this.BeginInvoke(new MethodInvoker(() => {
+                                if (e.Data != null)
+                                    rtbConsoleOutput?.AppendText($"Error: {e.Data}\n");
+                            }));
+                        };
+                    }
                     DownloadProcess.Exited += (s, e) => {
                         CurrentDownload.Status = DownloadProcess.ExitCode switch {
                             0 => DownloadStatus.Finished,
@@ -517,8 +557,10 @@ sanitizecheck:
                         ArgumentsBuffer = null;
                         PreviewArguments = null;
 
-                        DownloadProcess.BeginOutputReadLine();
-                        DownloadProcess.BeginErrorReadLine();
+                        if (!IsYtdlp) {
+                            DownloadProcess.BeginOutputReadLine();
+                            DownloadProcess.BeginErrorReadLine();
+                        }
 
                         while (!DownloadProcess.HasExited) {
                             Thread.Sleep(1000);
@@ -527,12 +569,16 @@ sanitizecheck:
 
                 }
                 catch (ThreadAbortException) {
-                    DownloadProcess.CancelErrorRead();
-                    DownloadProcess.CancelOutputRead();
+                    if (!IsYtdlp) {
+                        DownloadProcess.CancelErrorRead();
+                        DownloadProcess.CancelOutputRead();
+                    }
                     Win32.KillProcessTree((uint)DownloadProcess.Id);
                     DownloadProcess.Kill();
                     this.BeginInvoke((Action)delegate {
-                        rtbConsoleOutput.AppendText("Downloading was aborted by the user.");
+                        if (this.IsHandleCreated) {
+                            rtbConsoleOutput.AppendText("Downloading was aborted by the user.");
+                        }
                     });
                     CurrentDownload.Status = DownloadStatus.Aborted;
                 }

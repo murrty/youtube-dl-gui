@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using System;
+using System.Windows.Forms;
 
 namespace youtube_dl_gui.Controls {
     class ExtendedRichTextBox : RichTextBox {
@@ -8,9 +9,11 @@ namespace youtube_dl_gui.Controls {
         /// </summary>
         /// <param name="text">Text to append.</param>
         public new void AppendText(string text) {
-            this.Text += text;
-            this.SelectionStart = this.Text.Length;
-            this.ScrollToCaret();
+            try {
+                this.Text += text;
+                NativeMethods.SendMessage(this.Handle, 0x115, (IntPtr)7, IntPtr.Zero);
+            }
+            catch { }
         }
     }
 }

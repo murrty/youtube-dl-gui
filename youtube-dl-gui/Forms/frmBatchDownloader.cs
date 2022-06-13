@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace youtube_dl_gui {
@@ -18,6 +19,7 @@ namespace youtube_dl_gui {
         private bool InProgress = false;                        // Bool if the batch download is in progress
         private frmDownloader Downloader;                       // The Downloader form that will be around. Will be disposed if aborted.
         private DownloadInfo NewInfo;                           // The info of the download
+        private Thread DownloadThread;                          // The thread for the batch downloader.
 
         public frmBatchDownloader() {
             InitializeComponent();
@@ -265,74 +267,93 @@ namespace youtube_dl_gui {
 
         private void btnBatchDownloadStartStopExit_Click(object sender, EventArgs e) {
             if (InProgress) {
-                Downloader.Dispose();
+                Downloader.Invoke((Action)delegate {
+                    Downloader.Abort();
+                });
             }
             else if (DownloadUrls.Count > 0) {
                 btnBatchDownloadRemoveSelected.Enabled = false;
                 btnBatchDownloadStartStopExit.Text = Program.lang.GenericStop;
                 InProgress = true;
+                bool AbortDownload = false;
                 string BatchTime = BatchHelpers.CurrentTime;
-                for (int i = 0; i < DownloadUrls.Count; i++) {
-                    NewInfo = new DownloadInfo {
-                        BatchDownload = true,
-                        BatchTime = BatchTime,
-                        DownloadURL = DownloadUrls[i]
-                    };
-                    switch (DownloadTypes[i]) {
-                        case 0:
-                            NewInfo.Type = DownloadType.Video;
-                            NewInfo.VideoQuality = (VideoQualityType)DownloadQuality[i];
-                            NewInfo.VideoFormat = (VideoFormatType)DownloadFormat[i];
-                            NewInfo.SkipAudioForVideos = !DownloadSoundVBR[i];
-                            break;
-                        case 1:
-                            NewInfo.Type = DownloadType.Audio;
-                            if (DownloadSoundVBR[i]) {
-                                NewInfo.UseVBR = true;
-                                NewInfo.AudioVBRQuality = (AudioVBRQualityType)DownloadQuality[i];
-                            }
-                            else {
-                                NewInfo.UseVBR = false;
-                                NewInfo.AudioCBRQuality = (AudioCBRQualityType)DownloadQuality[i];
-                            }
-                            NewInfo.AudioFormat = (AudioFormatType)DownloadFormat[i];
-                            break;
-                        case 2:
-                            NewInfo.Type = DownloadType.Custom;
-                            NewInfo.DownloadArguments = DownloadArgs[i];
-                            break;
-                        default:
-                            continue;
+                DownloadThread = new(() => {
+                    for (int i = 0; i < DownloadUrls.Count; i++) {
+                        NewInfo = new DownloadInfo {
+                            BatchDownload = true,
+                            BatchTime = BatchTime,
+                            DownloadURL = DownloadUrls[i]
+                        };
+                        switch (DownloadTypes[i]) {
+                            case 0:
+                                NewInfo.Type = DownloadType.Video;
+                                NewInfo.VideoQuality = (VideoQualityType)DownloadQuality[i];
+                                NewInfo.VideoFormat = (VideoFormatType)DownloadFormat[i];
+                                NewInfo.SkipAudioForVideos = !DownloadSoundVBR[i];
+                                break;
+                            case 1:
+                                NewInfo.Type = DownloadType.Audio;
+                                if (DownloadSoundVBR[i]) {
+                                    NewInfo.UseVBR = true;
+                                    NewInfo.AudioVBRQuality = (AudioVBRQualityType)DownloadQuality[i];
+                                }
+                                else {
+                                    NewInfo.UseVBR = false;
+                                    NewInfo.AudioCBRQuality = (AudioCBRQualityType)DownloadQuality[i];
+                                }
+                                NewInfo.AudioFormat = (AudioFormatType)DownloadFormat[i];
+                                break;
+                            case 2:
+                                NewInfo.Type = DownloadType.Custom;
+                                NewInfo.DownloadArguments = DownloadArgs[i];
+                                break;
+                            default:
+                                continue;
+                        }
+                        this.Invoke((Action)delegate {
+                            lvBatchDownloadQueue.Items[i].ImageIndex = (int)BatchHelpers.StatusIcon.Processing;
+                            sbBatchDownloader.Text = Program.lang.sbBatchDownloaderDownloading;
+                        });
+                        Downloader = new frmDownloader(NewInfo);
+                        switch (Downloader.ShowDialog()) {
+                            case DialogResult.Yes:
+                                this.Invoke((Action)delegate {
+                                    lvBatchDownloadQueue.Items[i].ImageIndex = (int)BatchHelpers.StatusIcon.Finished;
+                                });
+                                break;
+                            case DialogResult.No:
+                                this.Invoke((Action)delegate {
+                                    lvBatchDownloadQueue.Items[i].ImageIndex = (int)BatchHelpers.StatusIcon.Errored;
+                                });
+                                break;
+                            case DialogResult.Abort:
+                                this.Invoke((Action)delegate {
+                                    lvBatchDownloadQueue.Items[i].ImageIndex = (int)BatchHelpers.StatusIcon.Waiting;
+                                });
+                                AbortDownload = true;
+                                break;
+                            case DialogResult.Ignore:
+                                this.Invoke((Action)delegate {
+                                    lvBatchDownloadQueue.Items[i].ImageIndex = (int)BatchHelpers.StatusIcon.Waiting;
+                                });
+                                break;
+                            default:
+                                this.Invoke((Action)delegate {
+                                    lvBatchDownloadQueue.Items[i].ImageIndex = (int)BatchHelpers.StatusIcon.Finished;
+                                });
+                                break;
+                        }
+                        if (AbortDownload) { break; }
                     }
-                    lvBatchDownloadQueue.Items[i].ImageIndex = (int)BatchHelpers.StatusIcon.Processing;
-
-                    bool AbortDownload = false;
-                    sbBatchDownloader.Text = Program.lang.sbBatchDownloaderDownloading;
-                    Downloader = new frmDownloader(NewInfo);
-                    switch (Downloader.ShowDialog()) {
-                        case DialogResult.Yes:
-                            lvBatchDownloadQueue.Items[i].ImageIndex = (int)BatchHelpers.StatusIcon.Finished;
-                            break;
-                        case DialogResult.No:
-                            lvBatchDownloadQueue.Items[i].ImageIndex = (int)BatchHelpers.StatusIcon.Errored;
-                            break;
-                        case DialogResult.Abort:
-                            lvBatchDownloadQueue.Items[i].ImageIndex = (int)BatchHelpers.StatusIcon.Waiting;
-                            AbortDownload = true;
-                            break;
-                        case DialogResult.Ignore:
-                            lvBatchDownloadQueue.Items[i].ImageIndex = (int)BatchHelpers.StatusIcon.Waiting;
-                            break;
-                        default:
-                            lvBatchDownloadQueue.Items[i].ImageIndex = (int)BatchHelpers.StatusIcon.Finished;
-                            break;
-                    }
-                    if (AbortDownload) { break; }
-                }
-                InProgress = false;
-                System.Media.SystemSounds.Exclamation.Play();
-                sbBatchDownloader.Text = Program.lang.sbBatchDownloaderFinished;
-                btnBatchDownloadStartStopExit.Text = Program.lang.GenericStart;
+                    InProgress = false;
+                    this.Invoke((Action)delegate {
+                        sbBatchDownloader.Text = Program.lang.sbBatchDownloaderFinished;
+                        btnBatchDownloadStartStopExit.Text = Program.lang.GenericStart;
+                    });
+                    System.Media.SystemSounds.Exclamation.Play();
+                });
+                DownloadThread.Name = $"Batch download {BatchTime}";
+                DownloadThread.Start();
             }
         }
 

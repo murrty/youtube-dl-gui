@@ -257,6 +257,7 @@
             this.MinimumSize = new System.Drawing.Size(670, 340);
             this.Name = "frmBatchConverter";
             this.Text = "frmBatchConverter";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmBatchConverter_FormClosing);
             this.scConversionFiles.Panel1.ResumeLayout(false);
             this.scConversionFiles.Panel1.PerformLayout();
             this.scConversionFiles.Panel2.ResumeLayout(false);

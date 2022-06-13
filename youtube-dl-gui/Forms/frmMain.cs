@@ -390,12 +390,12 @@ namespace youtube_dl_gui {
         }
 
         private void mBatchDownload_Click(object sender, EventArgs e) {
-            frmBatchDownloader batch = new();
-            batch.Show();
+            frmBatchDownloader BatchDownload = new();
+            BatchDownload.Show();
         }
         private void mBatchConverter_Click(object sender, EventArgs e) {
-            using frmBatchConverter BatchConvert = new();
-            BatchConvert.ShowDialog();
+            frmBatchConverter BatchConvert = new();
+            BatchConvert.Show();
         }
         private void mDownloadSubtitles_Click(object sender, EventArgs e) {
             frmSubtitles downloadSubtitles = new();

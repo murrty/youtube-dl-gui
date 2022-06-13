@@ -16,11 +16,11 @@ namespace youtube_dl_gui {
         /// <summary>
         /// Whether the program is a beta version.
         /// </summary>
-        public const bool IsBetaVersion = false;
+        public const bool IsBetaVersion = true;
         /// <summary>
         /// The version of the current beta program.
         /// </summary>
-        public const string BetaVersion = "2.4-pre1";
+        public const string BetaVersion = "2.31-pre1";
 
         /// <summary>
         /// Gets or sets whether the update was checked this run.
