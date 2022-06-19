@@ -106,6 +106,9 @@ namespace youtube_dl_gui {
         public string sbBatchDownloaderDownloading { get; private set; }
         public string sbBatchDownloaderFinished { get; private set; }
         public string sbBatchDownloaderAborted { get; private set; }
+        public string chkBatchDownloadClipboardScanner { get; private set; }
+        public string BatchDownloadClipboardScannerNotice { get; private set; }
+        public string chkBatchDownloadClipboardScanVerifyLinks { get; private set; }
         #endregion
 
         #region frmConverter
@@ -533,6 +536,9 @@ namespace youtube_dl_gui {
             public const string sbBatchDownloaderDownloading = "Batch download in progress...";
             public const string sbBatchDownloaderFinished = "Batch download finished. Add more items to start another batch, or exit";
             public const string sbBatchDownloaderAborted = "The batch download has been aborted";
+            public const string chkBatchDownloadClipboardScanner = "Scan clipboard";
+            public const string BatchDownloadClipboardScannerNotice = "Enabling this option will add anything from your clipboard when something is copied (link or not). It will need to be manually enabled per-converter instance. Take care to not copy any sensitive information to the cipboard.";
+            public const string chkBatchDownloadClipboardScanVerifyLinks = "Verify copied links";
             #endregion
 
             #region frmConverter
@@ -982,6 +988,9 @@ namespace youtube_dl_gui {
                 sbBatchDownloaderDownloading = InternalEnglish.sbBatchDownloaderDownloading;
                 sbBatchDownloaderFinished = InternalEnglish.sbBatchDownloaderFinished;
                 sbBatchDownloaderAborted = InternalEnglish.sbBatchDownloaderAborted;
+                chkBatchDownloadClipboardScanner = InternalEnglish.chkBatchDownloadClipboardScanner;
+                BatchDownloadClipboardScannerNotice = InternalEnglish.BatchDownloadClipboardScannerNotice;
+                chkBatchDownloadClipboardScanVerifyLinks = InternalEnglish.chkBatchDownloadClipboardScanVerifyLinks;
 
                 // frmConverter
                 frmConverter = InternalEnglish.frmConverter;
@@ -1388,6 +1397,9 @@ namespace youtube_dl_gui {
             sbBatchDownloaderDownloading = "sbBatchDownloaderDownloading";
             sbBatchDownloaderFinished = "sbBatchDownloaderFinished";
             sbBatchDownloaderAborted = "sbBatchDownloaderAborted";
+            chkBatchDownloadClipboardScanner = "chkBatchDownloadClipboardScanner";
+            BatchDownloadClipboardScannerNotice = "BatchDownloadClipboardScannerNotice";
+            chkBatchDownloadClipboardScanVerifyLinks = "chkBatchDownloadClipboardScanVerifyLinks";
 
             // frmConverter
             frmConverter = "frmConverter";
@@ -1977,6 +1989,15 @@ namespace youtube_dl_gui {
                                         continue;
                                     case "sbbatchdownloaderaborted":
                                         sbBatchDownloaderAborted = ReadValue;
+                                        continue;
+                                    case "chkbatchdownloadclipboardscanner":
+                                        chkBatchDownloadClipboardScanner = ReadValue;
+                                        continue;
+                                    case "batchdownloadclipboardscannernotice":
+                                        BatchDownloadClipboardScannerNotice = ReadValue;
+                                        continue;
+                                    case "chkbatchdownloadclipboardscanverifylinks":
+                                        chkBatchDownloadClipboardScanVerifyLinks = ReadValue;
                                         continue;
                                     #endregion
 

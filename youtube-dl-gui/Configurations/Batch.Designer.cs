@@ -12,7 +12,7 @@ namespace youtube_dl_gui.Configurations {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.0.3.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.1.0.0")]
     internal sealed partial class Batch : global::System.Configuration.ApplicationSettingsBase {
         
         private static Batch defaultInstance = ((Batch)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Batch())));
@@ -128,6 +128,30 @@ namespace youtube_dl_gui.Configurations {
             }
             set {
                 this["CustomArguments"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool ClipboardScannerNoticeViewed {
+            get {
+                return ((bool)(this["ClipboardScannerNoticeViewed"]));
+            }
+            set {
+                this["ClipboardScannerNoticeViewed"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool ClipboardScannerVerifyLinks {
+            get {
+                return ((bool)(this["ClipboardScannerVerifyLinks"]));
+            }
+            set {
+                this["ClipboardScannerVerifyLinks"] = value;
             }
         }
     }

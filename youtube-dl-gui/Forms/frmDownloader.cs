@@ -523,27 +523,25 @@ sanitizecheck:
                     DownloadProcess = new Process() {
                         StartInfo = new ProcessStartInfo(YoutubeDlPath) {
                             UseShellExecute = false,
-                            //RedirectStandardOutput = true,
-                            //RedirectStandardError = true,
-                            //CreateNoWindow = true,
+                            RedirectStandardOutput = !IsYtdlp,
+                            RedirectStandardError = !IsYtdlp,
+                            CreateNoWindow = !IsYtdlp,
                             Arguments = ArgumentsBuffer
                         },
                         EnableRaisingEvents = true
                     };
-                    if (!IsYtdlp) {
-                        DownloadProcess.OutputDataReceived += (s, e) => {
-                            this.BeginInvoke(new MethodInvoker(() => {
-                                if (e.Data != null)
-                                    rtbConsoleOutput?.AppendText($"{e.Data}\n");
-                            }));
-                        };
-                        DownloadProcess.ErrorDataReceived += (s, e) => {
-                            this.BeginInvoke(new MethodInvoker(() => {
-                                if (e.Data != null)
-                                    rtbConsoleOutput?.AppendText($"Error: {e.Data}\n");
-                            }));
-                        };
-                    }
+                    DownloadProcess.OutputDataReceived += (s, e) => {
+                        this.BeginInvoke(new MethodInvoker(() => {
+                            if (e.Data != null)
+                                rtbConsoleOutput?.AppendText($"{e.Data}\n");
+                        }));
+                    };
+                    DownloadProcess.ErrorDataReceived += (s, e) => {
+                        this.BeginInvoke(new MethodInvoker(() => {
+                            if (e.Data != null)
+                                rtbConsoleOutput?.AppendText($"Error: {e.Data}\n");
+                        }));
+                    };
                     DownloadProcess.Exited += (s, e) => {
                         CurrentDownload.Status = DownloadProcess.ExitCode switch {
                             0 => DownloadStatus.Finished,

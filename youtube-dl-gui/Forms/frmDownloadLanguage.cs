@@ -19,7 +19,7 @@ namespace youtube_dl_gui {
 
         public frmDownloadLanguage() {
             InitializeComponent();
-            NativeMethods.SetWindowTheme(listView1.Handle, "explorer", null);
+            NativeMethods.SetWindowTheme(lvAvailableLanguages.Handle, "explorer", null);
             SubItemFont = new("Segoi UI", this.Font.Size, FontStyle.Italic);
             try {
                 EnumeratedLanguages = GitData.Languages;
@@ -35,7 +35,7 @@ namespace youtube_dl_gui {
                         NewItem.SubItems[1].ForeColor = Color.FromKnownColor(KnownColor.ScrollBar);
                         NewItem.SubItems[1].Font = SubItemFont;
                         //NewItem.ToolTipText = EnumeratedLanguages[i].DownloadUrl;
-                        listView1.Items.Add(NewItem);
+                        lvAvailableLanguages.Items.Add(NewItem);
                         Downloaded.Add(System.IO.File.Exists(Environment.CurrentDirectory + "\\" + EnumeratedLanguages[i].Name));
                     }
                 }
@@ -59,20 +59,20 @@ namespace youtube_dl_gui {
 
         private void DownloadSelectedLanguageFile() {
             using System.Net.WebClient wc = new();
-            string URL = EnumeratedLanguages[listView1.SelectedIndices[0]].DownloadUrl;
+            string URL = EnumeratedLanguages[lvAvailableLanguages.SelectedIndices[0]].DownloadUrl;
 
             try {
                 if (!System.IO.Directory.Exists(Environment.CurrentDirectory + "\\lang")) {
                     System.IO.Directory.CreateDirectory(Environment.CurrentDirectory + "\\lang");
                 }
 
-                wc.DownloadFile(URL, Environment.CurrentDirectory + "\\lang\\" + EnumeratedLanguages[listView1.SelectedIndices[0]].Name);
+                wc.DownloadFile(URL, Environment.CurrentDirectory + "\\lang\\" + EnumeratedLanguages[lvAvailableLanguages.SelectedIndices[0]].Name);
 
                 // The SHA on github doesn't match what I can calculate here.
                 //if (Program.CalculateSha1Hash(Environment.CurrentDirectory + "\\lang\\" + EnumeratedLanguages[listView1.SelectedIndices[0]].Name).ToLower() != EnumeratedLanguages[listView1.SelectedIndices[0]].Sha.ToLower()) {
                     //MessageBox.Show(Program.lang.dlgLanguageHashNoMatch, "youtube-dl-gui", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 //}
-                Downloaded[listView1.SelectedIndices[0]] = true;
+                Downloaded[lvAvailableLanguages.SelectedIndices[0]] = true;
             }
             catch (System.Net.WebException wex) {
                 if (Log.ReportRetriableException(wex, URL) == DialogResult.Retry) {
@@ -95,11 +95,11 @@ namespace youtube_dl_gui {
         }
 
         private void btnOk_Click(object sender, EventArgs e) {
-            if (listView1.SelectedIndices.Count > 0) {
-                if (!Downloaded[listView1.SelectedIndices[0]]) {
+            if (lvAvailableLanguages.SelectedIndices.Count > 0) {
+                if (!Downloaded[lvAvailableLanguages.SelectedIndices[0]]) {
                     DownloadSelectedLanguageFile();
                 }
-                FileName = EnumeratedLanguages[listView1.SelectedIndices[0]].Name;
+                FileName = EnumeratedLanguages[lvAvailableLanguages.SelectedIndices[0]].Name;
             }
             else {
                 FileName = null;
@@ -108,8 +108,8 @@ namespace youtube_dl_gui {
         }
 
         private void listView1_SelectedIndexChanged(object sender, EventArgs e) {
-            btnOk.Enabled = listView1.SelectedIndices.Count > 0;
-            btnDownloadSelected.Enabled = listView1.SelectedIndices.Count > 0;
+            btnOk.Enabled = lvAvailableLanguages.SelectedIndices.Count > 0;
+            btnDownloadSelected.Enabled = lvAvailableLanguages.SelectedIndices.Count > 0;
         }
     }
 }

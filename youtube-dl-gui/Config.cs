@@ -320,6 +320,8 @@ namespace youtube_dl_gui {
         public bool DownloadAudioVBR = false;
         public int SelectedAudioQualityVBR = 0;
         public string CustomArguments = string.Empty;
+        public bool ClipboardScannerNoticeViewed = false;
+        public bool ClipboardScannerVerifyLinks = true;
 
         private int SelectedType_First = -1;
         private int SelectedVideoQuality_First = 0;
@@ -330,65 +332,57 @@ namespace youtube_dl_gui {
         private bool DownloadAudioVBR_First = false;
         private int SelectedAudioQualityVBR_First = 0;
         private string CustomArguments_First = string.Empty;
+        private bool ClipboardScannerNoticeViewed_First = false;
+        private bool ClipboardScannerVerifyLinks_First = true;
 
         public Config_Batch() { }
 
         public void Save() {
             switch (Program.UseIni) {
                 case true:
-                    switch (SelectedType != SelectedType_First) {
-                        case true:
-                            Ini.Write("SelectedType", SelectedType, ConfigName);
-                            SelectedType_First = SelectedType;
-                            break;
+                    if (SelectedType != SelectedType_First) {
+                        Ini.Write("SelectedType", SelectedType, ConfigName);
+                        SelectedType_First = SelectedType;
                     }
-                    switch (SelectedVideoQuality != SelectedVideoQuality_First) {
-                        case true:
-                            Ini.Write("SelectedVideoQuality", SelectedVideoQuality, ConfigName);
-                            SelectedVideoQuality_First = SelectedVideoQuality;
-                            break;
+                    if (SelectedVideoQuality != SelectedVideoQuality_First) {
+                        Ini.Write("SelectedVideoQuality", SelectedVideoQuality, ConfigName);
+                        SelectedVideoQuality_First = SelectedVideoQuality;
                     }
-                    switch (SelectedVideoFormat != SelectedVideoFormat_First) {
-                        case true:
-                            Ini.Write("SelectedVideoFormat", SelectedVideoFormat, ConfigName);
-                            SelectedVideoFormat_First = SelectedVideoFormat;
-                            break;
+                    if (SelectedVideoFormat != SelectedVideoFormat_First) {
+                        Ini.Write("SelectedVideoFormat", SelectedVideoFormat, ConfigName);
+                        SelectedVideoFormat_First = SelectedVideoFormat;
                     }
-                    switch (SelectedAudioQuality != SelectedAudioQuality_First) {
-                        case true:
-                            Ini.Write("SelectedAudioQuality", SelectedAudioQuality, ConfigName);
-                            SelectedAudioQuality_First = SelectedAudioQuality;
-                            break;
+                    if (SelectedAudioQuality != SelectedAudioQuality_First) {
+                        Ini.Write("SelectedAudioQuality", SelectedAudioQuality, ConfigName);
+                        SelectedAudioQuality_First = SelectedAudioQuality;
                     }
-                    switch (SelectedAudioFormat != SelectedAudioFormat_First) {
-                        case true:
-                            Ini.Write("SelectedAudioFormat", SelectedAudioFormat, ConfigName);
-                            SelectedAudioFormat_First = SelectedAudioFormat;
-                            break;
+                    if (SelectedAudioFormat != SelectedAudioFormat_First) {
+                        Ini.Write("SelectedAudioFormat", SelectedAudioFormat, ConfigName);
+                        SelectedAudioFormat_First = SelectedAudioFormat;
                     }
-                    switch (DownloadVideoSound != DownloadVideoSound_First) {
-                        case true:
-                            Ini.Write("DownloadVideoSound", DownloadVideoSound, ConfigName);
-                            DownloadVideoSound_First = DownloadVideoSound;
-                            break;
+                    if (DownloadVideoSound != DownloadVideoSound_First) {
+                        Ini.Write("DownloadVideoSound", DownloadVideoSound, ConfigName);
+                        DownloadVideoSound_First = DownloadVideoSound;
                     }
-                    switch (DownloadAudioVBR != DownloadAudioVBR_First) {
-                        case true:
-                            Ini.Write("DownloadAudioVBR", DownloadAudioVBR, ConfigName);
-                            DownloadAudioVBR_First = DownloadAudioVBR;
-                            break;
+                    if (DownloadAudioVBR != DownloadAudioVBR_First) {
+                        Ini.Write("DownloadAudioVBR", DownloadAudioVBR, ConfigName);
+                        DownloadAudioVBR_First = DownloadAudioVBR;
                     }
-                    switch (SelectedAudioQualityVBR != SelectedAudioQualityVBR_First) {
-                        case true:
-                            Ini.Write("SelectedAudioQualityVBR", SelectedAudioQualityVBR, ConfigName);
-                            SelectedAudioQualityVBR_First = SelectedAudioQualityVBR;
-                            break;
+                    if (SelectedAudioQualityVBR != SelectedAudioQualityVBR_First) {
+                        Ini.Write("SelectedAudioQualityVBR", SelectedAudioQualityVBR, ConfigName);
+                        SelectedAudioQualityVBR_First = SelectedAudioQualityVBR;
                     }
-                    switch (CustomArguments != CustomArguments_First) {
-                        case true:
-                            Ini.Write("CustomArguments", CustomArguments, ConfigName);
-                            CustomArguments_First = CustomArguments;
-                            break;
+                    if (CustomArguments != CustomArguments_First) {
+                        Ini.Write("CustomArguments", CustomArguments, ConfigName);
+                        CustomArguments_First = CustomArguments;
+                    }
+                    if (ClipboardScannerNoticeViewed != ClipboardScannerNoticeViewed_First) {
+                        Ini.Write("ClipboardScannerNoticeViewed", ClipboardScannerNoticeViewed, ConfigName);
+                        ClipboardScannerNoticeViewed_First = ClipboardScannerNoticeViewed;
+                    }
+                    if (ClipboardScannerVerifyLinks != ClipboardScannerVerifyLinks_First) {
+                        Ini.Write("ClipboardScannerVerifyLinks", ClipboardScannerVerifyLinks, ConfigName);
+                        ClipboardScannerVerifyLinks_First = ClipboardScannerVerifyLinks;
                     }
 
                     break;
@@ -432,6 +426,12 @@ namespace youtube_dl_gui {
                         Configurations.Batch.Default.CustomArguments = CustomArguments;
                         Save = true;
                     }
+                    if (Configurations.Batch.Default.ClipboardScannerNoticeViewed != ClipboardScannerNoticeViewed) {
+                        Configurations.Batch.Default.ClipboardScannerNoticeViewed = ClipboardScannerNoticeViewed;
+                    }
+                    if (Configurations.Batch.Default.ClipboardScannerVerifyLinks != ClipboardScannerVerifyLinks) {
+                        Configurations.Batch.Default.ClipboardScannerVerifyLinks = ClipboardScannerVerifyLinks;
+                    }
 
                     switch (Save) {
                         case true:
@@ -472,6 +472,12 @@ namespace youtube_dl_gui {
                     if (Ini.KeyExists("CustomArguments", ConfigName)) {
                         CustomArguments_First = CustomArguments = Ini.ReadString("CustomArguments", ConfigName);
                     }
+                    if (Ini.KeyExists("ClipboardScannerNoticeViewed", ConfigName)) {
+                        ClipboardScannerNoticeViewed_First = ClipboardScannerNoticeViewed = Ini.ReadBool("ClipboardScannerNoticeViewed", ConfigName);
+                    }
+                    if (Ini.KeyExists("ClipboardScannerVerifyLinks", ConfigName)) {
+                        ClipboardScannerVerifyLinks_First = ClipboardScannerVerifyLinks = Ini.ReadBool("ClipboardScannerVerifyLinks", ConfigName);
+                    }
                     break;
 
                 case false:
@@ -484,6 +490,8 @@ namespace youtube_dl_gui {
                     DownloadAudioVBR = Configurations.Batch.Default.DownloadAudioVBR;
                     SelectedAudioQualityVBR = Configurations.Batch.Default.SelectedAudioQualityVBR;
                     CustomArguments = Configurations.Batch.Default.CustomArguments;
+                    ClipboardScannerNoticeViewed = Configurations.Batch.Default.ClipboardScannerNoticeViewed;
+                    ClipboardScannerVerifyLinks = Configurations.Batch.Default.ClipboardScannerVerifyLinks;
                     break;
             }
         }
@@ -519,6 +527,12 @@ namespace youtube_dl_gui {
                     Ini.Write("CustomArguments", CustomArguments, ConfigName);
                     CustomArguments_First = CustomArguments;
 
+                    Ini.Write("ClipboardScannerNoticeViewed", ClipboardScannerNoticeViewed, ConfigName);
+                    ClipboardScannerNoticeViewed_First = ClipboardScannerNoticeViewed;
+
+                    Ini.Write("ClipboardScannerVerifyLinks", ClipboardScannerVerifyLinks, ConfigName);
+                    ClipboardScannerVerifyLinks_First = ClipboardScannerVerifyLinks;
+
                     break;
 
                 case false:
@@ -531,6 +545,8 @@ namespace youtube_dl_gui {
                     Configurations.Batch.Default.DownloadAudioVBR = DownloadAudioVBR;
                     Configurations.Batch.Default.SelectedAudioQualityVBR = SelectedAudioQualityVBR;
                     Configurations.Batch.Default.CustomArguments = CustomArguments;
+                    Configurations.Batch.Default.ClipboardScannerNoticeViewed = ClipboardScannerNoticeViewed;
+                    Configurations.Batch.Default.ClipboardScannerVerifyLinks = ClipboardScannerVerifyLinks;
                     Configurations.Batch.Default.Save();
                     break;
             }

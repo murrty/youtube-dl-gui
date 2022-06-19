@@ -39,5 +39,20 @@ namespace youtube_dl_gui {
         internal static extern IntPtr SendMessage(IntPtr hWnd, int wMsg, IntPtr wParam, IntPtr lParam);
         #endregion
 
+        #region Clipboard scanner for batch downloader
+        internal const int WM_CLIPBOARDUPDATE = 0x031D;
+        internal const int WM_DESTROYCLIPBOARD = 0x0307;
+        [DllImport("user32.dll", SetLastError = true, EntryPoint = "AddClipboardFormatListener")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        internal static extern bool AddClipboardFormatListener(
+            [In] IntPtr hwnd
+        );
+        [DllImport("user32.dll", SetLastError = true, EntryPoint = "RemoveClipboardFormatListener")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        internal static extern bool RemoveClipboardFormatListener(
+            [In] IntPtr hwnd
+        );
+        #endregion
+
     }
 }

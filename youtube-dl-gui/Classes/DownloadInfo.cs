@@ -222,45 +222,75 @@ namespace youtube_dl_gui {
 
     public class Download {
 
-        public static string[] ProxyProtocols = { "https://", "http://", "socks4://", "socks5://" };
+        public static readonly string[] ProxyProtocols = { "https://", "http://", "socks4://", "socks5://" };
 
-        public static bool isReddit(string url) {
-            if (url.IndexOf("reddit.com") == -1 && url.IndexOf("redd.it") == -1) {
-                return false;
-            }
+        // The prefix for the initial regex, encompasing the connection protocol.
+        internal const string RegexPrefix = @"^(http(s)?:\/\/)?";
 
-            Regex Matcher = new("(http(s)?://)?(.*?(.)?)reddit.com/r/(.*?)/(comments/)?[a-zA-Z0-9]*");
-            if (Matcher.IsMatch(url)) {
-                return true;
-            }
+        // From most important ... least important
+        public static readonly string[] LinkRegularExpression = {
+            // YouTube
+            RegexPrefix + @"((www|m)\.)?(youtube\.com\/watch\?(.*?)?v=|(youtu\.be\/))[a-zA-Z0-9_-]{1,}",
 
-            Matcher = new("(http(s)?://)?(v.)?redd.it/[a-zA-Z0-9]*");
-            if (Matcher.IsMatch(url)) {
+            // PornHub
+            RegexPrefix + @"((www|m)\.)?pornhub\.com\/view_video\.php(\?viewkey=|.*?&viewkey=)ph[a-zA-Z0-9]{1,}",
+
+            // Reddit
+            RegexPrefix + @"(([a-zA-Z]{1,}.)?reddit\.com\/r\/[a-zA-Z0-9-_]{1,}\/(comments\/)?[a-zA-Z0-9]{1,}|(i\.|v\.)?redd\.it\/[a-zA-Z0-9]{1,})",
+
+            // Twitter
+            RegexPrefix + @"(t\.co\/[a-zA-Z0-9]{1,})|(((m|mobile)\.)?twitter\.com\/(i|[a-zA-Z0-9]{1,})\/status\/[0-9]{1,})",
+
+            // Twitch
+            RegexPrefix + @"(((www|m)\.)?twitch\.tv\/((videos\/[0-9]{1,})|[a-zA-Z0-9_-]{1,}\/clip\/[a-zA-Z0-9_-]{1,})|clips\.twitch\.tv\/(clips\/)?[^clip_missing][a-zA-Z0-9_-]{1,})",
+            //((www\.|m\.)?twitch.tv\/((videos\/[0-9]{1,})|[a-zA-Z0-9_-]{1,}\/clip\/[a-zA-Z0-9_-]{1,})|clips.twitch.tv\/(clips\/)?[a-zA-Z0-9_-]{1,})
+
+            // SoundCloud
+            RegexPrefix + @"((www|m)\.)?soundcloud\.com\/[a-zA-Z0-9_-]{1,}\/[a-zA-Z0-9_-]{1,}",
+
+            // Imgur
+            RegexPrefix + @"((www|m|i)\.)?imgur\.com(\/(a|gallery))?\/[a-zA-Z0-9]{1,}",
+
+        };
+
+        public static bool isReddit(string Url) {
+            Regex Matcher = new(
+                LinkRegularExpression[2],
+                RegexOptions.Compiled
+            );
+
+            if (Matcher.IsMatch(Url)) {
                 return true;
             }
 
             return false;
         }
 
-        public static string getUrlBase(string url) {
-            if (url.StartsWith("https://")) {
-                if (url.StartsWith("https://www."))
-                    url = url[12..];
+        public static string getUrlBase(string Url) {
+            if (Url.StartsWith("https://")) {
+                if (Url.StartsWith("https://www."))
+                    Url = Url[12..];
                 else
-                    url = url[8..];
+                    Url = Url[8..];
             }
-            else if (url.StartsWith("http://")) {
-                if (url.StartsWith("http://www."))
-                    url = url[11..];
+            else if (Url.StartsWith("http://")) {
+                if (Url.StartsWith("http://www."))
+                    Url = Url[11..];
                 else
-                    url = url[7..];
+                    Url = Url[7..];
             }
             else {
-                if (url.StartsWith("www."))
-                    url = url[4..];
+                if (Url.StartsWith("www."))
+                    Url = Url[4..];
             }
 
-            return url.Split('/')[0];
+            Url = Url.Split('/')[0];
+
+            if (Url.IndexOf('.') != Url.LastIndexOf('.')) {
+                Url = Url[(Url.IndexOf('.') + 1)..];
+            }
+
+            return Url;
         }
 
         public static bool AddToHistory(string Url) {
@@ -290,6 +320,15 @@ namespace youtube_dl_gui {
                 Log.ReportException(ex);
                 return false;
             }
+        }
+
+        public static bool SupportedDownloadLink(string Url) {
+            Regex LinkMatcher;
+            for (int i = 0; i < LinkRegularExpression.Length; i++) {
+                LinkMatcher = new(LinkRegularExpression[i]);
+                if (LinkMatcher.IsMatch(Url)) return true;
+            }
+            return false;
         }
 
         public class Formats {

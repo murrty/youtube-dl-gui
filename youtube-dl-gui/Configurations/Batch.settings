@@ -1,5 +1,5 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="youtube_dl_gui" GeneratedClassName="Batch">
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="youtube_dl_gui.Configurations" GeneratedClassName="Batch">
   <Profiles />
   <Settings>
     <Setting Name="SelectedType" Type="System.Int32" Scope="User">
@@ -28,6 +28,12 @@
     </Setting>
     <Setting Name="CustomArguments" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="ClipboardScannerNoticeViewed" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="ClipboardScannerVerifyLinks" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
     </Setting>
   </Settings>
 </SettingsFile>

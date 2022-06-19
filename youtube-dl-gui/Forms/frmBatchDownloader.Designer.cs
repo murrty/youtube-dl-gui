@@ -44,6 +44,9 @@
             this.mBatchDownloaderImportLinksFromFile = new System.Windows.Forms.MenuItem();
             this.mBatchDownloaderImportLinksFromClipboard = new System.Windows.Forms.MenuItem();
             this.pnAudioVBR = new System.Windows.Forms.Panel();
+            this.chkBatchDownloadClipboardScanner = new System.Windows.Forms.CheckBox();
+            this.chkBatchDownloadClipboardScanVerifyLinks = new System.Windows.Forms.CheckBox();
+            this.pnClipboardScanner = new System.Windows.Forms.Panel();
             this.sbBatchDownloaderImportLinks = new youtube_dl_gui.Controls.SplitButton();
             this.sbBatchDownloadLoadArgs = new youtube_dl_gui.Controls.SplitButton();
             this.txtBatchDownloadLink = new murrty.controls.ExtendedTextBox();
@@ -52,6 +55,7 @@
             this.clType = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.clArgs = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.pnAudioVBR.SuspendLayout();
+            this.pnClipboardScanner.SuspendLayout();
             this.SuspendLayout();
             // 
             // cbBatchDownloadType
@@ -230,7 +234,40 @@
             this.pnAudioVBR.Name = "pnAudioVBR";
             this.pnAudioVBR.Size = new System.Drawing.Size(113, 23);
             this.pnAudioVBR.TabIndex = 17;
-            this.pnAudioVBR.Visible = false;
+            // 
+            // chkBatchDownloadClipboardScanner
+            // 
+            this.chkBatchDownloadClipboardScanner.AutoSize = true;
+            this.chkBatchDownloadClipboardScanner.Location = new System.Drawing.Point(3, 3);
+            this.chkBatchDownloadClipboardScanner.Name = "chkBatchDownloadClipboardScanner";
+            this.chkBatchDownloadClipboardScanner.Size = new System.Drawing.Size(203, 17);
+            this.chkBatchDownloadClipboardScanner.TabIndex = 18;
+            this.chkBatchDownloadClipboardScanner.Text = "chkBatchDownloadClipboardScanner";
+            this.chkBatchDownloadClipboardScanner.UseVisualStyleBackColor = true;
+            this.chkBatchDownloadClipboardScanner.CheckedChanged += new System.EventHandler(this.chkBatchDownloadClipboardScanner_CheckedChanged);
+            // 
+            // chkBatchDownloadClipboardScanVerifyLinks
+            // 
+            this.chkBatchDownloadClipboardScanVerifyLinks.AutoSize = true;
+            this.chkBatchDownloadClipboardScanVerifyLinks.Checked = true;
+            this.chkBatchDownloadClipboardScanVerifyLinks.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkBatchDownloadClipboardScanVerifyLinks.Enabled = false;
+            this.chkBatchDownloadClipboardScanVerifyLinks.Location = new System.Drawing.Point(3, 26);
+            this.chkBatchDownloadClipboardScanVerifyLinks.Name = "chkBatchDownloadClipboardScanVerifyLinks";
+            this.chkBatchDownloadClipboardScanVerifyLinks.Size = new System.Drawing.Size(239, 17);
+            this.chkBatchDownloadClipboardScanVerifyLinks.TabIndex = 19;
+            this.chkBatchDownloadClipboardScanVerifyLinks.Text = "chkBatchDownloadClipboardScanVerifyLinks";
+            this.chkBatchDownloadClipboardScanVerifyLinks.UseVisualStyleBackColor = true;
+            // 
+            // pnClipboardScanner
+            // 
+            this.pnClipboardScanner.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pnClipboardScanner.Controls.Add(this.chkBatchDownloadClipboardScanner);
+            this.pnClipboardScanner.Controls.Add(this.chkBatchDownloadClipboardScanVerifyLinks);
+            this.pnClipboardScanner.Location = new System.Drawing.Point(532, 157);
+            this.pnClipboardScanner.Name = "pnClipboardScanner";
+            this.pnClipboardScanner.Size = new System.Drawing.Size(122, 47);
+            this.pnClipboardScanner.TabIndex = 20;
             // 
             // sbBatchDownloaderImportLinks
             // 
@@ -322,6 +359,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(654, 305);
+            this.Controls.Add(this.pnClipboardScanner);
             this.Controls.Add(this.sbBatchDownloaderImportLinks);
             this.Controls.Add(this.sbBatchDownloader);
             this.Controls.Add(this.sbBatchDownloadLoadArgs);
@@ -348,6 +386,8 @@
             this.Load += new System.EventHandler(this.frmBatchDownloader_Load);
             this.pnAudioVBR.ResumeLayout(false);
             this.pnAudioVBR.PerformLayout();
+            this.pnClipboardScanner.ResumeLayout(false);
+            this.pnClipboardScanner.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -382,5 +422,8 @@
         private System.Windows.Forms.MenuItem mBatchDownloaderImportLinksFromFile;
         private System.Windows.Forms.MenuItem mBatchDownloaderImportLinksFromClipboard;
         private System.Windows.Forms.Panel pnAudioVBR;
+        private System.Windows.Forms.CheckBox chkBatchDownloadClipboardScanner;
+        private System.Windows.Forms.CheckBox chkBatchDownloadClipboardScanVerifyLinks;
+        private System.Windows.Forms.Panel pnClipboardScanner;
     }
 }

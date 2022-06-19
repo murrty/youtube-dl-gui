@@ -12,7 +12,7 @@
         #region Windows Form Designer generated code
 
         private void InitializeComponent() {
-            this.listView1 = new System.Windows.Forms.ListView();
+            this.lvAvailableLanguages = new System.Windows.Forms.ListView();
             this.chName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chHash = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.btnOk = new System.Windows.Forms.Button();
@@ -20,26 +20,27 @@
             this.btnCancel = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // listView1
+            // lvAvailableLanguages
             // 
-            this.listView1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.lvAvailableLanguages.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.lvAvailableLanguages.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.chName,
             this.chHash});
-            this.listView1.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.listView1.FullRowSelect = true;
-            this.listView1.HideSelection = false;
-            this.listView1.Location = new System.Drawing.Point(12, 12);
-            this.listView1.MultiSelect = false;
-            this.listView1.Name = "listView1";
-            this.listView1.ShowItemToolTips = true;
-            this.listView1.Size = new System.Drawing.Size(308, 230);
-            this.listView1.TabIndex = 0;
-            this.listView1.TileSize = new System.Drawing.Size(284, 40);
-            this.listView1.UseCompatibleStateImageBehavior = false;
-            this.listView1.View = System.Windows.Forms.View.Tile;
-            this.listView1.SelectedIndexChanged += new System.EventHandler(this.listView1_SelectedIndexChanged);
+            this.lvAvailableLanguages.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.lvAvailableLanguages.FullRowSelect = true;
+            this.lvAvailableLanguages.HideSelection = false;
+            this.lvAvailableLanguages.Location = new System.Drawing.Point(12, 12);
+            this.lvAvailableLanguages.MultiSelect = false;
+            this.lvAvailableLanguages.Name = "lvAvailableLanguages";
+            this.lvAvailableLanguages.ShowItemToolTips = true;
+            this.lvAvailableLanguages.Size = new System.Drawing.Size(308, 230);
+            this.lvAvailableLanguages.TabIndex = 0;
+            this.lvAvailableLanguages.TileSize = new System.Drawing.Size(284, 40);
+            this.lvAvailableLanguages.UseCompatibleStateImageBehavior = false;
+            this.lvAvailableLanguages.View = System.Windows.Forms.View.Tile;
+            this.lvAvailableLanguages.SelectedIndexChanged += new System.EventHandler(this.listView1_SelectedIndexChanged);
             // 
             // chName
             // 
@@ -51,6 +52,7 @@
             // 
             // btnOk
             // 
+            this.btnOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOk.Enabled = false;
             this.btnOk.Location = new System.Drawing.Point(246, 258);
             this.btnOk.Name = "btnOk";
@@ -62,6 +64,7 @@
             // 
             // btnDownloadSelected
             // 
+            this.btnDownloadSelected.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnDownloadSelected.Enabled = false;
             this.btnDownloadSelected.Location = new System.Drawing.Point(12, 258);
             this.btnDownloadSelected.Name = "btnDownloadSelected";
@@ -73,6 +76,7 @@
             // 
             // btnCancel
             // 
+            this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.Location = new System.Drawing.Point(165, 258);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
@@ -85,16 +89,14 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(332, 293);
+            this.ClientSize = new System.Drawing.Size(334, 295);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnDownloadSelected);
             this.Controls.Add(this.btnOk);
-            this.Controls.Add(this.listView1);
+            this.Controls.Add(this.lvAvailableLanguages);
             this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = global::youtube_dl_gui.Properties.Resources.youtube_dl_gui;
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(350, 330);
             this.MinimumSize = new System.Drawing.Size(350, 330);
             this.Name = "frmDownloadLanguage";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
@@ -105,7 +107,7 @@
 
         #endregion
 
-        private System.Windows.Forms.ListView listView1;
+        private System.Windows.Forms.ListView lvAvailableLanguages;
         private System.Windows.Forms.ColumnHeader chName;
         private System.Windows.Forms.ColumnHeader chHash;
         private System.Windows.Forms.Button btnOk;
