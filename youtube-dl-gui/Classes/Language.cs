@@ -35,11 +35,15 @@ namespace youtube_dl_gui {
         public string GenericSave { get; private set; }
         public string GenericAdd { get; private set; }
         public string GenericRemoveSelected { get; private set; }
+        public string GenericVerifyLinks { get; private set; }
         #endregion
 
         #region Dialogs
         public string dlgFirstTimeInitialMessage { get; private set; }
         public string dlgFirstTimeDownloadFolder { get; private set; }
+
+        public string dlgClipboardAutoDownloadNotice { get; private set; }
+        public string dlgBatchDownloadClipboardScannerNotice { get; private set; }
 
         public string dlgMainArgsTxtDoesntExist { get; private set; }
         public string dlgMainArgsTxtIsEmpty { get; private set; }
@@ -107,8 +111,6 @@ namespace youtube_dl_gui {
         public string sbBatchDownloaderFinished { get; private set; }
         public string sbBatchDownloaderAborted { get; private set; }
         public string chkBatchDownloadClipboardScanner { get; private set; }
-        public string BatchDownloadClipboardScannerNotice { get; private set; }
-        public string chkBatchDownloadClipboardScanVerifyLinks { get; private set; }
         #endregion
 
         #region frmConverter
@@ -152,6 +154,7 @@ namespace youtube_dl_gui {
         public string mBatchConvert { get; private set; }
         public string mDownloadSubtitles { get; private set; }
         public string mMiscTools { get; private set; }
+        public string mClipboardAutoDownload { get; private set; }
         public string mHelp { get; private set; }
         public string mLanguage { get; private set; }
         public string mSupportedSites { get; private set; }
@@ -446,7 +449,7 @@ namespace youtube_dl_gui {
             public const string CurrentLanguageHint = "Click here to change";
             public const string CurrentLanguageVersion = "1";
 
-            // Generics
+            #region Generics
             public const string GenericInputBest = "best";
             public const string GenericInputWorst = "worst";
             public const string GenericCancel = "Cancel";
@@ -463,10 +466,16 @@ namespace youtube_dl_gui {
             public const string GenericSave = "Save";
             public const string GenericAdd = "Add";
             public const string GenericRemoveSelected = "Remove selected";
+            public const string GenericVerifyLinks = "Verify copied links";
+            #endregion
 
             #region Dialogs
             public const string dlgFirstTimeInitialMessage = "youtube-dl-gui is a visual extension to youtube-dl and is not affiliated with the developers of youtube-dl in any way.\n\nThis program (and I) does not condone piracy or illegally downloading of any video you do not own the rights to or is not in public domain.\n\nAny help regarding any problems when downloading anything illegal (in my jurisdiction) will be ignored. This message will not appear again.\n\nHave you read the above?";
             public const string dlgFirstTimeDownloadFolder = "Downloads are saved to your downloads folder by default, would you like to specify a different location now?\n(You can change this in the settings at any time)";
+
+            public const string dlgClipboardAutoDownloadNotice = "Using the clipboard auto downloader will automatically attempt to download verified links from the clipboard using the selected settings on the main form. Please do not copy any sensitive information while this option is enabled, ever.";
+            public const string dlgBatchDownloadClipboardScannerNotice = "Enabling this option will add anything from your clipboard when something is copied (link or not). It will need to be manually enabled per-converter instance. Take care to not copy any sensitive information to the cipboard.";
+
             public const string dlgFindDownloadFolder = "Select a directory to save downloads to...";
             public const string dlgMainArgsTxtDoesntExist = "args.txt does not exist, create it and put in arguments to use this command";
             public const string dlgMainArgsTxtIsEmpty = "args.txt is empty, save arguments to the file to use this command";
@@ -537,8 +546,6 @@ namespace youtube_dl_gui {
             public const string sbBatchDownloaderFinished = "Batch download finished. Add more items to start another batch, or exit";
             public const string sbBatchDownloaderAborted = "The batch download has been aborted";
             public const string chkBatchDownloadClipboardScanner = "Scan clipboard";
-            public const string BatchDownloadClipboardScannerNotice = "Enabling this option will add anything from your clipboard when something is copied (link or not). It will need to be manually enabled per-converter instance. Take care to not copy any sensitive information to the cipboard.";
-            public const string chkBatchDownloadClipboardScanVerifyLinks = "Verify copied links";
             #endregion
 
             #region frmConverter
@@ -585,6 +592,7 @@ namespace youtube_dl_gui {
             public const string mBatchConvert = "Batch convert";
             public const string mDownloadSubtitles = "Download subtitles";
             public const string mMiscTools = "Misc tools";
+            public const string mClipboardAutoDownload = "Clipboard auto download";
             public const string mHelp = "Help";
             public const string mLanguage = "Language";
             public const string mSupportedSites = "Supported sites";
@@ -922,10 +930,15 @@ namespace youtube_dl_gui {
                 GenericSave = InternalEnglish.GenericSave;
                 GenericAdd = InternalEnglish.GenericAdd;
                 GenericRemoveSelected = InternalEnglish.GenericRemoveSelected;
+                GenericVerifyLinks = InternalEnglish.GenericVerifyLinks;
 
                 // Dialogs
                 dlgFirstTimeInitialMessage = InternalEnglish.dlgFirstTimeInitialMessage;
                 dlgFirstTimeDownloadFolder = InternalEnglish.dlgFirstTimeDownloadFolder;
+
+                dlgClipboardAutoDownloadNotice = InternalEnglish.dlgClipboardAutoDownloadNotice;
+                dlgBatchDownloadClipboardScannerNotice = InternalEnglish.dlgBatchDownloadClipboardScannerNotice;
+
                 dlgFindDownloadFolder = InternalEnglish.dlgFindDownloadFolder;
                 dlgMainArgsTxtDoesntExist = InternalEnglish.dlgMainArgsTxtDoesntExist;
                 dlgMainArgsTxtIsEmpty = InternalEnglish.dlgMainArgsTxtIsEmpty;
@@ -989,8 +1002,6 @@ namespace youtube_dl_gui {
                 sbBatchDownloaderFinished = InternalEnglish.sbBatchDownloaderFinished;
                 sbBatchDownloaderAborted = InternalEnglish.sbBatchDownloaderAborted;
                 chkBatchDownloadClipboardScanner = InternalEnglish.chkBatchDownloadClipboardScanner;
-                BatchDownloadClipboardScannerNotice = InternalEnglish.BatchDownloadClipboardScannerNotice;
-                chkBatchDownloadClipboardScanVerifyLinks = InternalEnglish.chkBatchDownloadClipboardScanVerifyLinks;
 
                 // frmConverter
                 frmConverter = InternalEnglish.frmConverter;
@@ -1028,6 +1039,7 @@ namespace youtube_dl_gui {
                 mBatchConvert = InternalEnglish.mBatchConvert;
                 mDownloadSubtitles = InternalEnglish.mDownloadSubtitles;
                 mMiscTools = InternalEnglish.mMiscTools;
+                mClipboardAutoDownload = InternalEnglish.mClipboardAutoDownload;
                 mHelp = InternalEnglish.mHelp;
                 mLanguage = InternalEnglish.mLanguage;
                 mSupportedSites = InternalEnglish.mSupportedSites;
@@ -1333,10 +1345,15 @@ namespace youtube_dl_gui {
             GenericSave = "GenericSave";
             GenericAdd = "GenericAdd";
             GenericRemoveSelected = "GenericRemoveSelected";
+            GenericVerifyLinks = "GenericVerifyLinks";
 
             // Dialogs
             dlgFirstTimeInitialMessage = "dlgFirstTimeInitialMessage";
             dlgFirstTimeDownloadFolder = "dlgFirstTimeDownloadFolder";
+
+            dlgClipboardAutoDownloadNotice = "dlgClipboardAutoDownloadNotice";
+            dlgBatchDownloadClipboardScannerNotice = "dlgBatchDownloadClipboardScannerNotice";
+
             dlgFindDownloadFolder = "dlgFindDownloadFolder";
             dlgMainArgsTxtDoesntExist = "dlgMainArgsTxtDoesntExist";
             dlgMainArgsTxtIsEmpty = "dlgMainArgsTxtIsEmpty";
@@ -1398,8 +1415,6 @@ namespace youtube_dl_gui {
             sbBatchDownloaderFinished = "sbBatchDownloaderFinished";
             sbBatchDownloaderAborted = "sbBatchDownloaderAborted";
             chkBatchDownloadClipboardScanner = "chkBatchDownloadClipboardScanner";
-            BatchDownloadClipboardScannerNotice = "BatchDownloadClipboardScannerNotice";
-            chkBatchDownloadClipboardScanVerifyLinks = "chkBatchDownloadClipboardScanVerifyLinks";
 
             // frmConverter
             frmConverter = "frmConverter";
@@ -1437,6 +1452,7 @@ namespace youtube_dl_gui {
             mBatchConvert = "mBatchConvert";
             mDownloadSubtitles = "mDownloadSubtitles";
             mMiscTools = "mMiscTools";
+            mClipboardAutoDownload = "mClipboardAutoDownload";
             mHelp = "mHelp";
             mLanguage = "mLanguage";
             mSupportedSites = "mSupportedSites";
@@ -1681,7 +1697,6 @@ namespace youtube_dl_gui {
             chkSettingsErrorsSaveErrorsAsErrorLogHint = "chkSettingsErrorsSaveErrorsAsErrorLogHint";
             chkSettingsErrorsSuppressErrorsHint = "chkSettingsErrorsSuppressErrorsHint";
 
-
             // frmSubtitles
             frmSubtitles = "frmSubtitles";
             lbSubtitlesHeader = "lbSubtitlesHeader";
@@ -1812,6 +1827,9 @@ namespace youtube_dl_gui {
                                     case "genericremoveselected":
                                         GenericRemoveSelected = ReadValue;
                                         continue;
+                                    case "genericverifylinks":
+                                        GenericVerifyLinks = ReadValue;
+                                        continue;
                                     #endregion
 
                                     #region Dialogs
@@ -1823,6 +1841,12 @@ namespace youtube_dl_gui {
                                         continue;
                                     case "dlgfinddownloadfolder":
                                         dlgFindDownloadFolder = ReadValue;
+                                        continue;
+                                    case "dlgclipboardautodownloadnotice":
+                                        dlgClipboardAutoDownloadNotice = ReadValue;
+                                        continue;
+                                    case "dlgbatchdownloadclipboardscannernotice":
+                                        dlgBatchDownloadClipboardScannerNotice = ReadValue;
                                         continue;
                                     case "dlgmainargstxtdoesntexist":
                                         dlgMainArgsTxtDoesntExist = ReadValue;
@@ -1993,12 +2017,6 @@ namespace youtube_dl_gui {
                                     case "chkbatchdownloadclipboardscanner":
                                         chkBatchDownloadClipboardScanner = ReadValue;
                                         continue;
-                                    case "batchdownloadclipboardscannernotice":
-                                        BatchDownloadClipboardScannerNotice = ReadValue;
-                                        continue;
-                                    case "chkbatchdownloadclipboardscanverifylinks":
-                                        chkBatchDownloadClipboardScanVerifyLinks = ReadValue;
-                                        continue;
                                     #endregion
 
                                     #region frmConverter
@@ -2092,6 +2110,9 @@ namespace youtube_dl_gui {
                                         continue;
                                     case "mmisctools":
                                         mMiscTools = ReadValue;
+                                        continue;
+                                    case "mclipboardautodownload":
+                                        mClipboardAutoDownload = ReadValue;
                                         continue;
                                     case "mhelp":
                                         mHelp = ReadValue;
@@ -2916,4 +2937,5 @@ namespace youtube_dl_gui {
         #endregion
 
     }
+
 }

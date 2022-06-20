@@ -56,7 +56,9 @@ namespace youtube_dl_gui {
         }
 
         protected internal void ApplicationExit(object sender, EventArgs e) {
-            NativeMethods.RemoveClipboardFormatListener(this.Handle);
+            if (ClipboardScannerActive && NativeMethods.RemoveClipboardFormatListener(this.Handle)) {
+                ClipboardScannerActive = false;
+            }
         }
 
         void LoadLanguage() {
@@ -81,7 +83,7 @@ namespace youtube_dl_gui {
             cbBatchDownloadType.Items.Add(Program.lang.GenericCustom);
             sbBatchDownloaderImportLinks.Text = Program.lang.sbBatchDownloaderImportLinks;
             chkBatchDownloadClipboardScanner.Text = Program.lang.chkBatchDownloadClipboardScanner;
-            chkBatchDownloadClipboardScanVerifyLinks.Text = Program.lang.chkBatchDownloadClipboardScanVerifyLinks;
+            chkBatchDownloadClipboardScanVerifyLinks.Text = Program.lang.GenericVerifyLinks;
         }
 
         private void frmBatchDownloader_Load(object sender, EventArgs e) {
@@ -501,7 +503,7 @@ namespace youtube_dl_gui {
         private void chkBatchDownloadClipboardScanner_CheckedChanged(object sender, EventArgs e) {
             if (chkBatchDownloadClipboardScanner.Checked) {
                 if (!Config.Settings.Batch.ClipboardScannerNoticeViewed) {
-                    if (MessageBox.Show(Program.lang.BatchDownloadClipboardScannerNotice, "yotube-dl-gui", MessageBoxButtons.OKCancel) == DialogResult.Cancel) {
+                    if (MessageBox.Show(Program.lang.dlgBatchDownloadClipboardScannerNotice, "yotube-dl-gui", MessageBoxButtons.OKCancel) == DialogResult.Cancel) {
                         chkBatchDownloadClipboardScanner.Checked = false;
                         return;
                     }
