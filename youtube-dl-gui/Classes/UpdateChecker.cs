@@ -18,7 +18,7 @@ namespace youtube_dl_gui {
 
         public static readonly GitData GitInfo = new();
         private static readonly bool bypassDebug = true;
-        private const string KnownUpdaterHash = "1C22AA572E0D05E0666138B73DD1739B359C97E08A26D363047E949C849CD3BD";
+        private const string KnownUpdaterHash = "DB65778F9F2B0D03C668D4C7B266AFAF2BF1D5504BB2D68BE53716F4A779F465";
         private const string SHARegex = "\\b[A-Fa-f0-9]{64}\\b";
         private const string BetaRegex = "[0-9]\\.[0-9]+";
 
