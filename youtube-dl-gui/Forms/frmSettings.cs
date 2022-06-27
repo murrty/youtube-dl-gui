@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -492,11 +493,8 @@ namespace youtube_dl_gui {
             if (!txtSettingsDownloadsFileNameSchema.Items.Contains(txtSettingsDownloadsFileNameSchema.Text)) {
                 txtSettingsDownloadsFileNameSchema.Items.Add(txtSettingsDownloadsFileNameSchema.Text);
             }
-            string FileNameSchemaHistory = string.Empty;
-            for (int i = 0; i < txtSettingsDownloadsFileNameSchema.Items.Count; i++) {
-                FileNameSchemaHistory += (string)txtSettingsDownloadsFileNameSchema.Items[i] + "|";
-            }
-            FileNameSchemaHistory = FileNameSchemaHistory.Trim('|');
+            string FileNameSchemaHistory = string.Join("|", txtSettingsDownloadsFileNameSchema.Items.Cast<string>());
+            MessageBox.Show(FileNameSchemaHistory);
             if (Config.Settings.Saved.FileNameSchemaHistory != FileNameSchemaHistory) {
                 Config.Settings.Saved.FileNameSchemaHistory = FileNameSchemaHistory;
             }
