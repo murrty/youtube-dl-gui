@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace youtube_dl_gui {
@@ -21,6 +21,8 @@ namespace youtube_dl_gui {
 
         private bool useYtdlUpdater_Last;
         private int YtdlType_Last;
+
+        private Thread YtdlUpdateCheck;
         #endregion
 
         public frmSettings() {
@@ -40,17 +42,14 @@ namespace youtube_dl_gui {
 
             LoadingForm = false;
         }
-
-        private string GetHistoryFromComboBox(ComboBox CB) {
-            return string.Join("|", CB.Items);
-            //string History = string.Empty;
-            //for (int i = 0; i < CB.Items.Count; i++) {
-            //    History += CB.Items[i] + "|";
-            //}
-            //return History.Trim('|');
+        
+        private void frmSettings_FormClosing(object sender, FormClosingEventArgs e) {
+            if (YtdlUpdateCheck != null && YtdlUpdateCheck.IsAlive) {
+                YtdlUpdateCheck.Abort();
+            }
         }
 
-        void LoadLanguage() {
+        private void LoadLanguage() {
             this.Text = Program.lang.frmSettings;
             btnSettingsRedownloadYoutubeDl.Text = Program.lang.btnSettingsRedownloadYoutubeDl;
             tipSettings.SetToolTip(btnSettingsRedownloadYoutubeDl, Program.lang.btnSettingsRedownloadYoutubeDlHint);
@@ -99,6 +98,8 @@ namespace youtube_dl_gui {
             tipSettings.SetToolTip(chkSettingsGeneralClearUrlOnDownload, Program.lang.chkSettingsGeneralClearUrlOnDownloadHint);
             chkSettingsGeneralClearClipboardOnDownload.Text = Program.lang.chkSettingsGeneralClearClipboardOnDownload;
             tipSettings.SetToolTip(chkSettingsGeneralClearClipboardOnDownload, Program.lang.chkSettingsGeneralClearClipboardOnDownloadHint);
+            chkSettingsGeneralAutoUpdateYoutubeDl.Text = Program.lang.chkSettingsGeneralAutoUpdateYoutubeDl;
+            tipSettings.SetToolTip(chkSettingsGeneralAutoUpdateYoutubeDl, Program.lang.chkSettingsGeneralAutoUpdateYoutubeDlHint);
             gbSettingsGeneralCustomArguments.Text = Program.lang.gbSettingsGeneralCustomArguments;
             tipSettings.SetToolTip(gbSettingsGeneralCustomArguments, Program.lang.gbSettingsGeneralCustomArgumentsHint);
             rbSettingsGeneralCustomArgumentsDontSave.Text = Program.lang.rbSettingsGeneralCustomArgumentsDontSave;
@@ -150,6 +151,8 @@ namespace youtube_dl_gui {
             tipSettings.SetToolTip(chkSettingsDownloadsSeparateDownloadsToDifferentFolders, Program.lang.chkSettingsDownloadsSeparateDownloadsToDifferentFoldersHint);
             chkSettingsDownloadsSeparateIntoWebsiteUrl.Text = Program.lang.chkSettingsDownloadsSeparateIntoWebsiteUrl;
             tipSettings.SetToolTip(chkSettingsDownloadsSeparateIntoWebsiteUrl, Program.lang.chkSettingsDownloadsSeparateIntoWebsiteUrlHint);
+            chkSettingsDownloadsWebsiteSubdomains.Text = Program.lang.chkSettingsDownloadsWebsiteSubdomains;
+            tipSettings.SetToolTip(chkSettingsDownloadsWebsiteSubdomains, Program.lang.chkSettingsDownloadsWebsiteSubdomainsHint);
             chkSettingsDownloadsFixVReddIt.Text = Program.lang.chkSettingsDownloadsFixVReddIt;
             tipSettings.SetToolTip(chkSettingsDownloadsFixVReddIt, Program.lang.chkSettingsDownloadsFixVReddItHint);
             chkSettingsDownloadsPreferFFmpeg.Text = Program.lang.chkSettingsDownloadsPreferFFmpeg;
@@ -239,7 +242,7 @@ namespace youtube_dl_gui {
 
         }
 
-        void CalculatePositions() {
+        private void CalculatePositions() {
             chkSettingsGeneralCheckForUpdatesOnLaunch.Location = new(
                 (tabSettingsGeneral.Size.Width - chkSettingsGeneralCheckForUpdatesOnLaunch.Size.Width) / 2,
                 chkSettingsGeneralCheckForUpdatesOnLaunch.Location.Y
@@ -267,6 +270,10 @@ namespace youtube_dl_gui {
             chkSettingsGeneralClearClipboardOnDownload.Location = new(
                 (tabSettingsGeneral.Size.Width - chkSettingsGeneralClearClipboardOnDownload.Size.Width) / 2,
                 chkSettingsGeneralClearClipboardOnDownload.Location.Y
+            );
+            chkSettingsGeneralAutoUpdateYoutubeDl.Location = new(
+                (tabSettingsGeneral.Size.Width - chkSettingsGeneralAutoUpdateYoutubeDl.Size.Width) / 2,
+                chkSettingsGeneralAutoUpdateYoutubeDl.Location.Y
             );
             rbSettingsGeneralCustomArgumentsDontSave.Location = new(
                 (gbSettingsGeneralCustomArguments.Size.Width - (rbSettingsGeneralCustomArgumentsDontSave.Size.Width + rbSettingsGeneralCustomArgumentsSaveAsArgsText.Size.Width + rbSettingsGeneralCustomArgumentsSaveInSettings.Size.Width)) / 2,
@@ -345,6 +352,7 @@ namespace youtube_dl_gui {
             chkSettingsGeneralHoverOverUrlToPasteClipboard.Checked = Config.Settings.General.HoverOverURLTextBoxToPaste;
             chkSettingsGeneralClearUrlOnDownload.Checked = Config.Settings.General.ClearURLOnDownload;
             chkSettingsGeneralClearClipboardOnDownload.Checked = Config.Settings.General.ClearClipboardOnDownload;
+            chkSettingsGeneralAutoUpdateYoutubeDl.Checked = Config.Settings.General.AutoUpdateYoutubeDl;
             switch (Config.Settings.General.SaveCustomArgs) {
                 case 1:
                     rbSettingsGeneralCustomArgumentsSaveAsArgsText.Checked = true;
@@ -391,6 +399,7 @@ namespace youtube_dl_gui {
             chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing.Checked = Config.Settings.Downloads.deleteYtdlOnClose;
             chkSettingsDownloadsSeparateDownloadsToDifferentFolders.Checked = Config.Settings.Downloads.separateDownloads;
             chkSettingsDownloadsSeparateIntoWebsiteUrl.Checked = Config.Settings.Downloads.separateIntoWebsiteURL;
+            chkSettingsDownloadsWebsiteSubdomains.Checked = Config.Settings.Downloads.SubdomainFolderNames;
             chkSettingsDownloadsFixVReddIt.Checked = Config.Settings.Downloads.fixReddit;
             chkSettingsDownloadsPreferFFmpeg.Checked = Config.Settings.Downloads.PreferFFmpeg;
             chkSettingsDownloadsLimitDownload.Checked = Config.Settings.Downloads.LimitDownloads;
@@ -466,6 +475,7 @@ namespace youtube_dl_gui {
             Config.Settings.General.HoverOverURLTextBoxToPaste = chkSettingsGeneralHoverOverUrlToPasteClipboard.Checked;
             Config.Settings.General.ClearURLOnDownload = chkSettingsGeneralClearUrlOnDownload.Checked;
             Config.Settings.General.ClearClipboardOnDownload = chkSettingsGeneralClearClipboardOnDownload.Checked;
+            Config.Settings.General.AutoUpdateYoutubeDl = chkSettingsGeneralAutoUpdateYoutubeDl.Checked;
 
             if (rbSettingsGeneralCustomArgumentsSaveAsArgsText.Checked) {
                 Config.Settings.General.SaveCustomArgs = 1;
@@ -482,7 +492,11 @@ namespace youtube_dl_gui {
             if (!txtSettingsDownloadsFileNameSchema.Items.Contains(txtSettingsDownloadsFileNameSchema.Text)) {
                 txtSettingsDownloadsFileNameSchema.Items.Add(txtSettingsDownloadsFileNameSchema.Text);
             }
-            string FileNameSchemaHistory = GetHistoryFromComboBox(txtSettingsDownloadsFileNameSchema);
+            string FileNameSchemaHistory = string.Empty;
+            for (int i = 0; i < txtSettingsDownloadsFileNameSchema.Items.Count; i++) {
+                FileNameSchemaHistory += (string)txtSettingsDownloadsFileNameSchema.Items[i] + "|";
+            }
+            FileNameSchemaHistory = FileNameSchemaHistory.Trim('|');
             if (Config.Settings.Saved.FileNameSchemaHistory != FileNameSchemaHistory) {
                 Config.Settings.Saved.FileNameSchemaHistory = FileNameSchemaHistory;
             }
@@ -499,6 +513,9 @@ namespace youtube_dl_gui {
             Config.Settings.Downloads.deleteYtdlOnClose = chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing.Checked;
             Config.Settings.Downloads.separateDownloads = chkSettingsDownloadsSeparateDownloadsToDifferentFolders.Checked;
             Config.Settings.Downloads.separateIntoWebsiteURL = chkSettingsDownloadsSeparateIntoWebsiteUrl.Checked;
+            if (chkSettingsDownloadsSeparateIntoWebsiteUrl.Checked) {
+                Config.Settings.Downloads.SubdomainFolderNames = chkSettingsDownloadsWebsiteSubdomains.Checked;
+            }
             Config.Settings.Downloads.fixReddit = chkSettingsDownloadsFixVReddIt.Checked;
             Config.Settings.Downloads.PreferFFmpeg = chkSettingsDownloadsPreferFFmpeg.Checked;
             Config.Settings.Downloads.LimitDownloads = chkSettingsDownloadsLimitDownload.Checked;
@@ -558,7 +575,18 @@ namespace youtube_dl_gui {
         }
 
         private void btnSettingsRedownloadYoutubeDl_Click(object sender, EventArgs e) {
-            UpdateChecker.UpdateYoutubeDl();
+            YtdlUpdateCheck = new(() => {
+                if (UpdateChecker.CheckForYoutubeDlUpdate(true)) {
+                    UpdateChecker.UpdateYoutubeDl();
+                }
+                else {
+                    this.BeginInvoke((Action)delegate {
+                        MessageBox.Show(string.Format(Program.lang.dlgUpateYoutubeDlNoUpdateRequired, Program.verif.YoutubeDlVersion, UpdateChecker.GitInfo.YoutubeDlVersion), "youtube-dl-gui", MessageBoxButtons.OK);
+                    });
+                }
+            });
+            YtdlUpdateCheck.IsBackground = true;
+            YtdlUpdateCheck.Start();
         }
 
         private void btnSettingsSave_Click(object sender, EventArgs e) {
@@ -664,6 +692,10 @@ namespace youtube_dl_gui {
 
         private void chksettingsDownloadsUseYoutubeDlsUpdater_CheckedChanged(object sender, EventArgs e) {
             Config.Settings.Downloads.useYtdlUpdater = chksettingsDownloadsUseYoutubeDlsUpdater.Checked;
+        }
+
+        private void chkSettingsDownloadsSeparateIntoWebsiteUrl_CheckedChanged(object sender, EventArgs e) {
+            chkSettingsDownloadsWebsiteSubdomains.Enabled = chkSettingsDownloadsSeparateIntoWebsiteUrl.Checked;
         }
 
         private void cbSettingsDownloadsUpdatingYtdlType_SelectedIndexChanged(object sender, EventArgs e) {
