@@ -12,6 +12,7 @@ namespace youtube_dl_gui {
 
         #region variables
         private Thread UpdateCheckThread;
+        private Thread YtdlUpdateCheckThread;
 
         public bool ProtocolInput = false;
 
@@ -23,25 +24,29 @@ namespace youtube_dl_gui {
         [DebuggerStepThrough]
         protected override void WndProc(ref Message m) {
             switch (m.Msg) {
-                case Win32.WM_COPYDATA: {
-                    Win32.CopyDataStruct ReceivedData = (Win32.CopyDataStruct)Marshal.PtrToStructure(m.LParam, typeof(Win32.CopyDataStruct));
-                    string[] ReceivedArguments = Marshal.PtrToStringUni(ReceivedData.lpData).Split('|');
-                    if (ReceivedArguments.Length > 0) {
-                        if (ReceivedArguments.Length > 1) {
-                            Program.CheckArgs(ReceivedArguments, false);
-                        }
-                        else {
+                case CopyData.WM_COPYDATA: {
+                    var ReceivedData = Marshal.PtrToStructure<CopyData.CopyDataStruct>(m.LParam);
+                    var Data = Marshal.PtrToStructure<CopyData.SentData>(ReceivedData.lpData);
+                    string[] ReceivedArguments = Data.Argument.Split('|');
+                    switch (ReceivedArguments.Length) {
+                        case 1: {
                             txtUrl.Text = ReceivedArguments[0];
-                        }
+                            System.Media.SystemSounds.Asterisk.Play();
+                        } break;
+                        case > 1: {
+                            Program.CheckArgs(ReceivedArguments, false);
+                            System.Media.SystemSounds.Asterisk.Play();
+                        } break;
                     }
                     m.Result = IntPtr.Zero;
                 } break;
 
-                case Win32.WM_SHOWFORM: {
+                case CopyData.WM_SHOWFORM: {
                     if (this.WindowState != FormWindowState.Normal)
                         this.WindowState = FormWindowState.Normal;
                     this.Show();
                     this.Activate();
+                    System.Media.SystemSounds.Asterisk.Play();
                     m.Result = IntPtr.Zero;
                 } break;
 
@@ -102,6 +107,25 @@ namespace youtube_dl_gui {
                 };
                 UpdateCheckThread.Start();
             }
+            if (Config.Settings.General.AutoUpdateYoutubeDl) {
+                YtdlUpdateCheckThread = new(() => {
+                    try {
+                        if (UpdateChecker.CheckForYoutubeDlUpdate()) {
+                            UpdateChecker.UpdateYoutubeDl();
+                        }
+                    }
+                    catch (ThreadAbortException) {
+                        // do nothing
+                    }
+                    catch (Exception ex) {
+                        Log.ReportException(ex);
+                    }
+                }) {
+                    Name = "Checks for ytdl updates",
+                    IsBackground = true
+                };
+                YtdlUpdateCheckThread.Start();
+            }
             if (Config.Settings.Saved.MainFormSize != default) {
                 this.Size = Config.Settings.Saved.MainFormSize;
             }
@@ -147,7 +171,7 @@ namespace youtube_dl_gui {
                     rbVideo.Checked = true;
                     break;
             }
-            mClipboardAutoDownloadVerifyLinks.Checked = Config.Settings.General.ClipboardAutoDownloadVerifyLinks;
+            mClipboardAutoDownloadVerifyLinks.Checked = cmTrayClipboardAutoDownloadVerifyLinks.Checked = Config.Settings.General.ClipboardAutoDownloadVerifyLinks;
             
             if (ProtocolInput) {
                 if (Config.Settings.Downloads.AutomaticallyDownloadFromProtocol) {
@@ -170,6 +194,9 @@ namespace youtube_dl_gui {
         private void frmMain_FormClosing(object sender, FormClosingEventArgs e) {
             if (UpdateCheckThread != null && UpdateCheckThread.IsAlive) {
                 UpdateCheckThread.Abort();
+            }
+            if (YtdlUpdateCheckThread != null && YtdlUpdateCheckThread.IsAlive) {
+                YtdlUpdateCheckThread.Abort();
             }
 
             this.Opacity = 0;
@@ -294,6 +321,8 @@ namespace youtube_dl_gui {
             cmTrayDownloadCustomTxtBox.Text = Program.lang.cmTrayDownloadCustomTxtBox;
             cmTrayDownloadCustomTxt.Text = Program.lang.cmTrayDownloadCustomTxt;
             cmTrayDownloadCustomSettings.Text = Program.lang.cmTrayDownloadCustomSettings;
+            cmTrayClipboardAutoDownload.Text = Program.lang.mClipboardAutoDownload;
+            cmTrayClipboardAutoDownloadVerifyLinks.Text = Program.lang.GenericVerifyLinks;
             cmTrayConverter.Text = Program.lang.cmTrayConverter;
             cmTrayConvertTo.Text = Program.lang.cmTrayConvertTo;
             cmTrayConvertVideo.Text = Program.lang.cmTrayConvertVideo;
@@ -396,6 +425,34 @@ namespace youtube_dl_gui {
             );
         }
 
+        private void ToggleClipboardScanning() {
+            if (ClipboardScannerActive) {
+                if (NativeMethods.RemoveClipboardFormatListener(this.Handle)) {
+                    Application.ApplicationExit -= ApplicationExit;
+                    mClipboardAutoDownload.Checked = mClipboardAutoDownloadVerifyLinks.Enabled = cmTrayClipboardAutoDownload.Checked = cmTrayClipboardAutoDownloadVerifyLinks.Enabled = false;
+                    ClipboardScannerActive = false;
+                }
+            }
+            else {
+                if (!Config.Settings.General.ClipboardAutoDownloadNoticeRead) {
+                    if (MessageBox.Show(Program.lang.dlgClipboardAutoDownloadNotice, "youtube-dl-gui", MessageBoxButtons.OKCancel) == DialogResult.Cancel) {
+                        return;
+                    }
+                    Config.Settings.General.ClipboardAutoDownloadNoticeRead = true;
+                }
+                if (NativeMethods.AddClipboardFormatListener(this.Handle)) {
+                    Application.ApplicationExit += ApplicationExit;
+                    ClipboardScannerActive = true;
+                    mClipboardAutoDownload.Checked = mClipboardAutoDownloadVerifyLinks.Enabled = cmTrayClipboardAutoDownload.Checked = cmTrayClipboardAutoDownloadVerifyLinks.Enabled = true;
+                }
+            }
+        }
+
+        private void ToggleClipboardVerifyLinks() {
+            mClipboardAutoDownloadVerifyLinks.Checked ^= true;
+            cmTrayClipboardAutoDownloadVerifyLinks.Checked ^= true;
+        }
+
         internal void ApplicationExit(object sender, EventArgs e) {
             if (ClipboardScannerActive && NativeMethods.RemoveClipboardFormatListener(this.Handle)) {
                 ClipboardScannerActive = false;
@@ -437,29 +494,10 @@ namespace youtube_dl_gui {
             tools.ShowDialog();
         }
         private void mClipboardAutoDownload_Click(object sender, EventArgs e) {
-            if (!ClipboardScannerActive) {
-                if (!Config.Settings.General.ClipboardAutoDownloadNoticeRead) {
-                    if (MessageBox.Show(Program.lang.dlgClipboardAutoDownloadNotice, "youtube-dl-gui", MessageBoxButtons.OKCancel) == DialogResult.Cancel) {
-                        return;
-                    }
-                    Config.Settings.General.ClipboardAutoDownloadNoticeRead = true;
-                }
-                if (NativeMethods.AddClipboardFormatListener(this.Handle)) {
-                    Application.ApplicationExit += ApplicationExit;
-                    ClipboardScannerActive = true;
-                    mClipboardAutoDownload.Checked = mClipboardAutoDownloadVerifyLinks.Enabled = true;
-                }
-            }
-            else {
-                if (NativeMethods.RemoveClipboardFormatListener(this.Handle)) {
-                    Application.ApplicationExit -= ApplicationExit;
-                    mClipboardAutoDownload.Checked = mClipboardAutoDownloadVerifyLinks.Enabled = false;
-                    ClipboardScannerActive = false;
-                }
-            }
+            ToggleClipboardScanning();
         }
         private void mClipboardAutoDownloadVerifyLinks_Click(object sender, EventArgs e) {
-            mClipboardAutoDownloadVerifyLinks.Checked ^= true;
+            ToggleClipboardVerifyLinks();
         }
 
         private void mLanguage_Click(object sender, EventArgs e) {
@@ -581,6 +619,12 @@ namespace youtube_dl_gui {
                     Downloader.Show();
                 }
             }
+        }
+        private void cmTrayClipboardAutoDownload_Click(object sender, EventArgs e) {
+            ToggleClipboardScanning();
+        }
+        private void cmTrayClipboardAutoDownloadVerifyLinks_Click(object sender, EventArgs e) {
+            ToggleClipboardVerifyLinks();
         }
 
         private void cmTrayConvertVideo_Click(object sender, EventArgs e) {
@@ -926,12 +970,9 @@ namespace youtube_dl_gui {
                     NewInfo.FileNameSchema = cbSchema.Text;
                     if (!Config.Settings.Saved.FileNameSchemaHistory.Contains(cbSchema.Text)) {
                         cbSchema.Items.Add(cbSchema.Text);
-                        if (Config.Settings.Saved.FileNameSchemaHistory == null) {
-                            Config.Settings.Saved.FileNameSchemaHistory = cbSchema.Text;
-                        }
-                        else {
+                        Config.Settings.Saved.FileNameSchemaHistory = Config.Settings.Saved.FileNameSchemaHistory is null ?
+                            cbSchema.Text :
                             Config.Settings.Saved.FileNameSchemaHistory += "|" + cbSchema.Text;
-                        }
                         Config.Settings.Saved.Save();
                     }
                 }

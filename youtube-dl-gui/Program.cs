@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
+using System.Linq;
+using System.Management;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
@@ -120,28 +123,34 @@ namespace youtube_dl_gui {
 
             }
             else {
-                int hwnd = Win32.FindWindow(null, "youtube-dl-gui");
-                if (hwnd == 0) {
-                    hwnd = Win32.FindWindow(null, "youtube-dl-gui (ini)");
+                IntPtr hwnd = CopyData.FindWindow(null, "youtube-dl-gui");
+                if (hwnd == IntPtr.Zero) {
+                    hwnd = CopyData.FindWindow(null, "youtube-dl-gui (ini)");
+                }
+                if (hwnd != IntPtr.Zero) {
+                    if (args.Length > 0) {
+                        CopyData.SentData Data = new() {
+                            Argument = string.Join("|", args)
+                        };
+                        CopyData.CopyDataStruct DataStruct = new();
+                        IntPtr CopyDataBuffer = IntPtr.Zero;
+                        IntPtr DataBuffer = IntPtr.Zero;
+                        try {
+                            DataBuffer = CopyData.IntPtrAlloc(Data);
+                            DataStruct.cbData = Marshal.SizeOf(Data);
+                            DataStruct.dwData = new(1);
+                            DataStruct.lpData = DataBuffer;
+                            CopyDataBuffer = CopyData.IntPtrAlloc(DataStruct);
+                            CopyData.SendMessage(hwnd, CopyData.WM_COPYDATA, IntPtr.Zero, CopyDataBuffer);
+                        }
+                        finally {
+                            CopyData.IntPtrFree(ref CopyDataBuffer);
+                            CopyData.IntPtrFree(ref DataBuffer);
+                        }
+                    }
+                    CopyData.SendMessage(hwnd, CopyData.WM_SHOWFORM, IntPtr.Zero, IntPtr.Zero);
                 }
 
-                if (hwnd != 0) {
-                    Win32.CopyDataStruct DataStruct = new();
-                    try {
-                        if (args.Length >= 1) {
-                            string NewArgumnet = string.Join("|", args);
-                            DataStruct.cbData = (NewArgumnet.Length + 1) * 2;
-                            DataStruct.lpData = Win32.LocalAlloc(0x40, DataStruct.cbData);
-                            Marshal.Copy(NewArgumnet.ToCharArray(), 0, DataStruct.lpData, NewArgumnet.Length);
-                            DataStruct.dwData = (IntPtr)1;
-                            Win32.SendMessage((IntPtr)hwnd, Win32.WM_COPYDATA, IntPtr.Zero, ref DataStruct);
-                        }
-                        Win32.SendMessage((IntPtr)hwnd, Win32.WM_SHOWFORM, IntPtr.Zero, ref DataStruct);
-                    }
-                    finally {
-                        DataStruct.Dispose();
-                    }
-                }
                 return 0;
             }
         }
@@ -160,6 +169,20 @@ namespace youtube_dl_gui {
 
             verif.Refresh();
             Formats.LoadCustomFormats();
+        }
+
+        public static void KillProcessTree(uint ProcessId) {
+            ManagementObjectSearcher searcher = new("SELECT * FROM Win32_Process WHERE ParentProcessId=" + ProcessId);
+            ManagementObjectCollection collection = searcher.Get();
+            if (collection.Count > 0) {
+                foreach (var proc in collection) {
+                    uint id = (uint)proc["ProcessID"];
+                    if ((int)id != ProcessId) {
+                        Process subProcess = Process.GetProcessById((int)id);
+                        subProcess.Kill();
+                    }
+                }
+            }
         }
 
         public static bool CheckArgs(string[] args, bool UseDialog) {
