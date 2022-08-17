@@ -25,6 +25,7 @@ namespace youtube_dl_gui_updater {
             this.Text = Program.lang.frmUpdater;
             lbUpdaterHeader.Text = Program.lang.lbUpdaterHeader;
             lbUpdaterDetails.Text = Program.lang.lbUpdaterDetails;
+            pbDownloadProgress.Text = Program.lang.pbDownloadProgressPreparing;
         }
 
         private void SetDownloadThread() {
@@ -81,7 +82,7 @@ RetryDownload:
 
                     if (Info.UpdateHash != null) {
                         this.Invoke((Action)delegate {
-                            pbDownloadProgress.Text = "Calculating hash";
+                            pbDownloadProgress.Text = Program.lang.pbDownloadProgressCalculatingHash;
                         });
 
                         using SHA256 ComputeUpdateHash = SHA256Cng.Create();
@@ -91,10 +92,11 @@ RetryDownload:
 
                         if (Info.UpdateHash != UpdateHash) {
                             this.Invoke((Action)delegate {
-                                pbDownloadProgress.Text = "Hash does not match";
+                                pbDownloadProgress.Text = Program.lang.pbDownloadProgressHashNoMatch;
                                 pbDownloadProgress.ProgressState = murrty.controls.ProgressBarState.Paused;
                             });
-                            switch (MessageBox.Show($"The hash calculated by the updater does not match the known hash of the update.\r\n\r\nExpected: {Info.UpdateHash}\r\n\r\nCalculated: {UpdateHash}\r\n\r\nYou can continue without it matching, there are some instances where it may be different.", "youtube-dl-gui-updater", MessageBoxButtons.AbortRetryIgnore, MessageBoxIcon.Warning)) {
+                            // The hash calculated by the updater does not match the known hash of the update.\r\n\r\nExpected: {Info.UpdateHash}\r\n\r\nCalculated: {UpdateHash}\r\n\r\nYou can continue without it matching, there are some instances where it may be different.
+                            switch (MessageBox.Show(string.Format(Program.lang.dlgUpdaterUpdatedVersionHashNoMatch, Info.UpdateHash, UpdateHash), "youtube-dl-gui-updater", MessageBoxButtons.AbortRetryIgnore, MessageBoxIcon.Warning)) {
                                 case DialogResult.Abort: {
                                 } throw new CryptographicException("The known hash of the file does not match the hash caluclated by the updater.");
 
@@ -117,10 +119,10 @@ RetryDownload:
                     }
                     else {
                         this.Invoke((Action)delegate {
-                            pbDownloadProgress.Text = "Skipping hash calculating...";
+                            pbDownloadProgress.Text = Program.lang.pbDownloadProgressSkippingHashCalculating;
                         });
 
-                        MessageBox.Show("The UpdateHash hasn't been set, so I can't calculate the hash to sanity-check that it's the one from release. Your mileage may vary.", "youtube-dl-gui-updater", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        MessageBox.Show(Program.lang.dlgUpdaterHashNotGiven, "youtube-dl-gui-updater", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
                 }
 
@@ -135,6 +137,7 @@ RetryDownload:
                         tmrForm.Stop();
                         this.Text = this.Text.Trim('.');
                         pbDownloadProgress.ProgressState = murrty.controls.ProgressBarState.Error;
+                        pbDownloadProgress.Text = Program.lang.pbDownloadProgressCancelled;
                     });
 
                     return;
@@ -146,7 +149,7 @@ RetryDownload:
                         tmrForm.Stop();
                         this.Text = this.Text.Trim('.');
                         pbDownloadProgress.ProgressState = murrty.controls.ProgressBarState.Error;
-                        pbDownloadProgress.Text = "Download exception occurred";
+                        pbDownloadProgress.Text = Program.lang.pbDownloadProgressWebException;
                     });
 
                     using murrty.frmException NewException = new(new(webEx) {
@@ -171,6 +174,7 @@ RetryDownload:
                         tmrForm.Stop();
                         this.Text = this.Text.Trim('.');
                         pbDownloadProgress.ProgressState = murrty.controls.ProgressBarState.Error;
+                        pbDownloadProgress.Text = Program.lang.pbDownloadProgressDownloadException;
                     });
 
                     using murrty.frmException NewException = new(new(ex) {
@@ -201,7 +205,7 @@ RetryDownload:
                             this.Text = this.Text.Trim('.');
                             pbDownloadProgress.Style = ProgressBarStyle.Blocks;
                             pbDownloadProgress.ProgressState = murrty.controls.ProgressBarState.Error;
-                            pbDownloadProgress.Text = "Error downloading";
+                            pbDownloadProgress.Text = Program.lang.pbDownloadProgressErrorDownloading;
                         });
                     }
                     else {
@@ -214,7 +218,7 @@ RetryDownload:
                                 this.Text = this.Text.Trim('.');
                                 pbDownloadProgress.Style = ProgressBarStyle.Blocks;
                                 pbDownloadProgress.ProgressState = murrty.controls.ProgressBarState.Error;
-                                pbDownloadProgress.Text = "Error: the download is too small";
+                                pbDownloadProgress.Text = Program.lang.pbDownloadProgressDownloadTooSmall;
                             });
                         }
                         else {
@@ -223,19 +227,27 @@ RetryDownload:
                                 tmrForm.Stop();
                                 this.Text = this.Text.Trim('.');
                                 pbDownloadProgress.Value += 25;
+                            });
 
-                                // We're saving the old version as a temp backup, at least until the program launches.
-                                if (File.Exists(Environment.CurrentDirectory + "\\" + Info.OldFileName)) {
-                                    File.Move(Environment.CurrentDirectory + "\\" + Info.OldFileName, Environment.CurrentDirectory + "\\youtube-dl-gui.old.exe");
+
+                            // We're saving the old version as a temp backup, at least until the program launches.
+                            string ExistingFileName = $"{Environment.CurrentDirectory}\\{Info.OldFileName}";
+                            if (File.Exists(ExistingFileName)) {
+                                if (File.Exists($"{Environment.CurrentDirectory}\\youtube-dl-gui.old.exe")) {
+                                    File.Delete($"{Environment.CurrentDirectory}\\youtube-dl-gui.old.exe");
+                                    //Thread.Sleep(100);
                                 }
+                                File.Move(ExistingFileName, $"{Environment.CurrentDirectory}\\youtube-dl-gui.old.exe");
+                            }
+                            // Move the new file to the old file.
+                            File.Move(Environment.CurrentDirectory + "\\ytdlg.part", Environment.CurrentDirectory + "\\" + Info.OldFileName);
 
-                                // Move the new file to the old file.
-                                File.Move(Environment.CurrentDirectory + "\\ytdlg.part", Environment.CurrentDirectory + "\\" + Info.OldFileName);
 
+                            this.Invoke((Action)delegate {
                                 // Set the progress bar.
                                 pbDownloadProgress.Value = pbDownloadProgress.Maximum;
                                 pbDownloadProgress.Style = ProgressBarStyle.Blocks;
-                                pbDownloadProgress.Text = "Download finished, launching...";
+                                pbDownloadProgress.Text = Program.lang.pbDownloadProgressDownloadFinishedLaunching;
                             });
 
                             // Run the updated program.
@@ -261,7 +273,7 @@ RetryDownload:
                         tmrForm.Stop();
                         this.Text = this.Text.Trim('.');
                         pbDownloadProgress.ProgressState = murrty.controls.ProgressBarState.Error;
-                        pbDownloadProgress.Text = "Error processing download";
+                        pbDownloadProgress.Text = Program.lang.pbDownloadProgressErrorProcessingDownload;
                     });
                     using murrty.frmException NewException = new(new(ex));
                     NewException.ShowDialog();
