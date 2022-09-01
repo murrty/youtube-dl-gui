@@ -1,6 +1,5 @@
 ﻿namespace youtube_dl_gui.updater;
 
-using System;
 using System.Text.RegularExpressions;
 
 /// <summary>
@@ -8,10 +7,10 @@ using System.Text.RegularExpressions;
 /// </summary>
 //[System.Diagnostics.DebuggerStepThrough]
 public struct Version {
-
     /// <summary>
     /// Contains an empty Version with no version information relevant.
     /// </summary>
+    [NonSerialized]
     public static readonly Version Empty = new(0, 0, 0, 0);
 
     /// <summary>
@@ -158,29 +157,24 @@ public struct Version {
                 switch (i) {
                     case 0: {
                         Major = byte.Parse($"{OldVersion[i]}");
-                    }
-                    break;
+                    } break;
 
                     case 2: {
                         Minor = byte.Parse($"{OldVersion[i]}");
-                    }
-                    break;
+                    } break;
 
                     case 3: {
                         Rev = byte.Parse($"{OldVersion[i]}");
-                    }
-                    break;
+                    } break;
 
                     case 4: {
                         Beta = byte.Parse($"{OldVersion[i]}");
                         vers = new(Major, Minor, Rev, Beta);
-                    }
-                    return true;
+                    } return true;
 
                     case > 4: {
                         vers = new(Major, Minor, Rev, Beta);
-                    }
-                    return true;
+                    } return true;
                 }
             }
             vers = new(Major, Minor, Rev, Beta);
@@ -204,16 +198,13 @@ public struct Version {
                 switch (i) {
                     case 0: {
                         Major = byte.Parse($"{Parts[0][i]}");
-                    }
-                    break;
+                    } break;
                     case 2: {
                         Minor = byte.Parse($"{Parts[0][i]}");
-                    }
-                    break;
+                    } break;
                     case 3: {
                         Rev = byte.Parse($"{Parts[0][i]}");
-                    }
-                    break;
+                    } break;
                 }
             }
 
@@ -252,31 +243,52 @@ public struct Version {
     public static bool operator <(Version versa, Version versb) {
         if (versa.IsBeta) {
             if (versb.IsBeta) {
-                if (versa.Major < versb.Major || versa.Minor < versb.Minor || versa.Revision < versb.Revision ||
-                (versa.Major == versb.Major && versa.Minor == versb.Minor && versa.Revision == versb.Revision && versa.Beta < versb.Beta)) {
+                if (versa.Major < versb.Major) {
                     return true;
                 }
-                else {
-                    return false;
+                else if (versa.Major == versb.Major) {
+                    if (versa.Minor < versb.Minor) {
+                        return true;
+                    }
+                    else if (versa.Minor == versb.Minor) {
+                        if (versa.Revision < versb.Revision) {
+                            return true;
+                        }
+                        else if (versa.Revision == versb.Revision) {
+                            return versa.Beta < versb.Beta;
+                        }
+                    }
                 }
+                return false;
             }
             else {
-                if (versa.Major < versb.Major || versa.Minor < versb.Minor || versa.Revision < versb.Revision ||
-                (versa.Major == versb.Major && versa.Minor == versb.Minor && versa.Revision == versb.Revision)) {
+                if (versa.Major < versb.Major) {
                     return true;
                 }
-                else {
-                    return false;
+                else if (versa.Major == versb.Major) {
+                    if (versa.Minor < versb.Minor) {
+                        return true;
+                    }
+                    else if (versa.Minor == versb.Minor) {
+                        return versa.Revision <= versb.Revision;
+                    }
                 }
+                return false;
             }
         }
         else {
-            if (versa.Major < versb.Major || versa.Minor < versb.Minor || versa.Revision < versb.Revision) {
+            if (versa.Major < versb.Major) {
                 return true;
             }
-            else {
-                return false;
+            else if (versa.Major == versb.Major) {
+                if (versa.Minor < versb.Minor) {
+                    return true;
+                }
+                else if (versa.Minor == versb.Minor) {
+                    return versa.Revision < versb.Revision;
+                }
             }
+            return false;
         }
     }
 
@@ -289,31 +301,54 @@ public struct Version {
     public static bool operator >(Version versa, Version versb) {
         if (versb.IsBeta) {
             if (versa.IsBeta) {
-                if (versa.Major > versb.Major || versa.Minor > versb.Minor || versa.Revision > versb.Revision || versa.Beta > versb.Beta ||
-                (versa.Major == versb.Major && versa.Minor == versb.Minor && versa.Revision == versb.Revision && versa.Beta > versb.Beta)) {
+                if (versa.Major > versb.Major) {
                     return true;
                 }
-                else {
-                    return false;
+                else if (versa.Major == versb.Major) {
+                    if (versa.Minor > versb.Minor) {
+                        return true;
+                    }
+                    else if (versa.Minor == versb.Minor) {
+                        if (versa.Revision > versb.Revision) {
+                            return true;
+                        }
+                        else if (versa.Revision == versb.Revision) {
+                            return versa.Beta > versb.Beta;
+                        }
+                    }
                 }
+                return false;
             }
             else {
-                if (versa.Major > versb.Major || versa.Minor > versb.Minor || versa.Revision > versb.Revision ||
-                (versa.Major == versb.Major && versa.Minor == versb.Minor && versa.Revision == versb.Revision)) {
+                if (versa.Major > versb.Major) {
                     return true;
                 }
-                else {
-                    return false;
+                else if (versa.Major == versb.Major) {
+                    if (versa.Minor > versb.Minor) {
+                        return true;
+                    }
+                    else if (versa.Minor == versb.Minor) {
+                        if (versa.Revision >= versb.Revision) {
+                            return true;
+                        }
+                    }
                 }
+                return false;
             }
         }
         else {
-            if (versa.Major > versb.Major || versa.Minor > versb.Minor || versa.Revision > versb.Revision) {
+            if (versa.Major > versb.Major) {
                 return true;
             }
-            else {
-                return false;
+            else if (versa.Major == versb.Major) {
+                if (versa.Minor > versb.Minor) {
+                    return true;
+                }
+                else if (versa.Minor == versb.Minor) {
+                    return versa.Revision > versb.Revision; 
+                }
             }
+            return false;
         }
     }
 
@@ -334,7 +369,7 @@ public struct Version {
     /// <param name="versb">The second version to check</param>
     /// <returns><see langword="true"/> if the left version is newer-than or equal-to; otherwise, <see langword="false"/>.</returns>
     public static bool operator >=(Version versa, Version versb) {
-        return versa == versb || versa > versb;
+        return versa == versb || versa >= versb;
     }
 
     /// <summary>
@@ -353,5 +388,5 @@ public struct Version {
     /// <param name="versb"></param>
     /// <returns><see langword="true"/> if the versions are different; otherwise, <see langword="false"/>.</returns>
     public static bool operator !=(Version versa, Version versb) =>
-        versa.Major == versb.Major || versa.Minor == versb.Minor || versa.Revision == versb.Revision || versa.Beta == versb.Beta;
+        versa.Major != versb.Major || versa.Minor != versb.Minor || versa.Revision != versb.Revision || versa.Beta != versb.Beta;
 }
