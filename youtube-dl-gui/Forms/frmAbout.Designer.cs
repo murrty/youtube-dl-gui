@@ -35,6 +35,7 @@
             this.pbIcon = new System.Windows.Forms.PictureBox();
             this.llbGithub = new murrty.controls.ExtendedLinkLabel();
             this.llbCheckForUpdates = new murrty.controls.ExtendedLinkLabel();
+            this.chkForceCheckUpdate = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.pbIcon)).BeginInit();
             this.SuspendLayout();
             // 
@@ -102,18 +103,28 @@
             this.llbCheckForUpdates.VisitedLinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(0)))), ((int)(((byte)(128)))));
             this.llbCheckForUpdates.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llbCheckForUpdates_LinkClicked);
             // 
+            // chkForceCheckUpdate
+            // 
+            this.chkForceCheckUpdate.AutoSize = true;
+            this.chkForceCheckUpdate.Location = new System.Drawing.Point(69, 121);
+            this.chkForceCheckUpdate.Name = "chkForceCheckUpdate";
+            this.chkForceCheckUpdate.Size = new System.Drawing.Size(14, 13);
+            this.chkForceCheckUpdate.TabIndex = 8;
+            this.chkForceCheckUpdate.UseVisualStyleBackColor = true;
+            // 
             // frmAbout
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(264, 145);
+            this.Controls.Add(this.llbCheckForUpdates);
+            this.Controls.Add(this.chkForceCheckUpdate);
             this.Controls.Add(this.llbGithub);
             this.Controls.Add(this.pbIcon);
             this.Controls.Add(this.lbAboutBody);
             this.Controls.Add(this.lbHeader);
             this.Controls.Add(this.lbVersion);
-            this.Controls.Add(this.llbCheckForUpdates);
             this.Icon = global::youtube_dl_gui.Properties.Resources.youtube_dl_gui;
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(280, 180);
@@ -137,5 +148,6 @@
         private System.Windows.Forms.PictureBox pbIcon;
         private murrty.controls.ExtendedLinkLabel llbCheckForUpdates;
         private murrty.controls.ExtendedLinkLabel llbGithub;
+        private System.Windows.Forms.CheckBox chkForceCheckUpdate;
     }
 }

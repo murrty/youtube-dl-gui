@@ -30,7 +30,7 @@
             this.chkDeleteOldVersionAfterUpdating = new System.Windows.Forms.CheckBox();
             this.chkSettingsGeneralDeleteUpdaterAfterUpdating = new System.Windows.Forms.CheckBox();
             this.chkSettingsGeneralCheckForBetaUpdates = new System.Windows.Forms.CheckBox();
-            this.chkSettingsGeneralRotateQualityFormat = new System.Windows.Forms.CheckBox();
+            this.chkSettingsGeneralAutoUpdateYoutubeDl = new System.Windows.Forms.CheckBox();
             this.chkSettingsGeneralClearClipboardOnDownload = new System.Windows.Forms.CheckBox();
             this.gbSettingsGeneralCustomArguments = new System.Windows.Forms.GroupBox();
             this.rbSettingsGeneralCustomArgumentsSaveInSettings = new System.Windows.Forms.RadioButton();
@@ -64,6 +64,7 @@
             this.chkSettingsDownloadsDownloadSubtitles = new System.Windows.Forms.CheckBox();
             this.chkSettingsDownloadsSaveVideoInfo = new System.Windows.Forms.CheckBox();
             this.tabDownloadsSorting = new System.Windows.Forms.TabPage();
+            this.chkSettingsDownloadsWebsiteSubdomains = new System.Windows.Forms.CheckBox();
             this.chkSettingsDownloadsSeparateDownloadsToDifferentFolders = new System.Windows.Forms.CheckBox();
             this.chkSettingsDownloadsSeparateIntoWebsiteUrl = new System.Windows.Forms.CheckBox();
             this.tabDownloadsFixes = new System.Windows.Forms.TabPage();
@@ -71,8 +72,6 @@
             this.chkSettingsDownloadsFixVReddIt = new System.Windows.Forms.CheckBox();
             this.tabDownloadsConnection = new System.Windows.Forms.TabPage();
             this.cbSettingsDownloadsProxyType = new System.Windows.Forms.ComboBox();
-            this.txtSettingsDownloadsProxyPort = new murrty.controls.ExtendedTextBox();
-            this.txtSettingsDownloadsProxyIp = new murrty.controls.ExtendedTextBox();
             this.chkSettingsDownloadsForceIpv6 = new System.Windows.Forms.CheckBox();
             this.chkSettingsDownloadsForceIpv4 = new System.Windows.Forms.CheckBox();
             this.chkSettingsDownloadsUseProxy = new System.Windows.Forms.CheckBox();
@@ -82,6 +81,8 @@
             this.numSettingsDownloadsLimitDownload = new System.Windows.Forms.NumericUpDown();
             this.lbSettingsDownloadsIpPort = new System.Windows.Forms.Label();
             this.chkSettingsDownloadsLimitDownload = new System.Windows.Forms.CheckBox();
+            this.txtSettingsDownloadsProxyPort = new murrty.controls.ExtendedTextBox();
+            this.txtSettingsDownloadsProxyIp = new murrty.controls.ExtendedTextBox();
             this.tabDownloadsUpdating = new System.Windows.Forms.TabPage();
             this.llbSettingsDownloadsYtdlTypeViewRepo = new System.Windows.Forms.LinkLabel();
             this.lbSettingsDownloadsUpdatingYtdlType = new System.Windows.Forms.Label();
@@ -133,18 +134,14 @@
             this.btnSettingsExtensionsRemoveSelected = new System.Windows.Forms.Button();
             this.listExtensions = new System.Windows.Forms.ListBox();
             this.lbSettingsExtensionsExtensionShort = new System.Windows.Forms.Label();
-            this.txtSettingsExtensionsExtensionShort = new murrty.controls.ExtendedTextBox();
             this.lbSettingsExtensionsExtensionFullName = new System.Windows.Forms.Label();
-            this.txtSettingsExtensionsExtensionFullName = new murrty.controls.ExtendedTextBox();
             this.lbSettingsExtensionsHeader = new System.Windows.Forms.Label();
+            this.txtSettingsExtensionsExtensionShort = new murrty.controls.ExtendedTextBox();
+            this.txtSettingsExtensionsExtensionFullName = new murrty.controls.ExtendedTextBox();
             this.tabSettingsErrors = new System.Windows.Forms.TabPage();
             this.chkSettingsErrorsSaveErrorsAsErrorLog = new System.Windows.Forms.CheckBox();
             this.chkSettingsErrorsShowDetailedErrors = new System.Windows.Forms.CheckBox();
             this.chkSettingsErrorsSuppressErrors = new System.Windows.Forms.CheckBox();
-            this.tabSettingsPortable = new System.Windows.Forms.TabPage();
-            this.btnCleanIni = new System.Windows.Forms.Button();
-            this.chkSettingsPortableToggleIni = new System.Windows.Forms.CheckBox();
-            this.lbSettingsPortableInformation = new System.Windows.Forms.Label();
             this.btnSettingsRedownloadYoutubeDl = new System.Windows.Forms.Button();
             this.btnSettingsCancel = new System.Windows.Forms.Button();
             this.btnSettingsSave = new System.Windows.Forms.Button();
@@ -172,7 +169,6 @@
             this.tcSettingsConverterCustom.SuspendLayout();
             this.tabSettingsExtensions.SuspendLayout();
             this.tabSettingsErrors.SuspendLayout();
-            this.tabSettingsPortable.SuspendLayout();
             this.SuspendLayout();
             // 
             // tcMain
@@ -185,7 +181,6 @@
             this.tcMain.Controls.Add(this.tabSettingsConverter);
             this.tcMain.Controls.Add(this.tabSettingsExtensions);
             this.tcMain.Controls.Add(this.tabSettingsErrors);
-            this.tcMain.Controls.Add(this.tabSettingsPortable);
             this.tcMain.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tcMain.Location = new System.Drawing.Point(0, 0);
             this.tcMain.Name = "tcMain";
@@ -198,7 +193,7 @@
             this.tabSettingsGeneral.Controls.Add(this.chkDeleteOldVersionAfterUpdating);
             this.tabSettingsGeneral.Controls.Add(this.chkSettingsGeneralDeleteUpdaterAfterUpdating);
             this.tabSettingsGeneral.Controls.Add(this.chkSettingsGeneralCheckForBetaUpdates);
-            this.tabSettingsGeneral.Controls.Add(this.chkSettingsGeneralRotateQualityFormat);
+            this.tabSettingsGeneral.Controls.Add(this.chkSettingsGeneralAutoUpdateYoutubeDl);
             this.tabSettingsGeneral.Controls.Add(this.chkSettingsGeneralClearClipboardOnDownload);
             this.tabSettingsGeneral.Controls.Add(this.gbSettingsGeneralCustomArguments);
             this.tabSettingsGeneral.Controls.Add(this.lbSepGeneral);
@@ -257,18 +252,17 @@
             this.tipSettings.SetToolTip(this.chkSettingsGeneralCheckForBetaUpdates, "chkSettingsGeneralCheckForBetaUpdatesHint");
             this.chkSettingsGeneralCheckForBetaUpdates.UseVisualStyleBackColor = true;
             // 
-            // chkSettingsGeneralRotateQualityFormat
+            // chkSettingsGeneralAutoUpdateYoutubeDl
             // 
-            this.chkSettingsGeneralRotateQualityFormat.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.chkSettingsGeneralRotateQualityFormat.AutoSize = true;
-            this.chkSettingsGeneralRotateQualityFormat.Location = new System.Drawing.Point(53, 281);
-            this.chkSettingsGeneralRotateQualityFormat.Name = "chkSettingsGeneralRotateQualityFormat";
-            this.chkSettingsGeneralRotateQualityFormat.Size = new System.Drawing.Size(231, 17);
-            this.chkSettingsGeneralRotateQualityFormat.TabIndex = 15;
-            this.chkSettingsGeneralRotateQualityFormat.Text = "chkSettingsGeneralRotateQualityFormat";
-            this.tipSettings.SetToolTip(this.chkSettingsGeneralRotateQualityFormat, "chkSettingsGeneralRotateQualityFormatHint");
-            this.chkSettingsGeneralRotateQualityFormat.UseVisualStyleBackColor = true;
-            this.chkSettingsGeneralRotateQualityFormat.Visible = false;
+            this.chkSettingsGeneralAutoUpdateYoutubeDl.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.chkSettingsGeneralAutoUpdateYoutubeDl.AutoSize = true;
+            this.chkSettingsGeneralAutoUpdateYoutubeDl.Location = new System.Drawing.Point(53, 281);
+            this.chkSettingsGeneralAutoUpdateYoutubeDl.Name = "chkSettingsGeneralAutoUpdateYoutubeDl";
+            this.chkSettingsGeneralAutoUpdateYoutubeDl.Size = new System.Drawing.Size(241, 17);
+            this.chkSettingsGeneralAutoUpdateYoutubeDl.TabIndex = 15;
+            this.chkSettingsGeneralAutoUpdateYoutubeDl.Text = "chkSettingsGeneralAutoUpdateYoutubeDl";
+            this.tipSettings.SetToolTip(this.chkSettingsGeneralAutoUpdateYoutubeDl, "chkSettingsGeneralAutoUpdateYoutubeDlHint");
+            this.chkSettingsGeneralAutoUpdateYoutubeDl.UseVisualStyleBackColor = true;
             // 
             // chkSettingsGeneralClearClipboardOnDownload
             // 
@@ -402,16 +396,15 @@
             this.txtSettingsGeneralFFmpegPath.ButtonCursor = System.Windows.Forms.Cursors.Default;
             this.txtSettingsGeneralFFmpegPath.ButtonFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtSettingsGeneralFFmpegPath.ButtonImageIndex = -1;
-            this.txtSettingsGeneralFFmpegPath.ButtonImageKey = "";
             this.txtSettingsGeneralFFmpegPath.ButtonSize = new System.Drawing.Size(22, 21);
             this.txtSettingsGeneralFFmpegPath.ButtonText = "";
             this.txtSettingsGeneralFFmpegPath.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.txtSettingsGeneralFFmpegPath.Location = new System.Drawing.Point(30, 79);
             this.txtSettingsGeneralFFmpegPath.Name = "txtSettingsGeneralFFmpegPath";
             this.txtSettingsGeneralFFmpegPath.ReadOnly = true;
+            this.txtSettingsGeneralFFmpegPath.RegexPatterns = null;
             this.txtSettingsGeneralFFmpegPath.Size = new System.Drawing.Size(233, 22);
             this.txtSettingsGeneralFFmpegPath.TabIndex = 7;
-            this.txtSettingsGeneralFFmpegPath.TextHint = "";
             this.tipSettings.SetToolTip(this.txtSettingsGeneralFFmpegPath, "txtFFmpeg");
             // 
             // lbSettingsGeneralFFmpegDirectory
@@ -432,16 +425,15 @@
             this.txtSettingsGeneralYoutubeDlPath.ButtonCursor = System.Windows.Forms.Cursors.Default;
             this.txtSettingsGeneralYoutubeDlPath.ButtonFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtSettingsGeneralYoutubeDlPath.ButtonImageIndex = -1;
-            this.txtSettingsGeneralYoutubeDlPath.ButtonImageKey = "";
             this.txtSettingsGeneralYoutubeDlPath.ButtonSize = new System.Drawing.Size(22, 21);
             this.txtSettingsGeneralYoutubeDlPath.ButtonText = "";
             this.txtSettingsGeneralYoutubeDlPath.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.txtSettingsGeneralYoutubeDlPath.Location = new System.Drawing.Point(30, 32);
             this.txtSettingsGeneralYoutubeDlPath.Name = "txtSettingsGeneralYoutubeDlPath";
             this.txtSettingsGeneralYoutubeDlPath.ReadOnly = true;
+            this.txtSettingsGeneralYoutubeDlPath.RegexPatterns = null;
             this.txtSettingsGeneralYoutubeDlPath.Size = new System.Drawing.Size(233, 22);
             this.txtSettingsGeneralYoutubeDlPath.TabIndex = 3;
-            this.txtSettingsGeneralYoutubeDlPath.TextHint = "";
             this.tipSettings.SetToolTip(this.txtSettingsGeneralYoutubeDlPath, "txtYtdl");
             // 
             // lbSettingsGeneralYoutubeDlPath
@@ -646,6 +638,7 @@
             this.chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing.Text = "chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing";
             this.tipSettings.SetToolTip(this.chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing, "chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing");
             this.chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing.UseVisualStyleBackColor = true;
+            this.chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing.Visible = false;
             // 
             // chkSettingsDownloadsSaveDescription
             // 
@@ -681,15 +674,27 @@
             // 
             // tabDownloadsSorting
             // 
+            this.tabDownloadsSorting.Controls.Add(this.chkSettingsDownloadsWebsiteSubdomains);
             this.tabDownloadsSorting.Controls.Add(this.chkSettingsDownloadsSeparateDownloadsToDifferentFolders);
             this.tabDownloadsSorting.Controls.Add(this.chkSettingsDownloadsSeparateIntoWebsiteUrl);
             this.tabDownloadsSorting.Location = new System.Drawing.Point(4, 22);
             this.tabDownloadsSorting.Name = "tabDownloadsSorting";
             this.tabDownloadsSorting.Padding = new System.Windows.Forms.Padding(3);
-            this.tabDownloadsSorting.Size = new System.Drawing.Size(300, 193);
+            this.tabDownloadsSorting.Size = new System.Drawing.Size(300, 197);
             this.tabDownloadsSorting.TabIndex = 3;
             this.tabDownloadsSorting.Text = "Sorting";
             this.tabDownloadsSorting.UseVisualStyleBackColor = true;
+            // 
+            // chkSettingsDownloadsWebsiteSubdomains
+            // 
+            this.chkSettingsDownloadsWebsiteSubdomains.AutoSize = true;
+            this.chkSettingsDownloadsWebsiteSubdomains.Location = new System.Drawing.Point(6, 52);
+            this.chkSettingsDownloadsWebsiteSubdomains.Name = "chkSettingsDownloadsWebsiteSubdomains";
+            this.chkSettingsDownloadsWebsiteSubdomains.Size = new System.Drawing.Size(250, 17);
+            this.chkSettingsDownloadsWebsiteSubdomains.TabIndex = 3;
+            this.chkSettingsDownloadsWebsiteSubdomains.Text = "chkSettingsDownloadsWebsiteSubdomains";
+            this.tipSettings.SetToolTip(this.chkSettingsDownloadsWebsiteSubdomains, "chkSettingsDownloadsWebsiteSubdomainsHint");
+            this.chkSettingsDownloadsWebsiteSubdomains.UseVisualStyleBackColor = true;
             // 
             // chkSettingsDownloadsSeparateDownloadsToDifferentFolders
             // 
@@ -716,6 +721,7 @@
             this.chkSettingsDownloadsSeparateIntoWebsiteUrl.Text = "chkSettingsDownloadsSeparateIntoWebsiteUrl";
             this.tipSettings.SetToolTip(this.chkSettingsDownloadsSeparateIntoWebsiteUrl, "chkSettingsDownloadsSeparateIntoWebsiteUrl");
             this.chkSettingsDownloadsSeparateIntoWebsiteUrl.UseVisualStyleBackColor = true;
+            this.chkSettingsDownloadsSeparateIntoWebsiteUrl.CheckedChanged += new System.EventHandler(this.chkSettingsDownloadsSeparateIntoWebsiteUrl_CheckedChanged);
             // 
             // tabDownloadsFixes
             // 
@@ -724,7 +730,7 @@
             this.tabDownloadsFixes.Location = new System.Drawing.Point(4, 22);
             this.tabDownloadsFixes.Name = "tabDownloadsFixes";
             this.tabDownloadsFixes.Padding = new System.Windows.Forms.Padding(3);
-            this.tabDownloadsFixes.Size = new System.Drawing.Size(300, 193);
+            this.tabDownloadsFixes.Size = new System.Drawing.Size(300, 197);
             this.tabDownloadsFixes.TabIndex = 4;
             this.tabDownloadsFixes.Text = "Fixes";
             this.tabDownloadsFixes.UseVisualStyleBackColor = true;
@@ -756,8 +762,6 @@
             // tabDownloadsConnection
             // 
             this.tabDownloadsConnection.Controls.Add(this.cbSettingsDownloadsProxyType);
-            this.tabDownloadsConnection.Controls.Add(this.txtSettingsDownloadsProxyPort);
-            this.tabDownloadsConnection.Controls.Add(this.txtSettingsDownloadsProxyIp);
             this.tabDownloadsConnection.Controls.Add(this.chkSettingsDownloadsForceIpv6);
             this.tabDownloadsConnection.Controls.Add(this.chkSettingsDownloadsForceIpv4);
             this.tabDownloadsConnection.Controls.Add(this.chkSettingsDownloadsUseProxy);
@@ -767,10 +771,12 @@
             this.tabDownloadsConnection.Controls.Add(this.numSettingsDownloadsLimitDownload);
             this.tabDownloadsConnection.Controls.Add(this.lbSettingsDownloadsIpPort);
             this.tabDownloadsConnection.Controls.Add(this.chkSettingsDownloadsLimitDownload);
+            this.tabDownloadsConnection.Controls.Add(this.txtSettingsDownloadsProxyPort);
+            this.tabDownloadsConnection.Controls.Add(this.txtSettingsDownloadsProxyIp);
             this.tabDownloadsConnection.Location = new System.Drawing.Point(4, 22);
             this.tabDownloadsConnection.Name = "tabDownloadsConnection";
             this.tabDownloadsConnection.Padding = new System.Windows.Forms.Padding(3);
-            this.tabDownloadsConnection.Size = new System.Drawing.Size(300, 193);
+            this.tabDownloadsConnection.Size = new System.Drawing.Size(300, 197);
             this.tabDownloadsConnection.TabIndex = 1;
             this.tabDownloadsConnection.Text = "Connection";
             this.tabDownloadsConnection.UseVisualStyleBackColor = true;
@@ -785,51 +791,11 @@
             "http://",
             "socks4://",
             "socks5://"});
-            this.cbSettingsDownloadsProxyType.Location = new System.Drawing.Point(9, 157);
+            this.cbSettingsDownloadsProxyType.Location = new System.Drawing.Point(9, 161);
             this.cbSettingsDownloadsProxyType.Name = "cbSettingsDownloadsProxyType";
             this.cbSettingsDownloadsProxyType.Size = new System.Drawing.Size(77, 21);
             this.cbSettingsDownloadsProxyType.TabIndex = 9;
             this.tipSettings.SetToolTip(this.cbSettingsDownloadsProxyType, "cbSettingsDownloadsProxyTypeHint");
-            // 
-            // txtSettingsDownloadsProxyPort
-            // 
-            this.txtSettingsDownloadsProxyPort.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.txtSettingsDownloadsProxyPort.ButtonAlignment = murrty.controls.ButtonAlignment.Left;
-            this.txtSettingsDownloadsProxyPort.ButtonCursor = System.Windows.Forms.Cursors.Default;
-            this.txtSettingsDownloadsProxyPort.ButtonFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtSettingsDownloadsProxyPort.ButtonImageIndex = -1;
-            this.txtSettingsDownloadsProxyPort.ButtonImageKey = "";
-            this.txtSettingsDownloadsProxyPort.ButtonSize = new System.Drawing.Size(22, 21);
-            this.txtSettingsDownloadsProxyPort.ButtonText = "";
-            this.txtSettingsDownloadsProxyPort.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.txtSettingsDownloadsProxyPort.Location = new System.Drawing.Point(189, 158);
-            this.txtSettingsDownloadsProxyPort.MaxLength = 5;
-            this.txtSettingsDownloadsProxyPort.Name = "txtSettingsDownloadsProxyPort";
-            this.txtSettingsDownloadsProxyPort.Size = new System.Drawing.Size(44, 22);
-            this.txtSettingsDownloadsProxyPort.TabIndex = 12;
-            this.txtSettingsDownloadsProxyPort.TextHint = "12345";
-            this.tipSettings.SetToolTip(this.txtSettingsDownloadsProxyPort, "txtSettingsDownloadsProxyPortHint");
-            this.txtSettingsDownloadsProxyPort.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtSettingsDownloadsProxyPort_KeyPress);
-            // 
-            // txtSettingsDownloadsProxyIp
-            // 
-            this.txtSettingsDownloadsProxyIp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.txtSettingsDownloadsProxyIp.ButtonAlignment = murrty.controls.ButtonAlignment.Left;
-            this.txtSettingsDownloadsProxyIp.ButtonCursor = System.Windows.Forms.Cursors.Default;
-            this.txtSettingsDownloadsProxyIp.ButtonFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtSettingsDownloadsProxyIp.ButtonImageIndex = -1;
-            this.txtSettingsDownloadsProxyIp.ButtonImageKey = "";
-            this.txtSettingsDownloadsProxyIp.ButtonSize = new System.Drawing.Size(22, 21);
-            this.txtSettingsDownloadsProxyIp.ButtonText = "";
-            this.txtSettingsDownloadsProxyIp.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.txtSettingsDownloadsProxyIp.Location = new System.Drawing.Point(92, 158);
-            this.txtSettingsDownloadsProxyIp.MaxLength = 15;
-            this.txtSettingsDownloadsProxyIp.Name = "txtSettingsDownloadsProxyIp";
-            this.txtSettingsDownloadsProxyIp.Size = new System.Drawing.Size(89, 22);
-            this.txtSettingsDownloadsProxyIp.TabIndex = 10;
-            this.txtSettingsDownloadsProxyIp.TextHint = "255.255.255.255";
-            this.tipSettings.SetToolTip(this.txtSettingsDownloadsProxyIp, "txtSettingsDownloadsProxyIpHint");
-            this.txtSettingsDownloadsProxyIp.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtSettingsDownloadsProxyIp_KeyPress);
             // 
             // chkSettingsDownloadsForceIpv6
             // 
@@ -859,7 +825,7 @@
             // 
             this.chkSettingsDownloadsUseProxy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.chkSettingsDownloadsUseProxy.AutoSize = true;
-            this.chkSettingsDownloadsUseProxy.Location = new System.Drawing.Point(6, 136);
+            this.chkSettingsDownloadsUseProxy.Location = new System.Drawing.Point(6, 140);
             this.chkSettingsDownloadsUseProxy.Name = "chkSettingsDownloadsUseProxy";
             this.chkSettingsDownloadsUseProxy.Size = new System.Drawing.Size(190, 17);
             this.chkSettingsDownloadsUseProxy.TabIndex = 8;
@@ -916,7 +882,7 @@
             // 
             this.lbSettingsDownloadsIpPort.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lbSettingsDownloadsIpPort.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbSettingsDownloadsIpPort.Location = new System.Drawing.Point(178, 158);
+            this.lbSettingsDownloadsIpPort.Location = new System.Drawing.Point(178, 162);
             this.lbSettingsDownloadsIpPort.Name = "lbSettingsDownloadsIpPort";
             this.lbSettingsDownloadsIpPort.Size = new System.Drawing.Size(12, 20);
             this.lbSettingsDownloadsIpPort.TabIndex = 11;
@@ -933,6 +899,46 @@
             this.tipSettings.SetToolTip(this.chkSettingsDownloadsLimitDownload, "chkSettingsDownloadsLimitDownloadHint");
             this.chkSettingsDownloadsLimitDownload.UseVisualStyleBackColor = true;
             // 
+            // txtSettingsDownloadsProxyPort
+            // 
+            this.txtSettingsDownloadsProxyPort.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.txtSettingsDownloadsProxyPort.ButtonAlignment = murrty.controls.ButtonAlignment.Left;
+            this.txtSettingsDownloadsProxyPort.ButtonCursor = System.Windows.Forms.Cursors.Default;
+            this.txtSettingsDownloadsProxyPort.ButtonFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtSettingsDownloadsProxyPort.ButtonImageIndex = -1;
+            this.txtSettingsDownloadsProxyPort.ButtonSize = new System.Drawing.Size(22, 21);
+            this.txtSettingsDownloadsProxyPort.ButtonText = "";
+            this.txtSettingsDownloadsProxyPort.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.txtSettingsDownloadsProxyPort.Location = new System.Drawing.Point(189, 162);
+            this.txtSettingsDownloadsProxyPort.MaxLength = 5;
+            this.txtSettingsDownloadsProxyPort.Name = "txtSettingsDownloadsProxyPort";
+            this.txtSettingsDownloadsProxyPort.RegexPatterns = null;
+            this.txtSettingsDownloadsProxyPort.Size = new System.Drawing.Size(44, 22);
+            this.txtSettingsDownloadsProxyPort.TabIndex = 12;
+            this.txtSettingsDownloadsProxyPort.TextHint = "12345";
+            this.tipSettings.SetToolTip(this.txtSettingsDownloadsProxyPort, "txtSettingsDownloadsProxyPortHint");
+            this.txtSettingsDownloadsProxyPort.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtSettingsDownloadsProxyPort_KeyPress);
+            // 
+            // txtSettingsDownloadsProxyIp
+            // 
+            this.txtSettingsDownloadsProxyIp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.txtSettingsDownloadsProxyIp.ButtonAlignment = murrty.controls.ButtonAlignment.Left;
+            this.txtSettingsDownloadsProxyIp.ButtonCursor = System.Windows.Forms.Cursors.Default;
+            this.txtSettingsDownloadsProxyIp.ButtonFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtSettingsDownloadsProxyIp.ButtonImageIndex = -1;
+            this.txtSettingsDownloadsProxyIp.ButtonSize = new System.Drawing.Size(22, 21);
+            this.txtSettingsDownloadsProxyIp.ButtonText = "";
+            this.txtSettingsDownloadsProxyIp.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.txtSettingsDownloadsProxyIp.Location = new System.Drawing.Point(92, 162);
+            this.txtSettingsDownloadsProxyIp.MaxLength = 15;
+            this.txtSettingsDownloadsProxyIp.Name = "txtSettingsDownloadsProxyIp";
+            this.txtSettingsDownloadsProxyIp.RegexPatterns = null;
+            this.txtSettingsDownloadsProxyIp.Size = new System.Drawing.Size(89, 22);
+            this.txtSettingsDownloadsProxyIp.TabIndex = 10;
+            this.txtSettingsDownloadsProxyIp.TextHint = "255.255.255.255";
+            this.tipSettings.SetToolTip(this.txtSettingsDownloadsProxyIp, "txtSettingsDownloadsProxyIpHint");
+            this.txtSettingsDownloadsProxyIp.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtSettingsDownloadsProxyIp_KeyPress);
+            // 
             // tabDownloadsUpdating
             // 
             this.tabDownloadsUpdating.Controls.Add(this.llbSettingsDownloadsYtdlTypeViewRepo);
@@ -942,7 +948,7 @@
             this.tabDownloadsUpdating.Location = new System.Drawing.Point(4, 22);
             this.tabDownloadsUpdating.Name = "tabDownloadsUpdating";
             this.tabDownloadsUpdating.Padding = new System.Windows.Forms.Padding(3);
-            this.tabDownloadsUpdating.Size = new System.Drawing.Size(300, 193);
+            this.tabDownloadsUpdating.Size = new System.Drawing.Size(300, 197);
             this.tabDownloadsUpdating.TabIndex = 2;
             this.tabDownloadsUpdating.Text = "Updating";
             this.tabDownloadsUpdating.UseVisualStyleBackColor = true;
@@ -1003,7 +1009,7 @@
             this.tabDownloadsBatch.Location = new System.Drawing.Point(4, 22);
             this.tabDownloadsBatch.Name = "tabDownloadsBatch";
             this.tabDownloadsBatch.Padding = new System.Windows.Forms.Padding(3);
-            this.tabDownloadsBatch.Size = new System.Drawing.Size(300, 193);
+            this.tabDownloadsBatch.Size = new System.Drawing.Size(300, 197);
             this.tabDownloadsBatch.TabIndex = 5;
             this.tabDownloadsBatch.Text = "Batch";
             this.tabDownloadsBatch.UseVisualStyleBackColor = true;
@@ -1060,16 +1066,15 @@
             this.txtSettingsDownloadsSavePath.ButtonCursor = System.Windows.Forms.Cursors.Default;
             this.txtSettingsDownloadsSavePath.ButtonFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtSettingsDownloadsSavePath.ButtonImageIndex = -1;
-            this.txtSettingsDownloadsSavePath.ButtonImageKey = "";
             this.txtSettingsDownloadsSavePath.ButtonSize = new System.Drawing.Size(22, 21);
             this.txtSettingsDownloadsSavePath.ButtonText = "";
             this.txtSettingsDownloadsSavePath.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.txtSettingsDownloadsSavePath.Location = new System.Drawing.Point(30, 32);
             this.txtSettingsDownloadsSavePath.Name = "txtSettingsDownloadsSavePath";
             this.txtSettingsDownloadsSavePath.ReadOnly = true;
+            this.txtSettingsDownloadsSavePath.RegexPatterns = null;
             this.txtSettingsDownloadsSavePath.Size = new System.Drawing.Size(233, 22);
             this.txtSettingsDownloadsSavePath.TabIndex = 2;
-            this.txtSettingsDownloadsSavePath.TextHint = "";
             this.tipSettings.SetToolTip(this.txtSettingsDownloadsSavePath, "txtSaveto");
             // 
             // btnSettingsDownloadsBrowseSavePath
@@ -1128,7 +1133,7 @@
             this.tabSettingsConverter.Location = new System.Drawing.Point(4, 22);
             this.tabSettingsConverter.Name = "tabSettingsConverter";
             this.tabSettingsConverter.Padding = new System.Windows.Forms.Padding(3);
-            this.tabSettingsConverter.Size = new System.Drawing.Size(320, 358);
+            this.tabSettingsConverter.Size = new System.Drawing.Size(320, 362);
             this.tabSettingsConverter.TabIndex = 2;
             this.tabSettingsConverter.Text = "tabSettingsConverterConverter";
             this.tabSettingsConverter.UseVisualStyleBackColor = true;
@@ -1483,15 +1488,14 @@
             this.txtSettingsConverterCustomArguments.ButtonCursor = System.Windows.Forms.Cursors.Default;
             this.txtSettingsConverterCustomArguments.ButtonFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtSettingsConverterCustomArguments.ButtonImageIndex = -1;
-            this.txtSettingsConverterCustomArguments.ButtonImageKey = "";
             this.txtSettingsConverterCustomArguments.ButtonSize = new System.Drawing.Size(22, 21);
             this.txtSettingsConverterCustomArguments.ButtonText = "";
             this.txtSettingsConverterCustomArguments.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.txtSettingsConverterCustomArguments.Location = new System.Drawing.Point(36, 97);
             this.txtSettingsConverterCustomArguments.Name = "txtSettingsConverterCustomArguments";
+            this.txtSettingsConverterCustomArguments.RegexPatterns = null;
             this.txtSettingsConverterCustomArguments.Size = new System.Drawing.Size(228, 22);
             this.txtSettingsConverterCustomArguments.TabIndex = 2;
-            this.txtSettingsConverterCustomArguments.TextHint = "";
             this.tipSettings.SetToolTip(this.txtSettingsConverterCustomArguments, "txtSettingsConverterCustomArguments");
             // 
             // lbSettingsConverterCustomHeader
@@ -1534,14 +1538,14 @@
             this.tabSettingsExtensions.Controls.Add(this.btnSettingsExtensionsRemoveSelected);
             this.tabSettingsExtensions.Controls.Add(this.listExtensions);
             this.tabSettingsExtensions.Controls.Add(this.lbSettingsExtensionsExtensionShort);
-            this.tabSettingsExtensions.Controls.Add(this.txtSettingsExtensionsExtensionShort);
             this.tabSettingsExtensions.Controls.Add(this.lbSettingsExtensionsExtensionFullName);
-            this.tabSettingsExtensions.Controls.Add(this.txtSettingsExtensionsExtensionFullName);
             this.tabSettingsExtensions.Controls.Add(this.lbSettingsExtensionsHeader);
+            this.tabSettingsExtensions.Controls.Add(this.txtSettingsExtensionsExtensionShort);
+            this.tabSettingsExtensions.Controls.Add(this.txtSettingsExtensionsExtensionFullName);
             this.tabSettingsExtensions.Location = new System.Drawing.Point(4, 22);
             this.tabSettingsExtensions.Name = "tabSettingsExtensions";
             this.tabSettingsExtensions.Padding = new System.Windows.Forms.Padding(3);
-            this.tabSettingsExtensions.Size = new System.Drawing.Size(320, 358);
+            this.tabSettingsExtensions.Size = new System.Drawing.Size(320, 362);
             this.tabSettingsExtensions.TabIndex = 4;
             this.tabSettingsExtensions.Text = "tabSettingsExtensions";
             this.tabSettingsExtensions.UseVisualStyleBackColor = true;
@@ -1600,23 +1604,6 @@
             this.lbSettingsExtensionsExtensionShort.TabIndex = 3;
             this.lbSettingsExtensionsExtensionShort.Text = "lbSettingsExtensionsExtensionShort";
             // 
-            // txtSettingsExtensionsExtensionShort
-            // 
-            this.txtSettingsExtensionsExtensionShort.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtSettingsExtensionsExtensionShort.ButtonAlignment = murrty.controls.ButtonAlignment.Left;
-            this.txtSettingsExtensionsExtensionShort.ButtonCursor = System.Windows.Forms.Cursors.Default;
-            this.txtSettingsExtensionsExtensionShort.ButtonFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtSettingsExtensionsExtensionShort.ButtonImageIndex = -1;
-            this.txtSettingsExtensionsExtensionShort.ButtonImageKey = "";
-            this.txtSettingsExtensionsExtensionShort.ButtonSize = new System.Drawing.Size(22, 21);
-            this.txtSettingsExtensionsExtensionShort.ButtonText = "";
-            this.txtSettingsExtensionsExtensionShort.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.txtSettingsExtensionsExtensionShort.Location = new System.Drawing.Point(166, 65);
-            this.txtSettingsExtensionsExtensionShort.Name = "txtSettingsExtensionsExtensionShort";
-            this.txtSettingsExtensionsExtensionShort.Size = new System.Drawing.Size(57, 22);
-            this.txtSettingsExtensionsExtensionShort.TabIndex = 5;
-            this.txtSettingsExtensionsExtensionShort.TextHint = "";
-            // 
             // lbSettingsExtensionsExtensionFullName
             // 
             this.lbSettingsExtensionsExtensionFullName.AutoSize = true;
@@ -1625,24 +1612,6 @@
             this.lbSettingsExtensionsExtensionFullName.Size = new System.Drawing.Size(212, 13);
             this.lbSettingsExtensionsExtensionFullName.TabIndex = 2;
             this.lbSettingsExtensionsExtensionFullName.Text = "lbSettingsExtensionsExtensionFullName";
-            // 
-            // txtSettingsExtensionsExtensionFullName
-            // 
-            this.txtSettingsExtensionsExtensionFullName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtSettingsExtensionsExtensionFullName.ButtonAlignment = murrty.controls.ButtonAlignment.Left;
-            this.txtSettingsExtensionsExtensionFullName.ButtonCursor = System.Windows.Forms.Cursors.Default;
-            this.txtSettingsExtensionsExtensionFullName.ButtonFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtSettingsExtensionsExtensionFullName.ButtonImageIndex = -1;
-            this.txtSettingsExtensionsExtensionFullName.ButtonImageKey = "";
-            this.txtSettingsExtensionsExtensionFullName.ButtonSize = new System.Drawing.Size(22, 21);
-            this.txtSettingsExtensionsExtensionFullName.ButtonText = "";
-            this.txtSettingsExtensionsExtensionFullName.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.txtSettingsExtensionsExtensionFullName.Location = new System.Drawing.Point(31, 65);
-            this.txtSettingsExtensionsExtensionFullName.Name = "txtSettingsExtensionsExtensionFullName";
-            this.txtSettingsExtensionsExtensionFullName.Size = new System.Drawing.Size(129, 22);
-            this.txtSettingsExtensionsExtensionFullName.TabIndex = 4;
-            this.txtSettingsExtensionsExtensionFullName.TextHint = "";
             // 
             // lbSettingsExtensionsHeader
             // 
@@ -1655,6 +1624,39 @@
             this.lbSettingsExtensionsHeader.Text = "lbSettingsExtensionsHeader";
             this.lbSettingsExtensionsHeader.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // txtSettingsExtensionsExtensionShort
+            // 
+            this.txtSettingsExtensionsExtensionShort.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtSettingsExtensionsExtensionShort.ButtonAlignment = murrty.controls.ButtonAlignment.Left;
+            this.txtSettingsExtensionsExtensionShort.ButtonCursor = System.Windows.Forms.Cursors.Default;
+            this.txtSettingsExtensionsExtensionShort.ButtonFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtSettingsExtensionsExtensionShort.ButtonImageIndex = -1;
+            this.txtSettingsExtensionsExtensionShort.ButtonSize = new System.Drawing.Size(22, 21);
+            this.txtSettingsExtensionsExtensionShort.ButtonText = "";
+            this.txtSettingsExtensionsExtensionShort.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.txtSettingsExtensionsExtensionShort.Location = new System.Drawing.Point(166, 65);
+            this.txtSettingsExtensionsExtensionShort.Name = "txtSettingsExtensionsExtensionShort";
+            this.txtSettingsExtensionsExtensionShort.RegexPatterns = null;
+            this.txtSettingsExtensionsExtensionShort.Size = new System.Drawing.Size(57, 22);
+            this.txtSettingsExtensionsExtensionShort.TabIndex = 5;
+            // 
+            // txtSettingsExtensionsExtensionFullName
+            // 
+            this.txtSettingsExtensionsExtensionFullName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtSettingsExtensionsExtensionFullName.ButtonAlignment = murrty.controls.ButtonAlignment.Left;
+            this.txtSettingsExtensionsExtensionFullName.ButtonCursor = System.Windows.Forms.Cursors.Default;
+            this.txtSettingsExtensionsExtensionFullName.ButtonFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtSettingsExtensionsExtensionFullName.ButtonImageIndex = -1;
+            this.txtSettingsExtensionsExtensionFullName.ButtonSize = new System.Drawing.Size(22, 21);
+            this.txtSettingsExtensionsExtensionFullName.ButtonText = "";
+            this.txtSettingsExtensionsExtensionFullName.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.txtSettingsExtensionsExtensionFullName.Location = new System.Drawing.Point(31, 65);
+            this.txtSettingsExtensionsExtensionFullName.Name = "txtSettingsExtensionsExtensionFullName";
+            this.txtSettingsExtensionsExtensionFullName.RegexPatterns = null;
+            this.txtSettingsExtensionsExtensionFullName.Size = new System.Drawing.Size(129, 22);
+            this.txtSettingsExtensionsExtensionFullName.TabIndex = 4;
+            // 
             // tabSettingsErrors
             // 
             this.tabSettingsErrors.Controls.Add(this.chkSettingsErrorsSaveErrorsAsErrorLog);
@@ -1663,7 +1665,7 @@
             this.tabSettingsErrors.Location = new System.Drawing.Point(4, 22);
             this.tabSettingsErrors.Name = "tabSettingsErrors";
             this.tabSettingsErrors.Padding = new System.Windows.Forms.Padding(3);
-            this.tabSettingsErrors.Size = new System.Drawing.Size(320, 358);
+            this.tabSettingsErrors.Size = new System.Drawing.Size(320, 362);
             this.tabSettingsErrors.TabIndex = 3;
             this.tabSettingsErrors.Text = "tabSettingsErrors";
             this.tabSettingsErrors.UseVisualStyleBackColor = true;
@@ -1702,56 +1704,6 @@
             this.chkSettingsErrorsSuppressErrors.Text = "chkSettingsErrorsSuppressErrors";
             this.tipSettings.SetToolTip(this.chkSettingsErrorsSuppressErrors, "chkSettingsErrorsSuppressErrors");
             this.chkSettingsErrorsSuppressErrors.UseVisualStyleBackColor = true;
-            // 
-            // tabSettingsPortable
-            // 
-            this.tabSettingsPortable.Controls.Add(this.btnCleanIni);
-            this.tabSettingsPortable.Controls.Add(this.chkSettingsPortableToggleIni);
-            this.tabSettingsPortable.Controls.Add(this.lbSettingsPortableInformation);
-            this.tabSettingsPortable.Location = new System.Drawing.Point(4, 22);
-            this.tabSettingsPortable.Name = "tabSettingsPortable";
-            this.tabSettingsPortable.Padding = new System.Windows.Forms.Padding(3);
-            this.tabSettingsPortable.Size = new System.Drawing.Size(320, 358);
-            this.tabSettingsPortable.TabIndex = 5;
-            this.tabSettingsPortable.Text = "tabSettingsPortable";
-            this.tabSettingsPortable.UseVisualStyleBackColor = true;
-            // 
-            // btnCleanIni
-            // 
-            this.btnCleanIni.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.btnCleanIni.Location = new System.Drawing.Point(239, 276);
-            this.btnCleanIni.Name = "btnCleanIni";
-            this.btnCleanIni.Size = new System.Drawing.Size(75, 23);
-            this.btnCleanIni.TabIndex = 2;
-            this.btnCleanIni.Text = "btnCleanIni";
-            this.tipSettings.SetToolTip(this.btnCleanIni, "btnCleanIniHint");
-            this.btnCleanIni.UseVisualStyleBackColor = true;
-            this.btnCleanIni.Visible = false;
-            this.btnCleanIni.Click += new System.EventHandler(this.btnCleanIni_Click);
-            // 
-            // chkSettingsPortableToggleIni
-            // 
-            this.chkSettingsPortableToggleIni.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.chkSettingsPortableToggleIni.Appearance = System.Windows.Forms.Appearance.Button;
-            this.chkSettingsPortableToggleIni.Location = new System.Drawing.Point(85, 275);
-            this.chkSettingsPortableToggleIni.Name = "chkSettingsPortableToggleIni";
-            this.chkSettingsPortableToggleIni.Size = new System.Drawing.Size(150, 24);
-            this.chkSettingsPortableToggleIni.TabIndex = 1;
-            this.chkSettingsPortableToggleIni.Text = "chkSettingsPortableToggleIni";
-            this.chkSettingsPortableToggleIni.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.chkSettingsPortableToggleIni.UseVisualStyleBackColor = true;
-            this.chkSettingsPortableToggleIni.CheckedChanged += new System.EventHandler(this.chkSettingsPortableToggleIni_CheckedChanged);
-            // 
-            // lbSettingsPortableInformation
-            // 
-            this.lbSettingsPortableInformation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.lbSettingsPortableInformation.Location = new System.Drawing.Point(6, 3);
-            this.lbSettingsPortableInformation.Name = "lbSettingsPortableInformation";
-            this.lbSettingsPortableInformation.Size = new System.Drawing.Size(308, 260);
-            this.lbSettingsPortableInformation.TabIndex = 0;
-            this.lbSettingsPortableInformation.Text = "lbSettingsPortableInformation";
-            this.lbSettingsPortableInformation.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // btnSettingsRedownloadYoutubeDl
             // 
@@ -1800,7 +1752,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(328, 433);
+            this.ClientSize = new System.Drawing.Size(330, 435);
             this.Controls.Add(this.btnSettingsSave);
             this.Controls.Add(this.btnSettingsCancel);
             this.Controls.Add(this.tcMain);
@@ -1812,6 +1764,7 @@
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "youtube-dl-gui settings";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmSettings_FormClosing);
             this.Load += new System.EventHandler(this.frmSettings_Load);
             this.tcMain.ResumeLayout(false);
             this.tabSettingsGeneral.ResumeLayout(false);
@@ -1851,7 +1804,6 @@
             this.tabSettingsExtensions.PerformLayout();
             this.tabSettingsErrors.ResumeLayout(false);
             this.tabSettingsErrors.PerformLayout();
-            this.tabSettingsPortable.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -1965,22 +1917,19 @@
         private System.Windows.Forms.CheckBox chkSettingsDownloadsKeepOriginalFiles;
         private System.Windows.Forms.CheckBox chkSettingsDownloadsWriteMetadataToFile;
         private System.Windows.Forms.CheckBox chkSettingsGeneralClearClipboardOnDownload;
-        private System.Windows.Forms.CheckBox chkSettingsGeneralRotateQualityFormat;
+        private System.Windows.Forms.CheckBox chkSettingsGeneralAutoUpdateYoutubeDl;
         private System.Windows.Forms.CheckBox chkSettingsDownloadsPreferFFmpeg;
         private System.Windows.Forms.ComboBox txtSettingsDownloadsFileNameSchema;
         private System.Windows.Forms.TabPage tabDownloadsBatch;
         private System.Windows.Forms.CheckBox chkSettingsDownloadsSeparateBatchDownloads;
         private System.Windows.Forms.CheckBox chkSettingsDownloadsAddDateToBatchDownloadFolders;
-        private System.Windows.Forms.TabPage tabSettingsPortable;
-        private System.Windows.Forms.CheckBox chkSettingsPortableToggleIni;
-        private System.Windows.Forms.Label lbSettingsPortableInformation;
         private System.Windows.Forms.CheckBox chkSettingsGeneralCheckForBetaUpdates;
-        private System.Windows.Forms.Button btnCleanIni;
         private System.Windows.Forms.CheckBox chkSettingsDownloadsDownloadPathUseRelativePath;
         private System.Windows.Forms.Label lbSettingsDownloadsUpdatingYtdlType;
         private System.Windows.Forms.ComboBox cbSettingsDownloadsUpdatingYtdlType;
         private System.Windows.Forms.LinkLabel llbSettingsDownloadsYtdlTypeViewRepo;
         private System.Windows.Forms.CheckBox chkDeleteOldVersionAfterUpdating;
         private System.Windows.Forms.CheckBox chkSettingsGeneralDeleteUpdaterAfterUpdating;
+        private System.Windows.Forms.CheckBox chkSettingsDownloadsWebsiteSubdomains;
     }
 }

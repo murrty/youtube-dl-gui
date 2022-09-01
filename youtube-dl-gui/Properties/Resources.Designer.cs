@@ -61,7 +61,7 @@ namespace youtube_dl_gui.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 2022-01-30.
+        ///   Looks up a localized string similar to 2022-09-01.
         /// </summary>
         public static string BuildDate {
             get {
@@ -96,6 +96,25 @@ namespace youtube_dl_gui.Properties {
             get {
                 object obj = ResourceManager.GetObject("finished", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to [
+        ///  {
+        ///    &quot;url&quot;: &quot;https://api.github.com/repos/murrty/youtube-dl-gui/releases/69835524&quot;,
+        ///    &quot;assets_url&quot;: &quot;https://api.github.com/repos/murrty/youtube-dl-gui/releases/69835524/assets&quot;,
+        ///    &quot;upload_url&quot;: &quot;https://uploads.github.com/repos/murrty/youtube-dl-gui/releases/69835524/assets{?name,label}&quot;,
+        ///    &quot;html_url&quot;: &quot;https://github.com/murrty/youtube-dl-gui/releases/tag/2.31-pre2&quot;,
+        ///    &quot;id&quot;: 69835524,
+        ///    &quot;author&quot;: {
+        ///      &quot;login&quot;: &quot;murrty&quot;,
+        ///      &quot;id&quot;: 10895809,
+        ///      &quot;node_id&quot;: &quot;MDQ6VXNlcjEwODk1OD [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string Git {
+            get {
+                return ResourceManager.GetString("Git", resourceCulture);
             }
         }
         

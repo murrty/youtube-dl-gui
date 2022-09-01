@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading;
+﻿using System.Threading;
 using System.Windows.Forms;
 
 namespace youtube_dl_gui {
@@ -107,7 +105,7 @@ namespace youtube_dl_gui {
                     Arguments.Add(txtBatchConverterCustomConversionArguments.Text);
                     NewQueue.SubItems.Add(txtBatchConverterCustomConversionArguments.Text);
                 }
-                NewQueue.ImageIndex = 0;
+                NewQueue.ImageIndex = (int)StatusIcon.Waiting;
                 lvBatchConvertQueue.Items.Add(NewQueue);
                 btnBatchConverterStartStopExit.Enabled = true;
             }
@@ -152,7 +150,7 @@ namespace youtube_dl_gui {
                 ConversionThread = new(() => {
                     for (int i = 0; i < InputFiles.Count; i++) {
                         lvBatchConvertQueue.Invoke((Action)delegate {
-                            lvBatchConvertQueue.Items[i].ImageIndex = (int)BatchHelpers.StatusIcon.Processing;
+                            lvBatchConvertQueue.Items[i].ImageIndex = (int)StatusIcon.Processing;
                         });
                         NewInfo = new() {
                             BatchConversion = true,
@@ -171,32 +169,32 @@ namespace youtube_dl_gui {
                         switch (Converter.ShowDialog()) {
                             case DialogResult.Yes: {
                                 lvBatchConvertQueue.Invoke((Action)delegate {
-                                    lvBatchConvertQueue.Items[i].ImageIndex = (int)BatchHelpers.StatusIcon.Finished;
+                                    lvBatchConvertQueue.Items[i].ImageIndex = (int)StatusIcon.Finished;
                                 });
                             } break;
 
                             case DialogResult.No: {
                                 lvBatchConvertQueue.Invoke((Action)delegate {
-                                    lvBatchConvertQueue.Items[i].ImageIndex = (int)BatchHelpers.StatusIcon.Errored;
+                                    lvBatchConvertQueue.Items[i].ImageIndex = (int)StatusIcon.Errored;
                                 });
                             } break;
 
                             case DialogResult.Abort: {
                                 lvBatchConvertQueue.Invoke((Action)delegate {
-                                    lvBatchConvertQueue.Items[i].ImageIndex = (int)BatchHelpers.StatusIcon.Waiting;
+                                    lvBatchConvertQueue.Items[i].ImageIndex = (int)StatusIcon.Waiting;
                                 });
                                 AbortConversions = true;
                             } break;
 
                             case DialogResult.Ignore: {
                                 lvBatchConvertQueue.Invoke((Action)delegate {
-                                    lvBatchConvertQueue.Items[i].ImageIndex = (int)BatchHelpers.StatusIcon.Waiting;
+                                    lvBatchConvertQueue.Items[i].ImageIndex = (int)StatusIcon.Waiting;
                                 });
                             } break;
 
                             default: {
                                 lvBatchConvertQueue.Invoke((Action)delegate {
-                                    lvBatchConvertQueue.Items[i].ImageIndex = (int)BatchHelpers.StatusIcon.Finished;
+                                    lvBatchConvertQueue.Items[i].ImageIndex = (int)StatusIcon.Finished;
                                 });
                             } break;
                         }

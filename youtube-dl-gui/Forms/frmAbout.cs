@@ -1,5 +1,4 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -10,7 +9,7 @@ namespace youtube_dl_gui {
             InitializeComponent();
             LoadLanguage();
             pbIcon.Image = Properties.Resources.youtube_dl_gui32;
-            lbVersion.Text = $"v{(Program.IsBetaVersion ? Program.BetaVersion : Program.CurrentVersion)}";
+            lbVersion.Text = $"v{(Program.CurrentVersion)}";
             llbCheckForUpdates.LinkVisited = Program.UpdateChecked;
             llbCheckForUpdates.Location = new(
                 (this.ClientSize.Width - llbCheckForUpdates.Width) / 2,
@@ -28,7 +27,18 @@ namespace youtube_dl_gui {
             if (UpdateCheckThread == null || !UpdateCheckThread.IsAlive) {
                 UpdateCheckThread = new Thread(() => {
                     try {
-                        UpdateChecker.CheckForUpdate(true);
+                        bool? result = UpdateChecker.CheckForUpdate(Program.CurrentVersion, Config.Settings.General.DownloadBetaVersions, chkForceCheckUpdate.Checked);
+                        if (result is not null) {
+                            if (result == false) {
+                                this.BeginInvoke(() => {
+                                    string Message = Program.CurrentVersion.IsBeta ?
+                                        string.Format(Program.lang.dlgUpdateNoBetaUpdateAvailable, Program.CurrentVersion, updater.UpdateChecker.LastChecked.Version) :
+                                        string.Format(Program.lang.dlgUpdateNoUpdateAvailable, Program.CurrentVersion, updater.UpdateChecker.LastChecked.Version);
+
+                                    MessageBox.Show(this, Message, "youtube-dl-gui", MessageBoxButtons.OK);
+                                });
+                            }
+                        }
                         Program.UpdateChecked = true;
                         if (!this.IsDisposed) {
                             llbCheckForUpdates.Invoke((Action)delegate {

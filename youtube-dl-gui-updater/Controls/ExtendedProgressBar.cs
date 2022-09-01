@@ -75,10 +75,9 @@ namespace murrty.controls {
     [DefaultProperty("Value")]
     [ToolboxBitmap(typeof(ProgressBar))]
     [ToolboxItem(true)]
-    internal class ExtendedProgressBar : ProgressBar {
+    public class ExtendedProgressBar : ProgressBar {
 
         #region Fields
-
         /// <summary>
         /// The parent container of the progress bar.
         /// </summary>
@@ -105,9 +104,9 @@ namespace murrty.controls {
         /// </summary>
         private bool _ShowText = false;
 
-        /// <summary>
-        /// The text that will appear on the progress bar, if enabled.
-        /// </summary>
+        ///// <summary>
+        ///// The text that will appear on the progress bar, if enabled.
+        ///// </summary>
         //private string _Text = "";
 
         /// <summary>
@@ -124,11 +123,9 @@ namespace murrty.controls {
         /// The alignment of the text.
         /// </summary>
         private ContentAlignment _TextAlignment = ContentAlignment.MiddleCenter;
-
         #endregion
 
         #region Properties
-
         /// <summary>
         /// Gets or sets the parent of the progress bar.
         /// </summary>
@@ -138,9 +135,7 @@ namespace murrty.controls {
         [Description("The parent of the progress bar.")]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         public ContainerControl ContainerParent {
-            get {
-                return _ContainerParent;
-            }
+            get => _ContainerParent;
             set {
                 _ContainerParent = value;
 
@@ -161,9 +156,7 @@ namespace murrty.controls {
         [Description("Whether the value will update quickly when updating the value.")]
         [EditorBrowsable(EditorBrowsableState.Always)]
         public bool FastValueUpdate {
-            get {
-                return _FastValueUpdate;
-            }
+            get => _FastValueUpdate;
             set {
                 _FastValueUpdate = value;
             }
@@ -179,9 +172,7 @@ namespace murrty.controls {
         [Description("The state of the progress bars' current \"action\".")]
         [EditorBrowsable(EditorBrowsableState.Always)]
         public ProgressBarState ProgressState {
-            get {
-                return _ProgressState;
-            }
+            get => _ProgressState;
             set {
                 _ProgressState = value;
 
@@ -204,11 +195,10 @@ namespace murrty.controls {
                     Style = ProgressBarStyle.Blocks;
                     SetValueInTaskbar();
                 }
-                else {
+                else if (this.IsHandleCreated) {
                     SendMessage(Handle, PBM_SETSTATE, (IntPtr)value, IntPtr.Zero);
                     SetStateInTaskbar();
                 }
-
             }
         }
 
@@ -223,9 +213,7 @@ namespace murrty.controls {
         [Description("Whether the taskbars' state and value should appear on the icon in the taskbar.")]
         [EditorBrowsable(EditorBrowsableState.Always)]
         public bool ShowInTaskbar {
-            get {
-                return _ShowInTaskbar;
-            }
+            get => _ShowInTaskbar;
             set {
                 if (_ShowInTaskbar != value) {
                     _ShowInTaskbar = value;
@@ -250,14 +238,16 @@ namespace murrty.controls {
         [Description("Whether text should be rendered within the progress bar.")]
         [EditorBrowsable(EditorBrowsableState.Always)]
         public bool ShowText {
-            get {
-                return _ShowText;
-            }
+            get => _ShowText;
             set {
                 _ShowText = value;
+                Invalidate();
             }
         }
 
+        /// <summary>
+        /// Gets or sets the progress bar style.
+        /// </summary>
         [Bindable(true)]
         [Browsable(true)]
         [Category("Appearance")]
@@ -265,17 +255,15 @@ namespace murrty.controls {
         [Description("The style of the progress bar.")]
         [EditorBrowsable(EditorBrowsableState.Always)]
         public new ProgressBarStyle Style {
-            get {
-                return base.Style;
-            }
+            get => base.Style;
             set {
                 base.Style = value;
                 if (_ShowInTaskbar && _ContainerParent != null) {
                     SetStateInTaskbar();
                     SetValueInTaskbar();
                 }
-                if (value != ProgressBarStyle.Marquee) {
-                    SendMessage(Handle, PBM_SETSTATE, (IntPtr)_ProgressState, IntPtr.Zero);
+                if (value != ProgressBarStyle.Marquee && this.IsHandleCreated) {
+                    NativeMethods.SendMessage(Handle, PBM_SETSTATE, (IntPtr)_ProgressState, IntPtr.Zero);
                 }
             }
         }
@@ -289,11 +277,10 @@ namespace murrty.controls {
         [Description("The text that will be drawn within the progress bar, if enabled.")]
         [EditorBrowsable(EditorBrowsableState.Always)]
         public new string Text {
-            get {
-                return base.Text;
-            }
+            get => base.Text;
             set {
                 base.Text = value;
+                Invalidate();
             }
         }
 
@@ -307,11 +294,10 @@ namespace murrty.controls {
         [Description("The alignment of the text within the progress bar.")]
         [EditorBrowsable(EditorBrowsableState.Always)]
         public ContentAlignment TextAlignment {
-            get {
-                return _TextAlignment;
-            }
+            get => _TextAlignment;
             set {
                 _TextAlignment = value;
+                Invalidate();
             }
         }
 
@@ -324,11 +310,10 @@ namespace murrty.controls {
         [Description("The font of the text that appears within the progress bar.")]
         [EditorBrowsable(EditorBrowsableState.Always)]
         public Font TextFont {
-            get {
-                return _TextFont;
-            }
+            get => _TextFont;
             set {
                 _TextFont = value;
+                Invalidate();
             }
         }
 
@@ -342,11 +327,10 @@ namespace murrty.controls {
         [Description("The color of the text that appears within the progress bar.")]
         [EditorBrowsable(EditorBrowsableState.Always)]
         public Color TextColor {
-            get {
-                return _TextForeColor;
-            }
+            get => _TextForeColor;
             set {
                 _TextForeColor = value;
+                Invalidate();
             }
         }
 
@@ -359,26 +343,23 @@ namespace murrty.controls {
         [Description("The value that is displayed on the progress bar.")]
         [EditorBrowsable(EditorBrowsableState.Always)]
         public new int Value {
-            get {
-                return base.Value;
-            }
+            get => base.Value;
             set {
-                if (_FastValueUpdate && base.Value > base.Minimum) {
+                if (value > base.Maximum || value < base.Minimum)
+                    return;
+
+                if (_FastValueUpdate && base.Value != base.Maximum) {
+                    base.Value++;
                     base.Value--;
-                    base.Value = value;
                 }
-                else {
-                    base.Value = value;
-                }
-                Invalidate();
+
+                base.Value = value;
                 SetValueInTaskbar();
             }
         }
-
         #endregion
 
         #region Native Methods
-
         /// <summary>
         /// The WM_PAINT message contained in winuser.h.
         /// </summary>
@@ -388,58 +369,56 @@ namespace murrty.controls {
         /// The PBM_SETSTATE message for setting the state of a progress bar.
         /// </summary>
         private const int PBM_SETSTATE = 0x410;
-        /// <summary>
-        /// The PBST_NORMAL message for a normal progress bar state.
-        /// <para>Defaults to Green.</para>
-        /// </summary>
-        private const int PBST_NORMAL = 0x1;
-        /// <summary>
-        /// The PBST_ERROR message for a errored progress bar state.
-        /// <para>Defaults to Red.</para>
-        /// </summary>
-        private const int PBST_ERROR = 0x2;
-        /// <summary>
-        /// The PBST_PAUSED message for a paused progress bar state.
-        /// <para>Defaults to Yellow.</para>
-        /// </summary>
-        private const int PBST_PAUSED = 0x3;
-
 
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         internal static extern IntPtr SendMessage(IntPtr hWnd, int wMsg, IntPtr wParam, IntPtr lParam);
-
         #endregion
 
         #region Constructor
-
-        public ExtendedProgressBar() {
+        /// <summary>
+        /// Creates a new instance of the <see cref="ExtendedProgressBar"/> class.
+        /// </summary>
+        public ExtendedProgressBar() : base() {
             SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
         }
 
-        public ExtendedProgressBar(ContainerControl parent) {
+        /// <summary>
+        /// Creates a new instance of the <see cref="ExtendedProgressBar"/> class.
+        /// </summary>
+        /// <param name="parent">The parent control of the progress bar.</param>
+        public ExtendedProgressBar(ContainerControl parent) : base() {
             SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
             _ContainerParent = parent;
         }
-
         #endregion
 
         #region Overrides
-
+        /// <summary>
+        /// Advances the current position of the progress bar by the specified amount.
+        /// </summary>
+        /// <param name="value">The amount by which to increment the progress bar's current position.</param>
+        /// <exception cref="InvalidOperationException"><see cref="T:System.Windows.Forms.ProgressBar.Style"/> is set to <see cref="T:System.Windows.Forms.ProgressBarStyle.Marquee"/>.</exception>
         public new void Increment(int value) {
             base.Increment(value);
             SetValueInTaskbar();
         }
 
+        /// <inheritdoc/>
         override protected void OnPaint(PaintEventArgs e) {
             base.OnPaint(e);
             DrawText();
         }
 
+        /// <summary>
+        /// Advances the current position of the progress bar by the amount of the <see cref="P:System.Windows.Forms.ProgressBar.Step"/> property.
+        /// </summary>
+        /// <exception cref="InvalidOperationException"><see cref="T:System.Windows.Forms.ProgressBar.Style"/> is set to <see cref="T:System.Windows.Forms.ProgressBarStyle.Marquee"/>.</exception>
         public new void PerformStep() {
             base.PerformStep();
             SetValueInTaskbar();
         }
 
+        /// <inheritdoc/>
         public override ISite Site {
             set {
                 // Runs at design time, ensures designer initializes ContainerControl
@@ -451,30 +430,23 @@ namespace murrty.controls {
             }
         }
 
-        /// <summary>
-        /// Processes windows messages, except for any paint-based messages.
-        /// </summary>
-        /// <param name="m">Forms.Message to process.</param>
+        /// <inheritdoc/>
         protected override void WndProc(ref Message m) {
             switch (m.Msg) {
                 case WM_PAINT: {
                     base.WndProc(ref m);
                     DrawText();
-                }
-                break;
+                } break;
 
                 default: {
                     base.WndProc(ref m);
-                }
-                break;
+                } break;
             }
         }
-
         #endregion
 
         #region Events
-
-        void ExtendedProgressBar_Shown(object sender, EventArgs e) {
+        internal void ExtendedProgressBar_Shown(object sender, EventArgs e) {
             if (_ShowInTaskbar) {
                 if (Style != ProgressBarStyle.Marquee) {
                     SetValueInTaskbar();
@@ -484,11 +456,9 @@ namespace murrty.controls {
 
             ((Form)_ContainerParent).Shown -= ExtendedProgressBar_Shown;
         }
-
         #endregion
 
         #region Methods
-
         /// <summary>
         /// Draws the text onto the control.
         /// </summary>
@@ -534,22 +504,14 @@ namespace murrty.controls {
         /// Sets the progress bars' taskbar instance to the updated state.
         /// </summary>
         private void SetStateInTaskbar() {
-            if (_ContainerParent != null) {
-                if (!_ShowInTaskbar) {
-                    TaskbarInterface.SetProgressState(_ContainerParent.Handle, TaskbarProgressState.None);
-                }
-                else if (Style == ProgressBarStyle.Marquee) {
-                    TaskbarInterface.SetProgressState(_ContainerParent.Handle, TaskbarProgressState.Indeterminate);
-                }
-                else if (_ProgressState == ProgressBarState.Error) {
-                    TaskbarInterface.SetProgressState(_ContainerParent.Handle, TaskbarProgressState.Error);
-                }
-                else if (_ProgressState == ProgressBarState.Paused) {
-                    TaskbarInterface.SetProgressState(_ContainerParent.Handle, TaskbarProgressState.Paused);
-                }
-                else {
-                    TaskbarInterface.SetProgressState(_ContainerParent.Handle, TaskbarProgressState.Normal);
-                }
+            if (_ContainerParent != null && !DesignMode) {
+                TaskbarInterface.SetProgressState(_ContainerParent.Handle, _ProgressState switch {
+                    _ when !_ShowInTaskbar => TaskbarProgressState.None,
+                    _ when Style == ProgressBarStyle.Marquee => TaskbarProgressState.Indeterminate,
+                    ProgressBarState.Error => TaskbarProgressState.Error,
+                    ProgressBarState.Paused => TaskbarProgressState.Paused,
+                    _ => TaskbarProgressState.Normal
+                });
             }
         }
 
@@ -557,7 +519,7 @@ namespace murrty.controls {
         /// Sets the progress bars' taskbar instance to the updated values.
         /// </summary>
         private void SetValueInTaskbar() {
-            if (_ShowInTaskbar && _ContainerParent != null && Style != ProgressBarStyle.Marquee) {
+            if (_ShowInTaskbar && _ContainerParent != null && Style != ProgressBarStyle.Marquee && !DesignMode) {
                 TaskbarInterface.SetProgressValue(
                     _ContainerParent.Handle,
                     (ulong)(Value - Minimum),
@@ -565,7 +527,6 @@ namespace murrty.controls {
                 );
             }
         }
-
         #endregion
 
     }

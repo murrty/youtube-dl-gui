@@ -4,21 +4,41 @@ using System.Management;
 using System.Windows.Forms;
 
 namespace youtube_dl_gui_updater {
+
     static class Program {
 
-        public static bool IsDebug = false;
+        /// <summary>
+        /// The exit code that the program will return. Defaults to 0.
+        /// </summary>
+        public static int ExitStatusCode { get; set; } = 0;
+        /// <summary>
+        /// If the program is debugging or built under DEBUG.
+        /// </summary>
+        public static bool IsDebug { get; private set; } = false;
+        /// <summary>
+        /// The generated string of information regarding the current computer,
+        /// used for troubleshooting exceptions.
+        /// </summary>
         public static string ComputerVersionInformation;
+        /// <summary>
+        /// The language class used by (nearly) every user-viewed control.
+        /// </summary>
         public static readonly Language lang = new();
 
+        /// <summary>
+        /// Sets the <see cref="IsDebug"/> bool to true if running under DEBUG.
+        /// </summary>
+        [System.Diagnostics.Conditional("DEBUG")]
+        private static void CheckDebug() => IsDebug = true;
 
+        /// <summary>
+        /// Entry point.
+        /// </summary>
+        /// <param name="args">The array of passed arguments.</param>
+        /// <returns>The <see cref="ExitStatusCode"/>.</returns>
         [STAThread]
         static int Main(string[] args) {
-            DebugOnlyMethod();
-            //string TestString = "exe sha-256: 7B72019C7800821B81710509B6D0E97EDFE27456A93CFE44E21BAB0BF2F92471\r\nzip sha-256: DD916EFF6F34CEE4AB1479165768CA7D3BF37AE1E04D109852AD4C12332C75EA(languages updated)";
-
-            //TestString = TestString.Substring(TestString.IndexOf("exe sha-256: ") + 13);
-            //TestString = TestString.Substring(0, TestString.IndexOf("\r\nzip sha"));
-            //MessageBox.Show(TestString);
+            CheckDebug();
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
@@ -55,7 +75,7 @@ namespace youtube_dl_gui_updater {
                     if (MessageBox.Show("The new version wasn't properly passed. Would you like to manually update to the (or check for a) new version of youtube-dl-gui?", "youtube-dl-gui updater", MessageBoxButtons.YesNo) == DialogResult.Yes) {
                         System.Diagnostics.Process.Start("https://github.com/murrty/youtube-dl-gui/releases/latest");
                     }
-                    return 1;
+                    ExitStatusCode = 1;
                 }
                 if (NewInfo.OldFileName == null) {
                     NewInfo.OldFileName = "youtube-dl-gui.exe";
@@ -65,16 +85,17 @@ namespace youtube_dl_gui_updater {
                 lang.LoadLanguage(NewInfo.LanguageFile);
 
                 System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
-                //Application.Run(new frmException());
                 Application.Run(new frmUpdater(NewInfo));
-                return 0;
+                ExitStatusCode = 0;
             }
             else {
                 if (MessageBox.Show("The new version wasn't properly passed. Would you like to manually update to the (or check for a) new version of youtube-dl-gui?", "youtube-dl-gui updater", MessageBoxButtons.YesNo) == DialogResult.Yes) {
                     System.Diagnostics.Process.Start("https://github.com/murrty/youtube-dl-gui/releases/latest");
                 }
-                return 1;
+                ExitStatusCode = 1;
             }
+
+            return ExitStatusCode;
         }
 
         public static void InitializeExceptions() {
@@ -139,10 +160,6 @@ namespace youtube_dl_gui_updater {
             };
         }
 
-        [System.Diagnostics.Conditional("DEBUG")]
-        private static void DebugOnlyMethod() {
-            IsDebug = true;
-        }
-
+        
     }
 }

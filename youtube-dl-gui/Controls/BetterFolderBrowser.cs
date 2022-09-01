@@ -24,7 +24,6 @@
  */
 
 
-using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
@@ -176,7 +175,7 @@ namespace BetterFolderBrowserNS {
         /// Runs a common dialog box with a default owner.
         /// </summary>
         public new DialogResult ShowDialog() {
-            return _dialog.ShowDialog(IntPtr.Zero) ? DialogResult.OK : DialogResult.Cancel;
+            return _dialog.ShowDialog(0) ? DialogResult.OK : DialogResult.Cancel;
         }
 
         /// <summary>
@@ -202,7 +201,7 @@ namespace BetterFolderBrowserNS {
         /// the top-level window that will own the modal dialog box.
         /// </param>
         /// <returns></returns>
-        protected override bool RunDialog(IntPtr hwndOwner) {
+        protected override bool RunDialog(nint hwndOwner) {
             return _dialog.ShowDialog(hwndOwner);
         }
 
@@ -527,7 +526,7 @@ namespace BetterFolderBrowserNS.Helpers {
         /// </summary>
         /// <returns>True if the user presses OK else false.</returns>
         public bool ShowDialog() {
-            return ShowDialog(IntPtr.Zero);
+            return ShowDialog(0);
         }
 
         /// <summary>
@@ -535,7 +534,7 @@ namespace BetterFolderBrowserNS.Helpers {
         /// </summary>
         /// <param name="hWndOwner">Handle of the control to be parent.</param>
         /// <returns>True if the user presses OK else false.</returns>
-        public bool ShowDialog(IntPtr hWndOwner) {
+        public bool ShowDialog(nint hWndOwner) {
             bool flag = false;
 
             if (Environment.OSVersion.Version.Major >= 6) {
@@ -595,7 +594,7 @@ namespace BetterFolderBrowserNS.Helpers {
         /// <summary>
         /// Original pointer.
         /// </summary>
-        public IntPtr Handle { get; private set; }
+        public nint Handle { get; private set; }
 
         #endregion
 
@@ -605,7 +604,7 @@ namespace BetterFolderBrowserNS.Helpers {
         /// Provides a wrapper for <see cref="IWin32Window"/>.
         /// </summary>
         /// <param name="handle">Handle to wrap.</param>
-        public WindowWrapper(IntPtr handle) {
+        public WindowWrapper(nint handle) {
             Handle = handle;
         }
 

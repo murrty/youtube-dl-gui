@@ -1,5 +1,4 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -68,7 +67,7 @@ namespace youtube_dl_gui {
                     }
                     break;
                 default:
-                    if (DownloadThread != null && DownloadThread.IsAlive) {
+                    if (DownloadThread is not null && DownloadThread.IsAlive) {
                         DownloadThread.Abort();
                         e.Cancel = true;
                     }
@@ -77,12 +76,8 @@ namespace youtube_dl_gui {
             if (!e.Cancel) {
                 if (Config.Settings.Downloads.CloseDownloaderAfterFinish != chkDownloaderCloseAfterDownload.Checked && !CurrentDownload.BatchDownload) {
                     Config.Settings.Downloads.CloseDownloaderAfterFinish = chkDownloaderCloseAfterDownload.Checked;
-                    if (!Program.UseIni) {
-                        Config.Settings.Downloads.Save();
-                    }
                 }
 
-                CurrentDownload.Dispose();
                 this.DialogResult = Finish;
                 this.Dispose();
             }
@@ -106,7 +101,7 @@ namespace youtube_dl_gui {
                             btnDownloaderAbortBatchDownload.Visible = false;
                             break;
                         default:
-                            if (DownloadThread != null && DownloadThread.IsAlive) {
+                            if (DownloadThread is not null && DownloadThread.IsAlive) {
                                 DownloadThread.Abort();
                             }
                             rtbConsoleOutput.AppendText("Additionally, the batch download has been cancelled.");
@@ -124,7 +119,7 @@ namespace youtube_dl_gui {
                     this.Close();
                     break;
                 default:
-                    if (DownloadThread != null && DownloadThread.IsAlive) {
+                    if (DownloadThread is not null && DownloadThread.IsAlive) {
                         DownloadThread.Abort();
                     }
                     break;
@@ -154,7 +149,7 @@ namespace youtube_dl_gui {
                             btnDownloaderAbortBatchDownload.Visible = false;
                             break;
                         default:
-                            if (DownloadThread != null && DownloadThread.IsAlive) {
+                            if (DownloadThread is not null && DownloadThread.IsAlive) {
                                 DownloadThread.Abort();
                             }
                             rtbConsoleOutput.AppendText("Additionally, the batch download has been cancelled.");
@@ -179,18 +174,7 @@ namespace youtube_dl_gui {
 
             #region URL cleaning
             if (!CurrentDownload.DownloadURL.StartsWith("https://")) {
-sanitizecheck:
-                if (CurrentDownload.DownloadURL.StartsWith("\\'")|| // single quote
-                CurrentDownload.DownloadURL.StartsWith("\\\"")   || // double quote
-                CurrentDownload.DownloadURL.StartsWith("\\n")    || // newline
-                CurrentDownload.DownloadURL.StartsWith("\\r")    || // carriage-return
-                CurrentDownload.DownloadURL.StartsWith("\\t")    || // tab
-                CurrentDownload.DownloadURL.StartsWith("\\0")    || // null char
-                CurrentDownload.DownloadURL.StartsWith("\\b")    || // backspace
-                CurrentDownload.DownloadURL.StartsWith("\\")) {     // backslash
-                    CurrentDownload.DownloadURL = CurrentDownload.DownloadURL[4..];
-                    goto sanitizecheck;
-                }
+                CurrentDownload.DownloadURL.Trim('\\', '"', '\n', '\r', '\t', '\0', '\b', '\'');
 
                 if (CurrentDownload.DownloadURL.StartsWith("http://")) {
                     CurrentDownload.DownloadURL = "https" + CurrentDownload.DownloadURL[4..];
@@ -198,19 +182,17 @@ sanitizecheck:
             }
             #endregion
 
-            string YoutubeDlPath = null;
-            string ArgumentsBuffer = string.Empty;
-            string PreviewArguments = string.Empty;
+            StringBuilder ArgumentsBuffer = new(string.Empty);
+            StringBuilder PreviewArguments;
             string QualityFormatBuffer = string.Empty;
             string hlsFF = string.Empty;
             string webFolder = string.Empty;
 
             #region youtube-dl path
-            YoutubeDlPath = Program.verif.YoutubeDlPath;
-            if (string.IsNullOrWhiteSpace(YoutubeDlPath)) {
+            if (Program.verif.YoutubeDlPath.IsNullEmptyWhitespace()) {
                 rtbConsoleOutput.AppendText("Youtube-DL has not been found\nA rescan for youtube-dl was called\n");
                 Program.verif.RefreshYoutubeDlLocation();
-                if (Program.verif.YoutubeDlPath != null) {
+                if (Program.verif.YoutubeDlPath is not null) {
                     rtbConsoleOutput.AppendText("Rescan finished and found, continuing\n");
                 }
                 else {
@@ -226,43 +208,33 @@ sanitizecheck:
             rtbConsoleOutput.AppendText("Generating output directory structure\n");
 
             if (Config.Settings.Downloads.separateIntoWebsiteURL) {
-                webFolder = Download.getUrlBase(CurrentDownload.DownloadURL) + "\\";
+                webFolder = $"{Download.getUrlBase(CurrentDownload.DownloadURL)}\\";
             }
 
-            string OutputDirectory = "\"";
-//            +Config.Settings.Downloads.downloadPath;
-            if (Config.Settings.Downloads.downloadPath.StartsWith("./") || Config.Settings.Downloads.downloadPath.StartsWith(".\\")){
-                OutputDirectory += Program.ProgramPath + "\\" + Config.Settings.Downloads.downloadPath[2..];
-            }
-            else {
-                OutputDirectory += Config.Settings.Downloads.downloadPath;
-            }
+            StringBuilder OutputDirectory = new($"\"{(
+                Config.Settings.Downloads.downloadPath.StartsWith("./") || Config.Settings.Downloads.downloadPath.StartsWith(".\\") ?
+                    $"{Program.ProgramPath}\\{Config.Settings.Downloads.downloadPath[2..]}" :
+                    Config.Settings.Downloads.downloadPath)}");
+
             if (CurrentDownload.BatchDownload && Config.Settings.Downloads.SeparateBatchDownloads) {
-                OutputDirectory += "\\# Batch Downloads #";
+                OutputDirectory.Append("\\# Batch Downloads #");
                 if (Config.Settings.Downloads.AddDateToBatchDownloadFolders) {
-                    OutputDirectory += "\\" + CurrentDownload.BatchTime;
+                    OutputDirectory.Append($"\\{CurrentDownload.BatchTime}");
                 }
             }
-            if (string.IsNullOrWhiteSpace(CurrentDownload.FileNameSchema)) {
-                rtbConsoleOutput.AppendText("The file name schema is not properly set, falling back to the default one. Consider setting it in the settings, or making sure the schema list has a proper schema format on the main form.");
-                OutputDirectory += "\\" + webFolder + "{0}" + Configurations.Downloads.Default.Properties["fileNameSchema"].DefaultValue as string + "\"";
-            }
-            else {
-                OutputDirectory += "\\" + webFolder + "{0}" + CurrentDownload.FileNameSchema + "\"";
-            }
 
-            ArgumentsBuffer = CurrentDownload.DownloadURL + " -o " + OutputDirectory;
+            OutputDirectory.Append($"\\{webFolder}");
 
             if (Config.Settings.Downloads.separateDownloads) {
                 switch (CurrentDownload.Type) {
                     case DownloadType.Video:
-                        ArgumentsBuffer = ArgumentsBuffer.Replace("{0}", "Video\\");
+                        OutputDirectory.Append("\\Video");
                         break;
                     case DownloadType.Audio:
-                        ArgumentsBuffer = ArgumentsBuffer.Replace("{0}", "Audio\\");
+                        OutputDirectory.Append("\\Audio");
                         break;
                     case DownloadType.Custom:
-                        ArgumentsBuffer = ArgumentsBuffer.Replace("{0}", "Custom\\");
+                        OutputDirectory.Append("\\Custom");
                         break;
                     default:
                         rtbConsoleOutput.AppendText("Unable to determine what download type to use (expected 0, 1, or 2)");
@@ -270,9 +242,15 @@ sanitizecheck:
                         return;
                 }
             }
-            else {
-                ArgumentsBuffer = ArgumentsBuffer.Replace("{0}", "");
+            if (string.IsNullOrWhiteSpace(CurrentDownload.FileNameSchema)) {
+                rtbConsoleOutput.AppendText("The file name schema is not properly set, falling back to the default one. Consider setting it in the settings, or making sure the schema list has a proper schema format on the main form.");
+                OutputDirectory.Append("\\%(title)s-%(id)s.%(ext)s");
             }
+            else {
+                OutputDirectory.Append($"\\{CurrentDownload.FileNameSchema}\"");
+            }
+
+            ArgumentsBuffer.Append($"{CurrentDownload.DownloadURL} -o {OutputDirectory}");
             rtbConsoleOutput.AppendText("The output was generated and will be used\n");
             #endregion
 
@@ -280,39 +258,39 @@ sanitizecheck:
             switch (CurrentDownload.Type) {
                 case DownloadType.Video: {
                         if (CurrentDownload.SkipAudioForVideos) {
-                            ArgumentsBuffer += Download.Formats.GetVideoQualityArgsNoSound(CurrentDownload.VideoQuality);
+                            ArgumentsBuffer.Append(Download.Formats.GetVideoQualityArgsNoSound(CurrentDownload.VideoQuality));
                         }
                         else {
-                            ArgumentsBuffer += Download.Formats.GetVideoQualityArgs(CurrentDownload.VideoQuality);
+                            ArgumentsBuffer.Append(Download.Formats.GetVideoQualityArgs(CurrentDownload.VideoQuality));
                         }
 
-                        ArgumentsBuffer += Download.Formats.GetVideoRecodeInfo(CurrentDownload.VideoFormat);
+                        ArgumentsBuffer.Append(Download.Formats.GetVideoRecodeInfo(CurrentDownload.VideoFormat));
                         break;
                     }
                 case DownloadType.Audio: {
                         if (CurrentDownload.AudioCBRQuality == AudioCBRQualityType.best || CurrentDownload.AudioVBRQuality == AudioVBRQualityType.q0) {
-                            ArgumentsBuffer += " --extract-audio --audio-quality 0";
+                            ArgumentsBuffer.Append(" --extract-audio --audio-quality 0");
                         }
                         else {
                             if (CurrentDownload.UseVBR) {
-                                ArgumentsBuffer += " --extract-audio --audio-quality " + CurrentDownload.AudioVBRQuality;
+                                ArgumentsBuffer.Append($" --extract-audio --audio-quality {CurrentDownload.AudioVBRQuality}");
                             }
                             else {
-                                ArgumentsBuffer += " --extract-audio --audio-quality " + Download.Formats.GetAudioQuality(CurrentDownload.AudioCBRQuality);
+                                ArgumentsBuffer.Append($" --extract-audio --audio-quality {Download.Formats.GetAudioQuality(CurrentDownload.AudioCBRQuality)}");
                             }
                         }
                         if (CurrentDownload.AudioFormat == AudioFormatType.best) {
-                            ArgumentsBuffer += " --audio-format best";
+                            ArgumentsBuffer.Append(" --audio-format best");
                         }
                         else {
-                            ArgumentsBuffer += " --extract-audio --audio-format " + Download.Formats.GetAudioFormat(CurrentDownload.AudioFormat);
+                            ArgumentsBuffer.Append($" --extract-audio --audio-format {Download.Formats.GetAudioFormat(CurrentDownload.AudioFormat)}");
                         }
                         break;
                     }
                 case DownloadType.Custom: {
                         rtbConsoleOutput.AppendText("Custom was requested, skipping quality + format");
                         if (!string.IsNullOrWhiteSpace(CurrentDownload.DownloadArguments)) {
-                            ArgumentsBuffer += " " + CurrentDownload.DownloadArguments;
+                            ArgumentsBuffer.Append($" {CurrentDownload.DownloadArguments}");
                         }
                         break;
                     }
@@ -331,35 +309,35 @@ sanitizecheck:
                 switch (CurrentDownload.PlaylistSelection) {
                     case PlaylistSelectionType.PlaylistStartPlaylistEnd: // playlist-start and playlist-end
                         if (CurrentDownload.PlaylistSelectionIndexStart > 0) {
-                            ArgumentsBuffer += " --playlist-start " + CurrentDownload.PlaylistSelectionIndexStart;
+                            ArgumentsBuffer.Append($" --playlist-start {CurrentDownload.PlaylistSelectionIndexStart}");
                         }
 
                         if (CurrentDownload.PlaylistSelectionIndexEnd > 0) {
-                            ArgumentsBuffer += " --playlist-end " + (CurrentDownload.PlaylistSelectionIndexStart + CurrentDownload.PlaylistSelectionIndexEnd);
+                            ArgumentsBuffer.Append($" --playlist-end {(CurrentDownload.PlaylistSelectionIndexStart + CurrentDownload.PlaylistSelectionIndexEnd)}");
                         }
                         break;
                     case PlaylistSelectionType.PlaylistItems: // playlist-items
-                        ArgumentsBuffer += " --playlist-items " + CurrentDownload.PlaylistSelectionArg;
+                        ArgumentsBuffer.Append($" --playlist-items {CurrentDownload.PlaylistSelectionArg}");
                         break;
                     case PlaylistSelectionType.DateBefore: // datebefore
-                        ArgumentsBuffer += " --datebefore " + CurrentDownload.PlaylistSelectionArg;
+                        ArgumentsBuffer.Append($" --datebefore {CurrentDownload.PlaylistSelectionArg}");
                         break;
                     case PlaylistSelectionType.DateDuring: // date
-                        ArgumentsBuffer += " --date " + CurrentDownload.PlaylistSelectionArg;
+                        ArgumentsBuffer.Append($" --date {CurrentDownload.PlaylistSelectionArg}");
                         break;
                     case PlaylistSelectionType.DateAfter: // dateafter
-                        ArgumentsBuffer += " --dateafter " + CurrentDownload.PlaylistSelectionArg;
+                        ArgumentsBuffer.Append($" --dateafter {CurrentDownload.PlaylistSelectionArg}");
                         break;
                 }
 
                 if (Config.Settings.Downloads.PreferFFmpeg || Download.isReddit(CurrentDownload.DownloadURL) && Config.Settings.Downloads.fixReddit) {
                     rtbConsoleOutput.AppendText("Looking for ffmpeg\n");
-                    if (Program.verif.FFmpegPath != null) {
+                    if (Program.verif.FFmpegPath is not null) {
                         if (Config.Settings.General.UseStaticFFmpeg) {
-                            ArgumentsBuffer += " --ffmpeg-location \"" + Config.Settings.General.ffmpegPath + "\" --hls-prefer-ffmpeg";
+                            ArgumentsBuffer.Append($" --ffmpeg-location \"{Config.Settings.General.ffmpegPath}\" --hls-prefer-ffmpeg");
                         }
                         else {
-                            ArgumentsBuffer += " --ffmpeg-location \"" + Program.verif.FFmpegPath + "\" --hls-prefer-ffmpeg";
+                            ArgumentsBuffer.Append($" --ffmpeg-location \"{Program.verif.FFmpegPath}\" --hls-prefer-ffmpeg");
                         }
                         rtbConsoleOutput.AppendText("ffmpeg was found\n");
                     }
@@ -369,35 +347,35 @@ sanitizecheck:
                 }
 
                 if (Config.Settings.Downloads.SaveSubtitles) {
-                    ArgumentsBuffer += " --all-subs";
+                    ArgumentsBuffer.Append(" --all-subs");
                     if (!string.IsNullOrEmpty(Config.Settings.Downloads.SubtitleFormat)) {
-                        ArgumentsBuffer += " --sub-format " + Config.Settings.Downloads.SubtitleFormat + " ";
+                        ArgumentsBuffer.Append($" --sub-format {Config.Settings.Downloads.SubtitleFormat} ");
                     }
                     if (Config.Settings.Downloads.EmbedSubtitles && CurrentDownload.Type == DownloadType.Video) {
                         switch (CurrentDownload.VideoFormat) {
                             case VideoFormatType.flv: case VideoFormatType.mkv:
                                 break;
                         }
-                        ArgumentsBuffer += " --embed-subs";
+                        ArgumentsBuffer.Append(" --embed-subs");
                     }
                 }
                 if (Config.Settings.Downloads.SaveVideoInfo) {
-                    ArgumentsBuffer += " --write-info-json";
+                    ArgumentsBuffer.Append(" --write-info-json");
                 }
                 if (Config.Settings.Downloads.SaveDescription) {
-                    ArgumentsBuffer += " --write-description";
+                    ArgumentsBuffer.Append(" --write-description");
                 }
                 if (Config.Settings.Downloads.SaveAnnotations) {
-                    ArgumentsBuffer += " --write-annotations";
+                    ArgumentsBuffer.Append(" --write-annotations");
                 }
                 if (Config.Settings.Downloads.SaveThumbnail) {
                     // ArgumentsBuffer += "--write-all-thumbnails "; // Maybe?
-                    ArgumentsBuffer += " --write-thumbnail";
+                    ArgumentsBuffer.Append(" --write-thumbnail");
                     if (Config.Settings.Downloads.EmbedThumbnails) {
                         switch (CurrentDownload.Type) {
                             case DownloadType.Video:
                                 if (CurrentDownload.VideoFormat == VideoFormatType.mp4) {
-                                    ArgumentsBuffer += " --embed-thumbnail";
+                                    ArgumentsBuffer.Append(" --embed-thumbnail");
                                 }
                                 else {
                                     rtbConsoleOutput.AppendText("!!!!!!!! WARNING !!!!!!!!\nCannot embed thumbnail to non-mp4 videos files\n");
@@ -405,7 +383,7 @@ sanitizecheck:
                                 break;
                             case DownloadType.Audio:
                                 if (CurrentDownload.AudioFormat == AudioFormatType.m4a || CurrentDownload.AudioFormat == AudioFormatType.mp3) {
-                                    ArgumentsBuffer += " --embed-thumbnail";
+                                    ArgumentsBuffer.Append(" --embed-thumbnail");
                                 }
                                 else {
                                     rtbConsoleOutput.AppendText("!!!!!!!! WARNING !!!!!!!!\nCannot embed thumbnail to non-m4a/mp3 audio files\n");
@@ -413,65 +391,43 @@ sanitizecheck:
                                 break;
                         }
                     }
-                    //if (Downloads.EmbedThumbnails) {
-                    //    switch (DownloadType) {
-                    //        case 0:
-                    //            if (DownloadFormat != 4) {
-                    //                rtbConsoleOutput.AppendText("!!!!!!!! WARNING !!!!!!!!\nCannot embed thumbnail to non-mp4 videos files\nWill try anyway.\n");
-                    //            }
-                    //            break;
-                    //        case 1:
-                    //            if (DownloadFormat != 3 && DownloadFormat != 4) {
-                    //                rtbConsoleOutput.AppendText("!!!!!!!! WARNING !!!!!!!!\nCannot embed thumbnail to non-m4a/mp3 audio files\nWill try anyway.\n");
-                    //            }
-                    //            break;
-                    //    }
-                    //    ArgumentsBuffer += " --embed-thumbnail";
-                    //}
                 }
                 if (Config.Settings.Downloads.WriteMetadata) {
-                    ArgumentsBuffer += " --add-metadata";
+                    ArgumentsBuffer.Append(" --add-metadata");
                 }
 
                 if (Config.Settings.Downloads.KeepOriginalFiles) {
-                    ArgumentsBuffer += " -k";
+                    ArgumentsBuffer.Append(" -k");
                 }
 
                 if (Config.Settings.Downloads.LimitDownloads && Config.Settings.Downloads.DownloadLimit > 0) {
-                    ArgumentsBuffer += " --limit-rate " + Config.Settings.Downloads.DownloadLimit;
+                    ArgumentsBuffer.Append($" --limit-rate {Config.Settings.Downloads.DownloadLimit}");
                     switch (Config.Settings.Downloads.DownloadLimitType) {
-                        case 0: { // kb
-                                ArgumentsBuffer += "K ";
-                                break;
-                            }
                         case 1: { // mb
-                                ArgumentsBuffer += "M ";
-                                break;
-                            }
+                            ArgumentsBuffer.Append("M ");
+                        } break;
                         case 2: { // gb
-                                ArgumentsBuffer += "G ";
-                                break;
-                            }
+                            ArgumentsBuffer.Append("G ");
+                        } break;
                         default: { // kb default
-                                ArgumentsBuffer += "K ";
-                                break;
-                            }
+                            ArgumentsBuffer.Append("K ");
+                        } break;
                     }
                 }
 
                 if (Config.Settings.Downloads.RetryAttempts != 10 && Config.Settings.Downloads.RetryAttempts > 0) {
-                    ArgumentsBuffer += " --retries " + Config.Settings.Downloads.RetryAttempts;
+                    ArgumentsBuffer.Append($" --retries {Config.Settings.Downloads.RetryAttempts}");
                 }
 
                 if (Config.Settings.Downloads.ForceIPv4) {
-                    ArgumentsBuffer += " --force-ipv4";
+                    ArgumentsBuffer.Append(" --force-ipv4");
                 }
                 else if (Config.Settings.Downloads.ForceIPv6) {
-                    ArgumentsBuffer += " --force-ipv6";
+                    ArgumentsBuffer.Append(" --force-ipv6");
                 }
 
                 if (Config.Settings.Downloads.UseProxy && Config.Settings.Downloads.ProxyType > -1 && !string.IsNullOrEmpty(Config.Settings.Downloads.ProxyIP) && !string.IsNullOrEmpty(Config.Settings.Downloads.ProxyPort)) {
-                    ArgumentsBuffer += " --proxy " + Download.ProxyProtocols[Config.Settings.Downloads.ProxyType] + Config.Settings.Downloads.ProxyIP + ":" + Config.Settings.Downloads.ProxyPort + "/ ";
+                    ArgumentsBuffer.Append($" --proxy {Download.ProxyProtocols[Config.Settings.Downloads.ProxyType]}{Config.Settings.Downloads.ProxyIP}:{Config.Settings.Downloads.ProxyPort}/ ");
                 }
             }
             #endregion
@@ -480,37 +436,37 @@ sanitizecheck:
             // Set the preview arguments to what is present in the arguments buffer.
             // This is so the arguments buffer can have sensitive information and
             // the preview arguments won't include it in case anyone creates an issue.
-            PreviewArguments = ArgumentsBuffer;
+            PreviewArguments = new(ArgumentsBuffer.ToString());
 
-            if (CurrentDownload.AuthUsername != null) {
-                ArgumentsBuffer += " --username " + CurrentDownload.AuthUsername;
+            if (CurrentDownload.AuthUsername is not null) {
+                ArgumentsBuffer.Append($" --username {CurrentDownload.AuthUsername}");
                 CurrentDownload.AuthUsername = null;
-                PreviewArguments += " --username ***";
+                PreviewArguments.Append(" --username ***");
             }
-            if (CurrentDownload.AuthPassword != null) {
-                ArgumentsBuffer += " --password " + CurrentDownload.AuthPassword;
+            if (CurrentDownload.AuthPassword is not null) {
+                ArgumentsBuffer.Append($" --password {CurrentDownload.AuthPassword}");
                 CurrentDownload.AuthPassword = null;
-                PreviewArguments += " --password ***";
+                PreviewArguments.Append(" --password ***");
             }
-            if (CurrentDownload.Auth2Factor != null) {
-                ArgumentsBuffer += " --twofactor " + CurrentDownload.Auth2Factor;
+            if (CurrentDownload.Auth2Factor is not null) {
+                ArgumentsBuffer.Append($" --twofactor {CurrentDownload.Auth2Factor}");
                 CurrentDownload.Auth2Factor = null;
-                PreviewArguments += " --twofactor ***";
+                PreviewArguments.Append(" --twofactor ***");
             }
-            if (CurrentDownload.AuthVideoPassword != null) {
-                ArgumentsBuffer += " --video-password " + CurrentDownload.AuthVideoPassword;
+            if (CurrentDownload.AuthVideoPassword is not null) {
+                ArgumentsBuffer.Append($" --video-password {CurrentDownload.AuthVideoPassword}");
                 CurrentDownload.AuthVideoPassword = null;
-                PreviewArguments += " --video-password ***";
+                PreviewArguments.Append(" --video-password ***");
             }
             if (CurrentDownload.AuthNetrc) {
                 CurrentDownload.AuthNetrc = false;
-                ArgumentsBuffer += " --netrc";
-                PreviewArguments += " --netrc";
+                ArgumentsBuffer.Append(" --netrc");
+                PreviewArguments.Append(" --netrc ***");
             }
             #endregion
 
             rtbConsoleOutput.AppendText("Arguments have been generated and are readonly in the textbox\n");
-            txtArgumentsGenerated.Text = PreviewArguments;
+            txtArgumentsGenerated.Text = PreviewArguments.ToString();
 
             #region Download thread
             rtbConsoleOutput.AppendText("Creating download thread\n");
@@ -521,24 +477,24 @@ sanitizecheck:
             DownloadThread = new Thread(() => {
                 try {
                     DownloadProcess = new Process() {
-                        StartInfo = new ProcessStartInfo(YoutubeDlPath) {
+                        StartInfo = new ProcessStartInfo(Program.verif.YoutubeDlPath) {
                             UseShellExecute = false,
                             RedirectStandardOutput = !IsYtdlp,
                             RedirectStandardError = !IsYtdlp,
                             CreateNoWindow = !IsYtdlp,
-                            Arguments = ArgumentsBuffer
+                            Arguments = ArgumentsBuffer.ToString()
                         },
                         EnableRaisingEvents = true
                     };
                     DownloadProcess.OutputDataReceived += (s, e) => {
                         this.BeginInvoke(new MethodInvoker(() => {
-                            if (e.Data != null)
+                            if (e.Data is not null)
                                 rtbConsoleOutput?.AppendText($"{e.Data}\n");
                         }));
                     };
                     DownloadProcess.ErrorDataReceived += (s, e) => {
                         this.BeginInvoke(new MethodInvoker(() => {
-                            if (e.Data != null)
+                            if (e.Data is not null)
                                 rtbConsoleOutput?.AppendText($"Error: {e.Data}\n");
                         }));
                     };
@@ -571,7 +527,7 @@ sanitizecheck:
                         DownloadProcess.CancelErrorRead();
                         DownloadProcess.CancelOutputRead();
                     }
-                    Win32.KillProcessTree((uint)DownloadProcess.Id);
+                    Program.KillProcessTree((uint)DownloadProcess.Id);
                     DownloadProcess.Kill();
                     this.BeginInvoke((Action)delegate {
                         if (this.IsHandleCreated) {
@@ -585,10 +541,8 @@ sanitizecheck:
                     CurrentDownload.Status = DownloadStatus.ProgramError;
                 }
                 finally {
-                    if (CurrentDownload.Status != DownloadStatus.Aborted || CurrentDownload.BatchDownload) {
-                        this.BeginInvoke((MethodInvoker)delegate() {
-                            DownloadFinished();
-                        });
+                    if (CurrentDownload.Status != DownloadStatus.Aborted || CurrentDownload.BatchDownload && this.IsHandleCreated) {
+                        this.BeginInvoke(() => DownloadFinished());
                     }
                 }
             });

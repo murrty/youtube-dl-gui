@@ -25,7 +25,7 @@ namespace youtube_dl_gui_updater.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1.4")]
+        [global::System.Configuration.DefaultSettingValueAttribute("1.5")]
         public decimal CurrentVersion {
             get {
                 return ((decimal)(this["CurrentVersion"]));

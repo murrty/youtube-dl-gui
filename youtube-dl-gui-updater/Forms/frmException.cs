@@ -40,7 +40,7 @@ namespace murrty {
                 this.Text = youtube_dl_gui_updater.Program.lang.frmException;
                 lbExceptionHeader.Text = youtube_dl_gui_updater.Program.lang.lbExceptionHeader;
                 lbExceptionDescription.Text = youtube_dl_gui_updater.Program.lang.lbExceptionDescription;
-                lbExceptionDescription.Text = youtube_dl_gui_updater.Program.lang.lbExceptionDescription;
+                rtbExceptionDetails.Text = youtube_dl_gui_updater.Program.lang.rtbUpdaterExceptionDetails;
                 btnExceptionGithub.Text = youtube_dl_gui_updater.Program.lang.btnExceptionGithub;
                 btnExceptionOk.Text = youtube_dl_gui_updater.Program.lang.GenericOk;
                 btnExceptionRetry.Text = youtube_dl_gui_updater.Program.lang.GenericRetry;
@@ -68,16 +68,21 @@ namespace murrty {
 
                     case WebException WebEx: {
                         rtbExceptionDetails.Text = (ReportedException.Unrecoverable ? "An unrecoverable WebException occurred, and the application will exit." : "A caught WebException occured.") + "\n\n" + $"Web Address: {ReportedException.ExtraInfo}\n" +
-                                                 $"Message: {WebEx.Message}\n" +
-                                                 $"Stacktrace: {WebEx.StackTrace}\n" +
-                                                 $"Source: {WebEx.Source}\n" +
-                                                 $"Target Site: {WebEx.TargetSite}\n" +
-                                                 $"Inner Exception: {WebEx.InnerException}\n" +
-                                                 $"Response: {WebEx.Response}\n";
+                                                   $"Message: {WebEx.Message}\n" +
+                                                   $"Stacktrace: {WebEx.StackTrace}\n" +
+                                                   $"Source: {WebEx.Source}\n" +
+                                                   $"Target Site: {WebEx.TargetSite}\n" +
+                                                   $"Inner Exception: {WebEx.InnerException}\n" +
+                                                   $"Response: {WebEx.Response}\n";
                     } break;
 
                     case System.Threading.ThreadAbortException ThrAbrEx: {
-                        rtbExceptionDetails.Text = (ReportedException.Unrecoverable ? "An unrecoverable ThreadAbortException occurred, and the application will exit." : "A caught ThreadAbortException occurred.") + "\n\n" + "This exception may have been pushed here on accident.";
+                        rtbExceptionDetails.Text = (ReportedException.Unrecoverable ? "An unrecoverable ThreadAbortException occurred, and the application will exit." : "A caught ThreadAbortException occurred.") + "\n" + "This exception may have been pushed here on accident and not handled where it should've been.\n\n" +
+                                                   $"Message: {ThrAbrEx.Message}\n" +
+                                                   $"Stacktrace: {ThrAbrEx.StackTrace}\n" +
+                                                   $"Source: {ThrAbrEx.Source}\n" +
+                                                   $"Target Site: {ThrAbrEx.TargetSite}\n" +
+                                                   $"Inner Exception: {ThrAbrEx.InnerException}\n";
                     } break;
 
                     case Exception Ex: {

@@ -341,35 +341,35 @@ namespace youtube_dl_gui {
                                 continue;
                         }
                         this.Invoke((Action)delegate {
-                            lvBatchDownloadQueue.Items[i].ImageIndex = (int)BatchHelpers.StatusIcon.Processing;
+                            lvBatchDownloadQueue.Items[i].ImageIndex = (int)StatusIcon.Processing;
                             sbBatchDownloader.Text = Program.lang.sbBatchDownloaderDownloading;
                         });
                         Downloader = new frmDownloader(NewInfo);
                         switch (Downloader.ShowDialog()) {
                             case DialogResult.Yes:
                                 this.Invoke((Action)delegate {
-                                    lvBatchDownloadQueue.Items[i].ImageIndex = (int)BatchHelpers.StatusIcon.Finished;
+                                    lvBatchDownloadQueue.Items[i].ImageIndex = (int)StatusIcon.Finished;
                                 });
                                 break;
                             case DialogResult.No:
                                 this.Invoke((Action)delegate {
-                                    lvBatchDownloadQueue.Items[i].ImageIndex = (int)BatchHelpers.StatusIcon.Errored;
+                                    lvBatchDownloadQueue.Items[i].ImageIndex = (int)StatusIcon.Errored;
                                 });
                                 break;
                             case DialogResult.Abort:
                                 this.Invoke((Action)delegate {
-                                    lvBatchDownloadQueue.Items[i].ImageIndex = (int)BatchHelpers.StatusIcon.Waiting;
+                                    lvBatchDownloadQueue.Items[i].ImageIndex = (int)StatusIcon.Waiting;
                                 });
                                 AbortDownload = true;
                                 break;
                             case DialogResult.Ignore:
                                 this.Invoke((Action)delegate {
-                                    lvBatchDownloadQueue.Items[i].ImageIndex = (int)BatchHelpers.StatusIcon.Waiting;
+                                    lvBatchDownloadQueue.Items[i].ImageIndex = (int)StatusIcon.Waiting;
                                 });
                                 break;
                             default:
                                 this.Invoke((Action)delegate {
-                                    lvBatchDownloadQueue.Items[i].ImageIndex = (int)BatchHelpers.StatusIcon.Finished;
+                                    lvBatchDownloadQueue.Items[i].ImageIndex = (int)StatusIcon.Finished;
                                 });
                                 break;
                         }
@@ -441,7 +441,7 @@ namespace youtube_dl_gui {
                 else {
                     lvi.SubItems.Add(cbArguments.Text);
                 }
-                lvi.ImageIndex = (int)BatchHelpers.StatusIcon.Waiting;
+                lvi.ImageIndex = (int)StatusIcon.Waiting;
                 DownloadArgs.Add(cbArguments.Text);
                 DownloadUrls.Add(URL);
                 DownloadQuality.Add(cbBatchQuality.SelectedIndex);

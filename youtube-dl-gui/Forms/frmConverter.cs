@@ -1,5 +1,4 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -76,7 +75,6 @@ namespace youtube_dl_gui {
                 Config.Settings.Converts.CloseAfterFinish = chkConverterCloseAfterConversion.Checked;
                 Config.Settings.Converts.Save();
 
-                CurrentConversion.Dispose();
                 this.DialogResult = Finish;
                 this.Dispose();
             }
@@ -143,7 +141,7 @@ namespace youtube_dl_gui {
             CurrentConversion.Status = ConversionStatus.GeneratingArguments;
 
             string FFmpegPath = null;
-            string ArgumentsBuffer = "-i \"" + CurrentConversion.InputFile + "\"";
+            StringBuilder ArgumentsBuffer = new("-i \"" + CurrentConversion.InputFile + "\"");
             // string PreviewArguments = null; ???
 
             #region ffmpeg path
@@ -167,30 +165,30 @@ namespace youtube_dl_gui {
             switch (CurrentConversion.Type) {
                 case ConversionType.Video:
                     if (CurrentConversion.VideoUseBitrate)
-                        ArgumentsBuffer += " -b:v " + CurrentConversion.VideoBitrate.ToString() + "k";
+                        ArgumentsBuffer.Append($" -b:v {CurrentConversion.VideoBitrate}k");
 
                     if (CurrentConversion.VideoUsePreset)
-                        ArgumentsBuffer += " -preset " + Convert.GetVideoPreset(CurrentConversion.VideoPreset);
+                        ArgumentsBuffer.Append($" -preset {Convert.GetVideoPreset(CurrentConversion.VideoPreset)}");
 
                     if (CurrentConversion.VideoUseCRF)
-                        ArgumentsBuffer += " -crf " + CurrentConversion.VideoCRF.ToString();
+                        ArgumentsBuffer.Append($" -crf {CurrentConversion.VideoCRF}");
 
                     if (!CurrentConversion.OutputFile.EndsWith(".wmv") && CurrentConversion.VideoUseProfile)
-                        ArgumentsBuffer += " -profile:v " + Convert.GetVideoProfile(CurrentConversion.VideoProfile);
+                        ArgumentsBuffer.Append($" -profile:v {Convert.GetVideoProfile(CurrentConversion.VideoProfile)}");
 
                     if (CurrentConversion.VideoFastStart)
-                        ArgumentsBuffer += " -faststart";
+                        ArgumentsBuffer.Append(" -faststart");
                     break;
 
                 case ConversionType.Audio:
                     if (CurrentConversion.AudioUseBitrate)
-                        ArgumentsBuffer += " -ab " + (CurrentConversion.AudioBitrate * 1000);
+                        ArgumentsBuffer.Append($" -ab {CurrentConversion.AudioBitrate * 1000}");
 
                     break;
 
                 case ConversionType.Custom:
                     rtbConsoleOutput.AppendText("Custom conversion was specified, skipping generating arguments\n");
-                    ArgumentsBuffer += CurrentConversion.CustomArguments;
+                    ArgumentsBuffer.Append(CurrentConversion.CustomArguments);
                     break;
 
                 default:
@@ -201,14 +199,14 @@ namespace youtube_dl_gui {
             // Extra arguments not supported by the custom conversion type
             if (CurrentConversion.Type != ConversionType.Custom) {
                 if (CurrentConversion.HideFFmpegCompile)
-                    ArgumentsBuffer += " -hide_banner";
+                    ArgumentsBuffer.Append(" -hide_banner");
             }
 
-            ArgumentsBuffer += " \"" + CurrentConversion.OutputFile + "\"";
+            ArgumentsBuffer.Append($" \"{CurrentConversion.OutputFile}\"");
             #endregion
 
             rtbConsoleOutput.AppendText("Arguments have been generated and are readonly in the textbox.\n");
-            txtArgumentsGenerated.Text = ArgumentsBuffer;
+            txtArgumentsGenerated.Text = ArgumentsBuffer.ToString();
             CurrentConversion.Status = ConversionStatus.Converting;
 
             #region Conversion thread
@@ -220,7 +218,7 @@ namespace youtube_dl_gui {
                             RedirectStandardOutput = true,
                             RedirectStandardError = true,
                             CreateNoWindow = true,
-                            Arguments = ArgumentsBuffer
+                            Arguments = ArgumentsBuffer.ToString()
                         },
                         EnableRaisingEvents = true
                     };
@@ -263,7 +261,7 @@ namespace youtube_dl_gui {
                 catch (ThreadAbortException) {
                     ConverterProcess.CancelErrorRead();
                     ConverterProcess.CancelOutputRead();
-                    Win32.KillProcessTree((uint)ConverterProcess.Id);
+                    Program.KillProcessTree((uint)ConverterProcess.Id);
                     ConverterProcess.Kill();
                     this.Invoke((Action)delegate {
                         rtbConsoleOutput.AppendText("Conversion was aborted by the user.");

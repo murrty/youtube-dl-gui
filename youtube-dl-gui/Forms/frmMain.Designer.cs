@@ -39,10 +39,15 @@
             this.rbVideoSelectionBeforeDate = new System.Windows.Forms.RadioButton();
             this.rbVideoSelectionPlaylistIndex = new System.Windows.Forms.RadioButton();
             this.panelDate = new System.Windows.Forms.Panel();
+            this.txtVideoDate = new murrty.controls.ExtendedTextBox();
             this.panelPlaylistStartEnd = new System.Windows.Forms.Panel();
+            this.txtPlaylistEnd = new murrty.controls.ExtendedTextBox();
+            this.txtPlaylistStart = new murrty.controls.ExtendedTextBox();
             this.panelPlaylistItems = new System.Windows.Forms.Panel();
+            this.txtPlaylistItems = new murrty.controls.ExtendedTextBox();
             this.cbFormat = new System.Windows.Forms.ComboBox();
             this.lbFormat = new System.Windows.Forms.Label();
+            this.sbDownload = new youtube_dl_gui.Controls.SplitButton();
             this.cmDownload = new System.Windows.Forms.ContextMenu();
             this.mDownloadWithAuthentication = new System.Windows.Forms.MenuItem();
             this.mBatchDownloadFromFile = new System.Windows.Forms.MenuItem();
@@ -54,6 +59,7 @@
             this.rbCustom = new System.Windows.Forms.RadioButton();
             this.rbAudio = new System.Windows.Forms.RadioButton();
             this.rbVideo = new System.Windows.Forms.RadioButton();
+            this.txtUrl = new murrty.controls.ExtendedTextBox();
             this.tabConvert = new System.Windows.Forms.TabPage();
             this.rbConvertCustom = new System.Windows.Forms.RadioButton();
             this.rbConvertAudio = new System.Windows.Forms.RadioButton();
@@ -96,6 +102,9 @@
             this.mBatchConverter = new System.Windows.Forms.MenuItem();
             this.mDownloadSubtitles = new System.Windows.Forms.MenuItem();
             this.mMiscTools = new System.Windows.Forms.MenuItem();
+            this.mToolsSeparator = new System.Windows.Forms.MenuItem();
+            this.mClipboardAutoDownload = new System.Windows.Forms.MenuItem();
+            this.mClipboardAutoDownloadVerifyLinks = new System.Windows.Forms.MenuItem();
             this.mHelp = new System.Windows.Forms.MenuItem();
             this.mLanguage = new System.Windows.Forms.MenuItem();
             this.mSupportedSites = new System.Windows.Forms.MenuItem();
@@ -111,6 +120,9 @@
             this.cmTrayCustomSep = new System.Windows.Forms.MenuItem();
             this.cmTrayDownloadCustomTxt = new System.Windows.Forms.MenuItem();
             this.cmTrayDownloadCustomSettings = new System.Windows.Forms.MenuItem();
+            this.cmDownloadSeparator = new System.Windows.Forms.MenuItem();
+            this.cmTrayClipboardAutoDownload = new System.Windows.Forms.MenuItem();
+            this.cmTrayClipboardAutoDownloadVerifyLinks = new System.Windows.Forms.MenuItem();
             this.cmTrayConverter = new System.Windows.Forms.MenuItem();
             this.cmTrayConvertTo = new System.Windows.Forms.MenuItem();
             this.cmTrayConvertVideo = new System.Windows.Forms.MenuItem();
@@ -121,15 +133,6 @@
             this.cmTraySep = new System.Windows.Forms.MenuItem();
             this.cmTrayExit = new System.Windows.Forms.MenuItem();
             this.trayIcon = new System.Windows.Forms.NotifyIcon(this.components);
-            this.mClipboardAutoDownload = new System.Windows.Forms.MenuItem();
-            this.mClipboardAutoDownloadVerifyLinks = new System.Windows.Forms.MenuItem();
-            this.mToolsSeparator = new System.Windows.Forms.MenuItem();
-            this.txtVideoDate = new murrty.controls.ExtendedTextBox();
-            this.txtPlaylistEnd = new murrty.controls.ExtendedTextBox();
-            this.txtPlaylistStart = new murrty.controls.ExtendedTextBox();
-            this.txtPlaylistItems = new murrty.controls.ExtendedTextBox();
-            this.sbDownload = new youtube_dl_gui.Controls.SplitButton();
-            this.txtUrl = new murrty.controls.ExtendedTextBox();
             this.tcMain.SuspendLayout();
             this.tabDownload.SuspendLayout();
             this.gbSelection.SuspendLayout();
@@ -327,6 +330,26 @@
             this.panelDate.TabIndex = 18;
             this.panelDate.Visible = false;
             // 
+            // txtVideoDate
+            // 
+            this.txtVideoDate.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtVideoDate.ButtonAlignment = murrty.controls.ButtonAlignment.Left;
+            this.txtVideoDate.ButtonCursor = System.Windows.Forms.Cursors.Default;
+            this.txtVideoDate.ButtonFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtVideoDate.ButtonImageIndex = -1;
+            this.txtVideoDate.ButtonSize = new System.Drawing.Size(22, 21);
+            this.txtVideoDate.ButtonText = "";
+            this.txtVideoDate.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.txtVideoDate.Location = new System.Drawing.Point(3, 3);
+            this.txtVideoDate.MaxLength = 8;
+            this.txtVideoDate.Name = "txtVideoDate";
+            this.txtVideoDate.RegexPatterns = null;
+            this.txtVideoDate.Size = new System.Drawing.Size(207, 22);
+            this.txtVideoDate.TabIndex = 0;
+            this.txtVideoDate.TextHint = "txtVideoDateHint";
+            this.txtVideoDate.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtVideoDate_KeyPress);
+            // 
             // panelPlaylistStartEnd
             // 
             this.panelPlaylistStartEnd.Anchor = System.Windows.Forms.AnchorStyles.Top;
@@ -338,6 +361,40 @@
             this.panelPlaylistStartEnd.TabIndex = 16;
             this.panelPlaylistStartEnd.Visible = false;
             // 
+            // txtPlaylistEnd
+            // 
+            this.txtPlaylistEnd.ButtonAlignment = murrty.controls.ButtonAlignment.Left;
+            this.txtPlaylistEnd.ButtonCursor = System.Windows.Forms.Cursors.Default;
+            this.txtPlaylistEnd.ButtonFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtPlaylistEnd.ButtonImageIndex = -1;
+            this.txtPlaylistEnd.ButtonSize = new System.Drawing.Size(22, 21);
+            this.txtPlaylistEnd.ButtonText = "";
+            this.txtPlaylistEnd.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.txtPlaylistEnd.Location = new System.Drawing.Point(108, 3);
+            this.txtPlaylistEnd.Name = "txtPlaylistEnd";
+            this.txtPlaylistEnd.RegexPatterns = null;
+            this.txtPlaylistEnd.Size = new System.Drawing.Size(100, 22);
+            this.txtPlaylistEnd.TabIndex = 1;
+            this.txtPlaylistEnd.TextHint = "txtPlaylistEndHint";
+            this.txtPlaylistEnd.TextType = murrty.controls.AllowedCharacters.NumericOnly;
+            // 
+            // txtPlaylistStart
+            // 
+            this.txtPlaylistStart.ButtonAlignment = murrty.controls.ButtonAlignment.Left;
+            this.txtPlaylistStart.ButtonCursor = System.Windows.Forms.Cursors.Default;
+            this.txtPlaylistStart.ButtonFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtPlaylistStart.ButtonImageIndex = -1;
+            this.txtPlaylistStart.ButtonSize = new System.Drawing.Size(22, 21);
+            this.txtPlaylistStart.ButtonText = "";
+            this.txtPlaylistStart.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.txtPlaylistStart.Location = new System.Drawing.Point(3, 3);
+            this.txtPlaylistStart.Name = "txtPlaylistStart";
+            this.txtPlaylistStart.RegexPatterns = null;
+            this.txtPlaylistStart.Size = new System.Drawing.Size(100, 22);
+            this.txtPlaylistStart.TabIndex = 0;
+            this.txtPlaylistStart.TextHint = "txtPlaylistStartHint";
+            this.txtPlaylistStart.TextType = murrty.controls.AllowedCharacters.NumericOnly;
+            // 
             // panelPlaylistItems
             // 
             this.panelPlaylistItems.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -348,6 +405,25 @@
             this.panelPlaylistItems.Size = new System.Drawing.Size(213, 26);
             this.panelPlaylistItems.TabIndex = 17;
             this.panelPlaylistItems.Visible = false;
+            // 
+            // txtPlaylistItems
+            // 
+            this.txtPlaylistItems.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtPlaylistItems.ButtonAlignment = murrty.controls.ButtonAlignment.Left;
+            this.txtPlaylistItems.ButtonCursor = System.Windows.Forms.Cursors.Default;
+            this.txtPlaylistItems.ButtonFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtPlaylistItems.ButtonImageIndex = -1;
+            this.txtPlaylistItems.ButtonSize = new System.Drawing.Size(22, 21);
+            this.txtPlaylistItems.ButtonText = "";
+            this.txtPlaylistItems.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.txtPlaylistItems.Location = new System.Drawing.Point(3, 3);
+            this.txtPlaylistItems.Name = "txtPlaylistItems";
+            this.txtPlaylistItems.RegexPatterns = null;
+            this.txtPlaylistItems.Size = new System.Drawing.Size(207, 22);
+            this.txtPlaylistItems.TabIndex = 0;
+            this.txtPlaylistItems.TextHint = "txtPlaylistItemsHint";
+            this.txtPlaylistItems.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPlaylistItems_KeyPress);
             // 
             // cbFormat
             // 
@@ -368,6 +444,19 @@
             this.lbFormat.TabIndex = 10;
             this.lbFormat.Text = "lbFormat";
             this.lbFormat.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // sbDownload
+            // 
+            this.sbDownload.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.sbDownload.DropDownContextMenu = this.cmDownload;
+            this.sbDownload.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.sbDownload.Location = new System.Drawing.Point(78, 297);
+            this.sbDownload.Name = "sbDownload";
+            this.sbDownload.Size = new System.Drawing.Size(83, 25);
+            this.sbDownload.TabIndex = 14;
+            this.sbDownload.Text = "sbDownload";
+            this.sbDownload.UseVisualStyleBackColor = true;
+            this.sbDownload.Click += new System.EventHandler(this.sbDownload_Click);
             // 
             // cmDownload
             // 
@@ -482,6 +571,25 @@
             this.rbVideo.Text = "rbVideo";
             this.rbVideo.UseVisualStyleBackColor = true;
             this.rbVideo.CheckedChanged += new System.EventHandler(this.rbVideo_CheckedChanged);
+            // 
+            // txtUrl
+            // 
+            this.txtUrl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtUrl.ButtonAlignment = murrty.controls.ButtonAlignment.Left;
+            this.txtUrl.ButtonCursor = System.Windows.Forms.Cursors.Default;
+            this.txtUrl.ButtonFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtUrl.ButtonImageIndex = -1;
+            this.txtUrl.ButtonSize = new System.Drawing.Size(22, 21);
+            this.txtUrl.ButtonText = "";
+            this.txtUrl.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.txtUrl.Location = new System.Drawing.Point(22, 26);
+            this.txtUrl.Name = "txtUrl";
+            this.txtUrl.RegexPatterns = null;
+            this.txtUrl.Size = new System.Drawing.Size(194, 22);
+            this.txtUrl.TabIndex = 2;
+            this.txtUrl.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtUrl_KeyPress);
+            this.txtUrl.MouseEnter += new System.EventHandler(this.txtUrl_MouseEnter);
             // 
             // tabConvert
             // 
@@ -937,6 +1045,24 @@
             this.mMiscTools.Text = "mMiscTools";
             this.mMiscTools.Click += new System.EventHandler(this.mMiscTools_Click);
             // 
+            // mToolsSeparator
+            // 
+            this.mToolsSeparator.Index = 4;
+            this.mToolsSeparator.Text = "-";
+            // 
+            // mClipboardAutoDownload
+            // 
+            this.mClipboardAutoDownload.Index = 5;
+            this.mClipboardAutoDownload.Text = "mClipboardAutoDownload";
+            this.mClipboardAutoDownload.Click += new System.EventHandler(this.mClipboardAutoDownload_Click);
+            // 
+            // mClipboardAutoDownloadVerifyLinks
+            // 
+            this.mClipboardAutoDownloadVerifyLinks.Enabled = false;
+            this.mClipboardAutoDownloadVerifyLinks.Index = 6;
+            this.mClipboardAutoDownloadVerifyLinks.Text = "GenericVerifyLinks";
+            this.mClipboardAutoDownloadVerifyLinks.Click += new System.EventHandler(this.mClipboardAutoDownloadVerifyLinks_Click);
+            // 
             // mHelp
             // 
             this.mHelp.Index = 2;
@@ -982,7 +1108,10 @@
             // 
             this.cmTrayDownloader.Index = 1;
             this.cmTrayDownloader.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.cmTrayDownloadClipboard});
+            this.cmTrayDownloadClipboard,
+            this.cmDownloadSeparator,
+            this.cmTrayClipboardAutoDownload,
+            this.cmTrayClipboardAutoDownloadVerifyLinks});
             this.cmTrayDownloader.Text = "cmTrayDownloader";
             // 
             // cmTrayDownloadClipboard
@@ -1038,6 +1167,25 @@
             this.cmTrayDownloadCustomSettings.Index = 3;
             this.cmTrayDownloadCustomSettings.Text = "cmTrayDownloadCustomSettings";
             this.cmTrayDownloadCustomSettings.Click += new System.EventHandler(this.cmTrayDownloadCustomSettings_Click);
+            // 
+            // cmDownloadSeparator
+            // 
+            this.cmDownloadSeparator.Index = 1;
+            this.cmDownloadSeparator.Text = "-";
+            // 
+            // cmTrayClipboardAutoDownload
+            // 
+            this.cmTrayClipboardAutoDownload.Index = 2;
+            this.cmTrayClipboardAutoDownload.Text = "mClipboardAutoDownload";
+            this.cmTrayClipboardAutoDownload.Click += new System.EventHandler(this.cmTrayClipboardAutoDownload_Click);
+            // 
+            // cmTrayClipboardAutoDownloadVerifyLinks
+            // 
+            this.cmTrayClipboardAutoDownloadVerifyLinks.Checked = true;
+            this.cmTrayClipboardAutoDownloadVerifyLinks.Enabled = false;
+            this.cmTrayClipboardAutoDownloadVerifyLinks.Index = 3;
+            this.cmTrayClipboardAutoDownloadVerifyLinks.Text = "GenericVerifyLinks";
+            this.cmTrayClipboardAutoDownloadVerifyLinks.Click += new System.EventHandler(this.cmTrayClipboardAutoDownloadVerifyLinks_Click);
             // 
             // cmTrayConverter
             // 
@@ -1105,130 +1253,6 @@
             this.trayIcon.BalloonTipTitle = "Unseen easter egg";
             this.trayIcon.Icon = global::youtube_dl_gui.Properties.Resources.youtube_dl_gui;
             this.trayIcon.Text = "youtube-dl-gui";
-            this.trayIcon.Visible = true;
-            // 
-            // mClipboardAutoDownload
-            // 
-            this.mClipboardAutoDownload.Index = 5;
-            this.mClipboardAutoDownload.Text = "mClipboardAutoDownload";
-            this.mClipboardAutoDownload.Click += new System.EventHandler(this.mClipboardAutoDownload_Click);
-            // 
-            // mClipboardAutoDownloadVerifyLinks
-            // 
-            this.mClipboardAutoDownloadVerifyLinks.Enabled = false;
-            this.mClipboardAutoDownloadVerifyLinks.Index = 6;
-            this.mClipboardAutoDownloadVerifyLinks.Text = "mClipboardAutoDownloadVerifyLinks";
-            this.mClipboardAutoDownloadVerifyLinks.Click += new System.EventHandler(this.mClipboardAutoDownloadVerifyLinks_Click);
-            // 
-            // mToolsSeparator
-            // 
-            this.mToolsSeparator.Index = 4;
-            this.mToolsSeparator.Text = "-";
-            // 
-            // txtVideoDate
-            // 
-            this.txtVideoDate.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtVideoDate.ButtonAlignment = murrty.controls.ButtonAlignment.Left;
-            this.txtVideoDate.ButtonCursor = System.Windows.Forms.Cursors.Default;
-            this.txtVideoDate.ButtonFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtVideoDate.ButtonImageIndex = -1;
-            this.txtVideoDate.ButtonSize = new System.Drawing.Size(22, 21);
-            this.txtVideoDate.ButtonText = "";
-            this.txtVideoDate.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.txtVideoDate.Location = new System.Drawing.Point(3, 3);
-            this.txtVideoDate.MaxLength = 8;
-            this.txtVideoDate.Name = "txtVideoDate";
-            this.txtVideoDate.RegexPatterns = null;
-            this.txtVideoDate.Size = new System.Drawing.Size(207, 22);
-            this.txtVideoDate.TabIndex = 0;
-            this.txtVideoDate.TextHint = "txtVideoDateHint";
-            this.txtVideoDate.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtVideoDate_KeyPress);
-            // 
-            // txtPlaylistEnd
-            // 
-            this.txtPlaylistEnd.ButtonAlignment = murrty.controls.ButtonAlignment.Left;
-            this.txtPlaylistEnd.ButtonCursor = System.Windows.Forms.Cursors.Default;
-            this.txtPlaylistEnd.ButtonFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPlaylistEnd.ButtonImageIndex = -1;
-            this.txtPlaylistEnd.ButtonSize = new System.Drawing.Size(22, 21);
-            this.txtPlaylistEnd.ButtonText = "";
-            this.txtPlaylistEnd.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.txtPlaylistEnd.Location = new System.Drawing.Point(108, 3);
-            this.txtPlaylistEnd.Name = "txtPlaylistEnd";
-            this.txtPlaylistEnd.RegexPatterns = null;
-            this.txtPlaylistEnd.Size = new System.Drawing.Size(100, 22);
-            this.txtPlaylistEnd.TabIndex = 1;
-            this.txtPlaylistEnd.TextHint = "txtPlaylistEndHint";
-            this.txtPlaylistEnd.TextType = murrty.controls.AllowedCharacters.NumericOnly;
-            // 
-            // txtPlaylistStart
-            // 
-            this.txtPlaylistStart.ButtonAlignment = murrty.controls.ButtonAlignment.Left;
-            this.txtPlaylistStart.ButtonCursor = System.Windows.Forms.Cursors.Default;
-            this.txtPlaylistStart.ButtonFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPlaylistStart.ButtonImageIndex = -1;
-            this.txtPlaylistStart.ButtonSize = new System.Drawing.Size(22, 21);
-            this.txtPlaylistStart.ButtonText = "";
-            this.txtPlaylistStart.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.txtPlaylistStart.Location = new System.Drawing.Point(3, 3);
-            this.txtPlaylistStart.Name = "txtPlaylistStart";
-            this.txtPlaylistStart.RegexPatterns = null;
-            this.txtPlaylistStart.Size = new System.Drawing.Size(100, 22);
-            this.txtPlaylistStart.TabIndex = 0;
-            this.txtPlaylistStart.TextHint = "txtPlaylistStartHint";
-            this.txtPlaylistStart.TextType = murrty.controls.AllowedCharacters.NumericOnly;
-            // 
-            // txtPlaylistItems
-            // 
-            this.txtPlaylistItems.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtPlaylistItems.ButtonAlignment = murrty.controls.ButtonAlignment.Left;
-            this.txtPlaylistItems.ButtonCursor = System.Windows.Forms.Cursors.Default;
-            this.txtPlaylistItems.ButtonFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPlaylistItems.ButtonImageIndex = -1;
-            this.txtPlaylistItems.ButtonSize = new System.Drawing.Size(22, 21);
-            this.txtPlaylistItems.ButtonText = "";
-            this.txtPlaylistItems.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.txtPlaylistItems.Location = new System.Drawing.Point(3, 3);
-            this.txtPlaylistItems.Name = "txtPlaylistItems";
-            this.txtPlaylistItems.RegexPatterns = null;
-            this.txtPlaylistItems.Size = new System.Drawing.Size(207, 22);
-            this.txtPlaylistItems.TabIndex = 0;
-            this.txtPlaylistItems.TextHint = "txtPlaylistItemsHint";
-            this.txtPlaylistItems.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPlaylistItems_KeyPress);
-            // 
-            // sbDownload
-            // 
-            this.sbDownload.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.sbDownload.DropDownContextMenu = this.cmDownload;
-            this.sbDownload.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.sbDownload.Location = new System.Drawing.Point(78, 297);
-            this.sbDownload.Name = "sbDownload";
-            this.sbDownload.Size = new System.Drawing.Size(83, 25);
-            this.sbDownload.TabIndex = 14;
-            this.sbDownload.Text = "sbDownload";
-            this.sbDownload.UseVisualStyleBackColor = true;
-            this.sbDownload.Click += new System.EventHandler(this.sbDownload_Click);
-            // 
-            // txtUrl
-            // 
-            this.txtUrl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtUrl.ButtonAlignment = murrty.controls.ButtonAlignment.Left;
-            this.txtUrl.ButtonCursor = System.Windows.Forms.Cursors.Default;
-            this.txtUrl.ButtonFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtUrl.ButtonImageIndex = -1;
-            this.txtUrl.ButtonSize = new System.Drawing.Size(22, 21);
-            this.txtUrl.ButtonText = "";
-            this.txtUrl.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.txtUrl.Location = new System.Drawing.Point(22, 26);
-            this.txtUrl.Name = "txtUrl";
-            this.txtUrl.RegexPatterns = null;
-            this.txtUrl.Size = new System.Drawing.Size(194, 22);
-            this.txtUrl.TabIndex = 2;
-            this.txtUrl.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtUrl_KeyPress);
-            this.txtUrl.MouseEnter += new System.EventHandler(this.txtUrl_MouseEnter);
             // 
             // frmMain
             // 
@@ -1376,6 +1400,9 @@
         private System.Windows.Forms.MenuItem mClipboardAutoDownload;
         private System.Windows.Forms.MenuItem mClipboardAutoDownloadVerifyLinks;
         private System.Windows.Forms.MenuItem mToolsSeparator;
+        private System.Windows.Forms.MenuItem cmTrayClipboardAutoDownload;
+        private System.Windows.Forms.MenuItem cmTrayClipboardAutoDownloadVerifyLinks;
+        private System.Windows.Forms.MenuItem cmDownloadSeparator;
     }
 }
 

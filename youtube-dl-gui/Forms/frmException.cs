@@ -1,6 +1,5 @@
 ﻿// ExceptionForm Base 1.0.0
 
-using System;
 using System.Net;
 using System.Security.Cryptography;
 using System.Windows.Forms;
@@ -154,9 +153,7 @@ namespace murrty.forms {
             }
             else rtbExceptionDetails.Text = ReportedException.CustomDescription;
 
-            lbVersion.Text = "v" + (youtube_dl_gui.Program.IsBetaVersion ?
-                                    youtube_dl_gui.Program.BetaVersion :
-                                    youtube_dl_gui.Program.CurrentVersion.ToString());
+            lbVersion.Text = $"v{youtube_dl_gui.Program.CurrentVersion}";
             
             System.Media.SystemSounds.Hand.Play();
         }

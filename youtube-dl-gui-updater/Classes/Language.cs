@@ -8,36 +8,67 @@ namespace youtube_dl_gui_updater {
         public string GenericRetry { get; private set; }
         public string GenericOk { get; private set; }
 
-        public string frmUpdater { get; private set; }
-        public string lbUpdaterHeader { get; private set; }
-        public string lbUpdaterDetails { get; private set; }
+        public string dlgUpdaterUpdatedVersionHashNoMatch { get; private set; }
+        public string dlgUpdaterHashNotGiven { get; private set; }
 
         public string frmException { get; private set; }
         public string lbExceptionHeader { get; private set; }
         public string lbExceptionDescription { get; private set; }
         public string btnExceptionGithub { get; private set; }
         public string rtbUpdaterExceptionDetails { get; private set; }
+
+        public string frmUpdater { get; private set; }
+        public string lbUpdaterHeader { get; private set; }
+        public string lbUpdaterDetails { get; private set; }
+        public string pbDownloadProgressPreparing { get; private set; }
+        public string pbDownloadProgressCalculatingHash { get; private set; }
+        public string pbDownloadProgressHashNoMatch { get; private set; }
+        public string pbDownloadProgressSkippingHashCalculating { get; private set; }
+        public string pbDownloadProgressCancelled { get; private set; }
+        public string pbDownloadProgressWebException { get; private set; }
+        public string pbDownloadProgressDownloadException { get; private set; }
+        public string pbDownloadProgressErrorDownloading { get; private set; }
+        public string pbDownloadProgressDownloadTooSmall { get; private set; }
+        public string pbDownloadProgressDownloadFinishedLaunching { get; private set; }
+        public string pbDownloadProgressErrorProcessingDownload { get; private set; }
         #endregion
 
         #region Interal English
         public class InternalEnglish {
-            public static readonly string GenericRetry = "Retry";
-            public static readonly string GenericOk = "OK";
+            public const string GenericRetry = "Retry";
+            public const string GenericOk = "OK";
 
-            public static readonly string frmException = "An exception occured";
-            public static readonly string lbExceptionHeader = "An exception has occured";
-            public static readonly string lbExceptionDescription = "Below is the error that occured. Feel free to open a new issue and report it.";
-            public static readonly string btnExceptionGithub = "Open Github";
+            public const string dlgUpdaterUpdatedVersionHashNoMatch = "The hash calculated by the updater does not match the known hash of the update.\r\n\r\nExpected: {0}\r\n\r\nCalculated: {1}\r\n\r\nYou can continue without it matching, there are some instances where it may be different.";
+            public const string dlgUpdaterHashNotGiven = "The UpdateHash hasn't been set, so I can't calculate the hash to sanity-check that it's the one from release. Your mileage may vary.";
 
-            public static readonly string frmUpdater = "Updating";
-            public static readonly string lbUpdaterHeader = "Updating youtube-dl-gui";
-            public static readonly string lbUpdaterDetails = "The previous version won't be deleted if it fails.";
-            public static readonly string rtbUpdaterExceptionDetails = "Feel free to copy + paste this entire text wall into a new issue on Github. The old youtube-dl-gui will be restored, and you can attempt to redownload the update through the application, or manually from Github.";
+            public const string frmException = "An exception occured";
+            public const string lbExceptionHeader = "An exception has occured";
+            public const string lbExceptionDescription = "Below is the error that occured. Feel free to open a new issue and report it.";
+            public const string btnExceptionGithub = "Open Github";
+
+            public const string frmUpdater = "Updating";
+            public const string lbUpdaterHeader = "Updating youtube-dl-gui";
+            public const string lbUpdaterDetails = "The previous version won't be deleted if it fails.";
+            public const string rtbUpdaterExceptionDetails = "Feel free to copy + paste this entire text wall into a new issue on Github. The old youtube-dl-gui will be restored, and you can attempt to redownload the update through the application, or manually from Github.";
+            public const string pbDownloadProgressPreparing = "Preparing download to do things";
+            public const string pbDownloadProgressCalculatingHash = "Calculating hash";
+            public const string pbDownloadProgressHashNoMatch = "Hash does not match";
+            public const string pbDownloadProgressSkippingHashCalculating = "Skipping hash calculating...";
+            public const string pbDownloadProgressCancelled = "Cancelled";
+            public const string pbDownloadProgressWebException = "A web exception occurred";
+            public const string pbDownloadProgressDownloadException = "An exception occurred";
+            public const string pbDownloadProgressErrorDownloading = "Error downloading";
+            public const string pbDownloadProgressDownloadTooSmall = "Error: the download is too small";
+            public const string pbDownloadProgressDownloadFinishedLaunching = "Download finished, launching...";
+            public const string pbDownloadProgressErrorProcessingDownload = "Error processing download";
         }
 
         public void LoadInternalEnglish() {
             GenericRetry = InternalEnglish.GenericRetry;
             GenericOk = InternalEnglish.GenericOk;
+
+            dlgUpdaterUpdatedVersionHashNoMatch = InternalEnglish.dlgUpdaterUpdatedVersionHashNoMatch;
+            dlgUpdaterHashNotGiven = InternalEnglish.dlgUpdaterHashNotGiven;
 
             frmException = InternalEnglish.frmException;
             lbExceptionHeader = InternalEnglish.lbExceptionHeader;
@@ -48,6 +79,17 @@ namespace youtube_dl_gui_updater {
             lbUpdaterHeader = InternalEnglish.lbUpdaterHeader;
             lbUpdaterDetails = InternalEnglish.lbUpdaterDetails;
             rtbUpdaterExceptionDetails = InternalEnglish.rtbUpdaterExceptionDetails;
+            pbDownloadProgressPreparing = InternalEnglish.pbDownloadProgressPreparing;
+            pbDownloadProgressCalculatingHash = InternalEnglish.pbDownloadProgressCalculatingHash;
+            pbDownloadProgressHashNoMatch = InternalEnglish.pbDownloadProgressHashNoMatch;
+            pbDownloadProgressSkippingHashCalculating = InternalEnglish.pbDownloadProgressSkippingHashCalculating;
+            pbDownloadProgressCancelled = InternalEnglish.pbDownloadProgressCancelled;
+            pbDownloadProgressWebException = InternalEnglish.pbDownloadProgressWebException;
+            pbDownloadProgressDownloadException = InternalEnglish.pbDownloadProgressDownloadException;
+            pbDownloadProgressErrorDownloading = InternalEnglish.pbDownloadProgressErrorDownloading;
+            pbDownloadProgressDownloadTooSmall = InternalEnglish.pbDownloadProgressDownloadTooSmall;
+            pbDownloadProgressDownloadFinishedLaunching = InternalEnglish.pbDownloadProgressDownloadFinishedLaunching;
+            pbDownloadProgressErrorProcessingDownload = InternalEnglish.pbDownloadProgressErrorProcessingDownload;
         }
         #endregion
 
@@ -84,6 +126,13 @@ namespace youtube_dl_gui_updater {
                                         GenericOk = ReadValue;
                                         continue;
 
+                                    case "dlgupdaterupdatedversionhashnomatch":
+                                        dlgUpdaterUpdatedVersionHashNoMatch = ReadValue;
+                                        continue;
+                                    case "dlgupdaterhashnotgiven":
+                                        dlgUpdaterHashNotGiven = ReadValue;
+                                        continue;
+
                                     case "frmexception":
                                         frmException = ReadValue;
                                         continue;
@@ -108,6 +157,39 @@ namespace youtube_dl_gui_updater {
                                         continue;
                                     case "rtbupdaterexceptiondetails":
                                         rtbUpdaterExceptionDetails = ReadValue;
+                                        continue;
+                                    case "pbdownloadprogresspreparing":
+                                        pbDownloadProgressPreparing = ReadValue;
+                                        continue;
+                                    case "pbdownloadprogresscalculatinghash":
+                                        pbDownloadProgressCalculatingHash = ReadValue;
+                                        continue;
+                                    case "pbdownloadprogresshashnomatch":
+                                        pbDownloadProgressHashNoMatch = ReadValue;
+                                        continue;
+                                    case "pbdownloadprogressskippinghashcalculating":
+                                        pbDownloadProgressSkippingHashCalculating = ReadValue;
+                                        continue;
+                                    case "pbdownloadprogresscancelled":
+                                        pbDownloadProgressCancelled = ReadValue;
+                                        continue;
+                                    case "pbdownloadprogresswebexception":
+                                        pbDownloadProgressWebException = ReadValue;
+                                        continue;
+                                    case "pbdownloadprogressdownloadexception":
+                                        pbDownloadProgressDownloadException = ReadValue;
+                                        continue;
+                                    case "pbdownloadprogresserrordownloading":
+                                        pbDownloadProgressErrorDownloading = ReadValue;
+                                        continue;
+                                    case "pbdownloadprogressdownloadtoosmall":
+                                        pbDownloadProgressDownloadTooSmall = ReadValue;
+                                        continue;
+                                    case "pbdownloadprogressdownloadfinishedlaunching":
+                                        pbDownloadProgressDownloadFinishedLaunching = ReadValue;
+                                        continue;
+                                    case "pbdownloadprogresserrorprocessingdownload":
+                                        pbDownloadProgressErrorProcessingDownload = ReadValue;
                                         continue;
                                 }
                             }
@@ -138,6 +220,7 @@ namespace youtube_dl_gui_updater {
             Input = Input.Contains("//") ? Input.Substring(0, Input.IndexOf("//")) : Input;
             Header = Input.Substring(1, Input.IndexOf(']') - 1);
         }
+
         /// <summary>
         /// Parses the control name and value from a string.
         /// </summary>

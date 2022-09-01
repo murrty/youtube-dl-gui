@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 
 namespace youtube_dl_gui {
     public partial class frmSubtitles : Form {

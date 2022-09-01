@@ -377,7 +377,7 @@ public class ExtendedTextBox : TextBox {
         set {
             fTextHint = value;
             if (this.IsHandleCreated) {
-                SendMessage(this.Handle, 0x1501, (IntPtr)1, Marshal.StringToHGlobalUni(value));
+                SendMessage(this.Handle, 0x1501, 1, Marshal.StringToHGlobalUni(value));
             }
         }
     }
@@ -409,11 +409,11 @@ public class ExtendedTextBox : TextBox {
     /// <summary>
     /// Sets the left margin.
     /// </summary>
-    public const int EC_LEFTMARGIN = 1;
+    public const nint EC_LEFTMARGIN = 1;
     /// <summary>
     /// Sets the right margin.
     /// </summary>
-    public const int EC_RIGHTMARGIN = 2;
+    public const nint EC_RIGHTMARGIN = 2;
     /// <summary>
     /// Sets the widths of the left and right margins for an edit control. The message redraws the control to reflect the new margins. You can send this message to either an edit control or a rich edit control.
     /// </summary>
@@ -421,7 +421,7 @@ public class ExtendedTextBox : TextBox {
 
 
     [DllImport("user32.dll", CharSet = CharSet.Unicode, ThrowOnUnmappableChar = true)]
-    internal static extern IntPtr SendMessage(IntPtr hWnd, int wMsg, IntPtr wParam, IntPtr lParam);
+    internal static extern nint SendMessage(nint hWnd, int wMsg, nint wParam, nint lParam);
     #endregion
 
     #region Constructor
@@ -448,21 +448,21 @@ public class ExtendedTextBox : TextBox {
                 UpdateButton();
                 switch (fButtonAlignment) {
                     default: {
-                        SendMessage(Handle, EM_SETMARGINS, (IntPtr)EC_RIGHTMARGIN, (IntPtr)(InsetButton.Width << 16));
+                        SendMessage(Handle, EM_SETMARGINS, EC_RIGHTMARGIN, (InsetButton.Width << 16));
                     } break;
 
                     case ButtonAlignment.Right: {
-                        SendMessage(Handle, EM_SETMARGINS, (IntPtr)EC_LEFTMARGIN, (IntPtr)InsetButton.Width);
+                        SendMessage(Handle, EM_SETMARGINS, EC_LEFTMARGIN, InsetButton.Width);
                     } break;
                 }
             }
             else {
-                SendMessage(Handle, EM_SETMARGINS, (IntPtr)EC_LEFTMARGIN, IntPtr.Zero);
-                SendMessage(Handle, EM_SETMARGINS, (IntPtr)EC_RIGHTMARGIN, IntPtr.Zero);
+                SendMessage(Handle, EM_SETMARGINS, EC_LEFTMARGIN, 0);
+                SendMessage(Handle, EM_SETMARGINS, EC_RIGHTMARGIN, 0);
             }
 
             if (!string.IsNullOrWhiteSpace(fTextHint)) {
-                SendMessage(this.Handle, 0x1501, (IntPtr)1, Marshal.StringToHGlobalUni(fTextHint));
+                SendMessage(this.Handle, 0x1501, 1, Marshal.StringToHGlobalUni(fTextHint));
             }
         }
     }

@@ -1,7 +1,5 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Management;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -13,17 +11,9 @@ namespace youtube_dl_gui {
     static class Program {
 
         /// <summary>
-        /// The current version of the program.
+        /// Gets the curent version of the program.
         /// </summary>
-        public const decimal CurrentVersion = 2.3m;
-        /// <summary>
-        /// Whether the program is a beta version.
-        /// </summary>
-        public const bool IsBetaVersion = true;
-        /// <summary>
-        /// The version of the current beta program.
-        /// </summary>
-        public const string BetaVersion = "2.31-pre2";
+        public static Version CurrentVersion { get; } = new(2, 3, 1);
 
         /// <summary>
         /// Gets or sets whether the update was checked this run.
@@ -32,13 +22,12 @@ namespace youtube_dl_gui {
             get; set;
         }
 
-        //public static readonly string ProgramPath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+        //public static readonly string ProgramPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
         private static readonly GuidAttribute ProgramGUID = (GuidAttribute)Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(GuidAttribute), true)[0];
         public static readonly string LocalAppDataPath = $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\youtube_dl_gui";
         public static readonly string ProgramPath = Environment.CurrentDirectory;
         public static readonly string UserAgent = "User-Agent: youtube-dl-gui/" + CurrentVersion;
         public static bool IsDebug = false;
-        public static bool UseIni = false;
         static Mutex mtx;
 
         public static readonly Language lang = new();
@@ -58,7 +47,6 @@ namespace youtube_dl_gui {
                 Application.SetCompatibleTextRenderingDefault(false);
                 Log.InitializeLogging();
 
-                UseIni = File.Exists(Ini.Path) && Ini.KeyExists("useIni") && Ini.ReadBool("useIni");
                 Config.Settings = new Config();
                 Config.Settings.Load(ConfigType.Initialization);
 
@@ -125,9 +113,6 @@ namespace youtube_dl_gui {
             else {
                 IntPtr hwnd = CopyData.FindWindow(null, "youtube-dl-gui");
                 if (hwnd == IntPtr.Zero) {
-                    hwnd = CopyData.FindWindow(null, "youtube-dl-gui (ini)");
-                }
-                if (hwnd != IntPtr.Zero) {
                     if (args.Length > 0) {
                         CopyData.SentData Data = new() {
                             Argument = string.Join("|", args)
@@ -138,7 +123,7 @@ namespace youtube_dl_gui {
                         try {
                             DataBuffer = CopyData.IntPtrAlloc(Data);
                             DataStruct.cbData = Marshal.SizeOf(Data);
-                            DataStruct.dwData = new(1);
+                            DataStruct.dwData = 1;
                             DataStruct.lpData = DataBuffer;
                             CopyDataBuffer = CopyData.IntPtrAlloc(DataStruct);
                             CopyData.SendMessage(hwnd, CopyData.WM_COPYDATA, IntPtr.Zero, CopyDataBuffer);
@@ -252,6 +237,10 @@ namespace youtube_dl_gui {
             string UpdaterHash = BitConverter.ToString(ComputeUpdaterHash.ComputeHash(UpdaterStream)).Replace("-", "").ToLower();
             UpdaterStream.Close();
             return UpdaterHash;
+        }
+
+        public static void RemoveTrayIcon() {
+            MainForm.RemoveTrayIcon();
         }
     }
 }

@@ -29,7 +29,7 @@ namespace youtube_dl_gui {
             ManagementObjectSearcher searcher = new("SELECT * FROM Win32_OperatingSystem");
             ManagementObject info = searcher.Get().Cast<ManagementObject>().FirstOrDefault();
             DiagnosticInformation =
-                $"Current version: {(Program.IsBetaVersion ? Program.BetaVersion ?? "Unknown beta version" : Program.CurrentVersion)}\n" +
+                $"Current version: {Program.CurrentVersion}\n" +
                 $"Curernt culture: {System.Threading.Thread.CurrentThread.CurrentCulture.EnglishName ?? "Unknown culture"}\n" +
                 $"System Caption: {info.Properties["Caption"].Value ?? "couldn't retrieve"}\n" +
                 $"Version: {info.Properties["Version"].Value ?? "couldn't retrieve"}\n" +

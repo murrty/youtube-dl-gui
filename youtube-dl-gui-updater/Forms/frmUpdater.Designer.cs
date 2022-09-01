@@ -57,7 +57,7 @@
             this.pbDownloadProgress.Size = new System.Drawing.Size(208, 24);
             this.pbDownloadProgress.Style = System.Windows.Forms.ProgressBarStyle.Blocks;
             this.pbDownloadProgress.TabIndex = 0;
-            this.pbDownloadProgress.Text = "Preparing download to do things ";
+            this.pbDownloadProgress.Text = "pbDownloadProgressPreparing";
             this.pbDownloadProgress.TextColor = System.Drawing.SystemColors.ControlText;
             this.pbDownloadProgress.TextFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             // 

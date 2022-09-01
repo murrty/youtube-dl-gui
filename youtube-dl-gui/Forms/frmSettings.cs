@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
+﻿using System.Diagnostics;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -39,8 +36,6 @@ namespace youtube_dl_gui {
                 this.Size = Config.Settings.Saved.SettingsFormSize;
             }
 
-            chkSettingsPortableToggleIni.Checked = Program.UseIni;
-
             LoadingForm = false;
         }
         
@@ -71,7 +66,6 @@ namespace youtube_dl_gui {
             tabSettingsConverter.Text = Program.lang.tabSettingsConverter;
             tabSettingsExtensions.Text = Program.lang.tabSettingsExtensions;
             tabSettingsErrors.Text = Program.lang.tabSettingsErrors;
-            tabSettingsPortable.Text = Program.lang.tabSettingsPortable;
 
             lbSettingsGeneralYoutubeDlPath.Text = Program.lang.lbSettingsGeneralYoutubeDlPath;
             tipSettings.SetToolTip(lbSettingsGeneralYoutubeDlPath, Program.lang.lbSettingsGeneralYoutubeDlPathHint);
@@ -237,10 +231,6 @@ namespace youtube_dl_gui {
             tipSettings.SetToolTip(chkSettingsErrorsSaveErrorsAsErrorLog, Program.lang.chkSettingsErrorsSaveErrorsAsErrorLogHint);
             chkSettingsErrorsSuppressErrors.Text = Program.lang.chkSettingsErrorsSuppressErrors;
             tipSettings.SetToolTip(chkSettingsErrorsSuppressErrors, Program.lang.chkSettingsErrorsSuppressErrorsHint);
-
-            lbSettingsPortableInformation.Text = Program.lang.lbSettingsPortableInformation;
-            chkSettingsPortableToggleIni.Text = Program.lang.chkSettingsPortableToggleIni;
-
         }
 
         private void CalculatePositions() {
@@ -478,15 +468,21 @@ namespace youtube_dl_gui {
             Config.Settings.General.ClearClipboardOnDownload = chkSettingsGeneralClearClipboardOnDownload.Checked;
             Config.Settings.General.AutoUpdateYoutubeDl = chkSettingsGeneralAutoUpdateYoutubeDl.Checked;
 
-            if (rbSettingsGeneralCustomArgumentsSaveAsArgsText.Checked) {
-                Config.Settings.General.SaveCustomArgs = 1;
-            }
-            else if (rbSettingsGeneralCustomArgumentsSaveInSettings.Checked) {
-                Config.Settings.General.SaveCustomArgs = 2;
-            }
-            else {
-                Config.Settings.General.SaveCustomArgs = 0;
-            }
+            // this is hilarious to me
+            Config.Settings.General.SaveCustomArgs = 0 switch {
+                _ when rbSettingsGeneralCustomArgumentsSaveAsArgsText.Checked => 1,
+                _ when rbSettingsGeneralCustomArgumentsSaveInSettings.Checked => 2,
+                _ => 0
+            };
+            //if (rbSettingsGeneralCustomArgumentsSaveAsArgsText.Checked) {
+            //    Config.Settings.General.SaveCustomArgs = 1;
+            //}
+            //else if (rbSettingsGeneralCustomArgumentsSaveInSettings.Checked) {
+            //    Config.Settings.General.SaveCustomArgs = 2;
+            //}
+            //else {
+            //    Config.Settings.General.SaveCustomArgs = 0;
+            //}
 
             Config.Settings.Downloads.downloadPath = txtSettingsDownloadsSavePath.Text;
             Config.Settings.Downloads.fileNameSchema = txtSettingsDownloadsFileNameSchema.Text;
@@ -494,7 +490,6 @@ namespace youtube_dl_gui {
                 txtSettingsDownloadsFileNameSchema.Items.Add(txtSettingsDownloadsFileNameSchema.Text);
             }
             string FileNameSchemaHistory = string.Join("|", txtSettingsDownloadsFileNameSchema.Items.Cast<string>());
-            MessageBox.Show(FileNameSchemaHistory);
             if (Config.Settings.Saved.FileNameSchemaHistory != FileNameSchemaHistory) {
                 Config.Settings.Saved.FileNameSchemaHistory = FileNameSchemaHistory;
             }
@@ -574,16 +569,17 @@ namespace youtube_dl_gui {
 
         private void btnSettingsRedownloadYoutubeDl_Click(object sender, EventArgs e) {
             YtdlUpdateCheck = new(() => {
-                if (UpdateChecker.CheckForYoutubeDlUpdate(true)) {
-                    UpdateChecker.UpdateYoutubeDl();
+                if (updater.UpdateChecker.CheckForYoutubeDlUpdate(true)) {
+                    updater.UpdateChecker.UpdateYoutubeDl();
                 }
                 else {
                     this.BeginInvoke((Action)delegate {
-                        MessageBox.Show(string.Format(Program.lang.dlgUpateYoutubeDlNoUpdateRequired, Program.verif.YoutubeDlVersion, UpdateChecker.GitInfo.YoutubeDlVersion), "youtube-dl-gui", MessageBoxButtons.OK);
+                        MessageBox.Show(string.Format(Program.lang.dlgUpateYoutubeDlNoUpdateRequired, Program.verif.YoutubeDlVersion, updater.UpdateChecker.LatestYoutubeDl.VersionTag), "youtube-dl-gui", MessageBoxButtons.OK);
                     });
                 }
-            });
-            YtdlUpdateCheck.IsBackground = true;
+            }) {
+                IsBackground = true
+            };
             YtdlUpdateCheck.Start();
         }
 
@@ -730,9 +726,9 @@ namespace youtube_dl_gui {
             if (cbSettingsDownloadsUpdatingYtdlType.SelectedIndex > -1 && cbSettingsDownloadsUpdatingYtdlType.SelectedIndex < 3) {
                 Process.Start(
                     string.Format(
-                        GitData.GitLinks.GithubRepoUrl,
-                        GitData.GitLinks.Users[cbSettingsDownloadsUpdatingYtdlType.SelectedIndex],
-                        GitData.GitLinks.Repos[cbSettingsDownloadsUpdatingYtdlType.SelectedIndex]
+                        updater.GithubLinks.GithubRepoUrl,
+                        updater.GithubLinks.Users[cbSettingsDownloadsUpdatingYtdlType.SelectedIndex],
+                        updater.GithubLinks.Repos[cbSettingsDownloadsUpdatingYtdlType.SelectedIndex]
                     )
                 );
             }
@@ -823,18 +819,6 @@ namespace youtube_dl_gui {
             listExtensions.Items.RemoveAt(listExtensions.SelectedIndex);
             listExtensions.SelectedIndex = -1;
             lbSettingsExtensionsFileName.Text = "FileName.ext";
-        }
-        #endregion
-
-        #region Portable
-        private void chkSettingsPortableToggleIni_CheckedChanged(object sender, EventArgs e) {
-            if (!LoadingForm) {
-                Config.Settings.ConvertConfig(chkSettingsPortableToggleIni.Checked);
-            }
-        }
-
-        private void btnCleanIni_Click(object sender, EventArgs e) {
-            Config.Settings.CleanIniFile();
         }
         #endregion
 

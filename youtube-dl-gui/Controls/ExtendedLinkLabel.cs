@@ -79,12 +79,12 @@ internal class ExtendedLinkLabel : LinkLabel {
     /// <summary>
     /// The user32.h resource identifier for the systems' hand cursor.
     /// </summary>
-    private const int IDC_HAND = 32649;
+    private const nint IDC_HAND = 32649;
     /// <summary>
     /// The IntPtr value of IDC_HAND.
     /// </summary>
-    private static readonly IntPtr SystemHand =
-        youtube_dl_gui.NativeMethods.LoadCursor(IntPtr.Zero, (IntPtr)IDC_HAND);
+    private static readonly nint SystemHand =
+        youtube_dl_gui.NativeMethods.LoadCursor(0, IDC_HAND);
     #endregion
 
     #region Constructor

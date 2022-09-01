@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 
 namespace youtube_dl_gui {
 
@@ -8,24 +7,22 @@ namespace youtube_dl_gui {
         /// <summary>
         /// Whether the "Skip" button should be enabled.
         /// </summary>
-        public bool BlockSkip = false;
+        public bool BlockSkip { get; init; } = false;
+
+        /// <summary>
+        /// The update that is available.
+        /// </summary>
+        internal updater.GithubData UpdateData { get; init; } = null;
 
         public frmUpdateAvailable() {
             InitializeComponent();
-
             this.Text = Program.lang.frmUpdateAvailable;
             lbUpdateAvailableHeader.Text = Program.lang.lbUpdateAvailableHeader;
-            lbUpdateAvailableUpdateVersion.Text = $"{Program.lang.lbUpdateAvailableUpdateVersion} {UpdateChecker.GitInfo.UpdateVersion}";
-            lbUpdateAvailableCurrentVersion.Text = $"{Program.lang.lbUpdateAvailableCurrentVersion} {(Program.IsBetaVersion ? Program.BetaVersion : Program.CurrentVersion)}";
+            lbUpdateAvailableCurrentVersion.Text = $"{Program.lang.lbUpdateAvailableCurrentVersion.Format(Program.CurrentVersion)}";
             lbUpdateAvailableChangelog.Text = Program.lang.lbUpdateAvailableChangelog;
-            txtUpdateAvailableName.Text = UpdateChecker.GitInfo.UpdateName;
-            rtbUpdateAvailableChangelog.Text = UpdateChecker.GitInfo.UpdateBody;
             btnUpdateAvailableUpdate.Text = Program.lang.btnUpdateAvailableUpdate;
             btnUpdateAvailableSkip.Text = Program.lang.btnUpdateAvailableSkipVersion;
             btnUpdateAvailableOk.Text = Program.lang.GenericOk;
-
-            btnUpdateAvailableSkip.Enabled = !BlockSkip;
-
         }
 
         private void btnUpdateAvailableSkip_Click(object sender, EventArgs e) {
@@ -40,5 +37,12 @@ namespace youtube_dl_gui {
             this.DialogResult = DialogResult.OK;
         }
 
+        private void frmUpdateAvailable_Load(object sender, EventArgs e) {
+            btnUpdateAvailableSkip.Enabled = !BlockSkip;
+            lbUpdateAvailableUpdateVersion.Text = $"{Program.lang.lbUpdateAvailableUpdateVersion.Format(UpdateData.Version)}";
+            txtUpdateAvailableName.Text = UpdateData.VersionHeader;
+            rtbUpdateAvailableChangelog.Text = UpdateData.VersionDescription;
+            lbUpdateSize.Text = Program.lang.lbUpdateSize.Format(Extensions.SizeToString(UpdateData.GetExecutableSize()));
+        }
     }
 }

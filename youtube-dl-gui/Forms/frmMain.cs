@@ -1,8 +1,6 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Drawing;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -75,12 +73,12 @@ namespace youtube_dl_gui {
 
         public frmMain() {
             InitializeComponent();
-            trayIcon.ContextMenu = cmTray;
             if (Program.IsDebug) {
-                trayIcon.Visible = false;
                 trayIcon.Dispose();
             }
             else {
+                trayIcon.ContextMenu = cmTray;
+                trayIcon.Visible = true;
                 tcMain.TabPages.RemoveAt(3);
             }
             cbSchema.Text = Config.Settings.Downloads.fileNameSchema;
@@ -93,7 +91,7 @@ namespace youtube_dl_gui {
             if (Config.Settings.General.CheckForUpdatesOnLaunch) {
                 UpdateCheckThread = new(() => {
                     try {
-                        UpdateChecker.CheckForUpdate();
+                        UpdateChecker.CheckForUpdate(Program.CurrentVersion, Config.Settings.General.DownloadBetaVersions);
                     }
                     catch (ThreadAbortException) {
                         // do nothing
@@ -110,8 +108,8 @@ namespace youtube_dl_gui {
             if (Config.Settings.General.AutoUpdateYoutubeDl) {
                 YtdlUpdateCheckThread = new(() => {
                     try {
-                        if (UpdateChecker.CheckForYoutubeDlUpdate()) {
-                            UpdateChecker.UpdateYoutubeDl();
+                        if (updater.UpdateChecker.CheckForYoutubeDlUpdate()) {
+                            updater.UpdateChecker.UpdateYoutubeDl();
                         }
                     }
                     catch (ThreadAbortException) {
@@ -177,10 +175,6 @@ namespace youtube_dl_gui {
                 if (Config.Settings.Downloads.AutomaticallyDownloadFromProtocol) {
                     // download ...
                 }
-            }
-
-            if (Program.UseIni) {
-                this.Text += " (ini)";
             }
 
             if (Config.Settings.General.DeleteUpdaterOnStartup) {
@@ -453,6 +447,12 @@ namespace youtube_dl_gui {
             cmTrayClipboardAutoDownloadVerifyLinks.Checked ^= true;
         }
 
+        internal void RemoveTrayIcon() {
+            if (trayIcon != null) {
+                trayIcon.Visible = false;
+            }
+        }
+
         internal void ApplicationExit(object sender, EventArgs e) {
             if (ClipboardScannerActive && NativeMethods.RemoveClipboardFormatListener(this.Handle)) {
                 ClipboardScannerActive = false;
@@ -464,12 +464,6 @@ namespace youtube_dl_gui {
         private void mSettings_Click(object sender, EventArgs e) {
             using frmSettings settings = new();
             settings.ShowDialog();
-            if (Program.UseIni && !this.Text.EndsWith(" (ini)")) {
-                this.Text += " (ini)";
-            }
-            else if (!Program.UseIni && this.Text.EndsWith(" (ini)")) {
-                this.Text = this.Text[0..^6];
-            }
             cbSchema.Text = Config.Settings.Downloads.fileNameSchema;
             cbSchema.Items.Clear();
             if (!string.IsNullOrEmpty(Config.Settings.Saved.FileNameSchemaHistory)) {
@@ -1078,10 +1072,7 @@ namespace youtube_dl_gui {
                     }
                 }
 
-                if (chkDebugDontDownload.Checked) {
-                    NewInfo.Dispose();
-                }
-                else {
+                if (!chkDebugDontDownload.Checked) {
                     frmDownloader Downloader = new(NewInfo);
                     Downloader.Show();
                 }
@@ -1335,10 +1326,9 @@ namespace youtube_dl_gui {
 
         #region debug
         private void btnDebugForceUpdateCheck_Click(object sender, EventArgs e) {
-            UpdateChecker.CheckForUpdate(true);
+            UpdateChecker.CheckForUpdate(Program.CurrentVersion, true, true);
         }
         private void btnDebugForceAvailableUpdate_Click(object sender, EventArgs e) {
-            UpdateChecker.UpdateDebug.UpdateAvailable();
         }
         private void btnDebugDownloadArgs_Click(object sender, EventArgs e) {
             if (!Clipboard.ContainsText()) { return; }
