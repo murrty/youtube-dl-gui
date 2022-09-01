@@ -4,9 +4,6 @@ fuck you riaa
 
 GUI for [youtube-dl](https://ytdl-org.github.io/youtube-dl/) (and forks) + [FFmpeg](https://ffmpeg.org/) (ffmpeg.exe & ffprobe.exe) which is used for converting.
 
-![it looks like this!!](preview.png)  
-<sup>it may look different between versions</sup>
-
 The goal of youtube-dl-gui is to make it as accessible to as many people as possible, with as many arguments added as options as I use them... or get requested to add them. If at all.
 
 Powerusers can use the custom arguments option to have almost absolute control of the input arguments, excepting the URL and the output.
@@ -15,7 +12,7 @@ The forks that are supported are [youtube-dl](https://github.com/ytdl-org/youtub
 
 # Prerequisites
 
-A Windows computer (or any computer) that has support for **[.NET Framework 4.7](https://dotnet.microsoft.com/en-us/download/dotnet-framework/net47)**.
+A Windows computer (or any computer) that has support for the **[.NET Framework 4.7.2 runtime](https://dotnet.microsoft.com/en-us/download/dotnet-framework/net472)**.
 
 Youtube-dl (or any fork) may require ffmpeg to be present along side it.
 
