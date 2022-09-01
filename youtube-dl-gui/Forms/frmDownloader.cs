@@ -186,7 +186,6 @@ namespace youtube_dl_gui {
             StringBuilder PreviewArguments;
             string QualityFormatBuffer = string.Empty;
             string hlsFF = string.Empty;
-            string webFolder = string.Empty;
 
             #region youtube-dl path
             if (Program.verif.YoutubeDlPath.IsNullEmptyWhitespace()) {
@@ -207,10 +206,6 @@ namespace youtube_dl_gui {
             #region Output
             rtbConsoleOutput.AppendText("Generating output directory structure\n");
 
-            if (Config.Settings.Downloads.separateIntoWebsiteURL) {
-                webFolder = $"{Download.getUrlBase(CurrentDownload.DownloadURL)}\\";
-            }
-
             StringBuilder OutputDirectory = new($"\"{(
                 Config.Settings.Downloads.downloadPath.StartsWith("./") || Config.Settings.Downloads.downloadPath.StartsWith(".\\") ?
                     $"{Program.ProgramPath}\\{Config.Settings.Downloads.downloadPath[2..]}" :
@@ -223,7 +218,9 @@ namespace youtube_dl_gui {
                 }
             }
 
-            OutputDirectory.Append($"\\{webFolder}");
+            if (Config.Settings.Downloads.separateIntoWebsiteURL) {
+                OutputDirectory.Append($"\\{Download.getUrlBase(CurrentDownload.DownloadURL)}");
+            }
 
             if (Config.Settings.Downloads.separateDownloads) {
                 switch (CurrentDownload.Type) {
