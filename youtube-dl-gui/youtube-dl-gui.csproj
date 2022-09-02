@@ -298,7 +298,6 @@
     <None Include="Resources\download.png" />
     <None Include="Resources\error.png" />
     <None Include="Resources\BuildDate.txt" />
-    <None Include="Resources\Git.txt" />
     <Content Include="Resources\youtube-dl-gui.ico" />
     <Content Include="Resources\youtube-dl-gui32.png" />
   </ItemGroup>
