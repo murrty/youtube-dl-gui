@@ -4,6 +4,9 @@ fuck you riaa
 
 GUI for [youtube-dl](https://ytdl-org.github.io/youtube-dl/) (and forks) + [FFmpeg](https://ffmpeg.org/) (ffmpeg.exe & ffprobe.exe) which is used for converting.
 
+![it looks like this!!](preview.png)  
+<sup>it may look different between versions</sup>
+
 The goal of youtube-dl-gui is to make it as accessible to as many people as possible, with as many arguments added as options as I use them... or get requested to add them. If at all.
 
 Powerusers can use the custom arguments option to have almost absolute control of the input arguments, excepting the URL and the output.
@@ -40,12 +43,24 @@ Examples:
 
 Each fork may have differences in compatible sites. It's recommended to do your own research. Or just try it, and see if it works. The worst that can happen is you blow up.
 
+# Compiling
+
+The project is built with any compiler that supports using C# 11 (Preview) and .NET Framework 4.7.2.
+
+`Debug` configuration may disable certain actions from working. But it's the debug config, what do you expect?
+
+# Dependancies
+
+This project aims to be as independant as possible, losing functionaity in favor of portability, but functions that can be replaced with internal functions have and will be replaced.
+
+### Linux
+
+This project isn't targetting users who run Linux or GNU. It may be possible to run using Wine or Mono, but I wouldn't hold my breath.
+
 # Contributing
 
 For anyone looking to translate, feel free to open a pull request with the new language file in the `Language` folder. Check if a language you're translating exists already, and you can edit it off of that.
 
 For anyone looking to contribute to the code, make a pull request with the changed code.
 
-# Future plans
-
-things and stuff
+Finally, contributions to the project through alternative means, like `Userscripts` or browser extensions to increase functionality of using the program are welcome through pull requests for review & merge.
