@@ -29,10 +29,10 @@ internal static class Extensions {
             return true;
 
         while (value[^1] == ' ')
-            value = value.Substring(1);
+            value = value[..^1];
 
         while (value[0] == ' ')
-            value = value.Substring(0, value.Length - 1);
+            value = value[1..];
 
         return value.Length == 0;
     }
