@@ -18,9 +18,9 @@ namespace youtube_dl_gui {
         }
 
         private void LoadLanguage() {
-            lbAboutBody.Text = string.Format(Program.lang.lbAboutBody + "\n\nlikulau best boye.", "ytdl-org", "murrty", Properties.Resources.BuildDate);
-            llbCheckForUpdates.Text = Program.lang.llbCheckForUpdates;
-            this.Text = $"{Program.lang.frmAbout} youtube-dl-gui";
+            lbAboutBody.Text = string.Format(Language.lbAboutBody + "\n\nlikulau best boye.", "ytdl-org", "murrty", Properties.Resources.BuildDate);
+            llbCheckForUpdates.Text = Language.llbCheckForUpdates;
+            this.Text = $"{Language.frmAbout} youtube-dl-gui";
         }
 
         private void llbCheckForUpdates_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
@@ -32,8 +32,8 @@ namespace youtube_dl_gui {
                             if (result == false) {
                                 this.BeginInvoke(() => {
                                     string Message = Program.CurrentVersion.IsBeta ?
-                                        string.Format(Program.lang.dlgUpdateNoBetaUpdateAvailable, Program.CurrentVersion, updater.UpdateChecker.LastChecked.Version) :
-                                        string.Format(Program.lang.dlgUpdateNoUpdateAvailable, Program.CurrentVersion, updater.UpdateChecker.LastChecked.Version);
+                                        string.Format(Language.dlgUpdateNoBetaUpdateAvailable, Program.CurrentVersion, updater.UpdateChecker.LastChecked.Version) :
+                                        string.Format(Language.dlgUpdateNoUpdateAvailable, Program.CurrentVersion, updater.UpdateChecker.LastChecked.Version);
 
                                     MessageBox.Show(this, Message, "youtube-dl-gui", MessageBoxButtons.OK);
                                 });

@@ -219,7 +219,8 @@ public class Download {
                                                  "480p",
                                                  "360p",
                                                  "240p",
-                                                 "144p" };
+                                                 "144p",
+                                                 "worst" };
         public static string[] VideoFormatsNamesArray = { "best",
                                                       "avi",
                                                       "flv",
@@ -251,7 +252,8 @@ public class Download {
                                                       "96k",
                                                       "64k",
                                                       "32k",
-                                                      "16k"
+                                                      "16k",
+                                                      "worst"
                                               };
         public static string[] AudioFormatsArray = { "best",
                                                  "aac",

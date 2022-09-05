@@ -16,13 +16,13 @@ namespace youtube_dl_gui {
 
         public frmUpdateAvailable() {
             InitializeComponent();
-            this.Text = Program.lang.frmUpdateAvailable;
-            lbUpdateAvailableHeader.Text = Program.lang.lbUpdateAvailableHeader;
-            lbUpdateAvailableCurrentVersion.Text = $"{Program.lang.lbUpdateAvailableCurrentVersion.Format(Program.CurrentVersion)}";
-            lbUpdateAvailableChangelog.Text = Program.lang.lbUpdateAvailableChangelog;
-            btnUpdateAvailableUpdate.Text = Program.lang.btnUpdateAvailableUpdate;
-            btnUpdateAvailableSkip.Text = Program.lang.btnUpdateAvailableSkipVersion;
-            btnUpdateAvailableOk.Text = Program.lang.GenericOk;
+            this.Text = Language.frmUpdateAvailable;
+            lbUpdateAvailableHeader.Text = Language.lbUpdateAvailableHeader;
+            lbUpdateAvailableCurrentVersion.Text = $"{Language.lbUpdateAvailableCurrentVersion.Format(Program.CurrentVersion)}";
+            lbUpdateAvailableChangelog.Text = Language.lbUpdateAvailableChangelog;
+            btnUpdateAvailableUpdate.Text = Language.btnUpdateAvailableUpdate;
+            btnUpdateAvailableSkip.Text = Language.btnUpdateAvailableSkipVersion;
+            btnUpdateAvailableOk.Text = Language.GenericOk;
             this.Shown += (s, e) => lbUpdateAvailableHeader.Focus();
         }
 
@@ -40,10 +40,10 @@ namespace youtube_dl_gui {
 
         private void frmUpdateAvailable_Load(object sender, EventArgs e) {
             btnUpdateAvailableSkip.Enabled = !BlockSkip;
-            lbUpdateAvailableUpdateVersion.Text = $"{Program.lang.lbUpdateAvailableUpdateVersion.Format(UpdateData.Version)}";
+            lbUpdateAvailableUpdateVersion.Text = $"{Language.lbUpdateAvailableUpdateVersion.Format(UpdateData.Version)}";
             txtUpdateAvailableName.Text = UpdateData.VersionHeader;
             rtbUpdateAvailableChangelog.Text = UpdateData.VersionDescription;
-            lbUpdateSize.Text = Program.lang.lbUpdateSize.Format(Extensions.SizeToString(UpdateData.GetExecutableSize()));
+            lbUpdateSize.Text = Language.lbUpdateSize.Format(Extensions.SizeToString(UpdateData.GetExecutableSize()));
         }
     }
 }

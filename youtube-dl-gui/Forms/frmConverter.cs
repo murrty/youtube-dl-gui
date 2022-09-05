@@ -16,18 +16,18 @@ namespace youtube_dl_gui {
             this.CurrentConversion = Info;
         }
         private void frmConverter_Load(object sender, EventArgs e) {
-            this.Text = Program.lang.frmConverter + " ";
+            this.Text = Language.frmConverter + " ";
             if (CurrentConversion.BatchConversion) {
                 this.WindowState = FormWindowState.Minimized;
                 btnConverterAbortBatchConversions.Enabled = true;
                 btnConverterAbortBatchConversions.Visible = true;
-                btnConverterAbortBatchConversions.Text = Program.lang.btnConverterAbortBatchConversions;
-                btnConverterCancelExit.Text = Program.lang.GenericSkip;
+                btnConverterAbortBatchConversions.Text = Language.btnConverterAbortBatchConversions;
+                btnConverterCancelExit.Text = Language.GenericSkip;
             }
             else {
-                btnConverterCancelExit.Text = Program.lang.GenericCancel;
+                btnConverterCancelExit.Text = Language.GenericCancel;
             }
-            chkConverterCloseAfterConversion.Text = Program.lang.chkConverterCloseAfterConversion;
+            chkConverterCloseAfterConversion.Text = Language.chkConverterCloseAfterConversion;
             chkConverterCloseAfterConversion.Checked = Config.Settings.Converts.CloseAfterFinish;
         }
         private void frmConverter_Shown(object sender, EventArgs e) {
@@ -87,7 +87,7 @@ namespace youtube_dl_gui {
                 case ConversionStatus.Aborted:
                     btnConverterAbortBatchConversions.Visible = false;
                     btnConverterAbortBatchConversions.Enabled = false;
-                    this.Text = Program.lang.frmDownloader + " ";
+                    this.Text = Language.frmDownloader + " ";
                     tmrTitleActivity.Start();
                     BeginConversion();
                     break;
@@ -144,10 +144,10 @@ namespace youtube_dl_gui {
             // string PreviewArguments = null; ???
 
             #region ffmpeg path
-            if (string.IsNullOrWhiteSpace(Program.verif.FFmpegPath)) {
+            if (string.IsNullOrWhiteSpace(Verification.FFmpegPath)) {
                 rtbConsoleOutput.AppendText("ffmpeg has not been found.\nA rescan for ffmpeg was called\n");
-                Program.verif.RefreshFFmpegLocation();
-                if (Program.verif.FFmpegPath != null) {
+                Verification.RefreshFFmpegLocation();
+                if (Verification.FFmpegPath != null) {
                     rtbConsoleOutput.AppendText("Rescan finished and found, continuing\n");
                 }
                 else {
@@ -211,7 +211,7 @@ namespace youtube_dl_gui {
             ConverterThread = new Thread(() => {
                 try {
                     ConverterProcess = new Process() {
-                        StartInfo = new(Program.verif.FFmpegPath) {
+                        StartInfo = new(Verification.FFmpegPath) {
                             UseShellExecute = false,
                             RedirectStandardOutput = true,
                             RedirectStandardError = true,
@@ -286,7 +286,7 @@ namespace youtube_dl_gui {
         private void ConversionFinished() {
             tmrTitleActivity.Stop();
             this.Text = this.Text.Trim('.');
-            btnConverterCancelExit.Text = Program.lang.GenericExit;
+            btnConverterCancelExit.Text = Language.GenericExit;
 
             if (CurrentConversion.BatchConversion) {
                 switch (CurrentConversion.Status) {
@@ -302,11 +302,11 @@ namespace youtube_dl_gui {
                         this.Activate();
                         System.Media.SystemSounds.Hand.Play();
                         rtbConsoleOutput.AppendText("\nAn error occured\nTHIS IS A FFMPEG ERROR, NOT A ERROR WITH THIS PROGRAM!\nExit the form to resume batch download.");
-                        this.Text = Program.lang.frmConverterError;
+                        this.Text = Language.frmConverterError;
                         break;
                     case ConversionStatus.ProgramError:
                         rtbConsoleOutput.AppendText("\nAn error occured\nAn error log was presented, if enabled.\nExit the form to resume batch download.");
-                        this.Text = Program.lang.frmConverterError;
+                        this.Text = Language.frmConverterError;
                         this.Activate();
                         System.Media.SystemSounds.Hand.Play();
                         break;
@@ -326,24 +326,24 @@ namespace youtube_dl_gui {
                         rtbConsoleOutput.AppendText("\nAn error occured\nTHIS IS A FFMPEG ERROR, NOT A ERROR WITH THIS PROGRAM!");
                         btnConverterAbortBatchConversions.Visible = true;
                         btnConverterAbortBatchConversions.Enabled = true;
-                        btnConverterAbortBatchConversions.Text = Program.lang.GenericRetry;
-                        this.Text = Program.lang.frmConverterError;
+                        btnConverterAbortBatchConversions.Text = Language.GenericRetry;
+                        this.Text = Language.frmConverterError;
                         this.Activate();
                         System.Media.SystemSounds.Hand.Play();
                         break;
                     case ConversionStatus.ProgramError:
                         rtbConsoleOutput.AppendText("\nAn error occured\nAn error log was presented, if enabled.");
-                        this.Text = Program.lang.frmConverterError;
+                        this.Text = Language.frmConverterError;
                         this.Activate();
                         System.Media.SystemSounds.Hand.Play();
                         break;
                     case ConversionStatus.Finished:
-                        this.Text = Program.lang.frmConverterComplete;
+                        this.Text = Language.frmConverterComplete;
                         rtbConsoleOutput.AppendText("Conversion has finished.");
                         if (chkConverterCloseAfterConversion.Checked) { this.Close(); }
                         break;
                     default:
-                        this.Text = Program.lang.frmConverterComplete;
+                        this.Text = Language.frmConverterComplete;
                         rtbConsoleOutput.AppendText("CurrentConversion.Status not defined (Not a batch download)\nAssuming success.");
                         if (chkConverterCloseAfterConversion.Checked) { this.Close(); }
                         break;

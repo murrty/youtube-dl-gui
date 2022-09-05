@@ -22,28 +22,12 @@ namespace youtube_dl_gui {
 
         public frmExtendedDownload(string URL) {
             InitializeComponent();
+            LoadLanguage();
             this.URL = URL;
 
-            rbVideo.CheckedChanged += (s, e) => {
-                pnCustom.Enabled = pnCustom.Visible = false;
-                pnAudioVideo.Enabled = pnAudioVideo.Visible = true;
-
-                chkVideoDownloadAudio.Enabled = true;
-                lvVideoFormats.Enabled = true;
-            };
-            rbAudio.CheckedChanged += (s, e) => {
-                pnCustom.Enabled = pnCustom.Visible = false;
-                pnAudioVideo.Enabled = pnAudioVideo.Visible = true;
-
-                chkVideoDownloadAudio.Enabled = false;
-                lvVideoFormats.Enabled = false;
-            };
-            rbCustom.CheckedChanged += (s, e) => {
-                pnAudioVideo.Enabled = pnAudioVideo.Visible = false;
-                pnCustom.Enabled = pnCustom.Visible = true;
-
-                chkVideoDownloadAudio.Enabled = false;
-            };
+            if (!Program.DebugMode) {
+                tcVideoData.TabPages.Remove(tpDebug);
+            }
 
             lvVideoFormats.SelectedIndexChanged += (s, e) => {
                 if (lvVideoFormats.SelectedItems.Count > 0) {
@@ -56,16 +40,18 @@ namespace youtube_dl_gui {
                 }
             };
 
-            cbVideoEncoders.SelectedIndex = 0;
             cbVideoEncoders.Items.AddRange(
                 new[] { "avi", "flv", "mkv", "mp4", "ogg", "webm" });
-            cbAudioEncoders.SelectedIndex = 0;
+            cbVideoEncoders.SelectedIndex = 0;
+
             cbAudioEncoders.Items.AddRange(
                 new[] { "aac", "flac", "mp3", "m4v", "opus", "vorbis", "wav" });
+            cbAudioEncoders.SelectedIndex = 0;
+
+            cbVbrQualities.Items.AddRange(Formats.VbrQualities);
 
             rbVideo.Checked = true;
 
-            LoadLanguage();
             InformationThread = new(() => {
                 string Retrieved = null;
                 try {
@@ -74,7 +60,7 @@ namespace youtube_dl_gui {
                     for (int i = Information.AvailableFormats.Length; i > 0; i--) {
                         Format = Information.AvailableFormats[i - 1];
 
-                        if (Format.VideoWidth > 0 && Format.VideoHeight > 0) {
+                        if (Format.VideoWidth > 0 && Format.VideoHeight > 0 && Format.ValidVideoFormat()) {
                             if (lvVideoFormats.Items.Count == 0)
                                 VideoFormat = Format;
 
@@ -160,7 +146,7 @@ namespace youtube_dl_gui {
                     this.Invoke(() => {
                         lbExtendedDownloaderDownloadingThumbnail.Visible = true;
                         btnExtendedDownloaderDownloadThumbnail.Enabled = btnExtendedDownloaderDownloadThumbnail.Visible = false;
-                        lbExtendedDownloaderDownloadingThumbnail.Text = Program.lang.lbExtendedDownloaderDownloadingThumbnail;
+                        lbExtendedDownloaderDownloadingThumbnail.Text = Language.lbExtendedDownloaderDownloadingThumbnail;
                     });
                     Image Thumb = Information.GetThumbnail();
                     if (Thumb is not null) {
@@ -173,7 +159,7 @@ namespace youtube_dl_gui {
                     else {
                         this.Invoke(() => {
                             btnExtendedDownloaderDownloadThumbnail.Enabled = btnExtendedDownloaderDownloadThumbnail.Visible = true;
-                            lbExtendedDownloaderDownloadingThumbnail.Text = Program.lang.lbExtendedDownloaderDownloadingThumbnailFailed;
+                            lbExtendedDownloaderDownloadingThumbnail.Text = Language.lbExtendedDownloaderDownloadingThumbnailFailed;
                         });
                     }
                 }
@@ -214,21 +200,23 @@ namespace youtube_dl_gui {
         }
 
         private void LoadLanguage() {
-            this.Text = Program.lang.frmExtendedDownloaderRetrieving.Format(Language.ApplicationName);
-            lbExtendedDownloaderUploader.Text = Program.lang.lbExtendedDownloaderUploader;
-            lbExtendedDownloaderViews.Text = Program.lang.lbExtendedDownloaderViews;
-            btnExtendedDownloaderDownloadThumbnail.Text = Program.lang.btnExtendedDownloaderDownloadThumbnail;
-            rbVideo.Text = Program.lang.GenericVideo;
-            rbAudio.Text = Program.lang.GenericAudio;
-            rbCustom.Text = Program.lang.GenericCustom;
-            chkVideoDownloadAudio.Text = Program.lang.chkDownloadSound;
-            tpVideoFormats.Text = Program.lang.GenericVideo;
-            tpAudioFormats.Text = Program.lang.GenericAudio;
-            tpFormats.Text = Program.lang.lbFormat;
-            lbVideoEncoder.Text = Program.lang.GenericVideo;
-            lbAudioEncoder.Text = Program.lang.GenericAudio;
-            btnDownloadAbortClose.Text = Program.lang.sbDownload;
-            btnDownloadWithAuthentication.Text = Program.lang.mDownloadWithAuthentication;
+            this.Text = Language.frmExtendedDownloaderRetrieving.Format(Language.ApplicationName);
+            lbExtendedDownloaderUploader.Text = Language.lbExtendedDownloaderUploader;
+            lbExtendedDownloaderViews.Text = Language.lbExtendedDownloaderViews;
+            btnExtendedDownloaderDownloadThumbnail.Text = Language.btnExtendedDownloaderDownloadThumbnail;
+            rbVideo.Text = Language.GenericVideo;
+            rbAudio.Text = Language.GenericAudio;
+            rbCustom.Text = Language.GenericCustom;
+            chkVideoDownloadAudio.Text = Language.chkDownloadSound;
+            tpVideoFormats.Text = Language.GenericVideo;
+            tpAudioFormats.Text = Language.GenericAudio;
+            tpFormats.Text = Language.lbFormat;
+            lbVideoEncoder.Text = Language.GenericVideo;
+            lbAudioEncoder.Text = Language.GenericAudio;
+            btnDownloadAbortClose.Text = Language.sbDownload;
+            btnDownloadWithAuthentication.Text = Language.mDownloadWithAuthentication;
+            tpFormatOptions.Text = Language.tpExtendedDownloaderFormatOptions;
+            lbSchema.Text = Language.lbSettingsDownloadsFileNameSchema;
         }
 
         public string GenerateArguments(bool Authentication = false) {
@@ -259,14 +247,22 @@ namespace youtube_dl_gui {
                 if (rbVideo.Checked) {
                     Format = VideoFormat;
                     ArgumentBuffer.Append($" -f {VideoFormat.Identifier}");
-                    if (chkVideoDownloadAudio.Checked) {
+                    if (chkVideoDownloadAudio.Checked && AudioFormat is not null) {
                         ArgumentBuffer.Append($"+{AudioFormat.Identifier}");
                     }
                     ArgumentBuffer.Append("/best");
 
+                    if (cbVideoEncoders.SelectedIndex > 0) {
+                        ArgumentBuffer.Append($" --recode-video {cbVideoEncoders.GetItemText(cbVideoEncoders.SelectedItem)}");
+                    }
                 }
                 else if (rbAudio.Checked) {
                     Format = AudioFormat;
+                    ArgumentBuffer.Append($" -f {AudioFormat.Identifier}/best");
+
+                    if (cbAudioEncoders.SelectedIndex > 0) {
+                        ArgumentBuffer.Append($" --audio-format {cbAudioEncoders.GetItemText(cbAudioEncoders.SelectedItem)}");
+                    }
                 }
                 else {
                     Format = default;
@@ -275,11 +271,11 @@ namespace youtube_dl_gui {
 
                 if (!Break) {
                     if (Config.Settings.Downloads.PreferFFmpeg || Download.isReddit(URL) && Config.Settings.Downloads.fixReddit) {
-                        if (Program.verif.FFmpegPath.IsNullEmptyWhitespace())
-                            Program.verif.RefreshFFmpegLocation();
+                        if (Verification.FFmpegPath.IsNullEmptyWhitespace())
+                            Verification.RefreshFFmpegLocation();
 
-                        if (Program.verif.FFmpegPath.IsNotNullEmptyWhitespace())
-                            ArgumentBuffer.Append($" --ffmpeg-location \"{Program.verif.FFmpegPath}\" --hls-prefer-ffmpeg");
+                        if (Verification.FFmpegPath.IsNotNullEmptyWhitespace())
+                            ArgumentBuffer.Append($" --ffmpeg-location \"{Verification.FFmpegPath}\" --hls-prefer-ffmpeg");
                     }
 
                     if (Config.Settings.Downloads.SaveSubtitles) {
@@ -385,14 +381,14 @@ namespace youtube_dl_gui {
         public void BeginDownload(bool Auth) {
             string args = GenerateArguments(Auth);
             if (args.IsNotNullEmptyWhitespace()) {
-                if (Program.verif.YoutubeDlPath.IsNullEmptyWhitespace())
-                    Program.verif.RefreshYoutubeDlLocation();
+                if (Verification.YoutubeDlPath.IsNullEmptyWhitespace())
+                    Verification.RefreshYoutubeDlLocation();
 
-                if (Program.verif.YoutubeDlPath.IsNullEmptyWhitespace())
+                if (Verification.YoutubeDlPath.IsNullEmptyWhitespace())
                     throw new NullReferenceException("Youtube-dl path is invalid and cannot be used.");
 
                 btnDownloadWithAuthentication.Enabled = false;
-                btnDownloadAbortClose.Text = Program.lang.GenericCancel;
+                btnDownloadAbortClose.Text = Language.GenericCancel;
                 pbStatus.ShowInTaskbar = true;
                 pbStatus.Text = "Retrieving metadata";
                 DownloadThread = new(() => {
@@ -400,7 +396,7 @@ namespace youtube_dl_gui {
                         StartInfo = new() {
                             Arguments = args,
                             CreateNoWindow = true,
-                            FileName = Program.verif.YoutubeDlPath,
+                            FileName = Verification.YoutubeDlPath,
                             RedirectStandardError = true,
                             RedirectStandardOutput = true,
                             UseShellExecute = false,
@@ -478,13 +474,13 @@ namespace youtube_dl_gui {
                                 pbStatus.Text = "Aborted";
                                 pbStatus.Value = pbStatus.Minimum;
                                 btnDownloadWithAuthentication.Enabled = true;
-                                btnDownloadAbortClose.Text = Program.lang.GenericRetry;
+                                btnDownloadAbortClose.Text = Language.GenericRetry;
                             } break;
 
                             case DownloadStatus.Finished: {
                                 pbStatus.Text = "Completed";
                                 pbStatus.Value = pbStatus.Maximum;
-                                btnDownloadAbortClose.Text = Program.lang.GenericExit;
+                                btnDownloadAbortClose.Text = Language.GenericExit;
                             } break;
 
                             case DownloadStatus.AbortForClose: { } break;
@@ -493,7 +489,7 @@ namespace youtube_dl_gui {
                                 pbStatus.Text = "Downlod error";
                                 pbStatus.Value = pbStatus.Minimum;
                                 btnDownloadWithAuthentication.Enabled = true;
-                                btnDownloadAbortClose.Text = Program.lang.GenericRetry;
+                                btnDownloadAbortClose.Text = Language.GenericRetry;
                                 tcVideoData.SelectedTab = tpVerbose;
                             } break;
                         }
@@ -514,7 +510,55 @@ namespace youtube_dl_gui {
         }
 
         private void rbVideo_CheckedChanged(object sender, EventArgs e) {
-            lvVideoFormats.Visible = true;
+            if (rbVideo.Checked) {
+                pnCustom.Enabled = pnCustom.Visible = false;
+                pnAudioVideo.Enabled = pnAudioVideo.Visible = true;
+
+                cbSchema.Enabled = true;
+
+                lvVideoFormats.Enabled = true;
+                cbVideoEncoders.Enabled = true;
+                chkVideoDownloadAudio.Enabled = true;
+
+                lvAudioFormats.Enabled = cbAudioEncoders.Enabled = chkAudioVBR.Enabled =
+                    chkVideoDownloadAudio.Checked;
+
+                cbVbrQualities.Enabled =
+                    chkAudioVBR.Checked && chkVideoDownloadAudio.Checked;
+            }
+        }
+        private void rbAudio_CheckedChanged(object sender, EventArgs e) {
+            if (rbAudio.Checked) {
+                pnCustom.Enabled = pnCustom.Visible = false;
+                pnAudioVideo.Enabled = pnAudioVideo.Visible = true;
+
+                cbSchema.Enabled = true;
+
+                lvVideoFormats.Enabled = false;
+                chkVideoDownloadAudio.Enabled = false;
+                cbVideoEncoders.Enabled = false;
+
+                lvAudioFormats.Enabled = true;
+                chkAudioVBR.Enabled = true;
+                cbAudioEncoders.Enabled = true;
+
+                cbVbrQualities.Enabled = chkAudioVBR.Checked;
+            }
+        }
+        private void rbCustom_CheckedChanged(object sender, EventArgs e) {
+            if (rbCustom.Checked) {
+                pnCustom.Enabled = pnCustom.Visible = true;
+                pnAudioVideo.Enabled = pnAudioVideo.Visible = false;
+
+                lvVideoFormats.Enabled = false;
+                lvAudioFormats.Enabled = false;
+                chkAudioVBR.Enabled = false;
+                cbVbrQualities.Enabled = false;
+                chkVideoDownloadAudio.Enabled = false;
+                cbVideoEncoders.Enabled = false;
+                cbAudioEncoders.Enabled = false;
+                cbSchema.Enabled = false;
+            }
         }
 
         private void btnCreateArgs_Click(object sender, EventArgs e) {
@@ -568,5 +612,18 @@ namespace youtube_dl_gui {
                 Program.KillProcessTree((uint)DownloadProcess.Id);
             }
         }
+
+        private void chkVideoDownloadAudio_CheckedChanged(object sender, EventArgs e) {
+            chkAudioVBR.Enabled = cbAudioEncoders.Enabled = lvAudioFormats.Enabled =
+                chkVideoDownloadAudio.Checked;
+
+            cbVbrQualities.Enabled = chkVideoDownloadAudio.Checked && chkAudioVBR.Checked;
+        }
+
+        private void chkAudioVBR_CheckedChanged(object sender, EventArgs e) {
+            cbVbrQualities.Enabled =
+                chkAudioVBR.Checked && (rbAudio.Checked || (rbVideo.Checked && chkVideoDownloadAudio.Checked));
+        }
+
     }
 }

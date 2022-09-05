@@ -3,21 +3,21 @@
 using System.IO;
 using youtube_dl_gui.updater;
 
-class Verification {
+internal static class Verification {
     private static GitID YoutubeDlGitType = GitID.None;
 
-    public string YoutubeDlPath { get; private set; }
-    public string FFmpegPath { get; private set; }
-    public string AtomicParsleyPath { get; private set; }
-    public string YoutubeDlVersion { get; private set; }
+    public static string YoutubeDlPath { get; private set; }
+    public static string FFmpegPath { get; private set; }
+    public static string AtomicParsleyPath { get; private set; }
+    public static string YoutubeDlVersion { get; private set; }
 
-    public void Refresh() {
+    public static void Refresh() {
         RefreshYoutubeDlLocation();
         RefreshFFmpegLocation();
         RefreshAtomicParsleyLocation();
     }
 
-    public void RefreshYoutubeDlLocation() {
+    public static void RefreshYoutubeDlLocation() {
         YoutubeDlGitType = (GitID)Config.Settings.Downloads.YtdlType;
         string TempPath;
         string YoutubeDlName = YoutubeDlGitType switch {
@@ -56,7 +56,7 @@ class Verification {
             }
         }
     }
-    public void RefreshFFmpegLocation() {
+    public static void RefreshFFmpegLocation() {
         string TempPath;
 
         if (Config.Settings.General.UseStaticFFmpeg && File.Exists(Config.Settings.General.ffmpegPath)) {
@@ -70,7 +70,7 @@ class Verification {
 
         FFmpegPath = TempPath;
     }
-    public void RefreshAtomicParsleyLocation() {
+    public static void RefreshAtomicParsleyLocation() {
         string TempPath;
 
         if (ProgramInExecutingDirectory("atomicparsley.exe")) {

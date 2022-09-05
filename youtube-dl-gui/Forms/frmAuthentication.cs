@@ -17,16 +17,16 @@ namespace youtube_dl_gui {
         }
 
         private void LoadLanguage() {
-            this.Text = Program.lang.frmAuthentication;
-            lbAuthNotice.Text = Program.lang.lbAuthNotice;
-            lbAuthUsername.Text = Program.lang.lbAuthUsername;
-            lbAuthPassword.Text = Program.lang.lbAuthPassword;
-            lbAuth2Factor.Text = Program.lang.lbAuth2Factor;
-            lbAuthVideoPassword.Text = Program.lang.lbAuthVideoPassword;
-            chkAuthUseNetrc.Text = Program.lang.chkAuthUseNetrc;
-            lbAuthNoSave.Text = Program.lang.lbAuthNoSave;
-            btnAuthBeginDownload.Text = Program.lang.btnAuthBeginDownload;
-            btnAuthGenericCancel.Text = Program.lang.GenericCancel;
+            this.Text = Language.frmAuthentication;
+            lbAuthNotice.Text = Language.lbAuthNotice;
+            lbAuthUsername.Text = Language.lbAuthUsername;
+            lbAuthPassword.Text = Language.lbAuthPassword;
+            lbAuth2Factor.Text = Language.lbAuth2Factor;
+            lbAuthVideoPassword.Text = Language.lbAuthVideoPassword;
+            chkAuthUseNetrc.Text = Language.chkAuthUseNetrc;
+            lbAuthNoSave.Text = Language.lbAuthNoSave;
+            btnAuthBeginDownload.Text = Language.btnAuthBeginDownload;
+            btnAuthGenericCancel.Text = Language.GenericCancel;
         }
         private void CalculatePositions() {
             chkAuthUseNetrc.Location = new(

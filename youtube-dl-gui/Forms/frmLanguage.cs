@@ -25,14 +25,14 @@ namespace youtube_dl_gui {
                 ttLanguage.SetToolTip(lbCurrentLanguageShort, Language.InternalEnglish.CurrentLanguageLong + " (while first time)");
             }
             else {
-                this.Text = Program.lang.frmLanguage;
-                btnLanguageRefresh.Text = Program.lang.btnLanguageRefresh;
-                btnLanguageCancel.Text = Program.lang.GenericCancel;
-                btnLanguageSave.Text = Program.lang.GenericSave;
-                btnLanguageDownload.Text = Program.lang.btnLanguageDownload;
+                this.Text = Language.frmLanguage;
+                btnLanguageRefresh.Text = Language.btnLanguageRefresh;
+                btnLanguageCancel.Text = Language.GenericCancel;
+                btnLanguageSave.Text = Language.GenericSave;
+                btnLanguageDownload.Text = Language.btnLanguageDownload;
 
-                lbCurrentLanguageShort.Text = Program.lang.CurrentLanguageShort;
-                ttLanguage.SetToolTip(lbCurrentLanguageShort, $"{Program.lang.CurrentLanguageLong} ({Program.lang.CurrentLanguageShort})\nLang version {Program.lang.CurrentLanguageVersion}");
+                lbCurrentLanguageShort.Text = Language.CurrentLanguageShort;
+                ttLanguage.SetToolTip(lbCurrentLanguageShort, $"{Language.CurrentLanguageLong} ({Language.CurrentLanguageShort})\nLang version {Language.CurrentLanguageVersion}");
             }
         }
 
@@ -61,11 +61,11 @@ namespace youtube_dl_gui {
         private void btnLanguageSave_Click(object sender, EventArgs e) {
             if (cbLanguages.SelectedIndex > 0) {
                 LanguageFile = cbLanguages.GetItemText(cbLanguages.SelectedItem);
-                Program.lang.LoadLanguage(Program.ProgramPath + "\\lang\\" + LanguageFile + ".ini");
+                Language.LoadLanguage(Program.ProgramPath + "\\lang\\" + LanguageFile + ".ini");
             }
             else {
                 LanguageFile = string.Empty;
-                Program.lang.LoadInternalEnglish();
+                Language.LoadInternalEnglish();
             }
             this.DialogResult = DialogResult.Yes;
         }

@@ -47,9 +47,6 @@ namespace youtube_dl_gui {
         public static readonly string UserAgent =
             "User-Agent: youtube-dl-gui/" + CurrentVersion;
 
-
-        public static readonly Language lang = new();
-        public static readonly Verification verif = new();
         static Form MainForm;
         private static bool IsFirstTime = false;
 
@@ -87,19 +84,19 @@ namespace youtube_dl_gui {
                         using frmLanguage LangPicker = new();
                         if (LangPicker.ShowDialog() == DialogResult.Yes) {
                             Config.Settings.Initialization.LanguageFile = LangPicker.LanguageFile;
-                            lang.LoadLanguage(LangPicker.LanguageFile);
+                            Language.LoadLanguage(LangPicker.LanguageFile);
                         }
                         else {
                             return 1;
                         }
 
 
-                        if (MessageBox.Show(lang.dlgFirstTimeInitialMessage, "youtube-dl-gui", MessageBoxButtons.YesNo) == DialogResult.Yes) {
+                        if (MessageBox.Show(Language.dlgFirstTimeInitialMessage, "youtube-dl-gui", MessageBoxButtons.YesNo) == DialogResult.Yes) {
                             Config.Settings.Initialization.firstTime = false;
 
-                            if (MessageBox.Show(lang.dlgFirstTimeDownloadFolder, "youtube-dl-gui", MessageBoxButtons.YesNo) == DialogResult.Yes) {
+                            if (MessageBox.Show(Language.dlgFirstTimeDownloadFolder, "youtube-dl-gui", MessageBoxButtons.YesNo) == DialogResult.Yes) {
                                 using BetterFolderBrowserNS.BetterFolderBrowser fbd = new();
-                                fbd.Title = lang.dlgFindDownloadFolder;
+                                fbd.Title = Language.dlgFindDownloadFolder;
                                 fbd.RootFolder = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Downloads";
                                 if (fbd.ShowDialog() == DialogResult.OK) {
                                     Config.Settings.Downloads.downloadPath = fbd.SelectedPath;
@@ -168,14 +165,14 @@ namespace youtube_dl_gui {
                 Config.Settings.Load(ConfigType.All);
 
                 if (Config.Settings.Initialization.LanguageFile != string.Empty && File.Exists(Environment.CurrentDirectory + "\\lang\\" + Config.Settings.Initialization.LanguageFile + ".ini")) {
-                    lang.LoadLanguage(Environment.CurrentDirectory + "\\lang\\" + Config.Settings.Initialization.LanguageFile + ".ini");
+                    Language.LoadLanguage(Environment.CurrentDirectory + "\\lang\\" + Config.Settings.Initialization.LanguageFile + ".ini");
                 }
                 else {
-                    lang.LoadInternalEnglish();
+                    Language.LoadInternalEnglish();
                 }
             }
 
-            verif.Refresh();
+            Verification.Refresh();
             Formats.LoadCustomFormats();
         }
 

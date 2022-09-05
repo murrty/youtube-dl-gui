@@ -128,15 +128,15 @@ namespace murrty.forms {
                         btnExceptionOk.Text = Language.InternalEnglish.GenericOk;
                     }
                     else {
-                        this.Text = Program.lang.frmException;
-                        lbExceptionHeader.Text = Program.lang.lbExceptionHeader;
-                        lbExceptionDescription.Text = Program.lang.lbExceptionDescription;
-                        rtbExceptionDetails.Text = Program.lang.rtbExceptionDetails;
-                        btnExceptionGithub.Text = Program.lang.btnExceptionGithub;
-                        btnExceptionRetry.Text = Program.lang.GenericRetry;
-                        btnExceptionOk.Text = Program.lang.GenericOk;
-                        tpExceptionDetails.Text = Program.lang.tpExceptionDetails;
-                        tpExceptionExtraInfo.Text = Program.lang.tpExceptionExtraInfo;
+                        this.Text = Language.frmException;
+                        lbExceptionHeader.Text = Language.lbExceptionHeader;
+                        lbExceptionDescription.Text = Language.lbExceptionDescription;
+                        rtbExceptionDetails.Text = Language.rtbExceptionDetails;
+                        btnExceptionGithub.Text = Language.btnExceptionGithub;
+                        btnExceptionRetry.Text = Language.GenericRetry;
+                        btnExceptionOk.Text = Language.GenericOk;
+                        tpExceptionDetails.Text = Language.tpExceptionDetails;
+                        tpExceptionExtraInfo.Text = Language.tpExceptionExtraInfo;
                     }
                 } break;
             }

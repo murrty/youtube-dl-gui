@@ -48,6 +48,10 @@ internal class Formats {
     public const string AllKnownAudioFormats =
         "All known audio formats|*.aac;*.aiff;*.aif;*.aifc;*.flac;*.m4a;*.mp4;*.mp2;*.mp3;*.oga;*.ogg;*.opus;*.wav";
 
+    public static readonly string[] VbrQualities = new string[] {
+        "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"
+    };
+
     // Could this be replaced with video formats? Because they could contain video, but don't necessarily need to.
     /// <summary>
     /// All formats that can be either Audio or Video.

@@ -30,21 +30,21 @@ namespace youtube_dl_gui {
         }
 
         private void LoadLanguage() {
-            btnBatchConverterAdd.Text = Program.lang.GenericAdd;
-            btnBatchConverterRemoveSelected.Text = Program.lang.GenericRemoveSelected;
-            btnBatchConverterStartStopExit.Text = Program.lang.GenericStart;
-            this.Text = Program.lang.frmBatchConverter;
-            lbBatchConverterInput.Text = Program.lang.lbBatchConverterInput;
-            txtBatchConverterInputFile.TextHint = Program.lang.txtBatchConverterInputFile;
-            lbBatchConverterOutput.Text = Program.lang.lbBatchConverterOutput;
-            txtBatchConverterOutputFile.TextHint = Program.lang.txtBatchConverterOutputFile;
-            txtBatchConverterCustomConversionArguments.TextHint = Program.lang.txtBatchConverterCustomConversionArguments;
-            sbBatchConverter.Text = Program.lang.sbBatchConverterIdle;
+            btnBatchConverterAdd.Text = Language.GenericAdd;
+            btnBatchConverterRemoveSelected.Text = Language.GenericRemoveSelected;
+            btnBatchConverterStartStopExit.Text = Language.GenericStart;
+            this.Text = Language.frmBatchConverter;
+            lbBatchConverterInput.Text = Language.lbBatchConverterInput;
+            txtBatchConverterInputFile.TextHint = Language.txtBatchConverterInputFile;
+            lbBatchConverterOutput.Text = Language.lbBatchConverterOutput;
+            txtBatchConverterOutputFile.TextHint = Language.txtBatchConverterOutputFile;
+            txtBatchConverterCustomConversionArguments.TextHint = Language.txtBatchConverterCustomConversionArguments;
+            sbBatchConverter.Text = Language.sbBatchConverterIdle;
         }
 
         private void SelectInput() {
             using OpenFileDialog ofd = new();
-            ofd.Title = Program.lang.dlgConvertSelectFileToConvert;
+            ofd.Title = Language.dlgConvertSelectFileToConvert;
             ofd.AutoUpgradeEnabled = true;
             ofd.Multiselect = false;
             ofd.Filter = Formats.JoinFormats(new[] {
@@ -68,7 +68,7 @@ namespace youtube_dl_gui {
         private void SelectOutput() {
             using SaveFileDialog sfd = new();
             sfd.AutoUpgradeEnabled = true;
-            sfd.Title = Program.lang.dlgSaveOutputFileAs;
+            sfd.Title = Language.dlgSaveOutputFileAs;
             sfd.Filter = Formats.JoinFormats(new[] {
                 Formats.AllFiles,
                 Formats.VideoFormats,
@@ -145,8 +145,8 @@ namespace youtube_dl_gui {
             else if (lvBatchConvertQueue.Items.Count > 0) {
                 InProgress = true;
                 bool AbortConversions = false;
-                btnBatchConverterStartStopExit.Text = Program.lang.GenericStop;
-                sbBatchConverter.Text = Program.lang.sbBatchConverterConverting;
+                btnBatchConverterStartStopExit.Text = Language.GenericStop;
+                sbBatchConverter.Text = Language.sbBatchConverterConverting;
                 ConversionThread = new(() => {
                     for (int i = 0; i < InputFiles.Count; i++) {
                         lvBatchConvertQueue.Invoke((Action)delegate {
@@ -205,13 +205,13 @@ namespace youtube_dl_gui {
                     InProgress = false;
                     lvBatchConvertQueue.Invoke((Action)delegate {
                         if (AbortConversions) {
-                            sbBatchConverter.Text = Program.lang.sbBatchConverterAborted;
+                            sbBatchConverter.Text = Language.sbBatchConverterAborted;
                             AbortConversions = false;
                         }
                         else {
-                            sbBatchConverter.Text = Program.lang.sbBatchConverterFinished;
+                            sbBatchConverter.Text = Language.sbBatchConverterFinished;
                         }
-                        btnBatchConverterStartStopExit.Text = Program.lang.GenericStart;
+                        btnBatchConverterStartStopExit.Text = Language.GenericStart;
                     });
                     System.Media.SystemSounds.Exclamation.Play();
                 }) {

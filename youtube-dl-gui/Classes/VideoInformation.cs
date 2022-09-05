@@ -17,10 +17,10 @@ internal sealed class VideoInformation {
     public static VideoInformation GenerateInformation(string URL, out string RetrievedData) {
         RetrievedData = null;
         if (!URL.IsNullEmptyWhitespace()) {
-            if (Program.verif.YoutubeDlPath.IsNullEmptyWhitespace())
-                Program.verif.RefreshYoutubeDlLocation();
+            if (Verification.YoutubeDlPath.IsNullEmptyWhitespace())
+                Verification.RefreshYoutubeDlLocation();
 
-            if (Program.verif.YoutubeDlPath.IsNullEmptyWhitespace())
+            if (Verification.YoutubeDlPath.IsNullEmptyWhitespace())
                 return null;
 
 
@@ -44,7 +44,7 @@ internal sealed class VideoInformation {
             Process Enumeration = new() {
                 StartInfo = new() {
                     Arguments = $"--simulate --no-warnings --no-cache-dir --print-json {ConnectionArgs}{URL}",
-                    FileName = Program.verif.YoutubeDlPath,
+                    FileName = Verification.YoutubeDlPath,
                     CreateNoWindow = true,
                     RedirectStandardError = true,
                     RedirectStandardInput = true,
@@ -81,16 +81,16 @@ internal sealed class VideoInformation {
         if (this.ThumbnailLink.EndsWith(".webp")) {
             string ThumbPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + $"\\temp\\{DateTime.Now:yyyyMMddhmmssfffffff}s";
             File.WriteAllBytes($"{ThumbPath}.webp", thumbBytes);
-            if (Program.verif.FFmpegPath.IsNullEmptyWhitespace())
-                Program.verif.RefreshFFmpegLocation();
-            if (Program.verif.FFmpegPath.IsNullEmptyWhitespace())
+            if (Verification.FFmpegPath.IsNullEmptyWhitespace())
+                Verification.RefreshFFmpegLocation();
+            if (Verification.FFmpegPath.IsNullEmptyWhitespace())
                 return null;
 
             //-vf \"scale=1920:-1\"
             Process ffmpegConvert = new() {
                 StartInfo = new() {
                     Arguments = $"-nostats -hide_banner -i \"{ThumbPath}.webp\" \"{ThumbPath}.jpg\"",
-                    FileName = Program.verif.FFmpegPath,
+                    FileName = Verification.FFmpegPath,
                     CreateNoWindow = true,
                     //RedirectStandardError = true,
                     //RedirectStandardOutput = true,
@@ -136,6 +136,13 @@ internal sealed class VideoInformation {
 
     [DataContract(Name = "formats")]
     public class Format {
+
+        public bool ValidVideoFormat() =>
+            Extension.ToLower() switch {
+                "mhtml" => false,
+                _ => true,
+            };
+
         [DataMember(Name = "format_id")]
         public string Identifier { get; set; }
 
@@ -159,18 +166,6 @@ internal sealed class VideoInformation {
 
         [DataMember(Name = "fps")]
         public float? VideoFps { get; set; }
-
-        [DataMember(Name = "audio_ext")]
-        public string AudioExtension { get; set; }
-
-        [DataMember(Name = "video_ext")]
-        public string VideoExtension { get; set; }
-
-        [DataMember(Name = "format")]
-        public string format { get; set; }
-
-        [DataMember(Name = "resolution")]
-        public string VideoResolution { get; set; }
 
         [DataMember(Name = "asr")]
         public int? AudioSampleRate { get; set; }

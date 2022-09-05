@@ -43,10 +43,10 @@ namespace youtube_dl_gui {
                 this.Text = Language.InternalEnglish.frmDownloadLanguage;
             }
             else {
-                btnCancel.Text = Program.lang.GenericCancel;
-                btnOk.Text = Program.lang.GenericOk;
-                btnDownloadSelected.Text = Program.lang.sbDownload;
-                this.Text = Program.lang.frmDownloadLanguage;
+                btnCancel.Text = Language.GenericCancel;
+                btnOk.Text = Language.GenericOk;
+                btnDownloadSelected.Text = Language.sbDownload;
+                this.Text = Language.frmDownloadLanguage;
             }
         }
 
@@ -63,7 +63,7 @@ namespace youtube_dl_gui {
 
                 // The SHA on github doesn't match what I can calculate here.
                 //if (Program.CalculateSha1Hash(Environment.CurrentDirectory + "\\lang\\" + EnumeratedLanguages[listView1.SelectedIndices[0]].Name).ToLower() != EnumeratedLanguages[listView1.SelectedIndices[0]].Sha.ToLower()) {
-                    //MessageBox.Show(Program.lang.dlgLanguageHashNoMatch, "youtube-dl-gui", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    //MessageBox.Show(Language.dlgLanguageHashNoMatch, "youtube-dl-gui", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 //}
             }
             catch (System.Net.WebException wex) {

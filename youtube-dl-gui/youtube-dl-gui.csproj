@@ -74,6 +74,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\BatchHelpers.cs" />
+    <Compile Include="Classes\DwmComposition.cs" />
     <Compile Include="Classes\Extensions.cs" />
     <Compile Include="Classes\VideoInformation.cs" />
     <Compile Include="Controls\ExtendedProgressBar.cs">
@@ -307,14 +308,12 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\YtdlpTest.txt" />
     <None Include="Resources\youtube-dl-gui-updater.exe" />
     <None Include="Resources\waiting.png" />
     <None Include="Resources\finished.png" />
     <None Include="Resources\download.png" />
     <None Include="Resources\error.png" />
     <None Include="Resources\BuildDate.txt" />
-    <None Include="Resources\Git.txt" />
     <Content Include="Resources\youtube-dl-gui.ico" />
     <Content Include="Resources\youtube-dl-gui32.png" />
   </ItemGroup>
