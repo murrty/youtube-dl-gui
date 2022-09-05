@@ -166,7 +166,7 @@
             this.Controls.Add(this.pnLower);
             this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.Icon = global::youtube_dl_gui.Properties.Resources.youtube_dl_gui;
+            this.Icon = global::youtube_dl_gui.Properties.Resources.ProgramIcon;
             this.MaximizeBox = false;
             this.MinimumSize = new System.Drawing.Size(340, 380);
             this.Name = "frmUpdateAvailable";

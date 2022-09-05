@@ -28,6 +28,7 @@
             this.lbURL = new System.Windows.Forms.Label();
             this.tcMain = new System.Windows.Forms.TabControl();
             this.tabDownload = new System.Windows.Forms.TabPage();
+            this.btnMainYtdlpExtended = new System.Windows.Forms.Button();
             this.lbSchema = new System.Windows.Forms.Label();
             this.cbSchema = new System.Windows.Forms.ComboBox();
             this.cbCustomArguments = new System.Windows.Forms.ComboBox();
@@ -169,6 +170,7 @@
             // 
             // tabDownload
             // 
+            this.tabDownload.Controls.Add(this.btnMainYtdlpExtended);
             this.tabDownload.Controls.Add(this.lbSchema);
             this.tabDownload.Controls.Add(this.cbSchema);
             this.tabDownload.Controls.Add(this.cbCustomArguments);
@@ -191,6 +193,19 @@
             this.tabDownload.TabIndex = 0;
             this.tabDownload.Text = "tabDownload";
             this.tabDownload.UseVisualStyleBackColor = true;
+            // 
+            // btnMainYtdlpExtended
+            // 
+            this.btnMainYtdlpExtended.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.btnMainYtdlpExtended.Enabled = false;
+            this.btnMainYtdlpExtended.Location = new System.Drawing.Point(160, 297);
+            this.btnMainYtdlpExtended.Name = "btnMainYtdlpExtended";
+            this.btnMainYtdlpExtended.Size = new System.Drawing.Size(75, 25);
+            this.btnMainYtdlpExtended.TabIndex = 24;
+            this.btnMainYtdlpExtended.Text = "btnMainYtdlpExtended";
+            this.btnMainYtdlpExtended.UseVisualStyleBackColor = true;
+            this.btnMainYtdlpExtended.Visible = false;
+            this.btnMainYtdlpExtended.Click += new System.EventHandler(this.btnMainYtdlpExtended_Click);
             // 
             // lbSchema
             // 
@@ -588,6 +603,7 @@
             this.txtUrl.RegexPatterns = null;
             this.txtUrl.Size = new System.Drawing.Size(194, 22);
             this.txtUrl.TabIndex = 2;
+            this.txtUrl.TextChanged += new System.EventHandler(this.txtUrl_TextChanged);
             this.txtUrl.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtUrl_KeyPress);
             this.txtUrl.MouseEnter += new System.EventHandler(this.txtUrl_MouseEnter);
             // 
@@ -1251,7 +1267,7 @@
             this.trayIcon.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info;
             this.trayIcon.BalloonTipText = "You click this thing, and BADA-BOOM, you\'re back in it again";
             this.trayIcon.BalloonTipTitle = "Unseen easter egg";
-            this.trayIcon.Icon = global::youtube_dl_gui.Properties.Resources.youtube_dl_gui;
+            this.Icon = global::youtube_dl_gui.Properties.Resources.ProgramIcon;
             this.trayIcon.Text = "youtube-dl-gui";
             // 
             // frmMain
@@ -1261,7 +1277,7 @@
             this.ClientSize = new System.Drawing.Size(246, 365);
             this.Controls.Add(this.tcMain);
             this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Icon = global::youtube_dl_gui.Properties.Resources.youtube_dl_gui;
+            this.Icon = global::youtube_dl_gui.Properties.Resources.ProgramIcon;
             this.MaximizeBox = false;
             this.Menu = this.menu;
             this.MinimumSize = new System.Drawing.Size(262, 400);
@@ -1403,6 +1419,7 @@
         private System.Windows.Forms.MenuItem cmTrayClipboardAutoDownload;
         private System.Windows.Forms.MenuItem cmTrayClipboardAutoDownloadVerifyLinks;
         private System.Windows.Forms.MenuItem cmDownloadSeparator;
+        private System.Windows.Forms.Button btnMainYtdlpExtended;
     }
 }
 

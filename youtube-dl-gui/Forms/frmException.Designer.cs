@@ -135,7 +135,7 @@
             this.Controls.Add(this.lbExceptionDescription);
             this.Controls.Add(this.lbExceptionHeader);
             this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Icon = global::youtube_dl_gui.Properties.Resources.youtube_dl_gui;
+            this.Icon = global::youtube_dl_gui.Properties.Resources.ProgramIcon;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(490, 300);

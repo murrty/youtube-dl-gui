@@ -7,8 +7,8 @@ using System.Windows.Forms;
 namespace youtube_dl_gui {
     internal class UpdateChecker {
         public static bool? CheckForUpdate(Version cur, bool Pre, bool Force = false) {
-            bool? result = updater.UpdateChecker.CheckForUpdate(cur, Pre, Force);
-            if (result is not null) {
+            bool? result;
+            if ((result = updater.UpdateChecker.CheckForUpdate(cur, Pre, Force)) is not null) {
                 if (result == true) {
                     using frmUpdateAvailable Update = new() {
                         BlockSkip = Force,
@@ -167,12 +167,6 @@ namespace youtube_dl_gui.updater {
                     }
                     catch (ApiParsingException APEx) {
                         if (Log.ReportRetriableException(APEx) == DialogResult.Retry) {
-                            ShouldRetry = true;
-                        }
-                        else return false;
-                    }
-                    catch (DecimalParsingException DPEx) {
-                        if (Log.ReportRetriableException(DPEx) == DialogResult.Retry) {
                             ShouldRetry = true;
                         }
                         else return false;

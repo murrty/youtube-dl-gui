@@ -13,7 +13,21 @@ namespace youtube_dl_gui {
         /// <summary>
         /// Gets the curent version of the program.
         /// </summary>
-        public static Version CurrentVersion { get; } = new(2, 3, 1);
+        public static Version CurrentVersion { get; } = new(2, 4, 0, 1);
+
+        /// <summary>
+        /// Gets whether the program is running in debug mode.
+        /// </summary>
+        public static bool DebugMode {
+            get; private set;
+        } = false;
+
+        /// <summary>
+        /// Gets or sets the exit code of the application.
+        /// </summary>
+        public static int ExitCode {
+            get; set;
+        } = 0;
 
         /// <summary>
         /// Gets or sets whether the update was checked this run.
@@ -22,38 +36,47 @@ namespace youtube_dl_gui {
             get; set;
         }
 
-        //public static readonly string ProgramPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-        private static readonly GuidAttribute ProgramGUID = (GuidAttribute)Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(GuidAttribute), true)[0];
-        public static readonly string LocalAppDataPath = $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\youtube_dl_gui";
-        public static readonly string ProgramPath = Environment.CurrentDirectory;
-        public static readonly string UserAgent = "User-Agent: youtube-dl-gui/" + CurrentVersion;
-        public static bool IsDebug = false;
-        static Mutex mtx;
+        private static Mutex Instance;
+        private static readonly GuidAttribute ProgramGUID =
+            (GuidAttribute)Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(GuidAttribute), true)[0];
+
+        public static readonly string LocalAppDataPath =
+            $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\youtube_dl_gui";
+        public static readonly string ProgramPath =
+            Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName);
+        public static readonly string UserAgent =
+            "User-Agent: youtube-dl-gui/" + CurrentVersion;
+
 
         public static readonly Language lang = new();
         public static readonly Verification verif = new();
-        static frmMain MainForm;
+        static Form MainForm;
         private static bool IsFirstTime = false;
 
         [STAThread]
         static int Main(string[] args) {
-            mtx = new Mutex(true, ProgramGUID.Value);
+            Instance = new Mutex(true, ProgramGUID.Value);
 #if DEBUG
-            IsDebug = true;
+            DebugMode = true;
 #endif
 
-            if (mtx.WaitOne(TimeSpan.Zero, true) || IsDebug) {
+            if (Instance.WaitOne(TimeSpan.Zero, true) || DebugMode) {
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
                 Log.InitializeLogging();
 
+                if (Environment.CurrentDirectory != ProgramPath) {
+                    Log.Write("The current directory is wrong. Setting it right.");
+                    Environment.CurrentDirectory = ProgramPath;
+                }
+
                 Config.Settings = new Config();
                 Config.Settings.Load(ConfigType.Initialization);
 
-                if (IsDebug) {
+                if (DebugMode) {
                     LoadClasses();
-                    MainForm = new frmMain();
-                    Application.Run(MainForm);
+                    //Application.Run(new frmExtendedDownload("https://www.youtube.com/watch?v=F8xIr28fns0"));
+                    Application.Run(new frmMain());
                 }
                 else {
                     if (Config.Settings.Initialization.firstTime) {
@@ -104,40 +127,40 @@ namespace youtube_dl_gui {
                     }
 
                     System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
-                    Application.Run(MainForm = new());
-                    mtx.ReleaseMutex();
+                    Application.Run(MainForm = new frmMain());
+                    Instance.ReleaseMutex();
                 }
-                return 0;
-
             }
             else {
-                IntPtr hwnd = CopyData.FindWindow(null, "youtube-dl-gui");
-                if (hwnd == IntPtr.Zero) {
+                nint hwnd = CopyData.FindWindow(null, "youtube-dl-gui");
+                if (hwnd == 0) {
                     if (args.Length > 0) {
                         CopyData.SentData Data = new() {
                             Argument = string.Join("|", args)
                         };
                         CopyData.CopyDataStruct DataStruct = new();
-                        IntPtr CopyDataBuffer = IntPtr.Zero;
-                        IntPtr DataBuffer = IntPtr.Zero;
+                        nint CopyDataBuffer = 0;
+                        nint DataBuffer = 0;
                         try {
                             DataBuffer = CopyData.IntPtrAlloc(Data);
                             DataStruct.cbData = Marshal.SizeOf(Data);
                             DataStruct.dwData = 1;
                             DataStruct.lpData = DataBuffer;
                             CopyDataBuffer = CopyData.IntPtrAlloc(DataStruct);
-                            CopyData.SendMessage(hwnd, CopyData.WM_COPYDATA, IntPtr.Zero, CopyDataBuffer);
+                            CopyData.SendMessage(hwnd, CopyData.WM_COPYDATA, 0, CopyDataBuffer);
                         }
                         finally {
                             CopyData.IntPtrFree(ref CopyDataBuffer);
                             CopyData.IntPtrFree(ref DataBuffer);
                         }
                     }
-                    CopyData.SendMessage(hwnd, CopyData.WM_SHOWFORM, IntPtr.Zero, IntPtr.Zero);
+                    CopyData.SendMessage(hwnd, CopyData.WM_SHOWFORM, 0, 0);
                 }
 
-                return 0;
+                ExitCode = 1152;
             }
+
+            return ExitCode;
         }
 
         static void LoadClasses() {
@@ -153,6 +176,9 @@ namespace youtube_dl_gui {
             }
 
             verif.Refresh();
+
+            VideoInformation.GenerateInformation("https://www.youtube.com/watch?v=OX79nEdyzrc");
+
             Formats.LoadCustomFormats();
         }
 
@@ -240,7 +266,7 @@ namespace youtube_dl_gui {
         }
 
         public static void RemoveTrayIcon() {
-            MainForm.RemoveTrayIcon();
+            //MainForm.RemoveTrayIcon();
         }
     }
 }

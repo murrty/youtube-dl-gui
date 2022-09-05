@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 /// <summary>
 /// Represents a modified Version.
 /// </summary>
-//[System.Diagnostics.DebuggerStepThrough]
+[System.Diagnostics.DebuggerStepThrough]
 public struct Version {
     /// <summary>
     /// Contains an empty Version with no version information relevant.
@@ -259,7 +259,6 @@ public struct Version {
                         }
                     }
                 }
-                return false;
             }
             else {
                 if (versa.Major < versb.Major) {
@@ -273,7 +272,6 @@ public struct Version {
                         return versa.Revision <= versb.Revision;
                     }
                 }
-                return false;
             }
         }
         else {
@@ -288,8 +286,8 @@ public struct Version {
                     return versa.Revision < versb.Revision;
                 }
             }
-            return false;
         }
+        return false;
     }
 
     /// <summary>
@@ -317,7 +315,6 @@ public struct Version {
                         }
                     }
                 }
-                return false;
             }
             else {
                 if (versa.Major > versb.Major) {
@@ -333,7 +330,6 @@ public struct Version {
                         }
                     }
                 }
-                return false;
             }
         }
         else {
@@ -345,11 +341,11 @@ public struct Version {
                     return true;
                 }
                 else if (versa.Minor == versb.Minor) {
-                    return versa.Revision > versb.Revision; 
+                    return versa.Revision > versb.Revision;
                 }
             }
-            return false;
         }
+        return false;
     }
 
     /// <summary>

@@ -31,7 +31,7 @@ namespace youtube_dl_gui.Controls {
 
         protected override void OnMouseDown(MouseEventArgs e) {
             base.OnMouseDown(e);
-            if (AutoWordSelection) {
+            if (!AutoWordSelection) {
                 base.AutoWordSelection = true;
                 base.AutoWordSelection = false;
             }

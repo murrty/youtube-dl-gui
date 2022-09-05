@@ -23,6 +23,7 @@ namespace youtube_dl_gui {
             btnUpdateAvailableUpdate.Text = Program.lang.btnUpdateAvailableUpdate;
             btnUpdateAvailableSkip.Text = Program.lang.btnUpdateAvailableSkipVersion;
             btnUpdateAvailableOk.Text = Program.lang.GenericOk;
+            this.Shown += (s, e) => lbUpdateAvailableHeader.Focus();
         }
 
         private void btnUpdateAvailableSkip_Click(object sender, EventArgs e) {

@@ -140,7 +140,6 @@ namespace youtube_dl_gui {
 
             CurrentConversion.Status = ConversionStatus.GeneratingArguments;
 
-            string FFmpegPath = null;
             StringBuilder ArgumentsBuffer = new("-i \"" + CurrentConversion.InputFile + "\"");
             // string PreviewArguments = null; ???
 
@@ -157,7 +156,6 @@ namespace youtube_dl_gui {
                     return;
                 }
             }
-            FFmpegPath = Program.verif.FFmpegPath;
             rtbConsoleOutput.AppendText("ffmpeg has been found and set\n");
             #endregion
 
@@ -213,7 +211,7 @@ namespace youtube_dl_gui {
             ConverterThread = new Thread(() => {
                 try {
                     ConverterProcess = new Process() {
-                        StartInfo = new ProcessStartInfo(FFmpegPath) {
+                        StartInfo = new(Program.verif.FFmpegPath) {
                             UseShellExecute = false,
                             RedirectStandardOutput = true,
                             RedirectStandardError = true,

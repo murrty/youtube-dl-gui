@@ -376,7 +376,7 @@
             this.Controls.Add(this.cbBatchFormat);
             this.Controls.Add(this.cbArguments);
             this.Controls.Add(this.pnAudioVBR);
-            this.Icon = global::youtube_dl_gui.Properties.Resources.youtube_dl_gui;
+            this.Icon = global::youtube_dl_gui.Properties.Resources.ProgramIcon;
             this.MinimumSize = new System.Drawing.Size(670, 340);
             this.Name = "frmBatchDownloader";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;

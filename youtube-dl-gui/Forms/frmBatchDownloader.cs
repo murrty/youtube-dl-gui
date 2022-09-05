@@ -381,8 +381,9 @@ namespace youtube_dl_gui {
                         btnBatchDownloadStartStopExit.Text = Program.lang.GenericStart;
                     });
                     System.Media.SystemSounds.Exclamation.Play();
-                });
-                DownloadThread.Name = $"Batch download {BatchTime}";
+                }) {
+                    Name = $"Batch download {BatchTime}"
+                };
                 DownloadThread.Start();
             }
         }

@@ -84,9 +84,6 @@ namespace youtube_dl_gui {
                     cbLanguages.SelectedItem = cbLanguages.FindStringExact(CurrentFile);
                 }
             }
-            else {
-                cbLanguages.SelectedItem = cbLanguages.FindStringExact(CurrentFile);
-            }
         }
     }
 }

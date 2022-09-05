@@ -213,7 +213,7 @@
             this.Controls.Add(this.txtUsername);
             this.Controls.Add(this.lbAuthUsername);
             this.Controls.Add(this.lbAuthNotice);
-            this.Icon = Properties.Resources.youtube_dl_gui;
+            this.Icon = global::youtube_dl_gui.Properties.Resources.ProgramIcon;
             this.MaximizeBox = false;
             this.MinimumSize = new System.Drawing.Size(340, 290);
             this.Name = "frmAuthentication";

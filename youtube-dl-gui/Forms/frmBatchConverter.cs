@@ -228,7 +228,7 @@ namespace youtube_dl_gui {
 
         private void btnBatchConverterAdd_Click(object sender, EventArgs e) {
             AddItem();
-            if (!Program.IsDebug) {
+            if (!Program.DebugMode) {
                 txtBatchConverterInputFile.Clear();
                 txtBatchConverterOutputFile.Clear();
             }

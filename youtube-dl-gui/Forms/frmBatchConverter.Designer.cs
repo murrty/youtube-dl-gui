@@ -253,7 +253,7 @@
             this.Controls.Add(this.btnBatchConverterStartStopExit);
             this.Controls.Add(this.sbBatchConverter);
             this.Controls.Add(this.scConversionFiles);
-            this.Icon = global::youtube_dl_gui.Properties.Resources.youtube_dl_gui;
+            this.Icon = global::youtube_dl_gui.Properties.Resources.ProgramIcon;
             this.MinimumSize = new System.Drawing.Size(670, 340);
             this.Name = "frmBatchConverter";
             this.Text = "frmBatchConverter";

@@ -8,8 +8,8 @@ namespace youtube_dl_gui {
         public frmAbout() {
             InitializeComponent();
             LoadLanguage();
-            pbIcon.Image = Properties.Resources.youtube_dl_gui32;
-            lbVersion.Text = $"v{(Program.CurrentVersion)}";
+            pbIcon.Image = Properties.Resources.AboutImage;
+            lbVersion.Text = $"v{Program.CurrentVersion}";
             llbCheckForUpdates.LinkVisited = Program.UpdateChecked;
             llbCheckForUpdates.Location = new(
                 (this.ClientSize.Width - llbCheckForUpdates.Width) / 2,
@@ -24,11 +24,11 @@ namespace youtube_dl_gui {
         }
 
         private void llbCheckForUpdates_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
-            if (UpdateCheckThread == null || !UpdateCheckThread.IsAlive) {
+            if (UpdateCheckThread is null || !UpdateCheckThread.IsAlive) {
                 UpdateCheckThread = new Thread(() => {
                     try {
-                        bool? result = UpdateChecker.CheckForUpdate(Program.CurrentVersion, Config.Settings.General.DownloadBetaVersions, chkForceCheckUpdate.Checked);
-                        if (result is not null) {
+                        bool? result;
+                        if ((result = UpdateChecker.CheckForUpdate(Program.CurrentVersion, Config.Settings.General.DownloadBetaVersions, chkForceCheckUpdate.Checked)) is not null) {
                             if (result == false) {
                                 this.BeginInvoke(() => {
                                     string Message = Program.CurrentVersion.IsBeta ?

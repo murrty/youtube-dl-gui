@@ -36,4 +36,7 @@ internal static class Extensions {
 
         return value.Length == 0;
     }
+    public static bool IsNotNullEmptyWhitespace(this String value) => !IsNullEmptyWhitespace(value);
+    public static string Join(this IEnumerable<string> str, string joiner) => string.Join(joiner, str);
+    public static string Join(this IEnumerable<string> str, char joiner) => string.Join(joiner.ToString(), str);
 }

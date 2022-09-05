@@ -75,6 +75,11 @@
   <ItemGroup>
     <Compile Include="Classes\BatchHelpers.cs" />
     <Compile Include="Classes\Extensions.cs" />
+    <Compile Include="Classes\VideoInformation.cs" />
+    <Compile Include="Controls\ExtendedProgressBar.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\Shared.cs" />
     <Compile Include="Enums\StatusIcon.cs" />
     <Compile Include="Enums\DownloadStatus.cs" />
     <Compile Include="Enums\PlaylistSelectionType.cs" />
@@ -99,7 +104,14 @@
     <Compile Include="Config\Config_Saved.cs" />
     <Compile Include="Config\Ini.cs" />
     <Compile Include="Config\Protocol.cs" />
+    <Compile Include="Forms\frmExtendedDownload.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmExtendedDownload.Designer.cs">
+      <DependentUpon>frmExtendedDownload.cs</DependentUpon>
+    </Compile>
     <Compile Include="GlobalNamespaces.cs" />
+    <Compile Include="Runtime\Arrays.cs" />
     <Compile Include="Updater\GithubData.cs" />
     <Compile Include="Updater\GithubAsset.cs" />
     <Compile Include="Updater\GithubLinks.cs" />
@@ -247,6 +259,9 @@
     <EmbeddedResource Include="Forms\frmException.resx">
       <DependentUpon>frmException.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmExtendedDownload.resx">
+      <DependentUpon>frmExtendedDownload.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmLanguage.resx">
       <DependentUpon>frmLanguage.cs</DependentUpon>
     </EmbeddedResource>
@@ -292,12 +307,14 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\YtdlpTest.txt" />
     <None Include="Resources\youtube-dl-gui-updater.exe" />
     <None Include="Resources\waiting.png" />
     <None Include="Resources\finished.png" />
     <None Include="Resources\download.png" />
     <None Include="Resources\error.png" />
     <None Include="Resources\BuildDate.txt" />
+    <None Include="Resources\Git.txt" />
     <Content Include="Resources\youtube-dl-gui.ico" />
     <Content Include="Resources\youtube-dl-gui32.png" />
   </ItemGroup>

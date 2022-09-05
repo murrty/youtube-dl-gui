@@ -260,7 +260,7 @@
             this.Controls.Add(this.lbSubtitlesUrl);
             this.Controls.Add(this.lbSubtitlesHeader);
             this.Controls.Add(this.txtURL);
-            this.Icon = Properties.Resources.youtube_dl_gui;
+            this.Icon = global::youtube_dl_gui.Properties.Resources.ProgramIcon;
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(360, 240);
             this.MinimumSize = new System.Drawing.Size(360, 240);

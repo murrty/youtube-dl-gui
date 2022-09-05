@@ -1757,7 +1757,7 @@
             this.Controls.Add(this.btnSettingsCancel);
             this.Controls.Add(this.tcMain);
             this.Controls.Add(this.btnSettingsRedownloadYoutubeDl);
-            this.Icon = global::youtube_dl_gui.Properties.Resources.youtube_dl_gui;
+            this.Icon = global::youtube_dl_gui.Properties.Resources.ProgramIcon;
             this.MaximizeBox = false;
             this.MinimumSize = new System.Drawing.Size(346, 470);
             this.Name = "frmSettings";

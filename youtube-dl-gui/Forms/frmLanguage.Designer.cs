@@ -107,7 +107,7 @@
             this.Controls.Add(this.btnLanguageRefresh);
             this.Controls.Add(this.cbLanguages);
             this.Controls.Add(this.lbCurrentLanguageShort);
-            this.Icon = global::youtube_dl_gui.Properties.Resources.youtube_dl_gui;
+            this.Icon = global::youtube_dl_gui.Properties.Resources.ProgramIcon;
             this.MaximizeBox = false;
             this.Name = "frmLanguage";
             this.ShowIcon = false;
