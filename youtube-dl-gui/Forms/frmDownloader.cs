@@ -10,6 +10,7 @@ namespace youtube_dl_gui {
         private Thread DownloadThread;              // The thread of the process for youtube-dl.
         private volatile Process DownloadProcess;   // The process of youtube-dl which we'll redirect.
         private volatile bool AbortBatch = false;   // Determines if the rest of the batch downloads should be cancelled.
+        private string Msg = string.Empty; // Output message.
 
         public frmDownloader(DownloadInfo Info) {
             InitializeComponent();
@@ -424,7 +425,7 @@ namespace youtube_dl_gui {
                 }
 
                 if (Config.Settings.Downloads.UseProxy && Config.Settings.Downloads.ProxyType > -1 && !string.IsNullOrEmpty(Config.Settings.Downloads.ProxyIP) && !string.IsNullOrEmpty(Config.Settings.Downloads.ProxyPort)) {
-                    ArgumentsBuffer.Append($" --proxy {Download.ProxyProtocols[Config.Settings.Downloads.ProxyType]}{Config.Settings.Downloads.ProxyIP}:{Config.Settings.Downloads.ProxyPort}/ ");
+                    ArgumentsBuffer.Append($" --proxy {Download.ProxyProtocols[Config.Settings.Downloads.ProxyType]}{Config.Settings.Downloads.ProxyIP}:{Config.Settings.Downloads.ProxyPort}/");
                 }
             }
             #endregion
@@ -468,32 +469,43 @@ namespace youtube_dl_gui {
             #region Download thread
             rtbConsoleOutput.AppendText("Creating download thread\n");
             bool IsYtdlp = Config.Settings.Downloads.YtdlType == 2;
-            if (IsYtdlp) {
-                rtbConsoleOutput.AppendText("Due to youtube-dlp changing how download progress is updated, a console with download progress will appear.\n");
-            }
             DownloadThread = new Thread(() => {
                 try {
                     DownloadProcess = new Process() {
                         StartInfo = new ProcessStartInfo(Program.verif.YoutubeDlPath) {
                             UseShellExecute = false,
-                            RedirectStandardOutput = !IsYtdlp,
-                            RedirectStandardError = !IsYtdlp,
-                            CreateNoWindow = !IsYtdlp,
+                            RedirectStandardOutput = true,
+                            RedirectStandardError = true,
+                            CreateNoWindow = true,
                             Arguments = ArgumentsBuffer.ToString()
                         },
                         EnableRaisingEvents = true
                     };
-                    DownloadProcess.OutputDataReceived += (s, e) => {
-                        this.BeginInvoke(new MethodInvoker(() => {
-                            if (e.Data is not null)
-                                rtbConsoleOutput?.AppendText($"{e.Data}\n");
-                        }));
-                    };
+                    if (IsYtdlp) {
+                        DownloadProcess.OutputDataReceived += (s, e) => {
+                            if (e.Data is not null) {
+                                if (e.Data.IndexOf("[download]") > -1 || e.Data.IndexOf("[ffmpeg]") > -1) {
+                                    Msg = e.Data;
+                                }
+                                else {
+                                    rtbConsoleOutput.BeginInvoke(() => rtbConsoleOutput?.AppendText($"{e.Data}\n"));
+                                }
+                            }
+                        };
+                    }
+                    else {
+                        DownloadProcess.OutputDataReceived += (s, e) => {
+                            this.BeginInvoke(() => {
+                                if (e.Data is not null)
+                                    rtbConsoleOutput?.AppendText($"{e.Data}\n");
+                            });
+                        };
+                    }
                     DownloadProcess.ErrorDataReceived += (s, e) => {
-                        this.BeginInvoke(new MethodInvoker(() => {
+                        this.BeginInvoke(() => {
                             if (e.Data is not null)
                                 rtbConsoleOutput?.AppendText($"Error: {e.Data}\n");
-                        }));
+                        });
                     };
                     DownloadProcess.Exited += (s, e) => {
                         CurrentDownload.Status = DownloadProcess.ExitCode switch {
@@ -508,27 +520,34 @@ namespace youtube_dl_gui {
                         ArgumentsBuffer = null;
                         PreviewArguments = null;
 
-                        if (!IsYtdlp) {
-                            DownloadProcess.BeginOutputReadLine();
-                            DownloadProcess.BeginErrorReadLine();
-                        }
+                        DownloadProcess.BeginOutputReadLine();
+                        DownloadProcess.BeginErrorReadLine();
 
-                        while (!DownloadProcess.HasExited) {
-                            Thread.Sleep(1000);
+                        if (IsYtdlp) {
+                            while (!DownloadProcess.HasExited) {
+                                if (Msg.Length > 0) {
+                                    rtbConsoleOutput.BeginInvoke(() => rtbConsoleOutput?.AppendText($"{Msg}\n"));
+                                }
+                                Thread.Sleep(250);
+                            }
+                        }
+                        else {
+                            while (!DownloadProcess.HasExited) {
+                                Thread.Sleep(500);
+                            }
                         }
                     }
 
                 }
                 catch (ThreadAbortException) {
-                    if (!IsYtdlp) {
-                        DownloadProcess.CancelErrorRead();
-                        DownloadProcess.CancelOutputRead();
-                    }
+                    DownloadProcess.CancelErrorRead();
+                    DownloadProcess.CancelOutputRead();
                     Program.KillProcessTree((uint)DownloadProcess.Id);
                     DownloadProcess.Kill();
                     this.BeginInvoke((Action)delegate {
                         if (this.IsHandleCreated) {
                             rtbConsoleOutput.AppendText("Downloading was aborted by the user.");
+                            btnDownloaderCancelExit.Text = Program.lang.GenericExit;
                         }
                     });
                     CurrentDownload.Status = DownloadStatus.Aborted;
