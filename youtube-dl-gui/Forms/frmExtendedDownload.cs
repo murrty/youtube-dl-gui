@@ -72,22 +72,22 @@ namespace youtube_dl_gui {
                 try {
                     Information = VideoInformation.GenerateInformation(URL);
                     VideoInformation.Format Format;
-                    for (int i = Information.formats.Length; i > 0; i--) {
-                        Format = Information.formats[i - 1];
+                    for (int i = Information.AvailableFormats.Length; i > 0; i--) {
+                        Format = Information.AvailableFormats[i - 1];
 
-                        if (Format.width > 0 && Format.height > 0) {
+                        if (Format.VideoWidth > 0 && Format.VideoHeight > 0) {
                             if (lvVideoFormats.Items.Count == 0)
                                 VideoFormat = Format;
 
-                            string LegibleQualityName = Format.format_note.IsNotNullEmptyWhitespace() ? Format.format_note : "?";
-                            string Dimensions = $"{Format.width}x{Format.height}";
-                            string Bitrate = Format.tbr is not null && Format.tbr > 0 ? $"{Format.tbr}k" : "?";
-                            string Container = Format.ext ?? "Unknown";
-                            string Frames = Format.fps is not null && Format.fps > 0 ? $"{Format.fps}" : "FPS?";
-                            string Codec = Format.vcodec.IsNotNullEmptyWhitespace() && Format.vcodec != "none" ? Format.vcodec : "Unknown";
-                            string FileSize = Format.filesize is not null ? 
-                                ((long)Format.filesize).SizeToString() : Format.filesize_approx is not null ?
-                                ((long)Format.filesize_approx).SizeToString() : "?B";
+                            string LegibleQualityName = Format.QualityName.IsNotNullEmptyWhitespace() ? Format.QualityName : "?";
+                            string Dimensions = $"{Format.VideoWidth}x{Format.VideoHeight}";
+                            string Bitrate = Format.VideoBitrate is not null && Format.VideoBitrate > 0 ? $"{Format.VideoBitrate}k" : "?";
+                            string Container = Format.Extension ?? "Unknown";
+                            string Frames = Format.VideoFps is not null && Format.VideoFps > 0 ? $"{Format.VideoFps}" : "FPS?";
+                            string Codec = Format.VideoCodec.IsNotNullEmptyWhitespace() && Format.VideoCodec != "none" ? Format.VideoCodec : "Unknown";
+                            string FileSize = Format.FileSize is not null ? 
+                                ((long)Format.FileSize).SizeToString() : Format.ApproximateFileSize is not null ?
+                                ((long)Format.ApproximateFileSize).SizeToString() : "?B";
 
                             ListViewItem NewFormat = new($"{(lvVideoFormats.Items.Count == 0 ? "(!) " : "")}{LegibleQualityName}");
                             NewFormat.SubItems.Add(Frames);
@@ -99,17 +99,17 @@ namespace youtube_dl_gui {
                             NewFormat.Tag = Format;
                             lvVideoFormats.Invoke(() => lvVideoFormats.Items.Add(NewFormat));
                         }
-                        else if (Format.acodec.IsNotNullEmptyWhitespace() && Format.acodec != "none") {
+                        else if (Format.AudioCodec.IsNotNullEmptyWhitespace() && Format.AudioCodec != "none") {
                             if (lvAudioFormats.Items.Count == 0)
                                 AudioFormat = Format;
 
-                            string Codec = Format.acodec ?? "Unknown";
-                            string Container = Format.ext ?? "Unknown";
-                            string SampleRate = $"{(Format.asr is not null && Format.asr > 0 ? $"{Format.asr}" : "-")}Hz";
-                            string Bitrate = $"{(Format.abr is not null && Format.abr > 0 ? $"{Format.abr}" : "?")}kbps";
-                            string FileSize = Format.filesize is not null ?
-                                ((long)Format.filesize).SizeToString() : Format.filesize_approx is not null ?
-                                ((long)Format.filesize_approx).SizeToString() : "?B";
+                            string Codec = Format.AudioCodec ?? "Unknown";
+                            string Container = Format.Extension ?? "Unknown";
+                            string SampleRate = $"{(Format.AudioSampleRate is not null && Format.AudioSampleRate > 0 ? $"{Format.AudioSampleRate}" : "-")}Hz";
+                            string Bitrate = $"{(Format.AudioBitrate is not null && Format.AudioBitrate > 0 ? $"{Format.AudioBitrate}" : "?")}kbps";
+                            string FileSize = Format.FileSize is not null ?
+                                ((long)Format.FileSize).SizeToString() : Format.ApproximateFileSize is not null ?
+                                ((long)Format.ApproximateFileSize).SizeToString() : "?B";
 
                             ListViewItem NewFormat = new($"{(lvAudioFormats.Items.Count == 0 ? "(!) " : "")}{Bitrate}");
                             NewFormat.SubItems.Add(Container);
@@ -122,12 +122,12 @@ namespace youtube_dl_gui {
                     }
 
                     this.Invoke(() => {
-                        this.Text = $"{Information.title} - {Language.ApplicationName}";
-                        txtMediaTitle.Text = Information.title;
-                        rtbMediaDescription.Text = Information.description;
-                        txtUploader.Text = Information.uploader;
-                        txtViews.Text = $"{(Information.view_count is not null ? ((long)Information.view_count).ToString("#,000") : "Unknown")}";
-                        lbTimestamp.Text = Information.duration_string;
+                        this.Text = $"{Information.Title} - {Language.ApplicationName}";
+                        txtMediaTitle.Text = Information.Title;
+                        rtbMediaDescription.Text = Information.Description;
+                        txtUploader.Text = Information.Uploader;
+                        txtViews.Text = $"{(Information.Views is not null ? ((long)Information.Views).ToString("#,000") : "Unknown")}";
+                        lbTimestamp.Text = Information.Duration;
                         btnExtendedDownloaderDownloadThumbnail.Enabled =
                             tcVideoData.Enabled = btnExtendedDownloaderDownloadThumbnail.Visible = true;
 
@@ -246,9 +246,9 @@ namespace youtube_dl_gui {
                 bool Break = false;
                 if (rbVideo.Checked) {
                     Format = VideoFormat;
-                    ArgumentBuffer.Append($" -f {VideoFormat.format_id}");
+                    ArgumentBuffer.Append($" -f {VideoFormat.Identifier}");
                     if (chkVideoDownloadAudio.Checked) {
-                        ArgumentBuffer.Append($"+{AudioFormat.format_id}");
+                        ArgumentBuffer.Append($"+{AudioFormat.Identifier}");
                     }
                     ArgumentBuffer.Append("/best");
 
@@ -293,8 +293,8 @@ namespace youtube_dl_gui {
                     if (Config.Settings.Downloads.SaveThumbnail) {
                         ArgumentBuffer.Append(" --write-thumbnail");
                         if (Config.Settings.Downloads.EmbedThumbnails
-                        && ((rbVideo.Checked && (Format.ext.EndsWith("mp4") || cbVideoEncoders.SelectedIndex == 4))
-                        || (rbAudio.Checked && (Format.ext.EndsWith("mp3") || Format.ext.EndsWith("m4a") || cbAudioEncoders.SelectedIndex == 1  || cbAudioEncoders.SelectedIndex == 2)))) {
+                        && ((rbVideo.Checked && (Format.Extension.EndsWith("mp4") || cbVideoEncoders.SelectedIndex == 4))
+                        || (rbAudio.Checked && (Format.Extension.EndsWith("mp3") || Format.Extension.EndsWith("m4a") || cbAudioEncoders.SelectedIndex == 1  || cbAudioEncoders.SelectedIndex == 2)))) {
                             ArgumentBuffer.Append(" --embed-thumbnail");
                         }
                     }

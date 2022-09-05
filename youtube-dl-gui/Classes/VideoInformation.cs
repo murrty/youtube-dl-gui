@@ -75,9 +75,9 @@ internal sealed class VideoInformation {
     }
     public Image GetThumbnail() {
         using WebClient wc = new();
-        byte[] thumbBytes = wc.DownloadData(this.thumbnail);
+        byte[] thumbBytes = wc.DownloadData(this.ThumbnailLink);
 
-        if (this.thumbnail.EndsWith(".webp")) {
+        if (this.ThumbnailLink.EndsWith(".webp")) {
             string ThumbPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + $"\\temp\\{DateTime.Now:yyyyMMddhmmssfffffff}s";
             File.WriteAllBytes($"{ThumbPath}.webp", thumbBytes);
             if (Program.verif.FFmpegPath.IsNullEmptyWhitespace())
@@ -113,78 +113,78 @@ internal sealed class VideoInformation {
     }
 
     [DataMember(Name = "title")]
-    public string title { get; set; }
+    public string Title { get; set; }
 
     [DataMember(Name = "formats")]
-    public Format[] formats { get; set; }
+    public Format[] AvailableFormats { get; set; }
 
     [DataMember(Name = "thumbnail")]
-    public string thumbnail { get; set; }
+    public string ThumbnailLink { get; set; }
 
     [DataMember(Name = "description")]
-    public string description { get; set; }
+    public string Description { get; set; }
 
     [DataMember(Name = "uploader")]
-    public string uploader { get; set; }
+    public string Uploader { get; set; }
 
     [DataMember(Name = "view_count")]
-    public long? view_count { get; set; }
+    public long? Views { get; set; }
 
     [DataMember(Name = "duration_string")]
-    public string duration_string { get; set; }
+    public string Duration { get; set; }
 
     [DataContract(Name = "formats")]
     public class Format {
         [DataMember(Name = "format_id")]
-        public string format_id { get; set; }
+        public string Identifier { get; set; }
 
         [DataMember(Name = "format_note")]
-        public string format_note { get; set; }
+        public string QualityName { get; set; }
 
         [DataMember(Name = "ext")]
-        public string ext { get; set; }
+        public string Extension { get; set; }
 
         [DataMember(Name = "acodec")]
-        public string acodec { get; set; }
+        public string AudioCodec { get; set; }
 
         [DataMember(Name = "vcodec")]
-        public string vcodec { get; set; }
+        public string VideoCodec { get; set; }
 
         [DataMember(Name = "width")]
-        public int? width { get; set; }
+        public int? VideoWidth { get; set; }
 
         [DataMember(Name = "height")]
-        public int? height { get; set; }
+        public int? VideoHeight { get; set; }
 
         [DataMember(Name = "fps")]
-        public float? fps { get; set; }
+        public float? VideoFps { get; set; }
 
         [DataMember(Name = "audio_ext")]
-        public string audio_ext { get; set; }
+        public string AudioExtension { get; set; }
 
         [DataMember(Name = "video_ext")]
-        public string video_ext { get; set; }
+        public string VideoExtension { get; set; }
 
         [DataMember(Name = "format")]
         public string format { get; set; }
 
         [DataMember(Name = "resolution")]
-        public string resolution { get; set; }
+        public string VideoResolution { get; set; }
 
         [DataMember(Name = "asr")]
-        public int? asr { get; set; }
+        public int? AudioSampleRate { get; set; }
 
         [DataMember(Name = "filesize")]
-        public long? filesize { get; set; }
+        public long? FileSize { get; set; }
 
         [DataMember(Name = "tbr")]
-        public decimal? tbr { get; set; }
+        public decimal? VideoBitrate { get; set; }
 
         [DataMember(Name = "abr")]
-        public float? abr { get; set; }
+        public float? AudioBitrate { get; set; }
 
         [DataMember(Name = "filesize_approx")]
-        public int? filesize_approx { get; set; }
+        public int? ApproximateFileSize { get; set; }
     }
 
 }
