@@ -1,6 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-using System.Linq;
+﻿using System.Diagnostics;
 using System.Management;
 using System.Windows.Forms;
 
@@ -39,9 +37,10 @@ namespace youtube_dl_gui {
             // Catch any exceptions that are unhandled, so we can report it.
             Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
 
+#if !DEBUG
             Write("Creating unhandled exception event.");
             AppDomain.CurrentDomain.UnhandledException += (sender, exception) => {
-                using murrty.forms.frmException UnrecoverableException = new(new(exception) {
+                using frmException UnrecoverableException = new(new(exception) {
                     Unrecoverable = true,
                     AllowRetry = false
                 });
@@ -50,12 +49,13 @@ namespace youtube_dl_gui {
 
             Write("Creating unhandled thread exception event.");
             Application.ThreadException += (sender, exception) => {
-                using murrty.forms.frmException UnrecoverableException = new(new(exception) {
+                using frmException UnrecoverableException = new(new(exception) {
                     Unrecoverable = true,
                     AllowRetry = false
                 });
                 UnrecoverableException.ShowDialog();
             };
+#endif
         }
 
         /// <summary>
@@ -134,7 +134,7 @@ namespace youtube_dl_gui {
             //    LogForm?.AppendNoDate(message, initial);
             //}
         }
-        #endregion
+#endregion
 
         #region Exception handling
         /// <summary>
@@ -188,7 +188,7 @@ namespace youtube_dl_gui {
         /// </summary>
         /// <param name="ReceivedException">A runtime-resolved object that must be a typeof Exception, or it will not display any information.</param>
         private static void WriteToFile(dynamic ReceivedException) {
-            if (Config.Settings.Errors.logErrors && !Program.IsDebug) {
+            if (Config.Settings.Errors.logErrors && !Program.DebugMode) {
                 string LogData = ReceivedException switch {
                     UnhandledExceptionEventArgs UnhandledEvent => UnhandledEvent.ToString(),
                     System.Threading.ThreadExceptionEventArgs ThreadException => ThreadException.ToString(),
@@ -217,7 +217,7 @@ namespace youtube_dl_gui {
         /// </summary>
         /// <param name="LogData">The pre-built error data.</param>
         private static void WriteToFile(string LogData) {
-            if (Config.Settings.Errors.logErrors && !Program.IsDebug) {
+            if (Config.Settings.Errors.logErrors && !Program.DebugMode) {
                 try {
                     System.IO.File.WriteAllText(
                         $"\\error_{DateTime.Now:yyyy-MM-dd-HH-mm-ss.fff}.log",

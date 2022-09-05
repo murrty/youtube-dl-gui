@@ -570,11 +570,17 @@ namespace youtube_dl_gui {
         private void btnSettingsRedownloadYoutubeDl_Click(object sender, EventArgs e) {
             YtdlUpdateCheck = new(() => {
                 if (updater.UpdateChecker.CheckForYoutubeDlUpdate(true)) {
-                    updater.UpdateChecker.UpdateYoutubeDl();
+                    if (updater.UpdateChecker.UpdateYoutubeDl()) {
+                        this.BeginInvoke(() => MessageBox.Show(Program.lang.dlgUpdatedYoutubeDl, Language.ApplicationName, MessageBoxButtons.OK));
+                        System.Media.SystemSounds.Asterisk.Play();
+                    }
+                    else {
+                        System.Media.SystemSounds.Hand.Play();
+                    }
                 }
                 else {
                     this.BeginInvoke((Action)delegate {
-                        MessageBox.Show(string.Format(Program.lang.dlgUpateYoutubeDlNoUpdateRequired, Program.verif.YoutubeDlVersion, updater.UpdateChecker.LatestYoutubeDl.VersionTag), "youtube-dl-gui", MessageBoxButtons.OK);
+                        MessageBox.Show(string.Format(Program.lang.dlgUpateYoutubeDlNoUpdateRequired, Program.verif.YoutubeDlVersion, updater.UpdateChecker.LatestYoutubeDl.VersionTag), Language.ApplicationName, MessageBoxButtons.OK);
                     });
                 }
             }) {

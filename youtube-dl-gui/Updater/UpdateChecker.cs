@@ -199,7 +199,7 @@ namespace youtube_dl_gui.updater {
         /// <summary>
         /// Updates youtube-dl (or a fork) to their latest release.
         /// </summary>
-        public static void UpdateYoutubeDl() {
+        public static bool UpdateYoutubeDl() {
             if (Config.Settings.Downloads.useYtdlUpdater && (Config.Settings.General.UseStaticYtdl && !string.IsNullOrEmpty(Config.Settings.General.ytdlPath) && File.Exists(Config.Settings.General.ytdlPath) || File.Exists(Program.verif.YoutubeDlPath))) {
 
                 Process UpdateYoutubeDl = new();
@@ -220,10 +220,12 @@ namespace youtube_dl_gui.updater {
                     }
                     else {
                         MessageBox.Show(Program.lang.dlgUpdateNoValidYoutubeDl, "youtube-dl-gui");
-                        return;
+                        return false;
                     }
                 }
                 UpdateYoutubeDl.Start();
+                UpdateYoutubeDl.WaitForExit();
+                return UpdateYoutubeDl.ExitCode == 0;
             }
             else if (LatestYoutubeDl.IsNewerVersion) {
                 int TypeIndex = Config.Settings.Downloads.YtdlType switch {
@@ -262,14 +264,19 @@ namespace youtube_dl_gui.updater {
                         )
                     );
                 }
-                catch (ThreadAbortException) { }
+                catch (ThreadAbortException) { return false; }
                 catch (Exception ex) {
                     Log.ReportException(ex);
+                    return false;
                 }
+            }
+            else {
+                return false;
             }
 
             Program.verif.RefreshYoutubeDlLocation();
             LatestYoutubeDl.IsNewerVersion = false;
+            return true;
         }
 
         public static GithubRepoContent[] GetAvailableLanguages() {
@@ -305,13 +312,15 @@ namespace youtube_dl_gui.updater {
                 if (PreReleases) {
                     var Releases = Json.JsonDeserialize<GithubData[]>();
                     if (Releases.Length == 0) throw new NullReferenceException("The found releases were empty.");
-                    for (int i = 0; i < Releases.Length; i++) {
-                        if (Releases[i].VersionPreRelease) {
-                            CurrentCheck = Releases[i];
-                            LastCheckedAllRelease = CurrentCheck;
-                            break;
-                        }
-                    }
+                    //for (int i = 0; i < Releases.Length; i++) {
+                    //    if (Releases[i].VersionPreRelease) {
+                    //        CurrentCheck = Releases[i];
+                    //        LastCheckedAllRelease = CurrentCheck;
+                    //        break;
+                    //    }
+                    //}
+                    CurrentCheck = Releases[0];
+                    LastCheckedAllRelease = CurrentCheck;
 
                     if (CurrentCheck is null)
                         return;

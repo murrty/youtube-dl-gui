@@ -50,8 +50,12 @@
             this.pnCustom = new System.Windows.Forms.Panel();
             this.txtCustomArguments = new System.Windows.Forms.TextBox();
             this.tpDescription = new System.Windows.Forms.TabPage();
+            this.rtbMediaDescription = new youtube_dl_gui.Controls.ExtendedRichTextBox();
             this.tpVerbose = new System.Windows.Forms.TabPage();
+            this.txtGeneratedArguments = new System.Windows.Forms.TextBox();
+            this.rtbVerbose = new youtube_dl_gui.Controls.ExtendedRichTextBox();
             this.tpDebug = new System.Windows.Forms.TabPage();
+            this.btnKill = new System.Windows.Forms.Button();
             this.chkPbTaskbar = new System.Windows.Forms.CheckBox();
             this.btnPbRemove = new System.Windows.Forms.Button();
             this.btnPbAdd = new System.Windows.Forms.Button();
@@ -61,11 +65,7 @@
             this.rbCustom = new System.Windows.Forms.RadioButton();
             this.btnDownloadAbortClose = new System.Windows.Forms.Button();
             this.btnDownloadWithAuthentication = new System.Windows.Forms.Button();
-            this.btnKill = new System.Windows.Forms.Button();
             this.pbStatus = new murrty.controls.ExtendedProgressBar();
-            this.rtbMediaDescription = new youtube_dl_gui.Controls.ExtendedRichTextBox();
-            this.rtbVerbose = new youtube_dl_gui.Controls.ExtendedRichTextBox();
-            this.txtGeneratedArguments = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.pbThumbnail)).BeginInit();
             this.tcVideoData.SuspendLayout();
             this.tpFormats.SuspendLayout();
@@ -456,6 +456,16 @@
             this.tpDescription.Text = "Description";
             this.tpDescription.UseVisualStyleBackColor = true;
             // 
+            // rtbMediaDescription
+            // 
+            this.rtbMediaDescription.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.rtbMediaDescription.Location = new System.Drawing.Point(3, 3);
+            this.rtbMediaDescription.Name = "rtbMediaDescription";
+            this.rtbMediaDescription.ReadOnly = true;
+            this.rtbMediaDescription.Size = new System.Drawing.Size(436, 169);
+            this.rtbMediaDescription.TabIndex = 2;
+            this.rtbMediaDescription.Text = "";
+            // 
             // tpVerbose
             // 
             this.tpVerbose.Controls.Add(this.txtGeneratedArguments);
@@ -467,6 +477,28 @@
             this.tpVerbose.TabIndex = 3;
             this.tpVerbose.Text = "Verbose";
             this.tpVerbose.UseVisualStyleBackColor = true;
+            // 
+            // txtGeneratedArguments
+            // 
+            this.txtGeneratedArguments.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtGeneratedArguments.Location = new System.Drawing.Point(6, 147);
+            this.txtGeneratedArguments.Name = "txtGeneratedArguments";
+            this.txtGeneratedArguments.ReadOnly = true;
+            this.txtGeneratedArguments.Size = new System.Drawing.Size(430, 22);
+            this.txtGeneratedArguments.TabIndex = 1;
+            // 
+            // rtbVerbose
+            // 
+            this.rtbVerbose.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.rtbVerbose.Location = new System.Drawing.Point(3, 3);
+            this.rtbVerbose.Name = "rtbVerbose";
+            this.rtbVerbose.ReadOnly = true;
+            this.rtbVerbose.Size = new System.Drawing.Size(436, 140);
+            this.rtbVerbose.TabIndex = 0;
+            this.rtbVerbose.Text = "";
             // 
             // tpDebug
             // 
@@ -482,6 +514,16 @@
             this.tpDebug.TabIndex = 2;
             this.tpDebug.Text = "Debug";
             this.tpDebug.UseVisualStyleBackColor = true;
+            // 
+            // btnKill
+            // 
+            this.btnKill.Location = new System.Drawing.Point(17, 44);
+            this.btnKill.Name = "btnKill";
+            this.btnKill.Size = new System.Drawing.Size(86, 23);
+            this.btnKill.TabIndex = 4;
+            this.btnKill.Text = "Kill";
+            this.btnKill.UseVisualStyleBackColor = true;
+            this.btnKill.Click += new System.EventHandler(this.btnKill_Click);
             // 
             // chkPbTaskbar
             // 
@@ -570,6 +612,7 @@
             // btnDownloadAbortClose
             // 
             this.btnDownloadAbortClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnDownloadAbortClose.Enabled = false;
             this.btnDownloadAbortClose.Location = new System.Drawing.Point(371, 460);
             this.btnDownloadAbortClose.Name = "btnDownloadAbortClose";
             this.btnDownloadAbortClose.Size = new System.Drawing.Size(87, 23);
@@ -581,6 +624,7 @@
             // btnDownloadWithAuthentication
             // 
             this.btnDownloadWithAuthentication.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnDownloadWithAuthentication.Enabled = false;
             this.btnDownloadWithAuthentication.Location = new System.Drawing.Point(225, 460);
             this.btnDownloadWithAuthentication.Name = "btnDownloadWithAuthentication";
             this.btnDownloadWithAuthentication.Size = new System.Drawing.Size(140, 23);
@@ -588,16 +632,6 @@
             this.btnDownloadWithAuthentication.Text = "btnDownloadWithAuthentication";
             this.btnDownloadWithAuthentication.UseVisualStyleBackColor = true;
             this.btnDownloadWithAuthentication.Click += new System.EventHandler(this.btnDownloadWithAuthentication_Click);
-            // 
-            // btnKill
-            // 
-            this.btnKill.Location = new System.Drawing.Point(17, 44);
-            this.btnKill.Name = "btnKill";
-            this.btnKill.Size = new System.Drawing.Size(86, 23);
-            this.btnKill.TabIndex = 4;
-            this.btnKill.Text = "Kill";
-            this.btnKill.UseVisualStyleBackColor = true;
-            this.btnKill.Click += new System.EventHandler(this.btnKill_Click);
             // 
             // pbStatus
             // 
@@ -613,38 +647,6 @@
             this.pbStatus.Style = System.Windows.Forms.ProgressBarStyle.Blocks;
             this.pbStatus.TabIndex = 20;
             this.pbStatus.Text = ".  .  .";
-            // 
-            // rtbMediaDescription
-            // 
-            this.rtbMediaDescription.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.rtbMediaDescription.Location = new System.Drawing.Point(3, 3);
-            this.rtbMediaDescription.Name = "rtbMediaDescription";
-            this.rtbMediaDescription.ReadOnly = true;
-            this.rtbMediaDescription.Size = new System.Drawing.Size(436, 169);
-            this.rtbMediaDescription.TabIndex = 2;
-            this.rtbMediaDescription.Text = "";
-            // 
-            // rtbVerbose
-            // 
-            this.rtbVerbose.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.rtbVerbose.Location = new System.Drawing.Point(3, 3);
-            this.rtbVerbose.Name = "rtbVerbose";
-            this.rtbVerbose.ReadOnly = true;
-            this.rtbVerbose.Size = new System.Drawing.Size(436, 140);
-            this.rtbVerbose.TabIndex = 0;
-            this.rtbVerbose.Text = "";
-            // 
-            // txtGeneratedArguments
-            // 
-            this.txtGeneratedArguments.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtGeneratedArguments.Location = new System.Drawing.Point(6, 147);
-            this.txtGeneratedArguments.Name = "txtGeneratedArguments";
-            this.txtGeneratedArguments.ReadOnly = true;
-            this.txtGeneratedArguments.Size = new System.Drawing.Size(430, 22);
-            this.txtGeneratedArguments.TabIndex = 1;
             // 
             // frmExtendedDownload
             // 

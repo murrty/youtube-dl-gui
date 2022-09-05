@@ -1,8 +1,4 @@
-﻿using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
-using static youtube_dl_gui.VideoInformation;
-
-namespace youtube_dl_gui;
+﻿namespace youtube_dl_gui;
 
 /// <summary>
 /// Controls the language strings of the program. Most, if not all, strings get their text from here.
@@ -144,6 +140,8 @@ public sealed class Language {
     public string lbExceptionDescription { get; private set; }
     public string rtbExceptionDetails { get; private set; }
     public string btnExceptionGithub { get; private set; }
+    public string tpExceptionDetails { get; private set; }
+    public string tpExceptionExtraInfo { get; private set; }
     #endregion
 
     #region frmExtendedDownloader
@@ -590,6 +588,8 @@ public sealed class Language {
         public const string lbExceptionDescription = "Below is the error that occured. Feel free to open a new issue and report it.";
         public const string rtbExceptionDetails = "Feel free to copy + paste this entire text wall into a new issue on Github";
         public const string btnExceptionGithub = "Open Github";
+        public const string tpExceptionDetails = "Exception details";
+        public const string tpExceptionExtraInfo = "Extra info";
         #endregion
 
         #region frmExtendedDownloader
@@ -1051,6 +1051,8 @@ public sealed class Language {
         lbExceptionDescription = InternalEnglish.lbExceptionDescription;
         rtbExceptionDetails = InternalEnglish.rtbExceptionDetails;
         btnExceptionGithub = InternalEnglish.btnExceptionGithub;
+        tpExceptionDetails = InternalEnglish.tpExceptionDetails;
+        tpExceptionExtraInfo = InternalEnglish.tpExceptionExtraInfo;
 
         // frmExtendedDownloader
         frmExtendedDownloaderRetrieving = InternalEnglish.frmExtendedDownloaderRetrieving;
@@ -1473,6 +1475,8 @@ public sealed class Language {
         lbExceptionDescription = "lbExceptionDescription";
         rtbExceptionDetails = "rtbExceptionDetails";
         btnExceptionGithub = "btnExceptionGithub";
+        tpExceptionDetails = "tpExceptionDetails";
+        tpExceptionExtraInfo = "tpExceptionExtraInfo";
 
         // frmExtendedDownloader
         frmExtendedDownloaderRetrieving = "frmExtendedDownloaderRetrieving";
@@ -2114,6 +2118,12 @@ public sealed class Language {
                                     continue;
                                 case "btnexceptiongithub":
                                     btnExceptionGithub = ReadValue;
+                                    continue;
+                                case "tpexceptiondetails":
+                                    tpExceptionDetails = ReadValue;
+                                    continue;
+                                case "tpexceptionextrainfo":
+                                    tpExceptionExtraInfo = ReadValue;
                                     continue;
                                 #endregion
 

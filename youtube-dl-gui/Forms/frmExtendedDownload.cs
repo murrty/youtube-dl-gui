@@ -69,8 +69,9 @@ namespace youtube_dl_gui {
 
             LoadLanguage();
             InformationThread = new(() => {
+                string Retrieved = null;
                 try {
-                    Information = VideoInformation.GenerateInformation(URL);
+                    Information = VideoInformation.GenerateInformation(URL, out Retrieved);
                     VideoInformation.Format Format;
                     for (int i = Information.AvailableFormats.Length; i > 0; i--) {
                         Format = Information.AvailableFormats[i - 1];
@@ -81,9 +82,9 @@ namespace youtube_dl_gui {
 
                             string LegibleQualityName = Format.QualityName.IsNotNullEmptyWhitespace() ? Format.QualityName : "?";
                             string Dimensions = $"{Format.VideoWidth}x{Format.VideoHeight}";
-                            string Bitrate = Format.VideoBitrate is not null && Format.VideoBitrate > 0 ? $"{Format.VideoBitrate}k" : "?";
+                            string Bitrate = Format.VideoBitrate is not null && Format.VideoBitrate > 0 ? $"{Format.VideoBitrate}Kbps" : "?";
                             string Container = Format.Extension ?? "Unknown";
-                            string Frames = Format.VideoFps is not null && Format.VideoFps > 0 ? $"{Format.VideoFps}" : "FPS?";
+                            string Frames = Format.VideoFps is not null && Format.VideoFps > 0 ? $"{Format.VideoFps}" : "?";
                             string Codec = Format.VideoCodec.IsNotNullEmptyWhitespace() && Format.VideoCodec != "none" ? Format.VideoCodec : "Unknown";
                             string FileSize = Format.FileSize is not null ? 
                                 ((long)Format.FileSize).SizeToString() : Format.ApproximateFileSize is not null ?
@@ -105,8 +106,8 @@ namespace youtube_dl_gui {
 
                             string Codec = Format.AudioCodec ?? "Unknown";
                             string Container = Format.Extension ?? "Unknown";
-                            string SampleRate = $"{(Format.AudioSampleRate is not null && Format.AudioSampleRate > 0 ? $"{Format.AudioSampleRate}" : "-")}Hz";
-                            string Bitrate = $"{(Format.AudioBitrate is not null && Format.AudioBitrate > 0 ? $"{Format.AudioBitrate}" : "?")}kbps";
+                            string SampleRate = $"{(Format.AudioSampleRate is not null && Format.AudioSampleRate > 0 ? $"{Format.AudioSampleRate}" : "?")}Hz";
+                            string Bitrate = $"{(Format.AudioBitrate is not null && Format.AudioBitrate > 0 ? $"{Format.AudioBitrate}" : "?")}Kbps";
                             string FileSize = Format.FileSize is not null ?
                                 ((long)Format.FileSize).SizeToString() : Format.ApproximateFileSize is not null ?
                                 ((long)Format.ApproximateFileSize).SizeToString() : "?B";
@@ -147,7 +148,7 @@ namespace youtube_dl_gui {
                     });
                 }
                 catch (Exception ex) {
-                    Log.ReportException(ex);
+                    this.Invoke(() => Log.ReportException(ex, Retrieved));
                 }
             }) {
                 Name = $"InfoThread {URL}",

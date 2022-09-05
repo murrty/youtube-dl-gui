@@ -13,7 +13,7 @@ namespace youtube_dl_gui {
         /// <summary>
         /// Gets the curent version of the program.
         /// </summary>
-        public static Version CurrentVersion { get; } = new(2, 4, 0, 1);
+        public static Version CurrentVersion { get; } = new(3, 0, 0, 1);
 
         /// <summary>
         /// Gets whether the program is running in debug mode.
@@ -176,9 +176,6 @@ namespace youtube_dl_gui {
             }
 
             verif.Refresh();
-
-            VideoInformation.GenerateInformation("https://www.youtube.com/watch?v=OX79nEdyzrc");
-
             Formats.LoadCustomFormats();
         }
 

@@ -14,7 +14,8 @@ using System.Security.Policy;
 [DataContract]
 internal sealed class VideoInformation {
 
-    public static VideoInformation GenerateInformation(string URL) {
+    public static VideoInformation GenerateInformation(string URL, out string RetrievedData) {
+        RetrievedData = null;
         if (!URL.IsNullEmptyWhitespace()) {
             if (Program.verif.YoutubeDlPath.IsNullEmptyWhitespace())
                 Program.verif.RefreshYoutubeDlLocation();
@@ -66,10 +67,10 @@ internal sealed class VideoInformation {
                 Log.Write(Error.ToString());
             }
             if (!Output.ToString().IsNullEmptyWhitespace()) {
-                var data = Output.ToString().JsonDeserialize<VideoInformation>();
+                RetrievedData = Output.ToString();
+                var data = RetrievedData.JsonDeserialize<VideoInformation>();
                 return data;
             }
-
         }
         return null;
     }
@@ -181,10 +182,10 @@ internal sealed class VideoInformation {
         public decimal? VideoBitrate { get; set; }
 
         [DataMember(Name = "abr")]
-        public float? AudioBitrate { get; set; }
+        public decimal? AudioBitrate { get; set; }
 
         [DataMember(Name = "filesize_approx")]
-        public int? ApproximateFileSize { get; set; }
+        public long? ApproximateFileSize { get; set; }
     }
 
 }
