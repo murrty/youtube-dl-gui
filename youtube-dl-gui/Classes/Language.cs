@@ -10,9 +10,10 @@ public static class Language {
     #endregion
 
     #region GetSetRadio (AKA Properties)
+    public static bool UsingInternalEnglish { get; private set; }
+    public static string LoadedFile { get; private set; }
 
     #region Language identifier
-    public static bool UsingInternalEnglish { get; private set; }
     public static string CurrentLanguageLong { get; private set; }
     public static string CurrentLanguageShort { get; private set; }
     public static string CurrentLanguageHint { get; private set; }
@@ -152,6 +153,7 @@ public static class Language {
     public static string lbExtendedDownloaderDownloadingThumbnailFailed { get; private set; }
     public static string btnExtendedDownloaderDownloadThumbnail { get; private set; }
     public static string tpExtendedDownloaderFormatOptions { get; private set; }
+    public static string chkExtendedDownloaderVideoSeparateAudio { get; private set; }
     #endregion
 
     #region frmLanguage
@@ -182,7 +184,6 @@ public static class Language {
     public static string gbDownloadType { get; private set; }
     public static string lbQuality { get; private set; }
     public static string lbFormat { get; private set; }
-    public static string chkDownloadSound { get; private set; }
     public static string chkUseSelection { get; private set; }
     public static string rbVideoSelectionPlaylistIndex { get; private set; }
     public static string rbVideoSelectionPlaylistItems { get; private set; }
@@ -194,22 +195,20 @@ public static class Language {
     public static string txtPlaylistItemsHint { get; private set; }
     public static string txtVideoDateHint { get; private set; }
     public static string lbCustomArguments { get; private set; }
-    public static string txtArgsHint { get; private set; }
     public static string sbDownload { get; private set; }
     public static string mDownloadWithAuthentication { get; private set; }
     public static string mBatchDownloadFromFile { get; private set; }
+    public static string mQuickDownloadForm { get; private set; }
+    public static string mQuickDownloadFormAuthentication { get; private set; }
+    public static string mExtendedDownloadForm { get; private set; }
     public static string msgBatchDownloadFromFile { get; private set; }
     public static string btnMainYtdlpExtended { get; private set; }
-    public static string lbDownloadStatusStarted { get; private set; }
-    public static string lbDownloadStatusError { get; private set; }
 
     public static string lbConvertInput { get; private set; }
     public static string lbConvertOutput { get; private set; }
     public static string rbConvertAuto { get; private set; }
     public static string rbConvertAutoFFmpeg { get; private set; }
     public static string btnConvert { get; private set; }
-    public static string lbConvertStarted { get; private set; }
-    public static string lbConvertFailed { get; private set; }
 
     public static string lbMergeInput1 { get; private set; }
     public static string lbMergeInput2 { get; private set; }
@@ -277,6 +276,9 @@ public static class Language {
     public static string tabDownloadsFixes { get; private set; }
     public static string tabDownloadsConnection { get; private set; }
     public static string tabDownloadsUpdating { get; private set; }
+    public static string tabDownloadsBatch { get; private set; }
+    public static string tabYtdlpExtendedOptions { get; private set; }
+
     public static string chkSettingsDownloadsSaveFormatQuality { get; private set; }
     public static string chkSettingsDownloadsDownloadSubtitles { get; private set; }
     public static string chkSettingsDownloadsEmbedSubtitles { get; private set; }
@@ -305,6 +307,8 @@ public static class Language {
     public static string llbSettingsDownloadsYtdlTypeViewRepoHint { get; private set; }
     public static string chkSettingsDownloadsSeparateBatchDownloads { get; private set; }
     public static string chkSettingsDownloadsAddDateToBatchDownloadFolders { get; private set; }
+    public static string chkYtdlpPreferExtendedDialog { get; private set; }
+    public static string chkYtdlpExtendedAutomaticallyDownloadThumbnail { get; private set; }
 
     public static string chkSettingsConverterClearOutputAfterConverting { get; private set; }
     public static string chkSettingsConverterDetectOutputFileType { get; private set; }
@@ -398,6 +402,8 @@ public static class Language {
     public static string chksettingsDownloadsUseYoutubeDlsUpdaterHint { get; private set; }
     public static string chkSettingsDownloadsSeparateBatchDownloadsHint { get; private set; }
     public static string chkSettingsDownloadsAddDateToBatchDownloadFoldersHint { get; private set; }
+    public static string chkYtdlpPreferExtendedDialogHint { get; private set; }
+    public static string chkYtdlpExtendedAutomaticallyDownloadThumbnailHint { get; private set; }
 
     public static string chkSettingsConverterClearOutputAfterConvertingHint { get; private set; }
     public static string chkSettingsConverterDetectOutputFileTypeHint { get; private set; }
@@ -445,12 +451,6 @@ public static class Language {
     public static string btnUpdateAvailableSkipVersion { get; private set; }
     public static string btnUpdateAvailableUpdate { get; private set; }
     #endregion
-
-    //////////////// Language class \\\\\\\\\\\\\\\\
-    #region Instance manager
-    public static string LoadedFile { get; private set; }
-    #endregion
-
     #endregion
 
     #region Internal English
@@ -601,6 +601,7 @@ public static class Language {
         public const string lbExtendedDownloaderDownloadingThumbnailFailed = "Unable to download thumbnail";
         public const string btnExtendedDownloaderDownloadThumbnail = "Get thumbnail";
         public const string tpExtendedDownloaderFormatOptions = "Format download options";
+        public const string chkExtendedDownloaderVideoSeparateAudio = "Separate audio from video";
         #endregion
 
         #region frmLanguage
@@ -637,7 +638,6 @@ public static class Language {
         public const string rbCustom = "Custom";
         public const string lbQuality = "Quality";
         public const string lbFormat = "Format";
-        public const string chkDownloadSound = "Sound";
         public const string chkUseSelection = "Video Selection";
         public const string rbVideoSelectionPlaylistIndex = "Playlist index";
         public const string rbVideoSelectionPlaylistItems = "Playlist items";
@@ -649,14 +649,14 @@ public static class Language {
         public const string txtPlaylistItemsHint = "Video indexes (separated by commas)";
         public const string txtVideoDateHint = "Date (YYYYMMDD)";
         public const string lbCustomArguments = "Custom arguments";
-        public const string txtArgsHint = "Custom youtube-dl arguments";
         public const string sbDownload = "Download";
+        public const string btnMainYtdlpExtended = "Details...";
         public const string mDownloadWithAuthentication = "Download with authentication...";
         public const string msgBatchDownloadFromFile = "Create a text file and put all the video links you want to download into it, separated as one per line.\nDo you want to skip seeing this message when batch downloading using this option?";
         public const string mBatchDownloadFromFile = "Batch download from file...";
-        public const string btnMainYtdlpExtended = "Details...";
-        public const string lbDownloadStatusStarted = "Download started";
-        public const string lbDownloadStatusError = "Error downloading";
+        public const string mQuickDownloadForm = "Quick download";
+        public const string mQuickDownloadFormAuthentication = "Quick download (authenticate)";
+        public const string mExtendedDownloadForm = "Extended download...";
         // frmMain / tcMain / Convert
         public const string lbConvertInput = "Input";
         public const string lbConvertOutput = "Output";
@@ -666,8 +666,6 @@ public static class Language {
         public const string rbConvertAuto = "Automatic";
         public const string rbConvertAutoFFmpeg = "Auto ffmpeg";
         public const string btnConvert = "Convert";
-        public const string lbConvertStarted = "Conversion started";
-        public const string lbConvertFailed = "Conversion failed";
         // frmMain / tcMain / Merge
         public const string lbMergeInput1 = "Input 1";
         public const string lbMergeInput2 = "Input 2";
@@ -769,6 +767,8 @@ public static class Language {
         public const string tabdownloadsFixes = "Fixes";
         public const string tabDownloadsConnection = "Connection";
         public const string tabDownloadsUpdating = "Updating";
+        public const string tabDownloadsBatch = "Batch";
+        public const string tabYtdlpExtendedOptions = "yt-dlp extended options";
 
         public const string chkSettingsDownloadsSaveFormatQuality = "Save quality, format, && args on download";
         public const string chkSettingsDownloadsDownloadSubtitles = "Download subtitles";
@@ -796,10 +796,11 @@ public static class Language {
         public const string llbSettingsDownloadsYtdlTypeViewRepo = "View source repo";
         public const string chkSettingsDownloadsSeparateBatchDownloads = "Separate Batch Downloads";
         public const string chkSettingsDownloadsAddDateToBatchDownloadFolders = "Include Date onto Download Folders";
+        public const string chkYtdlpPreferExtendedDialog = "Prefer extended downloader";
+        public const string chkYtdlpExtendedAutomaticallyDownloadThumbnail = "Automatically download thumbnails";
 
         public const string lbSettingsDownloadsDownloadPathHint = "The path of the folder where files will be downloaded to";
-        public const string lbSettingsDownloadsFileNameSchemaHint = "The file name schema\n\n" +
-                                                                              "This basically replaces sequences with video information for a custom file name.";
+        public const string lbSettingsDownloadsFileNameSchemaHint = "The file name schema\n\nThis basically replaces sequences with video information for a custom file name.";
         public const string llSettingsDownloadsSchemaHelpHint = "Click here to view supported arguments";
         public const string txtSettingsDownloadsFileNameSchemaHint = "The file name schema that will be used by youtube-dl";
 
@@ -835,7 +836,8 @@ public static class Language {
         public const string llbSettingsDownloadsYtdlTypeViewRepoHint = "Go to the repository page of the selected fork";
         public const string chkSettingsDownloadsSeparateBatchDownloadsHint = "Batch downloads are separated into a new folder in the designated download path";
         public const string chkSettingsDownloadsAddDateToBatchDownloadFoldersHint = "Batch downloads are further separated into a new folder that is the date and time the batch started";
-
+        public const string chkYtdlpPreferExtendedDialogHint = "Uses the extended downloader instead of the quick downloader when clicking \"Download\" on the main form.";
+        public const string chkYtdlpExtendedAutomaticallyDownloadThumbnailHint = "Automatically downloads the videos thumbnail to display in the form, when available.";
         #endregion
         #region tabConverter
         // frmSettings / tcMain / tabConverter
@@ -934,6 +936,7 @@ public static class Language {
     /// </summary>
     public static void LoadInternalEnglish() {
         LoadedFile = null;
+        UsingInternalEnglish = true;
 
         // Langauge identifier
         CurrentLanguageLong = InternalEnglish.CurrentLanguageLong;
@@ -1064,6 +1067,7 @@ public static class Language {
         lbExtendedDownloaderDownloadingThumbnailFailed = InternalEnglish.lbExtendedDownloaderDownloadingThumbnailFailed;
         btnExtendedDownloaderDownloadThumbnail = InternalEnglish.btnExtendedDownloaderDownloadThumbnail;
         tpExtendedDownloaderFormatOptions = InternalEnglish.tpExtendedDownloaderFormatOptions;
+        chkExtendedDownloaderVideoSeparateAudio = InternalEnglish.chkExtendedDownloaderVideoSeparateAudio;
 
         // frmLanguage
         frmLanguage = InternalEnglish.frmLanguage;
@@ -1092,7 +1096,6 @@ public static class Language {
         gbDownloadType = InternalEnglish.gbDownloadType;
         lbQuality = InternalEnglish.lbQuality;
         lbFormat = InternalEnglish.lbFormat;
-        chkDownloadSound = InternalEnglish.chkDownloadSound;
         chkUseSelection = InternalEnglish.chkUseSelection;
         rbVideoSelectionPlaylistIndex = InternalEnglish.rbVideoSelectionPlaylistIndex;
         rbVideoSelectionPlaylistItems = InternalEnglish.rbVideoSelectionPlaylistItems;
@@ -1104,22 +1107,20 @@ public static class Language {
         txtPlaylistItemsHint = InternalEnglish.txtPlaylistItemsHint;
         txtVideoDateHint = InternalEnglish.txtVideoDateHint;
         lbCustomArguments = InternalEnglish.lbCustomArguments;
-        txtArgsHint = InternalEnglish.txtArgsHint;
         sbDownload = InternalEnglish.sbDownload;
-        mDownloadWithAuthentication = InternalEnglish.mDownloadWithAuthentication;
-        msgBatchDownloadFromFile = InternalEnglish.msgBatchDownloadFromFile;
-        mBatchDownloadFromFile = InternalEnglish.mBatchDownloadFromFile;
         btnMainYtdlpExtended = InternalEnglish.btnMainYtdlpExtended;
-        lbDownloadStatusStarted = InternalEnglish.lbDownloadStatusStarted;
-        lbDownloadStatusError = InternalEnglish.lbDownloadStatusError;
+        mDownloadWithAuthentication = InternalEnglish.mDownloadWithAuthentication;
+        mBatchDownloadFromFile = InternalEnglish.mBatchDownloadFromFile;
+        msgBatchDownloadFromFile = InternalEnglish.msgBatchDownloadFromFile;
+        mQuickDownloadForm = InternalEnglish.mQuickDownloadForm;
+        mQuickDownloadFormAuthentication = InternalEnglish.mQuickDownloadFormAuthentication;
+        mExtendedDownloadForm = InternalEnglish.mExtendedDownloadForm;
 
         lbConvertInput = InternalEnglish.lbConvertInput;
         lbConvertOutput = InternalEnglish.lbConvertOutput;
         rbConvertAuto = InternalEnglish.rbConvertAuto;
         rbConvertAutoFFmpeg = InternalEnglish.rbConvertAutoFFmpeg;
         btnConvert = InternalEnglish.btnConvert;
-        lbConvertStarted = InternalEnglish.lbConvertStarted;
-        lbConvertFailed = InternalEnglish.lbConvertFailed;
 
         lbMergeInput1 = InternalEnglish.lbMergeInput1;
         lbMergeInput2 = InternalEnglish.lbMergeInput2;
@@ -1184,6 +1185,8 @@ public static class Language {
         tabDownloadsFixes = InternalEnglish.tabdownloadsFixes;
         tabDownloadsConnection = InternalEnglish.tabDownloadsConnection;
         tabDownloadsUpdating = InternalEnglish.tabDownloadsUpdating;
+        tabDownloadsBatch = InternalEnglish.tabDownloadsBatch;
+        tabYtdlpExtendedOptions = InternalEnglish.tabYtdlpExtendedOptions;
 
         chkSettingsDownloadsSaveFormatQuality = InternalEnglish.chkSettingsDownloadsSaveFormatQuality;
         chkSettingsDownloadsDownloadSubtitles = InternalEnglish.chkSettingsDownloadsDownloadSubtitles;
@@ -1211,6 +1214,8 @@ public static class Language {
         llbSettingsDownloadsYtdlTypeViewRepo = InternalEnglish.llbSettingsDownloadsYtdlTypeViewRepo;
         chkSettingsDownloadsSeparateBatchDownloads = InternalEnglish.chkSettingsDownloadsSeparateBatchDownloads;
         chkSettingsDownloadsAddDateToBatchDownloadFolders = InternalEnglish.chkSettingsDownloadsAddDateToBatchDownloadFolders;
+        chkYtdlpPreferExtendedDialog = InternalEnglish.chkYtdlpPreferExtendedDialog;
+        chkYtdlpExtendedAutomaticallyDownloadThumbnail = InternalEnglish.chkYtdlpExtendedAutomaticallyDownloadThumbnail;
 
         chkSettingsConverterClearOutputAfterConverting = InternalEnglish.chkSettingsConverterClearOutputAfterConverting;
         chkSettingsConverterDetectOutputFileType = InternalEnglish.chkSettingsConverterDetectOutputFileType;
@@ -1306,6 +1311,8 @@ public static class Language {
         llbSettingsDownloadsYtdlTypeViewRepoHint = InternalEnglish.llbSettingsDownloadsYtdlTypeViewRepoHint;
         chkSettingsDownloadsSeparateBatchDownloadsHint = InternalEnglish.chkSettingsDownloadsSeparateBatchDownloadsHint;
         chkSettingsDownloadsAddDateToBatchDownloadFoldersHint = InternalEnglish.chkSettingsDownloadsAddDateToBatchDownloadFoldersHint;
+        chkYtdlpPreferExtendedDialogHint = InternalEnglish.chkYtdlpPreferExtendedDialogHint;
+        chkYtdlpExtendedAutomaticallyDownloadThumbnailHint = InternalEnglish.chkYtdlpExtendedAutomaticallyDownloadThumbnailHint;
 
         chkSettingsConverterClearOutputAfterConvertingHint = InternalEnglish.chkSettingsConverterClearOutputAfterConvertingHint;
         chkSettingsConverterDetectOutputFileTypeHint = InternalEnglish.chkSettingsConverterDetectOutputFileTypeHint;
@@ -1488,6 +1495,7 @@ public static class Language {
         lbExtendedDownloaderDownloadingThumbnailFailed = nameof(lbExtendedDownloaderDownloadingThumbnailFailed);
         btnExtendedDownloaderDownloadThumbnail = nameof(btnExtendedDownloaderDownloadThumbnail);
         tpExtendedDownloaderFormatOptions = nameof(tpExtendedDownloaderFormatOptions);
+        chkExtendedDownloaderVideoSeparateAudio = nameof(chkExtendedDownloaderVideoSeparateAudio);
 
         // frmLanguage
         frmLanguage = nameof(frmLanguage);
@@ -1516,7 +1524,6 @@ public static class Language {
         gbDownloadType = nameof(gbDownloadType);
         lbQuality = nameof(lbQuality);
         lbFormat = nameof(lbFormat);
-        chkDownloadSound = nameof(chkDownloadSound);
         chkUseSelection = nameof(chkUseSelection);
         rbVideoSelectionPlaylistIndex = nameof(rbVideoSelectionPlaylistIndex);
         rbVideoSelectionPlaylistItems = nameof(rbVideoSelectionPlaylistItems);
@@ -1528,22 +1535,20 @@ public static class Language {
         txtPlaylistItemsHint = nameof(txtPlaylistItemsHint);
         txtVideoDateHint = nameof(txtVideoDateHint);
         lbCustomArguments = nameof(lbCustomArguments);
-        txtArgsHint = nameof(txtArgsHint);
         sbDownload = nameof(sbDownload);
-        mDownloadWithAuthentication = nameof(mDownloadWithAuthentication);
-        msgBatchDownloadFromFile = nameof(msgBatchDownloadFromFile);
-        mBatchDownloadFromFile = nameof(mBatchDownloadFromFile);
         btnMainYtdlpExtended = nameof(btnMainYtdlpExtended);
-        lbDownloadStatusStarted = nameof(lbDownloadStatusStarted);
-        lbDownloadStatusError = nameof(lbDownloadStatusError);
+        mDownloadWithAuthentication = nameof(mDownloadWithAuthentication);
+        mBatchDownloadFromFile = nameof(mBatchDownloadFromFile);
+        msgBatchDownloadFromFile = nameof(msgBatchDownloadFromFile);
+        mQuickDownloadForm = nameof(mQuickDownloadForm);
+        mQuickDownloadFormAuthentication = nameof(mQuickDownloadFormAuthentication);
+        mExtendedDownloadForm = nameof(mExtendedDownloadForm);
 
         lbConvertInput = nameof(lbConvertInput);
         lbConvertOutput = nameof(lbConvertOutput);
         rbConvertAuto = nameof(rbConvertAuto);
         rbConvertAutoFFmpeg = nameof(rbConvertAutoFFmpeg);
         btnConvert = nameof(btnConvert);
-        lbConvertStarted = nameof(lbConvertStarted);
-        lbConvertFailed = nameof(lbConvertFailed);
 
         lbMergeInput1 = nameof(lbMergeInput1);
         lbMergeInput2 = nameof(lbMergeInput2);
@@ -1608,6 +1613,8 @@ public static class Language {
         tabDownloadsFixes = nameof(tabDownloadsFixes);
         tabDownloadsConnection = nameof(tabDownloadsConnection);
         tabDownloadsUpdating = nameof(tabDownloadsUpdating);
+        tabDownloadsBatch = nameof(tabDownloadsBatch);
+        tabYtdlpExtendedOptions = nameof(tabYtdlpExtendedOptions);
 
         chkSettingsDownloadsSaveFormatQuality = nameof(chkSettingsDownloadsSaveFormatQuality);
         chkSettingsDownloadsDownloadSubtitles = nameof(chkSettingsDownloadsDownloadSubtitles);
@@ -1635,6 +1642,8 @@ public static class Language {
         llbSettingsDownloadsYtdlTypeViewRepo = nameof(llbSettingsDownloadsYtdlTypeViewRepo);
         chkSettingsDownloadsSeparateBatchDownloads = nameof(chkSettingsDownloadsSeparateBatchDownloads);
         chkSettingsDownloadsAddDateToBatchDownloadFolders = nameof(chkSettingsDownloadsAddDateToBatchDownloadFolders);
+        chkYtdlpPreferExtendedDialog = nameof(chkYtdlpPreferExtendedDialog);
+        chkYtdlpExtendedAutomaticallyDownloadThumbnail = nameof(chkYtdlpExtendedAutomaticallyDownloadThumbnail);
 
         chkSettingsConverterClearOutputAfterConverting = nameof(chkSettingsConverterClearOutputAfterConverting);
         chkSettingsConverterDetectOutputFileType = nameof(chkSettingsConverterDetectOutputFileType);
@@ -1730,6 +1739,8 @@ public static class Language {
         llbSettingsDownloadsYtdlTypeViewRepoHint = nameof(llbSettingsDownloadsYtdlTypeViewRepoHint);
         chkSettingsDownloadsSeparateBatchDownloadsHint = nameof(chkSettingsDownloadsSeparateBatchDownloadsHint);
         chkSettingsDownloadsAddDateToBatchDownloadFoldersHint = nameof(chkSettingsDownloadsAddDateToBatchDownloadFoldersHint);
+        chkYtdlpPreferExtendedDialogHint = nameof(chkYtdlpPreferExtendedDialogHint);
+        chkYtdlpExtendedAutomaticallyDownloadThumbnailHint = nameof(chkYtdlpExtendedAutomaticallyDownloadThumbnailHint);
 
         chkSettingsConverterClearOutputAfterConvertingHint = nameof(chkSettingsConverterClearOutputAfterConvertingHint);
         chkSettingsConverterDetectOutputFileTypeHint = nameof(chkSettingsConverterDetectOutputFileTypeHint);
@@ -1785,7 +1796,6 @@ public static class Language {
             ResetControlNames(); // Load the control IDs for any untranslated & undocumented strings
             if (string.IsNullOrWhiteSpace(LanguageFile)) {
                 LoadInternalEnglish();
-                UsingInternalEnglish = true;
                 return true;
             }
             else {
@@ -2152,6 +2162,9 @@ public static class Language {
                                 case "tpextendeddownloaderformatoptions":
                                     tpExtendedDownloaderFormatOptions = ReadValue;
                                     continue;
+                                case "chkextendeddownloadervideoseparateaudio":
+                                    chkExtendedDownloaderVideoSeparateAudio = ReadValue;
+                                    continue;
                                 #endregion
 
                                 #region frmLanguage
@@ -2229,9 +2242,6 @@ public static class Language {
                                 case "lbformat":
                                     lbFormat = ReadValue;
                                     continue;
-                                case "chkdownloadsound":
-                                    chkDownloadSound = ReadValue;
-                                    continue;
                                 case "chkuseselection":
                                     chkUseSelection = ReadValue;
                                     continue;
@@ -2257,7 +2267,7 @@ public static class Language {
                                     txtPlaylistEndHint = ReadValue;
                                     continue;
                                 case "txtplaylistitemshint":
-                                    lbDownloadStatusStarted = ReadValue;
+                                    txtPlaylistItemsHint = ReadValue;
                                     continue;
                                 case "txtvideodatehint":
                                     txtVideoDateHint = ReadValue;
@@ -2265,11 +2275,11 @@ public static class Language {
                                 case "lbcustomarguments":
                                     lbCustomArguments = ReadValue;
                                     continue;
-                                case "txtargshint":
-                                    txtArgsHint = ReadValue;
-                                    continue;
                                 case "sbdownload":
                                     sbDownload = ReadValue;
+                                    continue;
+                                case "btnmainytdlpextended":
+                                    btnMainYtdlpExtended = ReadValue;
                                     continue;
                                 case "mdownloadwithauthentication":
                                     mDownloadWithAuthentication = ReadValue;
@@ -2280,14 +2290,14 @@ public static class Language {
                                 case "msgbatchdownloadfromfile":
                                     msgBatchDownloadFromFile = ReadValue;
                                     continue;
-                                case "btnmainytdlpextended":
-                                    btnMainYtdlpExtended = ReadValue;
+                                case "mquickdownloadform":
+                                    mQuickDownloadForm = ReadValue;
                                     continue;
-                                case "lbdownloadstatusstarted":
-                                    lbDownloadStatusStarted = ReadValue;
+                                case "mquickdownloadformauthentication":
+                                    mQuickDownloadFormAuthentication = ReadValue;
                                     continue;
-                                case "lbdownloadstatuserror":
-                                    lbDownloadStatusError = ReadValue;
+                                case "mextendeddownloadform":
+                                    mExtendedDownloadForm = ReadValue;
                                     continue;
 
                                 // frmMain / tcMain / Convert
@@ -2305,12 +2315,6 @@ public static class Language {
                                     continue;
                                 case "btnconvert":
                                     btnConvert = ReadValue;
-                                    continue;
-                                case "lbconvertstarted":
-                                    lbConvertStarted = ReadValue;
-                                    continue;
-                                case "lbconvertfailed":
-                                    lbConvertFailed = ReadValue;
                                     continue;
 
                                 // frmMain / tcMain / Merge
@@ -2566,6 +2570,12 @@ public static class Language {
                                 case "tabdownloadsupdating":
                                     tabDownloadsUpdating = ReadValue;
                                     continue;
+                                case "tabdownloadsbatch":
+                                    tabDownloadsBatch = ReadValue;
+                                    continue;
+                                case "tabytdlpextendedoptions":
+                                    tabYtdlpExtendedOptions = ReadValue;
+                                    continue;
                                 case "chksettingsdownloadssaveformatquality":
                                     chkSettingsDownloadsSaveFormatQuality = ReadValue;
                                     continue;
@@ -2643,6 +2653,12 @@ public static class Language {
                                     continue;
                                 case "chksettingsdownloadsadddatetobatchdownloadfolders":
                                     chkSettingsDownloadsAddDateToBatchDownloadFolders = ReadValue;
+                                    continue;
+                                case "chkytdlppreferextendeddialog":
+                                    chkYtdlpPreferExtendedDialog = ReadValue;
+                                    continue;
+                                case "chkytdlpextendedautomaticallydownloadthumbnail":
+                                    chkYtdlpExtendedAutomaticallyDownloadThumbnail = ReadValue;
                                     continue;
                                 case "lbsettingsdownloadsdownloadpathhint":
                                     lbSettingsDownloadsDownloadPathHint = ReadValue;
@@ -2760,6 +2776,12 @@ public static class Language {
                                     continue;
                                 case "chksettingsdownloadsadddatetobatchdownloadfoldershint":
                                     chkSettingsDownloadsAddDateToBatchDownloadFoldersHint = ReadValue;
+                                    continue;
+                                case "chkytdlppreferextendeddialoghint":
+                                    chkYtdlpPreferExtendedDialogHint = ReadValue;
+                                    continue;
+                                case "chkytdlpextendedautomaticallydownloadthumbnailhint":
+                                    chkYtdlpExtendedAutomaticallyDownloadThumbnailHint = ReadValue;
                                     continue;
 
                                 // frmSettings / tcMain / tabConverter
@@ -2971,6 +2993,7 @@ public static class Language {
             if (error.ShowDialog() == System.Windows.Forms.DialogResult.Retry) {
                 return LoadLanguage(LanguageFile);
             }
+            LoadInternalEnglish();
             return false;
         }
     }

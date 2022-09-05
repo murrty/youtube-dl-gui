@@ -258,7 +258,7 @@ namespace youtube_dl_gui {
                         cbBatchFormat.Items.AddRange(Download.Formats.VideoFormatsNamesArray);
                         cbBatchQuality.SelectedIndex = Config.Settings.Batch.SelectedVideoQuality;
                         cbBatchFormat.SelectedIndex = Config.Settings.Batch.SelectedVideoFormat;
-                        chkBatchDownloaderSoundVBR.Text = Language.chkDownloadSound;
+                        chkBatchDownloaderSoundVBR.Text = Language.GenericSound;
                         chkBatchDownloaderSoundVBR.Checked = Config.Settings.Batch.DownloadVideoSound;
 
                         SetControls(false);
@@ -377,7 +377,13 @@ namespace youtube_dl_gui {
                     }
                     InProgress = false;
                     this.Invoke((Action)delegate {
-                        sbBatchDownloader.Text = Language.sbBatchDownloaderFinished;
+                        if (AbortDownload) {
+                            sbBatchDownloader.Text = Language.sbBatchDownloaderAborted;
+                            AbortDownload = false;
+                        }
+                        else {
+                            sbBatchDownloader.Text = Language.sbBatchDownloaderFinished;
+                        }
                         btnBatchDownloadStartStopExit.Text = Language.GenericStart;
                     });
                     System.Media.SystemSounds.Exclamation.Play();

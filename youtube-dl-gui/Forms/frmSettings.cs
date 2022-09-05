@@ -54,13 +54,6 @@ namespace youtube_dl_gui {
             btnSettingsSave.Text = Language.GenericSave;
             tipSettings.SetToolTip(btnSettingsSave, Language.btnSettingsSaveHint);
 
-            //if (File.Exists(Verification.YoutubeDlPath)) {
-            //    btnSettingsRedownloadYoutubeDl.Text = "Update youtube-dl";
-            //}
-            //else {
-            //    btnSettingsRedownloadYoutubeDl.Text = "Download youtube-dl";
-            //}
-
             tabSettingsGeneral.Text = Language.tabSettingsGeneral;
             tabSettingsDownloads.Text = Language.tabSettingsDownloads;
             tabSettingsConverter.Text = Language.tabSettingsConverter;
@@ -119,6 +112,8 @@ namespace youtube_dl_gui {
             tabDownloadsFixes.Text = Language.tabDownloadsFixes;
             tabDownloadsConnection.Text = Language.tabDownloadsConnection;
             tabDownloadsUpdating.Text = Language.tabDownloadsUpdating;
+            tabDownloadsBatch.Text = Language.tabDownloadsBatch;
+            tabYtdlpExtendedOptions.Text = Language.tabYtdlpExtendedOptions;
 
             chkSettingsDownloadsSaveFormatQuality.Text = Language.chkSettingsDownloadsSaveFormatQuality;
             tipSettings.SetToolTip(chkSettingsDownloadsSaveFormatQuality, Language.chkSettingsDownloadsSaveFormatQualityHint);
@@ -181,6 +176,11 @@ namespace youtube_dl_gui {
             tipSettings.SetToolTip(chkSettingsDownloadsSeparateBatchDownloads, Language.chkSettingsDownloadsSeparateBatchDownloadsHint);
             chkSettingsDownloadsAddDateToBatchDownloadFolders.Text = Language.chkSettingsDownloadsAddDateToBatchDownloadFolders;
             tipSettings.SetToolTip(chkSettingsDownloadsAddDateToBatchDownloadFolders, Language.chkSettingsDownloadsAddDateToBatchDownloadFoldersHint);
+
+            chkYtdlpPreferExtendedDialog.Text = Language.chkYtdlpPreferExtendedDialog;
+            tipSettings.SetToolTip(chkYtdlpPreferExtendedDialog, Language.chkYtdlpPreferExtendedDialogHint);
+            chkYtdlpExtendedAutomaticallyDownloadThumbnail.Text = Language.chkYtdlpExtendedAutomaticallyDownloadThumbnail;
+            tipSettings.SetToolTip(chkYtdlpExtendedAutomaticallyDownloadThumbnail, Language.chkYtdlpExtendedAutomaticallyDownloadThumbnailHint);
 
             chkSettingsConverterClearOutputAfterConverting.Text = Language.chkSettingsConverterClearOutputAfterConverting;
             tipSettings.SetToolTip(chkSettingsConverterClearOutputAfterConverting, Language.chkSettingsConverterClearOutputAfterConvertingHint);
@@ -403,10 +403,10 @@ namespace youtube_dl_gui {
             cbSettingsDownloadsProxyType.SelectedIndex = Config.Settings.Downloads.ProxyType;
             txtSettingsDownloadsProxyIp.Text = Config.Settings.Downloads.ProxyIP;
             txtSettingsDownloadsProxyPort.Text = Config.Settings.Downloads.ProxyPort;
-            chksettingsDownloadsUseYoutubeDlsUpdater.Checked = Config.Settings.Downloads.useYtdlUpdater;
-            cbSettingsDownloadsUpdatingYtdlType.SelectedIndex = Config.Settings.Downloads.YtdlType;
-            useYtdlUpdater_Last = Config.Settings.Downloads.useYtdlUpdater;
-            YtdlType_Last = Config.Settings.Downloads.YtdlType;
+            chksettingsDownloadsUseYoutubeDlsUpdater.Checked = useYtdlUpdater_Last = Config.Settings.Downloads.useYtdlUpdater;
+            cbSettingsDownloadsUpdatingYtdlType.SelectedIndex = YtdlType_Last = Config.Settings.Downloads.YtdlType;
+            chkYtdlpPreferExtendedDialog.Checked = Config.Settings.Downloads.YtdlpExtendedPreferExtendedForm;
+            chkYtdlpExtendedAutomaticallyDownloadThumbnail.Checked = Config.Settings.Downloads.YtdlpExtendedAutoDownloadThumbnail;
 
             chkSettingsConverterDetectOutputFileType.Checked = Config.Settings.Converts.detectFiletype;
             chkSettingsConverterClearOutputAfterConverting.Checked = Config.Settings.Converts.clearOutput;
@@ -525,6 +525,8 @@ namespace youtube_dl_gui {
                 RefreshYtdl = true;
             }
             Config.Settings.Downloads.YtdlType = cbSettingsDownloadsUpdatingYtdlType.SelectedIndex;
+            Config.Settings.Downloads.YtdlpExtendedPreferExtendedForm = chkYtdlpPreferExtendedDialog.Checked;
+            Config.Settings.Downloads.YtdlpExtendedAutoDownloadThumbnail = chkYtdlpExtendedAutomaticallyDownloadThumbnail.Checked;
 
             Config.Settings.Converts.detectFiletype = chkSettingsConverterDetectOutputFileType.Checked;
             Config.Settings.Converts.clearOutput = chkSettingsConverterClearOutputAfterConverting.Checked;

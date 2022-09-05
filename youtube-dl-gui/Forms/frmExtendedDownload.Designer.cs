@@ -42,7 +42,12 @@
             this.chAudioSampleRate = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chAudioCodec = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tpFormatOptions = new System.Windows.Forms.TabPage();
+            this.chkVideoSeparateAudio = new System.Windows.Forms.CheckBox();
+            this.cbVbrQualities = new System.Windows.Forms.ComboBox();
+            this.chkAudioVBR = new System.Windows.Forms.CheckBox();
             this.chkVideoDownloadAudio = new System.Windows.Forms.CheckBox();
+            this.lbSchema = new System.Windows.Forms.Label();
+            this.cbSchema = new System.Windows.Forms.ComboBox();
             this.lbAudioEncoder = new System.Windows.Forms.Label();
             this.lbVideoEncoder = new System.Windows.Forms.Label();
             this.cbAudioEncoders = new System.Windows.Forms.ComboBox();
@@ -63,13 +68,9 @@
             this.rbCustom = new System.Windows.Forms.RadioButton();
             this.btnDownloadAbortClose = new System.Windows.Forms.Button();
             this.btnDownloadWithAuthentication = new System.Windows.Forms.Button();
-            this.lbSchema = new System.Windows.Forms.Label();
-            this.cbSchema = new System.Windows.Forms.ComboBox();
             this.pbStatus = new murrty.controls.ExtendedProgressBar();
             this.rtbMediaDescription = new youtube_dl_gui.Controls.ExtendedRichTextBox();
             this.rtbVerbose = new youtube_dl_gui.Controls.ExtendedRichTextBox();
-            this.chkAudioVBR = new System.Windows.Forms.CheckBox();
-            this.cbVbrQualities = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.pbThumbnail)).BeginInit();
             this.tcVideoData.SuspendLayout();
             this.tpFormats.SuspendLayout();
@@ -358,6 +359,7 @@
             // 
             // tpFormatOptions
             // 
+            this.tpFormatOptions.Controls.Add(this.chkVideoSeparateAudio);
             this.tpFormatOptions.Controls.Add(this.cbVbrQualities);
             this.tpFormatOptions.Controls.Add(this.chkAudioVBR);
             this.tpFormatOptions.Controls.Add(this.chkVideoDownloadAudio);
@@ -375,13 +377,46 @@
             this.tpFormatOptions.Text = "tpFormatOptions";
             this.tpFormatOptions.UseVisualStyleBackColor = true;
             // 
+            // chkVideoSeparateAudio
+            // 
+            this.chkVideoSeparateAudio.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.chkVideoSeparateAudio.AutoSize = true;
+            this.chkVideoSeparateAudio.Location = new System.Drawing.Point(6, 114);
+            this.chkVideoSeparateAudio.Name = "chkVideoSeparateAudio";
+            this.chkVideoSeparateAudio.Size = new System.Drawing.Size(149, 17);
+            this.chkVideoSeparateAudio.TabIndex = 28;
+            this.chkVideoSeparateAudio.Text = "chkVideoSeparateAudio";
+            this.chkVideoSeparateAudio.UseVisualStyleBackColor = true;
+            // 
+            // cbVbrQualities
+            // 
+            this.cbVbrQualities.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.cbVbrQualities.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbVbrQualities.FormattingEnabled = true;
+            this.cbVbrQualities.Location = new System.Drawing.Point(342, 56);
+            this.cbVbrQualities.Name = "cbVbrQualities";
+            this.cbVbrQualities.Size = new System.Drawing.Size(74, 21);
+            this.cbVbrQualities.TabIndex = 27;
+            // 
+            // chkAudioVBR
+            // 
+            this.chkAudioVBR.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.chkAudioVBR.AutoSize = true;
+            this.chkAudioVBR.Location = new System.Drawing.Point(291, 58);
+            this.chkAudioVBR.Name = "chkAudioVBR";
+            this.chkAudioVBR.Size = new System.Drawing.Size(45, 17);
+            this.chkAudioVBR.TabIndex = 26;
+            this.chkAudioVBR.Text = "VBR";
+            this.chkAudioVBR.UseVisualStyleBackColor = true;
+            this.chkAudioVBR.CheckedChanged += new System.EventHandler(this.chkAudioVBR_CheckedChanged);
+            // 
             // chkVideoDownloadAudio
             // 
             this.chkVideoDownloadAudio.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.chkVideoDownloadAudio.AutoSize = true;
             this.chkVideoDownloadAudio.Checked = true;
             this.chkVideoDownloadAudio.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkVideoDownloadAudio.Location = new System.Drawing.Point(6, 114);
+            this.chkVideoDownloadAudio.Location = new System.Drawing.Point(6, 91);
             this.chkVideoDownloadAudio.Name = "chkVideoDownloadAudio";
             this.chkVideoDownloadAudio.Size = new System.Drawing.Size(158, 17);
             this.chkVideoDownloadAudio.TabIndex = 17;
@@ -389,10 +424,30 @@
             this.chkVideoDownloadAudio.UseVisualStyleBackColor = true;
             this.chkVideoDownloadAudio.CheckedChanged += new System.EventHandler(this.chkVideoDownloadAudio_CheckedChanged);
             // 
+            // lbSchema
+            // 
+            this.lbSchema.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbSchema.Location = new System.Drawing.Point(134, 8);
+            this.lbSchema.Name = "lbSchema";
+            this.lbSchema.Size = new System.Drawing.Size(113, 15);
+            this.lbSchema.TabIndex = 25;
+            this.lbSchema.Text = "lbSchema";
+            this.lbSchema.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // cbSchema
+            // 
+            this.cbSchema.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cbSchema.FormattingEnabled = true;
+            this.cbSchema.Location = new System.Drawing.Point(249, 6);
+            this.cbSchema.Name = "cbSchema";
+            this.cbSchema.Size = new System.Drawing.Size(167, 21);
+            this.cbSchema.TabIndex = 24;
+            this.cbSchema.Text = "%(title)s-%(id)s.%(ext)s";
+            // 
             // lbAudioEncoder
             // 
             this.lbAudioEncoder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.lbAudioEncoder.Location = new System.Drawing.Point(230, 83);
+            this.lbAudioEncoder.Location = new System.Drawing.Point(230, 110);
             this.lbAudioEncoder.Name = "lbAudioEncoder";
             this.lbAudioEncoder.Size = new System.Drawing.Size(61, 21);
             this.lbAudioEncoder.TabIndex = 20;
@@ -402,7 +457,7 @@
             // lbVideoEncoder
             // 
             this.lbVideoEncoder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.lbVideoEncoder.Location = new System.Drawing.Point(230, 56);
+            this.lbVideoEncoder.Location = new System.Drawing.Point(230, 83);
             this.lbVideoEncoder.Name = "lbVideoEncoder";
             this.lbVideoEncoder.Size = new System.Drawing.Size(61, 21);
             this.lbVideoEncoder.TabIndex = 19;
@@ -416,7 +471,7 @@
             this.cbAudioEncoders.FormattingEnabled = true;
             this.cbAudioEncoders.Items.AddRange(new object[] {
             "(do not re-encode)"});
-            this.cbAudioEncoders.Location = new System.Drawing.Point(297, 83);
+            this.cbAudioEncoders.Location = new System.Drawing.Point(297, 110);
             this.cbAudioEncoders.Name = "cbAudioEncoders";
             this.cbAudioEncoders.Size = new System.Drawing.Size(119, 21);
             this.cbAudioEncoders.TabIndex = 18;
@@ -428,7 +483,7 @@
             this.cbVideoEncoders.FormattingEnabled = true;
             this.cbVideoEncoders.Items.AddRange(new object[] {
             "(do not re-encode)"});
-            this.cbVideoEncoders.Location = new System.Drawing.Point(297, 56);
+            this.cbVideoEncoders.Location = new System.Drawing.Point(297, 83);
             this.cbVideoEncoders.Name = "cbVideoEncoders";
             this.cbVideoEncoders.Size = new System.Drawing.Size(119, 21);
             this.cbVideoEncoders.TabIndex = 16;
@@ -622,26 +677,6 @@
             this.btnDownloadWithAuthentication.UseVisualStyleBackColor = true;
             this.btnDownloadWithAuthentication.Click += new System.EventHandler(this.btnDownloadWithAuthentication_Click);
             // 
-            // lbSchema
-            // 
-            this.lbSchema.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.lbSchema.Location = new System.Drawing.Point(134, 112);
-            this.lbSchema.Name = "lbSchema";
-            this.lbSchema.Size = new System.Drawing.Size(113, 15);
-            this.lbSchema.TabIndex = 25;
-            this.lbSchema.Text = "lbSchema";
-            this.lbSchema.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // cbSchema
-            // 
-            this.cbSchema.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.cbSchema.FormattingEnabled = true;
-            this.cbSchema.Location = new System.Drawing.Point(249, 110);
-            this.cbSchema.Name = "cbSchema";
-            this.cbSchema.Size = new System.Drawing.Size(167, 21);
-            this.cbSchema.TabIndex = 24;
-            this.cbSchema.Text = "%(title)s-%(id)s.%(ext)s";
-            // 
             // pbStatus
             // 
             this.pbStatus.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
@@ -678,28 +713,6 @@
             this.rtbVerbose.Size = new System.Drawing.Size(436, 140);
             this.rtbVerbose.TabIndex = 0;
             this.rtbVerbose.Text = "";
-            // 
-            // chkAudioVBR
-            // 
-            this.chkAudioVBR.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.chkAudioVBR.AutoSize = true;
-            this.chkAudioVBR.Location = new System.Drawing.Point(86, 86);
-            this.chkAudioVBR.Name = "chkAudioVBR";
-            this.chkAudioVBR.Size = new System.Drawing.Size(45, 17);
-            this.chkAudioVBR.TabIndex = 26;
-            this.chkAudioVBR.Text = "VBR";
-            this.chkAudioVBR.UseVisualStyleBackColor = true;
-            this.chkAudioVBR.CheckedChanged += new System.EventHandler(this.chkAudioVBR_CheckedChanged);
-            // 
-            // cbVbrQualities
-            // 
-            this.cbVbrQualities.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.cbVbrQualities.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbVbrQualities.FormattingEnabled = true;
-            this.cbVbrQualities.Location = new System.Drawing.Point(6, 84);
-            this.cbVbrQualities.Name = "cbVbrQualities";
-            this.cbVbrQualities.Size = new System.Drawing.Size(74, 21);
-            this.cbVbrQualities.TabIndex = 27;
             // 
             // frmExtendedDownload
             // 
@@ -809,5 +822,6 @@
         private System.Windows.Forms.ComboBox cbSchema;
         private System.Windows.Forms.CheckBox chkAudioVBR;
         private System.Windows.Forms.ComboBox cbVbrQualities;
+        private System.Windows.Forms.CheckBox chkVideoSeparateAudio;
     }
 }

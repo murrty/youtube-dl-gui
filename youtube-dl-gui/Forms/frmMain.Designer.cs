@@ -134,6 +134,10 @@
             this.cmTraySep = new System.Windows.Forms.MenuItem();
             this.cmTrayExit = new System.Windows.Forms.MenuItem();
             this.trayIcon = new System.Windows.Forms.NotifyIcon(this.components);
+            this.mDownloadSeparator = new System.Windows.Forms.MenuItem();
+            this.mQuickDownloadForm = new System.Windows.Forms.MenuItem();
+            this.mExtendedDownloadForm = new System.Windows.Forms.MenuItem();
+            this.mQuickDownloadFormAuthentication = new System.Windows.Forms.MenuItem();
             this.tcMain.SuspendLayout();
             this.tabDownload.SuspendLayout();
             this.gbSelection.SuspendLayout();
@@ -477,7 +481,11 @@
             // 
             this.cmDownload.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.mDownloadWithAuthentication,
-            this.mBatchDownloadFromFile});
+            this.mBatchDownloadFromFile,
+            this.mDownloadSeparator,
+            this.mQuickDownloadForm,
+            this.mQuickDownloadFormAuthentication,
+            this.mExtendedDownloadForm});
             // 
             // mDownloadWithAuthentication
             // 
@@ -1269,6 +1277,36 @@
             this.trayIcon.BalloonTipTitle = "Unseen easter egg";
             this.trayIcon.Text = "youtube-dl-gui";
             // 
+            // mDownloadSeparator
+            // 
+            this.mDownloadSeparator.Index = 2;
+            this.mDownloadSeparator.Text = "-";
+            this.mDownloadSeparator.Visible = false;
+            // 
+            // mQuickDownloadForm
+            // 
+            this.mQuickDownloadForm.Enabled = false;
+            this.mQuickDownloadForm.Index = 3;
+            this.mQuickDownloadForm.Text = "mQuickDownloadForm";
+            this.mQuickDownloadForm.Visible = false;
+            this.mQuickDownloadForm.Click += new System.EventHandler(this.mQuickDownloadForm_Click);
+            // 
+            // mExtendedDownloadForm
+            // 
+            this.mExtendedDownloadForm.Enabled = false;
+            this.mExtendedDownloadForm.Index = 5;
+            this.mExtendedDownloadForm.Text = "mExtendedDownloadForm";
+            this.mExtendedDownloadForm.Visible = false;
+            this.mExtendedDownloadForm.Click += new System.EventHandler(this.mExtendedDownloadForm_Click);
+            // 
+            // mQuickDownloadFormAuthentication
+            // 
+            this.mQuickDownloadFormAuthentication.Enabled = false;
+            this.mQuickDownloadFormAuthentication.Index = 4;
+            this.mQuickDownloadFormAuthentication.Text = "mQuickDownloadFormAuthentication";
+            this.mQuickDownloadFormAuthentication.Visible = false;
+            this.mQuickDownloadFormAuthentication.Click += new System.EventHandler(this.mQuickDownloadFormAuthentication_Click);
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1419,6 +1457,10 @@
         private System.Windows.Forms.MenuItem cmTrayClipboardAutoDownloadVerifyLinks;
         private System.Windows.Forms.MenuItem cmDownloadSeparator;
         private System.Windows.Forms.Button btnMainYtdlpExtended;
+        private System.Windows.Forms.MenuItem mDownloadSeparator;
+        private System.Windows.Forms.MenuItem mQuickDownloadForm;
+        private System.Windows.Forms.MenuItem mExtendedDownloadForm;
+        private System.Windows.Forms.MenuItem mQuickDownloadFormAuthentication;
     }
 }
 

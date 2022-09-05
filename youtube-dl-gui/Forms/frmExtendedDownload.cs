@@ -113,8 +113,15 @@ namespace youtube_dl_gui {
                         txtUploader.Text = Information.Uploader;
                         txtViews.Text = $"{(Information.Views is not null ? ((long)Information.Views).ToString("#,000") : "Unknown")}";
                         lbTimestamp.Text = Information.Duration;
-                        btnExtendedDownloaderDownloadThumbnail.Enabled =
-                            tcVideoData.Enabled = btnExtendedDownloaderDownloadThumbnail.Visible = true;
+                        tcVideoData.Enabled = true;
+
+                        if (Config.Settings.Downloads.YtdlpExtendedAutoDownloadThumbnail) {
+                            ThumbnailThread.Start();
+                            btnExtendedDownloaderDownloadThumbnail.Enabled = btnExtendedDownloaderDownloadThumbnail.Visible = false;
+                        }
+                        else {
+                            btnExtendedDownloaderDownloadThumbnail.Enabled = btnExtendedDownloaderDownloadThumbnail.Visible = true;
+                        }
 
                         lbTimestamp.Location = new(
                             (pbThumbnail.Location.X + pbThumbnail.Size.Width) - lbTimestamp.Size.Width - 8,
@@ -207,7 +214,7 @@ namespace youtube_dl_gui {
             rbVideo.Text = Language.GenericVideo;
             rbAudio.Text = Language.GenericAudio;
             rbCustom.Text = Language.GenericCustom;
-            chkVideoDownloadAudio.Text = Language.chkDownloadSound;
+            chkVideoDownloadAudio.Text = Language.GenericSound;
             tpVideoFormats.Text = Language.GenericVideo;
             tpAudioFormats.Text = Language.GenericAudio;
             tpFormats.Text = Language.lbFormat;
@@ -217,6 +224,7 @@ namespace youtube_dl_gui {
             btnDownloadWithAuthentication.Text = Language.mDownloadWithAuthentication;
             tpFormatOptions.Text = Language.tpExtendedDownloaderFormatOptions;
             lbSchema.Text = Language.lbSettingsDownloadsFileNameSchema;
+            chkVideoSeparateAudio.Text = Language.chkExtendedDownloaderVideoSeparateAudio;
         }
 
         public string GenerateArguments(bool Authentication = false) {
@@ -248,9 +256,16 @@ namespace youtube_dl_gui {
                     Format = VideoFormat;
                     ArgumentBuffer.Append($" -f {VideoFormat.Identifier}");
                     if (chkVideoDownloadAudio.Checked && AudioFormat is not null) {
-                        ArgumentBuffer.Append($"+{AudioFormat.Identifier}");
+                        if (chkVideoSeparateAudio.Checked) {
+                            ArgumentBuffer.Append($"/best,{AudioFormat.Identifier}/best");
+                        }
+                        else {
+                            ArgumentBuffer.Append($"+{AudioFormat.Identifier}/best");
+                        }
                     }
-                    ArgumentBuffer.Append("/best");
+                    else {
+                        ArgumentBuffer.Append("/best");
+                    }
 
                     if (cbVideoEncoders.SelectedIndex > 0) {
                         ArgumentBuffer.Append($" --recode-video {cbVideoEncoders.GetItemText(cbVideoEncoders.SelectedItem)}");
@@ -339,30 +354,30 @@ namespace youtube_dl_gui {
             if (Authentication) {
                 frmAuthentication auth = new();
                 if (auth.ShowDialog() == DialogResult.OK) {
-                    txtCustomArguments.Text = ArgumentBuffer.ToString();
+                    txtGeneratedArguments.Text = ArgumentBuffer.ToString();
                     if (auth.Username != null) {
                         ArgumentBuffer.Append($" --username {auth.Username}");
-                        txtCustomArguments.AppendText(" --username ***");
+                        txtGeneratedArguments.AppendText(" --username ***");
                         auth.Username = null;
                     }
                     if (auth.Password != null) {
                         ArgumentBuffer.Append($" --password {auth.Password}");
-                        txtCustomArguments.AppendText(" --password ***");
+                        txtGeneratedArguments.AppendText(" --password ***");
                         auth.Password = null;
                     }
                     if (auth.TwoFactor != null) {
                         ArgumentBuffer.Append($" --twofactor {auth.TwoFactor}");
-                        txtCustomArguments.AppendText(" --twofactor ***");
+                        txtGeneratedArguments.AppendText(" --twofactor ***");
                         auth.TwoFactor = null;
                     }
                     if (auth.VideoPassword != null) {
                         ArgumentBuffer.Append($" --video-password {auth.VideoPassword}");
-                        txtCustomArguments.AppendText(" --video-password ***");
+                        txtGeneratedArguments.AppendText(" --video-password ***");
                         auth.VideoPassword = null;
                     }
                     if (auth.Netrc) {
                         ArgumentBuffer.Append(" --netrc");
-                        txtCustomArguments.AppendText(" --netrc");
+                        txtGeneratedArguments.AppendText(" --netrc");
                     }
                     auth.Dispose();
                 }
@@ -371,7 +386,7 @@ namespace youtube_dl_gui {
                     return null;
                 }
             }
-            else txtCustomArguments.Text = ArgumentBuffer.ToString();
+            else txtGeneratedArguments.Text = ArgumentBuffer.ToString();
 
             string Data = ArgumentBuffer.ToString();
             ArgumentBuffer.Clear();
@@ -520,7 +535,7 @@ namespace youtube_dl_gui {
                 cbVideoEncoders.Enabled = true;
                 chkVideoDownloadAudio.Enabled = true;
 
-                lvAudioFormats.Enabled = cbAudioEncoders.Enabled = chkAudioVBR.Enabled =
+                lvAudioFormats.Enabled = cbAudioEncoders.Enabled = chkAudioVBR.Enabled = chkVideoSeparateAudio.Enabled =
                     chkVideoDownloadAudio.Checked;
 
                 cbVbrQualities.Enabled =
@@ -537,6 +552,7 @@ namespace youtube_dl_gui {
                 lvVideoFormats.Enabled = false;
                 chkVideoDownloadAudio.Enabled = false;
                 cbVideoEncoders.Enabled = false;
+                chkVideoSeparateAudio.Enabled = false;
 
                 lvAudioFormats.Enabled = true;
                 chkAudioVBR.Enabled = true;
@@ -555,6 +571,7 @@ namespace youtube_dl_gui {
                 chkAudioVBR.Enabled = false;
                 cbVbrQualities.Enabled = false;
                 chkVideoDownloadAudio.Enabled = false;
+                chkVideoSeparateAudio.Enabled = false;
                 cbVideoEncoders.Enabled = false;
                 cbAudioEncoders.Enabled = false;
                 cbSchema.Enabled = false;
@@ -614,7 +631,7 @@ namespace youtube_dl_gui {
         }
 
         private void chkVideoDownloadAudio_CheckedChanged(object sender, EventArgs e) {
-            chkAudioVBR.Enabled = cbAudioEncoders.Enabled = lvAudioFormats.Enabled =
+            chkAudioVBR.Enabled = cbAudioEncoders.Enabled = lvAudioFormats.Enabled = chkVideoSeparateAudio.Enabled =
                 chkVideoDownloadAudio.Checked;
 
             cbVbrQualities.Enabled = chkVideoDownloadAudio.Checked && chkAudioVBR.Checked;

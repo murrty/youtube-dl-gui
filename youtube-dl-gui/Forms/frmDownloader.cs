@@ -525,7 +525,7 @@ namespace youtube_dl_gui {
                                 if (Msg.Length > 0) {
                                     rtbConsoleOutput.BeginInvoke(() => rtbConsoleOutput?.AppendText($"{Msg}\n"));
                                 }
-                                Thread.Sleep(250);
+                                Thread.Sleep(1000);
                             }
                         }
                         else {
