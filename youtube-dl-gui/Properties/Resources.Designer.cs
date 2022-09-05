@@ -61,6 +61,16 @@ namespace youtube_dl_gui.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap AboutImage {
+            get {
+                object obj = ResourceManager.GetObject("AboutImage", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 2022-09-01.
         /// </summary>
         public static string BuildDate {
@@ -119,22 +129,22 @@ namespace youtube_dl_gui.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        public static System.Drawing.Icon ProgramIcon {
+            get {
+                object obj = ResourceManager.GetObject("ProgramIcon", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         public static System.Drawing.Bitmap waiting {
             get {
                 object obj = ResourceManager.GetObject("waiting", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
-        /// </summary>
-        public static System.Drawing.Icon youtube_dl_gui {
-            get {
-                object obj = ResourceManager.GetObject("youtube_dl_gui", resourceCulture);
-                return ((System.Drawing.Icon)(obj));
             }
         }
         
@@ -149,12 +159,11 @@ namespace youtube_dl_gui.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        ///   Looks up a localized string similar to {&quot;id&quot;: &quot;OX79nEdyzrc&quot;, &quot;title&quot;: &quot;Round 3: \&quot;Is Intel Actually Screwed?\&quot; Ft. Gordon of PC World&quot;, &quot;formats&quot;: [{&quot;format_id&quot;: &quot;sb2&quot;, &quot;format_note&quot;: &quot;storyboard&quot;, &quot;ext&quot;: &quot;mhtml&quot;, &quot;protocol&quot;: &quot;mhtml&quot;, &quot;acodec&quot;: &quot;none&quot;, &quot;vcodec&quot;: &quot;none&quot;, &quot;url&quot;: &quot;https://i.ytimg.com/sb/OX79nEdyzrc/storyboard3_L0/default.jpg?sqp=-oaymwENSDfyq4qpAwVwAcABBqLzl_8DBgj31c-YBg==&amp;sigh=rs$AOn4CLCaubvAiQtEVyPrBGb64LM02A_t-Q&quot;, &quot;width&quot;: 48, &quot;height&quot;: 27, &quot;fps&quot;: 0.07423904974016332, &quot;rows&quot;: 10, &quot;columns&quot;: 10, &quot;fragments&quot;: [{&quot;url&quot;: &quot;https://i.y [rest of string was truncated]&quot;;.
         /// </summary>
-        public static System.Drawing.Bitmap youtube_dl_gui32 {
+        public static string YtdlpTest {
             get {
-                object obj = ResourceManager.GetObject("youtube_dl_gui32", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
+                return ResourceManager.GetString("YtdlpTest", resourceCulture);
             }
         }
     }

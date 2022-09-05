@@ -11,7 +11,6 @@ namespace youtube_dl_gui {
         private VideoInformation.Format VideoFormat;
         private VideoInformation.Format AudioFormat;
         private Process DownloadProcess;
-        private readonly List<string> OutputMsg = new(128);
         private string Msg;
         private DownloadStatus Status = DownloadStatus.None;
 
@@ -19,7 +18,6 @@ namespace youtube_dl_gui {
 
         private readonly Thread InformationThread;
         private readonly Thread ThumbnailThread;
-        private Thread Output;
         private Thread DownloadThread;
 
         public frmExtendedDownload(string URL) {
@@ -86,7 +84,7 @@ namespace youtube_dl_gui {
                             string Container = Format.Extension ?? "Unknown";
                             string Frames = Format.VideoFps is not null && Format.VideoFps > 0 ? $"{Format.VideoFps}" : "?";
                             string Codec = Format.VideoCodec.IsNotNullEmptyWhitespace() && Format.VideoCodec != "none" ? Format.VideoCodec : "Unknown";
-                            string FileSize = Format.FileSize is not null ? 
+                            string FileSize = Format.FileSize is not null ?
                                 ((long)Format.FileSize).SizeToString() : Format.ApproximateFileSize is not null ?
                                 ((long)Format.ApproximateFileSize).SizeToString() : "?B";
 
@@ -147,6 +145,7 @@ namespace youtube_dl_gui {
                             lvAudioFormats.Items[0].Selected = true;
                     });
                 }
+                catch (ThreadAbortException) { }
                 catch (Exception ex) {
                     this.Invoke(() => Log.ReportException(ex, Retrieved));
                 }
@@ -178,6 +177,7 @@ namespace youtube_dl_gui {
                         });
                     }
                 }
+                catch (ThreadAbortException) { }
                 catch (Exception ex) {
                     Log.ReportException(ex);
                 }
@@ -193,11 +193,22 @@ namespace youtube_dl_gui {
             };
 
             this.FormClosing += (s, e) => {
-                if (InformationThread is not null && InformationThread.IsAlive) {
-                    InformationThread.Abort();
-                }
-                if (ThumbnailThread is not null && ThumbnailThread.IsAlive) {
-                    ThumbnailThread.Abort();
+                switch (Status) {
+                    case DownloadStatus.Downloading: {
+                        Status = DownloadStatus.Aborted;
+                        e.Cancel = true;
+                    } break;
+
+                    default: {
+                        if (InformationThread is not null && InformationThread.IsAlive) {
+                            InformationThread.Abort();
+                        }
+                        if (ThumbnailThread is not null && ThumbnailThread.IsAlive) {
+                            ThumbnailThread.Abort();
+                        }
+
+                        this.Dispose();
+                    } break;
                 }
             };
         }
@@ -384,74 +395,6 @@ namespace youtube_dl_gui {
                 btnDownloadAbortClose.Text = Program.lang.GenericCancel;
                 pbStatus.ShowInTaskbar = true;
                 pbStatus.Text = "Retrieving metadata";
-                // Download
-                Output = new(() => {
-                    try {
-                        while (Status == DownloadStatus.Downloading) {
-                            // Parse the output
-                            // We want to invoke without waiting for the thread to finish.
-                            if (DownloadProcess is not null) {
-                                if (!DownloadProcess.HasExited) {
-                                    if (OutputMsg.Count > 0) {
-                                        string Line = Regex.Replace(OutputMsg[^1], "\\s+", " ");
-                                        rtbVerbose.AppendText(Line);
-                                        string[] LineParts = Line.Split(' ');
-
-                                        if (Line.IndexOf("[download]") > -1) {
-                                            switch (Line[12]) {
-                                                case '0':
-                                                case '1': case '2': case '3':
-                                                case '4': case '5': case '6':
-                                                case '7': case '8': case '9': {
-                                                    pbStatus.Invoke(() => {
-                                                        float Percentage = float.Parse(LineParts[1][..LineParts[1].IndexOf('%')]);
-                                                        pbStatus.Text = $"{LineParts[5]} @ {Percentage}%";
-                                                        pbStatus.Value = (int)Math.Round(Percentage, MidpointRounding.ToEven);
-                                                    });
-                                                    OutputMsg.Clear();
-                                                } break;
-                                            }
-                                        }
-                                        else if (Line.IndexOf("[ffmpeg]") > -1) {
-                                            pbStatus.Invoke(() => {
-                                                pbStatus.Style = ProgressBarStyle.Marquee;
-                                                pbStatus.Text = "Transcoding...";
-                                                pbStatus.Value = 100;
-                                            });
-                                        }
-                                    }
-                                }
-                            }
-                            Thread.Sleep(500);
-                        }
-
-                        pbStatus.Invoke(() => {
-                            pbStatus.ShowInTaskbar = false;
-                            if (Status == DownloadStatus.Aborted) {
-                                pbStatus.Text = "Aborted";
-                                pbStatus.Value = pbStatus.Minimum;
-                            }
-                            else {
-                                if (Status == DownloadStatus.Finished) {
-                                    pbStatus.Text = "Completed";
-                                    pbStatus.Value = pbStatus.Maximum;
-                                }
-                                else {
-                                    pbStatus.Text = "Downlod process error";
-                                    pbStatus.Value = pbStatus.Minimum;
-                                }
-                            }
-                        });
-                    }
-                    catch (ThreadAbortException) { }
-                    catch (Exception ex) {
-                        Log.Write(ex.ToString());
-                    }
-                }) {
-                    Name = $"Output {URL}",
-                    IsBackground = true,
-                    Priority = ThreadPriority.Normal
-                };
                 DownloadThread = new(() => {
                     DownloadProcess = new() {
                         StartInfo = new() {
@@ -467,44 +410,42 @@ namespace youtube_dl_gui {
                     args = null;
                     Status = DownloadStatus.Downloading;
                     DownloadProcess.OutputDataReceived += (s, e) => {
-                        if (e.Data is not null && (e.Data.IndexOf("[download]") > -1 || e.Data.IndexOf("[ffmpeg]") > -1)) {
-                            Msg = e.Data;
-                            OutputMsg.Add(e.Data);
-                        }
-                        else {
-                            rtbVerbose.AppendText(e.Data + "\n");
+                        if (e.Data is not null) {
+                            if ((e.Data.IndexOf("[download]") > -1 || e.Data.IndexOf("[ffmpeg]") > -1)) {
+                                Msg = e.Data;
+                            }
+                            else {
+                                rtbVerbose.Invoke(() => rtbVerbose.AppendText(e.Data + "\n"));
+                            }
                         }
                     };
                     DownloadProcess.ErrorDataReceived += (s, e) => {
-                        if (e.Data is not null) {
-                            rtbVerbose.AppendText(e.Data + "\n");
-                        }
+                        if (e.Data is not null)
+                            rtbVerbose.Invoke(() => rtbVerbose.AppendText(e.Data + "\n"));
                     };
                     DownloadProcess.Start();
                     DownloadProcess.BeginOutputReadLine();
                     DownloadProcess.BeginErrorReadLine();
-                    //Output.Start();
 
                     while (!DownloadProcess.HasExited) {
                         if (Msg is not null) {
                             string Line = Regex.Replace(Msg, "\\s+", " ");
-                            rtbVerbose.AppendText(Line + "\n");
                             string[] LineParts = Line.Split(' ');
+                            rtbVerbose.Invoke(() => rtbVerbose.AppendText(Line + "\n"));
 
                             if (Line.IndexOf("[download]") > -1) {
-                                switch (Line[12]) {
+                                switch (LineParts[1][0]) {
                                     case '0':
                                     case '1': case '2': case '3':
                                     case '4': case '5': case '6':
                                     case '7': case '8': case '9': {
                                         if (LineParts[1].Contains('%')) {
+                                            float Percentage = float.Parse(LineParts[1][..LineParts[1].IndexOf('%')]);
                                             pbStatus.Invoke(() => {
-                                                float Percentage = float.Parse(LineParts[1][..LineParts[1].IndexOf('%')]);
-                                                pbStatus.Text = $"{LineParts[5]} @ {Percentage}%";
+                                                pbStatus.Text = $"{Percentage}% @ {LineParts[5]}";
                                                 pbStatus.Value = (int)Math.Round(Percentage, MidpointRounding.ToEven);
                                             });
                                         }
-                                        //OutputMsg.Clear();
                                     } break;
                                 }
                             }
@@ -517,7 +458,7 @@ namespace youtube_dl_gui {
                             }
                         }
 
-                        if (Status == DownloadStatus.Aborted && !DownloadProcess.HasExited) {
+                        if ((Status == DownloadStatus.Aborted || Status == DownloadStatus.AbortForClose) && !DownloadProcess.HasExited) {
                             Program.KillProcessTree((uint)DownloadProcess.Id);
                             break;
                         }
@@ -525,13 +466,14 @@ namespace youtube_dl_gui {
                         Thread.Sleep(500);
                     }
 
-                    if (Status != DownloadStatus.Aborted)
+                    if (Status != DownloadStatus.Aborted && Status != DownloadStatus.AbortForClose)
                         Status = DownloadProcess.ExitCode == 0 ? DownloadStatus.Finished : DownloadStatus.YtdlError;
 
                     this.Invoke(() => {
                         pbStatus.ShowInTaskbar = false;
                         btnDownloadAbortClose.Enabled = true;
                         switch (Status) {
+
                             case DownloadStatus.Aborted: {
                                 pbStatus.Text = "Aborted";
                                 pbStatus.Value = pbStatus.Minimum;
@@ -544,6 +486,8 @@ namespace youtube_dl_gui {
                                 pbStatus.Value = pbStatus.Maximum;
                                 btnDownloadAbortClose.Text = Program.lang.GenericExit;
                             } break;
+
+                            case DownloadStatus.AbortForClose: { } break;
 
                             default: {
                                 pbStatus.Text = "Downlod error";
