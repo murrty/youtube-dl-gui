@@ -113,7 +113,7 @@ namespace youtube_dl_gui {
             tabDownloadsConnection.Text = Language.tabDownloadsConnection;
             tabDownloadsUpdating.Text = Language.tabDownloadsUpdating;
             tabDownloadsBatch.Text = Language.tabDownloadsBatch;
-            tabYtdlpExtendedOptions.Text = Language.tabYtdlpExtendedOptions;
+            tabYtdlpExtendedOptions.Text = Language.tabExtendedOptions;
 
             chkSettingsDownloadsSaveFormatQuality.Text = Language.chkSettingsDownloadsSaveFormatQuality;
             tipSettings.SetToolTip(chkSettingsDownloadsSaveFormatQuality, Language.chkSettingsDownloadsSaveFormatQualityHint);
@@ -177,10 +177,10 @@ namespace youtube_dl_gui {
             chkSettingsDownloadsAddDateToBatchDownloadFolders.Text = Language.chkSettingsDownloadsAddDateToBatchDownloadFolders;
             tipSettings.SetToolTip(chkSettingsDownloadsAddDateToBatchDownloadFolders, Language.chkSettingsDownloadsAddDateToBatchDownloadFoldersHint);
 
-            chkYtdlpPreferExtendedDialog.Text = Language.chkYtdlpPreferExtendedDialog;
-            tipSettings.SetToolTip(chkYtdlpPreferExtendedDialog, Language.chkYtdlpPreferExtendedDialogHint);
-            chkYtdlpExtendedAutomaticallyDownloadThumbnail.Text = Language.chkYtdlpExtendedAutomaticallyDownloadThumbnail;
-            tipSettings.SetToolTip(chkYtdlpExtendedAutomaticallyDownloadThumbnail, Language.chkYtdlpExtendedAutomaticallyDownloadThumbnailHint);
+            chkYtdlpPreferExtendedDialog.Text = Language.chkExtendedPreferExtendedDialog;
+            tipSettings.SetToolTip(chkYtdlpPreferExtendedDialog, Language.chkExtendedPreferExtendedDialogHint);
+            chkYtdlpExtendedAutomaticallyDownloadThumbnail.Text = Language.chkExtendedAutomaticallyDownloadThumbnail;
+            tipSettings.SetToolTip(chkYtdlpExtendedAutomaticallyDownloadThumbnail, Language.chkExtendedAutomaticallyDownloadThumbnailHint);
 
             chkSettingsConverterClearOutputAfterConverting.Text = Language.chkSettingsConverterClearOutputAfterConverting;
             tipSettings.SetToolTip(chkSettingsConverterClearOutputAfterConverting, Language.chkSettingsConverterClearOutputAfterConvertingHint);

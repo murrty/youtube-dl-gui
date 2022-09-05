@@ -89,8 +89,10 @@ namespace youtube_dl_gui {
                 mDownloadSeparator.Enabled = mDownloadSeparator.Visible =
                 mQuickDownloadForm.Enabled = mQuickDownloadForm.Visible =
                 mQuickDownloadFormAuthentication.Enabled = mQuickDownloadFormAuthentication.Visible =
-                mExtendedDownloadForm.Enabled = mExtendedDownloadForm.Visible =
-                    Config.Settings.Downloads.YtdlType == 2;
+                mExtendedDownloadForm.Enabled = mExtendedDownloadForm.Visible = Config.Settings.Downloads.YtdlType switch {
+                    0 or 2 => true,
+                    _ => false
+                };
         }
 
         private void frmMain_Load(object sender, EventArgs e) {
@@ -295,7 +297,7 @@ namespace youtube_dl_gui {
             sbDownload.Text = Language.sbDownload;
             mDownloadWithAuthentication.Text = Language.mDownloadWithAuthentication;
             mBatchDownloadFromFile.Text = Language.mBatchDownloadFromFile;
-            btnMainYtdlpExtended.Text = Language.btnMainYtdlpExtended;
+            btnMainYtdlpExtended.Text = Language.btnMainExtended;
 
             lbConvertInput.Text = Language.lbConvertInput;
             lbConvertOutput.Text = Language.lbConvertOutput;
@@ -481,8 +483,10 @@ namespace youtube_dl_gui {
                 mDownloadSeparator.Enabled = mDownloadSeparator.Visible =
                 mQuickDownloadForm.Enabled = mQuickDownloadForm.Visible =
                 mQuickDownloadFormAuthentication.Enabled = mQuickDownloadFormAuthentication.Visible =
-                mExtendedDownloadForm.Enabled = mExtendedDownloadForm.Visible =
-                    Config.Settings.Downloads.YtdlType == 2;
+                mExtendedDownloadForm.Enabled = mExtendedDownloadForm.Visible = Config.Settings.Downloads.YtdlType switch {
+                    0 or 2 => true,
+                    _ => false
+                };
         }
 
         private void mBatchDownload_Click(object sender, EventArgs e) {
@@ -1126,7 +1130,7 @@ namespace youtube_dl_gui {
         }
         private void StartDownloadExtended() {
             switch (Config.Settings.Downloads.YtdlType) {
-                case 2: {
+                case 0: case 2: {
                     if (txtUrl.Text.IsNotNullEmptyWhitespace()) {
                         frmExtendedDownload Extended = new(txtUrl.Text);
                         Extended.Show();

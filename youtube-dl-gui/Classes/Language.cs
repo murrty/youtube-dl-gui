@@ -202,7 +202,7 @@ public static class Language {
     public static string mQuickDownloadFormAuthentication { get; private set; }
     public static string mExtendedDownloadForm { get; private set; }
     public static string msgBatchDownloadFromFile { get; private set; }
-    public static string btnMainYtdlpExtended { get; private set; }
+    public static string btnMainExtended { get; private set; }
 
     public static string lbConvertInput { get; private set; }
     public static string lbConvertOutput { get; private set; }
@@ -277,7 +277,7 @@ public static class Language {
     public static string tabDownloadsConnection { get; private set; }
     public static string tabDownloadsUpdating { get; private set; }
     public static string tabDownloadsBatch { get; private set; }
-    public static string tabYtdlpExtendedOptions { get; private set; }
+    public static string tabExtendedOptions { get; private set; }
 
     public static string chkSettingsDownloadsSaveFormatQuality { get; private set; }
     public static string chkSettingsDownloadsDownloadSubtitles { get; private set; }
@@ -307,8 +307,8 @@ public static class Language {
     public static string llbSettingsDownloadsYtdlTypeViewRepoHint { get; private set; }
     public static string chkSettingsDownloadsSeparateBatchDownloads { get; private set; }
     public static string chkSettingsDownloadsAddDateToBatchDownloadFolders { get; private set; }
-    public static string chkYtdlpPreferExtendedDialog { get; private set; }
-    public static string chkYtdlpExtendedAutomaticallyDownloadThumbnail { get; private set; }
+    public static string chkExtendedPreferExtendedDialog { get; private set; }
+    public static string chkExtendedAutomaticallyDownloadThumbnail { get; private set; }
 
     public static string chkSettingsConverterClearOutputAfterConverting { get; private set; }
     public static string chkSettingsConverterDetectOutputFileType { get; private set; }
@@ -402,8 +402,8 @@ public static class Language {
     public static string chksettingsDownloadsUseYoutubeDlsUpdaterHint { get; private set; }
     public static string chkSettingsDownloadsSeparateBatchDownloadsHint { get; private set; }
     public static string chkSettingsDownloadsAddDateToBatchDownloadFoldersHint { get; private set; }
-    public static string chkYtdlpPreferExtendedDialogHint { get; private set; }
-    public static string chkYtdlpExtendedAutomaticallyDownloadThumbnailHint { get; private set; }
+    public static string chkExtendedPreferExtendedDialogHint { get; private set; }
+    public static string chkExtendedAutomaticallyDownloadThumbnailHint { get; private set; }
 
     public static string chkSettingsConverterClearOutputAfterConvertingHint { get; private set; }
     public static string chkSettingsConverterDetectOutputFileTypeHint { get; private set; }
@@ -650,7 +650,7 @@ public static class Language {
         public const string txtVideoDateHint = "Date (YYYYMMDD)";
         public const string lbCustomArguments = "Custom arguments";
         public const string sbDownload = "Download";
-        public const string btnMainYtdlpExtended = "Details...";
+        public const string btnMainExtended = "Details...";
         public const string mDownloadWithAuthentication = "Download with authentication...";
         public const string msgBatchDownloadFromFile = "Create a text file and put all the video links you want to download into it, separated as one per line.\nDo you want to skip seeing this message when batch downloading using this option?";
         public const string mBatchDownloadFromFile = "Batch download from file...";
@@ -768,7 +768,7 @@ public static class Language {
         public const string tabDownloadsConnection = "Connection";
         public const string tabDownloadsUpdating = "Updating";
         public const string tabDownloadsBatch = "Batch";
-        public const string tabYtdlpExtendedOptions = "yt-dlp extended options";
+        public const string tabExtendedOptions = "yt-dlp extended options";
 
         public const string chkSettingsDownloadsSaveFormatQuality = "Save quality, format, && args on download";
         public const string chkSettingsDownloadsDownloadSubtitles = "Download subtitles";
@@ -796,8 +796,8 @@ public static class Language {
         public const string llbSettingsDownloadsYtdlTypeViewRepo = "View source repo";
         public const string chkSettingsDownloadsSeparateBatchDownloads = "Separate Batch Downloads";
         public const string chkSettingsDownloadsAddDateToBatchDownloadFolders = "Include Date onto Download Folders";
-        public const string chkYtdlpPreferExtendedDialog = "Prefer extended downloader";
-        public const string chkYtdlpExtendedAutomaticallyDownloadThumbnail = "Automatically download thumbnails";
+        public const string chkExtendedPreferExtendedDialog = "Prefer extended downloader";
+        public const string chkExtendedAutomaticallyDownloadThumbnail = "Automatically download thumbnails";
 
         public const string lbSettingsDownloadsDownloadPathHint = "The path of the folder where files will be downloaded to";
         public const string lbSettingsDownloadsFileNameSchemaHint = "The file name schema\n\nThis basically replaces sequences with video information for a custom file name.";
@@ -836,8 +836,8 @@ public static class Language {
         public const string llbSettingsDownloadsYtdlTypeViewRepoHint = "Go to the repository page of the selected fork";
         public const string chkSettingsDownloadsSeparateBatchDownloadsHint = "Batch downloads are separated into a new folder in the designated download path";
         public const string chkSettingsDownloadsAddDateToBatchDownloadFoldersHint = "Batch downloads are further separated into a new folder that is the date and time the batch started";
-        public const string chkYtdlpPreferExtendedDialogHint = "Uses the extended downloader instead of the quick downloader when clicking \"Download\" on the main form.";
-        public const string chkYtdlpExtendedAutomaticallyDownloadThumbnailHint = "Automatically downloads the videos thumbnail to display in the form, when available.";
+        public const string chkExtendedPreferExtendedDialogHint = "Uses the extended downloader instead of the quick downloader when clicking \"Download\" on the main form.";
+        public const string chkExtendedAutomaticallyDownloadThumbnailHint = "Automatically downloads the videos thumbnail to display in the form, when available.";
         #endregion
         #region tabConverter
         // frmSettings / tcMain / tabConverter
@@ -1108,7 +1108,7 @@ public static class Language {
         txtVideoDateHint = InternalEnglish.txtVideoDateHint;
         lbCustomArguments = InternalEnglish.lbCustomArguments;
         sbDownload = InternalEnglish.sbDownload;
-        btnMainYtdlpExtended = InternalEnglish.btnMainYtdlpExtended;
+        btnMainExtended = InternalEnglish.btnMainExtended;
         mDownloadWithAuthentication = InternalEnglish.mDownloadWithAuthentication;
         mBatchDownloadFromFile = InternalEnglish.mBatchDownloadFromFile;
         msgBatchDownloadFromFile = InternalEnglish.msgBatchDownloadFromFile;
@@ -1186,7 +1186,7 @@ public static class Language {
         tabDownloadsConnection = InternalEnglish.tabDownloadsConnection;
         tabDownloadsUpdating = InternalEnglish.tabDownloadsUpdating;
         tabDownloadsBatch = InternalEnglish.tabDownloadsBatch;
-        tabYtdlpExtendedOptions = InternalEnglish.tabYtdlpExtendedOptions;
+        tabExtendedOptions = InternalEnglish.tabExtendedOptions;
 
         chkSettingsDownloadsSaveFormatQuality = InternalEnglish.chkSettingsDownloadsSaveFormatQuality;
         chkSettingsDownloadsDownloadSubtitles = InternalEnglish.chkSettingsDownloadsDownloadSubtitles;
@@ -1214,8 +1214,8 @@ public static class Language {
         llbSettingsDownloadsYtdlTypeViewRepo = InternalEnglish.llbSettingsDownloadsYtdlTypeViewRepo;
         chkSettingsDownloadsSeparateBatchDownloads = InternalEnglish.chkSettingsDownloadsSeparateBatchDownloads;
         chkSettingsDownloadsAddDateToBatchDownloadFolders = InternalEnglish.chkSettingsDownloadsAddDateToBatchDownloadFolders;
-        chkYtdlpPreferExtendedDialog = InternalEnglish.chkYtdlpPreferExtendedDialog;
-        chkYtdlpExtendedAutomaticallyDownloadThumbnail = InternalEnglish.chkYtdlpExtendedAutomaticallyDownloadThumbnail;
+        chkExtendedPreferExtendedDialog = InternalEnglish.chkExtendedPreferExtendedDialog;
+        chkExtendedAutomaticallyDownloadThumbnail = InternalEnglish.chkExtendedAutomaticallyDownloadThumbnail;
 
         chkSettingsConverterClearOutputAfterConverting = InternalEnglish.chkSettingsConverterClearOutputAfterConverting;
         chkSettingsConverterDetectOutputFileType = InternalEnglish.chkSettingsConverterDetectOutputFileType;
@@ -1311,8 +1311,8 @@ public static class Language {
         llbSettingsDownloadsYtdlTypeViewRepoHint = InternalEnglish.llbSettingsDownloadsYtdlTypeViewRepoHint;
         chkSettingsDownloadsSeparateBatchDownloadsHint = InternalEnglish.chkSettingsDownloadsSeparateBatchDownloadsHint;
         chkSettingsDownloadsAddDateToBatchDownloadFoldersHint = InternalEnglish.chkSettingsDownloadsAddDateToBatchDownloadFoldersHint;
-        chkYtdlpPreferExtendedDialogHint = InternalEnglish.chkYtdlpPreferExtendedDialogHint;
-        chkYtdlpExtendedAutomaticallyDownloadThumbnailHint = InternalEnglish.chkYtdlpExtendedAutomaticallyDownloadThumbnailHint;
+        chkExtendedPreferExtendedDialogHint = InternalEnglish.chkExtendedPreferExtendedDialogHint;
+        chkExtendedAutomaticallyDownloadThumbnailHint = InternalEnglish.chkExtendedAutomaticallyDownloadThumbnailHint;
 
         chkSettingsConverterClearOutputAfterConvertingHint = InternalEnglish.chkSettingsConverterClearOutputAfterConvertingHint;
         chkSettingsConverterDetectOutputFileTypeHint = InternalEnglish.chkSettingsConverterDetectOutputFileTypeHint;
@@ -1536,7 +1536,7 @@ public static class Language {
         txtVideoDateHint = nameof(txtVideoDateHint);
         lbCustomArguments = nameof(lbCustomArguments);
         sbDownload = nameof(sbDownload);
-        btnMainYtdlpExtended = nameof(btnMainYtdlpExtended);
+        btnMainExtended = nameof(btnMainExtended);
         mDownloadWithAuthentication = nameof(mDownloadWithAuthentication);
         mBatchDownloadFromFile = nameof(mBatchDownloadFromFile);
         msgBatchDownloadFromFile = nameof(msgBatchDownloadFromFile);
@@ -1614,7 +1614,7 @@ public static class Language {
         tabDownloadsConnection = nameof(tabDownloadsConnection);
         tabDownloadsUpdating = nameof(tabDownloadsUpdating);
         tabDownloadsBatch = nameof(tabDownloadsBatch);
-        tabYtdlpExtendedOptions = nameof(tabYtdlpExtendedOptions);
+        tabExtendedOptions = nameof(tabExtendedOptions);
 
         chkSettingsDownloadsSaveFormatQuality = nameof(chkSettingsDownloadsSaveFormatQuality);
         chkSettingsDownloadsDownloadSubtitles = nameof(chkSettingsDownloadsDownloadSubtitles);
@@ -1642,8 +1642,8 @@ public static class Language {
         llbSettingsDownloadsYtdlTypeViewRepo = nameof(llbSettingsDownloadsYtdlTypeViewRepo);
         chkSettingsDownloadsSeparateBatchDownloads = nameof(chkSettingsDownloadsSeparateBatchDownloads);
         chkSettingsDownloadsAddDateToBatchDownloadFolders = nameof(chkSettingsDownloadsAddDateToBatchDownloadFolders);
-        chkYtdlpPreferExtendedDialog = nameof(chkYtdlpPreferExtendedDialog);
-        chkYtdlpExtendedAutomaticallyDownloadThumbnail = nameof(chkYtdlpExtendedAutomaticallyDownloadThumbnail);
+        chkExtendedPreferExtendedDialog = nameof(chkExtendedPreferExtendedDialog);
+        chkExtendedAutomaticallyDownloadThumbnail = nameof(chkExtendedAutomaticallyDownloadThumbnail);
 
         chkSettingsConverterClearOutputAfterConverting = nameof(chkSettingsConverterClearOutputAfterConverting);
         chkSettingsConverterDetectOutputFileType = nameof(chkSettingsConverterDetectOutputFileType);
@@ -1739,8 +1739,8 @@ public static class Language {
         llbSettingsDownloadsYtdlTypeViewRepoHint = nameof(llbSettingsDownloadsYtdlTypeViewRepoHint);
         chkSettingsDownloadsSeparateBatchDownloadsHint = nameof(chkSettingsDownloadsSeparateBatchDownloadsHint);
         chkSettingsDownloadsAddDateToBatchDownloadFoldersHint = nameof(chkSettingsDownloadsAddDateToBatchDownloadFoldersHint);
-        chkYtdlpPreferExtendedDialogHint = nameof(chkYtdlpPreferExtendedDialogHint);
-        chkYtdlpExtendedAutomaticallyDownloadThumbnailHint = nameof(chkYtdlpExtendedAutomaticallyDownloadThumbnailHint);
+        chkExtendedPreferExtendedDialogHint = nameof(chkExtendedPreferExtendedDialogHint);
+        chkExtendedAutomaticallyDownloadThumbnailHint = nameof(chkExtendedAutomaticallyDownloadThumbnailHint);
 
         chkSettingsConverterClearOutputAfterConvertingHint = nameof(chkSettingsConverterClearOutputAfterConvertingHint);
         chkSettingsConverterDetectOutputFileTypeHint = nameof(chkSettingsConverterDetectOutputFileTypeHint);
@@ -2278,8 +2278,8 @@ public static class Language {
                                 case "sbdownload":
                                     sbDownload = ReadValue;
                                     continue;
-                                case "btnmainytdlpextended":
-                                    btnMainYtdlpExtended = ReadValue;
+                                case "btnmainextended":
+                                    btnMainExtended = ReadValue;
                                     continue;
                                 case "mdownloadwithauthentication":
                                     mDownloadWithAuthentication = ReadValue;
@@ -2573,8 +2573,8 @@ public static class Language {
                                 case "tabdownloadsbatch":
                                     tabDownloadsBatch = ReadValue;
                                     continue;
-                                case "tabytdlpextendedoptions":
-                                    tabYtdlpExtendedOptions = ReadValue;
+                                case "tabextendedoptions":
+                                    tabExtendedOptions = ReadValue;
                                     continue;
                                 case "chksettingsdownloadssaveformatquality":
                                     chkSettingsDownloadsSaveFormatQuality = ReadValue;
@@ -2654,11 +2654,11 @@ public static class Language {
                                 case "chksettingsdownloadsadddatetobatchdownloadfolders":
                                     chkSettingsDownloadsAddDateToBatchDownloadFolders = ReadValue;
                                     continue;
-                                case "chkytdlppreferextendeddialog":
-                                    chkYtdlpPreferExtendedDialog = ReadValue;
+                                case "chkextendedpreferextendeddialog":
+                                    chkExtendedPreferExtendedDialog = ReadValue;
                                     continue;
-                                case "chkytdlpextendedautomaticallydownloadthumbnail":
-                                    chkYtdlpExtendedAutomaticallyDownloadThumbnail = ReadValue;
+                                case "chkextendedautomaticallydownloadthumbnail":
+                                    chkExtendedAutomaticallyDownloadThumbnail = ReadValue;
                                     continue;
                                 case "lbsettingsdownloadsdownloadpathhint":
                                     lbSettingsDownloadsDownloadPathHint = ReadValue;
@@ -2777,11 +2777,11 @@ public static class Language {
                                 case "chksettingsdownloadsadddatetobatchdownloadfoldershint":
                                     chkSettingsDownloadsAddDateToBatchDownloadFoldersHint = ReadValue;
                                     continue;
-                                case "chkytdlppreferextendeddialoghint":
-                                    chkYtdlpPreferExtendedDialogHint = ReadValue;
+                                case "chkextendedpreferextendeddialoghint":
+                                    chkExtendedPreferExtendedDialogHint = ReadValue;
                                     continue;
-                                case "chkytdlpextendedautomaticallydownloadthumbnailhint":
-                                    chkYtdlpExtendedAutomaticallyDownloadThumbnailHint = ReadValue;
+                                case "chkextendedautomaticallydownloadthumbnailhint":
+                                    chkExtendedAutomaticallyDownloadThumbnailHint = ReadValue;
                                     continue;
 
                                 // frmSettings / tcMain / tabConverter

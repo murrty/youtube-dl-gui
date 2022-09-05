@@ -422,7 +422,7 @@ namespace youtube_dl_gui {
                     Status = DownloadStatus.Downloading;
                     DownloadProcess.OutputDataReceived += (s, e) => {
                         if (e.Data is not null) {
-                            if ((e.Data.IndexOf("[download]") > -1 || e.Data.IndexOf("[ffmpeg]") > -1)) {
+                            if (e.Data.IndexOf("[download]") > -1 || e.Data.IndexOf("[ffmpeg]") > -1) {
                                 Msg = e.Data;
                             }
                             else {
@@ -483,19 +483,19 @@ namespace youtube_dl_gui {
                     this.Invoke(() => {
                         pbStatus.ShowInTaskbar = false;
                         btnDownloadAbortClose.Enabled = true;
+                        btnDownloadWithAuthentication.Enabled = true;
                         switch (Status) {
 
                             case DownloadStatus.Aborted: {
                                 pbStatus.Text = "Aborted";
                                 pbStatus.Value = pbStatus.Minimum;
-                                btnDownloadWithAuthentication.Enabled = true;
                                 btnDownloadAbortClose.Text = Language.GenericRetry;
                             } break;
 
                             case DownloadStatus.Finished: {
                                 pbStatus.Text = "Completed";
                                 pbStatus.Value = pbStatus.Maximum;
-                                btnDownloadAbortClose.Text = Language.GenericExit;
+                                btnDownloadAbortClose.Text = Language.sbDownload;
                             } break;
 
                             case DownloadStatus.AbortForClose: { } break;
@@ -503,7 +503,6 @@ namespace youtube_dl_gui {
                             default: {
                                 pbStatus.Text = "Downlod error";
                                 pbStatus.Value = pbStatus.Minimum;
-                                btnDownloadWithAuthentication.Enabled = true;
                                 btnDownloadAbortClose.Text = Language.GenericRetry;
                                 tcVideoData.SelectedTab = tpVerbose;
                             } break;
@@ -597,19 +596,20 @@ namespace youtube_dl_gui {
         }
 
         private void btnDownloadAbortClose_Click(object sender, EventArgs e) {
-            switch (Status) {
-                case DownloadStatus.Finished: {
-                    this.Dispose();
-                } break;
+            BeginDownload(false);
+            //switch (Status) {
+            //    case DownloadStatus.Finished: {
+            //        this.Dispose();
+            //    } break;
 
-                case DownloadStatus.Downloading: {
-                    Status = DownloadStatus.Aborted;
-                } break;
+            //    case DownloadStatus.Downloading: {
+            //        Status = DownloadStatus.Aborted;
+            //    } break;
 
-                default: {
-                    BeginDownload(false);
-                } break;
-            }
+            //    default: {
+            //        BeginDownload(false);
+            //    } break;
+            //}
         }
 
         private void btnDownloadWithAuthentication_Click(object sender, EventArgs e) {
