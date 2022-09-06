@@ -3,7 +3,7 @@
 using System.Drawing;
 using System.Text;
 
-internal class Ini {
+internal static class Ini {
     public static string Path = Environment.CurrentDirectory + "\\settings.ini";
     public static string ExecutableName = "youtube-dl-gui";
 

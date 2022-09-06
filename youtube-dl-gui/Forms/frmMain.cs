@@ -297,9 +297,12 @@ namespace youtube_dl_gui {
             lbSchema.Text = Language.lbSettingsDownloadsFileNameSchema;
             lbCustomArguments.Text = Language.lbCustomArguments;
             sbDownload.Text = Language.sbDownload;
+            btnMainYtdlpExtended.Text = Language.btnMainExtended;
             mDownloadWithAuthentication.Text = Language.mDownloadWithAuthentication;
             mBatchDownloadFromFile.Text = Language.mBatchDownloadFromFile;
-            btnMainYtdlpExtended.Text = Language.btnMainExtended;
+            mQuickDownloadForm.Text = Language.mQuickDownloadForm;
+            mQuickDownloadFormAuthentication.Text = Language.mQuickDownloadFormAuthentication;
+            mExtendedDownloadForm.Text = Language.mExtendedDownloadForm;
 
             lbConvertInput.Text = Language.lbConvertInput;
             lbConvertOutput.Text = Language.lbConvertOutput;

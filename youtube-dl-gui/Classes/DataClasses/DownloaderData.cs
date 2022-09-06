@@ -12,9 +12,9 @@ using System.Security.Policy;
 /// Class used for information relating to the video.
 /// </summary>
 [DataContract]
-internal sealed class VideoInformation {
+internal sealed class DownloaderData {
 
-    public static VideoInformation GenerateInformation(string URL, out string RetrievedData) {
+    public static DownloaderData GenerateData(string URL, out string RetrievedData) {
         RetrievedData = null;
         if (!URL.IsNullEmptyWhitespace()) {
             if (Verification.YoutubeDlPath.IsNullEmptyWhitespace())
@@ -68,17 +68,21 @@ internal sealed class VideoInformation {
             }
             if (!Output.ToString().IsNullEmptyWhitespace()) {
                 RetrievedData = Output.ToString();
-                var data = RetrievedData.JsonDeserialize<VideoInformation>();
+                var data = RetrievedData.JsonDeserialize<DownloaderData>();
                 return data;
             }
         }
         return null;
     }
     public Image GetThumbnail() {
+        if (Config.Settings.Downloads.YtdlType != 2) {
+            return null;
+        }
+
         using WebClient wc = new();
         byte[] thumbBytes = wc.DownloadData(this.ThumbnailLink);
 
-        if (this.ThumbnailLink.EndsWith(".webp")) {
+        if (this.ThumbnailLink.Split('?')[0].EndsWith(".webp")) {
             string ThumbPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + $"\\temp\\{DateTime.Now:yyyyMMddhmmssfffffff}s";
             File.WriteAllBytes($"{ThumbPath}.webp", thumbBytes);
             if (Verification.FFmpegPath.IsNullEmptyWhitespace())

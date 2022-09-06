@@ -4,10 +4,11 @@ using System.IO;
 using youtube_dl_gui.updater;
 
 internal static class Verification {
-    private static GitID YoutubeDlGitType = GitID.None;
+    private static GitID YoutubeDlGitType = GitID.YoutubeDl;
 
     public static string YoutubeDlPath { get; private set; }
     public static string FFmpegPath { get; private set; }
+    public static string FFprobePath { get; private set; }
     public static string AtomicParsleyPath { get; private set; }
     public static string YoutubeDlVersion { get; private set; }
 
@@ -56,33 +57,34 @@ internal static class Verification {
             }
         }
     }
-    public static void RefreshFFmpegLocation() {
-        string TempPath;
 
+    public static void RefreshFFmpegLocation() {
         if (Config.Settings.General.UseStaticFFmpeg && File.Exists(Config.Settings.General.ffmpegPath)) {
-            TempPath = Config.Settings.General.ffmpegPath;
+            FFmpegPath = Config.Settings.General.ffmpegPath;
         }
         else if (ProgramInExecutingDirectory("ffmpeg.exe")) {
-            TempPath = Program.ProgramPath + "\\ffmpeg.exe";
+            FFmpegPath = $"{Program.ProgramPath}\\ffmpeg.exe";
         }
-        else if (ProgramInSystemPath("ffmpeg.exe", out TempPath)) { }
+        else if (ProgramInSystemPath("ffmpeg.exe", out string TempPath)) {
+            FFmpegPath = TempPath;
+        }
         else return;
 
-        FFmpegPath = TempPath;
+        string ffprobe = $"{Path.GetDirectoryName(FFmpegPath)}\\ffprobe.exe";
+        if (File.Exists(ffprobe)) {
+            FFprobePath = ffprobe;
+        }
     }
+
     public static void RefreshAtomicParsleyLocation() {
-        string TempPath;
-
         if (ProgramInExecutingDirectory("atomicparsley.exe")) {
-            TempPath = Program.ProgramPath + "\\atomicparsley.exe";
+            AtomicParsleyPath = $"{Program.ProgramPath}\\atomicparsley.exe";
         }
-        else if (ProgramInSystemPath("atomicparsley.exe", out TempPath)) { }
-        else return;
-
-        AtomicParsleyPath = TempPath;
+        else if (ProgramInSystemPath("atomicparsley.exe", out string TempPath)) {
+            AtomicParsleyPath = TempPath;
+        }
     }
 
-    #region Shared methods
     private static string GetProgramVersion(string ProgramPath) {
         try {
             return System.Diagnostics.FileVersionInfo.GetVersionInfo(ProgramPath).ProductVersion;
@@ -94,15 +96,15 @@ internal static class Verification {
     }
 
     private static bool ProgramInExecutingDirectory(string ProgramName) {
-        return File.Exists(Program.ProgramPath + "\\" + ProgramName);
+        return File.Exists($"{Program.ProgramPath}\\{ProgramName}");
     }
 
     private static bool ProgramInSystemPath(string ProgramName, out string OutputDir) {
         string[] PathLocations = Environment.GetEnvironmentVariable("PATH").Split(';');
 
         for (int i = 0; i < PathLocations.Length; i++) {
-            if (File.Exists(PathLocations[i] + "\\" + ProgramName)) {
-                OutputDir = PathLocations[i] + "\\" + ProgramName;
+            if (File.Exists($"{PathLocations[i]}\\{ProgramName}")) {
+                OutputDir = $"{PathLocations[i]}\\{ProgramName}";
                 return true;
             }
         }
@@ -110,5 +112,4 @@ internal static class Verification {
         OutputDir = null;
         return false;
     }
-    #endregion
 }

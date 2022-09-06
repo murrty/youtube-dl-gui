@@ -8,7 +8,7 @@ using System.Threading;
 using System.Windows.Forms;
 
 namespace youtube_dl_gui {
-    static class Program {
+    public static class Program {
 
         /// <summary>
         /// Gets the curent version of the program.
@@ -18,7 +18,7 @@ namespace youtube_dl_gui {
         /// <summary>
         /// Gets whether the program is running in debug mode.
         /// </summary>
-        public static bool DebugMode {
+        internal static bool DebugMode {
             get; private set;
         } = false;
 
@@ -26,32 +26,36 @@ namespace youtube_dl_gui {
         /// Gets or sets the exit code of the application.
         /// </summary>
         public static int ExitCode {
-            get; set;
+            get; internal set;
         } = 0;
 
         /// <summary>
         /// Gets or sets whether the update was checked this run.
         /// </summary>
-        public static bool UpdateChecked {
+        internal static bool UpdateChecked {
             get; set;
         }
 
-        private static Mutex Instance;
         private static readonly GuidAttribute ProgramGUID =
             (GuidAttribute)Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(GuidAttribute), true)[0];
 
         public static readonly string LocalAppDataPath =
             $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\youtube_dl_gui";
-        public static readonly string ProgramPath =
-            Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName);
-        public static readonly string UserAgent = "youtube-dl-gui/" + CurrentVersion;
 
-        static frmMain MainForm;
+        public static readonly string ProgramPath =
+            Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName)
+            ;
+        public static readonly string UserAgent =
+            "youtube-dl-gui/" + CurrentVersion;
+
+        internal static readonly HashSet<Form> RunningActions = new();
+
         private static bool IsFirstTime = false;
-        public static readonly HashSet<Form> RunningActions = new();
+        private static Mutex Instance;
+        private static frmMain MainForm;
 
         [STAThread]
-        static int Main(string[] args) {
+        public static int Main(string[] args) {
 #if DEBUG
             DebugMode = true;
 #endif
@@ -174,7 +178,7 @@ namespace youtube_dl_gui {
             Formats.LoadCustomFormats();
         }
 
-        public static void KillProcessTree(uint ProcessId, bool KillParent = false) {
+        internal static void KillProcessTree(uint ProcessId, bool KillParent = false) {
             ManagementObjectSearcher searcher = new("SELECT * FROM Win32_Process WHERE ParentProcessId=" + ProcessId);
             ManagementObjectCollection collection = searcher.Get();
             if (collection.Count > 0) {
@@ -191,7 +195,7 @@ namespace youtube_dl_gui {
             }
         }
 
-        public static bool CheckArgs(string[] args, bool UseDialog) {
+        internal static bool CheckArgs(string[] args, bool UseDialog) {
             if (args.Length > 1) {
                 int PassedCount = 0;
                 for (int i = 0; i < args.Length; i++) {
@@ -295,7 +299,7 @@ namespace youtube_dl_gui {
             return false;
         }
 
-        public static string CalculateSha256Hash(string File) {
+        internal static string CalculateSha256Hash(string File) {
             using SHA256 ComputeUpdaterHash = SHA256.Create();
             using FileStream UpdaterStream = System.IO.File.OpenRead(File);
             string UpdaterHash = BitConverter.ToString(ComputeUpdaterHash.ComputeHash(UpdaterStream)).Replace("-", "").ToLower();
@@ -303,15 +307,7 @@ namespace youtube_dl_gui {
             return UpdaterHash;
         }
 
-        public static string CalculateSha1Hash(string File) {
-            using SHA1 ComputeUpdaterHash = SHA1Cng.Create();
-            using FileStream UpdaterStream = System.IO.File.OpenRead(File);
-            string UpdaterHash = BitConverter.ToString(ComputeUpdaterHash.ComputeHash(UpdaterStream)).Replace("-", "").ToLower();
-            UpdaterStream.Close();
-            return UpdaterHash;
-        }
-
-        public static void RemoveTrayIcon() {
+        internal static void RemoveTrayIcon() {
             MainForm.RemoveTrayIcon();
         }
     }

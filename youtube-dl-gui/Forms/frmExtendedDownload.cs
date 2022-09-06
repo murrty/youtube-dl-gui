@@ -7,9 +7,9 @@ using System.Windows.Forms;
 namespace youtube_dl_gui {
     public partial class frmExtendedDownload : Form {
 
-        private VideoInformation Information;
-        private VideoInformation.Format VideoFormat;
-        private VideoInformation.Format AudioFormat;
+        private DownloaderData Information;
+        private DownloaderData.Format VideoFormat;
+        private DownloaderData.Format AudioFormat;
         private Process DownloadProcess;
         private string Msg;
         private DownloadStatus Status = DownloadStatus.None;
@@ -17,7 +17,7 @@ namespace youtube_dl_gui {
         private string URL { get; }
 
         private readonly Thread InformationThread;
-        private readonly Thread ThumbnailThread;
+        private Thread ThumbnailThread;
         private Thread DownloadThread;
 
         public frmExtendedDownload(string URL) {
@@ -31,12 +31,12 @@ namespace youtube_dl_gui {
 
             lvVideoFormats.SelectedIndexChanged += (s, e) => {
                 if (lvVideoFormats.SelectedItems.Count > 0) {
-                    VideoFormat = lvVideoFormats.SelectedItems[0].Tag as VideoInformation.Format;
+                    VideoFormat = lvVideoFormats.SelectedItems[0].Tag as DownloaderData.Format;
                 }
             };
             lvAudioFormats.SelectedIndexChanged += (s, e) => {
                 if (lvAudioFormats.SelectedItems.Count > 0) {
-                    AudioFormat = lvAudioFormats.SelectedItems[0].Tag as VideoInformation.Format;
+                    AudioFormat = lvAudioFormats.SelectedItems[0].Tag as DownloaderData.Format;
                 }
             };
 
@@ -59,11 +59,11 @@ namespace youtube_dl_gui {
             InformationThread = new(() => {
                 string Retrieved = null;
                 try {
-                    Information = VideoInformation.GenerateInformation(URL, out Retrieved);
+                    Information = DownloaderData.GenerateData(URL, out Retrieved);
                     if (Information is null || Information.AvailableFormats.Length == 0)
                         throw new NullReferenceException("VideoInformation Information is null.");
 
-                    VideoInformation.Format Format;
+                    DownloaderData.Format Format;
                     for (int i = Information.AvailableFormats.Length; i > 0; i--) {
                         Format = Information.AvailableFormats[i - 1];
 
@@ -88,6 +88,7 @@ namespace youtube_dl_gui {
                             NewFormat.SubItems.Add(Bitrate);
                             NewFormat.SubItems.Add(Dimensions);
                             NewFormat.SubItems.Add(Codec);
+                            NewFormat.SubItems.Add(Format.Identifier);
                             NewFormat.Tag = Format;
                             lvVideoFormats.Invoke(() => lvVideoFormats.Items.Add(NewFormat));
                         }
@@ -108,6 +109,7 @@ namespace youtube_dl_gui {
                             NewFormat.SubItems.Add(FileSize);
                             NewFormat.SubItems.Add(SampleRate);
                             NewFormat.SubItems.Add(Codec);
+                            NewFormat.SubItems.Add(Format.Identifier);
                             NewFormat.Tag = Format;
                             lvAudioFormats.Invoke(() => lvAudioFormats.Items.Add(NewFormat));
                         }
@@ -123,8 +125,7 @@ namespace youtube_dl_gui {
                         tcVideoData.Enabled = true;
 
                         if (Config.Settings.Downloads.ExtendedDownloaderAutoDownloadThumbnail) {
-                            ThumbnailThread.Start();
-                            btnExtendedDownloaderDownloadThumbnail.Enabled = btnExtendedDownloaderDownloadThumbnail.Visible = false;
+                            DownloadThumbnail();
                         }
                         else {
                             btnExtendedDownloaderDownloadThumbnail.Enabled = btnExtendedDownloaderDownloadThumbnail.Visible = true;
@@ -151,42 +152,6 @@ namespace youtube_dl_gui {
                 }
             }) {
                 Name = $"InfoThread {URL}",
-                IsBackground = true,
-                Priority = ThreadPriority.BelowNormal
-            };
-
-            ThumbnailThread = new(() => {
-                try {
-                    this.Invoke(() => {
-                        lbExtendedDownloaderDownloadingThumbnail.Visible = true;
-                        btnExtendedDownloaderDownloadThumbnail.Enabled = btnExtendedDownloaderDownloadThumbnail.Visible = false;
-                        lbExtendedDownloaderDownloadingThumbnail.Text = Language.lbExtendedDownloaderDownloadingThumbnail;
-                    });
-                    Image Thumb = Information.GetThumbnail();
-                    if (Thumb is not null) {
-                        this.Invoke(() => {
-                            pbThumbnail.Image = Thumb;
-                            lbExtendedDownloaderDownloadingThumbnail.Visible = false;
-                            btnExtendedDownloaderDownloadThumbnail.Enabled = btnExtendedDownloaderDownloadThumbnail.Visible = false;
-                        });
-                    }
-                    else {
-                        this.Invoke(() => {
-                            btnExtendedDownloaderDownloadThumbnail.Enabled = btnExtendedDownloaderDownloadThumbnail.Visible = true;
-                            lbExtendedDownloaderDownloadingThumbnail.Text = Language.lbExtendedDownloaderDownloadingThumbnailFailed;
-                        });
-                    }
-                }
-                catch (ThreadAbortException) { }
-                catch (Exception ex) {
-                    this.Invoke(() => {
-                        btnExtendedDownloaderDownloadThumbnail.Enabled = btnExtendedDownloaderDownloadThumbnail.Visible = true;
-                        lbExtendedDownloaderDownloadingThumbnail.Text = Language.lbExtendedDownloaderDownloadingThumbnailFailed;
-                        Log.ReportException(ex);
-                    });
-                }
-            }) {
-                Name = $"ThumbThread {URL}",
                 IsBackground = true,
                 Priority = ThreadPriority.BelowNormal
             };
@@ -240,6 +205,45 @@ namespace youtube_dl_gui {
             chkDownloaderCloseAfterDownload.Text = Language.chkDownloaderCloseAfterDownload;
         }
 
+        private void DownloadThumbnail() {
+            if (ThumbnailThread is null || !ThumbnailThread.IsAlive) {
+                ThumbnailThread = new(() => {
+                    try {
+                        Image Thumb = Information.GetThumbnail();
+                        if (Thumb is not null) {
+                            this.Invoke(() => {
+                                pbThumbnail.Image = Thumb;
+                                lbExtendedDownloaderDownloadingThumbnail.Visible = false;
+                                btnExtendedDownloaderDownloadThumbnail.Enabled = btnExtendedDownloaderDownloadThumbnail.Visible = false;
+                            });
+                        }
+                        else {
+                            this.Invoke(() => {
+                                btnExtendedDownloaderDownloadThumbnail.Enabled = btnExtendedDownloaderDownloadThumbnail.Visible = true;
+                                lbExtendedDownloaderDownloadingThumbnail.Text = Language.lbExtendedDownloaderDownloadingThumbnailFailed;
+                            });
+                        }
+                    }
+                    catch (ThreadAbortException) { }
+                    catch (Exception ex) {
+                        this.Invoke(() => {
+                            btnExtendedDownloaderDownloadThumbnail.Enabled = btnExtendedDownloaderDownloadThumbnail.Visible = true;
+                            lbExtendedDownloaderDownloadingThumbnail.Text = Language.lbExtendedDownloaderDownloadingThumbnailFailed;
+                            Log.ReportException(ex);
+                        });
+                    }
+                }) {
+                    Name = $"ThumbThread {URL}",
+                    IsBackground = true,
+                    Priority = ThreadPriority.BelowNormal
+                };
+            }
+            lbExtendedDownloaderDownloadingThumbnail.Visible = true;
+            btnExtendedDownloaderDownloadThumbnail.Enabled = btnExtendedDownloaderDownloadThumbnail.Visible = false;
+            lbExtendedDownloaderDownloadingThumbnail.Text = Language.lbExtendedDownloaderDownloadingThumbnail;
+            ThumbnailThread.Start();
+        }
+
         public string GenerateArguments(bool Authentication = false) {
             StringBuilder ArgumentBuffer = new($"\"{URL}\" -o \"");
 
@@ -257,7 +261,7 @@ namespace youtube_dl_gui {
                 cbSchema.Text.IsNotNullEmptyWhitespace() ?
                     cbSchema.Text : "%(title)s-%(id)s.%(ext)s")}\"");
 
-            VideoInformation.Format Format;
+            DownloaderData.Format Format;
 
             if (rbCustom.Checked) {
                 ArgumentBuffer.Append(txtCustomArguments.Text.IsNotNullEmptyWhitespace() ?
@@ -418,6 +422,8 @@ namespace youtube_dl_gui {
                 btnDownloadWithAuthentication.Enabled = false;
                 btnDownloadAbortClose.Text = Language.GenericCancel;
                 pbStatus.ShowInTaskbar = true;
+                pbStatus.Value = 0;
+                pbStatus.ProgressState = murrty.controls.ProgressBarState.Normal;
                 pbStatus.Text = "Retrieving metadata";
                 DownloadThread = new(() => {
                     Program.RunningActions.Add(this);
@@ -539,7 +545,7 @@ namespace youtube_dl_gui {
         }
 
         private void btnDownloadThumbnail_Click(object sender, EventArgs e) {
-            ThumbnailThread.Start();
+            DownloadThumbnail();
             lbExtendedDownloaderUploader.Focus();
         }
 
@@ -605,20 +611,20 @@ namespace youtube_dl_gui {
         }
 
         private void btnDownloadAbortClose_Click(object sender, EventArgs e) {
-            BeginDownload(false);
-            //switch (Status) {
-            //    case DownloadStatus.Finished: {
-            //        this.Dispose();
-            //    } break;
+            //BeginDownload(false);
+            switch (Status) {
+                //case DownloadStatus.Finished: {
+                //    this.Dispose();
+                //} break;
 
-            //    case DownloadStatus.Downloading: {
-            //        Status = DownloadStatus.Aborted;
-            //    } break;
+                case DownloadStatus.Downloading: {
+                    Status = DownloadStatus.Aborted;
+                } break;
 
-            //    default: {
-            //        BeginDownload(false);
-            //    } break;
-            //}
+                default: {
+                    BeginDownload(false);
+                } break;
+            }
         }
 
         private void btnDownloadWithAuthentication_Click(object sender, EventArgs e) {
