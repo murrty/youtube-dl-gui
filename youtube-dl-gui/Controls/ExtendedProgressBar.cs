@@ -1,11 +1,12 @@
 ﻿namespace murrty.controls;
+// Derived from wyDay's progress bar.
 
-using murrty.controls.natives;
 using System.ComponentModel;
 using System.ComponentModel.Design;
 using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using murrty.controls.natives;
 
 /// <summary>
 /// Represents a derived Windows progress bar control that includes added functionality, Vista-styling, and Win7-style taskbar progress.
@@ -16,13 +17,23 @@ using System.Windows.Forms;
 [DefaultProperty("Value")]
 [ToolboxBitmap(typeof(ProgressBar))]
 [ToolboxItem(true)]
-public class ExtendedProgressBar : ProgressBar {
+public sealed class ExtendedProgressBar : ProgressBar {
 
     #region Fields
     /// <summary>
     /// The parent container of the progress bar.
     /// </summary>
     private ContainerControl _ContainerParent = null;
+
+    /// <summary>
+    /// The graphics used for drawing text.
+    /// </summary>
+    private Graphics _ControlGraphics;
+
+    /// <summary>
+    /// The color used for the drop shadow.
+    /// </summary>
+    private Color _DropShadowColor = Color.FromKnownColor(KnownColor.ControlDark);
 
     /// <summary>
     /// If the progress bar should update the value faster than default.
@@ -44,6 +55,11 @@ public class ExtendedProgressBar : ProgressBar {
     /// Whether text should render on the progressbar.
     /// </summary>
     private bool _ShowText = false;
+
+    /// <summary>
+    /// Whether the drop shadow on the text should be visible.
+    /// </summary>
+    private bool _ShowTextDropShadow = true;
 
     /// <summary>
     /// The alignment of the text.
@@ -68,6 +84,23 @@ public class ExtendedProgressBar : ProgressBar {
             if (_ContainerParent != null && !_ContainerParent.Visible) {
                 ((Form)_ContainerParent).Shown += ExtendedProgressBar_Shown;
             }
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the color used for the text drop shadow.
+    /// </summary>
+    [Bindable(true)]
+    [Browsable(true)]
+    [Category("Appearance")]
+    [Description("The color used for the drop shadow behind the text.")]
+    [DefaultValue(typeof(Color), "ControlDark")]
+    [EditorBrowsable(EditorBrowsableState.Always)]
+    public Color DropShadowColor {
+        get => _DropShadowColor;
+        set {
+            _DropShadowColor = value;
+            Invalidate();
         }
     }
 
@@ -110,7 +143,7 @@ public class ExtendedProgressBar : ProgressBar {
     [Bindable(true)]
     [Browsable(true)]
     [Category("Appearance")]
-    [DefaultValue(KnownColor.ControlText)]
+    [DefaultValue(typeof(Color), "ControlText")]
     [Description("The color of the text that appears within the progress bar.")]
     [EditorBrowsable(EditorBrowsableState.Always)]
     public new Color ForeColor {
@@ -140,7 +173,7 @@ public class ExtendedProgressBar : ProgressBar {
                 SetValueInTaskbar();
             }
             else if (this.IsHandleCreated) {
-                NativeMethods.SendMessage(Handle, Consts.PBM_SETSTATE, (IntPtr)value, IntPtr.Zero);
+                NativeMethods.SendMessage(Handle, PBM_SETSTATE, (IntPtr)value, IntPtr.Zero);
                 SetStateInTaskbar();
             }
         }
@@ -190,6 +223,23 @@ public class ExtendedProgressBar : ProgressBar {
     }
 
     /// <summary>
+    /// Gets or sets whether the text will appear with a drop shadow.
+    /// </summary>
+    [Bindable(true)]
+    [Browsable(true)]
+    [Category("Appearance")]
+    [DefaultValue(true)]
+    [Description("Whether text should be rendered with a drop shadow to distinguish it more clearly.")]
+    [EditorBrowsable(EditorBrowsableState.Always)]
+    public bool ShowTextDropShadow {
+        get => _ShowTextDropShadow;
+        set {
+            _ShowTextDropShadow = value;
+            Invalidate();
+        }
+    }
+
+    /// <summary>
     /// Gets or sets the progress bar style.
     /// </summary>
     [Bindable(true)]
@@ -207,7 +257,7 @@ public class ExtendedProgressBar : ProgressBar {
                 SetValueInTaskbar();
             }
             if (value != ProgressBarStyle.Marquee && this.IsHandleCreated) {
-                NativeMethods.SendMessage(Handle, Consts.PBM_SETSTATE, (IntPtr)_ProgressState, IntPtr.Zero);
+                NativeMethods.SendMessage(Handle, PBM_SETSTATE, (IntPtr)_ProgressState, IntPtr.Zero);
             }
         }
     }
@@ -270,23 +320,28 @@ public class ExtendedProgressBar : ProgressBar {
     }
     #endregion
 
+    #region Native Methods
+    /// <summary>
+    /// The PBM_SETSTATE message for setting the state of a progress bar.
+    /// </summary>
+    private const int PBM_SETSTATE = 0x410;
+    #endregion
+
     #region Constructor
     /// <summary>
     /// Creates a new instance of the <see cref="ExtendedProgressBar"/> class.
     /// </summary>
     public ExtendedProgressBar() : base() {
         SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
-        this.ForeColor = Color.FromKnownColor(KnownColor.ControlText);
+        base.ForeColor = Color.FromKnownColor(KnownColor.ControlText);
     }
 
     /// <summary>
     /// Creates a new instance of the <see cref="ExtendedProgressBar"/> class.
     /// </summary>
     /// <param name="parent">The parent control of the progress bar.</param>
-    public ExtendedProgressBar(ContainerControl parent) : base() {
-        SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
+    public ExtendedProgressBar(ContainerControl parent) : this() {
         _ContainerParent = parent;
-        this.ForeColor = Color.FromKnownColor(KnownColor.ControlText);
     }
     #endregion
 
@@ -301,12 +356,6 @@ public class ExtendedProgressBar : ProgressBar {
         SetValueInTaskbar();
     }
 
-    /// <inheritdoc/>
-    override protected void OnPaint(PaintEventArgs e) {
-        base.OnPaint(e);
-        DrawText();
-    }
-
     /// <summary>
     /// Advances the current position of the progress bar by the amount of the <see cref="P:System.Windows.Forms.ProgressBar.Step"/> property.
     /// </summary>
@@ -314,6 +363,20 @@ public class ExtendedProgressBar : ProgressBar {
     public new void PerformStep() {
         base.PerformStep();
         SetValueInTaskbar();
+    }
+    
+    /// <inheritdoc/>
+    protected override CreateParams CreateParams {
+        get {
+            CreateParams res = base.CreateParams;
+            res.ExStyle |= Consts.WS_EX_COMPOSITED;
+            return res;
+        }
+    }
+
+    protected override void OnHandleCreated(EventArgs e) {
+        base.OnHandleCreated(e);
+        _ControlGraphics = CreateGraphics();
     }
 
     /// <inheritdoc/>
@@ -333,13 +396,15 @@ public class ExtendedProgressBar : ProgressBar {
         switch (m.Msg) {
             case Consts.WM_PAINT: {
                 base.WndProc(ref m);
-                DrawText();
+                if (_ShowText) {
+                    DrawText();
+                }
             } break;
 
             case Consts.WM_SETCURSOR: {
                 if (Cursor == Cursors.Hand) {
                     NativeMethods.SetCursor(Consts.SystemHand);
-                    m.Result = new IntPtr(1);
+                    m.Result = IntPtr.Zero;
                 }
                 else base.WndProc(ref m);
             } break;
@@ -369,9 +434,42 @@ public class ExtendedProgressBar : ProgressBar {
     /// Draws the text onto the control.
     /// </summary>
     private void DrawText() {
-        using Graphics graphics = CreateGraphics();
-        SizeF size = graphics.MeasureString(base.Text, Font);
-        graphics.DrawString(
+        SizeF size = _ControlGraphics.MeasureString(base.Text, Font);
+        if (_ShowTextDropShadow) {
+            _ControlGraphics.DrawString(
+                base.Text, Font, new SolidBrush(_DropShadowColor),
+
+                _TextAlignment switch {
+                    ContentAlignment.TopLeft or
+                    ContentAlignment.MiddleLeft or
+                    ContentAlignment.BottomLeft => RightToLeft == RightToLeft.Yes ? Width - size.Width : -1,
+
+                    ContentAlignment.TopCenter or
+                    ContentAlignment.MiddleCenter or
+                    ContentAlignment.BottomCenter => (Width - size.Width) / 2,
+
+                    ContentAlignment.TopRight or
+                    ContentAlignment.MiddleRight or
+                    ContentAlignment.BottomRight => RightToLeft == RightToLeft.Yes ? -1 : Width - size.Width,
+
+                    _ => 0
+                } + 1,
+
+                _TextAlignment switch {
+                    ContentAlignment.MiddleLeft or
+                    ContentAlignment.MiddleCenter or
+                    ContentAlignment.MiddleRight => (Height - size.Height) / 2,
+
+
+                    ContentAlignment.BottomLeft or
+                    ContentAlignment.BottomCenter or
+                    ContentAlignment.BottomRight => Height - size.Height,
+
+                    _ => 0
+                } + 1
+            );
+        }
+        _ControlGraphics.DrawString(
             base.Text, Font, new SolidBrush(ForeColor),
 
             _TextAlignment switch {
@@ -402,7 +500,6 @@ public class ExtendedProgressBar : ProgressBar {
 
                 _ => 0
             }
-
         );
     }
 

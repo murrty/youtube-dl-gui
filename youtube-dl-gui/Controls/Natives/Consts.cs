@@ -33,6 +33,7 @@ internal static class Consts {
     /// The message is sent when the UpdateWindow or RedrawWindow function is called, or by the DispatchMessage function when the application obtains a WM_PAINT message by using the GetMessage or PeekMessage function.
     /// </summary>
     public const int WM_PAINT = 0xF;
+    public const int WS_EX_COMPOSITED = 0x02000000;
 
     /// <summary>
     /// The IntPtr value of IDC_HAND.
