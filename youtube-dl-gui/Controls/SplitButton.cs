@@ -83,7 +83,7 @@ namespace youtube_dl_gui.Controls {
                     DropDownPushed = 0;
                     break;
             }
-            NativeMethods.SendMessage(Handle, (0x1606 + 0x0006), (IntPtr)Pushed, IntPtr.Zero);
+            NativeMethods.SendMessage(Handle, (0x1606 + 0x0006), Pushed, 0);
         }
         public event DropDownClicked DropDown_Clicked;
 

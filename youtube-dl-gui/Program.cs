@@ -13,7 +13,7 @@ namespace youtube_dl_gui {
         /// <summary>
         /// Gets the curent version of the program.
         /// </summary>
-        public static Version CurrentVersion { get; } = new(3, 0, 0, 1);
+        public static Version CurrentVersion { get; } = new(3, 0, 0, 2);
 
         /// <summary>
         /// Gets whether the program is running in debug mode.
@@ -44,20 +44,19 @@ namespace youtube_dl_gui {
             $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\youtube_dl_gui";
         public static readonly string ProgramPath =
             Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName);
-        public static readonly string UserAgent =
-            "User-Agent: youtube-dl-gui/" + CurrentVersion;
+        public static readonly string UserAgent = "youtube-dl-gui/" + CurrentVersion;
 
-        static Form MainForm;
+        static frmMain MainForm;
         private static bool IsFirstTime = false;
+        public static readonly HashSet<Form> RunningActions = new();
 
         [STAThread]
         static int Main(string[] args) {
-            Instance = new Mutex(true, ProgramGUID.Value);
 #if DEBUG
             DebugMode = true;
 #endif
 
-            if (Instance.WaitOne(TimeSpan.Zero, true) || DebugMode) {
+            if (DebugMode || (Instance = new(true, ProgramGUID.Value)).WaitOne(TimeSpan.Zero, true)) {
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
                 Log.InitializeLogging();
@@ -67,13 +66,10 @@ namespace youtube_dl_gui {
                     Environment.CurrentDirectory = ProgramPath;
                 }
 
-                Config.Settings = new Config();
-                Config.Settings.Load(ConfigType.Initialization);
-
+                (Config.Settings = new Config()).Load(ConfigType.Initialization);
                 if (DebugMode) {
                     LoadClasses();
-                    //Application.Run(new frmExtendedDownload("https://www.youtube.com/watch?v=F8xIr28fns0"));
-                    Application.Run(new frmMain());
+                    Application.Run(MainForm = new frmMain());
                 }
                 else {
                     if (Config.Settings.Initialization.firstTime) {
@@ -89,7 +85,6 @@ namespace youtube_dl_gui {
                         else {
                             return 1;
                         }
-
 
                         if (MessageBox.Show(Language.dlgFirstTimeInitialMessage, "youtube-dl-gui", MessageBoxButtons.YesNo) == DialogResult.Yes) {
                             Config.Settings.Initialization.firstTime = false;
@@ -120,6 +115,9 @@ namespace youtube_dl_gui {
                     LoadClasses();
 
                     if (CheckArgs(args, true)) {
+                        do {
+                            Thread.Sleep(1000);
+                        } while (RunningActions.Count > 0);
                         return 0;
                     }
 
@@ -160,7 +158,7 @@ namespace youtube_dl_gui {
             return ExitCode;
         }
 
-        static void LoadClasses() {
+        private static void LoadClasses() {
             if (!IsFirstTime) {
                 Config.Settings.Load(ConfigType.All);
 
@@ -176,67 +174,121 @@ namespace youtube_dl_gui {
             Formats.LoadCustomFormats();
         }
 
-        public static void KillProcessTree(uint ProcessId) {
+        public static void KillProcessTree(uint ProcessId, bool KillParent = false) {
             ManagementObjectSearcher searcher = new("SELECT * FROM Win32_Process WHERE ParentProcessId=" + ProcessId);
             ManagementObjectCollection collection = searcher.Get();
             if (collection.Count > 0) {
                 foreach (var proc in collection) {
                     uint id = (uint)proc["ProcessID"];
                     if ((int)id != ProcessId) {
-                        Process subProcess = Process.GetProcessById((int)id);
-                        subProcess.Kill();
+                        Process.GetProcessById((int)id).Kill();
                     }
                 }
+            }
+
+            if (KillParent) {
+                Process.GetProcessById((int)ProcessId).Kill();
             }
         }
 
         public static bool CheckArgs(string[] args, bool UseDialog) {
             if (args.Length > 1) {
+                int PassedCount = 0;
                 for (int i = 0; i < args.Length; i++) {
                     string CurrentArgument = args[i];
                     if (CurrentArgument.StartsWith("ytdl:")) {
                         CurrentArgument = CurrentArgument[5..];
                     }
 
-                    switch (CurrentArgument) {
-                        case "-v": case "-video":
-                            i++;
-                            DownloadInfo NewVideo = new() {
-                                DownloadURL = args[i],
-                                Type = DownloadType.Video,
-                                VideoQuality = (VideoQualityType)Config.Settings.Saved.videoQuality
-                            };
-                            frmDownloader VideoDownloader = new(NewVideo);
-                            if (UseDialog) {
-                                VideoDownloader.ShowDialog();
-                            }
-                            else {
-                                VideoDownloader.Show();
-                            }
-                            break;
+                    switch (Config.Settings.Downloads.YtdlType) {
+                        case 0 when Config.Settings.Downloads.ExtendedDownloaderPreferExtendedForm:
+                        case 2 when Config.Settings.Downloads.ExtendedDownloaderPreferExtendedForm: {
+                            if (++i >= args.Length)
+                                return false;
 
-                        case "-a": case "-audio":
-                            i++;
-                            DownloadInfo NewAudio = new() {
-                                DownloadURL = args[i],
-                                Type = DownloadType.Audio
-                            };
-                            if (Config.Settings.Downloads.AudioDownloadAsVBR) {
-                                NewAudio.AudioVBRQuality = (AudioVBRQualityType)Config.Settings.Saved.audioQuality;
-                            }
-                            else {
-                                NewAudio.AudioCBRQuality = (AudioCBRQualityType)Config.Settings.Saved.audioQuality;
-                            }
-
-                            frmDownloader AudioDownloader = new(NewAudio);
+                            frmExtendedDownload ExtendedDownload = new(args[i]);
                             if (UseDialog) {
-                                AudioDownloader.ShowDialog();
+                                ExtendedDownload.ShowDialog();
                             }
                             else {
-                                AudioDownloader.Show();
+                                ExtendedDownload.Show();
                             }
-                            break;
+                        } break;
+
+                        default: {
+                            switch (CurrentArgument) {
+                                case "-v": case "-video": {
+                                    if (++i >= args.Length)
+                                        return false;
+
+                                    switch (Config.Settings.Downloads.YtdlType) {
+                                        case 0 when Config.Settings.Downloads.ExtendedDownloaderPreferExtendedForm:
+                                        case 2 when Config.Settings.Downloads.ExtendedDownloaderPreferExtendedForm: {
+                                            frmExtendedDownload ExtendedDownload = new(args[i]);
+                                            if (UseDialog) {
+                                                ExtendedDownload.ShowDialog();
+                                            }
+                                            else {
+                                                ExtendedDownload.Show();
+                                            }
+                                        } break;
+
+                                        default: {
+                                            DownloadInfo NewVideo = new() {
+                                                DownloadURL = args[i],
+                                                Type = DownloadType.Video,
+                                                VideoQuality = (VideoQualityType)Config.Settings.Saved.videoQuality
+                                            };
+                                            frmDownloader VideoDownloader = new(NewVideo);
+                                            if (UseDialog) {
+                                                VideoDownloader.ShowDialog();
+                                            }
+                                            else {
+                                                VideoDownloader.Show();
+                                            }
+                                            PassedCount++;
+                                        } break;
+                                    }
+
+                                } break;
+
+                                case "-a": case "-audio": {
+                                    if (++i >= args.Length)
+                                        return false;
+
+                                    switch (Config.Settings.Downloads.YtdlType) {
+                                        case 0 when Config.Settings.Downloads.ExtendedDownloaderPreferExtendedForm:
+                                        case 2 when Config.Settings.Downloads.ExtendedDownloaderPreferExtendedForm: {
+
+                                        } break;
+
+                                        default: {
+                                            DownloadInfo NewAudio = new() {
+                                                DownloadURL = args[i],
+                                                Type = DownloadType.Audio
+                                            };
+                                            if (Config.Settings.Downloads.AudioDownloadAsVBR) {
+                                                NewAudio.AudioVBRQuality = (AudioVBRQualityType)Config.Settings.Saved.audioQuality;
+                                            }
+                                            else {
+                                                NewAudio.AudioCBRQuality = (AudioCBRQualityType)Config.Settings.Saved.audioQuality;
+                                            }
+
+                                            frmDownloader AudioDownloader = new(NewAudio);
+                                            if (UseDialog) {
+                                                AudioDownloader.ShowDialog();
+                                            }
+                                            else {
+                                                AudioDownloader.Show();
+                                            }
+                                            PassedCount++;
+                                        } break;
+                                    }
+                                } break;
+                            }
+                        } break;
                     }
+
                 }
             }
 
@@ -244,7 +296,7 @@ namespace youtube_dl_gui {
         }
 
         public static string CalculateSha256Hash(string File) {
-            using SHA256 ComputeUpdaterHash = SHA256Cng.Create();
+            using SHA256 ComputeUpdaterHash = SHA256.Create();
             using FileStream UpdaterStream = System.IO.File.OpenRead(File);
             string UpdaterHash = BitConverter.ToString(ComputeUpdaterHash.ComputeHash(UpdaterStream)).Replace("-", "").ToLower();
             UpdaterStream.Close();
@@ -260,7 +312,7 @@ namespace youtube_dl_gui {
         }
 
         public static void RemoveTrayIcon() {
-            //MainForm.RemoveTrayIcon();
+            MainForm.RemoveTrayIcon();
         }
     }
 }

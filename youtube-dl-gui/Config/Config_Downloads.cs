@@ -43,8 +43,8 @@ internal class Config_Downloads {
     public bool AddDateToBatchDownloadFolders = true;
     public int YtdlType = 0;
     public bool SubdomainFolderNames = false;
-    public bool YtdlpExtendedPreferExtendedForm = false;
-    public bool YtdlpExtendedAutoDownloadThumbnail = false;
+    public bool ExtendedDownloaderPreferExtendedForm = false;
+    public bool ExtendedDownloaderAutoDownloadThumbnail = false;
 
     private string fdownloadPath = string.Empty;
     private bool fseparateDownloads = true;
@@ -85,8 +85,8 @@ internal class Config_Downloads {
     private bool fAddDateToBatchDownloadFolders = true;
     private int fYtdlType = 0;
     private bool fSubdomainFolderNames = false;
-    private bool fYtdlpExtendedPreferExtendedForm = false;
-    private bool fYtdlpExtendedAutoDownloadThumbnail = false;
+    private bool fExtendedDownloaderPreferExtendedForm = false;
+    private bool fExtendedDownloaderAutoDownloadThumbnail = false;
     #endregion
 
     public void Load() {
@@ -214,11 +214,11 @@ internal class Config_Downloads {
         }
 
         if (Ini.KeyExists("YtdlpExtendedPreferExtendedForm", ConfigName)) {
-            YtdlpExtendedPreferExtendedForm = fYtdlpExtendedPreferExtendedForm = Ini.ReadBool("YtdlpExtendedPreferExtendedForm", ConfigName);
+            ExtendedDownloaderPreferExtendedForm = fExtendedDownloaderPreferExtendedForm = Ini.ReadBool("YtdlpExtendedPreferExtendedForm", ConfigName);
         }
 
         if (Ini.KeyExists("YtdlpExtendedAutoDownloadThumbnail", ConfigName)) {
-            YtdlpExtendedAutoDownloadThumbnail = fYtdlpExtendedAutoDownloadThumbnail = Ini.ReadBool("YtdlpExtendedAutoDownloadThumbnail", ConfigName);
+            ExtendedDownloaderAutoDownloadThumbnail = fExtendedDownloaderAutoDownloadThumbnail = Ini.ReadBool("YtdlpExtendedAutoDownloadThumbnail", ConfigName);
         }
     }
 
@@ -379,13 +379,13 @@ internal class Config_Downloads {
             Ini.Write("SubdomainFolderNames", SubdomainFolderNames, ConfigName);
             fSubdomainFolderNames = SubdomainFolderNames;
         }
-        if (YtdlpExtendedPreferExtendedForm != fYtdlpExtendedPreferExtendedForm) {
-            Ini.Write("YtdlpExtendedPreferExtendedForm", YtdlpExtendedPreferExtendedForm, ConfigName);
-            fYtdlpExtendedPreferExtendedForm = YtdlpExtendedPreferExtendedForm;
+        if (ExtendedDownloaderPreferExtendedForm != fExtendedDownloaderPreferExtendedForm) {
+            Ini.Write("YtdlpExtendedPreferExtendedForm", ExtendedDownloaderPreferExtendedForm, ConfigName);
+            fExtendedDownloaderPreferExtendedForm = ExtendedDownloaderPreferExtendedForm;
         }
-        if (YtdlpExtendedAutoDownloadThumbnail != fYtdlpExtendedAutoDownloadThumbnail) {
-            Ini.Write("YtdlpExtendedAutoDownloadThumbnail", YtdlpExtendedAutoDownloadThumbnail, ConfigName);
-            fYtdlpExtendedAutoDownloadThumbnail = YtdlpExtendedAutoDownloadThumbnail;
+        if (ExtendedDownloaderAutoDownloadThumbnail != fExtendedDownloaderAutoDownloadThumbnail) {
+            Ini.Write("YtdlpExtendedAutoDownloadThumbnail", ExtendedDownloaderAutoDownloadThumbnail, ConfigName);
+            fExtendedDownloaderAutoDownloadThumbnail = ExtendedDownloaderAutoDownloadThumbnail;
         }
     }
 }

@@ -9,7 +9,7 @@ namespace youtube_dl_gui {
     /// <summary>
     /// This class will control the Errors that get reported in try statements.
     /// </summary>
-    class Log {
+    internal static class Log {
 
         #region Log stuff
         /// <summary>
@@ -134,7 +134,7 @@ namespace youtube_dl_gui {
             //    LogForm?.AppendNoDate(message, initial);
             //}
         }
-#endregion
+        #endregion
 
         #region Exception handling
         /// <summary>
@@ -192,7 +192,6 @@ namespace youtube_dl_gui {
                 string LogData = ReceivedException switch {
                     UnhandledExceptionEventArgs UnhandledEvent => UnhandledEvent.ToString(),
                     System.Threading.ThreadExceptionEventArgs ThreadException => ThreadException.ToString(),
-                    DecimalParsingException DecimalParsingException => DecimalParsingException.ToString(),
                     ApiParsingException ApiParsingException => ApiParsingException.ToString(),
                     System.Net.WebException WebException => WebException.ToString(),
                     Exception Exception => Exception.ToString(),
@@ -236,30 +235,16 @@ namespace youtube_dl_gui {
     }
 
     /// <summary>
-    /// A exception that occurs when decimal.TryParse returns false.
-    /// </summary>
-    [Serializable]
-    public class DecimalParsingException : Exception {
-        public string ExtraInfo { get; set; } = "No extra info provided.";
-        public DecimalParsingException() : base("No message has been provided.") { }
-        public DecimalParsingException(string message) : base(message) { }
-        public DecimalParsingException(string message, string extraInfo) : base(message) { ExtraInfo = extraInfo; }
-        public override string ToString() =>
-            base.ToString() + "\nExtra information: " + ExtraInfo;
-    }
-
-    /// <summary>
     /// An exception that occurs when parsing an API fails at a critical point.
     /// </summary>
     [Serializable]
-    public class ApiParsingException : Exception {
-        public string ExtraInfo { get; set; } = "No extra info provided.";
+    public sealed class ApiParsingException : Exception {
         public string ApiUrl { get; set; } = "No API URL provided.";
         public ApiParsingException(string url) : base("No message has been provided.") { ApiUrl = url; }
         public ApiParsingException(string message, string url) : base(message) { ApiUrl = url; }
-        public ApiParsingException(string message, string url, string extraInfo) : base(message) { ApiUrl = url; ExtraInfo = extraInfo; }
+        public ApiParsingException(string message, string url, string extraInfo) : base(message) { ApiUrl = url; }
         public override string ToString() =>
-            base.ToString() + "\nApi URL: " + ApiUrl + "\nExtra information: " + ExtraInfo;
+            base.ToString() + "\nApi URL: " + ApiUrl;
     }
 
 }

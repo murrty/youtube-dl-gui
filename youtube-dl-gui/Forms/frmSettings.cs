@@ -405,8 +405,8 @@ namespace youtube_dl_gui {
             txtSettingsDownloadsProxyPort.Text = Config.Settings.Downloads.ProxyPort;
             chksettingsDownloadsUseYoutubeDlsUpdater.Checked = useYtdlUpdater_Last = Config.Settings.Downloads.useYtdlUpdater;
             cbSettingsDownloadsUpdatingYtdlType.SelectedIndex = YtdlType_Last = Config.Settings.Downloads.YtdlType;
-            chkYtdlpPreferExtendedDialog.Checked = Config.Settings.Downloads.YtdlpExtendedPreferExtendedForm;
-            chkYtdlpExtendedAutomaticallyDownloadThumbnail.Checked = Config.Settings.Downloads.YtdlpExtendedAutoDownloadThumbnail;
+            chkYtdlpPreferExtendedDialog.Checked = Config.Settings.Downloads.ExtendedDownloaderPreferExtendedForm;
+            chkYtdlpExtendedAutomaticallyDownloadThumbnail.Checked = Config.Settings.Downloads.ExtendedDownloaderAutoDownloadThumbnail;
 
             chkSettingsConverterDetectOutputFileType.Checked = Config.Settings.Converts.detectFiletype;
             chkSettingsConverterClearOutputAfterConverting.Checked = Config.Settings.Converts.clearOutput;
@@ -525,8 +525,8 @@ namespace youtube_dl_gui {
                 RefreshYtdl = true;
             }
             Config.Settings.Downloads.YtdlType = cbSettingsDownloadsUpdatingYtdlType.SelectedIndex;
-            Config.Settings.Downloads.YtdlpExtendedPreferExtendedForm = chkYtdlpPreferExtendedDialog.Checked;
-            Config.Settings.Downloads.YtdlpExtendedAutoDownloadThumbnail = chkYtdlpExtendedAutomaticallyDownloadThumbnail.Checked;
+            Config.Settings.Downloads.ExtendedDownloaderPreferExtendedForm = chkYtdlpPreferExtendedDialog.Checked;
+            Config.Settings.Downloads.ExtendedDownloaderAutoDownloadThumbnail = chkYtdlpExtendedAutomaticallyDownloadThumbnail.Checked;
 
             Config.Settings.Converts.detectFiletype = chkSettingsConverterDetectOutputFileType.Checked;
             Config.Settings.Converts.clearOutput = chkSettingsConverterClearOutputAfterConverting.Checked;

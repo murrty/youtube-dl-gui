@@ -143,6 +143,7 @@ namespace youtube_dl_gui {
                 });
             }
             else if (lvBatchConvertQueue.Items.Count > 0) {
+                Program.RunningActions.Add(this);
                 InProgress = true;
                 bool AbortConversions = false;
                 btnBatchConverterStartStopExit.Text = Language.GenericStop;
@@ -202,7 +203,6 @@ namespace youtube_dl_gui {
                         if (AbortConversions)
                             break;
                     }
-                    InProgress = false;
                     lvBatchConvertQueue.Invoke((Action)delegate {
                         if (AbortConversions) {
                             sbBatchConverter.Text = Language.sbBatchConverterAborted;
@@ -214,6 +214,8 @@ namespace youtube_dl_gui {
                         btnBatchConverterStartStopExit.Text = Language.GenericStart;
                     });
                     System.Media.SystemSounds.Exclamation.Play();
+                    InProgress = false;
+                    Program.RunningActions.Remove(this);
                 }) {
                     Name = "Conversion thread",
                 };

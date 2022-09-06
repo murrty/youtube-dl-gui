@@ -209,6 +209,7 @@ namespace youtube_dl_gui {
 
             #region Conversion thread
             ConverterThread = new Thread(() => {
+                Program.RunningActions.Add(this);
                 try {
                     ConverterProcess = new Process() {
                         StartInfo = new(Verification.FFmpegPath) {
@@ -270,6 +271,7 @@ namespace youtube_dl_gui {
                     CurrentConversion.Status = ConversionStatus.ProgramError;
                 }
                 finally {
+                    Program.RunningActions.Remove(this);
                     if (CurrentConversion.Status != ConversionStatus.Aborted || CurrentConversion.BatchConversion) {
                         this.BeginInvoke((Action)delegate {
                             ConversionFinished();

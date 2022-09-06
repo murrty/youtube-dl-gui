@@ -124,8 +124,8 @@ namespace murrty.forms {
                         btnExceptionGithub.Text = Language.InternalEnglish.btnExceptionGithub;
                         btnExceptionRetry.Text = Language.InternalEnglish.GenericRetry;
                         btnExceptionOk.Text = Language.InternalEnglish.GenericOk;
-                        btnExceptionOk.Text = Language.InternalEnglish.GenericOk;
-                        btnExceptionOk.Text = Language.InternalEnglish.GenericOk;
+                        tpExceptionDetails.Text = Language.InternalEnglish.tpExceptionDetails;
+                        tpExceptionExtraInfo.Text = Language.InternalEnglish.tpExceptionExtraInfo;
                     }
                     else {
                         this.Text = Language.frmException;
@@ -159,16 +159,6 @@ namespace murrty.forms {
                                                   $"The application will exit after closing this dialog.\n\n" +
                                                   $"{(ReportedException.ExtraMessage is not null ? $"{ReportedException.ExtraMessage}\n\n" : "")}" +
                                                   $"{ThrEx.Exception}\n";
-                    } break;
-
-                    case DecimalParsingException DecParEx: {
-                        rtbExceptionDetails.Text = (ReportedException.Unrecoverable ? "An unrecoverable DecimalParsingException occurred, and the application will exit." : "A caught DecimalParsingException occurred.") + "\n\n" +
-                                                  $"{(ReportedException.ExtraMessage is not null ? $"{ReportedException.ExtraMessage}\n\n" : "")}" +
-                                                  $"Message: {DecParEx.Message}\n" +
-                                                  $"Stacktrace: {DecParEx.StackTrace}\n" +
-                                                  $"Source: {DecParEx.Source}\n" +
-                                                  $"Target Site: {DecParEx.TargetSite}\n" +
-                                                  $"Inner Exception: {DecParEx.InnerException}\n";
                     } break;
 
                     case ApiParsingException ApiParEx: {

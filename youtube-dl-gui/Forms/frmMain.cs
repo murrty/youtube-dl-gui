@@ -79,7 +79,7 @@ namespace youtube_dl_gui {
             else {
                 trayIcon.ContextMenu = cmTray;
                 trayIcon.Visible = true;
-                tcMain.TabPages.RemoveAt(3);
+                tcMain.TabPages.Remove(tabDebug);
             }
             cbSchema.Text = Config.Settings.Downloads.fileNameSchema;
             if (!string.IsNullOrEmpty(Config.Settings.Saved.FileNameSchemaHistory)) {
@@ -89,10 +89,7 @@ namespace youtube_dl_gui {
                 mDownloadSeparator.Enabled = mDownloadSeparator.Visible =
                 mQuickDownloadForm.Enabled = mQuickDownloadForm.Visible =
                 mQuickDownloadFormAuthentication.Enabled = mQuickDownloadFormAuthentication.Visible =
-                mExtendedDownloadForm.Enabled = mExtendedDownloadForm.Visible = Config.Settings.Downloads.YtdlType switch {
-                    0 or 2 => true,
-                    _ => false
-                };
+                mExtendedDownloadForm.Enabled = mExtendedDownloadForm.Visible = Download.CanUseExtendedDownloader();
         }
 
         private void frmMain_Load(object sender, EventArgs e) {
@@ -194,6 +191,11 @@ namespace youtube_dl_gui {
         }
 
         private void frmMain_FormClosing(object sender, FormClosingEventArgs e) {
+            if (Program.RunningActions.Count > 0) {
+                MessageBox.Show(Language.dlgRunningActions, Language.ApplicationName, MessageBoxButtons.OK);
+                e.Cancel = true;
+            }
+
             if (UpdateCheckThread != null && UpdateCheckThread.IsAlive) {
                 UpdateCheckThread.Abort();
             }
@@ -483,10 +485,7 @@ namespace youtube_dl_gui {
                 mDownloadSeparator.Enabled = mDownloadSeparator.Visible =
                 mQuickDownloadForm.Enabled = mQuickDownloadForm.Visible =
                 mQuickDownloadFormAuthentication.Enabled = mQuickDownloadFormAuthentication.Visible =
-                mExtendedDownloadForm.Enabled = mExtendedDownloadForm.Visible = Config.Settings.Downloads.YtdlType switch {
-                    0 or 2 => true,
-                    _ => false
-                };
+                mExtendedDownloadForm.Enabled = mExtendedDownloadForm.Visible = Download.CanUseExtendedDownloader();
         }
 
         private void mBatchDownload_Click(object sender, EventArgs e) {
@@ -870,7 +869,7 @@ namespace youtube_dl_gui {
             }
         }
         private void sbDownload_Click(object sender, EventArgs e) {
-            if (Config.Settings.Downloads.YtdlType == 2 && Config.Settings.Downloads.YtdlpExtendedPreferExtendedForm)
+            if (Download.CanUseExtendedDownloader() && Config.Settings.Downloads.ExtendedDownloaderPreferExtendedForm)
                 StartDownloadExtended();
             else
                 StartDownload(false);

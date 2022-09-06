@@ -206,6 +206,13 @@ public class Download {
         return false;
     }
 
+    public static bool CanUseExtendedDownloader() {
+        return Config.Settings.Downloads.YtdlType switch {
+            0 or 2 => true,
+            _ => false
+        };
+    }
+
     public class Formats {
         #region Arrays
 

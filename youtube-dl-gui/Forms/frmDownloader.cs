@@ -467,6 +467,7 @@ namespace youtube_dl_gui {
             rtbConsoleOutput.AppendText("Creating download thread\n");
             bool IsYtdlp = Config.Settings.Downloads.YtdlType == 2;
             DownloadThread = new Thread(() => {
+                Program.RunningActions.Add(this);
                 try {
                     DownloadProcess = new Process() {
                         StartInfo = new ProcessStartInfo(Verification.YoutubeDlPath) {
@@ -522,7 +523,7 @@ namespace youtube_dl_gui {
 
                         if (IsYtdlp) {
                             while (!DownloadProcess.HasExited) {
-                                if (Msg.Length > 0) {
+                                if (Msg.Length > 0 && Msg.IndexOf("[download]") > -1) {
                                     rtbConsoleOutput.BeginInvoke(() => rtbConsoleOutput?.AppendText($"{Msg}\n"));
                                 }
                                 Thread.Sleep(1000);
@@ -554,6 +555,7 @@ namespace youtube_dl_gui {
                     CurrentDownload.Status = DownloadStatus.ProgramError;
                 }
                 finally {
+                    Program.RunningActions.Remove(this);
                     if (CurrentDownload.Status != DownloadStatus.Aborted || CurrentDownload.BatchDownload && this.IsHandleCreated) {
                         this.BeginInvoke(() => DownloadFinished());
                     }

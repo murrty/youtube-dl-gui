@@ -46,6 +46,7 @@ public static class Language {
 
     public static string dlgClipboardAutoDownloadNotice { get; private set; }
     public static string dlgBatchDownloadClipboardScannerNotice { get; private set; }
+    public static string dlgRunningActions { get; private set; }
 
     public static string dlgMainArgsTxtDoesntExist { get; private set; }
     public static string dlgMainArgsTxtIsEmpty { get; private set; }
@@ -490,6 +491,7 @@ public static class Language {
 
         public const string dlgClipboardAutoDownloadNotice = "Using the clipboard auto downloader will automatically attempt to download verified links from the clipboard using the selected settings on the main form. Please do not copy any sensitive information while this option is enabled, ever.";
         public const string dlgBatchDownloadClipboardScannerNotice = "Enabling this option will add anything from your clipboard when something is copied (link or not). It will need to be manually enabled per-converter instance. Take care to not copy any sensitive information to the cipboard.";
+        public const string dlgRunningActions = "There are actions currently running. Wait for them to finish or abort them before closing the main form.";
 
         public const string dlgFindDownloadFolder = "Select a directory to save downloads to...";
         public const string dlgMainArgsTxtDoesntExist = "args.txt does not exist, create it and put in arguments to use this command";
@@ -588,7 +590,7 @@ public static class Language {
         public const string lbExceptionHeader = "An exception has occured";
         public const string lbExceptionDescription = "Below is the error that occured. Feel free to open a new issue and report it.";
         public const string rtbExceptionDetails = "Feel free to copy + paste this entire text wall into a new issue on Github";
-        public const string btnExceptionGithub = "Open Github";
+        public const string btnExceptionGithub = "Github";
         public const string tpExceptionDetails = "Exception details";
         public const string tpExceptionExtraInfo = "Extra info";
         #endregion
@@ -768,7 +770,7 @@ public static class Language {
         public const string tabDownloadsConnection = "Connection";
         public const string tabDownloadsUpdating = "Updating";
         public const string tabDownloadsBatch = "Batch";
-        public const string tabExtendedOptions = "yt-dlp extended options";
+        public const string tabExtendedOptions = "Extended downloader";
 
         public const string chkSettingsDownloadsSaveFormatQuality = "Save quality, format, && args on download";
         public const string chkSettingsDownloadsDownloadSubtitles = "Download subtitles";
@@ -968,6 +970,7 @@ public static class Language {
 
         dlgClipboardAutoDownloadNotice = InternalEnglish.dlgClipboardAutoDownloadNotice;
         dlgBatchDownloadClipboardScannerNotice = InternalEnglish.dlgBatchDownloadClipboardScannerNotice;
+        dlgRunningActions = InternalEnglish.dlgRunningActions;
 
         dlgFindDownloadFolder = InternalEnglish.dlgFindDownloadFolder;
         dlgMainArgsTxtDoesntExist = InternalEnglish.dlgMainArgsTxtDoesntExist;
@@ -1398,6 +1401,7 @@ public static class Language {
 
         dlgClipboardAutoDownloadNotice = nameof(dlgClipboardAutoDownloadNotice);
         dlgBatchDownloadClipboardScannerNotice = nameof(dlgBatchDownloadClipboardScannerNotice);
+        dlgRunningActions = nameof(dlgRunningActions);
 
         dlgFindDownloadFolder = nameof(dlgFindDownloadFolder);
         dlgMainArgsTxtDoesntExist = nameof(dlgMainArgsTxtDoesntExist);
@@ -1897,12 +1901,17 @@ public static class Language {
                                 case "dlgfinddownloadfolder":
                                     dlgFindDownloadFolder = ReadValue;
                                     continue;
+
                                 case "dlgclipboardautodownloadnotice":
                                     dlgClipboardAutoDownloadNotice = ReadValue;
                                     continue;
                                 case "dlgbatchdownloadclipboardscannernotice":
                                     dlgBatchDownloadClipboardScannerNotice = ReadValue;
                                     continue;
+                                case "dlgrunningactions":
+                                    dlgRunningActions = ReadValue;
+                                    continue;
+
                                 case "dlgmainargstxtdoesntexist":
                                     dlgMainArgsTxtDoesntExist = ReadValue;
                                     continue;

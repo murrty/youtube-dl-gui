@@ -49,6 +49,10 @@ namespace youtube_dl_gui {
             cbAudioEncoders.SelectedIndex = 0;
 
             cbVbrQualities.Items.AddRange(Formats.VbrQualities);
+            cbSchema.Text = Config.Settings.Downloads.fileNameSchema;
+            if (!string.IsNullOrEmpty(Config.Settings.Saved.FileNameSchemaHistory)) {
+                cbSchema.Items.AddRange(Config.Settings.Saved.FileNameSchemaHistory.Split('|'));
+            }
 
             rbVideo.Checked = true;
 
@@ -56,6 +60,9 @@ namespace youtube_dl_gui {
                 string Retrieved = null;
                 try {
                     Information = VideoInformation.GenerateInformation(URL, out Retrieved);
+                    if (Information is null || Information.AvailableFormats.Length == 0)
+                        throw new NullReferenceException("VideoInformation Information is null.");
+
                     VideoInformation.Format Format;
                     for (int i = Information.AvailableFormats.Length; i > 0; i--) {
                         Format = Information.AvailableFormats[i - 1];
@@ -115,7 +122,7 @@ namespace youtube_dl_gui {
                         lbTimestamp.Text = Information.Duration;
                         tcVideoData.Enabled = true;
 
-                        if (Config.Settings.Downloads.YtdlpExtendedAutoDownloadThumbnail) {
+                        if (Config.Settings.Downloads.ExtendedDownloaderAutoDownloadThumbnail) {
                             ThumbnailThread.Start();
                             btnExtendedDownloaderDownloadThumbnail.Enabled = btnExtendedDownloaderDownloadThumbnail.Visible = false;
                         }
@@ -172,7 +179,11 @@ namespace youtube_dl_gui {
                 }
                 catch (ThreadAbortException) { }
                 catch (Exception ex) {
-                    Log.ReportException(ex);
+                    this.Invoke(() => {
+                        btnExtendedDownloaderDownloadThumbnail.Enabled = btnExtendedDownloaderDownloadThumbnail.Visible = true;
+                        lbExtendedDownloaderDownloadingThumbnail.Text = Language.lbExtendedDownloaderDownloadingThumbnailFailed;
+                        Log.ReportException(ex);
+                    });
                 }
             }) {
                 Name = $"ThumbThread {URL}",
@@ -215,8 +226,9 @@ namespace youtube_dl_gui {
             rbAudio.Text = Language.GenericAudio;
             rbCustom.Text = Language.GenericCustom;
             chkVideoDownloadAudio.Text = Language.GenericSound;
-            tpVideoFormats.Text = Language.GenericVideo;
-            tpAudioFormats.Text = Language.GenericAudio;
+            tabVideoFormats.Text = Language.GenericVideo;
+            tabAudioFormats.Text = Language.GenericAudio;
+            tabCustom.Text = Language.GenericCustom;
             tpFormats.Text = Language.lbFormat;
             lbVideoEncoder.Text = Language.GenericVideo;
             lbAudioEncoder.Text = Language.GenericAudio;
@@ -225,6 +237,7 @@ namespace youtube_dl_gui {
             tpFormatOptions.Text = Language.tpExtendedDownloaderFormatOptions;
             lbSchema.Text = Language.lbSettingsDownloadsFileNameSchema;
             chkVideoSeparateAudio.Text = Language.chkExtendedDownloaderVideoSeparateAudio;
+            chkDownloaderCloseAfterDownload.Text = Language.chkDownloaderCloseAfterDownload;
         }
 
         public string GenerateArguments(bool Authentication = false) {
@@ -241,8 +254,8 @@ namespace youtube_dl_gui {
                 ArgumentBuffer.Append(rbAudio.Checked ? "\\Audio" : rbCustom.Checked ? "\\Custom" : "\\Video");
 
             ArgumentBuffer.Append($"\\{(
-                Config.Settings.Downloads.fileNameSchema.IsNotNullEmptyWhitespace() ?
-                    Config.Settings.Downloads.fileNameSchema : "%(title)s-%(id)s.%(ext)s")}\"");
+                cbSchema.Text.IsNotNullEmptyWhitespace() ?
+                    cbSchema.Text : "%(title)s-%(id)s.%(ext)s")}\"");
 
             VideoInformation.Format Format;
 
@@ -407,6 +420,7 @@ namespace youtube_dl_gui {
                 pbStatus.ShowInTaskbar = true;
                 pbStatus.Text = "Retrieving metadata";
                 DownloadThread = new(() => {
+                    Program.RunningActions.Add(this);
                     DownloadProcess = new() {
                         StartInfo = new() {
                             Arguments = args,
@@ -481,33 +495,39 @@ namespace youtube_dl_gui {
                         Status = DownloadProcess.ExitCode == 0 ? DownloadStatus.Finished : DownloadStatus.YtdlError;
 
                     this.Invoke(() => {
-                        pbStatus.ShowInTaskbar = false;
-                        btnDownloadAbortClose.Enabled = true;
-                        btnDownloadWithAuthentication.Enabled = true;
-                        switch (Status) {
+                        if (chkDownloaderCloseAfterDownload.Checked) {
+                            this.Dispose();
+                        }
+                        else {
+                            pbStatus.ShowInTaskbar = false;
+                            btnDownloadAbortClose.Enabled = true;
+                            btnDownloadWithAuthentication.Enabled = true;
+                            switch (Status) {
+                                case DownloadStatus.Aborted: {
+                                    pbStatus.Text = "Aborted";
+                                    pbStatus.Value = pbStatus.Minimum;
+                                    btnDownloadAbortClose.Text = Language.GenericRetry;
+                                } break;
 
-                            case DownloadStatus.Aborted: {
-                                pbStatus.Text = "Aborted";
-                                pbStatus.Value = pbStatus.Minimum;
-                                btnDownloadAbortClose.Text = Language.GenericRetry;
-                            } break;
+                                case DownloadStatus.Finished: {
+                                    pbStatus.Text = "Completed";
+                                    pbStatus.Value = pbStatus.Maximum;
+                                    btnDownloadAbortClose.Text = Language.sbDownload;
+                                } break;
 
-                            case DownloadStatus.Finished: {
-                                pbStatus.Text = "Completed";
-                                pbStatus.Value = pbStatus.Maximum;
-                                btnDownloadAbortClose.Text = Language.sbDownload;
-                            } break;
+                                case DownloadStatus.AbortForClose: { } break;
 
-                            case DownloadStatus.AbortForClose: { } break;
-
-                            default: {
-                                pbStatus.Text = "Downlod error";
-                                pbStatus.Value = pbStatus.Minimum;
-                                btnDownloadAbortClose.Text = Language.GenericRetry;
-                                tcVideoData.SelectedTab = tpVerbose;
-                            } break;
+                                default: {
+                                    pbStatus.Text = "Downlod error";
+                                    pbStatus.Value = pbStatus.Minimum;
+                                    btnDownloadAbortClose.Text = Language.GenericRetry;
+                                    tcVideoData.SelectedTab = tpVerbose;
+                                } break;
+                            }
                         }
                     });
+
+                    Program.RunningActions.Remove(this);
                 }) {
                     Name = $"Download {URL}",
                     IsBackground = true,
@@ -525,14 +545,10 @@ namespace youtube_dl_gui {
 
         private void rbVideo_CheckedChanged(object sender, EventArgs e) {
             if (rbVideo.Checked) {
-                pnCustom.Enabled = pnCustom.Visible = false;
-                pnAudioVideo.Enabled = pnAudioVideo.Visible = true;
-
-                cbSchema.Enabled = true;
-
                 lvVideoFormats.Enabled = true;
                 cbVideoEncoders.Enabled = true;
                 chkVideoDownloadAudio.Enabled = true;
+                txtCustomArguments.Enabled = false;
 
                 lvAudioFormats.Enabled = cbAudioEncoders.Enabled = chkAudioVBR.Enabled = chkVideoSeparateAudio.Enabled =
                     chkVideoDownloadAudio.Checked;
@@ -543,15 +559,11 @@ namespace youtube_dl_gui {
         }
         private void rbAudio_CheckedChanged(object sender, EventArgs e) {
             if (rbAudio.Checked) {
-                pnCustom.Enabled = pnCustom.Visible = false;
-                pnAudioVideo.Enabled = pnAudioVideo.Visible = true;
-
-                cbSchema.Enabled = true;
-
                 lvVideoFormats.Enabled = false;
                 chkVideoDownloadAudio.Enabled = false;
                 cbVideoEncoders.Enabled = false;
                 chkVideoSeparateAudio.Enabled = false;
+                txtCustomArguments.Enabled = false;
 
                 lvAudioFormats.Enabled = true;
                 chkAudioVBR.Enabled = true;
@@ -562,9 +574,6 @@ namespace youtube_dl_gui {
         }
         private void rbCustom_CheckedChanged(object sender, EventArgs e) {
             if (rbCustom.Checked) {
-                pnCustom.Enabled = pnCustom.Visible = true;
-                pnAudioVideo.Enabled = pnAudioVideo.Visible = false;
-
                 lvVideoFormats.Enabled = false;
                 lvAudioFormats.Enabled = false;
                 chkAudioVBR.Enabled = false;
@@ -573,7 +582,7 @@ namespace youtube_dl_gui {
                 chkVideoSeparateAudio.Enabled = false;
                 cbVideoEncoders.Enabled = false;
                 cbAudioEncoders.Enabled = false;
-                cbSchema.Enabled = false;
+                txtCustomArguments.Enabled = true;
             }
         }
 

@@ -93,7 +93,7 @@ namespace youtube_dl_gui.updater {
                 File.WriteAllBytes(Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe", Properties.Resources.youtube_dl_gui_updater);
 
                 // Sanity check the updater.
-                if (Program.CalculateSha256Hash(Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe") != KnownUpdaterHash.ToLower() && MessageBox.Show(Program.lang.dlgUpdaterHashNoMatch, "youtube-dl-gui", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No) {
+                if (Program.CalculateSha256Hash(Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe") != KnownUpdaterHash.ToLower() && MessageBox.Show(Language.dlgUpdaterHashNoMatch, "youtube-dl-gui", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No) {
                     File.Delete(Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe");
                     return;
                 }
@@ -103,12 +103,13 @@ namespace youtube_dl_gui.updater {
                 File.WriteAllBytes(Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe", Properties.Resources.youtube_dl_gui_updater);
 
                 // Sanity check the updater.
-                if (Program.CalculateSha256Hash(Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe") != KnownUpdaterHash.ToLower() && MessageBox.Show(Program.lang.dlgUpdaterHashNoMatch, "youtube-dl-gui", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No) {
+                if (Program.CalculateSha256Hash(Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe") != KnownUpdaterHash.ToLower() && MessageBox.Show(Language.dlgUpdaterHashNoMatch, "youtube-dl-gui", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No) {
                     File.Delete(Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe");
                     return;
                 }
             }
 
+            Program.RemoveTrayIcon();
             Process Updater = new();
             Updater.StartInfo.FileName = Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe";
             Updater.StartInfo.Arguments = $"-v {LastChecked.Version} -n {AppDomain.CurrentDomain.FriendlyName} -l {Environment.CurrentDirectory + "\\lang\\" + Config.Settings.Initialization.LanguageFile + ".ini"}{(LastChecked.ExecutableHash is not null ? $" -h {LastChecked.ExecutableHash}" : "")}";
@@ -132,7 +133,7 @@ namespace youtube_dl_gui.updater {
                 do {
                     ShouldRetry = false;
                     try {
-                        if (Config.Settings.Downloads.useYtdlUpdater && (Config.Settings.General.UseStaticYtdl && !string.IsNullOrEmpty(Config.Settings.General.ytdlPath) && File.Exists(Config.Settings.General.ytdlPath) || File.Exists(Program.verif.YoutubeDlPath))) {
+                        if (Config.Settings.Downloads.useYtdlUpdater && (Config.Settings.General.UseStaticYtdl && !string.IsNullOrEmpty(Config.Settings.General.ytdlPath) && File.Exists(Config.Settings.General.ytdlPath) || File.Exists(Verification.YoutubeDlPath))) {
 
                             Process UpdateYoutubeDl = new();
                             UpdateYoutubeDl.StartInfo.Arguments = "-U";
@@ -152,7 +153,7 @@ namespace youtube_dl_gui.updater {
                                     FileName = null;
                                 }
                                 else {
-                                    MessageBox.Show(Program.lang.dlgUpdateNoValidYoutubeDl, "youtube-dl-gui");
+                                    MessageBox.Show(Language.dlgUpdateNoValidYoutubeDl, "youtube-dl-gui");
                                     return false;
                                 }
                             }
@@ -161,7 +162,7 @@ namespace youtube_dl_gui.updater {
                         }
                         else {
                             GetLatestYoutubeDl(TypeIndex);
-                            LatestYoutubeDl.IsNewerVersion = Program.verif.YoutubeDlVersion != LatestYoutubeDl.VersionTag;
+                            LatestYoutubeDl.IsNewerVersion = Verification.YoutubeDlVersion != LatestYoutubeDl.VersionTag;
                             return LatestYoutubeDl.IsNewerVersion;
                         }
                     }
@@ -200,7 +201,7 @@ namespace youtube_dl_gui.updater {
         /// Updates youtube-dl (or a fork) to their latest release.
         /// </summary>
         public static bool UpdateYoutubeDl() {
-            if (Config.Settings.Downloads.useYtdlUpdater && (Config.Settings.General.UseStaticYtdl && !string.IsNullOrEmpty(Config.Settings.General.ytdlPath) && File.Exists(Config.Settings.General.ytdlPath) || File.Exists(Program.verif.YoutubeDlPath))) {
+            if (Config.Settings.Downloads.useYtdlUpdater && (Config.Settings.General.UseStaticYtdl && !string.IsNullOrEmpty(Config.Settings.General.ytdlPath) && File.Exists(Config.Settings.General.ytdlPath) || File.Exists(Verification.YoutubeDlPath))) {
 
                 Process UpdateYoutubeDl = new();
                 UpdateYoutubeDl.StartInfo.Arguments = "-U";
@@ -219,7 +220,7 @@ namespace youtube_dl_gui.updater {
                         UpdateYoutubeDl.StartInfo.FileName = FileName;
                     }
                     else {
-                        MessageBox.Show(Program.lang.dlgUpdateNoValidYoutubeDl, "youtube-dl-gui");
+                        MessageBox.Show(Language.dlgUpdateNoValidYoutubeDl, "youtube-dl-gui");
                         return false;
                     }
                 }
@@ -248,7 +249,7 @@ namespace youtube_dl_gui.updater {
                     };
 
                 using WebClient wc = new();
-                wc.Headers.Add("User-Agent: " + Program.UserAgent);
+                wc.Headers.Add("User-Agent", Program.UserAgent);
 
                 try {
                     wc.DownloadFile(DownloadUrl, FullSavePath);
@@ -274,7 +275,7 @@ namespace youtube_dl_gui.updater {
                 return false;
             }
 
-            Program.verif.RefreshYoutubeDlLocation();
+            Verification.RefreshYoutubeDlLocation();
             LatestYoutubeDl.IsNewerVersion = false;
             return true;
         }
@@ -295,7 +296,7 @@ namespace youtube_dl_gui.updater {
             try {
                 using WebClient wc = new();
                 ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-                wc.Headers.Add("User-Agent: " + Program.UserAgent);
+                wc.Headers.Add("User-Agent", Program.UserAgent);
                 return wc.DownloadString(Url);
             }
             catch { throw; }

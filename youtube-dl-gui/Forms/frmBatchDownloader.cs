@@ -302,9 +302,10 @@ namespace youtube_dl_gui {
                 });
             }
             else if (DownloadUrls.Count > 0) {
+                Program.RunningActions.Add(this);
+                InProgress = true;
                 btnBatchDownloadRemoveSelected.Enabled = false;
                 btnBatchDownloadStartStopExit.Text = Language.GenericStop;
-                InProgress = true;
                 bool AbortDownload = false;
                 string BatchTime = BatchHelpers.CurrentTime;
                 DownloadThread = new(() => {
@@ -375,7 +376,6 @@ namespace youtube_dl_gui {
                         }
                         if (AbortDownload) { break; }
                     }
-                    InProgress = false;
                     this.Invoke((Action)delegate {
                         if (AbortDownload) {
                             sbBatchDownloader.Text = Language.sbBatchDownloaderAborted;
@@ -387,6 +387,8 @@ namespace youtube_dl_gui {
                         btnBatchDownloadStartStopExit.Text = Language.GenericStart;
                     });
                     System.Media.SystemSounds.Exclamation.Play();
+                    InProgress = false;
+                    Program.RunningActions.Remove(this);
                 }) {
                     Name = $"Batch download {BatchTime}"
                 };

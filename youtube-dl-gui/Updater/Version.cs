@@ -107,6 +107,10 @@ public struct Version {
             vers = Empty;
             return false;
         }
+
+        if (Data[0] == 'v')
+            Data = Data[1..];
+
         if (Regex.IsMatch(Data, "^[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}$")) {
             string[] Parts = Data.Split('.');
 
