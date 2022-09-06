@@ -45,7 +45,7 @@ namespace youtube_dl_gui {
                 case NativeMethods.WM_CLIPBOARDUPDATE: {
                     if (Clipboard.ContainsText()) {
                         ClipboardData = Clipboard.GetText();
-                        if (!chkBatchDownloadClipboardScanVerifyLinks.Checked || Download.SupportedDownloadLink(ClipboardData)) {
+                        if (!chkBatchDownloadClipboardScanVerifyLinks.Checked || DownloadHelper.SupportedDownloadLink(ClipboardData)) {
                             AddItemToList(ClipboardData);
                         }
                         ClipboardData = null;
@@ -236,7 +236,7 @@ namespace youtube_dl_gui {
                     cbBatchQuality.SelectedIndex = Config.Settings.Batch.SelectedAudioQualityVBR;
                 }
                 else {
-                    cbBatchQuality.Items.AddRange(Download.Formats.AudioQualityNamesArray);
+                    cbBatchQuality.Items.AddRange(Formats.AudioQualityNamesArray);
                     cbBatchQuality.SelectedIndex = Config.Settings.Batch.SelectedAudioQualityVBR;
                 }
             }
@@ -254,8 +254,8 @@ namespace youtube_dl_gui {
 
                 switch (cbBatchDownloadType.SelectedIndex) {
                     case 0: {
-                        cbBatchQuality.Items.AddRange(Download.Formats.VideoQualityArray);
-                        cbBatchFormat.Items.AddRange(Download.Formats.VideoFormatsNamesArray);
+                        cbBatchQuality.Items.AddRange(Formats.VideoQualityArray);
+                        cbBatchFormat.Items.AddRange(Formats.VideoFormatsNamesArray);
                         cbBatchQuality.SelectedIndex = Config.Settings.Batch.SelectedVideoQuality;
                         cbBatchFormat.SelectedIndex = Config.Settings.Batch.SelectedVideoFormat;
                         chkBatchDownloaderSoundVBR.Text = Language.GenericSound;
@@ -270,10 +270,10 @@ namespace youtube_dl_gui {
                             cbBatchQuality.SelectedIndex = Config.Settings.Batch.SelectedAudioQualityVBR;
                         }
                         else {
-                            cbBatchQuality.Items.AddRange(Download.Formats.AudioQualityNamesArray);
+                            cbBatchQuality.Items.AddRange(Formats.AudioQualityNamesArray);
                             cbBatchQuality.SelectedIndex = Config.Settings.Batch.SelectedAudioQuality;
                         }
-                        cbBatchFormat.Items.AddRange(Download.Formats.AudioFormatsArray);
+                        cbBatchFormat.Items.AddRange(Formats.AudioFormatsArray);
                         cbBatchFormat.SelectedIndex = Config.Settings.Batch.SelectedAudioFormat;
                         chkBatchDownloaderSoundVBR.Text = "VBR";
                         chkBatchDownloaderSoundVBR.Checked = Config.Settings.Batch.DownloadAudioVBR;

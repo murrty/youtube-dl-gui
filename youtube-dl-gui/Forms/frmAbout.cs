@@ -9,6 +9,7 @@ namespace youtube_dl_gui {
             InitializeComponent();
             LoadLanguage();
             pbIcon.Image = Properties.Resources.AboutImage;
+            pbIcon.Cursor = NativeMethods.SystemHandCursor;
             lbVersion.Text = $"v{Program.CurrentVersion}";
             llbCheckForUpdates.LinkVisited = Program.UpdateChecked;
             llbCheckForUpdates.Location = new(
@@ -31,11 +32,12 @@ namespace youtube_dl_gui {
                         if ((result = UpdateChecker.CheckForUpdate(Program.CurrentVersion, Config.Settings.General.DownloadBetaVersions, chkForceCheckUpdate.Checked)) is not null) {
                             if (result == false) {
                                 this.BeginInvoke(() => {
-                                    string Message = Program.CurrentVersion.IsBeta ?
-                                        string.Format(Language.dlgUpdateNoBetaUpdateAvailable, Program.CurrentVersion, updater.UpdateChecker.LastChecked.Version) :
-                                        string.Format(Language.dlgUpdateNoUpdateAvailable, Program.CurrentVersion, updater.UpdateChecker.LastChecked.Version);
-
-                                    MessageBox.Show(this, Message, "youtube-dl-gui", MessageBoxButtons.OK);
+                                    MessageBox.Show(
+                                        Program.CurrentVersion.IsBeta ?
+                                            string.Format(Language.dlgUpdateNoBetaUpdateAvailable, Program.CurrentVersion, updater.UpdateChecker.LastChecked.Version) :
+                                            string.Format(Language.dlgUpdateNoUpdateAvailable, Program.CurrentVersion, updater.UpdateChecker.LastChecked.Version),
+                                        "youtube-dl-gui",
+                                        MessageBoxButtons.OK);
                                 });
                             }
                         }

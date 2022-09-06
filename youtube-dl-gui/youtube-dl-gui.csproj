@@ -53,7 +53,7 @@
     <LangVersion>preview</LangVersion>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Resources\youtube-dl-gui.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\ProgramIcon.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
@@ -74,13 +74,23 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\BatchHelpers.cs" />
-    <Compile Include="Classes\DwmComposition.cs" />
+    <Compile Include="Classes\ConvertHelper.cs" />
+    <Compile Include="Classes\DownloadHelper.cs" />
+    <Compile Include="Controls\Enums\AllowedCharacters.cs" />
+    <Compile Include="Controls\Enums\ButtonAlignment.cs" />
+    <Compile Include="Controls\Enums\ProgressBarState.cs" />
+    <Compile Include="Controls\Classes\TaskbarInterface.cs" />
+    <Compile Include="Controls\Enums\TaskbarProgressState.cs" />
+    <Compile Include="Controls\Events\RegexMatchEventArgs.cs" />
+    <Compile Include="Controls\Natives\Consts.cs" />
+    <Compile Include="Controls\Natives\NativeMethods.cs" />
+    <Compile Include="Log\Exceptions\ApiParsingException.cs" />
+    <Compile Include="Log\Natives\DwmComposition.cs" />
     <Compile Include="Classes\Extensions.cs" />
     <Compile Include="Classes\VideoInformation.cs" />
     <Compile Include="Controls\ExtendedProgressBar.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controls\Shared.cs" />
     <Compile Include="Enums\StatusIcon.cs" />
     <Compile Include="Enums\DownloadStatus.cs" />
     <Compile Include="Enums\PlaylistSelectionType.cs" />
@@ -112,6 +122,10 @@
       <DependentUpon>frmExtendedDownload.cs</DependentUpon>
     </Compile>
     <Compile Include="GlobalNamespaces.cs" />
+    <Compile Include="Log\DwmCompositionInfo.cs" />
+    <Compile Include="Log\DwmCompositionTextInfo.cs" />
+    <Compile Include="Log\Natives\DwmNatives.cs" />
+    <Compile Include="Log\ExceptionInfo.cs" />
     <Compile Include="Runtime\Arrays.cs" />
     <Compile Include="Updater\GithubData.cs" />
     <Compile Include="Updater\GithubAsset.cs" />
@@ -132,7 +146,7 @@
     <Compile Include="Classes\Language.cs" />
     <Compile Include="Classes\NativeMethods.cs" />
     <Compile Include="Updater\UpdateChecker.cs" />
-    <Compile Include="Log.cs" />
+    <Compile Include="Log\Log.cs" />
     <Compile Include="Controls\ExtendedRichTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -178,10 +192,10 @@
     <Compile Include="Forms\frmDownloadLanguage.Designer.cs">
       <DependentUpon>frmDownloadLanguage.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\frmException.cs">
+    <Compile Include="Log\Forms\frmException.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmException.Designer.cs">
+    <Compile Include="Log\Forms\frmException.Designer.cs">
       <DependentUpon>frmException.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\frmLanguage.cs">
@@ -257,7 +271,7 @@
     <EmbeddedResource Include="Forms\frmDownloadLanguage.resx">
       <DependentUpon>frmDownloadLanguage.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmException.resx">
+    <EmbeddedResource Include="Log\Forms\frmException.resx">
       <DependentUpon>frmException.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmExtendedDownload.resx">
@@ -294,28 +308,19 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\youtube-dl-gui-updater.exe" />
-    <None Include="Resources\waiting.png" />
-    <None Include="Resources\finished.png" />
-    <None Include="Resources\download.png" />
-    <None Include="Resources\error.png" />
+    <None Include="Resources\StatusIcons\waiting.png" />
+    <None Include="Resources\StatusIcons\finished.png" />
+    <None Include="Resources\StatusIcons\download.png" />
+    <None Include="Resources\StatusIcons\error.png" />
     <None Include="Resources\BuildDate.txt" />
-    <Content Include="Resources\youtube-dl-gui.ico" />
-    <Content Include="Resources\youtube-dl-gui32.png" />
+    <Content Include="Resources\ProgramIcon.ico" />
+    <Content Include="Resources\AboutImage.png" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">
@@ -334,6 +339,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>if $(ConfigurationName) == Release "BuildDateWriter.exe" "$(ProjectDir)\Resources\BuildDate.txt"</PreBuildEvent>
@@ -342,7 +348,8 @@
     <PostBuildEvent>if $(ConfigurationName) == Release xcopy "$(SolutionDir)Languages\*.ini" "$(SolutionDir)Release\lang\*.ini" /y
 if $(ConfigurationName) == Release copy "$(TargetPath)" "$(SolutionDir)Release"
 if $(ConfigurationName) == Release (del "$(SolutionDir)Release\$(ProjectName).zip")
-if $(ConfigurationName) == Release (7z a -mm=Deflate -mfb=128 -r "$(SolutionDir)Release\$(ProjectName).zip" "$(SolutionDir)Release\*")</PostBuildEvent>
+if $(ConfigurationName) == Release (7z a -mm=Deflate -mfb=128 -r "$(SolutionDir)Release\$(ProjectName).zip" "$(SolutionDir)Release\*")
+if $(ConfigurationName) == Release "$(SolutionDir)HashCalcConsole.exe" "$(SolutionDir)Release\$(ProjectName).exe" "$(SolutionDir)Release\$(ProjectName).zip"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

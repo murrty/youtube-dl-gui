@@ -248,7 +248,7 @@ namespace youtube_dl_gui {
                     $"{Program.ProgramPath}\\{Config.Settings.Downloads.downloadPath[2..]}" : Config.Settings.Downloads.downloadPath);
 
             if (Config.Settings.Downloads.separateIntoWebsiteURL)
-                ArgumentBuffer.Append($"\\{Download.getUrlBase(URL)}");
+                ArgumentBuffer.Append($"\\{DownloadHelper.GetUrlBase(URL)}");
 
             if (Config.Settings.Downloads.separateDownloads)
                 ArgumentBuffer.Append(rbAudio.Checked ? "\\Audio" : rbCustom.Checked ? "\\Custom" : "\\Video");
@@ -298,7 +298,7 @@ namespace youtube_dl_gui {
                 }
 
                 if (!Break) {
-                    if (Config.Settings.Downloads.PreferFFmpeg || Download.isReddit(URL) && Config.Settings.Downloads.fixReddit) {
+                    if (Config.Settings.Downloads.PreferFFmpeg || DownloadHelper.IsReddit(URL) && Config.Settings.Downloads.fixReddit) {
                         if (Verification.FFmpegPath.IsNullEmptyWhitespace())
                             Verification.RefreshFFmpegLocation();
 
@@ -358,7 +358,7 @@ namespace youtube_dl_gui {
                         ArgumentBuffer.Append(" --force-ipv6");
 
                     if (Config.Settings.Downloads.UseProxy && Config.Settings.Downloads.ProxyType > -1 && !string.IsNullOrEmpty(Config.Settings.Downloads.ProxyIP) && !string.IsNullOrEmpty(Config.Settings.Downloads.ProxyPort)) {
-                        ArgumentBuffer.Append($"--proxy {Download.ProxyProtocols[Config.Settings.Downloads.ProxyType]}{Config.Settings.Downloads.ProxyIP}:{Config.Settings.Downloads.ProxyPort}/");
+                        ArgumentBuffer.Append($"--proxy {DownloadHelper.ProxyProtocols[Config.Settings.Downloads.ProxyType]}{Config.Settings.Downloads.ProxyIP}:{Config.Settings.Downloads.ProxyPort}/");
                     }
                 }
             }

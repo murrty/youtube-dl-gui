@@ -52,7 +52,7 @@ namespace youtube_dl_gui {
                     if (Clipboard.ContainsText()) {
                         ClipboardData = Clipboard.GetText();
                         if (mClipboardAutoDownloadVerifyLinks.Checked) {
-                            if (!Download.SupportedDownloadLink(ClipboardData)) {
+                            if (!DownloadHelper.SupportedDownloadLink(ClipboardData)) {
                                 return;
                             }
                         }
@@ -89,7 +89,7 @@ namespace youtube_dl_gui {
                 mDownloadSeparator.Enabled = mDownloadSeparator.Visible =
                 mQuickDownloadForm.Enabled = mQuickDownloadForm.Visible =
                 mQuickDownloadFormAuthentication.Enabled = mQuickDownloadFormAuthentication.Visible =
-                mExtendedDownloadForm.Enabled = mExtendedDownloadForm.Visible = Download.CanUseExtendedDownloader();
+                mExtendedDownloadForm.Enabled = mExtendedDownloadForm.Visible = DownloadHelper.CanUseExtendedDownloader();
         }
 
         private void frmMain_Load(object sender, EventArgs e) {
@@ -485,7 +485,7 @@ namespace youtube_dl_gui {
                 mDownloadSeparator.Enabled = mDownloadSeparator.Visible =
                 mQuickDownloadForm.Enabled = mQuickDownloadForm.Visible =
                 mQuickDownloadFormAuthentication.Enabled = mQuickDownloadFormAuthentication.Visible =
-                mExtendedDownloadForm.Enabled = mExtendedDownloadForm.Visible = Download.CanUseExtendedDownloader();
+                mExtendedDownloadForm.Enabled = mExtendedDownloadForm.Visible = DownloadHelper.CanUseExtendedDownloader();
         }
 
         private void mBatchDownload_Click(object sender, EventArgs e) {
@@ -667,12 +667,12 @@ namespace youtube_dl_gui {
                 cbCustomArguments.Enabled = false;
                 cbQuality.SelectedIndex = -1;
                 cbQuality.Items.Clear();
-                cbQuality.Items.AddRange(Download.Formats.VideoQualityArray);
+                cbQuality.Items.AddRange(Formats.VideoQualityArray);
                 cbQuality.Items[0] = Language.GenericInputBest;
                 //cbQuality.Items[^1] = Language.GenericInputWorst;
                 cbFormat.SelectedIndex = -1;
                 cbFormat.Items.Clear();
-                cbFormat.Items.AddRange(Download.Formats.VideoFormatsNamesArray);
+                cbFormat.Items.AddRange(Formats.VideoFormatsNamesArray);
                 cbFormat.Items[0] = Language.GenericInputBest;
                 cbQuality.Enabled = true;
                 cbFormat.Enabled = true;
@@ -699,12 +699,12 @@ namespace youtube_dl_gui {
                     cbQuality.Items.AddRange(new string[] { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" });
                 }
                 else {
-                    cbQuality.Items.AddRange(Download.Formats.AudioQualityNamesArray);
+                    cbQuality.Items.AddRange(Formats.AudioQualityNamesArray);
                     cbQuality.Items[0] = Language.GenericInputBest;
                     //cbQuality.Items[^1] = Language.GenericInputWorst;
                 }
                 cbFormat.Items.Clear();
-                cbFormat.Items.AddRange(Download.Formats.AudioFormatsArray);
+                cbFormat.Items.AddRange(Formats.AudioFormatsArray);
                 cbQuality.Enabled = true;
                 cbFormat.Enabled = true;
                 chkDownloadSound.Enabled = true;
@@ -752,7 +752,7 @@ namespace youtube_dl_gui {
                     }
                 }
                 else {
-                    cbQuality.Items.AddRange(Download.Formats.AudioQualityNamesArray);
+                    cbQuality.Items.AddRange(Formats.AudioQualityNamesArray);
                     cbQuality.Items[0] = Language.GenericInputBest;
                     if (Config.Settings.Downloads.SaveFormatQuality) {
                         cbQuality.SelectedIndex = Config.Settings.Saved.audioQuality;
@@ -869,7 +869,7 @@ namespace youtube_dl_gui {
             }
         }
         private void sbDownload_Click(object sender, EventArgs e) {
-            if (Download.CanUseExtendedDownloader() && Config.Settings.Downloads.ExtendedDownloaderPreferExtendedForm)
+            if (DownloadHelper.CanUseExtendedDownloader() && Config.Settings.Downloads.ExtendedDownloaderPreferExtendedForm)
                 StartDownloadExtended();
             else
                 StartDownload(false);
@@ -1264,7 +1264,7 @@ namespace youtube_dl_gui {
             else if (rbConvertCustom.Checked)
                 NewConversion.Type = ConversionType.Custom;
             else if (rbConvertAuto.Checked)
-                NewConversion.Type = Convert.GetFiletype(txtConvertOutput.Text);
+                NewConversion.Type = ConvertHelper.GetFiletype(txtConvertOutput.Text);
             else
                 NewConversion.Type = ConversionType.FfmpegDefault;
 
@@ -1375,7 +1375,7 @@ namespace youtube_dl_gui {
         }
 
         private void btnMerge_Click(object sender, EventArgs e) {
-            Convert.mergeFiles(txtMergeInput1.Text, txtMergeInput2.Text, txtMergeOutput.Text, chkMergeAudioTracks.Checked, chkMergeDeleteInputFiles.Checked);
+            ConvertHelper.MergeFiles(txtMergeInput1.Text, txtMergeInput2.Text, txtMergeOutput.Text, chkMergeAudioTracks.Checked, chkMergeDeleteInputFiles.Checked);
         }
         #endregion
 

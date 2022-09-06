@@ -5,6 +5,8 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
+using murrty.controls.natives;
+
 /// <summary>
 /// Represents a derived Windows label control that can display hyperlinks, with added functionality.
 /// </summary>
@@ -71,22 +73,6 @@ internal class ExtendedLinkLabel : LinkLabel {
     }
     #endregion
 
-    #region Native Methods
-    /// <summary>
-    /// The WndProc message for setting the systems' cursor.
-    /// </summary>
-    private const int WM_SETCURSOR = 0x0020;
-    /// <summary>
-    /// The user32.h resource identifier for the systems' hand cursor.
-    /// </summary>
-    private const nint IDC_HAND = 32649;
-    /// <summary>
-    /// The IntPtr value of IDC_HAND.
-    /// </summary>
-    private static readonly nint SystemHand =
-        youtube_dl_gui.NativeMethods.LoadCursor(0, IDC_HAND);
-    #endregion
-
     #region Constructor
     /// <summary>
     /// Initializes a new instance of the <see cref="ExtendedLinkLabel"/> class.
@@ -111,8 +97,8 @@ internal class ExtendedLinkLabel : LinkLabel {
     [System.Diagnostics.DebuggerStepThrough]
     protected override void WndProc(ref Message m) {
         switch (m.Msg) {
-            case WM_SETCURSOR: {
-                youtube_dl_gui.NativeMethods.SetCursor(SystemHand);
+            case Consts.WM_SETCURSOR: {
+                youtube_dl_gui.NativeMethods.SetCursor(Consts.SystemHand);
                 m.Result = IntPtr.Zero;
             } break;
 

@@ -8,45 +8,7 @@ using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
-/// <summary>
-/// An enumeration of types of characters allowed in the textbox.
-/// </summary>
-public enum AllowedCharacters {
-    /// <summary>
-    /// All characters are allowed.
-    /// </summary>
-    All,
-    /// <summary>
-    /// Only Upper and lowercase alphabetical letters are allowed.
-    /// </summary>
-    AlphabeticalOnly,
-    /// <summary>
-    /// Only numbers are allowed.
-    /// </summary>
-    NumericOnly,
-    /// <summary>
-    /// Only letters and numbers are allowed.
-    /// </summary>
-    AlphaNumericOnly,
-    /// <summary>
-    /// Only characters in the Unfiltered Characters array are allowed.
-    /// </summary>
-    UnfilteredCharactersOnly,
-}
-
-/// <summary>
-/// An enumeration of the alignments that the button can be aligned to.
-/// </summary>
-public enum ButtonAlignment {
-    /// <summary>
-    /// The Button will appear on the left side of the TextBox.
-    /// </summary>
-    Left,
-    /// <summary>
-    /// The Button will appear on the right side of the TextBox. Default value.
-    /// </summary>
-    Right,
-}
+using murrty.controls.natives;
 
 /// <summary>
 /// An extension of Windows.Forms.TextBox to include extra functionality.
@@ -377,7 +339,7 @@ public class ExtendedTextBox : TextBox {
         set {
             fTextHint = value;
             if (this.IsHandleCreated) {
-                SendMessage(this.Handle, 0x1501, 1, Marshal.StringToHGlobalUni(value));
+                NativeMethods.SendMessage(this.Handle, 0x1501, 1, Marshal.StringToHGlobalUni(value));
             }
         }
     }
@@ -405,25 +367,6 @@ public class ExtendedTextBox : TextBox {
     }
     #endregion
 
-    #region Native Methods
-    /// <summary>
-    /// Sets the left margin.
-    /// </summary>
-    public const nint EC_LEFTMARGIN = 1;
-    /// <summary>
-    /// Sets the right margin.
-    /// </summary>
-    public const nint EC_RIGHTMARGIN = 2;
-    /// <summary>
-    /// Sets the widths of the left and right margins for an edit control. The message redraws the control to reflect the new margins. You can send this message to either an edit control or a rich edit control.
-    /// </summary>
-    public const int EM_SETMARGINS = 0xd3;
-
-
-    [DllImport("user32.dll", CharSet = CharSet.Unicode, ThrowOnUnmappableChar = true)]
-    internal static extern nint SendMessage(nint hWnd, int wMsg, nint wParam, nint lParam);
-    #endregion
-
     #region Constructor
     /// <summary>
     /// Initializes a new instace of the <see cref="ExtendedTextBox"/> class.
@@ -448,21 +391,21 @@ public class ExtendedTextBox : TextBox {
                 UpdateButton();
                 switch (fButtonAlignment) {
                     default: {
-                        SendMessage(Handle, EM_SETMARGINS, EC_RIGHTMARGIN, (InsetButton.Width << 16));
+                        NativeMethods.SendMessage(Handle, Consts.EM_SETMARGINS, Consts.EC_RIGHTMARGIN, (InsetButton.Width << 16));
                     } break;
 
                     case ButtonAlignment.Right: {
-                        SendMessage(Handle, EM_SETMARGINS, EC_LEFTMARGIN, InsetButton.Width);
+                        NativeMethods.SendMessage(Handle, Consts.EM_SETMARGINS, Consts.EC_LEFTMARGIN, InsetButton.Width);
                     } break;
                 }
             }
             else {
-                SendMessage(Handle, EM_SETMARGINS, EC_LEFTMARGIN, 0);
-                SendMessage(Handle, EM_SETMARGINS, EC_RIGHTMARGIN, 0);
+                NativeMethods.SendMessage(Handle, Consts.EM_SETMARGINS, Consts.EC_LEFTMARGIN, 0);
+                NativeMethods.SendMessage(Handle, Consts.EM_SETMARGINS, Consts.EC_RIGHTMARGIN, 0);
             }
 
             if (!string.IsNullOrWhiteSpace(fTextHint)) {
-                SendMessage(this.Handle, 0x1501, 1, Marshal.StringToHGlobalUni(fTextHint));
+                NativeMethods.SendMessage(this.Handle, 0x1501, 1, Marshal.StringToHGlobalUni(fTextHint));
             }
         }
     }
@@ -661,38 +604,4 @@ public class ExtendedTextBox : TextBox {
     }
     #endregion
 
-}
-
-/// <summary>
-/// Represents an event args that occurs when a regex match is found.
-/// </summary>
-public sealed class RegexMatchEventArgs : EventArgs {
-    /// <summary>
-    /// Gets the index in which the regex pattern is located.
-    /// </summary>
-    public int RegexPatternIndex {
-        get;
-    }
-    /// <summary>
-    /// Gets the Match value of the matched input.
-    /// </summary>
-    public Match Match {
-        get;
-    }
-    /// <summary>
-    /// Initializes a new RegexMatchEventArgs class.
-    /// </summary>
-    /// <param name="RegexPatternIndex">The int value index of the regex pattern value.</param>
-    public RegexMatchEventArgs(int RegexPatternIndex) {
-        this.RegexPatternIndex = RegexPatternIndex;
-        Match = null;
-    }
-    /// <summary>
-    /// Initializes a new RegexMatchEventArgs class.
-    /// </summary>
-    /// <param name="Match">The match object that contains data about the match.</param>
-    public RegexMatchEventArgs(Match Match) {
-        RegexPatternIndex = 0;
-        this.Match = Match;
-    }
 }

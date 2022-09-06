@@ -166,13 +166,13 @@ namespace youtube_dl_gui {
                         ArgumentsBuffer.Append($" -b:v {CurrentConversion.VideoBitrate}k");
 
                     if (CurrentConversion.VideoUsePreset)
-                        ArgumentsBuffer.Append($" -preset {Convert.GetVideoPreset(CurrentConversion.VideoPreset)}");
+                        ArgumentsBuffer.Append($" -preset {ConvertHelper.GetVideoPreset(CurrentConversion.VideoPreset)}");
 
                     if (CurrentConversion.VideoUseCRF)
                         ArgumentsBuffer.Append($" -crf {CurrentConversion.VideoCRF}");
 
                     if (!CurrentConversion.OutputFile.EndsWith(".wmv") && CurrentConversion.VideoUseProfile)
-                        ArgumentsBuffer.Append($" -profile:v {Convert.GetVideoProfile(CurrentConversion.VideoProfile)}");
+                        ArgumentsBuffer.Append($" -profile:v {ConvertHelper.GetVideoProfile(CurrentConversion.VideoProfile)}");
 
                     if (CurrentConversion.VideoFastStart)
                         ArgumentsBuffer.Append(" -faststart");

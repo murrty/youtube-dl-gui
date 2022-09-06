@@ -21,10 +21,10 @@ internal static class Extensions {
         }
         return $"{decimal.Round(Division, DecimalPlaces)}{SizeSuffix[DivisionCount]}";
     }
-    public static string Format(this String str, params object[] objs) {
+    public static string Format(this string str, params object[] objs) {
         return String.Format(str, objs);
     }
-    public static bool IsNullEmptyWhitespace(this String value) {
+    public static bool IsNullEmptyWhitespace(this string value) {
         if (value is null || value.Length == 0)
             return true;
 
@@ -36,7 +36,6 @@ internal static class Extensions {
 
         return value.Length == 0;
     }
-    public static bool IsNotNullEmptyWhitespace(this String value) => !IsNullEmptyWhitespace(value);
+    public static bool IsNotNullEmptyWhitespace(this string value) => !IsNullEmptyWhitespace(value);
     public static string Join(this IEnumerable<string> str, string joiner) => string.Join(joiner, str);
-    public static string Join(this IEnumerable<string> str, char joiner) => string.Join(joiner.ToString(), str);
 }

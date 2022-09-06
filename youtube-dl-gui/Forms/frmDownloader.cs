@@ -220,7 +220,7 @@ namespace youtube_dl_gui {
             }
 
             if (Config.Settings.Downloads.separateIntoWebsiteURL) {
-                OutputDirectory.Append($"\\{Download.getUrlBase(CurrentDownload.DownloadURL)}");
+                OutputDirectory.Append($"\\{DownloadHelper.GetUrlBase(CurrentDownload.DownloadURL)}");
             }
 
             if (Config.Settings.Downloads.separateDownloads) {
@@ -256,13 +256,13 @@ namespace youtube_dl_gui {
             switch (CurrentDownload.Type) {
                 case DownloadType.Video: {
                     if (CurrentDownload.SkipAudioForVideos) {
-                        ArgumentsBuffer.Append(Download.Formats.GetVideoQualityArgsNoSound(CurrentDownload.VideoQuality));
+                        ArgumentsBuffer.Append(Formats.GetVideoQualityArgsNoSound(CurrentDownload.VideoQuality));
                     }
                     else {
-                        ArgumentsBuffer.Append(Download.Formats.GetVideoQualityArgs(CurrentDownload.VideoQuality));
+                        ArgumentsBuffer.Append(Formats.GetVideoQualityArgs(CurrentDownload.VideoQuality));
                     }
 
-                    ArgumentsBuffer.Append(Download.Formats.GetVideoRecodeInfo(CurrentDownload.VideoFormat));
+                    ArgumentsBuffer.Append(Formats.GetVideoRecodeInfo(CurrentDownload.VideoFormat));
                 } break;
                 case DownloadType.Audio: {
                     if (CurrentDownload.AudioCBRQuality == AudioCBRQualityType.best || CurrentDownload.AudioVBRQuality == AudioVBRQualityType.q0) {
@@ -273,14 +273,14 @@ namespace youtube_dl_gui {
                             ArgumentsBuffer.Append($" --extract-audio --audio-quality {CurrentDownload.AudioVBRQuality}");
                         }
                         else {
-                            ArgumentsBuffer.Append($" --extract-audio --audio-quality {Download.Formats.GetAudioQuality(CurrentDownload.AudioCBRQuality)}");
+                            ArgumentsBuffer.Append($" --extract-audio --audio-quality {Formats.GetAudioQuality(CurrentDownload.AudioCBRQuality)}");
                         }
                     }
                     if (CurrentDownload.AudioFormat == AudioFormatType.best) {
                         ArgumentsBuffer.Append(" --audio-format best");
                     }
                     else {
-                        ArgumentsBuffer.Append($" --extract-audio --audio-format {Download.Formats.GetAudioFormat(CurrentDownload.AudioFormat)}");
+                        ArgumentsBuffer.Append($" --extract-audio --audio-format {Formats.GetAudioFormat(CurrentDownload.AudioFormat)}");
                     }
                 } break;
                 case DownloadType.Custom: {
@@ -325,7 +325,7 @@ namespace youtube_dl_gui {
                         break;
                 }
 
-                if (Config.Settings.Downloads.PreferFFmpeg || Download.isReddit(CurrentDownload.DownloadURL) && Config.Settings.Downloads.fixReddit) {
+                if (Config.Settings.Downloads.PreferFFmpeg || DownloadHelper.IsReddit(CurrentDownload.DownloadURL) && Config.Settings.Downloads.fixReddit) {
                     rtbConsoleOutput.AppendText("Looking for ffmpeg\n");
                     if (Verification.FFmpegPath is not null) {
                         if (Config.Settings.General.UseStaticFFmpeg) {
@@ -422,7 +422,7 @@ namespace youtube_dl_gui {
                 }
 
                 if (Config.Settings.Downloads.UseProxy && Config.Settings.Downloads.ProxyType > -1 && !string.IsNullOrEmpty(Config.Settings.Downloads.ProxyIP) && !string.IsNullOrEmpty(Config.Settings.Downloads.ProxyPort)) {
-                    ArgumentsBuffer.Append($" --proxy {Download.ProxyProtocols[Config.Settings.Downloads.ProxyType]}{Config.Settings.Downloads.ProxyIP}:{Config.Settings.Downloads.ProxyPort}/");
+                    ArgumentsBuffer.Append($" --proxy {DownloadHelper.ProxyProtocols[Config.Settings.Downloads.ProxyType]}{Config.Settings.Downloads.ProxyIP}:{Config.Settings.Downloads.ProxyPort}/");
                 }
             }
             #endregion

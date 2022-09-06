@@ -1,28 +1,8 @@
-﻿namespace murrty.controls;
+﻿namespace murrty.controls.natives;
 
 using System.Runtime.InteropServices;
 
-internal static class Shared {
-
-    /// <summary>
-    /// The WndProc message for setting the systems' cursor.
-    /// </summary>
-    internal const int WM_SETCURSOR = 0x0020;
-    /// <summary>
-    /// The user32.h resource identifier for the systems' hand cursor.
-    /// </summary>
-    internal const nint IDC_HAND = 32649;
-    /// <summary>
-    /// The WM_PAINT message is sent when the system or another application makes a request to paint a portion of an application's window.
-    /// The message is sent when the UpdateWindow or RedrawWindow function is called, or by the DispatchMessage function when the application obtains a WM_PAINT message by using the GetMessage or PeekMessage function.
-    /// </summary>
-    internal const int WM_PAINT = 0xF;
-
-    /// <summary>
-    /// The IntPtr value of IDC_HAND.
-    /// </summary>
-    internal static readonly nint SystemHand = LoadCursor(0, IDC_HAND);
-
+internal static class NativeMethods {
     /// <summary>
     /// Sends the specified message to a window or windows. The SendMessage function calls the window procedure for the specified window and does not return until the window procedure has processed the message.
     /// <para>To send a message and return immediately, use the SendMessageCallback or SendNotifyMessage function.To post a message to a thread's message queue and return immediately, use the PostMessage or PostThreadMessage function.</para>
@@ -59,5 +39,4 @@ internal static class Shared {
     [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
     internal static extern nint SetCursor(
        [In, Optional] nint hCursor);
-
 }

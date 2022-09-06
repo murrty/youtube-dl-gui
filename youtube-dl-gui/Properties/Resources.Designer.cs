@@ -71,7 +71,7 @@ namespace youtube_dl_gui.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 2022-09-01.
+        ///   Looks up a localized string similar to 2022-09-05.
         /// </summary>
         public static string BuildDate {
             get {
@@ -110,25 +110,6 @@ namespace youtube_dl_gui.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to [
-        ///  {
-        ///    &quot;url&quot;: &quot;https://api.github.com/repos/murrty/youtube-dl-gui/releases/69835524&quot;,
-        ///    &quot;assets_url&quot;: &quot;https://api.github.com/repos/murrty/youtube-dl-gui/releases/69835524/assets&quot;,
-        ///    &quot;upload_url&quot;: &quot;https://uploads.github.com/repos/murrty/youtube-dl-gui/releases/69835524/assets{?name,label}&quot;,
-        ///    &quot;html_url&quot;: &quot;https://github.com/murrty/youtube-dl-gui/releases/tag/2.31-pre2&quot;,
-        ///    &quot;id&quot;: 69835524,
-        ///    &quot;author&quot;: {
-        ///      &quot;login&quot;: &quot;murrty&quot;,
-        ///      &quot;id&quot;: 10895809,
-        ///      &quot;node_id&quot;: &quot;MDQ6VXNlcjEwODk1OD [rest of string was truncated]&quot;;.
-        /// </summary>
-        public static string Git {
-            get {
-                return ResourceManager.GetString("Git", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
         public static System.Drawing.Icon ProgramIcon {
@@ -155,15 +136,6 @@ namespace youtube_dl_gui.Properties {
             get {
                 object obj = ResourceManager.GetObject("youtube_dl_gui_updater", resourceCulture);
                 return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to {&quot;id&quot;: &quot;OX79nEdyzrc&quot;, &quot;title&quot;: &quot;Round 3: \&quot;Is Intel Actually Screwed?\&quot; Ft. Gordon of PC World&quot;, &quot;formats&quot;: [{&quot;format_id&quot;: &quot;sb2&quot;, &quot;format_note&quot;: &quot;storyboard&quot;, &quot;ext&quot;: &quot;mhtml&quot;, &quot;protocol&quot;: &quot;mhtml&quot;, &quot;acodec&quot;: &quot;none&quot;, &quot;vcodec&quot;: &quot;none&quot;, &quot;url&quot;: &quot;https://i.ytimg.com/sb/OX79nEdyzrc/storyboard3_L0/default.jpg?sqp=-oaymwENSDfyq4qpAwVwAcABBqLzl_8DBgj31c-YBg==&amp;sigh=rs$AOn4CLCaubvAiQtEVyPrBGb64LM02A_t-Q&quot;, &quot;width&quot;: 48, &quot;height&quot;: 27, &quot;fps&quot;: 0.07423904974016332, &quot;rows&quot;: 10, &quot;columns&quot;: 10, &quot;fragments&quot;: [{&quot;url&quot;: &quot;https://i.y [rest of string was truncated]&quot;;.
-        /// </summary>
-        public static string YtdlpTest {
-            get {
-                return ResourceManager.GetString("YtdlpTest", resourceCulture);
             }
         }
     }
