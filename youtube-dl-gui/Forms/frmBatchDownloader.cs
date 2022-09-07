@@ -15,7 +15,6 @@ namespace youtube_dl_gui {
         private readonly List<int> DownloadQuality = new();     // List of the quality
         private readonly List<int> DownloadFormat = new();      // List of the formats
         private readonly List<bool> DownloadSoundVBR = new();   // List of if sound/vbr should be downloaded
-        private readonly ImageList StatusImages;                // The images for each individual item
         private bool InProgress = false;                        // Bool if the batch download is in progress
         private frmDownloader Downloader;                       // The Downloader form that will be around. Will be disposed if aborted.
         private DownloadInfo NewInfo;                           // The info of the download
@@ -26,17 +25,7 @@ namespace youtube_dl_gui {
         public frmBatchDownloader() {
             InitializeComponent();
             LoadLanguage();
-
-            StatusImages = new() {
-                ColorDepth = ColorDepth.Depth32Bit,
-                TransparentColor = System.Drawing.Color.Transparent,
-            };
-
-            StatusImages.Images.Add(Properties.Resources.waiting);
-            StatusImages.Images.Add(Properties.Resources.download);
-            StatusImages.Images.Add(Properties.Resources.finished);
-            StatusImages.Images.Add(Properties.Resources.error);
-            lvBatchDownloadQueue.SmallImageList = StatusImages;
+            lvBatchDownloadQueue.SmallImageList = Program.StatusImages;
         }
 
         [System.Diagnostics.DebuggerStepThrough]
@@ -483,7 +472,7 @@ namespace youtube_dl_gui {
         }
 
         private void sbImportLinks_Click(object sender, EventArgs e) {
-            sbBatchDownloaderImportLinks.LaunchMenu();
+            sbBatchDownloaderImportLinks.ShowDropDownMenu();
         }
 
         private void mBatchDownloaderImportLinksFromFile_Click(object sender, EventArgs e) {

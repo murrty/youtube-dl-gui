@@ -7,7 +7,6 @@ namespace youtube_dl_gui {
         private readonly List<string> InputFiles = new();
         private readonly List<string> OutputFiles = new();
         private readonly List<string> Arguments = new();
-        private readonly ImageList StatusImages;                // The images for each individual item
         private Thread ConversionThread;
         private bool InProgress = false;
         private frmConverter Converter;
@@ -16,17 +15,7 @@ namespace youtube_dl_gui {
         public frmBatchConverter() {
             InitializeComponent();
             LoadLanguage();
-
-            StatusImages = new() {
-                ColorDepth = ColorDepth.Depth32Bit,
-                TransparentColor = System.Drawing.Color.Transparent,
-            };
-
-            StatusImages.Images.Add(Properties.Resources.waiting);
-            StatusImages.Images.Add(Properties.Resources.download);
-            StatusImages.Images.Add(Properties.Resources.finished);
-            StatusImages.Images.Add(Properties.Resources.error);
-            lvBatchConvertQueue.SmallImageList = StatusImages;
+            lvBatchConvertQueue.SmallImageList = Program.StatusImages;
         }
 
         private void LoadLanguage() {

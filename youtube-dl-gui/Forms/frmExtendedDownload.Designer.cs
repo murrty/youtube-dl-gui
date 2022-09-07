@@ -33,6 +33,7 @@
             this.chVideoBitrate = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chVideoDimension = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chVideoCodec = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.chVideoFormatId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tabAudioFormats = new System.Windows.Forms.TabPage();
             this.lvAudioFormats = new System.Windows.Forms.ListView();
             this.chAudioBitrate = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -40,6 +41,7 @@
             this.chAudioSize = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chAudioSampleRate = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chAudioCodec = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.chAudioFormatId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tabCustom = new System.Windows.Forms.TabPage();
             this.txtCustomArguments = new System.Windows.Forms.TextBox();
             this.tpFormatOptions = new System.Windows.Forms.TabPage();
@@ -54,8 +56,10 @@
             this.cbAudioEncoders = new System.Windows.Forms.ComboBox();
             this.cbVideoEncoders = new System.Windows.Forms.ComboBox();
             this.tpDescription = new System.Windows.Forms.TabPage();
+            this.rtbMediaDescription = new youtube_dl_gui.Controls.ExtendedRichTextBox();
             this.tpVerbose = new System.Windows.Forms.TabPage();
             this.txtGeneratedArguments = new System.Windows.Forms.TextBox();
+            this.rtbVerbose = new youtube_dl_gui.Controls.ExtendedRichTextBox();
             this.tpDebug = new System.Windows.Forms.TabPage();
             this.btnKill = new System.Windows.Forms.Button();
             this.chkPbTaskbar = new System.Windows.Forms.CheckBox();
@@ -68,11 +72,7 @@
             this.btnDownloadAbortClose = new System.Windows.Forms.Button();
             this.btnDownloadWithAuthentication = new System.Windows.Forms.Button();
             this.chkDownloaderCloseAfterDownload = new System.Windows.Forms.CheckBox();
-            this.chVideoFormatId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.chAudioFormatId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.pbStatus = new murrty.controls.ExtendedProgressBar();
-            this.rtbMediaDescription = new youtube_dl_gui.Controls.ExtendedRichTextBox();
-            this.rtbVerbose = new youtube_dl_gui.Controls.ExtendedRichTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.pbThumbnail)).BeginInit();
             this.tcVideoData.SuspendLayout();
             this.tpFormats.SuspendLayout();
@@ -294,6 +294,11 @@
             this.chVideoCodec.Text = "Codec";
             this.chVideoCodec.Width = 94;
             // 
+            // chVideoFormatId
+            // 
+            this.chVideoFormatId.Text = "ID";
+            this.chVideoFormatId.Width = 38;
+            // 
             // tabAudioFormats
             // 
             this.tabAudioFormats.Controls.Add(this.lvAudioFormats);
@@ -349,6 +354,11 @@
             // 
             this.chAudioCodec.Text = "Codec";
             this.chAudioCodec.Width = 109;
+            // 
+            // chAudioFormatId
+            // 
+            this.chAudioFormatId.Text = "ID";
+            this.chAudioFormatId.Width = 35;
             // 
             // tabCustom
             // 
@@ -407,6 +417,7 @@
             // 
             this.cbVbrQualities.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cbVbrQualities.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbVbrQualities.Enabled = false;
             this.cbVbrQualities.FormattingEnabled = true;
             this.cbVbrQualities.Location = new System.Drawing.Point(348, 62);
             this.cbVbrQualities.Name = "cbVbrQualities";
@@ -514,6 +525,16 @@
             this.tpDescription.Text = "Description";
             this.tpDescription.UseVisualStyleBackColor = true;
             // 
+            // rtbMediaDescription
+            // 
+            this.rtbMediaDescription.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.rtbMediaDescription.Location = new System.Drawing.Point(3, 3);
+            this.rtbMediaDescription.Name = "rtbMediaDescription";
+            this.rtbMediaDescription.ReadOnly = true;
+            this.rtbMediaDescription.Size = new System.Drawing.Size(436, 169);
+            this.rtbMediaDescription.TabIndex = 2;
+            this.rtbMediaDescription.Text = "";
+            // 
             // tpVerbose
             // 
             this.tpVerbose.Controls.Add(this.txtGeneratedArguments);
@@ -535,6 +556,18 @@
             this.txtGeneratedArguments.ReadOnly = true;
             this.txtGeneratedArguments.Size = new System.Drawing.Size(430, 22);
             this.txtGeneratedArguments.TabIndex = 1;
+            // 
+            // rtbVerbose
+            // 
+            this.rtbVerbose.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.rtbVerbose.Location = new System.Drawing.Point(3, 3);
+            this.rtbVerbose.Name = "rtbVerbose";
+            this.rtbVerbose.ReadOnly = true;
+            this.rtbVerbose.Size = new System.Drawing.Size(436, 140);
+            this.rtbVerbose.TabIndex = 0;
+            this.rtbVerbose.Text = "";
             // 
             // tpDebug
             // 
@@ -681,16 +714,6 @@
             this.chkDownloaderCloseAfterDownload.Text = "chkDownloaderCloseAfterDownload";
             this.chkDownloaderCloseAfterDownload.UseVisualStyleBackColor = true;
             // 
-            // chVideoFormatId
-            // 
-            this.chVideoFormatId.Text = "ID";
-            this.chVideoFormatId.Width = 38;
-            // 
-            // chAudioFormatId
-            // 
-            this.chAudioFormatId.Text = "ID";
-            this.chAudioFormatId.Width = 35;
-            // 
             // pbStatus
             // 
             this.pbStatus.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
@@ -702,30 +725,9 @@
             this.pbStatus.ProgressState = murrty.controls.ProgressBarState.Normal;
             this.pbStatus.ShowText = true;
             this.pbStatus.Size = new System.Drawing.Size(171, 21);
+            this.pbStatus.Style = System.Windows.Forms.ProgressBarStyle.Blocks;
             this.pbStatus.TabIndex = 20;
             this.pbStatus.Text = ".  .  .";
-            // 
-            // rtbMediaDescription
-            // 
-            this.rtbMediaDescription.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.rtbMediaDescription.Location = new System.Drawing.Point(3, 3);
-            this.rtbMediaDescription.Name = "rtbMediaDescription";
-            this.rtbMediaDescription.ReadOnly = true;
-            this.rtbMediaDescription.Size = new System.Drawing.Size(436, 169);
-            this.rtbMediaDescription.TabIndex = 2;
-            this.rtbMediaDescription.Text = "";
-            // 
-            // rtbVerbose
-            // 
-            this.rtbVerbose.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.rtbVerbose.Location = new System.Drawing.Point(3, 3);
-            this.rtbVerbose.Name = "rtbVerbose";
-            this.rtbVerbose.ReadOnly = true;
-            this.rtbVerbose.Size = new System.Drawing.Size(436, 140);
-            this.rtbVerbose.TabIndex = 0;
-            this.rtbVerbose.Text = "";
             // 
             // frmExtendedDownload
             // 

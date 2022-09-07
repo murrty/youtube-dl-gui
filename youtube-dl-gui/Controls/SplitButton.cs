@@ -11,8 +11,9 @@ internal sealed class SplitButton : Button {
     private const int WM_LBUTTONUP = 0x202;
     private const int WM_MOUSELEAVE = 0x2A3;
     private const int BCM_SETDROPDOWNSTATE = 0x1606;
-    private const nint BCM_DROPDOWNPUSHED = 1;
-    private const nint BCM_DROPDOWNRELEASED = 0;
+
+    private const nint SplitButtonPressed = 1;
+    private const nint SplitButtonReleased = 0;
 
     private bool IsMouseDown = false;
     private bool IsAtDropDown = false;
@@ -86,12 +87,12 @@ internal sealed class SplitButton : Button {
 
             case BCM_SETDROPDOWNSTATE when !Painting && m.HWnd == this.Handle: {
                 switch (m.WParam) {
-                    case BCM_DROPDOWNPUSHED when !DropDownPushed: {
+                    case SplitButtonPressed when !DropDownPushed: {
                         DropDownPushed = true;
                         ShowMenu();
                     } break;
 
-                    case BCM_DROPDOWNRELEASED when DropDownPushed: {
+                    case SplitButtonReleased when DropDownPushed: {
                         DropDownPushed = false;
                     } break;
                 }
@@ -112,7 +113,7 @@ internal sealed class SplitButton : Button {
         NativeMethods.SendMessage(
             Handle,
             BCM_SETDROPDOWNSTATE,
-            IsPushed ? BCM_DROPDOWNPUSHED : BCM_DROPDOWNRELEASED,
+            IsPushed ? SplitButtonPressed : SplitButtonReleased,
             0);
     }
 
@@ -127,6 +128,17 @@ internal sealed class SplitButton : Button {
             ContextMenuStrip.Show(this, new(Width, Height));
         }
         Painting = false;
+    }
+
+    public void ShowDropDownMenu() {
+        if (ContextMenu is not null) {
+            MenuOpening?.Invoke(this, EventArgs.Empty);
+            ContextMenu.Show(this, new(Width, Height), LeftRightAlignment.Left);
+        }
+        else if (ContextMenuStrip is not null) {
+            MenuOpening?.Invoke(this, EventArgs.Empty);
+            ContextMenuStrip.Show(this, new(Width, Height));
+        }
     }
 
     private void CloseMenu(object sender, EventArgs e) {

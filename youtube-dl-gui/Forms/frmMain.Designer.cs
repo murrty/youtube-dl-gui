@@ -136,7 +136,7 @@
             this.txtPlaylistEnd = new murrty.controls.ExtendedTextBox();
             this.txtPlaylistStart = new murrty.controls.ExtendedTextBox();
             this.txtPlaylistItems = new murrty.controls.ExtendedTextBox();
-            this.sbDownload = new youtube_dl_gui.Controls.SplitButton();
+            this.sbDownload = new youtube_dl_gui.SplitButton();
             this.txtUrl = new murrty.controls.ExtendedTextBox();
             this.tcMain.SuspendLayout();
             this.tabDownload.SuspendLayout();
@@ -1277,7 +1277,7 @@
             // sbDownload
             // 
             this.sbDownload.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.sbDownload.DropDownContextMenu = this.cmDownload;
+            this.sbDownload.ContextMenu = this.cmDownload;
             this.sbDownload.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.sbDownload.Location = new System.Drawing.Point(78, 276);
             this.sbDownload.Name = "sbDownload";
@@ -1415,7 +1415,7 @@
         private System.Windows.Forms.MenuItem mBatchDownload;
         private System.Windows.Forms.MenuItem mMiscTools;
         private System.Windows.Forms.MenuItem mDownloadSubtitles;
-        private youtube_dl_gui.Controls.SplitButton sbDownload;
+        private youtube_dl_gui.SplitButton sbDownload;
         private System.Windows.Forms.ContextMenu cmDownload;
         private System.Windows.Forms.MenuItem mBatchDownloadFromFile;
         private System.Windows.Forms.MenuItem mLanguage;

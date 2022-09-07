@@ -49,6 +49,7 @@ namespace youtube_dl_gui {
             "youtube-dl-gui/" + CurrentVersion;
 
         internal static readonly HashSet<Form> RunningActions = new();
+        internal static ImageList StatusImages;
 
         private static bool IsFirstTime = false;
         private static Mutex Instance;
@@ -69,6 +70,16 @@ namespace youtube_dl_gui {
                     Log.Write("The current directory is wrong. Setting it right.");
                     Environment.CurrentDirectory = ProgramPath;
                 }
+
+                StatusImages = new() {
+                    ColorDepth = ColorDepth.Depth32Bit,
+                    TransparentColor = System.Drawing.Color.Transparent,
+                };
+
+                StatusImages.Images.Add(Properties.Resources.waiting);  // 0
+                StatusImages.Images.Add(Properties.Resources.download); // 1
+                StatusImages.Images.Add(Properties.Resources.finished); // 2
+                StatusImages.Images.Add(Properties.Resources.error);    // 3
 
                 (Config.Settings = new Config()).Load(ConfigType.Initialization);
                 if (DebugMode) {

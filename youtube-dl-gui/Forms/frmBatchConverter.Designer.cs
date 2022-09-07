@@ -30,7 +30,7 @@
             this.btnBatchConverterRemoveSelected = new System.Windows.Forms.Button();
             this.btnBatchConverterAdd = new System.Windows.Forms.Button();
             this.scConversionFiles = new System.Windows.Forms.SplitContainer();
-            this.sbBatchConversionLoadArgs = new youtube_dl_gui.Controls.SplitButton();
+            this.sbBatchConversionLoadArgs = new youtube_dl_gui.SplitButton();
             this.txtBatchConverterCustomConversionArguments = new murrty.controls.ExtendedTextBox();
             this.lvBatchConvertQueue = new youtube_dl_gui.Controls.VistaListView();
             this.clInput = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -285,6 +285,6 @@
         private murrty.controls.ExtendedTextBox txtBatchConverterCustomConversionArguments;
         private System.Windows.Forms.ColumnHeader clArgs;
         private System.Windows.Forms.SplitContainer scConversionFiles;
-        private Controls.SplitButton sbBatchConversionLoadArgs;
+        private SplitButton sbBatchConversionLoadArgs;
     }
 }
