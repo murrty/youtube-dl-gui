@@ -1,106 +1,150 @@
-﻿using System;
-using System.Drawing;
+﻿namespace youtube_dl_gui;
+
+using System.ComponentModel;
 using System.Windows.Forms;
 
-namespace youtube_dl_gui.Controls {
-    public delegate void DropDownClicked();
-    [System.Diagnostics.DebuggerStepThrough]
-    public class SplitButton : Button {
+internal sealed class SplitButton : Button {
 
-        private const int BS_SPLITBUTTON = 0x0000000C;
+    private const int WM_PAINT = 0x0F;
+    private const int WM_KILLFOCUS = 0x08;
+    private const int WM_LBUTTONDOWN = 0x201;
+    private const int WM_LBUTTONUP = 0x202;
+    private const int WM_MOUSELEAVE = 0x2A3;
+    private const int BCM_SETDROPDOWNSTATE = 0x1606;
+    private const nint BCM_DROPDOWNPUSHED = 1;
+    private const nint BCM_DROPDOWNRELEASED = 0;
 
-        public SplitButton() {
-            SuspendLayout();
-            ResumeLayout(false);
+    private bool IsMouseDown = false;
+    private bool IsAtDropDown = false;
+    private bool DropDownPushed = false;
+    private bool Painting = false;
 
-            FlatStyle = FlatStyle.System;
-            DropDown_Clicked += new DropDownClicked(LaunchMenu);
-            _ContextMenu.Collapse += new EventHandler(CloseMenuDropdown);
-        }
-
-        protected override CreateParams CreateParams {
-            get {
-                CreateParams cParams = base.CreateParams;
-                cParams.Style |= BS_SPLITBUTTON;
-                return cParams;
+    [Browsable(true)]
+    [EditorBrowsable(EditorBrowsableState.Always)]
+    [DefaultValue(null)]
+    public new ContextMenu ContextMenu {
+        get => base.ContextMenu;
+        set {
+            if (value != base.ContextMenu && base.ContextMenu is not null) {
+                base.ContextMenu.Collapse -= CloseMenu;
             }
-        }
-
-        public int IsBumped = 0;
-        public int IsMouseDown = 0;
-        public int IsAtDropDown = 0;
-        public int DropDownPushed = 0;
-        protected override void WndProc(ref Message WndMessage) {
-            switch (WndMessage.Msg) {
-                case (0x00001600 + 0x0006):
-                    if (WndMessage.HWnd == Handle) {
-                        if (WndMessage.WParam == (IntPtr)1) {
-                            if (DropDownPushed == 0) {
-                                DropDownPushed = 1;
-                                DropDown_Clicked();
-                            }
-                        }
-                        if (IsMouseDown == 1) {
-                            IsAtDropDown = 1;
-                        }
-                    }
-                    break;
-                case (0x0F):
-                    if (DropDownPushed == 1) {
-                        SetDropDownState(1);
-                    }
-                    break;
-                case (0x201):
-                    IsMouseDown = 1;
-                    break;
-                case (0x2A3):
-                    if (IsAtDropDown == 1) {
-                        SetDropDownState(0);
-                        IsAtDropDown = 0;
-                        IsMouseDown = 0;
-                    }
-                    break;
-                case (0x202):
-                    if (IsAtDropDown == 1) {
-                        SetDropDownState(0);
-                        IsAtDropDown = 0;
-                        IsMouseDown = 0;
-                    }
-                    break;
-                case (0x08):
-                    if (IsAtDropDown == 1) {
-                        SetDropDownState(0);
-                        IsAtDropDown = 0;
-                        IsMouseDown = 0;
-                    }
-                    break;
+            base.ContextMenu = value;
+            if (base.ContextMenu is not null) {
+                base.ContextMenu.Collapse += CloseMenu;
             }
-            base.WndProc(ref WndMessage);
-        }
-        public void SetDropDownState(int Pushed) {
-            switch (Pushed) {
-                case 0:
-                    DropDownPushed = 0;
-                    break;
-            }
-            NativeMethods.SendMessage(Handle, (0x1606 + 0x0006), Pushed, 0);
-        }
-        public event DropDownClicked DropDown_Clicked;
-
-        public void LaunchMenu() {
-            if (_ContextMenu.MenuItems.Count > 0) {
-                //_ContextMenu.Show(this, new Point(Width + 190, Height), LeftRightAlignment.Left);
-                _ContextMenu.Show(this, new Point(Width, Height), LeftRightAlignment.Left);
-            }
-        }
-
-        public void CloseMenuDropdown(object sender, EventArgs e) {
-            SetDropDownState(0);
-        }
-        ContextMenu _ContextMenu = new();
-        public ContextMenu DropDownContextMenu {
-            get { return _ContextMenu; }
-            set { _ContextMenu = value; }
         }
     }
+
+    public new ContextMenuStrip ContextMenuStrip {
+        get => base.ContextMenuStrip;
+        set {
+            if (value != base.ContextMenuStrip && base.ContextMenuStrip is not null) {
+                base.ContextMenuStrip.Closed -= CloseMenu;
+            }
+            base.ContextMenuStrip = value;
+            if (base.ContextMenuStrip is not null) {
+                base.ContextMenuStrip.Closed += CloseMenu;
+            }
+        }
+    }
+
+    public event EventHandler<EventArgs> MenuOpening;
+    public event EventHandler<EventArgs> MenuClosing;
+
+    public SplitButton() {
+        base.FlatStyle = FlatStyle.System;
+    }
+
+    protected override CreateParams CreateParams {
+        get {
+            CreateParams val = base.CreateParams;
+            val.Style |= 0x0C;
+            return val;
+        }
+    }
+
+    // Bugs: MouseLeave and then re-opening the drop down and closing the dropdown with the button
+    // causes the menu to appear twice before returning to normal.
+    protected override void WndProc(ref Message m) {
+        switch (m.Msg) {
+            case WM_PAINT: {
+                if (DropDownPushed) {
+                    Painting = true;
+                    SetDropDown(true);
+                    Painting = false;
+                }
+            } break;
+
+            case WM_LBUTTONDOWN: {
+                IsMouseDown = true;
+            } break;
+
+            //case WM_LBUTTONUP: {
+            //    IsMouseDown = false;
+            //} break;
+
+            case WM_KILLFOCUS:
+            case WM_LBUTTONUP:
+            case WM_MOUSELEAVE: {
+                if (IsAtDropDown) {
+                    IsAtDropDown = false;
+                    IsMouseDown = false;
+                    SetDropDown(false);
+                }
+            } break;
+
+            case BCM_SETDROPDOWNSTATE: {
+                if (!Painting && m.HWnd == this.Handle) {
+                    switch (m.WParam) {
+                        case BCM_DROPDOWNPUSHED when !DropDownPushed: {
+                            DropDownPushed = true;
+                            ShowMenu();
+                        } break;
+
+                        case BCM_DROPDOWNRELEASED when DropDownPushed: {
+                            DropDownPushed = false;
+                        } break;
+                    }
+                    if (IsMouseDown) {
+                        IsAtDropDown = true;
+                    }
+                }
+            } break;
+        }
+        base.WndProc(ref m);
+    }
+
+    protected override void OnMouseEnter(EventArgs e) {
+        base.OnMouseEnter(e);
+        IsMouseDown = IsAtDropDown = DropDownPushed = false;
+    }
+
+    private void SetDropDown(bool IsPushed) {
+        NativeMethods.SendMessage(
+            Handle,
+            BCM_SETDROPDOWNSTATE,
+            IsPushed ? BCM_DROPDOWNPUSHED : BCM_DROPDOWNRELEASED,
+            0);
+    }
+
+    public void ShowMenu() {
+        Painting = true;
+        if (ContextMenu is not null) {
+            MenuOpening?.Invoke(this, EventArgs.Empty);
+            ContextMenu.Show(this, new(Width, Height), LeftRightAlignment.Left);
+            SetDropDown(true);
+        }
+        else if (ContextMenuStrip is not null) {
+            MenuOpening?.Invoke(this, EventArgs.Empty);
+            ContextMenuStrip.Show(this, new(Width, Height));
+            SetDropDown(true);
+        }
+        Painting = false;
+    }
+
+    private void CloseMenu(object sender, EventArgs e) {
+        MenuClosing?.Invoke(this, EventArgs.Empty);
+        SetDropDown(false);
+}
+
 }
