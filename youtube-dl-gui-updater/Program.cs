@@ -7,6 +7,10 @@ namespace youtube_dl_gui_updater {
 
     static class Program {
 
+        // This is a string, not a version.
+        // I know.
+        public const string UpdaterVersion = "1.5.0";
+
         /// <summary>
         /// The exit code that the program will return. Defaults to 0.
         /// </summary>
@@ -20,10 +24,6 @@ namespace youtube_dl_gui_updater {
         /// used for troubleshooting exceptions.
         /// </summary>
         public static string ComputerVersionInformation;
-        /// <summary>
-        /// The language class used by (nearly) every user-viewed control.
-        /// </summary>
-        public static readonly Language lang = new();
 
         /// <summary>
         /// Sets the <see cref="IsDebug"/> bool to true if running under DEBUG.
@@ -82,7 +82,7 @@ namespace youtube_dl_gui_updater {
                 }
 
                 InitializeExceptions();
-                lang.LoadLanguage(NewInfo.LanguageFile);
+                Language.LoadLanguage(NewInfo.LanguageFile);
 
                 System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
                 Application.Run(new frmUpdater(NewInfo));

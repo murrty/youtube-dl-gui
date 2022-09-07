@@ -22,10 +22,10 @@ namespace youtube_dl_gui_updater {
         }
 
         private void SetLanguage() {
-            this.Text = Program.lang.frmUpdater;
-            lbUpdaterHeader.Text = Program.lang.lbUpdaterHeader;
-            lbUpdaterDetails.Text = Program.lang.lbUpdaterDetails;
-            pbDownloadProgress.Text = Program.lang.pbDownloadProgressPreparing;
+            this.Text = Language.frmUpdater;
+            lbUpdaterHeader.Text = Language.lbUpdaterHeader;
+            lbUpdaterDetails.Text = Language.lbUpdaterDetails;
+            pbDownloadProgress.Text = Language.pbDownloadProgressPreparing;
         }
 
         private void SetDownloadThread() {
@@ -74,7 +74,7 @@ RetryDownload:
                     };
 
                     // GetRequest pre-reqs
-                    wc.Headers.Add("user-agent", "youtube-dl-gui-updater/" + Properties.Settings.Default.CurrentVersion);
+                    wc.Headers.Add("user-agent", "youtube-dl-gui-updater/" + Program.UpdaterVersion);
                     wc.Method = murrty.classcontrols.HttpMethod.GET;
 
                     // Download the file to the destination
@@ -82,7 +82,7 @@ RetryDownload:
 
                     if (Info.UpdateHash != null) {
                         this.Invoke((Action)delegate {
-                            pbDownloadProgress.Text = Program.lang.pbDownloadProgressCalculatingHash;
+                            pbDownloadProgress.Text = Language.pbDownloadProgressCalculatingHash;
                         });
 
                         using SHA256 ComputeUpdateHash = SHA256Cng.Create();
@@ -92,11 +92,11 @@ RetryDownload:
 
                         if (Info.UpdateHash != UpdateHash) {
                             this.Invoke((Action)delegate {
-                                pbDownloadProgress.Text = Program.lang.pbDownloadProgressHashNoMatch;
+                                pbDownloadProgress.Text = Language.pbDownloadProgressHashNoMatch;
                                 pbDownloadProgress.ProgressState = murrty.controls.ProgressBarState.Paused;
                             });
                             // The hash calculated by the updater does not match the known hash of the update.\r\n\r\nExpected: {Info.UpdateHash}\r\n\r\nCalculated: {UpdateHash}\r\n\r\nYou can continue without it matching, there are some instances where it may be different.
-                            switch (MessageBox.Show(string.Format(Program.lang.dlgUpdaterUpdatedVersionHashNoMatch, Info.UpdateHash, UpdateHash), "youtube-dl-gui-updater", MessageBoxButtons.AbortRetryIgnore, MessageBoxIcon.Warning)) {
+                            switch (MessageBox.Show(string.Format(Language.dlgUpdaterUpdatedVersionHashNoMatch, Info.UpdateHash, UpdateHash), "youtube-dl-gui-updater", MessageBoxButtons.AbortRetryIgnore, MessageBoxIcon.Warning)) {
                                 case DialogResult.Abort: {
                                 } throw new CryptographicException("The known hash of the file does not match the hash caluclated by the updater.");
 
@@ -119,10 +119,10 @@ RetryDownload:
                     }
                     else {
                         this.Invoke((Action)delegate {
-                            pbDownloadProgress.Text = Program.lang.pbDownloadProgressSkippingHashCalculating;
+                            pbDownloadProgress.Text = Language.pbDownloadProgressSkippingHashCalculating;
                         });
 
-                        MessageBox.Show(Program.lang.dlgUpdaterHashNotGiven, "youtube-dl-gui-updater", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        MessageBox.Show(Language.dlgUpdaterHashNotGiven, "youtube-dl-gui-updater", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
                 }
 
@@ -137,7 +137,7 @@ RetryDownload:
                         tmrForm.Stop();
                         this.Text = this.Text.Trim('.');
                         pbDownloadProgress.ProgressState = murrty.controls.ProgressBarState.Error;
-                        pbDownloadProgress.Text = Program.lang.pbDownloadProgressCancelled;
+                        pbDownloadProgress.Text = Language.pbDownloadProgressCancelled;
                     });
 
                     return;
@@ -149,7 +149,7 @@ RetryDownload:
                         tmrForm.Stop();
                         this.Text = this.Text.Trim('.');
                         pbDownloadProgress.ProgressState = murrty.controls.ProgressBarState.Error;
-                        pbDownloadProgress.Text = Program.lang.pbDownloadProgressWebException;
+                        pbDownloadProgress.Text = Language.pbDownloadProgressWebException;
                     });
 
                     using murrty.frmException NewException = new(new(webEx) {
@@ -174,7 +174,7 @@ RetryDownload:
                         tmrForm.Stop();
                         this.Text = this.Text.Trim('.');
                         pbDownloadProgress.ProgressState = murrty.controls.ProgressBarState.Error;
-                        pbDownloadProgress.Text = Program.lang.pbDownloadProgressDownloadException;
+                        pbDownloadProgress.Text = Language.pbDownloadProgressDownloadException;
                     });
 
                     using murrty.frmException NewException = new(new(ex) {
@@ -205,7 +205,7 @@ RetryDownload:
                             this.Text = this.Text.Trim('.');
                             pbDownloadProgress.Style = ProgressBarStyle.Blocks;
                             pbDownloadProgress.ProgressState = murrty.controls.ProgressBarState.Error;
-                            pbDownloadProgress.Text = Program.lang.pbDownloadProgressErrorDownloading;
+                            pbDownloadProgress.Text = Language.pbDownloadProgressErrorDownloading;
                         });
                     }
                     else {
@@ -218,7 +218,7 @@ RetryDownload:
                                 this.Text = this.Text.Trim('.');
                                 pbDownloadProgress.Style = ProgressBarStyle.Blocks;
                                 pbDownloadProgress.ProgressState = murrty.controls.ProgressBarState.Error;
-                                pbDownloadProgress.Text = Program.lang.pbDownloadProgressDownloadTooSmall;
+                                pbDownloadProgress.Text = Language.pbDownloadProgressDownloadTooSmall;
                             });
                         }
                         else {
@@ -247,7 +247,7 @@ RetryDownload:
                                 // Set the progress bar.
                                 pbDownloadProgress.Value = pbDownloadProgress.Maximum;
                                 pbDownloadProgress.Style = ProgressBarStyle.Blocks;
-                                pbDownloadProgress.Text = Program.lang.pbDownloadProgressDownloadFinishedLaunching;
+                                pbDownloadProgress.Text = Language.pbDownloadProgressDownloadFinishedLaunching;
                             });
 
                             // Run the updated program.
@@ -273,7 +273,7 @@ RetryDownload:
                         tmrForm.Stop();
                         this.Text = this.Text.Trim('.');
                         pbDownloadProgress.ProgressState = murrty.controls.ProgressBarState.Error;
-                        pbDownloadProgress.Text = Program.lang.pbDownloadProgressErrorProcessingDownload;
+                        pbDownloadProgress.Text = Language.pbDownloadProgressErrorProcessingDownload;
                     });
                     using murrty.frmException NewException = new(new(ex));
                     NewException.ShowDialog();

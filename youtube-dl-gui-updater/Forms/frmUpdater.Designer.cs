@@ -21,6 +21,8 @@
             // 
             // lbUpdaterHeader
             // 
+            this.lbUpdaterHeader.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lbUpdaterHeader.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbUpdaterHeader.Location = new System.Drawing.Point(12, 9);
             this.lbUpdaterHeader.Name = "lbUpdaterHeader";
@@ -31,6 +33,9 @@
             // 
             // lbUpdaterDetails
             // 
+            this.lbUpdaterDetails.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lbUpdaterDetails.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbUpdaterDetails.Location = new System.Drawing.Point(12, 38);
             this.lbUpdaterDetails.Name = "lbUpdaterDetails";
@@ -47,19 +52,21 @@
             // 
             // pbDownloadProgress
             // 
+            this.pbDownloadProgress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.pbDownloadProgress.ContainerParent = this;
             this.pbDownloadProgress.FastValueUpdate = true;
+            this.pbDownloadProgress.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.pbDownloadProgress.Location = new System.Drawing.Point(12, 78);
             this.pbDownloadProgress.Maximum = 200;
             this.pbDownloadProgress.Name = "pbDownloadProgress";
             this.pbDownloadProgress.ProgressState = murrty.controls.ProgressBarState.Normal;
             this.pbDownloadProgress.ShowInTaskbar = true;
+            this.pbDownloadProgress.ShowText = true;
             this.pbDownloadProgress.Size = new System.Drawing.Size(208, 24);
             this.pbDownloadProgress.Style = System.Windows.Forms.ProgressBarStyle.Blocks;
             this.pbDownloadProgress.TabIndex = 0;
             this.pbDownloadProgress.Text = "pbDownloadProgressPreparing";
-            this.pbDownloadProgress.TextColor = System.Drawing.SystemColors.ControlText;
-            this.pbDownloadProgress.TextFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             // 
             // frmUpdater
             // 
@@ -72,6 +79,8 @@
             this.Controls.Add(this.lbUpdaterHeader);
             this.Icon = global::youtube_dl_gui_updater.Properties.Resources.youtube_dl_gui;
             this.MaximizeBox = false;
+            this.MaximumSize = new System.Drawing.Size(248, 148);
+            this.MinimumSize = new System.Drawing.Size(248, 148);
             this.Name = "frmUpdater";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

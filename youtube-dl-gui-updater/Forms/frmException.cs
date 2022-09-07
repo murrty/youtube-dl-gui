@@ -37,18 +37,18 @@ namespace murrty {
                 btnExceptionRetry.Text = youtube_dl_gui_updater.Language.InternalEnglish.GenericRetry;
             }
             else {
-                this.Text = youtube_dl_gui_updater.Program.lang.frmException;
-                lbExceptionHeader.Text = youtube_dl_gui_updater.Program.lang.lbExceptionHeader;
-                lbExceptionDescription.Text = youtube_dl_gui_updater.Program.lang.lbExceptionDescription;
-                rtbExceptionDetails.Text = youtube_dl_gui_updater.Program.lang.rtbUpdaterExceptionDetails;
-                btnExceptionGithub.Text = youtube_dl_gui_updater.Program.lang.btnExceptionGithub;
-                btnExceptionOk.Text = youtube_dl_gui_updater.Program.lang.GenericOk;
-                btnExceptionRetry.Text = youtube_dl_gui_updater.Program.lang.GenericRetry;
+                this.Text = youtube_dl_gui_updater.Language.frmException;
+                lbExceptionHeader.Text = youtube_dl_gui_updater.Language.lbExceptionHeader;
+                lbExceptionDescription.Text = youtube_dl_gui_updater.Language.lbExceptionDescription;
+                rtbExceptionDetails.Text = youtube_dl_gui_updater.Language.rtbUpdaterExceptionDetails;
+                btnExceptionGithub.Text = youtube_dl_gui_updater.Language.btnExceptionGithub;
+                btnExceptionOk.Text = youtube_dl_gui_updater.Language.GenericOk;
+                btnExceptionRetry.Text = youtube_dl_gui_updater.Language.GenericRetry;
             }
         }
 
         public static string GetRelevantInformation() {
-            return $"Current updater version: {(youtube_dl_gui_updater.Properties.Settings.Default.IsBetaVersion ? youtube_dl_gui_updater.Properties.Settings.Default.BetaVersion : youtube_dl_gui_updater.Properties.Settings.Default.CurrentVersion)}\nCurrent culture: {System.Threading.Thread.CurrentThread.CurrentCulture.EnglishName}\nOS: {youtube_dl_gui_updater.Program.ComputerVersionInformation}";
+            return $"Current updater version: {youtube_dl_gui_updater.Program.UpdaterVersion}\nCurrent culture: {System.Threading.Thread.CurrentThread.CurrentCulture.EnglishName}\nOS: {youtube_dl_gui_updater.Program.ComputerVersionInformation}";
         }
 
         private void frmError_Load(object sender, EventArgs e) {
@@ -112,9 +112,7 @@ namespace murrty {
                                         GetRelevantInformation() +
                                         "\n========== END INFO ==========";
 
-            lbVersion.Text = youtube_dl_gui_updater.Properties.Settings.Default.IsBetaVersion ?
-                "v" + youtube_dl_gui_updater.Properties.Settings.Default.BetaVersion :
-                "v" + youtube_dl_gui_updater.Properties.Settings.Default.CurrentVersion.ToString();
+            lbVersion.Text = "v" + youtube_dl_gui_updater.Program.UpdaterVersion;
 
             System.Media.SystemSounds.Hand.Play();
         }
