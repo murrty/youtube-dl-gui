@@ -35,6 +35,7 @@ internal sealed class SplitButton : Button {
         }
     }
 
+    [DefaultValue(null)]
     public new ContextMenuStrip ContextMenuStrip {
         get => base.ContextMenuStrip;
         set {
@@ -63,51 +64,39 @@ internal sealed class SplitButton : Button {
         }
     }
 
-    // Bugs: MouseLeave and then re-opening the drop down and closing the dropdown with the button
-    // causes the menu to appear twice before returning to normal.
     protected override void WndProc(ref Message m) {
         switch (m.Msg) {
-            case WM_PAINT: {
-                if (DropDownPushed) {
-                    Painting = true;
-                    SetDropDown(true);
-                    Painting = false;
-                }
+            case WM_PAINT when DropDownPushed: {
+                Painting = true;
+                SetDropDown(true);
+                Painting = false;
             } break;
 
             case WM_LBUTTONDOWN: {
                 IsMouseDown = true;
             } break;
 
-            //case WM_LBUTTONUP: {
-            //    IsMouseDown = false;
-            //} break;
-
-            case WM_KILLFOCUS:
-            case WM_LBUTTONUP:
-            case WM_MOUSELEAVE: {
-                if (IsAtDropDown) {
-                    IsAtDropDown = false;
-                    IsMouseDown = false;
-                    SetDropDown(false);
-                }
+            case WM_KILLFOCUS when IsAtDropDown:
+            case WM_LBUTTONUP when IsAtDropDown:
+            case WM_MOUSELEAVE when IsAtDropDown: {
+                IsAtDropDown = false;
+                IsMouseDown = false;
+                SetDropDown(false);
             } break;
 
-            case BCM_SETDROPDOWNSTATE: {
-                if (!Painting && m.HWnd == this.Handle) {
-                    switch (m.WParam) {
-                        case BCM_DROPDOWNPUSHED when !DropDownPushed: {
-                            DropDownPushed = true;
-                            ShowMenu();
-                        } break;
+            case BCM_SETDROPDOWNSTATE when !Painting && m.HWnd == this.Handle: {
+                switch (m.WParam) {
+                    case BCM_DROPDOWNPUSHED when !DropDownPushed: {
+                        DropDownPushed = true;
+                        ShowMenu();
+                    } break;
 
-                        case BCM_DROPDOWNRELEASED when DropDownPushed: {
-                            DropDownPushed = false;
-                        } break;
-                    }
-                    if (IsMouseDown) {
-                        IsAtDropDown = true;
-                    }
+                    case BCM_DROPDOWNRELEASED when DropDownPushed: {
+                        DropDownPushed = false;
+                    } break;
+                }
+                if (IsMouseDown) {
+                    IsAtDropDown = true;
                 }
             } break;
         }
@@ -127,17 +116,15 @@ internal sealed class SplitButton : Button {
             0);
     }
 
-    public void ShowMenu() {
+    private void ShowMenu() {
         Painting = true;
         if (ContextMenu is not null) {
             MenuOpening?.Invoke(this, EventArgs.Empty);
             ContextMenu.Show(this, new(Width, Height), LeftRightAlignment.Left);
-            SetDropDown(true);
         }
         else if (ContextMenuStrip is not null) {
             MenuOpening?.Invoke(this, EventArgs.Empty);
             ContextMenuStrip.Show(this, new(Width, Height));
-            SetDropDown(true);
         }
         Painting = false;
     }
