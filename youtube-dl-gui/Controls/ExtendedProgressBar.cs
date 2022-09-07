@@ -161,6 +161,7 @@ public sealed class ExtendedProgressBar : ProgressBar {
     [Bindable(true)]
     [Browsable(true)]
     [Category("Appearance")]
+    [DefaultValue(ProgressBarState.Normal)]
     [Description("The state of the progress bars' current \"action\".")]
     [EditorBrowsable(EditorBrowsableState.Always)]
     public ProgressBarState ProgressState {
@@ -245,7 +246,7 @@ public sealed class ExtendedProgressBar : ProgressBar {
     [Bindable(true)]
     [Browsable(true)]
     [Category("Appearance")]
-    [DefaultValue(ProgressBarStyle.Continuous)]
+    [DefaultValue(ProgressBarStyle.Blocks)]
     [Description("The style of the progress bar.")]
     [EditorBrowsable(EditorBrowsableState.Always)]
     public new ProgressBarStyle Style {
@@ -268,6 +269,7 @@ public sealed class ExtendedProgressBar : ProgressBar {
     [Bindable(true)]
     [Browsable(true)]
     [Category("Appearance")]
+    [DefaultValue("")]
     [Description("The text that will be drawn within the progress bar, if enabled.")]
     [EditorBrowsable(EditorBrowsableState.Always)]
     public new string Text {
@@ -301,6 +303,7 @@ public sealed class ExtendedProgressBar : ProgressBar {
     [Bindable(true)]
     [Browsable(true)]
     [Category("Appearance")]
+    [DefaultValue(0)]
     [Description("The value that is displayed on the progress bar.")]
     [EditorBrowsable(EditorBrowsableState.Always)]
     public new int Value {
@@ -349,7 +352,7 @@ public sealed class ExtendedProgressBar : ProgressBar {
     /// <summary>
     /// Advances the current position of the progress bar by the specified amount.
     /// </summary>
-    /// <param name="value">The amount by which to increment the progress bar's current position.</param>
+    /// <param name="value">The amount by which to increment the progress bars' current position.</param>
     /// <exception cref="InvalidOperationException"><see cref="T:System.Windows.Forms.ProgressBar.Style"/> is set to <see cref="T:System.Windows.Forms.ProgressBarStyle.Marquee"/>.</exception>
     public new void Increment(int value) {
         base.Increment(value);
@@ -381,6 +384,7 @@ public sealed class ExtendedProgressBar : ProgressBar {
 
     /// <inheritdoc/>
     public override ISite Site {
+        get => base.Site;
         set {
             // Runs at design time, ensures designer initializes ContainerControl
             base.Site = value;
@@ -434,11 +438,9 @@ public sealed class ExtendedProgressBar : ProgressBar {
     /// Draws the text onto the control.
     /// </summary>
     private void DrawText() {
-        SizeF size = _ControlGraphics.MeasureString(base.Text, Font);
+        SizeF size = _ControlGraphics.MeasureString(Text, Font);
         if (_ShowTextDropShadow) {
-            _ControlGraphics.DrawString(
-                base.Text, Font, new SolidBrush(_DropShadowColor),
-
+            _ControlGraphics.DrawString(Text, Font, new SolidBrush(_DropShadowColor),
                 _TextAlignment switch {
                     ContentAlignment.TopLeft or
                     ContentAlignment.MiddleLeft or
@@ -469,9 +471,7 @@ public sealed class ExtendedProgressBar : ProgressBar {
                 } + 1
             );
         }
-        _ControlGraphics.DrawString(
-            base.Text, Font, new SolidBrush(ForeColor),
-
+        _ControlGraphics.DrawString(Text, Font, new SolidBrush(ForeColor),
             _TextAlignment switch {
                 ContentAlignment.TopLeft or
                 ContentAlignment.MiddleLeft or

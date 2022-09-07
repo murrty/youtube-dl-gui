@@ -944,6 +944,7 @@ public static class Language {
         CurrentLanguageLong = InternalEnglish.CurrentLanguageLong;
         CurrentLanguageShort = InternalEnglish.CurrentLanguageShort;
         CurrentLanguageHint = InternalEnglish.CurrentLanguageHint;
+        CurrentLanguageVersion = Program.CurrentVersion.ToString();
 
         // Generics
         GenericInputBest = InternalEnglish.GenericInputBest;
@@ -1375,6 +1376,7 @@ public static class Language {
         CurrentLanguageLong = nameof(CurrentLanguageLong);
         CurrentLanguageShort = nameof(CurrentLanguageShort);
         CurrentLanguageHint = nameof(CurrentLanguageHint);
+        CurrentLanguageVersion = string.Empty;
 
         // Generics
         GenericInputBest = nameof(GenericInputBest);

@@ -47,8 +47,8 @@
             this.chkBatchDownloadClipboardScanner = new System.Windows.Forms.CheckBox();
             this.chkBatchDownloadClipboardScanVerifyLinks = new System.Windows.Forms.CheckBox();
             this.pnClipboardScanner = new System.Windows.Forms.Panel();
-            this.sbBatchDownloaderImportLinks = new youtube_dl_gui.SplitButton();
-            this.sbBatchDownloadLoadArgs = new youtube_dl_gui.SplitButton();
+            this.sbBatchDownloaderImportLinks = new murrty.controls.SplitButton();
+            this.sbBatchDownloadLoadArgs = new murrty.controls.SplitButton();
             this.txtBatchDownloadLink = new murrty.controls.ExtendedTextBox();
             this.lvBatchDownloadQueue = new youtube_dl_gui.Controls.VistaListView();
             this.clUrl = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -408,7 +408,7 @@
         private System.Windows.Forms.ColumnHeader clUrl;
         private System.Windows.Forms.ColumnHeader clArgs;
         private murrty.controls.ExtendedTextBox txtBatchDownloadLink;
-        private SplitButton sbBatchDownloadLoadArgs;
+        private murrty.controls.SplitButton sbBatchDownloadLoadArgs;
         private System.Windows.Forms.ContextMenu mBatchDownloaderArgs;
         private System.Windows.Forms.MenuItem mBatchDownloaderLoadArgsFromSettings;
         private System.Windows.Forms.MenuItem mBatchDownloaderLoadArgsFromArgsTxt;
@@ -419,7 +419,7 @@
         private System.Windows.Forms.ComboBox cbBatchFormat;
         private System.Windows.Forms.ColumnHeader clType;
         private System.Windows.Forms.ComboBox cbArguments;
-        private SplitButton sbBatchDownloaderImportLinks;
+        private murrty.controls.SplitButton sbBatchDownloaderImportLinks;
         private System.Windows.Forms.ContextMenu cmBatchDownloaderImportLinks;
         private System.Windows.Forms.MenuItem mBatchDownloaderImportLinksFromFile;
         private System.Windows.Forms.MenuItem mBatchDownloaderImportLinksFromClipboard;

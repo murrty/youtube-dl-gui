@@ -13,6 +13,8 @@ namespace youtube_dl_gui {
         private Process DownloadProcess;
         private string Msg;
         private DownloadStatus Status = DownloadStatus.None;
+        private ListViewItem LastSelectedVideoFormat;
+        private ListViewItem LastSelectedAudioFormat;
 
         private string URL { get; }
 
@@ -30,13 +32,25 @@ namespace youtube_dl_gui {
             }
 
             lvVideoFormats.SelectedIndexChanged += (s, e) => {
-                if (lvVideoFormats.SelectedItems.Count > 0) {
-                    VideoFormat = lvVideoFormats.SelectedItems[0].Tag as DownloaderData.Format;
+                if (lvVideoFormats.SelectedIndices.Count > 0) {
+                    if (LastSelectedVideoFormat is not null) {
+                        LastSelectedVideoFormat.ImageIndex = LastSelectedVideoFormat.Index == 0 ? 0 : -1;
+                    }
+
+                    lvVideoFormats.SelectedItems[0].ImageIndex = 1;
+                    LastSelectedVideoFormat = lvVideoFormats.SelectedItems[0];
+                    VideoFormat = LastSelectedVideoFormat.Tag as DownloaderData.Format;
                 }
             };
             lvAudioFormats.SelectedIndexChanged += (s, e) => {
-                if (lvAudioFormats.SelectedItems.Count > 0) {
-                    AudioFormat = lvAudioFormats.SelectedItems[0].Tag as DownloaderData.Format;
+                if (lvAudioFormats.SelectedIndices.Count > 0) {
+                    if (LastSelectedAudioFormat is not null) {
+                        LastSelectedAudioFormat.ImageIndex = LastSelectedAudioFormat.Index == 0 ? 0 : -1;
+                    }
+
+                    lvAudioFormats.SelectedItems[0].ImageIndex = 1;
+                    LastSelectedAudioFormat = lvAudioFormats.SelectedItems[0];
+                    AudioFormat = LastSelectedVideoFormat.Tag as DownloaderData.Format;
                 }
             };
 
@@ -53,8 +67,8 @@ namespace youtube_dl_gui {
             if (!string.IsNullOrEmpty(Config.Settings.Saved.FileNameSchemaHistory)) {
                 cbSchema.Items.AddRange(Config.Settings.Saved.FileNameSchemaHistory.Split('|'));
             }
-            lvVideoFormats.SmallImageList = Program.StatusImages;
-            lvAudioFormats.SmallImageList = Program.StatusImages;
+            lvVideoFormats.SmallImageList = Program.ExtendedDownloaderSelectedImages;
+            lvAudioFormats.SmallImageList = Program.ExtendedDownloaderSelectedImages;
 
             rbVideo.Checked = true;
 
@@ -80,12 +94,11 @@ namespace youtube_dl_gui {
                                 ((long)Format.FileSize).SizeToString() : Format.ApproximateFileSize is not null ?
                                 ((long)Format.ApproximateFileSize).SizeToString() : "?B";
 
-                            ListViewItem NewFormat = new(LegibleQualityName);
                             if (lvVideoFormats.Items.Count == 0) {
-                                NewFormat.ImageIndex = 2;
                                 VideoFormat = Format;
                             }
 
+                            ListViewItem NewFormat = new(LegibleQualityName);
                             NewFormat.SubItems.Add(Frames);
                             NewFormat.SubItems.Add(Container);
                             NewFormat.SubItems.Add(FileSize);
@@ -107,12 +120,11 @@ namespace youtube_dl_gui {
                                 ((long)Format.FileSize).SizeToString() : Format.ApproximateFileSize is not null ?
                                 ((long)Format.ApproximateFileSize).SizeToString() : "?B";
 
-                            ListViewItem NewFormat = new(Bitrate);
                             if (lvAudioFormats.Items.Count == 0) {
-                                NewFormat.ImageIndex = 2;
                                 AudioFormat = Format;
                             }
-
+                            
+                            ListViewItem NewFormat = new(Bitrate);
                             NewFormat.SubItems.Add(Container);
                             NewFormat.SubItems.Add(FileSize);
                             NewFormat.SubItems.Add(SampleRate);
@@ -168,7 +180,6 @@ namespace youtube_dl_gui {
                 InformationThread.Start();
                 lbExtendedDownloaderUploader.Focus();
             };
-
             this.FormClosing += (s, e) => {
                 switch (Status) {
                     case DownloadStatus.Downloading: {
@@ -449,57 +460,77 @@ namespace youtube_dl_gui {
                     args = null;
                     Status = DownloadStatus.Downloading;
                     DownloadProcess.OutputDataReceived += (s, e) => {
-                        if (e.Data is not null) {
-                            if (e.Data.IndexOf("[download]") > -1 || e.Data.IndexOf("[ffmpeg]") > -1) {
-                                Msg = e.Data;
+                        if (e.Data is not null && e.Data.Length > 0) {
+                            switch (e.Data[..5]) {
+                                case "[down": case "[ffmp": {
+                                    Msg = e.Data;
+                                } break;
+
+                                default: {
+                                    Msg = null;
+                                    /*
+                                      [youtube] TXRiWW7pb5E: Downloading webpage
+                                      [youtube] TXRiWW7pb5E: Downloading android player API JSON
+                                      [info] TXRiWW7pb5E: Downloading 1 format(s): 303+251
+                                    */
+                                    rtbVerbose.Invoke(() => rtbVerbose.AppendText(e.Data + "\n"));
+                                } break;
                             }
-                            else {
-                                rtbVerbose.Invoke(() => rtbVerbose.AppendText(e.Data + "\n"));
-                            }
+                            //if (e.Data.IndexOf("[download]") > -1 || e.Data.IndexOf("[ffmpeg]") > -1) {
+                            //}
+                            //else {
+                            //}
                         }
                     };
                     DownloadProcess.ErrorDataReceived += (s, e) => {
                         if (e.Data is not null)
-                            rtbVerbose.Invoke(() => rtbVerbose.AppendText(e.Data + "\n"));
+                            rtbVerbose.Invoke(() => rtbVerbose.AppendText($"Error: {e.Data}\n"));
                     };
                     DownloadProcess.Start();
                     DownloadProcess.BeginOutputReadLine();
                     DownloadProcess.BeginErrorReadLine();
 
                     while (!DownloadProcess.HasExited) {
+                        if ((Status == DownloadStatus.Aborted || Status == DownloadStatus.AbortForClose) && !DownloadProcess.HasExited) {
+                            Program.KillProcessTree((uint)DownloadProcess.Id);
+                            DownloadProcess.Kill();
+                            break;
+                        }
+
                         if (Msg is not null) {
                             string Line = Regex.Replace(Msg, "\\s+", " ");
                             string[] LineParts = Line.Split(' ');
                             rtbVerbose.Invoke(() => rtbVerbose.AppendText(Line + "\n"));
-
-                            if (Line.IndexOf("[download]") > -1) {
-                                switch (LineParts[1][0]) {
-                                    case '0':
-                                    case '1': case '2': case '3':
-                                    case '4': case '5': case '6':
-                                    case '7': case '8': case '9': {
-                                        if (LineParts[1].Contains('%')) {
-                                            float Percentage = float.Parse(LineParts[1][..LineParts[1].IndexOf('%')]);
-                                            pbStatus.Invoke(() => {
-                                                pbStatus.Text = $"{Percentage}% @ {LineParts[5]}";
-                                                pbStatus.Value = (int)Math.Round(Percentage, MidpointRounding.ToEven);
-                                            });
-                                        }
-                                    } break;
-                                }
+                            switch (Line[..5]) {
+                                case "[down": {
+                                    switch (LineParts[1][0]) {
+                                        case '1': case '2': case '3':
+                                        case '4': case '5': case '6':
+                                        case '7': case '8': case '9':
+                                        case '0': {
+                                            if (LineParts[1].Contains('%')) {
+                                                float Percentage = float.Parse(LineParts[1][..LineParts[1].IndexOf('%')]);
+                                                pbStatus.Invoke(() => {
+                                                    pbStatus.Text = $"{Percentage}% @ {LineParts[5]}";
+                                                    pbStatus.Value = (int)Math.Round(Percentage, MidpointRounding.ToEven);
+                                                });
+                                            }
+                                        } break;
+                                    }
+                                } break;
+                                case "[ffmp": {
+                                    pbStatus.Invoke(() => {
+                                        pbStatus.Style = ProgressBarStyle.Marquee;
+                                        pbStatus.Text = "Post processing";
+                                        pbStatus.Value = 100;
+                                    });
+                                } break;
                             }
-                            else if (Line.IndexOf("[ffmpeg]") > -1) {
-                                pbStatus.Invoke(() => {
-                                    pbStatus.Style = ProgressBarStyle.Marquee;
-                                    pbStatus.Text = "Transcoding...";
-                                    pbStatus.Value = 100;
-                                });
-                            }
-                        }
 
-                        if ((Status == DownloadStatus.Aborted || Status == DownloadStatus.AbortForClose) && !DownloadProcess.HasExited) {
-                            Program.KillProcessTree((uint)DownloadProcess.Id);
-                            break;
+                            //if (Line.IndexOf("[download]") > -1) {
+                            //}
+                            //else if (Line.IndexOf("[ffmpeg]") > -1) {
+                            //}
                         }
 
                         Thread.Sleep(500);
@@ -650,6 +681,7 @@ namespace youtube_dl_gui {
         private void btnKill_Click(object sender, EventArgs e) {
             if (DownloadProcess is not null && !DownloadProcess.HasExited) {
                 Program.KillProcessTree((uint)DownloadProcess.Id);
+                DownloadProcess.Kill();
             }
         }
 

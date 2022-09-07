@@ -8,7 +8,7 @@ using System.Threading;
 using System.Windows.Forms;
 
 namespace youtube_dl_gui {
-    public static class Program {
+    internal static class Program {
 
         /// <summary>
         /// Gets the curent version of the program.
@@ -36,24 +36,50 @@ namespace youtube_dl_gui {
             get; set;
         }
 
+        /// <summary>
+        /// Represents the GUID of the program. Used for enforcing the mutex.
+        /// </summary>
         private static readonly GuidAttribute ProgramGUID =
             (GuidAttribute)Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(GuidAttribute), true)[0];
-
-        public static readonly string LocalAppDataPath =
-            $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\youtube_dl_gui";
-
+        /// <summary>
+        /// The directory of the program.
+        /// </summary>
         public static readonly string ProgramPath =
-            Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName)
-            ;
-        public static readonly string UserAgent =
-            "youtube-dl-gui/" + CurrentVersion;
+            Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName);
+        /// <summary>
+        /// The user-agent used for web client calls.
+        /// </summary>
+        public static readonly string UserAgent = "youtube-dl-gui/" + CurrentVersion;
 
+        /// <summary>
+        /// The list of running downloads or conversions.
+        /// </summary>
         internal static readonly HashSet<Form> RunningActions = new();
-        internal static ImageList StatusImages;
+        /// <summary>
+        /// The image list used for batch actions.
+        /// </summary>
+        internal static ImageList BatchStatusImages;
+        /// <summary>
+        /// The image list used for the extended downloader.
+        /// </summary>
+        internal static ImageList ExtendedDownloaderSelectedImages;
 
+        /// <summary>
+        /// Whether the program was ran for the first time.
+        /// </summary>
         private static bool IsFirstTime = false;
+        /// <summary>
+        /// The mutex used for enforcing the applications' single instance.
+        /// </summary>
         private static Mutex Instance;
+        /// <summary>
+        /// The main form used for the application.
+        /// </summary>
         private static frmMain MainForm;
+        /// <summary>
+        /// The idle thread used when argument-downloads are ran, to prevent the program from dying too early.
+        /// </summary>
+        private static Thread ArgumentWaitThread;
 
         [STAThread]
         public static int Main(string[] args) {
@@ -71,20 +97,28 @@ namespace youtube_dl_gui {
                     Environment.CurrentDirectory = ProgramPath;
                 }
 
-                StatusImages = new() {
+                BatchStatusImages = new() {
                     ColorDepth = ColorDepth.Depth32Bit,
-                    TransparentColor = System.Drawing.Color.Transparent,
+                    TransparentColor = System.Drawing.Color.Transparent
                 };
+                BatchStatusImages.Images.Add(Properties.Resources.waiting);  // 0
+                BatchStatusImages.Images.Add(Properties.Resources.download); // 1
+                BatchStatusImages.Images.Add(Properties.Resources.finished); // 2
+                BatchStatusImages.Images.Add(Properties.Resources.error);    // 3
 
-                StatusImages.Images.Add(Properties.Resources.waiting);  // 0
-                StatusImages.Images.Add(Properties.Resources.download); // 1
-                StatusImages.Images.Add(Properties.Resources.finished); // 2
-                StatusImages.Images.Add(Properties.Resources.error);    // 3
+                ExtendedDownloaderSelectedImages = new() {
+                    ColorDepth = ColorDepth.Depth32Bit,
+                    TransparentColor = System.Drawing.Color.Transparent
+                };
+                ExtendedDownloaderSelectedImages.Images.Add(Properties.Resources.best);     // 0
+                ExtendedDownloaderSelectedImages.Images.Add(Properties.Resources.selected); // 1
 
                 (Config.Settings = new Config()).Load(ConfigType.Initialization);
                 if (DebugMode) {
                     LoadClasses();
-                    Application.Run(MainForm = new frmMain());
+                    //Application.Run(MainForm = new frmMain());
+                    //Application.Run(new Testform());
+                    (MainForm = new()).ShowDialog();
                 }
                 else {
                     if (Config.Settings.Initialization.firstTime) {
@@ -130,14 +164,12 @@ namespace youtube_dl_gui {
                     LoadClasses();
 
                     if (CheckArgs(args, true)) {
-                        do {
-                            Thread.Sleep(1000);
-                        } while (RunningActions.Count > 0);
+                        AwaitActions();
                         return 0;
                     }
 
                     System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
-                    Application.Run(MainForm = new frmMain());
+                    (MainForm = new frmMain()).ShowDialog();
                     Instance.ReleaseMutex();
                 }
             }
@@ -145,29 +177,33 @@ namespace youtube_dl_gui {
                 nint hwnd = CopyData.FindWindow(null, "youtube-dl-gui");
                 if (hwnd == 0) {
                     if (args.Length > 0) {
-                        CopyData.SentData Data = new() {
+                        SentData Data = new() {
                             Argument = string.Join("|", args)
                         };
-                        CopyData.CopyDataStruct DataStruct = new();
+                        CopyDataStruct DataStruct = new();
                         nint CopyDataBuffer = 0;
                         nint DataBuffer = 0;
                         try {
-                            DataBuffer = CopyData.IntPtrAlloc(Data);
+                            DataBuffer = CopyData.NintAlloc(Data);
                             DataStruct.cbData = Marshal.SizeOf(Data);
                             DataStruct.dwData = 1;
                             DataStruct.lpData = DataBuffer;
-                            CopyDataBuffer = CopyData.IntPtrAlloc(DataStruct);
+                            CopyDataBuffer = CopyData.NintAlloc(DataStruct);
                             CopyData.SendMessage(hwnd, CopyData.WM_COPYDATA, 0, CopyDataBuffer);
                         }
                         finally {
-                            CopyData.IntPtrFree(ref CopyDataBuffer);
-                            CopyData.IntPtrFree(ref DataBuffer);
+                            CopyData.NintFree(ref CopyDataBuffer);
+                            CopyData.NintFree(ref DataBuffer);
                         }
                     }
                     CopyData.SendMessage(hwnd, CopyData.WM_SHOWFORM, 0, 0);
                 }
 
-                ExitCode = 1152;
+                return 1152;
+            }
+
+            if (RunningActions.Count > 0) {
+                AwaitActions();
             }
 
             return ExitCode;
@@ -187,6 +223,27 @@ namespace youtube_dl_gui {
 
             Verification.Refresh();
             Formats.LoadCustomFormats();
+        }
+
+        private static void AwaitActions() {
+            Form IdleForm = new() {
+                Opacity = 0,
+                FormBorderStyle = FormBorderStyle.None,
+                ShowIcon = false,
+                ShowInTaskbar = false,
+            };
+            IdleForm.Load += (s, e) => {
+                ArgumentWaitThread = new(() => {
+                    while (RunningActions.Count > 0) {
+                        Thread.Sleep(1000);
+                    }
+                    IdleForm.Invoke(() => IdleForm.Dispose());
+                }) {
+                    Name = "Awaiting actions"
+                };
+                ArgumentWaitThread.Start();
+            };
+            Application.Run(IdleForm);
         }
 
         internal static void KillProcessTree(uint ProcessId, bool KillParent = false) {
@@ -321,5 +378,7 @@ namespace youtube_dl_gui {
         internal static void RemoveTrayIcon() {
             MainForm.RemoveTrayIcon();
         }
+
+        internal static nint MainWindowHandle() => MainForm.GetHandle();
     }
 }

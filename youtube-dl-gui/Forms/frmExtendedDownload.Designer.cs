@@ -56,10 +56,10 @@
             this.cbAudioEncoders = new System.Windows.Forms.ComboBox();
             this.cbVideoEncoders = new System.Windows.Forms.ComboBox();
             this.tpDescription = new System.Windows.Forms.TabPage();
-            this.rtbMediaDescription = new youtube_dl_gui.Controls.ExtendedRichTextBox();
+            this.rtbMediaDescription = new murrty.controls.ExtendedRichTextBox();
             this.tpVerbose = new System.Windows.Forms.TabPage();
             this.txtGeneratedArguments = new System.Windows.Forms.TextBox();
-            this.rtbVerbose = new youtube_dl_gui.Controls.ExtendedRichTextBox();
+            this.rtbVerbose = new murrty.controls.ExtendedRichTextBox();
             this.tpDebug = new System.Windows.Forms.TabPage();
             this.btnKill = new System.Windows.Forms.Button();
             this.chkPbTaskbar = new System.Windows.Forms.CheckBox();
@@ -696,9 +696,9 @@
             // 
             this.btnDownloadWithAuthentication.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnDownloadWithAuthentication.Enabled = false;
-            this.btnDownloadWithAuthentication.Location = new System.Drawing.Point(189, 460);
+            this.btnDownloadWithAuthentication.Location = new System.Drawing.Point(211, 460);
             this.btnDownloadWithAuthentication.Name = "btnDownloadWithAuthentication";
-            this.btnDownloadWithAuthentication.Size = new System.Drawing.Size(176, 23);
+            this.btnDownloadWithAuthentication.Size = new System.Drawing.Size(154, 23);
             this.btnDownloadWithAuthentication.TabIndex = 19;
             this.btnDownloadWithAuthentication.Text = "btnDownloadWithAuthentication";
             this.btnDownloadWithAuthentication.UseVisualStyleBackColor = true;
@@ -724,7 +724,7 @@
             this.pbStatus.Name = "pbStatus";
             this.pbStatus.ProgressState = murrty.controls.ProgressBarState.Normal;
             this.pbStatus.ShowText = true;
-            this.pbStatus.Size = new System.Drawing.Size(171, 21);
+            this.pbStatus.Size = new System.Drawing.Size(193, 21);
             this.pbStatus.Style = System.Windows.Forms.ProgressBarStyle.Blocks;
             this.pbStatus.TabIndex = 20;
             this.pbStatus.Text = ".  .  .";
@@ -756,7 +756,7 @@
             this.MaximizeBox = false;
             this.MinimumSize = new System.Drawing.Size(490, 530);
             this.Name = "frmExtendedDownload";
-            this.Text = "Retrieving data... - yotuube-dl-gui";
+            this.Text = "frmExtendedDownload";
             ((System.ComponentModel.ISupportInitialize)(this.pbThumbnail)).EndInit();
             this.tcVideoData.ResumeLayout(false);
             this.tpFormats.ResumeLayout(false);
@@ -780,7 +780,7 @@
         #endregion
 
         private System.Windows.Forms.PictureBox pbThumbnail;
-        private Controls.ExtendedRichTextBox rtbMediaDescription;
+        private murrty.controls.ExtendedRichTextBox rtbMediaDescription;
         private System.Windows.Forms.TextBox txtMediaTitle;
         private System.Windows.Forms.Label lbExtendedDownloaderUploader;
         private System.Windows.Forms.TextBox txtUploader;
@@ -828,7 +828,7 @@
         private System.Windows.Forms.Button btnPbRemove;
         private System.Windows.Forms.Button btnPbAdd;
         private System.Windows.Forms.TabPage tpVerbose;
-        private Controls.ExtendedRichTextBox rtbVerbose;
+        private murrty.controls.ExtendedRichTextBox rtbVerbose;
         private System.Windows.Forms.Button btnKill;
         private System.Windows.Forms.TextBox txtGeneratedArguments;
         private System.Windows.Forms.Label lbSchema;

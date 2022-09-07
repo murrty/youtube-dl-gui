@@ -1,11 +1,15 @@
-﻿namespace youtube_dl_gui;
+﻿namespace youtube_dl_gui_updater;
 
 using System.Runtime.InteropServices;
+using System.Text;
 
 internal sealed class CopyData {
 
     public const int WM_COPYDATA = 0x004A;
     public const int WM_SHOWFORM = 0x1000;
+    public const int WM_UPDATEDATAREQUEST = 0x1001;
+    public const int WM_UPDATEDATA = 0x1002;
+    public const int WM_UPDATERREADY = 0x1003;
 
     public static nint NintAlloc<T>(T param) {
         nint retval = Marshal.AllocHGlobal(Marshal.SizeOf(param));
@@ -18,6 +22,11 @@ internal sealed class CopyData {
             Marshal.FreeHGlobal(PreAlloc);
             PreAlloc = 0;
         }
+    }
+
+    public static T GetParam<T>(nint LParam) {
+        var DataStruct = Marshal.PtrToStructure<CopyDataStruct>(LParam);
+        return Marshal.PtrToStructure<T>(DataStruct.lpData);
     }
 
     /// <summary>

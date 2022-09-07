@@ -15,12 +15,16 @@ public static class Language {
     public static string frmException { get; private set; }
     public static string lbExceptionHeader { get; private set; }
     public static string lbExceptionDescription { get; private set; }
+    public static string rtbExceptionDetails { get; private set; }
     public static string btnExceptionGithub { get; private set; }
-    public static string rtbUpdaterExceptionDetails { get; private set; }
+    public static string tpExceptionDetails { get; private set; }
+    public static string tpExceptionExtraInfo { get; private set; }
 
     public static string frmUpdater { get; private set; }
     public static string lbUpdaterHeader { get; private set; }
     public static string lbUpdaterDetails { get; private set; }
+    public static string pbDownloadProgressWaitingForData { get; private set; }
+    public static string pbDownloadProgressWaitingForClose { get; private set; }
     public static string pbDownloadProgressPreparing { get; private set; }
     public static string pbDownloadProgressCalculatingHash { get; private set; }
     public static string pbDownloadProgressHashNoMatch { get; private set; }
@@ -45,12 +49,17 @@ public static class Language {
         public const string frmException = "An exception occured";
         public const string lbExceptionHeader = "An exception has occured";
         public const string lbExceptionDescription = "Below is the error that occured. Feel free to open a new issue and report it.";
+        public const string rtbExceptionDetails = "Feel free to copy + paste this entire text wall into a new issue on Github";
         public const string btnExceptionGithub = "Github";
+        public const string tpExceptionDetails = "Exception details";
+        public const string tpExceptionExtraInfo = "Extra info";
 
         public const string frmUpdater = "Updating";
         public const string lbUpdaterHeader = "Updating youtube-dl-gui";
         public const string lbUpdaterDetails = "The previous version won't be deleted if it fails.";
         public const string rtbUpdaterExceptionDetails = "Feel free to copy + paste this entire text wall into a new issue on Github. The old youtube-dl-gui will be restored, and you can attempt to redownload the update through the application, or manually from Github.";
+        public const string pbDownloadProgressWaitingForData = "Waiting for update data";
+        public const string pbDownloadProgressWaitingForClose = "Waiting for program to close";
         public const string pbDownloadProgressPreparing = "Preparing download to do things";
         public const string pbDownloadProgressCalculatingHash = "Calculating hash";
         public const string pbDownloadProgressHashNoMatch = "Hash does not match";
@@ -74,12 +83,17 @@ public static class Language {
         frmException = InternalEnglish.frmException;
         lbExceptionHeader = InternalEnglish.lbExceptionHeader;
         lbExceptionDescription = InternalEnglish.lbExceptionDescription;
+        rtbExceptionDetails = InternalEnglish.rtbExceptionDetails;
         btnExceptionGithub = InternalEnglish.btnExceptionGithub;
+        tpExceptionDetails = InternalEnglish.tpExceptionDetails;
+        tpExceptionExtraInfo = InternalEnglish.tpExceptionExtraInfo;
 
         frmUpdater = InternalEnglish.frmUpdater;
         lbUpdaterHeader = InternalEnglish.lbUpdaterHeader;
         lbUpdaterDetails = InternalEnglish.lbUpdaterDetails;
-        rtbUpdaterExceptionDetails = InternalEnglish.rtbUpdaterExceptionDetails;
+
+        pbDownloadProgressWaitingForData = InternalEnglish.pbDownloadProgressWaitingForData;
+        pbDownloadProgressWaitingForClose = InternalEnglish.pbDownloadProgressWaitingForClose;
         pbDownloadProgressPreparing = InternalEnglish.pbDownloadProgressPreparing;
         pbDownloadProgressCalculatingHash = InternalEnglish.pbDownloadProgressCalculatingHash;
         pbDownloadProgressHashNoMatch = InternalEnglish.pbDownloadProgressHashNoMatch;
@@ -143,8 +157,17 @@ public static class Language {
                                 case "lbexceptiondescription":
                                     lbExceptionDescription = ReadValue;
                                     continue;
+                                case "rtbexceptiondetails":
+                                    rtbExceptionDetails = ReadValue;
+                                    continue;
                                 case "btnexceptiongithub":
                                     btnExceptionGithub = ReadValue;
+                                    continue;
+                                case "tpexceptiondetails":
+                                    tpExceptionDetails = ReadValue;
+                                    continue;
+                                case "tpexceptionextrainfo":
+                                    tpExceptionExtraInfo = ReadValue;
                                     continue;
 
                                 case "frmupdater":
@@ -156,8 +179,11 @@ public static class Language {
                                 case "lbupdaterdetails":
                                     lbUpdaterDetails = ReadValue;
                                     continue;
-                                case "rtbupdaterexceptiondetails":
-                                    rtbUpdaterExceptionDetails = ReadValue;
+                                case "pbdownloadprogresswaitingfordata":
+                                    pbDownloadProgressWaitingForData = ReadValue;
+                                    continue;
+                                case "pbdownloadprogresswaitingforclose":
+                                    pbDownloadProgressWaitingForClose = ReadValue;
                                     continue;
                                 case "pbdownloadprogresspreparing":
                                     pbDownloadProgressPreparing = ReadValue;
@@ -204,10 +230,7 @@ public static class Language {
             }
         }
         catch (Exception ex) {
-            using murrty.frmException error = new(new(ex) {
-                FromLanguage = true
-            });
-            error.ShowDialog();
+            //Log.ReportRetriableLanguageException(ex);
             return false;
         }
     }

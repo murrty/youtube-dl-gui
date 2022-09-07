@@ -10,11 +10,12 @@ namespace youtube_dl_gui {
             LoadLanguage();
             LoadFiles();
             cbLanguages.SelectedIndex = string.IsNullOrWhiteSpace(Config.Settings.Initialization.LanguageFile) ? 0 : cbLanguages.FindStringExact(Config.Settings.Initialization.LanguageFile);
+            lbCurrentVersion.Text = Program.CurrentVersion.ToString();
         }
 
         public void LoadLanguage() {
 
-            if (Config.Settings.Initialization.firstTime) {
+            if (!Config.Settings.Initialization.firstTime) {
                 this.Text = Language.InternalEnglish.frmLanguage;
                 btnLanguageRefresh.Text = Language.InternalEnglish.btnLanguageRefresh;
                 btnLanguageCancel.Text = Language.InternalEnglish.GenericCancel;

@@ -26,7 +26,7 @@
             this.components = new System.ComponentModel.Container();
             this.btnDownloaderCancelExit = new System.Windows.Forms.Button();
             this.chkDownloaderCloseAfterDownload = new System.Windows.Forms.CheckBox();
-            this.rtbConsoleOutput = new Controls.ExtendedRichTextBox();
+            this.rtbConsoleOutput = new murrty.controls.ExtendedRichTextBox();
             this.tmrTitleActivity = new System.Windows.Forms.Timer(this.components);
             this.txtArgumentsGenerated = new System.Windows.Forms.TextBox();
             this.btnDownloaderAbortBatchDownload = new System.Windows.Forms.Button();
@@ -136,7 +136,7 @@
 
         private System.Windows.Forms.Button btnDownloaderCancelExit;
         private System.Windows.Forms.CheckBox chkDownloaderCloseAfterDownload;
-        private Controls.ExtendedRichTextBox rtbConsoleOutput;
+        private murrty.controls.ExtendedRichTextBox rtbConsoleOutput;
         private System.Windows.Forms.Timer tmrTitleActivity;
         private System.Windows.Forms.TextBox txtArgumentsGenerated;
         private System.Windows.Forms.Button btnDownloaderAbortBatchDownload;

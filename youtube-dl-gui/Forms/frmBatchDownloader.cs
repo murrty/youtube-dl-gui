@@ -25,7 +25,7 @@ namespace youtube_dl_gui {
         public frmBatchDownloader() {
             InitializeComponent();
             LoadLanguage();
-            lvBatchDownloadQueue.SmallImageList = Program.StatusImages;
+            lvBatchDownloadQueue.SmallImageList = Program.BatchStatusImages;
         }
 
         [System.Diagnostics.DebuggerStepThrough]

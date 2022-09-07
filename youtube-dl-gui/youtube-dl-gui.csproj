@@ -60,14 +60,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Core" />
     <Reference Include="System.Management" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
@@ -75,6 +71,7 @@
   <ItemGroup>
     <Compile Include="Classes\BatchHelpers.cs" />
     <Compile Include="Classes\ConvertHelper.cs" />
+    <Compile Include="Classes\DataClasses\FfprobeData.cs" />
     <Compile Include="Classes\DownloadHelper.cs" />
     <Compile Include="Controls\Enums\AllowedCharacters.cs" />
     <Compile Include="Controls\Enums\ButtonAlignment.cs" />
@@ -87,7 +84,7 @@
     <Compile Include="Log\Exceptions\ApiParsingException.cs" />
     <Compile Include="Log\Natives\DwmComposition.cs" />
     <Compile Include="Classes\Extensions.cs" />
-    <Compile Include="Classes\VideoInformation.cs" />
+    <Compile Include="Classes\DataClasses\DownloaderData.cs" />
     <Compile Include="Controls\ExtendedProgressBar.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -313,6 +310,8 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\StatusIcons\selected.png" />
+    <None Include="Resources\StatusIcons\best.png" />
     <None Include="Resources\youtube-dl-gui-updater.exe" />
     <None Include="Resources\StatusIcons\waiting.png" />
     <None Include="Resources\StatusIcons\finished.png" />
@@ -339,7 +338,6 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>if $(ConfigurationName) == Release "BuildDateWriter.exe" "$(ProjectDir)\Resources\BuildDate.txt"</PreBuildEvent>

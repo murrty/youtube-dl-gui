@@ -23,8 +23,8 @@ namespace youtube_dl_gui {
         protected override void WndProc(ref Message m) {
             switch (m.Msg) {
                 case CopyData.WM_COPYDATA: {
-                    var ReceivedData = Marshal.PtrToStructure<CopyData.CopyDataStruct>(m.LParam);
-                    var Data = Marshal.PtrToStructure<CopyData.SentData>(ReceivedData.lpData);
+                    var ReceivedData = Marshal.PtrToStructure<CopyDataStruct>(m.LParam);
+                    var Data = Marshal.PtrToStructure<SentData>(ReceivedData.lpData);
                     string[] ReceivedArguments = Data.Argument.Split('|');
                     switch (ReceivedArguments.Length) {
                         case 1: {
@@ -59,7 +59,7 @@ namespace youtube_dl_gui {
                         txtUrl.Text = ClipboardData;
                         ClipboardData = null;
                         if (!Program.DebugMode) {
-                            StartDownload();
+                            Download();
                         }
                     }
                     m.Result = IntPtr.Zero;
@@ -191,11 +191,6 @@ namespace youtube_dl_gui {
         }
 
         private void frmMain_FormClosing(object sender, FormClosingEventArgs e) {
-            if (Program.RunningActions.Count > 0) {
-                MessageBox.Show(Language.dlgRunningActions, Language.ApplicationName, MessageBoxButtons.OK);
-                e.Cancel = true;
-            }
-
             if (UpdateCheckThread != null && UpdateCheckThread.IsAlive) {
                 UpdateCheckThread.Abort();
             }
@@ -466,6 +461,8 @@ namespace youtube_dl_gui {
                 trayIcon.Visible = false;
             }
         }
+
+        internal nint GetHandle() => this.Handle;
 
         internal void ApplicationExit(object sender, EventArgs e) {
             if (ClipboardScannerActive && NativeMethods.RemoveClipboardFormatListener(this.Handle)) {
@@ -860,7 +857,7 @@ namespace youtube_dl_gui {
         }
         private void txtUrl_KeyPress(object sender, KeyPressEventArgs e) {
             if (e.KeyChar == 13) {
-                StartDownload(false);
+                Download();
             }
         }
         private void txtUrl_TextChanged(object sender, EventArgs e) {
@@ -868,14 +865,11 @@ namespace youtube_dl_gui {
         }
         private void txtArgs_KeyPress(object sender, KeyPressEventArgs e) {
             if (e.KeyChar == 13) {
-                StartDownload(false);
+                Download();
             }
         }
         private void sbDownload_Click(object sender, EventArgs e) {
-            if (DownloadHelper.CanUseExtendedDownloader() && Config.Settings.Downloads.ExtendedDownloaderPreferExtendedForm)
-                StartDownloadExtended();
-            else
-                StartDownload(false);
+            Download();
         }
         private void btnMainYtdlpExtended_Click(object sender, EventArgs e) {
             StartDownloadExtended();
@@ -987,7 +981,7 @@ namespace youtube_dl_gui {
             BatchThread.Start();
         }
         private void mQuickDownloadForm_Click(object sender, EventArgs e) {
-            StartDownload(false);
+            Download();
         }
         private void mQuickDownloadFormAuthentication_Click(object sender, EventArgs e) {
             StartDownload(true);
@@ -996,6 +990,12 @@ namespace youtube_dl_gui {
             StartDownloadExtended();
         }
 
+        private void Download() {
+            if (DownloadHelper.CanUseExtendedDownloader() && Config.Settings.Downloads.ExtendedDownloaderPreferExtendedForm)
+                StartDownloadExtended();
+            else
+                StartDownload(false);
+        }
         [DebuggerStepThrough]
         private void StartDownload(bool WithAuth = false) {
             try {

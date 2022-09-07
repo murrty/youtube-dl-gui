@@ -1,27 +1,28 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Net;
 using System.Security.Cryptography;
-using System.Threading;
 using System.Windows.Forms;
 
 namespace youtube_dl_gui_updater {
-    public partial class frmUpdater : Form {
+    public partial class frmUpdater : Form, IUpdateForm {
 
-        public static string ApplicationDownloadUrl = "https://github.com/murrty/{0}/releases/download/{1}/{0}.exe";
-        private readonly UpdateInfo Info;
+        private const string ApplicationDownloadUrl = "https://github.com/murrty/{0}/releases/download/{1}/{0}.exe";
+        private readonly MessageHandler Messages;
+
         private Thread DownloadThread;
-
+        private System.Diagnostics.Process ProgramProcess;
         private int ThrottleCount = 0;
 
-        public frmUpdater(UpdateInfo NewInfo) {
+        public frmUpdater() {
             InitializeComponent();
-            Info = NewInfo;
-            SetLanguage();
+            lbUpdaterVersion.Text = Program.CurrentVersion;
+            pbDownloadProgress.Style = ProgressBarStyle.Marquee;
+            LoadLanguage();
             SetDownloadThread();
+            Messages = new();
         }
 
-        private void SetLanguage() {
+        private void LoadLanguage() {
             this.Text = Language.frmUpdater;
             lbUpdaterHeader.Text = Language.lbUpdaterHeader;
             lbUpdaterDetails.Text = Language.lbUpdaterDetails;
@@ -30,10 +31,24 @@ namespace youtube_dl_gui_updater {
 
         private void SetDownloadThread() {
             DownloadThread = new Thread(async () => {
+
+                if (ProgramProcess is not null) {
+                    pbDownloadProgress.Invoke(() => pbDownloadProgress.Text = Language.pbDownloadProgressWaitingForClose);
+                    CopyData.SendMessage((nint)Program.ProgramData.hWnd, CopyData.WM_UPDATERREADY, 0, 0);
+                    while (!ProgramProcess.HasExited) {
+                        Thread.Sleep(150);
+                    }
+                }
+
+                pbDownloadProgress.Invoke(() => {
+                    pbDownloadProgress.Style = ProgressBarStyle.Blocks;
+                    pbDownloadProgress.Value = 50;
+                });
+
                 // The URL that will be downloaded using the client
-                string FileUrl = string.Format(ApplicationDownloadUrl, "youtube-dl-gui", Info.NewVersion);
+                string FileUrl = string.Format(ApplicationDownloadUrl, Program.UpdateData.RepoName, Program.UpdateData.NewVersion);
                 // The temp path of the file.
-                string FileDestination = $"{Environment.CurrentDirectory}\\ytdlg.part";
+                string FileDestination = $"{Environment.CurrentDirectory}\\update.part";
                 // If the download errored or not to delete the temp files or whatnot.
                 bool DownloadError;
                 using murrty.classcontrols.ExtendedWebClient wc = new();
@@ -43,6 +58,10 @@ namespace youtube_dl_gui_updater {
 RetryDownload:
                 DownloadError = false;
                 try {
+
+                    if (File.Exists(FileDestination)) {
+                        File.Delete(FileDestination);
+                    }
 
                     // Set the style to blocks so progress can be reported.
                     this.Invoke((Action)delegate {
@@ -68,40 +87,38 @@ RetryDownload:
 
                     wc.DownloadFileCompleted += (s, e) => {
                         this.Invoke((Action)delegate {
-                            pbDownloadProgress.Style = ProgressBarStyle.Continuous;
                             pbDownloadProgress.Text = "100%";
                         });
                     };
 
                     // GetRequest pre-reqs
-                    wc.Headers.Add("user-agent", "youtube-dl-gui-updater/" + Program.UpdaterVersion);
+                    wc.Headers.Add("user-agent", $"{Program.UpdateData.RepoName}-updater/" + Program.CurrentVersion);
                     wc.Method = murrty.classcontrols.HttpMethod.GET;
 
                     // Download the file to the destination
                     await wc.DownloadFileTaskAsync(new Uri(FileUrl), FileDestination);
 
-                    if (Info.UpdateHash != null) {
+                    if (Program.UpdateData.UpdateHash != null) {
                         this.Invoke((Action)delegate {
                             pbDownloadProgress.Text = Language.pbDownloadProgressCalculatingHash;
                         });
 
-                        using SHA256 ComputeUpdateHash = SHA256Cng.Create();
-                        using FileStream UpdateStream = File.OpenRead($"{Environment.CurrentDirectory}\\ytdlg.part");
+                        using SHA256 ComputeUpdateHash = SHA256.Create();
+                        using FileStream UpdateStream = File.OpenRead(FileDestination);
                         string UpdateHash = BitConverter.ToString(ComputeUpdateHash.ComputeHash(UpdateStream)).Replace("-", "").ToLower();
                         UpdateStream.Close();
 
-                        if (Info.UpdateHash != UpdateHash) {
+                        if (Program.UpdateData.UpdateHash != UpdateHash) {
                             this.Invoke((Action)delegate {
                                 pbDownloadProgress.Text = Language.pbDownloadProgressHashNoMatch;
                                 pbDownloadProgress.ProgressState = murrty.controls.ProgressBarState.Paused;
                             });
-                            // The hash calculated by the updater does not match the known hash of the update.\r\n\r\nExpected: {Info.UpdateHash}\r\n\r\nCalculated: {UpdateHash}\r\n\r\nYou can continue without it matching, there are some instances where it may be different.
-                            switch (MessageBox.Show(string.Format(Language.dlgUpdaterUpdatedVersionHashNoMatch, Info.UpdateHash, UpdateHash), "youtube-dl-gui-updater", MessageBoxButtons.AbortRetryIgnore, MessageBoxIcon.Warning)) {
+                            switch (MessageBox.Show(this, string.Format(Language.dlgUpdaterUpdatedVersionHashNoMatch, Program.UpdateData.UpdateHash, UpdateHash), $"{Program.UpdateData.RepoName}-updater", MessageBoxButtons.AbortRetryIgnore, MessageBoxIcon.Warning)) {
                                 case DialogResult.Abort: {
                                 } throw new CryptographicException("The known hash of the file does not match the hash caluclated by the updater.");
 
                                 case DialogResult.Retry: {
-                                    File.Delete(Environment.CurrentDirectory + "\\ytdlg.part");
+                                    File.Delete(FileDestination);
                                     this.Invoke((Action)delegate {
                                         tmrForm.Start();
                                         pbDownloadProgress.Value = 50;
@@ -122,7 +139,7 @@ RetryDownload:
                             pbDownloadProgress.Text = Language.pbDownloadProgressSkippingHashCalculating;
                         });
 
-                        MessageBox.Show(Language.dlgUpdaterHashNotGiven, "youtube-dl-gui-updater", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        MessageBox.Show(this, Language.dlgUpdaterHashNotGiven, $"{Program.UpdateData.RepoName}-updater", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
                 }
 
@@ -152,12 +169,7 @@ RetryDownload:
                         pbDownloadProgress.Text = Language.pbDownloadProgressWebException;
                     });
 
-                    using murrty.frmException NewException = new(new(webEx) {
-                        ExtraInfo = FileUrl,
-                        AllowRetry = true
-                    });
-
-                    switch (NewException.ShowDialog()) {
+                    switch (Log.ReportRetriableException(webEx, FileUrl)) {
                         case DialogResult.Retry: {
                             this.Invoke((Action)delegate {
                                 tmrForm.Start();
@@ -177,11 +189,7 @@ RetryDownload:
                         pbDownloadProgress.Text = Language.pbDownloadProgressDownloadException;
                     });
 
-                    using murrty.frmException NewException = new(new(ex) {
-                        AllowRetry = true
-                    });
-
-                    switch (NewException.ShowDialog()) {
+                    switch (Log.ReportRetriableException(ex)) {
                         case DialogResult.Retry: {
                             this.Invoke((Action)delegate {
                                 tmrForm.Start();
@@ -231,16 +239,17 @@ RetryDownload:
 
 
                             // We're saving the old version as a temp backup, at least until the program launches.
-                            string ExistingFileName = $"{Environment.CurrentDirectory}\\{Info.OldFileName}";
+                            string ExistingFileName = $"{Environment.CurrentDirectory}\\{Program.UpdateData.FileName}";
+                            string ExistingNewFileName = $"{Environment.CurrentDirectory}\\{Path.GetFileNameWithoutExtension(Program.UpdateData.FileName)}.old.exe";
                             if (File.Exists(ExistingFileName)) {
-                                if (File.Exists($"{Environment.CurrentDirectory}\\youtube-dl-gui.old.exe")) {
-                                    File.Delete($"{Environment.CurrentDirectory}\\youtube-dl-gui.old.exe");
+                                if (File.Exists(ExistingNewFileName)) {
+                                    File.Delete(ExistingNewFileName);
                                     //Thread.Sleep(100);
                                 }
-                                File.Move(ExistingFileName, $"{Environment.CurrentDirectory}\\youtube-dl-gui.old.exe");
+                                File.Move(ExistingFileName, ExistingNewFileName);
                             }
                             // Move the new file to the old file.
-                            File.Move(Environment.CurrentDirectory + "\\ytdlg.part", Environment.CurrentDirectory + "\\" + Info.OldFileName);
+                            File.Move(FileDestination, ExistingFileName);
 
 
                             this.Invoke((Action)delegate {
@@ -252,14 +261,17 @@ RetryDownload:
 
                             // Run the updated program.
                             // Debug keeps the updater.
-                            System.Diagnostics.Process UpdatedProgram = new() {
-                                StartInfo = new() {
-                                    Arguments = $"{(Program.IsDebug ? "-keepupdater" : "")}",
-                                    FileName = $"{Environment.CurrentDirectory}\\{Info.OldFileName}"
-                                }
-                            };
-                            UpdatedProgram.Start();
-                            Environment.Exit(0);
+                            if (!Program.DebugMode) {
+                                System.Diagnostics.Process UpdatedProgram = new() {
+                                    StartInfo = new() {
+                                        FileName = ExistingFileName,
+                                        WorkingDirectory = Environment.CurrentDirectory
+                                    }
+                                };
+
+                                UpdatedProgram.Start();
+                                Environment.Exit(0);
+                            }
                         }
                     }
                 }
@@ -275,8 +287,7 @@ RetryDownload:
                         pbDownloadProgress.ProgressState = murrty.controls.ProgressBarState.Error;
                         pbDownloadProgress.Text = Language.pbDownloadProgressErrorProcessingDownload;
                     });
-                    using murrty.frmException NewException = new(new(ex));
-                    NewException.ShowDialog();
+                    Log.ReportRetriableLanguageException(ex);
                 }
 
                 #endregion
@@ -285,6 +296,10 @@ RetryDownload:
                 Name = "Download thread",
                 IsBackground = false
             };
+        }
+
+        public void StartUpdate() {
+            DownloadThread.Start();
         }
 
         private void tmrForm_Tick(object sender, EventArgs e) {
@@ -298,8 +313,11 @@ RetryDownload:
         }
 
         private void frmUpdater_Shown(object sender, EventArgs e) {
-            pbDownloadProgress.Value = 50;
-            DownloadThread.Start();
+            if (Program.ProgramData.ProgramSet) {
+                pbDownloadProgress.Text = Language.pbDownloadProgressWaitingForData;
+                ProgramProcess = System.Diagnostics.Process.GetProcessById((int)Program.ProgramData.pid);
+                CopyData.SendMessage((nint)Program.ProgramData.hWnd, CopyData.WM_UPDATEDATAREQUEST, Messages.Handle, 0);
+            }
         }
     }
 }

@@ -50,7 +50,7 @@ namespace youtube_dl_gui {
 namespace youtube_dl_gui.updater {
     internal class UpdateChecker {
 
-        private const string KnownUpdaterHash = "1D2AC810A5A36F7CCCA5045F6ABF7EFD787651C8A5EF6083831E889AD5F03645";
+        private const string KnownUpdaterHash = "08D2E8CC6B3608077DA129201572997A2A8148E0BCE04AA089900C37EFF73C6D";
         public static GithubData LastChecked { get; private set; }
         public static GithubData LastCheckedLatestRelease { get; private set; }
         public static GithubData LastCheckedAllRelease { get; private set; }
@@ -90,29 +90,25 @@ namespace youtube_dl_gui.updater {
             if (File.Exists(Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe") && Program.CalculateSha256Hash(Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe") != KnownUpdaterHash.ToLower()) {
                 // Delete the old one & Write the one from resource.
                 File.Delete(Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe");
-                File.WriteAllBytes(Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe", Properties.Resources.youtube_dl_gui_updater);
-
-                // Sanity check the updater.
-                if (Program.CalculateSha256Hash(Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe") != KnownUpdaterHash.ToLower() && MessageBox.Show(Language.dlgUpdaterHashNoMatch, "youtube-dl-gui", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No) {
-                    File.Delete(Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe");
-                    return;
-                }
             }
-            else {
-                // Write it.
-                File.WriteAllBytes(Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe", Properties.Resources.youtube_dl_gui_updater);
 
-                // Sanity check the updater.
-                if (Program.CalculateSha256Hash(Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe") != KnownUpdaterHash.ToLower() && MessageBox.Show(Language.dlgUpdaterHashNoMatch, "youtube-dl-gui", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No) {
-                    File.Delete(Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe");
-                    return;
-                }
+            // Write it.
+            File.WriteAllBytes(Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe", Properties.Resources.youtube_dl_gui_updater);
+
+            // Sanity check the updater.
+            if (Program.CalculateSha256Hash(Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe") != KnownUpdaterHash.ToLower() && MessageBox.Show(Language.dlgUpdaterHashNoMatch, "youtube-dl-gui", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No) {
+                File.Delete(Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe");
+                return;
             }
 
             Program.RemoveTrayIcon();
-            Process Updater = new();
-            Updater.StartInfo.FileName = Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe";
-            Updater.StartInfo.Arguments = $"-v {LastChecked.Version} -n {AppDomain.CurrentDomain.FriendlyName} -l {Environment.CurrentDirectory + "\\lang\\" + Config.Settings.Initialization.LanguageFile + ".ini"}{(LastChecked.ExecutableHash is not null ? $" -h {LastChecked.ExecutableHash}" : "")}";
+            Process Updater = new() {
+                StartInfo = new() {
+                    Arguments = $"-v {LastChecked.Version} -n {AppDomain.CurrentDomain.FriendlyName} -l {Environment.CurrentDirectory + "\\lang\\" + Config.Settings.Initialization.LanguageFile + ".ini"}{(LastChecked.ExecutableHash is not null ? $" -h {LastChecked.ExecutableHash}" : "")}",
+                    FileName = Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe",
+                    WorkingDirectory = Environment.CurrentDirectory
+                }
+            };
             Updater.Start();
             Environment.Exit(0);
         }

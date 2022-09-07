@@ -15,7 +15,7 @@ namespace youtube_dl_gui {
         public frmBatchConverter() {
             InitializeComponent();
             LoadLanguage();
-            lvBatchConvertQueue.SmallImageList = Program.StatusImages;
+            lvBatchConvertQueue.SmallImageList = Program.BatchStatusImages;
         }
 
         private void LoadLanguage() {
