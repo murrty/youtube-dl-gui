@@ -1,4 +1,4 @@
-﻿namespace youtube_dl_gui_updater;
+﻿namespace youtube_dl_gui;
 
 using System.Runtime.InteropServices;
 

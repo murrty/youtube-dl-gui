@@ -15,6 +15,7 @@ internal class MessageHandler : NativeWindow {
         switch (m.Msg) {
             case CopyData.WM_COPYDATA: {
                 Program.UpdateData = CopyData.GetParam<UpdaterData>(m.LParam);
+                Program.UpdateData.UpdateHash = Program.UpdateData.UpdateHash.ToLowerInvariant();
                 Program.MainForm.StartUpdate();
             } break;
 

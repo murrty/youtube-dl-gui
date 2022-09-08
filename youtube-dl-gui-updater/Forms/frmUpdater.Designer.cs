@@ -89,6 +89,7 @@
             this.Controls.Add(this.pbDownloadProgress);
             this.Controls.Add(this.lbUpdaterDetails);
             this.Controls.Add(this.lbUpdaterHeader);
+            this.Icon = global::youtube_dl_gui_updater.Properties.Resources.ProgramIcon;
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(250, 170);
             this.MinimumSize = new System.Drawing.Size(250, 170);

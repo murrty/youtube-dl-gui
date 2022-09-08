@@ -13,7 +13,7 @@ namespace youtube_dl_gui {
         /// <summary>
         /// Gets the curent version of the program.
         /// </summary>
-        public static Version CurrentVersion { get; } = new(3, 0, 0, 2);
+        public static Version CurrentVersion { get; } = new(3, 0, 0, 3);
 
         /// <summary>
         /// Gets whether the program is running in debug mode.
@@ -35,6 +35,10 @@ namespace youtube_dl_gui {
         internal static bool UpdateChecked {
             get; set;
         }
+
+        internal static bool IsUpdating {
+            get; set;
+        } = false;
 
         /// <summary>
         /// Represents the GUID of the program. Used for enforcing the mutex.
@@ -65,10 +69,6 @@ namespace youtube_dl_gui {
         internal static ImageList ExtendedDownloaderSelectedImages;
 
         /// <summary>
-        /// Whether the program was ran for the first time.
-        /// </summary>
-        private static bool IsFirstTime = false;
-        /// <summary>
         /// The mutex used for enforcing the applications' single instance.
         /// </summary>
         private static Mutex Instance;
@@ -80,6 +80,10 @@ namespace youtube_dl_gui {
         /// The idle thread used when argument-downloads are ran, to prevent the program from dying too early.
         /// </summary>
         private static Thread ArgumentWaitThread;
+        /// <summary>
+        /// The message handler for the updater.
+        /// </summary>
+        private static MessageHandler Messages;
 
         [STAThread]
         public static int Main(string[] args) {
@@ -114,62 +118,67 @@ namespace youtube_dl_gui {
                 ExtendedDownloaderSelectedImages.Images.Add(Properties.Resources.selected); // 1
 
                 (Config.Settings = new Config()).Load(ConfigType.Initialization);
-                if (DebugMode) {
-                    LoadClasses();
-                    //Application.Run(MainForm = new frmMain());
-                    //Application.Run(new Testform());
-                    (MainForm = new()).ShowDialog();
-                }
-                else {
-                    if (Config.Settings.Initialization.firstTime) {
-                        // set this so the initializer won't load the language a second time
-                        IsFirstTime = true;
+                if (Config.Settings.Initialization.firstTime) {
+                    // set this so the initializer won't load the language a second time
+                    Language.LoadInternalEnglish();
 
-                        // Select a language first
-                        using frmLanguage LangPicker = new();
-                        if (LangPicker.ShowDialog() == DialogResult.Yes) {
-                            Config.Settings.Initialization.LanguageFile = LangPicker.LanguageFile;
-                            Language.LoadLanguage(LangPicker.LanguageFile);
-                        }
-                        else {
-                            return 1;
-                        }
+                    // Select a language first
+                    using frmLanguage LangPicker = new();
+                    if (LangPicker.ShowDialog() == DialogResult.Yes) {
+                        Config.Settings.Initialization.LanguageFile = LangPicker.LanguageFile;
+                        Language.LoadLanguage(LangPicker.LanguageFile);
+                    }
+                    else {
+                        return 1;
+                    }
 
-                        if (MessageBox.Show(Language.dlgFirstTimeInitialMessage, "youtube-dl-gui", MessageBoxButtons.YesNo) == DialogResult.Yes) {
-                            Config.Settings.Initialization.firstTime = false;
+                    if (MessageBox.Show(Language.dlgFirstTimeInitialMessage, "youtube-dl-gui", MessageBoxButtons.YesNo) == DialogResult.Yes) {
+                        Config.Settings.Initialization.firstTime = false;
 
-                            if (MessageBox.Show(Language.dlgFirstTimeDownloadFolder, "youtube-dl-gui", MessageBoxButtons.YesNo) == DialogResult.Yes) {
-                                using BetterFolderBrowserNS.BetterFolderBrowser fbd = new();
-                                fbd.Title = Language.dlgFindDownloadFolder;
-                                fbd.RootFolder = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Downloads";
-                                if (fbd.ShowDialog() == DialogResult.OK) {
-                                    Config.Settings.Downloads.downloadPath = fbd.SelectedPath;
-                                }
-                                else {
-                                    Config.Settings.Downloads.downloadPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Downloads";
-                                }
+                        if (MessageBox.Show(Language.dlgFirstTimeDownloadFolder, "youtube-dl-gui", MessageBoxButtons.YesNo) == DialogResult.Yes) {
+                            using BetterFolderBrowserNS.BetterFolderBrowser fbd = new();
+                            fbd.Title = Language.dlgFindDownloadFolder;
+                            fbd.RootFolder = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Downloads";
+                            if (fbd.ShowDialog() == DialogResult.OK) {
+                                Config.Settings.Downloads.downloadPath = fbd.SelectedPath;
                             }
                             else {
                                 Config.Settings.Downloads.downloadPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Downloads";
                             }
-
-                            Config.Settings.Initialization.Save();
-                            Config.Settings.Downloads.Save();
                         }
                         else {
-                            return 1;
+                            Config.Settings.Downloads.downloadPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Downloads";
                         }
+
+                        Config.Settings.Initialization.Save();
+                        Config.Settings.Downloads.Save();
                     }
-
-                    LoadClasses();
-
-                    if (CheckArgs(args, true)) {
-                        AwaitActions();
-                        return 0;
+                    else {
+                        return 1;
                     }
+                }
+                else {
+                    Config.Settings.Load(ConfigType.All);
+                    if (Config.Settings.Initialization.LanguageFile != string.Empty && File.Exists(Environment.CurrentDirectory + "\\lang\\" + Config.Settings.Initialization.LanguageFile + ".ini")) {
+                        Language.LoadLanguage(Environment.CurrentDirectory + "\\lang\\" + Config.Settings.Initialization.LanguageFile + ".ini");
+                    }
+                    else {
+                        Language.LoadInternalEnglish();
+                    }
+                }
 
-                    System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
-                    (MainForm = new frmMain()).ShowDialog();
+                Verification.Refresh();
+                Formats.LoadCustomFormats();
+                Messages = new();
+                System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
+
+                if (CheckArgs(args, true)) {
+                    AwaitActions();
+                    return 0;
+                }
+
+                (MainForm = new frmMain()).ShowDialog();
+                if (!DebugMode) {
                     Instance.ReleaseMutex();
                 }
             }
@@ -209,22 +218,6 @@ namespace youtube_dl_gui {
             return ExitCode;
         }
 
-        private static void LoadClasses() {
-            if (!IsFirstTime) {
-                Config.Settings.Load(ConfigType.All);
-
-                if (Config.Settings.Initialization.LanguageFile != string.Empty && File.Exists(Environment.CurrentDirectory + "\\lang\\" + Config.Settings.Initialization.LanguageFile + ".ini")) {
-                    Language.LoadLanguage(Environment.CurrentDirectory + "\\lang\\" + Config.Settings.Initialization.LanguageFile + ".ini");
-                }
-                else {
-                    Language.LoadInternalEnglish();
-                }
-            }
-
-            Verification.Refresh();
-            Formats.LoadCustomFormats();
-        }
-
         private static void AwaitActions() {
             Form IdleForm = new() {
                 Opacity = 0,
@@ -244,6 +237,7 @@ namespace youtube_dl_gui {
                 ArgumentWaitThread.Start();
             };
             Application.Run(IdleForm);
+            Thread.Sleep(5000);
         }
 
         internal static void KillProcessTree(uint ProcessId, bool KillParent = false) {
@@ -370,15 +364,21 @@ namespace youtube_dl_gui {
         internal static string CalculateSha256Hash(string File) {
             using SHA256 ComputeUpdaterHash = SHA256.Create();
             using FileStream UpdaterStream = System.IO.File.OpenRead(File);
-            string UpdaterHash = BitConverter.ToString(ComputeUpdaterHash.ComputeHash(UpdaterStream)).Replace("-", "").ToLower();
+            string UpdaterHash = BitConverter.ToString(ComputeUpdaterHash.ComputeHash(UpdaterStream)).Replace("-", "").ToLowerInvariant();
             UpdaterStream.Close();
             return UpdaterHash;
         }
 
-        internal static void RemoveTrayIcon() {
-            MainForm.RemoveTrayIcon();
+        internal static nint GetMessagesHandle() {
+            return Messages.Handle;
         }
 
-        internal static nint MainWindowHandle() => MainForm.GetHandle();
+        internal static void KillForUpdate() {
+            // Form diposes
+            // Any downloads/conversion/merges in progress will finish before fully closing for updates.
+            MainForm?.RemoveTrayIcon();
+            MainForm?.Dispose();
+        }
+
     }
 }

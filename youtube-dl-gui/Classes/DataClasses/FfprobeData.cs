@@ -114,6 +114,9 @@ public sealed class FfprobeSubdata {
 
         [DataMember(Name = "bit_rate")]
         public string bit_rate { get; set; }
+
+        [IgnoreDataMember]
+        public System.Windows.Forms.TreeNode Node { get; set; }
     }
 
 }

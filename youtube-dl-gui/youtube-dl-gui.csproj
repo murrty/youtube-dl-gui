@@ -60,6 +60,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Management" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
@@ -79,8 +80,10 @@
     <Compile Include="Controls\Classes\TaskbarInterface.cs" />
     <Compile Include="Controls\Enums\TaskbarProgressState.cs" />
     <Compile Include="Controls\Events\RegexMatchEventArgs.cs" />
+    <Compile Include="Controls\MessageHandler.cs" />
     <Compile Include="Controls\Natives\Consts.cs" />
     <Compile Include="Controls\Natives\NativeMethods.cs" />
+    <Compile Include="CopyData\UpdaterData.cs" />
     <Compile Include="Log\Exceptions\ApiParsingException.cs" />
     <Compile Include="Log\Natives\DwmComposition.cs" />
     <Compile Include="Classes\Extensions.cs" />
@@ -124,6 +127,12 @@
     <Compile Include="Log\Natives\DwmNatives.cs" />
     <Compile Include="Log\ExceptionInfo.cs" />
     <Compile Include="Runtime\Arrays.cs" />
+    <Compile Include="Tests\frmMerger.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Tests\frmMerger.Designer.cs">
+      <DependentUpon>frmMerger.cs</DependentUpon>
+    </Compile>
     <Compile Include="Updater\GithubData.cs" />
     <Compile Include="Updater\GithubAsset.cs" />
     <Compile Include="Updater\GithubLinks.cs" />
@@ -305,6 +314,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="Tests\frmMerger.resx">
+      <DependentUpon>frmMerger.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -338,6 +350,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>if $(ConfigurationName) == Release "BuildDateWriter.exe" "$(ProjectDir)\Resources\BuildDate.txt"</PreBuildEvent>

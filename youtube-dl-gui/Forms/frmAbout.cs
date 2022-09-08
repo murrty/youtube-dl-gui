@@ -42,10 +42,12 @@ namespace youtube_dl_gui {
                             }
                         }
                         Program.UpdateChecked = true;
-                        if (!this.IsDisposed) {
-                            llbCheckForUpdates.Invoke((Action)delegate {
-                                llbCheckForUpdates.LinkVisited = true;
-                            });
+                        if (!Program.IsUpdating) {
+                            if (this.IsHandleCreated) {
+                                llbCheckForUpdates.Invoke((Action)delegate {
+                                    llbCheckForUpdates.LinkVisited = true;
+                                });
+                            }
                         }
                     }
                     catch (ThreadAbortException) {

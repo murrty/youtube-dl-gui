@@ -427,11 +427,9 @@ public sealed class ExtendedProgressBar : ProgressBar {
     /// Draws the text onto the control.
     /// </summary>
     private void DrawText() {
-        SizeF size = _ControlGraphics.MeasureString(base.Text, Font);
+        SizeF size = _ControlGraphics.MeasureString(Text, Font);
         if (_ShowTextDropShadow) {
-            _ControlGraphics.DrawString(
-                base.Text, Font, new SolidBrush(_DropShadowColor),
-
+            _ControlGraphics.DrawString(Text, Font, new SolidBrush(_DropShadowColor),
                 _TextAlignment switch {
                     ContentAlignment.TopLeft or
                     ContentAlignment.MiddleLeft or
@@ -462,9 +460,7 @@ public sealed class ExtendedProgressBar : ProgressBar {
                 } + 1
             );
         }
-        _ControlGraphics.DrawString(
-            base.Text, Font, new SolidBrush(ForeColor),
-
+        _ControlGraphics.DrawString(Text, Font, new SolidBrush(ForeColor),
             _TextAlignment switch {
                 ContentAlignment.TopLeft or
                 ContentAlignment.MiddleLeft or

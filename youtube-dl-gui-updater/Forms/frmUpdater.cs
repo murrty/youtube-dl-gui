@@ -105,7 +105,7 @@ RetryDownload:
 
                         using SHA256 ComputeUpdateHash = SHA256.Create();
                         using FileStream UpdateStream = File.OpenRead(FileDestination);
-                        string UpdateHash = BitConverter.ToString(ComputeUpdateHash.ComputeHash(UpdateStream)).Replace("-", "").ToLower();
+                        string UpdateHash = BitConverter.ToString(ComputeUpdateHash.ComputeHash(UpdateStream)).Replace("-", "").ToLowerInvariant();
                         UpdateStream.Close();
 
                         if (Program.UpdateData.UpdateHash != UpdateHash) {

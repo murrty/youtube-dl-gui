@@ -75,7 +75,6 @@ class ExtendedRichTextBox : RichTextBox {
             } return;
 
             case WM_SETCURSOR: {
-                Console.WriteLine($"SET {{{m.WParam}}} {{{m.LParam}}} {{{m.Result}}}");
                 if (Cursor == Cursors.Hand) {
                     NativeMethods.SetCursor(Consts.SystemHand);
                     m.Result = IntPtr.Zero;

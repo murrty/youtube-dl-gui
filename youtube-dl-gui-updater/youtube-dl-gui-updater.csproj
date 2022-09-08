@@ -51,7 +51,7 @@
     <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Resources\youtube-dl-gui.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\ProgramIcon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
@@ -137,7 +137,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\youtube-dl-gui.ico" />
+    <None Include="Resources\ProgramIcon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

@@ -23,8 +23,7 @@ namespace youtube_dl_gui {
         protected override void WndProc(ref Message m) {
             switch (m.Msg) {
                 case CopyData.WM_COPYDATA: {
-                    var ReceivedData = Marshal.PtrToStructure<CopyDataStruct>(m.LParam);
-                    var Data = Marshal.PtrToStructure<SentData>(ReceivedData.lpData);
+                    var Data = CopyData.GetParam<SentData>(m.LParam);
                     string[] ReceivedArguments = Data.Argument.Split('|');
                     switch (ReceivedArguments.Length) {
                         case 1: {
@@ -861,7 +860,7 @@ namespace youtube_dl_gui {
             }
         }
         private void txtUrl_TextChanged(object sender, EventArgs e) {
-            btnMainYtdlpExtended.Enabled = txtUrl.Text.Length > 0;
+            //btnMainYtdlpExtended.Enabled = txtUrl.Text.Length > 0;
         }
         private void txtArgs_KeyPress(object sender, KeyPressEventArgs e) {
             if (e.KeyChar == 13) {
@@ -872,6 +871,9 @@ namespace youtube_dl_gui {
             Download();
         }
         private void btnMainYtdlpExtended_Click(object sender, EventArgs e) {
+            Tests.frmMerger merg = new();
+            merg.ShowDialog();
+            return;
             StartDownloadExtended();
         }
         private void mDownloadWithAuthentication_Click(object sender, EventArgs e) {
@@ -1430,7 +1432,6 @@ namespace youtube_dl_gui {
             );
         }
         #endregion
-
 
     }
 }
