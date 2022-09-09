@@ -512,7 +512,7 @@ namespace youtube_dl_gui {
                                                 float Percentage = float.Parse(LineParts[1][..LineParts[1].IndexOf('%')]);
                                                 pbStatus.Invoke(() => {
                                                     pbStatus.Text = $"{Percentage}% @ {LineParts[5]}";
-                                                    pbStatus.Value = (int)Math.Round(Percentage, MidpointRounding.ToEven);
+                                                    pbStatus.Value = (int)Math.Floor(Percentage);
                                                 });
                                             }
                                         } break;
@@ -526,11 +526,6 @@ namespace youtube_dl_gui {
                                     });
                                 } break;
                             }
-
-                            //if (Line.IndexOf("[download]") > -1) {
-                            //}
-                            //else if (Line.IndexOf("[ffmpeg]") > -1) {
-                            //}
                         }
 
                         Thread.Sleep(500);

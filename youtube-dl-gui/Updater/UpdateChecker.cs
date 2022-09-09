@@ -51,7 +51,7 @@ namespace youtube_dl_gui {
 namespace youtube_dl_gui.updater {
     internal class UpdateChecker {
 
-        private const string KnownUpdaterHash = "60C44E540B2118ED0F8E84E3FC55DAC85AE0F88EDCCFEB992184C763963FAB02";
+        private const string KnownUpdaterHash = "6C3DE407491C863019280E7FE99BEA3CC1572B31B1A0AB04421876ABBDABF527";
         public static GithubData LastChecked { get; private set; }
         public static GithubData LastCheckedLatestRelease { get; private set; }
         public static GithubData LastCheckedAllRelease { get; private set; }

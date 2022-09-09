@@ -70,6 +70,9 @@ internal static class TaskbarInterface {
     /// The TaskbarList interface used to interface with the taskbar.
     /// </summary>
     private static ITaskbarList3 _TaskbarList3;
+
+    private static readonly bool bSupported = Environment.OSVersion.Version.Major >= 6 ||
+                Environment.OSVersion.Version.Major == 6 && Environment.OSVersion.Version.Minor >= 1;
     #endregion
 
     #region Properties
@@ -77,11 +80,7 @@ internal static class TaskbarInterface {
     /// Gets if the version of windows running supports using the ITaskbarList interface.
     /// </summary>
     internal static bool Supported {
-        get {
-            return
-                Environment.OSVersion.Version.Major >= 6 ||
-                Environment.OSVersion.Version.Major == 6 && Environment.OSVersion.Version.Minor >= 1;
-        }
+        get => bSupported;
     }
 
     /// <summary>
