@@ -23,7 +23,7 @@ internal static class Consts {
     /// <summary>
     /// The WndProc message for setting the systems' cursor.
     /// </summary>
-    public const int WM_SETCURSOR = 0x0020;
+    public const int WM_SETCURSOR = 0x20;
     /// <summary>
     /// The user32.h resource identifier for the systems' hand cursor.
     /// </summary>
@@ -34,6 +34,7 @@ internal static class Consts {
     /// </summary>
     public const int WM_PAINT = 0xF;
     public const int WS_EX_COMPOSITED = 0x02000000;
+    public const int WM_ERASEBKGND = 0x14;
 
     /// <summary>
     /// The IntPtr value of IDC_HAND.

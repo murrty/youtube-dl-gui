@@ -26,11 +26,6 @@ public sealed class ExtendedProgressBar : ProgressBar {
     private ContainerControl _ContainerParent = null;
 
     /// <summary>
-    /// The graphics used for drawing text.
-    /// </summary>
-    private Graphics _ControlGraphics;
-
-    /// <summary>
     /// The color used for the drop shadow.
     /// </summary>
     private Color _DropShadowColor = Color.FromKnownColor(KnownColor.ControlDark);
@@ -65,6 +60,16 @@ public sealed class ExtendedProgressBar : ProgressBar {
     /// The alignment of the text.
     /// </summary>
     private ContentAlignment _TextAlignment = ContentAlignment.MiddleCenter;
+
+    /// <summary>
+    /// The graphics used for drawing text.
+    /// </summary>
+    private Graphics TextGraphics;
+
+    /// <summary>
+    /// The size of the text (Measured once)
+    /// </summary>
+    private SizeF TextSize;
     #endregion
 
     #region Properties
@@ -133,6 +138,8 @@ public sealed class ExtendedProgressBar : ProgressBar {
         get => base.Font;
         set {
             base.Font = value;
+            if (TextGraphics is not null)
+                TextSize = TextGraphics.MeasureString(Text, value);
             Invalidate();
         }
     }
@@ -276,6 +283,8 @@ public sealed class ExtendedProgressBar : ProgressBar {
         get => base.Text;
         set {
             base.Text = value;
+            if (TextGraphics is not null)
+                TextSize = TextGraphics.MeasureString(value, Font);
             Invalidate();
         }
     }
@@ -379,7 +388,12 @@ public sealed class ExtendedProgressBar : ProgressBar {
 
     protected override void OnHandleCreated(EventArgs e) {
         base.OnHandleCreated(e);
-        _ControlGraphics = CreateGraphics();
+        TextGraphics = CreateGraphics();
+        TextSize = TextGraphics.MeasureString(Text, Font);
+        if (ProgressState != ProgressBarState.Normal) {
+            NativeMethods.SendMessage(Handle, PBM_SETSTATE, (nint)ProgressState, IntPtr.Zero);
+            SetStateInTaskbar();
+        }
     }
 
     /// <inheritdoc/>
@@ -402,6 +416,12 @@ public sealed class ExtendedProgressBar : ProgressBar {
                 base.WndProc(ref m);
                 if (_ShowText) {
                     DrawText();
+                }
+            } break;
+
+            case Consts.WM_ERASEBKGND: {
+                if (!DesignMode && Style != ProgressBarStyle.Marquee) {
+                    Invalidate();
                 }
             } break;
 
@@ -438,21 +458,20 @@ public sealed class ExtendedProgressBar : ProgressBar {
     /// Draws the text onto the control.
     /// </summary>
     private void DrawText() {
-        SizeF size = _ControlGraphics.MeasureString(Text, Font);
         if (_ShowTextDropShadow) {
-            _ControlGraphics.DrawString(Text, Font, new SolidBrush(_DropShadowColor),
+            TextGraphics.DrawString(Text, Font, new SolidBrush(_DropShadowColor),
                 _TextAlignment switch {
                     ContentAlignment.TopLeft or
                     ContentAlignment.MiddleLeft or
-                    ContentAlignment.BottomLeft => RightToLeft == RightToLeft.Yes ? Width - size.Width : -1,
+                    ContentAlignment.BottomLeft => RightToLeft == RightToLeft.Yes ? Width - TextSize.Width : -1,
 
                     ContentAlignment.TopCenter or
                     ContentAlignment.MiddleCenter or
-                    ContentAlignment.BottomCenter => (Width - size.Width) / 2,
+                    ContentAlignment.BottomCenter => (Width - TextSize.Width) / 2,
 
                     ContentAlignment.TopRight or
                     ContentAlignment.MiddleRight or
-                    ContentAlignment.BottomRight => RightToLeft == RightToLeft.Yes ? -1 : Width - size.Width,
+                    ContentAlignment.BottomRight => RightToLeft == RightToLeft.Yes ? -1 : Width - TextSize.Width,
 
                     _ => 0
                 } + 1,
@@ -460,30 +479,30 @@ public sealed class ExtendedProgressBar : ProgressBar {
                 _TextAlignment switch {
                     ContentAlignment.MiddleLeft or
                     ContentAlignment.MiddleCenter or
-                    ContentAlignment.MiddleRight => (Height - size.Height) / 2,
+                    ContentAlignment.MiddleRight => (Height - TextSize.Height) / 2,
 
 
                     ContentAlignment.BottomLeft or
                     ContentAlignment.BottomCenter or
-                    ContentAlignment.BottomRight => Height - size.Height,
+                    ContentAlignment.BottomRight => Height - TextSize.Height,
 
                     _ => 0
                 } + 1
             );
         }
-        _ControlGraphics.DrawString(Text, Font, new SolidBrush(ForeColor),
+        TextGraphics.DrawString(Text, Font, new SolidBrush(ForeColor),
             _TextAlignment switch {
                 ContentAlignment.TopLeft or
                 ContentAlignment.MiddleLeft or
-                ContentAlignment.BottomLeft => RightToLeft == RightToLeft.Yes ? Width - size.Width : -1,
+                ContentAlignment.BottomLeft => RightToLeft == RightToLeft.Yes ? Width - TextSize.Width : -1,
 
                 ContentAlignment.TopCenter or
                 ContentAlignment.MiddleCenter or
-                ContentAlignment.BottomCenter => (Width - size.Width) / 2,
+                ContentAlignment.BottomCenter => (Width - TextSize.Width) / 2,
 
                 ContentAlignment.TopRight or
                 ContentAlignment.MiddleRight or
-                ContentAlignment.BottomRight => RightToLeft == RightToLeft.Yes ? -1 : Width - size.Width,
+                ContentAlignment.BottomRight => RightToLeft == RightToLeft.Yes ? -1 : Width - TextSize.Width,
 
                 _ => 0
             },
@@ -491,12 +510,12 @@ public sealed class ExtendedProgressBar : ProgressBar {
             _TextAlignment switch {
                 ContentAlignment.MiddleLeft or
                 ContentAlignment.MiddleCenter or
-                ContentAlignment.MiddleRight => (Height - size.Height) / 2,
+                ContentAlignment.MiddleRight => (Height - TextSize.Height) / 2,
 
 
                 ContentAlignment.BottomLeft or
                 ContentAlignment.BottomCenter or
-                ContentAlignment.BottomRight => Height - size.Height,
+                ContentAlignment.BottomRight => Height - TextSize.Height,
 
                 _ => 0
             }

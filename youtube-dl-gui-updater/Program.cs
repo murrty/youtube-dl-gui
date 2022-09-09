@@ -1,7 +1,4 @@
-﻿using murrty.controls;
-using System.IO;
-using System.Windows.Forms;
-using static System.Collections.Specialized.BitVector32;
+﻿using System.Windows.Forms;
 
 namespace youtube_dl_gui_updater {
 

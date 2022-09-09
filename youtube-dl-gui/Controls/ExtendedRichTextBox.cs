@@ -4,19 +4,6 @@ using System.ComponentModel;
 using System.Windows.Forms;
 using murrty.controls.natives;
 
-using System.Collections.Specialized;
-using System.Diagnostics;
-using System.Drawing;
-using System.Globalization;
-using System.IO;
-using System.Runtime.InteropServices;
-using System.Runtime.InteropServices.ComTypes;
-using System.Security;
-using System.Security.Permissions;
-using System.Text;
-using System.Windows.Forms.Layout;
-using Microsoft.Win32;
-
 class ExtendedRichTextBox : RichTextBox {
     private bool fAutoWordSelection = false;
 

@@ -860,7 +860,7 @@ namespace youtube_dl_gui {
             }
         }
         private void txtUrl_TextChanged(object sender, EventArgs e) {
-            //btnMainYtdlpExtended.Enabled = txtUrl.Text.Length > 0;
+            btnMainYtdlpExtended.Enabled = txtUrl.Text.Length > 0;
         }
         private void txtArgs_KeyPress(object sender, KeyPressEventArgs e) {
             if (e.KeyChar == 13) {
@@ -871,9 +871,9 @@ namespace youtube_dl_gui {
             Download();
         }
         private void btnMainYtdlpExtended_Click(object sender, EventArgs e) {
-            Tests.frmMerger merg = new();
-            merg.ShowDialog();
-            return;
+            //Tests.frmMerger merg = new();
+            //merg.ShowDialog();
+            //return;
             StartDownloadExtended();
         }
         private void mDownloadWithAuthentication_Click(object sender, EventArgs e) {

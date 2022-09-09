@@ -76,6 +76,8 @@
     </Compile>
     <Compile Include="Controls\HttpMethod.cs" />
     <Compile Include="Controls\MessageHandler.cs" />
+    <Compile Include="Controls\Natives\Consts.cs" />
+    <Compile Include="Controls\Natives\NativeMethods.cs" />
     <Compile Include="Controls\ProgressBarState.cs" />
     <Compile Include="Controls\TaskbarInterface.cs" />
     <Compile Include="Controls\TaskbarProgressState.cs" />
