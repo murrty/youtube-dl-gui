@@ -120,3 +120,8 @@ public sealed class FfprobeSubdata {
     }
 
 }
+
+public sealed class FfprobeNodeTag {
+    public FfprobeData ParentFile { get; init; }
+    public FfprobeSubdata.Stream Stream { get; init; }
+}

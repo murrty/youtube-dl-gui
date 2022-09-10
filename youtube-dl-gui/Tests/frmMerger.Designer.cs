@@ -22,13 +22,13 @@
             System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Subtitle sources");
             System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("Attatchment sources");
             this.pnLower = new System.Windows.Forms.Panel();
-            this.pnLoadedFiles = new System.Windows.Forms.Panel();
-            this.pnStreams = new System.Windows.Forms.Panel();
-            this.lbFileSources = new System.Windows.Forms.ListBox();
-            this.btnAddFiles = new System.Windows.Forms.Button();
-            this.btnRemoveFiles = new System.Windows.Forms.Button();
-            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.btnMergeFiles = new System.Windows.Forms.Button();
+            this.pnLoadedFiles = new System.Windows.Forms.Panel();
+            this.btnRemoveFiles = new System.Windows.Forms.Button();
+            this.btnAddFiles = new System.Windows.Forms.Button();
+            this.lbFileSources = new System.Windows.Forms.ListBox();
+            this.pnStreams = new System.Windows.Forms.Panel();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.tvSelectedSources = new System.Windows.Forms.TreeView();
             this.tvSelectedStreams = new System.Windows.Forms.TreeView();
             this.pnLower.SuspendLayout();
@@ -50,6 +50,17 @@
             this.pnLower.Size = new System.Drawing.Size(581, 48);
             this.pnLower.TabIndex = 0;
             // 
+            // btnMergeFiles
+            // 
+            this.btnMergeFiles.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnMergeFiles.Location = new System.Drawing.Point(460, 12);
+            this.btnMergeFiles.Name = "btnMergeFiles";
+            this.btnMergeFiles.Size = new System.Drawing.Size(109, 23);
+            this.btnMergeFiles.TabIndex = 0;
+            this.btnMergeFiles.Text = "Merge files";
+            this.btnMergeFiles.UseVisualStyleBackColor = true;
+            this.btnMergeFiles.Click += new System.EventHandler(this.btnMergeFiles_Click);
+            // 
             // pnLoadedFiles
             // 
             this.pnLoadedFiles.Controls.Add(this.btnRemoveFiles);
@@ -61,23 +72,15 @@
             this.pnLoadedFiles.Size = new System.Drawing.Size(180, 326);
             this.pnLoadedFiles.TabIndex = 1;
             // 
-            // pnStreams
+            // btnRemoveFiles
             // 
-            this.pnStreams.Controls.Add(this.splitContainer1);
-            this.pnStreams.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnStreams.Location = new System.Drawing.Point(180, 0);
-            this.pnStreams.Name = "pnStreams";
-            this.pnStreams.Size = new System.Drawing.Size(401, 326);
-            this.pnStreams.TabIndex = 2;
-            // 
-            // lbFileSources
-            // 
-            this.lbFileSources.FormattingEnabled = true;
-            this.lbFileSources.Location = new System.Drawing.Point(3, 3);
-            this.lbFileSources.Name = "lbFileSources";
-            this.lbFileSources.Size = new System.Drawing.Size(171, 290);
-            this.lbFileSources.TabIndex = 0;
-            this.lbFileSources.SelectedIndexChanged += new System.EventHandler(this.lbFileSources_SelectedIndexChanged);
+            this.btnRemoveFiles.Location = new System.Drawing.Point(95, 297);
+            this.btnRemoveFiles.Name = "btnRemoveFiles";
+            this.btnRemoveFiles.Size = new System.Drawing.Size(75, 23);
+            this.btnRemoveFiles.TabIndex = 2;
+            this.btnRemoveFiles.Text = "Remove";
+            this.btnRemoveFiles.UseVisualStyleBackColor = true;
+            this.btnRemoveFiles.Click += new System.EventHandler(this.btnRemoveFiles_Click);
             // 
             // btnAddFiles
             // 
@@ -89,15 +92,23 @@
             this.btnAddFiles.UseVisualStyleBackColor = true;
             this.btnAddFiles.Click += new System.EventHandler(this.btnAddFiles_Click);
             // 
-            // btnRemoveFiles
+            // lbFileSources
             // 
-            this.btnRemoveFiles.Location = new System.Drawing.Point(95, 297);
-            this.btnRemoveFiles.Name = "btnRemoveFiles";
-            this.btnRemoveFiles.Size = new System.Drawing.Size(75, 23);
-            this.btnRemoveFiles.TabIndex = 2;
-            this.btnRemoveFiles.Text = "Remove";
-            this.btnRemoveFiles.UseVisualStyleBackColor = true;
-            this.btnRemoveFiles.Click += new System.EventHandler(this.btnRemoveFiles_Click);
+            this.lbFileSources.FormattingEnabled = true;
+            this.lbFileSources.Location = new System.Drawing.Point(3, 3);
+            this.lbFileSources.Name = "lbFileSources";
+            this.lbFileSources.Size = new System.Drawing.Size(171, 290);
+            this.lbFileSources.TabIndex = 0;
+            this.lbFileSources.SelectedIndexChanged += new System.EventHandler(this.lbFileSources_SelectedIndexChanged);
+            // 
+            // pnStreams
+            // 
+            this.pnStreams.Controls.Add(this.splitContainer1);
+            this.pnStreams.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnStreams.Location = new System.Drawing.Point(180, 0);
+            this.pnStreams.Name = "pnStreams";
+            this.pnStreams.Size = new System.Drawing.Size(401, 326);
+            this.pnStreams.TabIndex = 2;
             // 
             // splitContainer1
             // 
@@ -115,16 +126,6 @@
             this.splitContainer1.Size = new System.Drawing.Size(401, 326);
             this.splitContainer1.SplitterDistance = 200;
             this.splitContainer1.TabIndex = 0;
-            // 
-            // btnMergeFiles
-            // 
-            this.btnMergeFiles.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnMergeFiles.Location = new System.Drawing.Point(460, 12);
-            this.btnMergeFiles.Name = "btnMergeFiles";
-            this.btnMergeFiles.Size = new System.Drawing.Size(109, 23);
-            this.btnMergeFiles.TabIndex = 0;
-            this.btnMergeFiles.Text = "Merge files";
-            this.btnMergeFiles.UseVisualStyleBackColor = true;
             // 
             // tvSelectedSources
             // 
@@ -187,7 +188,9 @@
             this.Controls.Add(this.pnLoadedFiles);
             this.Controls.Add(this.pnLower);
             this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Icon = global::youtube_dl_gui.Properties.Resources.ProgramIcon;
             this.Name = "frmMerger";
+            this.Text = "frmMerger";
             this.pnLower.ResumeLayout(false);
             this.pnLoadedFiles.ResumeLayout(false);
             this.pnStreams.ResumeLayout(false);

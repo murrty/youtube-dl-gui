@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using System.Diagnostics;
+using System.Windows.Forms;
 
 namespace youtube_dl_gui.Tests {
     public partial class frmMerger : Form {
@@ -7,6 +8,45 @@ namespace youtube_dl_gui.Tests {
 
         public frmMerger() {
             InitializeComponent();
+        }
+
+        private string GenerateList() {
+            List<string> Files = new();
+            StringBuilder InputArgument = new(string.Empty);
+            StringBuilder MapArgument = new(string.Empty);
+
+            int FileIndex = -1;
+            FfprobeNodeTag CurrentFile;
+            foreach (TreeNode RootNode in tvSelectedStreams.Nodes) {
+                if (RootNode.Nodes.Count > 0) {
+                    for (int i = 0; i < RootNode.Nodes.Count; i++) {
+                        CurrentFile = (FfprobeNodeTag)RootNode.Nodes[i].Tag;
+                        FileIndex = Files.IndexOf(CurrentFile.ParentFile.Format.filename);
+                        if (FileIndex == -1) {
+                            Files.Add(CurrentFile.ParentFile.Format.filename);
+                            InputArgument.Append($"-i \"{CurrentFile.ParentFile.Format.filename}\" ");
+                            FileIndex = Files.Count - 1;
+                        }
+                        MapArgument.Append($"-map {FileIndex}:{CurrentFile.Stream.index} ");
+                        //switch (RootNode.Index) {
+                        //    case 0: { // vid
+                        //        Arguments[FileIndex].Append($"-map {FileIndex}:{CurrentFile.Stream.index}");
+                        //    } break;
+                        //    case 1: { // aud
+                        //        Arguments[FileIndex].Append($"-map {FileIndex}:{CurrentFile.Stream.index}");
+                        //    } break;
+                        //    case 2: { // sub
+                        //        Arguments[FileIndex].Append($"-map {FileIndex}:{CurrentFile.Stream.index}");
+                        //    } break;
+                        //    case 3: { // att
+                        //        Arguments[FileIndex].Append($"-map {FileIndex}:{CurrentFile.Stream.index}");
+                        //    } break;
+                        //}
+                    }
+                }
+            }
+
+            return Files.Count > 0 ? $"{InputArgument.ToString()}{MapArgument.ToString().Trim()}" : null;
         }
 
         private void btnAddFiles_Click(object sender, EventArgs e) {
@@ -22,7 +62,10 @@ namespace youtube_dl_gui.Tests {
                         if (NewData.MediaStreams.Length > 0) {
                             for (int x = 0; x < NewData.MediaStreams.Length; x++) {
                                 NewData.MediaStreams[x].Node = new TreeNode(NewData.MediaStreams[x].codec_long_name) {
-                                    Tag = NewData
+                                    Tag = new FfprobeNodeTag() {
+                                        ParentFile = NewData,
+                                        Stream = NewData.MediaStreams[x]
+                                    }
                                 };
                             }
                             LoadedMediaFiles.Add(NewData);
@@ -90,6 +133,30 @@ namespace youtube_dl_gui.Tests {
 
         private void tvSelectedStreams_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e) {
             tvSelectedStreams.SelectedNode.Remove();
+        }
+
+        private void btnMergeFiles_Click(object sender, EventArgs e) {
+            string Argument = GenerateList();
+            if (Argument is not null) {
+                using SaveFileDialog sfd = new();
+                sfd.Title = "Select a place to save the merged file to";
+                if (sfd.ShowDialog() == DialogResult.OK) {
+                    Process Merger = new() {
+                        StartInfo = new() {
+                            Arguments = Argument + $"{sfd.FileName}",
+                            FileName = Verification.FFmpegPath,
+                            //CreateNoWindow = true,
+                            //RedirectStandardError = true,
+                            //RedirectStandardInput = true,
+                            //RedirectStandardOutput = true,
+                            UseShellExecute = false,
+                            //WindowStyle = ProcessWindowStyle.Hidden,
+                        }
+                    };
+
+                    Merger.Start();
+                }
+            }
         }
     }
 }

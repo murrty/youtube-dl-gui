@@ -19,9 +19,20 @@ internal class ConvertHelper {
             string[] formatsV = { ".avi", ".flv", ".mkv", ".mov", ".mp4", ".webm", ".wmv" };
             bool input1IsVideo = false; // is input1 video?
 
-            using Process ffMerge = new();
-            ffMerge.StartInfo.UseShellExecute = true;
-            ffMerge.StartInfo.FileName = "ffmpeg.exe";
+            if (Verification.FFmpegPath.IsNullEmptyWhitespace()) {
+                Verification.RefreshFFmpegLocation();
+                if (Verification.FFmpegPath.IsNullEmptyWhitespace()) {
+                    return false;
+                }
+            }
+
+            using Process ffMerge = new() {
+                StartInfo = new() {
+                    FileName = Verification.FFmpegPath,
+                    UseShellExecute = true,
+                }
+            };
+
             for (int i = 0; i < formatsV.Length; i++) {
                 if (input1.EndsWith(formatsV[i])) {
                     input1IsVideo = true;
@@ -39,7 +50,6 @@ internal class ConvertHelper {
 
                 ffMerge.Start();
                 ffMerge.WaitForExit();
-
 
                 if (input1IsVideo) {
                     ffMerge.StartInfo.Arguments = " -i \"" + input2 + "\" -i \"" + Path.GetDirectoryName(input1) + "\\tempaudio.mp3\" -filter_complex amix=inputs=2:duration=longest \"" + Path.GetDirectoryName(input1) + "\\final.mp3\"";
