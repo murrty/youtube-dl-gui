@@ -74,22 +74,39 @@
     <Compile Include="Classes\ConvertHelper.cs" />
     <Compile Include="Classes\DataClasses\FfprobeData.cs" />
     <Compile Include="Classes\DownloadHelper.cs" />
-    <Compile Include="Controls\Enums\AllowedCharacters.cs" />
-    <Compile Include="Controls\Enums\ButtonAlignment.cs" />
-    <Compile Include="Controls\Enums\ProgressBarState.cs" />
-    <Compile Include="Controls\Classes\TaskbarInterface.cs" />
-    <Compile Include="Controls\Enums\TaskbarProgressState.cs" />
-    <Compile Include="Controls\Events\RegexMatchEventArgs.cs" />
+    <Compile Include="..\Controls\Enums\AllowedCharacters.cs">
+      <Link>Controls\Shared\AllowedCharacters.cs</Link>
+    </Compile>
+    <Compile Include="..\Controls\Enums\ButtonAlignment.cs">
+      <Link>Controls\Shared\ButtonAlignment.cs</Link>
+    </Compile>
+    <Compile Include="..\Controls\Enums\ProgressBarState.cs">
+      <Link>Controls\Shared\ProgressBarState.cs</Link>
+    </Compile>
+    <Compile Include="..\Controls\Interfaces\TaskbarInterface.cs">
+      <Link>Controls\Shared\TaskbarInterface.cs</Link>
+    </Compile>
+    <Compile Include="..\Controls\Enums\TaskbarProgressState.cs">
+      <Link>Controls\Shared\TaskbarProgressState.cs</Link>
+    </Compile>
+    <Compile Include="..\Controls\Events\RegexMatchEventArgs.cs">
+      <Link>Controls\Shared\RegexMatchEventArgs.cs</Link>
+    </Compile>
     <Compile Include="Controls\MessageHandler.cs" />
-    <Compile Include="Controls\Natives\Consts.cs" />
-    <Compile Include="Controls\Natives\NativeMethods.cs" />
+    <Compile Include="..\Controls\Natives\Consts.cs">
+      <Link>Controls\Shared\Consts.cs</Link>
+    </Compile>
+    <Compile Include="..\Controls\Natives\NativeMethods.cs">
+      <Link>Controls\Shared\NativeMethods.cs</Link>
+    </Compile>
     <Compile Include="CopyData\UpdaterData.cs" />
     <Compile Include="Log\Exceptions\ApiParsingException.cs" />
     <Compile Include="Log\Natives\DwmComposition.cs" />
     <Compile Include="Classes\Extensions.cs" />
     <Compile Include="Classes\DataClasses\DownloaderData.cs" />
-    <Compile Include="Controls\ExtendedProgressBar.cs">
+    <Compile Include="..\Controls\ExtendedProgressBar.cs">
       <SubType>Component</SubType>
+      <Link>Controls\Shared\ExtendedProgressBar.cs</Link>
     </Compile>
     <Compile Include="Enums\StatusIcon.cs" />
     <Compile Include="Enums\DownloadStatus.cs" />
@@ -139,11 +156,13 @@
     <Compile Include="Updater\GitID.cs" />
     <Compile Include="Updater\GithubRepoContent.cs" />
     <Compile Include="Updater\Version.cs" />
-    <Compile Include="Controls\BetterFolderBrowser.cs">
+    <Compile Include="..\Controls\BetterFolderBrowser.cs">
       <SubType>Component</SubType>
+      <Link>Controls\Shared\BetterFolderBrowser.cs</Link>
     </Compile>
-    <Compile Include="Controls\BetterFolderBrowser.designer.cs">
+    <Compile Include="..\Controls\BetterFolderBrowser.designer.cs">
       <DependentUpon>BetterFolderBrowser.cs</DependentUpon>
+      <Link>Controls\Shared\BetterFolderBrowser.designer.cs</Link>
     </Compile>
     <Compile Include="Classes\ConvertInfo.cs" />
     <Compile Include="CopyData\CopyData.cs" />
@@ -153,20 +172,25 @@
     <Compile Include="Classes\NativeMethods.cs" />
     <Compile Include="Updater\UpdateChecker.cs" />
     <Compile Include="Log\Log.cs" />
-    <Compile Include="Controls\ExtendedRichTextBox.cs">
+    <Compile Include="..\Controls\ExtendedRichTextBox.cs">
       <SubType>Component</SubType>
+      <Link>Controls\Shared\ExtendedRichTextBox.cs</Link>
     </Compile>
-    <Compile Include="Controls\ExtendedTextBox.cs">
+    <Compile Include="..\Controls\ExtendedTextBox.cs">
       <SubType>Component</SubType>
+      <Link>Controls\Shared\ExtendedTextBox.cs</Link>
     </Compile>
-    <Compile Include="Controls\ExtendedLinkLabel.cs">
+    <Compile Include="..\Controls\ExtendedLinkLabel.cs">
       <SubType>Component</SubType>
+      <Link>Controls\Shared\ExtendedLinkLabel.cs</Link>
     </Compile>
-    <Compile Include="Controls\SplitButton.cs">
+    <Compile Include="..\Controls\SplitButton.cs">
       <SubType>Component</SubType>
+      <Link>Controls\Shared\SplitButton.cs</Link>
     </Compile>
-    <Compile Include="Controls\VistaListView.cs">
+    <Compile Include="..\Controls\VistaListView.cs">
       <SubType>Component</SubType>
+      <Link>Controls\Shared\VistaListView.cs</Link>
     </Compile>
     <Compile Include="Forms\frmAbout.cs">
       <SubType>Form</SubType>

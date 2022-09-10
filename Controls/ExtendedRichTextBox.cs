@@ -60,6 +60,14 @@ class ExtendedRichTextBox : RichTextBox {
             case WM_SETCURSOR when ViewOnly: {
                 m.Result = IntPtr.Zero;
             } return;
+
+            case WM_SETCURSOR: {
+                if (Cursor == Cursors.Hand) {
+                    NativeMethods.SetCursor(Consts.SystemHand);
+                    m.Result = IntPtr.Zero;
+                    return;
+                }
+            } break;
         }
         base.WndProc(ref m);
     }

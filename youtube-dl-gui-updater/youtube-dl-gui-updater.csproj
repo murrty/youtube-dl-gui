@@ -65,22 +65,37 @@
   <ItemGroup>
     <Compile Include="Classes\NativeMethods.cs" />
     <Compile Include="Classes\ProgramData.cs" />
-    <Compile Include="Controls\ExtendedProgressBar.cs">
+    <Compile Include="..\Controls\ExtendedProgressBar.cs">
       <SubType>Component</SubType>
+      <Link>Controls\Shared\ExtendedProgressBar.cs</Link>
     </Compile>
-    <Compile Include="Controls\ExtendedRichTextBox.cs">
+    <Compile Include="..\Controls\ExtendedRichTextBox.cs">
       <SubType>Component</SubType>
+      <Link>Controls\Shared\ExtendedRichTextBox.cs</Link>
     </Compile>
-    <Compile Include="Controls\ExtendedWebClient.cs">
+    <Compile Include="..\Controls\ExtendedWebClient.cs">
       <SubType>Component</SubType>
+      <Link>Controls\Shared\ExtendedWebClient.cs</Link>
     </Compile>
-    <Compile Include="Controls\HttpMethod.cs" />
+    <Compile Include="..\Controls\Enums\HttpMethod.cs">
+      <Link>Controls\Shared\HttpMethod.cs</Link>
+    </Compile>
     <Compile Include="Controls\MessageHandler.cs" />
-    <Compile Include="Controls\Natives\Consts.cs" />
-    <Compile Include="Controls\Natives\NativeMethods.cs" />
-    <Compile Include="Controls\ProgressBarState.cs" />
-    <Compile Include="Controls\TaskbarInterface.cs" />
-    <Compile Include="Controls\TaskbarProgressState.cs" />
+    <Compile Include="..\Controls\Natives\Consts.cs">
+      <Link>Controls\Shared\Consts.cs</Link>
+    </Compile>
+    <Compile Include="..\Controls\Natives\NativeMethods.cs">
+      <Link>Controls\Shared\NativeMethods.cs</Link>
+    </Compile>
+    <Compile Include="..\Controls\Enums\ProgressBarState.cs">
+      <Link>Controls\Shared\ProgressBarState.cs</Link>
+    </Compile>
+    <Compile Include="..\Controls\Interfaces\TaskbarInterface.cs">
+      <Link>Controls\Shared\TaskbarInterface.cs</Link>
+    </Compile>
+    <Compile Include="..\Controls\Enums\TaskbarProgressState.cs">
+      <Link>Controls\Shared\TaskbarProgressState.cs</Link>
+    </Compile>
     <Compile Include="CopyData\CopyData.cs" />
     <Compile Include="CopyData\CopyDataStruct.cs" />
     <Compile Include="CopyData\UpdaterData.cs" />

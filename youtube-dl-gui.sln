@@ -1,11 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31624.102
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.31911.260
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "youtube-dl-gui", "youtube-dl-gui\youtube-dl-gui.csproj", "{92512DE6-B6EE-4042-9DFA-97F9449BC998}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "youtube-dl-gui-updater", "youtube-dl-gui-updater\youtube-dl-gui-updater.csproj", "{A2764A32-330B-482F-85B0-62D72793C3A0}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{71D880B8-8870-41FD-92CE-B811A4461D41}"
 	ProjectSection(SolutionItems) = preProject
@@ -27,6 +25,46 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Languages", "Languages", "{
 		Languages\Spanish.ini = Languages\Spanish.ini
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "youtube-dl-gui-updater", "youtube-dl-gui-updater\youtube-dl-gui-updater.csproj", "{EF3A6A93-AB14-4A2D-8474-2985C0D07253}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Controls", "Controls", "{98BEC70D-68EE-47FC-9438-3B7DD1D4FB3B}"
+	ProjectSection(SolutionItems) = preProject
+		Controls\BetterFolderBrowser.cs = Controls\BetterFolderBrowser.cs
+		Controls\BetterFolderBrowser.Designer.cs = Controls\BetterFolderBrowser.Designer.cs
+		Controls\ExtendedLinkLabel.cs = Controls\ExtendedLinkLabel.cs
+		Controls\ExtendedProgressBar.cs = Controls\ExtendedProgressBar.cs
+		Controls\ExtendedRichTextBox.cs = Controls\ExtendedRichTextBox.cs
+		Controls\ExtendedTextBox.cs = Controls\ExtendedTextBox.cs
+		Controls\ExtendedWebClient.cs = Controls\ExtendedWebClient.cs
+		Controls\SplitButton.cs = Controls\SplitButton.cs
+		Controls\VistaListView.cs = Controls\VistaListView.cs
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Enums", "Enums", "{D9CA86FD-EB96-472B-936B-845722F2C50B}"
+	ProjectSection(SolutionItems) = preProject
+		Controls\Enums\AllowedCharacters.cs = Controls\Enums\AllowedCharacters.cs
+		Controls\Enums\ButtonAlignment.cs = Controls\Enums\ButtonAlignment.cs
+		Controls\Enums\HttpMethod.cs = Controls\Enums\HttpMethod.cs
+		Controls\Enums\ProgressBarState.cs = Controls\Enums\ProgressBarState.cs
+		Controls\Enums\TaskbarProgressState.cs = Controls\Enums\TaskbarProgressState.cs
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Events", "Events", "{ED9864E2-883B-4DA8-9765-4B8540D87A43}"
+	ProjectSection(SolutionItems) = preProject
+		Controls\Events\RegexMatchEventArgs.cs = Controls\Events\RegexMatchEventArgs.cs
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Interfaces", "Interfaces", "{48AD0A90-44CD-4A14-A18E-C2E9D6278A4D}"
+	ProjectSection(SolutionItems) = preProject
+		Controls\Interfaces\TaskbarInterface.cs = Controls\Interfaces\TaskbarInterface.cs
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Natives", "Natives", "{6FA3D731-C818-476C-AF19-8F24163490B3}"
+	ProjectSection(SolutionItems) = preProject
+		Controls\Natives\Consts.cs = Controls\Natives\Consts.cs
+		Controls\Natives\NativeMethods.cs = Controls\Natives\NativeMethods.cs
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -38,13 +76,31 @@ Global
 		{92512DE6-B6EE-4042-9DFA-97F9449BC998}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{92512DE6-B6EE-4042-9DFA-97F9449BC998}.Release|Any CPU.Build.0 = Release|Any CPU
 		{92512DE6-B6EE-4042-9DFA-97F9449BC998}.Release|Any CPU.Deploy.0 = Release|Any CPU
-		{A2764A32-330B-482F-85B0-62D72793C3A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A2764A32-330B-482F-85B0-62D72793C3A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A2764A32-330B-482F-85B0-62D72793C3A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A2764A32-330B-482F-85B0-62D72793C3A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF3A6A93-AB14-4A2D-8474-2985C0D07253}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF3A6A93-AB14-4A2D-8474-2985C0D07253}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF3A6A93-AB14-4A2D-8474-2985C0D07253}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF3A6A93-AB14-4A2D-8474-2985C0D07253}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8EF78CC2-016E-4D43-9120-A97CFC4FB2DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8EF78CC2-016E-4D43-9120-A97CFC4FB2DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8EF78CC2-016E-4D43-9120-A97CFC4FB2DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8EF78CC2-016E-4D43-9120-A97CFC4FB2DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{85CD9025-F800-4A5F-B8DD-9E798612F74B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{85CD9025-F800-4A5F-B8DD-9E798612F74B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{85CD9025-F800-4A5F-B8DD-9E798612F74B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{85CD9025-F800-4A5F-B8DD-9E798612F74B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{93DC689A-B3A3-43D9-A9EE-12A15725307B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93DC689A-B3A3-43D9-A9EE-12A15725307B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93DC689A-B3A3-43D9-A9EE-12A15725307B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93DC689A-B3A3-43D9-A9EE-12A15725307B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D9CA86FD-EB96-472B-936B-845722F2C50B} = {98BEC70D-68EE-47FC-9438-3B7DD1D4FB3B}
+		{ED9864E2-883B-4DA8-9765-4B8540D87A43} = {98BEC70D-68EE-47FC-9438-3B7DD1D4FB3B}
+		{48AD0A90-44CD-4A14-A18E-C2E9D6278A4D} = {98BEC70D-68EE-47FC-9438-3B7DD1D4FB3B}
+		{6FA3D731-C818-476C-AF19-8F24163490B3} = {98BEC70D-68EE-47FC-9438-3B7DD1D4FB3B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0604EAD6-0D2D-4660-AB8C-8043E05EB3C7}

@@ -31,6 +31,11 @@ public sealed class ExtendedProgressBar : ProgressBar {
     private Color _DropShadowColor = Color.FromKnownColor(KnownColor.ControlDark);
 
     /// <summary>
+    /// The brush used for the drop shadow.
+    /// </summary>
+    private Brush DropShadowBrush = SystemBrushes.ControlDark;
+
+    /// <summary>
     /// If the progress bar should update the value faster than default.
     /// <para>Used to bypass the slow progress build of vista progress bars.</para>
     /// </summary>
@@ -60,6 +65,11 @@ public sealed class ExtendedProgressBar : ProgressBar {
     /// The alignment of the text.
     /// </summary>
     private ContentAlignment _TextAlignment = ContentAlignment.MiddleCenter;
+
+    /// <summary>
+    /// The brush used for the text.
+    /// </summary>
+    private Brush TextBrush = SystemBrushes.ControlText;
 
     /// <summary>
     /// The graphics used for drawing text.
@@ -105,6 +115,7 @@ public sealed class ExtendedProgressBar : ProgressBar {
         get => _DropShadowColor;
         set {
             _DropShadowColor = value;
+            DropShadowBrush = new SolidBrush(value);
             Invalidate();
         }
     }
@@ -157,6 +168,7 @@ public sealed class ExtendedProgressBar : ProgressBar {
         get => base.ForeColor;
         set {
             base.ForeColor = value;
+            TextBrush = new SolidBrush(value);
             Invalidate();
         }
     }
@@ -386,6 +398,7 @@ public sealed class ExtendedProgressBar : ProgressBar {
         }
     }
 
+    /// <inheritdoc/>
     protected override void OnHandleCreated(EventArgs e) {
         base.OnHandleCreated(e);
         TextGraphics = CreateGraphics();
@@ -419,11 +432,11 @@ public sealed class ExtendedProgressBar : ProgressBar {
                 }
             } break;
 
-            case Consts.WM_ERASEBKGND: {
-                if (!DesignMode && Style != ProgressBarStyle.Marquee) {
-                    Invalidate();
-                }
-            } break;
+            //case Consts.WM_ERASEBKGND: {
+            //    if (!DesignMode && Style != ProgressBarStyle.Marquee) {
+            //        Invalidate();
+            //    }
+            //} break;
 
             case Consts.WM_SETCURSOR: {
                 if (Cursor == Cursors.Hand) {
@@ -458,8 +471,9 @@ public sealed class ExtendedProgressBar : ProgressBar {
     /// Draws the text onto the control.
     /// </summary>
     private void DrawText() {
+        TextGraphics = CreateGraphics();
         if (_ShowTextDropShadow) {
-            TextGraphics.DrawString(Text, Font, new SolidBrush(_DropShadowColor),
+            TextGraphics.DrawString(Text, Font, DropShadowBrush,
                 _TextAlignment switch {
                     ContentAlignment.TopLeft or
                     ContentAlignment.MiddleLeft or
@@ -490,7 +504,7 @@ public sealed class ExtendedProgressBar : ProgressBar {
                 } + 1
             );
         }
-        TextGraphics.DrawString(Text, Font, new SolidBrush(ForeColor),
+        TextGraphics.DrawString(Text, Font, TextBrush,
             _TextAlignment switch {
                 ContentAlignment.TopLeft or
                 ContentAlignment.MiddleLeft or

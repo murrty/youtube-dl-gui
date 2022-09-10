@@ -36,6 +36,9 @@ namespace youtube_dl_gui {
             get; set;
         }
 
+        /// <summary>
+        /// Gets or sets whether the program is starting an update.
+        /// </summary>
         internal static bool IsUpdating {
             get; set;
         } = false;

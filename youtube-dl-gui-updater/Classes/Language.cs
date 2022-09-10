@@ -230,7 +230,7 @@ public static class Language {
             }
         }
         catch (Exception ex) {
-            //Log.ReportRetriableLanguageException(ex);
+            Log.ReportRetriableLanguageException(ex);
             return false;
         }
     }
