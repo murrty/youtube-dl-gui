@@ -13,7 +13,7 @@ namespace youtube_dl_gui {
         /// <summary>
         /// Gets the curent version of the program.
         /// </summary>
-        public static Version CurrentVersion { get; } = new(3, 0, 0, 3);
+        public static Version CurrentVersion { get; } = new(3, 0, 0, 4);
 
         /// <summary>
         /// Gets whether the program is running in debug mode.
@@ -119,6 +119,8 @@ namespace youtube_dl_gui {
                 };
                 ExtendedDownloaderSelectedImages.Images.Add(Properties.Resources.best);     // 0
                 ExtendedDownloaderSelectedImages.Images.Add(Properties.Resources.selected); // 1
+                ExtendedDownloaderSelectedImages.Images.Add(Properties.Resources.best_disabled);    // 2
+                ExtendedDownloaderSelectedImages.Images.Add(Properties.Resources.selected_disabled);// 3
 
                 (Config.Settings = new Config()).Load(ConfigType.Initialization);
                 if (Config.Settings.Initialization.firstTime) {

@@ -94,8 +94,8 @@ namespace youtube_dl_gui {
                 cbBatchFormat.SelectedIndex = Config.Settings.Batch.SelectedAudioFormat;
             }
 
-            if (Config.Settings.Saved.BatchFormX != -32000 && Config.Settings.Saved.BatchFormY != -32000) {
-                this.Location = new(Config.Settings.Saved.BatchFormX, Config.Settings.Saved.BatchFormY);
+            if (Config.ValidPoint(Config.Settings.Saved.BatchConverterLocation)) {
+                this.Location = Config.Settings.Saved.BatchConverterLocation;
             }
             chkBatchDownloadClipboardScanVerifyLinks.Checked = Config.Settings.Batch.ClipboardScannerVerifyLinks;
         }
@@ -106,8 +106,7 @@ namespace youtube_dl_gui {
                 this.WindowState = FormWindowState.Normal;
             }
             Config.Settings.Batch.ClipboardScannerVerifyLinks = chkBatchDownloadClipboardScanVerifyLinks.Checked;
-            Config.Settings.Saved.BatchFormX = this.Location.X;
-            Config.Settings.Saved.BatchFormY = this.Location.Y;
+            Config.Settings.Saved.BatchConverterLocation = this.Location;
             this.Dispose();
         }
 

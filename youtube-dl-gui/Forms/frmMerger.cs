@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Windows.Forms;
 
-namespace youtube_dl_gui.Tests {
+namespace youtube_dl_gui {
     public partial class frmMerger : Form {
 
         private readonly List<FfprobeData> LoadedMediaFiles = new();
@@ -46,7 +46,7 @@ namespace youtube_dl_gui.Tests {
                 }
             }
 
-            return Files.Count > 0 ? $"{InputArgument.ToString()}{MapArgument.ToString().Trim()}" : null;
+            return Files.Count > 0 ? $"{InputArgument}{MapArgument.ToString().Trim()}" : null;
         }
 
         private void btnAddFiles_Click(object sender, EventArgs e) {
@@ -61,11 +61,16 @@ namespace youtube_dl_gui.Tests {
                         FfprobeData NewData = FfprobeData.GenerateData(ofd.FileNames[i], out ffdata);
                         if (NewData.MediaStreams.Length > 0) {
                             for (int x = 0; x < NewData.MediaStreams.Length; x++) {
+                                FfprobeNodeTag CurrentTag = new() {
+                                    ParentFile = NewData,
+                                    Stream = NewData.MediaStreams[x]
+                                };
                                 NewData.MediaStreams[x].Node = new TreeNode(NewData.MediaStreams[x].codec_long_name) {
-                                    Tag = new FfprobeNodeTag() {
-                                        ParentFile = NewData,
-                                        Stream = NewData.MediaStreams[x]
-                                    }
+                                    Tag = CurrentTag
+                                };
+
+                                NewData.MediaStreams[x].QueuedNode = new TreeNode(NewData.MediaStreams[x].codec_long_name) {
+                                    Tag = CurrentTag
                                 };
                             }
                             LoadedMediaFiles.Add(NewData);
@@ -83,6 +88,10 @@ namespace youtube_dl_gui.Tests {
         private void btnRemoveFiles_Click(object sender, EventArgs e) {
             if (lbFileSources.SelectedItems.Count > 0) {
                 int index = lbFileSources.SelectedIndex;
+                for (int i = 0; i < LoadedMediaFiles[index].MediaStreams.Length; i++) {
+                    LoadedMediaFiles[index].MediaStreams[i].Node.Remove();
+                    LoadedMediaFiles[index].MediaStreams[i].QueuedNode.Remove();
+                }
                 LoadedMediaFiles.RemoveAt(index);
                 lbFileSources.Items.RemoveAt(index);
                 if (lbFileSources.Items.Count <= index) {
@@ -128,7 +137,8 @@ namespace youtube_dl_gui.Tests {
         }
 
         private void tvSelectedSources_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e) {
-            tvSelectedStreams.Nodes[tvSelectedSources.SelectedNode.Parent.Index - 1].Nodes.Add((TreeNode)tvSelectedSources.SelectedNode.Clone());
+            tvSelectedStreams.Nodes[tvSelectedSources.SelectedNode.Parent.Index - 1].Nodes.Add(
+                ((FfprobeNodeTag)tvSelectedSources.SelectedNode.Tag).Stream.QueuedNode);
         }
 
         private void tvSelectedStreams_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e) {
@@ -141,20 +151,12 @@ namespace youtube_dl_gui.Tests {
                 using SaveFileDialog sfd = new();
                 sfd.Title = "Select a place to save the merged file to";
                 if (sfd.ShowDialog() == DialogResult.OK) {
-                    Process Merger = new() {
-                        StartInfo = new() {
-                            Arguments = Argument + $"{sfd.FileName}",
-                            FileName = Verification.FFmpegPath,
-                            //CreateNoWindow = true,
-                            //RedirectStandardError = true,
-                            //RedirectStandardInput = true,
-                            //RedirectStandardOutput = true,
-                            UseShellExecute = false,
-                            //WindowStyle = ProcessWindowStyle.Hidden,
-                        }
+                    ConvertInfo MergerInfo = new() {
+                        CustomArguments = Argument + $" {sfd.FileName}",
+                        FullCustomArguments = true
                     };
-
-                    Merger.Start();
+                    frmConverter Merger = new(MergerInfo);
+                    Merger.Show();
                 }
             }
         }

@@ -81,7 +81,17 @@ namespace youtube_dl_gui.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 2022-09-06.
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap best_disabled {
+            get {
+                object obj = ResourceManager.GetObject("best_disabled", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 2022-09-09.
         /// </summary>
         public static string BuildDate {
             get {
@@ -135,6 +145,16 @@ namespace youtube_dl_gui.Properties {
         public static System.Drawing.Bitmap selected {
             get {
                 object obj = ResourceManager.GetObject("selected", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap selected_disabled {
+            get {
+                object obj = ResourceManager.GetObject("selected_disabled", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

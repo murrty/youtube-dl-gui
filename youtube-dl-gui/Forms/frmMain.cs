@@ -1,6 +1,5 @@
 ﻿using System.Diagnostics;
 using System.Drawing;
-using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -84,8 +83,7 @@ namespace youtube_dl_gui {
             if (!string.IsNullOrEmpty(Config.Settings.Saved.FileNameSchemaHistory)) {
                 cbSchema.Items.AddRange(Config.Settings.Saved.FileNameSchemaHistory.Split('|'));
             }
-            btnMainYtdlpExtended.Enabled = btnMainYtdlpExtended.Visible =
-                mDownloadSeparator.Enabled = mDownloadSeparator.Visible =
+            mDownloadSeparator.Enabled = mDownloadSeparator.Visible =
                 mQuickDownloadForm.Enabled = mQuickDownloadForm.Visible =
                 mQuickDownloadFormAuthentication.Enabled = mQuickDownloadFormAuthentication.Visible =
                 mExtendedDownloadForm.Enabled = mExtendedDownloadForm.Visible = DownloadHelper.CanUseExtendedDownloader();
@@ -128,16 +126,16 @@ namespace youtube_dl_gui {
                 };
                 YtdlUpdateCheckThread.Start();
             }
-            if (Config.Settings.Saved.MainFormSize != default) {
-                this.Size = Config.Settings.Saved.MainFormSize;
-            }
             if (!Program.DebugMode) {
                 mDownloadSubtitles.Enabled = false;
             }
 
-            if (Config.Settings.Saved.MainFormLocation.X != -3200 && Config.Settings.Saved.MainFormLocation.Y != -32000) {
+            if (Config.ValidPoint(Config.Settings.Saved.MainFormLocation)) {
                 this.Location = Config.Settings.Saved.MainFormLocation;
             }
+
+            this.Size = Config.ValidSize(Config.Settings.Saved.MainFormSize) ?
+                Config.Settings.Saved.MainFormSize : this.MinimumSize;
 
             LoadLanguage();
 
@@ -255,6 +253,7 @@ namespace youtube_dl_gui {
             mTools.Text = Language.mTools;
             mBatchDownload.Text = Language.mBatchDownload;
             mBatchConverter.Text = Language.mBatchConvert;
+            mMerger.Text = Language.tabMerge;
             mDownloadSubtitles.Text = Language.mDownloadSubtitles;
             mMiscTools.Text = Language.mMiscTools;
             mClipboardAutoDownload.Text = Language.mClipboardAutoDownload;
@@ -291,7 +290,6 @@ namespace youtube_dl_gui {
             lbSchema.Text = Language.lbSettingsDownloadsFileNameSchema;
             lbCustomArguments.Text = Language.lbCustomArguments;
             sbDownload.Text = Language.sbDownload;
-            btnMainYtdlpExtended.Text = Language.btnMainExtended;
             mDownloadWithAuthentication.Text = Language.mDownloadWithAuthentication;
             mBatchDownloadFromFile.Text = Language.mBatchDownloadFromFile;
             mQuickDownloadForm.Text = Language.mQuickDownloadForm;
@@ -480,8 +478,7 @@ namespace youtube_dl_gui {
                 cbSchema.Items.AddRange(Config.Settings.Saved.FileNameSchemaHistory.Split('|'));
             }
 
-            btnMainYtdlpExtended.Enabled = btnMainYtdlpExtended.Visible =
-                mDownloadSeparator.Enabled = mDownloadSeparator.Visible =
+            mDownloadSeparator.Enabled = mDownloadSeparator.Visible =
                 mQuickDownloadForm.Enabled = mQuickDownloadForm.Visible =
                 mQuickDownloadFormAuthentication.Enabled = mQuickDownloadFormAuthentication.Visible =
                 mExtendedDownloadForm.Enabled = mExtendedDownloadForm.Visible = DownloadHelper.CanUseExtendedDownloader();
@@ -494,6 +491,10 @@ namespace youtube_dl_gui {
         private void mBatchConverter_Click(object sender, EventArgs e) {
             frmBatchConverter BatchConvert = new();
             BatchConvert.Show();
+        }
+        private void mMerger_Click(object sender, EventArgs e) {
+            frmMerger MergeForm = new();
+            MergeForm.Show();
         }
         private void mDownloadSubtitles_Click(object sender, EventArgs e) {
             frmSubtitles downloadSubtitles = new();
@@ -851,7 +852,6 @@ namespace youtube_dl_gui {
         private void txtUrl_MouseEnter(object sender, EventArgs e) {
             if (Config.Settings.General.HoverOverURLTextBoxToPaste && txtUrl.Text != Clipboard.GetText()) {
                 txtUrl.Text = Clipboard.GetText();
-                btnMainYtdlpExtended.Enabled = txtUrl.Text.Length > 0;
             }
         }
         private void txtUrl_KeyPress(object sender, KeyPressEventArgs e) {
@@ -860,7 +860,7 @@ namespace youtube_dl_gui {
             }
         }
         private void txtUrl_TextChanged(object sender, EventArgs e) {
-            btnMainYtdlpExtended.Enabled = txtUrl.Text.Length > 0;
+            //btnMainYtdlpExtended.Enabled = txtUrl.Text.Length > 0;
         }
         private void txtArgs_KeyPress(object sender, KeyPressEventArgs e) {
             if (e.KeyChar == 13) {
@@ -869,12 +869,6 @@ namespace youtube_dl_gui {
         }
         private void sbDownload_Click(object sender, EventArgs e) {
             Download();
-        }
-        private void btnMainYtdlpExtended_Click(object sender, EventArgs e) {
-            //Tests.frmMerger merg = new();
-            //merg.ShowDialog();
-            //return;
-            StartDownloadExtended();
         }
         private void mDownloadWithAuthentication_Click(object sender, EventArgs e) {
             StartDownload(true);

@@ -144,10 +144,10 @@
     <Compile Include="Log\Natives\DwmNatives.cs" />
     <Compile Include="Log\ExceptionInfo.cs" />
     <Compile Include="Runtime\Arrays.cs" />
-    <Compile Include="Tests\frmMerger.cs">
+    <Compile Include="Forms\frmMerger.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Tests\frmMerger.Designer.cs">
+    <Compile Include="Forms\frmMerger.Designer.cs">
       <DependentUpon>frmMerger.cs</DependentUpon>
     </Compile>
     <Compile Include="Updater\GithubData.cs" />
@@ -338,7 +338,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="Tests\frmMerger.resx">
+    <EmbeddedResource Include="Forms\frmMerger.resx">
       <DependentUpon>frmMerger.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
@@ -346,6 +346,8 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\StatusIcons\selected_disabled.png" />
+    <None Include="Resources\StatusIcons\best_disabled.png" />
     <None Include="Resources\StatusIcons\selected.png" />
     <None Include="Resources\StatusIcons\best.png" />
     <None Include="Resources\youtube-dl-gui-updater.exe" />

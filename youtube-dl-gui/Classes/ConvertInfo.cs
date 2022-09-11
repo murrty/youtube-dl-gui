@@ -73,9 +73,12 @@ public sealed class ConvertInfo {
     /// </summary>
     public int AudioBitrate = Config.Settings.Converts.audioBitrate;
 
+    /// <summary>
+    /// The custom arguments to be used.
+    /// </summary>
     public string CustomArguments = Config.Settings.Saved.convertCustom;
-
-    public ConvertInfo() {
-        
-    }
+    /// <summary>
+    /// Whether to skip any argument generation including input/output.
+    /// </summary>
+    public bool FullCustomArguments = false;
 }

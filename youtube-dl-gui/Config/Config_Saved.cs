@@ -17,14 +17,16 @@ internal class Config_Saved {
     public int VideoFormat = 0;
     public int AudioFormat = 0;
     public int AudioVBRQuality = 0;
-    public int BatchFormX = -32000;
-    public int BatchFormY = -32000;
+    public Point BatchDownloaderLocation = Config.InvalidPoint;
+    public Point BatchConverterLocation = Config.InvalidPoint;
     public Size MainFormSize = new(0, 0);
     public Size SettingsFormSize = new(0, 0);
     public string FileNameSchemaHistory = "%(title)s-%(id)s.%(ext)s|%(uploader)s\\(%(playlist_index)s) %(title)s-%(id)s.%(ext)s";
     public string DownloadCustomArguments = string.Empty;
     public int CustomArgumentsIndex = -1;
-    public Point MainFormLocation = new(-32000, -32000);
+    public Point MainFormLocation = Config.InvalidPoint;
+    public Point ExtendedDownloaderLocation = Config.InvalidPoint;
+    public Size ExtendedDownloaderSize = Size.Empty;
 
     private int fdownloadType = 0;
     private int fconvertSaveVideoIndex = 0;
@@ -37,14 +39,16 @@ internal class Config_Saved {
     private int fVideoFormat = 0;
     private int fAudioFormat = 0;
     private int fAudioVBRQuality = 0;
-    private int fBatchFormX = -32000;
-    private int fBatchFormY = -32000;
+    private Point fBatchDownloaderLocation = Config.InvalidPoint;
+    private Point fBatchConverterLocation = Config.InvalidPoint;
     private Size fMainFormSize = new(0, 0);
     private Size fSettingsFormSize = new(0, 0);
     private string fFileNameSchemaHistory = "%(title)s-%(id)s.%(ext)s|%(uploader)s\\(%(playlist_index)s) %(title)s-%(id)s.%(ext)s";
     private string fDownloadCustomArguments = string.Empty;
     private int fCustomArgumentsIndex = -1;
-    private Point fMainFormLocation = new(-32000, -32000);
+    private Point fMainFormLocation = Config.InvalidPoint;
+    private Point fExtendedDownloaderLocation = Config.InvalidPoint;
+    private Size fExtendedDownloaderSize = Size.Empty;
     #endregion
 
     public void Load() {
@@ -81,11 +85,11 @@ internal class Config_Saved {
         if (Ini.KeyExists("AudioVBRQuality", ConfigName)) {
             AudioVBRQuality = fAudioVBRQuality = Ini.ReadInt("AudioVBRQuality", ConfigName);
         }
-        if (Ini.KeyExists("BatchFormX", ConfigName)) {
-            BatchFormX = fBatchFormX = Ini.ReadInt("BatchFormX", ConfigName);
+        if (Ini.KeyExists("BatchDownloaderLocation", ConfigName)) {
+            BatchDownloaderLocation = fBatchDownloaderLocation = Ini.ReadPoint("BatchDownloaderLocation", ConfigName);
         }
-        if (Ini.KeyExists("BatchFormY", ConfigName)) {
-            BatchFormY = fBatchFormY = Ini.ReadInt("BatchFormY", ConfigName);
+        if (Ini.KeyExists("BatchConverterLocation", ConfigName)) {
+            BatchConverterLocation = fBatchConverterLocation = Ini.ReadPoint("BatchConverterLocation", ConfigName);
         }
         if (Ini.KeyExists("MainFormSize", ConfigName)) {
             MainFormSize = fMainFormSize = Ini.ReadSize("MainFormSize", ConfigName);
@@ -104,6 +108,15 @@ internal class Config_Saved {
         }
         if (Ini.KeyExists("MainFormLocation", ConfigName)) {
             MainFormLocation = fMainFormLocation = Ini.ReadPoint("MainFormLocation", ConfigName);
+        }
+        if (Ini.KeyExists("MainFormLocation", ConfigName)) {
+            MainFormLocation = fMainFormLocation = Ini.ReadPoint("MainFormLocation", ConfigName);
+        }
+        if (Ini.KeyExists("ExtendedDownloaderLocation", ConfigName)) {
+            ExtendedDownloaderLocation = fExtendedDownloaderLocation = Ini.ReadPoint("ExtendedDownloaderLocation", ConfigName);
+        }
+        if (Ini.KeyExists("ExtendedDownloaderSize", ConfigName)) {
+            ExtendedDownloaderSize = fExtendedDownloaderSize = Ini.ReadSize("ExtendedDownloaderSize", ConfigName);
         }
     }
 
@@ -152,13 +165,13 @@ internal class Config_Saved {
             Ini.Write("AudioVBRQuality", AudioVBRQuality, ConfigName);
             fAudioVBRQuality = AudioVBRQuality;
         }
-        if (BatchFormX != fBatchFormX) {
-            Ini.Write("BatchFormX", BatchFormX, ConfigName);
-            fBatchFormX = BatchFormX;
+        if (BatchDownloaderLocation != fBatchDownloaderLocation) {
+            Ini.Write("BatchDownloaderLocation", BatchDownloaderLocation, ConfigName);
+            fBatchDownloaderLocation = BatchDownloaderLocation;
         }
-        if (BatchFormY != fBatchFormY) {
-            Ini.Write("BatchFormY", BatchFormY, ConfigName);
-            fBatchFormY = BatchFormY;
+        if (BatchConverterLocation != fBatchConverterLocation) {
+            Ini.Write("BatchConverterLocation", BatchConverterLocation, ConfigName);
+            fBatchConverterLocation = BatchConverterLocation;
         }
         if (MainFormSize != fMainFormSize) {
             Ini.Write("MainFormSize", MainFormSize, ConfigName);
@@ -183,6 +196,14 @@ internal class Config_Saved {
         if (MainFormLocation != fMainFormLocation) {
             Ini.Write("MainFormLocation", MainFormLocation, ConfigName);
             fMainFormLocation = MainFormLocation;
+        }
+        if (ExtendedDownloaderLocation != fExtendedDownloaderLocation) {
+            Ini.Write("ExtendedDownloaderLocation", ExtendedDownloaderLocation, ConfigName);
+            fExtendedDownloaderLocation = ExtendedDownloaderLocation;
+        }
+        if (ExtendedDownloaderSize != fExtendedDownloaderSize) {
+            Ini.Write("ExtendedDownloaderSize", ExtendedDownloaderSize, ConfigName);
+            fExtendedDownloaderSize = ExtendedDownloaderSize;
         }
     }
 }

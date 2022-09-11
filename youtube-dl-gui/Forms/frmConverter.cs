@@ -44,8 +44,7 @@ namespace youtube_dl_gui {
                         else {
                             Finish = DialogResult.Ignore;
                         }
-                    }
-                    break;
+                    } break;
                 case ConversionStatus.Finished:
                     if (ConverterProcess.ExitCode == 0) {
                         if (CurrentConversion.BatchConversion) {
@@ -56,20 +55,17 @@ namespace youtube_dl_gui {
                         if (CurrentConversion.BatchConversion) {
                             this.DialogResult = DialogResult.No;
                         }
-                    }
-                    break;
+                    } break;
                 case ConversionStatus.ProgramError:
                 case ConversionStatus.FfmpegError:
                     if (CurrentConversion.BatchConversion) {
                         Finish = DialogResult.No;
-                    }
-                    break;
+                    } break;
                 default:
                     if (ConverterThread != null && ConverterThread.IsAlive) {
                         ConverterThread.Abort();
                         e.Cancel = true;
-                    }
-                    break;
+                    } break;
             }
             if (!e.Cancel) {
                 Config.Settings.Converts.CloseAfterFinish = chkConverterCloseAfterConversion.Checked;
@@ -121,16 +117,24 @@ namespace youtube_dl_gui {
         }
 
         private void BeginConversion() {
-            Debug.Print("BeginConversion()");
-            if (string.IsNullOrWhiteSpace(CurrentConversion.InputFile)) {
-                rtbConsoleOutput.AppendText("The input file is null or empty. Cannot convert no file.");
-                CurrentConversion.Status = ConversionStatus.ProgramError;
-                return;
+            if (!CurrentConversion.FullCustomArguments) {
+                if (CurrentConversion.InputFile.IsNullEmptyWhitespace()) {
+                    rtbConsoleOutput.AppendText("The input file is null or empty. Cannot continue converting.");
+                    CurrentConversion.Status = ConversionStatus.ProgramError;
+                    return;
+                }
+                if (CurrentConversion.OutputFile.IsNullEmptyWhitespace()) {
+                    rtbConsoleOutput.AppendText("The output file is null or empty. Cannot continue converting.");
+                    CurrentConversion.Status = ConversionStatus.ProgramError;
+                    return;
+                }
             }
-            if (string.IsNullOrWhiteSpace(CurrentConversion.OutputFile)) {
-                rtbConsoleOutput.AppendText("The output file is null or empty. Cannot convert to no file.");
-                CurrentConversion.Status = ConversionStatus.ProgramError;
-                return;
+            else {
+                if (CurrentConversion.CustomArguments.IsNullEmptyWhitespace()) {
+                    rtbConsoleOutput.AppendText("Custom arguments are required, but none were provided.");
+                    CurrentConversion.Status = ConversionStatus.ProgramError;
+                    return;
+                }
             }
 
             rtbConsoleOutput.AppendText("Beginning conversion, this box will output progress\n");
@@ -140,14 +144,14 @@ namespace youtube_dl_gui {
 
             CurrentConversion.Status = ConversionStatus.GeneratingArguments;
 
-            StringBuilder ArgumentsBuffer = new("-i \"" + CurrentConversion.InputFile + "\"");
-            // string PreviewArguments = null; ???
+            StringBuilder ArgumentsBuffer = new(CurrentConversion.FullCustomArguments ?
+                CurrentConversion.CustomArguments : "-i \"" + CurrentConversion.InputFile + "\"");
 
             #region ffmpeg path
-            if (string.IsNullOrWhiteSpace(Verification.FFmpegPath)) {
+            if (Verification.FFmpegPath.IsNullEmptyWhitespace()) {
                 rtbConsoleOutput.AppendText("ffmpeg has not been found.\nA rescan for ffmpeg was called\n");
                 Verification.RefreshFFmpegLocation();
-                if (Verification.FFmpegPath != null) {
+                if (Verification.FFmpegPath.IsNullEmptyWhitespace()) {
                     rtbConsoleOutput.AppendText("Rescan finished and found, continuing\n");
                 }
                 else {
@@ -160,52 +164,56 @@ namespace youtube_dl_gui {
             #endregion
 
             #region Arguments
-            switch (CurrentConversion.Type) {
-                case ConversionType.Video:
-                    if (CurrentConversion.VideoUseBitrate)
-                        ArgumentsBuffer.Append($" -b:v {CurrentConversion.VideoBitrate}k");
+            if (!CurrentConversion.FullCustomArguments) {
+                switch (CurrentConversion.Type) {
+                    case ConversionType.Video:
+                        if (CurrentConversion.VideoUseBitrate)
+                            ArgumentsBuffer.Append($" -b:v {CurrentConversion.VideoBitrate}k");
 
-                    if (CurrentConversion.VideoUsePreset)
-                        ArgumentsBuffer.Append($" -preset {ConvertHelper.GetVideoPreset(CurrentConversion.VideoPreset)}");
+                        if (CurrentConversion.VideoUsePreset)
+                            ArgumentsBuffer.Append($" -preset {ConvertHelper.GetVideoPreset(CurrentConversion.VideoPreset)}");
 
-                    if (CurrentConversion.VideoUseCRF)
-                        ArgumentsBuffer.Append($" -crf {CurrentConversion.VideoCRF}");
+                        if (CurrentConversion.VideoUseCRF)
+                            ArgumentsBuffer.Append($" -crf {CurrentConversion.VideoCRF}");
 
-                    if (!CurrentConversion.OutputFile.EndsWith(".wmv") && CurrentConversion.VideoUseProfile)
-                        ArgumentsBuffer.Append($" -profile:v {ConvertHelper.GetVideoProfile(CurrentConversion.VideoProfile)}");
+                        if (!CurrentConversion.OutputFile.EndsWith(".wmv") && CurrentConversion.VideoUseProfile)
+                            ArgumentsBuffer.Append($" -profile:v {ConvertHelper.GetVideoProfile(CurrentConversion.VideoProfile)}");
 
-                    if (CurrentConversion.VideoFastStart)
-                        ArgumentsBuffer.Append(" -faststart");
-                    break;
+                        if (CurrentConversion.VideoFastStart)
+                            ArgumentsBuffer.Append(" -faststart");
+                        break;
 
-                case ConversionType.Audio:
-                    if (CurrentConversion.AudioUseBitrate)
-                        ArgumentsBuffer.Append($" -ab {CurrentConversion.AudioBitrate * 1000}");
+                    case ConversionType.Audio:
+                        if (CurrentConversion.AudioUseBitrate)
+                            ArgumentsBuffer.Append($" -ab {CurrentConversion.AudioBitrate * 1000}");
 
-                    break;
+                        break;
 
-                case ConversionType.Custom:
-                    rtbConsoleOutput.AppendText("Custom conversion was specified, skipping generating arguments\n");
-                    ArgumentsBuffer.Append(CurrentConversion.CustomArguments);
-                    break;
+                    case ConversionType.Custom:
+                        rtbConsoleOutput.AppendText("Custom conversion was specified, skipping generating arguments\n");
+                        ArgumentsBuffer.Append(CurrentConversion.CustomArguments);
+                        break;
 
-                default:
-                    rtbConsoleOutput.AppendText("Using ffmpeg to automatically choose best settings\n");
-                    break;
+                    default:
+                        rtbConsoleOutput.AppendText("Using ffmpeg to automatically choose best settings\n");
+                        break;
+                }
+
+                // Extra arguments not supported by the custom conversion type
+                if (CurrentConversion.Type != ConversionType.Custom) {
+                    if (CurrentConversion.HideFFmpegCompile)
+                        ArgumentsBuffer.Append(" -hide_banner");
+                }
+
+                ArgumentsBuffer.Append($" \"{CurrentConversion.OutputFile}\"");
+                rtbConsoleOutput.AppendText("Arguments have been generated and are readonly in the textbox.\n");
+                txtArgumentsGenerated.Text = ArgumentsBuffer.ToString();
+                CurrentConversion.Status = ConversionStatus.Converting;
             }
-
-            // Extra arguments not supported by the custom conversion type
-            if (CurrentConversion.Type != ConversionType.Custom) {
-                if (CurrentConversion.HideFFmpegCompile)
-                    ArgumentsBuffer.Append(" -hide_banner");
+            else {
+                txtArgumentsGenerated.Text = ArgumentsBuffer.ToString();
             }
-
-            ArgumentsBuffer.Append($" \"{CurrentConversion.OutputFile}\"");
             #endregion
-
-            rtbConsoleOutput.AppendText("Arguments have been generated and are readonly in the textbox.\n");
-            txtArgumentsGenerated.Text = ArgumentsBuffer.ToString();
-            CurrentConversion.Status = ConversionStatus.Converting;
 
             #region Conversion thread
             ConverterThread = new Thread(() => {
@@ -223,13 +231,13 @@ namespace youtube_dl_gui {
                     };
                     ConverterProcess.OutputDataReceived += (s, e) => {
                         this.BeginInvoke(new MethodInvoker(() => {
-                            if (e.Data != null && rtbConsoleOutput != null)
+                            if (e.Data is not null)
                                 rtbConsoleOutput.AppendText(e.Data + "\n");
                         }));
                     };
                     ConverterProcess.ErrorDataReceived += (s, e) => {
                         this.BeginInvoke(new MethodInvoker(() => {
-                            if (e.Data != null && rtbConsoleOutput != null) {
+                            if (e.Data != null) {
                                 rtbConsoleOutput.AppendText("Error:\n");
                                 rtbConsoleOutput.AppendText(e.Data + "\n");
                             }
@@ -272,10 +280,8 @@ namespace youtube_dl_gui {
                 }
                 finally {
                     Program.RunningActions.Remove(this);
-                    if (CurrentConversion.Status != ConversionStatus.Aborted || CurrentConversion.BatchConversion) {
-                        this.BeginInvoke((Action)delegate {
-                            ConversionFinished();
-                        });
+                    if (this.IsHandleCreated && CurrentConversion.Status != ConversionStatus.Aborted || CurrentConversion.BatchConversion) {
+                        this.BeginInvoke(() => ConversionFinished());
                     }
                 }
             });

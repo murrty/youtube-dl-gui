@@ -28,7 +28,6 @@
             this.lbURL = new System.Windows.Forms.Label();
             this.tcMain = new System.Windows.Forms.TabControl();
             this.tabDownload = new System.Windows.Forms.TabPage();
-            this.btnMainYtdlpExtended = new System.Windows.Forms.Button();
             this.lbSchema = new System.Windows.Forms.Label();
             this.cbSchema = new System.Windows.Forms.ComboBox();
             this.cbCustomArguments = new System.Windows.Forms.ComboBox();
@@ -138,6 +137,7 @@
             this.cmTraySep = new System.Windows.Forms.MenuItem();
             this.cmTrayExit = new System.Windows.Forms.MenuItem();
             this.trayIcon = new System.Windows.Forms.NotifyIcon(this.components);
+            this.mMerger = new System.Windows.Forms.MenuItem();
             this.tcMain.SuspendLayout();
             this.tabDownload.SuspendLayout();
             this.gbSelection.SuspendLayout();
@@ -174,7 +174,6 @@
             // 
             // tabDownload
             // 
-            this.tabDownload.Controls.Add(this.btnMainYtdlpExtended);
             this.tabDownload.Controls.Add(this.lbSchema);
             this.tabDownload.Controls.Add(this.cbSchema);
             this.tabDownload.Controls.Add(this.cbCustomArguments);
@@ -197,19 +196,6 @@
             this.tabDownload.TabIndex = 0;
             this.tabDownload.Text = "tabDownload";
             this.tabDownload.UseVisualStyleBackColor = true;
-            // 
-            // btnMainYtdlpExtended
-            // 
-            this.btnMainYtdlpExtended.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.btnMainYtdlpExtended.Enabled = false;
-            this.btnMainYtdlpExtended.Location = new System.Drawing.Point(160, 297);
-            this.btnMainYtdlpExtended.Name = "btnMainYtdlpExtended";
-            this.btnMainYtdlpExtended.Size = new System.Drawing.Size(75, 25);
-            this.btnMainYtdlpExtended.TabIndex = 24;
-            this.btnMainYtdlpExtended.Text = "btnMainYtdlpExtended";
-            this.btnMainYtdlpExtended.UseVisualStyleBackColor = true;
-            this.btnMainYtdlpExtended.Visible = false;
-            this.btnMainYtdlpExtended.Click += new System.EventHandler(this.btnMainYtdlpExtended_Click);
             // 
             // lbSchema
             // 
@@ -662,7 +648,7 @@
             this.tabConvert.Location = new System.Drawing.Point(4, 22);
             this.tabConvert.Name = "tabConvert";
             this.tabConvert.Padding = new System.Windows.Forms.Padding(3);
-            this.tabConvert.Size = new System.Drawing.Size(238, 318);
+            this.tabConvert.Size = new System.Drawing.Size(238, 339);
             this.tabConvert.TabIndex = 1;
             this.tabConvert.Text = "tabConvert";
             this.tabConvert.UseVisualStyleBackColor = true;
@@ -817,7 +803,7 @@
             this.tabMerge.Location = new System.Drawing.Point(4, 22);
             this.tabMerge.Name = "tabMerge";
             this.tabMerge.Padding = new System.Windows.Forms.Padding(3);
-            this.tabMerge.Size = new System.Drawing.Size(238, 318);
+            this.tabMerge.Size = new System.Drawing.Size(238, 339);
             this.tabMerge.TabIndex = 2;
             this.tabMerge.Text = "tabMerge";
             this.tabMerge.UseVisualStyleBackColor = true;
@@ -963,7 +949,7 @@
             this.tabDebug.Location = new System.Drawing.Point(4, 22);
             this.tabDebug.Name = "tabDebug";
             this.tabDebug.Padding = new System.Windows.Forms.Padding(3);
-            this.tabDebug.Size = new System.Drawing.Size(238, 318);
+            this.tabDebug.Size = new System.Drawing.Size(238, 339);
             this.tabDebug.TabIndex = 3;
             this.tabDebug.Text = "Debug";
             this.tabDebug.UseVisualStyleBackColor = true;
@@ -1068,6 +1054,7 @@
             this.mTools.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.mBatchDownload,
             this.mBatchConverter,
+            this.mMerger,
             this.mDownloadSubtitles,
             this.mMiscTools,
             this.mToolsSeparator,
@@ -1089,31 +1076,31 @@
             // 
             // mDownloadSubtitles
             // 
-            this.mDownloadSubtitles.Index = 2;
+            this.mDownloadSubtitles.Index = 3;
             this.mDownloadSubtitles.Text = "mDownloadSubtitles";
             this.mDownloadSubtitles.Click += new System.EventHandler(this.mDownloadSubtitles_Click);
             // 
             // mMiscTools
             // 
-            this.mMiscTools.Index = 3;
+            this.mMiscTools.Index = 4;
             this.mMiscTools.Text = "mMiscTools";
             this.mMiscTools.Click += new System.EventHandler(this.mMiscTools_Click);
             // 
             // mToolsSeparator
             // 
-            this.mToolsSeparator.Index = 4;
+            this.mToolsSeparator.Index = 5;
             this.mToolsSeparator.Text = "-";
             // 
             // mClipboardAutoDownload
             // 
-            this.mClipboardAutoDownload.Index = 5;
+            this.mClipboardAutoDownload.Index = 6;
             this.mClipboardAutoDownload.Text = "mClipboardAutoDownload";
             this.mClipboardAutoDownload.Click += new System.EventHandler(this.mClipboardAutoDownload_Click);
             // 
             // mClipboardAutoDownloadVerifyLinks
             // 
             this.mClipboardAutoDownloadVerifyLinks.Enabled = false;
-            this.mClipboardAutoDownloadVerifyLinks.Index = 6;
+            this.mClipboardAutoDownloadVerifyLinks.Index = 7;
             this.mClipboardAutoDownloadVerifyLinks.Text = "GenericVerifyLinks";
             this.mClipboardAutoDownloadVerifyLinks.Click += new System.EventHandler(this.mClipboardAutoDownloadVerifyLinks_Click);
             // 
@@ -1307,6 +1294,12 @@
             this.trayIcon.BalloonTipTitle = "Unseen easter egg";
             this.trayIcon.Text = "youtube-dl-gui";
             // 
+            // mMerger
+            // 
+            this.mMerger.Index = 2;
+            this.mMerger.Text = "mMerger";
+            this.mMerger.Click += new System.EventHandler(this.mMerger_Click);
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1456,11 +1449,11 @@
         private System.Windows.Forms.MenuItem cmTrayClipboardAutoDownload;
         private System.Windows.Forms.MenuItem cmTrayClipboardAutoDownloadVerifyLinks;
         private System.Windows.Forms.MenuItem cmDownloadSeparator;
-        private System.Windows.Forms.Button btnMainYtdlpExtended;
         private System.Windows.Forms.MenuItem mDownloadSeparator;
         private System.Windows.Forms.MenuItem mQuickDownloadForm;
         private System.Windows.Forms.MenuItem mExtendedDownloadForm;
         private System.Windows.Forms.MenuItem mQuickDownloadFormAuthentication;
+        private System.Windows.Forms.MenuItem mMerger;
     }
 }
 

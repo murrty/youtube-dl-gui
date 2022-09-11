@@ -1,4 +1,4 @@
-﻿namespace youtube_dl_gui.Tests {
+﻿namespace youtube_dl_gui {
     partial class frmMerger {
         private System.ComponentModel.IContainer components = null;
 

@@ -16,6 +16,15 @@ namespace youtube_dl_gui {
             InitializeComponent();
             LoadLanguage();
             lvBatchConvertQueue.SmallImageList = Program.BatchStatusImages;
+
+            this.Load += (s, e) => {
+                if (Config.ValidPoint(Config.Settings.Saved.BatchConverterLocation)) {
+                    this.Location = Config.Settings.Saved.BatchConverterLocation;
+                }
+            };
+            this.FormClosing += (s, e) => {
+                Config.Settings.Saved.BatchConverterLocation = this.Location;
+            };
         }
 
         private void LoadLanguage() {

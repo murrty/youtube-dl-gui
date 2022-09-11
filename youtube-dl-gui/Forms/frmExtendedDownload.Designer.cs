@@ -722,10 +722,8 @@
             this.pbStatus.FastValueUpdate = true;
             this.pbStatus.Location = new System.Drawing.Point(12, 461);
             this.pbStatus.Name = "pbStatus";
-            this.pbStatus.ProgressState = murrty.controls.ProgressBarState.Normal;
             this.pbStatus.ShowText = true;
             this.pbStatus.Size = new System.Drawing.Size(193, 21);
-            this.pbStatus.Style = System.Windows.Forms.ProgressBarStyle.Blocks;
             this.pbStatus.TabIndex = 20;
             this.pbStatus.Text = ".  .  .";
             // 
@@ -756,6 +754,7 @@
             this.MaximizeBox = false;
             this.MinimumSize = new System.Drawing.Size(490, 530);
             this.Name = "frmExtendedDownload";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "frmExtendedDownload";
             ((System.ComponentModel.ISupportInitialize)(this.pbThumbnail)).EndInit();
             this.tcVideoData.ResumeLayout(false);

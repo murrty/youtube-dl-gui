@@ -4,6 +4,7 @@ using System.IO;
 using System.Diagnostics;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
+using System.Globalization;
 
 //ffprobe -v quiet -print_format json -show_format -show_streams 
 
@@ -28,6 +29,7 @@ public sealed class FfprobeData {
                     RedirectStandardInput = true,
                     RedirectStandardOutput = true,
                     UseShellExecute = false,
+                    StandardOutputEncoding = Encoding.UTF8,//Encoding.GetEncoding(CultureInfo.CurrentCulture.TextInfo.OEMCodePage),
                     WindowStyle = ProcessWindowStyle.Hidden,
                 }
             };
@@ -117,6 +119,9 @@ public sealed class FfprobeSubdata {
 
         [IgnoreDataMember]
         public System.Windows.Forms.TreeNode Node { get; set; }
+
+        [IgnoreDataMember]
+        public System.Windows.Forms.TreeNode QueuedNode { get; set; }
     }
 
 }
