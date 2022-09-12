@@ -72,7 +72,7 @@ public partial class frmArchiveDownloader : Form {
                     URL = URL[..11];
                 }
 
-                if (!new Regex(@"^[a-zA-Z0-9-_]{11}$").IsMatch(txtArchiveDownloaderHint.Text)) {
+                if (!new Regex(@"^[a-zA-Z0-9-_]{11}$").IsMatch(URL)) {
                     txtArchiveDownloaderHint.Focus();
                     System.Media.SystemSounds.Exclamation.Play();
                     return;
