@@ -73,6 +73,8 @@
             this.btnDownloadWithAuthentication = new System.Windows.Forms.Button();
             this.chkDownloaderCloseAfterDownload = new System.Windows.Forms.CheckBox();
             this.pbStatus = new murrty.controls.ExtendedProgressBar();
+            this.txtLink = new System.Windows.Forms.TextBox();
+            this.lbExtendedDownloaderLink = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pbThumbnail)).BeginInit();
             this.tcVideoData.SuspendLayout();
             this.tpFormats.SuspendLayout();
@@ -112,7 +114,7 @@
             // 
             this.lbExtendedDownloaderUploader.AutoSize = true;
             this.lbExtendedDownloaderUploader.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbExtendedDownloaderUploader.Location = new System.Drawing.Point(333, 111);
+            this.lbExtendedDownloaderUploader.Location = new System.Drawing.Point(333, 107);
             this.lbExtendedDownloaderUploader.Name = "lbExtendedDownloaderUploader";
             this.lbExtendedDownloaderUploader.Size = new System.Drawing.Size(51, 13);
             this.lbExtendedDownloaderUploader.TabIndex = 10;
@@ -124,7 +126,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtUploader.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtUploader.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtUploader.Location = new System.Drawing.Point(336, 123);
+            this.txtUploader.Location = new System.Drawing.Point(336, 119);
             this.txtUploader.Name = "txtUploader";
             this.txtUploader.ReadOnly = true;
             this.txtUploader.Size = new System.Drawing.Size(128, 22);
@@ -453,7 +455,7 @@
             // lbSchema
             // 
             this.lbSchema.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.lbSchema.Location = new System.Drawing.Point(140, 8);
+            this.lbSchema.Location = new System.Drawing.Point(140, 37);
             this.lbSchema.Name = "lbSchema";
             this.lbSchema.Size = new System.Drawing.Size(113, 15);
             this.lbSchema.TabIndex = 25;
@@ -464,7 +466,7 @@
             // 
             this.cbSchema.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.cbSchema.FormattingEnabled = true;
-            this.cbSchema.Location = new System.Drawing.Point(255, 6);
+            this.cbSchema.Location = new System.Drawing.Point(255, 35);
             this.cbSchema.Name = "cbSchema";
             this.cbSchema.Size = new System.Drawing.Size(167, 21);
             this.cbSchema.TabIndex = 24;
@@ -727,11 +729,35 @@
             this.pbStatus.TabIndex = 20;
             this.pbStatus.Text = ".  .  .";
             // 
+            // txtLink
+            // 
+            this.txtLink.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtLink.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtLink.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtLink.Location = new System.Drawing.Point(336, 70);
+            this.txtLink.Name = "txtLink";
+            this.txtLink.ReadOnly = true;
+            this.txtLink.Size = new System.Drawing.Size(128, 22);
+            this.txtLink.TabIndex = 23;
+            // 
+            // lbExtendedDownloaderLink
+            // 
+            this.lbExtendedDownloaderLink.AutoSize = true;
+            this.lbExtendedDownloaderLink.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbExtendedDownloaderLink.Location = new System.Drawing.Point(333, 58);
+            this.lbExtendedDownloaderLink.Name = "lbExtendedDownloaderLink";
+            this.lbExtendedDownloaderLink.Size = new System.Drawing.Size(26, 13);
+            this.lbExtendedDownloaderLink.TabIndex = 22;
+            this.lbExtendedDownloaderLink.Text = "Link";
+            // 
             // frmExtendedDownload
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(474, 495);
+            this.Controls.Add(this.txtLink);
+            this.Controls.Add(this.lbExtendedDownloaderLink);
             this.Controls.Add(this.chkDownloaderCloseAfterDownload);
             this.Controls.Add(this.txtViews);
             this.Controls.Add(this.txtUploader);
@@ -839,5 +865,7 @@
         private System.Windows.Forms.CheckBox chkDownloaderCloseAfterDownload;
         private System.Windows.Forms.ColumnHeader chVideoFormatId;
         private System.Windows.Forms.ColumnHeader chAudioFormatId;
+        private System.Windows.Forms.TextBox txtLink;
+        private System.Windows.Forms.Label lbExtendedDownloaderLink;
     }
 }

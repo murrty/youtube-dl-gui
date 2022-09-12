@@ -100,6 +100,12 @@
       <Link>Controls\Shared\NativeMethods.cs</Link>
     </Compile>
     <Compile Include="CopyData\UpdaterData.cs" />
+    <Compile Include="Forms\frmArchiveDownloader.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmArchiveDownloader.Designer.cs">
+      <DependentUpon>frmArchiveDownloader.cs</DependentUpon>
+    </Compile>
     <Compile Include="Log\Exceptions\ApiParsingException.cs" />
     <Compile Include="Log\Natives\DwmComposition.cs" />
     <Compile Include="Classes\Extensions.cs" />
@@ -285,6 +291,9 @@
     <Compile Include="Runtime\Range.cs" />
     <EmbeddedResource Include="Forms\frmAbout.resx">
       <DependentUpon>frmAbout.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmArchiveDownloader.resx">
+      <DependentUpon>frmArchiveDownloader.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmAuthentication.resx">
       <DependentUpon>frmAuthentication.cs</DependentUpon>

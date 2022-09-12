@@ -174,9 +174,8 @@ namespace youtube_dl_gui {
             }
 
             #region URL cleaning
+            CurrentDownload.DownloadURL.Trim('\\', '"', '\n', '\r', '\t', '\0', '\b', '\'');
             if (!CurrentDownload.DownloadURL.StartsWith("https://")) {
-                CurrentDownload.DownloadURL.Trim('\\', '"', '\n', '\r', '\t', '\0', '\b', '\'');
-
                 if (CurrentDownload.DownloadURL.StartsWith("http://")) {
                     CurrentDownload.DownloadURL = "https" + CurrentDownload.DownloadURL[4..];
                 }
@@ -220,10 +219,10 @@ namespace youtube_dl_gui {
             }
 
             if (Config.Settings.Downloads.separateIntoWebsiteURL) {
-                OutputDirectory.Append($"\\{DownloadHelper.GetUrlBase(CurrentDownload.DownloadURL)}");
+                OutputDirectory.Append($"\\{DownloadHelper.GetUrlBase(CurrentDownload.DownloadURL, CurrentDownload.MostlyCustomArguments)}");
             }
 
-            if (Config.Settings.Downloads.separateDownloads) {
+            if (Config.Settings.Downloads.separateDownloads && !CurrentDownload.MostlyCustomArguments) {
                 switch (CurrentDownload.Type) {
                     case DownloadType.Video:
                         OutputDirectory.Append("\\Video");
@@ -247,8 +246,9 @@ namespace youtube_dl_gui {
             else {
                 OutputDirectory.Append($"\\{CurrentDownload.FileNameSchema}\"");
             }
-
-            ArgumentsBuffer.Append($"{CurrentDownload.DownloadURL} -o {OutputDirectory}");
+            if (!CurrentDownload.MostlyCustomArguments) {
+                ArgumentsBuffer.Append($"{CurrentDownload.DownloadURL} -o {OutputDirectory}");
+            }
             rtbConsoleOutput.AppendText("The output was generated and will be used\n");
             #endregion
 
@@ -285,8 +285,13 @@ namespace youtube_dl_gui {
                 } break;
                 case DownloadType.Custom: {
                     rtbConsoleOutput.AppendText("Custom was requested, skipping quality + format");
-                    if (!string.IsNullOrWhiteSpace(CurrentDownload.DownloadArguments)) {
-                        ArgumentsBuffer.Append($" {CurrentDownload.DownloadArguments}");
+                    if (CurrentDownload.MostlyCustomArguments) {
+                        ArgumentsBuffer = new($"{CurrentDownload.DownloadArguments} -o \"{OutputDirectory}\"");
+                    }
+                    else {
+                        if (!string.IsNullOrWhiteSpace(CurrentDownload.DownloadArguments)) {
+                            ArgumentsBuffer.Append($" {CurrentDownload.DownloadArguments}");
+                        }
                     }
                 } break;
                 default: {
@@ -433,30 +438,32 @@ namespace youtube_dl_gui {
             // the preview arguments won't include it in case anyone creates an issue.
             PreviewArguments = new(ArgumentsBuffer.ToString());
 
-            if (CurrentDownload.AuthUsername is not null) {
-                ArgumentsBuffer.Append($" --username {CurrentDownload.AuthUsername}");
-                CurrentDownload.AuthUsername = null;
-                PreviewArguments.Append(" --username ***");
-            }
-            if (CurrentDownload.AuthPassword is not null) {
-                ArgumentsBuffer.Append($" --password {CurrentDownload.AuthPassword}");
-                CurrentDownload.AuthPassword = null;
-                PreviewArguments.Append(" --password ***");
-            }
-            if (CurrentDownload.Auth2Factor is not null) {
-                ArgumentsBuffer.Append($" --twofactor {CurrentDownload.Auth2Factor}");
-                CurrentDownload.Auth2Factor = null;
-                PreviewArguments.Append(" --twofactor ***");
-            }
-            if (CurrentDownload.AuthVideoPassword is not null) {
-                ArgumentsBuffer.Append($" --video-password {CurrentDownload.AuthVideoPassword}");
-                CurrentDownload.AuthVideoPassword = null;
-                PreviewArguments.Append(" --video-password ***");
-            }
-            if (CurrentDownload.AuthNetrc) {
-                CurrentDownload.AuthNetrc = false;
-                ArgumentsBuffer.Append(" --netrc");
-                PreviewArguments.Append(" --netrc ***");
+            if (!CurrentDownload.MostlyCustomArguments) {
+                if (CurrentDownload.AuthUsername is not null) {
+                    ArgumentsBuffer.Append($" --username {CurrentDownload.AuthUsername}");
+                    CurrentDownload.AuthUsername = null;
+                    PreviewArguments.Append(" --username ***");
+                }
+                if (CurrentDownload.AuthPassword is not null) {
+                    ArgumentsBuffer.Append($" --password {CurrentDownload.AuthPassword}");
+                    CurrentDownload.AuthPassword = null;
+                    PreviewArguments.Append(" --password ***");
+                }
+                if (CurrentDownload.Auth2Factor is not null) {
+                    ArgumentsBuffer.Append($" --twofactor {CurrentDownload.Auth2Factor}");
+                    CurrentDownload.Auth2Factor = null;
+                    PreviewArguments.Append(" --twofactor ***");
+                }
+                if (CurrentDownload.AuthVideoPassword is not null) {
+                    ArgumentsBuffer.Append($" --video-password {CurrentDownload.AuthVideoPassword}");
+                    CurrentDownload.AuthVideoPassword = null;
+                    PreviewArguments.Append(" --video-password ***");
+                }
+                if (CurrentDownload.AuthNetrc) {
+                    CurrentDownload.AuthNetrc = false;
+                    ArgumentsBuffer.Append(" --netrc");
+                    PreviewArguments.Append(" --netrc ***");
+                }
             }
             #endregion
 

@@ -6,7 +6,6 @@ using System.IO;
 using System.Net;
 using System.Runtime.Serialization;
 
-
 /// <summary>
 /// Class used for information relating to the video.
 /// </summary>
@@ -116,6 +115,31 @@ internal sealed class DownloaderData {
         return Image.FromStream(Stream);
     }
 
+    [IgnoreDataMember]
+    public string Duration {
+        get {
+            if (DurationTime is not null) {
+                int hours = 0;
+                int minutes = 0;
+                long seconds = DurationTime.Value;
+
+                while (seconds >= 60) {
+                    minutes++;
+                    seconds -= 60;
+                }
+
+                while (minutes >= 60) {
+                    hours++;
+                    minutes -= 60;
+                }
+
+                return $"{(hours > 0 ? $"{hours:N0}:{minutes:00.##}" : $"{minutes}")}:{seconds:00.##}";
+            }
+
+            return DurationString.IsNullEmptyWhitespace() ? "???" : DurationString;
+        }
+    }
+
     [DataMember(Name = "title")]
     public string Title { get; set; }
 
@@ -135,12 +159,15 @@ internal sealed class DownloaderData {
     public long? Views { get; set; }
 
     [DataMember(Name = "duration_string")]
-    public string Duration { get; set; }
+    public string DurationString { get; set; }
+
+    [DataMember(Name = "duration")]
+    public long? DurationTime { get; set; }
 
     [DataContract(Name = "formats")]
     public class Format {
 
-        public bool ValidVideoFormat() =>
+        public bool ValidVideoFormat =>
             Extension.ToLower() switch {
                 "mhtml" => false,
                 _ => true,

@@ -253,6 +253,7 @@ namespace youtube_dl_gui {
             mTools.Text = Language.mTools;
             mBatchDownload.Text = Language.mBatchDownload;
             mBatchConverter.Text = Language.mBatchConvert;
+            mArchiveDownloader.Text = Language.mArchiveDownloader;
             mMerger.Text = Language.tabMerge;
             mDownloadSubtitles.Text = Language.mDownloadSubtitles;
             mMiscTools.Text = Language.mMiscTools;
@@ -492,6 +493,10 @@ namespace youtube_dl_gui {
             frmBatchConverter BatchConvert = new();
             BatchConvert.Show();
         }
+        private void mArchiveDownloader_Click(object sender, EventArgs e) {
+            using frmArchiveDownloader ArchiveDownloader = new();
+            ArchiveDownloader.ShowDialog();
+        }
         private void mMerger_Click(object sender, EventArgs e) {
             frmMerger MergeForm = new();
             MergeForm.Show();
@@ -512,14 +517,14 @@ namespace youtube_dl_gui {
         }
 
         private void mLanguage_Click(object sender, EventArgs e) {
-            using frmLanguage language = new();
-            switch (language.ShowDialog()) {
+            using frmLanguage LangPicker = new();
+            switch (LangPicker.ShowDialog()) {
                 case DialogResult.Yes:
-                    if (language.LanguageFile == null) {
+                    if (LangPicker.LanguageFile == null) {
                         Config.Settings.Initialization.LanguageFile = string.Empty;
                     }
                     else {
-                        Config.Settings.Initialization.LanguageFile = language.LanguageFile;
+                        Config.Settings.Initialization.LanguageFile = LangPicker.LanguageFile;
                     }
                     Config.Settings.Initialization.Save();
                     LoadLanguage();
@@ -977,7 +982,7 @@ namespace youtube_dl_gui {
             BatchThread.Start();
         }
         private void mQuickDownloadForm_Click(object sender, EventArgs e) {
-            Download();
+            StartDownload(false);
         }
         private void mQuickDownloadFormAuthentication_Click(object sender, EventArgs e) {
             StartDownload(true);

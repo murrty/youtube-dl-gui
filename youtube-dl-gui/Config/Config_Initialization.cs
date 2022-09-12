@@ -3,13 +3,13 @@
 internal class Config_Initialization {
     public string LanguageFile = string.Empty;
     public bool firstTime = true;
-    public updater.Version SkippedVersion = updater.Version.Empty;
-    public updater.Version SkippedBetaVersion = updater.Version.Empty;
+    public Version SkippedVersion = Version.Empty;
+    public Version SkippedBetaVersion = Version.Empty;
 
     private string fLanguageFile = string.Empty;
     private bool ffirstTime = true;
-    private updater.Version fSkippedVersion = updater.Version.Empty;
-    private updater.Version fSkippedBetaVersion = updater.Version.Empty;
+    private Version fSkippedVersion = Version.Empty;
+    private Version fSkippedBetaVersion = Version.Empty;
 
     public void Load() {
         if (Ini.KeyExists("firstTime")) {
@@ -21,12 +21,12 @@ internal class Config_Initialization {
         }
 
         if (Ini.KeyExists("SkippedVersion")) {
-            if (updater.Version.TryParse(Ini.ReadString("SkippedVersion"), out SkippedVersion)) {
+            if (Version.TryParse(Ini.ReadString("SkippedVersion"), out SkippedVersion)) {
                 fSkippedVersion = SkippedVersion;
             }
         }
         if (Ini.KeyExists("SkippedBetaVersion")) {
-            if (updater.Version.TryParse(Ini.ReadString("SkippedBetaVersion"), out SkippedBetaVersion)) {
+            if (Version.TryParse(Ini.ReadString("SkippedBetaVersion"), out SkippedBetaVersion)) {
                 fSkippedBetaVersion = SkippedBetaVersion;
             }
         }

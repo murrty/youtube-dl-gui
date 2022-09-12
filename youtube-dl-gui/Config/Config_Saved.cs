@@ -27,6 +27,7 @@ internal class Config_Saved {
     public Point MainFormLocation = Config.InvalidPoint;
     public Point ExtendedDownloaderLocation = Config.InvalidPoint;
     public Size ExtendedDownloaderSize = Size.Empty;
+    public Point ArchiveDownloaderLocation = Config.InvalidPoint;
 
     private int fdownloadType = 0;
     private int fconvertSaveVideoIndex = 0;
@@ -49,6 +50,7 @@ internal class Config_Saved {
     private Point fMainFormLocation = Config.InvalidPoint;
     private Point fExtendedDownloaderLocation = Config.InvalidPoint;
     private Size fExtendedDownloaderSize = Size.Empty;
+    public Point fArchiveDownloaderLocation = Config.InvalidPoint;
     #endregion
 
     public void Load() {
@@ -117,6 +119,9 @@ internal class Config_Saved {
         }
         if (Ini.KeyExists("ExtendedDownloaderSize", ConfigName)) {
             ExtendedDownloaderSize = fExtendedDownloaderSize = Ini.ReadSize("ExtendedDownloaderSize", ConfigName);
+        }
+        if (Ini.KeyExists("ArchiveDownloaderLocation", ConfigName)) {
+            ArchiveDownloaderLocation = fArchiveDownloaderLocation = Ini.ReadPoint("ArchiveDownloaderLocation", ConfigName);
         }
     }
 
@@ -204,6 +209,10 @@ internal class Config_Saved {
         if (ExtendedDownloaderSize != fExtendedDownloaderSize) {
             Ini.Write("ExtendedDownloaderSize", ExtendedDownloaderSize, ConfigName);
             fExtendedDownloaderSize = ExtendedDownloaderSize;
+        }
+        if (ArchiveDownloaderLocation != fArchiveDownloaderLocation) {
+            Ini.Write("ArchiveDownloaderLocation", ArchiveDownloaderLocation, ConfigName);
+            fArchiveDownloaderLocation = ArchiveDownloaderLocation;
         }
     }
 }

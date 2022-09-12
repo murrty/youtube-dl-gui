@@ -17,6 +17,10 @@ public sealed class DownloadInfo {
     /// The file-name schema of the download.
     /// </summary>
     public string FileNameSchema = null;
+    /// <summary>
+    /// Whether the arguments are full custom, excepting for output.
+    /// </summary>
+    public bool MostlyCustomArguments = false;
 
     /// <summary>
     /// The type of the download.

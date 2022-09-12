@@ -104,6 +104,7 @@
             this.mTools = new System.Windows.Forms.MenuItem();
             this.mBatchDownload = new System.Windows.Forms.MenuItem();
             this.mBatchConverter = new System.Windows.Forms.MenuItem();
+            this.mMerger = new System.Windows.Forms.MenuItem();
             this.mDownloadSubtitles = new System.Windows.Forms.MenuItem();
             this.mMiscTools = new System.Windows.Forms.MenuItem();
             this.mToolsSeparator = new System.Windows.Forms.MenuItem();
@@ -137,7 +138,7 @@
             this.cmTraySep = new System.Windows.Forms.MenuItem();
             this.cmTrayExit = new System.Windows.Forms.MenuItem();
             this.trayIcon = new System.Windows.Forms.NotifyIcon(this.components);
-            this.mMerger = new System.Windows.Forms.MenuItem();
+            this.mArchiveDownloader = new System.Windows.Forms.MenuItem();
             this.tcMain.SuspendLayout();
             this.tabDownload.SuspendLayout();
             this.gbSelection.SuspendLayout();
@@ -1054,6 +1055,7 @@
             this.mTools.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.mBatchDownload,
             this.mBatchConverter,
+            this.mArchiveDownloader,
             this.mMerger,
             this.mDownloadSubtitles,
             this.mMiscTools,
@@ -1074,33 +1076,39 @@
             this.mBatchConverter.Text = "mBatchConverter";
             this.mBatchConverter.Click += new System.EventHandler(this.mBatchConverter_Click);
             // 
+            // mMerger
+            // 
+            this.mMerger.Index = 3;
+            this.mMerger.Text = "mMerger";
+            this.mMerger.Click += new System.EventHandler(this.mMerger_Click);
+            // 
             // mDownloadSubtitles
             // 
-            this.mDownloadSubtitles.Index = 3;
+            this.mDownloadSubtitles.Index = 4;
             this.mDownloadSubtitles.Text = "mDownloadSubtitles";
             this.mDownloadSubtitles.Click += new System.EventHandler(this.mDownloadSubtitles_Click);
             // 
             // mMiscTools
             // 
-            this.mMiscTools.Index = 4;
+            this.mMiscTools.Index = 5;
             this.mMiscTools.Text = "mMiscTools";
             this.mMiscTools.Click += new System.EventHandler(this.mMiscTools_Click);
             // 
             // mToolsSeparator
             // 
-            this.mToolsSeparator.Index = 5;
+            this.mToolsSeparator.Index = 6;
             this.mToolsSeparator.Text = "-";
             // 
             // mClipboardAutoDownload
             // 
-            this.mClipboardAutoDownload.Index = 6;
+            this.mClipboardAutoDownload.Index = 7;
             this.mClipboardAutoDownload.Text = "mClipboardAutoDownload";
             this.mClipboardAutoDownload.Click += new System.EventHandler(this.mClipboardAutoDownload_Click);
             // 
             // mClipboardAutoDownloadVerifyLinks
             // 
             this.mClipboardAutoDownloadVerifyLinks.Enabled = false;
-            this.mClipboardAutoDownloadVerifyLinks.Index = 7;
+            this.mClipboardAutoDownloadVerifyLinks.Index = 8;
             this.mClipboardAutoDownloadVerifyLinks.Text = "GenericVerifyLinks";
             this.mClipboardAutoDownloadVerifyLinks.Click += new System.EventHandler(this.mClipboardAutoDownloadVerifyLinks_Click);
             // 
@@ -1294,11 +1302,11 @@
             this.trayIcon.BalloonTipTitle = "Unseen easter egg";
             this.trayIcon.Text = "youtube-dl-gui";
             // 
-            // mMerger
+            // mArchiveDownloader
             // 
-            this.mMerger.Index = 2;
-            this.mMerger.Text = "mMerger";
-            this.mMerger.Click += new System.EventHandler(this.mMerger_Click);
+            this.mArchiveDownloader.Index = 2;
+            this.mArchiveDownloader.Text = "mArchiveDownloader";
+            this.mArchiveDownloader.Click += new System.EventHandler(this.mArchiveDownloader_Click);
             // 
             // frmMain
             // 
@@ -1454,6 +1462,7 @@
         private System.Windows.Forms.MenuItem mExtendedDownloadForm;
         private System.Windows.Forms.MenuItem mQuickDownloadFormAuthentication;
         private System.Windows.Forms.MenuItem mMerger;
+        private System.Windows.Forms.MenuItem mArchiveDownloader;
     }
 }
 

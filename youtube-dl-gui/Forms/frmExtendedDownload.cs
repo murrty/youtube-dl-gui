@@ -7,6 +7,9 @@ using System.Windows.Forms;
 namespace youtube_dl_gui {
     public partial class frmExtendedDownload : Form {
 
+        // Download specific times: yt-dlp -i --download-sections "*00:00:00-00:00:10"
+        // Download from archive: yt-dlp ytarchive:<ID> (needs filtering)
+
         private DownloaderData Information;
         private DownloaderData.Format VideoFormat;
         private DownloaderData.Format AudioFormat;
@@ -26,6 +29,7 @@ namespace youtube_dl_gui {
             InitializeComponent();
             LoadLanguage();
             this.URL = URL;
+            txtLink.Text = URL;
 
             if (!Program.DebugMode) {
                 tcVideoData.TabPages.Remove(tpDebug);
@@ -77,13 +81,13 @@ namespace youtube_dl_gui {
                 try {
                     Information = DownloaderData.GenerateData(URL, out Retrieved);
                     if (Information is null || Information.AvailableFormats.Length == 0)
-                        throw new NullReferenceException("VideoInformation Information is null.");
+                        throw new NullReferenceException("The video data is null, it may not be available for download.");
 
                     DownloaderData.Format Format;
                     for (int i = Information.AvailableFormats.Length; i > 0; i--) {
                         Format = Information.AvailableFormats[i - 1];
 
-                        if (Format.VideoWidth > 0 && Format.VideoHeight > 0 && Format.ValidVideoFormat()) {
+                        if (Format.VideoWidth > 0 && Format.VideoHeight > 0 && Format.ValidVideoFormat) {
                             string LegibleQualityName = Format.QualityName.IsNotNullEmptyWhitespace() ? Format.QualityName : "?";
                             string Dimensions = $"{Format.VideoWidth}x{Format.VideoHeight}";
                             string Bitrate = Format.VideoBitrate is not null && Format.VideoBitrate > 0 ? $"{Format.VideoBitrate}Kbps" : "?";
@@ -91,8 +95,8 @@ namespace youtube_dl_gui {
                             string Frames = Format.VideoFps is not null && Format.VideoFps > 0 ? $"{Format.VideoFps}" : "?";
                             string Codec = Format.VideoCodec.IsNotNullEmptyWhitespace() && Format.VideoCodec != "none" ? Format.VideoCodec : "Unknown";
                             string FileSize = Format.FileSize is not null ?
-                                ((long)Format.FileSize).SizeToString() : Format.ApproximateFileSize is not null ?
-                                ((long)Format.ApproximateFileSize).SizeToString() : "?B";
+                                Format.FileSize.Value.SizeToString() : Format.ApproximateFileSize is not null ?
+                                Format.ApproximateFileSize.Value.SizeToString() : "?B";
 
                             ListViewItem NewFormat = new(LegibleQualityName);
                             NewFormat.SubItems.Add(Frames);
@@ -142,7 +146,7 @@ namespace youtube_dl_gui {
                         txtMediaTitle.Text = Information.Title;
                         rtbMediaDescription.Text = Information.Description;
                         txtUploader.Text = Information.Uploader;
-                        txtViews.Text = $"{(Information.Views is not null ? ((long)Information.Views).ToString("#,000") : "Unknown")}";
+                        txtViews.Text = $"{(Information.Views is not null ? Information.Views.Value.ToString("#,000") : "Unknown")}";
                         lbTimestamp.Text = Information.Duration;
                         tcVideoData.Enabled = true;
 
@@ -216,6 +220,7 @@ namespace youtube_dl_gui {
 
         private void LoadLanguage() {
             this.Text = Language.frmExtendedDownloaderRetrieving.Format(Language.ApplicationName);
+            lbExtendedDownloaderLink.Text = Language.lbExtendedDownloaderLink;
             lbExtendedDownloaderUploader.Text = Language.lbExtendedDownloaderUploader;
             lbExtendedDownloaderViews.Text = Language.lbExtendedDownloaderViews;
             btnExtendedDownloaderDownloadThumbnail.Text = Language.btnExtendedDownloaderDownloadThumbnail;
@@ -281,8 +286,14 @@ namespace youtube_dl_gui {
                 Config.Settings.Downloads.downloadPath.StartsWith("./") || Config.Settings.Downloads.downloadPath.StartsWith(".\\") ?
                     $"{Program.ProgramPath}\\{Config.Settings.Downloads.downloadPath[2..]}" : Config.Settings.Downloads.downloadPath);
 
-            if (Config.Settings.Downloads.separateIntoWebsiteURL)
-                ArgumentBuffer.Append($"\\{DownloadHelper.GetUrlBase(URL)}");
+            if (Config.Settings.Downloads.separateIntoWebsiteURL) {
+                if (URL.ToLower().StartsWith("ytarchive:")) {
+                    ArgumentBuffer.Append($"\\archived.youtube.com");
+                }
+                else {
+                    ArgumentBuffer.Append($"\\{DownloadHelper.GetUrlBase(URL)}");
+                }
+            }
 
             if (Config.Settings.Downloads.separateDownloads)
                 ArgumentBuffer.Append(rbAudio.Checked ? "\\Audio" : rbCustom.Checked ? "\\Custom" : "\\Video");

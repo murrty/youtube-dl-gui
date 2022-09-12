@@ -3,7 +3,7 @@ using System.Windows.Forms;
 
 namespace youtube_dl_gui {
     public partial class frmLanguage : Form {
-        public string LanguageFile = null;
+        public string LanguageFile { get; private set; } = null;
 
         public frmLanguage() {
             InitializeComponent();
@@ -14,8 +14,7 @@ namespace youtube_dl_gui {
         }
 
         public void LoadLanguage() {
-
-            if (!Config.Settings.Initialization.firstTime) {
+            if (Config.Settings.Initialization.firstTime) {
                 this.Text = Language.InternalEnglish.frmLanguage;
                 btnLanguageRefresh.Text = Language.InternalEnglish.btnLanguageRefresh;
                 btnLanguageCancel.Text = Language.InternalEnglish.GenericCancel;
@@ -33,21 +32,19 @@ namespace youtube_dl_gui {
                 btnLanguageDownload.Text = Language.btnLanguageDownload;
 
                 lbCurrentLanguageShort.Text = Language.CurrentLanguageShort;
-                ttLanguage.SetToolTip(lbCurrentLanguageShort, $"{Language.CurrentLanguageLong} ({Language.CurrentLanguageShort})\nLang version {Language.CurrentLanguageVersion}");
+                ttLanguage.SetToolTip(lbCurrentLanguageShort, $"{Language.CurrentLanguageLong} ({Language.CurrentLanguageShort})\nv{Language.CurrentLanguageVersion}");
             }
         }
 
         public void LoadFiles() {
             if (Directory.Exists(Environment.CurrentDirectory + "\\lang\\")) {
-                List<string> Files = new();
                 DirectoryInfo LangFolder = new(Environment.CurrentDirectory + "\\lang\\");
                 FileInfo[] LangFiles = LangFolder.GetFiles("*.ini");
-                foreach (FileInfo File in LangFiles) {
-                    Files.Add(File.Name[0..^4]);
-                }
                 cbLanguages.Items.Clear();
                 cbLanguages.Items.Add("English (Internal)");
-                cbLanguages.Items.AddRange(Files.ToArray());
+                foreach (FileInfo File in LangFiles) {
+                    cbLanguages.Items.Add(File.Name[0..^4]);
+                }
             }
         }
 
@@ -62,7 +59,7 @@ namespace youtube_dl_gui {
         private void btnLanguageSave_Click(object sender, EventArgs e) {
             if (cbLanguages.SelectedIndex > 0) {
                 LanguageFile = cbLanguages.GetItemText(cbLanguages.SelectedItem);
-                Language.LoadLanguage(Program.ProgramPath + "\\lang\\" + LanguageFile + ".ini");
+                Language.LoadLanguage($"{Program.ProgramPath}\\lang\\{LanguageFile}.ini");
             }
             else {
                 LanguageFile = string.Empty;

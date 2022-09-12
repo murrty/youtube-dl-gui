@@ -41,7 +41,7 @@ public class DownloadHelper {
 
     public static bool IsReddit(string Url) => Regex.IsMatch(Url, LinkRegularExpression[2], RegexOptions.Compiled);
 
-    public static string GetUrlBase(string Url) {
+    public static string GetUrlBase(string Url, bool OverrideSubdomain = false) {
         if (Url.StartsWith("https://")) {
             if (Url.StartsWith("https://www."))
                 Url = Url[12..];
@@ -61,7 +61,7 @@ public class DownloadHelper {
 
         Url = Url.Split('/')[0];
 
-        if (!Config.Settings.Downloads.SubdomainFolderNames) {
+        if (!OverrideSubdomain && !Config.Settings.Downloads.SubdomainFolderNames) {
             if (Url.IndexOf('.') != Url.LastIndexOf('.')) {
                 Url = Url[(Url.IndexOf('.') + 1)..];
             }

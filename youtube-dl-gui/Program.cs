@@ -139,20 +139,16 @@ namespace youtube_dl_gui {
 
                     if (MessageBox.Show(Language.dlgFirstTimeInitialMessage, "youtube-dl-gui", MessageBoxButtons.YesNo) == DialogResult.Yes) {
                         Config.Settings.Initialization.firstTime = false;
+                        Config.Settings.Downloads.downloadPath =
+                            Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Downloads\\youtube-dl";
 
                         if (MessageBox.Show(Language.dlgFirstTimeDownloadFolder, "youtube-dl-gui", MessageBoxButtons.YesNo) == DialogResult.Yes) {
                             using BetterFolderBrowserNS.BetterFolderBrowser fbd = new();
                             fbd.Title = Language.dlgFindDownloadFolder;
-                            fbd.RootFolder = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Downloads";
+                            fbd.RootFolder = Config.Settings.Downloads.downloadPath;
                             if (fbd.ShowDialog() == DialogResult.OK) {
                                 Config.Settings.Downloads.downloadPath = fbd.SelectedPath;
                             }
-                            else {
-                                Config.Settings.Downloads.downloadPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Downloads";
-                            }
-                        }
-                        else {
-                            Config.Settings.Downloads.downloadPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Downloads";
                         }
 
                         Config.Settings.Initialization.Save();
@@ -164,12 +160,7 @@ namespace youtube_dl_gui {
                 }
                 else {
                     Config.Settings.Load(ConfigType.All);
-                    if (Config.Settings.Initialization.LanguageFile != string.Empty && File.Exists(Environment.CurrentDirectory + "\\lang\\" + Config.Settings.Initialization.LanguageFile + ".ini")) {
-                        Language.LoadLanguage(Environment.CurrentDirectory + "\\lang\\" + Config.Settings.Initialization.LanguageFile + ".ini");
-                    }
-                    else {
-                        Language.LoadInternalEnglish();
-                    }
+                    Language.LoadLanguage($"{Environment.CurrentDirectory}\\lang\\{Config.Settings.Initialization.LanguageFile}.ini");
                 }
 
                 Verification.Refresh();
