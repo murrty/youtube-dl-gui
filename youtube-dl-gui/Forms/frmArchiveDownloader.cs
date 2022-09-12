@@ -71,6 +71,12 @@ public partial class frmArchiveDownloader : Form {
                 if (URL.Length > 11) {
                     URL = URL[..11];
                 }
+
+                if (!new Regex(@"^[a-zA-Z0-9-_]{11}$").IsMatch(txtArchiveDownloaderHint.Text)) {
+                    txtArchiveDownloaderHint.Focus();
+                    System.Media.SystemSounds.Exclamation.Play();
+                    return;
+                }
             }
         }
         else {
