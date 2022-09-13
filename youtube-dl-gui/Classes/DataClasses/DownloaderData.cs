@@ -73,7 +73,7 @@ internal sealed class DownloaderData {
         return null;
     }
     public Image GetThumbnail() {
-        if (Config.Settings.Downloads.YtdlType != 2) {
+        if (Config.Settings.Downloads.YtdlType != 0) {
             return null;
         }
 
