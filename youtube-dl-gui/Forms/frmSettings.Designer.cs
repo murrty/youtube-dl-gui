@@ -41,17 +41,17 @@
             this.chkSettingsGeneralCheckForUpdatesOnLaunch = new System.Windows.Forms.CheckBox();
             this.tcExternalApplications = new System.Windows.Forms.TabControl();
             this.tabSettingsGeneralYoutubeDl = new System.Windows.Forms.TabPage();
-            this.btnSettingsGeneralBrowseFFmpeg = new System.Windows.Forms.Button();
-            this.lbSettingsGeneralYoutubeDlPath = new System.Windows.Forms.Label();
-            this.txtSettingsGeneralYoutubeDlPath = new murrty.controls.ExtendedTextBox();
-            this.lbSettingsGeneralFFmpegDirectory = new System.Windows.Forms.Label();
-            this.txtSettingsGeneralFFmpegPath = new murrty.controls.ExtendedTextBox();
-            this.chkSettingsGeneralUseStaticFFmpeg = new System.Windows.Forms.CheckBox();
             this.chkSettingsGeneralUseStaticYoutubeDl = new System.Windows.Forms.CheckBox();
+            this.lbSettingsGeneralYoutubeDlPath = new System.Windows.Forms.Label();
+            this.btnSettingsRedownloadYoutubeDl = new System.Windows.Forms.Button();
+            this.txtSettingsGeneralYoutubeDlPath = new murrty.controls.ExtendedTextBox();
             this.btnSettingsGeneralBrowseYoutubeDl = new System.Windows.Forms.Button();
             this.tabSettingsGeneralFfmpeg = new System.Windows.Forms.TabPage();
+            this.chkSettingsGeneralUseStaticFFmpeg = new System.Windows.Forms.CheckBox();
+            this.btnSettingsGeneralBrowseFFmpeg = new System.Windows.Forms.Button();
             this.btnSettingsRedownloadFfmpeg = new System.Windows.Forms.Button();
-            this.btnSettingsRedownloadYoutubeDl = new System.Windows.Forms.Button();
+            this.txtSettingsGeneralFFmpegPath = new murrty.controls.ExtendedTextBox();
+            this.lbSettingsGeneralFFmpegDirectory = new System.Windows.Forms.Label();
             this.tabSettingsDownloads = new System.Windows.Forms.TabPage();
             this.chkSettingsDownloadsDownloadPathUseRelativePath = new System.Windows.Forms.CheckBox();
             this.tabDownloads = new System.Windows.Forms.TabControl();
@@ -396,17 +396,17 @@
             this.tabSettingsGeneralYoutubeDl.Text = "tabSettingsGeneralYoutubeDl";
             this.tabSettingsGeneralYoutubeDl.UseVisualStyleBackColor = true;
             // 
-            // btnSettingsGeneralBrowseFFmpeg
+            // chkSettingsGeneralUseStaticYoutubeDl
             // 
-            this.btnSettingsGeneralBrowseFFmpeg.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSettingsGeneralBrowseFFmpeg.Location = new System.Drawing.Point(252, 25);
-            this.btnSettingsGeneralBrowseFFmpeg.Name = "btnSettingsGeneralBrowseFFmpeg";
-            this.btnSettingsGeneralBrowseFFmpeg.Size = new System.Drawing.Size(33, 23);
-            this.btnSettingsGeneralBrowseFFmpeg.TabIndex = 8;
-            this.btnSettingsGeneralBrowseFFmpeg.Text = "...";
-            this.tipSettings.SetToolTip(this.btnSettingsGeneralBrowseFFmpeg, "btnBrwsFF");
-            this.btnSettingsGeneralBrowseFFmpeg.UseVisualStyleBackColor = true;
-            this.btnSettingsGeneralBrowseFFmpeg.Click += new System.EventHandler(this.btnSettingsGeneralBrowseFFmpeg_Click);
+            this.chkSettingsGeneralUseStaticYoutubeDl.AutoSize = true;
+            this.chkSettingsGeneralUseStaticYoutubeDl.Location = new System.Drawing.Point(105, 6);
+            this.chkSettingsGeneralUseStaticYoutubeDl.Name = "chkSettingsGeneralUseStaticYoutubeDl";
+            this.chkSettingsGeneralUseStaticYoutubeDl.Size = new System.Drawing.Size(225, 17);
+            this.chkSettingsGeneralUseStaticYoutubeDl.TabIndex = 2;
+            this.chkSettingsGeneralUseStaticYoutubeDl.Text = "chkSettingsGeneralUseStaticYoutubeDl";
+            this.tipSettings.SetToolTip(this.chkSettingsGeneralUseStaticYoutubeDl, "chkSettingsGeneralUseStaticYoutubeDl");
+            this.chkSettingsGeneralUseStaticYoutubeDl.UseVisualStyleBackColor = true;
+            this.chkSettingsGeneralUseStaticYoutubeDl.CheckedChanged += new System.EventHandler(this.chkSettingsGeneralUseStaticYoutubeDl_CheckedChanged);
             // 
             // lbSettingsGeneralYoutubeDlPath
             // 
@@ -417,6 +417,18 @@
             this.lbSettingsGeneralYoutubeDlPath.TabIndex = 1;
             this.lbSettingsGeneralYoutubeDlPath.Text = "lbSettingsGeneralYoutubeDlPath";
             this.tipSettings.SetToolTip(this.lbSettingsGeneralYoutubeDlPath, "lbSettingsGeneralYoutubeDlPath");
+            // 
+            // btnSettingsRedownloadYoutubeDl
+            // 
+            this.btnSettingsRedownloadYoutubeDl.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnSettingsRedownloadYoutubeDl.Location = new System.Drawing.Point(46, 55);
+            this.btnSettingsRedownloadYoutubeDl.Name = "btnSettingsRedownloadYoutubeDl";
+            this.btnSettingsRedownloadYoutubeDl.Size = new System.Drawing.Size(207, 23);
+            this.btnSettingsRedownloadYoutubeDl.TabIndex = 1;
+            this.btnSettingsRedownloadYoutubeDl.Text = "btnSettingsRedownloadYoutubeDl";
+            this.tipSettings.SetToolTip(this.btnSettingsRedownloadYoutubeDl, "btnSettingsRedownloadYoutubeDl");
+            this.btnSettingsRedownloadYoutubeDl.UseVisualStyleBackColor = true;
+            this.btnSettingsRedownloadYoutubeDl.Click += new System.EventHandler(this.btnSettingsRedownloadYoutubeDl_Click);
             // 
             // txtSettingsGeneralYoutubeDlPath
             // 
@@ -436,59 +448,6 @@
             this.txtSettingsGeneralYoutubeDlPath.Size = new System.Drawing.Size(233, 22);
             this.txtSettingsGeneralYoutubeDlPath.TabIndex = 3;
             this.tipSettings.SetToolTip(this.txtSettingsGeneralYoutubeDlPath, "txtYtdl");
-            // 
-            // lbSettingsGeneralFFmpegDirectory
-            // 
-            this.lbSettingsGeneralFFmpegDirectory.AutoSize = true;
-            this.lbSettingsGeneralFFmpegDirectory.Location = new System.Drawing.Point(2, 7);
-            this.lbSettingsGeneralFFmpegDirectory.Name = "lbSettingsGeneralFFmpegDirectory";
-            this.lbSettingsGeneralFFmpegDirectory.Size = new System.Drawing.Size(186, 13);
-            this.lbSettingsGeneralFFmpegDirectory.TabIndex = 2;
-            this.lbSettingsGeneralFFmpegDirectory.Text = "lbSettingsGeneralFFmpegDirectory";
-            this.tipSettings.SetToolTip(this.lbSettingsGeneralFFmpegDirectory, "lbSettingsGeneralFFmpegDirectory");
-            // 
-            // txtSettingsGeneralFFmpegPath
-            // 
-            this.txtSettingsGeneralFFmpegPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtSettingsGeneralFFmpegPath.ButtonAlignment = murrty.controls.ButtonAlignment.Left;
-            this.txtSettingsGeneralFFmpegPath.ButtonCursor = System.Windows.Forms.Cursors.Default;
-            this.txtSettingsGeneralFFmpegPath.ButtonFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtSettingsGeneralFFmpegPath.ButtonImageIndex = -1;
-            this.txtSettingsGeneralFFmpegPath.ButtonSize = new System.Drawing.Size(22, 21);
-            this.txtSettingsGeneralFFmpegPath.ButtonText = "";
-            this.txtSettingsGeneralFFmpegPath.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.txtSettingsGeneralFFmpegPath.Location = new System.Drawing.Point(13, 27);
-            this.txtSettingsGeneralFFmpegPath.Name = "txtSettingsGeneralFFmpegPath";
-            this.txtSettingsGeneralFFmpegPath.ReadOnly = true;
-            this.txtSettingsGeneralFFmpegPath.RegexPatterns = null;
-            this.txtSettingsGeneralFFmpegPath.Size = new System.Drawing.Size(233, 22);
-            this.txtSettingsGeneralFFmpegPath.TabIndex = 7;
-            this.tipSettings.SetToolTip(this.txtSettingsGeneralFFmpegPath, "txtFFmpeg");
-            // 
-            // chkSettingsGeneralUseStaticFFmpeg
-            // 
-            this.chkSettingsGeneralUseStaticFFmpeg.AutoSize = true;
-            this.chkSettingsGeneralUseStaticFFmpeg.Location = new System.Drawing.Point(105, 6);
-            this.chkSettingsGeneralUseStaticFFmpeg.Name = "chkSettingsGeneralUseStaticFFmpeg";
-            this.chkSettingsGeneralUseStaticFFmpeg.Size = new System.Drawing.Size(213, 17);
-            this.chkSettingsGeneralUseStaticFFmpeg.TabIndex = 6;
-            this.chkSettingsGeneralUseStaticFFmpeg.Text = "chkSettingsGeneralUseStaticFFmpeg";
-            this.tipSettings.SetToolTip(this.chkSettingsGeneralUseStaticFFmpeg, "chkSettingsGeneralUseStaticFFmpeg");
-            this.chkSettingsGeneralUseStaticFFmpeg.UseVisualStyleBackColor = true;
-            this.chkSettingsGeneralUseStaticFFmpeg.CheckedChanged += new System.EventHandler(this.chkSettingsGeneralUseStaticFFmpeg_CheckedChanged);
-            // 
-            // chkSettingsGeneralUseStaticYoutubeDl
-            // 
-            this.chkSettingsGeneralUseStaticYoutubeDl.AutoSize = true;
-            this.chkSettingsGeneralUseStaticYoutubeDl.Location = new System.Drawing.Point(105, 6);
-            this.chkSettingsGeneralUseStaticYoutubeDl.Name = "chkSettingsGeneralUseStaticYoutubeDl";
-            this.chkSettingsGeneralUseStaticYoutubeDl.Size = new System.Drawing.Size(225, 17);
-            this.chkSettingsGeneralUseStaticYoutubeDl.TabIndex = 2;
-            this.chkSettingsGeneralUseStaticYoutubeDl.Text = "chkSettingsGeneralUseStaticYoutubeDl";
-            this.tipSettings.SetToolTip(this.chkSettingsGeneralUseStaticYoutubeDl, "chkSettingsGeneralUseStaticYoutubeDl");
-            this.chkSettingsGeneralUseStaticYoutubeDl.UseVisualStyleBackColor = true;
-            this.chkSettingsGeneralUseStaticYoutubeDl.CheckedChanged += new System.EventHandler(this.chkSettingsGeneralUseStaticYoutubeDl_CheckedChanged);
             // 
             // btnSettingsGeneralBrowseYoutubeDl
             // 
@@ -517,6 +476,30 @@
             this.tabSettingsGeneralFfmpeg.Text = "tabSettingsGeneralFfmpeg";
             this.tabSettingsGeneralFfmpeg.UseVisualStyleBackColor = true;
             // 
+            // chkSettingsGeneralUseStaticFFmpeg
+            // 
+            this.chkSettingsGeneralUseStaticFFmpeg.AutoSize = true;
+            this.chkSettingsGeneralUseStaticFFmpeg.Location = new System.Drawing.Point(105, 6);
+            this.chkSettingsGeneralUseStaticFFmpeg.Name = "chkSettingsGeneralUseStaticFFmpeg";
+            this.chkSettingsGeneralUseStaticFFmpeg.Size = new System.Drawing.Size(213, 17);
+            this.chkSettingsGeneralUseStaticFFmpeg.TabIndex = 6;
+            this.chkSettingsGeneralUseStaticFFmpeg.Text = "chkSettingsGeneralUseStaticFFmpeg";
+            this.tipSettings.SetToolTip(this.chkSettingsGeneralUseStaticFFmpeg, "chkSettingsGeneralUseStaticFFmpeg");
+            this.chkSettingsGeneralUseStaticFFmpeg.UseVisualStyleBackColor = true;
+            this.chkSettingsGeneralUseStaticFFmpeg.CheckedChanged += new System.EventHandler(this.chkSettingsGeneralUseStaticFFmpeg_CheckedChanged);
+            // 
+            // btnSettingsGeneralBrowseFFmpeg
+            // 
+            this.btnSettingsGeneralBrowseFFmpeg.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSettingsGeneralBrowseFFmpeg.Location = new System.Drawing.Point(252, 25);
+            this.btnSettingsGeneralBrowseFFmpeg.Name = "btnSettingsGeneralBrowseFFmpeg";
+            this.btnSettingsGeneralBrowseFFmpeg.Size = new System.Drawing.Size(33, 23);
+            this.btnSettingsGeneralBrowseFFmpeg.TabIndex = 8;
+            this.btnSettingsGeneralBrowseFFmpeg.Text = "...";
+            this.tipSettings.SetToolTip(this.btnSettingsGeneralBrowseFFmpeg, "btnBrwsFF");
+            this.btnSettingsGeneralBrowseFFmpeg.UseVisualStyleBackColor = true;
+            this.btnSettingsGeneralBrowseFFmpeg.Click += new System.EventHandler(this.btnSettingsGeneralBrowseFFmpeg_Click);
+            // 
             // btnSettingsRedownloadFfmpeg
             // 
             this.btnSettingsRedownloadFfmpeg.Anchor = System.Windows.Forms.AnchorStyles.None;
@@ -529,17 +512,34 @@
             this.btnSettingsRedownloadFfmpeg.UseVisualStyleBackColor = true;
             this.btnSettingsRedownloadFfmpeg.Click += new System.EventHandler(this.btnSettingsRedownloadFfmpeg_Click);
             // 
-            // btnSettingsRedownloadYoutubeDl
+            // txtSettingsGeneralFFmpegPath
             // 
-            this.btnSettingsRedownloadYoutubeDl.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnSettingsRedownloadYoutubeDl.Location = new System.Drawing.Point(46, 55);
-            this.btnSettingsRedownloadYoutubeDl.Name = "btnSettingsRedownloadYoutubeDl";
-            this.btnSettingsRedownloadYoutubeDl.Size = new System.Drawing.Size(207, 23);
-            this.btnSettingsRedownloadYoutubeDl.TabIndex = 1;
-            this.btnSettingsRedownloadYoutubeDl.Text = "btnSettingsRedownloadYoutubeDl";
-            this.tipSettings.SetToolTip(this.btnSettingsRedownloadYoutubeDl, "btnSettingsRedownloadYoutubeDl");
-            this.btnSettingsRedownloadYoutubeDl.UseVisualStyleBackColor = true;
-            this.btnSettingsRedownloadYoutubeDl.Click += new System.EventHandler(this.btnSettingsRedownloadYoutubeDl_Click);
+            this.txtSettingsGeneralFFmpegPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtSettingsGeneralFFmpegPath.ButtonAlignment = murrty.controls.ButtonAlignment.Left;
+            this.txtSettingsGeneralFFmpegPath.ButtonCursor = System.Windows.Forms.Cursors.Default;
+            this.txtSettingsGeneralFFmpegPath.ButtonFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtSettingsGeneralFFmpegPath.ButtonImageIndex = -1;
+            this.txtSettingsGeneralFFmpegPath.ButtonSize = new System.Drawing.Size(22, 21);
+            this.txtSettingsGeneralFFmpegPath.ButtonText = "";
+            this.txtSettingsGeneralFFmpegPath.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.txtSettingsGeneralFFmpegPath.Location = new System.Drawing.Point(13, 27);
+            this.txtSettingsGeneralFFmpegPath.Name = "txtSettingsGeneralFFmpegPath";
+            this.txtSettingsGeneralFFmpegPath.ReadOnly = true;
+            this.txtSettingsGeneralFFmpegPath.RegexPatterns = null;
+            this.txtSettingsGeneralFFmpegPath.Size = new System.Drawing.Size(233, 22);
+            this.txtSettingsGeneralFFmpegPath.TabIndex = 7;
+            this.tipSettings.SetToolTip(this.txtSettingsGeneralFFmpegPath, "txtFFmpeg");
+            // 
+            // lbSettingsGeneralFFmpegDirectory
+            // 
+            this.lbSettingsGeneralFFmpegDirectory.AutoSize = true;
+            this.lbSettingsGeneralFFmpegDirectory.Location = new System.Drawing.Point(2, 7);
+            this.lbSettingsGeneralFFmpegDirectory.Name = "lbSettingsGeneralFFmpegDirectory";
+            this.lbSettingsGeneralFFmpegDirectory.Size = new System.Drawing.Size(186, 13);
+            this.lbSettingsGeneralFFmpegDirectory.TabIndex = 2;
+            this.lbSettingsGeneralFFmpegDirectory.Text = "lbSettingsGeneralFFmpegDirectory";
+            this.tipSettings.SetToolTip(this.lbSettingsGeneralFFmpegDirectory, "lbSettingsGeneralFFmpegDirectory");
             // 
             // tabSettingsDownloads
             // 
@@ -1038,9 +1038,11 @@
             this.cbSettingsDownloadsUpdatingYtdlType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbSettingsDownloadsUpdatingYtdlType.FormattingEnabled = true;
             this.cbSettingsDownloadsUpdatingYtdlType.Items.AddRange(new object[] {
-            "yt-dlp/yt-dlp",
+            "yt-dlp/yt-dlp (Default)",
             "ytdl-org/youtube-dl",
-            "blackjack4494/youtube-dlc"});
+            "blackjack4494/youtube-dlc",
+            "ytdl-patched/youtube-dl (nightly)",
+            "ytdl-patched/yt-dlp (nightly)"});
             this.cbSettingsDownloadsUpdatingYtdlType.Location = new System.Drawing.Point(9, 51);
             this.cbSettingsDownloadsUpdatingYtdlType.Name = "cbSettingsDownloadsUpdatingYtdlType";
             this.cbSettingsDownloadsUpdatingYtdlType.Size = new System.Drawing.Size(179, 21);

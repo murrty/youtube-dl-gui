@@ -125,6 +125,8 @@ namespace youtube_dl_gui.updater {
                 int TypeIndex = Config.Settings.Downloads.YtdlType switch {
                     1 => 1,
                     2 => 2,
+                    3 => 3,
+                    4 => 4,
                     _ => 0,
                 };
 
@@ -143,6 +145,8 @@ namespace youtube_dl_gui.updater {
                                 string FileName = $"{Program.ProgramPath}\\" + Config.Settings.Downloads.YtdlType switch {
                                     1 => "youtube-dl.exe",
                                     2 => "youtube-dlc.exe",
+                                    3 => "youtube-dl-n.exe",
+                                    4 => "yt-dlp-n.exe",
                                     _ => "yt-dlp.exe",
                                 };
 
@@ -211,6 +215,8 @@ namespace youtube_dl_gui.updater {
                     string FileName = $"{Program.ProgramPath}\\" + Config.Settings.Downloads.YtdlType switch {
                         1 => "youtube-dl.exe",
                         2 => "youtube-dlc.exe",
+                        3 => "youtube-dl-n.exe",
+                        4 => "yt-dlp-n.exe",
                         _ => "yt-dlp.exe",
                     };
 
@@ -230,6 +236,8 @@ namespace youtube_dl_gui.updater {
                 int TypeIndex = Config.Settings.Downloads.YtdlType switch {
                     1 => 1,
                     2 => 2,
+                    3 => 3,
+                    4 => 4,
                     _ => 0,
                 };
 
@@ -240,10 +248,12 @@ namespace youtube_dl_gui.updater {
 
                 string FullSavePath = Config.Settings.General.UseStaticYtdl && !string.IsNullOrEmpty(Config.Settings.General.ytdlPath) ?
                     Config.Settings.General.ytdlPath :
-                    Program.ProgramPath + TypeIndex switch {
-                        1 => "\\youtube-dl.exe",
-                        2 => "\\youtube-dlc.exe",
-                        _ => "\\yt-dlp.exe",
+                    $"{Program.ProgramPath}\\" + TypeIndex switch {
+                        1 => "youtube-dl.exe",
+                        2 => "youtube-dlc.exe",
+                        3 => "youtube-dl-n.exe",
+                        4 => "yt-dlp-n.exe",
+                        _ => "yt-dlp.exe",
                     };
 
                 using frmGenericDownloadProgress Downloader = Location is not null ?
@@ -266,7 +276,6 @@ namespace youtube_dl_gui.updater {
         /// </summary>
         /// <returns><see langword="true"/> if it was updated; otherwise, <see langword="false"/>.</returns>
         public static bool UpdateFfmpeg(System.Drawing.Point? Location) {
-            // Download the zip file.
             string FfmpegZipPath = Environment.CurrentDirectory + "\\ffmpeg.zip";
 
             using frmGenericDownloadProgress Downloader =
@@ -391,7 +400,7 @@ namespace youtube_dl_gui.updater {
                     return LatestYoutubeDl.VersionTag;
                 }
 
-                LatestYoutubeDl = Json.JsonDeserialize<GithubData>();
+                LatestYoutubeDl = CurrentRelease;
                 return LatestYoutubeDl.VersionTag;
             }
             catch (WebException WebEx) {

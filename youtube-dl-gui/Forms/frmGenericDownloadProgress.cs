@@ -1,8 +1,9 @@
-﻿using System.Net;
+﻿namespace youtube_dl_gui;
+
+using System.Net;
 using System.Threading;
 using System.Windows.Forms;
 
-namespace youtube_dl_gui;
 public partial class frmGenericDownloadProgress : Form {
     public string URL { get; private set; }
     public string Output { get; private set; }
@@ -21,7 +22,7 @@ public partial class frmGenericDownloadProgress : Form {
                     ThrottleCount++;
                     switch (ThrottleCount % 40) {
                         case 0: {
-                            if (DownloadClient.IsBusy) {
+                            if (DownloadClient.IsBusy && !Cancelled) {
                                 pbProgress.BeginInvoke(() => {
                                     pbProgress.Value = e.ProgressPercentage;
                                     pbProgress.Text = $"{e.ProgressPercentage}% ({e.BytesReceived.SizeToString()} / {e.TotalBytesToReceive.SizeToString()})";
@@ -32,7 +33,7 @@ public partial class frmGenericDownloadProgress : Form {
                     }
                 };
                 DownloadClient.DownloadFileCompleted += (s, e) => {
-                    this.DialogResult = Cancelled ? DialogResult.Abort : DialogResult.OK;
+                    this.DialogResult = Cancelled ? DialogResult.Cancel : DialogResult.OK;
                 };
                 DownloadClient.Headers.Add("user-agent", Program.UserAgent);
 

@@ -47,6 +47,8 @@
             this.tabCustom = new System.Windows.Forms.TabPage();
             this.txtCustomArguments = new System.Windows.Forms.TextBox();
             this.tabFormatOptions = new System.Windows.Forms.TabPage();
+            this.lbVideoRemux = new System.Windows.Forms.Label();
+            this.cbVideoRemux = new System.Windows.Forms.ComboBox();
             this.chkVideoSeparateAudio = new System.Windows.Forms.CheckBox();
             this.cbVbrQualities = new System.Windows.Forms.ComboBox();
             this.chkAudioVBR = new System.Windows.Forms.CheckBox();
@@ -74,11 +76,12 @@
             this.chkDownloaderCloseAfterDownload = new System.Windows.Forms.CheckBox();
             this.txtLink = new System.Windows.Forms.TextBox();
             this.lbExtendedDownloaderLink = new System.Windows.Forms.Label();
-            this.lbVideoRemux = new System.Windows.Forms.Label();
-            this.cbVideoRemux = new System.Windows.Forms.ComboBox();
+            this.chVideoSampleRate = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.chVideoAudioCodec = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.pbStatus = new murrty.controls.ExtendedProgressBar();
             this.rtbMediaDescription = new murrty.controls.ExtendedRichTextBox();
             this.rtbVerbose = new murrty.controls.ExtendedRichTextBox();
+            this.chVideoAudioBitrate = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             ((System.ComponentModel.ISupportInitialize)(this.pbThumbnail)).BeginInit();
             this.tcVideoData.SuspendLayout();
             this.tabExtendedDownloaderFormats.SuspendLayout();
@@ -264,8 +267,11 @@
             this.chVideoContainer,
             this.chVideoFileSize,
             this.chVideoBitrate,
+            this.chVideoSampleRate,
             this.chVideoDimension,
             this.chVideoCodec,
+            this.chVideoAudioCodec,
+            this.chVideoAudioBitrate,
             this.chVideoFormatId});
             this.lvVideoFormats.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lvVideoFormats.Enabled = false;
@@ -434,6 +440,27 @@
             this.tabFormatOptions.TabIndex = 2;
             this.tabFormatOptions.Text = "tabFormatOptions";
             this.tabFormatOptions.UseVisualStyleBackColor = true;
+            // 
+            // lbVideoRemux
+            // 
+            this.lbVideoRemux.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbVideoRemux.Location = new System.Drawing.Point(180, 62);
+            this.lbVideoRemux.Name = "lbVideoRemux";
+            this.lbVideoRemux.Size = new System.Drawing.Size(109, 21);
+            this.lbVideoRemux.TabIndex = 31;
+            this.lbVideoRemux.Text = "lbVideoRemux";
+            this.lbVideoRemux.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // cbVideoRemux
+            // 
+            this.cbVideoRemux.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.cbVideoRemux.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbVideoRemux.Enabled = false;
+            this.cbVideoRemux.FormattingEnabled = true;
+            this.cbVideoRemux.Location = new System.Drawing.Point(295, 62);
+            this.cbVideoRemux.Name = "cbVideoRemux";
+            this.cbVideoRemux.Size = new System.Drawing.Size(127, 21);
+            this.cbVideoRemux.TabIndex = 29;
             // 
             // chkVideoSeparateAudio
             // 
@@ -748,26 +775,13 @@
             this.lbExtendedDownloaderLink.TabIndex = 22;
             this.lbExtendedDownloaderLink.Text = "lbExtendedDownloaderLink";
             // 
-            // lbVideoRemux
+            // chVideoSampleRate
             // 
-            this.lbVideoRemux.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.lbVideoRemux.Location = new System.Drawing.Point(180, 62);
-            this.lbVideoRemux.Name = "lbVideoRemux";
-            this.lbVideoRemux.Size = new System.Drawing.Size(109, 21);
-            this.lbVideoRemux.TabIndex = 31;
-            this.lbVideoRemux.Text = "lbVideoRemux";
-            this.lbVideoRemux.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.chVideoSampleRate.Text = "Sample rate";
             // 
-            // cbVideoRemux
+            // chVideoAudioCodec
             // 
-            this.cbVideoRemux.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.cbVideoRemux.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbVideoRemux.Enabled = false;
-            this.cbVideoRemux.FormattingEnabled = true;
-            this.cbVideoRemux.Location = new System.Drawing.Point(295, 62);
-            this.cbVideoRemux.Name = "cbVideoRemux";
-            this.cbVideoRemux.Size = new System.Drawing.Size(127, 21);
-            this.cbVideoRemux.TabIndex = 29;
+            this.chVideoAudioCodec.Text = "Audio codec";
             // 
             // pbStatus
             // 
@@ -803,6 +817,10 @@
             this.rtbVerbose.Size = new System.Drawing.Size(436, 140);
             this.rtbVerbose.TabIndex = 0;
             this.rtbVerbose.Text = "";
+            // 
+            // chVideoAudioBitrate
+            // 
+            this.chVideoAudioBitrate.Text = "Audio bitrate";
             // 
             // frmExtendedDownload
             // 
@@ -926,5 +944,8 @@
         private System.Windows.Forms.Label lbExtendedDownloaderNoAudioFormatsAvailable;
         private System.Windows.Forms.Label lbVideoRemux;
         private System.Windows.Forms.ComboBox cbVideoRemux;
+        private System.Windows.Forms.ColumnHeader chVideoSampleRate;
+        private System.Windows.Forms.ColumnHeader chVideoAudioCodec;
+        private System.Windows.Forms.ColumnHeader chVideoAudioBitrate;
     }
 }

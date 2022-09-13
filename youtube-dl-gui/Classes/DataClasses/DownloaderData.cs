@@ -169,8 +169,14 @@ internal sealed class DownloaderData {
 
         public bool ValidVideoFormat =>
             Extension.ToLower() switch {
-                "mhtml" => false,
+                "mhtml" or "none" => false,
                 _ => true,
+            };
+
+        public bool ValidAudioFormat =>
+            Extension.ToLower() switch {
+                "mhtml" or "none" => false,
+                _ => true
             };
 
         [DataMember(Name = "format_id")]

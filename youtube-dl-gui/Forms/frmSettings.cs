@@ -707,6 +707,7 @@ namespace youtube_dl_gui {
 
         private void cbSettingsDownloadsUpdatingYtdlType_SelectedIndexChanged(object sender, EventArgs e) {
             Config.Settings.Downloads.YtdlType = cbSettingsDownloadsUpdatingYtdlType.SelectedIndex;
+            Verification.RefreshYoutubeDlLocation();
         }
 
         private void chkSettingsDownloadsForceIpv4_CheckedChanged(object sender, EventArgs e) {
@@ -736,7 +737,7 @@ namespace youtube_dl_gui {
         }
 
         private void llbSettingsDownloadsYtdlTypeViewRepo_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
-            if (cbSettingsDownloadsUpdatingYtdlType.SelectedIndex > -1 && cbSettingsDownloadsUpdatingYtdlType.SelectedIndex < 3) {
+            if (cbSettingsDownloadsUpdatingYtdlType.SelectedIndex > -1) {
                 Process.Start(
                     string.Format(
                         updater.GithubLinks.GithubRepoUrl,
