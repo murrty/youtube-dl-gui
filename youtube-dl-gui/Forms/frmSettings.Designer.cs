@@ -88,7 +88,7 @@
             this.txtSettingsDownloadsProxyPort = new murrty.controls.ExtendedTextBox();
             this.txtSettingsDownloadsProxyIp = new murrty.controls.ExtendedTextBox();
             this.tabDownloadsUpdating = new System.Windows.Forms.TabPage();
-            this.llbSettingsDownloadsYtdlTypeViewRepo = new System.Windows.Forms.LinkLabel();
+            this.llbSettingsDownloadsYtdlTypeViewRepo = new murrty.controls.ExtendedLinkLabel();
             this.lbSettingsDownloadsUpdatingYtdlType = new System.Windows.Forms.Label();
             this.cbSettingsDownloadsUpdatingYtdlType = new System.Windows.Forms.ComboBox();
             this.chksettingsDownloadsUseYoutubeDlsUpdater = new System.Windows.Forms.CheckBox();
@@ -98,7 +98,7 @@
             this.tabYtdlpExtendedOptions = new System.Windows.Forms.TabPage();
             this.chkYtdlpExtendedAutomaticallyDownloadThumbnail = new System.Windows.Forms.CheckBox();
             this.chkYtdlpPreferExtendedDialog = new System.Windows.Forms.CheckBox();
-            this.llSettingsDownloadsSchemaHelp = new System.Windows.Forms.LinkLabel();
+            this.llSettingsDownloadsSchemaHelp = new murrty.controls.ExtendedLinkLabel();
             this.lbSettingsDownloadsDownloadPath = new System.Windows.Forms.Label();
             this.txtSettingsDownloadsSavePath = new murrty.controls.ExtendedTextBox();
             this.btnSettingsDownloadsBrowseSavePath = new System.Windows.Forms.Button();
@@ -1930,7 +1930,7 @@
         private System.Windows.Forms.Button btnSettingsRedownloadYoutubeDl;
         private System.Windows.Forms.CheckBox chkSettingsConverterDetectOutputFileType;
         private System.Windows.Forms.Label lbSettingsDownloadsFileNameSchema;
-        private System.Windows.Forms.LinkLabel llSettingsDownloadsSchemaHelp;
+        private murrty.controls.ExtendedLinkLabel llSettingsDownloadsSchemaHelp;
         private System.Windows.Forms.Label lbidkwhatsup;
         private System.Windows.Forms.ToolTip tipSettings;
         private System.Windows.Forms.CheckBox chkSettingsConverterClearInputAfterConverting;
@@ -2014,7 +2014,7 @@
         private System.Windows.Forms.CheckBox chkSettingsDownloadsDownloadPathUseRelativePath;
         private System.Windows.Forms.Label lbSettingsDownloadsUpdatingYtdlType;
         private System.Windows.Forms.ComboBox cbSettingsDownloadsUpdatingYtdlType;
-        private System.Windows.Forms.LinkLabel llbSettingsDownloadsYtdlTypeViewRepo;
+        private murrty.controls.ExtendedLinkLabel llbSettingsDownloadsYtdlTypeViewRepo;
         private System.Windows.Forms.CheckBox chkDeleteOldVersionAfterUpdating;
         private System.Windows.Forms.CheckBox chkSettingsGeneralDeleteUpdaterAfterUpdating;
         private System.Windows.Forms.CheckBox chkSettingsDownloadsWebsiteSubdomains;
