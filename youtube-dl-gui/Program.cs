@@ -124,18 +124,18 @@ namespace youtube_dl_gui {
 
                 (Config.Settings = new Config()).Load(ConfigType.Initialization);
                 if (Config.Settings.Initialization.firstTime) {
+                    Log.Write("Initiating first time setup.");
                     // set this so the initializer won't load the language a second time
                     Language.LoadInternalEnglish();
 
                     // Select a language first
                     using frmLanguage LangPicker = new();
-                    if (LangPicker.ShowDialog() == DialogResult.Yes) {
-                        Config.Settings.Initialization.LanguageFile = LangPicker.LanguageFile;
-                        Language.LoadLanguage(LangPicker.LanguageFile);
-                    }
-                    else {
+                    if (LangPicker.ShowDialog() != DialogResult.Yes)
                         return 1;
-                    }
+
+                    Config.Settings.Initialization.LanguageFile = LangPicker.LanguageFile;
+                    Language.LoadLanguage(LangPicker.LanguageFile);
+                    Config.Settings.Initialization.Save();
 
                     if (MessageBox.Show(Language.dlgFirstTimeInitialMessage, Language.ApplicationName, MessageBoxButtons.YesNo) != DialogResult.Yes)
                         return 1;
@@ -153,15 +153,15 @@ namespace youtube_dl_gui {
                         }
                     }
 
-                    if (MessageBox.Show(Language.dlgFirstTimeDownloadYoutubeDl, Language.ApplicationName, MessageBoxButtons.YesNo) == DialogResult.Yes) {
-
-                    }
-                    if (MessageBox.Show(Language.dlgFirstTimeDownloadFfmpeg, Language.ApplicationName, MessageBoxButtons.YesNo) == DialogResult.Yes) {
-
-                    }
+                    if (MessageBox.Show(Language.dlgFirstTimeDownloadYoutubeDl, Language.ApplicationName, MessageBoxButtons.YesNo) == DialogResult.Yes)
+                        updater.UpdateChecker.UpdateYoutubeDl(null);
+                    if (MessageBox.Show(Language.dlgFirstTimeDownloadFfmpeg, Language.ApplicationName, MessageBoxButtons.YesNo) == DialogResult.Yes)
+                        updater.UpdateChecker.UpdateFfmpeg(null);
 
                     Config.Settings.Initialization.Save();
                     Config.Settings.Downloads.Save();
+
+                    Log.Write("First time setup has concluded.");
                 }
                 else {
                     Config.Settings.Load(ConfigType.All);
@@ -171,7 +171,8 @@ namespace youtube_dl_gui {
                 Verification.Refresh();
                 Formats.LoadCustomFormats();
                 Messages = new();
-                System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
+                SetTls();
+                //System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
 
                 if (CheckArgs(args, true)) {
                     AwaitActions();
@@ -360,6 +361,35 @@ namespace youtube_dl_gui {
             // Any downloads/conversion/merges in progress will finish before fully closing for updates.
             MainForm?.RemoveTrayIcon();
             MainForm?.Dispose();
+        }
+
+        internal static void SetTls() {
+            try { //try TLS 1.3
+                System.Net.ServicePointManager.SecurityProtocol = (System.Net.SecurityProtocolType)12288
+                                                                | (System.Net.SecurityProtocolType)3072
+                                                                | (System.Net.SecurityProtocolType)768
+                                                                |  System.Net.SecurityProtocolType.Tls;
+                Log.Write("TLS 1.3 will be used.");
+            }
+            catch (NotSupportedException) {
+                try { //try TLS 1.2
+                    System.Net.ServicePointManager.SecurityProtocol = (System.Net.SecurityProtocolType)3072
+                                                                    | (System.Net.SecurityProtocolType)768
+                                                                    |  System.Net.SecurityProtocolType.Tls;
+                    Log.Write("TLS 1.2 will be used.");
+                }
+                catch (NotSupportedException) {
+                    try { //try TLS 1.1
+                        System.Net.ServicePointManager.SecurityProtocol = (System.Net.SecurityProtocolType)768
+                                                                         | System.Net.SecurityProtocolType.Tls;
+                        Log.Write("TLS 1.1 will be used, Github updating may be affected.");
+                    }
+                    catch (NotSupportedException) { //TLS 1.0
+                        System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls;
+                        Log.Write("TLS 1.0 will be used, Github updating may be affected.");
+                    }
+                }
+            }
         }
 
     }

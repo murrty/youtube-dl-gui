@@ -104,6 +104,7 @@
             this.mTools = new System.Windows.Forms.MenuItem();
             this.mBatchDownload = new System.Windows.Forms.MenuItem();
             this.mBatchConverter = new System.Windows.Forms.MenuItem();
+            this.mArchiveDownloader = new System.Windows.Forms.MenuItem();
             this.mMerger = new System.Windows.Forms.MenuItem();
             this.mDownloadSubtitles = new System.Windows.Forms.MenuItem();
             this.mMiscTools = new System.Windows.Forms.MenuItem();
@@ -138,7 +139,7 @@
             this.cmTraySep = new System.Windows.Forms.MenuItem();
             this.cmTrayExit = new System.Windows.Forms.MenuItem();
             this.trayIcon = new System.Windows.Forms.NotifyIcon(this.components);
-            this.mArchiveDownloader = new System.Windows.Forms.MenuItem();
+            this.mLog = new System.Windows.Forms.MenuItem();
             this.tcMain.SuspendLayout();
             this.tabDownload.SuspendLayout();
             this.gbSelection.SuspendLayout();
@@ -1076,6 +1077,12 @@
             this.mBatchConverter.Text = "mBatchConverter";
             this.mBatchConverter.Click += new System.EventHandler(this.mBatchConverter_Click);
             // 
+            // mArchiveDownloader
+            // 
+            this.mArchiveDownloader.Index = 2;
+            this.mArchiveDownloader.Text = "mArchiveDownloader";
+            this.mArchiveDownloader.Click += new System.EventHandler(this.mArchiveDownloader_Click);
+            // 
             // mMerger
             // 
             this.mMerger.Index = 3;
@@ -1117,7 +1124,8 @@
             this.mHelp.Index = 2;
             this.mHelp.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.mLanguage,
-            this.mSupportedSites});
+            this.mSupportedSites,
+            this.mLog});
             this.mHelp.Text = "mh";
             // 
             // mLanguage
@@ -1302,11 +1310,11 @@
             this.trayIcon.BalloonTipTitle = "Unseen easter egg";
             this.trayIcon.Text = "youtube-dl-gui";
             // 
-            // mArchiveDownloader
+            // mLog
             // 
-            this.mArchiveDownloader.Index = 2;
-            this.mArchiveDownloader.Text = "mArchiveDownloader";
-            this.mArchiveDownloader.Click += new System.EventHandler(this.mArchiveDownloader_Click);
+            this.mLog.Index = 2;
+            this.mLog.Text = "mLog";
+            this.mLog.Click += new System.EventHandler(this.mLog_Click);
             // 
             // frmMain
             // 
@@ -1463,6 +1471,7 @@
         private System.Windows.Forms.MenuItem mQuickDownloadFormAuthentication;
         private System.Windows.Forms.MenuItem mMerger;
         private System.Windows.Forms.MenuItem mArchiveDownloader;
+        private System.Windows.Forms.MenuItem mLog;
     }
 }
 

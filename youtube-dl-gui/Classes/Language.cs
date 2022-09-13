@@ -990,6 +990,7 @@ public static class Language {
     /// Loads all the internal English strings to the instance.
     /// </summary>
     public static void LoadInternalEnglish() {
+        Log.Write("Loading internal english.");
         LoadedFile = null;
         UsingInternalEnglish = true;
 
@@ -1450,6 +1451,7 @@ public static class Language {
     /// Resets the control names to their internal names.
     /// </summary>
     public static void ResetControlNames() {
+        Log.Write("Resetting language values.");
         LoadedFile = null;
 
         // Langauge identifier
@@ -1913,6 +1915,7 @@ public static class Language {
             }
             else {
                 if (!LanguageFile.EndsWith(".ini")) { LanguageFile += ".ini"; }
+                Log.Write($"Loading external language file \"{System.IO.Path.GetFileName(LanguageFile)}\".");
 
                 using System.IO.StreamReader ReadLanguageFile = new(LanguageFile);
                 string ReadLine;    // The line of the file
@@ -3161,6 +3164,7 @@ public static class Language {
                 }
                 LoadedFile = LanguageFile;
                 UsingInternalEnglish = false;
+                Log.Write("Finished loading external language.");
                 return true;
             }
         }

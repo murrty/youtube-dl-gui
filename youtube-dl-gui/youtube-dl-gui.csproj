@@ -115,9 +115,15 @@
     <Compile Include="Forms\frmGenericDownloadProgress.Designer.cs">
       <DependentUpon>frmGenericDownloadProgress.cs</DependentUpon>
     </Compile>
-    <Compile Include="Log\Exceptions\ApiParsingException.cs" />
-    <Compile Include="Log\Exceptions\DownloadException.cs" />
-    <Compile Include="Log\Natives\DwmComposition.cs" />
+    <Compile Include="Logging\Exceptions\ApiParsingException.cs" />
+    <Compile Include="Logging\Exceptions\DownloadException.cs" />
+    <Compile Include="Logging\Forms\frmLog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Logging\Forms\frmLog.Designer.cs">
+      <DependentUpon>frmLog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Logging\Natives\DwmComposition.cs" />
     <Compile Include="Classes\Extensions.cs" />
     <Compile Include="Classes\DataClasses\DownloaderData.cs" />
     <Compile Include="..\Controls\ExtendedProgressBar.cs">
@@ -155,10 +161,10 @@
       <DependentUpon>frmExtendedDownload.cs</DependentUpon>
     </Compile>
     <Compile Include="GlobalNamespaces.cs" />
-    <Compile Include="Log\DwmCompositionInfo.cs" />
-    <Compile Include="Log\DwmCompositionTextInfo.cs" />
-    <Compile Include="Log\Natives\DwmNatives.cs" />
-    <Compile Include="Log\ExceptionInfo.cs" />
+    <Compile Include="Logging\DwmCompositionInfo.cs" />
+    <Compile Include="Logging\DwmCompositionTextInfo.cs" />
+    <Compile Include="Logging\Natives\DwmNatives.cs" />
+    <Compile Include="Logging\ExceptionInfo.cs" />
     <Compile Include="Runtime\Arrays.cs" />
     <Compile Include="Forms\frmMerger.cs">
       <SubType>Form</SubType>
@@ -187,7 +193,7 @@
     <Compile Include="Classes\Language.cs" />
     <Compile Include="Classes\NativeMethods.cs" />
     <Compile Include="Updater\UpdateChecker.cs" />
-    <Compile Include="Log\Log.cs" />
+    <Compile Include="Logging\Log.cs" />
     <Compile Include="..\Controls\ExtendedRichTextBox.cs">
       <SubType>Component</SubType>
       <Link>Controls\Shared\ExtendedRichTextBox.cs</Link>
@@ -238,10 +244,10 @@
     <Compile Include="Forms\frmDownloadLanguage.Designer.cs">
       <DependentUpon>frmDownloadLanguage.cs</DependentUpon>
     </Compile>
-    <Compile Include="Log\Forms\frmException.cs">
+    <Compile Include="Logging\Forms\frmException.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Log\Forms\frmException.Designer.cs">
+    <Compile Include="Logging\Forms\frmException.Designer.cs">
       <DependentUpon>frmException.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\frmLanguage.cs">
@@ -323,7 +329,7 @@
     <EmbeddedResource Include="Forms\frmGenericDownloadProgress.resx">
       <DependentUpon>frmGenericDownloadProgress.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Log\Forms\frmException.resx">
+    <EmbeddedResource Include="Logging\Forms\frmException.resx">
       <DependentUpon>frmException.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmExtendedDownload.resx">
@@ -349,6 +355,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmDownloader.resx">
       <DependentUpon>frmDownloader.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Logging\Forms\frmLog.resx">
+      <DependentUpon>frmLog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

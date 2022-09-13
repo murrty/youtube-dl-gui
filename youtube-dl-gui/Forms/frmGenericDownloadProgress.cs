@@ -16,6 +16,7 @@ public partial class frmGenericDownloadProgress : Form {
         this.Text = Language.frmGenericDownloadProgress;
         this.URL = URL;
         this.Output = Output;
+        Log.Write($"Using generic downloader to display progress for \"{URL}\".");
         DownloadThread = new(async() => {
             using (DownloadClient = new()) {
                 DownloadClient.DownloadProgressChanged += (s, e) => {
@@ -69,14 +70,17 @@ public partial class frmGenericDownloadProgress : Form {
             DownloadThread.Start();
         };
         this.FormClosing += (s, e) => {
-            Cancelled = true;
-            if (DownloadClient is not null && DownloadClient.IsBusy) {
-                DownloadClient.CancelAsync();
-                e.Cancel = true;
-            }
-            if (DownloadThread is not null && DownloadThread.IsAlive) {
-                DownloadThread.Abort();
-                e.Cancel = true;
+            if (!Cancelled) {
+                Cancelled = true;
+                Log.Write("Cancelling download.");
+                if (DownloadClient is not null && DownloadClient.IsBusy) {
+                    DownloadClient.CancelAsync();
+                    e.Cancel = true;
+                }
+                if (DownloadThread is not null && DownloadThread.IsAlive) {
+                    DownloadThread.Abort();
+                    e.Cancel = true;
+                }
             }
         };
     }

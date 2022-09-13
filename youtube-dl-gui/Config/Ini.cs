@@ -1,77 +1,106 @@
 ﻿namespace youtube_dl_gui;
 
 using System.Drawing;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 internal static class Ini {
-    public static string Path = Environment.CurrentDirectory + "\\settings.ini";
+    private const String EmptyString = "${empty_key_value}$";
+    public static string IniPath = Environment.CurrentDirectory + "\\settings.ini";
+    //Language.ApplicationName
 
-    private static string Read(string Key, string Section = null) {
-        var Value = new StringBuilder(65535);
-        NativeMethods.GetPrivateProfileString(Section ?? Language.ApplicationName, Key, "", Value, 65535, Path);
-        return Value.ToString();
+    private static bool InternalKeyExists(String Key, out String Value, String Section = null) {
+        StringBuilder ReadValue = new(EmptyString.Length + 2);
+        NativeMethods.GetPrivateProfileString(Section ?? Language.ApplicationName, Key, EmptyString, ReadValue, EmptyString.Length + 2, IniPath);
+        Value = ReadValue.ToString();
+        Value = Value != EmptyString && !Value.IsNullEmptyWhitespace() ? Value : null;
+        return Value is not null;
     }
-    private static void WriteString(string Key, string Value, string Section = null) {
-        NativeMethods.WritePrivateProfileString(Section ?? Language.ApplicationName, Key, Value, Path);
+    private static string InternalWriteString(String Key, String Value, String Section = null) {
+        NativeMethods.WritePrivateProfileString(Section ?? Language.ApplicationName, Key, Value, IniPath);
+        return Value;
     }
 
-    public static string ReadString(string Key, string Section = null) {
-        return Read(Key, Section);
+#pragma warning disable IDE0060 // Remove unused parameter
+    public static string Read(string Value, string Default, string Section = null, [CallerArgumentExpression("Value")] String Key = null) {
+        if (InternalKeyExists(Key, out string Data, Section ?? Language.ApplicationName))
+            return Data;
+        return Default;
     }
-    public static bool ReadBool(string Key, string Section = null) {
-        return Read(Key, Section).ToLower() switch {
-            "true" => true,
-            _ => false
-        };
+    public static bool Read(bool Value, bool Default, string Section = null, [CallerArgumentExpression("Value")] String Key = null) {
+        if (InternalKeyExists(Key, out string Data, Section ?? Language.ApplicationName))
+            return Data.ToLower() switch {
+                "true" or "on" or "1" => true,
+                _ => false
+            };
+        return Default;
     }
-    public static int ReadInt(string Key, string Section = null) {
-        return int.TryParse(Read(Key, Section), out int Value) ? Value : -1;
+    public static int Read(int Value, int Default, string Section = null, [CallerArgumentExpression("Value")] String Key = null) {
+        if (InternalKeyExists(Key, out string Data, Section ?? Language.ApplicationName) && int.TryParse(Data, out int NewVal))
+            return NewVal;
+        return Default;
     }
-    public static decimal ReadDecimal(string Key, string Section = null) {
-        return decimal.TryParse(Read(Key, Section), out decimal Value) ? Value : -1;
+    public static decimal Read(decimal Value, decimal Default, string Section = null, [CallerArgumentExpression("Value")] String Key = null) {
+        if (InternalKeyExists(Key, out string Data, Section ?? Language.ApplicationName) && decimal.TryParse(Data, out decimal NewVal))
+            return NewVal;
+        return Default;
     }
-    public static Point ReadPoint(string Key, string Section = null) {
-        string[] Value = Read(Key, Section).Split(',');
-        if (Value.Length == 2 && int.TryParse(Value[0], out int OutX) && int.TryParse(Value[1], out int OutY)) {
-            return new(OutX, OutY);
+    public static Point Read(Point Value, Point Default, string Section = null, [CallerArgumentExpression("Value")] String Key = null) {
+        if (InternalKeyExists(Key, out string Data, Section ?? Language.ApplicationName)) {
+            string[] DataSplit = Data.ReplaceWhitespace().Split(',');
+            if (DataSplit.Length >= 2 && int.TryParse(DataSplit[0], out int X) && int.TryParse(DataSplit[1], out int Y))
+                return new(X, Y);
         }
-        return new(-32000, -32000);
+        return Default;
     }
-    public static Size ReadSize(string Key, string Section = null) {
-        string[] Value = Read(Key, Section).Split(',');
-        if (Value.Length == 2 && int.TryParse(Value[0], out int OutW) && int.TryParse(Value[1], out int OutH)) {
-            return new(OutW, OutH);
+    public static Size Read(Size Value, Size Default, string Section = null, [CallerArgumentExpression("Value")] String Key = null) {
+        if (InternalKeyExists(Key, out string Data, Section ?? Language.ApplicationName)) {
+            string[] DataSplit = Data.ReplaceWhitespace().Split(',');
+            if (DataSplit.Length >= 2 && int.TryParse(DataSplit[0], out int W) && int.TryParse(DataSplit[1], out int H))
+                return new(W, H);
         }
-        return new(-32000, -32000);
+        return Default;
     }
+    public static Version Read(Version Value, Version Default, string Section = null, [CallerArgumentExpression("Value")] String Key = null) {
+        if (InternalKeyExists(Key, out string Data, Section ?? Language.ApplicationName) && Version.TryParse(Data, out Version NewVers))
+            return NewVers;
+        return Default;
+    }
+#pragma warning restore IDE0060 // Remove unused parameter
 
-    public static void Write(string Key, string Value, string Section = null) {
-        WriteString(Key, Value, Section);
+    public static string Write(string Value, string Section = null, [CallerArgumentExpression("Value")] String Key = null) {
+        InternalWriteString(Key, Value, Section ?? Language.ApplicationName);
+        return Value;
     }
-    public static void Write(string Key, bool Value, string Section = null) {
-        WriteString(Key, Value ? "True" : "False", Section);
+    public static bool Write(bool Value, string Section = null, [CallerArgumentExpression("Value")] String Key = null) {
+        InternalWriteString(Key, Value ? "True" : "False", Section ?? Language.ApplicationName);
+        return Value;
     }
-    public static void Write(string Key, int Value, string Section = null) {
-        WriteString(Key, Value.ToString(), Section);
+    public static int Write(int Value, string Section = null, [CallerArgumentExpression("Value")] String Key = null) {
+        InternalWriteString(Key, Value.ToString(), Section ?? Language.ApplicationName);
+        return Value;
     }
-    public static void Write(string Key, decimal Value, string Section = null) {
-        WriteString(Key, Value.ToString(), Section);
+    public static decimal Write(decimal Value, string Section = null, [CallerArgumentExpression("Value")] String Key = null) {
+        InternalWriteString(Key, Value.ToString(), Section ?? Language.ApplicationName);
+        return Value;
     }
-    public static void Write(string Key, Point Value, string Section = null) {
-        WriteString(Key, $"{Value.X},{Value.Y}", Section);
+    public static Point Write(Point Value, string Section = null, [CallerArgumentExpression("Value")] String Key = null) {
+        InternalWriteString(Key, $"{Value.X},{Value.Y}", Section ?? Language.ApplicationName);
+        return Value;
     }
-    public static void Write(string Key, Size Value, string Section = null) {
-        WriteString(Key, $"{Value.Width},{Value.Height}", Section);
+    public static Size Write(Size Value, string Section = null, [CallerArgumentExpression("Value")] String Key = null) {
+        InternalWriteString(Key, $"{Value.Width},{Value.Height}", Section ?? Language.ApplicationName);
+        return Value;
+    }
+    public static Version Write(Version Value, string Section = null, [CallerArgumentExpression("Value")] String Key = null) {
+        InternalWriteString(Key, Value.ToString(), Section ?? Language.ApplicationName);
+        return Value;
     }
 
     public static void DeleteKey(string Key, string Section = null) {
-        Write(Key, null, Section ?? Language.ApplicationName);
+        InternalWriteString(Key, null, Section ?? Language.ApplicationName);
     }
     public static void DeleteSection(string Section = null) {
-        Write(null, null, Section ?? Language.ApplicationName);
-    }
-
-    public static bool KeyExists(string Key, string Section = null) {
-        return ReadString(Key, Section ?? Language.ApplicationName).Length > 0;
+        InternalWriteString(null, null, Section ?? Language.ApplicationName);
     }
 }

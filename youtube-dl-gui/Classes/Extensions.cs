@@ -38,4 +38,5 @@ internal static class Extensions {
     }
     public static bool IsNotNullEmptyWhitespace(this string value) => !IsNullEmptyWhitespace(value);
     public static string Join(this IEnumerable<string> str, string joiner) => string.Join(joiner, str);
+    public static string ReplaceWhitespace(this string str) => System.Text.RegularExpressions.Regex.Replace(str, @"\s+", " ", System.Text.RegularExpressions.RegexOptions.Compiled);
 }

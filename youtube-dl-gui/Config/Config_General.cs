@@ -43,127 +43,63 @@ internal class Config_General {
     #endregion
 
     public void Load() {
-        if (Ini.KeyExists("UseStaticYtdl", ConfigName)) {
-            UseStaticYtdl = fUseStaticYtdl = Ini.ReadBool("UseStaticYtdl", ConfigName);
-        }
-        if (Ini.KeyExists("ytdlPath", ConfigName)) {
-            ytdlPath = fytdlPath = Ini.ReadString("ytdlPath", ConfigName);
-        }
-        if (Ini.KeyExists("UseStaticFFmpeg", ConfigName)) {
-            UseStaticFFmpeg = fUseStaticFFmpeg = Ini.ReadBool("UseStaticFFmpeg", ConfigName);
-        }
-        if (Ini.KeyExists("ffmpegPath", ConfigName)) {
-            ffmpegPath = fffmpegPath = Ini.ReadString("ffmpegPath", ConfigName);
-        }
-        if (Ini.KeyExists("CheckForUpdatesOnLaunch", ConfigName)) {
-            CheckForUpdatesOnLaunch = fCheckForUpdatesOnLaunch = Ini.ReadBool("CheckForUpdatesOnLaunch", ConfigName);
-        }
-        if (Ini.KeyExists("DownloadBetaVersions", ConfigName)) {
-            DownloadBetaVersions = fDownloadBetaVersions = Ini.ReadBool("DownloadBetaVersions", ConfigName);
-        }
-        if (Ini.KeyExists("HoverOverURLTextBoxToPaste", ConfigName)) {
-            HoverOverURLTextBoxToPaste = fHoverOverURLTextBoxToPaste = Ini.ReadBool("HoverOverURLTextBoxToPaste", ConfigName);
-        }
-        if (Ini.KeyExists("ClearURLOnDownload", ConfigName)) {
-            ClearURLOnDownload = fClearURLOnDownload = Ini.ReadBool("ClearURLOnDownload", ConfigName);
-        }
-        if (Ini.KeyExists("SaveCustomArgs", ConfigName)) {
-            SaveCustomArgs = fSaveCustomArgs = Ini.ReadInt("SaveCustomArgs", ConfigName);
-        }
-        if (Ini.KeyExists("ClearClipboardOnDownload", ConfigName)) {
-            ClearClipboardOnDownload = fClearClipboardOnDownload = Ini.ReadBool("ClearClipboardOnDownload", ConfigName);
-        }
-        if (Ini.KeyExists("extensionsName", ConfigName)) {
-            extensionsName = fextensionsName = Ini.ReadString("extensionsName", ConfigName);
-        }
-        if (Ini.KeyExists("extensionsShort", ConfigName)) {
-            extensionsShort = fextensionsShort = Ini.ReadString("extensionsShort", ConfigName);
-        }
-        if (Ini.KeyExists("DeleteUpdaterOnStartup", ConfigName)) {
-            DeleteUpdaterOnStartup = fDeleteUpdaterOnStartup = Ini.ReadBool("DeleteUpdaterOnStartup", ConfigName);
-        }
-        if (Ini.KeyExists("DeleteBackupOnStartup", ConfigName)) {
-            DeleteBackupOnStartup = fDeleteBackupOnStartup = Ini.ReadBool("DeleteBackupOnStartup", ConfigName);
-        }
-        if (Ini.KeyExists("ClipboardAutoDownloadNoticeRead", ConfigName)) {
-            ClipboardAutoDownloadNoticeRead = fClipboardAutoDownloadNoticeRead = Ini.ReadBool("ClipboardAutoDownloadNoticeRead", ConfigName);
-        }
-        if (Ini.KeyExists("ClipboardAutoDownloadVerifyLinks", ConfigName)) {
-            ClipboardAutoDownloadVerifyLinks = fClipboardAutoDownloadVerifyLinks = Ini.ReadBool("ClipboardAutoDownloadVerifyLinks", ConfigName);
-        }
-        if (Ini.KeyExists("AutoUpdateYoutubeDl", ConfigName)) {
-            AutoUpdateYoutubeDl = fAutoUpdateYoutubeDl = Ini.ReadBool("AutoUpdateYoutubeDl", ConfigName);
-        }
+        Log.Write("Loading General config.");
+
+        UseStaticYtdl = fUseStaticYtdl = Ini.Read(UseStaticYtdl, false, ConfigName);
+        ytdlPath = fytdlPath = Ini.Read(ytdlPath, string.Empty, ConfigName);
+        UseStaticFFmpeg = fUseStaticFFmpeg = Ini.Read(UseStaticFFmpeg, false, ConfigName);
+        ffmpegPath = fffmpegPath = Ini.Read(ffmpegPath, string.Empty, ConfigName);
+        CheckForUpdatesOnLaunch = fCheckForUpdatesOnLaunch = Ini.Read(CheckForUpdatesOnLaunch, false, ConfigName);
+        DownloadBetaVersions = fDownloadBetaVersions = Ini.Read(DownloadBetaVersions, false, ConfigName);
+        HoverOverURLTextBoxToPaste = fHoverOverURLTextBoxToPaste = Ini.Read(HoverOverURLTextBoxToPaste, true, ConfigName);
+        ClearURLOnDownload = fClearURLOnDownload = Ini.Read(ClearURLOnDownload, false, ConfigName);
+        SaveCustomArgs = fSaveCustomArgs = Ini.Read(SaveCustomArgs, 2, ConfigName);
+        ClearClipboardOnDownload = fClearClipboardOnDownload = Ini.Read(ClearClipboardOnDownload, false, ConfigName);
+        extensionsName = fextensionsName = Ini.Read(extensionsName, ConfigName);
+        extensionsShort = fextensionsShort = Ini.Read(extensionsShort, ConfigName);
+        DeleteUpdaterOnStartup = fDeleteUpdaterOnStartup = Ini.Read(DeleteUpdaterOnStartup, true, ConfigName);
+        DeleteBackupOnStartup = fDeleteBackupOnStartup = Ini.Read(DeleteBackupOnStartup, false, ConfigName);
+        ClipboardAutoDownloadNoticeRead = fClipboardAutoDownloadNoticeRead = Ini.Read(ClipboardAutoDownloadNoticeRead, false, ConfigName);
+        ClipboardAutoDownloadVerifyLinks = fClipboardAutoDownloadVerifyLinks = Ini.Read(ClipboardAutoDownloadVerifyLinks, true, ConfigName);
+        AutoUpdateYoutubeDl = fAutoUpdateYoutubeDl = Ini.Read(AutoUpdateYoutubeDl, false, ConfigName);
     }
 
     public void Save() {
-        if (UseStaticYtdl != fUseStaticYtdl) {
-            Ini.Write("UseStaticYtdl", UseStaticYtdl, ConfigName);
-            fUseStaticYtdl = UseStaticYtdl;
-        }
-        if (ytdlPath != fytdlPath) {
-            Ini.Write("ytdlPath", ytdlPath, ConfigName);
-            fytdlPath = ytdlPath;
-        }
-        if (UseStaticFFmpeg != fUseStaticFFmpeg) {
-            Ini.Write("UseStaticFFmpeg", UseStaticFFmpeg, ConfigName);
-            fUseStaticFFmpeg = UseStaticFFmpeg;
-        }
-        if (ffmpegPath != fffmpegPath) {
-            Ini.Write("ffmpegPath", ffmpegPath, ConfigName);
-            fffmpegPath = ffmpegPath;
-        }
-        if (CheckForUpdatesOnLaunch != fCheckForUpdatesOnLaunch) {
-            Ini.Write("CheckForUpdatesOnLaunch", CheckForUpdatesOnLaunch, ConfigName);
-            fCheckForUpdatesOnLaunch = CheckForUpdatesOnLaunch;
-        }
-        if (DownloadBetaVersions != fDownloadBetaVersions) {
-            Ini.Write("DownloadBetaVersions", DownloadBetaVersions, ConfigName);
-            fDownloadBetaVersions = DownloadBetaVersions;
-        }
-        if (HoverOverURLTextBoxToPaste != fHoverOverURLTextBoxToPaste) {
-            Ini.Write("HoverOverURLTextBoxToPaste", HoverOverURLTextBoxToPaste, ConfigName);
-            fHoverOverURLTextBoxToPaste = HoverOverURLTextBoxToPaste;
-        }
-        if (ClearURLOnDownload != fClearURLOnDownload) {
-            Ini.Write("ClearURLOnDownload", ClearURLOnDownload, ConfigName);
-            fClearURLOnDownload = ClearURLOnDownload;
-        }
-        if (SaveCustomArgs != fSaveCustomArgs) {
-            Ini.Write("SaveCustomArgs", SaveCustomArgs, ConfigName);
-            fSaveCustomArgs = SaveCustomArgs;
-        }
-        if (ClearClipboardOnDownload != fClearClipboardOnDownload) {
-            Ini.Write("ClearClipboardOnDownload", ClearClipboardOnDownload, ConfigName);
-            fClearClipboardOnDownload = ClearClipboardOnDownload;
-        }
-        if (extensionsName != fextensionsName) {
-            Ini.Write("extensionsName", extensionsName, ConfigName);
-            fextensionsName = extensionsName;
-        }
-        if (extensionsShort != fextensionsShort) {
-            Ini.Write("extensionsShort", extensionsShort, ConfigName);
-            fextensionsShort = extensionsShort;
-        }
-        if (DeleteUpdaterOnStartup != fDeleteUpdaterOnStartup) {
-            Ini.Write("DeleteUpdaterOnStartup", DeleteUpdaterOnStartup, ConfigName);
-            fDeleteUpdaterOnStartup = DeleteUpdaterOnStartup;
-        }
-        if (DeleteBackupOnStartup != fDeleteBackupOnStartup) {
-            Ini.Write("DeleteBackupOnStartup", DeleteBackupOnStartup, ConfigName);
-            fDeleteBackupOnStartup = DeleteBackupOnStartup;
-        }
-        if (ClipboardAutoDownloadNoticeRead != fClipboardAutoDownloadNoticeRead) {
-            Ini.Write("ClipboardAutoDownloadNoticeRead", ClipboardAutoDownloadNoticeRead, ConfigName);
-            fClipboardAutoDownloadNoticeRead = ClipboardAutoDownloadNoticeRead;
-        }
-        if (ClipboardAutoDownloadVerifyLinks != fClipboardAutoDownloadVerifyLinks) {
-            Ini.Write("ClipboardAutoDownloadVerifyLinks", ClipboardAutoDownloadVerifyLinks, ConfigName);
-            fClipboardAutoDownloadVerifyLinks = ClipboardAutoDownloadVerifyLinks;
-        }
-        if (AutoUpdateYoutubeDl != fAutoUpdateYoutubeDl) {
-            Ini.Write("AutoUpdateYoutubeDl", AutoUpdateYoutubeDl, ConfigName);
-            fAutoUpdateYoutubeDl = AutoUpdateYoutubeDl;
-        }
+        Log.Write("Saving General config.");
+
+        if (UseStaticYtdl != fUseStaticYtdl)
+            fUseStaticYtdl = Ini.Write(UseStaticYtdl, ConfigName);
+        if (ytdlPath != fytdlPath)
+            fytdlPath = Ini.Write(ytdlPath, ConfigName);
+        if (UseStaticFFmpeg != fUseStaticFFmpeg)
+            fUseStaticFFmpeg = Ini.Write(UseStaticFFmpeg, ConfigName);
+        if (ffmpegPath != fffmpegPath)
+            fffmpegPath = Ini.Write(ffmpegPath, ConfigName);
+        if (CheckForUpdatesOnLaunch != fCheckForUpdatesOnLaunch)
+            fCheckForUpdatesOnLaunch = Ini.Write(CheckForUpdatesOnLaunch, ConfigName);
+        if (DownloadBetaVersions != fDownloadBetaVersions)
+            fDownloadBetaVersions = Ini.Write(DownloadBetaVersions, ConfigName);
+        if (HoverOverURLTextBoxToPaste != fHoverOverURLTextBoxToPaste)
+            fHoverOverURLTextBoxToPaste = Ini.Write(HoverOverURLTextBoxToPaste, ConfigName);
+        if (ClearURLOnDownload != fClearURLOnDownload)
+            fClearURLOnDownload = Ini.Write(ClearURLOnDownload, ConfigName);
+        if (SaveCustomArgs != fSaveCustomArgs)
+            fSaveCustomArgs = Ini.Write(SaveCustomArgs, ConfigName);
+        if (ClearClipboardOnDownload != fClearClipboardOnDownload)
+            fClearClipboardOnDownload = Ini.Write(ClearClipboardOnDownload, ConfigName);
+        if (extensionsName != fextensionsName)
+            fextensionsName = Ini.Write(extensionsName, ConfigName);
+        if (extensionsShort != fextensionsShort)
+            fextensionsShort = Ini.Write(extensionsShort, ConfigName);
+        if (DeleteUpdaterOnStartup != fDeleteUpdaterOnStartup)
+            fDeleteUpdaterOnStartup = Ini.Write(DeleteUpdaterOnStartup, ConfigName);
+        if (DeleteBackupOnStartup != fDeleteBackupOnStartup)
+            fDeleteBackupOnStartup = Ini.Write(DeleteBackupOnStartup, ConfigName);
+        if (ClipboardAutoDownloadNoticeRead != fClipboardAutoDownloadNoticeRead)
+            fClipboardAutoDownloadNoticeRead = Ini.Write(ClipboardAutoDownloadNoticeRead, ConfigName);
+        if (ClipboardAutoDownloadVerifyLinks != fClipboardAutoDownloadVerifyLinks)
+            fClipboardAutoDownloadVerifyLinks = Ini.Write(ClipboardAutoDownloadVerifyLinks, ConfigName);
+        if (AutoUpdateYoutubeDl != fAutoUpdateYoutubeDl)
+            fAutoUpdateYoutubeDl = Ini.Write(AutoUpdateYoutubeDl, ConfigName);
     }
 }

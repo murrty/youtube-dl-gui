@@ -87,6 +87,10 @@ namespace youtube_dl_gui {
                 mQuickDownloadForm.Enabled = mQuickDownloadForm.Visible =
                 mQuickDownloadFormAuthentication.Enabled = mQuickDownloadFormAuthentication.Visible =
                 mExtendedDownloadForm.Enabled = mExtendedDownloadForm.Visible = DownloadHelper.CanUseExtendedDownloader();
+
+            this.Shown += (s, e) => {
+                Log.Write("Startup finished.");
+            };
         }
 
         private void frmMain_Load(object sender, EventArgs e) {
@@ -546,6 +550,9 @@ namespace youtube_dl_gui {
                     Process.Start("https://github.com/ytdl-org/youtube-dl/blob/master/docs/supportedsites.md");
                     break;
             }
+        }
+        private void mLog_Click(object sender, EventArgs e) {
+            Log.ShowLog();
         }
 
         private void mAbout_Click(object sender, EventArgs e) {

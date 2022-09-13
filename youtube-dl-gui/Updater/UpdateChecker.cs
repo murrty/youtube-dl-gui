@@ -68,6 +68,7 @@ namespace youtube_dl_gui.updater {
         public static bool? CheckForUpdate(Version CurrentVersion, bool PreRelease, bool ForceCheck = false) {
             bool CanRetry = true;
             do {
+                Log.Write("Checking for program update.");
                 try {
                     if (ForceCheck || (PreRelease ? LastCheckedAllRelease is null : LastCheckedLatestRelease is null)) {
                         RefreshRelease(CurrentVersion, PreRelease);
@@ -81,6 +82,9 @@ namespace youtube_dl_gui.updater {
                 }
             } while (CanRetry);
 
+
+            Log.Write($"Release found: {LastChecked.Version}");
+
             return PreRelease ?
                 LastCheckedAllRelease is not null && LastCheckedAllRelease.IsNewerVersion :
                 LastCheckedLatestRelease is not null && LastCheckedLatestRelease.IsNewerVersion;
@@ -90,6 +94,7 @@ namespace youtube_dl_gui.updater {
         /// Updates youtube-dl-gui with the newer version.
         /// </summary>
         public static void UpdateApplication() {
+            Log.Write("Running updater.");
             // Delete the file that already exists
             if (File.Exists(Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe") && Program.CalculateSha256Hash(Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe") != KnownUpdaterHash.ToLowerInvariant()) {
                 // Delete the old one & Write the one from resource.
@@ -134,6 +139,7 @@ namespace youtube_dl_gui.updater {
                     ShouldRetry = false;
                     try {
                         if (Config.Settings.Downloads.useYtdlUpdater && (Config.Settings.General.UseStaticYtdl && !string.IsNullOrEmpty(Config.Settings.General.ytdlPath) && File.Exists(Config.Settings.General.ytdlPath) || File.Exists(Verification.YoutubeDlPath))) {
+                            Log.Write("Using youtube-dls' internal updater to update the program.");
 
                             Process UpdateYoutubeDl = new();
                             UpdateYoutubeDl.StartInfo.Arguments = "-U";
@@ -196,6 +202,7 @@ namespace youtube_dl_gui.updater {
                     }
                 } while (ShouldRetry);
             }
+            Log.Write($"Found youtube-dl version: {LatestYoutubeDl.VersionTag}");
             return LatestYoutubeDl.IsNewerVersion;
         }
 
@@ -204,6 +211,7 @@ namespace youtube_dl_gui.updater {
         /// </summary>
         public static bool UpdateYoutubeDl(System.Drawing.Point? Location) {
             if (Config.Settings.Downloads.useYtdlUpdater && (Config.Settings.General.UseStaticYtdl && !string.IsNullOrEmpty(Config.Settings.General.ytdlPath) && File.Exists(Config.Settings.General.ytdlPath) || File.Exists(Verification.YoutubeDlPath))) {
+                Log.Write("Using youtube-dls' internal updater to update the program.");
 
                 Process UpdateYoutubeDl = new();
                 UpdateYoutubeDl.StartInfo.Arguments = "-U";
@@ -233,6 +241,7 @@ namespace youtube_dl_gui.updater {
                 return UpdateYoutubeDl.ExitCode == 0;
             }
             else if (LatestYoutubeDl.IsNewerVersion) {
+                Log.Write($"Downloading youtube-dl version {LatestYoutubeDl.VersionTag}.");
                 int TypeIndex = Config.Settings.Downloads.YtdlType switch {
                     1 => 1,
                     2 => 2,
@@ -276,6 +285,7 @@ namespace youtube_dl_gui.updater {
         /// </summary>
         /// <returns><see langword="true"/> if it was updated; otherwise, <see langword="false"/>.</returns>
         public static bool UpdateFfmpeg(System.Drawing.Point? Location) {
+            Log.Write("Downloading the latest ffmpeg release.");
             string FfmpegZipPath = Environment.CurrentDirectory + "\\ffmpeg.zip";
 
             using frmGenericDownloadProgress Downloader =
@@ -318,6 +328,7 @@ namespace youtube_dl_gui.updater {
         }
 
         public static GithubRepoContent[] GetAvailableLanguages() {
+            Log.Write("Enumerating languages available.");
             string Url = "https://api.github.com/repos/murrty/youtube-dl-gui/contents/Languages";
             var AvailableLanguages = GetJSON(Url).JsonDeserialize<GithubRepoContent[]>();
 

@@ -204,7 +204,7 @@ namespace youtube_dl_gui {
 
                             lvVideoFormats.Invoke(() => lvVideoFormats.Items.Add(NewFormat));
                         }
-                        else if ((Format.AudioCodec.IsNotNullEmptyWhitespace() && Format.ValidAudioFormat)) {
+                        else if (Format.AudioCodec.IsNotNullEmptyWhitespace() && Format.ValidAudioFormat) {
                             string Codec = Format.AudioCodec ?? "Unknown";
                             string Container = Format.Extension ?? "Unknown";
                             string SampleRate = $"{(Format.AudioSampleRate is not null && Format.AudioSampleRate > 0 ? $"{Format.AudioSampleRate}" : "?")}Hz";
@@ -603,7 +603,7 @@ namespace youtube_dl_gui {
                         }
 
                         if (Msg is not null) {
-                            string Line = Regex.Replace(Msg, "\\s+", " ");
+                            string Line = Msg.ReplaceWhitespace();
                             string[] LineParts = Line.Split(' ');
                             rtbVerbose.Invoke(() => rtbVerbose.AppendText(Line + "\n"));
                             switch (Line[..5]) {
