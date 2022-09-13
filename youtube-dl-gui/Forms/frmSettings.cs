@@ -47,8 +47,6 @@ namespace youtube_dl_gui {
 
         private void LoadLanguage() {
             this.Text = Language.frmSettings;
-            btnSettingsRedownloadYoutubeDl.Text = Language.btnSettingsRedownloadYoutubeDl;
-            tipSettings.SetToolTip(btnSettingsRedownloadYoutubeDl, Language.btnSettingsRedownloadYoutubeDlHint);
             btnSettingsCancel.Text = Language.GenericCancel;
             tipSettings.SetToolTip(btnSettingsCancel, Language.btnSettingsCancelHint);
             btnSettingsSave.Text = Language.GenericSave;
@@ -60,6 +58,8 @@ namespace youtube_dl_gui {
             tabSettingsExtensions.Text = Language.tabSettingsExtensions;
             tabSettingsErrors.Text = Language.tabSettingsErrors;
 
+            tabSettingsGeneralYoutubeDl.Text = Language.tabSettingsGeneralYoutubeDl;
+            tabSettingsGeneralFfmpeg.Text = Language.tabSettingsGeneralFfmpeg;
             lbSettingsGeneralYoutubeDlPath.Text = Language.lbSettingsGeneralYoutubeDlPath;
             tipSettings.SetToolTip(lbSettingsGeneralYoutubeDlPath, Language.lbSettingsGeneralYoutubeDlPathHint);
             chkSettingsGeneralUseStaticYoutubeDl.Text = Language.chkSettingsGeneralUseStaticYoutubeDl;
@@ -72,6 +72,10 @@ namespace youtube_dl_gui {
             tipSettings.SetToolTip(chkSettingsGeneralUseStaticFFmpeg, Language.chkSettingsGeneralUseStaticFFmpegHint);
             tipSettings.SetToolTip(txtSettingsGeneralFFmpegPath, Language.txtSettingsGeneralFFmpegPathHint);
             tipSettings.SetToolTip(btnSettingsGeneralBrowseFFmpeg, Language.btnSettingsGeneralBrowseFFmpegHint);
+            btnSettingsRedownloadYoutubeDl.Text = Language.btnSettingsRedownloadYoutubeDl;
+            tipSettings.SetToolTip(btnSettingsRedownloadYoutubeDl, Language.btnSettingsRedownloadYoutubeDlHint);
+            btnSettingsRedownloadFfmpeg.Text = Language.btnSettingsRedownloadFfmpeg;
+            tipSettings.SetToolTip(btnSettingsRedownloadFfmpeg, Language.btnSettingsRedownloadFfmpegHint);
             chkSettingsGeneralCheckForUpdatesOnLaunch.Text = Language.chkSettingsGeneralCheckForUpdatesOnLaunch;
             tipSettings.SetToolTip(chkSettingsGeneralCheckForUpdatesOnLaunch, Language.chkSettingsGeneralCheckForUpdatesOnLaunchHint);
             chkSettingsGeneralCheckForBetaUpdates.Text = Language.chkSettingsGeneralCheckForBetaUpdates;
@@ -569,10 +573,53 @@ namespace youtube_dl_gui {
             }
         }
 
+        private void btnSettingsSave_Click(object sender, EventArgs e) {
+            saveSettings();
+            this.Dispose();
+        }
+
+        private void btnSettingsCancel_Click(object sender, EventArgs e) {
+            Config.Settings.Downloads.useYtdlUpdater = useYtdlUpdater_Last;
+            Config.Settings.Downloads.YtdlType = YtdlType_Last;
+            this.Dispose();
+        }
+
+        #region General
+        private void chkSettingsGeneralUseStaticYoutubeDl_CheckedChanged(object sender, EventArgs e) {
+            Config.Settings.General.UseStaticYtdl = chkSettingsGeneralUseStaticYoutubeDl.Checked;
+        }
+        private void btnSettingsGeneralBrowseYoutubeDl_Click(object sender, EventArgs e) {
+            using OpenFileDialog ofd = new() {
+                Title = Language.ofdTitleYoutubeDl,
+                Filter = Language.ofdFilterYoutubeDl + " (*.EXE)|*.exe",
+                FileName = "yt-dlp.exe"
+            };
+
+            if (ofd.ShowDialog() == DialogResult.OK) {
+                txtSettingsGeneralYoutubeDlPath.Text = ofd.FileName;
+            }
+        }
+
+        private void chkSettingsGeneralUseStaticFFmpeg_CheckedChanged(object sender, EventArgs e) {
+            Config.Settings.General.UseStaticFFmpeg = chkSettingsGeneralUseStaticFFmpeg.Checked;
+        }
+        private void btnSettingsGeneralBrowseFFmpeg_Click(object sender, EventArgs e) {
+            using OpenFileDialog ofd = new() {
+                Title = Language.ofdTitleFFmpeg,
+                Filter = Language.ofdFilterFFmpeg + " (*.EXE)|*.exe",
+                FileName = "ffmpeg.exe"
+            };
+
+
+            if (ofd.ShowDialog() == DialogResult.OK) {
+                txtSettingsGeneralFFmpegPath.Text = ofd.FileName;
+            }
+        }
+
         private void btnSettingsRedownloadYoutubeDl_Click(object sender, EventArgs e) {
             YtdlUpdateCheck = new(() => {
                 if (updater.UpdateChecker.CheckForYoutubeDlUpdate(true)) {
-                    if (updater.UpdateChecker.UpdateYoutubeDl()) {
+                    if (updater.UpdateChecker.UpdateYoutubeDl(new(this.Location.X + 8, this.Location.Y + 8))) {
                         this.BeginInvoke(() => MessageBox.Show(Language.dlgUpdatedYoutubeDl, Language.ApplicationName, MessageBoxButtons.OK));
                         System.Media.SystemSounds.Asterisk.Play();
                     }
@@ -590,50 +637,8 @@ namespace youtube_dl_gui {
             };
             YtdlUpdateCheck.Start();
         }
-
-        private void btnSettingsSave_Click(object sender, EventArgs e) {
-            saveSettings();
-            this.Dispose();
-        }
-
-        private void btnSettingsCancel_Click(object sender, EventArgs e) {
-            Config.Settings.Downloads.useYtdlUpdater = useYtdlUpdater_Last;
-            Config.Settings.Downloads.YtdlType = YtdlType_Last;
-            this.Dispose();
-        }
-
-        #region General
-        private void chkSettingsGeneralUseStaticYoutubeDl_CheckedChanged(object sender, EventArgs e) {
-            Config.Settings.General.UseStaticYtdl = chkSettingsGeneralUseStaticYoutubeDl.Checked;
-        }
-
-        private void chkSettingsGeneralUseStaticFFmpeg_CheckedChanged(object sender, EventArgs e) {
-            Config.Settings.General.UseStaticFFmpeg = chkSettingsGeneralUseStaticFFmpeg.Checked;
-        }
-
-        private void btnSettingsGeneralBrowseYoutubeDl_Click(object sender, EventArgs e) {
-            using OpenFileDialog ofd = new() {
-                Title = Language.ofdTitleYoutubeDl,
-                Filter = Language.ofdFilterYoutubeDl + " (*.EXE)|*.exe",
-                FileName = "youtube-dl.exe"
-            };
-
-            if (ofd.ShowDialog() == DialogResult.OK) {
-                txtSettingsGeneralYoutubeDlPath.Text = ofd.FileName;
-            }
-        }
-
-        private void btnSettingsGeneralBrowseFFmpeg_Click(object sender, EventArgs e) {
-            using OpenFileDialog ofd = new() {
-                Title = Language.ofdTitleFFmpeg,
-                Filter = Language.ofdFilterFFmpeg + " (*.EXE)|*.exe",
-                FileName = "ffmpeg.exe"
-            };
-
-
-            if (ofd.ShowDialog() == DialogResult.OK) {
-                txtSettingsGeneralFFmpegPath.Text = ofd.FileName;
-            }
+        private void btnSettingsRedownloadFfmpeg_Click(object sender, EventArgs e) {
+            updater.UpdateChecker.UpdateFfmpeg(new(this.Location.X + 8, this.Location.Y + 8));
         }
         #endregion
 

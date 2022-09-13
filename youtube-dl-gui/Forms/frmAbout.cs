@@ -36,7 +36,7 @@ namespace youtube_dl_gui {
                                         Program.CurrentVersion.IsBeta ?
                                             string.Format(Language.dlgUpdateNoBetaUpdateAvailable, Program.CurrentVersion, updater.UpdateChecker.LastChecked.Version) :
                                             string.Format(Language.dlgUpdateNoUpdateAvailable, Program.CurrentVersion, updater.UpdateChecker.LastChecked.Version),
-                                        "youtube-dl-gui",
+                                        Language.ApplicationName,
                                         MessageBoxButtons.OK);
                                 });
                             }

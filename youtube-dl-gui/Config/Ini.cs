@@ -5,15 +5,14 @@ using System.Text;
 
 internal static class Ini {
     public static string Path = Environment.CurrentDirectory + "\\settings.ini";
-    public static string ExecutableName = "youtube-dl-gui";
 
     private static string Read(string Key, string Section = null) {
         var Value = new StringBuilder(65535);
-        NativeMethods.GetPrivateProfileString(Section ?? ExecutableName, Key, "", Value, 65535, Path);
+        NativeMethods.GetPrivateProfileString(Section ?? Language.ApplicationName, Key, "", Value, 65535, Path);
         return Value.ToString();
     }
     private static void WriteString(string Key, string Value, string Section = null) {
-        NativeMethods.WritePrivateProfileString(Section ?? ExecutableName, Key, Value, Path);
+        NativeMethods.WritePrivateProfileString(Section ?? Language.ApplicationName, Key, Value, Path);
     }
 
     public static string ReadString(string Key, string Section = null) {
@@ -66,13 +65,13 @@ internal static class Ini {
     }
 
     public static void DeleteKey(string Key, string Section = null) {
-        Write(Key, null, Section ?? ExecutableName);
+        Write(Key, null, Section ?? Language.ApplicationName);
     }
     public static void DeleteSection(string Section = null) {
-        Write(null, null, Section ?? ExecutableName);
+        Write(null, null, Section ?? Language.ApplicationName);
     }
 
     public static bool KeyExists(string Key, string Section = null) {
-        return ReadString(Key, Section ?? ExecutableName).Length > 0;
+        return ReadString(Key, Section ?? Language.ApplicationName).Length > 0;
     }
 }

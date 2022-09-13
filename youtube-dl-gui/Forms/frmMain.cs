@@ -111,7 +111,7 @@ namespace youtube_dl_gui {
                 YtdlUpdateCheckThread = new(() => {
                     try {
                         if (updater.UpdateChecker.CheckForYoutubeDlUpdate()) {
-                            updater.UpdateChecker.UpdateYoutubeDl();
+                            updater.UpdateChecker.UpdateYoutubeDl(this.Location);
                         }
                     }
                     catch (ThreadAbortException) {
@@ -436,7 +436,7 @@ namespace youtube_dl_gui {
             }
             else {
                 if (!Config.Settings.General.ClipboardAutoDownloadNoticeRead) {
-                    if (MessageBox.Show(Language.dlgClipboardAutoDownloadNotice, "youtube-dl-gui", MessageBoxButtons.OKCancel) == DialogResult.Cancel) {
+                    if (MessageBox.Show(Language.dlgClipboardAutoDownloadNotice, Language.ApplicationName, MessageBoxButtons.OKCancel) == DialogResult.Cancel) {
                         return;
                     }
                     Config.Settings.General.ClipboardAutoDownloadNoticeRead = true;
@@ -600,11 +600,11 @@ namespace youtube_dl_gui {
         private void cmTrayDownloadCustomTxt_Click(object sender, EventArgs e) {
             if (!Clipboard.ContainsText()) {
                 if (!System.IO.File.Exists(Environment.CurrentDirectory + "\\args.txt")) {
-                    MessageBox.Show(Language.dlgMainArgsTxtDoesntExist, "youtube-dl-gui");
+                    MessageBox.Show(Language.dlgMainArgsTxtDoesntExist, Language.ApplicationName);
                     return;
                 }
                 else if (string.IsNullOrEmpty(System.IO.File.ReadAllText(Environment.CurrentDirectory + "\\args.txt"))) {
-                    MessageBox.Show(Language.dlgMainArgsTxtIsEmpty, "youtube-dl-gui");
+                    MessageBox.Show(Language.dlgMainArgsTxtIsEmpty, Language.ApplicationName);
                     return;
                 }
                 else {
@@ -621,7 +621,7 @@ namespace youtube_dl_gui {
         private void cmTrayDownloadCustomSettings_Click(object sender, EventArgs e) {
             if (!Clipboard.ContainsText() && Config.Settings.Saved.CustomArgumentsIndex < 0) {
                 if (string.IsNullOrEmpty(Config.Settings.Saved.DownloadCustomArguments)) {
-                    MessageBox.Show(Language.dlgMainArgsNoneSaved, "youtube-dl-gui");
+                    MessageBox.Show(Language.dlgMainArgsNoneSaved, Language.ApplicationName);
                     return;
                 }
                 else
@@ -880,7 +880,7 @@ namespace youtube_dl_gui {
         }
         private void mBatchDownloadFromFile_Click(object sender, EventArgs e) {
             if (!Config.Settings.Downloads.SkipBatchTip) {
-                switch (MessageBox.Show(Language.msgBatchDownloadFromFile, "youtube-dl-gui", MessageBoxButtons.YesNoCancel)) {
+                switch (MessageBox.Show(Language.msgBatchDownloadFromFile, Language.ApplicationName, MessageBoxButtons.YesNoCancel)) {
                     case DialogResult.Cancel:
                         return;
                     case DialogResult.Yes:
@@ -1135,7 +1135,7 @@ namespace youtube_dl_gui {
             switch (Config.Settings.Downloads.YtdlType) {
                 case 0: case 2: {
                     if (txtUrl.Text.IsNotNullEmptyWhitespace()) {
-                        frmExtendedDownload Extended = new(txtUrl.Text);
+                        frmExtendedDownload Extended = new(txtUrl.Text, false);
                         Extended.Show();
                         if (Config.Settings.General.ClearURLOnDownload) {
                             txtUrl.Clear();

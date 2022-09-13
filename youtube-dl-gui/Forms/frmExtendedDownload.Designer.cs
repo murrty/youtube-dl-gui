@@ -13,7 +13,7 @@
 
         private void InitializeComponent() {
             this.pbThumbnail = new System.Windows.Forms.PictureBox();
-            this.txtMediaTitle = new System.Windows.Forms.TextBox();
+            this.txtExtendedDownloaderMediaTitle = new System.Windows.Forms.TextBox();
             this.lbExtendedDownloaderUploader = new System.Windows.Forms.Label();
             this.txtUploader = new System.Windows.Forms.TextBox();
             this.lbExtendedDownloaderDownloadingThumbnail = new System.Windows.Forms.Label();
@@ -22,9 +22,10 @@
             this.txtViews = new System.Windows.Forms.TextBox();
             this.lbExtendedDownloaderViews = new System.Windows.Forms.Label();
             this.tcVideoData = new System.Windows.Forms.TabControl();
-            this.tpFormats = new System.Windows.Forms.TabPage();
+            this.tabExtendedDownloaderFormats = new System.Windows.Forms.TabPage();
             this.tcFormats = new System.Windows.Forms.TabControl();
             this.tabVideoFormats = new System.Windows.Forms.TabPage();
+            this.lbExtendedDownloaderNoVideoFormatsAvailable = new System.Windows.Forms.Label();
             this.lvVideoFormats = new System.Windows.Forms.ListView();
             this.chVideoQuality = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chVideoFPS = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -35,6 +36,7 @@
             this.chVideoCodec = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chVideoFormatId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tabAudioFormats = new System.Windows.Forms.TabPage();
+            this.lbExtendedDownloaderNoAudioFormatsAvailable = new System.Windows.Forms.Label();
             this.lvAudioFormats = new System.Windows.Forms.ListView();
             this.chAudioBitrate = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chAudioContainer = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -44,7 +46,7 @@
             this.chAudioFormatId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tabCustom = new System.Windows.Forms.TabPage();
             this.txtCustomArguments = new System.Windows.Forms.TextBox();
-            this.tpFormatOptions = new System.Windows.Forms.TabPage();
+            this.tabFormatOptions = new System.Windows.Forms.TabPage();
             this.chkVideoSeparateAudio = new System.Windows.Forms.CheckBox();
             this.cbVbrQualities = new System.Windows.Forms.ComboBox();
             this.chkAudioVBR = new System.Windows.Forms.CheckBox();
@@ -55,12 +57,10 @@
             this.lbVideoEncoder = new System.Windows.Forms.Label();
             this.cbAudioEncoders = new System.Windows.Forms.ComboBox();
             this.cbVideoEncoders = new System.Windows.Forms.ComboBox();
-            this.tpDescription = new System.Windows.Forms.TabPage();
-            this.rtbMediaDescription = new murrty.controls.ExtendedRichTextBox();
-            this.tpVerbose = new System.Windows.Forms.TabPage();
+            this.tabExtendedDownloaderDescription = new System.Windows.Forms.TabPage();
+            this.tabExtendedDownloaderVerbose = new System.Windows.Forms.TabPage();
             this.txtGeneratedArguments = new System.Windows.Forms.TextBox();
-            this.rtbVerbose = new murrty.controls.ExtendedRichTextBox();
-            this.tpDebug = new System.Windows.Forms.TabPage();
+            this.tabDebug = new System.Windows.Forms.TabPage();
             this.btnKill = new System.Windows.Forms.Button();
             this.chkPbTaskbar = new System.Windows.Forms.CheckBox();
             this.btnPbRemove = new System.Windows.Forms.Button();
@@ -72,20 +72,24 @@
             this.btnDownloadAbortClose = new System.Windows.Forms.Button();
             this.btnDownloadWithAuthentication = new System.Windows.Forms.Button();
             this.chkDownloaderCloseAfterDownload = new System.Windows.Forms.CheckBox();
-            this.pbStatus = new murrty.controls.ExtendedProgressBar();
             this.txtLink = new System.Windows.Forms.TextBox();
             this.lbExtendedDownloaderLink = new System.Windows.Forms.Label();
+            this.lbVideoRemux = new System.Windows.Forms.Label();
+            this.cbVideoRemux = new System.Windows.Forms.ComboBox();
+            this.pbStatus = new murrty.controls.ExtendedProgressBar();
+            this.rtbMediaDescription = new murrty.controls.ExtendedRichTextBox();
+            this.rtbVerbose = new murrty.controls.ExtendedRichTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.pbThumbnail)).BeginInit();
             this.tcVideoData.SuspendLayout();
-            this.tpFormats.SuspendLayout();
+            this.tabExtendedDownloaderFormats.SuspendLayout();
             this.tcFormats.SuspendLayout();
             this.tabVideoFormats.SuspendLayout();
             this.tabAudioFormats.SuspendLayout();
             this.tabCustom.SuspendLayout();
-            this.tpFormatOptions.SuspendLayout();
-            this.tpDescription.SuspendLayout();
-            this.tpVerbose.SuspendLayout();
-            this.tpDebug.SuspendLayout();
+            this.tabFormatOptions.SuspendLayout();
+            this.tabExtendedDownloaderDescription.SuspendLayout();
+            this.tabExtendedDownloaderVerbose.SuspendLayout();
+            this.tabDebug.SuspendLayout();
             this.SuspendLayout();
             // 
             // pbThumbnail
@@ -98,17 +102,18 @@
             this.pbThumbnail.TabIndex = 0;
             this.pbThumbnail.TabStop = false;
             // 
-            // txtMediaTitle
+            // txtExtendedDownloaderMediaTitle
             // 
-            this.txtMediaTitle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.txtExtendedDownloaderMediaTitle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtMediaTitle.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtMediaTitle.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtMediaTitle.Location = new System.Drawing.Point(12, 196);
-            this.txtMediaTitle.Name = "txtMediaTitle";
-            this.txtMediaTitle.ReadOnly = true;
-            this.txtMediaTitle.Size = new System.Drawing.Size(450, 22);
-            this.txtMediaTitle.TabIndex = 6;
+            this.txtExtendedDownloaderMediaTitle.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtExtendedDownloaderMediaTitle.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtExtendedDownloaderMediaTitle.Location = new System.Drawing.Point(12, 196);
+            this.txtExtendedDownloaderMediaTitle.Name = "txtExtendedDownloaderMediaTitle";
+            this.txtExtendedDownloaderMediaTitle.ReadOnly = true;
+            this.txtExtendedDownloaderMediaTitle.Size = new System.Drawing.Size(450, 22);
+            this.txtExtendedDownloaderMediaTitle.TabIndex = 6;
+            this.txtExtendedDownloaderMediaTitle.Text = "txtExtendedDownloaderMediaTitle";
             // 
             // lbExtendedDownloaderUploader
             // 
@@ -116,9 +121,9 @@
             this.lbExtendedDownloaderUploader.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbExtendedDownloaderUploader.Location = new System.Drawing.Point(333, 107);
             this.lbExtendedDownloaderUploader.Name = "lbExtendedDownloaderUploader";
-            this.lbExtendedDownloaderUploader.Size = new System.Drawing.Size(51, 13);
+            this.lbExtendedDownloaderUploader.Size = new System.Drawing.Size(160, 13);
             this.lbExtendedDownloaderUploader.TabIndex = 10;
-            this.lbExtendedDownloaderUploader.Text = "Uploader";
+            this.lbExtendedDownloaderUploader.Text = "lbExtendedDownloaderUploader";
             // 
             // txtUploader
             // 
@@ -139,9 +144,9 @@
             this.lbExtendedDownloaderDownloadingThumbnail.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbExtendedDownloaderDownloadingThumbnail.Location = new System.Drawing.Point(20, 20);
             this.lbExtendedDownloaderDownloadingThumbnail.Name = "lbExtendedDownloaderDownloadingThumbnail";
-            this.lbExtendedDownloaderDownloadingThumbnail.Size = new System.Drawing.Size(155, 17);
+            this.lbExtendedDownloaderDownloadingThumbnail.Size = new System.Drawing.Size(281, 17);
             this.lbExtendedDownloaderDownloadingThumbnail.TabIndex = 12;
-            this.lbExtendedDownloaderDownloadingThumbnail.Text = "Downloading thumbnail...";
+            this.lbExtendedDownloaderDownloadingThumbnail.Text = "lbExtendedDownloaderDownloadingThumbnail";
             this.lbExtendedDownloaderDownloadingThumbnail.Visible = false;
             // 
             // btnExtendedDownloaderDownloadThumbnail
@@ -151,7 +156,7 @@
             this.btnExtendedDownloaderDownloadThumbnail.Name = "btnExtendedDownloaderDownloadThumbnail";
             this.btnExtendedDownloaderDownloadThumbnail.Size = new System.Drawing.Size(122, 23);
             this.btnExtendedDownloaderDownloadThumbnail.TabIndex = 13;
-            this.btnExtendedDownloaderDownloadThumbnail.Text = "Get thumbnail";
+            this.btnExtendedDownloaderDownloadThumbnail.Text = "btnExtendedDownloaderDownloadThumbnail";
             this.btnExtendedDownloaderDownloadThumbnail.UseVisualStyleBackColor = false;
             this.btnExtendedDownloaderDownloadThumbnail.Visible = false;
             this.btnExtendedDownloaderDownloadThumbnail.Click += new System.EventHandler(this.btnDownloadThumbnail_Click);
@@ -186,42 +191,42 @@
             this.lbExtendedDownloaderViews.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbExtendedDownloaderViews.Location = new System.Drawing.Point(333, 156);
             this.lbExtendedDownloaderViews.Name = "lbExtendedDownloaderViews";
-            this.lbExtendedDownloaderViews.Size = new System.Drawing.Size(34, 13);
+            this.lbExtendedDownloaderViews.Size = new System.Drawing.Size(143, 13);
             this.lbExtendedDownloaderViews.TabIndex = 15;
-            this.lbExtendedDownloaderViews.Text = "Views";
+            this.lbExtendedDownloaderViews.Text = "lbExtendedDownloaderViews";
             // 
             // tcVideoData
             // 
             this.tcVideoData.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tcVideoData.Controls.Add(this.tpFormats);
-            this.tcVideoData.Controls.Add(this.tpDescription);
-            this.tcVideoData.Controls.Add(this.tpVerbose);
-            this.tcVideoData.Controls.Add(this.tpDebug);
+            this.tcVideoData.Controls.Add(this.tabExtendedDownloaderFormats);
+            this.tcVideoData.Controls.Add(this.tabExtendedDownloaderDescription);
+            this.tcVideoData.Controls.Add(this.tabExtendedDownloaderVerbose);
+            this.tcVideoData.Controls.Add(this.tabDebug);
             this.tcVideoData.Location = new System.Drawing.Point(12, 253);
             this.tcVideoData.Name = "tcVideoData";
             this.tcVideoData.SelectedIndex = 0;
             this.tcVideoData.Size = new System.Drawing.Size(450, 201);
             this.tcVideoData.TabIndex = 17;
             // 
-            // tpFormats
+            // tabExtendedDownloaderFormats
             // 
-            this.tpFormats.Controls.Add(this.tcFormats);
-            this.tpFormats.Location = new System.Drawing.Point(4, 22);
-            this.tpFormats.Name = "tpFormats";
-            this.tpFormats.Padding = new System.Windows.Forms.Padding(3);
-            this.tpFormats.Size = new System.Drawing.Size(442, 175);
-            this.tpFormats.TabIndex = 0;
-            this.tpFormats.Text = "Format";
-            this.tpFormats.UseVisualStyleBackColor = true;
+            this.tabExtendedDownloaderFormats.Controls.Add(this.tcFormats);
+            this.tabExtendedDownloaderFormats.Location = new System.Drawing.Point(4, 22);
+            this.tabExtendedDownloaderFormats.Name = "tabExtendedDownloaderFormats";
+            this.tabExtendedDownloaderFormats.Padding = new System.Windows.Forms.Padding(3);
+            this.tabExtendedDownloaderFormats.Size = new System.Drawing.Size(442, 175);
+            this.tabExtendedDownloaderFormats.TabIndex = 0;
+            this.tabExtendedDownloaderFormats.Text = "tabExtendedDownloaderFormats";
+            this.tabExtendedDownloaderFormats.UseVisualStyleBackColor = true;
             // 
             // tcFormats
             // 
             this.tcFormats.Controls.Add(this.tabVideoFormats);
             this.tcFormats.Controls.Add(this.tabAudioFormats);
             this.tcFormats.Controls.Add(this.tabCustom);
-            this.tcFormats.Controls.Add(this.tpFormatOptions);
+            this.tcFormats.Controls.Add(this.tabFormatOptions);
             this.tcFormats.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tcFormats.Location = new System.Drawing.Point(3, 3);
             this.tcFormats.Name = "tcFormats";
@@ -231,14 +236,25 @@
             // 
             // tabVideoFormats
             // 
+            this.tabVideoFormats.Controls.Add(this.lbExtendedDownloaderNoVideoFormatsAvailable);
             this.tabVideoFormats.Controls.Add(this.lvVideoFormats);
             this.tabVideoFormats.Location = new System.Drawing.Point(4, 22);
             this.tabVideoFormats.Name = "tabVideoFormats";
             this.tabVideoFormats.Padding = new System.Windows.Forms.Padding(3);
             this.tabVideoFormats.Size = new System.Drawing.Size(428, 143);
             this.tabVideoFormats.TabIndex = 0;
-            this.tabVideoFormats.Text = "GenericVideo";
+            this.tabVideoFormats.Text = "tabVideoFormats";
             this.tabVideoFormats.UseVisualStyleBackColor = true;
+            // 
+            // lbExtendedDownloaderNoVideoFormatsAvailable
+            // 
+            this.lbExtendedDownloaderNoVideoFormatsAvailable.AutoSize = true;
+            this.lbExtendedDownloaderNoVideoFormatsAvailable.Location = new System.Drawing.Point(11, 35);
+            this.lbExtendedDownloaderNoVideoFormatsAvailable.Name = "lbExtendedDownloaderNoVideoFormatsAvailable";
+            this.lbExtendedDownloaderNoVideoFormatsAvailable.Size = new System.Drawing.Size(261, 13);
+            this.lbExtendedDownloaderNoVideoFormatsAvailable.TabIndex = 14;
+            this.lbExtendedDownloaderNoVideoFormatsAvailable.Text = "lbExtendedDownloaderNoVideoFormatsAvailable";
+            this.lbExtendedDownloaderNoVideoFormatsAvailable.Visible = false;
             // 
             // lvVideoFormats
             // 
@@ -252,6 +268,7 @@
             this.chVideoCodec,
             this.chVideoFormatId});
             this.lvVideoFormats.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lvVideoFormats.Enabled = false;
             this.lvVideoFormats.FullRowSelect = true;
             this.lvVideoFormats.HideSelection = false;
             this.lvVideoFormats.Location = new System.Drawing.Point(3, 3);
@@ -303,14 +320,25 @@
             // 
             // tabAudioFormats
             // 
+            this.tabAudioFormats.Controls.Add(this.lbExtendedDownloaderNoAudioFormatsAvailable);
             this.tabAudioFormats.Controls.Add(this.lvAudioFormats);
             this.tabAudioFormats.Location = new System.Drawing.Point(4, 22);
             this.tabAudioFormats.Name = "tabAudioFormats";
             this.tabAudioFormats.Padding = new System.Windows.Forms.Padding(3);
             this.tabAudioFormats.Size = new System.Drawing.Size(428, 143);
             this.tabAudioFormats.TabIndex = 1;
-            this.tabAudioFormats.Text = "GenericAudio";
+            this.tabAudioFormats.Text = "tabAudioFormats";
             this.tabAudioFormats.UseVisualStyleBackColor = true;
+            // 
+            // lbExtendedDownloaderNoAudioFormatsAvailable
+            // 
+            this.lbExtendedDownloaderNoAudioFormatsAvailable.AutoSize = true;
+            this.lbExtendedDownloaderNoAudioFormatsAvailable.Location = new System.Drawing.Point(11, 35);
+            this.lbExtendedDownloaderNoAudioFormatsAvailable.Name = "lbExtendedDownloaderNoAudioFormatsAvailable";
+            this.lbExtendedDownloaderNoAudioFormatsAvailable.Size = new System.Drawing.Size(262, 13);
+            this.lbExtendedDownloaderNoAudioFormatsAvailable.TabIndex = 15;
+            this.lbExtendedDownloaderNoAudioFormatsAvailable.Text = "lbExtendedDownloaderNoAudioFormatsAvailable";
+            this.lbExtendedDownloaderNoAudioFormatsAvailable.Visible = false;
             // 
             // lvAudioFormats
             // 
@@ -322,6 +350,7 @@
             this.chAudioCodec,
             this.chAudioFormatId});
             this.lvAudioFormats.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lvAudioFormats.Enabled = false;
             this.lvAudioFormats.FullRowSelect = true;
             this.lvAudioFormats.HideSelection = false;
             this.lvAudioFormats.Location = new System.Drawing.Point(3, 3);
@@ -370,7 +399,7 @@
             this.tabCustom.Padding = new System.Windows.Forms.Padding(3);
             this.tabCustom.Size = new System.Drawing.Size(428, 143);
             this.tabCustom.TabIndex = 3;
-            this.tabCustom.Text = "GenericCustom";
+            this.tabCustom.Text = "tabCustom";
             this.tabCustom.UseVisualStyleBackColor = true;
             // 
             // txtCustomArguments
@@ -384,30 +413,33 @@
             this.txtCustomArguments.Size = new System.Drawing.Size(422, 137);
             this.txtCustomArguments.TabIndex = 15;
             // 
-            // tpFormatOptions
+            // tabFormatOptions
             // 
-            this.tpFormatOptions.Controls.Add(this.chkVideoSeparateAudio);
-            this.tpFormatOptions.Controls.Add(this.cbVbrQualities);
-            this.tpFormatOptions.Controls.Add(this.chkAudioVBR);
-            this.tpFormatOptions.Controls.Add(this.chkVideoDownloadAudio);
-            this.tpFormatOptions.Controls.Add(this.lbSchema);
-            this.tpFormatOptions.Controls.Add(this.cbSchema);
-            this.tpFormatOptions.Controls.Add(this.lbAudioEncoder);
-            this.tpFormatOptions.Controls.Add(this.lbVideoEncoder);
-            this.tpFormatOptions.Controls.Add(this.cbAudioEncoders);
-            this.tpFormatOptions.Controls.Add(this.cbVideoEncoders);
-            this.tpFormatOptions.Location = new System.Drawing.Point(4, 22);
-            this.tpFormatOptions.Name = "tpFormatOptions";
-            this.tpFormatOptions.Padding = new System.Windows.Forms.Padding(3);
-            this.tpFormatOptions.Size = new System.Drawing.Size(428, 143);
-            this.tpFormatOptions.TabIndex = 2;
-            this.tpFormatOptions.Text = "tpFormatOptions";
-            this.tpFormatOptions.UseVisualStyleBackColor = true;
+            this.tabFormatOptions.Controls.Add(this.lbVideoRemux);
+            this.tabFormatOptions.Controls.Add(this.cbVideoRemux);
+            this.tabFormatOptions.Controls.Add(this.chkVideoSeparateAudio);
+            this.tabFormatOptions.Controls.Add(this.cbVbrQualities);
+            this.tabFormatOptions.Controls.Add(this.chkAudioVBR);
+            this.tabFormatOptions.Controls.Add(this.chkVideoDownloadAudio);
+            this.tabFormatOptions.Controls.Add(this.lbSchema);
+            this.tabFormatOptions.Controls.Add(this.cbSchema);
+            this.tabFormatOptions.Controls.Add(this.lbAudioEncoder);
+            this.tabFormatOptions.Controls.Add(this.lbVideoEncoder);
+            this.tabFormatOptions.Controls.Add(this.cbAudioEncoders);
+            this.tabFormatOptions.Controls.Add(this.cbVideoEncoders);
+            this.tabFormatOptions.Location = new System.Drawing.Point(4, 22);
+            this.tabFormatOptions.Name = "tabFormatOptions";
+            this.tabFormatOptions.Padding = new System.Windows.Forms.Padding(3);
+            this.tabFormatOptions.Size = new System.Drawing.Size(428, 143);
+            this.tabFormatOptions.TabIndex = 2;
+            this.tabFormatOptions.Text = "tabFormatOptions";
+            this.tabFormatOptions.UseVisualStyleBackColor = true;
             // 
             // chkVideoSeparateAudio
             // 
             this.chkVideoSeparateAudio.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.chkVideoSeparateAudio.AutoSize = true;
+            this.chkVideoSeparateAudio.Enabled = false;
             this.chkVideoSeparateAudio.Location = new System.Drawing.Point(6, 120);
             this.chkVideoSeparateAudio.Name = "chkVideoSeparateAudio";
             this.chkVideoSeparateAudio.Size = new System.Drawing.Size(149, 17);
@@ -421,7 +453,7 @@
             this.cbVbrQualities.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbVbrQualities.Enabled = false;
             this.cbVbrQualities.FormattingEnabled = true;
-            this.cbVbrQualities.Location = new System.Drawing.Point(348, 62);
+            this.cbVbrQualities.Location = new System.Drawing.Point(57, 72);
             this.cbVbrQualities.Name = "cbVbrQualities";
             this.cbVbrQualities.Size = new System.Drawing.Size(74, 21);
             this.cbVbrQualities.TabIndex = 27;
@@ -430,7 +462,8 @@
             // 
             this.chkAudioVBR.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.chkAudioVBR.AutoSize = true;
-            this.chkAudioVBR.Location = new System.Drawing.Point(297, 64);
+            this.chkAudioVBR.Enabled = false;
+            this.chkAudioVBR.Location = new System.Drawing.Point(6, 74);
             this.chkAudioVBR.Name = "chkAudioVBR";
             this.chkAudioVBR.Size = new System.Drawing.Size(45, 17);
             this.chkAudioVBR.TabIndex = 26;
@@ -444,6 +477,7 @@
             this.chkVideoDownloadAudio.AutoSize = true;
             this.chkVideoDownloadAudio.Checked = true;
             this.chkVideoDownloadAudio.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkVideoDownloadAudio.Enabled = false;
             this.chkVideoDownloadAudio.Location = new System.Drawing.Point(6, 97);
             this.chkVideoDownloadAudio.Name = "chkVideoDownloadAudio";
             this.chkVideoDownloadAudio.Size = new System.Drawing.Size(158, 17);
@@ -455,7 +489,7 @@
             // lbSchema
             // 
             this.lbSchema.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.lbSchema.Location = new System.Drawing.Point(140, 37);
+            this.lbSchema.Location = new System.Drawing.Point(140, 8);
             this.lbSchema.Name = "lbSchema";
             this.lbSchema.Size = new System.Drawing.Size(113, 15);
             this.lbSchema.TabIndex = 25;
@@ -465,8 +499,9 @@
             // cbSchema
             // 
             this.cbSchema.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cbSchema.Enabled = false;
             this.cbSchema.FormattingEnabled = true;
-            this.cbSchema.Location = new System.Drawing.Point(255, 35);
+            this.cbSchema.Location = new System.Drawing.Point(255, 6);
             this.cbSchema.Name = "cbSchema";
             this.cbSchema.Size = new System.Drawing.Size(167, 21);
             this.cbSchema.TabIndex = 24;
@@ -475,9 +510,9 @@
             // lbAudioEncoder
             // 
             this.lbAudioEncoder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.lbAudioEncoder.Location = new System.Drawing.Point(236, 116);
+            this.lbAudioEncoder.Location = new System.Drawing.Point(180, 116);
             this.lbAudioEncoder.Name = "lbAudioEncoder";
-            this.lbAudioEncoder.Size = new System.Drawing.Size(61, 21);
+            this.lbAudioEncoder.Size = new System.Drawing.Size(109, 21);
             this.lbAudioEncoder.TabIndex = 20;
             this.lbAudioEncoder.Text = "lbAudioEncoder";
             this.lbAudioEncoder.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -485,9 +520,9 @@
             // lbVideoEncoder
             // 
             this.lbVideoEncoder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.lbVideoEncoder.Location = new System.Drawing.Point(236, 89);
+            this.lbVideoEncoder.Location = new System.Drawing.Point(180, 89);
             this.lbVideoEncoder.Name = "lbVideoEncoder";
-            this.lbVideoEncoder.Size = new System.Drawing.Size(61, 21);
+            this.lbVideoEncoder.Size = new System.Drawing.Size(109, 21);
             this.lbVideoEncoder.TabIndex = 19;
             this.lbVideoEncoder.Text = "lbVideoEncoder";
             this.lbVideoEncoder.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -496,58 +531,46 @@
             // 
             this.cbAudioEncoders.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cbAudioEncoders.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbAudioEncoders.Enabled = false;
             this.cbAudioEncoders.FormattingEnabled = true;
-            this.cbAudioEncoders.Items.AddRange(new object[] {
-            "(do not re-encode)"});
-            this.cbAudioEncoders.Location = new System.Drawing.Point(303, 116);
+            this.cbAudioEncoders.Location = new System.Drawing.Point(295, 116);
             this.cbAudioEncoders.Name = "cbAudioEncoders";
-            this.cbAudioEncoders.Size = new System.Drawing.Size(119, 21);
+            this.cbAudioEncoders.Size = new System.Drawing.Size(127, 21);
             this.cbAudioEncoders.TabIndex = 18;
             // 
             // cbVideoEncoders
             // 
             this.cbVideoEncoders.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cbVideoEncoders.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbVideoEncoders.Enabled = false;
             this.cbVideoEncoders.FormattingEnabled = true;
-            this.cbVideoEncoders.Items.AddRange(new object[] {
-            "(do not re-encode)"});
-            this.cbVideoEncoders.Location = new System.Drawing.Point(303, 89);
+            this.cbVideoEncoders.Location = new System.Drawing.Point(295, 89);
             this.cbVideoEncoders.Name = "cbVideoEncoders";
-            this.cbVideoEncoders.Size = new System.Drawing.Size(119, 21);
+            this.cbVideoEncoders.Size = new System.Drawing.Size(127, 21);
             this.cbVideoEncoders.TabIndex = 16;
             // 
-            // tpDescription
+            // tabExtendedDownloaderDescription
             // 
-            this.tpDescription.Controls.Add(this.rtbMediaDescription);
-            this.tpDescription.Location = new System.Drawing.Point(4, 22);
-            this.tpDescription.Name = "tpDescription";
-            this.tpDescription.Padding = new System.Windows.Forms.Padding(3);
-            this.tpDescription.Size = new System.Drawing.Size(442, 175);
-            this.tpDescription.TabIndex = 1;
-            this.tpDescription.Text = "Description";
-            this.tpDescription.UseVisualStyleBackColor = true;
+            this.tabExtendedDownloaderDescription.Controls.Add(this.rtbMediaDescription);
+            this.tabExtendedDownloaderDescription.Location = new System.Drawing.Point(4, 22);
+            this.tabExtendedDownloaderDescription.Name = "tabExtendedDownloaderDescription";
+            this.tabExtendedDownloaderDescription.Padding = new System.Windows.Forms.Padding(3);
+            this.tabExtendedDownloaderDescription.Size = new System.Drawing.Size(442, 175);
+            this.tabExtendedDownloaderDescription.TabIndex = 1;
+            this.tabExtendedDownloaderDescription.Text = "tabExtendedDownloaderDescription";
+            this.tabExtendedDownloaderDescription.UseVisualStyleBackColor = true;
             // 
-            // rtbMediaDescription
+            // tabExtendedDownloaderVerbose
             // 
-            this.rtbMediaDescription.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.rtbMediaDescription.Location = new System.Drawing.Point(3, 3);
-            this.rtbMediaDescription.Name = "rtbMediaDescription";
-            this.rtbMediaDescription.ReadOnly = true;
-            this.rtbMediaDescription.Size = new System.Drawing.Size(436, 169);
-            this.rtbMediaDescription.TabIndex = 2;
-            this.rtbMediaDescription.Text = "";
-            // 
-            // tpVerbose
-            // 
-            this.tpVerbose.Controls.Add(this.txtGeneratedArguments);
-            this.tpVerbose.Controls.Add(this.rtbVerbose);
-            this.tpVerbose.Location = new System.Drawing.Point(4, 22);
-            this.tpVerbose.Name = "tpVerbose";
-            this.tpVerbose.Padding = new System.Windows.Forms.Padding(3);
-            this.tpVerbose.Size = new System.Drawing.Size(442, 175);
-            this.tpVerbose.TabIndex = 3;
-            this.tpVerbose.Text = "Verbose";
-            this.tpVerbose.UseVisualStyleBackColor = true;
+            this.tabExtendedDownloaderVerbose.Controls.Add(this.txtGeneratedArguments);
+            this.tabExtendedDownloaderVerbose.Controls.Add(this.rtbVerbose);
+            this.tabExtendedDownloaderVerbose.Location = new System.Drawing.Point(4, 22);
+            this.tabExtendedDownloaderVerbose.Name = "tabExtendedDownloaderVerbose";
+            this.tabExtendedDownloaderVerbose.Padding = new System.Windows.Forms.Padding(3);
+            this.tabExtendedDownloaderVerbose.Size = new System.Drawing.Size(442, 175);
+            this.tabExtendedDownloaderVerbose.TabIndex = 3;
+            this.tabExtendedDownloaderVerbose.Text = "tabExtendedDownloaderVerbose";
+            this.tabExtendedDownloaderVerbose.UseVisualStyleBackColor = true;
             // 
             // txtGeneratedArguments
             // 
@@ -559,32 +582,20 @@
             this.txtGeneratedArguments.Size = new System.Drawing.Size(430, 22);
             this.txtGeneratedArguments.TabIndex = 1;
             // 
-            // rtbVerbose
+            // tabDebug
             // 
-            this.rtbVerbose.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.rtbVerbose.Location = new System.Drawing.Point(3, 3);
-            this.rtbVerbose.Name = "rtbVerbose";
-            this.rtbVerbose.ReadOnly = true;
-            this.rtbVerbose.Size = new System.Drawing.Size(436, 140);
-            this.rtbVerbose.TabIndex = 0;
-            this.rtbVerbose.Text = "";
-            // 
-            // tpDebug
-            // 
-            this.tpDebug.Controls.Add(this.btnKill);
-            this.tpDebug.Controls.Add(this.chkPbTaskbar);
-            this.tpDebug.Controls.Add(this.btnPbRemove);
-            this.tpDebug.Controls.Add(this.btnPbAdd);
-            this.tpDebug.Controls.Add(this.btnCreateArgs);
-            this.tpDebug.Location = new System.Drawing.Point(4, 22);
-            this.tpDebug.Name = "tpDebug";
-            this.tpDebug.Padding = new System.Windows.Forms.Padding(3);
-            this.tpDebug.Size = new System.Drawing.Size(442, 175);
-            this.tpDebug.TabIndex = 2;
-            this.tpDebug.Text = "Debug";
-            this.tpDebug.UseVisualStyleBackColor = true;
+            this.tabDebug.Controls.Add(this.btnKill);
+            this.tabDebug.Controls.Add(this.chkPbTaskbar);
+            this.tabDebug.Controls.Add(this.btnPbRemove);
+            this.tabDebug.Controls.Add(this.btnPbAdd);
+            this.tabDebug.Controls.Add(this.btnCreateArgs);
+            this.tabDebug.Location = new System.Drawing.Point(4, 22);
+            this.tabDebug.Name = "tabDebug";
+            this.tabDebug.Padding = new System.Windows.Forms.Padding(3);
+            this.tabDebug.Size = new System.Drawing.Size(442, 175);
+            this.tabDebug.TabIndex = 2;
+            this.tabDebug.Text = "Debug";
+            this.tabDebug.UseVisualStyleBackColor = true;
             // 
             // btnKill
             // 
@@ -643,12 +654,11 @@
             // rbVideo
             // 
             this.rbVideo.Appearance = System.Windows.Forms.Appearance.Button;
-            this.rbVideo.Checked = true;
+            this.rbVideo.Enabled = false;
             this.rbVideo.Location = new System.Drawing.Point(12, 224);
             this.rbVideo.Name = "rbVideo";
             this.rbVideo.Size = new System.Drawing.Size(120, 23);
             this.rbVideo.TabIndex = 10;
-            this.rbVideo.TabStop = true;
             this.rbVideo.Text = "rbVideo";
             this.rbVideo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.rbVideo.UseVisualStyleBackColor = true;
@@ -658,11 +668,11 @@
             // 
             this.rbAudio.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.rbAudio.Appearance = System.Windows.Forms.Appearance.Button;
+            this.rbAudio.Enabled = false;
             this.rbAudio.Location = new System.Drawing.Point(177, 224);
             this.rbAudio.Name = "rbAudio";
             this.rbAudio.Size = new System.Drawing.Size(120, 23);
             this.rbAudio.TabIndex = 11;
-            this.rbAudio.TabStop = true;
             this.rbAudio.Text = "rbAudio";
             this.rbAudio.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.rbAudio.UseVisualStyleBackColor = true;
@@ -672,11 +682,11 @@
             // 
             this.rbCustom.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.rbCustom.Appearance = System.Windows.Forms.Appearance.Button;
+            this.rbCustom.Enabled = false;
             this.rbCustom.Location = new System.Drawing.Point(342, 224);
             this.rbCustom.Name = "rbCustom";
             this.rbCustom.Size = new System.Drawing.Size(120, 23);
             this.rbCustom.TabIndex = 12;
-            this.rbCustom.TabStop = true;
             this.rbCustom.Text = "rbCustom";
             this.rbCustom.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.rbCustom.UseVisualStyleBackColor = true;
@@ -716,19 +726,6 @@
             this.chkDownloaderCloseAfterDownload.Text = "chkDownloaderCloseAfterDownload";
             this.chkDownloaderCloseAfterDownload.UseVisualStyleBackColor = true;
             // 
-            // pbStatus
-            // 
-            this.pbStatus.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.pbStatus.ContainerParent = this;
-            this.pbStatus.FastValueUpdate = true;
-            this.pbStatus.Location = new System.Drawing.Point(12, 461);
-            this.pbStatus.Name = "pbStatus";
-            this.pbStatus.ShowText = true;
-            this.pbStatus.Size = new System.Drawing.Size(193, 21);
-            this.pbStatus.TabIndex = 20;
-            this.pbStatus.Text = ".  .  .";
-            // 
             // txtLink
             // 
             this.txtLink.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -747,9 +744,65 @@
             this.lbExtendedDownloaderLink.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbExtendedDownloaderLink.Location = new System.Drawing.Point(333, 58);
             this.lbExtendedDownloaderLink.Name = "lbExtendedDownloaderLink";
-            this.lbExtendedDownloaderLink.Size = new System.Drawing.Size(26, 13);
+            this.lbExtendedDownloaderLink.Size = new System.Drawing.Size(135, 13);
             this.lbExtendedDownloaderLink.TabIndex = 22;
-            this.lbExtendedDownloaderLink.Text = "Link";
+            this.lbExtendedDownloaderLink.Text = "lbExtendedDownloaderLink";
+            // 
+            // lbVideoRemux
+            // 
+            this.lbVideoRemux.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbVideoRemux.Location = new System.Drawing.Point(180, 62);
+            this.lbVideoRemux.Name = "lbVideoRemux";
+            this.lbVideoRemux.Size = new System.Drawing.Size(109, 21);
+            this.lbVideoRemux.TabIndex = 31;
+            this.lbVideoRemux.Text = "lbVideoRemux";
+            this.lbVideoRemux.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // cbVideoRemux
+            // 
+            this.cbVideoRemux.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.cbVideoRemux.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbVideoRemux.Enabled = false;
+            this.cbVideoRemux.FormattingEnabled = true;
+            this.cbVideoRemux.Location = new System.Drawing.Point(295, 62);
+            this.cbVideoRemux.Name = "cbVideoRemux";
+            this.cbVideoRemux.Size = new System.Drawing.Size(127, 21);
+            this.cbVideoRemux.TabIndex = 29;
+            // 
+            // pbStatus
+            // 
+            this.pbStatus.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pbStatus.ContainerParent = this;
+            this.pbStatus.FastValueUpdate = true;
+            this.pbStatus.Location = new System.Drawing.Point(12, 461);
+            this.pbStatus.Name = "pbStatus";
+            this.pbStatus.ShowText = true;
+            this.pbStatus.Size = new System.Drawing.Size(193, 21);
+            this.pbStatus.TabIndex = 20;
+            this.pbStatus.Text = ".  .  .";
+            // 
+            // rtbMediaDescription
+            // 
+            this.rtbMediaDescription.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.rtbMediaDescription.Location = new System.Drawing.Point(3, 3);
+            this.rtbMediaDescription.Name = "rtbMediaDescription";
+            this.rtbMediaDescription.ReadOnly = true;
+            this.rtbMediaDescription.Size = new System.Drawing.Size(436, 169);
+            this.rtbMediaDescription.TabIndex = 2;
+            this.rtbMediaDescription.Text = "";
+            // 
+            // rtbVerbose
+            // 
+            this.rtbVerbose.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.rtbVerbose.Location = new System.Drawing.Point(3, 3);
+            this.rtbVerbose.Name = "rtbVerbose";
+            this.rtbVerbose.ReadOnly = true;
+            this.rtbVerbose.Size = new System.Drawing.Size(436, 140);
+            this.rtbVerbose.TabIndex = 0;
+            this.rtbVerbose.Text = "";
             // 
             // frmExtendedDownload
             // 
@@ -773,7 +826,7 @@
             this.Controls.Add(this.btnExtendedDownloaderDownloadThumbnail);
             this.Controls.Add(this.lbExtendedDownloaderDownloadingThumbnail);
             this.Controls.Add(this.lbExtendedDownloaderUploader);
-            this.Controls.Add(this.txtMediaTitle);
+            this.Controls.Add(this.txtExtendedDownloaderMediaTitle);
             this.Controls.Add(this.pbThumbnail);
             this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = global::youtube_dl_gui.Properties.Resources.ProgramIcon;
@@ -784,19 +837,21 @@
             this.Text = "frmExtendedDownload";
             ((System.ComponentModel.ISupportInitialize)(this.pbThumbnail)).EndInit();
             this.tcVideoData.ResumeLayout(false);
-            this.tpFormats.ResumeLayout(false);
+            this.tabExtendedDownloaderFormats.ResumeLayout(false);
             this.tcFormats.ResumeLayout(false);
             this.tabVideoFormats.ResumeLayout(false);
+            this.tabVideoFormats.PerformLayout();
             this.tabAudioFormats.ResumeLayout(false);
+            this.tabAudioFormats.PerformLayout();
             this.tabCustom.ResumeLayout(false);
             this.tabCustom.PerformLayout();
-            this.tpFormatOptions.ResumeLayout(false);
-            this.tpFormatOptions.PerformLayout();
-            this.tpDescription.ResumeLayout(false);
-            this.tpVerbose.ResumeLayout(false);
-            this.tpVerbose.PerformLayout();
-            this.tpDebug.ResumeLayout(false);
-            this.tpDebug.PerformLayout();
+            this.tabFormatOptions.ResumeLayout(false);
+            this.tabFormatOptions.PerformLayout();
+            this.tabExtendedDownloaderDescription.ResumeLayout(false);
+            this.tabExtendedDownloaderVerbose.ResumeLayout(false);
+            this.tabExtendedDownloaderVerbose.PerformLayout();
+            this.tabDebug.ResumeLayout(false);
+            this.tabDebug.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -806,7 +861,7 @@
 
         private System.Windows.Forms.PictureBox pbThumbnail;
         private murrty.controls.ExtendedRichTextBox rtbMediaDescription;
-        private System.Windows.Forms.TextBox txtMediaTitle;
+        private System.Windows.Forms.TextBox txtExtendedDownloaderMediaTitle;
         private System.Windows.Forms.Label lbExtendedDownloaderUploader;
         private System.Windows.Forms.TextBox txtUploader;
         private System.Windows.Forms.Label lbExtendedDownloaderDownloadingThumbnail;
@@ -815,7 +870,7 @@
         private System.Windows.Forms.TextBox txtViews;
         private System.Windows.Forms.Label lbExtendedDownloaderViews;
         private System.Windows.Forms.TabControl tcVideoData;
-        private System.Windows.Forms.TabPage tpFormats;
+        private System.Windows.Forms.TabPage tabExtendedDownloaderFormats;
         private System.Windows.Forms.ListView lvVideoFormats;
         private System.Windows.Forms.ColumnHeader chVideoDimension;
         private System.Windows.Forms.ColumnHeader chVideoBitrate;
@@ -826,14 +881,14 @@
         private System.Windows.Forms.RadioButton rbCustom;
         private System.Windows.Forms.RadioButton rbAudio;
         private System.Windows.Forms.RadioButton rbVideo;
-        private System.Windows.Forms.TabPage tpDescription;
+        private System.Windows.Forms.TabPage tabExtendedDownloaderDescription;
         private System.Windows.Forms.ListView lvAudioFormats;
         private System.Windows.Forms.ColumnHeader chAudioBitrate;
         private System.Windows.Forms.ColumnHeader chAudioSampleRate;
         private System.Windows.Forms.ColumnHeader chAudioContainer;
         private System.Windows.Forms.ColumnHeader chAudioCodec;
         private System.Windows.Forms.TextBox txtCustomArguments;
-        private System.Windows.Forms.TabPage tpDebug;
+        private System.Windows.Forms.TabPage tabDebug;
         private System.Windows.Forms.Button btnCreateArgs;
         private System.Windows.Forms.ColumnHeader chVideoFileSize;
         private System.Windows.Forms.ColumnHeader chAudioSize;
@@ -843,7 +898,7 @@
         private System.Windows.Forms.TabControl tcFormats;
         private System.Windows.Forms.TabPage tabVideoFormats;
         private System.Windows.Forms.TabPage tabAudioFormats;
-        private System.Windows.Forms.TabPage tpFormatOptions;
+        private System.Windows.Forms.TabPage tabFormatOptions;
         private System.Windows.Forms.Label lbAudioEncoder;
         private System.Windows.Forms.Label lbVideoEncoder;
         private System.Windows.Forms.Button btnDownloadAbortClose;
@@ -852,7 +907,7 @@
         private System.Windows.Forms.CheckBox chkPbTaskbar;
         private System.Windows.Forms.Button btnPbRemove;
         private System.Windows.Forms.Button btnPbAdd;
-        private System.Windows.Forms.TabPage tpVerbose;
+        private System.Windows.Forms.TabPage tabExtendedDownloaderVerbose;
         private murrty.controls.ExtendedRichTextBox rtbVerbose;
         private System.Windows.Forms.Button btnKill;
         private System.Windows.Forms.TextBox txtGeneratedArguments;
@@ -867,5 +922,9 @@
         private System.Windows.Forms.ColumnHeader chAudioFormatId;
         private System.Windows.Forms.TextBox txtLink;
         private System.Windows.Forms.Label lbExtendedDownloaderLink;
+        private System.Windows.Forms.Label lbExtendedDownloaderNoVideoFormatsAvailable;
+        private System.Windows.Forms.Label lbExtendedDownloaderNoAudioFormatsAvailable;
+        private System.Windows.Forms.Label lbVideoRemux;
+        private System.Windows.Forms.ComboBox cbVideoRemux;
     }
 }

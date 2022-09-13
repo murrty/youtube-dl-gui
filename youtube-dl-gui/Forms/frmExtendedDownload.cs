@@ -8,7 +8,6 @@ namespace youtube_dl_gui {
     public partial class frmExtendedDownload : Form {
 
         // Download specific times: yt-dlp -i --download-sections "*00:00:00-00:00:10"
-        // Download from archive: yt-dlp ytarchive:<ID> (needs filtering)
 
         private DownloaderData Information;
         private DownloaderData.Format VideoFormat;
@@ -21,18 +20,18 @@ namespace youtube_dl_gui {
 
         private string URL { get; }
 
-        private readonly Thread InformationThread;
+        private Thread InformationThread;
         private Thread ThumbnailThread;
         private Thread DownloadThread;
 
-        public frmExtendedDownload(string URL) {
+        public frmExtendedDownload(string URL, bool Archived) {
             InitializeComponent();
             LoadLanguage();
             this.URL = URL;
-            txtLink.Text = URL;
+            txtLink.Text = Archived ? URL.Split(':')[1] : URL;
 
             if (!Program.DebugMode) {
-                tcVideoData.TabPages.Remove(tpDebug);
+                tcVideoData.TabPages.Remove(tabDebug);
             }
 
             lvVideoFormats.SelectedIndexChanged += (s, e) => {
@@ -51,136 +50,32 @@ namespace youtube_dl_gui {
                     if (LastSelectedAudioFormat is not null) {
                         LastSelectedAudioFormat.ImageIndex = LastSelectedAudioFormat.Index == 0 ? 0 : -1;
                     }
-
                     lvAudioFormats.SelectedItems[0].ImageIndex = 1;
                     LastSelectedAudioFormat = lvAudioFormats.SelectedItems[0];
-                    AudioFormat = LastSelectedVideoFormat.Tag as DownloaderData.Format;
+                    AudioFormat = LastSelectedAudioFormat.Tag as DownloaderData.Format;
                 }
             };
 
+            cbVideoRemux.Items.AddRange(
+                new[] { "avi", "flv", "mkv", "mov", "mp4", "webm" });
+            cbVideoRemux.SelectedIndex = 0;
             cbVideoEncoders.Items.AddRange(
-                new[] { "avi", "flv", "mkv", "mp4", "ogg", "webm" });
+                new[] { "avi", "flv", "mkv", "mov", "mp4", "webm" });
             cbVideoEncoders.SelectedIndex = 0;
 
             cbAudioEncoders.Items.AddRange(
-                new[] { "aac", "flac", "mp3", "m4v", "opus", "vorbis", "wav" });
+                new[] { "aac", "aiff", "alac", "flac", "mp3", "m4a", "ogg", "opus", "vorbis", "wav" });
             cbAudioEncoders.SelectedIndex = 0;
 
             cbVbrQualities.Items.AddRange(Formats.VbrQualities);
+            cbVbrQualities.SelectedIndex = 0;
+
             cbSchema.Text = Config.Settings.Downloads.fileNameSchema;
             if (!string.IsNullOrEmpty(Config.Settings.Saved.FileNameSchemaHistory)) {
                 cbSchema.Items.AddRange(Config.Settings.Saved.FileNameSchemaHistory.Split('|'));
             }
             lvVideoFormats.SmallImageList = Program.ExtendedDownloaderSelectedImages;
             lvAudioFormats.SmallImageList = Program.ExtendedDownloaderSelectedImages;
-
-            rbVideo.Checked = true;
-
-            InformationThread = new(() => {
-                string Retrieved = null;
-                try {
-                    Information = DownloaderData.GenerateData(URL, out Retrieved);
-                    if (Information is null || Information.AvailableFormats.Length == 0)
-                        throw new NullReferenceException("The video data is null, it may not be available for download.");
-
-                    DownloaderData.Format Format;
-                    for (int i = Information.AvailableFormats.Length; i > 0; i--) {
-                        Format = Information.AvailableFormats[i - 1];
-
-                        if (Format.VideoWidth > 0 && Format.VideoHeight > 0 && Format.ValidVideoFormat) {
-                            string LegibleQualityName = Format.QualityName.IsNotNullEmptyWhitespace() ? Format.QualityName : "?";
-                            string Dimensions = $"{Format.VideoWidth}x{Format.VideoHeight}";
-                            string Bitrate = Format.VideoBitrate is not null && Format.VideoBitrate > 0 ? $"{Format.VideoBitrate}Kbps" : "?";
-                            string Container = Format.Extension ?? "Unknown";
-                            string Frames = Format.VideoFps is not null && Format.VideoFps > 0 ? $"{Format.VideoFps}" : "?";
-                            string Codec = Format.VideoCodec.IsNotNullEmptyWhitespace() && Format.VideoCodec != "none" ? Format.VideoCodec : "Unknown";
-                            string FileSize = Format.FileSize is not null ?
-                                Format.FileSize.Value.SizeToString() : Format.ApproximateFileSize is not null ?
-                                Format.ApproximateFileSize.Value.SizeToString() : "?B";
-
-                            ListViewItem NewFormat = new(LegibleQualityName);
-                            NewFormat.SubItems.Add(Frames);
-                            NewFormat.SubItems.Add(Container);
-                            NewFormat.SubItems.Add(FileSize);
-                            NewFormat.SubItems.Add(Bitrate);
-                            NewFormat.SubItems.Add(Dimensions);
-                            NewFormat.SubItems.Add(Codec);
-                            NewFormat.SubItems.Add(Format.Identifier);
-                            NewFormat.Tag = Format;
-
-                            if (lvVideoFormats.Items.Count == 0) {
-                                VideoFormat = Format;
-                                LastSelectedVideoFormat = NewFormat;
-                            }
-
-                            lvVideoFormats.Invoke(() => lvVideoFormats.Items.Add(NewFormat));
-                        }
-                        else if (Format.AudioCodec.IsNotNullEmptyWhitespace() && Format.AudioCodec != "none") {
-                            string Codec = Format.AudioCodec ?? "Unknown";
-                            string Container = Format.Extension ?? "Unknown";
-                            string SampleRate = $"{(Format.AudioSampleRate is not null && Format.AudioSampleRate > 0 ? $"{Format.AudioSampleRate}" : "?")}Hz";
-                            string Bitrate = $"{(Format.AudioBitrate is not null && Format.AudioBitrate > 0 ? $"{Format.AudioBitrate}" : "?")}Kbps";
-                            string FileSize = Format.FileSize is not null ?
-                                ((long)Format.FileSize).SizeToString() : Format.ApproximateFileSize is not null ?
-                                ((long)Format.ApproximateFileSize).SizeToString() : "?B";
-                            
-                            ListViewItem NewFormat = new(Bitrate);
-                            NewFormat.SubItems.Add(Container);
-                            NewFormat.SubItems.Add(FileSize);
-                            NewFormat.SubItems.Add(SampleRate);
-                            NewFormat.SubItems.Add(Codec);
-                            NewFormat.SubItems.Add(Format.Identifier);
-                            NewFormat.Tag = Format;
-
-                            if (lvAudioFormats.Items.Count == 0) {
-                                AudioFormat = Format;
-                                LastSelectedAudioFormat = NewFormat;
-                            }
-
-                            lvAudioFormats.Invoke(() => lvAudioFormats.Items.Add(NewFormat));
-                        }
-                    }
-
-                    this.Invoke(() => {
-                        this.Text = $"{Information.Title} - {Language.ApplicationName}";
-                        txtMediaTitle.Text = Information.Title;
-                        rtbMediaDescription.Text = Information.Description;
-                        txtUploader.Text = Information.Uploader;
-                        txtViews.Text = $"{(Information.Views is not null ? Information.Views.Value.ToString("#,000") : "Unknown")}";
-                        lbTimestamp.Text = Information.Duration;
-                        tcVideoData.Enabled = true;
-
-                        if (Config.Settings.Downloads.ExtendedDownloaderAutoDownloadThumbnail) {
-                            DownloadThumbnail();
-                        }
-                        else {
-                            btnExtendedDownloaderDownloadThumbnail.Enabled = btnExtendedDownloaderDownloadThumbnail.Visible = true;
-                        }
-
-                        lbTimestamp.Location = new(
-                            (pbThumbnail.Location.X + pbThumbnail.Size.Width) - lbTimestamp.Size.Width - 8,
-                            (pbThumbnail.Location.Y + pbThumbnail.Size.Height) - lbTimestamp.Size.Height - 8);
-                        lbTimestamp.Visible = true;
-
-                        btnDownloadAbortClose.Enabled = true;
-                        btnDownloadWithAuthentication.Enabled = true;
-
-                        if (lvVideoFormats.Items.Count > 0)
-                            lvVideoFormats.Items[0].Selected = true;
-
-                        if (lvAudioFormats.Items.Count > 0)
-                            lvAudioFormats.Items[0].Selected = true;
-                    });
-                }
-                catch (ThreadAbortException) { }
-                catch (Exception ex) {
-                    this.Invoke(() => Log.ReportException(ex, Retrieved));
-                }
-            }) {
-                Name = $"InfoThread {URL}",
-                IsBackground = true,
-                Priority = ThreadPriority.BelowNormal
-            };
 
             this.Load += (s, e) => {
                 if (Config.ValidPoint(Config.Settings.Saved.ExtendedDownloaderLocation)) {
@@ -192,7 +87,7 @@ namespace youtube_dl_gui {
                 }
             };
             this.Shown += (s, e) => {
-                InformationThread.Start();
+                DownloadInfo();
                 lbExtendedDownloaderUploader.Focus();
             };
             this.FormClosing += (s, e) => {
@@ -228,18 +123,171 @@ namespace youtube_dl_gui {
             rbAudio.Text = Language.GenericAudio;
             rbCustom.Text = Language.GenericCustom;
             chkVideoDownloadAudio.Text = Language.GenericSound;
+            tabExtendedDownloaderFormats.Text = Language.lbFormat;
+            tabExtendedDownloaderDescription.Text = Language.tabExtendedDownloaderDescription;
+            tabExtendedDownloaderVerbose.Text = Language.tabExtendedDownloaderVerbose;
             tabVideoFormats.Text = Language.GenericVideo;
+            lbExtendedDownloaderNoVideoFormatsAvailable.Text = Language.lbExtendedDownloaderNoVideoFormatsAvailable;
             tabAudioFormats.Text = Language.GenericAudio;
+            lbExtendedDownloaderNoAudioFormatsAvailable.Text = Language.lbExtendedDownloaderNoAudioFormatsAvailable;
             tabCustom.Text = Language.GenericCustom;
-            tpFormats.Text = Language.lbFormat;
+            tabFormatOptions.Text = Language.tabExtendedDownloaderFormatOptions;
             lbVideoEncoder.Text = Language.GenericVideo;
             lbAudioEncoder.Text = Language.GenericAudio;
             btnDownloadAbortClose.Text = Language.sbDownload;
             btnDownloadWithAuthentication.Text = Language.mDownloadWithAuthentication;
-            tpFormatOptions.Text = Language.tpExtendedDownloaderFormatOptions;
             lbSchema.Text = Language.lbSettingsDownloadsFileNameSchema;
             chkVideoSeparateAudio.Text = Language.chkExtendedDownloaderVideoSeparateAudio;
             chkDownloaderCloseAfterDownload.Text = Language.chkDownloaderCloseAfterDownload;
+            lbVideoRemux.Text = Language.lbVideoRemux;
+            txtExtendedDownloaderMediaTitle.Text = Language.txtExtendedDownloaderMediaTitle;
+            cbVideoRemux.Items.Add(Language.GenericDoNotRemux);
+            cbVideoEncoders.Items.Add(Language.GenericDoNotReEncode);
+            cbAudioEncoders.Items.Add(Language.GenericDoNotReEncode);
+        }
+        private void DownloadInfo() {
+            InformationThread = new(() => {
+                string Retrieved = null;
+                try {
+                    if (URL.IsNullEmptyWhitespace()) {
+                        throw new DownloadException(URL, "The media you are trying to access was not entered in correctly.");
+                    }
+                    Information = DownloaderData.GenerateData(URL, out Retrieved);
+                    if (Information is null || Information.AvailableFormats.Length == 0)
+                        throw new DownloadException(URL, "The media you are trying to access may not be accessible at this time, or it may have been removed.");
+
+                    DownloaderData.Format Format;
+                    for (int i = Information.AvailableFormats.Length; i > 0; i--) {
+                        Format = Information.AvailableFormats[i - 1];
+
+                        // Some formats don't report width or height, so if either of them are greater than 0 then it's defined as a video.
+                        if (Format.VideoWidth > 0 || Format.VideoHeight > 0 && Format.ValidVideoFormat) {
+                            string LegibleQualityName = Format.QualityName.IsNotNullEmptyWhitespace() ? Format.QualityName : "?";
+                            string Dimensions = $"{Format.VideoWidth}x{Format.VideoHeight}";
+                            string Bitrate = Format.VideoBitrate is not null && Format.VideoBitrate > 0 ? $"{Format.VideoBitrate}Kbps" : "?";
+                            string Container = Format.Extension ?? "Unknown";
+                            string Frames = Format.VideoFps is not null && Format.VideoFps > 0 ? $"{Format.VideoFps}" : "?";
+                            string Codec = Format.VideoCodec.IsNotNullEmptyWhitespace() && Format.VideoCodec != "none" ? Format.VideoCodec : "Unknown";
+                            string FileSize = Format.FileSize is not null ?
+                                Format.FileSize.Value.SizeToString() : Format.ApproximateFileSize is not null ?
+                                Format.ApproximateFileSize.Value.SizeToString() : "?B";
+
+                            ListViewItem NewFormat = new(LegibleQualityName);
+                            NewFormat.SubItems.Add(Frames);
+                            NewFormat.SubItems.Add(Container);
+                            NewFormat.SubItems.Add(FileSize);
+                            NewFormat.SubItems.Add(Bitrate);
+                            NewFormat.SubItems.Add(Dimensions);
+                            NewFormat.SubItems.Add(Codec);
+                            NewFormat.SubItems.Add(Format.Identifier);
+                            NewFormat.Tag = Format;
+
+                            if (lvVideoFormats.Items.Count == 0) {
+                                VideoFormat = Format;
+                                LastSelectedVideoFormat = NewFormat;
+                            }
+
+                            lvVideoFormats.Invoke(() => lvVideoFormats.Items.Add(NewFormat));
+                        }
+                        else if ((Format.AudioCodec.IsNotNullEmptyWhitespace() && Format.AudioCodec != "none") || Format.VideoCodec == "none") {
+                            string Codec = Format.AudioCodec ?? "Unknown";
+                            string Container = Format.Extension ?? "Unknown";
+                            string SampleRate = $"{(Format.AudioSampleRate is not null && Format.AudioSampleRate > 0 ? $"{Format.AudioSampleRate}" : "?")}Hz";
+                            string Bitrate = $"{(Format.AudioBitrate is not null && Format.AudioBitrate > 0 ? $"{Format.AudioBitrate}" : "?")}Kbps";
+                            string FileSize = Format.FileSize is not null ?
+                                ((long)Format.FileSize).SizeToString() : Format.ApproximateFileSize is not null ?
+                                ((long)Format.ApproximateFileSize).SizeToString() : "?B";
+
+                            ListViewItem NewFormat = new(Bitrate);
+                            NewFormat.SubItems.Add(Container);
+                            NewFormat.SubItems.Add(FileSize);
+                            NewFormat.SubItems.Add(SampleRate);
+                            NewFormat.SubItems.Add(Codec);
+                            NewFormat.SubItems.Add(Format.Identifier);
+                            NewFormat.Tag = Format;
+
+                            if (lvAudioFormats.Items.Count == 0) {
+                                AudioFormat = Format;
+                                LastSelectedAudioFormat = NewFormat;
+                            }
+
+                            lvAudioFormats.Invoke(() => lvAudioFormats.Items.Add(NewFormat));
+                        }
+                    }
+
+                    this.Invoke(() => {
+                        this.Text = $"{Information.Title} - {Language.ApplicationName}";
+                        txtExtendedDownloaderMediaTitle.Text = Information.Title;
+                        rtbMediaDescription.Text = Information.Description;
+                        txtUploader.Text = Information.Uploader;
+                        txtViews.Text = $"{(Information.Views is not null ? Information.Views.Value.ToString("#,000") : "Unknown")}";
+                        lbTimestamp.Text = Information.Duration;
+                        tcVideoData.Enabled = true;
+
+                        if (Config.Settings.Downloads.ExtendedDownloaderAutoDownloadThumbnail) {
+                            DownloadThumbnail();
+                        }
+                        else {
+                            btnExtendedDownloaderDownloadThumbnail.Enabled = btnExtendedDownloaderDownloadThumbnail.Visible = true;
+                        }
+
+                        lbTimestamp.Location = new(
+                            (pbThumbnail.Location.X + pbThumbnail.Size.Width) - lbTimestamp.Size.Width - 8,
+                            (pbThumbnail.Location.Y + pbThumbnail.Size.Height) - lbTimestamp.Size.Height - 8);
+                        lbTimestamp.Visible = true;
+
+                        btnDownloadAbortClose.Enabled = true;
+                        btnDownloadWithAuthentication.Enabled = true;
+                        rbCustom.Enabled = true;
+                        cbSchema.Enabled = true;
+
+                        if (lvVideoFormats.Items.Count > 0) {
+                            rbVideo.Enabled = true;
+                            lvVideoFormats.Items[0].Selected = true;
+                        }
+                        else {
+                            rbVideo.Enabled = false;
+                            lbExtendedDownloaderNoVideoFormatsAvailable.Visible = true;
+                        }
+
+                        if (lvAudioFormats.Items.Count > 0) {
+                            rbAudio.Enabled = true;
+                            lvAudioFormats.Items[0].Selected = true;
+                        }
+                        else {
+                            rbAudio.Enabled = false;
+                            lbExtendedDownloaderNoAudioFormatsAvailable.Visible = true;
+                        }
+
+                        if (rbVideo.Enabled) {
+                            rbVideo.Checked = true;
+                        }
+                        else if (rbAudio.Enabled) {
+                            rbAudio.Checked = true;
+                            tcFormats.SelectedTab = tabAudioFormats;
+                        }
+                        else {
+                            rbCustom.Checked = true;
+                            tcFormats.SelectedTab = tabCustom;
+                        }
+
+                        //chkVideoDownloadAudio.Enabled = chkVideoSeparateAudio.Enabled =
+                        //    rbVideo.Checked && lvAudioFormats.Items.Count > 0 && LastSelectedAudioFormat is not null;
+
+                        //chkAudioVBR.Enabled = cbVbrQualities.Enabled = cbAudioEncoders.Enabled =
+                        //    lvAudioFormats.Items.Count > 0 && LastSelectedAudioFormat is not null;
+                    });
+                }
+                catch (ThreadAbortException) { }
+                catch (Exception ex) {
+                    this.Invoke(() => Log.ReportException(ex, Retrieved));
+                }
+            }) {
+                Name = $"InfoThread {URL}",
+                IsBackground = true,
+                Priority = ThreadPriority.BelowNormal
+            };
+            InformationThread.Start();
         }
         private void DownloadThumbnail() {
             if (ThumbnailThread is null || !ThumbnailThread.IsAlive) {
@@ -325,7 +373,10 @@ namespace youtube_dl_gui {
                         ArgumentBuffer.Append("/best");
                     }
 
-                    if (cbVideoEncoders.SelectedIndex > 0) {
+                    if (cbVideoRemux.SelectedIndex > 0) {
+                        ArgumentBuffer.Append($" --remux-video {cbVideoRemux.GetItemText(cbVideoRemux.SelectedItem)}");
+                    }
+                    else if (cbVideoEncoders.SelectedIndex > 0) {
                         ArgumentBuffer.Append($" --recode-video {cbVideoEncoders.GetItemText(cbVideoEncoders.SelectedItem)}");
                     }
                 }
@@ -334,7 +385,7 @@ namespace youtube_dl_gui {
                     ArgumentBuffer.Append($" -f {AudioFormat.Identifier}/best");
 
                     if (cbAudioEncoders.SelectedIndex > 0) {
-                        ArgumentBuffer.Append($" --audio-format {cbAudioEncoders.GetItemText(cbAudioEncoders.SelectedItem)}");
+                        ArgumentBuffer.Append($" -x --audio-format {cbAudioEncoders.GetItemText(cbAudioEncoders.SelectedItem)}");
                     }
                 }
                 else {
@@ -488,12 +539,22 @@ namespace youtube_dl_gui {
                                 } break;
 
                                 default: {
+                                    Msg = e.Data.ToLower();
+                                    if (Msg.StartsWith("[merger]")) {
+                                        pbStatus.Invoke(() => {
+                                            pbStatus.Style = ProgressBarStyle.Marquee;
+                                            pbStatus.Value = pbStatus.Maximum;
+                                            pbStatus.Text = "Merging formats...";
+                                        });
+                                    }
+                                    else if (Msg.StartsWith("[videoconvertor]")) { // Converter?
+                                        pbStatus.Invoke(() => {
+                                            pbStatus.Style = ProgressBarStyle.Marquee;
+                                            pbStatus.Value = pbStatus.Maximum;
+                                            pbStatus.Text = "Converting video...";
+                                        });
+                                    }
                                     Msg = null;
-                                    /*
-                                      [youtube] TXRiWW7pb5E: Downloading webpage
-                                      [youtube] TXRiWW7pb5E: Downloading android player API JSON
-                                      [info] TXRiWW7pb5E: Downloading 1 format(s): 303+251
-                                    */
                                     rtbVerbose.Invoke(() => rtbVerbose.AppendText(e.Data + "\n"));
                                 } break;
                             }
@@ -556,10 +617,11 @@ namespace youtube_dl_gui {
                         Status = DownloadProcess.ExitCode == 0 ? DownloadStatus.Finished : DownloadStatus.YtdlError;
 
                     this.Invoke(() => {
-                        if (chkDownloaderCloseAfterDownload.Checked) {
+                        if (chkDownloaderCloseAfterDownload.Checked && Status == DownloadStatus.Finished) {
                             this.Dispose();
                         }
                         else {
+                            pbStatus.Style = ProgressBarStyle.Continuous;
                             pbStatus.ShowInTaskbar = false;
                             btnDownloadAbortClose.Enabled = true;
                             btnDownloadWithAuthentication.Enabled = true;
@@ -568,12 +630,14 @@ namespace youtube_dl_gui {
                                     pbStatus.Text = "Aborted";
                                     pbStatus.Value = pbStatus.Minimum;
                                     btnDownloadAbortClose.Text = Language.GenericRetry;
+                                    System.Media.SystemSounds.Exclamation.Play();
                                 } break;
 
                                 case DownloadStatus.Finished: {
                                     pbStatus.Text = "Completed";
                                     pbStatus.Value = pbStatus.Maximum;
                                     btnDownloadAbortClose.Text = Language.sbDownload;
+                                    System.Media.SystemSounds.Asterisk.Play();
                                 } break;
 
                                 case DownloadStatus.AbortForClose: { } break;
@@ -582,7 +646,8 @@ namespace youtube_dl_gui {
                                     pbStatus.Text = "Downlod error";
                                     pbStatus.Value = pbStatus.Minimum;
                                     btnDownloadAbortClose.Text = Language.GenericRetry;
-                                    tcVideoData.SelectedTab = tpVerbose;
+                                    tcVideoData.SelectedTab = tabExtendedDownloaderVerbose;
+                                    System.Media.SystemSounds.Hand.Play();
                                 } break;
                             }
                         }
@@ -599,29 +664,17 @@ namespace youtube_dl_gui {
             }
         }
 
-        private void btnDownloadThumbnail_Click(object sender, EventArgs e) {
-            DownloadThumbnail();
-            lbExtendedDownloaderUploader.Focus();
+        private void chkAudioVBR_CheckedChanged(object sender, EventArgs e) {
+            cbVbrQualities.Enabled =
+                chkAudioVBR.Checked && (rbAudio.Checked || (rbVideo.Checked && chkVideoDownloadAudio.Checked));
         }
+        private void chkVideoDownloadAudio_CheckedChanged(object sender, EventArgs e) {
+            chkAudioVBR.Enabled = cbAudioEncoders.Enabled = lvAudioFormats.Enabled = chkVideoSeparateAudio.Enabled =
+                chkVideoDownloadAudio.Checked;
 
-        private void rbVideo_CheckedChanged(object sender, EventArgs e) {
-            if (rbVideo.Checked) {
-                lvVideoFormats.Enabled = true;
-                cbVideoEncoders.Enabled = true;
-                chkVideoDownloadAudio.Enabled = true;
-                txtCustomArguments.Enabled = false;
+            cbVbrQualities.Enabled = chkVideoDownloadAudio.Checked && chkAudioVBR.Checked;
 
-                lvAudioFormats.Enabled = cbAudioEncoders.Enabled = chkAudioVBR.Enabled = chkVideoSeparateAudio.Enabled =
-                    chkVideoDownloadAudio.Checked;
-
-                cbVbrQualities.Enabled =
-                    chkAudioVBR.Checked && chkVideoDownloadAudio.Checked;
-
-                if (LastSelectedVideoFormat.Index != 0) {
-                    lvVideoFormats.Items[0].ImageIndex = 0;
-                }
-                LastSelectedVideoFormat.ImageIndex = 1;
-
+            if (LastSelectedAudioFormat is not null) {
                 if (chkVideoDownloadAudio.Checked) {
                     if (LastSelectedAudioFormat.Index != 0) {
                         lvAudioFormats.Items[0].ImageIndex = 0;
@@ -636,73 +689,21 @@ namespace youtube_dl_gui {
                 }
             }
         }
-        private void rbAudio_CheckedChanged(object sender, EventArgs e) {
-            if (rbAudio.Checked) {
-                lvVideoFormats.Enabled = false;
-                chkVideoDownloadAudio.Enabled = false;
-                cbVideoEncoders.Enabled = false;
-                chkVideoSeparateAudio.Enabled = false;
-                txtCustomArguments.Enabled = false;
+        private void btnDownloadThumbnail_Click(object sender, EventArgs e) {
+            DownloadThumbnail();
+            lbExtendedDownloaderUploader.Focus();
+        }
+        private void btnDownloadWithAuthentication_Click(object sender, EventArgs e) {
+            switch (Status) {
+                case DownloadStatus.Finished: {
+                    this.Dispose();
+                } break;
 
-                lvAudioFormats.Enabled = true;
-                chkAudioVBR.Enabled = true;
-                cbAudioEncoders.Enabled = true;
-
-                cbVbrQualities.Enabled = chkAudioVBR.Checked;
-
-                if (LastSelectedVideoFormat.Index != 0) {
-                    lvVideoFormats.Items[0].ImageIndex = 2;
-                }
-                LastSelectedVideoFormat.ImageIndex = 3;
-
-                if (LastSelectedAudioFormat.Index != 0) {
-                    lvAudioFormats.Items[0].ImageIndex = 0;
-                }
-                LastSelectedAudioFormat.ImageIndex = 1;
+                default: {
+                    BeginDownload(true);
+                } break;
             }
         }
-        private void rbCustom_CheckedChanged(object sender, EventArgs e) {
-            if (rbCustom.Checked) {
-                lvVideoFormats.Enabled = false;
-                lvAudioFormats.Enabled = false;
-                chkAudioVBR.Enabled = false;
-                cbVbrQualities.Enabled = false;
-                chkVideoDownloadAudio.Enabled = false;
-                chkVideoSeparateAudio.Enabled = false;
-                cbVideoEncoders.Enabled = false;
-                cbAudioEncoders.Enabled = false;
-                txtCustomArguments.Enabled = true;
-
-                if (LastSelectedVideoFormat.Index != 0) {
-                    lvVideoFormats.Items[0].ImageIndex = 2;
-                }
-                LastSelectedVideoFormat.ImageIndex = 3;
-
-                if (LastSelectedAudioFormat.Index != 0) {
-                    lvAudioFormats.Items[0].ImageIndex = 2;
-                }
-                LastSelectedAudioFormat.ImageIndex = 3;
-            }
-        }
-
-        private void btnCreateArgs_Click(object sender, EventArgs e) {
-            MessageBox.Show(GenerateArguments(false) ?? "No args");
-        }
-
-        private void btnPbAdd_Click(object sender, EventArgs e) {
-            if (pbStatus.Value < pbStatus.Maximum)
-                pbStatus.Value++;
-        }
-
-        private void btnPbRemove_Click(object sender, EventArgs e) {
-            if (pbStatus.Value > pbStatus.Minimum)
-                pbStatus.Value--;
-        }
-
-        private void chkPbTaskbar_CheckedChanged(object sender, EventArgs e) {
-            pbStatus.ShowInTaskbar = chkPbTaskbar.Checked;
-        }
-
         private void btnDownloadAbortClose_Click(object sender, EventArgs e) {
             //BeginDownload(false);
             switch (Status) {
@@ -720,49 +721,125 @@ namespace youtube_dl_gui {
             }
         }
 
-        private void btnDownloadWithAuthentication_Click(object sender, EventArgs e) {
-            switch (Status) {
-                case DownloadStatus.Finished: {
-                    this.Dispose();
-                } break;
+        private void rbVideo_CheckedChanged(object sender, EventArgs e) {
+            if (rbVideo.Checked) {
+                lvVideoFormats.Enabled = true;
+                cbVideoRemux.Enabled = true;
+                cbVideoEncoders.Enabled = true;
+                chkVideoDownloadAudio.Enabled = true;
+                txtCustomArguments.Enabled = false;
 
-                default: {
-                    BeginDownload(true);
-                } break;
+                // Does this work with videos?
+                cbAudioEncoders.Enabled = false;
+
+                lvAudioFormats.Enabled = chkAudioVBR.Enabled = chkVideoSeparateAudio.Enabled =
+                    chkVideoDownloadAudio.Checked;
+
+
+                cbVbrQualities.Enabled =
+                    chkAudioVBR.Checked && chkVideoDownloadAudio.Checked;
+
+                if (LastSelectedVideoFormat is not null) {
+                    if (LastSelectedVideoFormat.Index != 0) {
+                        lvVideoFormats.Items[0].ImageIndex = 0;
+                    }
+                    LastSelectedVideoFormat.ImageIndex = 1;
+                }
+
+                if (LastSelectedAudioFormat is not null) {
+                    if (chkVideoDownloadAudio.Checked) {
+                        if (LastSelectedAudioFormat.Index != 0) {
+                            lvAudioFormats.Items[0].ImageIndex = 0;
+                        }
+                        LastSelectedAudioFormat.ImageIndex = 1;
+                    }
+                    else {
+                        if (LastSelectedAudioFormat.Index != 0) {
+                            lvAudioFormats.Items[0].ImageIndex = 2;
+                        }
+                        LastSelectedAudioFormat.ImageIndex = 3;
+                    }
+                }
+            }
+        }
+        private void rbAudio_CheckedChanged(object sender, EventArgs e) {
+            if (rbAudio.Checked) {
+                lvVideoFormats.Enabled = false;
+                chkVideoDownloadAudio.Enabled = false;
+                cbVideoRemux.Enabled = false;
+                cbVideoEncoders.Enabled = false;
+                chkVideoSeparateAudio.Enabled = false;
+                txtCustomArguments.Enabled = false;
+
+                lvAudioFormats.Enabled = true;
+                chkAudioVBR.Enabled = true;
+                cbAudioEncoders.Enabled = true;
+
+                cbVbrQualities.Enabled = chkAudioVBR.Checked;
+
+                if (LastSelectedVideoFormat is not null) {
+                    if (LastSelectedVideoFormat.Index != 0) {
+                        lvVideoFormats.Items[0].ImageIndex = 2;
+                    }
+                    LastSelectedVideoFormat.ImageIndex = 3;
+                }
+
+                if (LastSelectedAudioFormat is not null) {
+                    if (LastSelectedAudioFormat.Index != 0) {
+                        lvAudioFormats.Items[0].ImageIndex = 0;
+                    }
+                    LastSelectedAudioFormat.ImageIndex = 1;
+                }
+            }
+        }
+        private void rbCustom_CheckedChanged(object sender, EventArgs e) {
+            if (rbCustom.Checked) {
+                lvVideoFormats.Enabled = false;
+                lvAudioFormats.Enabled = false;
+                chkAudioVBR.Enabled = false;
+                cbVbrQualities.Enabled = false;
+                chkVideoDownloadAudio.Enabled = false;
+                chkVideoSeparateAudio.Enabled = false;
+                cbVideoRemux.Enabled = false;
+                cbVideoEncoders.Enabled = false;
+                cbAudioEncoders.Enabled = false;
+                txtCustomArguments.Enabled = true;
+
+                if (LastSelectedVideoFormat is not null) {
+                    if (LastSelectedVideoFormat.Index != 0) {
+                        lvVideoFormats.Items[0].ImageIndex = 2;
+                    }
+                    LastSelectedVideoFormat.ImageIndex = 3;
+                }
+
+                if (LastSelectedAudioFormat is not null) {
+                    if (LastSelectedAudioFormat.Index != 0) {
+                        lvAudioFormats.Items[0].ImageIndex = 2;
+                    }
+                    LastSelectedAudioFormat.ImageIndex = 3;
+                }
             }
         }
 
+        private void btnCreateArgs_Click(object sender, EventArgs e) {
+            MessageBox.Show(GenerateArguments(false) ?? "No args");
+        }
+        private void btnPbAdd_Click(object sender, EventArgs e) {
+            if (pbStatus.Value < pbStatus.Maximum)
+                pbStatus.Value++;
+        }
+        private void btnPbRemove_Click(object sender, EventArgs e) {
+            if (pbStatus.Value > pbStatus.Minimum)
+                pbStatus.Value--;
+        }
+        private void chkPbTaskbar_CheckedChanged(object sender, EventArgs e) {
+            pbStatus.ShowInTaskbar = chkPbTaskbar.Checked;
+        }
         private void btnKill_Click(object sender, EventArgs e) {
             if (DownloadProcess is not null && !DownloadProcess.HasExited) {
                 Program.KillProcessTree((uint)DownloadProcess.Id);
                 DownloadProcess.Kill();
             }
         }
-
-        private void chkVideoDownloadAudio_CheckedChanged(object sender, EventArgs e) {
-            chkAudioVBR.Enabled = cbAudioEncoders.Enabled = lvAudioFormats.Enabled = chkVideoSeparateAudio.Enabled =
-                chkVideoDownloadAudio.Checked;
-
-            cbVbrQualities.Enabled = chkVideoDownloadAudio.Checked && chkAudioVBR.Checked;
-
-            if (chkVideoDownloadAudio.Checked) {
-                if (LastSelectedAudioFormat.Index != 0) {
-                    lvAudioFormats.Items[0].ImageIndex = 0;
-                }
-                LastSelectedAudioFormat.ImageIndex = 1;
-            }
-            else {
-                if (LastSelectedAudioFormat.Index != 0) {
-                    lvAudioFormats.Items[0].ImageIndex = 2;
-                }
-                LastSelectedAudioFormat.ImageIndex = 3;
-            }
-        }
-
-        private void chkAudioVBR_CheckedChanged(object sender, EventArgs e) {
-            cbVbrQualities.Enabled =
-                chkAudioVBR.Checked && (rbAudio.Checked || (rbVideo.Checked && chkVideoDownloadAudio.Checked));
-        }
-
     }
 }

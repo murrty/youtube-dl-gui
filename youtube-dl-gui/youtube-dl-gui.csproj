@@ -61,7 +61,10 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Management" />
+    <Reference Include="System.Net.Http" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="Microsoft.CSharp" />
@@ -106,7 +109,14 @@
     <Compile Include="Forms\frmArchiveDownloader.Designer.cs">
       <DependentUpon>frmArchiveDownloader.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\frmGenericDownloadProgress.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmGenericDownloadProgress.Designer.cs">
+      <DependentUpon>frmGenericDownloadProgress.cs</DependentUpon>
+    </Compile>
     <Compile Include="Log\Exceptions\ApiParsingException.cs" />
+    <Compile Include="Log\Exceptions\DownloadException.cs" />
     <Compile Include="Log\Natives\DwmComposition.cs" />
     <Compile Include="Classes\Extensions.cs" />
     <Compile Include="Classes\DataClasses\DownloaderData.cs" />
@@ -309,6 +319,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmDownloadLanguage.resx">
       <DependentUpon>frmDownloadLanguage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmGenericDownloadProgress.resx">
+      <DependentUpon>frmGenericDownloadProgress.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Log\Forms\frmException.resx">
       <DependentUpon>frmException.cs</DependentUpon>

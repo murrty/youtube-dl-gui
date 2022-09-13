@@ -17,8 +17,8 @@ public static class Language {
     public static string lbExceptionDescription { get; private set; }
     public static string rtbExceptionDetails { get; private set; }
     public static string btnExceptionGithub { get; private set; }
-    public static string tpExceptionDetails { get; private set; }
-    public static string tpExceptionExtraInfo { get; private set; }
+    public static string tabExceptionDetails { get; private set; }
+    public static string tabExceptionExtraInfo { get; private set; }
 
     public static string frmUpdater { get; private set; }
     public static string lbUpdaterHeader { get; private set; }
@@ -51,8 +51,8 @@ public static class Language {
         public const string lbExceptionDescription = "Below is the error that occured. Feel free to open a new issue and report it.";
         public const string rtbExceptionDetails = "Feel free to copy + paste this entire text wall into a new issue on Github";
         public const string btnExceptionGithub = "Github";
-        public const string tpExceptionDetails = "Exception details";
-        public const string tpExceptionExtraInfo = "Extra info";
+        public const string tabExceptionDetails = "Exception details";
+        public const string tabExceptionExtraInfo = "Extra info";
 
         public const string frmUpdater = "Updating";
         public const string lbUpdaterHeader = "Updating youtube-dl-gui";
@@ -85,8 +85,8 @@ public static class Language {
         lbExceptionDescription = InternalEnglish.lbExceptionDescription;
         rtbExceptionDetails = InternalEnglish.rtbExceptionDetails;
         btnExceptionGithub = InternalEnglish.btnExceptionGithub;
-        tpExceptionDetails = InternalEnglish.tpExceptionDetails;
-        tpExceptionExtraInfo = InternalEnglish.tpExceptionExtraInfo;
+        tabExceptionDetails = InternalEnglish.tabExceptionDetails;
+        tabExceptionExtraInfo = InternalEnglish.tabExceptionExtraInfo;
 
         frmUpdater = InternalEnglish.frmUpdater;
         lbUpdaterHeader = InternalEnglish.lbUpdaterHeader;
@@ -163,11 +163,11 @@ public static class Language {
                                 case "btnexceptiongithub":
                                     btnExceptionGithub = ReadValue;
                                     continue;
-                                case "tpexceptiondetails":
-                                    tpExceptionDetails = ReadValue;
+                                case "tabexceptiondetails":
+                                    tabExceptionDetails = ReadValue;
                                     continue;
-                                case "tpexceptionextrainfo":
-                                    tpExceptionExtraInfo = ReadValue;
+                                case "tabexceptionextrainfo":
+                                    tabExceptionExtraInfo = ReadValue;
                                     continue;
 
                                 case "frmupdater":

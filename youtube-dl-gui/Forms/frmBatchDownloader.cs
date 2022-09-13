@@ -500,7 +500,7 @@ namespace youtube_dl_gui {
         private void chkBatchDownloadClipboardScanner_CheckedChanged(object sender, EventArgs e) {
             if (chkBatchDownloadClipboardScanner.Checked) {
                 if (!Config.Settings.Batch.ClipboardScannerNoticeViewed) {
-                    if (MessageBox.Show(Language.dlgBatchDownloadClipboardScannerNotice, "yotube-dl-gui", MessageBoxButtons.OKCancel) == DialogResult.Cancel) {
+                    if (MessageBox.Show(Language.dlgBatchDownloadClipboardScannerNotice, Language.ApplicationName, MessageBoxButtons.OKCancel) == DialogResult.Cancel) {
                         chkBatchDownloadClipboardScanner.Checked = false;
                         return;
                     }

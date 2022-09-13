@@ -13,7 +13,7 @@ internal class MessageHandler : NativeWindow {
                 UpdaterData Data = new() {
                     FileName = AppDomain.CurrentDomain.FriendlyName,
                     NewVersion = updater.UpdateChecker.LastChecked.Version.ToString(),
-                    RepoName = "youtube-dl-gui",
+                    RepoName = Language.ApplicationName,
                     UpdateHash = updater.UpdateChecker.LastChecked.ExecutableHash
                 };
                 CopyDataStruct DataStruct = new();

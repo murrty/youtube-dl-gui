@@ -272,12 +272,14 @@ public sealed class ExtendedProgressBar : ProgressBar {
         get => base.Style;
         set {
             base.Style = value;
-            if (_ShowInTaskbar && _ContainerParent != null) {
-                SetStateInTaskbar();
-                SetValueInTaskbar();
-            }
-            if (value != ProgressBarStyle.Marquee && this.IsHandleCreated) {
-                NativeMethods.SendMessage(Handle, PBM_SETSTATE, (IntPtr)_ProgressState, IntPtr.Zero);
+            if (this.IsHandleCreated) {
+                if (_ShowInTaskbar && _ContainerParent != null) {
+                    SetStateInTaskbar();
+                    SetValueInTaskbar();
+                }
+                if (value != ProgressBarStyle.Marquee) {
+                    NativeMethods.SendMessage(Handle, PBM_SETSTATE, (IntPtr)_ProgressState, IntPtr.Zero);
+                }
             }
         }
     }
@@ -403,9 +405,10 @@ public sealed class ExtendedProgressBar : ProgressBar {
         base.OnHandleCreated(e);
         TextGraphics = CreateGraphics();
         TextSize = TextGraphics.MeasureString(Text, Font);
-        if (ProgressState != ProgressBarState.Normal) {
-            NativeMethods.SendMessage(Handle, PBM_SETSTATE, (nint)ProgressState, IntPtr.Zero);
-            SetStateInTaskbar();
+        if (DesignMode) {
+            if (ProgressState != ProgressBarState.Normal) {
+                NativeMethods.SendMessage(Handle, PBM_SETSTATE, (nint)ProgressState, IntPtr.Zero);
+            }
         }
     }
 
@@ -455,7 +458,11 @@ public sealed class ExtendedProgressBar : ProgressBar {
 
     #region Events
     internal void ExtendedProgressBar_Shown(object sender, EventArgs e) {
-        if (_ShowInTaskbar) {
+        if (ProgressState != ProgressBarState.Normal) {
+            NativeMethods.SendMessage(Handle, PBM_SETSTATE, (nint)ProgressState, IntPtr.Zero);
+        }
+
+        if (ShowInTaskbar) {
             if (Style != ProgressBarStyle.Marquee) {
                 SetValueInTaskbar();
             }

@@ -13,7 +13,7 @@ namespace youtube_dl_gui {
         /// <summary>
         /// Gets the curent version of the program.
         /// </summary>
-        public static Version CurrentVersion { get; } = new(3, 0, 0, 5);
+        public static Version CurrentVersion { get; } = new(3, 0, 0, 6);
 
         /// <summary>
         /// Gets whether the program is running in debug mode.
@@ -137,26 +137,31 @@ namespace youtube_dl_gui {
                         return 1;
                     }
 
-                    if (MessageBox.Show(Language.dlgFirstTimeInitialMessage, "youtube-dl-gui", MessageBoxButtons.YesNo) == DialogResult.Yes) {
-                        Config.Settings.Initialization.firstTime = false;
-                        Config.Settings.Downloads.downloadPath =
-                            Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Downloads\\youtube-dl";
-
-                        if (MessageBox.Show(Language.dlgFirstTimeDownloadFolder, "youtube-dl-gui", MessageBoxButtons.YesNo) == DialogResult.Yes) {
-                            using BetterFolderBrowserNS.BetterFolderBrowser fbd = new();
-                            fbd.Title = Language.dlgFindDownloadFolder;
-                            fbd.RootFolder = Config.Settings.Downloads.downloadPath;
-                            if (fbd.ShowDialog() == DialogResult.OK) {
-                                Config.Settings.Downloads.downloadPath = fbd.SelectedPath;
-                            }
-                        }
-
-                        Config.Settings.Initialization.Save();
-                        Config.Settings.Downloads.Save();
-                    }
-                    else {
+                    if (MessageBox.Show(Language.dlgFirstTimeInitialMessage, Language.ApplicationName, MessageBoxButtons.YesNo) != DialogResult.Yes)
                         return 1;
+
+                    Config.Settings.Initialization.firstTime = false;
+                    Config.Settings.Downloads.downloadPath =
+                        Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Downloads\\youtube-dl";
+
+                    if (MessageBox.Show(Language.dlgFirstTimeDownloadFolder, Language.ApplicationName, MessageBoxButtons.YesNo) == DialogResult.Yes) {
+                        using BetterFolderBrowserNS.BetterFolderBrowser fbd = new();
+                        fbd.Title = Language.dlgFindDownloadFolder;
+                        fbd.RootFolder = Config.Settings.Downloads.downloadPath;
+                        if (fbd.ShowDialog() == DialogResult.OK) {
+                            Config.Settings.Downloads.downloadPath = fbd.SelectedPath;
+                        }
                     }
+
+                    if (MessageBox.Show(Language.dlgFirstTimeDownloadYoutubeDl, Language.ApplicationName, MessageBoxButtons.YesNo) == DialogResult.Yes) {
+
+                    }
+                    if (MessageBox.Show(Language.dlgFirstTimeDownloadFfmpeg, Language.ApplicationName, MessageBoxButtons.YesNo) == DialogResult.Yes) {
+
+                    }
+
+                    Config.Settings.Initialization.Save();
+                    Config.Settings.Downloads.Save();
                 }
                 else {
                     Config.Settings.Load(ConfigType.All);
@@ -179,7 +184,7 @@ namespace youtube_dl_gui {
                 }
             }
             else {
-                nint hwnd = CopyData.FindWindow(null, "youtube-dl-gui");
+                nint hwnd = CopyData.FindWindow(null, Language.ApplicationName);
                 if (hwnd == 0) {
                     if (args.Length > 0) {
                         SentData Data = new() {
@@ -236,20 +241,25 @@ namespace youtube_dl_gui {
             Thread.Sleep(5000);
         }
 
-        internal static void KillProcessTree(uint ProcessId, bool KillParent = false) {
+        internal static void KillProcessTree(uint ProcessId) {
             ManagementObjectSearcher searcher = new("SELECT * FROM Win32_Process WHERE ParentProcessId=" + ProcessId);
             ManagementObjectCollection collection = searcher.Get();
             if (collection.Count > 0) {
                 foreach (var proc in collection) {
                     uint id = (uint)proc["ProcessID"];
                     if ((int)id != ProcessId) {
-                        Process.GetProcessById((int)id).Kill();
+                        try {
+                            KillProcessTree(id);
+                            Process.GetProcessById((int)id).Kill();
+                        }
+                        catch (ArgumentException) {
+                            // Not running?
+                        }
+                        catch (Exception ex) {
+                            Log.ReportException(ex);
+                        }
                     }
                 }
-            }
-
-            if (KillParent) {
-                Process.GetProcessById((int)ProcessId).Kill();
             }
         }
 
@@ -268,7 +278,7 @@ namespace youtube_dl_gui {
                             if (++i >= args.Length)
                                 return false;
 
-                            frmExtendedDownload ExtendedDownload = new(args[i]);
+                            frmExtendedDownload ExtendedDownload = new(args[i], false);
                             if (UseDialog) {
                                 ExtendedDownload.ShowDialog();
                             }
@@ -283,34 +293,19 @@ namespace youtube_dl_gui {
                                     if (++i >= args.Length)
                                         return false;
 
-                                    switch (Config.Settings.Downloads.YtdlType) {
-                                        case 0 when Config.Settings.Downloads.ExtendedDownloaderPreferExtendedForm:
-                                        case 2 when Config.Settings.Downloads.ExtendedDownloaderPreferExtendedForm: {
-                                            frmExtendedDownload ExtendedDownload = new(args[i]);
-                                            if (UseDialog) {
-                                                ExtendedDownload.ShowDialog();
-                                            }
-                                            else {
-                                                ExtendedDownload.Show();
-                                            }
-                                        } break;
-
-                                        default: {
-                                            DownloadInfo NewVideo = new() {
-                                                DownloadURL = args[i],
-                                                Type = DownloadType.Video,
-                                                VideoQuality = (VideoQualityType)Config.Settings.Saved.videoQuality
-                                            };
-                                            frmDownloader VideoDownloader = new(NewVideo);
-                                            if (UseDialog) {
-                                                VideoDownloader.ShowDialog();
-                                            }
-                                            else {
-                                                VideoDownloader.Show();
-                                            }
-                                            PassedCount++;
-                                        } break;
+                                    DownloadInfo NewVideo = new() {
+                                        DownloadURL = args[i],
+                                        Type = DownloadType.Video,
+                                        VideoQuality = (VideoQualityType)Config.Settings.Saved.videoQuality
+                                    };
+                                    frmDownloader VideoDownloader = new(NewVideo);
+                                    if (UseDialog) {
+                                        VideoDownloader.ShowDialog();
                                     }
+                                    else {
+                                        VideoDownloader.Show();
+                                    }
+                                    PassedCount++;
 
                                 } break;
 
@@ -318,34 +313,25 @@ namespace youtube_dl_gui {
                                     if (++i >= args.Length)
                                         return false;
 
-                                    switch (Config.Settings.Downloads.YtdlType) {
-                                        case 0 when Config.Settings.Downloads.ExtendedDownloaderPreferExtendedForm:
-                                        case 2 when Config.Settings.Downloads.ExtendedDownloaderPreferExtendedForm: {
-
-                                        } break;
-
-                                        default: {
-                                            DownloadInfo NewAudio = new() {
-                                                DownloadURL = args[i],
-                                                Type = DownloadType.Audio
-                                            };
-                                            if (Config.Settings.Downloads.AudioDownloadAsVBR) {
-                                                NewAudio.AudioVBRQuality = (AudioVBRQualityType)Config.Settings.Saved.audioQuality;
-                                            }
-                                            else {
-                                                NewAudio.AudioCBRQuality = (AudioCBRQualityType)Config.Settings.Saved.audioQuality;
-                                            }
-
-                                            frmDownloader AudioDownloader = new(NewAudio);
-                                            if (UseDialog) {
-                                                AudioDownloader.ShowDialog();
-                                            }
-                                            else {
-                                                AudioDownloader.Show();
-                                            }
-                                            PassedCount++;
-                                        } break;
+                                    DownloadInfo NewAudio = new() {
+                                        DownloadURL = args[i],
+                                        Type = DownloadType.Audio
+                                    };
+                                    if (Config.Settings.Downloads.AudioDownloadAsVBR) {
+                                        NewAudio.AudioVBRQuality = (AudioVBRQualityType)Config.Settings.Saved.audioQuality;
                                     }
+                                    else {
+                                        NewAudio.AudioCBRQuality = (AudioCBRQualityType)Config.Settings.Saved.audioQuality;
+                                    }
+
+                                    frmDownloader AudioDownloader = new(NewAudio);
+                                    if (UseDialog) {
+                                        AudioDownloader.ShowDialog();
+                                    }
+                                    else {
+                                        AudioDownloader.Show();
+                                    }
+                                    PassedCount++;
                                 } break;
                             }
                         } break;

@@ -4,7 +4,7 @@ using System.IO;
 using youtube_dl_gui.updater;
 
 internal static class Verification {
-    private static GitID YoutubeDlGitType = GitID.YoutubeDl;
+    private static GitID YoutubeDlGitType = GitID.YtDlp;
 
     public static string YoutubeDlPath { get; private set; }
     public static string FFmpegPath { get; private set; }
@@ -22,9 +22,9 @@ internal static class Verification {
         YoutubeDlGitType = (GitID)Config.Settings.Downloads.YtdlType;
         string TempPath;
         string YoutubeDlName = YoutubeDlGitType switch {
+            GitID.YoutubeDl => "youtube-dl.exe",
             GitID.YoutubeDlc => "youtube-dlc.exe",
-            GitID.YoutubeDlp => "yt-dlp.exe",
-            _ => "youtube-dl.exe",
+            _ => "yt-dlp.exe",
         };
 
         if (Config.Settings.General.UseStaticYtdl && File.Exists(Config.Settings.General.ytdlPath)) {
@@ -41,8 +41,8 @@ internal static class Verification {
         if (YoutubeDlPath != null) {
             YoutubeDlVersion = GetProgramVersion(YoutubeDlPath);
             switch (YoutubeDlGitType) {
-                default: //ytdl/youtube-dl {YYYY.MM.DD}
-                    break;
+                case GitID.YoutubeDl: { //ytdl/youtube-dl {YYYY.MM.DD}
+                } break;
 
                 case GitID.YoutubeDlc: // blackjack###/youtube-dlc {YYYY.MM.DD | git.io/link}
                     YoutubeDlVersion = YoutubeDlVersion[..YoutubeDlVersion.IndexOf(" | ")];
@@ -51,9 +51,9 @@ internal static class Verification {
                     //}
                     break;
 
-                case GitID.YoutubeDlp: //yt-dlp/yt-dlp {YYYY.MM.DD on Python 3.8.10}
+                default: { // yt-dlp/yt-dlp {YYYY.MM.DD on Python 3.8.10}
                     YoutubeDlVersion = YoutubeDlVersion[..YoutubeDlVersion.IndexOf(" on ")];
-                    break;
+                } break;
             }
         }
     }

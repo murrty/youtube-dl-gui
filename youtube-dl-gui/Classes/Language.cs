@@ -38,15 +38,23 @@ public static class Language {
     public static string GenericAdd { get; private set; }
     public static string GenericRemoveSelected { get; private set; }
     public static string GenericVerifyLinks { get; private set; }
+    public static string GenericDoNotReEncode { get; private set; }
+    public static string GenericDoNotRemux { get; private set; }
+
+    /// <summary>
+    /// Not really a generic, but it's a single string.
+    /// </summary>
+    public static string frmGenericDownloadProgress { get; private set; }
     #endregion
 
     #region Dialogs
     public static string dlgFirstTimeInitialMessage { get; private set; }
     public static string dlgFirstTimeDownloadFolder { get; private set; }
+    public static string dlgFirstTimeDownloadYoutubeDl { get; private set; }
+    public static string dlgFirstTimeDownloadFfmpeg { get; private set; }
 
     public static string dlgClipboardAutoDownloadNotice { get; private set; }
     public static string dlgBatchDownloadClipboardScannerNotice { get; private set; }
-    public static string dlgRunningActions { get; private set; }
 
     public static string dlgMainArgsTxtDoesntExist { get; private set; }
     public static string dlgMainArgsTxtIsEmpty { get; private set; }
@@ -148,8 +156,8 @@ public static class Language {
     public static string lbExceptionDescription { get; private set; }
     public static string rtbExceptionDetails { get; private set; }
     public static string btnExceptionGithub { get; private set; }
-    public static string tpExceptionDetails { get; private set; }
-    public static string tpExceptionExtraInfo { get; private set; }
+    public static string tabExceptionDetails { get; private set; }
+    public static string tabExceptionExtraInfo { get; private set; }
     #endregion
 
     #region frmExtendedDownloader
@@ -160,8 +168,14 @@ public static class Language {
     public static string lbExtendedDownloaderDownloadingThumbnail { get; private set; }
     public static string lbExtendedDownloaderDownloadingThumbnailFailed { get; private set; }
     public static string btnExtendedDownloaderDownloadThumbnail { get; private set; }
-    public static string tpExtendedDownloaderFormatOptions { get; private set; }
+    public static string tabExtendedDownloaderDescription { get; private set; }
+    public static string tabExtendedDownloaderVerbose { get; private set; }
+    public static string tabExtendedDownloaderFormatOptions { get; private set; }
     public static string chkExtendedDownloaderVideoSeparateAudio { get; private set; }
+    public static string lbExtendedDownloaderNoVideoFormatsAvailable { get; private set; }
+    public static string lbExtendedDownloaderNoAudioFormatsAvailable { get; private set; }
+    public static string lbVideoRemux { get; private set; }
+    public static string txtExtendedDownloaderMediaTitle { get; private set; }
     #endregion
 
     #region frmLanguage
@@ -249,7 +263,6 @@ public static class Language {
 
     #region frmSettings form
     public static string frmSettings { get; private set; }
-    public static string btnSettingsRedownloadYoutubeDl { get; private set; }
 
     public static string tabSettingsGeneral { get; private set; }
     public static string tabSettingsDownloads { get; private set; }
@@ -257,6 +270,8 @@ public static class Language {
     public static string tabSettingsExtensions { get; private set; }
     public static string tabSettingsErrors { get; private set; }
 
+    public static string tabSettingsGeneralYoutubeDl { get; private set; }
+    public static string tabSettingsGeneralFfmpeg { get; private set; }
     public static string lbSettingsGeneralYoutubeDlPath { get; private set; }
     public static string chkSettingsGeneralUseStaticYoutubeDl { get; private set; }
     public static string ofdTitleYoutubeDl { get; private set; }
@@ -265,6 +280,9 @@ public static class Language {
     public static string chkSettingsGeneralUseStaticFFmpeg { get; private set; }
     public static string ofdTitleFFmpeg { get; private set; }
     public static string ofdFilterFFmpeg { get; private set; }
+    public static string btnSettingsRedownloadYoutubeDl { get; private set; }
+    public static string btnSettingsRedownloadFfmpeg { get; private set; }
+
     public static string chkSettingsGeneralCheckForUpdatesOnLaunch { get; private set; }
     public static string chkSettingsGeneralCheckForBetaUpdates { get; private set; }
     public static string chkSettingsGeneralDeleteUpdaterAfterUpdating { get; private set; }
@@ -349,7 +367,6 @@ public static class Language {
     #endregion
 
     #region tipSettings
-    public static string btnSettingsRedownloadYoutubeDlHint { get; private set; }
     public static string btnSettingsCancelHint { get; private set; }
     public static string btnSettingsSaveHint { get; private set; }
 
@@ -361,6 +378,9 @@ public static class Language {
     public static string chkSettingsGeneralUseStaticFFmpegHint { get; private set; }
     public static string txtSettingsGeneralFFmpegPathHint { get; private set; }
     public static string btnSettingsGeneralBrowseFFmpegHint { get; private set; }
+    public static string btnSettingsRedownloadYoutubeDlHint { get; private set; }
+    public static string btnSettingsRedownloadFfmpegHint { get; private set; }
+
     public static string chkSettingsGeneralCheckForUpdatesOnLaunchHint { get; private set; }
     public static string chkSettingsGeneralCheckForBetaUpdatesHint { get; private set; }
     public static string chkSettingsGeneralDeleteUpdaterAfterUpdatingHint { get; private set; }
@@ -491,15 +511,20 @@ public static class Language {
         public const string GenericAdd = "Add";
         public const string GenericRemoveSelected = "Remove selected";
         public const string GenericVerifyLinks = "Verify copied links";
+        public const string GenericDoNotReEncode = "(Do not re-encode)";
+        public const string GenericDoNotRemux = "(Do not remux)";
+
+        public const string frmGenericDownloadProgress = "Downloading...";
         #endregion
 
         #region Dialogs
         public const string dlgFirstTimeInitialMessage = "youtube-dl-gui is a visual extension to youtube-dl and is not affiliated with the developers of youtube-dl in any way.\n\nThis program (and I) does not condone piracy or illegally downloading of any video you do not own the rights to or is not in public domain.\n\nAny help regarding any problems when downloading anything illegal (in my jurisdiction) will be ignored. This message will not appear again.\n\nHave you read the above?";
         public const string dlgFirstTimeDownloadFolder = "Downloads are saved to your downloads folder by default, would you like to specify a different location now?\n(You can change this in the settings at any time)";
+        public const string dlgFirstTimeDownloadYoutubeDl = "Would you like to download youtube-dl (yt-dlp is the default fork)? You can do this manually in the settings if you do not wish to do it now.";
+        public const string dlgFirstTimeDownloadFfmpeg = "Would you like to download ffmpeg? You can do this manually in the settings if you do not wish to do it now.";
 
         public const string dlgClipboardAutoDownloadNotice = "Using the clipboard auto downloader will automatically attempt to download verified links from the clipboard using the selected settings on the main form. Please do not copy any sensitive information while this option is enabled, ever.";
         public const string dlgBatchDownloadClipboardScannerNotice = "Enabling this option will add anything from your clipboard when something is copied (link or not). It will need to be manually enabled per-converter instance. Take care to not copy any sensitive information to the cipboard.";
-        public const string dlgRunningActions = "There are actions currently running. Wait for them to finish or abort them before closing the main form.";
 
         public const string dlgFindDownloadFolder = "Select a directory to save downloads to...";
         public const string dlgMainArgsTxtDoesntExist = "args.txt does not exist, create it and put in arguments to use this command";
@@ -605,8 +630,8 @@ public static class Language {
         public const string lbExceptionDescription = "Below is the error that occured. Feel free to open a new issue and report it.";
         public const string rtbExceptionDetails = "Feel free to copy + paste this entire text wall into a new issue on Github";
         public const string btnExceptionGithub = "Github";
-        public const string tpExceptionDetails = "Exception details";
-        public const string tpExceptionExtraInfo = "Extra info";
+        public const string tabExceptionDetails = "Exception details";
+        public const string tabExceptionExtraInfo = "Extra info";
         #endregion
 
         #region frmExtendedDownloader
@@ -617,8 +642,14 @@ public static class Language {
         public const string lbExtendedDownloaderDownloadingThumbnail = "Downloading thumbnail...";
         public const string lbExtendedDownloaderDownloadingThumbnailFailed = "Unable to download thumbnail";
         public const string btnExtendedDownloaderDownloadThumbnail = "Get thumbnail";
-        public const string tpExtendedDownloaderFormatOptions = "Format download options";
+        public const string tabExtendedDownloaderDescription = "Description";
+        public const string tabExtendedDownloaderVerbose = "Verbose";
+        public const string tabExtendedDownloaderFormatOptions = "Format download options";
         public const string chkExtendedDownloaderVideoSeparateAudio = "Separate audio from video";
+        public const string lbExtendedDownloaderNoVideoFormatsAvailable = "No video formats are available.";
+        public const string lbExtendedDownloaderNoAudioFormatsAvailable = "No audio formats are available.";
+        public const string lbVideoRemux = "Video remux";
+        public const string txtExtendedDownloaderMediaTitle = "Retrieving media information...";
         #endregion
 
         #region frmLanguage
@@ -715,8 +746,6 @@ public static class Language {
 
         // frmSettings
         public const string frmSettings = "youtube-dl-gui settings";
-        public const string btnSettingsRedownloadYoutubeDl = "(re)download youtube-dl";
-        public const string btnSettingsRedownloadYoutubeDlHint = "Redownloads youtube-dl if one is already present, otherwise, updates youtube-dl";
         public const string btnSettingsCancelHint = "Discard any changed settings";
         public const string btnSettingsSaveHint = "Save all configured settings";
         // frmSettings / tcMain
@@ -727,6 +756,9 @@ public static class Language {
         public const string tabSettingsErrors = "Errors";
         #region tabGeneral
         //frmSettings / tcMain / tabGeneral
+        public const string tabSettingsGeneralYoutubeDl = "youtube-dl";
+        public const string tabSettingsGeneralFfmpeg = "ffmpeg";
+
         public const string lbSettingsGeneralYoutubeDlPath = "youtube-dl path";
         public const string chkSettingsGeneralUseStaticYoutubeDl = "Use static youtube-dl";
         public const string txtSettingsGeneralYoutubeDlPathHint = "The path of youtube-dl where it won't be moved";
@@ -739,6 +771,11 @@ public static class Language {
         public const string btnSettingsGeneralBrowseFFmpegHint = "Browse for a new folder where you'll store ffmpeg";
         public const string ofdTitleFFmpeg = "Select ffmpeg.exe and ffprobe.exe";
         public const string ofdFilterFFmpeg = "ffmpeg and ffprobe executable";
+
+        public const string btnSettingsRedownloadYoutubeDl = "(re)download youtube-dl";
+        public const string btnSettingsRedownloadYoutubeDlHint = "Downloads or updates youtube-dl to the known path of youtube-dl if one is known; otherwise, the same directory as the program.\n\nIf the path to youtube-dl is not accessible or writeable by this program, the download will fail.";
+        public const string btnSettingsRedownloadFfmpeg = "(re)download ffmpeg";
+        public const string btnSettingsRedownloadFfmpegHint = "Downloads the latest version of ffmpeg and extracts it to the path to ffmpeg if one is known; otherwise, the same directory as the program.\n\nIf the path to ffmpeg is not accessible or writeable by this program, the download will fail.";
 
         public const string chkSettingsGeneralCheckForUpdatesOnLaunch = "Check for updates on launch";
         public const string chkSettingsGeneralCheckForBetaUpdates = "Check for beta updates";
@@ -980,14 +1017,19 @@ public static class Language {
         GenericAdd = InternalEnglish.GenericAdd;
         GenericRemoveSelected = InternalEnglish.GenericRemoveSelected;
         GenericVerifyLinks = InternalEnglish.GenericVerifyLinks;
+        GenericDoNotReEncode = InternalEnglish.GenericDoNotReEncode;
+        GenericDoNotRemux = InternalEnglish.GenericDoNotRemux;
+
+        frmGenericDownloadProgress = InternalEnglish.frmGenericDownloadProgress;
 
         // Dialogs
         dlgFirstTimeInitialMessage = InternalEnglish.dlgFirstTimeInitialMessage;
         dlgFirstTimeDownloadFolder = InternalEnglish.dlgFirstTimeDownloadFolder;
+        dlgFirstTimeDownloadYoutubeDl = InternalEnglish.dlgFirstTimeDownloadYoutubeDl;
+        dlgFirstTimeDownloadFfmpeg = InternalEnglish.dlgFirstTimeDownloadFfmpeg;
 
         dlgClipboardAutoDownloadNotice = InternalEnglish.dlgClipboardAutoDownloadNotice;
         dlgBatchDownloadClipboardScannerNotice = InternalEnglish.dlgBatchDownloadClipboardScannerNotice;
-        dlgRunningActions = InternalEnglish.dlgRunningActions;
 
         dlgFindDownloadFolder = InternalEnglish.dlgFindDownloadFolder;
         dlgMainArgsTxtDoesntExist = InternalEnglish.dlgMainArgsTxtDoesntExist;
@@ -1081,8 +1123,8 @@ public static class Language {
         lbExceptionDescription = InternalEnglish.lbExceptionDescription;
         rtbExceptionDetails = InternalEnglish.rtbExceptionDetails;
         btnExceptionGithub = InternalEnglish.btnExceptionGithub;
-        tpExceptionDetails = InternalEnglish.tpExceptionDetails;
-        tpExceptionExtraInfo = InternalEnglish.tpExceptionExtraInfo;
+        tabExceptionDetails = InternalEnglish.tabExceptionDetails;
+        tabExceptionExtraInfo = InternalEnglish.tabExceptionExtraInfo;
 
         // frmExtendedDownloader
         frmExtendedDownloaderRetrieving = InternalEnglish.frmExtendedDownloaderRetrieving;
@@ -1092,8 +1134,14 @@ public static class Language {
         lbExtendedDownloaderDownloadingThumbnail = InternalEnglish.lbExtendedDownloaderDownloadingThumbnail;
         lbExtendedDownloaderDownloadingThumbnailFailed = InternalEnglish.lbExtendedDownloaderDownloadingThumbnailFailed;
         btnExtendedDownloaderDownloadThumbnail = InternalEnglish.btnExtendedDownloaderDownloadThumbnail;
-        tpExtendedDownloaderFormatOptions = InternalEnglish.tpExtendedDownloaderFormatOptions;
+        tabExtendedDownloaderDescription = InternalEnglish.tabExtendedDownloaderDescription;
+        tabExtendedDownloaderVerbose = InternalEnglish.tabExtendedDownloaderVerbose;
+        tabExtendedDownloaderFormatOptions = InternalEnglish.tabExtendedDownloaderFormatOptions;
         chkExtendedDownloaderVideoSeparateAudio = InternalEnglish.chkExtendedDownloaderVideoSeparateAudio;
+        lbExtendedDownloaderNoVideoFormatsAvailable = InternalEnglish.lbExtendedDownloaderNoVideoFormatsAvailable;
+        lbExtendedDownloaderNoAudioFormatsAvailable = InternalEnglish.lbExtendedDownloaderNoAudioFormatsAvailable;
+        lbVideoRemux = InternalEnglish.lbVideoRemux;
+        txtExtendedDownloaderMediaTitle = InternalEnglish.txtExtendedDownloaderMediaTitle;
 
         // frmLanguage
         frmLanguage = InternalEnglish.frmLanguage;
@@ -1176,13 +1224,15 @@ public static class Language {
 
         // frmSettings
         frmSettings = InternalEnglish.frmSettings;
-        btnSettingsRedownloadYoutubeDl = InternalEnglish.btnSettingsRedownloadYoutubeDl;
 
         tabSettingsGeneral = InternalEnglish.tabSettingsGeneral;
         tabSettingsDownloads = InternalEnglish.tabSettingsDownloads;
         tabSettingsConverter = InternalEnglish.tabSettingsConverter;
         tabSettingsExtensions = InternalEnglish.tabSettingsExtensions;
         tabSettingsErrors = InternalEnglish.tabSettingsErrors;
+
+        tabSettingsGeneralYoutubeDl = InternalEnglish.tabSettingsGeneralYoutubeDl;
+        tabSettingsGeneralFfmpeg = InternalEnglish.tabSettingsGeneralFfmpeg;
 
         lbSettingsGeneralYoutubeDlPath = InternalEnglish.lbSettingsGeneralYoutubeDlPath;
         chkSettingsGeneralUseStaticYoutubeDl = InternalEnglish.chkSettingsGeneralUseStaticYoutubeDl;
@@ -1192,6 +1242,10 @@ public static class Language {
         chkSettingsGeneralUseStaticFFmpeg = InternalEnglish.chkSettingsGeneralUseStaticFFmpeg;
         ofdTitleFFmpeg = InternalEnglish.ofdTitleFFmpeg;
         ofdFilterFFmpeg = InternalEnglish.ofdFilterFFmpeg;
+
+        btnSettingsRedownloadYoutubeDl = InternalEnglish.btnSettingsRedownloadYoutubeDl;
+        btnSettingsRedownloadFfmpeg = InternalEnglish.btnSettingsRedownloadFfmpeg;
+
         chkSettingsGeneralCheckForUpdatesOnLaunch = InternalEnglish.chkSettingsGeneralCheckForUpdatesOnLaunch;
         chkSettingsGeneralCheckForBetaUpdates = InternalEnglish.chkSettingsGeneralCheckForBetaUpdates;
         chkSettingsGeneralDeleteUpdaterAfterUpdating = InternalEnglish.chkSettingsGeneralDeleteUpdaterAfterUpdating;
@@ -1273,7 +1327,6 @@ public static class Language {
         chkSettingsErrorsSuppressErrors = InternalEnglish.chkSettingsErrorsSuppressErrors;
 
         // frmSettings tipSettings
-        btnSettingsRedownloadYoutubeDlHint = InternalEnglish.btnSettingsRedownloadYoutubeDlHint;
         btnSettingsCancelHint = InternalEnglish.btnSettingsCancelHint;
         btnSettingsSaveHint = InternalEnglish.btnSettingsSaveHint;
 
@@ -1285,6 +1338,10 @@ public static class Language {
         chkSettingsGeneralUseStaticFFmpegHint = InternalEnglish.chkSettingsGeneralUseStaticFFmpegHint;
         txtSettingsGeneralFFmpegPathHint = InternalEnglish.txtSettingsGeneralFFmpegPathHint;
         btnSettingsGeneralBrowseFFmpegHint = InternalEnglish.btnSettingsGeneralBrowseFFmpegHint;
+
+        btnSettingsRedownloadYoutubeDlHint = InternalEnglish.btnSettingsRedownloadYoutubeDlHint;
+        btnSettingsRedownloadFfmpegHint = InternalEnglish.btnSettingsRedownloadFfmpegHint;
+
         chkSettingsGeneralCheckForUpdatesOnLaunchHint = InternalEnglish.chkSettingsGeneralCheckForUpdatesOnLaunchHint;
         chkSettingsGeneralCheckForBetaUpdatesHint = InternalEnglish.chkSettingsGeneralCheckForBetaUpdatesHint;
         chkSettingsGeneralDeleteUpdaterAfterUpdatingHint = InternalEnglish.chkSettingsGeneralDeleteUpdaterAfterUpdatingHint;
@@ -1419,14 +1476,19 @@ public static class Language {
         GenericAdd = nameof(GenericAdd);
         GenericRemoveSelected = nameof(GenericRemoveSelected);
         GenericVerifyLinks = nameof(GenericVerifyLinks);
+        GenericDoNotReEncode = nameof(GenericDoNotReEncode);
+        GenericDoNotRemux = nameof(GenericDoNotRemux);
+
+        frmGenericDownloadProgress = nameof(frmGenericDownloadProgress);
 
         // Dialogs
         dlgFirstTimeInitialMessage = nameof(dlgFirstTimeInitialMessage);
         dlgFirstTimeDownloadFolder = nameof(dlgFirstTimeDownloadFolder);
+        dlgFirstTimeDownloadYoutubeDl = nameof(dlgFirstTimeDownloadYoutubeDl);
+        dlgFirstTimeDownloadFfmpeg = nameof(dlgFirstTimeDownloadFfmpeg);
 
         dlgClipboardAutoDownloadNotice = nameof(dlgClipboardAutoDownloadNotice);
         dlgBatchDownloadClipboardScannerNotice = nameof(dlgBatchDownloadClipboardScannerNotice);
-        dlgRunningActions = nameof(dlgRunningActions);
 
         dlgFindDownloadFolder = nameof(dlgFindDownloadFolder);
         dlgMainArgsTxtDoesntExist = nameof(dlgMainArgsTxtDoesntExist);
@@ -1518,8 +1580,8 @@ public static class Language {
         lbExceptionDescription = nameof(lbExceptionDescription);
         rtbExceptionDetails = nameof(rtbExceptionDetails);
         btnExceptionGithub = nameof(btnExceptionGithub);
-        tpExceptionDetails = nameof(tpExceptionDetails);
-        tpExceptionExtraInfo = nameof(tpExceptionExtraInfo);
+        tabExceptionDetails = nameof(tabExceptionDetails);
+        tabExceptionExtraInfo = nameof(tabExceptionExtraInfo);
 
         // frmExtendedDownloader
         frmExtendedDownloaderRetrieving = nameof(frmExtendedDownloaderRetrieving);
@@ -1529,8 +1591,14 @@ public static class Language {
         lbExtendedDownloaderDownloadingThumbnail = nameof(lbExtendedDownloaderDownloadingThumbnail);
         lbExtendedDownloaderDownloadingThumbnailFailed = nameof(lbExtendedDownloaderDownloadingThumbnailFailed);
         btnExtendedDownloaderDownloadThumbnail = nameof(btnExtendedDownloaderDownloadThumbnail);
-        tpExtendedDownloaderFormatOptions = nameof(tpExtendedDownloaderFormatOptions);
+        tabExtendedDownloaderDescription = nameof(tabExtendedDownloaderDescription);
+        tabExtendedDownloaderVerbose = nameof(tabExtendedDownloaderVerbose);
+        tabExtendedDownloaderFormatOptions = nameof(tabExtendedDownloaderFormatOptions);
         chkExtendedDownloaderVideoSeparateAudio = nameof(chkExtendedDownloaderVideoSeparateAudio);
+        lbExtendedDownloaderNoVideoFormatsAvailable = nameof(lbExtendedDownloaderNoVideoFormatsAvailable);
+        lbExtendedDownloaderNoAudioFormatsAvailable = nameof(lbExtendedDownloaderNoAudioFormatsAvailable);
+        lbVideoRemux = nameof(lbVideoRemux);
+        txtExtendedDownloaderMediaTitle = nameof(txtExtendedDownloaderMediaTitle);
 
         // frmLanguage
         frmLanguage = nameof(frmLanguage);
@@ -1613,13 +1681,15 @@ public static class Language {
 
         // frmSettings
         frmSettings = nameof(frmSettings);
-        btnSettingsRedownloadYoutubeDl = nameof(btnSettingsRedownloadYoutubeDl);
 
         tabSettingsGeneral = nameof(tabSettingsGeneral);
         tabSettingsDownloads = nameof(tabSettingsDownloads);
         tabSettingsConverter = nameof(tabSettingsConverter);
         tabSettingsExtensions = nameof(tabSettingsExtensions);
         tabSettingsErrors = nameof(tabSettingsErrors);
+
+        tabSettingsGeneralYoutubeDl = nameof(tabSettingsGeneralYoutubeDl);
+        tabSettingsGeneralFfmpeg = nameof(tabSettingsGeneralFfmpeg);
 
         lbSettingsGeneralYoutubeDlPath = nameof(lbSettingsGeneralYoutubeDlPath);
         chkSettingsGeneralUseStaticYoutubeDl = nameof(chkSettingsGeneralUseStaticYoutubeDl);
@@ -1629,6 +1699,10 @@ public static class Language {
         chkSettingsGeneralUseStaticFFmpeg = nameof(chkSettingsGeneralUseStaticFFmpeg);
         ofdTitleFFmpeg = nameof(ofdTitleFFmpeg);
         ofdFilterFFmpeg = nameof(ofdFilterFFmpeg);
+
+        btnSettingsRedownloadYoutubeDl = nameof(btnSettingsRedownloadYoutubeDl);
+        btnSettingsRedownloadFfmpeg = nameof(btnSettingsRedownloadFfmpeg);
+
         chkSettingsGeneralCheckForUpdatesOnLaunch = nameof(chkSettingsGeneralCheckForUpdatesOnLaunch);
         chkSettingsGeneralCheckForBetaUpdates = nameof(chkSettingsGeneralCheckForBetaUpdates);
         chkSettingsGeneralDeleteUpdaterAfterUpdating = nameof(chkSettingsGeneralDeleteUpdaterAfterUpdating);
@@ -1710,7 +1784,6 @@ public static class Language {
         chkSettingsErrorsSuppressErrors = nameof(chkSettingsErrorsSuppressErrors);
 
         // frmSettings tipSettings
-        btnSettingsRedownloadYoutubeDlHint = nameof(btnSettingsRedownloadYoutubeDlHint);
         btnSettingsCancelHint = nameof(btnSettingsCancelHint);
         btnSettingsSaveHint = nameof(btnSettingsSaveHint);
 
@@ -1722,6 +1795,10 @@ public static class Language {
         chkSettingsGeneralUseStaticFFmpegHint = nameof(chkSettingsGeneralUseStaticFFmpegHint);
         txtSettingsGeneralFFmpegPathHint = nameof(txtSettingsGeneralFFmpegPathHint);
         btnSettingsGeneralBrowseFFmpegHint = nameof(btnSettingsGeneralBrowseFFmpegHint);
+
+        btnSettingsRedownloadYoutubeDlHint = nameof(btnSettingsRedownloadYoutubeDlHint);
+        btnSettingsRedownloadFfmpegHint = nameof(btnSettingsRedownloadFfmpegHint);
+
         chkSettingsGeneralCheckForUpdatesOnLaunchHint = nameof(chkSettingsGeneralCheckForUpdatesOnLaunchHint);
         chkSettingsGeneralCheckForBetaUpdatesHint = nameof(chkSettingsGeneralCheckForBetaUpdatesHint);
         chkSettingsGeneralDeleteUpdaterAfterUpdatingHint = nameof(chkSettingsGeneralDeleteUpdaterAfterUpdatingHint);
@@ -1920,6 +1997,16 @@ public static class Language {
                             case "genericverifylinks":
                                 GenericVerifyLinks = ReadValue;
                                 continue;
+                            case "genericdonotreencode":
+                                GenericDoNotReEncode = ReadValue;
+                                continue;
+                            case "genericdonotremux":
+                                GenericDoNotRemux = ReadValue;
+                                continue;
+
+                            case "frmgenericdownloadprogress":
+                                frmGenericDownloadProgress = ReadValue;
+                                continue;
                             #endregion
 
                             #region Dialogs
@@ -1932,15 +2019,18 @@ public static class Language {
                             case "dlgfinddownloadfolder":
                                 dlgFindDownloadFolder = ReadValue;
                                 continue;
+                            case "dlgfirsttimedownloadyoutubedl":
+                                dlgFindDownloadFolder = ReadValue;
+                                continue;
+                            case "dlgfirsttimedownloadffmpeg":
+                                dlgFindDownloadFolder = ReadValue;
+                                continue;
 
                             case "dlgclipboardautodownloadnotice":
                                 dlgClipboardAutoDownloadNotice = ReadValue;
                                 continue;
                             case "dlgbatchdownloadclipboardscannernotice":
                                 dlgBatchDownloadClipboardScannerNotice = ReadValue;
-                                continue;
-                            case "dlgrunningactions":
-                                dlgRunningActions = ReadValue;
                                 continue;
 
                             case "dlgmainargstxtdoesntexist":
@@ -2184,11 +2274,11 @@ public static class Language {
                             case "btnexceptiongithub":
                                 btnExceptionGithub = ReadValue;
                                 continue;
-                            case "tpexceptiondetails":
-                                tpExceptionDetails = ReadValue;
+                            case "tabexceptiondetails":
+                                tabExceptionDetails = ReadValue;
                                 continue;
-                            case "tpexceptionextrainfo":
-                                tpExceptionExtraInfo = ReadValue;
+                            case "tabexceptionextrainfo":
+                                tabExceptionExtraInfo = ReadValue;
                                 continue;
                             #endregion
 
@@ -2214,11 +2304,29 @@ public static class Language {
                             case "btnextendeddownloaderdownloadthumbnail":
                                 btnExtendedDownloaderDownloadThumbnail = ReadValue;
                                 continue;
-                            case "tpextendeddownloaderformatoptions":
-                                tpExtendedDownloaderFormatOptions = ReadValue;
+                            case "tabextendeddownloaderformatoptions":
+                                tabExtendedDownloaderFormatOptions = ReadValue;
+                                continue;
+                            case "tabextendeddownloaderdescription":
+                                tabExtendedDownloaderDescription = ReadValue;
+                                continue;
+                            case "tabextendeddownloaderverbose":
+                                tabExtendedDownloaderVerbose = ReadValue;
                                 continue;
                             case "chkextendeddownloadervideoseparateaudio":
                                 chkExtendedDownloaderVideoSeparateAudio = ReadValue;
+                                continue;
+                            case "lbextendeddownloadernovideoformatsavailable":
+                                lbExtendedDownloaderNoVideoFormatsAvailable = ReadValue;
+                                continue;
+                            case "lbextendeddownloadernoaudioformatsavailable":
+                                lbExtendedDownloaderNoAudioFormatsAvailable = ReadValue;
+                                continue;
+                            case "lbvideoremux":
+                                lbVideoRemux = ReadValue;
+                                continue;
+                            case "txtextendeddownloadermediatitle":
+                                txtExtendedDownloaderMediaTitle = ReadValue;
                                 continue;
                             #endregion
 
@@ -2454,12 +2562,6 @@ public static class Language {
                             case "frmsettings":
                                 frmSettings = ReadValue;
                                 continue;
-                            case "btnsettingsredownloadyoutubedl":
-                                btnSettingsRedownloadYoutubeDl = ReadValue;
-                                continue;
-                            case "btnsettingsredownloadyoutubedlhint":
-                                btnSettingsRedownloadYoutubeDlHint = ReadValue;
-                                continue;
                             case "btnsettingscancelhint":
                                 btnSettingsCancelHint = ReadValue;
                                 continue;
@@ -2485,6 +2587,13 @@ public static class Language {
                                 continue;
 
                             //frmSettings / tcMain / tabGeneral
+                            case "tabsettingsgeneralyoutubedl":
+                                tabSettingsGeneralYoutubeDl = ReadValue;
+                                continue;
+                            case "tabsettingsgeneralffmpeg":
+                                tabSettingsGeneralFfmpeg = ReadValue;
+                                continue;
+
                             case "lbsettingsgeneralyoutubedlpath":
                                 lbSettingsGeneralYoutubeDlPath = ReadValue;
                                 continue;
@@ -2509,6 +2618,21 @@ public static class Language {
                             case "ofdfilterffmpeg":
                                 ofdFilterFFmpeg = ReadValue;
                                 continue;
+
+
+                            case "btnsettingsredownloadyoutubedl":
+                                btnSettingsRedownloadYoutubeDl = ReadValue;
+                                continue;
+                            case "btnsettingsredownloadyoutubedlhint":
+                                btnSettingsRedownloadYoutubeDlHint = ReadValue;
+                                continue;
+                            case "btnsettingsredownloadffmpeg":
+                                btnSettingsRedownloadFfmpeg = ReadValue;
+                                continue;
+                            case "btnsettingsredownloadffmpeghint":
+                                btnSettingsRedownloadFfmpegHint = ReadValue;
+                                continue;
+
                             case "chksettingsgeneralcheckforupdatesonlaunch":
                                 chkSettingsGeneralCheckForUpdatesOnLaunch = ReadValue;
                                 continue;

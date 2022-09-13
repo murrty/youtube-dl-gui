@@ -121,7 +121,7 @@ internal sealed class DownloaderData {
             if (DurationTime is not null) {
                 int hours = 0;
                 int minutes = 0;
-                long seconds = DurationTime.Value;
+                decimal seconds = DurationTime.Value;
 
                 while (seconds >= 60) {
                     minutes++;
@@ -133,7 +133,7 @@ internal sealed class DownloaderData {
                     minutes -= 60;
                 }
 
-                return $"{(hours > 0 ? $"{hours:N0}:{minutes:00.##}" : $"{minutes}")}:{seconds:00.##}";
+                return $"{(hours > 0 ? $"{hours:N0}:{minutes:00.##}" : $"{minutes}")}:{Math.Round(seconds, MidpointRounding.ToEven):00.##}";
             }
 
             return DurationString.IsNullEmptyWhitespace() ? "???" : DurationString;
@@ -162,7 +162,7 @@ internal sealed class DownloaderData {
     public string DurationString { get; set; }
 
     [DataMember(Name = "duration")]
-    public long? DurationTime { get; set; }
+    public decimal? DurationTime { get; set; }
 
     [DataContract(Name = "formats")]
     public class Format {
