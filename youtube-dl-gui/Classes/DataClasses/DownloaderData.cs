@@ -5,6 +5,7 @@ using System.Drawing;
 using System.IO;
 using System.Net;
 using System.Runtime.Serialization;
+using System.Security.Policy;
 
 /// <summary>
 /// Class used for information relating to the video.
@@ -15,12 +16,12 @@ internal sealed class DownloaderData {
     public static DownloaderData GenerateData(string URL, out string RetrievedData) {
         RetrievedData = null;
         if (!URL.IsNullEmptyWhitespace()) {
+            Log.Write($"Gathering data for \"{URL}\".");
             if (Verification.YoutubeDlPath.IsNullEmptyWhitespace())
                 Verification.RefreshYoutubeDlLocation();
 
             if (Verification.YoutubeDlPath.IsNullEmptyWhitespace())
                 return null;
-
 
             StringBuilder ConnectionArgs = new(string.Empty);
 
@@ -62,25 +63,31 @@ internal sealed class DownloaderData {
             Enumeration.WaitForExit();
 
             if (!Error.ToString().IsNullEmptyWhitespace()) {
+                Log.Write($"Downloading info for \"{URL}\" output some errors.");
                 Log.Write(Error.ToString());
             }
             if (!Output.ToString().IsNullEmptyWhitespace()) {
+                Log.Write($"Finished downloading info for \"{URL}\", deserializing the data.");
                 RetrievedData = Output.ToString();
                 var data = RetrievedData.JsonDeserialize<DownloaderData>();
+                data.URL = URL;
                 return data;
             }
         }
         return null;
     }
     public Image GetThumbnail() {
-        if (Config.Settings.Downloads.YtdlType != 0) {
+        if (Config.Settings.Downloads.YtdlType switch { (int)updater.GitID.YtDlp or (int)updater.GitID.YtDlpNightly => false, _ => true }) {
+            Log.Write($"Cannot download the thumbnail for \"{URL}\" because the selected youtube-dl fork is not supported.");
             return null;
         }
 
+        Log.Write($"Downloading the thumbnail for \"{URL}\".");
         using WebClient wc = new();
         byte[] thumbBytes = wc.DownloadData(this.ThumbnailLink);
 
         if (this.ThumbnailLink.Split('?')[0].EndsWith(".webp")) {
+            Log.Write("The thumbnail is a .webp file and must be converted to be viewable.");
             string ThumbPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + $"\\temp\\{DateTime.Now:yyyyMMddhmmssfffffff}s";
             File.WriteAllBytes($"{ThumbPath}.webp", thumbBytes);
             if (Verification.FFmpegPath.IsNullEmptyWhitespace())
@@ -139,6 +146,9 @@ internal sealed class DownloaderData {
             return DurationString.IsNullEmptyWhitespace() ? "???" : DurationString;
         }
     }
+
+    [IgnoreDataMember]
+    public string URL { get; set; }
 
     [DataMember(Name = "title")]
     public string Title { get; set; }

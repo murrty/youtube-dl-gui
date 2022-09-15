@@ -291,6 +291,7 @@ namespace youtube_dl_gui {
             }
             else if (DownloadUrls.Count > 0) {
                 Program.RunningActions.Add(this);
+                Log.Write($"Starting batch download with {DownloadUrls.Count} links to download.");
                 InProgress = true;
                 btnBatchDownloadRemoveSelected.Enabled = false;
                 btnBatchDownloadStartStopExit.Text = Language.GenericStop;
@@ -349,6 +350,7 @@ namespace youtube_dl_gui {
                                 this.Invoke((Action)delegate {
                                     lvBatchDownloadQueue.Items[i].ImageIndex = (int)StatusIcon.Waiting;
                                 });
+                                Log.Write($"Batch download aborted, {i} conversion finished.");
                                 AbortDownload = true;
                                 break;
                             case DialogResult.Ignore:
@@ -376,6 +378,7 @@ namespace youtube_dl_gui {
                     });
                     System.Media.SystemSounds.Exclamation.Play();
                     InProgress = false;
+                    Log.Write($"Batch download finished running.");
                     Program.RunningActions.Remove(this);
                 }) {
                     Name = $"Batch download {BatchTime}"
@@ -512,6 +515,7 @@ namespace youtube_dl_gui {
                     Application.ApplicationExit += ApplicationExit;
                     chkBatchDownloadClipboardScanVerifyLinks.Enabled = true;
                     ClipboardScannerActive = true;
+                    Log.Write("Clipboard scanning for batch download queueing stopped.");
                 }
             }
             else {
@@ -520,6 +524,7 @@ namespace youtube_dl_gui {
                         Application.ApplicationExit -= ApplicationExit;
                         chkBatchDownloadClipboardScanVerifyLinks.Enabled = false;
                         ClipboardScannerActive = false;
+                        Log.Write("Clipboard scanning for batch download queueing started.");
                     }
                 }
             }

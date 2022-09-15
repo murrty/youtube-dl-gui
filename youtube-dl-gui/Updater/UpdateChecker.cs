@@ -53,7 +53,7 @@ namespace youtube_dl_gui {
 namespace youtube_dl_gui.updater {
     internal class UpdateChecker {
 
-        private const string KnownUpdaterHash = "6C3DE407491C863019280E7FE99BEA3CC1572B31B1A0AB04421876ABBDABF527";
+        private const string KnownUpdaterHash = "4DA486EF4A763387755CB45D089B5561BEE4AD25352DD428381F24204A57D099";
         private const string FfmpegDownloadLink = "https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-essentials.zip";
         public static GithubData LastChecked { get; private set; }
         public static GithubData LastCheckedLatestRelease { get; private set; }

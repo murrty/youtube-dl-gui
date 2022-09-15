@@ -143,6 +143,24 @@ namespace youtube_dl_gui {
             chkDownloaderCloseAfterDownload.Text = Language.chkDownloaderCloseAfterDownload;
             lbVideoRemux.Text = Language.lbVideoRemux;
             txtExtendedDownloaderMediaTitle.Text = Language.txtExtendedDownloaderMediaTitle;
+
+            chVideoQuality.Text = Language.chVideoQuality;
+            chVideoFPS.Text = Language.chVideoFPS;
+            chVideoContainer.Text = Language.chContainer;
+            chVideoFileSize.Text = Language.chFileSize;
+            chVideoBitrate.Text = Language.chVideoBitrate;
+            chVideoDimension.Text = Language.chVideoDimension;
+            chVideoCodec.Text = Language.chVideoCodec;
+            chVideoAudioBitrate.Text = Language.chAudioBitrate;
+            chVideoAudioSampleRate.Text = Language.chAudioSampleRate;
+            chVideoAudioCodec.Text = Language.chAudioCodec;
+            chVideoFormatId.Text = Language.chFormatId;
+            chAudioBitrate.Text = Language.chAudioBitrate;
+            chAudioContainer.Text = Language.chContainer;
+            chAudioFileSize.Text = Language.chFileSize;
+            chAudioSampleRate.Text = Language.chAudioSampleRate;
+            chAudioCodec.Text = Language.chAudioCodec;
+            chAudioFormatId.Text = Language.chFormatId;
             cbVideoRemux.Items.Add(Language.GenericDoNotRemux);
             cbVideoEncoders.Items.Add(Language.GenericDoNotReEncode);
             cbAudioEncoders.Items.Add(Language.GenericDoNotReEncode);
@@ -189,11 +207,11 @@ namespace youtube_dl_gui {
                             NewFormat.SubItems.Add(Container);
                             NewFormat.SubItems.Add(FileSize);
                             NewFormat.SubItems.Add(Bitrate);
-                            NewFormat.SubItems.Add(SampleRate);
                             NewFormat.SubItems.Add(Dimensions);
                             NewFormat.SubItems.Add(Codec);
-                            NewFormat.SubItems.Add(AudioCodec);
                             NewFormat.SubItems.Add(AudioBitrate);
+                            NewFormat.SubItems.Add(SampleRate);
+                            NewFormat.SubItems.Add(AudioCodec);
                             NewFormat.SubItems.Add(Format.Identifier);
                             NewFormat.Tag = Format;
 

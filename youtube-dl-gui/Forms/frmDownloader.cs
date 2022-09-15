@@ -120,6 +120,7 @@ namespace youtube_dl_gui {
                     this.Close();
                     break;
                 default:
+                    Log.Write("Aborting download.");
                     if (DownloadThread is not null && DownloadThread.IsAlive) {
                         DownloadThread.Abort();
                     }
@@ -162,9 +163,10 @@ namespace youtube_dl_gui {
             }
         }
         private void BeginDownload() {
-            Debug.Print("BeginDownload()");
-            if (string.IsNullOrEmpty(CurrentDownload.DownloadURL)) {
+            Log.Write($"Beginning download for {CurrentDownload.DownloadURL}.");
+            if (CurrentDownload.DownloadURL.IsNullEmptyWhitespace()) {
                 rtbConsoleOutput.AppendText("The URL is null or empty. Please enter a URL to download.");
+                Log.Write("Cannot continue download.");
                 return;
             }
             CurrentDownload.Status = DownloadStatus.GeneratingArguments;
@@ -197,6 +199,7 @@ namespace youtube_dl_gui {
                 else {
                     rtbConsoleOutput.AppendText("still couldnt find youtube-dl.");
                     CurrentDownload.Status = DownloadStatus.ProgramError;
+                    Log.Write("Youtube-dl could not be found.");
                     return;
                 }
             }
@@ -473,6 +476,7 @@ namespace youtube_dl_gui {
             #region Download thread
             rtbConsoleOutput.AppendText("Creating download thread\n");
             bool IsYtdlp = Config.Settings.Downloads.YtdlType == 2;
+            Log.Write("Beginning download thread.");
             DownloadThread = new Thread(() => {
                 Program.RunningActions.Add(this);
                 try {

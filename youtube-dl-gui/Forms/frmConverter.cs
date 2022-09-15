@@ -117,15 +117,18 @@ namespace youtube_dl_gui {
         }
 
         private void BeginConversion() {
+            Log.Write($"Starting conversion for \"{CurrentConversion.InputFile}\" -> \"{CurrentConversion.OutputFile}\".");
             if (!CurrentConversion.FullCustomArguments) {
                 if (CurrentConversion.InputFile.IsNullEmptyWhitespace()) {
                     rtbConsoleOutput.AppendText("The input file is null or empty. Cannot continue converting.");
                     CurrentConversion.Status = ConversionStatus.ProgramError;
+                    Log.Write("Conversion cannot conintue.");
                     return;
                 }
                 if (CurrentConversion.OutputFile.IsNullEmptyWhitespace()) {
                     rtbConsoleOutput.AppendText("The output file is null or empty. Cannot continue converting.");
                     CurrentConversion.Status = ConversionStatus.ProgramError;
+                    Log.Write("Conversion cannot conintue.");
                     return;
                 }
             }
@@ -133,6 +136,7 @@ namespace youtube_dl_gui {
                 if (CurrentConversion.CustomArguments.IsNullEmptyWhitespace()) {
                     rtbConsoleOutput.AppendText("Custom arguments are required, but none were provided.");
                     CurrentConversion.Status = ConversionStatus.ProgramError;
+                    Log.Write("Conversion cannot conintue.");
                     return;
                 }
             }
@@ -157,6 +161,7 @@ namespace youtube_dl_gui {
                 else {
                     rtbConsoleOutput.AppendText("still couldn't find ffmpeg.");
                     CurrentConversion.Status = ConversionStatus.ProgramError;
+                    Log.Write("ffmpeg could not be found.");
                     return;
                 }
             }
@@ -216,6 +221,7 @@ namespace youtube_dl_gui {
             #endregion
 
             #region Conversion thread
+            Log.Write("Beginning conversion thread.");
             ConverterThread = new Thread(() => {
                 Program.RunningActions.Add(this);
                 try {
@@ -367,6 +373,7 @@ namespace youtube_dl_gui {
                     this.Close();
                     break;
                 default:
+                    Log.Write("Aborting conversion finished.");
                     if (ConverterThread != null && ConverterThread.IsAlive) {
                         ConverterThread.Abort();
                     }

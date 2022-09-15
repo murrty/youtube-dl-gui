@@ -41,10 +41,18 @@ public static class Language {
     public static string GenericDoNotReEncode { get; private set; }
     public static string GenericDoNotRemux { get; private set; }
 
-    /// <summary>
-    /// Not really a generic, but it's a single string.
-    /// </summary>
     public static string frmGenericDownloadProgress { get; private set; }
+    public static string chContainer { get; private set; }
+    public static string chFileSize { get; private set; }
+    public static string chFormatId { get; private set; }
+    public static string chVideoQuality { get; private set; }
+    public static string chVideoFPS { get; private set; }
+    public static string chVideoBitrate { get; private set; }
+    public static string chVideoDimension { get; private set; }
+    public static string chVideoCodec { get; private set; }
+    public static string chAudioBitrate { get; private set; }
+    public static string chAudioSampleRate { get; private set; }
+    public static string chAudioCodec { get; private set; }
     #endregion
 
     #region Dialogs
@@ -515,6 +523,17 @@ public static class Language {
         public const string GenericDoNotRemux = "(Do not remux)";
 
         public const string frmGenericDownloadProgress = "Downloading...";
+        public const string chContainer = "Container";
+        public const string chFileSize = "File size";
+        public const string chFormatId = "ID";
+        public const string chVideoQuality = "Quality";
+        public const string chVideoFPS = "FPS";
+        public const string chVideoBitrate = "Video bitrate";
+        public const string chVideoDimension = "Video dimensions";
+        public const string chVideoCodec = "Video codec";
+        public const string chAudioBitrate = "Audio bitrate";
+        public const string chAudioSampleRate = "Audio sample rate";
+        public const string chAudioCodec = "Audio codec";
         #endregion
 
         #region Dialogs
@@ -1022,6 +1041,17 @@ public static class Language {
         GenericDoNotRemux = InternalEnglish.GenericDoNotRemux;
 
         frmGenericDownloadProgress = InternalEnglish.frmGenericDownloadProgress;
+        chContainer = InternalEnglish.chContainer;
+        chFileSize = InternalEnglish.chFileSize;
+        chFormatId = InternalEnglish.chFormatId;
+        chVideoQuality = InternalEnglish.chVideoQuality;
+        chVideoFPS = InternalEnglish.chVideoFPS;
+        chVideoBitrate = InternalEnglish.chVideoBitrate;
+        chVideoDimension = InternalEnglish.chVideoDimension;
+        chVideoCodec = InternalEnglish.chVideoCodec;
+        chAudioBitrate = InternalEnglish.chAudioBitrate;
+        chAudioSampleRate = InternalEnglish.chAudioSampleRate;
+        chAudioCodec = InternalEnglish.chAudioCodec;
 
         // Dialogs
         dlgFirstTimeInitialMessage = InternalEnglish.dlgFirstTimeInitialMessage;
@@ -1482,6 +1512,17 @@ public static class Language {
         GenericDoNotRemux = nameof(GenericDoNotRemux);
 
         frmGenericDownloadProgress = nameof(frmGenericDownloadProgress);
+        chContainer = nameof(chContainer);
+        chFileSize = nameof(chFileSize);
+        chFormatId = nameof(chFormatId);
+        chVideoQuality = nameof(chVideoQuality);
+        chVideoFPS = nameof(chVideoFPS);
+        chVideoBitrate = nameof(chVideoBitrate);
+        chVideoDimension = nameof(chVideoDimension);
+        chVideoCodec = nameof(chVideoCodec);
+        chAudioBitrate = nameof(chAudioBitrate);
+        chAudioSampleRate = nameof(chAudioSampleRate);
+        chAudioCodec = nameof(chAudioCodec);
 
         // Dialogs
         dlgFirstTimeInitialMessage = nameof(dlgFirstTimeInitialMessage);
@@ -2009,6 +2050,39 @@ public static class Language {
 
                             case "frmgenericdownloadprogress":
                                 frmGenericDownloadProgress = ReadValue;
+                                continue;
+                            case "chcontainer":
+                                chContainer = ReadValue;
+                                continue;
+                            case "chfilesize":
+                                chFileSize = ReadValue;
+                                continue;
+                            case "chformatid":
+                                chFormatId = ReadValue;
+                                continue;
+                            case "chvideoquality":
+                                chVideoQuality = ReadValue;
+                                continue;
+                            case "chvideofps":
+                                chVideoFPS = ReadValue;
+                                continue;
+                            case "chvideobitrate":
+                                chVideoBitrate = ReadValue;
+                                continue;
+                            case "chvideodimension":
+                                chVideoDimension = ReadValue;
+                                continue;
+                            case "chvideocodec":
+                                chVideoCodec = ReadValue;
+                                continue;
+                            case "chaudiobitrate":
+                                chAudioBitrate = ReadValue;
+                                continue;
+                            case "chaudiosamplerate":
+                                chAudioSampleRate = ReadValue;
+                                continue;
+                            case "chaudiocodec":
+                                chAudioCodec = ReadValue;
                                 continue;
                             #endregion
 

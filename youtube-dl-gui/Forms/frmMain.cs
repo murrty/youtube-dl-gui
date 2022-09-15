@@ -436,6 +436,7 @@ namespace youtube_dl_gui {
                     Application.ApplicationExit -= ApplicationExit;
                     mClipboardAutoDownload.Checked = mClipboardAutoDownloadVerifyLinks.Enabled = cmTrayClipboardAutoDownload.Checked = cmTrayClipboardAutoDownloadVerifyLinks.Enabled = false;
                     ClipboardScannerActive = false;
+                    Log.Write("Clipboard auto-download scanning stopped.");
                 }
             }
             else {
@@ -449,6 +450,7 @@ namespace youtube_dl_gui {
                     Application.ApplicationExit += ApplicationExit;
                     ClipboardScannerActive = true;
                     mClipboardAutoDownload.Checked = mClipboardAutoDownloadVerifyLinks.Enabled = cmTrayClipboardAutoDownload.Checked = cmTrayClipboardAutoDownloadVerifyLinks.Enabled = true;
+                    Log.Write("Clipboard auto-download scanning started.");
                 }
             }
         }
