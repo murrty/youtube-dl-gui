@@ -10,8 +10,8 @@ internal static class Ini {
     //Language.ApplicationName
 
     private static bool InternalKeyExists(String Key, out String Value, String Section = null) {
-        StringBuilder ReadValue = new(EmptyString.Length + 2);
-        NativeMethods.GetPrivateProfileString(Section ?? Language.ApplicationName, Key, EmptyString, ReadValue, EmptyString.Length + 2, IniPath);
+        StringBuilder ReadValue = new(65535);
+        NativeMethods.GetPrivateProfileString(Section ?? Language.ApplicationName, Key, EmptyString, ReadValue, 35565, IniPath);
         Value = ReadValue.ToString();
         Value = Value != EmptyString && !Value.IsNullEmptyWhitespace() ? Value : null;
         return Value is not null;
