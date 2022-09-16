@@ -381,7 +381,7 @@ namespace youtube_dl_gui {
                 catch (NotSupportedException) {
                     try { //try TLS 1.1
                         System.Net.ServicePointManager.SecurityProtocol = (System.Net.SecurityProtocolType)768
-                                                                         | System.Net.SecurityProtocolType.Tls;
+                                                                        |  System.Net.SecurityProtocolType.Tls;
                         Log.Write("TLS 1.1 will be used, Github updating may be affected.");
                     }
                     catch (NotSupportedException) { //TLS 1.0

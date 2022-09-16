@@ -23,8 +23,6 @@ internal static class Log {
     } = "Not initialized";
 
     public static void InitializeLogging() {
-        EnableLogging();
-
         // Build up a string containing relevant information about the computer.
         Write("Creating DiagnosticInformation for caught exceptions.");
         ManagementObjectSearcher searcher = new("SELECT * FROM Win32_OperatingSystem");
@@ -37,27 +35,36 @@ internal static class Log {
             $"Service Pack Major: {info.Properties["ServicePackMajorVersion"].Value ?? "couldn't retrieve"}\n" +
             $"Service Pack Minor: {info.Properties["ServicePackMinorVersion"].Value ?? "couldn't retrieve"}";
 
-#if !DEBUG
         // Catch any exceptions that are unhandled, so we can report it.
-        Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
+#if !DEBUG
+        try {
+            Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
+#endif
 
-        Write("Creating unhandled exception event.");
-        AppDomain.CurrentDomain.UnhandledException += (sender, exception) => {
-            using frmException UnrecoverableException = new(new(exception) {
-                Unrecoverable = true,
-                AllowRetry = false
-            });
-            UnrecoverableException.ShowDialog();
-        };
+            EnableLogging();
 
-        Write("Creating unhandled thread exception event.");
-        Application.ThreadException += (sender, exception) => {
-            using frmException UnrecoverableException = new(new(exception) {
-                Unrecoverable = true,
-                AllowRetry = false
-            });
-            UnrecoverableException.ShowDialog();
-        };
+#if !DEBUG
+            Write("Creating unhandled exception event.");
+            AppDomain.CurrentDomain.UnhandledException += (sender, exception) => {
+                using frmException UnrecoverableException = new(new(exception) {
+                    Unrecoverable = true,
+                    AllowRetry = false
+                });
+                UnrecoverableException.ShowDialog();
+            };
+
+            Write("Creating unhandled thread exception event.");
+            Application.ThreadException += (sender, exception) => {
+                using frmException UnrecoverableException = new(new(exception) {
+                    Unrecoverable = true,
+                    AllowRetry = false
+                });
+                UnrecoverableException.ShowDialog();
+            };
+        }
+        catch (Exception ex) {
+            ReportException(ex);
+        }
 #endif
     }
 
@@ -66,7 +73,7 @@ internal static class Log {
     /// </summary>
     [DebuggerStepThrough]
     public static void EnableLogging() {
-        if (LogEnabled && LogForm != null) {
+        if (LogEnabled && LogForm is not null) {
             Write("Logging is already enabled.");
         }
         else {
@@ -94,12 +101,13 @@ internal static class Log {
         }
     }
 
+
     /// <summary>
     /// Shows the log form.
     /// </summary>
     [DebuggerStepThrough]
     public static void ShowLog() {
-        if (LogEnabled && LogForm != null) {
+        if (LogEnabled && LogForm is not null) {
             if (LogForm.IsShown) {
                 Write("The log form is already shown.");
                 LogForm.Activate();
@@ -107,6 +115,7 @@ internal static class Log {
             else {
                 LogForm.Append("Showing log");
                 LogForm.IsShown = true;
+                LogForm.SetLanguage();
                 LogForm.Show();
             }
         }
@@ -137,7 +146,7 @@ internal static class Log {
             LogForm?.AppendNoDate(message, initial);
         }
     }
-    #endregion
+#endregion
 
     #region Exception handling
     /// <summary>

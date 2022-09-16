@@ -23,10 +23,6 @@ public partial class frmLog : Form {
     }
 
     private void frmLog_Load(object sender, EventArgs e) {
-        this.Text = Language.frmLog;
-        btnClear.Text = Language.frmLogClear;
-        btnClose.Text = Language.GenericClose;
-
         if (Config.ValidPoint(Config.Settings.Saved.LogLocation)) {
             this.StartPosition = FormStartPosition.Manual;
             this.Location = Config.Settings.Saved.LogLocation;
@@ -91,6 +87,12 @@ public partial class frmLog : Form {
                 $"{(initial ? "" : "\n")}{message}"
             );
         }
+    }
+
+    public void SetLanguage() {
+        this.Text = Language.frmLog;
+        btnClear.Text = Language.frmLogClear;
+        btnClose.Text = Language.GenericClose;
     }
 
 }
