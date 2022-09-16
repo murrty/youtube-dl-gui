@@ -36,6 +36,7 @@ public static class Language {
     public static string GenericOk { get; private set; }
     public static string GenericSave { get; private set; }
     public static string GenericAdd { get; private set; }
+    public static string GenericClose { get; private set; }
     public static string GenericRemoveSelected { get; private set; }
     public static string GenericVerifyLinks { get; private set; }
     public static string GenericDoNotReEncode { get; private set; }
@@ -190,6 +191,11 @@ public static class Language {
     public static string frmLanguage { get; private set; }
     public static string btnLanguageRefresh { get; private set; }
     public static string btnLanguageDownload { get; private set; }
+    #endregion
+
+    #region frmLog
+    public static string frmLog { get; private set; }
+    public static string frmLogClear { get; private set; }
     #endregion
 
     #region frmMain
@@ -517,6 +523,7 @@ public static class Language {
         public const string GenericOk = "OK";
         public const string GenericSave = "Save";
         public const string GenericAdd = "Add";
+        public const string GenericClose = "Close";
         public const string GenericRemoveSelected = "Remove selected";
         public const string GenericVerifyLinks = "Verify copied links";
         public const string GenericDoNotReEncode = "(Do not re-encode)";
@@ -675,6 +682,11 @@ public static class Language {
         public const string frmLanguage = "Language select";
         public const string btnLanguageRefresh = "Refresh";
         public const string btnLanguageDownload = "Download...";
+        #endregion
+
+        #region frmLog
+        public const string frmLog = "Log";
+        public const string frmLogClear = "Clear";
         #endregion
 
         #region frmMain
@@ -1035,6 +1047,7 @@ public static class Language {
         GenericOk = InternalEnglish.GenericOk;
         GenericSave = InternalEnglish.GenericSave;
         GenericAdd = InternalEnglish.GenericAdd;
+        GenericClose = InternalEnglish.GenericClose;
         GenericRemoveSelected = InternalEnglish.GenericRemoveSelected;
         GenericVerifyLinks = InternalEnglish.GenericVerifyLinks;
         GenericDoNotReEncode = InternalEnglish.GenericDoNotReEncode;
@@ -1178,6 +1191,10 @@ public static class Language {
         frmLanguage = InternalEnglish.frmLanguage;
         btnLanguageRefresh = InternalEnglish.btnLanguageRefresh;
         btnLanguageDownload = InternalEnglish.btnLanguageDownload;
+
+        // frmLog
+        frmLog = InternalEnglish.frmLog;
+        frmLogClear = InternalEnglish.frmLogClear;
 
         // frmMain
         mSettings = InternalEnglish.mSettings;
@@ -1506,6 +1523,7 @@ public static class Language {
         GenericOk = nameof(GenericOk);
         GenericSave = nameof(GenericSave);
         GenericAdd = nameof(GenericAdd);
+        GenericClose = nameof(GenericClose);
         GenericRemoveSelected = nameof(GenericRemoveSelected);
         GenericVerifyLinks = nameof(GenericVerifyLinks);
         GenericDoNotReEncode = nameof(GenericDoNotReEncode);
@@ -1647,6 +1665,10 @@ public static class Language {
         frmLanguage = nameof(frmLanguage);
         btnLanguageRefresh = nameof(btnLanguageRefresh);
         btnLanguageDownload = nameof(btnLanguageDownload);
+
+        // frmLog
+        frmLog = nameof(frmLog);
+        frmLogClear = nameof(frmLogClear);
 
         // frmMain
         mSettings = nameof(mSettings);
@@ -2035,6 +2057,9 @@ public static class Language {
                             case "genericadd":
                                 GenericAdd = ReadValue;
                                 continue;
+                            case "genericclose":
+                                GenericClose = ReadValue;
+                                continue;
                             case "genericremoveselected":
                                 GenericRemoveSelected = ReadValue;
                                 continue;
@@ -2416,6 +2441,15 @@ public static class Language {
                                 continue;
                             case "btnlanguagedownload":
                                 btnLanguageDownload = ReadValue;
+                                continue;
+                            #endregion
+
+                            #region frmLog
+                            case "frmlog":
+                                frmLog = ReadValue;
+                                continue;
+                            case "frmlogclear":
+                                frmLogClear = ReadValue;
                                 continue;
                             #endregion
 

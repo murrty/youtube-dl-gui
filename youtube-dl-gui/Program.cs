@@ -13,7 +13,7 @@ namespace youtube_dl_gui {
         /// <summary>
         /// Gets the curent version of the program.
         /// </summary>
-        public static Version CurrentVersion { get; } = new(3, 0, 0, 6);
+        public static Version CurrentVersion { get; } = new(3, 0, 0);
 
         /// <summary>
         /// Gets whether the program is running in debug mode.

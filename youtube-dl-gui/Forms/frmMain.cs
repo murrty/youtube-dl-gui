@@ -266,6 +266,7 @@ namespace youtube_dl_gui {
             mHelp.Text = Language.mHelp;
             mLanguage.Text = Language.mLanguage;
             mSupportedSites.Text = Language.mSupportedSites;
+            mLog.Text = Language.frmLog;
             mAbout.Text = Language.mAbout;
 
             tabDownload.Text = Language.tabDownload;
