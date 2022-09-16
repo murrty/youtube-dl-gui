@@ -5,6 +5,8 @@ using System.Drawing;
 internal class Config {
     public static volatile Config Settings;
 
+    internal static readonly Point InvalidPoint = new(-32_000, -32_000);
+
     public Config_Initialization Initialization;
     public Config_Batch Batch;
     public Config_Converts Converts;
@@ -111,7 +113,7 @@ internal class Config {
     /// <param name="input">The <seealso cref="Point"/> value to validate.</param>
     /// <returns>If the input is a valid point.</returns>
     public static bool ValidPoint(Point input) {
-        return input.X != -32000 && input.Y != -32000;
+        return input.X != InvalidPoint.X && input.Y != InvalidPoint.Y;
     }
 
     /// <summary>

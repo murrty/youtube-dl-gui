@@ -7,7 +7,6 @@ namespace youtube_dl_gui {
         private readonly List<string> InputFiles = new();
         private readonly List<string> OutputFiles = new();
         private readonly List<string> Arguments = new();
-        private readonly ImageList StatusImages;                // The images for each individual item
         private Thread ConversionThread;
         private bool InProgress = false;
         private frmConverter Converter;
@@ -16,35 +15,34 @@ namespace youtube_dl_gui {
         public frmBatchConverter() {
             InitializeComponent();
             LoadLanguage();
+            lvBatchConvertQueue.SmallImageList = Program.BatchStatusImages;
 
-            StatusImages = new() {
-                ColorDepth = ColorDepth.Depth32Bit,
-                TransparentColor = System.Drawing.Color.Transparent,
+            this.Load += (s, e) => {
+                if (Config.ValidPoint(Config.Settings.Saved.BatchConverterLocation)) {
+                    this.Location = Config.Settings.Saved.BatchConverterLocation;
+                }
             };
-
-            StatusImages.Images.Add(Properties.Resources.waiting);
-            StatusImages.Images.Add(Properties.Resources.download);
-            StatusImages.Images.Add(Properties.Resources.finished);
-            StatusImages.Images.Add(Properties.Resources.error);
-            lvBatchConvertQueue.SmallImageList = StatusImages;
+            this.FormClosing += (s, e) => {
+                Config.Settings.Saved.BatchConverterLocation = this.Location;
+            };
         }
 
         private void LoadLanguage() {
-            btnBatchConverterAdd.Text = Program.lang.GenericAdd;
-            btnBatchConverterRemoveSelected.Text = Program.lang.GenericRemoveSelected;
-            btnBatchConverterStartStopExit.Text = Program.lang.GenericStart;
-            this.Text = Program.lang.frmBatchConverter;
-            lbBatchConverterInput.Text = Program.lang.lbBatchConverterInput;
-            txtBatchConverterInputFile.TextHint = Program.lang.txtBatchConverterInputFile;
-            lbBatchConverterOutput.Text = Program.lang.lbBatchConverterOutput;
-            txtBatchConverterOutputFile.TextHint = Program.lang.txtBatchConverterOutputFile;
-            txtBatchConverterCustomConversionArguments.TextHint = Program.lang.txtBatchConverterCustomConversionArguments;
-            sbBatchConverter.Text = Program.lang.sbBatchConverterIdle;
+            btnBatchConverterAdd.Text = Language.GenericAdd;
+            btnBatchConverterRemoveSelected.Text = Language.GenericRemoveSelected;
+            btnBatchConverterStartStopExit.Text = Language.GenericStart;
+            this.Text = Language.frmBatchConverter;
+            lbBatchConverterInput.Text = Language.lbBatchConverterInput;
+            txtBatchConverterInputFile.TextHint = Language.txtBatchConverterInputFile;
+            lbBatchConverterOutput.Text = Language.lbBatchConverterOutput;
+            txtBatchConverterOutputFile.TextHint = Language.txtBatchConverterOutputFile;
+            txtBatchConverterCustomConversionArguments.TextHint = Language.txtBatchConverterCustomConversionArguments;
+            sbBatchConverter.Text = Language.sbBatchConverterIdle;
         }
 
         private void SelectInput() {
             using OpenFileDialog ofd = new();
-            ofd.Title = Program.lang.dlgConvertSelectFileToConvert;
+            ofd.Title = Language.dlgConvertSelectFileToConvert;
             ofd.AutoUpgradeEnabled = true;
             ofd.Multiselect = false;
             ofd.Filter = Formats.JoinFormats(new[] {
@@ -68,7 +66,7 @@ namespace youtube_dl_gui {
         private void SelectOutput() {
             using SaveFileDialog sfd = new();
             sfd.AutoUpgradeEnabled = true;
-            sfd.Title = Program.lang.dlgSaveOutputFileAs;
+            sfd.Title = Language.dlgSaveOutputFileAs;
             sfd.Filter = Formats.JoinFormats(new[] {
                 Formats.AllFiles,
                 Formats.VideoFormats,
@@ -143,10 +141,12 @@ namespace youtube_dl_gui {
                 });
             }
             else if (lvBatchConvertQueue.Items.Count > 0) {
+                Program.RunningActions.Add(this);
+                Log.Write($"Starting batch conversion with {lvBatchConvertQueue.Items.Count} links to download.");
                 InProgress = true;
                 bool AbortConversions = false;
-                btnBatchConverterStartStopExit.Text = Program.lang.GenericStop;
-                sbBatchConverter.Text = Program.lang.sbBatchConverterConverting;
+                btnBatchConverterStartStopExit.Text = Language.GenericStop;
+                sbBatchConverter.Text = Language.sbBatchConverterConverting;
                 ConversionThread = new(() => {
                     for (int i = 0; i < InputFiles.Count; i++) {
                         lvBatchConvertQueue.Invoke((Action)delegate {
@@ -183,6 +183,7 @@ namespace youtube_dl_gui {
                                 lvBatchConvertQueue.Invoke((Action)delegate {
                                     lvBatchConvertQueue.Items[i].ImageIndex = (int)StatusIcon.Waiting;
                                 });
+                                Log.Write($"Batch conversion aborted, {i} conversion finished.");
                                 AbortConversions = true;
                             } break;
 
@@ -202,18 +203,20 @@ namespace youtube_dl_gui {
                         if (AbortConversions)
                             break;
                     }
-                    InProgress = false;
                     lvBatchConvertQueue.Invoke((Action)delegate {
                         if (AbortConversions) {
-                            sbBatchConverter.Text = Program.lang.sbBatchConverterAborted;
+                            sbBatchConverter.Text = Language.sbBatchConverterAborted;
                             AbortConversions = false;
                         }
                         else {
-                            sbBatchConverter.Text = Program.lang.sbBatchConverterFinished;
+                            sbBatchConverter.Text = Language.sbBatchConverterFinished;
                         }
-                        btnBatchConverterStartStopExit.Text = Program.lang.GenericStart;
+                        btnBatchConverterStartStopExit.Text = Language.GenericStart;
                     });
                     System.Media.SystemSounds.Exclamation.Play();
+                    InProgress = false;
+                    Log.Write($"Batch conversion finished running.");
+                    Program.RunningActions.Remove(this);
                 }) {
                     Name = "Conversion thread",
                 };
@@ -228,7 +231,7 @@ namespace youtube_dl_gui {
 
         private void btnBatchConverterAdd_Click(object sender, EventArgs e) {
             AddItem();
-            if (!Program.IsDebug) {
+            if (!Program.DebugMode) {
                 txtBatchConverterInputFile.Clear();
                 txtBatchConverterOutputFile.Clear();
             }

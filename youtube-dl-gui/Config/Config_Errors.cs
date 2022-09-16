@@ -12,32 +12,19 @@ internal class Config_Errors {
     private bool fsuppressErrors = false;
 
     public void Load() {
-        if (Ini.KeyExists("detailedErrors", ConfigName)) {
-            detailedErrors = fdetailedErrors = Ini.ReadBool("detailedErrors", ConfigName);
-        }
-        if (Ini.KeyExists("logErrors", ConfigName)) {
-            logErrors = flogErrors = Ini.ReadBool("logErrors", ConfigName);
-        }
-        if (Ini.KeyExists("suppressErrors", ConfigName)) {
-            suppressErrors = fsuppressErrors = Ini.ReadBool("suppressErrors", ConfigName);
-        }
-
+        Log.Write("Loading Error config.");
+        detailedErrors = fdetailedErrors = Ini.Read(detailedErrors, false, ConfigName);
+        logErrors = flogErrors = Ini.Read(logErrors, false, ConfigName);
+        suppressErrors = fsuppressErrors = Ini.Read(suppressErrors, false, ConfigName);
     }
 
     public void Save() {
-        if (detailedErrors != fdetailedErrors) {
-            Ini.Write("detailedErrors", detailedErrors, ConfigName);
-            fdetailedErrors = detailedErrors;
-        }
-
-        if (logErrors != flogErrors) {
-            Ini.Write("logErrors", logErrors, ConfigName);
-            flogErrors = logErrors;
-        }
-
-        if (suppressErrors != fsuppressErrors) {
-            Ini.Write("suppressErrors", suppressErrors, ConfigName);
-            fsuppressErrors = suppressErrors;
-        }
+        Log.Write("Saving Error config.");
+        if (detailedErrors != fdetailedErrors)
+            fdetailedErrors = Ini.Write(detailedErrors, ConfigName);
+        if (logErrors != flogErrors)
+            flogErrors = Ini.Write(logErrors, ConfigName);
+        if (suppressErrors != fsuppressErrors)
+            fsuppressErrors = Ini.Write(suppressErrors, ConfigName);
     }
 }

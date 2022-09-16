@@ -63,9 +63,9 @@ namespace youtube_dl_gui_updater.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
-        internal static System.Drawing.Icon youtube_dl_gui {
+        internal static System.Drawing.Icon ProgramIcon {
             get {
-                object obj = ResourceManager.GetObject("youtube_dl_gui", resourceCulture);
+                object obj = ResourceManager.GetObject("ProgramIcon", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
             }
         }

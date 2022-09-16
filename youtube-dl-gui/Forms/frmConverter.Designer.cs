@@ -26,7 +26,7 @@
             this.components = new System.ComponentModel.Container();
             this.chkConverterCloseAfterConversion = new System.Windows.Forms.CheckBox();
             this.btnConverterCancelExit = new System.Windows.Forms.Button();
-            this.rtbConsoleOutput = new Controls.ExtendedRichTextBox();
+            this.rtbConsoleOutput = new murrty.controls.ExtendedRichTextBox();
             this.tmrTitleActivity = new System.Windows.Forms.Timer(this.components);
             this.txtArgumentsGenerated = new System.Windows.Forms.TextBox();
             this.btnConverterAbortBatchConversions = new System.Windows.Forms.Button();
@@ -119,7 +119,7 @@
             this.Controls.Add(this.btnConverterCancelExit);
             this.Controls.Add(this.rtbConsoleOutput);
             this.Controls.Add(this.txtArgumentsGenerated);
-            this.Icon = global::youtube_dl_gui.Properties.Resources.youtube_dl_gui;
+            this.Icon = global::youtube_dl_gui.Properties.Resources.ProgramIcon;
             this.MinimumSize = new System.Drawing.Size(420, 320);
             this.Name = "frmConverter";
             this.Text = "frmConverter";
@@ -135,7 +135,7 @@
 
         private System.Windows.Forms.CheckBox chkConverterCloseAfterConversion;
         private System.Windows.Forms.Button btnConverterCancelExit;
-        private Controls.ExtendedRichTextBox rtbConsoleOutput;
+        private murrty.controls.ExtendedRichTextBox rtbConsoleOutput;
         private System.Windows.Forms.Timer tmrTitleActivity;
         private System.Windows.Forms.TextBox txtArgumentsGenerated;
         private System.Windows.Forms.Button btnConverterAbortBatchConversions;

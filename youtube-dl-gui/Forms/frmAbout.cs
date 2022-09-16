@@ -8,8 +8,9 @@ namespace youtube_dl_gui {
         public frmAbout() {
             InitializeComponent();
             LoadLanguage();
-            pbIcon.Image = Properties.Resources.youtube_dl_gui32;
-            lbVersion.Text = $"v{(Program.CurrentVersion)}";
+            pbIcon.Image = Properties.Resources.AboutImage;
+            pbIcon.Cursor = NativeMethods.SystemHandCursor;
+            lbVersion.Text = $"v{Program.CurrentVersion}";
             llbCheckForUpdates.LinkVisited = Program.UpdateChecked;
             llbCheckForUpdates.Location = new(
                 (this.ClientSize.Width - llbCheckForUpdates.Width) / 2,
@@ -18,32 +19,35 @@ namespace youtube_dl_gui {
         }
 
         private void LoadLanguage() {
-            lbAboutBody.Text = string.Format(Program.lang.lbAboutBody + "\n\nlikulau best boye.", "ytdl-org", "murrty", Properties.Resources.BuildDate);
-            llbCheckForUpdates.Text = Program.lang.llbCheckForUpdates;
-            this.Text = $"{Program.lang.frmAbout} youtube-dl-gui";
+            lbAboutBody.Text = string.Format(Language.lbAboutBody + "\n\nlikulau best boye.", "ytdl-org", "murrty", Properties.Resources.BuildDate);
+            llbCheckForUpdates.Text = Language.llbCheckForUpdates;
+            this.Text = $"{Language.frmAbout} youtube-dl-gui";
         }
 
         private void llbCheckForUpdates_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
-            if (UpdateCheckThread == null || !UpdateCheckThread.IsAlive) {
+            if (UpdateCheckThread is null || !UpdateCheckThread.IsAlive) {
                 UpdateCheckThread = new Thread(() => {
                     try {
-                        bool? result = UpdateChecker.CheckForUpdate(Program.CurrentVersion, Config.Settings.General.DownloadBetaVersions, chkForceCheckUpdate.Checked);
-                        if (result is not null) {
+                        bool? result;
+                        if ((result = UpdateChecker.CheckForUpdate(Program.CurrentVersion, Config.Settings.General.DownloadBetaVersions, chkForceCheckUpdate.Checked)) is not null) {
                             if (result == false) {
                                 this.BeginInvoke(() => {
-                                    string Message = Program.CurrentVersion.IsBeta ?
-                                        string.Format(Program.lang.dlgUpdateNoBetaUpdateAvailable, Program.CurrentVersion, updater.UpdateChecker.LastChecked.Version) :
-                                        string.Format(Program.lang.dlgUpdateNoUpdateAvailable, Program.CurrentVersion, updater.UpdateChecker.LastChecked.Version);
-
-                                    MessageBox.Show(this, Message, "youtube-dl-gui", MessageBoxButtons.OK);
+                                    MessageBox.Show(
+                                        Program.CurrentVersion.IsBeta ?
+                                            string.Format(Language.dlgUpdateNoBetaUpdateAvailable, Program.CurrentVersion, updater.UpdateChecker.LastChecked.Version) :
+                                            string.Format(Language.dlgUpdateNoUpdateAvailable, Program.CurrentVersion, updater.UpdateChecker.LastChecked.Version),
+                                        Language.ApplicationName,
+                                        MessageBoxButtons.OK);
                                 });
                             }
                         }
                         Program.UpdateChecked = true;
-                        if (!this.IsDisposed) {
-                            llbCheckForUpdates.Invoke((Action)delegate {
-                                llbCheckForUpdates.LinkVisited = true;
-                            });
+                        if (!Program.IsUpdating) {
+                            if (this.IsHandleCreated) {
+                                llbCheckForUpdates.Invoke((Action)delegate {
+                                    llbCheckForUpdates.LinkVisited = true;
+                                });
+                            }
                         }
                     }
                     catch (ThreadAbortException) {

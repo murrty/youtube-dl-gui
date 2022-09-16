@@ -8,10 +8,26 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>youtube_dl_gui_updater</RootNamespace>
     <AssemblyName>youtube-dl-gui-updater</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
     <LangVersion>10.0</LangVersion>
+    <TargetFrameworkProfile />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -35,12 +51,11 @@
     <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Resources\youtube-dl-gui.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\ProgramIcon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
-    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Management" />
     <Reference Include="System.Net.Http" />
@@ -49,18 +64,41 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\NativeMethods.cs" />
-    <Compile Include="Controls\ExtendedProgressBar.cs">
+    <Compile Include="Classes\ProgramData.cs" />
+    <Compile Include="..\Controls\ExtendedProgressBar.cs">
       <SubType>Component</SubType>
+      <Link>Controls\Shared\ExtendedProgressBar.cs</Link>
     </Compile>
-    <Compile Include="Controls\ExtendedWebClient.cs">
+    <Compile Include="..\Controls\ExtendedRichTextBox.cs">
       <SubType>Component</SubType>
+      <Link>Controls\Shared\ExtendedRichTextBox.cs</Link>
     </Compile>
-    <Compile Include="Forms\frmException.cs">
-      <SubType>Form</SubType>
+    <Compile Include="..\Controls\ExtendedWebClient.cs">
+      <SubType>Component</SubType>
+      <Link>Controls\Shared\ExtendedWebClient.cs</Link>
     </Compile>
-    <Compile Include="Forms\frmException.Designer.cs">
-      <DependentUpon>frmException.cs</DependentUpon>
+    <Compile Include="..\Controls\Enums\HttpMethod.cs">
+      <Link>Controls\Shared\HttpMethod.cs</Link>
     </Compile>
+    <Compile Include="Controls\MessageHandler.cs" />
+    <Compile Include="..\Controls\Natives\Consts.cs">
+      <Link>Controls\Shared\Consts.cs</Link>
+    </Compile>
+    <Compile Include="..\Controls\Natives\NativeMethods.cs">
+      <Link>Controls\Shared\NativeMethods.cs</Link>
+    </Compile>
+    <Compile Include="..\Controls\Enums\ProgressBarState.cs">
+      <Link>Controls\Shared\ProgressBarState.cs</Link>
+    </Compile>
+    <Compile Include="..\Controls\Interfaces\TaskbarInterface.cs">
+      <Link>Controls\Shared\TaskbarInterface.cs</Link>
+    </Compile>
+    <Compile Include="..\Controls\Enums\TaskbarProgressState.cs">
+      <Link>Controls\Shared\TaskbarProgressState.cs</Link>
+    </Compile>
+    <Compile Include="CopyData\CopyData.cs" />
+    <Compile Include="CopyData\CopyDataStruct.cs" />
+    <Compile Include="CopyData\UpdaterData.cs" />
     <Compile Include="Forms\frmUpdater.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -68,15 +106,31 @@
       <DependentUpon>frmUpdater.cs</DependentUpon>
     </Compile>
     <Compile Include="Classes\Language.cs" />
+    <Compile Include="GlobalNamespaces.cs" />
+    <Compile Include="Interfaces\IUpdateForm.cs" />
+    <Compile Include="Log\DwmCompositionInfo.cs" />
+    <Compile Include="Log\DwmCompositionTextInfo.cs" />
+    <Compile Include="Log\ExceptionInfo.cs" />
+    <Compile Include="Log\Exceptions\ApiParsingException.cs" />
+    <Compile Include="Log\Forms\frmException.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Log\Forms\frmException.Designer.cs">
+      <DependentUpon>frmException.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Log\Log.cs" />
+    <Compile Include="Log\Natives\DwmComposition.cs" />
+    <Compile Include="Log\Natives\DwmNatives.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Classes\UpdateInfo.cs" />
-    <EmbeddedResource Include="Forms\frmException.resx">
-      <DependentUpon>frmException.cs</DependentUpon>
-    </EmbeddedResource>
+    <Compile Include="Runtime\CompilerServices.cs" />
     <EmbeddedResource Include="Forms\frmUpdater.resx">
       <DependentUpon>frmUpdater.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Log\Forms\frmException.resx">
+      <DependentUpon>frmException.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -88,22 +142,19 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <None Include="Resources\youtube-dl-gui.ico" />
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ProgramIcon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

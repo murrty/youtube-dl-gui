@@ -3,27 +3,30 @@
 using System.IO;
 using youtube_dl_gui.updater;
 
-class Verification {
-    private static GitID YoutubeDlGitType = GitID.None;
+internal static class Verification {
+    private static GitID YoutubeDlGitType = GitID.YtDlp;
 
-    public string YoutubeDlPath { get; private set; }
-    public string FFmpegPath { get; private set; }
-    public string AtomicParsleyPath { get; private set; }
-    public string YoutubeDlVersion { get; private set; }
+    public static string YoutubeDlPath { get; private set; }
+    public static string FFmpegPath { get; private set; }
+    public static string FFprobePath { get; private set; }
+    public static string AtomicParsleyPath { get; private set; }
+    public static string YoutubeDlVersion { get; private set; }
 
-    public void Refresh() {
+    public static void Refresh() {
         RefreshYoutubeDlLocation();
         RefreshFFmpegLocation();
         RefreshAtomicParsleyLocation();
     }
 
-    public void RefreshYoutubeDlLocation() {
+    public static void RefreshYoutubeDlLocation() {
         YoutubeDlGitType = (GitID)Config.Settings.Downloads.YtdlType;
         string TempPath;
         string YoutubeDlName = YoutubeDlGitType switch {
+            GitID.YoutubeDl => "youtube-dl.exe",
             GitID.YoutubeDlc => "youtube-dlc.exe",
-            GitID.YoutubeDlp => "yt-dlp.exe",
-            _ => "youtube-dl.exe",
+            GitID.YoutubeDlNightly => "youtube-dl-n.exe",
+            GitID.YtDlpNightly => "yt-dlp-n.exe",
+            _ => "yt-dlp.exe",
         };
 
         if (Config.Settings.General.UseStaticYtdl && File.Exists(Config.Settings.General.ytdlPath)) {
@@ -40,49 +43,56 @@ class Verification {
         if (YoutubeDlPath != null) {
             YoutubeDlVersion = GetProgramVersion(YoutubeDlPath);
             switch (YoutubeDlGitType) {
-                default: //ytdl/youtube-dl {YYYY.MM.DD}
-                    break;
+                case GitID.YoutubeDlNightly: // {YYYY.MM.DD.FFFFF}
+                case GitID.YoutubeDl: { //ytdl/youtube-dl {YYYY.MM.DD}
+                } break;
 
-                case GitID.YoutubeDlc: // blackjack###/youtube-dlc {YYYY.MM.DD | git.io/link}
+                //case GitID.YtDlc:
+                case GitID.YoutubeDlc: { // blackjack###/youtube-dlc {YYYY.MM.DD-M | git.io/link}
                     YoutubeDlVersion = YoutubeDlVersion[..YoutubeDlVersion.IndexOf(" | ")];
                     //if (YoutubeDlVersion.Contains("-1 | ")) {
                     //    YoutubeDlVersion = YoutubeDlVersion[..YoutubeDlVersion.IndexOf("-1")];
                     //}
-                    break;
+                } break;
 
-                case GitID.YoutubeDlp: //yt-dlp/yt-dlp {YYYY.MM.DD on Python 3.8.10}
+                case GitID.YtDlpNightly:
+                case GitID.YtDlp: { // yt-dlp/yt-dlp {YYYY.MM.DD on Python 3.8.10}
                     YoutubeDlVersion = YoutubeDlVersion[..YoutubeDlVersion.IndexOf(" on ")];
-                    break;
+                } break;
+
+                default: {
+                } throw new ArgumentException("YtdlType is invalid.");
             }
         }
     }
-    public void RefreshFFmpegLocation() {
-        string TempPath;
 
+    public static void RefreshFFmpegLocation() {
         if (Config.Settings.General.UseStaticFFmpeg && File.Exists(Config.Settings.General.ffmpegPath)) {
-            TempPath = Config.Settings.General.ffmpegPath;
+            FFmpegPath = Config.Settings.General.ffmpegPath;
         }
         else if (ProgramInExecutingDirectory("ffmpeg.exe")) {
-            TempPath = Program.ProgramPath + "\\ffmpeg.exe";
+            FFmpegPath = $"{Program.ProgramPath}\\ffmpeg.exe";
         }
-        else if (ProgramInSystemPath("ffmpeg.exe", out TempPath)) { }
+        else if (ProgramInSystemPath("ffmpeg.exe", out string TempPath)) {
+            FFmpegPath = TempPath;
+        }
         else return;
 
-        FFmpegPath = TempPath;
+        string ffprobe = $"{Path.GetDirectoryName(FFmpegPath)}\\ffprobe.exe";
+        if (File.Exists(ffprobe)) {
+            FFprobePath = ffprobe;
+        }
     }
-    public void RefreshAtomicParsleyLocation() {
-        string TempPath;
 
+    public static void RefreshAtomicParsleyLocation() {
         if (ProgramInExecutingDirectory("atomicparsley.exe")) {
-            TempPath = Program.ProgramPath + "\\atomicparsley.exe";
+            AtomicParsleyPath = $"{Program.ProgramPath}\\atomicparsley.exe";
         }
-        else if (ProgramInSystemPath("atomicparsley.exe", out TempPath)) { }
-        else return;
-
-        AtomicParsleyPath = TempPath;
+        else if (ProgramInSystemPath("atomicparsley.exe", out string TempPath)) {
+            AtomicParsleyPath = TempPath;
+        }
     }
 
-    #region Shared methods
     private static string GetProgramVersion(string ProgramPath) {
         try {
             return System.Diagnostics.FileVersionInfo.GetVersionInfo(ProgramPath).ProductVersion;
@@ -94,15 +104,15 @@ class Verification {
     }
 
     private static bool ProgramInExecutingDirectory(string ProgramName) {
-        return File.Exists(Program.ProgramPath + "\\" + ProgramName);
+        return File.Exists($"{Program.ProgramPath}\\{ProgramName}");
     }
 
     private static bool ProgramInSystemPath(string ProgramName, out string OutputDir) {
         string[] PathLocations = Environment.GetEnvironmentVariable("PATH").Split(';');
 
         for (int i = 0; i < PathLocations.Length; i++) {
-            if (File.Exists(PathLocations[i] + "\\" + ProgramName)) {
-                OutputDir = PathLocations[i] + "\\" + ProgramName;
+            if (File.Exists($"{PathLocations[i]}\\{ProgramName}")) {
+                OutputDir = $"{PathLocations[i]}\\{ProgramName}";
                 return true;
             }
         }
@@ -110,5 +120,4 @@ class Verification {
         OutputDir = null;
         return false;
     }
-    #endregion
 }

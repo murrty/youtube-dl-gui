@@ -43,39 +43,34 @@ namespace youtube_dl_gui {
                 this.Text = Language.InternalEnglish.frmDownloadLanguage;
             }
             else {
-                btnCancel.Text = Program.lang.GenericCancel;
-                btnOk.Text = Program.lang.GenericOk;
-                btnDownloadSelected.Text = Program.lang.sbDownload;
-                this.Text = Program.lang.frmDownloadLanguage;
+                btnCancel.Text = Language.GenericCancel;
+                btnOk.Text = Language.GenericOk;
+                btnDownloadSelected.Text = Language.sbDownload;
+                this.Text = Language.frmDownloadLanguage;
             }
         }
 
         private void DownloadSelectedLanguageFile() {
-            using System.Net.WebClient wc = new();
+            Log.Write($"Downloading language file {EnumeratedLanguages[lvAvailableLanguages.SelectedIndices[0]].name}.");
+            if (!System.IO.Directory.Exists(Environment.CurrentDirectory + "\\lang")) {
+                System.IO.Directory.CreateDirectory(Environment.CurrentDirectory + "\\lang");
+            }
             string URL = EnumeratedLanguages[lvAvailableLanguages.SelectedIndices[0]].download_url;
-
-            try {
-                if (!System.IO.Directory.Exists(Environment.CurrentDirectory + "\\lang")) {
-                    System.IO.Directory.CreateDirectory(Environment.CurrentDirectory + "\\lang");
-                }
-
-                wc.DownloadFile(URL, Environment.CurrentDirectory + "\\lang\\" + EnumeratedLanguages[lvAvailableLanguages.SelectedIndices[0]].name);
-
-                // The SHA on github doesn't match what I can calculate here.
-                //if (Program.CalculateSha1Hash(Environment.CurrentDirectory + "\\lang\\" + EnumeratedLanguages[listView1.SelectedIndices[0]].Name).ToLower() != EnumeratedLanguages[listView1.SelectedIndices[0]].Sha.ToLower()) {
-                    //MessageBox.Show(Program.lang.dlgLanguageHashNoMatch, "youtube-dl-gui", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                //}
+            string Output = Environment.CurrentDirectory + "\\lang\\" + EnumeratedLanguages[lvAvailableLanguages.SelectedIndices[0]].name;
+            using frmGenericDownloadProgress Downloader = new(URL, Output);
+            if (Downloader.ShowDialog() == DialogResult.OK) {
+                Log.Write($"Finished downloading language file {EnumeratedLanguages[lvAvailableLanguages.SelectedIndices[0]].name}");
+                System.Media.SystemSounds.Asterisk.Play();
             }
-            catch (System.Net.WebException wex) {
-                if (Log.ReportRetriableException(wex, URL) == DialogResult.Retry) {
-                    DownloadSelectedLanguageFile();
-                }
+            else {
+                System.Media.SystemSounds.Hand.Play();
+                Log.Write($"Could not download language file {EnumeratedLanguages[lvAvailableLanguages.SelectedIndices[0]].name}.");
             }
-            catch (Exception ex) {
-                if (Log.ReportRetriableException(ex) == DialogResult.Retry) {
-                    DownloadSelectedLanguageFile();
-                }
-            }
+
+            // The SHA on github doesn't match what I can calculate here.
+            //if (Program.CalculateSha1Hash(Output).ToLower() != EnumeratedLanguages[listView1.SelectedIndices[0]].Sha.ToLower()) {
+            //    MessageBox.Show(Language.dlgLanguageHashNoMatch, Language.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            //}
         }
 
         private void btnDownloadSelected_Click(object sender, EventArgs e) {

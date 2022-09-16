@@ -2,21 +2,30 @@
 
 using System.Runtime.InteropServices;
 
-internal sealed partial class CopyData {
-    //  0x40 is an unused message.
-    public const int WM_SHOWFORM = 0x0040;
-    public const int WM_COPYDATA = 0x004A;
+internal sealed class CopyData {
 
-    public static nint IntPtrAlloc<T>(T param) {
+    public const int WM_COPYDATA = 0x004A;
+    public const int WM_SHOWFORM = 0x1000;
+    public const int WM_UPDATEDATAREQUEST = 0x1001;
+    public const int WM_UPDATEDATA = 0x1002;
+    public const int WM_UPDATERREADY = 0x1003;
+
+    public static nint NintAlloc<T>(T param) {
         nint retval = Marshal.AllocHGlobal(Marshal.SizeOf(param));
         Marshal.StructureToPtr(param, retval, false);
         return retval;
     }
-    public static void IntPtrFree(ref nint PreAlloc) {
+
+    public static void NintFree(ref nint PreAlloc) {
         if (PreAlloc != 0) {
             Marshal.FreeHGlobal(PreAlloc);
             PreAlloc = 0;
         }
+    }
+
+    public static T GetParam<T>(nint LParam) {
+        var DataStruct = Marshal.PtrToStructure<CopyDataStruct>(LParam);
+        return Marshal.PtrToStructure<T>(DataStruct.lpData);
     }
 
     /// <summary>

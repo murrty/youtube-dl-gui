@@ -1,56 +1,35 @@
 ﻿namespace youtube_dl_gui;
 
 internal class Config_Initialization {
-    public string LanguageFile = string.Empty;
     public bool firstTime = true;
-    public updater.Version SkippedVersion = updater.Version.Empty;
-    public updater.Version SkippedBetaVersion = updater.Version.Empty;
+    public string LanguageFile = string.Empty;
+    public Version SkippedVersion = Version.Empty;
+    public Version SkippedBetaVersion = Version.Empty;
 
-    private string fLanguageFile = string.Empty;
     private bool ffirstTime = true;
-    private updater.Version fSkippedVersion = updater.Version.Empty;
-    private updater.Version fSkippedBetaVersion = updater.Version.Empty;
+    private string fLanguageFile = string.Empty;
+    private Version fSkippedVersion = Version.Empty;
+    private Version fSkippedBetaVersion = Version.Empty;
 
     public void Load() {
-        if (Ini.KeyExists("firstTime")) {
-            firstTime = ffirstTime = Ini.ReadBool("firstTime");
-        }
+        Log.Write("Loading Initialization config.");
 
-        if (Ini.KeyExists("LanguageFile")) {
-            LanguageFile = fLanguageFile = Ini.ReadString("LanguageFile");
-        }
-
-        if (Ini.KeyExists("SkippedVersion")) {
-            if (updater.Version.TryParse(Ini.ReadString("SkippedVersion"), out SkippedVersion)) {
-                fSkippedVersion = SkippedVersion;
-            }
-        }
-        if (Ini.KeyExists("SkippedBetaVersion")) {
-            if (updater.Version.TryParse(Ini.ReadString("SkippedBetaVersion"), out SkippedBetaVersion)) {
-                fSkippedBetaVersion = SkippedBetaVersion;
-            }
-        }
+        firstTime = ffirstTime = Ini.Read(firstTime, true);
+        LanguageFile = fLanguageFile = Ini.Read(LanguageFile, string.Empty);
+        fSkippedVersion = SkippedVersion = Ini.Read(SkippedVersion, Version.Empty);
+        SkippedBetaVersion = fSkippedBetaVersion = Ini.Read(SkippedVersion, Version.Empty);
     }
 
     public void Save() {
-        if (firstTime != ffirstTime) {
-            Ini.Write("firstTime", firstTime);
-            ffirstTime = firstTime;
-        }
+        Log.Write("Saving Initialization config.");
 
-        if (LanguageFile != fLanguageFile) {
-            Ini.Write("LanguageFile", LanguageFile);
-            fLanguageFile = LanguageFile;
-        }
-
-        if (SkippedVersion != fSkippedVersion) {
-            Ini.Write("SkippedVersion", SkippedVersion.ToString());
-            fSkippedVersion = SkippedVersion;
-        }
-
-        if (SkippedBetaVersion != fSkippedBetaVersion) {
-            Ini.Write("SkippedBetaVersion", SkippedBetaVersion.ToString());
-            fSkippedBetaVersion = SkippedBetaVersion;
-        }
+        if (firstTime != ffirstTime)
+            ffirstTime = Ini.Write(firstTime);
+        if (LanguageFile != fLanguageFile)
+            fLanguageFile = Ini.Write(LanguageFile);
+        if (SkippedVersion != fSkippedVersion) 
+            fSkippedVersion = Ini.Write(SkippedVersion);
+        if (SkippedBetaVersion != fSkippedBetaVersion) 
+            fSkippedBetaVersion = Ini.Write(SkippedBetaVersion);
     }
 }

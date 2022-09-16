@@ -8,6 +8,6 @@ internal static class GithubLinks {
     public const string GithubAllReleasesJson   = "https://api.github.com/repos/{0}/{1}/releases";
     public const string ApplicationDownloadUrl  = "https://github.com/{0}/{1}/releases/download/{2}/{1}.exe";
 
-    public static readonly string[] Users = { "ytdl-org", "blackjack4494", "yt-dlp" };
-    public static readonly string[] Repos = { "youtube-dl", "youtube-dlc", "yt-dlp" };
+    public static readonly string[] Users = { "yt-dlp", "ytdl-org",   "blackjack4494", "ytdl-patched", "ytdl-patched" };
+    public static readonly string[] Repos = { "yt-dlp", "youtube-dl", "youtube-dlc",   "youtube-dl",   "yt-dlp" };
 }

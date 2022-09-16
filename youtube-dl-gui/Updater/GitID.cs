@@ -1,8 +1,10 @@
 ﻿namespace youtube_dl_gui.updater;
 
 public enum GitID : int {
-    None = -1,
-    YoutubeDl = 0,
-    YoutubeDlc = 1,
-    YoutubeDlp = 2
+    YtDlp = 0,
+    YoutubeDl = 1,
+    YoutubeDlc = 2,
+    //YtDlc = 3,
+    YoutubeDlNightly = 3,
+    YtDlpNightly = 4,
 }

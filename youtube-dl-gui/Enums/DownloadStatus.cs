@@ -6,5 +6,6 @@ public enum DownloadStatus : int {
     Finished = 2,
     Aborted = 3,
     YtdlError = 4,
-    ProgramError = 5
+    ProgramError = 5,
+    AbortForClose = 6,
 }

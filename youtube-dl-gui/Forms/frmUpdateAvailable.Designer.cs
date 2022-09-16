@@ -25,7 +25,7 @@
         private void InitializeComponent() {
             this.txtUpdateAvailableName = new System.Windows.Forms.TextBox();
             this.lbUpdateAvailableChangelog = new System.Windows.Forms.Label();
-            this.rtbUpdateAvailableChangelog = new youtube_dl_gui.Controls.ExtendedRichTextBox();
+            this.rtbUpdateAvailableChangelog = new murrty.controls.ExtendedRichTextBox();
             this.lbUpdateAvailableCurrentVersion = new System.Windows.Forms.Label();
             this.lbUpdateAvailableUpdateVersion = new System.Windows.Forms.Label();
             this.lbUpdateAvailableHeader = new System.Windows.Forms.Label();
@@ -166,7 +166,7 @@
             this.Controls.Add(this.pnLower);
             this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.Icon = global::youtube_dl_gui.Properties.Resources.youtube_dl_gui;
+            this.Icon = global::youtube_dl_gui.Properties.Resources.ProgramIcon;
             this.MaximizeBox = false;
             this.MinimumSize = new System.Drawing.Size(340, 380);
             this.Name = "frmUpdateAvailable";
@@ -187,7 +187,7 @@
         private System.Windows.Forms.Button btnUpdateAvailableOk;
         private System.Windows.Forms.Button btnUpdateAvailableUpdate;
         private System.Windows.Forms.Label lbUpdateAvailableChangelog;
-        private Controls.ExtendedRichTextBox rtbUpdateAvailableChangelog;
+        private murrty.controls.ExtendedRichTextBox rtbUpdateAvailableChangelog;
         private System.Windows.Forms.Label lbUpdateAvailableCurrentVersion;
         private System.Windows.Forms.Label lbUpdateAvailableUpdateVersion;
         private System.Windows.Forms.Label lbUpdateAvailableHeader;

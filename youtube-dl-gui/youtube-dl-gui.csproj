@@ -53,28 +53,83 @@
     <LangVersion>preview</LangVersion>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Resources\youtube-dl-gui.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\ProgramIcon.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Management" />
+    <Reference Include="System.Net.Http" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\BatchHelpers.cs" />
+    <Compile Include="Classes\ConvertHelper.cs" />
+    <Compile Include="Classes\DataClasses\FfprobeData.cs" />
+    <Compile Include="Classes\DownloadHelper.cs" />
+    <Compile Include="..\Controls\Enums\AllowedCharacters.cs">
+      <Link>Controls\Shared\AllowedCharacters.cs</Link>
+    </Compile>
+    <Compile Include="..\Controls\Enums\ButtonAlignment.cs">
+      <Link>Controls\Shared\ButtonAlignment.cs</Link>
+    </Compile>
+    <Compile Include="..\Controls\Enums\ProgressBarState.cs">
+      <Link>Controls\Shared\ProgressBarState.cs</Link>
+    </Compile>
+    <Compile Include="..\Controls\Interfaces\TaskbarInterface.cs">
+      <Link>Controls\Shared\TaskbarInterface.cs</Link>
+    </Compile>
+    <Compile Include="..\Controls\Enums\TaskbarProgressState.cs">
+      <Link>Controls\Shared\TaskbarProgressState.cs</Link>
+    </Compile>
+    <Compile Include="..\Controls\Events\RegexMatchEventArgs.cs">
+      <Link>Controls\Shared\RegexMatchEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="Controls\MessageHandler.cs" />
+    <Compile Include="..\Controls\Natives\Consts.cs">
+      <Link>Controls\Shared\Consts.cs</Link>
+    </Compile>
+    <Compile Include="..\Controls\Natives\NativeMethods.cs">
+      <Link>Controls\Shared\NativeMethods.cs</Link>
+    </Compile>
+    <Compile Include="CopyData\UpdaterData.cs" />
+    <Compile Include="Forms\frmArchiveDownloader.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmArchiveDownloader.Designer.cs">
+      <DependentUpon>frmArchiveDownloader.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmGenericDownloadProgress.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmGenericDownloadProgress.Designer.cs">
+      <DependentUpon>frmGenericDownloadProgress.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Logging\Exceptions\ApiParsingException.cs" />
+    <Compile Include="Logging\Exceptions\DownloadException.cs" />
+    <Compile Include="Logging\Forms\frmLog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Logging\Forms\frmLog.Designer.cs">
+      <DependentUpon>frmLog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Logging\Natives\DwmComposition.cs" />
     <Compile Include="Classes\Extensions.cs" />
+    <Compile Include="Classes\DataClasses\DownloaderData.cs" />
+    <Compile Include="..\Controls\ExtendedProgressBar.cs">
+      <SubType>Component</SubType>
+      <Link>Controls\Shared\ExtendedProgressBar.cs</Link>
+    </Compile>
     <Compile Include="Enums\StatusIcon.cs" />
     <Compile Include="Enums\DownloadStatus.cs" />
     <Compile Include="Enums\PlaylistSelectionType.cs" />
@@ -99,18 +154,37 @@
     <Compile Include="Config\Config_Saved.cs" />
     <Compile Include="Config\Ini.cs" />
     <Compile Include="Config\Protocol.cs" />
+    <Compile Include="Forms\frmExtendedDownload.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmExtendedDownload.Designer.cs">
+      <DependentUpon>frmExtendedDownload.cs</DependentUpon>
+    </Compile>
     <Compile Include="GlobalNamespaces.cs" />
+    <Compile Include="Logging\DwmCompositionInfo.cs" />
+    <Compile Include="Logging\DwmCompositionTextInfo.cs" />
+    <Compile Include="Logging\Natives\DwmNatives.cs" />
+    <Compile Include="Logging\ExceptionInfo.cs" />
+    <Compile Include="Runtime\Arrays.cs" />
+    <Compile Include="Forms\frmMerger.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmMerger.Designer.cs">
+      <DependentUpon>frmMerger.cs</DependentUpon>
+    </Compile>
     <Compile Include="Updater\GithubData.cs" />
     <Compile Include="Updater\GithubAsset.cs" />
     <Compile Include="Updater\GithubLinks.cs" />
     <Compile Include="Updater\GitID.cs" />
     <Compile Include="Updater\GithubRepoContent.cs" />
     <Compile Include="Updater\Version.cs" />
-    <Compile Include="Controls\BetterFolderBrowser.cs">
+    <Compile Include="..\Controls\BetterFolderBrowser.cs">
       <SubType>Component</SubType>
+      <Link>Controls\Shared\BetterFolderBrowser.cs</Link>
     </Compile>
-    <Compile Include="Controls\BetterFolderBrowser.designer.cs">
+    <Compile Include="..\Controls\BetterFolderBrowser.designer.cs">
       <DependentUpon>BetterFolderBrowser.cs</DependentUpon>
+      <Link>Controls\Shared\BetterFolderBrowser.designer.cs</Link>
     </Compile>
     <Compile Include="Classes\ConvertInfo.cs" />
     <Compile Include="CopyData\CopyData.cs" />
@@ -119,21 +193,26 @@
     <Compile Include="Classes\Language.cs" />
     <Compile Include="Classes\NativeMethods.cs" />
     <Compile Include="Updater\UpdateChecker.cs" />
-    <Compile Include="Log.cs" />
-    <Compile Include="Controls\ExtendedRichTextBox.cs">
+    <Compile Include="Logging\Log.cs" />
+    <Compile Include="..\Controls\ExtendedRichTextBox.cs">
       <SubType>Component</SubType>
+      <Link>Controls\Shared\ExtendedRichTextBox.cs</Link>
     </Compile>
-    <Compile Include="Controls\ExtendedTextBox.cs">
+    <Compile Include="..\Controls\ExtendedTextBox.cs">
       <SubType>Component</SubType>
+      <Link>Controls\Shared\ExtendedTextBox.cs</Link>
     </Compile>
-    <Compile Include="Controls\ExtendedLinkLabel.cs">
+    <Compile Include="..\Controls\ExtendedLinkLabel.cs">
       <SubType>Component</SubType>
+      <Link>Controls\Shared\ExtendedLinkLabel.cs</Link>
     </Compile>
-    <Compile Include="Controls\SplitButton.cs">
+    <Compile Include="..\Controls\SplitButton.cs">
       <SubType>Component</SubType>
+      <Link>Controls\Shared\SplitButton.cs</Link>
     </Compile>
-    <Compile Include="Controls\VistaListView.cs">
+    <Compile Include="..\Controls\VistaListView.cs">
       <SubType>Component</SubType>
+      <Link>Controls\Shared\VistaListView.cs</Link>
     </Compile>
     <Compile Include="Forms\frmAbout.cs">
       <SubType>Form</SubType>
@@ -165,10 +244,10 @@
     <Compile Include="Forms\frmDownloadLanguage.Designer.cs">
       <DependentUpon>frmDownloadLanguage.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\frmException.cs">
+    <Compile Include="Logging\Forms\frmException.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmException.Designer.cs">
+    <Compile Include="Logging\Forms\frmException.Designer.cs">
       <DependentUpon>frmException.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\frmLanguage.cs">
@@ -229,6 +308,9 @@
     <EmbeddedResource Include="Forms\frmAbout.resx">
       <DependentUpon>frmAbout.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmArchiveDownloader.resx">
+      <DependentUpon>frmArchiveDownloader.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmAuthentication.resx">
       <DependentUpon>frmAuthentication.cs</DependentUpon>
     </EmbeddedResource>
@@ -244,8 +326,14 @@
     <EmbeddedResource Include="Forms\frmDownloadLanguage.resx">
       <DependentUpon>frmDownloadLanguage.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmException.resx">
+    <EmbeddedResource Include="Forms\frmGenericDownloadProgress.resx">
+      <DependentUpon>frmGenericDownloadProgress.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Logging\Forms\frmException.resx">
       <DependentUpon>frmException.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmExtendedDownload.resx">
+      <DependentUpon>frmExtendedDownload.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmLanguage.resx">
       <DependentUpon>frmLanguage.cs</DependentUpon>
@@ -268,6 +356,9 @@
     <EmbeddedResource Include="Forms\frmDownloader.resx">
       <DependentUpon>frmDownloader.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Logging\Forms\frmLog.resx">
+      <DependentUpon>frmLog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -278,28 +369,26 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
+    <EmbeddedResource Include="Forms\frmMerger.resx">
+      <DependentUpon>frmMerger.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\StatusIcons\selected_disabled.png" />
+    <None Include="Resources\StatusIcons\best_disabled.png" />
+    <None Include="Resources\StatusIcons\selected.png" />
+    <None Include="Resources\StatusIcons\best.png" />
     <None Include="Resources\youtube-dl-gui-updater.exe" />
-    <None Include="Resources\waiting.png" />
-    <None Include="Resources\finished.png" />
-    <None Include="Resources\download.png" />
-    <None Include="Resources\error.png" />
+    <None Include="Resources\StatusIcons\waiting.png" />
+    <None Include="Resources\StatusIcons\finished.png" />
+    <None Include="Resources\StatusIcons\download.png" />
+    <None Include="Resources\StatusIcons\error.png" />
     <None Include="Resources\BuildDate.txt" />
-    <Content Include="Resources\youtube-dl-gui.ico" />
-    <Content Include="Resources\youtube-dl-gui32.png" />
+    <Content Include="Resources\ProgramIcon.ico" />
+    <Content Include="Resources\AboutImage.png" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">
@@ -318,6 +407,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>if $(ConfigurationName) == Release "BuildDateWriter.exe" "$(ProjectDir)\Resources\BuildDate.txt"</PreBuildEvent>
@@ -326,7 +416,8 @@
     <PostBuildEvent>if $(ConfigurationName) == Release xcopy "$(SolutionDir)Languages\*.ini" "$(SolutionDir)Release\lang\*.ini" /y
 if $(ConfigurationName) == Release copy "$(TargetPath)" "$(SolutionDir)Release"
 if $(ConfigurationName) == Release (del "$(SolutionDir)Release\$(ProjectName).zip")
-if $(ConfigurationName) == Release (7z a -mm=Deflate -mfb=128 -r "$(SolutionDir)Release\$(ProjectName).zip" "$(SolutionDir)Release\*")</PostBuildEvent>
+if $(ConfigurationName) == Release (7z a -mm=Deflate -mfb=128 -r "$(SolutionDir)Release\$(ProjectName).zip" "$(SolutionDir)Release\*")
+if $(ConfigurationName) == Release "$(SolutionDir)HashCalcConsole.exe" "$(SolutionDir)Release\$(ProjectName).exe" "$(SolutionDir)Release\$(ProjectName).zip"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

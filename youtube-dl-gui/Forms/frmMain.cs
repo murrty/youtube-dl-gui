@@ -1,6 +1,5 @@
 ﻿using System.Diagnostics;
 using System.Drawing;
-using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -23,8 +22,7 @@ namespace youtube_dl_gui {
         protected override void WndProc(ref Message m) {
             switch (m.Msg) {
                 case CopyData.WM_COPYDATA: {
-                    var ReceivedData = Marshal.PtrToStructure<CopyData.CopyDataStruct>(m.LParam);
-                    var Data = Marshal.PtrToStructure<CopyData.SentData>(ReceivedData.lpData);
+                    var Data = CopyData.GetParam<SentData>(m.LParam);
                     string[] ReceivedArguments = Data.Argument.Split('|');
                     switch (ReceivedArguments.Length) {
                         case 1: {
@@ -52,14 +50,14 @@ namespace youtube_dl_gui {
                     if (Clipboard.ContainsText()) {
                         ClipboardData = Clipboard.GetText();
                         if (mClipboardAutoDownloadVerifyLinks.Checked) {
-                            if (!Download.SupportedDownloadLink(ClipboardData)) {
+                            if (!DownloadHelper.SupportedDownloadLink(ClipboardData)) {
                                 return;
                             }
                         }
                         txtUrl.Text = ClipboardData;
                         ClipboardData = null;
-                        if (!Program.IsDebug) {
-                            StartDownload();
+                        if (!Program.DebugMode) {
+                            Download();
                         }
                     }
                     m.Result = IntPtr.Zero;
@@ -73,18 +71,26 @@ namespace youtube_dl_gui {
 
         public frmMain() {
             InitializeComponent();
-            if (Program.IsDebug) {
+            if (Program.DebugMode) {
                 trayIcon.Dispose();
             }
             else {
                 trayIcon.ContextMenu = cmTray;
                 trayIcon.Visible = true;
-                tcMain.TabPages.RemoveAt(3);
+                tcMain.TabPages.Remove(tabDebug);
             }
             cbSchema.Text = Config.Settings.Downloads.fileNameSchema;
             if (!string.IsNullOrEmpty(Config.Settings.Saved.FileNameSchemaHistory)) {
                 cbSchema.Items.AddRange(Config.Settings.Saved.FileNameSchemaHistory.Split('|'));
             }
+            mDownloadSeparator.Enabled = mDownloadSeparator.Visible =
+                mQuickDownloadForm.Enabled = mQuickDownloadForm.Visible =
+                mQuickDownloadFormAuthentication.Enabled = mQuickDownloadFormAuthentication.Visible =
+                mExtendedDownloadForm.Enabled = mExtendedDownloadForm.Visible = DownloadHelper.CanUseExtendedDownloader();
+
+            this.Shown += (s, e) => {
+                Log.Write("Startup finished.");
+            };
         }
 
         private void frmMain_Load(object sender, EventArgs e) {
@@ -109,7 +115,7 @@ namespace youtube_dl_gui {
                 YtdlUpdateCheckThread = new(() => {
                     try {
                         if (updater.UpdateChecker.CheckForYoutubeDlUpdate()) {
-                            updater.UpdateChecker.UpdateYoutubeDl();
+                            updater.UpdateChecker.UpdateYoutubeDl(this.Location);
                         }
                     }
                     catch (ThreadAbortException) {
@@ -124,16 +130,16 @@ namespace youtube_dl_gui {
                 };
                 YtdlUpdateCheckThread.Start();
             }
-            if (Config.Settings.Saved.MainFormSize != default) {
-                this.Size = Config.Settings.Saved.MainFormSize;
-            }
-            if (!Program.IsDebug) {
+            if (!Program.DebugMode) {
                 mDownloadSubtitles.Enabled = false;
             }
 
-            if (Config.Settings.Saved.MainFormLocation.X != -3200 && Config.Settings.Saved.MainFormLocation.Y != -32000) {
+            if (Config.ValidPoint(Config.Settings.Saved.MainFormLocation)) {
                 this.Location = Config.Settings.Saved.MainFormLocation;
             }
+
+            this.Size = Config.ValidSize(Config.Settings.Saved.MainFormSize) ?
+                Config.Settings.Saved.MainFormSize : this.MinimumSize;
 
             LoadLanguage();
 
@@ -247,90 +253,96 @@ namespace youtube_dl_gui {
         }
 
         private void LoadLanguage() {
-            mSettings.Text = Program.lang.mSettings;
-            mTools.Text = Program.lang.mTools;
-            mBatchDownload.Text = Program.lang.mBatchDownload;
-            mBatchConverter.Text = Program.lang.mBatchConvert;
-            mDownloadSubtitles.Text = Program.lang.mDownloadSubtitles;
-            mMiscTools.Text = Program.lang.mMiscTools;
-            mClipboardAutoDownload.Text = Program.lang.mClipboardAutoDownload;
-            mClipboardAutoDownloadVerifyLinks.Text = Program.lang.GenericVerifyLinks;
-            mHelp.Text = Program.lang.mHelp;
-            mLanguage.Text = Program.lang.mLanguage;
-            mSupportedSites.Text = Program.lang.mSupportedSites;
-            mAbout.Text = Program.lang.mAbout;
+            mSettings.Text = Language.mSettings;
+            mTools.Text = Language.mTools;
+            mBatchDownload.Text = Language.mBatchDownload;
+            mBatchConverter.Text = Language.mBatchConvert;
+            mArchiveDownloader.Text = Language.mArchiveDownloader;
+            mMerger.Text = Language.tabMerge;
+            mDownloadSubtitles.Text = Language.mDownloadSubtitles;
+            mMiscTools.Text = Language.mMiscTools;
+            mClipboardAutoDownload.Text = Language.mClipboardAutoDownload;
+            mClipboardAutoDownloadVerifyLinks.Text = Language.GenericVerifyLinks;
+            mHelp.Text = Language.mHelp;
+            mLanguage.Text = Language.mLanguage;
+            mSupportedSites.Text = Language.mSupportedSites;
+            mLog.Text = Language.frmLog;
+            mAbout.Text = Language.mAbout;
 
-            tabDownload.Text = Program.lang.tabDownload;
-            tabConvert.Text = Program.lang.tabConvert;
-            tabMerge.Text = Program.lang.tabMerge;
+            tabDownload.Text = Language.tabDownload;
+            tabConvert.Text = Language.tabConvert;
+            tabMerge.Text = Language.tabMerge;
 
-            lbURL.Text = Program.lang.lbURL;
-            txtUrl.TextHint = Program.lang.txtUrlHint;
-            gbDownloadType.Text = Program.lang.gbDownloadType;
-            rbVideo.Text = Program.lang.GenericVideo;
-            rbAudio.Text = Program.lang.GenericAudio;
-            rbCustom.Text = Program.lang.GenericCustom;
-            lbQuality.Text = Program.lang.lbQuality;
-            lbFormat.Text = Program.lang.lbFormat;
-            chkDownloadSound.Text = Program.lang.chkDownloadSound;
-            chkUseSelection.Text = Program.lang.chkUseSelection;
-            rbVideoSelectionPlaylistIndex.Text = Program.lang.rbVideoSelectionPlaylistIndex;
-            rbVideoSelectionPlaylistItems.Text = Program.lang.rbVideoSelectionPlaylistItems;
-            rbVideoSelectionBeforeDate.Text = Program.lang.rbVideoSelectionBeforeDate;
-            rbVideoSelectionOnDate.Text = Program.lang.rbVideoSelectionOnDate;
-            rbVideoSelectionAfterDate.Text = Program.lang.rbVideoSelectionAfterDate;
-            txtPlaylistStart.TextHint = Program.lang.txtPlaylistStartHint;
-            txtPlaylistEnd.TextHint = Program.lang.txtPlaylistEndHint;
-            txtPlaylistItems.TextHint = Program.lang.txtPlaylistItemsHint;
-            txtVideoDate.TextHint = Program.lang.txtVideoDateHint;
+            lbURL.Text = Language.lbURL;
+            txtUrl.TextHint = Language.txtUrlHint;
+            gbDownloadType.Text = Language.gbDownloadType;
+            rbVideo.Text = Language.GenericVideo;
+            rbAudio.Text = Language.GenericAudio;
+            rbCustom.Text = Language.GenericCustom;
+            lbQuality.Text = Language.lbQuality;
+            lbFormat.Text = Language.lbFormat;
+            chkDownloadSound.Text = Language.GenericSound;
+            chkUseSelection.Text = Language.chkUseSelection;
+            rbVideoSelectionPlaylistIndex.Text = Language.rbVideoSelectionPlaylistIndex;
+            rbVideoSelectionPlaylistItems.Text = Language.rbVideoSelectionPlaylistItems;
+            rbVideoSelectionBeforeDate.Text = Language.rbVideoSelectionBeforeDate;
+            rbVideoSelectionOnDate.Text = Language.rbVideoSelectionOnDate;
+            rbVideoSelectionAfterDate.Text = Language.rbVideoSelectionAfterDate;
+            txtPlaylistStart.TextHint = Language.txtPlaylistStartHint;
+            txtPlaylistEnd.TextHint = Language.txtPlaylistEndHint;
+            txtPlaylistItems.TextHint = Language.txtPlaylistItemsHint;
+            txtVideoDate.TextHint = Language.txtVideoDateHint;
 
-            lbSchema.Text = Program.lang.lbSettingsDownloadsFileNameSchema;
-            lbCustomArguments.Text = Program.lang.lbCustomArguments;
-            sbDownload.Text = Program.lang.sbDownload;
-            mDownloadWithAuthentication.Text = Program.lang.mDownloadWithAuthentication;
-            mBatchDownloadFromFile.Text = Program.lang.mBatchDownloadFromFile;
+            lbSchema.Text = Language.lbSettingsDownloadsFileNameSchema;
+            lbCustomArguments.Text = Language.lbCustomArguments;
+            sbDownload.Text = Language.sbDownload;
+            mDownloadWithAuthentication.Text = Language.mDownloadWithAuthentication;
+            mBatchDownloadFromFile.Text = Language.mBatchDownloadFromFile;
+            mQuickDownloadForm.Text = Language.mQuickDownloadForm;
+            mQuickDownloadFormAuthentication.Text = Language.mQuickDownloadFormAuthentication;
+            mExtendedDownloadForm.Text = Language.mExtendedDownloadForm;
 
-            lbConvertInput.Text = Program.lang.lbConvertInput;
-            lbConvertOutput.Text = Program.lang.lbConvertOutput;
-            rbConvertVideo.Text = Program.lang.GenericVideo;
-            rbConvertAudio.Text = Program.lang.GenericAudio;
-            rbConvertCustom.Text = Program.lang.GenericCustom;
-            rbConvertAuto.Text = Program.lang.rbConvertAuto;
-            rbConvertAutoFFmpeg.Text = Program.lang.rbConvertAutoFFmpeg;
-            btnConvert.Text = Program.lang.btnConvert;
+            lbConvertInput.Text = Language.lbConvertInput;
+            lbConvertOutput.Text = Language.lbConvertOutput;
+            rbConvertVideo.Text = Language.GenericVideo;
+            rbConvertAudio.Text = Language.GenericAudio;
+            rbConvertCustom.Text = Language.GenericCustom;
+            rbConvertAuto.Text = Language.rbConvertAuto;
+            rbConvertAutoFFmpeg.Text = Language.rbConvertAutoFFmpeg;
+            btnConvert.Text = Language.btnConvert;
 
-            lbMergeInput1.Text = Program.lang.lbMergeInput1;
-            lbMergeInput2.Text = Program.lang.lbMergeInput2;
-            lbMergeOutput.Text = Program.lang.lbMergeOutput;
-            chkMergeAudioTracks.Text = Program.lang.chkMergeAudioTracks;
-            chkMergeDeleteInputFiles.Text = Program.lang.chkMergeDeleteInputFiles;
-            btnMerge.Text = Program.lang.btnMerge;
+            lbMergeInput1.Text = Language.lbMergeInput1;
+            lbMergeInput2.Text = Language.lbMergeInput2;
+            lbMergeOutput.Text = Language.lbMergeOutput;
+            chkMergeAudioTracks.Text = Language.chkMergeAudioTracks;
+            chkMergeDeleteInputFiles.Text = Language.chkMergeDeleteInputFiles;
+            btnMerge.Text = Language.btnMerge;
 
-            cmTrayShowForm.Text = Program.lang.cmTrayShowForm;
-            cmTrayDownloader.Text = Program.lang.cmTrayDownloader;
-            cmTrayDownloadClipboard.Text = Program.lang.cmTrayDownloadClipboard;
-            cmTrayDownloadBestVideo.Text = Program.lang.cmTrayDownloadBestVideo;
-            cmTrayDownloadBestAudio.Text = Program.lang.cmTrayDownloadBestAudio;
-            cmTrayDownloadCustom.Text = Program.lang.cmTrayDownloadCustom;
-            cmTrayDownloadCustomTxtBox.Text = Program.lang.cmTrayDownloadCustomTxtBox;
-            cmTrayDownloadCustomTxt.Text = Program.lang.cmTrayDownloadCustomTxt;
-            cmTrayDownloadCustomSettings.Text = Program.lang.cmTrayDownloadCustomSettings;
-            cmTrayClipboardAutoDownload.Text = Program.lang.mClipboardAutoDownload;
-            cmTrayClipboardAutoDownloadVerifyLinks.Text = Program.lang.GenericVerifyLinks;
-            cmTrayConverter.Text = Program.lang.cmTrayConverter;
-            cmTrayConvertTo.Text = Program.lang.cmTrayConvertTo;
-            cmTrayConvertVideo.Text = Program.lang.cmTrayConvertVideo;
-            cmTrayConvertAudio.Text = Program.lang.cmTrayConvertAudio;
-            cmTrayConvertCustom.Text = Program.lang.cmTrayConvertCustom;
-            cmTrayConvertAutomatic.Text = Program.lang.cmTrayConvertAutomatic;
-            cmTrayConvertAutoFFmpeg.Text = Program.lang.cmTrayConvertAutoFFmpeg;
-            cmTrayExit.Text = Program.lang.cmTrayExit;
+            cmTrayShowForm.Text = Language.cmTrayShowForm;
+            cmTrayDownloader.Text = Language.cmTrayDownloader;
+            cmTrayDownloadClipboard.Text = Language.cmTrayDownloadClipboard;
+            cmTrayDownloadBestVideo.Text = Language.cmTrayDownloadBestVideo;
+            cmTrayDownloadBestAudio.Text = Language.cmTrayDownloadBestAudio;
+            cmTrayDownloadCustom.Text = Language.cmTrayDownloadCustom;
+            cmTrayDownloadCustomTxtBox.Text = Language.cmTrayDownloadCustomTxtBox;
+            cmTrayDownloadCustomTxt.Text = Language.cmTrayDownloadCustomTxt;
+            cmTrayDownloadCustomSettings.Text = Language.cmTrayDownloadCustomSettings;
+            cmTrayClipboardAutoDownload.Text = Language.mClipboardAutoDownload;
+            cmTrayClipboardAutoDownloadVerifyLinks.Text = Language.GenericVerifyLinks;
+            cmTrayConverter.Text = Language.cmTrayConverter;
+            cmTrayConvertTo.Text = Language.cmTrayConvertTo;
+            cmTrayConvertVideo.Text = Language.cmTrayConvertVideo;
+            cmTrayConvertAudio.Text = Language.cmTrayConvertAudio;
+            cmTrayConvertCustom.Text = Language.cmTrayConvertCustom;
+            cmTrayConvertAutomatic.Text = Language.cmTrayConvertAutomatic;
+            cmTrayConvertAutoFFmpeg.Text = Language.cmTrayConvertAutoFFmpeg;
+            cmTrayExit.Text = Language.cmTrayExit;
 
             if (cbFormat.Items.Count > 0) {
-                cbFormat.Items[0] = Program.lang.GenericInputBest;
+                cbFormat.Items[0] = Language.GenericInputBest;
             }
             if (cbQuality.Items.Count > 0) {
-                cbQuality.Items[0] = Program.lang.GenericInputBest;
+                cbQuality.Items[0] = Language.GenericInputBest;
             }
 
             CalculateLocations();
@@ -425,11 +437,12 @@ namespace youtube_dl_gui {
                     Application.ApplicationExit -= ApplicationExit;
                     mClipboardAutoDownload.Checked = mClipboardAutoDownloadVerifyLinks.Enabled = cmTrayClipboardAutoDownload.Checked = cmTrayClipboardAutoDownloadVerifyLinks.Enabled = false;
                     ClipboardScannerActive = false;
+                    Log.Write("Clipboard auto-download scanning stopped.");
                 }
             }
             else {
                 if (!Config.Settings.General.ClipboardAutoDownloadNoticeRead) {
-                    if (MessageBox.Show(Program.lang.dlgClipboardAutoDownloadNotice, "youtube-dl-gui", MessageBoxButtons.OKCancel) == DialogResult.Cancel) {
+                    if (MessageBox.Show(Language.dlgClipboardAutoDownloadNotice, Language.ApplicationName, MessageBoxButtons.OKCancel) == DialogResult.Cancel) {
                         return;
                     }
                     Config.Settings.General.ClipboardAutoDownloadNoticeRead = true;
@@ -438,6 +451,7 @@ namespace youtube_dl_gui {
                     Application.ApplicationExit += ApplicationExit;
                     ClipboardScannerActive = true;
                     mClipboardAutoDownload.Checked = mClipboardAutoDownloadVerifyLinks.Enabled = cmTrayClipboardAutoDownload.Checked = cmTrayClipboardAutoDownloadVerifyLinks.Enabled = true;
+                    Log.Write("Clipboard auto-download scanning started.");
                 }
             }
         }
@@ -452,6 +466,8 @@ namespace youtube_dl_gui {
                 trayIcon.Visible = false;
             }
         }
+
+        internal nint GetHandle() => this.Handle;
 
         internal void ApplicationExit(object sender, EventArgs e) {
             if (ClipboardScannerActive && NativeMethods.RemoveClipboardFormatListener(this.Handle)) {
@@ -469,6 +485,11 @@ namespace youtube_dl_gui {
             if (!string.IsNullOrEmpty(Config.Settings.Saved.FileNameSchemaHistory)) {
                 cbSchema.Items.AddRange(Config.Settings.Saved.FileNameSchemaHistory.Split('|'));
             }
+
+            mDownloadSeparator.Enabled = mDownloadSeparator.Visible =
+                mQuickDownloadForm.Enabled = mQuickDownloadForm.Visible =
+                mQuickDownloadFormAuthentication.Enabled = mQuickDownloadFormAuthentication.Visible =
+                mExtendedDownloadForm.Enabled = mExtendedDownloadForm.Visible = DownloadHelper.CanUseExtendedDownloader();
         }
 
         private void mBatchDownload_Click(object sender, EventArgs e) {
@@ -478,6 +499,14 @@ namespace youtube_dl_gui {
         private void mBatchConverter_Click(object sender, EventArgs e) {
             frmBatchConverter BatchConvert = new();
             BatchConvert.Show();
+        }
+        private void mArchiveDownloader_Click(object sender, EventArgs e) {
+            using frmArchiveDownloader ArchiveDownloader = new();
+            ArchiveDownloader.ShowDialog();
+        }
+        private void mMerger_Click(object sender, EventArgs e) {
+            frmMerger MergeForm = new();
+            MergeForm.Show();
         }
         private void mDownloadSubtitles_Click(object sender, EventArgs e) {
             frmSubtitles downloadSubtitles = new();
@@ -495,14 +524,14 @@ namespace youtube_dl_gui {
         }
 
         private void mLanguage_Click(object sender, EventArgs e) {
-            using frmLanguage language = new();
-            switch (language.ShowDialog()) {
+            using frmLanguage LangPicker = new();
+            switch (LangPicker.ShowDialog()) {
                 case DialogResult.Yes:
-                    if (language.LanguageFile == null) {
+                    if (LangPicker.LanguageFile == null) {
                         Config.Settings.Initialization.LanguageFile = string.Empty;
                     }
                     else {
-                        Config.Settings.Initialization.LanguageFile = language.LanguageFile;
+                        Config.Settings.Initialization.LanguageFile = LangPicker.LanguageFile;
                     }
                     Config.Settings.Initialization.Save();
                     LoadLanguage();
@@ -524,6 +553,9 @@ namespace youtube_dl_gui {
                     Process.Start("https://github.com/ytdl-org/youtube-dl/blob/master/docs/supportedsites.md");
                     break;
             }
+        }
+        private void mLog_Click(object sender, EventArgs e) {
+            Log.ShowLog();
         }
 
         private void mAbout_Click(object sender, EventArgs e) {
@@ -578,11 +610,11 @@ namespace youtube_dl_gui {
         private void cmTrayDownloadCustomTxt_Click(object sender, EventArgs e) {
             if (!Clipboard.ContainsText()) {
                 if (!System.IO.File.Exists(Environment.CurrentDirectory + "\\args.txt")) {
-                    MessageBox.Show(Program.lang.dlgMainArgsTxtDoesntExist, "youtube-dl-gui");
+                    MessageBox.Show(Language.dlgMainArgsTxtDoesntExist, Language.ApplicationName);
                     return;
                 }
                 else if (string.IsNullOrEmpty(System.IO.File.ReadAllText(Environment.CurrentDirectory + "\\args.txt"))) {
-                    MessageBox.Show(Program.lang.dlgMainArgsTxtIsEmpty, "youtube-dl-gui");
+                    MessageBox.Show(Language.dlgMainArgsTxtIsEmpty, Language.ApplicationName);
                     return;
                 }
                 else {
@@ -599,7 +631,7 @@ namespace youtube_dl_gui {
         private void cmTrayDownloadCustomSettings_Click(object sender, EventArgs e) {
             if (!Clipboard.ContainsText() && Config.Settings.Saved.CustomArgumentsIndex < 0) {
                 if (string.IsNullOrEmpty(Config.Settings.Saved.DownloadCustomArguments)) {
-                    MessageBox.Show(Program.lang.dlgMainArgsNoneSaved, "youtube-dl-gui");
+                    MessageBox.Show(Language.dlgMainArgsNoneSaved, Language.ApplicationName);
                     return;
                 }
                 else
@@ -650,16 +682,17 @@ namespace youtube_dl_gui {
                 cbCustomArguments.Enabled = false;
                 cbQuality.SelectedIndex = -1;
                 cbQuality.Items.Clear();
-                cbQuality.Items.AddRange(Download.Formats.VideoQualityArray);
-                cbQuality.Items[0] = Program.lang.GenericInputBest;
+                cbQuality.Items.AddRange(Formats.VideoQualityArray);
+                cbQuality.Items[0] = Language.GenericInputBest;
+                //cbQuality.Items[^1] = Language.GenericInputWorst;
                 cbFormat.SelectedIndex = -1;
                 cbFormat.Items.Clear();
-                cbFormat.Items.AddRange(Download.Formats.VideoFormatsNamesArray);
-                cbFormat.Items[0] = Program.lang.GenericInputBest;
+                cbFormat.Items.AddRange(Formats.VideoFormatsNamesArray);
+                cbFormat.Items[0] = Language.GenericInputBest;
                 cbQuality.Enabled = true;
                 cbFormat.Enabled = true;
                 chkDownloadSound.Enabled = true;
-                chkDownloadSound.Text = "Sound";
+                chkDownloadSound.Text = Language.GenericSound;
                 if (Config.Settings.Downloads.SaveFormatQuality) {
                     cbQuality.SelectedIndex = Config.Settings.Saved.videoQuality;
                     cbFormat.SelectedIndex = Config.Settings.Saved.VideoFormat;
@@ -681,10 +714,12 @@ namespace youtube_dl_gui {
                     cbQuality.Items.AddRange(new string[] { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" });
                 }
                 else {
-                    cbQuality.Items.AddRange(Download.Formats.AudioQualityNamesArray);
+                    cbQuality.Items.AddRange(Formats.AudioQualityNamesArray);
+                    cbQuality.Items[0] = Language.GenericInputBest;
+                    //cbQuality.Items[^1] = Language.GenericInputWorst;
                 }
                 cbFormat.Items.Clear();
-                cbFormat.Items.AddRange(Download.Formats.AudioFormatsArray);
+                cbFormat.Items.AddRange(Formats.AudioFormatsArray);
                 cbQuality.Enabled = true;
                 cbFormat.Enabled = true;
                 chkDownloadSound.Enabled = true;
@@ -723,7 +758,7 @@ namespace youtube_dl_gui {
 
                 if (chkDownloadSound.Checked) {
                     cbQuality.SelectedIndex = -1;
-                    cbQuality.Items.AddRange(new string[]{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"});
+                    cbQuality.Items.AddRange(Formats.VbrQualities);
                     if (Config.Settings.Downloads.SaveFormatQuality) {
                         cbQuality.SelectedIndex = Config.Settings.Saved.AudioVBRQuality;
                     }
@@ -732,8 +767,8 @@ namespace youtube_dl_gui {
                     }
                 }
                 else {
-                    cbQuality.Items.AddRange(Download.Formats.AudioQualityNamesArray);
-                    cbQuality.Items[0] = Program.lang.GenericInputBest;
+                    cbQuality.Items.AddRange(Formats.AudioQualityNamesArray);
+                    cbQuality.Items[0] = Language.GenericInputBest;
                     if (Config.Settings.Downloads.SaveFormatQuality) {
                         cbQuality.SelectedIndex = Config.Settings.Saved.audioQuality;
                     }
@@ -836,23 +871,26 @@ namespace youtube_dl_gui {
         }
         private void txtUrl_KeyPress(object sender, KeyPressEventArgs e) {
             if (e.KeyChar == 13) {
-                StartDownload(false);
+                Download();
             }
+        }
+        private void txtUrl_TextChanged(object sender, EventArgs e) {
+            //btnMainYtdlpExtended.Enabled = txtUrl.Text.Length > 0;
         }
         private void txtArgs_KeyPress(object sender, KeyPressEventArgs e) {
             if (e.KeyChar == 13) {
-                StartDownload(false);
+                Download();
             }
         }
         private void sbDownload_Click(object sender, EventArgs e) {
-            StartDownload(false);
+            Download();
         }
         private void mDownloadWithAuthentication_Click(object sender, EventArgs e) {
             StartDownload(true);
         }
         private void mBatchDownloadFromFile_Click(object sender, EventArgs e) {
             if (!Config.Settings.Downloads.SkipBatchTip) {
-                switch (MessageBox.Show(Program.lang.msgBatchDownloadFromFile, "youtube-dl-gui", MessageBoxButtons.YesNoCancel)) {
+                switch (MessageBox.Show(Language.msgBatchDownloadFromFile, Language.ApplicationName, MessageBoxButtons.YesNoCancel)) {
                     case DialogResult.Cancel:
                         return;
                     case DialogResult.Yes:
@@ -953,7 +991,22 @@ namespace youtube_dl_gui {
             };
             BatchThread.Start();
         }
+        private void mQuickDownloadForm_Click(object sender, EventArgs e) {
+            StartDownload(false);
+        }
+        private void mQuickDownloadFormAuthentication_Click(object sender, EventArgs e) {
+            StartDownload(true);
+        }
+        private void mExtendedDownloadForm_Click(object sender, EventArgs e) {
+            StartDownloadExtended();
+        }
 
+        private void Download() {
+            if (DownloadHelper.CanUseExtendedDownloader() && Config.Settings.Downloads.ExtendedDownloaderPreferExtendedForm)
+                StartDownloadExtended();
+            else
+                StartDownload(false);
+        }
         [DebuggerStepThrough]
         private void StartDownload(bool WithAuth = false) {
             try {
@@ -1088,12 +1141,28 @@ namespace youtube_dl_gui {
                 Log.ReportException(ex);
             }
         }
+        private void StartDownloadExtended() {
+            switch (Config.Settings.Downloads.YtdlType) {
+                case 0: case 2: {
+                    if (txtUrl.Text.IsNotNullEmptyWhitespace()) {
+                        frmExtendedDownload Extended = new(txtUrl.Text, false);
+                        Extended.Show();
+                        if (Config.Settings.General.ClearURLOnDownload) {
+                            txtUrl.Clear();
+                        }
+                        if (Config.Settings.General.ClearClipboardOnDownload) {
+                            Clipboard.Clear();
+                        }
+                    }
+                } break;
+            }
+        }
         #endregion
 
         #region converter
         private void btnConvertInput_Click(object sender, EventArgs e) {
             using OpenFileDialog ofd = new();
-            ofd.Title = Program.lang.dlgConvertSelectFileToConvert;
+            ofd.Title = Language.dlgConvertSelectFileToConvert;
             ofd.AutoUpgradeEnabled = true;
             ofd.Multiselect = false;
             string AllFormats = Formats.JoinFormats(new[] {
@@ -1114,7 +1183,7 @@ namespace youtube_dl_gui {
 
                 string fileWithoutExt = System.IO.Path.GetFileNameWithoutExtension(ofd.FileName);
                 using SaveFileDialog sfd = new();
-                sfd.Title = Program.lang.dlgSaveOutputFileAs;
+                sfd.Title = Language.dlgSaveOutputFileAs;
                 sfd.FileName = fileWithoutExt;
                 if (rbConvertVideo.Checked) {
                     sfd.Filter = Formats.JoinFormats(new[] {
@@ -1154,7 +1223,7 @@ namespace youtube_dl_gui {
 
         private void btnConvertOutput_Click(object sender, EventArgs e) {
             using SaveFileDialog sfd = new();
-            sfd.Title = Program.lang.dlgSaveOutputFileAs;
+            sfd.Title = Language.dlgSaveOutputFileAs;
             sfd.FileName = System.IO.Path.GetFileNameWithoutExtension(txtConvertInput.Text);
             if (rbConvertVideo.Checked) {
                 sfd.Filter = Formats.JoinFormats(new[] {
@@ -1209,7 +1278,7 @@ namespace youtube_dl_gui {
             else if (rbConvertCustom.Checked)
                 NewConversion.Type = ConversionType.Custom;
             else if (rbConvertAuto.Checked)
-                NewConversion.Type = Convert.GetFiletype(txtConvertOutput.Text);
+                NewConversion.Type = ConvertHelper.GetFiletype(txtConvertOutput.Text);
             else
                 NewConversion.Type = ConversionType.FfmpegDefault;
 
@@ -1274,7 +1343,7 @@ namespace youtube_dl_gui {
                     Formats.AudioFormats,
                     !string.IsNullOrWhiteSpace(Formats.CustomFormats) ? Formats.CustomFormats : ""
                 }),
-                Title = Program.lang.dlgMergeSelectFileToMerge
+                Title = Language.dlgMergeSelectFileToMerge
             };
 
             if (ofd.ShowDialog() == DialogResult.OK) {
@@ -1291,7 +1360,7 @@ namespace youtube_dl_gui {
                     Formats.AudioFormats,
                     !string.IsNullOrWhiteSpace(Formats.CustomFormats) ? Formats.CustomFormats : ""
                 }),
-                Title = Program.lang.dlgMergeSelectFileToMerge
+                Title = Language.dlgMergeSelectFileToMerge
             };
 
             if (ofd.ShowDialog() == DialogResult.OK) {
@@ -1310,7 +1379,7 @@ namespace youtube_dl_gui {
                     Formats.AudioFormats,
                     !string.IsNullOrWhiteSpace(Formats.CustomFormats) ? Formats.CustomFormats : ""
                 }),
-                Title = Program.lang.dlgSaveOutputFileAs
+                Title = Language.dlgSaveOutputFileAs
             };
 
             if (sfd.ShowDialog() == DialogResult.OK) {
@@ -1320,7 +1389,7 @@ namespace youtube_dl_gui {
         }
 
         private void btnMerge_Click(object sender, EventArgs e) {
-            Convert.mergeFiles(txtMergeInput1.Text, txtMergeInput2.Text, txtMergeOutput.Text, chkMergeAudioTracks.Checked, chkMergeDeleteInputFiles.Checked);
+            ConvertHelper.MergeFiles(txtMergeInput1.Text, txtMergeInput2.Text, txtMergeOutput.Text, chkMergeAudioTracks.Checked, chkMergeDeleteInputFiles.Checked);
         }
         #endregion
 
@@ -1362,13 +1431,13 @@ namespace youtube_dl_gui {
             }
         }
         private void btnYtdlVersion_Click(object sender, EventArgs e) {
-            MessageBox.Show(Program.verif.YoutubeDlVersion);
+            MessageBox.Show(Verification.YoutubeDlVersion);
         }
         private void btnDebugCheckVerification_Click(object sender, EventArgs e) {
             MessageBox.Show(
-                $"Youtube-DL Path: {{{Program.verif.YoutubeDlPath}}}\r\nYoutube-DL Version: {{{Program.verif.YoutubeDlVersion}}}\r\n\r\n" +
-                $"FFmpeg Path: {{{Program.verif.FFmpegPath}}}\r\n\r\n" +
-                $"AtomicParlsey Path: {{{Program.verif.AtomicParsleyPath}}}"
+                $"Youtube-DL Path: {{{Verification.YoutubeDlPath}}}\r\nYoutube-DL Version: {{{Verification.YoutubeDlVersion}}}\r\n\r\n" +
+                $"FFmpeg Path: {{{Verification.FFmpegPath}}}\r\n\r\n" +
+                $"AtomicParlsey Path: {{{Verification.AtomicParsleyPath}}}"
             );
         }
         #endregion

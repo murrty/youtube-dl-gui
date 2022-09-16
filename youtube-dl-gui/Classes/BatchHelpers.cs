@@ -3,7 +3,7 @@
 /// <summary>
 /// Contains batch-process helpers
 /// </summary>
-public partial class BatchHelpers {
+public static class BatchHelpers {
 
     /// <summary>
     /// Gets the current date and time in "yyyy_MM_dd-HH_mm_ss" format.

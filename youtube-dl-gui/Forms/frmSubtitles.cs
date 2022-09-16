@@ -21,13 +21,13 @@ namespace youtube_dl_gui {
         }
 
         void LoadLanguage() {
-            this.Text = Program.lang.frmSubtitles;
-            lbSubtitlesHeader.Text = Program.lang.lbSubtitlesHeader;
-            lbSubtitlesUrl.Text = Program.lang.lbSubtitlesUrl;
-            lbSubtitlesLanguages.Text = Program.lang.lbSubtitlesLanguages;
-            btnSubtitlesAddLanguages.Text = Program.lang.btnSubtitlesAddLanguage;
-            btnSubtitlesClearLanguages.Text = Program.lang.btnSubtitlesClearLanguages;
-            btnSubtitlesDownload.Text = Program.lang.btnSubtitlesDownload;
+            this.Text = Language.frmSubtitles;
+            lbSubtitlesHeader.Text = Language.lbSubtitlesHeader;
+            lbSubtitlesUrl.Text = Language.lbSubtitlesUrl;
+            lbSubtitlesLanguages.Text = Language.lbSubtitlesLanguages;
+            btnSubtitlesAddLanguages.Text = Language.btnSubtitlesAddLanguage;
+            btnSubtitlesClearLanguages.Text = Language.btnSubtitlesClearLanguages;
+            btnSubtitlesDownload.Text = Language.btnSubtitlesDownload;
         }
 
         private void txtLanguage_KeyPress(object sender, KeyPressEventArgs e) {

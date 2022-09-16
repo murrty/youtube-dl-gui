@@ -1,11 +1,13 @@
 ﻿namespace youtube_dl_gui.updater;
 
+using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 
 /// <summary>
 /// Represents a modified Version.
 /// </summary>
-//[System.Diagnostics.DebuggerStepThrough]
+[System.Diagnostics.DebuggerStepThrough]
+[StructLayout(LayoutKind.Sequential)]
 public struct Version {
     /// <summary>
     /// Contains an empty Version with no version information relevant.
@@ -74,10 +76,7 @@ public struct Version {
     /// <returns>A new <see cref="Version"/> structure filled with relevant information.</returns>
     /// <exception cref="ArgumentException"></exception>
     public static Version ToVersion(string Data) =>
-        TryParseNew(Data, out Version vers) ? vers : throw new ArgumentException($"Data {Data} is not a valid version to parse.");
-    [Obsolete("The old values of the version will be removed after a release.")]
-    public static Version ToVersionFromOld(string OldVersion) =>
-        TryParseOld(OldVersion, out Version vers) ? vers : throw new ArgumentException($"Data {OldVersion} is not a valid version to parse.");
+        TryParse(Data, out Version vers) ? vers : throw new ArgumentException($"Data {Data} is not a valid version to parse.");
     /// <summary>
     /// Tries to parsre a string value to a <see cref="Version"/> structure representing the data.
     /// </summary>
@@ -85,28 +84,14 @@ public struct Version {
     /// <param name="vers">The output <see cref="Version"/> structure.</param>
     /// <returns><see langword="true"/> if the parse was successful; otherwise, <see langword="false"/>.</returns>
     public static bool TryParse(string Data, out Version vers) {
-        if (Regex.IsMatch(Data, "^[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}(-[0-9]{1,3})?$")) {
-            if (TryParseNew(Data, out Version overs)) {
-                vers = overs;
-                return true;
-            }
-        }
-        else if (Regex.IsMatch(Data, "^[0-9]{1}.[0-9]{1,3}(-pre[0-9]{1})?$")) {
-            if (TryParseOld(Data, out Version overs)) {
-                vers = overs;
-                return true;
-            }
-        }
-
-        vers = Empty;
-        return false;
-    }
-    [Obsolete("The old values of the version will be removed after a release which will make this method invalid.")]
-    public static bool TryParseNew(string Data, out Version vers) {
         if (Data.IsNullEmptyWhitespace()) {
             vers = Empty;
             return false;
         }
+
+        if (Data[0] == 'v')
+            Data = Data[1..];
+
         if (Regex.IsMatch(Data, "^[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}$")) {
             string[] Parts = Data.Split('.');
 
@@ -139,82 +124,6 @@ public struct Version {
             vers = Empty;
             return false;
         }
-    }
-    [Obsolete("The old values of the version will be removed after a release.")]
-    public static bool TryParseOld(string OldVersion, out Version vers) {
-        if (OldVersion.IsNullEmptyWhitespace()) throw new ArgumentException($"Data is null, empty, or whitespace.");
-        if (Regex.IsMatch(OldVersion, "^[0-9]{1}.[0-9]{1,3}$")) {
-            if (OldVersion.Length < 2) {
-                vers = Empty;
-                return false;
-            }
-            byte Major = 0;
-            byte Minor = 0;
-            byte Rev = 0;
-            byte Beta = 0;
-
-            for (int i = 0; i < OldVersion.Length; i++) {
-                switch (i) {
-                    case 0: {
-                        Major = byte.Parse($"{OldVersion[i]}");
-                    } break;
-
-                    case 2: {
-                        Minor = byte.Parse($"{OldVersion[i]}");
-                    } break;
-
-                    case 3: {
-                        Rev = byte.Parse($"{OldVersion[i]}");
-                    } break;
-
-                    case 4: {
-                        Beta = byte.Parse($"{OldVersion[i]}");
-                        vers = new(Major, Minor, Rev, Beta);
-                    } return true;
-
-                    case > 4: {
-                        vers = new(Major, Minor, Rev, Beta);
-                    } return true;
-                }
-            }
-            vers = new(Major, Minor, Rev, Beta);
-            return true;
-        }
-        else if (Regex.IsMatch(OldVersion, "^[0-9]{1}.[0-9]{1,3}-pre[0-9]{1}$")) {
-            string[] Parts = OldVersion.Split('-');
-            Parts[1] = Parts[1].Replace("pre", "");
-
-            string CurrentParse = Parts[0];
-            if (CurrentParse.Length < 2 || Parts[1].Length < 1) {
-                vers = Empty;
-                return false;
-            }
-
-            byte Major = 0;
-            byte Minor = 0;
-            byte Rev = 0;
-
-            for (int i = 0; i < CurrentParse.Length; i++) {
-                switch (i) {
-                    case 0: {
-                        Major = byte.Parse($"{Parts[0][i]}");
-                    } break;
-                    case 2: {
-                        Minor = byte.Parse($"{Parts[0][i]}");
-                    } break;
-                    case 3: {
-                        Rev = byte.Parse($"{Parts[0][i]}");
-                    } break;
-                }
-            }
-
-            byte Beta = byte.Parse($"{Parts[1][0]}");
-
-            vers = new(Major, Minor, Rev, Beta);
-            return true;
-        }
-        vers = Empty;
-        return false;
     }
 
     /// <inheritdoc/>
@@ -259,7 +168,6 @@ public struct Version {
                         }
                     }
                 }
-                return false;
             }
             else {
                 if (versa.Major < versb.Major) {
@@ -273,7 +181,6 @@ public struct Version {
                         return versa.Revision <= versb.Revision;
                     }
                 }
-                return false;
             }
         }
         else {
@@ -288,8 +195,8 @@ public struct Version {
                     return versa.Revision < versb.Revision;
                 }
             }
-            return false;
         }
+        return false;
     }
 
     /// <summary>
@@ -317,7 +224,6 @@ public struct Version {
                         }
                     }
                 }
-                return false;
             }
             else {
                 if (versa.Major > versb.Major) {
@@ -333,7 +239,6 @@ public struct Version {
                         }
                     }
                 }
-                return false;
             }
         }
         else {
@@ -345,11 +250,11 @@ public struct Version {
                     return true;
                 }
                 else if (versa.Minor == versb.Minor) {
-                    return versa.Revision > versb.Revision; 
+                    return versa.Revision > versb.Revision;
                 }
             }
-            return false;
         }
+        return false;
     }
 
     /// <summary>

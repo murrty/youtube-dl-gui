@@ -15,7 +15,6 @@ namespace youtube_dl_gui {
         private readonly List<int> DownloadQuality = new();     // List of the quality
         private readonly List<int> DownloadFormat = new();      // List of the formats
         private readonly List<bool> DownloadSoundVBR = new();   // List of if sound/vbr should be downloaded
-        private readonly ImageList StatusImages;                // The images for each individual item
         private bool InProgress = false;                        // Bool if the batch download is in progress
         private frmDownloader Downloader;                       // The Downloader form that will be around. Will be disposed if aborted.
         private DownloadInfo NewInfo;                           // The info of the download
@@ -26,17 +25,7 @@ namespace youtube_dl_gui {
         public frmBatchDownloader() {
             InitializeComponent();
             LoadLanguage();
-
-            StatusImages = new() {
-                ColorDepth = ColorDepth.Depth32Bit,
-                TransparentColor = System.Drawing.Color.Transparent,
-            };
-
-            StatusImages.Images.Add(Properties.Resources.waiting);
-            StatusImages.Images.Add(Properties.Resources.download);
-            StatusImages.Images.Add(Properties.Resources.finished);
-            StatusImages.Images.Add(Properties.Resources.error);
-            lvBatchDownloadQueue.SmallImageList = StatusImages;
+            lvBatchDownloadQueue.SmallImageList = Program.BatchStatusImages;
         }
 
         [System.Diagnostics.DebuggerStepThrough]
@@ -45,7 +34,7 @@ namespace youtube_dl_gui {
                 case NativeMethods.WM_CLIPBOARDUPDATE: {
                     if (Clipboard.ContainsText()) {
                         ClipboardData = Clipboard.GetText();
-                        if (!chkBatchDownloadClipboardScanVerifyLinks.Checked || Download.SupportedDownloadLink(ClipboardData)) {
+                        if (!chkBatchDownloadClipboardScanVerifyLinks.Checked || DownloadHelper.SupportedDownloadLink(ClipboardData)) {
                             AddItemToList(ClipboardData);
                         }
                         ClipboardData = null;
@@ -62,28 +51,28 @@ namespace youtube_dl_gui {
         }
 
         void LoadLanguage() {
-            this.Text = Program.lang.frmBatchDownload;
-            lbBatchDownloadLink.Text = Program.lang.lbBatchDownloadLink;
-            lbBatchDownloadType.Text = Program.lang.lbBatchDownloadType;
-            lbBatchVideoSpecificArgument.Text = Program.lang.lbBatchDownloadVideoSpecificArgument;
-            btnBatchDownloadAdd.Text = Program.lang.GenericAdd;
-            sbBatchDownloadLoadArgs.Text = Program.lang.sbBatchDownloadLoadArgs;
-            mBatchDownloaderLoadArgsFromSettings.Text = Program.lang.mBatchDownloaderLoadArgsFromSettings;
-            mBatchDownloaderLoadArgsFromArgsTxt.Text = Program.lang.mBatchDownloaderLoadArgsFromArgsTxt;
-            mBatchDownloaderLoadArgsFromFile.Text = Program.lang.mBatchDownloaderLoadArgsFromFile;
-            mBatchDownloaderImportLinksFromFile.Text = Program.lang.mBatchDownloaderImportLinksFromFile;
-            mBatchDownloaderImportLinksFromClipboard.Text = Program.lang.mBatchDownloaderImportLinksFromClipboard;
-            btnBatchDownloadRemoveSelected.Text = Program.lang.GenericRemoveSelected;
-            btnBatchDownloadStartStopExit.Text = Program.lang.GenericStart;
-            sbBatchDownloader.Text = Program.lang.sbBatchDownloaderIdle;
-            lvBatchDownloadQueue.Columns[1].Text = Program.lang.lbBatchDownloadType;
-            lvBatchDownloadQueue.Columns[2].Text = Program.lang.lbBatchDownloadVideoSpecificArgument;
-            cbBatchDownloadType.Items.Add(Program.lang.GenericVideo);
-            cbBatchDownloadType.Items.Add(Program.lang.GenericAudio);
-            cbBatchDownloadType.Items.Add(Program.lang.GenericCustom);
-            sbBatchDownloaderImportLinks.Text = Program.lang.sbBatchDownloaderImportLinks;
-            chkBatchDownloadClipboardScanner.Text = Program.lang.chkBatchDownloadClipboardScanner;
-            chkBatchDownloadClipboardScanVerifyLinks.Text = Program.lang.GenericVerifyLinks;
+            this.Text = Language.frmBatchDownload;
+            lbBatchDownloadLink.Text = Language.lbBatchDownloadLink;
+            lbBatchDownloadType.Text = Language.lbBatchDownloadType;
+            lbBatchVideoSpecificArgument.Text = Language.lbBatchDownloadVideoSpecificArgument;
+            btnBatchDownloadAdd.Text = Language.GenericAdd;
+            sbBatchDownloadLoadArgs.Text = Language.sbBatchDownloadLoadArgs;
+            mBatchDownloaderLoadArgsFromSettings.Text = Language.mBatchDownloaderLoadArgsFromSettings;
+            mBatchDownloaderLoadArgsFromArgsTxt.Text = Language.mBatchDownloaderLoadArgsFromArgsTxt;
+            mBatchDownloaderLoadArgsFromFile.Text = Language.mBatchDownloaderLoadArgsFromFile;
+            mBatchDownloaderImportLinksFromFile.Text = Language.mBatchDownloaderImportLinksFromFile;
+            mBatchDownloaderImportLinksFromClipboard.Text = Language.mBatchDownloaderImportLinksFromClipboard;
+            btnBatchDownloadRemoveSelected.Text = Language.GenericRemoveSelected;
+            btnBatchDownloadStartStopExit.Text = Language.GenericStart;
+            sbBatchDownloader.Text = Language.sbBatchDownloaderIdle;
+            lvBatchDownloadQueue.Columns[1].Text = Language.lbBatchDownloadType;
+            lvBatchDownloadQueue.Columns[2].Text = Language.lbBatchDownloadVideoSpecificArgument;
+            cbBatchDownloadType.Items.Add(Language.GenericVideo);
+            cbBatchDownloadType.Items.Add(Language.GenericAudio);
+            cbBatchDownloadType.Items.Add(Language.GenericCustom);
+            sbBatchDownloaderImportLinks.Text = Language.sbBatchDownloaderImportLinks;
+            chkBatchDownloadClipboardScanner.Text = Language.chkBatchDownloadClipboardScanner;
+            chkBatchDownloadClipboardScanVerifyLinks.Text = Language.GenericVerifyLinks;
         }
 
         private void frmBatchDownloader_Load(object sender, EventArgs e) {
@@ -105,8 +94,8 @@ namespace youtube_dl_gui {
                 cbBatchFormat.SelectedIndex = Config.Settings.Batch.SelectedAudioFormat;
             }
 
-            if (Config.Settings.Saved.BatchFormX != -32000 && Config.Settings.Saved.BatchFormY != -32000) {
-                this.Location = new(Config.Settings.Saved.BatchFormX, Config.Settings.Saved.BatchFormY);
+            if (Config.ValidPoint(Config.Settings.Saved.BatchConverterLocation)) {
+                this.Location = Config.Settings.Saved.BatchConverterLocation;
             }
             chkBatchDownloadClipboardScanVerifyLinks.Checked = Config.Settings.Batch.ClipboardScannerVerifyLinks;
         }
@@ -117,8 +106,7 @@ namespace youtube_dl_gui {
                 this.WindowState = FormWindowState.Normal;
             }
             Config.Settings.Batch.ClipboardScannerVerifyLinks = chkBatchDownloadClipboardScanVerifyLinks.Checked;
-            Config.Settings.Saved.BatchFormX = this.Location.X;
-            Config.Settings.Saved.BatchFormY = this.Location.Y;
+            Config.Settings.Saved.BatchConverterLocation = this.Location;
             this.Dispose();
         }
 
@@ -236,7 +224,7 @@ namespace youtube_dl_gui {
                     cbBatchQuality.SelectedIndex = Config.Settings.Batch.SelectedAudioQualityVBR;
                 }
                 else {
-                    cbBatchQuality.Items.AddRange(Download.Formats.AudioQualityNamesArray);
+                    cbBatchQuality.Items.AddRange(Formats.AudioQualityNamesArray);
                     cbBatchQuality.SelectedIndex = Config.Settings.Batch.SelectedAudioQualityVBR;
                 }
             }
@@ -254,11 +242,11 @@ namespace youtube_dl_gui {
 
                 switch (cbBatchDownloadType.SelectedIndex) {
                     case 0: {
-                        cbBatchQuality.Items.AddRange(Download.Formats.VideoQualityArray);
-                        cbBatchFormat.Items.AddRange(Download.Formats.VideoFormatsNamesArray);
+                        cbBatchQuality.Items.AddRange(Formats.VideoQualityArray);
+                        cbBatchFormat.Items.AddRange(Formats.VideoFormatsNamesArray);
                         cbBatchQuality.SelectedIndex = Config.Settings.Batch.SelectedVideoQuality;
                         cbBatchFormat.SelectedIndex = Config.Settings.Batch.SelectedVideoFormat;
-                        chkBatchDownloaderSoundVBR.Text = Program.lang.chkDownloadSound;
+                        chkBatchDownloaderSoundVBR.Text = Language.GenericSound;
                         chkBatchDownloaderSoundVBR.Checked = Config.Settings.Batch.DownloadVideoSound;
 
                         SetControls(false);
@@ -270,10 +258,10 @@ namespace youtube_dl_gui {
                             cbBatchQuality.SelectedIndex = Config.Settings.Batch.SelectedAudioQualityVBR;
                         }
                         else {
-                            cbBatchQuality.Items.AddRange(Download.Formats.AudioQualityNamesArray);
+                            cbBatchQuality.Items.AddRange(Formats.AudioQualityNamesArray);
                             cbBatchQuality.SelectedIndex = Config.Settings.Batch.SelectedAudioQuality;
                         }
-                        cbBatchFormat.Items.AddRange(Download.Formats.AudioFormatsArray);
+                        cbBatchFormat.Items.AddRange(Formats.AudioFormatsArray);
                         cbBatchFormat.SelectedIndex = Config.Settings.Batch.SelectedAudioFormat;
                         chkBatchDownloaderSoundVBR.Text = "VBR";
                         chkBatchDownloaderSoundVBR.Checked = Config.Settings.Batch.DownloadAudioVBR;
@@ -302,9 +290,11 @@ namespace youtube_dl_gui {
                 });
             }
             else if (DownloadUrls.Count > 0) {
-                btnBatchDownloadRemoveSelected.Enabled = false;
-                btnBatchDownloadStartStopExit.Text = Program.lang.GenericStop;
+                Program.RunningActions.Add(this);
+                Log.Write($"Starting batch download with {DownloadUrls.Count} links to download.");
                 InProgress = true;
+                btnBatchDownloadRemoveSelected.Enabled = false;
+                btnBatchDownloadStartStopExit.Text = Language.GenericStop;
                 bool AbortDownload = false;
                 string BatchTime = BatchHelpers.CurrentTime;
                 DownloadThread = new(() => {
@@ -342,7 +332,7 @@ namespace youtube_dl_gui {
                         }
                         this.Invoke((Action)delegate {
                             lvBatchDownloadQueue.Items[i].ImageIndex = (int)StatusIcon.Processing;
-                            sbBatchDownloader.Text = Program.lang.sbBatchDownloaderDownloading;
+                            sbBatchDownloader.Text = Language.sbBatchDownloaderDownloading;
                         });
                         Downloader = new frmDownloader(NewInfo);
                         switch (Downloader.ShowDialog()) {
@@ -360,6 +350,7 @@ namespace youtube_dl_gui {
                                 this.Invoke((Action)delegate {
                                     lvBatchDownloadQueue.Items[i].ImageIndex = (int)StatusIcon.Waiting;
                                 });
+                                Log.Write($"Batch download aborted, {i} conversion finished.");
                                 AbortDownload = true;
                                 break;
                             case DialogResult.Ignore:
@@ -375,14 +366,23 @@ namespace youtube_dl_gui {
                         }
                         if (AbortDownload) { break; }
                     }
-                    InProgress = false;
                     this.Invoke((Action)delegate {
-                        sbBatchDownloader.Text = Program.lang.sbBatchDownloaderFinished;
-                        btnBatchDownloadStartStopExit.Text = Program.lang.GenericStart;
+                        if (AbortDownload) {
+                            sbBatchDownloader.Text = Language.sbBatchDownloaderAborted;
+                            AbortDownload = false;
+                        }
+                        else {
+                            sbBatchDownloader.Text = Language.sbBatchDownloaderFinished;
+                        }
+                        btnBatchDownloadStartStopExit.Text = Language.GenericStart;
                     });
                     System.Media.SystemSounds.Exclamation.Play();
-                });
-                DownloadThread.Name = $"Batch download {BatchTime}";
+                    InProgress = false;
+                    Log.Write($"Batch download finished running.");
+                    Program.RunningActions.Remove(this);
+                }) {
+                    Name = $"Batch download {BatchTime}"
+                };
                 DownloadThread.Start();
             }
         }
@@ -474,7 +474,7 @@ namespace youtube_dl_gui {
         }
 
         private void sbImportLinks_Click(object sender, EventArgs e) {
-            sbBatchDownloaderImportLinks.LaunchMenu();
+            sbBatchDownloaderImportLinks.ShowDropDownMenu();
         }
 
         private void mBatchDownloaderImportLinksFromFile_Click(object sender, EventArgs e) {
@@ -503,7 +503,7 @@ namespace youtube_dl_gui {
         private void chkBatchDownloadClipboardScanner_CheckedChanged(object sender, EventArgs e) {
             if (chkBatchDownloadClipboardScanner.Checked) {
                 if (!Config.Settings.Batch.ClipboardScannerNoticeViewed) {
-                    if (MessageBox.Show(Program.lang.dlgBatchDownloadClipboardScannerNotice, "yotube-dl-gui", MessageBoxButtons.OKCancel) == DialogResult.Cancel) {
+                    if (MessageBox.Show(Language.dlgBatchDownloadClipboardScannerNotice, Language.ApplicationName, MessageBoxButtons.OKCancel) == DialogResult.Cancel) {
                         chkBatchDownloadClipboardScanner.Checked = false;
                         return;
                     }
@@ -515,6 +515,7 @@ namespace youtube_dl_gui {
                     Application.ApplicationExit += ApplicationExit;
                     chkBatchDownloadClipboardScanVerifyLinks.Enabled = true;
                     ClipboardScannerActive = true;
+                    Log.Write("Clipboard scanning for batch download queueing stopped.");
                 }
             }
             else {
@@ -523,6 +524,7 @@ namespace youtube_dl_gui {
                         Application.ApplicationExit -= ApplicationExit;
                         chkBatchDownloadClipboardScanVerifyLinks.Enabled = false;
                         ClipboardScannerActive = false;
+                        Log.Write("Clipboard scanning for batch download queueing started.");
                     }
                 }
             }

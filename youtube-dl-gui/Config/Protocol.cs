@@ -2,7 +2,7 @@
 
 using Microsoft.Win32;
 
-internal class Protocol {
+internal static class Protocol {
     public static bool CreateProtocol(string Protocol, string ApplicationPath, string OptionArguments) {
         try {
             Registry.ClassesRoot.CreateSubKey(Protocol);

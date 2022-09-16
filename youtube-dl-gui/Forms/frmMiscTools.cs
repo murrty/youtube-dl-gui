@@ -6,10 +6,10 @@ namespace youtube_dl_gui {
     public partial class frmMiscTools : Form {
         public frmMiscTools() {
             InitializeComponent();
-            this.Text = Program.lang.frmTools;
-            btnMiscToolsRemoveAudio.Text = Program.lang.btnMiscToolsRemoveAudio;
-            btnMiscToolsExtractAudio.Text = Program.lang.btnMiscToolsExtractAudio;
-            btnMiscToolsVideoToGif.Text = Program.lang.btnMiscToolsVideoToGif;
+            this.Text = Language.frmTools;
+            btnMiscToolsRemoveAudio.Text = Language.btnMiscToolsRemoveAudio;
+            btnMiscToolsExtractAudio.Text = Language.btnMiscToolsExtractAudio;
+            btnMiscToolsVideoToGif.Text = Language.btnMiscToolsVideoToGif;
         }
         private void frmTools_FormClosing(object sender, FormClosingEventArgs e) {
             this.Dispose();

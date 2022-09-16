@@ -61,7 +61,37 @@ namespace youtube_dl_gui.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 2022-09-01.
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap AboutImage {
+            get {
+                object obj = ResourceManager.GetObject("AboutImage", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap best {
+            get {
+                object obj = ResourceManager.GetObject("best", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap best_disabled {
+            get {
+                object obj = ResourceManager.GetObject("best_disabled", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 2022-09-09.
         /// </summary>
         public static string BuildDate {
             get {
@@ -100,21 +130,32 @@ namespace youtube_dl_gui.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to [
-        ///  {
-        ///    &quot;url&quot;: &quot;https://api.github.com/repos/murrty/youtube-dl-gui/releases/69835524&quot;,
-        ///    &quot;assets_url&quot;: &quot;https://api.github.com/repos/murrty/youtube-dl-gui/releases/69835524/assets&quot;,
-        ///    &quot;upload_url&quot;: &quot;https://uploads.github.com/repos/murrty/youtube-dl-gui/releases/69835524/assets{?name,label}&quot;,
-        ///    &quot;html_url&quot;: &quot;https://github.com/murrty/youtube-dl-gui/releases/tag/2.31-pre2&quot;,
-        ///    &quot;id&quot;: 69835524,
-        ///    &quot;author&quot;: {
-        ///      &quot;login&quot;: &quot;murrty&quot;,
-        ///      &quot;id&quot;: 10895809,
-        ///      &quot;node_id&quot;: &quot;MDQ6VXNlcjEwODk1OD [rest of string was truncated]&quot;;.
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
-        public static string Git {
+        public static System.Drawing.Icon ProgramIcon {
             get {
-                return ResourceManager.GetString("Git", resourceCulture);
+                object obj = ResourceManager.GetObject("ProgramIcon", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap selected {
+            get {
+                object obj = ResourceManager.GetObject("selected", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap selected_disabled {
+            get {
+                object obj = ResourceManager.GetObject("selected_disabled", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -129,32 +170,12 @@ namespace youtube_dl_gui.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
-        /// </summary>
-        public static System.Drawing.Icon youtube_dl_gui {
-            get {
-                object obj = ResourceManager.GetObject("youtube_dl_gui", resourceCulture);
-                return ((System.Drawing.Icon)(obj));
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
         public static byte[] youtube_dl_gui_updater {
             get {
                 object obj = ResourceManager.GetObject("youtube_dl_gui_updater", resourceCulture);
                 return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap youtube_dl_gui32 {
-            get {
-                object obj = ResourceManager.GetObject("youtube_dl_gui32", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
             }
         }
     }

@@ -26,7 +26,7 @@
             this.components = new System.ComponentModel.Container();
             this.btnDownloaderCancelExit = new System.Windows.Forms.Button();
             this.chkDownloaderCloseAfterDownload = new System.Windows.Forms.CheckBox();
-            this.rtbConsoleOutput = new Controls.ExtendedRichTextBox();
+            this.rtbConsoleOutput = new murrty.controls.ExtendedRichTextBox();
             this.tmrTitleActivity = new System.Windows.Forms.Timer(this.components);
             this.txtArgumentsGenerated = new System.Windows.Forms.TextBox();
             this.btnDownloaderAbortBatchDownload = new System.Windows.Forms.Button();
@@ -119,7 +119,7 @@
             this.Controls.Add(this.chkDownloaderCloseAfterDownload);
             this.Controls.Add(this.btnDownloaderCancelExit);
             this.Controls.Add(this.rtbConsoleOutput);
-            this.Icon = global::youtube_dl_gui.Properties.Resources.youtube_dl_gui;
+            this.Icon = global::youtube_dl_gui.Properties.Resources.ProgramIcon;
             this.MinimumSize = new System.Drawing.Size(420, 320);
             this.Name = "frmDownloader";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
@@ -136,7 +136,7 @@
 
         private System.Windows.Forms.Button btnDownloaderCancelExit;
         private System.Windows.Forms.CheckBox chkDownloaderCloseAfterDownload;
-        private Controls.ExtendedRichTextBox rtbConsoleOutput;
+        private murrty.controls.ExtendedRichTextBox rtbConsoleOutput;
         private System.Windows.Forms.Timer tmrTitleActivity;
         private System.Windows.Forms.TextBox txtArgumentsGenerated;
         private System.Windows.Forms.Button btnDownloaderAbortBatchDownload;

@@ -32,6 +32,7 @@
             this.lbCurrentLanguageShort = new System.Windows.Forms.Label();
             this.ttLanguage = new System.Windows.Forms.ToolTip(this.components);
             this.btnLanguageDownload = new System.Windows.Forms.Button();
+            this.lbCurrentVersion = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // cbLanguages
@@ -79,7 +80,7 @@
             // 
             this.lbCurrentLanguageShort.AutoSize = true;
             this.lbCurrentLanguageShort.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbCurrentLanguageShort.Location = new System.Drawing.Point(12, 87);
+            this.lbCurrentLanguageShort.Location = new System.Drawing.Point(12, 73);
             this.lbCurrentLanguageShort.Name = "lbCurrentLanguageShort";
             this.lbCurrentLanguageShort.Size = new System.Drawing.Size(135, 13);
             this.lbCurrentLanguageShort.TabIndex = 4;
@@ -95,19 +96,29 @@
             this.btnLanguageDownload.UseVisualStyleBackColor = true;
             this.btnLanguageDownload.Click += new System.EventHandler(this.btnLanguageDownload_Click);
             // 
+            // lbCurrentVersion
+            // 
+            this.lbCurrentVersion.AutoSize = true;
+            this.lbCurrentVersion.Location = new System.Drawing.Point(12, 91);
+            this.lbCurrentVersion.Name = "lbCurrentVersion";
+            this.lbCurrentVersion.Size = new System.Drawing.Size(84, 13);
+            this.lbCurrentVersion.TabIndex = 6;
+            this.lbCurrentVersion.Text = "lbCurrentVersion";
+            // 
             // frmLanguage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(292, 113);
+            this.Controls.Add(this.lbCurrentVersion);
             this.Controls.Add(this.btnLanguageDownload);
             this.Controls.Add(this.btnLanguageCancel);
             this.Controls.Add(this.btnLanguageSave);
             this.Controls.Add(this.btnLanguageRefresh);
             this.Controls.Add(this.cbLanguages);
             this.Controls.Add(this.lbCurrentLanguageShort);
-            this.Icon = global::youtube_dl_gui.Properties.Resources.youtube_dl_gui;
+            this.Icon = global::youtube_dl_gui.Properties.Resources.ProgramIcon;
             this.MaximizeBox = false;
             this.Name = "frmLanguage";
             this.ShowIcon = false;
@@ -128,5 +139,6 @@
         private System.Windows.Forms.Label lbCurrentLanguageShort;
         private System.Windows.Forms.ToolTip ttLanguage;
         private System.Windows.Forms.Button btnLanguageDownload;
+        private System.Windows.Forms.Label lbCurrentVersion;
     }
 }

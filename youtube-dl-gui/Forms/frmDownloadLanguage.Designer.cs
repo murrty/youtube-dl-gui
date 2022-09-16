@@ -95,7 +95,7 @@
             this.Controls.Add(this.btnOk);
             this.Controls.Add(this.lvAvailableLanguages);
             this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Icon = global::youtube_dl_gui.Properties.Resources.youtube_dl_gui;
+            this.Icon = global::youtube_dl_gui.Properties.Resources.ProgramIcon;
             this.MaximizeBox = false;
             this.MinimumSize = new System.Drawing.Size(350, 330);
             this.Name = "frmDownloadLanguage";

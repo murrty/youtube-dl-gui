@@ -3,17 +3,17 @@ using System.Windows.Forms;
 
 namespace youtube_dl_gui {
     public partial class frmLanguage : Form {
-        public string LanguageFile = null;
+        public string LanguageFile { get; private set; } = null;
 
         public frmLanguage() {
             InitializeComponent();
             LoadLanguage();
             LoadFiles();
             cbLanguages.SelectedIndex = string.IsNullOrWhiteSpace(Config.Settings.Initialization.LanguageFile) ? 0 : cbLanguages.FindStringExact(Config.Settings.Initialization.LanguageFile);
+            lbCurrentVersion.Text = Program.CurrentVersion.ToString();
         }
 
         public void LoadLanguage() {
-
             if (Config.Settings.Initialization.firstTime) {
                 this.Text = Language.InternalEnglish.frmLanguage;
                 btnLanguageRefresh.Text = Language.InternalEnglish.btnLanguageRefresh;
@@ -25,28 +25,26 @@ namespace youtube_dl_gui {
                 ttLanguage.SetToolTip(lbCurrentLanguageShort, Language.InternalEnglish.CurrentLanguageLong + " (while first time)");
             }
             else {
-                this.Text = Program.lang.frmLanguage;
-                btnLanguageRefresh.Text = Program.lang.btnLanguageRefresh;
-                btnLanguageCancel.Text = Program.lang.GenericCancel;
-                btnLanguageSave.Text = Program.lang.GenericSave;
-                btnLanguageDownload.Text = Program.lang.btnLanguageDownload;
+                this.Text = Language.frmLanguage;
+                btnLanguageRefresh.Text = Language.btnLanguageRefresh;
+                btnLanguageCancel.Text = Language.GenericCancel;
+                btnLanguageSave.Text = Language.GenericSave;
+                btnLanguageDownload.Text = Language.btnLanguageDownload;
 
-                lbCurrentLanguageShort.Text = Program.lang.CurrentLanguageShort;
-                ttLanguage.SetToolTip(lbCurrentLanguageShort, $"{Program.lang.CurrentLanguageLong} ({Program.lang.CurrentLanguageShort})\nLang version {Program.lang.CurrentLanguageVersion}");
+                lbCurrentLanguageShort.Text = Language.CurrentLanguageShort;
+                ttLanguage.SetToolTip(lbCurrentLanguageShort, $"{Language.CurrentLanguageLong} ({Language.CurrentLanguageShort})\nv{Language.CurrentLanguageVersion}");
             }
         }
 
         public void LoadFiles() {
             if (Directory.Exists(Environment.CurrentDirectory + "\\lang\\")) {
-                List<string> Files = new();
                 DirectoryInfo LangFolder = new(Environment.CurrentDirectory + "\\lang\\");
                 FileInfo[] LangFiles = LangFolder.GetFiles("*.ini");
-                foreach (FileInfo File in LangFiles) {
-                    Files.Add(File.Name[0..^4]);
-                }
                 cbLanguages.Items.Clear();
                 cbLanguages.Items.Add("English (Internal)");
-                cbLanguages.Items.AddRange(Files.ToArray());
+                foreach (FileInfo File in LangFiles) {
+                    cbLanguages.Items.Add(File.Name[0..^4]);
+                }
             }
         }
 
@@ -61,11 +59,11 @@ namespace youtube_dl_gui {
         private void btnLanguageSave_Click(object sender, EventArgs e) {
             if (cbLanguages.SelectedIndex > 0) {
                 LanguageFile = cbLanguages.GetItemText(cbLanguages.SelectedItem);
-                Program.lang.LoadLanguage(Program.ProgramPath + "\\lang\\" + LanguageFile + ".ini");
+                Language.LoadLanguage($"{Program.ProgramPath}\\lang\\{LanguageFile}.ini");
             }
             else {
                 LanguageFile = string.Empty;
-                Program.lang.LoadInternalEnglish();
+                Language.LoadInternalEnglish();
             }
             this.DialogResult = DialogResult.Yes;
         }
@@ -83,9 +81,6 @@ namespace youtube_dl_gui {
                 else {
                     cbLanguages.SelectedItem = cbLanguages.FindStringExact(CurrentFile);
                 }
-            }
-            else {
-                cbLanguages.SelectedItem = cbLanguages.FindStringExact(CurrentFile);
             }
         }
     }
