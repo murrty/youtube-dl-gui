@@ -6,55 +6,59 @@ internal class Config_Saved {
     private const string ConfigName = "Saved";
 
     #region Variables
-    public int downloadType = 0;
-    public int convertSaveVideoIndex = 0;
-    public int convertSaveAudioIndex = 0;
-    public int convertSaveUnknownIndex = 0;
-    public int convertType = 0;
-    public string convertCustom = string.Empty;
-    public int videoQuality = 0;
-    public int audioQuality = 0;
-    public int VideoFormat = 0;
-    public int AudioFormat = 0;
-    public int AudioVBRQuality = 0;
-    public Point BatchDownloaderLocation = Config.InvalidPoint;
-    public Point BatchConverterLocation = Config.InvalidPoint;
-    public Size MainFormSize = Size.Empty;
-    public Size SettingsFormSize = Size.Empty;
-    public string FileNameSchemaHistory = "%(title)s-%(id)s.%(ext)s|%(uploader)s\\(%(playlist_index)s) %(title)s-%(id)s.%(ext)s";
-    public string DownloadCustomArguments = string.Empty;
-    public int CustomArgumentsIndex = -1;
-    public Point MainFormLocation = Config.InvalidPoint;
-    public Point ExtendedDownloaderLocation = Config.InvalidPoint;
-    public Size ExtendedDownloaderSize = Size.Empty;
-    public Point ArchiveDownloaderLocation = Config.InvalidPoint;
-    public Point LogLocation = Config.InvalidPoint;
-    public Size LogSize = Size.Empty;
+    public int downloadType;
+    public int convertSaveVideoIndex;
+    public int convertSaveAudioIndex;
+    public int convertSaveUnknownIndex;
+    public int convertType;
+    public string convertCustom;
+    public int videoQuality;
+    public int audioQuality;
+    public int VideoFormat;
+    public int AudioFormat;
+    public int AudioVBRQuality;
+    public Point BatchDownloaderLocation;
+    public Point BatchConverterLocation;
+    public Size MainFormSize;
+    public Size SettingsFormSize;
+    public string FileNameSchemaHistory;
+    public string DownloadCustomArguments;
+    public int CustomArgumentsIndex;
+    public Point MainFormLocation;
+    public Point ExtendedDownloaderLocation;
+    public Size ExtendedDownloaderSize;
+    public Point ArchiveDownloaderLocation;
+    public Point LogLocation;
+    public Size LogSize;
+    public string ExtendedDownloadVideoColumns;
+    public string ExtendedDownloadAudioColumns;
 
-    private int fdownloadType = 0;
-    private int fconvertSaveVideoIndex = 0;
-    private int fconvertSaveAudioIndex = 0;
-    private int fconvertSaveUnknownIndex = 0;
-    private int fconvertType = 0;
-    private string fconvertCustom = string.Empty;
-    private int fvideoQuality = 0;
-    private int faudioQuality = 0;
-    private int fVideoFormat = 0;
-    private int fAudioFormat = 0;
-    private int fAudioVBRQuality = 0;
-    private Point fBatchDownloaderLocation = Config.InvalidPoint;
-    private Point fBatchConverterLocation = Config.InvalidPoint;
-    private Size fMainFormSize = Size.Empty;
-    private Size fSettingsFormSize = Size.Empty;
-    private string fFileNameSchemaHistory = "%(title)s-%(id)s.%(ext)s|%(uploader)s\\(%(playlist_index)s) %(title)s-%(id)s.%(ext)s";
-    private string fDownloadCustomArguments = string.Empty;
-    private int fCustomArgumentsIndex = -1;
-    private Point fMainFormLocation = Config.InvalidPoint;
-    private Point fExtendedDownloaderLocation = Config.InvalidPoint;
-    private Size fExtendedDownloaderSize = Size.Empty;
-    public Point fArchiveDownloaderLocation = Config.InvalidPoint;
-    public Point fLogLocation = Config.InvalidPoint;
-    public Size fLogSize = Size.Empty;
+    private int fdownloadType;
+    private int fconvertSaveVideoIndex;
+    private int fconvertSaveAudioIndex;
+    private int fconvertSaveUnknownIndex;
+    private int fconvertType;
+    private string fconvertCustom;
+    private int fvideoQuality;
+    private int faudioQuality;
+    private int fVideoFormat;
+    private int fAudioFormat;
+    private int fAudioVBRQuality;
+    private Point fBatchDownloaderLocation;
+    private Point fBatchConverterLocation;
+    private Size fMainFormSize;
+    private Size fSettingsFormSize;
+    private string fFileNameSchemaHistory;
+    private string fDownloadCustomArguments;
+    private int fCustomArgumentsIndex;
+    private Point fMainFormLocation;
+    private Point fExtendedDownloaderLocation;
+    private Size fExtendedDownloaderSize;
+    private Point fArchiveDownloaderLocation;
+    private Point fLogLocation;
+    private Size fLogSize;
+    private string fExtendedDownloadVideoColumns;
+    private string fExtendedDownloadAudioColumns;
     #endregion
 
     public void Load() {
@@ -85,6 +89,8 @@ internal class Config_Saved {
         ArchiveDownloaderLocation = fArchiveDownloaderLocation = Ini.Read(ArchiveDownloaderLocation, Config.InvalidPoint, ConfigName);
         LogLocation = fLogLocation = Ini.Read(LogLocation, Config.InvalidPoint, ConfigName);
         LogSize = fLogSize = Ini.Read(LogSize, Size.Empty, ConfigName);
+        ExtendedDownloadVideoColumns = fExtendedDownloadVideoColumns = Ini.Read(ExtendedDownloadVideoColumns, string.Empty, ConfigName);
+        ExtendedDownloadAudioColumns = fExtendedDownloadAudioColumns = Ini.Read(ExtendedDownloadAudioColumns, string.Empty, ConfigName);
     }
 
     public void Save() {
@@ -138,5 +144,9 @@ internal class Config_Saved {
             fLogLocation = Ini.Write(LogLocation, ConfigName);
         if (LogSize != fLogSize) 
             fLogSize = Ini.Write(LogSize, ConfigName);
+        if (ExtendedDownloadVideoColumns != fExtendedDownloadVideoColumns)
+            fExtendedDownloadVideoColumns = Ini.Write(ExtendedDownloadVideoColumns, ConfigName);
+        if (ExtendedDownloadAudioColumns != fExtendedDownloadAudioColumns)
+            fExtendedDownloadAudioColumns = Ini.Write(ExtendedDownloadAudioColumns, ConfigName);
     }
 }

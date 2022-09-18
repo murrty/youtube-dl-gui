@@ -41,7 +41,26 @@ namespace BetterFolderBrowserNS {
     [DefaultProperty("RootFolder")]
     [ToolboxBitmap(typeof(FolderBrowserDialog))]
     [Description("A .NET component library that delivers a better folder-browsing and selection experience.")]
-    public partial class BetterFolderBrowser : CommonDialog {
+    public class BetterFolderBrowser : CommonDialog {
+
+        #region Designer
+        private System.ComponentModel.IContainer components = null;
+
+        protected override void Dispose(bool disposing) {
+            if (disposing && (components != null)) {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Component Designer generated code
+
+        private void InitializeComponent() {
+            components = new System.ComponentModel.Container();
+        }
+
+        #endregion
+        #endregion
 
         #region Constructors
 

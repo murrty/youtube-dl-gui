@@ -95,6 +95,9 @@
     <Compile Include="..\Controls\Events\RegexMatchEventArgs.cs">
       <Link>Controls\Shared\RegexMatchEventArgs.cs</Link>
     </Compile>
+    <Compile Include="Controls\ExtendedListView.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controls\MessageHandler.cs" />
     <Compile Include="..\Controls\Natives\Consts.cs">
       <Link>Controls\Shared\Consts.cs</Link>
@@ -182,10 +185,6 @@
       <SubType>Component</SubType>
       <Link>Controls\Shared\BetterFolderBrowser.cs</Link>
     </Compile>
-    <Compile Include="..\Controls\BetterFolderBrowser.designer.cs">
-      <DependentUpon>BetterFolderBrowser.cs</DependentUpon>
-      <Link>Controls\Shared\BetterFolderBrowser.designer.cs</Link>
-    </Compile>
     <Compile Include="Classes\ConvertInfo.cs" />
     <Compile Include="CopyData\CopyData.cs" />
     <Compile Include="Config\Config.cs" />
@@ -209,10 +208,6 @@
     <Compile Include="..\Controls\SplitButton.cs">
       <SubType>Component</SubType>
       <Link>Controls\Shared\SplitButton.cs</Link>
-    </Compile>
-    <Compile Include="..\Controls\VistaListView.cs">
-      <SubType>Component</SubType>
-      <Link>Controls\Shared\VistaListView.cs</Link>
     </Compile>
     <Compile Include="Forms\frmAbout.cs">
       <SubType>Form</SubType>

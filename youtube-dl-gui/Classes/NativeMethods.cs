@@ -7,9 +7,17 @@ internal class NativeMethods {
 
     #region Ini
     [DllImport("kernel32", CharSet = CharSet.Unicode)]
-    public static extern int WritePrivateProfileString(string Section, string Key, string Value, string FilePath);
+    public static extern int WritePrivateProfileString(string lpAppName,
+        string lpKeyName,
+        string lpString,
+        string lpFileName);
     [DllImport("kernel32", CharSet = CharSet.Unicode)]
-    public static extern int GetPrivateProfileString(string Section, string Key, string Default, StringBuilder RetVal, int Size, string FilePath);
+    public static extern int GetPrivateProfileString(string lpAppName,
+        string lpKeyName,
+        string lpDefault,
+        StringBuilder lpReturnedString,
+        int nSize,
+        string lpFileName);
     #endregion
 
     #region System Hand Cursor for LinkLabelHand and Other Controls
@@ -19,11 +27,6 @@ internal class NativeMethods {
     public static extern nint LoadCursor(nint hInstance, nint lpCursorName);
     [DllImport("user32.dll", CharSet = CharSet.Auto)]
     public static extern nint SetCursor(nint hCursor);
-    #endregion
-
-    #region Vista Visuals for VistaListView
-    [DllImport("uxtheme.dll", ExactSpelling = true, CharSet = CharSet.Unicode)]
-    public static extern int SetWindowTheme(nint hwnd, string pszSubAppName, string pszSubIdList);
     #endregion
 
     #region SplitButton, ExtendedTextBox, ExtendedRichTextBox

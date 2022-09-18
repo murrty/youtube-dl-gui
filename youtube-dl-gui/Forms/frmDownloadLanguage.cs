@@ -13,7 +13,6 @@ namespace youtube_dl_gui {
 
         public frmDownloadLanguage() {
             InitializeComponent();
-            NativeMethods.SetWindowTheme(lvAvailableLanguages.Handle, "explorer", null);
             SubItemFont = new("Segoi UI", this.Font.Size, FontStyle.Italic);
             try {
                 EnumeratedLanguages = updater.UpdateChecker.GetAvailableLanguages();

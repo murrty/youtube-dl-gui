@@ -84,9 +84,12 @@ namespace youtube_dl_gui {
                     this.StartPosition = FormStartPosition.Manual;
                     this.Location = Config.Settings.Saved.ExtendedDownloaderLocation;
                 }
-                if (Config.ValidSize(Config.Settings.Saved.ExtendedDownloaderSize)) {
+                if (Config.ValidSize(Config.Settings.Saved.ExtendedDownloaderSize))
                     this.Size = Config.Settings.Saved.ExtendedDownloaderSize;
-                }
+                if (!Config.Settings.Saved.ExtendedDownloadVideoColumns.IsNullEmptyWhitespace())
+                    lvVideoFormats.SetColumnWidths(Config.Settings.Saved.ExtendedDownloadVideoColumns);
+                if (!Config.Settings.Saved.ExtendedDownloadAudioColumns.IsNullEmptyWhitespace())
+                    lvAudioFormats.SetColumnWidths(Config.Settings.Saved.ExtendedDownloadAudioColumns);
             };
             this.Shown += (s, e) => {
                 DownloadInfo();
@@ -108,6 +111,8 @@ namespace youtube_dl_gui {
                         }
                         Config.Settings.Saved.ExtendedDownloaderLocation = this.Location;
                         Config.Settings.Saved.ExtendedDownloaderSize = this.Size;
+                        Config.Settings.Saved.ExtendedDownloadVideoColumns = lvVideoFormats.GetColumnWidths();
+                        Config.Settings.Saved.ExtendedDownloadAudioColumns = lvAudioFormats.GetColumnWidths();
                         Config.Settings.Saved.Save();
                         this.Dispose();
                     } break;

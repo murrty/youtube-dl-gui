@@ -7,11 +7,10 @@ using System.Text;
 internal static class Ini {
     private const String EmptyString = "${empty_key_value}$";
     public static string IniPath = Environment.CurrentDirectory + "\\settings.ini";
-    //Language.ApplicationName
 
     private static bool InternalKeyExists(String Key, out String Value, String Section = null) {
         StringBuilder ReadValue = new(65535);
-        NativeMethods.GetPrivateProfileString(Section ?? Language.ApplicationName, Key, EmptyString, ReadValue, 35565, IniPath);
+        NativeMethods.GetPrivateProfileString(Section ?? Language.ApplicationName, Key, EmptyString, ReadValue, ReadValue.Capacity, IniPath);
         Value = ReadValue.ToString();
         Value = Value != EmptyString && !Value.IsNullEmptyWhitespace() ? Value : null;
         return Value is not null;

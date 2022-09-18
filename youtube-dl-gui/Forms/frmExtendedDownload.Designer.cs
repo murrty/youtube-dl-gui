@@ -26,7 +26,7 @@
             this.tcFormats = new System.Windows.Forms.TabControl();
             this.tabVideoFormats = new System.Windows.Forms.TabPage();
             this.lbExtendedDownloaderNoVideoFormatsAvailable = new System.Windows.Forms.Label();
-            this.lvVideoFormats = new System.Windows.Forms.ListView();
+            this.lvVideoFormats = new murrty.controls.ExtendedListView();
             this.chVideoQuality = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chVideoFPS = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chVideoContainer = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -40,7 +40,7 @@
             this.chVideoFormatId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tabAudioFormats = new System.Windows.Forms.TabPage();
             this.lbExtendedDownloaderNoAudioFormatsAvailable = new System.Windows.Forms.Label();
-            this.lvAudioFormats = new System.Windows.Forms.ListView();
+            this.lvAudioFormats = new murrty.controls.ExtendedListView();
             this.chAudioBitrate = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chAudioContainer = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chAudioFileSize = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -903,7 +903,7 @@
         private System.Windows.Forms.Label lbExtendedDownloaderViews;
         private System.Windows.Forms.TabControl tcVideoData;
         private System.Windows.Forms.TabPage tabExtendedDownloaderFormats;
-        private System.Windows.Forms.ListView lvVideoFormats;
+        private murrty.controls.ExtendedListView lvVideoFormats;
         private System.Windows.Forms.ColumnHeader chVideoDimension;
         private System.Windows.Forms.ColumnHeader chVideoBitrate;
         private System.Windows.Forms.ColumnHeader chVideoContainer;
@@ -914,7 +914,7 @@
         private System.Windows.Forms.RadioButton rbAudio;
         private System.Windows.Forms.RadioButton rbVideo;
         private System.Windows.Forms.TabPage tabExtendedDownloaderDescription;
-        private System.Windows.Forms.ListView lvAudioFormats;
+        private murrty.controls.ExtendedListView lvAudioFormats;
         private System.Windows.Forms.ColumnHeader chAudioBitrate;
         private System.Windows.Forms.ColumnHeader chAudioSampleRate;
         private System.Windows.Forms.ColumnHeader chAudioContainer;

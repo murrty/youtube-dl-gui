@@ -67,7 +67,15 @@ public struct Version {
     /// <param name="Data">The version string that is parsed through.
     /// <para>Example strings are: "1.0.1" and "1.0.1-1" with limited support for "1.01" and "1.01-pre1".</para>
     /// </param>
-    public Version(string Data) => ToVersion(Data);
+    public Version(string Data) {
+        if (TryParse(Data, out Version vers)) {
+            this.Major = vers.Major;
+            this.Minor = vers.Minor;
+            this.Revision = vers.Revision;
+            this.Beta = vers.Beta;
+        }
+        else throw new ArgumentException($"Data {Data} is invalid.");
+    }
 
     /// <summary>
     /// Converts a string representation of the <see cref="Version"/> to a structure with the data.
@@ -89,41 +97,47 @@ public struct Version {
             return false;
         }
 
-        if (Data[0] == 'v')
-            Data = Data[1..];
+        if (Regex.IsMatch(Data, @"^[\d]{1,3}((.[\d]{1,3}){1,2})?(-[\d]{1,3})?$", RegexOptions.Compiled)) {
+            byte Minor = 0;
+            byte Revision = 0;
+            byte Beta = 0;
 
-        if (Regex.IsMatch(Data, "^[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}$")) {
-            string[] Parts = Data.Split('.');
-
-            if (Parts.Length == 3 && byte.TryParse(Parts[0], out byte maj)
-            && byte.TryParse(Parts[1], out byte min) && byte.TryParse(Parts[2], out byte rev)) {
-                vers = new(maj, min, rev, 0);
-                return true;
+            if (Data.Contains("-")) {
+                if (byte.TryParse(Data.Split('-')[1], out Beta)) {
+                    Data = Data.Split('-')[0];
+                }
+                else throw new ArgumentException($"Cannot use {Data} as a version.");
             }
-            else {
-                vers = Empty;
-                return false;
+
+            string[] Splits = Data.Split('.');
+            switch (Splits.Length) {
+                case 1 when byte.TryParse(Splits[0], out byte Major): {
+                    vers = new(Major, Minor, Revision, Beta);
+                } return true;
+
+                case 1: {
+                } throw new InvalidCastException($"Cannot use {Splits[0]} as the major.");
+
+                case 2 when byte.TryParse(Splits[0], out byte Major) && byte.TryParse(Splits[1], out Minor): {
+                    vers = new(Major, Minor, Revision, Beta);
+                } return true;
+
+                case 2: {
+                } throw new InvalidCastException($"Cannot use {Splits[1]} as the minor.");
+
+                case 3 when byte.TryParse(Splits[0], out byte Major) && byte.TryParse(Splits[1], out Minor) && byte.TryParse(Splits[2], out Revision): {
+                    vers = new(Major, Minor, Revision, Beta);
+                } return true;
+
+                case 3: {
+                } throw new InvalidCastException($"Cannot use {Splits[2]} as the revision.");
+
+                default: {
+                } throw new ArgumentException($"Cannot use {Data} as a version.");
             }
         }
-        else if (Regex.IsMatch(Data, "^[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}-[0-9]{1,3}$")) {
-            string[] Parts = Data.Split('.');
-            string[] RevisionAndBeta = Parts[2].Split('-');
-
-            if (Parts.Length == 3 && RevisionAndBeta.Length == 2 &&
-            byte.TryParse(Parts[0], out byte maj) && byte.TryParse(Parts[1], out byte min) &&
-            byte.TryParse(RevisionAndBeta[0], out byte rev) && byte.TryParse(RevisionAndBeta[1], out byte beta)) {
-                vers = new(maj, min, rev, beta);
-                return true;
-            }
-            else {
-                vers = Empty;
-                return false;
-            }
-        }
-        else {
-            vers = Empty;
-            return false;
-        }
+        vers = Empty;
+        return false;
     }
 
     /// <inheritdoc/>

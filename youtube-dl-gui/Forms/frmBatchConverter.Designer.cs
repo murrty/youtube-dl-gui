@@ -32,7 +32,7 @@
             this.scConversionFiles = new System.Windows.Forms.SplitContainer();
             this.sbBatchConversionLoadArgs = new murrty.controls.SplitButton();
             this.txtBatchConverterCustomConversionArguments = new murrty.controls.ExtendedTextBox();
-            this.lvBatchConvertQueue = new youtube_dl_gui.Controls.VistaListView();
+            this.lvBatchConvertQueue = new murrty.controls.ExtendedListView();
             this.clInput = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.clOutput = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.clArgs = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -168,7 +168,6 @@
             this.clInput,
             this.clOutput,
             this.clArgs});
-            this.lvBatchConvertQueue.EnableVistaView = true;
             this.lvBatchConvertQueue.FullRowSelect = true;
             this.lvBatchConvertQueue.HideSelection = false;
             this.lvBatchConvertQueue.Location = new System.Drawing.Point(12, 78);
@@ -272,7 +271,7 @@
         #endregion
 
         private System.Windows.Forms.StatusBar sbBatchConverter;
-        private youtube_dl_gui.Controls.VistaListView lvBatchConvertQueue;
+        private murrty.controls.ExtendedListView lvBatchConvertQueue;
         private System.Windows.Forms.ColumnHeader clInput;
         private System.Windows.Forms.ColumnHeader clOutput;
         private System.Windows.Forms.Button btnBatchConverterStartStopExit;

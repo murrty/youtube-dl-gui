@@ -12,7 +12,7 @@
         #region Windows Form Designer generated code
 
         private void InitializeComponent() {
-            this.lvAvailableLanguages = new System.Windows.Forms.ListView();
+            this.lvAvailableLanguages = new murrty.controls.ExtendedListView();
             this.chName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chHash = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.btnOk = new System.Windows.Forms.Button();
@@ -107,7 +107,7 @@
 
         #endregion
 
-        private System.Windows.Forms.ListView lvAvailableLanguages;
+        private murrty.controls.ExtendedListView lvAvailableLanguages;
         private System.Windows.Forms.ColumnHeader chName;
         private System.Windows.Forms.ColumnHeader chHash;
         private System.Windows.Forms.Button btnOk;

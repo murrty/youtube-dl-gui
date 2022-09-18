@@ -50,7 +50,7 @@
             this.sbBatchDownloaderImportLinks = new murrty.controls.SplitButton();
             this.sbBatchDownloadLoadArgs = new murrty.controls.SplitButton();
             this.txtBatchDownloadLink = new murrty.controls.ExtendedTextBox();
-            this.lvBatchDownloadQueue = new youtube_dl_gui.Controls.VistaListView();
+            this.lvBatchDownloadQueue = new murrty.controls.ExtendedListView();
             this.clUrl = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.clType = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.clArgs = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -328,7 +328,6 @@
             this.clUrl,
             this.clType,
             this.clArgs});
-            this.lvBatchDownloadQueue.EnableVistaView = true;
             this.lvBatchDownloadQueue.FullRowSelect = true;
             this.lvBatchDownloadQueue.HideSelection = false;
             this.lvBatchDownloadQueue.Location = new System.Drawing.Point(12, 52);
@@ -404,7 +403,7 @@
         private System.Windows.Forms.Button btnBatchDownloadAdd;
         private System.Windows.Forms.Button btnBatchDownloadRemoveSelected;
         private System.Windows.Forms.Button btnBatchDownloadStartStopExit;
-        private youtube_dl_gui.Controls.VistaListView lvBatchDownloadQueue;
+        private murrty.controls.ExtendedListView lvBatchDownloadQueue;
         private System.Windows.Forms.ColumnHeader clUrl;
         private System.Windows.Forms.ColumnHeader clArgs;
         private murrty.controls.ExtendedTextBox txtBatchDownloadLink;
