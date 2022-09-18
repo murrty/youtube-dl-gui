@@ -571,7 +571,7 @@ public static class Language {
 
         #region frmAbout
         public const string frmAbout = "About";
-        public const string lbAboutBody = "youtube-dl by {0}\nyoutube-dl-gui by {1}\ndebug date {2}";
+        public const string lbAboutBody = "youtube-dl-gui by {0}\ndebug date {1}\nReport any issues to the Github repo";
         public const string llbCheckForUpdates = "Check for updates";
         #endregion
 

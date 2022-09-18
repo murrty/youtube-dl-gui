@@ -5,6 +5,7 @@ internal class Config_Initialization {
     public string LanguageFile = string.Empty;
     public Version SkippedVersion = Version.Empty;
     public Version SkippedBetaVersion = Version.Empty;
+    public bool AboutFormDialog = true;
 
     private bool ffirstTime = true;
     private string fLanguageFile = string.Empty;
@@ -18,6 +19,7 @@ internal class Config_Initialization {
         LanguageFile = fLanguageFile = Ini.Read(LanguageFile, string.Empty);
         fSkippedVersion = SkippedVersion = Ini.Read(SkippedVersion, Version.Empty);
         SkippedBetaVersion = fSkippedBetaVersion = Ini.Read(SkippedVersion, Version.Empty);
+        AboutFormDialog = Ini.Read(AboutFormDialog, true);
     }
 
     public void Save() {

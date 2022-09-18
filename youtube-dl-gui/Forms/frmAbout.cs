@@ -16,10 +16,13 @@ namespace youtube_dl_gui {
                 (this.ClientSize.Width - llbCheckForUpdates.Width) / 2,
                 llbCheckForUpdates.Location.Y
             );
+
+            if (!Config.Settings.Initialization.AboutFormDialog)
+                this.FormClosing += (s, e) => this.Dispose();
         }
 
         private void LoadLanguage() {
-            lbAboutBody.Text = string.Format(Language.lbAboutBody + "\n\nlikulau best boye.", "ytdl-org", "murrty", Properties.Resources.BuildDate);
+            lbAboutBody.Text = string.Format(Language.lbAboutBody + "\n\n\nKnown as a gross red monster.", "murrty", Properties.Resources.BuildDate);
             llbCheckForUpdates.Text = Language.llbCheckForUpdates;
             this.Text = $"{Language.frmAbout} youtube-dl-gui";
         }

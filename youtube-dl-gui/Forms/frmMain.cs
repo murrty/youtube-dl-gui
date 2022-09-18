@@ -559,8 +559,14 @@ namespace youtube_dl_gui {
         }
 
         private void mAbout_Click(object sender, EventArgs e) {
-            using frmAbout about = new();
-            about.ShowDialog();
+            if (Config.Settings.Initialization.AboutFormDialog) {
+                using frmAbout about = new();
+                about.ShowDialog();
+            }
+            else {
+                frmAbout about = new();
+                about.Show();
+            }
         }
         #endregion
 
