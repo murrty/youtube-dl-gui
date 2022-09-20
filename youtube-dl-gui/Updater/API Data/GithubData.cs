@@ -82,6 +82,13 @@ public sealed class GithubData {
     }
 
     /// <summary>
+    /// Gets the version struct value of this release.
+    /// </summary>
+    /// <returns>A version struct with data representing this release.</returns>
+    internal Version GetVersion() =>
+        !VersionTag.IsNullEmptyWhitespace() && Version.TryParse(VersionTag, out Version vers) ? vers : Version.Empty;
+
+    /// <summary>
     /// Tries to parse the executable hash from the version description.
     /// </summary>
     /// <param name="body">The</param>

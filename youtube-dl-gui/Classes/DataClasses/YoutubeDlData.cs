@@ -5,15 +5,13 @@ using System.Drawing;
 using System.IO;
 using System.Net;
 using System.Runtime.Serialization;
-using System.Security.Policy;
 
 /// <summary>
 /// Class used for information relating to the video.
 /// </summary>
 [DataContract]
-internal sealed class DownloaderData {
-
-    public static DownloaderData GenerateData(string URL, out string RetrievedData) {
+internal sealed class YoutubeDlData {
+    public static YoutubeDlData GenerateData(string URL, out string RetrievedData) {
         RetrievedData = null;
         if (!URL.IsNullEmptyWhitespace()) {
             Log.Write($"Gathering data for \"{URL}\".");
@@ -69,7 +67,7 @@ internal sealed class DownloaderData {
             if (!Output.ToString().IsNullEmptyWhitespace()) {
                 Log.Write($"Finished downloading info for \"{URL}\", deserializing the data.");
                 RetrievedData = Output.ToString();
-                var data = RetrievedData.JsonDeserialize<DownloaderData>();
+                var data = RetrievedData.JsonDeserialize<YoutubeDlData>();
                 data.URL = URL;
                 return data;
             }
@@ -154,7 +152,7 @@ internal sealed class DownloaderData {
     public string Title { get; set; }
 
     [DataMember(Name = "formats")]
-    public Format[] AvailableFormats { get; set; }
+    public YoutubeDlFormat[] AvailableFormats { get; set; }
 
     [DataMember(Name = "thumbnail")]
     public string ThumbnailLink { get; set; }
@@ -173,60 +171,4 @@ internal sealed class DownloaderData {
 
     [DataMember(Name = "duration")]
     public decimal? DurationTime { get; set; }
-
-    [DataContract(Name = "formats")]
-    public class Format {
-
-        public bool ValidVideoFormat =>
-            Extension.ToLower() switch {
-                "mhtml" or "none" => false,
-                _ => true,
-            };
-
-        public bool ValidAudioFormat =>
-            Extension.ToLower() switch {
-                "mhtml" or "none" => false,
-                _ => true
-            };
-
-        [DataMember(Name = "format_id")]
-        public string Identifier { get; set; }
-
-        [DataMember(Name = "format_note")]
-        public string QualityName { get; set; }
-
-        [DataMember(Name = "ext")]
-        public string Extension { get; set; }
-
-        [DataMember(Name = "acodec")]
-        public string AudioCodec { get; set; }
-
-        [DataMember(Name = "vcodec")]
-        public string VideoCodec { get; set; }
-
-        [DataMember(Name = "width")]
-        public int? VideoWidth { get; set; }
-
-        [DataMember(Name = "height")]
-        public int? VideoHeight { get; set; }
-
-        [DataMember(Name = "fps")]
-        public float? VideoFps { get; set; }
-
-        [DataMember(Name = "asr")]
-        public int? AudioSampleRate { get; set; }
-
-        [DataMember(Name = "filesize")]
-        public long? FileSize { get; set; }
-
-        [DataMember(Name = "tbr")]
-        public decimal? VideoBitrate { get; set; }
-
-        [DataMember(Name = "abr")]
-        public decimal? AudioBitrate { get; set; }
-
-        [DataMember(Name = "filesize_approx")]
-        public long? ApproximateFileSize { get; set; }
-    }
-
 }

@@ -32,13 +32,15 @@ namespace youtube_dl_gui {
                 UpdateCheckThread = new Thread(() => {
                     try {
                         bool? result;
-                        if ((result = UpdateChecker.CheckForUpdate(Program.CurrentVersion, Config.Settings.General.DownloadBetaVersions, chkForceCheckUpdate.Checked)) is not null) {
+                        if ((result = UpdateChecker.CheckForUpdate(chkForceCheckUpdate.Checked, false, this)) is not null) {
                             if (result == false) {
                                 this.BeginInvoke(() => {
                                     MessageBox.Show(
                                         Program.CurrentVersion.IsBeta ?
-                                            string.Format(Language.dlgUpdateNoBetaUpdateAvailable, Program.CurrentVersion, updater.UpdateChecker.LastChecked.Version) :
-                                            string.Format(Language.dlgUpdateNoUpdateAvailable, Program.CurrentVersion, updater.UpdateChecker.LastChecked.Version),
+                                            string.Format(
+                                                Language.dlgUpdateNoBetaUpdateAvailable, Program.CurrentVersion, UpdateChecker.LastChecked.Version) :
+                                            string.Format(
+                                                Language.dlgUpdateNoUpdateAvailable, Program.CurrentVersion, UpdateChecker.LastChecked.Version),
                                         Language.ApplicationName,
                                         MessageBoxButtons.OK);
                                 });

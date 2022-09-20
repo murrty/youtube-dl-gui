@@ -92,6 +92,15 @@ public struct Version {
     /// <param name="vers">The output <see cref="Version"/> structure.</param>
     /// <returns><see langword="true"/> if the parse was successful; otherwise, <see langword="false"/>.</returns>
     public static bool TryParse(string Data, out Version vers) {
+        try {
+            return InternalParse(Data, out vers);
+        }
+        catch {
+            vers = Empty;
+            return false;
+        }
+    }
+    private static bool InternalParse(string Data, out Version vers) {
         if (Data.IsNullEmptyWhitespace()) {
             vers = Empty;
             return false;
@@ -113,27 +122,34 @@ public struct Version {
             switch (Splits.Length) {
                 case 1 when byte.TryParse(Splits[0], out byte Major): {
                     vers = new(Major, Minor, Revision, Beta);
-                } return true;
+                }
+                return true;
 
                 case 1: {
-                } throw new InvalidCastException($"Cannot use {Splits[0]} as the major.");
+                }
+                throw new InvalidCastException($"Cannot use {Splits[0]} as the major.");
 
                 case 2 when byte.TryParse(Splits[0], out byte Major) && byte.TryParse(Splits[1], out Minor): {
                     vers = new(Major, Minor, Revision, Beta);
-                } return true;
+                }
+                return true;
 
                 case 2: {
-                } throw new InvalidCastException($"Cannot use {Splits[1]} as the minor.");
+                }
+                throw new InvalidCastException($"Cannot use {Splits[1]} as the minor.");
 
                 case 3 when byte.TryParse(Splits[0], out byte Major) && byte.TryParse(Splits[1], out Minor) && byte.TryParse(Splits[2], out Revision): {
                     vers = new(Major, Minor, Revision, Beta);
-                } return true;
+                }
+                return true;
 
                 case 3: {
-                } throw new InvalidCastException($"Cannot use {Splits[2]} as the revision.");
+                }
+                throw new InvalidCastException($"Cannot use {Splits[2]} as the revision.");
 
                 default: {
-                } throw new ArgumentException($"Cannot use {Data} as a version.");
+                }
+                throw new ArgumentException($"Cannot use {Data} as a version.");
             }
         }
         vers = Empty;

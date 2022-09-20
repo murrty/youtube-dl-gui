@@ -4,90 +4,73 @@ using System.IO.Compression;
 using System.Net;
 using System.Threading;
 using System.Windows.Forms;
-using System.Xml.Linq;
+using youtube_dl_gui.updater;
 
 namespace youtube_dl_gui {
     internal class UpdateChecker {
-        public static bool? CheckForUpdate(Version cur, bool Pre, bool Force = false) {
-            bool? result;
-            if ((result = updater.UpdateChecker.CheckForUpdate(cur, Pre, Force)) is not null) {
-                if (result == true) {
-                    using frmUpdateAvailable Update = new() {
-                        BlockSkip = Force,
-                        UpdateData = updater.UpdateChecker.LastChecked
-                    };
-                    switch (Update.ShowDialog()) {
-                        case DialogResult.Yes: {
-                            try {
-                                Program.IsUpdating = true;
-                                updater.UpdateChecker.UpdateApplication();
-                            }
-                            catch (Exception ex) {
-                                Log.ReportException(ex);
-                                return null;
-                            }
-                        } break;
-                        case DialogResult.Ignore: {
-                            if (Pre) {
-                                Config.Settings.Initialization.SkippedBetaVersion = updater.UpdateChecker.LastCheckedAllRelease.Version;
-                            }
-                            else {
-                                Config.Settings.Initialization.SkippedVersion = updater.UpdateChecker.LastCheckedLatestRelease.Version;
-                            }
-                            Config.Settings.Save(ConfigType.Initialization);
-                        } break;
-                    }
-                }
-                else {
-
-                }
-            }
-            else {
-                Log.ReportException(new Exception("The result from checking for an update was null."));
-            }
-            return result;
-        }
-    }
-}
-
-namespace youtube_dl_gui.updater {
-    internal class UpdateChecker {
-
+        #region Fields & Properties
         private const string KnownUpdaterHash = "4DA486EF4A763387755CB45D089B5561BEE4AD25352DD428381F24204A57D099";
         private const string FfmpegDownloadLink = "https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-essentials.zip";
         public static GithubData LastChecked { get; private set; }
         public static GithubData LastCheckedLatestRelease { get; private set; }
         public static GithubData LastCheckedAllRelease { get; private set; }
         public static GithubData LatestYoutubeDl { get; private set; }
+        #endregion
 
         #region Major methods
         /// <summary>
         /// Checks Github for an update to youtube-dl-gui.
         /// </summary>
         /// <param name="ForceCheck">Determines if the check was forced, so it should respond yes or no.</param>
-        public static bool? CheckForUpdate(Version CurrentVersion, bool PreRelease, bool ForceCheck = false) {
+        public static bool? CheckForUpdate(bool ForceCheck = false, bool AllowSkip = false, Form ParentHandle = null) {
             bool CanRetry = true;
             do {
                 Log.Write("Checking for program update.");
                 try {
-                    if (ForceCheck || (PreRelease ? LastCheckedAllRelease is null : LastCheckedLatestRelease is null)) {
-                        RefreshRelease(CurrentVersion, PreRelease);
-                    }
+                    if (ForceCheck || (Config.Settings.General.DownloadBetaVersions ? LastCheckedAllRelease is null : LastCheckedLatestRelease is null))
+                        RefreshRelease(Program.CurrentVersion, Config.Settings.General.DownloadBetaVersions);
                     CanRetry = false;
                 }
                 catch (Exception ex) {
-                    if (Log.ReportRetriableLanguageException(ex) != DialogResult.Retry) {
+                    if (Log.ReportRetriableLanguageException(ex) != DialogResult.Retry)
                         return null;
-                    }
                 }
             } while (CanRetry);
 
-
             Log.Write($"Release found: {LastChecked.Version}");
 
-            return PreRelease ?
-                LastCheckedAllRelease is not null && LastCheckedAllRelease.IsNewerVersion :
-                LastCheckedLatestRelease is not null && LastCheckedLatestRelease.IsNewerVersion;
+            if (LastChecked.IsNewerVersion) {
+                using frmUpdateAvailable Update = new() {
+                    BlockSkip = !AllowSkip,
+                    UpdateData = LastChecked
+                };
+                if (ParentHandle is not null && ParentHandle.IsHandleCreated) {
+                    switch (ParentHandle is null ? Update.ShowDialog() : ParentHandle.InvokeRequired ? ParentHandle.Invoke(() => Update.ShowDialog(ParentHandle)) : Update.ShowDialog(ParentHandle)) {
+                        case DialogResult.Yes: {
+                            try {
+                                Program.IsUpdating = true;
+                                UpdateApplication();
+                            }
+                            catch (Exception ex) {
+                                Log.ReportException(ex);
+                                return null;
+                            }
+                        } break;
+
+                        case DialogResult.Ignore: {
+                            if (Config.Settings.General.DownloadBetaVersions) {
+                                Config.Settings.Initialization.SkippedBetaVersion = LastCheckedAllRelease.Version;
+                            }
+                            else {
+                                Config.Settings.Initialization.SkippedVersion = LastCheckedLatestRelease.Version;
+                            }
+                            Config.Settings.Save(ConfigType.Initialization);
+                        } break;
+                    }
+                }
+                return true;
+            }
+            else return false;
         }
 
         /// <summary>
@@ -330,7 +313,9 @@ namespace youtube_dl_gui.updater {
         public static GithubRepoContent[] GetAvailableLanguages() {
             Log.Write("Enumerating languages available.");
             string Url = "https://api.github.com/repos/murrty/youtube-dl-gui/contents/Languages";
-            var AvailableLanguages = GetJSON(Url).JsonDeserialize<GithubRepoContent[]>();
+            var AvailableLanguages = GetJSON(Url).JsonDeserialize<GithubRepoContent[]>()
+                .Where(x => x.name != "English.ini")
+                .ToArray();
 
             if (AvailableLanguages.Length > 0) {
                 return AvailableLanguages;
@@ -340,7 +325,12 @@ namespace youtube_dl_gui.updater {
         #endregion
 
         #region supporting methods
-        public static string GetJSON(string Url) {
+        /// <summary>
+        /// Gets a JSON string using an internal web-client.
+        /// </summary>
+        /// <param name="Url">The URL to download the string from.</param>
+        /// <returns>A string from the URL.</returns>
+        private static string GetJSON(string Url) {
             try {
                 using WebClient wc = new();
                 ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
@@ -350,7 +340,12 @@ namespace youtube_dl_gui.updater {
             catch { throw; }
         }
 
-        private static void RefreshRelease(Version oldVersion, bool PreReleases) {
+        /// <summary>
+        /// Refreshes the release data within the application.
+        /// </summary>
+        /// <param name="CurrentVersion">The current version to be compared against</param>
+        /// <param name="PreReleases">Whether to check for pre-releases.</param>
+        private static void RefreshRelease(Version CurrentVersion, bool PreReleases) {
             try {
                 string Json = GetJSON(
                     string.Format(PreReleases ? GithubLinks.GithubAllReleasesJson : GithubLinks.GithubLatestJson, "murrty", Language.ApplicationName));
@@ -361,18 +356,12 @@ namespace youtube_dl_gui.updater {
                 if (PreReleases) {
                     var Releases = Json.JsonDeserialize<GithubData[]>();
                     if (Releases.Length == 0) throw new NullReferenceException("The found releases were empty.");
-                    //for (int i = 0; i < Releases.Length; i++) {
-                    //    if (Releases[i].VersionPreRelease) {
-                    //        CurrentCheck = Releases[i];
-                    //        LastCheckedAllRelease = CurrentCheck;
-                    //        break;
-                    //    }
-                    //}
-                    CurrentCheck = Releases[0];
-                    LastCheckedAllRelease = CurrentCheck;
+                    CurrentCheck = GetHighestVersion(Releases);
 
-                    if (CurrentCheck is null)
-                        return;
+                    if (CurrentCheck is not null) {
+                        LastCheckedAllRelease = CurrentCheck;
+                    }
+                    else return;
                 }
                 else {
                     CurrentCheck = Json.JsonDeserialize<GithubData>();
@@ -381,10 +370,31 @@ namespace youtube_dl_gui.updater {
 
                 if (string.IsNullOrWhiteSpace(CurrentCheck.VersionTag)) throw new InvalidOperationException("tag_name was empty");
 
-                CurrentCheck.ParseData(oldVersion);
+                CurrentCheck.ParseData(CurrentVersion);
                 LastChecked = CurrentCheck;
             }
             catch { throw; }
+        }
+
+        /// <summary>
+        /// Gets the highest release within an array of release data.
+        /// </summary>
+        /// <param name="DataArray">The array of GithubData to parse through.</param>
+        /// <returns>The GithubData that is deemed as the highest version.</returns>
+        private static GithubData GetHighestVersion(GithubData[] DataArray) {
+            if (DataArray.Length > 0) {
+                GithubData Newest = null;
+                Version NewestVersion = Version.Empty;
+                for (int i = 0; i < DataArray.Length; i++) {
+                    Version Parse = DataArray[i].GetVersion();
+                    if (Parse > NewestVersion) {
+                        Newest = DataArray[i];
+                        NewestVersion = Parse;
+                    }
+                }
+                return Newest;
+            }
+            return null;
         }
 
         /// <summary>

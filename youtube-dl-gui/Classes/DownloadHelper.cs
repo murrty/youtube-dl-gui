@@ -11,31 +11,31 @@ public class DownloadHelper {
         "socks5://"
     };
 
-    // The prefix for the initial regex, encompasing the connection protocol.
+    // lang=regex The prefix for the initial regex, encompasing the connection protocol.
     private const string RegexPrefix = @"^(http(s)?:\/\/)?";
 
     // From most important ... least important
     public static readonly string[] LinkRegularExpression = {
-        // YouTube
+        // lang=regex YouTube
         RegexPrefix + @"((www|m)\.)?(youtube\.com\/watch\?(.*?)?v=|(youtu\.be\/))[a-zA-Z0-9_-]{1,}",
 
-        // PornHub
+        // lang=regex PornHub
         RegexPrefix + @"((www|m)\.)?pornhub\.com\/view_video\.php(\?viewkey=|.*?&viewkey=)ph[a-zA-Z0-9]{1,}",
 
-        // Reddit
+        // lang=regex Reddit
         RegexPrefix + @"(([a-zA-Z]{1,}.)?reddit\.com\/r\/[a-zA-Z0-9-_]{1,}\/(comments\/)?[a-zA-Z0-9]{1,}|(i\.|v\.)?redd\.it\/[a-zA-Z0-9]{1,})",
 
-        // Twitter
+        // lang=regex Twitter
         RegexPrefix + @"(t\.co\/[a-zA-Z0-9]{1,})|(((m|mobile)\.)?twitter\.com\/(i|[a-zA-Z0-9]{1,})\/status\/[0-9]{1,})",
 
-        // Twitch
+        // lang=regex Twitch
         RegexPrefix + @"(((www|m)\.)?twitch\.tv\/((videos\/[0-9]{1,})|[a-zA-Z0-9_-]{1,}\/clip\/[a-zA-Z0-9_-]{1,})|clips\.twitch\.tv\/(clips\/)?[^clip_missing][a-zA-Z0-9_-]{1,})",
         //((www\.|m\.)?twitch.tv\/((videos\/[0-9]{1,})|[a-zA-Z0-9_-]{1,}\/clip\/[a-zA-Z0-9_-]{1,})|clips.twitch.tv\/(clips\/)?[a-zA-Z0-9_-]{1,})
 
-        // SoundCloud
+        // lang=regex SoundCloud
         RegexPrefix + @"((www|m)\.)?soundcloud\.com\/[a-zA-Z0-9_-]{1,}\/[a-zA-Z0-9_-]{1,}",
 
-        // Imgur
+        // lang=regex Imgur
         RegexPrefix + @"((www|m|i)\.)?imgur\.com(\/(a|gallery))?\/[a-zA-Z0-9]{1,}",
     };
 

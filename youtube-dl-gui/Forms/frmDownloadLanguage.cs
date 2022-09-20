@@ -15,15 +15,15 @@ namespace youtube_dl_gui {
             InitializeComponent();
             SubItemFont = new("Segoi UI", this.Font.Size, FontStyle.Italic);
             try {
-                EnumeratedLanguages = updater.UpdateChecker.GetAvailableLanguages();
+                EnumeratedLanguages = UpdateChecker.GetAvailableLanguages();
                 if (EnumeratedLanguages.Length > 0) {
                     // Uncomment these out when the SHA calcuation gets fixed.
                     for (int i = 0; i < EnumeratedLanguages.Length; i++) {
                         ListViewItem NewItem = new($"Item {EnumeratedLanguages[i].name}");
-                        NewItem.SubItems[0].Text = $"{i + 1}: {EnumeratedLanguages[i].name} ({EnumeratedLanguages[i].size.SizeToString()})";
+                        NewItem.SubItems[0].Text = $"{i + 1}: {(EnumeratedLanguages[i].name.EndsWith(".ini") ? EnumeratedLanguages[i].name[..^4] : EnumeratedLanguages[i].name)} ({EnumeratedLanguages[i].size.SizeToString()})";
                         NewItem.UseItemStyleForSubItems = false;
                         NewItem.SubItems.Add(new ListViewItem.ListViewSubItem());
-                        NewItem.SubItems[1].Text = $"{EnumeratedLanguages[i].download_url}";
+                        NewItem.SubItems[1].Text = EnumeratedLanguages[i].download_url;
                         //NewItem.SubItems[1].Text = $"{EnumeratedLanguages[i].Sha}";
                         NewItem.SubItems[1].ForeColor = Color.FromKnownColor(KnownColor.ScrollBar);
                         NewItem.SubItems[1].Font = SubItemFont;
@@ -60,10 +60,11 @@ namespace youtube_dl_gui {
             if (Downloader.ShowDialog() == DialogResult.OK) {
                 Log.Write($"Finished downloading language file {EnumeratedLanguages[lvAvailableLanguages.SelectedIndices[0]].name}");
                 System.Media.SystemSounds.Asterisk.Play();
+                btnOk_Click(this, EventArgs.Empty);
             }
             else {
-                System.Media.SystemSounds.Hand.Play();
                 Log.Write($"Could not download language file {EnumeratedLanguages[lvAvailableLanguages.SelectedIndices[0]].name}.");
+                System.Media.SystemSounds.Hand.Play();
             }
 
             // The SHA on github doesn't match what I can calculate here.
@@ -84,11 +85,14 @@ namespace youtube_dl_gui {
             if (lvAvailableLanguages.SelectedIndices.Count > 0) {
                 DownloadSelectedLanguageFile();
                 FileName = EnumeratedLanguages[lvAvailableLanguages.SelectedIndices[0]].name;
+                if (FileName.EndsWith(".ini"))
+                    FileName = FileName[..^4];
+                this.DialogResult = DialogResult.OK;
             }
             else {
                 FileName = null;
+                this.DialogResult = DialogResult.Cancel;
             }
-            this.DialogResult = DialogResult.OK;
         }
 
         private void listView1_SelectedIndexChanged(object sender, EventArgs e) {

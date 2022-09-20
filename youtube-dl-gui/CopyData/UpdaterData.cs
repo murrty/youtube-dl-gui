@@ -4,8 +4,6 @@ using System.Runtime.InteropServices;
 
 [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
 public struct UpdaterData {
-    [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 33)]
-    public string RepoName;
     [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 257)]
     public string FileName;
     [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 16)]

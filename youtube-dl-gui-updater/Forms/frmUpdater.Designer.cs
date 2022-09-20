@@ -61,7 +61,7 @@
             this.pbDownloadProgress.Location = new System.Drawing.Point(12, 84);
             this.pbDownloadProgress.Maximum = 200;
             this.pbDownloadProgress.Name = "pbDownloadProgress";
-            this.pbDownloadProgress.ProgressState = murrty.controls.ProgressBarState.Normal;
+            this.pbDownloadProgress.ProgressState = murrty.controls.ProgressState.Normal;
             this.pbDownloadProgress.ShowInTaskbar = true;
             this.pbDownloadProgress.ShowText = true;
             this.pbDownloadProgress.Size = new System.Drawing.Size(210, 24);

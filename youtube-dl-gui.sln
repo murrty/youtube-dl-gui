@@ -28,12 +28,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Languages", "Languages", "{
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "youtube-dl-gui-updater", "youtube-dl-gui-updater\youtube-dl-gui-updater.csproj", "{EF3A6A93-AB14-4A2D-8474-2985C0D07253}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YtdlgHashCalculator", "YtdlgHashCalculator\YtdlgHashCalculator.csproj", "{8EF78CC2-016E-4D43-9120-A97CFC4FB2DF}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YtHashCalcConsole", "HashCalcConsole\YtHashCalcConsole.csproj", "{85CD9025-F800-4A5F-B8DD-9E798612F74B}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ytdlg.tests", "ytdlg.tests\ytdlg.tests.csproj", "{93DC689A-B3A3-43D9-A9EE-12A15725307B}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Controls", "Controls", "{98BEC70D-68EE-47FC-9438-3B7DD1D4FB3B}"
 	ProjectSection(SolutionItems) = preProject
 		Controls\BetterFolderBrowser.cs = Controls\BetterFolderBrowser.cs
@@ -50,7 +44,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Enums", "Enums", "{D9CA86FD
 		Controls\Enums\AllowedCharacters.cs = Controls\Enums\AllowedCharacters.cs
 		Controls\Enums\ButtonAlignment.cs = Controls\Enums\ButtonAlignment.cs
 		Controls\Enums\HttpMethod.cs = Controls\Enums\HttpMethod.cs
-		Controls\Enums\ProgressBarState.cs = Controls\Enums\ProgressBarState.cs
+		Controls\Enums\ProgressState.cs = Controls\Enums\ProgressState.cs
 		Controls\Enums\TaskbarProgressState.cs = Controls\Enums\TaskbarProgressState.cs
 	EndProjectSection
 EndProject

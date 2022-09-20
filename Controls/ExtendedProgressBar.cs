@@ -44,7 +44,7 @@ public sealed class ExtendedProgressBar : ProgressBar {
     /// <summary>
     /// The state of the progress.
     /// </summary>
-    private ProgressBarState _ProgressState = ProgressBarState.Normal;
+    private ProgressState _ProgressState = ProgressState.Normal;
 
     /// <summary>
     /// Whether the value and state should appear in the taskbars' icon.
@@ -180,10 +180,10 @@ public sealed class ExtendedProgressBar : ProgressBar {
     [Bindable(true)]
     [Browsable(true)]
     [Category("Appearance")]
-    [DefaultValue(ProgressBarState.Normal)]
+    [DefaultValue(ProgressState.Normal)]
     [Description("The state of the progress bars' current \"action\".")]
     [EditorBrowsable(EditorBrowsableState.Always)]
-    public ProgressBarState ProgressState {
+    public ProgressState ProgressState {
         get => _ProgressState;
         set {
             _ProgressState = value;
@@ -406,7 +406,7 @@ public sealed class ExtendedProgressBar : ProgressBar {
         TextGraphics = CreateGraphics();
         TextSize = TextGraphics.MeasureString(Text, Font);
         if (DesignMode) {
-            if (ProgressState != ProgressBarState.Normal) {
+            if (ProgressState != ProgressState.Normal) {
                 NativeMethods.SendMessage(Handle, PBM_SETSTATE, (nint)ProgressState, IntPtr.Zero);
             }
         }
@@ -458,7 +458,7 @@ public sealed class ExtendedProgressBar : ProgressBar {
 
     #region Events
     internal void ExtendedProgressBar_Shown(object sender, EventArgs e) {
-        if (ProgressState != ProgressBarState.Normal) {
+        if (ProgressState != ProgressState.Normal) {
             NativeMethods.SendMessage(Handle, PBM_SETSTATE, (nint)ProgressState, IntPtr.Zero);
         }
 
@@ -551,8 +551,8 @@ public sealed class ExtendedProgressBar : ProgressBar {
             TaskbarInterface.SetProgressState(_ContainerParent.Handle, _ProgressState switch {
                 _ when !_ShowInTaskbar => TaskbarProgressState.None,
                 _ when Style == ProgressBarStyle.Marquee => TaskbarProgressState.Indeterminate,
-                ProgressBarState.Error => TaskbarProgressState.Error,
-                ProgressBarState.Paused => TaskbarProgressState.Paused,
+                ProgressState.Error => TaskbarProgressState.Error,
+                ProgressState.Paused => TaskbarProgressState.Paused,
                 _ => TaskbarProgressState.Normal
             });
         }

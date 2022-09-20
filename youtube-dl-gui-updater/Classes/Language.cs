@@ -20,6 +20,12 @@ public static class Language {
     public static string tabExceptionDetails { get; private set; }
     public static string tabExceptionExtraInfo { get; private set; }
 
+    public static string frmUpdaterInvalidData { get; private set; }
+    public static string lbUpdaterInvalidData { get; private set; }
+    public static string btnUpdaterInvalidDataUpdateLatest { get; private set; }
+    public static string btnUpdaterInvalidDataUpdatePreRelease { get; private set; }
+    public static string btnUpdaterInvalidDataDoNotUpdate { get; private set; }
+
     public static string frmUpdater { get; private set; }
     public static string lbUpdaterHeader { get; private set; }
     public static string lbUpdaterDetails { get; private set; }
@@ -53,6 +59,12 @@ public static class Language {
         public const string btnExceptionGithub = "Github";
         public const string tabExceptionDetails = "Exception details";
         public const string tabExceptionExtraInfo = "Extra info";
+
+        public const string frmUpdaterInvalidData = "Update data unavailable";
+        public const string lbUpdaterInvalidData = "The updater has recieved invalid update data. You can choose to download the latest version, latest pre-release (if one exists past the latest version), or do not update.";
+        public const string btnUpdaterInvalidDataUpdateLatest = "Latest";
+        public const string btnUpdaterInvalidDataUpdatePreRelease = "Pre-release";
+        public const string btnUpdaterInvalidDataDoNotUpdate = "Don't update";
 
         public const string frmUpdater = "Updating";
         public const string lbUpdaterHeader = "Updating youtube-dl-gui";
@@ -91,6 +103,12 @@ public static class Language {
         frmUpdater = InternalEnglish.frmUpdater;
         lbUpdaterHeader = InternalEnglish.lbUpdaterHeader;
         lbUpdaterDetails = InternalEnglish.lbUpdaterDetails;
+
+        frmUpdaterInvalidData = InternalEnglish.frmUpdaterInvalidData;
+        lbUpdaterInvalidData = InternalEnglish.lbUpdaterInvalidData;
+        btnUpdaterInvalidDataUpdateLatest = InternalEnglish.btnUpdaterInvalidDataUpdateLatest;
+        btnUpdaterInvalidDataUpdatePreRelease = InternalEnglish.btnUpdaterInvalidDataUpdatePreRelease;
+        btnUpdaterInvalidDataDoNotUpdate = InternalEnglish.btnUpdaterInvalidDataDoNotUpdate;
 
         pbDownloadProgressWaitingForData = InternalEnglish.pbDownloadProgressWaitingForData;
         pbDownloadProgressWaitingForClose = InternalEnglish.pbDownloadProgressWaitingForClose;
@@ -168,6 +186,22 @@ public static class Language {
                                     continue;
                                 case "tabexceptionextrainfo":
                                     tabExceptionExtraInfo = ReadValue;
+                                    continue;
+
+                                case "frmupdaterinvaliddata":
+                                    frmUpdaterInvalidData = ReadValue;
+                                    continue;
+                                case "lbupdaterinvaliddata":
+                                    lbUpdaterInvalidData = ReadValue;
+                                    continue;
+                                case "btnupdaterinvaliddataupdatelatest":
+                                    btnUpdaterInvalidDataUpdateLatest = ReadValue;
+                                    continue;
+                                case "btnupdaterinvaliddataupdateprerelease":
+                                    btnUpdaterInvalidDataUpdatePreRelease = ReadValue;
+                                    continue;
+                                case "btnupdaterinvaliddatadonotupdate":
+                                    btnUpdaterInvalidDataDoNotUpdate = ReadValue;
                                     continue;
 
                                 case "frmupdater":

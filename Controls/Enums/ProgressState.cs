@@ -4,7 +4,7 @@
 /// Represents the state of the progress bar control.
 /// </summary>
 [Flags]
-public enum ProgressBarState {
+public enum ProgressState {
     /// <summary>
     /// Indicates the progress is succeeding so far, or finished.
     /// </summary>

@@ -41,7 +41,7 @@ public partial class frmGenericDownloadProgress : Form {
                 bool CanRetry = true;
                 do {
                     pbProgress.Invoke(() => {
-                        pbProgress.ProgressState = murrty.controls.ProgressBarState.Normal;
+                        pbProgress.ProgressState = murrty.controls.ProgressState.Normal;
                         pbProgress.Value = 0;
                     });
                     try {
@@ -56,7 +56,7 @@ public partial class frmGenericDownloadProgress : Form {
                         else if (Log.ReportRetriableException(ex, URL) != DialogResult.Retry) {
                             CanRetry = false;
                             pbProgress.Invoke(() => {
-                                pbProgress.ProgressState = murrty.controls.ProgressBarState.Error;
+                                pbProgress.ProgressState = murrty.controls.ProgressState.Error;
                                 pbProgress.Text = "An error occurred.";
                             });
                             System.Media.SystemSounds.Hand.Play();

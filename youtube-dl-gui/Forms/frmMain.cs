@@ -97,7 +97,7 @@ namespace youtube_dl_gui {
             if (Config.Settings.General.CheckForUpdatesOnLaunch) {
                 UpdateCheckThread = new(() => {
                     try {
-                        UpdateChecker.CheckForUpdate(Program.CurrentVersion, Config.Settings.General.DownloadBetaVersions);
+                        UpdateChecker.CheckForUpdate(false, true, this);
                     }
                     catch (ThreadAbortException) {
                         // do nothing
@@ -114,9 +114,8 @@ namespace youtube_dl_gui {
             if (Config.Settings.General.AutoUpdateYoutubeDl) {
                 YtdlUpdateCheckThread = new(() => {
                     try {
-                        if (updater.UpdateChecker.CheckForYoutubeDlUpdate()) {
-                            updater.UpdateChecker.UpdateYoutubeDl(this.Location);
-                        }
+                        if (UpdateChecker.CheckForYoutubeDlUpdate())
+                            UpdateChecker.UpdateYoutubeDl(this.Location);
                     }
                     catch (ThreadAbortException) {
                         // do nothing
@@ -134,9 +133,8 @@ namespace youtube_dl_gui {
                 mDownloadSubtitles.Enabled = false;
             }
 
-            if (Config.ValidPoint(Config.Settings.Saved.MainFormLocation)) {
+            if (Config.ValidPoint(Config.Settings.Saved.MainFormLocation))
                 this.Location = Config.Settings.Saved.MainFormLocation;
-            }
 
             this.Size = Config.ValidSize(Config.Settings.Saved.MainFormSize) ?
                 Config.Settings.Saved.MainFormSize : this.MinimumSize;
@@ -1401,7 +1399,7 @@ namespace youtube_dl_gui {
 
         #region debug
         private void btnDebugForceUpdateCheck_Click(object sender, EventArgs e) {
-            UpdateChecker.CheckForUpdate(Program.CurrentVersion, true, true);
+            UpdateChecker.CheckForUpdate(true, true);
         }
         private void btnDebugForceAvailableUpdate_Click(object sender, EventArgs e) {
         }

@@ -76,34 +76,35 @@
     <Compile Include="Classes\BatchHelpers.cs" />
     <Compile Include="Classes\ConvertHelper.cs" />
     <Compile Include="Classes\DataClasses\FfprobeData.cs" />
+    <Compile Include="Classes\DataClasses\YoutubeDlFormat.cs" />
     <Compile Include="Classes\DownloadHelper.cs" />
     <Compile Include="..\Controls\Enums\AllowedCharacters.cs">
-      <Link>Controls\Shared\AllowedCharacters.cs</Link>
+      <Link>Controls\Shared\Enums\AllowedCharacters.cs</Link>
     </Compile>
     <Compile Include="..\Controls\Enums\ButtonAlignment.cs">
-      <Link>Controls\Shared\ButtonAlignment.cs</Link>
+      <Link>Controls\Shared\Enums\ButtonAlignment.cs</Link>
     </Compile>
-    <Compile Include="..\Controls\Enums\ProgressBarState.cs">
-      <Link>Controls\Shared\ProgressBarState.cs</Link>
+    <Compile Include="..\Controls\Enums\ProgressState.cs">
+      <Link>Controls\Shared\Enums\ProgressState.cs</Link>
     </Compile>
     <Compile Include="..\Controls\Interfaces\TaskbarInterface.cs">
-      <Link>Controls\Shared\TaskbarInterface.cs</Link>
+      <Link>Controls\Shared\Interfaces\TaskbarInterface.cs</Link>
     </Compile>
     <Compile Include="..\Controls\Enums\TaskbarProgressState.cs">
-      <Link>Controls\Shared\TaskbarProgressState.cs</Link>
+      <Link>Controls\Shared\Enums\TaskbarProgressState.cs</Link>
     </Compile>
     <Compile Include="..\Controls\Events\RegexMatchEventArgs.cs">
-      <Link>Controls\Shared\RegexMatchEventArgs.cs</Link>
+      <Link>Controls\Shared\Events\RegexMatchEventArgs.cs</Link>
     </Compile>
     <Compile Include="Controls\ExtendedListView.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controls\MessageHandler.cs" />
     <Compile Include="..\Controls\Natives\Consts.cs">
-      <Link>Controls\Shared\Consts.cs</Link>
+      <Link>Controls\Shared\Natives\Consts.cs</Link>
     </Compile>
     <Compile Include="..\Controls\Natives\NativeMethods.cs">
-      <Link>Controls\Shared\NativeMethods.cs</Link>
+      <Link>Controls\Shared\Natives\NativeMethods.cs</Link>
     </Compile>
     <Compile Include="CopyData\UpdaterData.cs" />
     <Compile Include="Forms\frmArchiveDownloader.cs">
@@ -128,7 +129,7 @@
     </Compile>
     <Compile Include="Logging\Natives\DwmComposition.cs" />
     <Compile Include="Classes\Extensions.cs" />
-    <Compile Include="Classes\DataClasses\DownloaderData.cs" />
+    <Compile Include="Classes\DataClasses\YoutubeDlData.cs" />
     <Compile Include="..\Controls\ExtendedProgressBar.cs">
       <SubType>Component</SubType>
       <Link>Controls\Shared\ExtendedProgressBar.cs</Link>
@@ -175,11 +176,11 @@
     <Compile Include="Forms\frmMerger.Designer.cs">
       <DependentUpon>frmMerger.cs</DependentUpon>
     </Compile>
-    <Compile Include="Updater\GithubData.cs" />
-    <Compile Include="Updater\GithubAsset.cs" />
+    <Compile Include="Updater\API Data\GithubData.cs" />
+    <Compile Include="Updater\API Data\GithubAsset.cs" />
     <Compile Include="Updater\GithubLinks.cs" />
     <Compile Include="Updater\GitID.cs" />
-    <Compile Include="Updater\GithubRepoContent.cs" />
+    <Compile Include="Updater\API Data\GithubRepoContent.cs" />
     <Compile Include="Updater\Version.cs" />
     <Compile Include="..\Controls\BetterFolderBrowser.cs">
       <SubType>Component</SubType>
@@ -275,10 +276,10 @@
     <Compile Include="Forms\frmMiscTools.Designer.cs">
       <DependentUpon>frmMiscTools.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\frmUpdateAvailable.cs">
+    <Compile Include="Updater\Form\frmUpdateAvailable.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmUpdateAvailable.Designer.cs">
+    <Compile Include="Updater\Form\frmUpdateAvailable.Designer.cs">
       <DependentUpon>frmUpdateAvailable.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\frmDownloader.cs">
@@ -345,7 +346,7 @@
     <EmbeddedResource Include="Forms\frmMiscTools.resx">
       <DependentUpon>frmMiscTools.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmUpdateAvailable.resx">
+    <EmbeddedResource Include="Updater\Form\frmUpdateAvailable.resx">
       <DependentUpon>frmUpdateAvailable.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmDownloader.resx">

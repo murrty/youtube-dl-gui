@@ -9,7 +9,8 @@ namespace youtube_dl_gui {
             InitializeComponent();
             LoadLanguage();
             LoadFiles();
-            cbLanguages.SelectedIndex = string.IsNullOrWhiteSpace(Config.Settings.Initialization.LanguageFile) ? 0 : cbLanguages.FindStringExact(Config.Settings.Initialization.LanguageFile);
+            cbLanguages.SelectedIndex = string.IsNullOrWhiteSpace(Config.Settings.Initialization.LanguageFile) ? 
+                0 : cbLanguages.FindStringExact(Config.Settings.Initialization.LanguageFile);
             lbCurrentVersion.Text = Program.CurrentVersion.ToString();
         }
 
@@ -43,7 +44,7 @@ namespace youtube_dl_gui {
                 cbLanguages.Items.Clear();
                 cbLanguages.Items.Add("English (Internal)");
                 foreach (FileInfo File in LangFiles) {
-                    cbLanguages.Items.Add(File.Name[0..^4]);
+                    cbLanguages.Items.Add(File.Name[..^4]);
                 }
             }
         }
@@ -74,14 +75,8 @@ namespace youtube_dl_gui {
             string CurrentFile = cbLanguages.GetItemText(cbLanguages.SelectedItem);
             cbLanguages.SelectedIndex = -1;
             LoadFiles();
-            if (result == DialogResult.OK) {
-                if (DownloadLanguage.FileName != null) {
-                    cbLanguages.SelectedIndex = cbLanguages.FindStringExact(DownloadLanguage.FileName);
-                }
-                else {
-                    cbLanguages.SelectedItem = cbLanguages.FindStringExact(CurrentFile);
-                }
-            }
+            if (result == DialogResult.OK)
+                cbLanguages.SelectedIndex = cbLanguages.FindStringExact(DownloadLanguage.FileName is null ? CurrentFile : DownloadLanguage.FileName);
         }
     }
 }

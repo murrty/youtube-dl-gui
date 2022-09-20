@@ -41,6 +41,8 @@ public static class Language {
     public static string GenericVerifyLinks { get; private set; }
     public static string GenericDoNotReEncode { get; private set; }
     public static string GenericDoNotRemux { get; private set; }
+    public static string GenericDoNotDownload { get; private set; }
+    public static string GenericUnknownFormat { get; private set; }
 
     public static string frmGenericDownloadProgress { get; private set; }
     public static string chContainer { get; private set; }
@@ -177,12 +179,14 @@ public static class Language {
     public static string lbExtendedDownloaderDownloadingThumbnail { get; private set; }
     public static string lbExtendedDownloaderDownloadingThumbnailFailed { get; private set; }
     public static string btnExtendedDownloaderDownloadThumbnail { get; private set; }
+    public static string tabExtendedDownloaderUnknownFormats { get; private set; }
     public static string tabExtendedDownloaderDescription { get; private set; }
     public static string tabExtendedDownloaderVerbose { get; private set; }
     public static string tabExtendedDownloaderFormatOptions { get; private set; }
     public static string chkExtendedDownloaderVideoSeparateAudio { get; private set; }
     public static string lbExtendedDownloaderNoVideoFormatsAvailable { get; private set; }
     public static string lbExtendedDownloaderNoAudioFormatsAvailable { get; private set; }
+    public static string lbExtendedDownloaderNoUnknownFormatsFound { get; private set; }
     public static string lbVideoRemux { get; private set; }
     public static string txtExtendedDownloaderMediaTitle { get; private set; }
     #endregion
@@ -528,6 +532,8 @@ public static class Language {
         public const string GenericVerifyLinks = "Verify copied links";
         public const string GenericDoNotReEncode = "(Do not re-encode)";
         public const string GenericDoNotRemux = "(Do not remux)";
+        public const string GenericDoNotDownload = "(Do not download)";
+        public const string GenericUnknownFormat = "Unknown format";
 
         public const string frmGenericDownloadProgress = "Downloading...";
         public const string chContainer = "Container";
@@ -668,12 +674,14 @@ public static class Language {
         public const string lbExtendedDownloaderDownloadingThumbnail = "Downloading thumbnail...";
         public const string lbExtendedDownloaderDownloadingThumbnailFailed = "Unable to download thumbnail";
         public const string btnExtendedDownloaderDownloadThumbnail = "Get thumbnail";
+        public const string tabExtendedDownloaderUnknownFormats = "Unknown formats";
         public const string tabExtendedDownloaderDescription = "Description";
         public const string tabExtendedDownloaderVerbose = "Verbose";
         public const string tabExtendedDownloaderFormatOptions = "Format download options";
         public const string chkExtendedDownloaderVideoSeparateAudio = "Separate audio from video";
         public const string lbExtendedDownloaderNoVideoFormatsAvailable = "No video formats are available.";
         public const string lbExtendedDownloaderNoAudioFormatsAvailable = "No audio formats are available.";
+        public const string lbExtendedDownloaderNoUnknownFormatsFound = "No unknown formats were found.";
         public const string lbVideoRemux = "Video remux";
         public const string txtExtendedDownloaderMediaTitle = "Retrieving media information...";
         #endregion
@@ -1052,6 +1060,8 @@ public static class Language {
         GenericVerifyLinks = InternalEnglish.GenericVerifyLinks;
         GenericDoNotReEncode = InternalEnglish.GenericDoNotReEncode;
         GenericDoNotRemux = InternalEnglish.GenericDoNotRemux;
+        GenericDoNotDownload = InternalEnglish.GenericDoNotDownload;
+        GenericUnknownFormat = InternalEnglish.GenericUnknownFormat;
 
         frmGenericDownloadProgress = InternalEnglish.frmGenericDownloadProgress;
         chContainer = InternalEnglish.chContainer;
@@ -1178,12 +1188,14 @@ public static class Language {
         lbExtendedDownloaderDownloadingThumbnail = InternalEnglish.lbExtendedDownloaderDownloadingThumbnail;
         lbExtendedDownloaderDownloadingThumbnailFailed = InternalEnglish.lbExtendedDownloaderDownloadingThumbnailFailed;
         btnExtendedDownloaderDownloadThumbnail = InternalEnglish.btnExtendedDownloaderDownloadThumbnail;
+        tabExtendedDownloaderUnknownFormats = InternalEnglish.tabExtendedDownloaderUnknownFormats;
         tabExtendedDownloaderDescription = InternalEnglish.tabExtendedDownloaderDescription;
         tabExtendedDownloaderVerbose = InternalEnglish.tabExtendedDownloaderVerbose;
         tabExtendedDownloaderFormatOptions = InternalEnglish.tabExtendedDownloaderFormatOptions;
         chkExtendedDownloaderVideoSeparateAudio = InternalEnglish.chkExtendedDownloaderVideoSeparateAudio;
         lbExtendedDownloaderNoVideoFormatsAvailable = InternalEnglish.lbExtendedDownloaderNoVideoFormatsAvailable;
         lbExtendedDownloaderNoAudioFormatsAvailable = InternalEnglish.lbExtendedDownloaderNoAudioFormatsAvailable;
+        lbExtendedDownloaderNoUnknownFormatsFound = InternalEnglish.lbExtendedDownloaderNoUnknownFormatsFound;
         lbVideoRemux = InternalEnglish.lbVideoRemux;
         txtExtendedDownloaderMediaTitle = InternalEnglish.txtExtendedDownloaderMediaTitle;
 
@@ -1528,6 +1540,8 @@ public static class Language {
         GenericVerifyLinks = nameof(GenericVerifyLinks);
         GenericDoNotReEncode = nameof(GenericDoNotReEncode);
         GenericDoNotRemux = nameof(GenericDoNotRemux);
+        GenericDoNotDownload = nameof(GenericDoNotDownload);
+        GenericUnknownFormat = nameof(GenericUnknownFormat);
 
         frmGenericDownloadProgress = nameof(frmGenericDownloadProgress);
         chContainer = nameof(chContainer);
@@ -1652,12 +1666,14 @@ public static class Language {
         lbExtendedDownloaderDownloadingThumbnail = nameof(lbExtendedDownloaderDownloadingThumbnail);
         lbExtendedDownloaderDownloadingThumbnailFailed = nameof(lbExtendedDownloaderDownloadingThumbnailFailed);
         btnExtendedDownloaderDownloadThumbnail = nameof(btnExtendedDownloaderDownloadThumbnail);
+        tabExtendedDownloaderUnknownFormats = nameof(tabExtendedDownloaderUnknownFormats);
         tabExtendedDownloaderDescription = nameof(tabExtendedDownloaderDescription);
         tabExtendedDownloaderVerbose = nameof(tabExtendedDownloaderVerbose);
         tabExtendedDownloaderFormatOptions = nameof(tabExtendedDownloaderFormatOptions);
         chkExtendedDownloaderVideoSeparateAudio = nameof(chkExtendedDownloaderVideoSeparateAudio);
         lbExtendedDownloaderNoVideoFormatsAvailable = nameof(lbExtendedDownloaderNoVideoFormatsAvailable);
         lbExtendedDownloaderNoAudioFormatsAvailable = nameof(lbExtendedDownloaderNoAudioFormatsAvailable);
+        lbExtendedDownloaderNoUnknownFormatsFound = nameof(lbExtendedDownloaderNoUnknownFormatsFound);
         lbVideoRemux = nameof(lbVideoRemux);
         txtExtendedDownloaderMediaTitle = nameof(txtExtendedDownloaderMediaTitle);
 
@@ -2072,6 +2088,12 @@ public static class Language {
                             case "genericdonotremux":
                                 GenericDoNotRemux = ReadValue;
                                 continue;
+                            case "genericdonotdownload":
+                                GenericDoNotDownload = ReadValue;
+                                continue;
+                            case "genericunknownformat":
+                                GenericUnknownFormat = ReadValue;
+                                continue;
 
                             case "frmgenericdownloadprogress":
                                 frmGenericDownloadProgress = ReadValue;
@@ -2409,6 +2431,9 @@ public static class Language {
                             case "tabextendeddownloaderformatoptions":
                                 tabExtendedDownloaderFormatOptions = ReadValue;
                                 continue;
+                            case "tabextendeddownloaderunknownformats":
+                                tabExtendedDownloaderUnknownFormats = ReadValue;
+                                continue;
                             case "tabextendeddownloaderdescription":
                                 tabExtendedDownloaderDescription = ReadValue;
                                 continue;
@@ -2423,6 +2448,9 @@ public static class Language {
                                 continue;
                             case "lbextendeddownloadernoaudioformatsavailable":
                                 lbExtendedDownloaderNoAudioFormatsAvailable = ReadValue;
+                                continue;
+                            case "lbextendeddownloadernounknownformatsfound":
+                                lbExtendedDownloaderNoUnknownFormatsFound = ReadValue;
                                 continue;
                             case "lbvideoremux":
                                 lbVideoRemux = ReadValue;

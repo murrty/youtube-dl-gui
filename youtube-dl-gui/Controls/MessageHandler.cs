@@ -7,14 +7,14 @@ internal class MessageHandler : NativeWindow {
 
     public MessageHandler() => this.CreateHandle(new());
 
+    [System.Diagnostics.DebuggerStepThrough]
     protected override void WndProc(ref Message m) {
         switch (m.Msg) {
             case CopyData.WM_UPDATEDATAREQUEST: {
                 UpdaterData Data = new() {
                     FileName = AppDomain.CurrentDomain.FriendlyName,
-                    NewVersion = updater.UpdateChecker.LastChecked.Version.ToString(),
-                    RepoName = Language.ApplicationName,
-                    UpdateHash = updater.UpdateChecker.LastChecked.ExecutableHash
+                    NewVersion = UpdateChecker.LastChecked.Version.ToString(),
+                    UpdateHash = UpdateChecker.LastChecked.ExecutableHash
                 };
                 CopyDataStruct DataStruct = new();
                 nint CopyDataBuffer = 0;

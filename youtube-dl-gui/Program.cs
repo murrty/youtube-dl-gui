@@ -13,7 +13,7 @@ namespace youtube_dl_gui {
         /// <summary>
         /// Gets the curent version of the program.
         /// </summary>
-        public static Version CurrentVersion { get; } = new(3, 0, 0);
+        public static Version CurrentVersion { get; } = new(1, 0, 1);
 
         /// <summary>
         /// Gets whether the program is running in debug mode.
@@ -154,9 +154,9 @@ namespace youtube_dl_gui {
                     }
 
                     if (MessageBox.Show(Language.dlgFirstTimeDownloadYoutubeDl, Language.ApplicationName, MessageBoxButtons.YesNo) == DialogResult.Yes)
-                        updater.UpdateChecker.UpdateYoutubeDl(null);
+                        UpdateChecker.UpdateYoutubeDl(null);
                     if (MessageBox.Show(Language.dlgFirstTimeDownloadFfmpeg, Language.ApplicationName, MessageBoxButtons.YesNo) == DialogResult.Yes)
-                        updater.UpdateChecker.UpdateFfmpeg(null);
+                        UpdateChecker.UpdateFfmpeg(null);
 
                     Config.Settings.Initialization.Save();
                     Config.Settings.Downloads.Save();

@@ -100,6 +100,7 @@
             this.MinimumSize = new System.Drawing.Size(350, 330);
             this.Name = "frmDownloadLanguage";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "frmDownloadLanguage";
             this.ResumeLayout(false);
 

@@ -32,6 +32,7 @@ internal class Config_Saved {
     public Size LogSize;
     public string ExtendedDownloadVideoColumns;
     public string ExtendedDownloadAudioColumns;
+    public string ExtendedDownloadUnknownColumns;
 
     private int fdownloadType;
     private int fconvertSaveVideoIndex;
@@ -59,6 +60,7 @@ internal class Config_Saved {
     private Size fLogSize;
     private string fExtendedDownloadVideoColumns;
     private string fExtendedDownloadAudioColumns;
+    private string fExtendedDownloadUnknownColumns;
     #endregion
 
     public void Load() {
@@ -91,6 +93,7 @@ internal class Config_Saved {
         LogSize = fLogSize = Ini.Read(LogSize, Size.Empty, ConfigName);
         ExtendedDownloadVideoColumns = fExtendedDownloadVideoColumns = Ini.Read(ExtendedDownloadVideoColumns, string.Empty, ConfigName);
         ExtendedDownloadAudioColumns = fExtendedDownloadAudioColumns = Ini.Read(ExtendedDownloadAudioColumns, string.Empty, ConfigName);
+        ExtendedDownloadUnknownColumns = fExtendedDownloadUnknownColumns = Ini.Read(ExtendedDownloadUnknownColumns, string.Empty, ConfigName);
     }
 
     public void Save() {
@@ -148,5 +151,7 @@ internal class Config_Saved {
             fExtendedDownloadVideoColumns = Ini.Write(ExtendedDownloadVideoColumns, ConfigName);
         if (ExtendedDownloadAudioColumns != fExtendedDownloadAudioColumns)
             fExtendedDownloadAudioColumns = Ini.Write(ExtendedDownloadAudioColumns, ConfigName);
+        if (ExtendedDownloadUnknownColumns != fExtendedDownloadUnknownColumns)
+            fExtendedDownloadUnknownColumns = Ini.Write(ExtendedDownloadUnknownColumns, ConfigName);
     }
 }

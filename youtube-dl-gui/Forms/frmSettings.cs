@@ -618,8 +618,8 @@ namespace youtube_dl_gui {
 
         private void btnSettingsRedownloadYoutubeDl_Click(object sender, EventArgs e) {
             YtdlUpdateCheck = new(() => {
-                if (updater.UpdateChecker.CheckForYoutubeDlUpdate(true)) {
-                    if (updater.UpdateChecker.UpdateYoutubeDl(new(this.Location.X + 8, this.Location.Y + 8))) {
+                if (UpdateChecker.CheckForYoutubeDlUpdate(true)) {
+                    if (UpdateChecker.UpdateYoutubeDl(new(this.Location.X + 8, this.Location.Y + 8))) {
                         this.BeginInvoke(() => MessageBox.Show(Language.dlgUpdatedYoutubeDl, Language.ApplicationName, MessageBoxButtons.OK));
                         System.Media.SystemSounds.Asterisk.Play();
                     }
@@ -629,7 +629,7 @@ namespace youtube_dl_gui {
                 }
                 else {
                     this.BeginInvoke((Action)delegate {
-                        MessageBox.Show(string.Format(Language.dlgUpateYoutubeDlNoUpdateRequired, Verification.YoutubeDlVersion, updater.UpdateChecker.LatestYoutubeDl.VersionTag), Language.ApplicationName, MessageBoxButtons.OK);
+                        MessageBox.Show(string.Format(Language.dlgUpateYoutubeDlNoUpdateRequired, Verification.YoutubeDlVersion, UpdateChecker.LatestYoutubeDl.VersionTag), Language.ApplicationName, MessageBoxButtons.OK);
                     });
                 }
             }) {
@@ -638,7 +638,7 @@ namespace youtube_dl_gui {
             YtdlUpdateCheck.Start();
         }
         private void btnSettingsRedownloadFfmpeg_Click(object sender, EventArgs e) {
-            updater.UpdateChecker.UpdateFfmpeg(new(this.Location.X + 8, this.Location.Y + 8));
+            UpdateChecker.UpdateFfmpeg(new(this.Location.X + 8, this.Location.Y + 8));
         }
         #endregion
 
