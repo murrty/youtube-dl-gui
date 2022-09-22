@@ -84,7 +84,7 @@ public partial class frmArchiveDownloader : Form {
         }
 
         if (Extended) {
-            frmExtendedDownload ExtendedForm = new($"ytarchive:{URL}", true);
+            frmExtendedDownloader ExtendedForm = new($"ytarchive:{URL}", true);
             ExtendedForm.Show();
         }
         else {

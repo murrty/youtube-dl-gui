@@ -15,12 +15,16 @@ public class YoutubeDlFormat {
             if (Extension is null || !ExtensionValidGeneric)
                 return false;
 
-            return (
-                VideoCodec.IsNotNullEmptyWhitespace() && VideoCodec.ToLower() != "none" ||
+            if (VideoResolution is not null && VideoResolution.ToLower() == "audio only")
+                return false;
+
+            return 
+                VideoCodec.IsNotNullEmptyWhitespace() && VideoCodec.ToLower() != "none" && (
                 VideoWidth is not null && VideoWidth > 0 ||
                 VideoHeight is not null && VideoHeight > 0 ||
                 VideoFps is not null && VideoFps > 0 ||
-                VideoBitrate is not null && VideoBitrate > 0);
+                VideoBitrate is not null && VideoBitrate > 0
+                );
         }
     }
 
@@ -29,10 +33,23 @@ public class YoutubeDlFormat {
             if (Extension is null || !ExtensionValidGeneric)
                 return false;
 
+            if (Extension is not null) {
+                if (Extension.ToLower() == "wav")
+                    return true;
+            }
+
             return (
                 AudioCodec.IsNotNullEmptyWhitespace() && AudioCodec.ToLower() != "none" ||
                 AudioSampleRate is not null && AudioSampleRate > 0 ||
-                AudioBitrate is not null && AudioBitrate > 0);
+                AudioBitrate is not null && AudioBitrate > 0 ||
+                AudioChannels is not null && AudioChannels > 0);
+        }
+    }
+
+    public string Size {
+        get {
+            return FileSize is not null ?
+                FileSize.Value.SizeToString() : ApproximateFileSize is not null ? ApproximateFileSize.Value.SizeToString() : "null";
         }
     }
 
@@ -74,4 +91,10 @@ public class YoutubeDlFormat {
 
     [DataMember(Name = "filesize_approx")]
     public long? ApproximateFileSize { get; set; }
+
+    [DataMember(Name = "resolution")]
+    public string VideoResolution { get; set; }
+
+    [DataMember(Name = "audio_channels")]
+    public byte? AudioChannels { get; set; }
 }

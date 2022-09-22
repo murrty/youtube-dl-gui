@@ -1,5 +1,5 @@
 ﻿namespace youtube_dl_gui {
-    partial class frmExtendedDownload {
+    partial class frmExtendedDownloader {
         private System.ComponentModel.IContainer components = null;
 
         protected override void Dispose(bool disposing) {
@@ -37,6 +37,7 @@
             this.chVideoAudioBitrate = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chVideoAudioSampleRate = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chVideoAudioCodec = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.chVideoAudioChannels = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chVideoFormatId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tabAudioFormats = new System.Windows.Forms.TabPage();
             this.lbExtendedDownloaderNoAudioFormatsAvailable = new System.Windows.Forms.Label();
@@ -46,6 +47,7 @@
             this.chAudioFileSize = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chAudioSampleRate = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chAudioCodec = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.chAudioChannels = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chAudioFormatId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tabExtendedDownloaderUnknownFormats = new System.Windows.Forms.TabPage();
             this.lbExtendedDownloaderNoUnknownFormatsFound = new System.Windows.Forms.Label();
@@ -60,6 +62,7 @@
             this.chUnknownAudioBitrate = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chUnknownAudioSampleRate = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chUnknownAudioCodec = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.chUnknownAudioChannels = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chUnknownFormatId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tabCustom = new System.Windows.Forms.TabPage();
             this.txtCustomArguments = new System.Windows.Forms.TextBox();
@@ -79,6 +82,7 @@
             this.tabExtendedDownloaderDescription = new System.Windows.Forms.TabPage();
             this.rtbMediaDescription = new murrty.controls.ExtendedRichTextBox();
             this.tabExtendedDownloaderVerbose = new System.Windows.Forms.TabPage();
+            this.btnClearOutput = new System.Windows.Forms.Button();
             this.txtGeneratedArguments = new System.Windows.Forms.TextBox();
             this.rtbVerbose = new murrty.controls.ExtendedRichTextBox();
             this.tabDebug = new System.Windows.Forms.TabPage();
@@ -291,6 +295,7 @@
             this.chVideoAudioBitrate,
             this.chVideoAudioSampleRate,
             this.chVideoAudioCodec,
+            this.chVideoAudioChannels,
             this.chVideoFormatId});
             this.lvVideoFormats.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lvVideoFormats.Enabled = false;
@@ -350,6 +355,10 @@
             // 
             this.chVideoAudioCodec.Text = "chVideoAudioCodec";
             // 
+            // chVideoAudioChannels
+            // 
+            this.chVideoAudioChannels.Text = "chVideoAudioChannels";
+            // 
             // chVideoFormatId
             // 
             this.chVideoFormatId.Text = "chVideoFormatId";
@@ -385,6 +394,7 @@
             this.chAudioFileSize,
             this.chAudioSampleRate,
             this.chAudioCodec,
+            this.chAudioChannels,
             this.chAudioFormatId});
             this.lvAudioFormats.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lvAudioFormats.Enabled = false;
@@ -422,6 +432,10 @@
             // 
             this.chAudioCodec.Text = "chAudioCodec";
             this.chAudioCodec.Width = 109;
+            // 
+            // chAudioChannels
+            // 
+            this.chAudioChannels.Text = "chAudioChannels";
             // 
             // chAudioFormatId
             // 
@@ -463,6 +477,7 @@
             this.chUnknownAudioBitrate,
             this.chUnknownAudioSampleRate,
             this.chUnknownAudioCodec,
+            this.chUnknownAudioChannels,
             this.chUnknownFormatId});
             this.lvUnknownFormats.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lvUnknownFormats.Enabled = false;
@@ -521,6 +536,10 @@
             // chUnknownAudioCodec
             // 
             this.chUnknownAudioCodec.Text = "chUnknownAudioCodec";
+            // 
+            // chUnknownAudioChannels
+            // 
+            this.chUnknownAudioChannels.Text = "chUnknownAudioChannels";
             // 
             // chUnknownFormatId
             // 
@@ -729,6 +748,7 @@
             // 
             // tabExtendedDownloaderVerbose
             // 
+            this.tabExtendedDownloaderVerbose.Controls.Add(this.btnClearOutput);
             this.tabExtendedDownloaderVerbose.Controls.Add(this.txtGeneratedArguments);
             this.tabExtendedDownloaderVerbose.Controls.Add(this.rtbVerbose);
             this.tabExtendedDownloaderVerbose.Location = new System.Drawing.Point(4, 22);
@@ -739,6 +759,17 @@
             this.tabExtendedDownloaderVerbose.Text = "tabExtendedDownloaderVerbose";
             this.tabExtendedDownloaderVerbose.UseVisualStyleBackColor = true;
             // 
+            // btnClearOutput
+            // 
+            this.btnClearOutput.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnClearOutput.Location = new System.Drawing.Point(361, 144);
+            this.btnClearOutput.Name = "btnClearOutput";
+            this.btnClearOutput.Size = new System.Drawing.Size(75, 23);
+            this.btnClearOutput.TabIndex = 8;
+            this.btnClearOutput.Text = "btnClearOutput";
+            this.btnClearOutput.UseVisualStyleBackColor = true;
+            this.btnClearOutput.Click += new System.EventHandler(this.btnClearOutput_Click);
+            // 
             // txtGeneratedArguments
             // 
             this.txtGeneratedArguments.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
@@ -746,7 +777,7 @@
             this.txtGeneratedArguments.Location = new System.Drawing.Point(6, 145);
             this.txtGeneratedArguments.Name = "txtGeneratedArguments";
             this.txtGeneratedArguments.ReadOnly = true;
-            this.txtGeneratedArguments.Size = new System.Drawing.Size(430, 22);
+            this.txtGeneratedArguments.Size = new System.Drawing.Size(349, 22);
             this.txtGeneratedArguments.TabIndex = 1;
             // 
             // rtbVerbose
@@ -963,7 +994,7 @@
             this.rbUnknownFormat.UseVisualStyleBackColor = true;
             this.rbUnknownFormat.CheckedChanged += new System.EventHandler(this.rbUnknownFormat_CheckedChanged);
             // 
-            // frmExtendedDownload
+            // frmExtendedDownloader
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -993,7 +1024,7 @@
             this.Icon = global::youtube_dl_gui.Properties.Resources.ProgramIcon;
             this.MaximizeBox = false;
             this.MinimumSize = new System.Drawing.Size(490, 530);
-            this.Name = "frmExtendedDownload";
+            this.Name = "frmExtendedDownloader";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "frmExtendedDownload";
             ((System.ComponentModel.ISupportInitialize)(this.pbThumbnail)).EndInit();
@@ -1109,5 +1140,9 @@
         private System.Windows.Forms.ColumnHeader chUnknownAudioSampleRate;
         private System.Windows.Forms.ColumnHeader chUnknownAudioCodec;
         private System.Windows.Forms.ColumnHeader chUnknownFormatId;
+        private System.Windows.Forms.ColumnHeader chVideoAudioChannels;
+        private System.Windows.Forms.ColumnHeader chAudioChannels;
+        private System.Windows.Forms.ColumnHeader chUnknownAudioChannels;
+        private System.Windows.Forms.Button btnClearOutput;
     }
 }

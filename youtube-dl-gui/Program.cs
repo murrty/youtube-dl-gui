@@ -125,7 +125,6 @@ namespace youtube_dl_gui {
                 (Config.Settings = new Config()).Load(ConfigType.Initialization);
                 if (Config.Settings.Initialization.firstTime) {
                     Log.Write("Initiating first time setup.");
-                    // set this so the initializer won't load the language a second time
                     Language.LoadInternalEnglish();
 
                     // Select a language first
@@ -172,7 +171,6 @@ namespace youtube_dl_gui {
                 Formats.LoadCustomFormats();
                 Messages = new();
                 SetTls();
-                //System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
 
                 if (CheckArgs(args, true)) {
                     AwaitActions();
@@ -279,7 +277,7 @@ namespace youtube_dl_gui {
                             if (++i >= args.Length)
                                 return false;
 
-                            frmExtendedDownload ExtendedDownload = new(args[i], false);
+                            frmExtendedDownloader ExtendedDownload = new(args[i], false);
                             if (UseDialog) {
                                 ExtendedDownload.ShowDialog();
                             }

@@ -401,6 +401,15 @@ public sealed class ExtendedProgressBar : ProgressBar {
     }
 
     /// <inheritdoc/>
+    protected override void Dispose(bool disposing) {
+        if (ShowInTaskbar) {
+            this.Value = 0;
+            this.ShowInTaskbar = false;
+        }
+        base.Dispose(disposing);
+    }
+
+    /// <inheritdoc/>
     protected override void OnHandleCreated(EventArgs e) {
         base.OnHandleCreated(e);
         TextGraphics = CreateGraphics();

@@ -37,6 +37,7 @@ public static class Language {
     public static string GenericSave { get; private set; }
     public static string GenericAdd { get; private set; }
     public static string GenericClose { get; private set; }
+    public static string GenericClear { get; private set; }
     public static string GenericRemoveSelected { get; private set; }
     public static string GenericVerifyLinks { get; private set; }
     public static string GenericDoNotReEncode { get; private set; }
@@ -56,6 +57,7 @@ public static class Language {
     public static string chAudioBitrate { get; private set; }
     public static string chAudioSampleRate { get; private set; }
     public static string chAudioCodec { get; private set; }
+    public static string chAudioChannels { get; private set; }
     #endregion
 
     #region Dialogs
@@ -528,6 +530,7 @@ public static class Language {
         public const string GenericSave = "Save";
         public const string GenericAdd = "Add";
         public const string GenericClose = "Close";
+        public const string GenericClear = "Clear";
         public const string GenericRemoveSelected = "Remove selected";
         public const string GenericVerifyLinks = "Verify copied links";
         public const string GenericDoNotReEncode = "(Do not re-encode)";
@@ -547,6 +550,7 @@ public static class Language {
         public const string chAudioBitrate = "Audio bitrate";
         public const string chAudioSampleRate = "Audio sample rate";
         public const string chAudioCodec = "Audio codec";
+        public const string chAudioChannels = "Audio channels";
         #endregion
 
         #region Dialogs
@@ -1056,6 +1060,7 @@ public static class Language {
         GenericSave = InternalEnglish.GenericSave;
         GenericAdd = InternalEnglish.GenericAdd;
         GenericClose = InternalEnglish.GenericClose;
+        GenericClear = InternalEnglish.GenericClear;
         GenericRemoveSelected = InternalEnglish.GenericRemoveSelected;
         GenericVerifyLinks = InternalEnglish.GenericVerifyLinks;
         GenericDoNotReEncode = InternalEnglish.GenericDoNotReEncode;
@@ -1075,6 +1080,7 @@ public static class Language {
         chAudioBitrate = InternalEnglish.chAudioBitrate;
         chAudioSampleRate = InternalEnglish.chAudioSampleRate;
         chAudioCodec = InternalEnglish.chAudioCodec;
+        chAudioChannels = InternalEnglish.chAudioChannels;
 
         // Dialogs
         dlgFirstTimeInitialMessage = InternalEnglish.dlgFirstTimeInitialMessage;
@@ -1536,6 +1542,7 @@ public static class Language {
         GenericSave = nameof(GenericSave);
         GenericAdd = nameof(GenericAdd);
         GenericClose = nameof(GenericClose);
+        GenericClear = nameof(GenericClear);
         GenericRemoveSelected = nameof(GenericRemoveSelected);
         GenericVerifyLinks = nameof(GenericVerifyLinks);
         GenericDoNotReEncode = nameof(GenericDoNotReEncode);
@@ -1555,6 +1562,7 @@ public static class Language {
         chAudioBitrate = nameof(chAudioBitrate);
         chAudioSampleRate = nameof(chAudioSampleRate);
         chAudioCodec = nameof(chAudioCodec);
+        chAudioChannels = nameof(chAudioChannels);
 
         // Dialogs
         dlgFirstTimeInitialMessage = nameof(dlgFirstTimeInitialMessage);
@@ -2076,6 +2084,9 @@ public static class Language {
                             case "genericclose":
                                 GenericClose = ReadValue;
                                 continue;
+                            case "genericclear":
+                                GenericClear = ReadValue;
+                                continue;
                             case "genericremoveselected":
                                 GenericRemoveSelected = ReadValue;
                                 continue;
@@ -2130,6 +2141,9 @@ public static class Language {
                                 continue;
                             case "chaudiocodec":
                                 chAudioCodec = ReadValue;
+                                continue;
+                            case "chaudiochannels":
+                                chAudioChannels = ReadValue;
                                 continue;
                             #endregion
 

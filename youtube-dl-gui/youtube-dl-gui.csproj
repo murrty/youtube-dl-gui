@@ -113,6 +113,12 @@
     <Compile Include="Forms\frmArchiveDownloader.Designer.cs">
       <DependentUpon>frmArchiveDownloader.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\frmDownloader.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmDownloader.Designer.cs">
+      <DependentUpon>frmDownloader.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\frmGenericDownloadProgress.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -158,11 +164,11 @@
     <Compile Include="Config\Config_Saved.cs" />
     <Compile Include="Config\Ini.cs" />
     <Compile Include="Config\Protocol.cs" />
-    <Compile Include="Forms\frmExtendedDownload.cs">
+    <Compile Include="Forms\frmExtendedDownloader.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmExtendedDownload.Designer.cs">
-      <DependentUpon>frmExtendedDownload.cs</DependentUpon>
+    <Compile Include="Forms\frmExtendedDownloader.Designer.cs">
+      <DependentUpon>frmExtendedDownloader.cs</DependentUpon>
     </Compile>
     <Compile Include="GlobalNamespaces.cs" />
     <Compile Include="Logging\DwmCompositionInfo.cs" />
@@ -282,12 +288,6 @@
     <Compile Include="Updater\Form\frmUpdateAvailable.Designer.cs">
       <DependentUpon>frmUpdateAvailable.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\frmDownloader.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\frmDownloader.Designer.cs">
-      <DependentUpon>frmDownloader.cs</DependentUpon>
-    </Compile>
     <Compile Include="Forms\frmAuthentication.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -322,14 +322,17 @@
     <EmbeddedResource Include="Forms\frmDownloadLanguage.resx">
       <DependentUpon>frmDownloadLanguage.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmDownloader.resx">
+      <DependentUpon>frmDownloader.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmGenericDownloadProgress.resx">
       <DependentUpon>frmGenericDownloadProgress.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Logging\Forms\frmException.resx">
       <DependentUpon>frmException.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmExtendedDownload.resx">
-      <DependentUpon>frmExtendedDownload.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\frmExtendedDownloader.resx">
+      <DependentUpon>frmExtendedDownloader.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmLanguage.resx">
       <DependentUpon>frmLanguage.cs</DependentUpon>
@@ -348,9 +351,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Updater\Form\frmUpdateAvailable.resx">
       <DependentUpon>frmUpdateAvailable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmDownloader.resx">
-      <DependentUpon>frmDownloader.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Logging\Forms\frmLog.resx">
       <DependentUpon>frmLog.cs</DependentUpon>

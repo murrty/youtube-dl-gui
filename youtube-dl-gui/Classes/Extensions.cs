@@ -1,5 +1,6 @@
 ﻿namespace youtube_dl_gui;
 
+using System.Runtime.CompilerServices;
 using System.Text;
 
 internal static class Extensions {
@@ -7,6 +8,7 @@ internal static class Extensions {
         UseSimpleDictionaryFormat = true,
         SerializeReadOnlyTypes = false,
     };
+
     public static T JsonDeserialize<T>(this string value) {
         using System.IO.MemoryStream ms = new(Encoding.UTF8.GetBytes(value));
         System.Runtime.Serialization.Json.DataContractJsonSerializer ser = new(typeof(T), Settings);

@@ -1149,7 +1149,7 @@ namespace youtube_dl_gui {
             switch (Config.Settings.Downloads.YtdlType) {
                 case 0: case 2: {
                     if (txtUrl.Text.IsNotNullEmptyWhitespace()) {
-                        frmExtendedDownload Extended = new(txtUrl.Text, false);
+                        frmExtendedDownloader Extended = new(txtUrl.Text, false);
                         Extended.Show();
                         if (Config.Settings.General.ClearURLOnDownload) {
                             txtUrl.Clear();
@@ -1405,14 +1405,7 @@ namespace youtube_dl_gui {
         }
         private void btnDebugDownloadArgs_Click(object sender, EventArgs e) {
             if (!Clipboard.ContainsText()) { return; }
-            frmDownloader Downloader = new(new() {
-                VideoQuality = (VideoQualityType)Config.Settings.Saved.videoQuality,
-                Type = DownloadType.Video,
-                DownloadURL = Clipboard.GetText(),
-                BatchDownload = true
-            }) {
-                Debugging = true
-            };
+            frmDownloader Downloader = new();
             Downloader.Show();
         }
         private void btnDebugRotateQualityFormat_Click(object sender, EventArgs e) {
