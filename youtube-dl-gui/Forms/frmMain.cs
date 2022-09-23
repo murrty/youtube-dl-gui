@@ -18,57 +18,6 @@ namespace youtube_dl_gui {
         #endregion
 
         #region form
-        [DebuggerStepThrough]
-        protected override void WndProc(ref Message m) {
-            switch (m.Msg) {
-                case CopyData.WM_COPYDATA: {
-                    var Data = CopyData.GetParam<SentData>(m.LParam);
-                    string[] ReceivedArguments = Data.Argument.Split('|');
-                    switch (ReceivedArguments.Length) {
-                        case 1: {
-                            txtUrl.Text = ReceivedArguments[0];
-                            System.Media.SystemSounds.Asterisk.Play();
-                        } break;
-                        case > 1: {
-                            Program.CheckArgs(ReceivedArguments, false);
-                            System.Media.SystemSounds.Asterisk.Play();
-                        } break;
-                    }
-                    m.Result = IntPtr.Zero;
-                } break;
-
-                case CopyData.WM_SHOWFORM: {
-                    if (this.WindowState != FormWindowState.Normal)
-                        this.WindowState = FormWindowState.Normal;
-                    this.Show();
-                    this.Activate();
-                    System.Media.SystemSounds.Asterisk.Play();
-                    m.Result = IntPtr.Zero;
-                } break;
-
-                case NativeMethods.WM_CLIPBOARDUPDATE: {
-                    if (Clipboard.ContainsText()) {
-                        ClipboardData = Clipboard.GetText();
-                        if (mClipboardAutoDownloadVerifyLinks.Checked) {
-                            if (!DownloadHelper.SupportedDownloadLink(ClipboardData)) {
-                                return;
-                            }
-                        }
-                        txtUrl.Text = ClipboardData;
-                        ClipboardData = null;
-                        if (!Program.DebugMode) {
-                            Download();
-                        }
-                    }
-                    m.Result = IntPtr.Zero;
-                } break;
-
-                default: {
-                    base.WndProc(ref m);
-                } break;
-            }
-        }
-
         public frmMain() {
             InitializeComponent();
             if (Program.DebugMode) {
@@ -91,6 +40,54 @@ namespace youtube_dl_gui {
             this.Shown += (s, e) => {
                 Log.Write("Startup finished.");
             };
+        }
+
+        [DebuggerStepThrough]
+        protected override void WndProc(ref Message m) {
+            switch (m.Msg) {
+                case CopyData.WM_COPYDATA: {
+                    var Data = CopyData.GetParam<SentData>(m.LParam);
+                    string[] ReceivedArguments = Data.Argument.Split('|');
+                    switch (ReceivedArguments.Length) {
+                        case 1: {
+                            txtUrl.Text = ReceivedArguments[0];
+                            System.Media.SystemSounds.Asterisk.Play();
+                        } break;
+                        case > 1: {
+                            Program.CheckArgs(ReceivedArguments, false);
+                            System.Media.SystemSounds.Asterisk.Play();
+                        } break;
+                    }
+                    m.Result = IntPtr.Zero;
+                } break;
+                case CopyData.WM_SHOWFORM: {
+                    if (this.WindowState != FormWindowState.Normal)
+                        this.WindowState = FormWindowState.Normal;
+                    this.Show();
+                    this.Activate();
+                    System.Media.SystemSounds.Asterisk.Play();
+                    m.Result = IntPtr.Zero;
+                } break;
+                case NativeMethods.WM_CLIPBOARDUPDATE: {
+                    if (Clipboard.ContainsText()) {
+                        ClipboardData = Clipboard.GetText();
+                        if (mClipboardAutoDownloadVerifyLinks.Checked) {
+                            if (!DownloadHelper.SupportedDownloadLink(ClipboardData)) {
+                                return;
+                            }
+                        }
+                        txtUrl.Text = ClipboardData;
+                        ClipboardData = null;
+                        if (!Program.DebugMode) {
+                            Download();
+                        }
+                    }
+                    m.Result = IntPtr.Zero;
+                } break;
+                default: {
+                    base.WndProc(ref m);
+                } break;
+            }
         }
 
         private void frmMain_Load(object sender, EventArgs e) {
@@ -465,12 +462,9 @@ namespace youtube_dl_gui {
             }
         }
 
-        internal nint GetHandle() => this.Handle;
-
         internal void ApplicationExit(object sender, EventArgs e) {
-            if (ClipboardScannerActive && NativeMethods.RemoveClipboardFormatListener(this.Handle)) {
+            if (ClipboardScannerActive && NativeMethods.RemoveClipboardFormatListener(this.Handle))
                 ClipboardScannerActive = false;
-            }
         }
         #endregion
 

@@ -4,101 +4,101 @@ public sealed class DownloadInfo {
     /// <summary>
     /// The URL of the video to download.
     /// </summary>
-    public string DownloadURL = null;
+    public string DownloadURL { get; set; } = null;
     /// <summary>
     /// The arguments passed for youtube-dl
     /// </summary>
-    public string DownloadArguments = null;
+    public string DownloadArguments { get; set; } = null;
     /// <summary>
     /// The status of the current download
     /// </summary>
-    public DownloadStatus Status = DownloadStatus.None;
+    public DownloadStatus Status { get; set; } = DownloadStatus.None;
     /// <summary>
     /// The file-name schema of the download.
     /// </summary>
-    public string FileNameSchema = null;
+    public string FileNameSchema { get; set; } = null;
     /// <summary>
     /// Whether the arguments are full custom, excepting for output.
     /// </summary>
-    public bool MostlyCustomArguments = false;
+    public bool MostlyCustomArguments { get; set; } = false;
 
     /// <summary>
     /// The type of the download.
     /// </summary>
-    public DownloadType Type = DownloadType.None;
+    public DownloadType Type { get; set; } = DownloadType.None;
     /// <summary>
     /// The quality of the video download.
     /// </summary>
-    public VideoQualityType VideoQuality = VideoQualityType.none;
+    public VideoQualityType VideoQuality { get; set; } = VideoQualityType.none;
     /// <summary>
     /// The format of the video download.
     /// </summary>
-    public VideoFormatType VideoFormat = VideoFormatType.none;
+    public VideoFormatType VideoFormat { get; set; } = VideoFormatType.none;
     /// <summary>
     /// The CBR quality of the audio download.
     /// </summary>
-    public AudioCBRQualityType AudioCBRQuality = AudioCBRQualityType.none;
+    public AudioCBRQualityType AudioCBRQuality { get; set; } = AudioCBRQualityType.none;
     /// <summary>
     /// The VBR quality of the audio download.
     /// </summary>
-    public AudioVBRQualityType AudioVBRQuality = AudioVBRQualityType.none;
+    public AudioVBRQualityType AudioVBRQuality { get; set; } = AudioVBRQualityType.none;
     /// <summary>
     /// the format of the audio download.
     /// </summary>
-    public AudioFormatType AudioFormat = AudioFormatType.none;
+    public AudioFormatType AudioFormat { get; set; } = AudioFormatType.none;
     /// <summary>
     /// The playlist selection type.
     /// </summary>
-    public PlaylistSelectionType PlaylistSelection = PlaylistSelectionType.None;
+    public PlaylistSelectionType PlaylistSelection { get; set; } = PlaylistSelectionType.None;
 
     /// <summary>
     /// Determines of the video should skip downloading the audio
     /// </summary>
-    public bool SkipAudioForVideos = true;
+    public bool SkipAudioForVideos { get; set; } = true;
     /// <summary>
     /// Determines if the audio should be in VBR (Variable bit rate)
     /// </summary>
-    public bool UseVBR = false;
+    public bool UseVBR { get; set; } = false;
     /// <summary>
     /// Determines if the download is a part of a batch process.
     /// </summary>
-    public bool BatchDownload = false;
+    public bool BatchDownload { get; set; } = false;
     /// <summary>
     /// The time of the batch download start.
     /// </summary>
-    public string BatchTime = null;
+    public string BatchTime { get; set; } = null;
     /// <summary>
     /// The username for authentication.
     /// </summary>
-    public string AuthUsername = null;
+    public string AuthUsername { get; set; } = null;
     /// <summary>
     /// The password for authentication.
     /// </summary>
-    public string AuthPassword = null;
+    public string AuthPassword { get; set; } = null;
     /// <summary>
     /// The 2-factor answer for authentication.
     /// </summary>
-    public string Auth2Factor = null;
+    public string Auth2Factor { get; set; } = null;
     /// <summary>
     /// The video password for authentication.
     /// </summary>
-    public string AuthVideoPassword = null;
+    public string AuthVideoPassword { get; set; } = null;
     /// <summary>
     /// Determines if authentication should use NetRC.
     /// </summary>
-    public bool AuthNetrc = false;
+    public bool AuthNetrc { get; set; } = false;
     /// <summary>
     /// The arguments for playlist selection.
     /// </summary>
-    public string PlaylistSelectionArg = null;
+    public string PlaylistSelectionArg { get; set; } = null;
     /// <summary>
     /// The int index of the start of the playlist.
     /// </summary>
-    public int PlaylistSelectionIndexStart = -1;
+    public int PlaylistSelectionIndexStart { get; set; } = -1;
     /// <summary>
     /// The int index of the end of the playlist.
     /// </summary>
-    public int PlaylistSelectionIndexEnd = -1;
+    public int PlaylistSelectionIndexEnd { get; set; } = -1;
 
     public DownloadInfo() {
         FileNameSchema = Config.Settings.Downloads.fileNameSchema;
@@ -117,11 +117,9 @@ public sealed class DownloadInfo {
 
         #region URL cleaning
         DownloadURL.Trim('\\', '"', '\n', '\r', '\t', '\0', '\b', '\'');
-        if (!DownloadURL.StartsWith("https://")) {
-            if (DownloadURL.StartsWith("http://")) {
+        if (!DownloadURL.StartsWith("https://"))
+            if (DownloadURL.StartsWith("http://"))
                 DownloadURL = "https" + DownloadURL[4..];
-            }
-        }
         #endregion
 
         StringBuilder ArgumentsBuffer = new(string.Empty);
@@ -131,9 +129,8 @@ public sealed class DownloadInfo {
         if (Verification.YoutubeDlPath.IsNullEmptyWhitespace()) {
             Verbose.AppendText("Youtube-DL has not been found\nA rescan for youtube-dl was called\n");
             Verification.RefreshYoutubeDlLocation();
-            if (Verification.YoutubeDlPath is not null) {
+            if (Verification.YoutubeDlPath is not null)
                 Verbose.AppendText("Rescan finished and found, continuing\n");
-            }
             else {
                 Verbose.AppendText("still couldnt find youtube-dl.");
                 Status = DownloadStatus.ProgramError;
@@ -154,14 +151,13 @@ public sealed class DownloadInfo {
 
         if (BatchDownload && Config.Settings.Downloads.SeparateBatchDownloads) {
             OutputDirectory.Append("\\# Batch Downloads #");
-            if (Config.Settings.Downloads.AddDateToBatchDownloadFolders) {
+
+            if (Config.Settings.Downloads.AddDateToBatchDownloadFolders)
                 OutputDirectory.Append($"\\{BatchTime}");
-            }
         }
 
-        if (Config.Settings.Downloads.separateIntoWebsiteURL) {
+        if (Config.Settings.Downloads.separateIntoWebsiteURL)
             OutputDirectory.Append($"\\{DownloadHelper.GetUrlBase(DownloadURL, MostlyCustomArguments)}");
-        }
 
         if (Config.Settings.Downloads.separateDownloads && !MostlyCustomArguments) {
             switch (Type) {
@@ -184,24 +180,22 @@ public sealed class DownloadInfo {
             Verbose.AppendText("The file name schema is not properly set, falling back to the default one. Consider setting it in the settings, or making sure the schema list has a proper schema format on the main form.");
             OutputDirectory.Append("\\%(title)s-%(id)s.%(ext)s");
         }
-        else {
+        else
             OutputDirectory.Append($"\\{FileNameSchema}\"");
-        }
-        if (!MostlyCustomArguments) {
+
+        if (!MostlyCustomArguments)
             ArgumentsBuffer.Append($"{DownloadURL} -o {OutputDirectory}");
-        }
+
         Verbose.AppendText("The output was generated and will be used\n");
         #endregion
 
         #region Quality & format
         switch (Type) {
             case DownloadType.Video: {
-                if (SkipAudioForVideos) {
+                if (SkipAudioForVideos)
                     ArgumentsBuffer.Append(Formats.GetVideoQualityArgsNoSound(VideoQuality));
-                }
-                else {
+                else
                     ArgumentsBuffer.Append(Formats.GetVideoQualityArgs(VideoQuality));
-                }
 
                 ArgumentsBuffer.Append(Formats.GetVideoRecodeInfo(VideoFormat));
             } break;
@@ -210,29 +204,26 @@ public sealed class DownloadInfo {
                     ArgumentsBuffer.Append(" --extract-audio --audio-quality 0");
                 }
                 else {
-                    if (UseVBR) {
+                    if (UseVBR)
                         ArgumentsBuffer.Append($" --extract-audio --audio-quality {AudioVBRQuality}");
-                    }
-                    else {
+                    else
                         ArgumentsBuffer.Append($" --extract-audio --audio-quality {Formats.GetAudioQuality(AudioCBRQuality)}");
-                    }
                 }
-                if (AudioFormat == AudioFormatType.best) {
+
+                if (AudioFormat == AudioFormatType.best)
                     ArgumentsBuffer.Append(" --audio-format best");
-                }
-                else {
+                else
                     ArgumentsBuffer.Append($" --extract-audio --audio-format {Formats.GetAudioFormat(AudioFormat)}");
-                }
             } break;
             case DownloadType.Custom: {
                 Verbose.AppendText("Custom was requested, skipping quality + format");
-                if (MostlyCustomArguments) {
+                if (MostlyCustomArguments)
                     ArgumentsBuffer = new($"{DownloadArguments} -o \"{OutputDirectory}\"");
-                }
+                else if (!string.IsNullOrWhiteSpace(DownloadArguments))
+                    ArgumentsBuffer.Append($" {DownloadArguments}");
                 else {
-                    if (!string.IsNullOrWhiteSpace(DownloadArguments)) {
-                        ArgumentsBuffer.Append($" {DownloadArguments}");
-                    }
+                    Verbose.AppendText("No custom arguments were provided.");
+                    return false;
                 }
             } break;
             default: {
@@ -249,13 +240,11 @@ public sealed class DownloadInfo {
         if (Type != DownloadType.Custom) {
             switch (PlaylistSelection) {
                 case PlaylistSelectionType.PlaylistStartPlaylistEnd: // playlist-start and playlist-end
-                    if (PlaylistSelectionIndexStart > 0) {
+                    if (PlaylistSelectionIndexStart > 0)
                         ArgumentsBuffer.Append($" --playlist-start {PlaylistSelectionIndexStart}");
-                    }
 
-                    if (PlaylistSelectionIndexEnd > 0) {
+                    if (PlaylistSelectionIndexEnd > 0)
                         ArgumentsBuffer.Append($" --playlist-end {(PlaylistSelectionIndexStart + PlaylistSelectionIndexEnd)}");
-                    }
                     break;
                 case PlaylistSelectionType.PlaylistItems: // playlist-items
                     ArgumentsBuffer.Append($" --playlist-items {PlaylistSelectionArg}");
@@ -274,72 +263,57 @@ public sealed class DownloadInfo {
             if (Config.Settings.Downloads.PreferFFmpeg || DownloadHelper.IsReddit(DownloadURL) && Config.Settings.Downloads.fixReddit) {
                 Verbose.AppendText("Looking for ffmpeg\n");
                 if (Verification.FFmpegPath is not null) {
-                    if (Config.Settings.General.UseStaticFFmpeg) {
+                    if (Config.Settings.General.UseStaticFFmpeg)
                         ArgumentsBuffer.Append($" --ffmpeg-location \"{Config.Settings.General.ffmpegPath}\" --hls-prefer-ffmpeg");
-                    }
-                    else {
+                    else
                         ArgumentsBuffer.Append($" --ffmpeg-location \"{Verification.FFmpegPath}\" --hls-prefer-ffmpeg");
-                    }
+
                     Verbose.AppendText("ffmpeg was found\n");
                 }
-                else {
+                else
                     Verbose.AppendText("ffmpeg path is null, downloading may be affected\n");
-                }
             }
 
             if (Config.Settings.Downloads.SaveSubtitles) {
                 ArgumentsBuffer.Append(" --all-subs");
-                if (!string.IsNullOrEmpty(Config.Settings.Downloads.SubtitleFormat)) {
+
+                if (!string.IsNullOrEmpty(Config.Settings.Downloads.SubtitleFormat))
                     ArgumentsBuffer.Append($" --sub-format {Config.Settings.Downloads.SubtitleFormat} ");
-                }
-                if (Config.Settings.Downloads.EmbedSubtitles && Type == DownloadType.Video) {
-                    switch (VideoFormat) {
-                        case VideoFormatType.flv: case VideoFormatType.mkv:
-                            break;
-                    }
+
+                if (Config.Settings.Downloads.EmbedSubtitles && Type == DownloadType.Video)
                     ArgumentsBuffer.Append(" --embed-subs");
-                }
             }
-            if (Config.Settings.Downloads.SaveVideoInfo) {
+            if (Config.Settings.Downloads.SaveVideoInfo)
                 ArgumentsBuffer.Append(" --write-info-json");
-            }
-            if (Config.Settings.Downloads.SaveDescription) {
+            if (Config.Settings.Downloads.SaveDescription)
                 ArgumentsBuffer.Append(" --write-description");
-            }
-            if (Config.Settings.Downloads.SaveAnnotations) {
+            if (Config.Settings.Downloads.SaveAnnotations)
                 ArgumentsBuffer.Append(" --write-annotations");
-            }
             if (Config.Settings.Downloads.SaveThumbnail) {
                 // ArgumentsBuffer += "--write-all-thumbnails "; // Maybe?
                 ArgumentsBuffer.Append(" --write-thumbnail");
                 if (Config.Settings.Downloads.EmbedThumbnails) {
                     switch (Type) {
                         case DownloadType.Video:
-                            if (VideoFormat == VideoFormatType.mp4) {
+                            if (VideoFormat == VideoFormatType.mp4)
                                 ArgumentsBuffer.Append(" --embed-thumbnail");
-                            }
-                            else {
+                            else
                                 Verbose.AppendText("!!!!!!!! WARNING !!!!!!!!\nCannot embed thumbnail to non-mp4 videos files\n");
-                            }
                             break;
                         case DownloadType.Audio:
-                            if (AudioFormat == AudioFormatType.m4a || AudioFormat == AudioFormatType.mp3) {
+                            if (AudioFormat == AudioFormatType.m4a || AudioFormat == AudioFormatType.mp3)
                                 ArgumentsBuffer.Append(" --embed-thumbnail");
-                            }
-                            else {
+                            else
                                 Verbose.AppendText("!!!!!!!! WARNING !!!!!!!!\nCannot embed thumbnail to non-m4a/mp3 audio files\n");
-                            }
                             break;
                     }
                 }
             }
-            if (Config.Settings.Downloads.WriteMetadata) {
+            if (Config.Settings.Downloads.WriteMetadata)
                 ArgumentsBuffer.Append(" --add-metadata");
-            }
 
-            if (Config.Settings.Downloads.KeepOriginalFiles) {
+            if (Config.Settings.Downloads.KeepOriginalFiles)
                 ArgumentsBuffer.Append(" -k");
-            }
 
             if (Config.Settings.Downloads.LimitDownloads && Config.Settings.Downloads.DownloadLimit > 0) {
                 ArgumentsBuffer.Append($" --limit-rate {Config.Settings.Downloads.DownloadLimit}");
@@ -356,20 +330,19 @@ public sealed class DownloadInfo {
                 }
             }
 
-            if (Config.Settings.Downloads.RetryAttempts != 10 && Config.Settings.Downloads.RetryAttempts > 0) {
+            if (Config.Settings.Downloads.RetryAttempts != 10 && Config.Settings.Downloads.RetryAttempts > 0)
                 ArgumentsBuffer.Append($" --retries {Config.Settings.Downloads.RetryAttempts}");
-            }
 
-            if (Config.Settings.Downloads.ForceIPv4) {
+            if (Config.Settings.Downloads.ForceIPv4)
                 ArgumentsBuffer.Append(" --force-ipv4");
-            }
-            else if (Config.Settings.Downloads.ForceIPv6) {
+            else if (Config.Settings.Downloads.ForceIPv6)
                 ArgumentsBuffer.Append(" --force-ipv6");
-            }
 
-            if (Config.Settings.Downloads.UseProxy && Config.Settings.Downloads.ProxyType > -1 && !string.IsNullOrEmpty(Config.Settings.Downloads.ProxyIP) && !string.IsNullOrEmpty(Config.Settings.Downloads.ProxyPort)) {
+            if (Config.Settings.Downloads.UseProxy && Config.Settings.Downloads.ProxyType > -1 && !string.IsNullOrEmpty(Config.Settings.Downloads.ProxyIP) && !string.IsNullOrEmpty(Config.Settings.Downloads.ProxyPort))
                 ArgumentsBuffer.Append($" --proxy {DownloadHelper.ProxyProtocols[Config.Settings.Downloads.ProxyType]}{Config.Settings.Downloads.ProxyIP}:{Config.Settings.Downloads.ProxyPort}/");
-            }
+
+            if (!DownloadArguments.ReplaceWhitespace(" ").IsNullEmptyWhitespace())
+                ArgumentsBuffer.Append(DownloadArguments.ReplaceWhitespace(" "));
         }
         #endregion
 

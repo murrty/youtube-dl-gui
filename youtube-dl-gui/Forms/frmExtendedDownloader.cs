@@ -511,6 +511,10 @@ namespace youtube_dl_gui {
                         ArgumentBuffer.Append($" -x --audio-format {cbAudioEncoders.GetItemText(cbAudioEncoders.SelectedItem)}");
                     }
                 }
+                else if (rbUnknownFormat.Checked) {
+                    Format = LastSelectedUnknownFormat.Tag as YoutubeDlFormat;
+                    ArgumentBuffer.Append($" -f {Format.Identifier}/best");
+                }
                 else {
                     Format = default;
                     Break = true;
@@ -580,6 +584,9 @@ namespace youtube_dl_gui {
                         ArgumentBuffer.Append($"--proxy {DownloadHelper.ProxyProtocols[Config.Settings.Downloads.ProxyType]}{Config.Settings.Downloads.ProxyIP}:{Config.Settings.Downloads.ProxyPort}/");
                     }
                 }
+
+                if (!txtCustomArguments.Text.ReplaceWhitespace("").IsNotNullEmptyWhitespace())
+                    ArgumentBuffer.Append($" {txtCustomArguments.Text.Replace("\r\n", "\n").Split('\n').Join(" ")}");
             }
 
             if (Authentication) {
@@ -850,7 +857,7 @@ namespace youtube_dl_gui {
                 cbVideoRemux.Enabled = true;
                 cbVideoEncoders.Enabled = true;
                 chkVideoDownloadAudio.Enabled = true;
-                txtCustomArguments.Enabled = false;
+                //txtCustomArguments.Enabled = false;
 
                 // Does this work with videos?
                 cbAudioEncoders.Enabled = false;
@@ -904,7 +911,7 @@ namespace youtube_dl_gui {
                 cbVideoRemux.Enabled = false;
                 cbVideoEncoders.Enabled = false;
                 chkVideoSeparateAudio.Enabled = false;
-                txtCustomArguments.Enabled = false;
+                //txtCustomArguments.Enabled = false;
 
                 lvAudioFormats.Enabled = true;
                 chkAudioVBR.Enabled = true;
@@ -951,7 +958,7 @@ namespace youtube_dl_gui {
                 cbVideoRemux.Enabled = false;
                 cbVideoEncoders.Enabled = false;
                 cbAudioEncoders.Enabled = false;
-                txtCustomArguments.Enabled = true;
+                //txtCustomArguments.Enabled = true;
 
                 if (LastSelectedVideoFormat is not null) {
                     if (LastSelectedVideoFormat.Index != 0)
@@ -992,7 +999,7 @@ namespace youtube_dl_gui {
                 cbVideoRemux.Enabled = false;
                 cbVideoEncoders.Enabled = false;
                 cbAudioEncoders.Enabled = false;
-                txtCustomArguments.Enabled = true;
+                //txtCustomArguments.Enabled = true;
 
                 if (LastSelectedVideoFormat is not null) {
                     if (LastSelectedVideoFormat.Index != 0)

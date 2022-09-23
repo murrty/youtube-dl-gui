@@ -270,7 +270,7 @@ namespace youtube_dl_gui {
                     };
                     DownloadProcess.ErrorDataReceived += (s, e) => {
                         this.BeginInvoke(() => {
-                            if (e.Data is not null)
+                            if (e.Data is not null && e.Data.Length > 0)
                                 rtbVerbose?.AppendText($"Error: {e.Data}\n");
                         });
                     };
@@ -285,6 +285,8 @@ namespace youtube_dl_gui {
 
                         DownloadProcess.BeginOutputReadLine();
                         DownloadProcess.BeginErrorReadLine();
+
+                        float Percentage;
 
                         while (!DownloadProcess.HasExited) {
                             if (CurrentDownload.Status == DownloadStatus.Aborted || CurrentDownload.Status == DownloadStatus.AbortForClose) {
@@ -308,14 +310,11 @@ namespace youtube_dl_gui {
                                                 if (pbStatus.Style != ProgressBarStyle.Blocks)
                                                     pbStatus.Invoke(() => pbStatus.Style = ProgressBarStyle.Blocks);
                                                 if (LineParts[1].Contains('%')) {
-                                                    float Percentage = float.Parse(LineParts[1][..LineParts[1].IndexOf('%')]);
-                                                    int NewPercentage = (int)Math.Floor(Percentage);
-                                                    if (pbStatus.Value != NewPercentage) {
-                                                        pbStatus.Invoke(() => {
-                                                            pbStatus.Text = $"{Percentage}% @ {LineParts[5]}";
-                                                            pbStatus.Value = NewPercentage;
-                                                        });
-                                                    }
+                                                    Percentage = float.Parse(LineParts[1][..LineParts[1].IndexOf('%')]);
+                                                    pbStatus.Invoke(() => {
+                                                        pbStatus.Text = $"{Percentage}% @ {LineParts[5]}";
+                                                        pbStatus.Value = (int)Math.Floor(Percentage);
+                                                    });
                                                 }
                                             } break;
                                         }

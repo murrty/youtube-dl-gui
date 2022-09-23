@@ -560,7 +560,6 @@
             // txtCustomArguments
             // 
             this.txtCustomArguments.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtCustomArguments.Enabled = false;
             this.txtCustomArguments.Location = new System.Drawing.Point(3, 3);
             this.txtCustomArguments.Multiline = true;
             this.txtCustomArguments.Name = "txtCustomArguments";
