@@ -1,14 +1,7 @@
 ﻿namespace youtube_dl_gui {
     partial class frmSubtitles {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing) {
             if (disposing && (components != null)) {
                 components.Dispose();
@@ -18,14 +11,9 @@
 
         #region Windows Form Designer generated code
 
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
         [System.Diagnostics.DebuggerStepThrough]
         private void InitializeComponent() {
             this.txtURL = new System.Windows.Forms.TextBox();
-            this.lbSubtitlesHeader = new System.Windows.Forms.Label();
             this.lbSubtitlesUrl = new System.Windows.Forms.Label();
             this.lbSubtitlesLanguages = new System.Windows.Forms.Label();
             this.txtLanguage = new System.Windows.Forms.TextBox();
@@ -33,31 +21,22 @@
             this.btnSubtitlesAddLanguages = new System.Windows.Forms.Button();
             this.btnSubtitlesDownload = new System.Windows.Forms.Button();
             this.btnSubtitlesClearLanguages = new System.Windows.Forms.Button();
-            this.lbSubtitleFormats = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.lbSubtitlesHeader = new System.Windows.Forms.Label();
+            this.chkSubtitlesGeneratedSubtitles = new System.Windows.Forms.CheckBox();
+            this.chkSubtitlesUploadedSubtitles = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // txtURL
             // 
-            this.txtURL.Location = new System.Drawing.Point(35, 57);
+            this.txtURL.Location = new System.Drawing.Point(35, 53);
             this.txtURL.Name = "txtURL";
             this.txtURL.Size = new System.Drawing.Size(282, 20);
             this.txtURL.TabIndex = 2;
             // 
-            // lbSubtitlesHeader
-            // 
-            this.lbSubtitlesHeader.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbSubtitlesHeader.Location = new System.Drawing.Point(12, 9);
-            this.lbSubtitlesHeader.Name = "lbSubtitlesHeader";
-            this.lbSubtitlesHeader.Size = new System.Drawing.Size(319, 20);
-            this.lbSubtitlesHeader.TabIndex = 0;
-            this.lbSubtitlesHeader.Text = "lbSubtitlesHeader";
-            this.lbSubtitlesHeader.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // lbSubtitlesUrl
             // 
             this.lbSubtitlesUrl.AutoSize = true;
-            this.lbSubtitlesUrl.Location = new System.Drawing.Point(28, 41);
+            this.lbSubtitlesUrl.Location = new System.Drawing.Point(28, 37);
             this.lbSubtitlesUrl.Name = "lbSubtitlesUrl";
             this.lbSubtitlesUrl.Size = new System.Drawing.Size(68, 13);
             this.lbSubtitlesUrl.TabIndex = 1;
@@ -66,7 +45,7 @@
             // lbSubtitlesLanguages
             // 
             this.lbSubtitlesLanguages.AutoSize = true;
-            this.lbSubtitlesLanguages.Location = new System.Drawing.Point(28, 84);
+            this.lbSubtitlesLanguages.Location = new System.Drawing.Point(28, 80);
             this.lbSubtitlesLanguages.Name = "lbSubtitlesLanguages";
             this.lbSubtitlesLanguages.Size = new System.Drawing.Size(68, 13);
             this.lbSubtitlesLanguages.TabIndex = 3;
@@ -74,7 +53,7 @@
             // 
             // txtLanguage
             // 
-            this.txtLanguage.Location = new System.Drawing.Point(35, 100);
+            this.txtLanguage.Location = new System.Drawing.Point(35, 96);
             this.txtLanguage.Name = "txtLanguage";
             this.txtLanguage.ReadOnly = true;
             this.txtLanguage.Size = new System.Drawing.Size(137, 20);
@@ -191,14 +170,14 @@
             "zh-Hans",
             "zh-Hant",
             "zu"});
-            this.cbLanguage.Location = new System.Drawing.Point(178, 100);
+            this.cbLanguage.Location = new System.Drawing.Point(178, 95);
             this.cbLanguage.Name = "cbLanguage";
             this.cbLanguage.Size = new System.Drawing.Size(75, 21);
             this.cbLanguage.TabIndex = 5;
             // 
             // btnSubtitlesAddLanguages
             // 
-            this.btnSubtitlesAddLanguages.Location = new System.Drawing.Point(259, 99);
+            this.btnSubtitlesAddLanguages.Location = new System.Drawing.Point(259, 94);
             this.btnSubtitlesAddLanguages.Name = "btnSubtitlesAddLanguages";
             this.btnSubtitlesAddLanguages.Size = new System.Drawing.Size(58, 23);
             this.btnSubtitlesAddLanguages.TabIndex = 6;
@@ -218,7 +197,7 @@
             // 
             // btnSubtitlesClearLanguages
             // 
-            this.btnSubtitlesClearLanguages.Location = new System.Drawing.Point(255, 127);
+            this.btnSubtitlesClearLanguages.Location = new System.Drawing.Point(255, 122);
             this.btnSubtitlesClearLanguages.Name = "btnSubtitlesClearLanguages";
             this.btnSubtitlesClearLanguages.Size = new System.Drawing.Size(62, 23);
             this.btnSubtitlesClearLanguages.TabIndex = 7;
@@ -226,31 +205,46 @@
             this.btnSubtitlesClearLanguages.UseVisualStyleBackColor = true;
             this.btnSubtitlesClearLanguages.Click += new System.EventHandler(this.btnSubtitlesClearLanguages_Click);
             // 
-            // lbSubtitleFormats
+            // lbSubtitlesHeader
             // 
-            this.lbSubtitleFormats.AutoSize = true;
-            this.lbSubtitleFormats.Location = new System.Drawing.Point(28, 132);
-            this.lbSubtitleFormats.Name = "lbSubtitleFormats";
-            this.lbSubtitleFormats.Size = new System.Drawing.Size(87, 13);
-            this.lbSubtitleFormats.TabIndex = 9;
-            this.lbSubtitleFormats.Text = "lbSubtitleFormats";
+            this.lbSubtitlesHeader.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbSubtitlesHeader.Location = new System.Drawing.Point(12, 9);
+            this.lbSubtitlesHeader.Name = "lbSubtitlesHeader";
+            this.lbSubtitlesHeader.Size = new System.Drawing.Size(319, 20);
+            this.lbSubtitlesHeader.TabIndex = 0;
+            this.lbSubtitlesHeader.Text = "lbSubtitlesHeader";
+            this.lbSubtitlesHeader.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // comboBox1
+            // chkSubtitlesGeneratedSubtitles
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(121, 129);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(101, 21);
-            this.comboBox1.TabIndex = 10;
+            this.chkSubtitlesGeneratedSubtitles.AutoSize = true;
+            this.chkSubtitlesGeneratedSubtitles.Location = new System.Drawing.Point(35, 141);
+            this.chkSubtitlesGeneratedSubtitles.Name = "chkSubtitlesGeneratedSubtitles";
+            this.chkSubtitlesGeneratedSubtitles.Size = new System.Drawing.Size(173, 17);
+            this.chkSubtitlesGeneratedSubtitles.TabIndex = 9;
+            this.chkSubtitlesGeneratedSubtitles.Text = "chkSubtitlesGeneratedSubtitles";
+            this.chkSubtitlesGeneratedSubtitles.UseVisualStyleBackColor = true;
+            // 
+            // chkSubtitlesUploadedSubtitles
+            // 
+            this.chkSubtitlesUploadedSubtitles.AutoSize = true;
+            this.chkSubtitlesUploadedSubtitles.Checked = true;
+            this.chkSubtitlesUploadedSubtitles.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkSubtitlesUploadedSubtitles.Location = new System.Drawing.Point(35, 122);
+            this.chkSubtitlesUploadedSubtitles.Name = "chkSubtitlesUploadedSubtitles";
+            this.chkSubtitlesUploadedSubtitles.Size = new System.Drawing.Size(169, 17);
+            this.chkSubtitlesUploadedSubtitles.TabIndex = 10;
+            this.chkSubtitlesUploadedSubtitles.Text = "chkSubtitlesUploadedSubtitles";
+            this.chkSubtitlesUploadedSubtitles.UseVisualStyleBackColor = true;
             // 
             // frmSubtitles
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(344, 201);
-            this.Controls.Add(this.comboBox1);
-            this.Controls.Add(this.lbSubtitleFormats);
+            this.ClientSize = new System.Drawing.Size(344, 205);
+            this.Controls.Add(this.chkSubtitlesUploadedSubtitles);
+            this.Controls.Add(this.chkSubtitlesGeneratedSubtitles);
             this.Controls.Add(this.btnSubtitlesClearLanguages);
             this.Controls.Add(this.btnSubtitlesDownload);
             this.Controls.Add(this.btnSubtitlesAddLanguages);
@@ -277,7 +271,6 @@
         #endregion
 
         private System.Windows.Forms.TextBox txtURL;
-        private System.Windows.Forms.Label lbSubtitlesHeader;
         private System.Windows.Forms.Label lbSubtitlesUrl;
         private System.Windows.Forms.Label lbSubtitlesLanguages;
         private System.Windows.Forms.TextBox txtLanguage;
@@ -285,7 +278,8 @@
         private System.Windows.Forms.Button btnSubtitlesAddLanguages;
         private System.Windows.Forms.Button btnSubtitlesDownload;
         private System.Windows.Forms.Button btnSubtitlesClearLanguages;
-        private System.Windows.Forms.Label lbSubtitleFormats;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.Label lbSubtitlesHeader;
+        private System.Windows.Forms.CheckBox chkSubtitlesGeneratedSubtitles;
+        private System.Windows.Forms.CheckBox chkSubtitlesUploadedSubtitles;
     }
 }

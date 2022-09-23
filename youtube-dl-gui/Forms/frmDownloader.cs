@@ -231,8 +231,9 @@ namespace youtube_dl_gui {
                     };
                     DownloadProcess.OutputDataReceived += (s, e) => {
                         if (e.Data is not null && e.Data.Length > 0) {
-                            switch (e.Data[..5]) {
-                                case "[down": case "[ffmp": {
+                            switch (e.Data[..8]) {
+                                case "[downloa": case "[ffmpeg]":
+                                case "[embedsu": case "[metadat": {
                                     Msg = e.Data;
                                 } break;
 
@@ -322,7 +323,21 @@ namespace youtube_dl_gui {
                                     case "[ffmp": {
                                         pbStatus.Invoke(() => {
                                             pbStatus.Style = ProgressBarStyle.Marquee;
-                                            pbStatus.Text = "Post processing";
+                                            pbStatus.Text = "Post-processing in ffmpeg...";
+                                            pbStatus.Value = 100;
+                                        });
+                                    } break;
+                                    case "[embe": {
+                                        pbStatus.Invoke(() => {
+                                            pbStatus.Style = ProgressBarStyle.Marquee;
+                                            pbStatus.Text = "Emedding subtitles...";
+                                            pbStatus.Value = 100;
+                                        });
+                                    } break;
+                                    case "[meta": {
+                                        pbStatus.Invoke(() => {
+                                            pbStatus.Style = ProgressBarStyle.Marquee;
+                                            pbStatus.Text = "Applying metadata...";
                                             pbStatus.Value = 100;
                                         });
                                     } break;

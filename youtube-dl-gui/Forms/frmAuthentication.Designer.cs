@@ -1,14 +1,7 @@
 ﻿namespace youtube_dl_gui {
     partial class frmAuthentication {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing) {
             if (disposing && (components != null)) {
                 components.Dispose();
@@ -18,10 +11,6 @@
 
         #region Windows Form Designer generated code
 
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
         private void InitializeComponent() {
             this.lbAuthNotice = new System.Windows.Forms.Label();
             this.lbAuthUsername = new System.Windows.Forms.Label();
@@ -163,9 +152,9 @@
             // 
             this.chkVideoPassVisible.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.chkVideoPassVisible.AutoSize = true;
-            this.chkVideoPassVisible.Location = new System.Drawing.Point(267, 133);
+            this.chkVideoPassVisible.Location = new System.Drawing.Point(268, 133);
             this.chkVideoPassVisible.Name = "chkVideoPassVisible";
-            this.chkVideoPassVisible.Size = new System.Drawing.Size(15, 14);
+            this.chkVideoPassVisible.Size = new System.Drawing.Size(14, 13);
             this.chkVideoPassVisible.TabIndex = 12;
             this.chkVideoPassVisible.UseVisualStyleBackColor = true;
             this.chkVideoPassVisible.CheckedChanged += new System.EventHandler(this.chkVideoPassVisible_CheckedChanged);
@@ -174,9 +163,9 @@
             // 
             this.chkPasswordVisible.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.chkPasswordVisible.AutoSize = true;
-            this.chkPasswordVisible.Location = new System.Drawing.Point(267, 81);
+            this.chkPasswordVisible.Location = new System.Drawing.Point(268, 81);
             this.chkPasswordVisible.Name = "chkPasswordVisible";
-            this.chkPasswordVisible.Size = new System.Drawing.Size(15, 14);
+            this.chkPasswordVisible.Size = new System.Drawing.Size(14, 13);
             this.chkPasswordVisible.TabIndex = 5;
             this.chkPasswordVisible.UseVisualStyleBackColor = true;
             this.chkPasswordVisible.CheckedChanged += new System.EventHandler(this.chkPasswordVisible_CheckedChanged);
@@ -187,7 +176,7 @@
             this.chkAuthUseNetrc.AutoSize = true;
             this.chkAuthUseNetrc.Location = new System.Drawing.Point(107, 161);
             this.chkAuthUseNetrc.Name = "chkAuthUseNetrc";
-            this.chkAuthUseNetrc.Size = new System.Drawing.Size(111, 17);
+            this.chkAuthUseNetrc.Size = new System.Drawing.Size(110, 17);
             this.chkAuthUseNetrc.TabIndex = 16;
             this.chkAuthUseNetrc.Text = "chkAuthUseNetrc";
             this.chkAuthUseNetrc.UseVisualStyleBackColor = true;
@@ -197,7 +186,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(324, 251);
+            this.ClientSize = new System.Drawing.Size(324, 255);
             this.Controls.Add(this.chkAuthUseNetrc);
             this.Controls.Add(this.chkPasswordVisible);
             this.Controls.Add(this.chkVideoPassVisible);

@@ -1,14 +1,7 @@
 ﻿namespace youtube_dl_gui {
     partial class frmBatchConverter {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing) {
             if (disposing && (components != null)) {
                 components.Dispose();
@@ -18,10 +11,6 @@
 
         #region Windows Form Designer generated code
 
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
         private void InitializeComponent() {
             this.sbBatchConverter = new System.Windows.Forms.StatusBar();
             this.btnBatchConverterStartStopExit = new System.Windows.Forms.Button();
@@ -108,7 +97,7 @@
             // 
             // scConversionFiles
             // 
-            this.scConversionFiles.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.scConversionFiles.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.scConversionFiles.Location = new System.Drawing.Point(10, 7);
             this.scConversionFiles.Name = "scConversionFiles";
@@ -142,7 +131,7 @@
             // 
             // txtBatchConverterCustomConversionArguments
             // 
-            this.txtBatchConverterCustomConversionArguments.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.txtBatchConverterCustomConversionArguments.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtBatchConverterCustomConversionArguments.ButtonAlignment = murrty.controls.ButtonAlignment.Left;
             this.txtBatchConverterCustomConversionArguments.ButtonCursor = System.Windows.Forms.Cursors.Default;
@@ -160,8 +149,8 @@
             // 
             // lvBatchConvertQueue
             // 
-            this.lvBatchConvertQueue.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.lvBatchConvertQueue.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lvBatchConvertQueue.BackColor = System.Drawing.SystemColors.Window;
             this.lvBatchConvertQueue.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
@@ -198,7 +187,7 @@
             // txtBatchConverterInputFile
             // 
             this.txtBatchConverterInputFile.AllowDrop = true;
-            this.txtBatchConverterInputFile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.txtBatchConverterInputFile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtBatchConverterInputFile.ButtonAlignment = murrty.controls.ButtonAlignment.Left;
             this.txtBatchConverterInputFile.ButtonCursor = System.Windows.Forms.Cursors.Default;
@@ -220,7 +209,7 @@
             // txtBatchConverterOutputFile
             // 
             this.txtBatchConverterOutputFile.AllowDrop = true;
-            this.txtBatchConverterOutputFile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.txtBatchConverterOutputFile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtBatchConverterOutputFile.ButtonAlignment = murrty.controls.ButtonAlignment.Left;
             this.txtBatchConverterOutputFile.ButtonCursor = System.Windows.Forms.Cursors.Default;

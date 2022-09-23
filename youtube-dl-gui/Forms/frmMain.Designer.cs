@@ -1,14 +1,7 @@
 ﻿namespace youtube_dl_gui {
     partial class frmMain {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing) {
             if (disposing && (components != null)) {
                 components.Dispose();
@@ -18,10 +11,6 @@
 
         #region Windows Form Designer generated code
 
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
         [System.Diagnostics.DebuggerStepThrough]
         private void InitializeComponent() {
             this.components = new System.ComponentModel.Container();
@@ -114,6 +103,7 @@
             this.mHelp = new System.Windows.Forms.MenuItem();
             this.mLanguage = new System.Windows.Forms.MenuItem();
             this.mSupportedSites = new System.Windows.Forms.MenuItem();
+            this.mLog = new System.Windows.Forms.MenuItem();
             this.mAbout = new System.Windows.Forms.MenuItem();
             this.cmTray = new System.Windows.Forms.ContextMenu();
             this.cmTrayShowForm = new System.Windows.Forms.MenuItem();
@@ -139,7 +129,6 @@
             this.cmTraySep = new System.Windows.Forms.MenuItem();
             this.cmTrayExit = new System.Windows.Forms.MenuItem();
             this.trayIcon = new System.Windows.Forms.NotifyIcon(this.components);
-            this.mLog = new System.Windows.Forms.MenuItem();
             this.tcMain.SuspendLayout();
             this.tabDownload.SuspendLayout();
             this.gbSelection.SuspendLayout();
@@ -224,7 +213,6 @@
             // 
             this.cbCustomArguments.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.cbCustomArguments.Enabled = false;
             this.cbCustomArguments.FormattingEnabled = true;
             this.cbCustomArguments.Location = new System.Drawing.Point(22, 265);
             this.cbCustomArguments.Name = "cbCustomArguments";
@@ -1140,6 +1128,12 @@
             this.mSupportedSites.Text = "mSupportedSites";
             this.mSupportedSites.Click += new System.EventHandler(this.mSupportedSites_Click);
             // 
+            // mLog
+            // 
+            this.mLog.Index = 2;
+            this.mLog.Text = "mLog";
+            this.mLog.Click += new System.EventHandler(this.mLog_Click);
+            // 
             // mAbout
             // 
             this.mAbout.Index = 3;
@@ -1309,12 +1303,6 @@
             this.trayIcon.BalloonTipText = "You click this thing, and BADA-BOOM, you\'re back in it again";
             this.trayIcon.BalloonTipTitle = "Unseen easter egg";
             this.trayIcon.Text = "youtube-dl-gui";
-            // 
-            // mLog
-            // 
-            this.mLog.Index = 2;
-            this.mLog.Text = "mLog";
-            this.mLog.Click += new System.EventHandler(this.mLog_Click);
             // 
             // frmMain
             // 
