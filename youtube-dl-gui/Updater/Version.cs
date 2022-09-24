@@ -1,13 +1,14 @@
-﻿namespace youtube_dl_gui.updater;
+﻿namespace murrty.updater;
 
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
+using youtube_dl_gui;
 
 /// <summary>
-/// Represents a modified Version.
+/// Represents a Version structure that can only be read from.
 /// </summary>
 [System.Diagnostics.DebuggerStepThrough]
-[StructLayout(LayoutKind.Sequential)]
+[StructLayout(LayoutKind.Sequential), Serializable]
 public struct Version {
     /// <summary>
     /// Contains an empty Version with no version information relevant.
@@ -18,24 +19,55 @@ public struct Version {
     /// <summary>
     /// The major of the version.
     /// </summary>
-    public byte Major { get; init; }
+    public byte Major {
+        get; init;
+    }
     /// <summary>
     /// The minor of the version.
     /// </summary>
-    public byte Minor { get; init; }
+    public byte Minor {
+        get; init;
+    }
     /// <summary>
     /// The revision of the version.
     /// </summary>
-    public byte Revision { get; init; }
+    public byte Revision {
+        get; init;
+    }
     /// <summary>
     /// The beta number of the version.
     /// </summary>
-    public byte Beta { get; init; }
+    public byte Beta {
+        get; init;
+    }
     /// <summary>
     /// Whether the version is a beta version.
     /// </summary>
-    public bool IsBeta => Beta != 0;
+    public bool IsBeta {
+        get => Beta > 0;
+    }
 
+    /// <summary>
+    /// Initializes a new <see cref="Version"/> structure for defining the current application version.
+    /// </summary>
+    /// <param name="Major">The major version of the release.</param>
+    public Version(byte Major) {
+        this.Major = Major;
+        this.Minor = 0;
+        this.Revision = 0;
+        Beta = 0;
+    }
+    /// <summary>
+    /// Initializes a new <see cref="Version"/> structure for defining the current application version.
+    /// </summary>
+    /// <param name="Major">The major version of the release.</param>
+    /// <param name="Minor">The minor version of the release.</param>
+    public Version(byte Major, byte Minor) {
+        this.Major = Major;
+        this.Minor = Minor;
+        this.Revision = 0;
+        Beta = 0;
+    }
     /// <summary>
     /// Initializes a new <see cref="Version"/> structure for defining the current application version.
     /// </summary>
@@ -78,13 +110,21 @@ public struct Version {
     }
 
     /// <summary>
-    /// Converts a string representation of the <see cref="Version"/> to a structure with the data.
+    /// Parses a string value to a <see cref="Version"/> structure representing the data.
     /// </summary>
     /// <param name="Data">The string data to convert.</param>
     /// <returns>A new <see cref="Version"/> structure filled with relevant information.</returns>
     /// <exception cref="ArgumentException"></exception>
-    public static Version ToVersion(string Data) =>
-        TryParse(Data, out Version vers) ? vers : throw new ArgumentException($"Data {Data} is not a valid version to parse.");
+    /// <exception cref="InvalidCastException"></exception>
+    public static Version Parse(string Data) {
+        try {
+            return InternalParse(Data, out Version ver) ? ver : throw new ArgumentException($"Data {Data} is not a valid version to parse.");
+        }
+        catch {
+            throw;
+        }
+    }
+
     /// <summary>
     /// Tries to parsre a string value to a <see cref="Version"/> structure representing the data.
     /// </summary>
@@ -100,13 +140,25 @@ public struct Version {
             return false;
         }
     }
+
+    /// <summary>
+    /// Internal method for parsing a string value.
+    /// </summary>
+    /// <param name="Data">The string representation of the version.</param>
+    /// <param name="vers">The out version struct that will be given if successful.</param>
+    /// <returns><see langword="true"/> if the version was parsed successfully; otherwise, <see langword="false"/>.</returns>
+    /// <exception cref="ArgumentException"></exception>
+    /// <exception cref="InvalidCastException"></exception>
     private static bool InternalParse(string Data, out Version vers) {
+#pragma warning disable IDE0018 // Inline variable declaration
+#pragma warning disable IDE0059 // Inline variable declaration
         if (Data.IsNullEmptyWhitespace()) {
             vers = Empty;
             return false;
         }
 
-        if (Regex.IsMatch(Data, @"^[\d]{1,3}((.[\d]{1,3}){1,2})?(-[\d]{1,3})?$", RegexOptions.Compiled)) {
+        if (Regex.IsMatch(Data, @"^\d{1,3}((.\d{1,3}){1,2})?(-\d{1,3})?$", RegexOptions.Compiled)) {
+            byte Major = 0;
             byte Minor = 0;
             byte Revision = 0;
             byte Beta = 0;
@@ -120,44 +172,39 @@ public struct Version {
 
             string[] Splits = Data.Split('.');
             switch (Splits.Length) {
-                case 1 when byte.TryParse(Splits[0], out byte Major): {
+                case 1 when byte.TryParse(Splits[0], out Major): {
                     vers = new(Major, Minor, Revision, Beta);
-                }
-                return true;
+                } return true;
 
                 case 1: {
-                }
-                throw new InvalidCastException($"Cannot use {Splits[0]} as the major.");
+                } throw new InvalidCastException($"Cannot use {Splits[0]} as the major.");
 
-                case 2 when byte.TryParse(Splits[0], out byte Major) && byte.TryParse(Splits[1], out Minor): {
+                case 2 when byte.TryParse(Splits[0], out Major) && byte.TryParse(Splits[1], out Minor): {
                     vers = new(Major, Minor, Revision, Beta);
-                }
-                return true;
+                } return true;
 
                 case 2: {
-                }
-                throw new InvalidCastException($"Cannot use {Splits[1]} as the minor.");
+                } throw new InvalidCastException($"Cannot use {Splits[1]} as the minor.");
 
-                case 3 when byte.TryParse(Splits[0], out byte Major) && byte.TryParse(Splits[1], out Minor) && byte.TryParse(Splits[2], out Revision): {
+                case 3 when byte.TryParse(Splits[0], out Major) && byte.TryParse(Splits[1], out Minor) && byte.TryParse(Splits[2], out Revision): {
                     vers = new(Major, Minor, Revision, Beta);
-                }
-                return true;
+                } return true;
 
                 case 3: {
-                }
-                throw new InvalidCastException($"Cannot use {Splits[2]} as the revision.");
+                } throw new InvalidCastException($"Cannot use {Splits[2]} as the revision.");
 
                 default: {
-                }
-                throw new ArgumentException($"Cannot use {Data} as a version.");
+                } throw new ArgumentException($"Cannot use {Data} as a version.");
             }
         }
         vers = Empty;
         return false;
+#pragma warning restore IDE0018 // Inline variable declaration
+#pragma warning restore IDE0059 // Inline variable declaration
     }
 
     /// <inheritdoc/>
-    public override string ToString() => $"{Major}.{Minor}.{Revision}{(IsBeta ? $"-{Beta}" : "")}";
+    public override string ToString() => IsBeta ? $"{Major}.{Minor}.{Revision}-{Beta}" : $"{Major}.{Minor}.{Revision}";
 
     /// <inheritdoc/>
     public override bool Equals(object obj) =>
@@ -172,6 +219,24 @@ public struct Version {
         hashCode = hashCode * -1521134295 + Beta.GetHashCode();
         return hashCode;
     }
+
+    /// <summary>
+    /// Determines if the two versions compared are equal to each other.
+    /// </summary>
+    /// <param name="versa"></param>
+    /// <param name="versb"></param>
+    /// <returns><see langword="true"/> if the versions are equal; otherwise, <see langword="false"/>.</returns>
+    public static bool operator ==(Version versa, Version versb) =>
+        versa.Major == versb.Major && versa.Minor == versb.Minor && versa.Revision == versb.Revision && versa.Beta == versb.Beta;
+
+    /// <summary>
+    /// Determines if the two versions compared are not equal to each other.
+    /// </summary>
+    /// <param name="versa"></param>
+    /// <param name="versb"></param>
+    /// <returns><see langword="true"/> if the versions are different; otherwise, <see langword="false"/>.</returns>
+    public static bool operator !=(Version versa, Version versb) =>
+        versa.Major != versb.Major || versa.Minor != versb.Minor || versa.Revision != versb.Revision || versa.Beta != versb.Beta;
 
     /// <summary>
     /// Determines if the left version is older-than the right version.
@@ -306,22 +371,4 @@ public struct Version {
     public static bool operator >=(Version versa, Version versb) {
         return versa == versb || versa >= versb;
     }
-
-    /// <summary>
-    /// Determines if the two versions compared are equal to each other.
-    /// </summary>
-    /// <param name="versa"></param>
-    /// <param name="versb"></param>
-    /// <returns><see langword="true"/> if the versions are equal; otherwise, <see langword="false"/>.</returns>
-    public static bool operator ==(Version versa, Version versb) =>
-        versa.Major == versb.Major && versa.Minor == versb.Minor && versa.Revision == versb.Revision && versa.Beta == versb.Beta;
-
-    /// <summary>
-    /// Determines if the two versions compared are not equal to each other.
-    /// </summary>
-    /// <param name="versa"></param>
-    /// <param name="versb"></param>
-    /// <returns><see langword="true"/> if the versions are different; otherwise, <see langword="false"/>.</returns>
-    public static bool operator !=(Version versa, Version versb) =>
-        versa.Major != versb.Major || versa.Minor != versb.Minor || versa.Revision != versb.Revision || versa.Beta != versb.Beta;
 }

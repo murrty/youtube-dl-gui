@@ -90,11 +90,11 @@ namespace youtube_dl_gui {
             lvUnknownFormats.SmallImageList = Program.ExtendedDownloaderSelectedImages;
 
             this.Load += (s, e) => {
-                if (Config.ValidPoint(Config.Settings.Saved.ExtendedDownloaderLocation)) {
+                if (Config.Settings.Saved.ExtendedDownloaderLocation.Valid) {
                     this.StartPosition = FormStartPosition.Manual;
                     this.Location = Config.Settings.Saved.ExtendedDownloaderLocation;
                 }
-                if (Config.ValidSize(Config.Settings.Saved.ExtendedDownloaderSize))
+                if (Config.Settings.Saved.ExtendedDownloaderSize.Valid)
                     this.Size = Config.Settings.Saved.ExtendedDownloaderSize;
                 if (!Config.Settings.Saved.ExtendedDownloadVideoColumns.IsNullEmptyWhitespace())
                     lvVideoFormats.SetColumnWidths(Config.Settings.Saved.ExtendedDownloadVideoColumns);

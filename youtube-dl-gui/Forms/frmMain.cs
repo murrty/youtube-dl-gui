@@ -129,10 +129,12 @@ namespace youtube_dl_gui {
                 YtdlUpdateCheckThread.Start();
             }
 
-            if (Config.ValidPoint(Config.Settings.Saved.MainFormLocation))
+            if (Config.Settings.Saved.MainFormLocation.Valid) {
+                this.StartPosition = FormStartPosition.Manual;
                 this.Location = Config.Settings.Saved.MainFormLocation;
+            }
 
-            this.Size = Config.ValidSize(Config.Settings.Saved.MainFormSize) ?
+            this.Size = Config.Settings.Saved.MainFormSize.Valid ?
                 Config.Settings.Saved.MainFormSize : this.MinimumSize;
 
             LoadLanguage();

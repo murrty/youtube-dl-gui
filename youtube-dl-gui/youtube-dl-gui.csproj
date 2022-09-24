@@ -96,6 +96,8 @@
     <Compile Include="..\Controls\Events\RegexMatchEventArgs.cs">
       <Link>Controls\Shared\Events\RegexMatchEventArgs.cs</Link>
     </Compile>
+    <Compile Include="Config\Point.cs" />
+    <Compile Include="Config\Size.cs" />
     <Compile Include="Controls\ExtendedListView.cs">
       <SubType>Component</SubType>
     </Compile>

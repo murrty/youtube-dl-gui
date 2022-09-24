@@ -84,9 +84,9 @@ public partial class frmGenericDownloadProgress : Form {
             }
         };
     }
-    public frmGenericDownloadProgress(string URL, string Output, System.Drawing.Point Location) : this(URL, Output) {
+    public frmGenericDownloadProgress(string URL, string Output, Point Location) : this(URL, Output) {
         this.Load += (s, e) => {
-            if (Config.ValidPoint(Location)) {
+            if (Location.Valid) {
                 this.StartPosition = FormStartPosition.Manual;
                 this.Location = Location;
             }

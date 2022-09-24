@@ -1,7 +1,8 @@
-﻿namespace youtube_dl_gui.updater;
+﻿namespace murrty.updater;
 
 using System.Runtime.Serialization;
 using System.Text.RegularExpressions;
+using youtube_dl_gui;
 
 [DataContract]
 public sealed class GithubData {

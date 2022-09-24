@@ -1,7 +1,6 @@
 ﻿using System.Drawing;
 using System.Windows.Forms;
-
-using youtube_dl_gui.updater;
+using murrty.updater;
 
 namespace youtube_dl_gui {
     public partial class frmDownloadLanguage : Form {

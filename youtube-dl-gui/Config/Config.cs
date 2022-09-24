@@ -1,11 +1,6 @@
 ﻿namespace youtube_dl_gui;
-
-using System.Drawing;
-
 internal class Config {
     public static volatile Config Settings;
-
-    internal static readonly Point InvalidPoint = new(-32_000, -32_000);
 
     public Config_Initialization Initialization;
     public Config_Batch Batch;
@@ -109,23 +104,5 @@ internal class Config {
                 Saved.Save();
                 break;
         }
-    }
-
-    /// <summary>
-    /// Checks if a point is a valid one to use.
-    /// </summary>
-    /// <param name="input">The <seealso cref="Point"/> value to validate.</param>
-    /// <returns>If the input is a valid point.</returns>
-    public static bool ValidPoint(Point input) {
-        return input.X != InvalidPoint.X && input.Y != InvalidPoint.Y;
-    }
-
-    /// <summary>
-    /// Checks if a size is a valid one to use.
-    /// </summary>
-    /// <param name="input">The <seealso cref="Size"/> value to validate.</param>
-    /// <returns>If the input is a valid size.</returns>
-    public static bool ValidSize(Size input) {
-        return input.Width > 0 && input.Height > 0;
     }
 }

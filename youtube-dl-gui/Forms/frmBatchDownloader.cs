@@ -94,7 +94,8 @@ namespace youtube_dl_gui {
                 cbBatchFormat.SelectedIndex = Config.Settings.Batch.SelectedAudioFormat;
             }
 
-            if (Config.ValidPoint(Config.Settings.Saved.BatchConverterLocation)) {
+            if (Config.Settings.Saved.BatchConverterLocation.Valid) {
+                this.StartPosition = FormStartPosition.Manual;
                 this.Location = Config.Settings.Saved.BatchConverterLocation;
             }
             chkBatchDownloadClipboardScanVerifyLinks.Checked = Config.Settings.Batch.ClipboardScannerVerifyLinks;

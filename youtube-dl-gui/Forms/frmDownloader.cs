@@ -47,7 +47,7 @@ namespace youtube_dl_gui {
                 }
             }
 
-            if (Config.ValidPoint(Config.Settings.Saved.QuickDownloaderLocation)) {
+            if (Config.Settings.Saved.QuickDownloaderLocation.Valid) {
                 this.StartPosition = FormStartPosition.Manual;
                 this.Location = Config.Settings.Saved.QuickDownloaderLocation;
             }

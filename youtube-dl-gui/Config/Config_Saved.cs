@@ -1,7 +1,5 @@
 ﻿namespace youtube_dl_gui;
 
-using System.Drawing;
-
 internal class Config_Saved {
     private const string ConfigName = "Saved";
 
@@ -79,24 +77,24 @@ internal class Config_Saved {
         VideoFormat = fVideoFormat = IniProvider.Read(VideoFormat, 0, ConfigName);
         AudioFormat = fAudioFormat = IniProvider.Read(AudioFormat, 0, ConfigName);
         AudioVBRQuality = fAudioVBRQuality = IniProvider.Read(AudioVBRQuality, 0, ConfigName);
-        BatchDownloaderLocation = fBatchDownloaderLocation = IniProvider.Read(BatchDownloaderLocation, Config.InvalidPoint, ConfigName);
-        BatchConverterLocation = fBatchConverterLocation = IniProvider.Read(BatchConverterLocation, Config.InvalidPoint, ConfigName);
+        BatchDownloaderLocation = fBatchDownloaderLocation = IniProvider.Read(BatchDownloaderLocation, Point.Invalid, ConfigName);
+        BatchConverterLocation = fBatchConverterLocation = IniProvider.Read(BatchConverterLocation, Point.Invalid, ConfigName);
         MainFormSize = fMainFormSize = IniProvider.Read(MainFormSize, Size.Empty, ConfigName);
         SettingsFormSize = fSettingsFormSize = IniProvider.Read(SettingsFormSize, Size.Empty, ConfigName);
         FileNameSchemaHistory = fFileNameSchemaHistory = IniProvider.Read(FileNameSchemaHistory, "%(title)s-%(id)s.%(ext)s|%(uploader)s\\(%(playlist_index)s) %(title)s-%(id)s.%(ext)s", ConfigName);
         DownloadCustomArguments = fDownloadCustomArguments = IniProvider.Read(DownloadCustomArguments, string.Empty, ConfigName);
         CustomArgumentsIndex = fCustomArgumentsIndex = IniProvider.Read(CustomArgumentsIndex, -1, ConfigName);
-        MainFormLocation = fMainFormLocation = IniProvider.Read(MainFormLocation, Config.InvalidPoint, ConfigName);
-        MainFormLocation = fMainFormLocation = IniProvider.Read(MainFormLocation, Config.InvalidPoint, ConfigName);
-        ExtendedDownloaderLocation = fExtendedDownloaderLocation = IniProvider.Read(ExtendedDownloaderLocation, Config.InvalidPoint, ConfigName);
+        MainFormLocation = fMainFormLocation = IniProvider.Read(MainFormLocation, Point.Invalid, ConfigName);
+        MainFormLocation = fMainFormLocation = IniProvider.Read(MainFormLocation, Point.Invalid, ConfigName);
+        ExtendedDownloaderLocation = fExtendedDownloaderLocation = IniProvider.Read(ExtendedDownloaderLocation, Point.Invalid, ConfigName);
         ExtendedDownloaderSize = fExtendedDownloaderSize = IniProvider.Read(ExtendedDownloaderSize, Size.Empty, ConfigName);
-        ArchiveDownloaderLocation = fArchiveDownloaderLocation = IniProvider.Read(ArchiveDownloaderLocation, Config.InvalidPoint, ConfigName);
-        LogLocation = fLogLocation = IniProvider.Read(LogLocation, Config.InvalidPoint, ConfigName);
+        ArchiveDownloaderLocation = fArchiveDownloaderLocation = IniProvider.Read(ArchiveDownloaderLocation, Point.Invalid, ConfigName);
+        LogLocation = fLogLocation = IniProvider.Read(LogLocation, Point.Invalid, ConfigName);
         LogSize = fLogSize = IniProvider.Read(LogSize, Size.Empty, ConfigName);
         ExtendedDownloadVideoColumns = fExtendedDownloadVideoColumns = IniProvider.Read(ExtendedDownloadVideoColumns, string.Empty, ConfigName);
         ExtendedDownloadAudioColumns = fExtendedDownloadAudioColumns = IniProvider.Read(ExtendedDownloadAudioColumns, string.Empty, ConfigName);
         ExtendedDownloadUnknownColumns = fExtendedDownloadUnknownColumns = IniProvider.Read(ExtendedDownloadUnknownColumns, string.Empty, ConfigName);
-        QuickDownloaderLocation = fQuickDownloaderLocation = IniProvider.Read(QuickDownloaderLocation, Config.InvalidPoint, ConfigName);
+        QuickDownloaderLocation = fQuickDownloaderLocation = IniProvider.Read(QuickDownloaderLocation, Point.Invalid, ConfigName);
     }
 
     public void Save() {

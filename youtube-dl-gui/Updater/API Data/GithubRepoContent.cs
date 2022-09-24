@@ -1,4 +1,4 @@
-﻿namespace youtube_dl_gui.updater;
+﻿namespace murrty.updater;
 
 public class GithubRepoContent {
     public string name { get; init; }

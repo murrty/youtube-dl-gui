@@ -23,12 +23,12 @@ public partial class frmLog : Form {
     }
 
     private void frmLog_Load(object sender, EventArgs e) {
-        if (Config.ValidPoint(Config.Settings.Saved.LogLocation)) {
+        if (Config.Settings.Saved.LogLocation.Valid) {
             this.StartPosition = FormStartPosition.Manual;
             this.Location = Config.Settings.Saved.LogLocation;
         }
 
-        if (Config.ValidSize(Config.Settings.Saved.LogSize)) {
+        if (Config.Settings.Saved.LogSize.Valid) {
             this.Size = Config.Settings.Saved.LogSize;
         }
     }

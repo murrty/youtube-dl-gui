@@ -1,4 +1,4 @@
-﻿namespace youtube_dl_gui.updater;
+﻿namespace youtube_dl_gui;
 
 internal static class GithubLinks {
     public const string GithubRepoUrl           = "https://github.com/{0}/{1}";

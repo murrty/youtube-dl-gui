@@ -4,7 +4,7 @@ using System.IO.Compression;
 using System.Net;
 using System.Threading;
 using System.Windows.Forms;
-using youtube_dl_gui.updater;
+using murrty.updater;
 
 namespace youtube_dl_gui {
     internal class UpdateChecker {

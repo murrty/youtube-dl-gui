@@ -26,8 +26,8 @@ namespace youtube_dl_gui {
         public frmSettings() {
             InitializeComponent();
 
-            for (int i = 0; i < updater.GithubLinks.Repos.Length; i++) {
-                cbSettingsDownloadsUpdatingYtdlType.Items.Add($"{updater.GithubLinks.Users[i]}/{updater.GithubLinks.Repos[i]}{(i == 0 ? " (default)" : "")}");
+            for (int i = 0; i < GithubLinks.Repos.Length; i++) {
+                cbSettingsDownloadsUpdatingYtdlType.Items.Add($"{GithubLinks.Users[i]}/{GithubLinks.Repos[i]}{(i == 0 ? " (default)" : "")}");
             }
 
             LoadingForm = true;
@@ -38,11 +38,10 @@ namespace youtube_dl_gui {
         }
 
         private void frmSettings_Load(object sender, EventArgs e) {
-            if (Config.Settings.Saved.SettingsFormSize != System.Drawing.Size.Empty) {
+            if (Config.Settings.Saved.SettingsFormSize.Valid) {
                 this.StartPosition = FormStartPosition.Manual;
                 this.Size = Config.Settings.Saved.SettingsFormSize;
             }
-
             LoadingForm = false;
         }
         
@@ -747,9 +746,9 @@ namespace youtube_dl_gui {
             if (cbSettingsDownloadsUpdatingYtdlType.SelectedIndex > -1) {
                 Process.Start(
                     string.Format(
-                        updater.GithubLinks.GithubRepoUrl,
-                        updater.GithubLinks.Users[cbSettingsDownloadsUpdatingYtdlType.SelectedIndex],
-                        updater.GithubLinks.Repos[cbSettingsDownloadsUpdatingYtdlType.SelectedIndex]
+                        GithubLinks.GithubRepoUrl,
+                        GithubLinks.Users[cbSettingsDownloadsUpdatingYtdlType.SelectedIndex],
+                        GithubLinks.Repos[cbSettingsDownloadsUpdatingYtdlType.SelectedIndex]
                     )
                 );
             }

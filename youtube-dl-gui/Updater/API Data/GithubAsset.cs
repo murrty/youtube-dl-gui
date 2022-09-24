@@ -1,4 +1,4 @@
-﻿namespace youtube_dl_gui.updater;
+﻿namespace murrty.updater;
 
 using System.Runtime.Serialization;
 

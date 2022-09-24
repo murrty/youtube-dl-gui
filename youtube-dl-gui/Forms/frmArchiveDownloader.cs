@@ -9,7 +9,7 @@ public partial class frmArchiveDownloader : Form {
         LoadLanguage();
 
         this.Load += (s, e) => {
-            if (Config.ValidPoint(Config.Settings.Saved.ArchiveDownloaderLocation)) {
+            if (Config.Settings.Saved.ArchiveDownloaderLocation.Valid) {
                 this.StartPosition = FormStartPosition.Manual;
                 this.Location = Config.Settings.Saved.ArchiveDownloaderLocation;
             }

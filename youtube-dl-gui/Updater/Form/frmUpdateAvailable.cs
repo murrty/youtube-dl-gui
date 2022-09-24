@@ -1,4 +1,5 @@
 ﻿using System.Windows.Forms;
+using murrty.updater;
 
 namespace youtube_dl_gui {
 
@@ -12,7 +13,7 @@ namespace youtube_dl_gui {
         /// <summary>
         /// The update that is available.
         /// </summary>
-        internal updater.GithubData UpdateData { get; init; } = null;
+        internal GithubData UpdateData { get; init; } = null;
 
         public frmUpdateAvailable() {
             InitializeComponent();

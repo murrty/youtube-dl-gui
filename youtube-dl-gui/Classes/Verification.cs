@@ -1,7 +1,6 @@
 ﻿namespace youtube_dl_gui;
 
 using System.IO;
-using youtube_dl_gui.updater;
 
 internal static class Verification {
     private static GitID YoutubeDlGitType = GitID.YtDlp;

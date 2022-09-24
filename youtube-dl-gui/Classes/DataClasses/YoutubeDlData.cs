@@ -75,7 +75,7 @@ internal sealed class YoutubeDlData {
         return null;
     }
     public Image GetThumbnail() {
-        if (Config.Settings.Downloads.YtdlType switch { (int)updater.GitID.YtDlp or (int)updater.GitID.YtDlpNightly => false, _ => true }) {
+        if (Config.Settings.Downloads.YtdlType switch { (int)GitID.YtDlp or (int)GitID.YtDlpNightly => false, _ => true }) {
             Log.Write($"Cannot download the thumbnail for \"{URL}\" because the selected youtube-dl fork is not supported.");
             return null;
         }

@@ -1,4 +1,4 @@
-﻿namespace youtube_dl_gui.updater;
+﻿namespace youtube_dl_gui;
 
 public enum GitID : int {
     YtDlp = 0,
