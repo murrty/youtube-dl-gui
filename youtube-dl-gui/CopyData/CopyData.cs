@@ -36,7 +36,7 @@ internal sealed class CopyData {
     /// <param name="strClassName">the class name for the window to search for</param>
     /// <param name="strWindowName">the name of the window to search for</param>
     /// <returns></returns>
-    [DllImport("User32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+    [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
     public static extern nint FindWindow(string strClassName, string strWindowName);
 
     [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]

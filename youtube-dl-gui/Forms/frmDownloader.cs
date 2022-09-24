@@ -10,7 +10,7 @@ namespace youtube_dl_gui {
         private Process DownloadProcess;            // The process of youtube-dl which we'll redirect.
         private volatile bool AbortBatch = false;   // Determines if the rest of the batch downloads should be cancelled.
         private volatile string Msg = string.Empty;          // Output message.
-        private bool Debug = false;
+        private readonly bool Debug = false;
 
         public frmDownloader(DownloadInfo Info) {
             InitializeComponent();
@@ -46,6 +46,11 @@ namespace youtube_dl_gui {
                     btnDownloaderAbortBatchDownload.Visible = true;
                 }
             }
+
+            if (Config.ValidPoint(Config.Settings.Saved.QuickDownloaderLocation)) {
+                this.StartPosition = FormStartPosition.Manual;
+                this.Location = Config.Settings.Saved.QuickDownloaderLocation;
+            }
         }
         private void frmExtendedMassDownloader_Shown(object sender, EventArgs e) {
             if (!Debug)
@@ -55,33 +60,21 @@ namespace youtube_dl_gui {
             DialogResult Finish = DialogResult.None;
             switch (CurrentDownload.Status) {
                 case DownloadStatus.Aborted:
-                    if (CurrentDownload.BatchDownload) {
-                        if (AbortBatch) {
-                            Finish = DialogResult.Abort;
-                        }
-                        else {
-                            Finish = DialogResult.Ignore;
-                        }
-                    }
+                    if (CurrentDownload.BatchDownload)
+                        Finish = AbortBatch ? DialogResult.Abort : DialogResult.Ignore;
                     break;
+
                 case DownloadStatus.Finished:
-                    if (DownloadProcess.ExitCode == 0) {
-                        if (CurrentDownload.BatchDownload) {
-                            this.DialogResult = DialogResult.Yes;
-                        }
-                    }
-                    else {
-                        if (CurrentDownload.BatchDownload) {
-                            this.DialogResult = DialogResult.No;
-                        }
-                    }
+                    if (CurrentDownload.BatchDownload)
+                        Finish = DownloadProcess.ExitCode == 0 ? DialogResult.Yes : DialogResult.No;
                     break;
+
                 case DownloadStatus.ProgramError:
                 case DownloadStatus.YtdlError:
-                    if (CurrentDownload.BatchDownload) {
+                    if (CurrentDownload.BatchDownload)
                         Finish = DialogResult.No;
-                    }
                     break;
+
                 default:
                     if (DownloadThread is not null && DownloadThread.IsAlive) {
                         DownloadThread.Abort();
@@ -90,10 +83,9 @@ namespace youtube_dl_gui {
                     break;
             }
             if (!e.Cancel) {
-                if (Config.Settings.Downloads.CloseDownloaderAfterFinish != chkDownloaderCloseAfterDownload.Checked && !CurrentDownload.BatchDownload) {
+                if (!CurrentDownload.BatchDownload)
                     Config.Settings.Downloads.CloseDownloaderAfterFinish = chkDownloaderCloseAfterDownload.Checked;
-                }
-
+                Config.Settings.Saved.QuickDownloaderLocation = this.Location;
                 this.DialogResult = Finish;
                 this.Dispose();
             }

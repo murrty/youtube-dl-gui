@@ -29,42 +29,42 @@ internal class Config_Batch {
 
     public void Load() {
         Log.Write("Loading Batch config.");
-        SelectedType = fSelectedType = Ini.Read(SelectedType, -1, ConfigName);
-        SelectedVideoQuality = fSelectedVideoQuality = Ini.Read(SelectedVideoQuality, 0, ConfigName);
-        SelectedVideoFormat = fSelectedVideoFormat = Ini.Read(SelectedVideoFormat, 0, ConfigName);
-        SelectedAudioQuality = fSelectedAudioQuality = Ini.Read(SelectedAudioQuality, 0, ConfigName);
-        SelectedAudioFormat = fSelectedAudioFormat = Ini.Read(SelectedAudioFormat, 0, ConfigName);
-        DownloadVideoSound = fDownloadVideoSound = Ini.Read(DownloadVideoSound, true, ConfigName);
-        DownloadAudioVBR = fDownloadAudioVBR = Ini.Read(DownloadAudioVBR, false, ConfigName);
-        SelectedAudioQualityVBR = fSelectedAudioQualityVBR = Ini.Read(SelectedAudioQualityVBR, 0, ConfigName);
-        CustomArguments = fCustomArguments = Ini.Read(CustomArguments, string.Empty, ConfigName);
-        ClipboardScannerNoticeViewed = fClipboardScannerNoticeViewed = Ini.Read(ClipboardScannerNoticeViewed, false, ConfigName);
-        ClipboardScannerVerifyLinks = fClipboardScannerVerifyLinks = Ini.Read(ClipboardScannerVerifyLinks, true, ConfigName);
+        SelectedType = fSelectedType = IniProvider.Read(SelectedType, -1, ConfigName);
+        SelectedVideoQuality = fSelectedVideoQuality = IniProvider.Read(SelectedVideoQuality, 0, ConfigName);
+        SelectedVideoFormat = fSelectedVideoFormat = IniProvider.Read(SelectedVideoFormat, 0, ConfigName);
+        SelectedAudioQuality = fSelectedAudioQuality = IniProvider.Read(SelectedAudioQuality, 0, ConfigName);
+        SelectedAudioFormat = fSelectedAudioFormat = IniProvider.Read(SelectedAudioFormat, 0, ConfigName);
+        DownloadVideoSound = fDownloadVideoSound = IniProvider.Read(DownloadVideoSound, true, ConfigName);
+        DownloadAudioVBR = fDownloadAudioVBR = IniProvider.Read(DownloadAudioVBR, false, ConfigName);
+        SelectedAudioQualityVBR = fSelectedAudioQualityVBR = IniProvider.Read(SelectedAudioQualityVBR, 0, ConfigName);
+        CustomArguments = fCustomArguments = IniProvider.Read(CustomArguments, string.Empty, ConfigName);
+        ClipboardScannerNoticeViewed = fClipboardScannerNoticeViewed = IniProvider.Read(ClipboardScannerNoticeViewed, false, ConfigName);
+        ClipboardScannerVerifyLinks = fClipboardScannerVerifyLinks = IniProvider.Read(ClipboardScannerVerifyLinks, true, ConfigName);
     }
 
     public void Save() {
         Log.Write("Saving Batch config.");
         if (SelectedType != fSelectedType)
-            fSelectedType = Ini.Write(SelectedType, ConfigName);
+            fSelectedType = IniProvider.Write(SelectedType, ConfigName);
         if (SelectedVideoQuality != fSelectedVideoQuality)
-            fSelectedVideoQuality = Ini.Write(SelectedVideoQuality, ConfigName);
+            fSelectedVideoQuality = IniProvider.Write(SelectedVideoQuality, ConfigName);
         if (SelectedVideoFormat != fSelectedVideoFormat)
-            fSelectedVideoFormat = Ini.Write(SelectedVideoFormat, ConfigName);
+            fSelectedVideoFormat = IniProvider.Write(SelectedVideoFormat, ConfigName);
         if (SelectedAudioQuality != fSelectedAudioQuality)
-            fSelectedAudioQuality = Ini.Write(SelectedAudioQuality, ConfigName);
+            fSelectedAudioQuality = IniProvider.Write(SelectedAudioQuality, ConfigName);
         if (SelectedAudioFormat != fSelectedAudioFormat)
-            fSelectedAudioFormat = Ini.Write(SelectedAudioFormat, ConfigName);
+            fSelectedAudioFormat = IniProvider.Write(SelectedAudioFormat, ConfigName);
         if (DownloadVideoSound != fDownloadVideoSound)
-            fDownloadVideoSound = Ini.Write(DownloadVideoSound, ConfigName);
+            fDownloadVideoSound = IniProvider.Write(DownloadVideoSound, ConfigName);
         if (DownloadAudioVBR != fDownloadAudioVBR)
-            fDownloadAudioVBR = Ini.Write(DownloadAudioVBR, ConfigName);
+            fDownloadAudioVBR = IniProvider.Write(DownloadAudioVBR, ConfigName);
         if (SelectedAudioQualityVBR != fSelectedAudioQualityVBR)
-            fSelectedAudioQualityVBR = Ini.Write(SelectedAudioQualityVBR, ConfigName);
+            fSelectedAudioQualityVBR = IniProvider.Write(SelectedAudioQualityVBR, ConfigName);
         if (CustomArguments != fCustomArguments)
-            fCustomArguments = Ini.Write(CustomArguments, ConfigName);
+            fCustomArguments = IniProvider.Write(CustomArguments, ConfigName);
         if (ClipboardScannerNoticeViewed != fClipboardScannerNoticeViewed)
-            fClipboardScannerNoticeViewed = Ini.Write(ClipboardScannerNoticeViewed, ConfigName);
+            fClipboardScannerNoticeViewed = IniProvider.Write(ClipboardScannerNoticeViewed, ConfigName);
         if (ClipboardScannerVerifyLinks != fClipboardScannerVerifyLinks)
-            fClipboardScannerVerifyLinks = Ini.Write(ClipboardScannerVerifyLinks, ConfigName);
+            fClipboardScannerVerifyLinks = IniProvider.Write(ClipboardScannerVerifyLinks, ConfigName);
     }
 }

@@ -1010,6 +1010,7 @@
             this.llbSettingsDownloadsYtdlTypeViewRepo.TabStop = true;
             this.llbSettingsDownloadsYtdlTypeViewRepo.Text = "llbSettingsDownloadsYtdlTypeViewRepo";
             this.tipSettings.SetToolTip(this.llbSettingsDownloadsYtdlTypeViewRepo, "llbSettingsDownloadsYtdlTypeViewRepoHint");
+            this.llbSettingsDownloadsYtdlTypeViewRepo.VisitedLinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(0)))), ((int)(((byte)(128)))));
             this.llbSettingsDownloadsYtdlTypeViewRepo.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llbSettingsDownloadsYtdlTypeViewRepo_LinkClicked);
             // 
             // lbSettingsDownloadsUpdatingYtdlType
@@ -1026,12 +1027,6 @@
             // 
             this.cbSettingsDownloadsUpdatingYtdlType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbSettingsDownloadsUpdatingYtdlType.FormattingEnabled = true;
-            this.cbSettingsDownloadsUpdatingYtdlType.Items.AddRange(new object[] {
-            "yt-dlp/yt-dlp (Default)",
-            "ytdl-org/youtube-dl",
-            "blackjack4494/youtube-dlc",
-            "ytdl-patched/youtube-dl (nightly)",
-            "ytdl-patched/yt-dlp (nightly)"});
             this.cbSettingsDownloadsUpdatingYtdlType.Location = new System.Drawing.Point(9, 51);
             this.cbSettingsDownloadsUpdatingYtdlType.Name = "cbSettingsDownloadsUpdatingYtdlType";
             this.cbSettingsDownloadsUpdatingYtdlType.Size = new System.Drawing.Size(179, 21);
@@ -1129,6 +1124,7 @@
             this.llSettingsDownloadsSchemaHelp.TabStop = true;
             this.llSettingsDownloadsSchemaHelp.Text = "?";
             this.tipSettings.SetToolTip(this.llSettingsDownloadsSchemaHelp, "llSchema");
+            this.llSettingsDownloadsSchemaHelp.VisitedLinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(0)))), ((int)(((byte)(128)))));
             this.llSettingsDownloadsSchemaHelp.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llSettingsDownloadsSchemaHelp_LinkClicked);
             // 
             // lbSettingsDownloadsDownloadPath

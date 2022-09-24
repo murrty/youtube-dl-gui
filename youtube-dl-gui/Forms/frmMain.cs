@@ -24,18 +24,20 @@ namespace youtube_dl_gui {
                 trayIcon.Dispose();
             }
             else {
+                mDownloadSubtitles.Enabled = mDownloadSubtitles.Visible = false;
                 trayIcon.ContextMenu = cmTray;
                 trayIcon.Visible = true;
                 tcMain.TabPages.Remove(tabDebug);
             }
             cbSchema.Text = Config.Settings.Downloads.fileNameSchema;
-            if (!string.IsNullOrEmpty(Config.Settings.Saved.FileNameSchemaHistory)) {
+
+            if (!string.IsNullOrEmpty(Config.Settings.Saved.FileNameSchemaHistory))
                 cbSchema.Items.AddRange(Config.Settings.Saved.FileNameSchemaHistory.Split('|'));
-            }
-            mDownloadSeparator.Enabled = mDownloadSeparator.Visible =
-                mQuickDownloadForm.Enabled = mQuickDownloadForm.Visible =
-                mQuickDownloadFormAuthentication.Enabled = mQuickDownloadFormAuthentication.Visible =
-                mExtendedDownloadForm.Enabled = mExtendedDownloadForm.Visible = DownloadHelper.CanUseExtendedDownloader();
+
+            //mDownloadSeparator.Enabled = mDownloadSeparator.Visible =
+            //    mQuickDownloadForm.Enabled = mQuickDownloadForm.Visible =
+            //    mQuickDownloadFormAuthentication.Enabled = mQuickDownloadFormAuthentication.Visible =
+            //    mExtendedDownloadForm.Enabled = mExtendedDownloadForm.Visible = true;
 
             this.Shown += (s, e) => {
                 Log.Write("Startup finished.");
@@ -475,10 +477,10 @@ namespace youtube_dl_gui {
                 cbSchema.Items.AddRange(Config.Settings.Saved.FileNameSchemaHistory.Split('|'));
             }
 
-            mDownloadSeparator.Enabled = mDownloadSeparator.Visible =
-                mQuickDownloadForm.Enabled = mQuickDownloadForm.Visible =
-                mQuickDownloadFormAuthentication.Enabled = mQuickDownloadFormAuthentication.Visible =
-                mExtendedDownloadForm.Enabled = mExtendedDownloadForm.Visible = DownloadHelper.CanUseExtendedDownloader();
+            //mDownloadSeparator.Enabled = mDownloadSeparator.Visible =
+            //    mQuickDownloadForm.Enabled = mQuickDownloadForm.Visible =
+            //    mQuickDownloadFormAuthentication.Enabled = mQuickDownloadFormAuthentication.Visible =
+            //    mExtendedDownloadForm.Enabled = mExtendedDownloadForm.Visible = true;
         }
 
         private void mBatchDownload_Click(object sender, EventArgs e) {
@@ -997,7 +999,7 @@ namespace youtube_dl_gui {
         }
 
         private void Download() {
-            if (DownloadHelper.CanUseExtendedDownloader() && Config.Settings.Downloads.ExtendedDownloaderPreferExtendedForm)
+            if (Config.Settings.Downloads.ExtendedDownloaderPreferExtendedForm)
                 StartDownloadExtended();
             else
                 StartDownload(false);
@@ -1112,13 +1114,12 @@ namespace youtube_dl_gui {
                 }
                 else {
                     NewInfo.Type = DownloadType.Custom;
+                    Config.Settings.Saved.downloadType = (int)DownloadType.Custom;
                 }
 
                 NewInfo.DownloadArguments = cbCustomArguments.Text;
-                Config.Settings.Saved.downloadType = (int)DownloadType.Custom;
-                if (!cbCustomArguments.Items.Contains(cbCustomArguments.Text) && !string.IsNullOrWhiteSpace(cbCustomArguments.Text)) {
+                if (!cbCustomArguments.Items.Contains(cbCustomArguments.Text) && !string.IsNullOrWhiteSpace(cbCustomArguments.Text))
                     cbCustomArguments.Items.Add(cbCustomArguments.Text);
-                }
 
                 if (!chkDebugDontDownload.Checked) {
                     frmDownloader Downloader = new(NewInfo);

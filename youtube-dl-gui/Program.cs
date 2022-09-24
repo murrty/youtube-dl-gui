@@ -100,7 +100,7 @@ namespace youtube_dl_gui {
                 Log.InitializeLogging();
 
                 if (Environment.CurrentDirectory != ProgramPath) {
-                    Log.Write("The current directory is wrong. Setting it right.");
+                    Log.Write("The current directory is wrong.");
                     Environment.CurrentDirectory = ProgramPath;
                 }
 
@@ -117,8 +117,8 @@ namespace youtube_dl_gui {
                     ColorDepth = ColorDepth.Depth32Bit,
                     TransparentColor = System.Drawing.Color.Transparent
                 };
-                ExtendedDownloaderSelectedImages.Images.Add(Properties.Resources.best);     // 0
-                ExtendedDownloaderSelectedImages.Images.Add(Properties.Resources.selected); // 1
+                ExtendedDownloaderSelectedImages.Images.Add(Properties.Resources.best);         // 0
+                ExtendedDownloaderSelectedImages.Images.Add(Properties.Resources.selected);     // 1
                 ExtendedDownloaderSelectedImages.Images.Add(Properties.Resources.best_disabled);    // 2
                 ExtendedDownloaderSelectedImages.Images.Add(Properties.Resources.selected_disabled);// 3
 
@@ -147,9 +147,8 @@ namespace youtube_dl_gui {
                         using BetterFolderBrowserNS.BetterFolderBrowser fbd = new();
                         fbd.Title = Language.dlgFindDownloadFolder;
                         fbd.RootFolder = Config.Settings.Downloads.downloadPath;
-                        if (fbd.ShowDialog() == DialogResult.OK) {
+                        if (fbd.ShowDialog() == DialogResult.OK)
                             Config.Settings.Downloads.downloadPath = fbd.SelectedPath;
-                        }
                     }
 
                     if (MessageBox.Show(Language.dlgFirstTimeDownloadYoutubeDl, Language.ApplicationName, MessageBoxButtons.YesNo) == DialogResult.Yes)

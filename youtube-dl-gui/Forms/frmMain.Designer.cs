@@ -479,30 +479,23 @@
             // 
             this.mDownloadSeparator.Index = 2;
             this.mDownloadSeparator.Text = "-";
-            this.mDownloadSeparator.Visible = false;
             // 
             // mQuickDownloadForm
             // 
-            this.mQuickDownloadForm.Enabled = false;
             this.mQuickDownloadForm.Index = 3;
             this.mQuickDownloadForm.Text = "mQuickDownloadForm";
-            this.mQuickDownloadForm.Visible = false;
             this.mQuickDownloadForm.Click += new System.EventHandler(this.mQuickDownloadForm_Click);
             // 
             // mQuickDownloadFormAuthentication
             // 
-            this.mQuickDownloadFormAuthentication.Enabled = false;
             this.mQuickDownloadFormAuthentication.Index = 4;
             this.mQuickDownloadFormAuthentication.Text = "mQuickDownloadFormAuthentication";
-            this.mQuickDownloadFormAuthentication.Visible = false;
             this.mQuickDownloadFormAuthentication.Click += new System.EventHandler(this.mQuickDownloadFormAuthentication_Click);
             // 
             // mExtendedDownloadForm
             // 
-            this.mExtendedDownloadForm.Enabled = false;
             this.mExtendedDownloadForm.Index = 5;
             this.mExtendedDownloadForm.Text = "mExtendedDownloadForm";
-            this.mExtendedDownloadForm.Visible = false;
             this.mExtendedDownloadForm.Click += new System.EventHandler(this.mExtendedDownloadForm_Click);
             // 
             // chkDownloadSound

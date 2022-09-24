@@ -25,14 +25,21 @@ namespace youtube_dl_gui {
 
         public frmSettings() {
             InitializeComponent();
+
+            for (int i = 0; i < updater.GithubLinks.Repos.Length; i++) {
+                cbSettingsDownloadsUpdatingYtdlType.Items.Add($"{updater.GithubLinks.Users[i]}/{updater.GithubLinks.Repos[i]}{(i == 0 ? " (default)" : "")}");
+            }
+
             LoadingForm = true;
             LoadLanguage();
             CalculatePositions();
             loadSettings();
+
         }
 
         private void frmSettings_Load(object sender, EventArgs e) {
-            if (Config.Settings.Saved.SettingsFormSize != default) {
+            if (Config.Settings.Saved.SettingsFormSize != System.Drawing.Size.Empty) {
+                this.StartPosition = FormStartPosition.Manual;
                 this.Size = Config.Settings.Saved.SettingsFormSize;
             }
 

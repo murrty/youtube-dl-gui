@@ -16,6 +16,10 @@ internal class Config {
     public Config_Saved Saved;
 
     public Config() {
+        if (System.IO.File.Exists(Environment.CurrentDirectory + "\\settings.ini")
+        && !System.IO.File.Exists(Environment.CurrentDirectory + "\\youtube-dl-gui.ini"))
+            System.IO.File.Move(Environment.CurrentDirectory + "\\settings.ini", Environment.CurrentDirectory + "\\youtube-dl-gui.ini");
+
         Initialization = new();
         Batch = new();
         Converts = new();

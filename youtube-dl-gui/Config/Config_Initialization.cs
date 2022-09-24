@@ -15,23 +15,23 @@ internal class Config_Initialization {
     public void Load() {
         Log.Write("Loading Initialization config.");
 
-        firstTime = ffirstTime = Ini.Read(firstTime, true);
-        LanguageFile = fLanguageFile = Ini.Read(LanguageFile, string.Empty);
-        fSkippedVersion = SkippedVersion = Ini.Read(SkippedVersion, Version.Empty);
-        SkippedBetaVersion = fSkippedBetaVersion = Ini.Read(SkippedVersion, Version.Empty);
-        AboutFormDialog = Ini.Read(AboutFormDialog, true);
+        firstTime = ffirstTime = IniProvider.Read(firstTime, true);
+        LanguageFile = fLanguageFile = IniProvider.Read(LanguageFile, string.Empty);
+        fSkippedVersion = SkippedVersion = IniProvider.Read(SkippedVersion, Version.Empty);
+        SkippedBetaVersion = fSkippedBetaVersion = IniProvider.Read(SkippedVersion, Version.Empty);
+        AboutFormDialog = IniProvider.Read(AboutFormDialog, true);
     }
 
     public void Save() {
         Log.Write("Saving Initialization config.");
 
         if (firstTime != ffirstTime)
-            ffirstTime = Ini.Write(firstTime);
+            ffirstTime = IniProvider.Write(firstTime);
         if (LanguageFile != fLanguageFile)
-            fLanguageFile = Ini.Write(LanguageFile);
+            fLanguageFile = IniProvider.Write(LanguageFile);
         if (SkippedVersion != fSkippedVersion) 
-            fSkippedVersion = Ini.Write(SkippedVersion);
+            fSkippedVersion = IniProvider.Write(SkippedVersion);
         if (SkippedBetaVersion != fSkippedBetaVersion) 
-            fSkippedBetaVersion = Ini.Write(SkippedBetaVersion);
+            fSkippedBetaVersion = IniProvider.Write(SkippedBetaVersion);
     }
 }

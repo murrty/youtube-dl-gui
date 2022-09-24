@@ -13,18 +13,18 @@ internal class Config_Errors {
 
     public void Load() {
         Log.Write("Loading Error config.");
-        detailedErrors = fdetailedErrors = Ini.Read(detailedErrors, false, ConfigName);
-        logErrors = flogErrors = Ini.Read(logErrors, false, ConfigName);
-        suppressErrors = fsuppressErrors = Ini.Read(suppressErrors, false, ConfigName);
+        detailedErrors = fdetailedErrors = IniProvider.Read(detailedErrors, false, ConfigName);
+        logErrors = flogErrors = IniProvider.Read(logErrors, false, ConfigName);
+        suppressErrors = fsuppressErrors = IniProvider.Read(suppressErrors, false, ConfigName);
     }
 
     public void Save() {
         Log.Write("Saving Error config.");
         if (detailedErrors != fdetailedErrors)
-            fdetailedErrors = Ini.Write(detailedErrors, ConfigName);
+            fdetailedErrors = IniProvider.Write(detailedErrors, ConfigName);
         if (logErrors != flogErrors)
-            flogErrors = Ini.Write(logErrors, ConfigName);
+            flogErrors = IniProvider.Write(logErrors, ConfigName);
         if (suppressErrors != fsuppressErrors)
-            fsuppressErrors = Ini.Write(suppressErrors, ConfigName);
+            fsuppressErrors = IniProvider.Write(suppressErrors, ConfigName);
     }
 }

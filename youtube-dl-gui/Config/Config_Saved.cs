@@ -33,6 +33,7 @@ internal class Config_Saved {
     public string ExtendedDownloadVideoColumns;
     public string ExtendedDownloadAudioColumns;
     public string ExtendedDownloadUnknownColumns;
+    public Point QuickDownloaderLocation;
 
     private int fdownloadType;
     private int fconvertSaveVideoIndex;
@@ -61,97 +62,101 @@ internal class Config_Saved {
     private string fExtendedDownloadVideoColumns;
     private string fExtendedDownloadAudioColumns;
     private string fExtendedDownloadUnknownColumns;
+    private Point fQuickDownloaderLocation;
     #endregion
 
     public void Load() {
         Log.Write("Loading Saved config.");
 
-        downloadType = fdownloadType = Ini.Read(downloadType, 0, ConfigName);
-        convertSaveVideoIndex = fconvertSaveVideoIndex = Ini.Read(convertSaveVideoIndex, 0, "Saved");
-        convertSaveAudioIndex = fconvertSaveAudioIndex = Ini.Read(convertSaveAudioIndex, 0, "Saved");
-        convertSaveUnknownIndex = fconvertSaveUnknownIndex = Ini.Read(convertSaveUnknownIndex, 0, "Saved");
-        convertType = fconvertType = Ini.Read(convertType, 0, ConfigName);
-        convertCustom = fconvertCustom = Ini.Read(convertCustom, string.Empty, ConfigName);
-        videoQuality = fvideoQuality = Ini.Read(videoQuality, 0, ConfigName);
-        audioQuality = faudioQuality = Ini.Read(audioQuality, 0, ConfigName);
-        VideoFormat = fVideoFormat = Ini.Read(VideoFormat, 0, ConfigName);
-        AudioFormat = fAudioFormat = Ini.Read(AudioFormat, 0, ConfigName);
-        AudioVBRQuality = fAudioVBRQuality = Ini.Read(AudioVBRQuality, 0, ConfigName);
-        BatchDownloaderLocation = fBatchDownloaderLocation = Ini.Read(BatchDownloaderLocation, Config.InvalidPoint, ConfigName);
-        BatchConverterLocation = fBatchConverterLocation = Ini.Read(BatchConverterLocation, Config.InvalidPoint, ConfigName);
-        MainFormSize = fMainFormSize = Ini.Read(MainFormSize, Size.Empty, ConfigName);
-        SettingsFormSize = fSettingsFormSize = Ini.Read(SettingsFormSize, Size.Empty, ConfigName);
-        FileNameSchemaHistory = fFileNameSchemaHistory = Ini.Read(FileNameSchemaHistory, "%(title)s-%(id)s.%(ext)s|%(uploader)s\\(%(playlist_index)s) %(title)s-%(id)s.%(ext)s", ConfigName);
-        DownloadCustomArguments = fDownloadCustomArguments = Ini.Read(DownloadCustomArguments, string.Empty, ConfigName);
-        CustomArgumentsIndex = fCustomArgumentsIndex = Ini.Read(CustomArgumentsIndex, -1, ConfigName);
-        MainFormLocation = fMainFormLocation = Ini.Read(MainFormLocation, Config.InvalidPoint, ConfigName);
-        MainFormLocation = fMainFormLocation = Ini.Read(MainFormLocation, Config.InvalidPoint, ConfigName);
-        ExtendedDownloaderLocation = fExtendedDownloaderLocation = Ini.Read(ExtendedDownloaderLocation, Config.InvalidPoint, ConfigName);
-        ExtendedDownloaderSize = fExtendedDownloaderSize = Ini.Read(ExtendedDownloaderSize, Size.Empty, ConfigName);
-        ArchiveDownloaderLocation = fArchiveDownloaderLocation = Ini.Read(ArchiveDownloaderLocation, Config.InvalidPoint, ConfigName);
-        LogLocation = fLogLocation = Ini.Read(LogLocation, Config.InvalidPoint, ConfigName);
-        LogSize = fLogSize = Ini.Read(LogSize, Size.Empty, ConfigName);
-        ExtendedDownloadVideoColumns = fExtendedDownloadVideoColumns = Ini.Read(ExtendedDownloadVideoColumns, string.Empty, ConfigName);
-        ExtendedDownloadAudioColumns = fExtendedDownloadAudioColumns = Ini.Read(ExtendedDownloadAudioColumns, string.Empty, ConfigName);
-        ExtendedDownloadUnknownColumns = fExtendedDownloadUnknownColumns = Ini.Read(ExtendedDownloadUnknownColumns, string.Empty, ConfigName);
+        downloadType = fdownloadType = IniProvider.Read(downloadType, 0, ConfigName);
+        convertSaveVideoIndex = fconvertSaveVideoIndex = IniProvider.Read(convertSaveVideoIndex, 0, "Saved");
+        convertSaveAudioIndex = fconvertSaveAudioIndex = IniProvider.Read(convertSaveAudioIndex, 0, "Saved");
+        convertSaveUnknownIndex = fconvertSaveUnknownIndex = IniProvider.Read(convertSaveUnknownIndex, 0, "Saved");
+        convertType = fconvertType = IniProvider.Read(convertType, 0, ConfigName);
+        convertCustom = fconvertCustom = IniProvider.Read(convertCustom, string.Empty, ConfigName);
+        videoQuality = fvideoQuality = IniProvider.Read(videoQuality, 0, ConfigName);
+        audioQuality = faudioQuality = IniProvider.Read(audioQuality, 0, ConfigName);
+        VideoFormat = fVideoFormat = IniProvider.Read(VideoFormat, 0, ConfigName);
+        AudioFormat = fAudioFormat = IniProvider.Read(AudioFormat, 0, ConfigName);
+        AudioVBRQuality = fAudioVBRQuality = IniProvider.Read(AudioVBRQuality, 0, ConfigName);
+        BatchDownloaderLocation = fBatchDownloaderLocation = IniProvider.Read(BatchDownloaderLocation, Config.InvalidPoint, ConfigName);
+        BatchConverterLocation = fBatchConverterLocation = IniProvider.Read(BatchConverterLocation, Config.InvalidPoint, ConfigName);
+        MainFormSize = fMainFormSize = IniProvider.Read(MainFormSize, Size.Empty, ConfigName);
+        SettingsFormSize = fSettingsFormSize = IniProvider.Read(SettingsFormSize, Size.Empty, ConfigName);
+        FileNameSchemaHistory = fFileNameSchemaHistory = IniProvider.Read(FileNameSchemaHistory, "%(title)s-%(id)s.%(ext)s|%(uploader)s\\(%(playlist_index)s) %(title)s-%(id)s.%(ext)s", ConfigName);
+        DownloadCustomArguments = fDownloadCustomArguments = IniProvider.Read(DownloadCustomArguments, string.Empty, ConfigName);
+        CustomArgumentsIndex = fCustomArgumentsIndex = IniProvider.Read(CustomArgumentsIndex, -1, ConfigName);
+        MainFormLocation = fMainFormLocation = IniProvider.Read(MainFormLocation, Config.InvalidPoint, ConfigName);
+        MainFormLocation = fMainFormLocation = IniProvider.Read(MainFormLocation, Config.InvalidPoint, ConfigName);
+        ExtendedDownloaderLocation = fExtendedDownloaderLocation = IniProvider.Read(ExtendedDownloaderLocation, Config.InvalidPoint, ConfigName);
+        ExtendedDownloaderSize = fExtendedDownloaderSize = IniProvider.Read(ExtendedDownloaderSize, Size.Empty, ConfigName);
+        ArchiveDownloaderLocation = fArchiveDownloaderLocation = IniProvider.Read(ArchiveDownloaderLocation, Config.InvalidPoint, ConfigName);
+        LogLocation = fLogLocation = IniProvider.Read(LogLocation, Config.InvalidPoint, ConfigName);
+        LogSize = fLogSize = IniProvider.Read(LogSize, Size.Empty, ConfigName);
+        ExtendedDownloadVideoColumns = fExtendedDownloadVideoColumns = IniProvider.Read(ExtendedDownloadVideoColumns, string.Empty, ConfigName);
+        ExtendedDownloadAudioColumns = fExtendedDownloadAudioColumns = IniProvider.Read(ExtendedDownloadAudioColumns, string.Empty, ConfigName);
+        ExtendedDownloadUnknownColumns = fExtendedDownloadUnknownColumns = IniProvider.Read(ExtendedDownloadUnknownColumns, string.Empty, ConfigName);
+        QuickDownloaderLocation = fQuickDownloaderLocation = IniProvider.Read(QuickDownloaderLocation, Config.InvalidPoint, ConfigName);
     }
 
     public void Save() {
         Log.Write("Saving Saved config.");
 
         if (downloadType != fdownloadType) 
-            fdownloadType = Ini.Write(downloadType, ConfigName);
+            fdownloadType = IniProvider.Write(downloadType, ConfigName);
         if (convertSaveVideoIndex != fconvertSaveVideoIndex) 
-            fconvertSaveVideoIndex = Ini.Write(convertSaveVideoIndex, ConfigName);
+            fconvertSaveVideoIndex = IniProvider.Write(convertSaveVideoIndex, ConfigName);
         if (convertSaveAudioIndex != fconvertSaveAudioIndex) 
-            fconvertSaveAudioIndex = Ini.Write(convertSaveAudioIndex, ConfigName);
+            fconvertSaveAudioIndex = IniProvider.Write(convertSaveAudioIndex, ConfigName);
         if (convertSaveUnknownIndex != fconvertSaveUnknownIndex) 
-            fconvertSaveUnknownIndex = Ini.Write(convertSaveUnknownIndex, ConfigName);
+            fconvertSaveUnknownIndex = IniProvider.Write(convertSaveUnknownIndex, ConfigName);
         if (convertType != fconvertType) 
-            fconvertType = Ini.Write(convertType, ConfigName);
+            fconvertType = IniProvider.Write(convertType, ConfigName);
         if (convertCustom != fconvertCustom) 
-            fconvertCustom = Ini.Write(convertCustom, ConfigName);
+            fconvertCustom = IniProvider.Write(convertCustom, ConfigName);
         if (videoQuality != fvideoQuality) 
-            fvideoQuality = Ini.Write(videoQuality, ConfigName);
+            fvideoQuality = IniProvider.Write(videoQuality, ConfigName);
         if (audioQuality != faudioQuality) 
-            faudioQuality = Ini.Write(audioQuality, ConfigName);
+            faudioQuality = IniProvider.Write(audioQuality, ConfigName);
         if (VideoFormat != fVideoFormat) 
-            fVideoFormat = Ini.Write(VideoFormat, ConfigName);
+            fVideoFormat = IniProvider.Write(VideoFormat, ConfigName);
         if (AudioFormat != fAudioFormat) 
-            fAudioFormat = Ini.Write(AudioFormat, ConfigName);
+            fAudioFormat = IniProvider.Write(AudioFormat, ConfigName);
         if (AudioVBRQuality != fAudioVBRQuality) 
-            fAudioVBRQuality = Ini.Write(AudioVBRQuality, ConfigName);
+            fAudioVBRQuality = IniProvider.Write(AudioVBRQuality, ConfigName);
         if (BatchDownloaderLocation != fBatchDownloaderLocation) 
-            fBatchDownloaderLocation = Ini.Write(BatchDownloaderLocation, ConfigName);
+            fBatchDownloaderLocation = IniProvider.Write(BatchDownloaderLocation, ConfigName);
         if (BatchConverterLocation != fBatchConverterLocation) 
-            fBatchConverterLocation = Ini.Write(BatchConverterLocation, ConfigName);
+            fBatchConverterLocation = IniProvider.Write(BatchConverterLocation, ConfigName);
         if (MainFormSize != fMainFormSize) 
-            fMainFormSize = Ini.Write(MainFormSize, ConfigName);
+            fMainFormSize = IniProvider.Write(MainFormSize, ConfigName);
         if (SettingsFormSize != fSettingsFormSize) 
-            fSettingsFormSize = Ini.Write(SettingsFormSize, ConfigName);
+            fSettingsFormSize = IniProvider.Write(SettingsFormSize, ConfigName);
         if (FileNameSchemaHistory != fFileNameSchemaHistory) 
-            fFileNameSchemaHistory = Ini.Write(FileNameSchemaHistory, ConfigName);
+            fFileNameSchemaHistory = IniProvider.Write(FileNameSchemaHistory, ConfigName);
         if (DownloadCustomArguments != fDownloadCustomArguments) 
-            fDownloadCustomArguments = Ini.Write(DownloadCustomArguments, ConfigName);
+            fDownloadCustomArguments = IniProvider.Write(DownloadCustomArguments, ConfigName);
         if (CustomArgumentsIndex != fCustomArgumentsIndex) 
-            fCustomArgumentsIndex = Ini.Write(CustomArgumentsIndex, ConfigName);
+            fCustomArgumentsIndex = IniProvider.Write(CustomArgumentsIndex, ConfigName);
         if (MainFormLocation != fMainFormLocation) 
-            fMainFormLocation = Ini.Write(MainFormLocation, ConfigName);
+            fMainFormLocation = IniProvider.Write(MainFormLocation, ConfigName);
         if (ExtendedDownloaderLocation != fExtendedDownloaderLocation) 
-            fExtendedDownloaderLocation = Ini.Write(ExtendedDownloaderLocation, ConfigName);
+            fExtendedDownloaderLocation = IniProvider.Write(ExtendedDownloaderLocation, ConfigName);
         if (ExtendedDownloaderSize != fExtendedDownloaderSize) 
-            fExtendedDownloaderSize = Ini.Write(ExtendedDownloaderSize, ConfigName);
+            fExtendedDownloaderSize = IniProvider.Write(ExtendedDownloaderSize, ConfigName);
         if (ArchiveDownloaderLocation != fArchiveDownloaderLocation) 
-            fArchiveDownloaderLocation = Ini.Write(ArchiveDownloaderLocation, ConfigName);
+            fArchiveDownloaderLocation = IniProvider.Write(ArchiveDownloaderLocation, ConfigName);
         if (LogLocation != fLogLocation) 
-            fLogLocation = Ini.Write(LogLocation, ConfigName);
+            fLogLocation = IniProvider.Write(LogLocation, ConfigName);
         if (LogSize != fLogSize) 
-            fLogSize = Ini.Write(LogSize, ConfigName);
+            fLogSize = IniProvider.Write(LogSize, ConfigName);
         if (ExtendedDownloadVideoColumns != fExtendedDownloadVideoColumns)
-            fExtendedDownloadVideoColumns = Ini.Write(ExtendedDownloadVideoColumns, ConfigName);
+            fExtendedDownloadVideoColumns = IniProvider.Write(ExtendedDownloadVideoColumns, ConfigName);
         if (ExtendedDownloadAudioColumns != fExtendedDownloadAudioColumns)
-            fExtendedDownloadAudioColumns = Ini.Write(ExtendedDownloadAudioColumns, ConfigName);
+            fExtendedDownloadAudioColumns = IniProvider.Write(ExtendedDownloadAudioColumns, ConfigName);
         if (ExtendedDownloadUnknownColumns != fExtendedDownloadUnknownColumns)
-            fExtendedDownloadUnknownColumns = Ini.Write(ExtendedDownloadUnknownColumns, ConfigName);
+            fExtendedDownloadUnknownColumns = IniProvider.Write(ExtendedDownloadUnknownColumns, ConfigName);
+        if (QuickDownloaderLocation != fQuickDownloaderLocation)
+            fQuickDownloaderLocation = IniProvider.Write(QuickDownloaderLocation, ConfigName);
     }
 }

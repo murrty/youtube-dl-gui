@@ -92,137 +92,137 @@ internal class Config_Downloads {
     public void Load() {
         Log.Write("Loading Download config.");
 
-        downloadPath = fdownloadPath = Ini.Read(downloadPath, Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Downloads\\youtube-dl", ConfigName);
-        separateDownloads = fseparateDownloads = Ini.Read(separateDownloads, true, ConfigName);
-        SaveFormatQuality = fSaveFormatQuality = Ini.Read(SaveFormatQuality, true, ConfigName);
-        deleteYtdlOnClose = fdeleteYtdlOnClose = Ini.Read(deleteYtdlOnClose, false, ConfigName);
-        useYtdlUpdater = fuseYtdlUpdater = Ini.Read(useYtdlUpdater, false, ConfigName);
-        fileNameSchema = ffileNameSchema = Ini.Read(fileNameSchema, "%(title)s-%(id)s.%(ext)s", ConfigName);
-        fixReddit = ffixReddit = Ini.Read(fixReddit, true, ConfigName);
-        separateIntoWebsiteURL = fseparateIntoWebsiteURL = Ini.Read(separateIntoWebsiteURL, true, ConfigName);
-        SaveSubtitles = fSaveSubtitles = Ini.Read(SaveSubtitles, false, ConfigName);
-        subtitlesLanguages = fsubtitlesLanguages = Ini.Read(subtitlesLanguages, "en", ConfigName);
-        CloseDownloaderAfterFinish = fCloseDownloaderAfterFinish = Ini.Read(CloseDownloaderAfterFinish, true, ConfigName);
-        UseProxy = fUseProxy = Ini.Read(UseProxy, false, ConfigName);
-        ProxyType = fProxyType = Ini.Read(ProxyType, -1, ConfigName);
-        ProxyIP = fProxyIP = Ini.Read(ProxyIP, string.Empty, ConfigName);
-        ProxyPort = fProxyPort = Ini.Read(ProxyPort, string.Empty, ConfigName);
-        SaveThumbnail = fSaveThumbnail = Ini.Read(SaveThumbnail, false, ConfigName);
-        SaveDescription = fSaveDescription = Ini.Read(SaveDescription, false, ConfigName);
-        SaveVideoInfo = fSaveVideoInfo = Ini.Read(SaveVideoInfo, false, ConfigName);
-        SaveAnnotations = fSaveAnnotations = Ini.Read(SaveAnnotations, false, ConfigName);
-        SubtitleFormat = fSubtitleFormat = Ini.Read(SubtitleFormat, string.Empty, ConfigName);
-        DownloadLimit = fDownloadLimit = Ini.Read(DownloadLimit, 0, ConfigName);
-        RetryAttempts = fRetryAttempts = Ini.Read(RetryAttempts, 10, ConfigName);
-        DownloadLimitType = fDownloadLimitType = Ini.Read(DownloadLimitType, 1, ConfigName);
-        ForceIPv4 = fForceIPv4 = Ini.Read(ForceIPv4, false, ConfigName);
-        ForceIPv6 = fForceIPv6 = Ini.Read(ForceIPv6, false, ConfigName);
-        LimitDownloads = fLimitDownloads = Ini.Read(LimitDownloads, false, ConfigName);
-        EmbedSubtitles = fEmbedSubtitles = Ini.Read(EmbedSubtitles, false, ConfigName);
-        EmbedThumbnails = fEmbedThumbnails = Ini.Read(EmbedThumbnails, false, ConfigName);
-        VideoDownloadSound = fVideoDownloadSound = Ini.Read(VideoDownloadSound, true, ConfigName);
-        AudioDownloadAsVBR = fAudioDownloadAsVBR = Ini.Read(AudioDownloadAsVBR, false, ConfigName);
-        KeepOriginalFiles = fKeepOriginalFiles = Ini.Read(KeepOriginalFiles, false, ConfigName);
-        WriteMetadata = fWriteMetadata = Ini.Read(WriteMetadata, false, ConfigName);
-        SkipBatchTip = fSkipBatchTip = Ini.Read(SkipBatchTip, false, ConfigName);
-        AutomaticallyDownloadFromProtocol = fAutomaticallyDownloadFromProtocol = Ini.Read(AutomaticallyDownloadFromProtocol, true, ConfigName);
-        PreferFFmpeg = fPreferFFmpeg = Ini.Read(PreferFFmpeg, true, ConfigName);
-        SeparateBatchDownloads = fSeparateBatchDownloads = Ini.Read(SeparateBatchDownloads, true, ConfigName);
-        AddDateToBatchDownloadFolders = fAddDateToBatchDownloadFolders = Ini.Read(AddDateToBatchDownloadFolders, true, ConfigName);
-        YtdlType = fYtdlType = Ini.Read(YtdlType, 0, ConfigName) switch {
+        downloadPath = fdownloadPath = IniProvider.Read(downloadPath, Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Downloads\\youtube-dl", ConfigName);
+        separateDownloads = fseparateDownloads = IniProvider.Read(separateDownloads, true, ConfigName);
+        SaveFormatQuality = fSaveFormatQuality = IniProvider.Read(SaveFormatQuality, true, ConfigName);
+        deleteYtdlOnClose = fdeleteYtdlOnClose = IniProvider.Read(deleteYtdlOnClose, false, ConfigName);
+        useYtdlUpdater = fuseYtdlUpdater = IniProvider.Read(useYtdlUpdater, false, ConfigName);
+        fileNameSchema = ffileNameSchema = IniProvider.Read(fileNameSchema, "%(title)s-%(id)s.%(ext)s", ConfigName);
+        fixReddit = ffixReddit = IniProvider.Read(fixReddit, true, ConfigName);
+        separateIntoWebsiteURL = fseparateIntoWebsiteURL = IniProvider.Read(separateIntoWebsiteURL, true, ConfigName);
+        SaveSubtitles = fSaveSubtitles = IniProvider.Read(SaveSubtitles, false, ConfigName);
+        subtitlesLanguages = fsubtitlesLanguages = IniProvider.Read(subtitlesLanguages, "en", ConfigName);
+        CloseDownloaderAfterFinish = fCloseDownloaderAfterFinish = IniProvider.Read(CloseDownloaderAfterFinish, true, ConfigName);
+        UseProxy = fUseProxy = IniProvider.Read(UseProxy, false, ConfigName);
+        ProxyType = fProxyType = IniProvider.Read(ProxyType, -1, ConfigName);
+        ProxyIP = fProxyIP = IniProvider.Read(ProxyIP, string.Empty, ConfigName);
+        ProxyPort = fProxyPort = IniProvider.Read(ProxyPort, string.Empty, ConfigName);
+        SaveThumbnail = fSaveThumbnail = IniProvider.Read(SaveThumbnail, false, ConfigName);
+        SaveDescription = fSaveDescription = IniProvider.Read(SaveDescription, false, ConfigName);
+        SaveVideoInfo = fSaveVideoInfo = IniProvider.Read(SaveVideoInfo, false, ConfigName);
+        SaveAnnotations = fSaveAnnotations = IniProvider.Read(SaveAnnotations, false, ConfigName);
+        SubtitleFormat = fSubtitleFormat = IniProvider.Read(SubtitleFormat, string.Empty, ConfigName);
+        DownloadLimit = fDownloadLimit = IniProvider.Read(DownloadLimit, 0, ConfigName);
+        RetryAttempts = fRetryAttempts = IniProvider.Read(RetryAttempts, 10, ConfigName);
+        DownloadLimitType = fDownloadLimitType = IniProvider.Read(DownloadLimitType, 1, ConfigName);
+        ForceIPv4 = fForceIPv4 = IniProvider.Read(ForceIPv4, false, ConfigName);
+        ForceIPv6 = fForceIPv6 = IniProvider.Read(ForceIPv6, false, ConfigName);
+        LimitDownloads = fLimitDownloads = IniProvider.Read(LimitDownloads, false, ConfigName);
+        EmbedSubtitles = fEmbedSubtitles = IniProvider.Read(EmbedSubtitles, false, ConfigName);
+        EmbedThumbnails = fEmbedThumbnails = IniProvider.Read(EmbedThumbnails, false, ConfigName);
+        VideoDownloadSound = fVideoDownloadSound = IniProvider.Read(VideoDownloadSound, true, ConfigName);
+        AudioDownloadAsVBR = fAudioDownloadAsVBR = IniProvider.Read(AudioDownloadAsVBR, false, ConfigName);
+        KeepOriginalFiles = fKeepOriginalFiles = IniProvider.Read(KeepOriginalFiles, false, ConfigName);
+        WriteMetadata = fWriteMetadata = IniProvider.Read(WriteMetadata, false, ConfigName);
+        SkipBatchTip = fSkipBatchTip = IniProvider.Read(SkipBatchTip, false, ConfigName);
+        AutomaticallyDownloadFromProtocol = fAutomaticallyDownloadFromProtocol = IniProvider.Read(AutomaticallyDownloadFromProtocol, true, ConfigName);
+        PreferFFmpeg = fPreferFFmpeg = IniProvider.Read(PreferFFmpeg, true, ConfigName);
+        SeparateBatchDownloads = fSeparateBatchDownloads = IniProvider.Read(SeparateBatchDownloads, true, ConfigName);
+        AddDateToBatchDownloadFolders = fAddDateToBatchDownloadFolders = IniProvider.Read(AddDateToBatchDownloadFolders, true, ConfigName);
+        YtdlType = fYtdlType = IniProvider.Read(YtdlType, 0, ConfigName) switch {
             1 => 1,
             2 => 2,
             _ => 0,
         };
-        SubdomainFolderNames = fSubdomainFolderNames = Ini.Read(SubdomainFolderNames, false, ConfigName);
-        ExtendedDownloaderPreferExtendedForm = fExtendedDownloaderPreferExtendedForm = Ini.Read(ExtendedDownloaderPreferExtendedForm, false, ConfigName);
-        ExtendedDownloaderAutoDownloadThumbnail = fExtendedDownloaderAutoDownloadThumbnail = Ini.Read(ExtendedDownloaderAutoDownloadThumbnail, false, ConfigName);
+        SubdomainFolderNames = fSubdomainFolderNames = IniProvider.Read(SubdomainFolderNames, false, ConfigName);
+        ExtendedDownloaderPreferExtendedForm = fExtendedDownloaderPreferExtendedForm = IniProvider.Read(ExtendedDownloaderPreferExtendedForm, false, ConfigName);
+        ExtendedDownloaderAutoDownloadThumbnail = fExtendedDownloaderAutoDownloadThumbnail = IniProvider.Read(ExtendedDownloaderAutoDownloadThumbnail, false, ConfigName);
     }
 
     public void Save() {
         Log.Write("Saving Download config.");
 
         if (downloadPath != fdownloadPath)
-            fdownloadPath = Ini.Write(downloadPath, ConfigName);
+            fdownloadPath = IniProvider.Write(downloadPath, ConfigName);
         if (separateDownloads != fseparateDownloads)
-            fseparateDownloads = Ini.Write(separateDownloads, ConfigName);
+            fseparateDownloads = IniProvider.Write(separateDownloads, ConfigName);
         if (SaveFormatQuality != fSaveFormatQuality)
-            fSaveFormatQuality = Ini.Write(SaveFormatQuality, ConfigName);
+            fSaveFormatQuality = IniProvider.Write(SaveFormatQuality, ConfigName);
         if (deleteYtdlOnClose != fdeleteYtdlOnClose)
-            fdeleteYtdlOnClose = Ini.Write(deleteYtdlOnClose, ConfigName);
+            fdeleteYtdlOnClose = IniProvider.Write(deleteYtdlOnClose, ConfigName);
         if (useYtdlUpdater != fuseYtdlUpdater)
-            fuseYtdlUpdater = Ini.Write(useYtdlUpdater, ConfigName);
+            fuseYtdlUpdater = IniProvider.Write(useYtdlUpdater, ConfigName);
         if (fileNameSchema != ffileNameSchema)
-            ffileNameSchema = Ini.Write(fileNameSchema, ConfigName);
+            ffileNameSchema = IniProvider.Write(fileNameSchema, ConfigName);
         if (fixReddit != ffixReddit)
-            ffixReddit = Ini.Write(fixReddit, ConfigName);
+            ffixReddit = IniProvider.Write(fixReddit, ConfigName);
         if (separateIntoWebsiteURL != fseparateIntoWebsiteURL)
-            fseparateIntoWebsiteURL = Ini.Write(separateIntoWebsiteURL, ConfigName);
+            fseparateIntoWebsiteURL = IniProvider.Write(separateIntoWebsiteURL, ConfigName);
         if (SaveSubtitles != fSaveSubtitles)
-            fSaveSubtitles = Ini.Write(SaveSubtitles, ConfigName);
+            fSaveSubtitles = IniProvider.Write(SaveSubtitles, ConfigName);
         if (subtitlesLanguages != fsubtitlesLanguages)
-            fsubtitlesLanguages = Ini.Write(subtitlesLanguages, ConfigName);
+            fsubtitlesLanguages = IniProvider.Write(subtitlesLanguages, ConfigName);
         if (CloseDownloaderAfterFinish != fCloseDownloaderAfterFinish)
-            fCloseDownloaderAfterFinish = Ini.Write(CloseDownloaderAfterFinish, ConfigName);
+            fCloseDownloaderAfterFinish = IniProvider.Write(CloseDownloaderAfterFinish, ConfigName);
         if (UseProxy != fUseProxy)
-            fUseProxy = Ini.Write(UseProxy, ConfigName);
+            fUseProxy = IniProvider.Write(UseProxy, ConfigName);
         if (ProxyType != fProxyType)
-            fProxyType = Ini.Write(ProxyType, ConfigName);
+            fProxyType = IniProvider.Write(ProxyType, ConfigName);
         if (ProxyIP != fProxyIP)
-            fProxyIP = Ini.Write(ProxyIP, ConfigName);
+            fProxyIP = IniProvider.Write(ProxyIP, ConfigName);
         if (ProxyPort != fProxyPort)
-            fProxyPort = Ini.Write(ProxyPort, ConfigName);
+            fProxyPort = IniProvider.Write(ProxyPort, ConfigName);
         if (SaveThumbnail != fSaveThumbnail)
-            fSaveThumbnail = Ini.Write(SaveThumbnail, ConfigName);
+            fSaveThumbnail = IniProvider.Write(SaveThumbnail, ConfigName);
         if (SaveDescription != fSaveDescription)
-            fSaveDescription = Ini.Write(SaveDescription, ConfigName);
+            fSaveDescription = IniProvider.Write(SaveDescription, ConfigName);
         if (SaveVideoInfo != fSaveVideoInfo)
-            fSaveVideoInfo = Ini.Write(SaveVideoInfo, ConfigName);
+            fSaveVideoInfo = IniProvider.Write(SaveVideoInfo, ConfigName);
         if (SaveAnnotations != fSaveAnnotations)
-            fSaveAnnotations = Ini.Write(SaveAnnotations, ConfigName);
+            fSaveAnnotations = IniProvider.Write(SaveAnnotations, ConfigName);
         if (SubtitleFormat != fSubtitleFormat)
-            fSubtitleFormat = Ini.Write(SubtitleFormat, ConfigName);
+            fSubtitleFormat = IniProvider.Write(SubtitleFormat, ConfigName);
         if (DownloadLimit != fDownloadLimit)
-            fDownloadLimit = Ini.Write(DownloadLimit, ConfigName);
+            fDownloadLimit = IniProvider.Write(DownloadLimit, ConfigName);
         if (RetryAttempts != fRetryAttempts)
-            fRetryAttempts = Ini.Write(RetryAttempts, ConfigName);
+            fRetryAttempts = IniProvider.Write(RetryAttempts, ConfigName);
         if (DownloadLimitType != fDownloadLimitType)
-            fDownloadLimitType = Ini.Write(DownloadLimitType, ConfigName);
+            fDownloadLimitType = IniProvider.Write(DownloadLimitType, ConfigName);
         if (ForceIPv4 != fForceIPv4)
-            fForceIPv4 = Ini.Write(ForceIPv4, ConfigName);
+            fForceIPv4 = IniProvider.Write(ForceIPv4, ConfigName);
         if (ForceIPv6 != fForceIPv6)
-            fForceIPv6 = Ini.Write(ForceIPv6, ConfigName);
+            fForceIPv6 = IniProvider.Write(ForceIPv6, ConfigName);
         if (LimitDownloads != fLimitDownloads)
-            fLimitDownloads = Ini.Write(LimitDownloads, ConfigName);
+            fLimitDownloads = IniProvider.Write(LimitDownloads, ConfigName);
         if (EmbedSubtitles != fEmbedSubtitles)
-            fEmbedSubtitles = Ini.Write(EmbedSubtitles, ConfigName);
+            fEmbedSubtitles = IniProvider.Write(EmbedSubtitles, ConfigName);
         if (EmbedThumbnails != fEmbedThumbnails)
-            fEmbedThumbnails = Ini.Write(EmbedThumbnails, ConfigName);
+            fEmbedThumbnails = IniProvider.Write(EmbedThumbnails, ConfigName);
         if (VideoDownloadSound != fVideoDownloadSound)
-            fVideoDownloadSound = Ini.Write(VideoDownloadSound, ConfigName);
+            fVideoDownloadSound = IniProvider.Write(VideoDownloadSound, ConfigName);
         if (AudioDownloadAsVBR != fAudioDownloadAsVBR)
-            fAudioDownloadAsVBR = Ini.Write(AudioDownloadAsVBR, ConfigName);
+            fAudioDownloadAsVBR = IniProvider.Write(AudioDownloadAsVBR, ConfigName);
         if (KeepOriginalFiles != fKeepOriginalFiles)
-            fKeepOriginalFiles = Ini.Write(KeepOriginalFiles, ConfigName);
+            fKeepOriginalFiles = IniProvider.Write(KeepOriginalFiles, ConfigName);
         if (WriteMetadata != fWriteMetadata)
-            fWriteMetadata = Ini.Write(WriteMetadata, ConfigName);
+            fWriteMetadata = IniProvider.Write(WriteMetadata, ConfigName);
         if (SkipBatchTip != fSkipBatchTip)
-            fSkipBatchTip = Ini.Write(SkipBatchTip, ConfigName);
+            fSkipBatchTip = IniProvider.Write(SkipBatchTip, ConfigName);
         if (AutomaticallyDownloadFromProtocol != fAutomaticallyDownloadFromProtocol)
-            fAutomaticallyDownloadFromProtocol = Ini.Write(AutomaticallyDownloadFromProtocol, ConfigName);
+            fAutomaticallyDownloadFromProtocol = IniProvider.Write(AutomaticallyDownloadFromProtocol, ConfigName);
         if (PreferFFmpeg != fPreferFFmpeg)
-            fPreferFFmpeg = Ini.Write(PreferFFmpeg, ConfigName);
+            fPreferFFmpeg = IniProvider.Write(PreferFFmpeg, ConfigName);
         if (SeparateBatchDownloads != fSeparateBatchDownloads)
-            fSeparateBatchDownloads = Ini.Write(SeparateBatchDownloads, ConfigName);
+            fSeparateBatchDownloads = IniProvider.Write(SeparateBatchDownloads, ConfigName);
         if (AddDateToBatchDownloadFolders != fAddDateToBatchDownloadFolders)
-            fAddDateToBatchDownloadFolders = Ini.Write(AddDateToBatchDownloadFolders, ConfigName);
+            fAddDateToBatchDownloadFolders = IniProvider.Write(AddDateToBatchDownloadFolders, ConfigName);
         if (YtdlType != fYtdlType)
-            fYtdlType = Ini.Write(YtdlType, ConfigName);
+            fYtdlType = IniProvider.Write(YtdlType, ConfigName);
         if (SubdomainFolderNames != fSubdomainFolderNames)
-            fSubdomainFolderNames = Ini.Write(SubdomainFolderNames, ConfigName);
+            fSubdomainFolderNames = IniProvider.Write(SubdomainFolderNames, ConfigName);
         if (ExtendedDownloaderPreferExtendedForm != fExtendedDownloaderPreferExtendedForm)
-            fExtendedDownloaderPreferExtendedForm = Ini.Write(ExtendedDownloaderPreferExtendedForm, ConfigName);
+            fExtendedDownloaderPreferExtendedForm = IniProvider.Write(ExtendedDownloaderPreferExtendedForm, ConfigName);
         if (ExtendedDownloaderAutoDownloadThumbnail != fExtendedDownloaderAutoDownloadThumbnail)
-            fExtendedDownloaderAutoDownloadThumbnail = Ini.Write(ExtendedDownloaderAutoDownloadThumbnail, ConfigName);
+            fExtendedDownloaderAutoDownloadThumbnail = IniProvider.Write(ExtendedDownloaderAutoDownloadThumbnail, ConfigName);
     }
 }

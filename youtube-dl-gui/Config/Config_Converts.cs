@@ -42,59 +42,59 @@ internal class Config_Converts {
     public void Load() {
         Log.Write("Loading Converter config.");
 
-        detectFiletype = fdetectFiletype = Ini.Read(detectFiletype, true, ConfigName);
-        clearOutput = fclearOutput = Ini.Read(clearOutput, false, ConfigName);
-        clearInput = fclearInput = Ini.Read(clearInput, false, ConfigName);
-        videoBitrate = fvideoBitrate = Ini.Read(videoBitrate, 7500, ConfigName);
-        videoPreset = fvideoPreset = Ini.Read(videoPreset, 5, ConfigName);
-        videoProfile = fvideoProfile = Ini.Read(videoProfile, 1, ConfigName);
-        videoCRF = fvideoCRF = Ini.Read(videoCRF, 8, ConfigName);
-        videoFastStart = fvideoFastStart = Ini.Read(videoFastStart, false, ConfigName);
-        hideFFmpegCompile = fhideFFmpegCompile = Ini.Read(hideFFmpegCompile, false, ConfigName);
-        audioBitrate = faudioBitrate = Ini.Read(audioBitrate, 256, ConfigName);
-        videoUseBitrate = fvideoUseBitrate = Ini.Read(videoUseBitrate, false, ConfigName);
-        videoUsePreset = fvideoUsePreset = Ini.Read(videoUsePreset, false, ConfigName);
-        videoUseProfile = fvideoUseProfile = Ini.Read(videoUseProfile, false, ConfigName);
-        videoUseCRF = fvideoUseCRF = Ini.Read(videoUseCRF, true, ConfigName);
-        audioUseBitrate = faudioUseBitrate = Ini.Read(audioUseBitrate, true, ConfigName);
-        CloseAfterFinish = fCloseAfterFinish = Ini.Read(CloseAfterFinish, false, ConfigName);
+        detectFiletype = fdetectFiletype = IniProvider.Read(detectFiletype, true, ConfigName);
+        clearOutput = fclearOutput = IniProvider.Read(clearOutput, false, ConfigName);
+        clearInput = fclearInput = IniProvider.Read(clearInput, false, ConfigName);
+        videoBitrate = fvideoBitrate = IniProvider.Read(videoBitrate, 7500, ConfigName);
+        videoPreset = fvideoPreset = IniProvider.Read(videoPreset, 5, ConfigName);
+        videoProfile = fvideoProfile = IniProvider.Read(videoProfile, 1, ConfigName);
+        videoCRF = fvideoCRF = IniProvider.Read(videoCRF, 8, ConfigName);
+        videoFastStart = fvideoFastStart = IniProvider.Read(videoFastStart, false, ConfigName);
+        hideFFmpegCompile = fhideFFmpegCompile = IniProvider.Read(hideFFmpegCompile, false, ConfigName);
+        audioBitrate = faudioBitrate = IniProvider.Read(audioBitrate, 256, ConfigName);
+        videoUseBitrate = fvideoUseBitrate = IniProvider.Read(videoUseBitrate, false, ConfigName);
+        videoUsePreset = fvideoUsePreset = IniProvider.Read(videoUsePreset, false, ConfigName);
+        videoUseProfile = fvideoUseProfile = IniProvider.Read(videoUseProfile, false, ConfigName);
+        videoUseCRF = fvideoUseCRF = IniProvider.Read(videoUseCRF, true, ConfigName);
+        audioUseBitrate = faudioUseBitrate = IniProvider.Read(audioUseBitrate, true, ConfigName);
+        CloseAfterFinish = fCloseAfterFinish = IniProvider.Read(CloseAfterFinish, false, ConfigName);
     }
 
     public void Save() {
         Log.Write("Saving Converter config.");
 
         if (detectFiletype != fdetectFiletype)
-            fdetectFiletype = Ini.Write(detectFiletype, ConfigName);
+            fdetectFiletype = IniProvider.Write(detectFiletype, ConfigName);
         if (clearOutput != fclearOutput)
-            fclearOutput = Ini.Write(clearOutput, ConfigName);
+            fclearOutput = IniProvider.Write(clearOutput, ConfigName);
         if (clearInput != fclearInput)
-            fclearInput = Ini.Write(clearInput, ConfigName);
+            fclearInput = IniProvider.Write(clearInput, ConfigName);
         if (videoBitrate != fvideoBitrate)
-            fvideoBitrate = Ini.Write(videoBitrate, ConfigName);
+            fvideoBitrate = IniProvider.Write(videoBitrate, ConfigName);
         if (videoPreset != fvideoPreset)
-            fvideoPreset = Ini.Write(videoPreset, ConfigName);
+            fvideoPreset = IniProvider.Write(videoPreset, ConfigName);
         if (videoProfile != fvideoProfile)
-            fvideoProfile = Ini.Write(videoProfile, ConfigName);
+            fvideoProfile = IniProvider.Write(videoProfile, ConfigName);
         if (videoCRF != fvideoCRF)
-            fvideoCRF = Ini.Write(videoCRF, ConfigName);
+            fvideoCRF = IniProvider.Write(videoCRF, ConfigName);
         if (videoFastStart != fvideoFastStart)
-            fvideoFastStart = Ini.Write(videoFastStart, ConfigName);
+            fvideoFastStart = IniProvider.Write(videoFastStart, ConfigName);
         if (hideFFmpegCompile != fhideFFmpegCompile)
-            fhideFFmpegCompile = Ini.Write(hideFFmpegCompile, ConfigName);
+            fhideFFmpegCompile = IniProvider.Write(hideFFmpegCompile, ConfigName);
         if (audioBitrate != faudioBitrate)
-            faudioBitrate = Ini.Write(audioBitrate, ConfigName);
+            faudioBitrate = IniProvider.Write(audioBitrate, ConfigName);
         if (videoUseBitrate != fvideoUseBitrate)
-            fvideoUseBitrate = Ini.Write(videoUseBitrate, ConfigName);
+            fvideoUseBitrate = IniProvider.Write(videoUseBitrate, ConfigName);
         if (videoUsePreset != fvideoUsePreset)
-            fvideoUsePreset = Ini.Write(videoUsePreset, ConfigName);
+            fvideoUsePreset = IniProvider.Write(videoUsePreset, ConfigName);
         if (videoUseProfile != fvideoUseProfile)
-            fvideoUseProfile = Ini.Write(videoUseProfile, ConfigName);
+            fvideoUseProfile = IniProvider.Write(videoUseProfile, ConfigName);
         if (videoUseCRF != fvideoUseCRF)
-            fvideoUseCRF = Ini.Write(videoUseCRF, ConfigName);
+            fvideoUseCRF = IniProvider.Write(videoUseCRF, ConfigName);
         if (audioUseBitrate != faudioUseBitrate)
-            faudioUseBitrate = Ini.Write(audioUseBitrate, ConfigName);
+            faudioUseBitrate = IniProvider.Write(audioUseBitrate, ConfigName);
         if (CloseAfterFinish != fCloseAfterFinish)
-            fCloseAfterFinish = Ini.Write(CloseAfterFinish, ConfigName);
+            fCloseAfterFinish = IniProvider.Write(CloseAfterFinish, ConfigName);
     }
 
 }

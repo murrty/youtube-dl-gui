@@ -162,7 +162,7 @@
     <Compile Include="Config\Config_General.cs" />
     <Compile Include="Config\Config_Initialization.cs" />
     <Compile Include="Config\Config_Saved.cs" />
-    <Compile Include="Config\Ini.cs" />
+    <Compile Include="Config\IniProvider.cs" />
     <Compile Include="Config\Protocol.cs" />
     <Compile Include="Forms\frmExtendedDownloader.cs">
       <SubType>Form</SubType>

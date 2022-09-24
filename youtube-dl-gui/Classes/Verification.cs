@@ -23,7 +23,7 @@ internal static class Verification {
         string TempPath;
         string YoutubeDlName = YoutubeDlGitType switch {
             GitID.YoutubeDl => "youtube-dl.exe",
-            GitID.YoutubeDlc => "youtube-dlc.exe",
+            //GitID.YoutubeDlc => "youtube-dlc.exe",
             GitID.YoutubeDlNightly => "youtube-dl-n.exe",
             GitID.YtDlpNightly => "yt-dlp-n.exe",
             _ => "yt-dlp.exe",
@@ -47,13 +47,13 @@ internal static class Verification {
                 case GitID.YoutubeDl: { //ytdl/youtube-dl {YYYY.MM.DD}
                 } break;
 
-                //case GitID.YtDlc:
-                case GitID.YoutubeDlc: { // blackjack###/youtube-dlc {YYYY.MM.DD-M | git.io/link}
-                    YoutubeDlVersion = YoutubeDlVersion[..YoutubeDlVersion.IndexOf(" | ")];
-                    //if (YoutubeDlVersion.Contains("-1 | ")) {
-                    //    YoutubeDlVersion = YoutubeDlVersion[..YoutubeDlVersion.IndexOf("-1")];
-                    //}
-                } break;
+                ////case GitID.YtDlc:
+                //case GitID.YoutubeDlc: { // blackjack###/youtube-dlc {YYYY.MM.DD-M | git.io/link}
+                //    YoutubeDlVersion = YoutubeDlVersion[..YoutubeDlVersion.IndexOf(" | ")];
+                //    //if (YoutubeDlVersion.Contains("-1 | ")) {
+                //    //    YoutubeDlVersion = YoutubeDlVersion[..YoutubeDlVersion.IndexOf("-1")];
+                //    //}
+                //} break;
 
                 case GitID.YtDlpNightly:
                 case GitID.YtDlp: { // yt-dlp/yt-dlp {YYYY.MM.DD on Python 3.8.10}
