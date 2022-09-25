@@ -46,7 +46,7 @@
             // 
             // lbUpdaterInvalidData
             // 
-            this.lbUpdaterInvalidData.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbUpdaterInvalidData.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbUpdaterInvalidData.Location = new System.Drawing.Point(12, 5);
             this.lbUpdaterInvalidData.Name = "lbUpdaterInvalidData";
             this.lbUpdaterInvalidData.Size = new System.Drawing.Size(340, 74);

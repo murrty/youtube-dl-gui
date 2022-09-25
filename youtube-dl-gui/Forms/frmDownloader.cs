@@ -115,7 +115,7 @@ namespace youtube_dl_gui {
                         case DownloadStatus.Aborted:
                         case DownloadStatus.YtdlError:
                         case DownloadStatus.ProgramError:
-                            rtbVerbose.AppendText("The user requested to abort subsequent batch downloads");
+                            rtbVerbose.AppendAndTryScrollNewLine("The user requested to abort subsequent batch downloads");
                             btnDownloaderAbortBatchDownload.Enabled = false;
                             btnDownloaderAbortBatchDownload.Visible = false;
                             break;
@@ -123,7 +123,7 @@ namespace youtube_dl_gui {
                             if (DownloadThread is not null && DownloadThread.IsAlive) {
                                 DownloadThread.Abort();
                             }
-                            rtbVerbose.AppendText("Additionally, the batch download has been cancelled.");
+                            rtbVerbose.AppendAndTryScrollNewLine("Additionally, the batch download has been cancelled.");
                             this.Close();
                             break;
                     }
@@ -164,7 +164,7 @@ namespace youtube_dl_gui {
                         case DownloadStatus.Aborted:
                         case DownloadStatus.YtdlError:
                         case DownloadStatus.ProgramError:
-                            rtbVerbose.AppendText("The user requested to abort subsequent batch downloads");
+                            rtbVerbose.AppendAndTryScrollNewLine("The user requested to abort subsequent batch downloads");
                             btnDownloaderAbortBatchDownload.Enabled = false;
                             btnDownloaderAbortBatchDownload.Visible = false;
                             break;
@@ -178,7 +178,7 @@ namespace youtube_dl_gui {
                                 }
                                 DownloadThread.Abort();
                             }
-                            rtbVerbose.AppendText("Additionally, the batch download has been cancelled.");
+                            rtbVerbose.AppendAndTryScrollNewLine("Additionally, the batch download has been cancelled.");
                             CurrentDownload.Status = DownloadStatus.Aborted;
                             this.Close();
                             break;
@@ -194,19 +194,19 @@ namespace youtube_dl_gui {
                 return;
             }
 
-            rtbVerbose.AppendText("Beginning download, this box will output progress\n");
+            rtbVerbose.AppendText("Beginning download, this box will output progress");
             if (CurrentDownload.BatchDownload)
                 chkDownloaderCloseAfterDownload.Checked = true;
 
             if (!CurrentDownload.GenerateArguments(rtbVerbose, out string Arguments, out string PreviewArguments))
                 return;
 
-            rtbVerbose.AppendText("Arguments have been generated and are readonly in the textbox\n");
+            rtbVerbose.AppendAndTryScrollNewLine("Arguments have been generated and are readonly in the textbox");
             txtGeneratedArguments.Text = PreviewArguments;
             PreviewArguments = null;
 
             #region Download thread
-            rtbVerbose.AppendText("Creating download thread\n");
+            rtbVerbose.AppendAndTryScrollNewLine("Creating download thread");
             Log.Write("Beginning download thread.");
             DownloadThread = new Thread(() => {
                 Program.RunningActions.Add(this);
@@ -236,14 +236,14 @@ namespace youtube_dl_gui {
                                         pbStatus.Invoke(() => {
                                             pbStatus.Style = ProgressBarStyle.Marquee;
                                             pbStatus.Value = pbStatus.Maximum;
-                                            pbStatus.Text = "Merging formats...";
+                                            pbStatus.Text = Language.pbDownloadProgressMergingFormats;
                                         });
                                     }
                                     else if (InterimMessage.StartsWith("[videoconvertor]")) { // Converter?
                                         pbStatus.Invoke(() => {
                                             pbStatus.Style = ProgressBarStyle.Marquee;
                                             pbStatus.Value = pbStatus.Maximum;
-                                            pbStatus.Text = "Converting video...";
+                                            pbStatus.Text = Language.pbDownloadProgressConverting;
                                         });
                                     }
                                     else {
@@ -256,7 +256,7 @@ namespace youtube_dl_gui {
                                         if (pbStatus.Value != 0)
                                             pbStatus.Invoke(() => pbStatus.Value = 0);
                                     }
-                                    rtbVerbose.Invoke(() => rtbVerbose.AppendText(e.Data + "\n"));
+                                    rtbVerbose?.Invoke(() => rtbVerbose.AppendAndTryScrollNewLine(e.Data));
                                 } break;
                             }
                         }
@@ -264,7 +264,7 @@ namespace youtube_dl_gui {
                     DownloadProcess.ErrorDataReceived += (s, e) => {
                         this.BeginInvoke(() => {
                             if (e.Data is not null && e.Data.Length > 0)
-                                rtbVerbose?.AppendText($"Error: {e.Data}\n");
+                                rtbVerbose?.AppendAndTryScrollNewLine($"Error: {e.Data}");
                         });
                     };
                     Arguments = null;
@@ -292,6 +292,7 @@ namespace youtube_dl_gui {
 
                             if (Msg.IsNotNullEmptyWhitespace()) {
                                 string Line = Msg.ReplaceWhitespace();
+                                rtbVerbose.Invoke(() => rtbVerbose.AppendAndTryScrollNewLine(Line));
                                 switch (Line[..5]) {
                                     case "[down": {
                                         string[] LineParts = Line.Split(' ');
@@ -315,21 +316,21 @@ namespace youtube_dl_gui {
                                     case "[ffmp": {
                                         pbStatus.Invoke(() => {
                                             pbStatus.Style = ProgressBarStyle.Marquee;
-                                            pbStatus.Text = "Post-processing in ffmpeg...";
+                                            pbStatus.Text = Language.pbDownloadProgressFfmpegPostProcessing;
                                             pbStatus.Value = 100;
                                         });
                                     } break;
                                     case "[embe": {
                                         pbStatus.Invoke(() => {
                                             pbStatus.Style = ProgressBarStyle.Marquee;
-                                            pbStatus.Text = "Emedding subtitles...";
+                                            pbStatus.Text = Language.pbDownloadProgressEmbeddingSubtitles;
                                             pbStatus.Value = 100;
                                         });
                                     } break;
                                     case "[meta": {
                                         pbStatus.Invoke(() => {
                                             pbStatus.Style = ProgressBarStyle.Marquee;
-                                            pbStatus.Text = "Applying metadata...";
+                                            pbStatus.Text = Language.pbDownloadProgressEmbeddingMetadata;
                                             pbStatus.Value = 100;
                                         });
                                     } break;
@@ -350,7 +351,7 @@ namespace youtube_dl_gui {
                     DownloadProcess?.Kill();
                     this.BeginInvoke((Action)delegate {
                         if (this.IsHandleCreated) {
-                            rtbVerbose.AppendText("Downloading was aborted by the user.");
+                            rtbVerbose.AppendAndTryScrollNewLine("Downloading was aborted by the user.");
                             btnDownloaderCancelExit.Text = Language.GenericExit;
                         }
                     });
@@ -373,7 +374,7 @@ namespace youtube_dl_gui {
                 IsBackground = true,
                 Name = $"Download {CurrentDownload.DownloadURL}"
             };
-            rtbVerbose.AppendText("Created download thread, starting...\n");
+            rtbVerbose.AppendAndTryScrollNewLine("Created download thread, starting...");
             DownloadThread.Start();
             #endregion
         }
@@ -390,13 +391,13 @@ namespace youtube_dl_gui {
                     case DownloadStatus.YtdlError:
                         this.Activate();
                         System.Media.SystemSounds.Hand.Play();
-                        rtbVerbose.AppendText("\nAn error occured\nTHIS IS A YOUTUBE-DL ERROR, NOT A ERROR WITH THIS PROGRAM!\nExit the form to resume batch download.");
+                        rtbVerbose.AppendAndTryScrollNewLine("An error occured\r\nTHIS IS A YOUTUBE-DL ERROR, NOT A ERROR WITH THIS PROGRAM!\r\nExit the form to resume batch download.");
                         btnDownloaderAbortBatchDownload.Text = Language.GenericRetry;
                         pbStatus.ProgressState = murrty.controls.ProgressState.Error;
                         this.Text = Language.frmDownloaderError;
                         break;
                     case DownloadStatus.ProgramError:
-                        rtbVerbose.AppendText("\nAn error occured\nAn error log was presented, if enabled.\nExit the form to resume batch download.");
+                        rtbVerbose.AppendAndTryScrollNewLine("An error occured\r\nAn error log was presented, if enabled.\r\nExit the form to resume batch download.");
                         pbStatus.ProgressState = murrty.controls.ProgressState.Error;
                         pbStatus.Text = "Error";
                         this.Text = Language.frmDownloaderError;
@@ -418,7 +419,7 @@ namespace youtube_dl_gui {
                         pbStatus.Text = "Aborted";
                         break;
                     case DownloadStatus.YtdlError:
-                        rtbVerbose.AppendText("\nAn error occured\nTHIS IS A YOUTUBE-DL ERROR, NOT A ERROR WITH THIS PROGRAM!");
+                        rtbVerbose.AppendAndTryScrollNewLine("An error occured\r\nTHIS IS A YOUTUBE-DL ERROR, NOT A ERROR WITH THIS PROGRAM!");
                         btnDownloaderAbortBatchDownload.Visible = true;
                         btnDownloaderAbortBatchDownload.Enabled = true;
                         btnDownloaderAbortBatchDownload.Text = Language.GenericRetry;
@@ -429,7 +430,7 @@ namespace youtube_dl_gui {
                         System.Media.SystemSounds.Hand.Play();
                         break;
                     case DownloadStatus.ProgramError:
-                        rtbVerbose.AppendText("\nAn error occured\nAn error log was presented, if enabled.");
+                        rtbVerbose.AppendAndTryScrollNewLine("An error occured\r\nAn error log was presented, if enabled.");
                         pbStatus.ProgressState = murrty.controls.ProgressState.Error;
                         pbStatus.Text = "Error";
                         this.Text = Language.frmDownloaderError;
@@ -438,7 +439,7 @@ namespace youtube_dl_gui {
                         break;
                     case DownloadStatus.Finished:
                         this.Text = Language.frmDownloaderComplete;
-                        rtbVerbose.AppendText("Download has finished.");
+                        rtbVerbose.AppendAndTryScrollNewLine("Download has finished.");
                         if (chkDownloaderCloseAfterDownload.Checked) { this.Close(); }
                         else {
                             pbStatus.Value = pbStatus.Maximum;
@@ -447,7 +448,7 @@ namespace youtube_dl_gui {
                         break;
                     default:
                         this.Text = Language.frmDownloaderComplete;
-                        rtbVerbose.AppendText("CurrentDownload.Status not defined (Not a batch download)\nAssuming success.");
+                        rtbVerbose.AppendAndTryScrollNewLine("CurrentDownload.Status not defined (Not a batch download)\r\nAssuming success.");
                         if (chkDownloaderCloseAfterDownload.Checked) { this.Close(); }
                         break;
                 }

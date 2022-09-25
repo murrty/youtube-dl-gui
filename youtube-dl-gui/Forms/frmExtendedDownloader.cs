@@ -20,7 +20,6 @@ namespace youtube_dl_gui {
         private ListViewItem LastSelectedUnknownFormat;
 
         private DownloadStatus Status = DownloadStatus.None;
-        private volatile string Msg;
 
         public frmExtendedDownloader(string URL, bool Archived) {
             InitializeComponent();
@@ -631,6 +630,7 @@ namespace youtube_dl_gui {
             return Data;
         }
         public void BeginDownload(bool Auth) {
+            rtbVerbose.Invoke(() => rtbVerbose.AppendText("Starting download."));
             string args = GenerateArguments(Auth);
             if (args.IsNotNullEmptyWhitespace()) {
                 if (Verification.YoutubeDlPath.IsNullEmptyWhitespace())
@@ -660,6 +660,7 @@ namespace youtube_dl_gui {
                     };
                     args = null;
                     Status = DownloadStatus.Downloading;
+                    string Msg = null;
                     DownloadProcess.OutputDataReceived += (s, e) => {
                         if (e.Data is not null && e.Data.Length > 0) {
                             switch (e.Data[..8]) {
@@ -674,25 +675,25 @@ namespace youtube_dl_gui {
                                         pbStatus.Invoke(() => {
                                             pbStatus.Style = ProgressBarStyle.Marquee;
                                             pbStatus.Value = pbStatus.Maximum;
-                                            pbStatus.Text = "Merging formats...";
+                                            pbStatus.Text = Language.pbDownloadProgressMergingFormats;
                                         });
                                     }
                                     else if (Msg.StartsWith("[videoconvertor]")) { // Converter?
                                         pbStatus.Invoke(() => {
                                             pbStatus.Style = ProgressBarStyle.Marquee;
                                             pbStatus.Value = pbStatus.Maximum;
-                                            pbStatus.Text = "Converting video...";
+                                            pbStatus.Text = Language.pbDownloadProgressConverting;
                                         });
                                     }
                                     Msg = null;
-                                    rtbVerbose.Invoke(() => rtbVerbose.AppendText(e.Data + "\n"));
+                                    rtbVerbose.Invoke(() => rtbVerbose.AppendAndTryScrollNewLine(e.Data));
                                 } break;
                             }
                         }
                     };
                     DownloadProcess.ErrorDataReceived += (s, e) => {
                         if (e.Data is not null && e.Data.Length > 0)
-                            rtbVerbose.Invoke(() => rtbVerbose.AppendText($"Error: {e.Data}\n"));
+                            rtbVerbose.Invoke(() => rtbVerbose.AppendAndTryScrollNewLine($"Error: {e.Data.Trim()}"));
                     };
                     DownloadProcess.Start();
                     DownloadProcess.BeginOutputReadLine();
@@ -708,7 +709,7 @@ namespace youtube_dl_gui {
                         if (Msg is not null) {
                             string Line = Msg.ReplaceWhitespace();
                             string[] LineParts = Line.Split(' ');
-                            rtbVerbose.Invoke(() => rtbVerbose.AppendText(Line + "\n"));
+                            rtbVerbose.Invoke(() => rtbVerbose.AppendAndTryScrollNewLine(Line));
                             switch (Line[..5]) {
                                 case "[down": {
                                     switch (LineParts[1][0]) {
@@ -730,21 +731,21 @@ namespace youtube_dl_gui {
                                 case "[ffmp": {
                                     pbStatus.Invoke(() => {
                                         pbStatus.Style = ProgressBarStyle.Marquee;
-                                        pbStatus.Text = "Post-processing in ffmpeg...";
+                                        pbStatus.Text = Language.pbDownloadProgressFfmpegPostProcessing;
                                         pbStatus.Value = 100;
                                     });
                                 } break;
                                 case "[embe": {
                                     pbStatus.Invoke(() => {
                                         pbStatus.Style = ProgressBarStyle.Marquee;
-                                        pbStatus.Text = "Emedding subtitles...";
+                                        pbStatus.Text = Language.pbDownloadProgressEmbeddingSubtitles;
                                         pbStatus.Value = 100;
                                     });
                                 } break;
                                 case "[meta": {
                                     pbStatus.Invoke(() => {
                                         pbStatus.Style = ProgressBarStyle.Marquee;
-                                        pbStatus.Text = "Applying metadata...";
+                                        pbStatus.Text = Language.pbDownloadProgressEmbeddingMetadata;
                                         pbStatus.Value = 100;
                                     });
                                 } break;
@@ -836,6 +837,7 @@ namespace youtube_dl_gui {
         }
         private void btnClearOutput_Click(object sender, EventArgs e) {
             rtbVerbose.Clear();
+            rtbVerbose.AppendText("Cleared");
         }
         private void btnDownloadWithAuthentication_Click(object sender, EventArgs e) {
             switch (Status) {

@@ -1,5 +1,8 @@
-﻿namespace murrty.controls;
-// Derived from wyDay's progress bar.
+﻿/* ExtendedProgressBar by murrty
+ Derived from wyDay's progress bar with heavy modifications.
+*/
+
+namespace murrty.controls;
 
 using System.ComponentModel;
 using System.ComponentModel.Design;

@@ -13,11 +13,18 @@ internal static class NativeMethods {
     /// <param name="lParam">Additional message-specific information.</param>
     /// <returns>The return value specifies the result of the message processing; it depends on the message sent.</returns>
     [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
-    internal static extern int SendMessage(
+    internal static extern nint SendMessage(
         [In] nint hWnd,
-        [In] uint wMsg,
+        [In] nint wMsg,
         [In] nint wParam,
         [In] nint lParam);
+
+    [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+    internal static extern nint SendMessage(
+        [In] nint hWnd,
+        [In] nint wMsg,
+        [In] nint wParam,
+        [In] ref System.Drawing.Point lParam);
 
     /// <summary>
     /// Loads the specified cursor resource from the executable (.EXE) file associated with an application instance.

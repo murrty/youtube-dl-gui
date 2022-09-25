@@ -104,13 +104,13 @@ public sealed class DownloadInfo {
         FileNameSchema = Config.Settings.Downloads.fileNameSchema;
     }
 
-    public bool GenerateArguments(System.Windows.Forms.RichTextBox Verbose, out string Arguments, out string CensoredArguments) {
+    public bool GenerateArguments(murrty.controls.ExtendedRichTextBox Verbose, out string Arguments, out string CensoredArguments) {
         Status = DownloadStatus.GeneratingArguments;
         Arguments = null;
         CensoredArguments = null;
 
         if (DownloadURL.IsNullEmptyWhitespace()) {
-            Verbose.AppendText("The URL is null or empty. Please enter a URL to download.");
+            Verbose.AppendAndTryScrollNewLine("The URL is null or empty. Please enter a URL to download.");
             Log.Write("Cannot continue download.");
             return false;
         }
@@ -127,22 +127,22 @@ public sealed class DownloadInfo {
 
         #region youtube-dl path
         if (Verification.YoutubeDlPath.IsNullEmptyWhitespace()) {
-            Verbose.AppendText("Youtube-DL has not been found\nA rescan for youtube-dl was called\n");
+            Verbose.AppendAndTryScrollNewLine("Youtube-DL has not been found\r\nA rescan for youtube-dl was called");
             Verification.RefreshYoutubeDlLocation();
             if (Verification.YoutubeDlPath is not null)
-                Verbose.AppendText("Rescan finished and found, continuing\n");
+                Verbose.AppendAndTryScrollNewLine("Rescan finished and found, continuing");
             else {
-                Verbose.AppendText("still couldnt find youtube-dl.");
+                Verbose.AppendAndTryScrollNewLine("still couldnt find youtube-dl.");
                 Status = DownloadStatus.ProgramError;
                 Log.Write("Youtube-dl could not be found.");
                 return false;
             }
         }
-        Verbose.AppendText("Youtube-DL has been found and set\n");
+        Verbose.AppendAndTryScrollNewLine("Youtube-DL has been found and set");
         #endregion
 
         #region Output
-        Verbose.AppendText("Generating output directory structure\n");
+        Verbose.AppendAndTryScrollNewLine("Generating output directory structure");
 
         StringBuilder OutputDirectory = new($"\"{(
             Config.Settings.Downloads.downloadPath.StartsWith("./") || Config.Settings.Downloads.downloadPath.StartsWith(".\\") ?
@@ -171,13 +171,13 @@ public sealed class DownloadInfo {
                     OutputDirectory.Append("\\Custom");
                     break;
                 default:
-                    Verbose.AppendText("Unable to determine what download type to use (expected 0, 1, or 2)");
+                    Verbose.AppendAndTryScrollNewLine("Unable to determine what download type to use (expected 0, 1, or 2)");
                     Status = DownloadStatus.ProgramError;
                     return false;
             }
         }
         if (string.IsNullOrWhiteSpace(FileNameSchema)) {
-            Verbose.AppendText("The file name schema is not properly set, falling back to the default one. Consider setting it in the settings, or making sure the schema list has a proper schema format on the main form.");
+            Verbose.AppendAndTryScrollNewLine("The file name schema is not properly set, falling back to the default one. Consider setting it in the settings, or making sure the schema list has a proper schema format on the main form.");
             OutputDirectory.Append("\\%(title)s-%(id)s.%(ext)s");
         }
         else
@@ -186,7 +186,7 @@ public sealed class DownloadInfo {
         if (!MostlyCustomArguments)
             ArgumentsBuffer.Append($"{DownloadURL} -o {OutputDirectory}");
 
-        Verbose.AppendText("The output was generated and will be used\n");
+        Verbose.AppendAndTryScrollNewLine("The output was generated and will be used");
         #endregion
 
         #region Quality & format
@@ -216,24 +216,23 @@ public sealed class DownloadInfo {
                     ArgumentsBuffer.Append($" --extract-audio --audio-format {Formats.GetAudioFormat(AudioFormat)}");
             } break;
             case DownloadType.Custom: {
-                Verbose.AppendText("Custom was requested, skipping quality + format");
+                Verbose.AppendAndTryScrollNewLine("Custom was requested, skipping quality + format");
                 if (MostlyCustomArguments)
                     ArgumentsBuffer = new($"{DownloadArguments} -o \"{OutputDirectory}\"");
                 else if (!string.IsNullOrWhiteSpace(DownloadArguments))
                     ArgumentsBuffer.Append($" {DownloadArguments}");
                 else {
-                    Verbose.AppendText("No custom arguments were provided.");
+                    Verbose.AppendAndTryScrollNewLine("No custom arguments were provided.");
                     return false;
                 }
             } break;
             default: {
-                Verbose.AppendText("Expected a downloadtype (Quality + Format)");
+                Verbose.AppendAndTryScrollNewLine("Expected a downloadtype (Quality + Format)");
                 Status = DownloadStatus.ProgramError;
-                return false;
-            }
+            } return false;
         }
 
-        Verbose.AppendText("The quality and format has been set\n");
+        Verbose.AppendAndTryScrollNewLine("The quality and format has been set");
         #endregion
 
         #region Arguments
@@ -260,18 +259,18 @@ public sealed class DownloadInfo {
                     break;
             }
 
-            if (Config.Settings.Downloads.PreferFFmpeg || DownloadHelper.IsReddit(DownloadURL) && Config.Settings.Downloads.fixReddit) {
-                Verbose.AppendText("Looking for ffmpeg\n");
+            if ((Config.Settings.Downloads.PreferFFmpeg || DownloadHelper.IsReddit(DownloadURL)) && Config.Settings.Downloads.fixReddit) {
+                Verbose.AppendAndTryScrollNewLine("Looking for ffmpeg");
                 if (Verification.FFmpegPath is not null) {
                     if (Config.Settings.General.UseStaticFFmpeg)
                         ArgumentsBuffer.Append($" --ffmpeg-location \"{Config.Settings.General.ffmpegPath}\" --hls-prefer-ffmpeg");
                     else
                         ArgumentsBuffer.Append($" --ffmpeg-location \"{Verification.FFmpegPath}\" --hls-prefer-ffmpeg");
 
-                    Verbose.AppendText("ffmpeg was found\n");
+                    Verbose.AppendAndTryScrollNewLine("ffmpeg was found");
                 }
                 else
-                    Verbose.AppendText("ffmpeg path is null, downloading may be affected\n");
+                    Verbose.AppendAndTryScrollNewLine("ffmpeg path is null, downloading may be affected");
             }
 
             if (Config.Settings.Downloads.SaveSubtitles) {
@@ -298,13 +297,13 @@ public sealed class DownloadInfo {
                             if (VideoFormat == VideoFormatType.mp4)
                                 ArgumentsBuffer.Append(" --embed-thumbnail");
                             else
-                                Verbose.AppendText("!!!!!!!! WARNING !!!!!!!!\nCannot embed thumbnail to non-mp4 videos files\n");
+                                Verbose.AppendAndTryScrollNewLine("!!!!!!!! WARNING !!!!!!!!\r\nCannot embed thumbnail to non-mp4 videos files");
                             break;
                         case DownloadType.Audio:
                             if (AudioFormat == AudioFormatType.m4a || AudioFormat == AudioFormatType.mp3)
                                 ArgumentsBuffer.Append(" --embed-thumbnail");
                             else
-                                Verbose.AppendText("!!!!!!!! WARNING !!!!!!!!\nCannot embed thumbnail to non-m4a/mp3 audio files\n");
+                                Verbose.AppendAndTryScrollNewLine("!!!!!!!! WARNING !!!!!!!!\r\nCannot embed thumbnail to non-m4a/mp3 audio files");
                             break;
                     }
                 }
@@ -381,7 +380,7 @@ public sealed class DownloadInfo {
         }
         #endregion
 
-        Verbose.AppendText("Arguments have been generated and are readonly in the textbox\n");
+        Verbose.AppendAndTryScrollNewLine("Arguments have been generated");
         Arguments = ArgumentsBuffer.ToString();
         CensoredArguments = PreviewArguments.ToString();
         return true;

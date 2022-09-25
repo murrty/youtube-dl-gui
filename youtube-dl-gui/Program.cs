@@ -13,7 +13,7 @@ namespace youtube_dl_gui {
         /// <summary>
         /// Gets the curent version of the program.
         /// </summary>
-        public static Version CurrentVersion { get; } = new(3, 1, 0, 1);
+        public static Version CurrentVersion { get; } = new(3, 1, 0);
 
         /// <summary>
         /// Gets whether the program is running in debug mode.
@@ -89,7 +89,7 @@ namespace youtube_dl_gui {
         private static MessageHandler Messages;
 
         [STAThread]
-        public static int Main(string[] args) {
+        private static int Main(string[] args) {
 #if DEBUG
             DebugMode = true;
 #endif

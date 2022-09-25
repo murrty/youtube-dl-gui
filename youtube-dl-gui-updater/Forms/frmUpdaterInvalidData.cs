@@ -7,6 +7,10 @@ public partial class frmUpdaterInvalidData : Form {
         this.Shown += (s, e) => System.Media.SystemSounds.Hand.Play();
     }
     private void LoadLanguage() {
-
+        this.Text = Language.frmUpdaterInvalidData;
+        lbUpdaterInvalidData.Text = Language.lbUpdaterInvalidData;
+        btnUpdaterInvalidDataUpdateLatest.Text = Language.btnUpdaterInvalidDataUpdateLatest;
+        btnUpdaterInvalidDataUpdatePreRelease.Text = Language.btnUpdaterInvalidDataUpdatePreRelease;
+        btnUpdaterInvalidDataDoNotUpdate.Text = Language.btnUpdaterInvalidDataDoNotUpdate;
     }
 }

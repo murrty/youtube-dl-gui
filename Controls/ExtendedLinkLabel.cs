@@ -1,4 +1,6 @@
-﻿namespace murrty.controls;
+﻿/* ExtendedLinkLabel by murrty */
+
+namespace murrty.controls;
 
 using System;
 using System.ComponentModel;

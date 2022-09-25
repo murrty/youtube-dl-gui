@@ -1,4 +1,6 @@
-﻿namespace murrty.classcontrols;
+﻿/* ExtendedWebClient by murrty */
+
+namespace murrty.classcontrols;
 
 using System;
 using System.ComponentModel;

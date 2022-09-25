@@ -94,15 +94,15 @@ namespace youtube_dl_gui {
                         case ConversionStatus.Aborted:
                         case ConversionStatus.FfmpegError:
                         case ConversionStatus.ProgramError:
-                            rtbConsoleOutput.AppendText("The user requested to abort subsequent batch conversions");
+                            rtbConsoleOutput.AppendAndTryScrollNewLine("The user requested to abort subsequent batch conversions");
                             btnConverterAbortBatchConversions.Enabled = false;
                             btnConverterAbortBatchConversions.Visible = false;
                             break;
                         default:
-                            if (ConverterThread != null && ConverterThread.IsAlive) {
+                            if (ConverterThread is not null && ConverterThread.IsAlive) {
                                 ConverterThread.Abort();
                             }
-                            rtbConsoleOutput.AppendText("Additionally, the batch conversion has been cancelled.");
+                            rtbConsoleOutput.AppendAndTryScrollNewLine("Additionally, the batch conversion has been cancelled.");
                             CurrentConversion.Status = ConversionStatus.Aborted;
                             this.Close();
                             break;
@@ -141,7 +141,7 @@ namespace youtube_dl_gui {
                 }
             }
 
-            rtbConsoleOutput.AppendText("Beginning conversion, this box will output progress\n");
+            rtbConsoleOutput.AppendText("Beginning conversion, this box will output progress");
             if (CurrentConversion.BatchConversion) {
                 chkConverterCloseAfterConversion.Checked = true;
             }
@@ -153,19 +153,19 @@ namespace youtube_dl_gui {
 
             #region ffmpeg path
             if (Verification.FFmpegPath.IsNullEmptyWhitespace()) {
-                rtbConsoleOutput.AppendText("ffmpeg has not been found.\nA rescan for ffmpeg was called\n");
+                rtbConsoleOutput.AppendAndTryScrollNewLine("ffmpeg has not been found.\r\nA rescan for ffmpeg was called");
                 Verification.RefreshFFmpegLocation();
                 if (Verification.FFmpegPath.IsNullEmptyWhitespace()) {
-                    rtbConsoleOutput.AppendText("Rescan finished and found, continuing\n");
+                    rtbConsoleOutput.AppendAndTryScrollNewLine("Rescan finished and found, continuing");
                 }
                 else {
-                    rtbConsoleOutput.AppendText("still couldn't find ffmpeg.");
+                    rtbConsoleOutput.AppendAndTryScrollNewLine("still couldn't find ffmpeg.");
                     CurrentConversion.Status = ConversionStatus.ProgramError;
                     Log.Write("ffmpeg could not be found.");
                     return;
                 }
             }
-            rtbConsoleOutput.AppendText("ffmpeg has been found and set\n");
+            rtbConsoleOutput.AppendAndTryScrollNewLine("ffmpeg has been found and set");
             #endregion
 
             #region Arguments
@@ -195,12 +195,12 @@ namespace youtube_dl_gui {
                         break;
 
                     case ConversionType.Custom:
-                        rtbConsoleOutput.AppendText("Custom conversion was specified, skipping generating arguments\n");
+                        rtbConsoleOutput.AppendAndTryScrollNewLine("Custom conversion was specified, skipping generating arguments");
                         ArgumentsBuffer.Append(CurrentConversion.CustomArguments);
                         break;
 
                     default:
-                        rtbConsoleOutput.AppendText("Using ffmpeg to automatically choose best settings\n");
+                        rtbConsoleOutput.AppendAndTryScrollNewLine("Using ffmpeg to automatically choose best settings");
                         break;
                 }
 
@@ -211,7 +211,7 @@ namespace youtube_dl_gui {
                 }
 
                 ArgumentsBuffer.Append($" \"{CurrentConversion.OutputFile}\"");
-                rtbConsoleOutput.AppendText("Arguments have been generated and are readonly in the textbox.\n");
+                rtbConsoleOutput.AppendAndTryScrollNewLine("Arguments have been generated and are readonly in the textbox.");
                 txtArgumentsGenerated.Text = ArgumentsBuffer.ToString();
                 CurrentConversion.Status = ConversionStatus.Converting;
             }
@@ -236,18 +236,12 @@ namespace youtube_dl_gui {
                         EnableRaisingEvents = true
                     };
                     ConverterProcess.OutputDataReceived += (s, e) => {
-                        this.BeginInvoke(new MethodInvoker(() => {
-                            if (e.Data is not null)
-                                rtbConsoleOutput.AppendText(e.Data + "\n");
-                        }));
+                        if (e.Data is not null && e.Data.Length > 0)
+                            rtbConsoleOutput.BeginInvoke(() => rtbConsoleOutput.AppendAndTryScrollNewLine($"{e.Data}"));
                     };
                     ConverterProcess.ErrorDataReceived += (s, e) => {
-                        this.BeginInvoke(new MethodInvoker(() => {
-                            if (e.Data != null) {
-                                rtbConsoleOutput.AppendText("Error:\n");
-                                rtbConsoleOutput.AppendText(e.Data + "\n");
-                            }
-                        }));
+                        if (e.Data is not null && e.Data.Length > 0)
+                            rtbConsoleOutput.BeginInvoke(() => rtbConsoleOutput.AppendAndTryScrollNewLine($"Error: {e.Data}"));
                     };
                     ConverterProcess.Exited += (s, e) => {
                         if (ConverterProcess.ExitCode == 0) {
@@ -277,7 +271,7 @@ namespace youtube_dl_gui {
                     Program.KillProcessTree((uint)ConverterProcess.Id);
                     ConverterProcess.Kill();
                     this.Invoke((Action)delegate {
-                        rtbConsoleOutput.AppendText("Conversion was aborted by the user.");
+                        rtbConsoleOutput.AppendAndTryScrollNewLine("Conversion was aborted by the user.");
                     });
                 }
                 catch (Exception ex) {
@@ -291,7 +285,7 @@ namespace youtube_dl_gui {
                     }
                 }
             });
-            rtbConsoleOutput.AppendText("Created conversion thread, starting...\n");
+            rtbConsoleOutput.AppendAndTryScrollNewLine("Created conversion thread, starting...");
             ConverterThread.Name = "Converting file";
             ConverterThread.Start();
             #endregion
@@ -315,11 +309,11 @@ namespace youtube_dl_gui {
                     case ConversionStatus.FfmpegError:
                         this.Activate();
                         System.Media.SystemSounds.Hand.Play();
-                        rtbConsoleOutput.AppendText("\nAn error occured\nTHIS IS A FFMPEG ERROR, NOT A ERROR WITH THIS PROGRAM!\nExit the form to resume batch download.");
+                        rtbConsoleOutput.AppendAndTryScrollNewLine("An error occured\r\nTHIS IS A FFMPEG ERROR, NOT A ERROR WITH THIS PROGRAM!\r\nExit the form to resume batch download.");
                         this.Text = Language.frmConverterError;
                         break;
                     case ConversionStatus.ProgramError:
-                        rtbConsoleOutput.AppendText("\nAn error occured\nAn error log was presented, if enabled.\nExit the form to resume batch download.");
+                        rtbConsoleOutput.AppendAndTryScrollNewLine("An error occured\r\nAn error log was presented, if enabled.\r\nExit the form to resume batch download.");
                         this.Text = Language.frmConverterError;
                         this.Activate();
                         System.Media.SystemSounds.Hand.Play();
@@ -337,7 +331,7 @@ namespace youtube_dl_gui {
                     case ConversionStatus.Aborted:
                         break;
                     case ConversionStatus.FfmpegError:
-                        rtbConsoleOutput.AppendText("\nAn error occured\nTHIS IS A FFMPEG ERROR, NOT A ERROR WITH THIS PROGRAM!");
+                        rtbConsoleOutput.AppendAndTryScrollNewLine("An error occured\r\nTHIS IS A FFMPEG ERROR, NOT A ERROR WITH THIS PROGRAM!");
                         btnConverterAbortBatchConversions.Visible = true;
                         btnConverterAbortBatchConversions.Enabled = true;
                         btnConverterAbortBatchConversions.Text = Language.GenericRetry;
@@ -346,19 +340,19 @@ namespace youtube_dl_gui {
                         System.Media.SystemSounds.Hand.Play();
                         break;
                     case ConversionStatus.ProgramError:
-                        rtbConsoleOutput.AppendText("\nAn error occured\nAn error log was presented, if enabled.");
+                        rtbConsoleOutput.AppendAndTryScrollNewLine("An error occured\r\nAn error log was presented, if enabled.");
                         this.Text = Language.frmConverterError;
                         this.Activate();
                         System.Media.SystemSounds.Hand.Play();
                         break;
                     case ConversionStatus.Finished:
                         this.Text = Language.frmConverterComplete;
-                        rtbConsoleOutput.AppendText("Conversion has finished.");
+                        rtbConsoleOutput.AppendAndTryScrollNewLine("Conversion has finished.");
                         if (chkConverterCloseAfterConversion.Checked) { this.Close(); }
                         break;
                     default:
                         this.Text = Language.frmConverterComplete;
-                        rtbConsoleOutput.AppendText("CurrentConversion.Status not defined (Not a batch download)\nAssuming success.");
+                        rtbConsoleOutput.AppendAndTryScrollNewLine("CurrentConversion.Status not defined (Not a batch download)\r\nAssuming success.");
                         if (chkConverterCloseAfterConversion.Checked) { this.Close(); }
                         break;
                 }

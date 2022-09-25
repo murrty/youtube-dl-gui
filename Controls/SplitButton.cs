@@ -1,4 +1,6 @@
-﻿namespace murrty.controls;
+﻿/* SplitButton by murrty, originally based on another SplitButton from somewhere I don't remember where. */
+
+namespace murrty.controls;
 
 using System.ComponentModel;
 using System.Windows.Forms;

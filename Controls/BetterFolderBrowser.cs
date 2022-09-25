@@ -20,7 +20,6 @@
  * Improvements are always welcome :)
  * 
  * modified by murrty
- * 
  */
 
 

@@ -9,7 +9,7 @@ using murrty.updater;
 namespace youtube_dl_gui {
     internal class UpdateChecker {
         #region Fields & Properties
-        private const string KnownUpdaterHash = "4DA486EF4A763387755CB45D089B5561BEE4AD25352DD428381F24204A57D099";
+        private const string KnownUpdaterHash = "B2C17EAC85AC0DF800643C602F4EAF09F93E62822CA3D1B2034D55E5C16EF1CC";
         private const string FfmpegDownloadLink = "https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-essentials.zip";
         public static GithubData LastChecked { get; private set; }
         public static GithubData LastCheckedLatestRelease { get; private set; }

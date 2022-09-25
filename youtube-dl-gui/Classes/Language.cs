@@ -87,6 +87,14 @@ public static class Language {
     public static string dlgUpateYoutubeDlNoUpdateRequired { get; private set; }
     #endregion
 
+    #region Shared downloader
+    public static string pbDownloadProgressFfmpegPostProcessing { get; private set; }
+    public static string pbDownloadProgressEmbeddingSubtitles { get; private set; }
+    public static string pbDownloadProgressEmbeddingMetadata { get; private set; }
+    public static string pbDownloadProgressMergingFormats { get; private set; }
+    public static string pbDownloadProgressConverting { get; private set; }
+    #endregion
+
     #region frmAbout
     public static string frmAbout { get; private set; }
     public static string lbAboutBody { get; private set; }
@@ -577,6 +585,14 @@ public static class Language {
         public const string dlgUpdatedYoutubeDl = "Youtube-dl has been updated.";
         public const string dlgUpateYoutubeDlNoUpdateRequired = "Youtube-dl does not require an update at this moment.\r\n\r\nCurrent version: {0}\r\nLatest release: {1}";
         public const string dlgUpdaterHashNoMatch = "The hash of the updater does not match the internally known hash. It might still work but yknow. Update anyways?";
+        #endregion
+
+        #region Shared downloading
+        public const string pbDownloadProgressFfmpegPostProcessing = "Post-processing in ffmpeg...";
+        public const string pbDownloadProgressEmbeddingSubtitles = "Emedding subtitles...";
+        public const string pbDownloadProgressEmbeddingMetadata = "Emedding metadata...";
+        public const string pbDownloadProgressMergingFormats = "Merging formats...";
+        public const string pbDownloadProgressConverting = "Converting media...";
         #endregion
 
         #region frmAbout
@@ -1109,6 +1125,13 @@ public static class Language {
         GenericSave = InternalEnglish.GenericSave;
         GenericSave = InternalEnglish.GenericSave;
 
+        // Shared downloading
+        pbDownloadProgressFfmpegPostProcessing = InternalEnglish.pbDownloadProgressFfmpegPostProcessing;
+        pbDownloadProgressEmbeddingSubtitles = InternalEnglish.pbDownloadProgressEmbeddingSubtitles;
+        pbDownloadProgressEmbeddingMetadata = InternalEnglish.pbDownloadProgressEmbeddingMetadata;
+        pbDownloadProgressMergingFormats = InternalEnglish.pbDownloadProgressMergingFormats;
+        pbDownloadProgressConverting = InternalEnglish.pbDownloadProgressConverting;
+
         // frmAbout
         frmAbout = InternalEnglish.frmAbout;
         lbAboutBody = InternalEnglish.lbAboutBody;
@@ -1588,6 +1611,13 @@ public static class Language {
         dlgUpdatedYoutubeDl = nameof(dlgUpdatedYoutubeDl);
         dlgUpateYoutubeDlNoUpdateRequired = nameof(dlgUpateYoutubeDlNoUpdateRequired);
         dlgUpdaterHashNoMatch = nameof(dlgUpdaterHashNoMatch);
+
+        // Shared downloader
+        pbDownloadProgressFfmpegPostProcessing = nameof(pbDownloadProgressFfmpegPostProcessing);
+        pbDownloadProgressEmbeddingSubtitles = nameof(pbDownloadProgressEmbeddingSubtitles);
+        pbDownloadProgressEmbeddingMetadata = nameof(pbDownloadProgressEmbeddingMetadata);
+        pbDownloadProgressMergingFormats = nameof(pbDownloadProgressMergingFormats);
+        pbDownloadProgressConverting = nameof(pbDownloadProgressConverting);
 
         // frmAbout
         frmAbout = nameof(frmAbout);
@@ -2212,6 +2242,24 @@ public static class Language {
                                 continue;
                             case "dlgupdaterhashnomatch":
                                 dlgUpdaterHashNoMatch = ReadValue;
+                                continue;
+                            #endregion
+
+                            #region Shared downloader
+                            case "pbdownloadprogressffmpegpostprocessing":
+                                pbDownloadProgressFfmpegPostProcessing = ReadValue;
+                                continue;
+                            case "pbdownloadprogressembeddingsubtitles":
+                                pbDownloadProgressEmbeddingSubtitles = ReadValue;
+                                continue;
+                            case "pbdownloadprogressembeddingmetadata":
+                                pbDownloadProgressEmbeddingMetadata = ReadValue;
+                                continue;
+                            case "pbdownloadprogressmergingformats":
+                                pbDownloadProgressMergingFormats = ReadValue;
+                                continue;
+                            case "pbdownloadprogressconverting":
+                                pbDownloadProgressConverting = ReadValue;
                                 continue;
                             #endregion
 
