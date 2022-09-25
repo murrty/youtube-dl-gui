@@ -1,16 +1,18 @@
 ﻿namespace youtube_dl_gui;
 
 internal class Config_Initialization {
-    public bool firstTime = true;
-    public string LanguageFile = string.Empty;
-    public Version SkippedVersion = Version.Empty;
-    public Version SkippedBetaVersion = Version.Empty;
-    public bool AboutFormDialog = true;
+    #region Properties
+    public bool firstTime { get; set; }
+    public string LanguageFile { get; set; }
+    public Version SkippedVersion { get; set; }
+    public Version SkippedBetaVersion { get; set; }
+    public bool ScreenshotMode { get; set; }
 
-    private bool ffirstTime = true;
-    private string fLanguageFile = string.Empty;
-    private Version fSkippedVersion = Version.Empty;
-    private Version fSkippedBetaVersion = Version.Empty;
+    private bool ffirstTime { get; set; }
+    private string fLanguageFile { get; set; }
+    private Version fSkippedVersion { get; set; }
+    private Version fSkippedBetaVersion { get; set; }
+    #endregion
 
     public void Load() {
         Log.Write("Loading Initialization config.");
@@ -19,7 +21,7 @@ internal class Config_Initialization {
         LanguageFile = fLanguageFile = IniProvider.Read(LanguageFile, string.Empty);
         fSkippedVersion = SkippedVersion = IniProvider.Read(SkippedVersion, Version.Empty);
         SkippedBetaVersion = fSkippedBetaVersion = IniProvider.Read(SkippedVersion, Version.Empty);
-        AboutFormDialog = IniProvider.Read(AboutFormDialog, true);
+        ScreenshotMode = IniProvider.Read(ScreenshotMode, true);
     }
 
     public void Save() {

@@ -3,40 +3,40 @@
 internal class Config_Converts {
     private const string ConfigName = "Converts";
 
-    #region Variables
-    public bool detectFiletype = true;
-    public bool clearOutput = false;
-    public bool clearInput = false;
-    public int videoBitrate = 7500;
-    public int videoPreset = 5;
-    public int videoProfile = 1;
-    public int videoCRF = 8;
-    public bool videoFastStart = false;
-    public bool hideFFmpegCompile = false;
-    public int audioBitrate = 256;
-    public bool videoUseBitrate = false;
-    public bool videoUsePreset = false;
-    public bool videoUseProfile = false;
-    public bool videoUseCRF = true;
-    public bool audioUseBitrate = true;
-    public bool CloseAfterFinish = false;
+    #region Properties
+    public bool detectFiletype { get; set; }
+    public bool clearOutput { get; set; }
+    public bool clearInput { get; set; }
+    public int videoBitrate { get; set; }
+    public int videoPreset { get; set; }
+    public int videoProfile { get; set; }
+    public int videoCRF { get; set; }
+    public bool videoFastStart { get; set; }
+    public bool hideFFmpegCompile { get; set; }
+    public int audioBitrate { get; set; }
+    public bool videoUseBitrate { get; set; }
+    public bool videoUsePreset { get; set; }
+    public bool videoUseProfile { get; set; }
+    public bool videoUseCRF { get; set; }
+    public bool audioUseBitrate { get; set; }
+    public bool CloseAfterFinish { get; set; }
 
-    private bool fdetectFiletype = true;
-    private bool fclearOutput = false;
-    private bool fclearInput = false;
-    private int fvideoBitrate = 7500;
-    private int fvideoPreset = 5;
-    private int fvideoProfile = 1;
-    private int fvideoCRF = 8;
-    private bool fvideoFastStart = false;
-    private bool fhideFFmpegCompile = false;
-    private int faudioBitrate = 256;
-    private bool fvideoUseBitrate = false;
-    private bool fvideoUsePreset = false;
-    private bool fvideoUseProfile = false;
-    private bool fvideoUseCRF = true;
-    private bool faudioUseBitrate = true;
-    private bool fCloseAfterFinish = false;
+    private bool fdetectFiletype { get; set; }
+    private bool fclearOutput { get; set; }
+    private bool fclearInput { get; set; }
+    private int fvideoBitrate { get; set; }
+    private int fvideoPreset { get; set; }
+    private int fvideoProfile { get; set; }
+    private int fvideoCRF { get; set; }
+    private bool fvideoFastStart { get; set; }
+    private bool fhideFFmpegCompile { get; set; }
+    private int faudioBitrate { get; set; }
+    private bool fvideoUseBitrate { get; set; }
+    private bool fvideoUsePreset { get; set; }
+    private bool fvideoUseProfile { get; set; }
+    private bool fvideoUseCRF { get; set; }
+    private bool faudioUseBitrate { get; set; }
+    private bool fCloseAfterFinish { get; set; }
     #endregion
 
     public void Load() {

@@ -17,7 +17,7 @@ namespace youtube_dl_gui {
                 llbCheckForUpdates.Location.Y
             );
 
-            if (!Config.Settings.Initialization.AboutFormDialog)
+            if (!Config.Settings.Initialization.ScreenshotMode)
                 this.FormClosing += (s, e) => this.Dispose();
         }
 

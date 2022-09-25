@@ -3,64 +3,64 @@
 internal class Config_Saved {
     private const string ConfigName = "Saved";
 
-    #region Variables
-    public int downloadType;
-    public int convertSaveVideoIndex;
-    public int convertSaveAudioIndex;
-    public int convertSaveUnknownIndex;
-    public int convertType;
-    public string convertCustom;
-    public int videoQuality;
-    public int audioQuality;
-    public int VideoFormat;
-    public int AudioFormat;
-    public int AudioVBRQuality;
-    public Point BatchDownloaderLocation;
-    public Point BatchConverterLocation;
-    public Size MainFormSize;
-    public Size SettingsFormSize;
-    public string FileNameSchemaHistory;
-    public string DownloadCustomArguments;
-    public int CustomArgumentsIndex;
-    public Point MainFormLocation;
-    public Point ExtendedDownloaderLocation;
-    public Size ExtendedDownloaderSize;
-    public Point ArchiveDownloaderLocation;
-    public Point LogLocation;
-    public Size LogSize;
-    public string ExtendedDownloadVideoColumns;
-    public string ExtendedDownloadAudioColumns;
-    public string ExtendedDownloadUnknownColumns;
-    public Point QuickDownloaderLocation;
+    #region Properties
+    public int downloadType { get; set; }
+    public int convertSaveVideoIndex { get; set; }
+    public int convertSaveAudioIndex { get; set; }
+    public int convertSaveUnknownIndex { get; set; }
+    public int convertType { get; set; }
+    public string convertCustom { get; set; }
+    public int videoQuality { get; set; }
+    public int audioQuality { get; set; }
+    public int VideoFormat { get; set; }
+    public int AudioFormat { get; set; }
+    public int AudioVBRQuality { get; set; }
+    public Point BatchDownloaderLocation { get; set; }
+    public Point BatchConverterLocation { get; set; }
+    public Size MainFormSize { get; set; }
+    public Size SettingsFormSize { get; set; }
+    public string FileNameSchemaHistory { get; set; }
+    public string DownloadCustomArguments { get; set; }
+    public int CustomArgumentsIndex { get; set; }
+    public Point MainFormLocation { get; set; }
+    public Point ExtendedDownloaderLocation { get; set; }
+    public Size ExtendedDownloaderSize { get; set; }
+    public Point ArchiveDownloaderLocation { get; set; }
+    public Point LogLocation { get; set; }
+    public Size LogSize { get; set; }
+    public string ExtendedDownloadVideoColumns { get; set; }
+    public string ExtendedDownloadAudioColumns { get; set; }
+    public string ExtendedDownloadUnknownColumns { get; set; }
+    public Point QuickDownloaderLocation { get; set; }
 
-    private int fdownloadType;
-    private int fconvertSaveVideoIndex;
-    private int fconvertSaveAudioIndex;
-    private int fconvertSaveUnknownIndex;
-    private int fconvertType;
-    private string fconvertCustom;
-    private int fvideoQuality;
-    private int faudioQuality;
-    private int fVideoFormat;
-    private int fAudioFormat;
-    private int fAudioVBRQuality;
-    private Point fBatchDownloaderLocation;
-    private Point fBatchConverterLocation;
-    private Size fMainFormSize;
-    private Size fSettingsFormSize;
-    private string fFileNameSchemaHistory;
-    private string fDownloadCustomArguments;
-    private int fCustomArgumentsIndex;
-    private Point fMainFormLocation;
-    private Point fExtendedDownloaderLocation;
-    private Size fExtendedDownloaderSize;
-    private Point fArchiveDownloaderLocation;
-    private Point fLogLocation;
-    private Size fLogSize;
-    private string fExtendedDownloadVideoColumns;
-    private string fExtendedDownloadAudioColumns;
-    private string fExtendedDownloadUnknownColumns;
-    private Point fQuickDownloaderLocation;
+    private int fdownloadType { get; set; }
+    private int fconvertSaveVideoIndex { get; set; }
+    private int fconvertSaveAudioIndex { get; set; }
+    private int fconvertSaveUnknownIndex { get; set; }
+    private int fconvertType { get; set; }
+    private string fconvertCustom { get; set; }
+    private int fvideoQuality { get; set; }
+    private int faudioQuality { get; set; }
+    private int fVideoFormat { get; set; }
+    private int fAudioFormat { get; set; }
+    private int fAudioVBRQuality { get; set; }
+    private Point fBatchDownloaderLocation { get; set; }
+    private Point fBatchConverterLocation { get; set; }
+    private Size fMainFormSize { get; set; }
+    private Size fSettingsFormSize { get; set; }
+    private string fFileNameSchemaHistory { get; set; }
+    private string fDownloadCustomArguments { get; set; }
+    private int fCustomArgumentsIndex { get; set; }
+    private Point fMainFormLocation { get; set; }
+    private Point fExtendedDownloaderLocation { get; set; }
+    private Size fExtendedDownloaderSize { get; set; }
+    private Point fArchiveDownloaderLocation { get; set; }
+    private Point fLogLocation { get; set; }
+    private Size fLogSize { get; set; }
+    private string fExtendedDownloadVideoColumns { get; set; }
+    private string fExtendedDownloadAudioColumns { get; set; }
+    private string fExtendedDownloadUnknownColumns { get; set; }
+    private Point fQuickDownloaderLocation { get; set; }
     #endregion
 
     public void Load() {
@@ -84,7 +84,6 @@ internal class Config_Saved {
         FileNameSchemaHistory = fFileNameSchemaHistory = IniProvider.Read(FileNameSchemaHistory, "%(title)s-%(id)s.%(ext)s|%(uploader)s\\(%(playlist_index)s) %(title)s-%(id)s.%(ext)s", ConfigName);
         DownloadCustomArguments = fDownloadCustomArguments = IniProvider.Read(DownloadCustomArguments, string.Empty, ConfigName);
         CustomArgumentsIndex = fCustomArgumentsIndex = IniProvider.Read(CustomArgumentsIndex, -1, ConfigName);
-        MainFormLocation = fMainFormLocation = IniProvider.Read(MainFormLocation, Point.Invalid, ConfigName);
         MainFormLocation = fMainFormLocation = IniProvider.Read(MainFormLocation, Point.Invalid, ConfigName);
         ExtendedDownloaderLocation = fExtendedDownloaderLocation = IniProvider.Read(ExtendedDownloaderLocation, Point.Invalid, ConfigName);
         ExtendedDownloaderSize = fExtendedDownloaderSize = IniProvider.Read(ExtendedDownloaderSize, Size.Empty, ConfigName);

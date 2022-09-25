@@ -3,90 +3,90 @@
 internal class Config_Downloads {
     private const string ConfigName = "Downloads";
 
-    #region Variables
-    public string downloadPath = string.Empty;
-    public bool separateDownloads = true;
-    public bool SaveFormatQuality = true;
-    public bool deleteYtdlOnClose = false;
-    public bool useYtdlUpdater = false;
-    public string fileNameSchema = "%(title)s-%(id)s.%(ext)s";
-    public bool fixReddit = true;
-    public bool separateIntoWebsiteURL = true;
-    public bool SaveSubtitles = false;
-    public string subtitlesLanguages = "en";
-    public bool CloseDownloaderAfterFinish = true;
-    public bool UseProxy = false;
-    public int ProxyType = -1;
-    public string ProxyIP = string.Empty;
-    public string ProxyPort = string.Empty;
-    public bool SaveThumbnail = false;
-    public bool SaveDescription = false;
-    public bool SaveVideoInfo = false;
-    public bool SaveAnnotations = false;
-    public string SubtitleFormat = string.Empty;
-    public int DownloadLimit = 0;
-    public int RetryAttempts = 10;
-    public int DownloadLimitType = 1;
-    public bool ForceIPv4 = false;
-    public bool ForceIPv6 = false;
-    public bool LimitDownloads = false;
-    public bool EmbedSubtitles = false;
-    public bool EmbedThumbnails = false;
-    public bool VideoDownloadSound = true;
-    public bool AudioDownloadAsVBR = false;
-    public bool KeepOriginalFiles = false;
-    public bool WriteMetadata = false;
-    public bool SkipBatchTip = false;
-    public bool AutomaticallyDownloadFromProtocol = true;
-    public bool PreferFFmpeg = true;
-    public bool SeparateBatchDownloads = true;
-    public bool AddDateToBatchDownloadFolders = true;
-    public int YtdlType = 0;
-    public bool SubdomainFolderNames = false;
-    public bool ExtendedDownloaderPreferExtendedForm = false;
-    public bool ExtendedDownloaderAutoDownloadThumbnail = false;
+    #region Properties
+    public string downloadPath { get; set; }
+    public bool separateDownloads { get; set; }
+    public bool SaveFormatQuality { get; set; }
+    public bool deleteYtdlOnClose { get; set; }
+    public bool useYtdlUpdater { get; set; }
+    public string fileNameSchema { get; set; }
+    public bool fixReddit { get; set; }
+    public bool separateIntoWebsiteURL { get; set; }
+    public bool SaveSubtitles { get; set; }
+    public string subtitlesLanguages { get; set; }
+    public bool CloseDownloaderAfterFinish { get; set; }
+    public bool UseProxy { get; set; }
+    public int ProxyType { get; set; }
+    public string ProxyIP { get; set; }
+    public string ProxyPort { get; set; }
+    public bool SaveThumbnail { get; set; }
+    public bool SaveDescription { get; set; }
+    public bool SaveVideoInfo { get; set; }
+    public bool SaveAnnotations { get; set; }
+    public string SubtitleFormat { get; set; }
+    public int DownloadLimit { get; set; }
+    public int RetryAttempts { get; set; }
+    public int DownloadLimitType { get; set; }
+    public bool ForceIPv4 { get; set; }
+    public bool ForceIPv6 { get; set; }
+    public bool LimitDownloads { get; set; }
+    public bool EmbedSubtitles { get; set; }
+    public bool EmbedThumbnails { get; set; }
+    public bool VideoDownloadSound { get; set; }
+    public bool AudioDownloadAsVBR { get; set; }
+    public bool KeepOriginalFiles { get; set; }
+    public bool WriteMetadata { get; set; }
+    public bool SkipBatchTip { get; set; }
+    public bool AutomaticallyDownloadFromProtocol { get; set; }
+    public bool PreferFFmpeg { get; set; }
+    public bool SeparateBatchDownloads { get; set; }
+    public bool AddDateToBatchDownloadFolders { get; set; }
+    public int YtdlType { get; set; }
+    public bool SubdomainFolderNames { get; set; }
+    public bool ExtendedDownloaderPreferExtendedForm { get; set; }
+    public bool ExtendedDownloaderAutoDownloadThumbnail { get; set; }
 
-    private string fdownloadPath = string.Empty;
-    private bool fseparateDownloads = true;
-    private bool fSaveFormatQuality = true;
-    private bool fdeleteYtdlOnClose = false;
-    private bool fuseYtdlUpdater = false;
-    private string ffileNameSchema = "%(title)s-%(id)s.%(ext)s";
-    private bool ffixReddit = true;
-    private bool fseparateIntoWebsiteURL = true;
-    private bool fSaveSubtitles = false;
-    private string fsubtitlesLanguages = "en";
-    private bool fCloseDownloaderAfterFinish = true;
-    private bool fUseProxy = false;
-    private int fProxyType = -1;
-    private string fProxyIP = string.Empty;
-    private string fProxyPort = string.Empty;
-    private bool fSaveThumbnail = false;
-    private bool fSaveDescription = false;
-    private bool fSaveVideoInfo = false;
-    private bool fSaveAnnotations = false;
-    private string fSubtitleFormat = string.Empty;
-    private int fDownloadLimit = 0;
-    private int fRetryAttempts = 10;
-    private int fDownloadLimitType = 1;
-    private bool fForceIPv4 = false;
-    private bool fForceIPv6 = false;
-    private bool fLimitDownloads = false;
-    private bool fEmbedSubtitles = false;
-    private bool fEmbedThumbnails = false;
-    private bool fVideoDownloadSound = true;
-    private bool fAudioDownloadAsVBR = false;
-    private bool fKeepOriginalFiles = false;
-    private bool fWriteMetadata = false;
-    private bool fSkipBatchTip = false;
-    private bool fAutomaticallyDownloadFromProtocol = true;
-    private bool fPreferFFmpeg = true;
-    private bool fSeparateBatchDownloads = true;
-    private bool fAddDateToBatchDownloadFolders = true;
-    private int fYtdlType = 0;
-    private bool fSubdomainFolderNames = false;
-    private bool fExtendedDownloaderPreferExtendedForm = false;
-    private bool fExtendedDownloaderAutoDownloadThumbnail = false;
+    private string fdownloadPath { get; set; }
+    private bool fseparateDownloads { get; set; }
+    private bool fSaveFormatQuality { get; set; }
+    private bool fdeleteYtdlOnClose { get; set; }
+    private bool fuseYtdlUpdater { get; set; }
+    private string ffileNameSchema { get; set; }
+    private bool ffixReddit { get; set; }
+    private bool fseparateIntoWebsiteURL { get; set; }
+    private bool fSaveSubtitles { get; set; }
+    private string fsubtitlesLanguages { get; set; }
+    private bool fCloseDownloaderAfterFinish { get; set; }
+    private bool fUseProxy { get; set; }
+    private int fProxyType { get; set; }
+    private string fProxyIP { get; set; }
+    private string fProxyPort { get; set; }
+    private bool fSaveThumbnail { get; set; }
+    private bool fSaveDescription { get; set; }
+    private bool fSaveVideoInfo { get; set; }
+    private bool fSaveAnnotations { get; set; }
+    private string fSubtitleFormat { get; set; }
+    private int fDownloadLimit { get; set; }
+    private int fRetryAttempts { get; set; }
+    private int fDownloadLimitType { get; set; }
+    private bool fForceIPv4 { get; set; }
+    private bool fForceIPv6 { get; set; }
+    private bool fLimitDownloads { get; set; }
+    private bool fEmbedSubtitles { get; set; }
+    private bool fEmbedThumbnails { get; set; }
+    private bool fVideoDownloadSound { get; set; }
+    private bool fAudioDownloadAsVBR { get; set; }
+    private bool fKeepOriginalFiles { get; set; }
+    private bool fWriteMetadata { get; set; }
+    private bool fSkipBatchTip { get; set; }
+    private bool fAutomaticallyDownloadFromProtocol { get; set; }
+    private bool fPreferFFmpeg { get; set; }
+    private bool fSeparateBatchDownloads { get; set; }
+    private bool fAddDateToBatchDownloadFolders { get; set; }
+    private int fYtdlType { get; set; }
+    private bool fSubdomainFolderNames { get; set; }
+    private bool fExtendedDownloaderPreferExtendedForm { get; set; }
+    private bool fExtendedDownloaderAutoDownloadThumbnail { get; set; }
     #endregion
 
     public void Load() {

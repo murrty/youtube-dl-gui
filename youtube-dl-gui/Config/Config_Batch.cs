@@ -3,29 +3,31 @@
 internal class Config_Batch {
     private const string ConfigName = "Batch";
 
-    public int SelectedType = -1;
-    public int SelectedVideoQuality = 0;
-    public int SelectedVideoFormat = 0;
-    public int SelectedAudioQuality = 0;
-    public int SelectedAudioFormat = 0;
-    public bool DownloadVideoSound = false;
-    public bool DownloadAudioVBR = false;
-    public int SelectedAudioQualityVBR = 0;
-    public string CustomArguments = string.Empty;
-    public bool ClipboardScannerNoticeViewed = false;
-    public bool ClipboardScannerVerifyLinks = true;
+    #region Properties
+    public int SelectedType { get; set; }
+    public int SelectedVideoQuality { get; set; }
+    public int SelectedVideoFormat { get; set; }
+    public int SelectedAudioQuality { get; set; }
+    public int SelectedAudioFormat { get; set; }
+    public bool DownloadVideoSound { get; set; }
+    public bool DownloadAudioVBR { get; set; }
+    public int SelectedAudioQualityVBR { get; set; }
+    public string CustomArguments { get; set; }
+    public bool ClipboardScannerNoticeViewed { get; set; }
+    public bool ClipboardScannerVerifyLinks { get; set; }
 
-    private int fSelectedType = -1;
-    private int fSelectedVideoQuality = 0;
-    private int fSelectedVideoFormat = 0;
-    private int fSelectedAudioQuality = 0;
-    private int fSelectedAudioFormat = 0;
-    private bool fDownloadVideoSound = false;
-    private bool fDownloadAudioVBR = false;
-    private int fSelectedAudioQualityVBR = 0;
-    private string fCustomArguments = string.Empty;
-    private bool fClipboardScannerNoticeViewed = false;
-    private bool fClipboardScannerVerifyLinks = true;
+    private int fSelectedType { get; set; }
+    private int fSelectedVideoQuality { get; set; }
+    private int fSelectedVideoFormat { get; set; }
+    private int fSelectedAudioQuality { get; set; }
+    private int fSelectedAudioFormat { get; set; }
+    private bool fDownloadVideoSound { get; set; }
+    private bool fDownloadAudioVBR { get; set; }
+    private int fSelectedAudioQualityVBR { get; set; }
+    private string fCustomArguments { get; set; }
+    private bool fClipboardScannerNoticeViewed { get; set; }
+    private bool fClipboardScannerVerifyLinks { get; set; }
+    #endregion
 
     public void Load() {
         Log.Write("Loading Batch config.");

@@ -3,43 +3,43 @@
 internal class Config_General {
     private const string ConfigName = "General";
 
-    #region Variables
-    public bool UseStaticYtdl = false;
-    public string ytdlPath = string.Empty;
-    public bool UseStaticFFmpeg = false;
-    public string ffmpegPath = string.Empty;
-    public bool CheckForUpdatesOnLaunch = false;
-    public bool DownloadBetaVersions = false;
-    public bool HoverOverURLTextBoxToPaste = true;
-    public bool ClearURLOnDownload = false;
-    public int SaveCustomArgs = 2;
-    public bool ClearClipboardOnDownload = false;
-    public string extensionsName = string.Empty;
-    public string extensionsShort = string.Empty;
-    public bool DeleteUpdaterOnStartup = true;
-    public bool DeleteBackupOnStartup = false;
-    public bool ClipboardAutoDownloadNoticeRead = false;
-    public bool ClipboardAutoDownloadVerifyLinks = true;
-    public bool AutoUpdateYoutubeDl = false;
+    #region Properties
+    public bool UseStaticYtdl { get; set; }
+    public string ytdlPath { get; set; }
+    public bool UseStaticFFmpeg { get; set; }
+    public string ffmpegPath { get; set; }
+    public bool CheckForUpdatesOnLaunch { get; set; }
+    public bool DownloadBetaVersions { get; set; }
+    public bool HoverOverURLTextBoxToPaste { get; set; }
+    public bool ClearURLOnDownload { get; set; }
+    public int SaveCustomArgs { get; set; }
+    public bool ClearClipboardOnDownload { get; set; }
+    public string extensionsName { get; set; }
+    public string extensionsShort { get; set; }
+    public bool DeleteUpdaterOnStartup { get; set; }
+    public bool DeleteBackupOnStartup { get; set; }
+    public bool ClipboardAutoDownloadNoticeRead { get; set; }
+    public bool ClipboardAutoDownloadVerifyLinks { get; set; }
+    public bool AutoUpdateYoutubeDl { get; set; }
 
 
-    private bool fUseStaticYtdl = false;
-    private string fytdlPath = string.Empty;
-    private bool fUseStaticFFmpeg = false;
-    private string fffmpegPath = string.Empty;
-    private bool fCheckForUpdatesOnLaunch = false;
-    private bool fDownloadBetaVersions = false;
-    private bool fHoverOverURLTextBoxToPaste = true;
-    private bool fClearURLOnDownload = false;
-    private int fSaveCustomArgs = 2;
-    private bool fClearClipboardOnDownload = false;
-    private string fextensionsName = string.Empty;
-    private string fextensionsShort = string.Empty;
-    private bool fDeleteUpdaterOnStartup = true;
-    private bool fDeleteBackupOnStartup = false;
-    private bool fClipboardAutoDownloadNoticeRead = false;
-    private bool fClipboardAutoDownloadVerifyLinks = true;
-    private bool fAutoUpdateYoutubeDl = false;
+    private bool fUseStaticYtdl { get; set; }
+    private string fytdlPath { get; set; }
+    private bool fUseStaticFFmpeg { get; set; }
+    private string fffmpegPath { get; set; }
+    private bool fCheckForUpdatesOnLaunch { get; set; }
+    private bool fDownloadBetaVersions { get; set; }
+    private bool fHoverOverURLTextBoxToPaste { get; set; }
+    private bool fClearURLOnDownload { get; set; }
+    private int fSaveCustomArgs { get; set; }
+    private bool fClearClipboardOnDownload { get; set; }
+    private string fextensionsName { get; set; }
+    private string fextensionsShort { get; set; }
+    private bool fDeleteUpdaterOnStartup { get; set; }
+    private bool fDeleteBackupOnStartup { get; set; }
+    private bool fClipboardAutoDownloadNoticeRead { get; set; }
+    private bool fClipboardAutoDownloadVerifyLinks { get; set; }
+    private bool fAutoUpdateYoutubeDl { get; set; }
     #endregion
 
     public void Load() {

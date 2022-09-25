@@ -552,7 +552,7 @@ namespace youtube_dl_gui {
         }
 
         private void mAbout_Click(object sender, EventArgs e) {
-            if (Config.Settings.Initialization.AboutFormDialog) {
+            if (Config.Settings.Initialization.ScreenshotMode) {
                 using frmAbout about = new();
                 about.ShowDialog();
             }
