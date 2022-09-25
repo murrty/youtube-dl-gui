@@ -27,6 +27,7 @@ internal class Config {
     public void Load(ConfigType Type) {
         switch (Type) {
             case ConfigType.All:
+                Initialization.Load();
                 Batch.Load();
                 Converts.Load();
                 Downloads.Load();

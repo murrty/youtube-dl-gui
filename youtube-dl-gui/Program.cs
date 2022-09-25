@@ -122,7 +122,8 @@ namespace youtube_dl_gui {
                 ExtendedDownloaderSelectedImages.Images.Add(Properties.Resources.best_disabled);    // 2
                 ExtendedDownloaderSelectedImages.Images.Add(Properties.Resources.selected_disabled);// 3
 
-                (Config.Settings = new Config()).Load(ConfigType.Initialization);
+                (Config.Settings = new Config()).Load(ConfigType.All);
+                Verification.Refresh();
                 if (Config.Settings.Initialization.firstTime) {
                     Log.Write("Initiating first time setup.");
                     Language.LoadInternalEnglish();
@@ -151,7 +152,8 @@ namespace youtube_dl_gui {
                             Config.Settings.Downloads.downloadPath = fbd.SelectedPath;
                     }
 
-                    if (MessageBox.Show(Language.dlgFirstTimeDownloadYoutubeDl, Language.ApplicationName, MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    if (UpdateChecker.CheckForYoutubeDlUpdate()
+                    && MessageBox.Show(Language.dlgFirstTimeDownloadYoutubeDl, Language.ApplicationName, MessageBoxButtons.YesNo) == DialogResult.Yes)
                         UpdateChecker.UpdateYoutubeDl(null);
                     if (MessageBox.Show(Language.dlgFirstTimeDownloadFfmpeg, Language.ApplicationName, MessageBoxButtons.YesNo) == DialogResult.Yes)
                         UpdateChecker.UpdateFfmpeg(null);
@@ -166,7 +168,6 @@ namespace youtube_dl_gui {
                     Language.LoadLanguage($"{Environment.CurrentDirectory}\\lang\\{Config.Settings.Initialization.LanguageFile}.ini");
                 }
 
-                Verification.Refresh();
                 Formats.LoadCustomFormats();
                 Messages = new();
                 SetTls();

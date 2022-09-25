@@ -55,8 +55,8 @@ internal class Config_General {
         ClearURLOnDownload = fClearURLOnDownload = IniProvider.Read(ClearURLOnDownload, false, ConfigName);
         SaveCustomArgs = fSaveCustomArgs = IniProvider.Read(SaveCustomArgs, 2, ConfigName);
         ClearClipboardOnDownload = fClearClipboardOnDownload = IniProvider.Read(ClearClipboardOnDownload, false, ConfigName);
-        extensionsName = fextensionsName = IniProvider.Read(extensionsName, ConfigName);
-        extensionsShort = fextensionsShort = IniProvider.Read(extensionsShort, ConfigName);
+        extensionsName = fextensionsName = IniProvider.Read(extensionsName, string.Empty, ConfigName);
+        extensionsShort = fextensionsShort = IniProvider.Read(extensionsShort, string.Empty, ConfigName);
         DeleteUpdaterOnStartup = fDeleteUpdaterOnStartup = IniProvider.Read(DeleteUpdaterOnStartup, true, ConfigName);
         DeleteBackupOnStartup = fDeleteBackupOnStartup = IniProvider.Read(DeleteBackupOnStartup, false, ConfigName);
         ClipboardAutoDownloadNoticeRead = fClipboardAutoDownloadNoticeRead = IniProvider.Read(ClipboardAutoDownloadNoticeRead, false, ConfigName);
