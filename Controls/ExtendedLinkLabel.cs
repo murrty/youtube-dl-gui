@@ -91,25 +91,6 @@ internal class ExtendedLinkLabel : LinkLabel {
         base.OnHandleCreated(e);
     }
 
-
-    /// <summary>
-    /// Processes the specified Windows message, overriding WM_SETCURSOR.
-    /// </summary>
-    /// <param name="m">The message to process.</param>
-    [System.Diagnostics.DebuggerStepThrough]
-    protected override void WndProc(ref Message m) {
-        switch (m.Msg) {
-            case Consts.WM_SETCURSOR: {
-                NativeMethods.SetCursor(Consts.SystemHand);
-                m.Result = IntPtr.Zero;
-            } break;
-
-            default: {
-                base.WndProc(ref m);
-            } break;
-        }
-    }
-
     protected override void OnMouseEnter(EventArgs e) {
         base.OnMouseEnter(e);
         this.LinkColor = DefaultHoverColor;

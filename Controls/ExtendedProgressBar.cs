@@ -442,9 +442,8 @@ public sealed class ExtendedProgressBar : ProgressBar {
         switch (m.Msg) {
             case Consts.WM_PAINT: {
                 base.WndProc(ref m);
-                if (_ShowText) {
+                if (_ShowText)
                     DrawText();
-                }
             } break;
 
             //case Consts.WM_ERASEBKGND: {
@@ -452,14 +451,6 @@ public sealed class ExtendedProgressBar : ProgressBar {
             //        Invalidate();
             //    }
             //} break;
-
-            case Consts.WM_SETCURSOR: {
-                if (Cursor == Cursors.Hand) {
-                    NativeMethods.SetCursor(Consts.SystemHand);
-                    m.Result = IntPtr.Zero;
-                }
-                else base.WndProc(ref m);
-            } break;
 
             default: {
                 base.WndProc(ref m);

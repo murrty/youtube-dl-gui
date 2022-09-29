@@ -40,6 +40,10 @@ public class ExtendedRichTextBox : RichTextBox {
 
     public ExtendedRichTextBox() {
         base.HideSelection = false;
+        ScrollPos = new SCROLLINFO() {
+            cbSize = Marshal.SizeOf<SCROLLINFO>(),
+            fMask = ScrollInfoMask.SIF_ALL
+        };
     }
 
     private const int WM_SETFOCUS = 0x07;
@@ -67,29 +71,27 @@ public class ExtendedRichTextBox : RichTextBox {
     /// Appends text to the rich text box, scrolling to the bottom when necessary.
     /// </summary>
     /// <param name="text">Text to append.</param>
-    public void AppendAndTryScroll(string text) {
-        ScrollPos = new SCROLLINFO() {
-            cbSize = Marshal.SizeOf<SCROLLINFO>(),
-            fMask = ScrollInfoMask.SIF_ALL
-        };
-        if (GetScrollInfo(this.Handle, SBOrientation.SB_VERT, ref ScrollPos) && ScrollPos.ScrolledToBottom) {
-            AppendText(text);
+    public new void AppendText(string text) => AppendText(text, false);
+
+    public void AppendLine(string text) => AppendText(text, true);
+
+    public void AppendText(string text, bool newline) {
+        if (text.Length < 1)
+            return;
+
+        GetScrollInfo(this.Handle, SBOrientation.SB_VERT, ref ScrollPos);
+        //Console.WriteLine($"nPage {ScrollPos.nPage} | nPos {ScrollPos.nPos} | nMax {ScrollPos.nMax} || (nPos + nPage {ScrollPos.nPos + ScrollPos.nPage}) (nMax - nPos {ScrollPos.nMax - ScrollPos.nPos})");
+
+        SuspendPaint();
+        if (ScrollPos.ScrolledToBottom) {
+            base.AppendText(newline && Text.Length > 0 ? Environment.NewLine + text : text);
+            ResumePaint();
+            NativeMethods.SendMessage(this.Handle, 0x115, 7, 0);
         }
         else {
-            SuspendPaint();
-            AppendText(text);
+            base.AppendText(newline && Text.Length > 0 ? Environment.NewLine + text : text);
             ResumePaint();
         }
-    }
-
-    public void AppendAndTryScrollNewLine(string text) => AppendAndTryScroll("\r\n" + text);
-
-    public void ScrollToBottom() => ScrollToBottom(true);
-
-    public void ScrollToBottom(bool UpdateSelection) {
-        NativeMethods.SendMessage(this.Handle, 0x115, 7, 0);
-        if (UpdateSelection)
-            SelectionStart = Text.Length;
     }
 
     private void SuspendPaint() {
@@ -130,17 +132,14 @@ public class ExtendedRichTextBox : RichTextBox {
                 m.Result = IntPtr.Zero;
             } return;
 
-            case WM_SETCURSOR when Cursor == Cursors.Hand: {
-                NativeMethods.SetCursor(Consts.SystemHand);
-                m.Result = IntPtr.Zero;
-            } break;
-
             default: {
                 base.WndProc(ref m);
             } break;
         }
     }
 }
+
+// I'm not moving this, figure it out.
 [Flags]
 internal enum ScrollInfoMask : uint {
     SIF_RANGE = 0x1,
@@ -166,5 +165,5 @@ internal struct SCROLLINFO {
     public uint nPage;
     public int nPos;
     public int nTrackPos;
-    public bool ScrolledToBottom => nPage + nPos >= nMax;
+    public bool ScrolledToBottom => nPage + 2 >= nMax - nPos;
 }

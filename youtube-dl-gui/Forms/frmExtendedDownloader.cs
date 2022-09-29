@@ -9,6 +9,7 @@ namespace youtube_dl_gui {
         // Download specific times: yt-dlp -i --download-sections "*00:00:00-00:00:10"
 
         public string URL { get; }
+        private bool Debug { get; }
 
         private YoutubeDlData Information;
         private Thread InformationThread;
@@ -24,6 +25,7 @@ namespace youtube_dl_gui {
         public frmExtendedDownloader(string URL, bool Archived) {
             InitializeComponent();
             LoadLanguage();
+            Debug = false;
             this.URL = URL;
             txtLink.Text = Archived ? URL.Split(':')[1] : URL;
 
@@ -129,7 +131,16 @@ namespace youtube_dl_gui {
                 }
             };
         }
-
+        public frmExtendedDownloader() {
+            InitializeComponent();
+            LoadLanguage();
+            Debug = true;
+            System.Windows.Forms.Timer t = new() {
+                Interval = 1000,
+                Enabled = true
+            };
+            t.Tick += (s, e) => rtbVerbose.AppendLine("Hello when when when when when when when when when when when when when when when when when when");
+        }
         private void LoadLanguage() {
             this.Text = Language.frmExtendedDownloaderRetrieving.Format(Language.ApplicationName);
             lbExtendedDownloaderLink.Text = Language.lbExtendedDownloaderLink;
@@ -664,7 +675,7 @@ namespace youtube_dl_gui {
                     string Msg = null;
                     DownloadProcess.OutputDataReceived += (s, e) => {
                         if (e.Data is not null && e.Data.Length > 0) {
-                            switch (e.Data[..8]) {
+                            switch (e.Data[..8].ToLower()) {
                                 case "[downloa": case "[ffmpeg]":
                                 case "[embedsu": case "[metadat": {
                                     Msg = e.Data;
@@ -687,14 +698,14 @@ namespace youtube_dl_gui {
                                         });
                                     }
                                     Msg = null;
-                                    rtbVerbose.Invoke(() => rtbVerbose.AppendAndTryScrollNewLine(e.Data));
+                                    rtbVerbose.Invoke(() => rtbVerbose.AppendLine(e.Data));
                                 } break;
                             }
                         }
                     };
                     DownloadProcess.ErrorDataReceived += (s, e) => {
                         if (e.Data is not null && e.Data.Length > 0)
-                            rtbVerbose.Invoke(() => rtbVerbose.AppendAndTryScrollNewLine($"Error: {e.Data.Trim()}"));
+                            rtbVerbose.Invoke(() => rtbVerbose.AppendLine($"Error: {e.Data.Trim()}"));
                     };
                     DownloadProcess.Start();
                     DownloadProcess.BeginOutputReadLine();
@@ -710,8 +721,7 @@ namespace youtube_dl_gui {
                         if (Msg is not null) {
                             string Line = Msg.ReplaceWhitespace();
                             string[] LineParts = Line.Split(' ');
-                            rtbVerbose.Invoke(() => rtbVerbose.AppendAndTryScrollNewLine(Line));
-                            switch (Line[..5]) {
+                            switch (Line[..5].ToLower()) {
                                 case "[down": {
                                     switch (LineParts[1][0]) {
                                         case '1': case '2': case '3':
@@ -730,30 +740,36 @@ namespace youtube_dl_gui {
                                     }
                                 } break;
                                 case "[ffmp": {
+                                    rtbVerbose.Invoke(() => rtbVerbose.AppendLine(Line));
                                     pbStatus.Invoke(() => {
                                         pbStatus.Style = ProgressBarStyle.Marquee;
                                         pbStatus.Text = Language.pbDownloadProgressFfmpegPostProcessing;
                                         pbStatus.Value = 100;
                                     });
+                                    Msg = null;
                                 } break;
                                 case "[embe": {
+                                    rtbVerbose.Invoke(() => rtbVerbose.AppendLine(Line));
                                     pbStatus.Invoke(() => {
                                         pbStatus.Style = ProgressBarStyle.Marquee;
                                         pbStatus.Text = Language.pbDownloadProgressEmbeddingSubtitles;
                                         pbStatus.Value = 100;
                                     });
+                                    Msg = null;
                                 } break;
                                 case "[meta": {
+                                    rtbVerbose.Invoke(() => rtbVerbose.AppendLine(Line));
                                     pbStatus.Invoke(() => {
                                         pbStatus.Style = ProgressBarStyle.Marquee;
                                         pbStatus.Text = Language.pbDownloadProgressEmbeddingMetadata;
                                         pbStatus.Value = 100;
                                     });
+                                    Msg = null;
                                 } break;
                             }
                         }
 
-                        Thread.Sleep(500);
+                        Thread.Sleep(250);
                     }
 
                     if (Status != DownloadStatus.Aborted && Status != DownloadStatus.AbortForClose)
@@ -837,6 +853,10 @@ namespace youtube_dl_gui {
             lbExtendedDownloaderUploader.Focus();
         }
         private void btnClearOutput_Click(object sender, EventArgs e) {
+            if (Debug) {
+                rtbVerbose.AppendLine("World world world world world world world world world world world world world world");
+                return;
+            }
             rtbVerbose.Clear();
             rtbVerbose.AppendText("Cleared");
         }

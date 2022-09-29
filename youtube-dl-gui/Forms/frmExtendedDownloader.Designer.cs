@@ -787,6 +787,7 @@
             this.rtbVerbose.Location = new System.Drawing.Point(3, 3);
             this.rtbVerbose.Name = "rtbVerbose";
             this.rtbVerbose.ReadOnly = true;
+            this.rtbVerbose.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
             this.rtbVerbose.Size = new System.Drawing.Size(436, 138);
             this.rtbVerbose.TabIndex = 0;
             this.rtbVerbose.Text = "";

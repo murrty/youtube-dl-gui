@@ -4,6 +4,7 @@ using System.Management;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
+using System.Security.Policy;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -92,6 +93,7 @@ namespace youtube_dl_gui {
         private static int Main(string[] args) {
 #if DEBUG
             DebugMode = true;
+            //Uri.IsWellFormedUriString("wherearethefafefjoesgjhersuifhudesfhiua", UriKind.RelativeOrAbsolute);
 #endif
 
             if (DebugMode || (Instance = new(true, ProgramGUID.Value)).WaitOne(TimeSpan.Zero, true)) {
@@ -152,8 +154,8 @@ namespace youtube_dl_gui {
                             Config.Settings.Downloads.downloadPath = fbd.SelectedPath;
                     }
 
-                    if (UpdateChecker.CheckForYoutubeDlUpdate()
-                    && MessageBox.Show(Language.dlgFirstTimeDownloadYoutubeDl, Language.ApplicationName, MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    if (MessageBox.Show(Language.dlgFirstTimeDownloadYoutubeDl, Language.ApplicationName, MessageBoxButtons.YesNo) == DialogResult.Yes
+                    && UpdateChecker.CheckForYoutubeDlUpdate())
                         UpdateChecker.UpdateYoutubeDl(null);
                     if (MessageBox.Show(Language.dlgFirstTimeDownloadFfmpeg, Language.ApplicationName, MessageBoxButtons.YesNo) == DialogResult.Yes)
                         UpdateChecker.UpdateFfmpeg(null);
@@ -164,10 +166,10 @@ namespace youtube_dl_gui {
                     Log.Write("First time setup has concluded.");
                 }
                 else {
-                    Config.Settings.Load(ConfigType.All);
                     Language.LoadLanguage($"{Environment.CurrentDirectory}\\lang\\{Config.Settings.Initialization.LanguageFile}.ini");
                 }
 
+                murrty.controls.natives.Consts.UpdateHand();
                 Formats.LoadCustomFormats();
                 Messages = new();
                 SetTls();
@@ -176,6 +178,9 @@ namespace youtube_dl_gui {
                     AwaitActions();
                     return 0;
                 }
+
+                //frmExtendedDownloader f = new();
+                //f.ShowDialog();
 
                 (MainForm = new frmMain()).ShowDialog();
                 if (!DebugMode) {

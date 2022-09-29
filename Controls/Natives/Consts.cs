@@ -1,4 +1,6 @@
 ﻿namespace murrty.controls.natives;
+using System.Reflection;
+using System.Windows.Forms;
 
 internal static class Consts {
 
@@ -36,9 +38,9 @@ internal static class Consts {
     public const int WS_EX_COMPOSITED = 0x02000000;
     public const int WM_ERASEBKGND = 0x14;
 
-    /// <summary>
-    /// The IntPtr value of IDC_HAND.
-    /// </summary>
-    public static readonly nint SystemHand = NativeMethods.LoadCursor(0, IDC_HAND);
+    public static void UpdateHand() =>
+        typeof(Cursors)
+        .GetField("hand", BindingFlags.Static | BindingFlags.NonPublic)?
+        .SetValue(null, new Cursor(NativeMethods.LoadCursor(0, IDC_HAND)));
 
 }
