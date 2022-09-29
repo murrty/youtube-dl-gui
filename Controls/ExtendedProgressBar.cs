@@ -99,9 +99,8 @@ public sealed class ExtendedProgressBar : ProgressBar {
         set {
             _ContainerParent = value;
 
-            if (_ContainerParent != null && !_ContainerParent.Visible) {
-                ((Form)_ContainerParent).Shown += ExtendedProgressBar_Shown;
-            }
+            if (_ContainerParent != null && _ContainerParent is Form Parent && !_ContainerParent.Visible)
+                Parent.Shown += ExtendedProgressBar_Shown;
         }
     }
 
@@ -218,11 +217,24 @@ public sealed class ExtendedProgressBar : ProgressBar {
             if (_ShowInTaskbar != value) {
                 _ShowInTaskbar = value;
 
-                if (ContainerParent != null) {
-                    if (Style != ProgressBarStyle.Marquee) {
-                        SetValueInTaskbar();
+                if (!TaskbarInUse) {
+                    if (value)
+                        TaskbarInterface.Accessor = this;
+
+                    if (ContainerParent != null) {
+                        if (Style != ProgressBarStyle.Marquee)
+                            SetValueInTaskbar();
+                        SetStateInTaskbar();
                     }
-                    SetStateInTaskbar();
+
+                    if (!value)
+                        TaskbarInterface.Accessor = null;
+                }
+                else {
+                    if (value)
+                        TaskbarInterface.AccessorPriorityList.Add(this);
+                    else
+                        TaskbarInterface.AccessorPriorityList.Remove(this);
                 }
             }
         }
@@ -347,6 +359,10 @@ public sealed class ExtendedProgressBar : ProgressBar {
             SetValueInTaskbar();
         }
     }
+
+    public bool TaskbarInUse {
+        get => TaskbarInterface.Accessor != null && TaskbarInterface.Accessor != this;
+    }
     #endregion
 
     #region Native Methods
@@ -408,6 +424,20 @@ public sealed class ExtendedProgressBar : ProgressBar {
         if (ShowInTaskbar) {
             this.Value = 0;
             this.ShowInTaskbar = false;
+            if (TaskbarInterface.Accessor == this) {
+                if (TaskbarInterface.AccessorPriorityList.Count > 0) {
+                    TaskbarInterface.Accessor = TaskbarInterface.AccessorPriorityList[0];
+                    TaskbarInterface.AccessorPriorityList.RemoveAt(0);
+                    TaskbarInterface.Accessor.SetStateInTaskbar();
+                    TaskbarInterface.Accessor.SetValueInTaskbar();
+                }
+                else {
+                    TaskbarInterface.Accessor = null;
+                }
+            }
+            else if (TaskbarInterface.AccessorPriorityList.Contains(this)) {
+                TaskbarInterface.AccessorPriorityList.Remove(this);
+            }
         }
         base.Dispose(disposing);
     }
@@ -461,18 +491,21 @@ public sealed class ExtendedProgressBar : ProgressBar {
 
     #region Events
     internal void ExtendedProgressBar_Shown(object sender, EventArgs e) {
-        if (ProgressState != ProgressState.Normal) {
-            NativeMethods.SendMessage(Handle, PBM_SETSTATE, (nint)ProgressState, IntPtr.Zero);
-        }
-
-        if (ShowInTaskbar) {
-            if (Style != ProgressBarStyle.Marquee) {
-                SetValueInTaskbar();
+        if (_ContainerParent is not null && _ContainerParent is Form Parent) {
+            if (ProgressState != ProgressState.Normal) {
+                NativeMethods.SendMessage(Handle, PBM_SETSTATE, (nint)ProgressState, IntPtr.Zero);
             }
-            SetStateInTaskbar();
-        }
 
-        ((Form)_ContainerParent).Shown -= ExtendedProgressBar_Shown;
+            if (ShowInTaskbar) {
+                if (Style != ProgressBarStyle.Marquee) {
+                    SetValueInTaskbar();
+                }
+                SetStateInTaskbar();
+            }
+
+
+            Parent.Shown -= ExtendedProgressBar_Shown;
+        }
     }
     #endregion
 
@@ -549,8 +582,8 @@ public sealed class ExtendedProgressBar : ProgressBar {
     /// <summary>
     /// Sets the progress bars' taskbar instance to the updated state.
     /// </summary>
-    private void SetStateInTaskbar() {
-        if (_ContainerParent != null && !DesignMode) {
+    internal void SetStateInTaskbar() {
+        if (_ContainerParent != null && !DesignMode && !TaskbarInUse) {
             TaskbarInterface.SetProgressState(_ContainerParent.Handle, _ProgressState switch {
                 _ when !_ShowInTaskbar => TaskbarProgressState.None,
                 _ when Style == ProgressBarStyle.Marquee => TaskbarProgressState.Indeterminate,
@@ -564,8 +597,8 @@ public sealed class ExtendedProgressBar : ProgressBar {
     /// <summary>
     /// Sets the progress bars' taskbar instance to the updated values.
     /// </summary>
-    private void SetValueInTaskbar() {
-        if (_ShowInTaskbar && _ContainerParent != null && Style != ProgressBarStyle.Marquee && !DesignMode) {
+    internal void SetValueInTaskbar() {
+        if (_ShowInTaskbar && _ContainerParent != null && Style != ProgressBarStyle.Marquee && !DesignMode && !TaskbarInUse) {
             TaskbarInterface.SetProgressValue(
                 _ContainerParent.Handle,
                 (ulong)(Value - Minimum),

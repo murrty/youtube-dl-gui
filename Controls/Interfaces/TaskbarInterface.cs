@@ -6,7 +6,6 @@ using System.Runtime.InteropServices;
 /// The class for interfacing with the system taskbar.
 /// </summary>
 internal static class TaskbarInterface {
-
     #region Enumerations
     [StructLayout(LayoutKind.Sequential)]
     internal struct RECT {
@@ -71,11 +70,34 @@ internal static class TaskbarInterface {
     /// </summary>
     private static ITaskbarList3 _TaskbarList3;
 
-    private static readonly bool bSupported = Environment.OSVersion.Version.Major >= 6 ||
-                Environment.OSVersion.Version.Major == 6 && Environment.OSVersion.Version.Minor >= 1;
+    private static readonly bool bSupported =
+        Environment.OSVersion.Version.Major > 6 ||
+        (Environment.OSVersion.Version.Major == 6 && Environment.OSVersion.Version.Minor >= 1);
     #endregion
 
     #region Properties
+    internal static readonly SynchronizedCollection<ExtendedProgressBar> AccessorPriorityList = new();
+    internal static ExtendedProgressBar Accessor {
+        get => fAccessor;
+        set {
+            if (value is null) {
+                if (AccessorPriorityList.Count > 0) {
+                    fAccessor = AccessorPriorityList[0];
+                    AccessorPriorityList.RemoveAt(0);
+                    fAccessor.SetStateInTaskbar();
+                    fAccessor.SetValueInTaskbar();
+                }
+                else {
+                    fAccessor = value;
+                }
+            }
+            else {
+                fAccessor ??= value;
+            }
+        }
+    }
+    private static ExtendedProgressBar fAccessor;
+
     /// <summary>
     /// Gets if the version of windows running supports using the ITaskbarList interface.
     /// </summary>
@@ -128,16 +150,6 @@ internal static class TaskbarInterface {
         // ITaskbarList3
         void SetProgressValue(IntPtr hwnd, UInt64 ullCompleted, UInt64 ullTotal);
         void SetProgressState(IntPtr hwnd, TaskbarProgressState tbpFlags);
-        void RegisterTab(IntPtr hwndTab, IntPtr hwndMDI);
-        void UnregisterTab(IntPtr hwndTab);
-        void SetTabOrder(IntPtr hwndTab, IntPtr hwndInsertBefore);
-        void SetTabActive(IntPtr hwndTab, IntPtr hwndMDI, TBATFLAG tbatFlags);
-        void ThumbBarAddButtons(IntPtr hwnd, uint cButtons, [MarshalAs(UnmanagedType.LPArray)] THUMBBUTTON[] pButtons);
-        void ThumbBarUpdateButtons(IntPtr hwnd, uint cButtons, [MarshalAs(UnmanagedType.LPArray)] THUMBBUTTON[] pButtons);
-        void ThumbBarSetImageList(IntPtr hwnd, IntPtr himl);
-        void SetOverlayIcon(IntPtr hwnd, IntPtr hIcon, [MarshalAs(UnmanagedType.LPWStr)] string pszDescription);
-        void SetThumbnailTooltip(IntPtr hwnd, [MarshalAs(UnmanagedType.LPWStr)] string pszTip);
-        void SetThumbnailClip(IntPtr hwnd, [MarshalAs(UnmanagedType.LPStruct)] ref RECT prcClip);
     }
 
     [Guid("56FDF344-FD6D-11d0-958A-006097C9A090")]
@@ -147,20 +159,14 @@ internal static class TaskbarInterface {
     #endregion
 
     #region Methods
-    public static void SetOverlayIcon(IntPtr Handle, IntPtr Icon, string Description) {
-        TaskbarList3.SetOverlayIcon(Handle, Icon, Description);
-    }
-
     public static void SetProgressState(IntPtr hWnd, TaskbarProgressState NewState) {
-        if (Supported) {
+        if (Supported)
             TaskbarList3.SetProgressState(hWnd, NewState);
-        }
     }
 
     public static void SetProgressValue(IntPtr hWnd, ulong Value, ulong Maximum) {
-        if (Supported) {
+        if (Supported)
             TaskbarList3.SetProgressValue(hWnd, Value, Maximum);
-        }
     }
     #endregion
 
