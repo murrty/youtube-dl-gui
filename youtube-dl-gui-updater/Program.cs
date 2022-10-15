@@ -50,7 +50,7 @@ static class Program {
         Language.LoadInternalEnglish();
 #else
         var Value = new StringBuilder(65535);
-        NativeMethods.GetPrivateProfileString(RepositoryName, "LanguageFile", "${empty}", Value, 65535, $"{Environment.CurrentDirectory}\\settings.ini");
+        NativeMethods.GetPrivateProfileString(RepositoryName, "LanguageFile", "${empty}", Value, 65535, $"{Environment.CurrentDirectory}\\youtube-dl-gui.ini");
         string LanguageFile = Value.ToString() == "${empty}" ? null : Value.ToString();
         Language.LoadLanguage(LanguageFile);
 #endif

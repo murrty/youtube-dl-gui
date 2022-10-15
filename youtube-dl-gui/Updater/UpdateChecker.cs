@@ -9,7 +9,7 @@ using murrty.updater;
 namespace youtube_dl_gui {
     internal class UpdateChecker {
         #region Fields & Properties
-        private const string KnownUpdaterHash = "FFA64CBA460E6ADD7975D61CF518352D17687E026A7D8AE80631E80FB2E73695";
+        private const string KnownUpdaterHash = "D507C33452874ABEC36755F1AB9A152D6A14328071BDE8F16B3ED5655C40D2CA";
         private const string FfmpegDownloadLink = "https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-essentials.zip";
         public static GithubData LastChecked { get; private set; }
         public static GithubData LastCheckedLatestRelease { get; private set; }
@@ -100,6 +100,7 @@ namespace youtube_dl_gui {
                     WorkingDirectory = Environment.CurrentDirectory
                 }
             };
+            Log.Write($"Using the pid {Process.GetCurrentProcess().Id} with hwnd {Program.GetMessagesHandle()}");
             Updater.Start();
         }
 
@@ -433,6 +434,5 @@ namespace youtube_dl_gui {
             }
         }
         #endregion
-
     }
 }

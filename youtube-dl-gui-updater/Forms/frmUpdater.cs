@@ -19,8 +19,8 @@ public partial class frmUpdater : Form, IUpdateForm {
         pbDownloadProgress.Style = ProgressBarStyle.Marquee;
         LoadLanguage();
         SetDownloadThread();
-        if (!Program.UpdateData.FileName.ToLower().EndsWith(".exe"))
-            Program.UpdateData.FileName += ".exe";
+        //if (!Program.UpdateData.FileName.ToLower().EndsWith(".exe"))
+        //    Program.UpdateData.FileName += ".exe";
         Messages = new();
     }
 

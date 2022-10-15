@@ -16,6 +16,8 @@ internal class MessageHandler : NativeWindow {
             case CopyData.WM_COPYDATA: {
                 Program.UpdateData = CopyData.GetParam<UpdaterData>(m.LParam);
                 Program.UpdateData.UpdateHash = Program.UpdateData.UpdateHash.ToLowerInvariant();
+                if (!Program.UpdateData.FileName.ToLowerInvariant().EndsWith(".exe"))
+                    Program.UpdateData.FileName += ".exe";
                 Program.MainForm.StartUpdate();
             } break;
 
