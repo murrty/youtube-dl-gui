@@ -82,6 +82,9 @@ internal static class TaskbarInterface {
         set {
             if (value is null) {
                 if (AccessorPriorityList.Count > 0) {
+                    while (AccessorPriorityList[0] is null || AccessorPriorityList[0].IsDisposed)
+                        AccessorPriorityList.RemoveAt(0);
+
                     fAccessor = AccessorPriorityList[0];
                     AccessorPriorityList.RemoveAt(0);
                     fAccessor.SetStateInTaskbar();

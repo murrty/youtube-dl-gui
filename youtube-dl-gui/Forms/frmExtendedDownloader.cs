@@ -318,7 +318,7 @@ namespace youtube_dl_gui {
 
                     this.Invoke(() => {
                         this.Text = Config.Settings.Initialization.ScreenshotMode ?
-                            $"Video title - {Language.ApplicationName}" : $"{Information.Title} - {Language.ApplicationName}";
+                            $"The videos' title will appear here - {Language.ApplicationName}" : $"{Information.Title} - {Language.ApplicationName}";
                         txtExtendedDownloaderMediaTitle.Text = Information.Title;
                         rtbMediaDescription.Text = Information.Description;
                         txtUploader.Text = Information.Uploader;
