@@ -206,6 +206,7 @@ internal class Formats {
             VideoFormatType.avi => " --recode-video avi",
             VideoFormatType.flv => " --recode-video flv",
             VideoFormatType.mkv => " --merge-output-format mkv",
+            VideoFormatType.mp4 => " --recode-video mp4",
             VideoFormatType.ogg => " --recode-video ogg",
             VideoFormatType.webm => " --merge-output-format webm",
             _ => string.Empty,
