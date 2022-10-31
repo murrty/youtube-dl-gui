@@ -1,7 +1,5 @@
 ﻿namespace youtube_dl_gui;
-
 using System.IO;
-
 internal static class Verification {
     private static GitID YoutubeDlGitType = GitID.YtDlp;
 
@@ -18,11 +16,11 @@ internal static class Verification {
     }
 
     public static void RefreshYoutubeDlLocation() {
+        GetProgramVersion(Environment.CurrentDirectory + "\\youtube-dl.exe");
         YoutubeDlGitType = (GitID)Config.Settings.Downloads.YtdlType;
         string TempPath;
         string YoutubeDlName = YoutubeDlGitType switch {
             GitID.YoutubeDl => "youtube-dl.exe",
-            //GitID.YoutubeDlc => "youtube-dlc.exe",
             GitID.YoutubeDlNightly => "youtube-dl-n.exe",
             GitID.YtDlpNightly => "yt-dlp-n.exe",
             _ => "yt-dlp.exe",
@@ -38,31 +36,9 @@ internal static class Verification {
         else return;
 
         YoutubeDlPath = TempPath;
-        
-        if (YoutubeDlPath != null) {
+
+        if (YoutubeDlPath is not null)
             YoutubeDlVersion = GetProgramVersion(YoutubeDlPath);
-            switch (YoutubeDlGitType) {
-                case GitID.YoutubeDlNightly: // {YYYY.MM.DD.FFFFF}
-                case GitID.YoutubeDl: { //ytdl/youtube-dl {YYYY.MM.DD}
-                } break;
-
-                ////case GitID.YtDlc:
-                //case GitID.YoutubeDlc: { // blackjack###/youtube-dlc {YYYY.MM.DD-M | git.io/link}
-                //    YoutubeDlVersion = YoutubeDlVersion[..YoutubeDlVersion.IndexOf(" | ")];
-                //    //if (YoutubeDlVersion.Contains("-1 | ")) {
-                //    //    YoutubeDlVersion = YoutubeDlVersion[..YoutubeDlVersion.IndexOf("-1")];
-                //    //}
-                //} break;
-
-                case GitID.YtDlpNightly:
-                case GitID.YtDlp: { // yt-dlp/yt-dlp {YYYY.MM.DD on Python 3.8.10}
-                    YoutubeDlVersion = YoutubeDlVersion[..YoutubeDlVersion.IndexOf(" on ")];
-                } break;
-
-                default: {
-                } throw new ArgumentException("YtdlType is invalid.");
-            }
-        }
     }
 
     public static void RefreshFFmpegLocation() {
@@ -94,7 +70,9 @@ internal static class Verification {
 
     private static string GetProgramVersion(string ProgramPath) {
         try {
-            return System.Diagnostics.FileVersionInfo.GetVersionInfo(ProgramPath).ProductVersion;
+            return File.Exists(ProgramPath) ?
+                System.Diagnostics.FileVersionInfo.GetVersionInfo(ProgramPath).FileVersion : null;
+            //return System.Diagnostics.FileVersionInfo.GetVersionInfo(ProgramPath).ProductVersion;
         }
         catch (Exception ex) {
             Log.ReportException(ex);
