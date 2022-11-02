@@ -237,6 +237,7 @@ namespace youtube_dl_gui {
                                 case "[downloa": case "[ffmpeg]":
                                 case "[embedsu": case "[metadat": {
                                     Msg = e.Data;
+                                    Console.WriteLine(e.Data);
                                 } break;
 
                                 default: {
@@ -289,8 +290,6 @@ namespace youtube_dl_gui {
                         DownloadProcess.BeginOutputReadLine();
                         DownloadProcess.BeginErrorReadLine();
 
-                        float Percentage;
-
                         while (!DownloadProcess.HasExited) {
                             if (CurrentDownload.Status == DownloadStatus.Aborted || CurrentDownload.Status == DownloadStatus.AbortForClose) {
                                 if (!DownloadProcess.HasExited) {
@@ -301,6 +300,7 @@ namespace youtube_dl_gui {
                             }
 
                             if (Msg.IsNotNullEmptyWhitespace()) {
+                                //Console.WriteLine(Msg);
                                 string Line = Msg.ReplaceWhitespace();
                                 switch (Line[..5].ToLower()) {
                                     case "[down": {
@@ -313,9 +313,8 @@ namespace youtube_dl_gui {
                                                 if (pbStatus.Style != ProgressBarStyle.Blocks)
                                                     pbStatus.Invoke(() => pbStatus.Style = ProgressBarStyle.Blocks);
                                                 if (LineParts[1].Contains('%')) {
-                                                    Percentage = float.Parse(LineParts[1][..LineParts[1].IndexOf('%')]);
                                                     pbStatus.Invoke(() => {
-                                                        pbStatus.Text = $"{Percentage}% @ {LineParts[5]}";
+                                                        pbStatus.Text = DownloadHelper.GetTransferData(LineParts, out float Percentage);
                                                         pbStatus.Value = (int)Math.Floor(Percentage);
                                                     });
                                                 }
@@ -350,6 +349,7 @@ namespace youtube_dl_gui {
                                         Msg = null;
                                     } break;
                                 }
+                                Msg = null;
                             }
 
                             Thread.Sleep(250);

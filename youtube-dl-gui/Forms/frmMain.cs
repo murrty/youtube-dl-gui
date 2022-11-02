@@ -48,23 +48,21 @@ namespace youtube_dl_gui {
         protected override void WndProc(ref Message m) {
             switch (m.Msg) {
                 case CopyData.WM_COPYDATA: {
+                    Log.Write("Retrieved data");
                     var Data = CopyData.GetParam<SentData>(m.LParam);
                     string[] ReceivedArguments = Data.Argument.Split('|');
-                    switch (ReceivedArguments.Length) {
-                        case 1: {
-                            txtUrl.Text = ReceivedArguments[0];
-                            System.Media.SystemSounds.Asterisk.Play();
-                        } break;
-                        case > 1: {
-                            Program.CheckArgs(ReceivedArguments, false);
-                            System.Media.SystemSounds.Asterisk.Play();
-                        } break;
+                    if (ReceivedArguments.Length > 0) {
+                        Log.Write("Multiple arguments");
+                        var RetrievedArguments = Arguments.RetrieveArguments(ReceivedArguments);
+                        if (RetrievedArguments.Count > 0)
+                            Program.CheckArgs(false, RetrievedArguments);
                     }
                     m.Result = IntPtr.Zero;
                 } break;
                 case CopyData.WM_SHOWFORM: {
-                    if (this.WindowState != FormWindowState.Normal)
+                    if (this.WindowState == FormWindowState.Minimized)
                         this.WindowState = FormWindowState.Normal;
+
                     this.Show();
                     this.Activate();
                     System.Media.SystemSounds.Asterisk.Play();
@@ -80,9 +78,7 @@ namespace youtube_dl_gui {
                         }
                         txtUrl.Text = ClipboardData;
                         ClipboardData = null;
-                        if (!Program.DebugMode) {
-                            Download();
-                        }
+                        Download();
                     }
                     m.Result = IntPtr.Zero;
                 } break;
@@ -157,10 +153,8 @@ namespace youtube_dl_gui {
                     }
                     break;
             }
+
             switch (Config.Settings.Saved.downloadType) {
-                case 0:
-                    rbVideo.Checked = true;
-                    break;
                 case 1:
                     rbAudio.Checked = true;
                     break;
@@ -171,6 +165,7 @@ namespace youtube_dl_gui {
                     rbVideo.Checked = true;
                     break;
             }
+
             mClipboardAutoDownloadVerifyLinks.Checked = cmTrayClipboardAutoDownloadVerifyLinks.Checked = Config.Settings.General.ClipboardAutoDownloadVerifyLinks;
             
             if (ProtocolInput) {

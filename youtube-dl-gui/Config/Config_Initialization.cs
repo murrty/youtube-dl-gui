@@ -21,7 +21,7 @@ internal class Config_Initialization {
         LanguageFile = fLanguageFile = IniProvider.Read(LanguageFile, string.Empty);
         fSkippedVersion = SkippedVersion = IniProvider.Read(SkippedVersion, Version.Empty);
         SkippedBetaVersion = fSkippedBetaVersion = IniProvider.Read(SkippedVersion, Version.Empty);
-        ScreenshotMode = IniProvider.Read(ScreenshotMode, true);
+        ScreenshotMode = IniProvider.Read(ScreenshotMode, false);
     }
 
     public void Save() {

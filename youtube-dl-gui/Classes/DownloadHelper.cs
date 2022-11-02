@@ -79,4 +79,13 @@ public class DownloadHelper {
         return false;
     }
 
+    public static string GetTransferData(string[] LineParts, out float Percentage) {
+        if (LineParts[1].Contains('%')) {
+            Percentage = float.Parse(LineParts[1][..LineParts[1].IndexOf('%')]);
+            return $"{LineParts[1]} of {LineParts[3]} @ {LineParts[5]}";
+        }
+        Percentage = 0;
+        return "could not parse line";
+    }
+
 }

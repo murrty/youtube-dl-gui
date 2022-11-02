@@ -341,7 +341,7 @@ public sealed class DownloadInfo {
                 ArgumentsBuffer.Append($" --proxy {DownloadHelper.ProxyProtocols[Config.Settings.Downloads.ProxyType]}{Config.Settings.Downloads.ProxyIP}:{Config.Settings.Downloads.ProxyPort}/");
 
             if (!DownloadArguments.ReplaceWhitespace(" ").IsNullEmptyWhitespace())
-                ArgumentsBuffer.Append(DownloadArguments.ReplaceWhitespace(" "));
+                ArgumentsBuffer.Append(" " + DownloadArguments.ReplaceWhitespace(" ").Trim());
         }
         #endregion
 

@@ -44,6 +44,7 @@ public static class Language {
     public static string GenericDoNotRemux { get; private set; }
     public static string GenericDoNotDownload { get; private set; }
     public static string GenericUnknownFormat { get; private set; }
+    public static string GenericMoreInfo { get; private set; }
 
     public static string frmGenericDownloadProgress { get; private set; }
     public static string chContainer { get; private set; }
@@ -333,6 +334,8 @@ public static class Language {
     public static string tabDownloadsUpdating { get; private set; }
     public static string tabDownloadsBatch { get; private set; }
     public static string tabExtendedOptions { get; private set; }
+    public static string btnSettingsDownloadsInstallProtocolNotInstalled { get; private set; }
+    public static string btnSettingsDownloadsInstallProtocolInstalled { get; private set; }
 
     public static string chkSettingsDownloadsSaveFormatQuality { get; private set; }
     public static string chkSettingsDownloadsDownloadSubtitles { get; private set; }
@@ -357,7 +360,6 @@ public static class Language {
     public static string chkSettingsDownloadsUseProxy { get; private set; }
     public static string chkSettingsDownloadsUseYoutubeDlsUpdater { get; private set; }
     public static string lbSettingsDownloadsUpdatingYtdlType { get; private set; }
-    public static string cbSettingsDownloadsUpdatingYtdlTypeHint { get; private set; }
     public static string llbSettingsDownloadsYtdlTypeViewRepo { get; private set; }
     public static string llbSettingsDownloadsYtdlTypeViewRepoHint { get; private set; }
     public static string chkSettingsDownloadsSeparateBatchDownloads { get; private set; }
@@ -429,6 +431,8 @@ public static class Language {
     public static string llSettingsDownloadsSchemaHelpHint { get; private set; }
     public static string lbSettingsDownloadsFileNameSchemaHint { get; private set; }
     public static string txtSettingsDownloadsFileNameSchemaHint { get; private set; }
+    public static string btnSettingsDownloadsInstallProtocolHint { get; private set; }
+
     public static string chkSettingsDownloadsSaveFormatQualityHint { get; private set; }
     public static string chkSettingsDownloadsDownloadSubtitlesHint { get; private set; }
     public static string chkSettingsDownloadsEmbedSubtitlesHint { get; private set; }
@@ -456,6 +460,7 @@ public static class Language {
     public static string cbSettingsDownloadsProxyTypeHint { get; private set; }
     public static string txtSettingsDownloadsProxyIpHint { get; private set; }
     public static string txtSettingsDownloadsProxyPortHint { get; private set; }
+    public static string cbSettingsDownloadsUpdatingYtdlTypeHint { get; private set; }
     public static string chksettingsDownloadsUseYoutubeDlsUpdaterHint { get; private set; }
     public static string chkSettingsDownloadsSeparateBatchDownloadsHint { get; private set; }
     public static string chkSettingsDownloadsAddDateToBatchDownloadFoldersHint { get; private set; }
@@ -545,6 +550,7 @@ public static class Language {
         public const string GenericDoNotRemux = "(Do not remux)";
         public const string GenericDoNotDownload = "(Do not download)";
         public const string GenericUnknownFormat = "Unknown format";
+        public const string GenericMoreInfo = "More info";
 
         public const string frmGenericDownloadProgress = "Downloading...";
         public const string chContainer = "Container";
@@ -875,6 +881,8 @@ public static class Language {
         public const string txtSettingsDownloadsSavePathHint = "where your downloads will be saved to";
         public const string btnSettingsDownloadsBrowseSavePathHint = "browse for a new save folder";
         public const string lbSettingsDownloadsFileNameSchema = "file name schema";
+        public const string btnSettingsDownloadsInstallProtocolNotInstalled = "Install browser protocol";
+        public const string btnSettingsDownloadsInstallProtocolInstalled = "Browser protocol installed";
 
         public const string tabDownloadsGeneral = "General";
         public const string tabDownloadsSorting = "Sorting";
@@ -917,6 +925,7 @@ public static class Language {
         public const string lbSettingsDownloadsFileNameSchemaHint = "The file name schema\n\nThis basically replaces sequences with video information for a custom file name.";
         public const string llSettingsDownloadsSchemaHelpHint = "Click here to view supported arguments";
         public const string txtSettingsDownloadsFileNameSchemaHint = "The file name schema that will be used by youtube-dl";
+        public const string btnSettingsDownloadsInstallProtocolHint = "This will add a key to the registry which will allow browsers to send data to this program. Installing it requires Administrative permissions.";
 
         public const string chkSettingsDownloadsSaveFormatQualityHint = "Saves the quality selection, format selection, and custom arguments on download on the main form";
         public const string chkSettingsDownloadsDownloadSubtitlesHint = "Download all available subtitles for the video\nIf no subtitles are available, nothing will download";
@@ -1083,6 +1092,7 @@ public static class Language {
         GenericDoNotRemux = InternalEnglish.GenericDoNotRemux;
         GenericDoNotDownload = InternalEnglish.GenericDoNotDownload;
         GenericUnknownFormat = InternalEnglish.GenericUnknownFormat;
+        GenericMoreInfo = InternalEnglish.GenericMoreInfo;
 
         frmGenericDownloadProgress = InternalEnglish.frmGenericDownloadProgress;
         chContainer = InternalEnglish.chContainer;
@@ -1357,6 +1367,8 @@ public static class Language {
         tabDownloadsUpdating = InternalEnglish.tabDownloadsUpdating;
         tabDownloadsBatch = InternalEnglish.tabDownloadsBatch;
         tabExtendedOptions = InternalEnglish.tabExtendedOptions;
+        btnSettingsDownloadsInstallProtocolNotInstalled = InternalEnglish.btnSettingsDownloadsInstallProtocolNotInstalled;
+        btnSettingsDownloadsInstallProtocolInstalled = InternalEnglish.btnSettingsDownloadsInstallProtocolInstalled;
 
         chkSettingsDownloadsSaveFormatQuality = InternalEnglish.chkSettingsDownloadsSaveFormatQuality;
         chkSettingsDownloadsDownloadSubtitles = InternalEnglish.chkSettingsDownloadsDownloadSubtitles;
@@ -1451,6 +1463,7 @@ public static class Language {
         llSettingsDownloadsSchemaHelpHint = InternalEnglish.llSettingsDownloadsSchemaHelpHint;
         lbSettingsDownloadsFileNameSchemaHint = InternalEnglish.lbSettingsDownloadsFileNameSchemaHint;
         txtSettingsDownloadsFileNameSchemaHint = InternalEnglish.txtSettingsDownloadsFileNameSchemaHint;
+        btnSettingsDownloadsInstallProtocolHint = InternalEnglish.btnSettingsDownloadsInstallProtocolHint;
 
         chkSettingsDownloadsSaveFormatQualityHint = InternalEnglish.chkSettingsDownloadsSaveFormatQualityHint;
         chkSettingsDownloadsDownloadSubtitlesHint = InternalEnglish.chkSettingsDownloadsDownloadSubtitlesHint;
@@ -1572,6 +1585,7 @@ public static class Language {
         GenericDoNotRemux = nameof(GenericDoNotRemux);
         GenericDoNotDownload = nameof(GenericDoNotDownload);
         GenericUnknownFormat = nameof(GenericUnknownFormat);
+        GenericMoreInfo = nameof(GenericMoreInfo);
 
         frmGenericDownloadProgress = nameof(frmGenericDownloadProgress);
         chContainer = nameof(chContainer);
@@ -1844,6 +1858,8 @@ public static class Language {
         tabDownloadsUpdating = nameof(tabDownloadsUpdating);
         tabDownloadsBatch = nameof(tabDownloadsBatch);
         tabExtendedOptions = nameof(tabExtendedOptions);
+        btnSettingsDownloadsInstallProtocolNotInstalled = nameof(btnSettingsDownloadsInstallProtocolNotInstalled);
+        btnSettingsDownloadsInstallProtocolInstalled = nameof(btnSettingsDownloadsInstallProtocolInstalled);
 
         chkSettingsDownloadsSaveFormatQuality = nameof(chkSettingsDownloadsSaveFormatQuality);
         chkSettingsDownloadsDownloadSubtitles = nameof(chkSettingsDownloadsDownloadSubtitles);
@@ -1938,6 +1954,7 @@ public static class Language {
         llSettingsDownloadsSchemaHelpHint = nameof(llSettingsDownloadsSchemaHelpHint);
         lbSettingsDownloadsFileNameSchemaHint = nameof(lbSettingsDownloadsFileNameSchemaHint);
         txtSettingsDownloadsFileNameSchemaHint = nameof(txtSettingsDownloadsFileNameSchemaHint);
+        btnSettingsDownloadsInstallProtocolHint = nameof(btnSettingsDownloadsInstallProtocolHint);
 
         chkSettingsDownloadsSaveFormatQualityHint = nameof(chkSettingsDownloadsSaveFormatQualityHint);
         chkSettingsDownloadsDownloadSubtitlesHint = nameof(chkSettingsDownloadsDownloadSubtitlesHint);
@@ -2134,6 +2151,9 @@ public static class Language {
                                 continue;
                             case "genericunknownformat":
                                 GenericUnknownFormat = ReadValue;
+                                continue;
+                            case "genericmoreinfo":
+                                GenericMoreInfo = ReadValue;
                                 continue;
 
                             case "frmgenericdownloadprogress":
@@ -2959,6 +2979,12 @@ public static class Language {
                             case "tabextendedoptions":
                                 tabExtendedOptions = ReadValue;
                                 continue;
+                            case "btnsettingsdownloadsinstallprotocolnotinstalled":
+                                btnSettingsDownloadsInstallProtocolNotInstalled = ReadValue;
+                                continue;
+                            case "btnsettingsdownloadsinstallprotocolinstalled":
+                                btnSettingsDownloadsInstallProtocolInstalled = ReadValue;
+                                continue;
                             case "chksettingsdownloadssaveformatquality":
                                 chkSettingsDownloadsSaveFormatQuality = ReadValue;
                                 continue;
@@ -3043,6 +3069,7 @@ public static class Language {
                             case "chkextendedautomaticallydownloadthumbnail":
                                 chkExtendedAutomaticallyDownloadThumbnail = ReadValue;
                                 continue;
+
                             case "lbsettingsdownloadsdownloadpathhint":
                                 lbSettingsDownloadsDownloadPathHint = ReadValue;
                                 continue;
@@ -3063,6 +3090,9 @@ public static class Language {
                                 continue;
                             case "txtsettingsdownloadsfilenameschemahint":
                                 txtSettingsDownloadsFileNameSchemaHint = ReadValue;
+                                continue;
+                            case "btnsettingsdownloadsinstallprotocolhint":
+                                btnSettingsDownloadsInstallProtocolHint = ReadValue;
                                 continue;
                             case "chksettingsdownloadssaveformatqualityhint":
                                 chkSettingsDownloadsSaveFormatQualityHint = ReadValue;
@@ -3394,26 +3424,26 @@ public static class Language {
     /// Parses the control name and value from a string.
     /// </summary>
     /// <param name="Input">The string that will be parsed. Empty values are permitted.</param>
-    /// <param name="Name">The output of the Name of the control to be named, as lowercase.</param>
+    /// <param name="Key">The output of the Name of the control to be named, as lowercase.</param>
     /// <param name="Value">The value of the control.</param>
-    private static void GetControlInfo(string Input, out string Name, out string Value) {
+    private static void GetControlInfo(string Input, out string Key, out string Value) {
         switch (Input.Split('=').Length) {
             case -1: case 0: {
-                Name = null;
+                Key = null;
                 Value = null;
             } return;
 
             case 1: {
                 if (Input.Contains("//"))
                     Input = Input[..Input.IndexOf("//")];
-                Name = Input.Split('=')[0].ToLower().Trim();
+                Key = Input.Split('=')[0].ToLowerInvariant().Trim();
                 Value = string.Empty;
             } break;
 
             default: {
                 if (Input.Contains("//"))
                     Input = Input[..Input.IndexOf("//")];
-                Name = Input.Split('=')[0].ToLower().Trim();
+                Key = Input.Split('=')[0].ToLowerInvariant().Trim();
                 Value = Input[(Input.IndexOf('=') + 1)..].Trim();
             } break;
         }

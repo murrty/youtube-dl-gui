@@ -15,6 +15,7 @@ internal class Config_Downloads {
     public bool SaveSubtitles { get; set; }
     public string subtitlesLanguages { get; set; }
     public bool CloseDownloaderAfterFinish { get; set; }
+    public bool CloseExtendedDownloaderAfterFinish { get; set; }
     public bool UseProxy { get; set; }
     public int ProxyType { get; set; }
     public string ProxyIP { get; set; }
@@ -57,6 +58,7 @@ internal class Config_Downloads {
     private bool fSaveSubtitles { get; set; }
     private string fsubtitlesLanguages { get; set; }
     private bool fCloseDownloaderAfterFinish { get; set; }
+    private bool fCloseExtendedDownloaderAfterFinish { get; set; }
     private bool fUseProxy { get; set; }
     private int fProxyType { get; set; }
     private string fProxyIP { get; set; }
@@ -103,6 +105,7 @@ internal class Config_Downloads {
         SaveSubtitles = fSaveSubtitles = IniProvider.Read(SaveSubtitles, false, ConfigName);
         subtitlesLanguages = fsubtitlesLanguages = IniProvider.Read(subtitlesLanguages, "en", ConfigName);
         CloseDownloaderAfterFinish = fCloseDownloaderAfterFinish = IniProvider.Read(CloseDownloaderAfterFinish, true, ConfigName);
+        CloseExtendedDownloaderAfterFinish = fCloseExtendedDownloaderAfterFinish = IniProvider.Read(CloseExtendedDownloaderAfterFinish, false, ConfigName);
         UseProxy = fUseProxy = IniProvider.Read(UseProxy, false, ConfigName);
         ProxyType = fProxyType = IniProvider.Read(ProxyType, -1, ConfigName);
         ProxyIP = fProxyIP = IniProvider.Read(ProxyIP, string.Empty, ConfigName);
@@ -164,6 +167,8 @@ internal class Config_Downloads {
             fsubtitlesLanguages = IniProvider.Write(subtitlesLanguages, ConfigName);
         if (CloseDownloaderAfterFinish != fCloseDownloaderAfterFinish)
             fCloseDownloaderAfterFinish = IniProvider.Write(CloseDownloaderAfterFinish, ConfigName);
+        if (CloseExtendedDownloaderAfterFinish != fCloseExtendedDownloaderAfterFinish)
+            fCloseExtendedDownloaderAfterFinish = IniProvider.Write(CloseExtendedDownloaderAfterFinish, ConfigName);
         if (UseProxy != fUseProxy)
             fUseProxy = IniProvider.Write(UseProxy, ConfigName);
         if (ProxyType != fProxyType)

@@ -4,38 +4,40 @@ using System.Management;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
+using System.Security.Principal;
 using System.Threading;
 using System.Windows.Forms;
 
 namespace youtube_dl_gui {
     internal static class Program {
-
         /// <summary>
         /// Gets the curent version of the program.
         /// </summary>
         public static Version CurrentVersion { get; } = new(3, 1, 1);
-
         /// <summary>
         /// Gets whether the program is running in debug mode.
         /// </summary>
         internal static bool DebugMode {
             get; private set;
         } = false;
-
+        /// <summary>
+        /// Gets whether the program is running as administrator.
+        /// </summary>
+        public static bool IsAdmin {
+            get; private set;
+        } = false;
         /// <summary>
         /// Gets or sets the exit code of the application.
         /// </summary>
         public static int ExitCode {
             get; internal set;
         } = 0;
-
         /// <summary>
         /// Gets or sets whether the update was checked this run.
         /// </summary>
         internal static bool UpdateChecked {
             get; set;
         }
-
         /// <summary>
         /// Gets or sets whether the program is starting an update.
         /// </summary>
@@ -46,58 +48,74 @@ namespace youtube_dl_gui {
         /// <summary>
         /// Represents the GUID of the program. Used for enforcing the mutex.
         /// </summary>
-        private static readonly GuidAttribute ProgramGUID =
-            (GuidAttribute)Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(GuidAttribute), true)[0];
+        private static GuidAttribute ProgramGUID {
+            get;
+        } = (GuidAttribute)Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(GuidAttribute), true)[0];
         /// <summary>
-        /// The directory of the program.
+        /// The full path of the program.
         /// </summary>
-        public static readonly string ProgramPath =
-            Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName);
+        public static string FullProgramPath {
+            get; private set;
+        } = Process.GetCurrentProcess().MainModule.FileName;
+        /// <summary>
+        /// The path of the program, not inculding file name.
+        /// </summary>
+        public static string ProgramPath {
+            get;
+        } = Path.GetDirectoryName(FullProgramPath);
         /// <summary>
         /// The user-agent used for web client calls.
         /// </summary>
-        public static readonly string UserAgent = "youtube-dl-gui/" + CurrentVersion;
+        public static string UserAgent {
+            get;
+        } = "youtube-dl-gui/" + CurrentVersion;
 
         /// <summary>
         /// The list of running downloads or conversions.
         /// </summary>
-        internal static readonly HashSet<Form> RunningActions = new();
+        internal static HashSet<Form> RunningActions {
+            get;
+        } = new();
         /// <summary>
         /// The image list used for batch actions.
         /// </summary>
-        internal static ImageList BatchStatusImages;
+        internal static ImageList BatchStatusImages {
+            get; private set;
+        }
         /// <summary>
         /// The image list used for the extended downloader.
         /// </summary>
-        internal static ImageList ExtendedDownloaderSelectedImages;
+        internal static ImageList ExtendedDownloaderSelectedImages {
+            get; private set;
+        }
 
         /// <summary>
         /// The mutex used for enforcing the applications' single instance.
         /// </summary>
-        private static Mutex Instance;
+        private static Mutex Instance { get; set; }
         /// <summary>
         /// The main form used for the application.
         /// </summary>
-        private static frmMain MainForm;
+        private static frmMain MainForm { get; set; }
         /// <summary>
         /// The idle thread used when argument-downloads are ran, to prevent the program from dying too early.
         /// </summary>
-        private static Thread ArgumentWaitThread;
+        private static Thread ArgumentWaitThread { get; set; }
         /// <summary>
         /// The message handler for the updater.
         /// </summary>
-        private static MessageHandler Messages;
+        private static MessageHandler Messages { get; set; }
 
         [STAThread]
         private static int Main(string[] args) {
 #if DEBUG
             DebugMode = true;
-            //Uri.IsWellFormedUriString("wherearethefafefjoesgjhersuifhudesfhiua", UriKind.RelativeOrAbsolute);
 #endif
 
             if (DebugMode || (Instance = new(true, ProgramGUID.Value)).WaitOne(TimeSpan.Zero, true)) {
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
+                IsAdmin = new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator);
                 Log.InitializeLogging();
 
                 if (Environment.CurrentDirectory != ProgramPath) {
@@ -153,10 +171,12 @@ namespace youtube_dl_gui {
                             Config.Settings.Downloads.downloadPath = fbd.SelectedPath;
                     }
 
-                    if (MessageBox.Show(Language.dlgFirstTimeDownloadYoutubeDl, Language.ApplicationName, MessageBoxButtons.YesNo) == DialogResult.Yes
+                    if (Verification.YoutubeDlPath.IsNullEmptyWhitespace()
+                    && MessageBox.Show(Language.dlgFirstTimeDownloadYoutubeDl, Language.ApplicationName, MessageBoxButtons.YesNo) == DialogResult.Yes
                     && UpdateChecker.CheckForYoutubeDlUpdate())
                         UpdateChecker.UpdateYoutubeDl(null);
-                    if (MessageBox.Show(Language.dlgFirstTimeDownloadFfmpeg, Language.ApplicationName, MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    if (Verification.FFmpegPath.IsNullEmptyWhitespace() &&
+                    MessageBox.Show(Language.dlgFirstTimeDownloadFfmpeg, Language.ApplicationName, MessageBoxButtons.YesNo) == DialogResult.Yes)
                         UpdateChecker.UpdateFfmpeg(null);
 
                     Config.Settings.Initialization.Save();
@@ -173,22 +193,23 @@ namespace youtube_dl_gui {
                 Messages = new();
                 SetTls();
 
-                if (CheckArgs(args, true)) {
-                    AwaitActions();
+                Arguments.ParseArguments(args);
+                if (CheckArgs(true)) {
+                    //AwaitActions();
                     return 0;
                 }
 
-                //frmExtendedDownloader f = new();
-                //f.ShowDialog();
-
                 (MainForm = new frmMain()).ShowDialog();
-                if (!DebugMode) {
+
+                if (RunningActions.Count > 0)
+                    AwaitActions();
+
+                if (!DebugMode)
                     Instance.ReleaseMutex();
-                }
             }
             else {
                 nint hwnd = CopyData.FindWindow(null, Language.ApplicationName);
-                if (hwnd == 0) {
+                if (hwnd != 0) {
                     if (args.Length > 0) {
                         SentData Data = new() {
                             Argument = string.Join("|", args)
@@ -231,9 +252,12 @@ namespace youtube_dl_gui {
             };
             IdleForm.Load += (s, e) => {
                 ArgumentWaitThread = new(() => {
-                    while (RunningActions.Count > 0) {
-                        Thread.Sleep(1000);
-                    }
+                    Log.Write("Awaiting for the rest of the download actions.");
+
+                    while (RunningActions.Count > 0)
+                        Thread.Sleep(2500);
+
+                    Log.Write("Idle form no longer required.");
                     IdleForm.Invoke(() => IdleForm.Dispose());
                 }) {
                     Name = "Awaiting actions"
@@ -266,83 +290,62 @@ namespace youtube_dl_gui {
             }
         }
 
-        internal static bool CheckArgs(string[] args, bool UseDialog) {
-            if (args.Length > 1) {
+        internal static bool CheckArgs(bool UseDialog, List<(ArgumentType Type, string Data)> args = null) {
+            args ??= Arguments.ParsedArguments;
+            if (args.Count > 0) {
                 int PassedCount = 0;
-                for (int i = 0; i < args.Length; i++) {
-                    string CurrentArgument = args[i];
-                    if (CurrentArgument.StartsWith("ytdl:")) {
-                        CurrentArgument = CurrentArgument[5..];
-                    }
-
-                    switch (Config.Settings.Downloads.YtdlType) {
-                        case 0 when Config.Settings.Downloads.ExtendedDownloaderPreferExtendedForm:
-                        case 2 when Config.Settings.Downloads.ExtendedDownloaderPreferExtendedForm: {
-                            if (++i >= args.Length)
-                                return false;
-
-                            frmExtendedDownloader ExtendedDownload = new(args[i], false);
-                            if (UseDialog) {
-                                ExtendedDownload.ShowDialog();
+                for (int i = 0; i < args.Count; i++) {
+                    switch (args[i].Type) {
+                        case ArgumentType.DownloadVideo when !args[i].Data.IsNullEmptyWhitespace(): {
+                            if (Config.Settings.Downloads.ExtendedDownloaderPreferExtendedForm) {
+                                new frmExtendedDownloader(args[i].Data, false).ShowIfCondition(UseDialog);
                             }
                             else {
-                                ExtendedDownload.Show();
+                                DownloadInfo NewVideo = new() {
+                                    DownloadURL = args[i].Data,
+                                    Type = DownloadType.Video,
+                                    VideoQuality = (VideoQualityType)Config.Settings.Saved.videoQuality
+                                };
+                                new frmDownloader(NewVideo).ShowIfCondition(UseDialog);
                             }
+                            PassedCount++;
                         } break;
-
-                        default: {
-                            switch (CurrentArgument) {
-                                case "-v": case "-video": {
-                                    if (++i >= args.Length)
-                                        return false;
-
-                                    DownloadInfo NewVideo = new() {
-                                        DownloadURL = args[i],
-                                        Type = DownloadType.Video,
-                                        VideoQuality = (VideoQualityType)Config.Settings.Saved.videoQuality
-                                    };
-                                    frmDownloader VideoDownloader = new(NewVideo);
-                                    if (UseDialog) {
-                                        VideoDownloader.ShowDialog();
-                                    }
-                                    else {
-                                        VideoDownloader.Show();
-                                    }
-                                    PassedCount++;
-
-                                } break;
-
-                                case "-a": case "-audio": {
-                                    if (++i >= args.Length)
-                                        return false;
-
-                                    DownloadInfo NewAudio = new() {
-                                        DownloadURL = args[i],
-                                        Type = DownloadType.Audio
-                                    };
-                                    if (Config.Settings.Downloads.AudioDownloadAsVBR) {
-                                        NewAudio.AudioVBRQuality = (AudioVBRQualityType)Config.Settings.Saved.audioQuality;
-                                    }
-                                    else {
-                                        NewAudio.AudioCBRQuality = (AudioCBRQualityType)Config.Settings.Saved.audioQuality;
-                                    }
-
-                                    frmDownloader AudioDownloader = new(NewAudio);
-                                    if (UseDialog) {
-                                        AudioDownloader.ShowDialog();
-                                    }
-                                    else {
-                                        AudioDownloader.Show();
-                                    }
-                                    PassedCount++;
-                                } break;
+                        case ArgumentType.DownloadAudio when !args[i].Data.IsNullEmptyWhitespace(): {
+                            if (Config.Settings.Downloads.ExtendedDownloaderPreferExtendedForm) {
+                                new frmExtendedDownloader(args[i].Data, false).ShowIfCondition(UseDialog);
                             }
+                            else {
+                                DownloadInfo NewAudio = new() {
+                                    DownloadURL = args[i].Data,
+                                    Type = DownloadType.Audio,
+                                };
+                                if (Config.Settings.Downloads.AudioDownloadAsVBR) {
+                                    NewAudio.AudioVBRQuality = (AudioVBRQualityType)Config.Settings.Saved.audioQuality;
+                                }
+                                else {
+                                    NewAudio.AudioCBRQuality = (AudioCBRQualityType)Config.Settings.Saved.audioQuality;
+                                }
+                                new frmDownloader(NewAudio).ShowIfCondition(UseDialog);
+                            }
+                            PassedCount++;
+                        } break;
+                        case ArgumentType.DownloadCustom when !args[i].Data.IsNullEmptyWhitespace(): {
+                            if (Config.Settings.Downloads.ExtendedDownloaderPreferExtendedForm) {
+                                new frmExtendedDownloader(args[i].Data, false).ShowIfCondition(UseDialog);
+                            }
+                            else {
+                                DownloadInfo NewCustom = new() {
+                                    DownloadURL = args[i].Data,
+                                    Type = DownloadType.Custom,
+                                };
+                                new frmDownloader(NewCustom).ShowIfCondition(UseDialog);
+                            }
+                            PassedCount++;
                         } break;
                     }
-
                 }
+                return PassedCount > 0;
             }
-
             return false;
         }
 
@@ -393,6 +396,5 @@ namespace youtube_dl_gui {
                 }
             }
         }
-
     }
 }

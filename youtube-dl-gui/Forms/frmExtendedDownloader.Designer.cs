@@ -983,6 +983,7 @@
             // 
             // rbUnknownFormat
             // 
+            this.rbUnknownFormat.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.rbUnknownFormat.Appearance = System.Windows.Forms.Appearance.Button;
             this.rbUnknownFormat.Enabled = false;
             this.rbUnknownFormat.Location = new System.Drawing.Point(246, 226);

@@ -39,9 +39,11 @@
             this.chkSettingsGeneralUseStaticFFmpeg = new System.Windows.Forms.CheckBox();
             this.btnSettingsGeneralBrowseFFmpeg = new System.Windows.Forms.Button();
             this.btnSettingsRedownloadFfmpeg = new System.Windows.Forms.Button();
-            this.txtSettingsGeneralFFmpegPath = new murrty.controls.ExtendedTextBox();
             this.lbSettingsGeneralFFmpegDirectory = new System.Windows.Forms.Label();
+            this.txtSettingsGeneralFFmpegPath = new murrty.controls.ExtendedTextBox();
             this.tabSettingsDownloads = new System.Windows.Forms.TabPage();
+            this.btnSettingsDownloadsInstallProtocol = new murrty.controls.UacButton();
+            this.llbSettingsDownloadsInstallProtocolMoreInfo = new murrty.controls.ExtendedLinkLabel();
             this.chkSettingsDownloadsDownloadPathUseRelativePath = new System.Windows.Forms.CheckBox();
             this.tabDownloads = new System.Windows.Forms.TabControl();
             this.tabDownloadsGeneral = new System.Windows.Forms.TabPage();
@@ -455,8 +457,8 @@
             this.tabSettingsGeneralFfmpeg.Controls.Add(this.chkSettingsGeneralUseStaticFFmpeg);
             this.tabSettingsGeneralFfmpeg.Controls.Add(this.btnSettingsGeneralBrowseFFmpeg);
             this.tabSettingsGeneralFfmpeg.Controls.Add(this.btnSettingsRedownloadFfmpeg);
-            this.tabSettingsGeneralFfmpeg.Controls.Add(this.txtSettingsGeneralFFmpegPath);
             this.tabSettingsGeneralFfmpeg.Controls.Add(this.lbSettingsGeneralFFmpegDirectory);
+            this.tabSettingsGeneralFfmpeg.Controls.Add(this.txtSettingsGeneralFFmpegPath);
             this.tabSettingsGeneralFfmpeg.Location = new System.Drawing.Point(4, 22);
             this.tabSettingsGeneralFfmpeg.Name = "tabSettingsGeneralFfmpeg";
             this.tabSettingsGeneralFfmpeg.Padding = new System.Windows.Forms.Padding(3);
@@ -501,6 +503,16 @@
             this.btnSettingsRedownloadFfmpeg.UseVisualStyleBackColor = true;
             this.btnSettingsRedownloadFfmpeg.Click += new System.EventHandler(this.btnSettingsRedownloadFfmpeg_Click);
             // 
+            // lbSettingsGeneralFFmpegDirectory
+            // 
+            this.lbSettingsGeneralFFmpegDirectory.AutoSize = true;
+            this.lbSettingsGeneralFFmpegDirectory.Location = new System.Drawing.Point(2, 7);
+            this.lbSettingsGeneralFFmpegDirectory.Name = "lbSettingsGeneralFFmpegDirectory";
+            this.lbSettingsGeneralFFmpegDirectory.Size = new System.Drawing.Size(186, 13);
+            this.lbSettingsGeneralFFmpegDirectory.TabIndex = 2;
+            this.lbSettingsGeneralFFmpegDirectory.Text = "lbSettingsGeneralFFmpegDirectory";
+            this.tipSettings.SetToolTip(this.lbSettingsGeneralFFmpegDirectory, "lbSettingsGeneralFFmpegDirectory");
+            // 
             // txtSettingsGeneralFFmpegPath
             // 
             this.txtSettingsGeneralFFmpegPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -520,18 +532,10 @@
             this.txtSettingsGeneralFFmpegPath.TabIndex = 7;
             this.tipSettings.SetToolTip(this.txtSettingsGeneralFFmpegPath, "txtFFmpeg");
             // 
-            // lbSettingsGeneralFFmpegDirectory
-            // 
-            this.lbSettingsGeneralFFmpegDirectory.AutoSize = true;
-            this.lbSettingsGeneralFFmpegDirectory.Location = new System.Drawing.Point(2, 7);
-            this.lbSettingsGeneralFFmpegDirectory.Name = "lbSettingsGeneralFFmpegDirectory";
-            this.lbSettingsGeneralFFmpegDirectory.Size = new System.Drawing.Size(186, 13);
-            this.lbSettingsGeneralFFmpegDirectory.TabIndex = 2;
-            this.lbSettingsGeneralFFmpegDirectory.Text = "lbSettingsGeneralFFmpegDirectory";
-            this.tipSettings.SetToolTip(this.lbSettingsGeneralFFmpegDirectory, "lbSettingsGeneralFFmpegDirectory");
-            // 
             // tabSettingsDownloads
             // 
+            this.tabSettingsDownloads.Controls.Add(this.btnSettingsDownloadsInstallProtocol);
+            this.tabSettingsDownloads.Controls.Add(this.llbSettingsDownloadsInstallProtocolMoreInfo);
             this.tabSettingsDownloads.Controls.Add(this.chkSettingsDownloadsDownloadPathUseRelativePath);
             this.tabSettingsDownloads.Controls.Add(this.tabDownloads);
             this.tabSettingsDownloads.Controls.Add(this.llSettingsDownloadsSchemaHelp);
@@ -548,6 +552,31 @@
             this.tabSettingsDownloads.TabIndex = 1;
             this.tabSettingsDownloads.Text = "tabSettingsDownloads";
             this.tabSettingsDownloads.UseVisualStyleBackColor = true;
+            // 
+            // btnSettingsDownloadsInstallProtocol
+            // 
+            this.btnSettingsDownloadsInstallProtocol.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.btnSettingsDownloadsInstallProtocol.Location = new System.Drawing.Point(6, 333);
+            this.btnSettingsDownloadsInstallProtocol.Name = "btnSettingsDownloadsInstallProtocol";
+            this.btnSettingsDownloadsInstallProtocol.Size = new System.Drawing.Size(184, 23);
+            this.btnSettingsDownloadsInstallProtocol.TabIndex = 13;
+            this.btnSettingsDownloadsInstallProtocol.Text = "btnSettingsDownloadsInstallProtocol";
+            this.tipSettings.SetToolTip(this.btnSettingsDownloadsInstallProtocol, "btnSettingsDownloadsInstallProtocolHint");
+            this.btnSettingsDownloadsInstallProtocol.UseVisualStyleBackColor = true;
+            this.btnSettingsDownloadsInstallProtocol.Click += new System.EventHandler(this.btnSettingsDownloadsInstallProtocol_Click);
+            // 
+            // llbSettingsDownloadsInstallProtocolMoreInfo
+            // 
+            this.llbSettingsDownloadsInstallProtocolMoreInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.llbSettingsDownloadsInstallProtocolMoreInfo.AutoSize = true;
+            this.llbSettingsDownloadsInstallProtocolMoreInfo.Location = new System.Drawing.Point(196, 338);
+            this.llbSettingsDownloadsInstallProtocolMoreInfo.Name = "llbSettingsDownloadsInstallProtocolMoreInfo";
+            this.llbSettingsDownloadsInstallProtocolMoreInfo.Size = new System.Drawing.Size(243, 13);
+            this.llbSettingsDownloadsInstallProtocolMoreInfo.TabIndex = 12;
+            this.llbSettingsDownloadsInstallProtocolMoreInfo.TabStop = true;
+            this.llbSettingsDownloadsInstallProtocolMoreInfo.Text = "llbSettingsDownloadsInstallProtocolMoreInfo";
+            this.llbSettingsDownloadsInstallProtocolMoreInfo.VisitedLinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(0)))), ((int)(((byte)(128)))));
+            this.llbSettingsDownloadsInstallProtocolMoreInfo.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llbSettingsDownloadsInstallProtocolMoreInfo_LinkClicked);
             // 
             // chkSettingsDownloadsDownloadPathUseRelativePath
             // 
@@ -575,7 +604,7 @@
             this.tabDownloads.Location = new System.Drawing.Point(6, 116);
             this.tabDownloads.Name = "tabDownloads";
             this.tabDownloads.SelectedIndex = 0;
-            this.tabDownloads.Size = new System.Drawing.Size(308, 223);
+            this.tabDownloads.Size = new System.Drawing.Size(308, 194);
             this.tabDownloads.TabIndex = 8;
             // 
             // tabDownloadsGeneral
@@ -594,7 +623,7 @@
             this.tabDownloadsGeneral.Location = new System.Drawing.Point(4, 22);
             this.tabDownloadsGeneral.Name = "tabDownloadsGeneral";
             this.tabDownloadsGeneral.Padding = new System.Windows.Forms.Padding(3);
-            this.tabDownloadsGeneral.Size = new System.Drawing.Size(300, 197);
+            this.tabDownloadsGeneral.Size = new System.Drawing.Size(300, 168);
             this.tabDownloadsGeneral.TabIndex = 0;
             this.tabDownloadsGeneral.Text = "tabDownloadsGeneral";
             this.tabDownloadsGeneral.UseVisualStyleBackColor = true;
@@ -727,7 +756,7 @@
             this.tabDownloadsSorting.Location = new System.Drawing.Point(4, 22);
             this.tabDownloadsSorting.Name = "tabDownloadsSorting";
             this.tabDownloadsSorting.Padding = new System.Windows.Forms.Padding(3);
-            this.tabDownloadsSorting.Size = new System.Drawing.Size(300, 197);
+            this.tabDownloadsSorting.Size = new System.Drawing.Size(300, 168);
             this.tabDownloadsSorting.TabIndex = 3;
             this.tabDownloadsSorting.Text = "tabDownloadsSorting";
             this.tabDownloadsSorting.UseVisualStyleBackColor = true;
@@ -777,7 +806,7 @@
             this.tabDownloadsFixes.Location = new System.Drawing.Point(4, 22);
             this.tabDownloadsFixes.Name = "tabDownloadsFixes";
             this.tabDownloadsFixes.Padding = new System.Windows.Forms.Padding(3);
-            this.tabDownloadsFixes.Size = new System.Drawing.Size(300, 197);
+            this.tabDownloadsFixes.Size = new System.Drawing.Size(300, 168);
             this.tabDownloadsFixes.TabIndex = 4;
             this.tabDownloadsFixes.Text = "tabDownloadsFixes";
             this.tabDownloadsFixes.UseVisualStyleBackColor = true;
@@ -823,14 +852,13 @@
             this.tabDownloadsConnection.Location = new System.Drawing.Point(4, 22);
             this.tabDownloadsConnection.Name = "tabDownloadsConnection";
             this.tabDownloadsConnection.Padding = new System.Windows.Forms.Padding(3);
-            this.tabDownloadsConnection.Size = new System.Drawing.Size(300, 197);
+            this.tabDownloadsConnection.Size = new System.Drawing.Size(300, 168);
             this.tabDownloadsConnection.TabIndex = 1;
             this.tabDownloadsConnection.Text = "tabDownloadsConnection";
             this.tabDownloadsConnection.UseVisualStyleBackColor = true;
             // 
             // cbSettingsDownloadsProxyType
             // 
-            this.cbSettingsDownloadsProxyType.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.cbSettingsDownloadsProxyType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbSettingsDownloadsProxyType.FormattingEnabled = true;
             this.cbSettingsDownloadsProxyType.Items.AddRange(new object[] {
@@ -838,7 +866,7 @@
             "http://",
             "socks4://",
             "socks5://"});
-            this.cbSettingsDownloadsProxyType.Location = new System.Drawing.Point(9, 161);
+            this.cbSettingsDownloadsProxyType.Location = new System.Drawing.Point(9, 125);
             this.cbSettingsDownloadsProxyType.Name = "cbSettingsDownloadsProxyType";
             this.cbSettingsDownloadsProxyType.Size = new System.Drawing.Size(77, 21);
             this.cbSettingsDownloadsProxyType.TabIndex = 9;
@@ -870,9 +898,8 @@
             // 
             // chkSettingsDownloadsUseProxy
             // 
-            this.chkSettingsDownloadsUseProxy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.chkSettingsDownloadsUseProxy.AutoSize = true;
-            this.chkSettingsDownloadsUseProxy.Location = new System.Drawing.Point(6, 140);
+            this.chkSettingsDownloadsUseProxy.Location = new System.Drawing.Point(6, 104);
             this.chkSettingsDownloadsUseProxy.Name = "chkSettingsDownloadsUseProxy";
             this.chkSettingsDownloadsUseProxy.Size = new System.Drawing.Size(190, 17);
             this.chkSettingsDownloadsUseProxy.TabIndex = 8;
@@ -927,9 +954,8 @@
             // 
             // lbSettingsDownloadsIpPort
             // 
-            this.lbSettingsDownloadsIpPort.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lbSettingsDownloadsIpPort.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbSettingsDownloadsIpPort.Location = new System.Drawing.Point(178, 162);
+            this.lbSettingsDownloadsIpPort.Location = new System.Drawing.Point(178, 126);
             this.lbSettingsDownloadsIpPort.Name = "lbSettingsDownloadsIpPort";
             this.lbSettingsDownloadsIpPort.Size = new System.Drawing.Size(12, 20);
             this.lbSettingsDownloadsIpPort.TabIndex = 11;
@@ -948,7 +974,6 @@
             // 
             // txtSettingsDownloadsProxyPort
             // 
-            this.txtSettingsDownloadsProxyPort.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.txtSettingsDownloadsProxyPort.ButtonAlignment = murrty.controls.ButtonAlignment.Left;
             this.txtSettingsDownloadsProxyPort.ButtonCursor = System.Windows.Forms.Cursors.Default;
             this.txtSettingsDownloadsProxyPort.ButtonFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -956,7 +981,7 @@
             this.txtSettingsDownloadsProxyPort.ButtonSize = new System.Drawing.Size(22, 21);
             this.txtSettingsDownloadsProxyPort.ButtonText = "";
             this.txtSettingsDownloadsProxyPort.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.txtSettingsDownloadsProxyPort.Location = new System.Drawing.Point(189, 162);
+            this.txtSettingsDownloadsProxyPort.Location = new System.Drawing.Point(189, 126);
             this.txtSettingsDownloadsProxyPort.MaxLength = 5;
             this.txtSettingsDownloadsProxyPort.Name = "txtSettingsDownloadsProxyPort";
             this.txtSettingsDownloadsProxyPort.RegexPatterns = null;
@@ -968,7 +993,6 @@
             // 
             // txtSettingsDownloadsProxyIp
             // 
-            this.txtSettingsDownloadsProxyIp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.txtSettingsDownloadsProxyIp.ButtonAlignment = murrty.controls.ButtonAlignment.Left;
             this.txtSettingsDownloadsProxyIp.ButtonCursor = System.Windows.Forms.Cursors.Default;
             this.txtSettingsDownloadsProxyIp.ButtonFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -976,7 +1000,7 @@
             this.txtSettingsDownloadsProxyIp.ButtonSize = new System.Drawing.Size(22, 21);
             this.txtSettingsDownloadsProxyIp.ButtonText = "";
             this.txtSettingsDownloadsProxyIp.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.txtSettingsDownloadsProxyIp.Location = new System.Drawing.Point(92, 162);
+            this.txtSettingsDownloadsProxyIp.Location = new System.Drawing.Point(92, 126);
             this.txtSettingsDownloadsProxyIp.MaxLength = 15;
             this.txtSettingsDownloadsProxyIp.Name = "txtSettingsDownloadsProxyIp";
             this.txtSettingsDownloadsProxyIp.RegexPatterns = null;
@@ -995,7 +1019,7 @@
             this.tabDownloadsUpdating.Location = new System.Drawing.Point(4, 22);
             this.tabDownloadsUpdating.Name = "tabDownloadsUpdating";
             this.tabDownloadsUpdating.Padding = new System.Windows.Forms.Padding(3);
-            this.tabDownloadsUpdating.Size = new System.Drawing.Size(300, 197);
+            this.tabDownloadsUpdating.Size = new System.Drawing.Size(300, 168);
             this.tabDownloadsUpdating.TabIndex = 2;
             this.tabDownloadsUpdating.Text = "tabDownloadsUpdating";
             this.tabDownloadsUpdating.UseVisualStyleBackColor = true;
@@ -1053,7 +1077,7 @@
             this.tabDownloadsBatch.Location = new System.Drawing.Point(4, 22);
             this.tabDownloadsBatch.Name = "tabDownloadsBatch";
             this.tabDownloadsBatch.Padding = new System.Windows.Forms.Padding(3);
-            this.tabDownloadsBatch.Size = new System.Drawing.Size(300, 197);
+            this.tabDownloadsBatch.Size = new System.Drawing.Size(300, 168);
             this.tabDownloadsBatch.TabIndex = 5;
             this.tabDownloadsBatch.Text = "tabDownloadsBatch";
             this.tabDownloadsBatch.UseVisualStyleBackColor = true;
@@ -1087,7 +1111,7 @@
             this.tabYtdlpExtendedOptions.Location = new System.Drawing.Point(4, 22);
             this.tabYtdlpExtendedOptions.Name = "tabYtdlpExtendedOptions";
             this.tabYtdlpExtendedOptions.Padding = new System.Windows.Forms.Padding(3);
-            this.tabYtdlpExtendedOptions.Size = new System.Drawing.Size(300, 197);
+            this.tabYtdlpExtendedOptions.Size = new System.Drawing.Size(300, 168);
             this.tabYtdlpExtendedOptions.TabIndex = 6;
             this.tabYtdlpExtendedOptions.Text = "tabYtdlpExtendedOptions";
             this.tabYtdlpExtendedOptions.UseVisualStyleBackColor = true;
@@ -2010,5 +2034,7 @@
         private System.Windows.Forms.TabPage tabSettingsGeneralYoutubeDl;
         private System.Windows.Forms.TabPage tabSettingsGeneralFfmpeg;
         private System.Windows.Forms.Button btnSettingsRedownloadFfmpeg;
+        private murrty.controls.ExtendedLinkLabel llbSettingsDownloadsInstallProtocolMoreInfo;
+        private murrty.controls.UacButton btnSettingsDownloadsInstallProtocol;
     }
 }

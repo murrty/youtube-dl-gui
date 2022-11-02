@@ -24,6 +24,8 @@ namespace youtube_dl_gui {
 
         public frmExtendedDownloader(string URL, bool Archived) {
             InitializeComponent();
+
+            Program.RunningActions.Add(this);
             LoadLanguage();
             Debug = false;
             this.URL = URL;
@@ -103,6 +105,8 @@ namespace youtube_dl_gui {
                     lvAudioFormats.SetColumnWidths(Config.Settings.Saved.ExtendedDownloadAudioColumns);
                 if (!Config.Settings.Saved.ExtendedDownloadUnknownColumns.IsNullEmptyWhitespace())
                     lvUnknownFormats.SetColumnWidths(Config.Settings.Saved.ExtendedDownloadUnknownColumns);
+
+                chkDownloaderCloseAfterDownload.Checked = Config.Settings.Downloads.CloseExtendedDownloaderAfterFinish;
             };
             this.Shown += (s, e) => {
                 DownloadInfo();
@@ -120,12 +124,18 @@ namespace youtube_dl_gui {
                             InformationThread.Abort();
                         if (ThumbnailThread is not null && ThumbnailThread.IsAlive)
                             ThumbnailThread.Abort();
+
+                        Config.Settings.Downloads.CloseExtendedDownloaderAfterFinish = chkDownloaderCloseAfterDownload.Checked;
                         Config.Settings.Saved.ExtendedDownloaderLocation = this.Location;
                         Config.Settings.Saved.ExtendedDownloaderSize = this.Size;
                         Config.Settings.Saved.ExtendedDownloadVideoColumns = lvVideoFormats.GetColumnWidths();
                         Config.Settings.Saved.ExtendedDownloadAudioColumns = lvAudioFormats.GetColumnWidths();
                         Config.Settings.Saved.ExtendedDownloadUnknownColumns = lvUnknownFormats.GetColumnWidths();
+                        Config.Settings.Downloads.Save();
                         Config.Settings.Saved.Save();
+
+                        Program.RunningActions.Remove(this);
+
                         this.Dispose();
                     } break;
                 }
@@ -453,9 +463,9 @@ namespace youtube_dl_gui {
                 //ArgumentBuffer.Append(rbAudio.Checked ? "\\Audio" : rbCustom.Checked ? "\\Custom" : "\\Video");
                 ArgumentBuffer.Append(
                     rbCustom.Checked ? "Custom" :
-                    rbVideo.Checked && LastSelectedVideoFormat.Tag is not null ? "\\Video" :
-                    rbAudio.Checked || LastSelectedAudioFormat.Tag is not null ? "\\Audio" :
-                    "Custom");
+                    rbVideo.Checked && (LastSelectedVideoFormat is not null && LastSelectedVideoFormat.Tag is not null) ? "\\Video" :
+                    rbAudio.Checked || (LastSelectedAudioFormat is not null && LastSelectedAudioFormat.Tag is not null) ? "\\Audio" :
+                    rbUnknownFormat.Checked ? "Unknown" : "Custom");
             }
 
             StringBuilder Schema = new(cbSchema.Text.IsNullEmptyWhitespace() ? "%(title)s-%(id)s.%(ext)s" : cbSchema.Text);
@@ -542,13 +552,11 @@ namespace youtube_dl_gui {
 
                     if (Config.Settings.Downloads.SaveSubtitles) {
                         ArgumentBuffer.Append(" --all-subs");
-                        if (Config.Settings.Downloads.SubtitleFormat.IsNotNullEmptyWhitespace()) {
+                        if (Config.Settings.Downloads.SubtitleFormat.IsNotNullEmptyWhitespace())
                             ArgumentBuffer.Append($" --sub-format {Config.Settings.Downloads.SubtitleFormat}");
-                        }
 
-                        if (Config.Settings.Downloads.EmbedSubtitles && rbVideo.Checked) {
+                        if (Config.Settings.Downloads.EmbedSubtitles && rbVideo.Checked)
                             ArgumentBuffer.Append(" --embed-subs");
-                        }
                     }
 
                     if (Config.Settings.Downloads.SaveVideoInfo)
@@ -575,13 +583,12 @@ namespace youtube_dl_gui {
                     if (Config.Settings.Downloads.KeepOriginalFiles)
                         ArgumentBuffer.Append(" -k");
 
-                    if (Config.Settings.Downloads.LimitDownloads && Config.Settings.Downloads.DownloadLimit > 0) {
+                    if (Config.Settings.Downloads.LimitDownloads && Config.Settings.Downloads.DownloadLimit > 0)
                         ArgumentBuffer.Append($" --limit-rate {Config.Settings.Downloads.DownloadLimit}{Config.Settings.Downloads.DownloadLimitType switch {
                             1 => "M",
                             2 => "G",
                             _ => "K"
                         }}");
-                    }
 
                     if (Config.Settings.Downloads.RetryAttempts != 10 && Config.Settings.Downloads.RetryAttempts > 0)
                         ArgumentBuffer.Append($" --retries {Config.Settings.Downloads.RetryAttempts}");
@@ -642,7 +649,7 @@ namespace youtube_dl_gui {
             return Data;
         }
         public void BeginDownload(bool Auth) {
-            rtbVerbose.Invoke(() => rtbVerbose.AppendText("Starting download."));
+            rtbVerbose.Invoke(() => rtbVerbose.AppendText("Starting download\r\n------------------------"));
             string args = GenerateArguments(Auth);
             if (args.IsNotNullEmptyWhitespace()) {
                 if (Verification.YoutubeDlPath.IsNullEmptyWhitespace())
@@ -658,7 +665,6 @@ namespace youtube_dl_gui {
                 pbStatus.ProgressState = murrty.controls.ProgressState.Normal;
                 pbStatus.Text = "Retrieving metadata";
                 DownloadThread = new(() => {
-                    Program.RunningActions.Add(this);
                     DownloadProcess = new() {
                         StartInfo = new() {
                             Arguments = args,
@@ -729,10 +735,11 @@ namespace youtube_dl_gui {
                                         case '7': case '8': case '9':
                                         case '0': {
                                             if (LineParts[1].Contains('%')) {
-                                                float Percentage = float.Parse(LineParts[1][..LineParts[1].IndexOf('%')]);
+                                                if (pbStatus.Style != ProgressBarStyle.Blocks)
+                                                    pbStatus.Invoke(() => pbStatus.Style = ProgressBarStyle.Blocks);
                                                 if (pbStatus.IsHandleCreated)
                                                     pbStatus.Invoke(() => {
-                                                        pbStatus.Text = $"{Percentage}% @ {LineParts[5]}";
+                                                        pbStatus.Text = DownloadHelper.GetTransferData(LineParts, out float Percentage);
                                                         pbStatus.Value = (int)Math.Floor(Percentage);
                                                     });
                                             }
@@ -777,7 +784,7 @@ namespace youtube_dl_gui {
 
                     this.Invoke(() => {
                         if (chkDownloaderCloseAfterDownload.Checked && Status == DownloadStatus.Finished) {
-                            this.Dispose();
+                            this.Close();
                         }
                         else {
                             pbStatus.Style = ProgressBarStyle.Continuous;
@@ -811,8 +818,6 @@ namespace youtube_dl_gui {
                             }
                         }
                     });
-
-                    Program.RunningActions.Remove(this);
                 }) {
                     Name = $"Download {URL}",
                     IsBackground = true,

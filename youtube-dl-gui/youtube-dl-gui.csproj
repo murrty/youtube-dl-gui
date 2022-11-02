@@ -58,6 +58,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Arguments.cs" />
     <Compile Include="Classes\BatchHelpers.cs" />
     <Compile Include="Classes\ConvertHelper.cs" />
     <Compile Include="Classes\DataClasses\FfprobeData.cs" />
@@ -81,6 +82,7 @@
     <Compile Include="..\Controls\Events\RegexMatchEventArgs.cs">
       <Link>Controls\Shared\Events\RegexMatchEventArgs.cs</Link>
     </Compile>
+    <Compile Include="Classes\SystemRegistry.cs" />
     <Compile Include="Config\Point.cs" />
     <Compile Include="Config\Size.cs" />
     <Compile Include="Controls\ExtendedListView.cs">
@@ -93,7 +95,11 @@
     <Compile Include="..\Controls\Natives\NativeMethods.cs">
       <Link>Controls\Shared\Natives\NativeMethods.cs</Link>
     </Compile>
+    <Compile Include="Controls\UacButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="CopyData\UpdaterData.cs" />
+    <Compile Include="Enums\ArgumentType.cs" />
     <Compile Include="Forms\frmArchiveDownloader.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -150,7 +156,6 @@
     <Compile Include="Config\Config_Initialization.cs" />
     <Compile Include="Config\Config_Saved.cs" />
     <Compile Include="Config\IniProvider.cs" />
-    <Compile Include="Config\Protocol.cs" />
     <Compile Include="Forms\frmExtendedDownloader.cs">
       <SubType>Form</SubType>
     </Compile>
