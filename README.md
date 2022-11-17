@@ -45,7 +45,9 @@ Each fork may have differences in compatible sites. It's recommended to do your 
 
 # Compiling
 
-The project is built with any compiler that supports using C# 11 (Preview) and .NET Framework 4.7.2.
+The project is built with any compiler that supports using C# 11 and .NET Framework 4.7.2.
+
+`Release` configuration is the one used for releases
 
 `Debug` configuration may disable certain actions from working. But it's the debug config, what do you expect?
 
