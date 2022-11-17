@@ -1,6 +1,5 @@
-﻿using System.Text.RegularExpressions;
-
-namespace youtube_dl_gui;
+﻿namespace youtube_dl_gui;
+using System.Text.RegularExpressions;
 internal static class Arguments {
     /// <summary>
     /// The prefix of the protocol.

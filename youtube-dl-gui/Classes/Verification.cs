@@ -16,7 +16,6 @@ internal static class Verification {
     }
 
     public static void RefreshYoutubeDlLocation() {
-        GetProgramVersion(Environment.CurrentDirectory + "\\youtube-dl.exe");
         YoutubeDlGitType = (GitID)Config.Settings.Downloads.YtdlType;
         string TempPath;
         string YoutubeDlName = YoutubeDlGitType switch {
@@ -40,7 +39,6 @@ internal static class Verification {
         if (YoutubeDlPath is not null)
             YoutubeDlVersion = GetProgramVersion(YoutubeDlPath);
     }
-
     public static void RefreshFFmpegLocation() {
         if (Config.Settings.General.UseStaticFFmpeg && File.Exists(Config.Settings.General.ffmpegPath)) {
             FFmpegPath = Config.Settings.General.ffmpegPath;
@@ -58,7 +56,6 @@ internal static class Verification {
             FFprobePath = ffprobe;
         }
     }
-
     public static void RefreshAtomicParsleyLocation() {
         if (ProgramInExecutingDirectory("atomicparsley.exe")) {
             AtomicParsleyPath = $"{Program.ProgramPath}\\atomicparsley.exe";
@@ -79,11 +76,9 @@ internal static class Verification {
             return null;
         }
     }
-
     private static bool ProgramInExecutingDirectory(string ProgramName) {
         return File.Exists($"{Program.ProgramPath}\\{ProgramName}");
     }
-
     private static bool ProgramInSystemPath(string ProgramName, out string OutputDir) {
         string[] PathLocations = Environment.GetEnvironmentVariable("PATH").Split(';');
 
