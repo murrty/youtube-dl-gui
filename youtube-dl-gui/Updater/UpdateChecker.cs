@@ -10,7 +10,7 @@ using murrty.updater;
 
 internal class UpdateChecker {
     #region Fields & Properties
-    private const string KnownUpdaterHash = "D507C33452874ABEC36755F1AB9A152D6A14328071BDE8F16B3ED5655C40D2CA";
+    private const string KnownUpdaterHash = "3824224AD44847DDF27C38714E068A0408210771CEDD3625B25ABFBCBD7E5C51";
     private const string FfmpegDownloadLink = "https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-essentials.zip";
     public static GithubData LastChecked { get; private set; }
     public static GithubData LastCheckedLatestRelease { get; private set; }

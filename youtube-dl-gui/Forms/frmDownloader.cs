@@ -237,7 +237,6 @@ namespace youtube_dl_gui {
                                 case "[downloa": case "[ffmpeg]":
                                 case "[embedsu": case "[metadat": {
                                     Msg = e.Data;
-                                    Console.WriteLine(e.Data);
                                 } break;
 
                                 default: {
@@ -290,6 +289,8 @@ namespace youtube_dl_gui {
                         DownloadProcess.BeginOutputReadLine();
                         DownloadProcess.BeginErrorReadLine();
 
+                        float Percentage = 0;
+
                         while (!DownloadProcess.HasExited) {
                             if (CurrentDownload.Status == DownloadStatus.Aborted || CurrentDownload.Status == DownloadStatus.AbortForClose) {
                                 if (!DownloadProcess.HasExited) {
@@ -314,7 +315,11 @@ namespace youtube_dl_gui {
                                                     pbStatus.Invoke(() => pbStatus.Style = ProgressBarStyle.Blocks);
                                                 if (LineParts[1].Contains('%')) {
                                                     pbStatus.Invoke(() => {
-                                                        pbStatus.Text = DownloadHelper.GetTransferData(LineParts, out float Percentage);
+                                                        pbStatus.Text = DownloadHelper.GetTransferData(
+                                                            ShowEta: true,
+                                                            LineParts: LineParts,
+                                                            Percentage: ref Percentage);
+
                                                         pbStatus.Value = (int)Math.Floor(Percentage);
                                                     });
                                                 }

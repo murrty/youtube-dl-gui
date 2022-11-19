@@ -716,10 +716,14 @@ public partial class frmExtendedDownloader : Form {
                 DownloadProcess.BeginOutputReadLine();
                 DownloadProcess.BeginErrorReadLine();
 
+                float Percentage = 0;
+
                 while (!DownloadProcess.HasExited) {
-                    if ((Status == DownloadStatus.Aborted || Status == DownloadStatus.AbortForClose) && !DownloadProcess.HasExited) {
-                        Program.KillProcessTree((uint)DownloadProcess.Id);
-                        DownloadProcess.Kill();
+                    if (Status == DownloadStatus.Aborted || Status == DownloadStatus.AbortForClose) {
+                        if (!DownloadProcess.HasExited) {
+                            Program.KillProcessTree((uint)DownloadProcess.Id);
+                            DownloadProcess.Kill();
+                        }
                         break;
                     }
 
@@ -736,9 +740,14 @@ public partial class frmExtendedDownloader : Form {
                                         if (LineParts[1].Contains('%')) {
                                             if (pbStatus.Style != ProgressBarStyle.Blocks)
                                                 pbStatus.Invoke(() => pbStatus.Style = ProgressBarStyle.Blocks);
+
                                             if (pbStatus.IsHandleCreated)
                                                 pbStatus.Invoke(() => {
-                                                    pbStatus.Text = DownloadHelper.GetTransferData(LineParts, out float Percentage);
+                                                    pbStatus.Text = DownloadHelper.GetTransferData(
+                                                        ShowEta: false,
+                                                        LineParts: LineParts,
+                                                        Percentage: ref Percentage);
+
                                                     pbStatus.Value = (int)Math.Floor(Percentage);
                                                 });
                                         }
