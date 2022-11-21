@@ -8,7 +8,9 @@ public partial class frmExtendedDownloader : Form {
     // Download specific times: yt-dlp -i --download-sections "*00:00:00-00:00:10"
 
     public string URL { get; }
+    public string VideoName { get; private set; }
     private bool Debug { get; }
+    private string ProgressVideoName { get; set; }
 
     private YoutubeDlData Information;
     private Thread InformationThread;
@@ -325,9 +327,12 @@ public partial class frmExtendedDownloader : Form {
                     }
                 }
 
+                VideoName = Information.Title;
+                ProgressVideoName =
+                    $"{(Config.Settings.Initialization.ScreenshotMode ? "The videos' title will appear here" : VideoName)} - {Language.ApplicationName}";
+
                 this.Invoke(() => {
-                    this.Text = Config.Settings.Initialization.ScreenshotMode ?
-                        $"The videos' title will appear here - {Language.ApplicationName}" : $"{Information.Title} - {Language.ApplicationName}";
+                    this.Text = ProgressVideoName;
                     txtExtendedDownloaderMediaTitle.Text = Information.Title;
                     rtbMediaDescription.Text = Information.Description;
                     txtUploader.Text = Information.Uploader;
@@ -648,7 +653,7 @@ public partial class frmExtendedDownloader : Form {
         return Data;
     }
     public void BeginDownload(bool Auth) {
-        rtbVerbose.Invoke(() => rtbVerbose.AppendText("Starting download\r\n------------------------"));
+        rtbVerbose.Invoke(() => rtbVerbose.AppendText($"Starting download @ {DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff} \r\n------------------------"));
         string args = GenerateArguments(Auth);
         if (args.IsNotNullEmptyWhitespace()) {
             if (Verification.YoutubeDlPath.IsNullEmptyWhitespace())
@@ -662,7 +667,7 @@ public partial class frmExtendedDownloader : Form {
             pbStatus.ShowInTaskbar = true;
             pbStatus.Value = 0;
             pbStatus.ProgressState = murrty.controls.ProgressState.Normal;
-            pbStatus.Text = "Retrieving metadata";
+            pbStatus.Text = "Beginning download";
             DownloadThread = new(() => {
                 DownloadProcess = new() {
                     StartInfo = new() {
@@ -717,6 +722,7 @@ public partial class frmExtendedDownloader : Form {
                 DownloadProcess.BeginErrorReadLine();
 
                 float Percentage = 0;
+                string ETA = "Unknown";
 
                 while (!DownloadProcess.HasExited) {
                     if (Status == DownloadStatus.Aborted || Status == DownloadStatus.AbortForClose) {
@@ -742,13 +748,15 @@ public partial class frmExtendedDownloader : Form {
                                                 pbStatus.Invoke(() => pbStatus.Style = ProgressBarStyle.Blocks);
 
                                             if (pbStatus.IsHandleCreated)
-                                                pbStatus.Invoke(() => {
+                                                this.Invoke(() => {
                                                     pbStatus.Text = DownloadHelper.GetTransferData(
-                                                        ShowEta: false,
+                                                        Eta: ref ETA,
                                                         LineParts: LineParts,
                                                         Percentage: ref Percentage);
 
                                                     pbStatus.Value = (int)Math.Floor(Percentage);
+
+                                                    this.Text = $"ETA: {ETA} - {ProgressVideoName}";
                                                 });
                                         }
                                     } break;
@@ -801,6 +809,7 @@ public partial class frmExtendedDownloader : Form {
                         btnDownloadWithAuthentication.Enabled = true;
                         switch (Status) {
                             case DownloadStatus.Aborted: {
+                                rtbVerbose.AppendLine("Aborted download");
                                 pbStatus.Text = "Aborted";
                                 pbStatus.Value = pbStatus.Minimum;
                                 btnDownloadAbortClose.Text = Language.GenericRetry;
@@ -808,6 +817,7 @@ public partial class frmExtendedDownloader : Form {
                             } break;
 
                             case DownloadStatus.Finished: {
+                                rtbVerbose.AppendLine("Download completed");
                                 pbStatus.Text = "Completed";
                                 pbStatus.Value = pbStatus.Maximum;
                                 btnDownloadAbortClose.Text = Language.sbDownload;
@@ -817,6 +827,7 @@ public partial class frmExtendedDownloader : Form {
                             case DownloadStatus.AbortForClose: { } break;
 
                             default: {
+                                rtbVerbose.AppendLine("Download error");
                                 pbStatus.Text = "Downlod error";
                                 pbStatus.Value = pbStatus.Minimum;
                                 btnDownloadAbortClose.Text = Language.GenericRetry;

@@ -93,4 +93,14 @@ public class DownloadHelper {
         return "could not parse line";
     }
 
+    public static string GetTransferData(string[] LineParts, ref float Percentage, ref string Eta) {
+        if (LineParts[1].Contains('%')) {
+            Percentage = float.Parse(LineParts[1][..LineParts[1].IndexOf('%')]);
+            Eta = LineParts[7];
+            return $"{LineParts[1]} of {LineParts[3]} @ {LineParts[5]}";
+        }
+        Eta = "Unknown";
+        return "could not parse line";
+    }
+
 }
