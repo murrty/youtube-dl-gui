@@ -64,7 +64,7 @@ For anyone looking to translate, feel free to open a pull request with the new l
 
 For anyone looking to contribute to the code, make a pull request with the changed code.
 
-Finally, contributions to the project through alternative means, like `Userscripts` or browser extensions to increase functionality of using the program are welcome through pull requests for review & merge.
+Finally, contributions to the project through alternative means, like `Userscripts` or browser extensions to increase functionality of using the program are welcome through pull requests for review & merge. You can create a pull-request to add a link to your user-script by editing the [userscripts markdown file](USERSCRIPTS.md) and adding your userscript(s), your username, and the sites supported to the main grid.
 
 # What is that hyphen in the version number?
 It deontes that the version is a preview version (internally called a beta version).
