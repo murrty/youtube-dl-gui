@@ -5,4 +5,4 @@ If you created a userscript that works with youtube-dl-gui, be sure to open a pu
 
 |Userscript|Author|Website(s) supported|
 |-|-|-|
-|reddit downloader|me (murrty)|reddit.com|
+|[reddit downloader](https://github.com/murrty/youtube-dl-gui/raw/master/Addons/reddit%20video%20download%20button.user.js)|me (murrty)|reddit.com|
