@@ -142,8 +142,8 @@
             this.Icon = global::youtube_dl_gui.Properties.Resources.ProgramIcon;
             this.MinimumSize = new System.Drawing.Size(310, 300);
             this.Name = "frmFileNameSchemaHistory";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "frmFileNameSchemaHistory";
-            this.Load += new System.EventHandler(this.frmFileNameSchemaHistory_Load);
             this.pnLower.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();

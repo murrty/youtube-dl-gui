@@ -32,6 +32,8 @@ internal class Config_Saved {
     public string ExtendedDownloadAudioColumns { get; set; }
     public string ExtendedDownloadUnknownColumns { get; set; }
     public Point QuickDownloaderLocation { get; set; }
+    public Point FileNameSchemaHistoryLocation { get; set; }
+    public Size FileNameSchemaHistorySize { get; set; }
 
     private int fdownloadType { get; set; }
     private int fconvertSaveVideoIndex { get; set; }
@@ -61,6 +63,8 @@ internal class Config_Saved {
     private string fExtendedDownloadAudioColumns { get; set; }
     private string fExtendedDownloadUnknownColumns { get; set; }
     private Point fQuickDownloaderLocation { get; set; }
+    private Point fFileNameSchemaHistoryLocation { get; set; }
+    private Size fFileNameSchemaHistorySize { get; set; }
     #endregion
 
     public void Load() {
@@ -94,6 +98,8 @@ internal class Config_Saved {
         ExtendedDownloadAudioColumns = fExtendedDownloadAudioColumns = IniProvider.Read(ExtendedDownloadAudioColumns, string.Empty, ConfigName);
         ExtendedDownloadUnknownColumns = fExtendedDownloadUnknownColumns = IniProvider.Read(ExtendedDownloadUnknownColumns, string.Empty, ConfigName);
         QuickDownloaderLocation = fQuickDownloaderLocation = IniProvider.Read(QuickDownloaderLocation, Point.Invalid, ConfigName);
+        FileNameSchemaHistoryLocation = fFileNameSchemaHistoryLocation = IniProvider.Read(FileNameSchemaHistoryLocation, Point.Invalid, ConfigName);
+        FileNameSchemaHistorySize = fFileNameSchemaHistorySize = IniProvider.Read(FileNameSchemaHistorySize, Size.Empty, ConfigName);
     }
 
     public void Save() {
@@ -155,5 +161,9 @@ internal class Config_Saved {
             fExtendedDownloadUnknownColumns = IniProvider.Write(ExtendedDownloadUnknownColumns, ConfigName);
         if (QuickDownloaderLocation != fQuickDownloaderLocation)
             fQuickDownloaderLocation = IniProvider.Write(QuickDownloaderLocation, ConfigName);
+        if (FileNameSchemaHistoryLocation != fFileNameSchemaHistoryLocation)
+            fFileNameSchemaHistoryLocation = IniProvider.Write(FileNameSchemaHistoryLocation, ConfigName);
+        if (FileNameSchemaHistorySize != fFileNameSchemaHistorySize)
+            fFileNameSchemaHistorySize = IniProvider.Write(FileNameSchemaHistorySize, ConfigName);
     }
 }

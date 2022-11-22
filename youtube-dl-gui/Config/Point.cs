@@ -3,9 +3,15 @@ using System.Runtime.InteropServices;
 [StructLayout(LayoutKind.Sequential)]
 public struct Point {
     /// <summary>
-    /// Represents an invalid Point value.
+    /// Represents an invalid Point value that is considered invalid values for window locations in which the X and Y values are -32,000.
     /// </summary>
     public static readonly Point Invalid = new(-32_000, -32_000);
+
+    /// <summary>
+    /// Represents an empty <see cref="Point"/> structure that has the X and Y values initialized to 0.
+    /// </summary>
+    public static readonly Point Empty = new(0, 0);
+
     /// <summary>
     /// The X-coordinate of the Point.
     /// </summary>

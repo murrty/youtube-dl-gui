@@ -13,31 +13,38 @@ internal static class Extensions {
         ms.Close();
         return val;
     }
-    private static readonly string[] SizeSuffix =
-        { "B", "KiB", "MiB", "GiB", "TiB", "PiB", "EiB", "ZiB", "YiB" };
     public static string SizeToString(this long Size, int DecimalPlaces = 2) {
         int DivisionCount = 0;
         decimal Division = Size;
-        while (Math.Round(Division, DecimalPlaces) >= 1024) {
-            Division /= 1024;
+        while (Math.Round(Division, DecimalPlaces) >= 1024m) {
+            Division /= 1024m;
             DivisionCount++;
         }
-        return $"{decimal.Round(Division, DecimalPlaces)}{SizeSuffix[DivisionCount]}";
+
+        return $"{decimal.Round(Division, DecimalPlaces)}{DivisionCount switch {
+            0 => "B",
+            1 => "KiB",
+            2 => "MiB",
+            3 => "GiB",
+            4 => "TiB",
+            5 => "PiB",
+            6 => "EiB",
+            7 => "ZiB",
+            8 => "YiB",
+            _ => "?iB"
+        }}";
     }
-    public static string Format(this string str, params object[] objs) {
-        return String.Format(str, objs);
-    }
+    public static string Format(this string str, params object[] objs) => string.Format(str, objs);
     public static bool IsNullEmptyWhitespace(this string value) {
         if (value is null || value.Length == 0)
             return true;
 
-        while (value[^1] == ' ')
-            value = value[..^1];
+        for (int i = 0; i < value.Length; i++) {
+            if (!char.IsWhiteSpace(value[i]))
+                return false;
+        }
 
-        while (value[0] == ' ')
-            value = value[1..];
-
-        return value.Length == 0;
+        return true;
     }
     public static bool IsNotNullEmptyWhitespace(this string value) => !IsNullEmptyWhitespace(value);
     public static string Join(this IEnumerable<string> str, string joiner) => string.Join(joiner, str);
