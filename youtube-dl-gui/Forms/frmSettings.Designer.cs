@@ -42,6 +42,7 @@
             this.lbSettingsGeneralFFmpegDirectory = new System.Windows.Forms.Label();
             this.txtSettingsGeneralFFmpegPath = new murrty.controls.ExtendedTextBox();
             this.tabSettingsDownloads = new System.Windows.Forms.TabPage();
+            this.btnSettingsDownloadsFileNameSchemaHistory = new System.Windows.Forms.Button();
             this.btnSettingsDownloadsInstallProtocol = new murrty.controls.UacButton();
             this.llbSettingsDownloadsInstallProtocolMoreInfo = new murrty.controls.ExtendedLinkLabel();
             this.chkSettingsDownloadsDownloadPathUseRelativePath = new System.Windows.Forms.CheckBox();
@@ -534,6 +535,7 @@
             // 
             // tabSettingsDownloads
             // 
+            this.tabSettingsDownloads.Controls.Add(this.btnSettingsDownloadsFileNameSchemaHistory);
             this.tabSettingsDownloads.Controls.Add(this.btnSettingsDownloadsInstallProtocol);
             this.tabSettingsDownloads.Controls.Add(this.llbSettingsDownloadsInstallProtocolMoreInfo);
             this.tabSettingsDownloads.Controls.Add(this.chkSettingsDownloadsDownloadPathUseRelativePath);
@@ -553,8 +555,22 @@
             this.tabSettingsDownloads.Text = "tabSettingsDownloads";
             this.tabSettingsDownloads.UseVisualStyleBackColor = true;
             // 
+            // btnSettingsDownloadsFileNameSchemaHistory
+            // 
+            this.btnSettingsDownloadsFileNameSchemaHistory.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSettingsDownloadsFileNameSchemaHistory.Location = new System.Drawing.Point(227, 77);
+            this.btnSettingsDownloadsFileNameSchemaHistory.Name = "btnSettingsDownloadsFileNameSchemaHistory";
+            this.btnSettingsDownloadsFileNameSchemaHistory.Size = new System.Drawing.Size(75, 23);
+            this.btnSettingsDownloadsFileNameSchemaHistory.TabIndex = 14;
+            this.btnSettingsDownloadsFileNameSchemaHistory.Text = "btnSettingsDownloadsFileNameSchemaHistory";
+            this.tipSettings.SetToolTip(this.btnSettingsDownloadsFileNameSchemaHistory, "btnSettingsDownloadsFileNameSchemaHistoryHint");
+            this.btnSettingsDownloadsFileNameSchemaHistory.UseVisualStyleBackColor = true;
+            this.btnSettingsDownloadsFileNameSchemaHistory.Click += new System.EventHandler(this.btnSettingsDownloadsFileNameSchemaHistory_Click);
+            // 
             // btnSettingsDownloadsInstallProtocol
             // 
+            this.btnSettingsDownloadsInstallProtocol.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSettingsDownloadsInstallProtocol.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.btnSettingsDownloadsInstallProtocol.Location = new System.Drawing.Point(6, 333);
             this.btnSettingsDownloadsInstallProtocol.Name = "btnSettingsDownloadsInstallProtocol";
@@ -1220,7 +1236,7 @@
             this.txtSettingsDownloadsFileNameSchema.FormattingEnabled = true;
             this.txtSettingsDownloadsFileNameSchema.Location = new System.Drawing.Point(30, 79);
             this.txtSettingsDownloadsFileNameSchema.Name = "txtSettingsDownloadsFileNameSchema";
-            this.txtSettingsDownloadsFileNameSchema.Size = new System.Drawing.Size(260, 21);
+            this.txtSettingsDownloadsFileNameSchema.Size = new System.Drawing.Size(191, 21);
             this.txtSettingsDownloadsFileNameSchema.TabIndex = 9;
             this.txtSettingsDownloadsFileNameSchema.Text = "%(title)s-%(id)s.%(ext)s";
             this.tipSettings.SetToolTip(this.txtSettingsDownloadsFileNameSchema, "txtSettingsDownloadsFileNameSchemaHint");
@@ -2036,5 +2052,6 @@
         private System.Windows.Forms.Button btnSettingsRedownloadFfmpeg;
         private murrty.controls.ExtendedLinkLabel llbSettingsDownloadsInstallProtocolMoreInfo;
         private murrty.controls.UacButton btnSettingsDownloadsInstallProtocol;
+        private System.Windows.Forms.Button btnSettingsDownloadsFileNameSchemaHistory;
     }
 }

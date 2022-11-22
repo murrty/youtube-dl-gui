@@ -118,6 +118,12 @@
     <Compile Include="Forms\frmGenericDownloadProgress.Designer.cs">
       <DependentUpon>frmGenericDownloadProgress.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\frmFileNameSchemaHistory.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmFileNameSchemaHistory.Designer.cs">
+      <DependentUpon>frmFileNameSchemaHistory.cs</DependentUpon>
+    </Compile>
     <Compile Include="Logging\Exceptions\ApiParsingException.cs" />
     <Compile Include="Logging\Exceptions\DownloadException.cs" />
     <Compile Include="Logging\Forms\frmLog.cs">
@@ -319,6 +325,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmGenericDownloadProgress.resx">
       <DependentUpon>frmGenericDownloadProgress.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmFileNameSchemaHistory.resx">
+      <DependentUpon>frmFileNameSchemaHistory.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Logging\Forms\frmException.resx">
       <DependentUpon>frmException.cs</DependentUpon>

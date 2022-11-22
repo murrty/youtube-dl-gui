@@ -5,11 +5,8 @@ using System.Windows.Forms;
 public partial class frmSettings : Form {
 
     #region vars
-    public bool ffmpegAvailabled = false;
-    public bool ytdlAvailable = false;
-
     private bool LoadingForm = false;
-    private bool ProtocolAvailable = false;
+    private readonly bool ProtocolAvailable = false;
 
     readonly List<string> extensionsName = new();
     readonly List<string> extensionsShort = new();
@@ -24,6 +21,7 @@ public partial class frmSettings : Form {
     #endregion
 
     public frmSettings() {
+        LoadingForm = true;
         InitializeComponent();
 
         for (int i = 0; i < GithubLinks.Repos.Length; i++)
@@ -31,11 +29,9 @@ public partial class frmSettings : Form {
 
         ProtocolAvailable = SystemRegistry.CheckRegistry();
 
-        LoadingForm = true;
         LoadLanguage();
         CalculatePositions();
         LoadSettings();
-
     }
     private void frmSettings_Load(object sender, EventArgs e) {
         if (Config.Settings.Saved.SettingsFormSize.Valid) {
@@ -115,6 +111,8 @@ public partial class frmSettings : Form {
         lbSettingsDownloadsFileNameSchema.Text = Language.lbSettingsDownloadsFileNameSchema;
         tipSettings.SetToolTip(lbSettingsDownloadsFileNameSchema, Language.lbSettingsDownloadsFileNameSchemaHint);
         tipSettings.SetToolTip(txtSettingsDownloadsFileNameSchema, Language.txtSettingsDownloadsFileNameSchemaHint);
+        btnSettingsDownloadsFileNameSchemaHistory.Text = Language.btnSettingsDownloadsFileNameSchemaHistory;
+        tipSettings.SetToolTip(btnSettingsDownloadsFileNameSchemaHistory, Language.btnSettingsDownloadsFileNameSchemaHistoryHint);
 
         if (ProtocolAvailable) {
             btnSettingsDownloadsInstallProtocol.Enabled = btnSettingsDownloadsInstallProtocol.ShowUacShield = false;
@@ -375,7 +373,7 @@ public partial class frmSettings : Form {
         }
 
 
-        if (string.IsNullOrWhiteSpace(Config.Settings.Downloads.downloadPath)) {
+        if (Config.Settings.Downloads.downloadPath.IsNullEmptyWhitespace()) {
             txtSettingsDownloadsSavePath.Text = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Downloads";
         }
         else {
@@ -384,9 +382,17 @@ public partial class frmSettings : Form {
             }
             txtSettingsDownloadsSavePath.Text = Config.Settings.Downloads.downloadPath;
         }
-        txtSettingsDownloadsFileNameSchema.Text = Config.Settings.Downloads.fileNameSchema;
-        if (!string.IsNullOrEmpty(Config.Settings.Saved.FileNameSchemaHistory)) {
+
+        if (!Config.Settings.Saved.FileNameSchemaHistory.IsNullEmptyWhitespace())
             txtSettingsDownloadsFileNameSchema.Items.AddRange(Config.Settings.Saved.FileNameSchemaHistory.Split('|'));
+
+        int index = txtSettingsDownloadsFileNameSchema.Items.IndexOf(Config.Settings.Downloads.fileNameSchema);
+        if (index > -1) {
+            txtSettingsDownloadsFileNameSchema.SelectedIndex = index;
+        }
+        else {
+            txtSettingsDownloadsFileNameSchema.Items.Add(Config.Settings.Downloads.fileNameSchema);
+            txtSettingsDownloadsFileNameSchema.SelectedIndex = txtSettingsDownloadsFileNameSchema.Items.Count - 1;
         }
 
         chkSettingsDownloadsSaveFormatQuality.Checked = Config.Settings.Downloads.SaveFormatQuality;
@@ -697,15 +703,30 @@ public partial class frmSettings : Form {
             } break;
         }
     }
+    private void btnSettingsDownloadsFileNameSchemaHistory_Click(object sender, EventArgs e) {
+        using frmFileNameSchemaHistory History = new();
+        switch (History.ShowDialog(this)) {
+            case DialogResult.OK: {
+                txtSettingsDownloadsFileNameSchema.Items.Clear();
+                if (!History.NewSchema.IsNullEmptyWhitespace()) {
+                    txtSettingsDownloadsFileNameSchema.Items.AddRange(History.NewSchema.Split('|'));
+                    int index = txtSettingsDownloadsFileNameSchema.Items.IndexOf(Config.Settings.Downloads.fileNameSchema);
+                    txtSettingsDownloadsFileNameSchema.SelectedIndex = index > -1 ? index : 0;
+                }
+                else {
+                    txtSettingsDownloadsFileNameSchema.Items.Add(Config.Settings.Downloads.fileNameSchema);
+                    txtSettingsDownloadsFileNameSchema.SelectedIndex = txtSettingsDownloadsFileNameSchema.Items.Count - 1;
+                }
+            } break;
+        }
+    }
     private void btnSettingsDownloadsInstallProtocol_Click(object sender, EventArgs e) {
         if (!ProtocolAvailable) {
             int Result;
-            bool NewProcess = false;
             if (Program.IsAdmin) {
                 Result = SystemRegistry.SetRegistry();
             }
             else {
-                NewProcess = true;
                 Process InstallerProcess = new() {
                     StartInfo = new() {
                         Arguments = "installprotocol",

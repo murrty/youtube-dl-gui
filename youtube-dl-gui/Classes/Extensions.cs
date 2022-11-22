@@ -1,14 +1,11 @@
 ﻿namespace youtube_dl_gui;
-
-using System.Runtime.CompilerServices;
 using System.Text;
-
 internal static class Extensions {
     private static readonly System.Runtime.Serialization.Json.DataContractJsonSerializerSettings Settings = new() {
         UseSimpleDictionaryFormat = true,
         SerializeReadOnlyTypes = false,
     };
-
+    private static readonly System.Text.RegularExpressions.Regex WhitespaceCleaner = new(@"\s+", System.Text.RegularExpressions.RegexOptions.Compiled);
     public static T JsonDeserialize<T>(this string value) {
         using System.IO.MemoryStream ms = new(Encoding.UTF8.GetBytes(value));
         System.Runtime.Serialization.Json.DataContractJsonSerializer ser = new(typeof(T), Settings);
@@ -44,10 +41,15 @@ internal static class Extensions {
     }
     public static bool IsNotNullEmptyWhitespace(this string value) => !IsNullEmptyWhitespace(value);
     public static string Join(this IEnumerable<string> str, string joiner) => string.Join(joiner, str);
-    public static string ReplaceWhitespace(this string str) => System.Text.RegularExpressions.Regex.Replace(str, @"\s+", " ", System.Text.RegularExpressions.RegexOptions.Compiled);
-    public static string ReplaceWhitespace(this string str, string replacement) => str.IsNullEmptyWhitespace() ? string.Empty : System.Text.RegularExpressions.Regex.Replace(str, @"\s+", replacement, System.Text.RegularExpressions.RegexOptions.Compiled);
+    public static string ReplaceWhitespace(this string str) => WhitespaceCleaner.Replace(str, " ");
+    public static string ReplaceWhitespace(this string str, string replacement) => WhitespaceCleaner.Replace(str, replacement);
     public static void ShowIfCondition(this System.Windows.Forms.Form frm, bool AsDialog) {
         if (AsDialog) frm.ShowDialog();
         else frm.Show();
+    }
+    public static bool ForIf<T>(this T[] items, Func<T, bool> act) {
+        for (int i = 0; i < items.Length; i++)
+            if (act(items[i])) return true;
+        return false;
     }
 }

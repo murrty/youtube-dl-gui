@@ -208,7 +208,7 @@ namespace youtube_dl_gui {
             if (CurrentDownload.BatchDownload)
                 chkDownloaderCloseAfterDownload.Checked = true;
 
-            if (!CurrentDownload.GenerateArguments(rtbVerbose, out string Arguments, out string PreviewArguments))
+            if (!CurrentDownload.GenerateArguments(rtbVerbose.AppendLine, out string Arguments, out string PreviewArguments))
                 return;
 
             rtbVerbose.AppendLine("Arguments have been generated and are readonly in the textbox");

@@ -15,31 +15,34 @@ public class DownloadHelper {
     private const string RegexPrefix = @"^(http(s)?:\/\/)?";
 
     // From most important ... least important
-    public static readonly string[] LinkRegularExpression = {
+    public static Regex[] CompiledRegex = {
         // lang=regex YouTube
-        RegexPrefix + @"((www|m)\.)?(youtube\.com\/watch\?(.*?)?v=|(youtu\.be\/))[a-zA-Z0-9_-]{1,}",
+        new(RegexPrefix + @"((www|m)\.)?(youtube\.com\/watch\?(.*?)?v=|(youtu\.be\/))[a-zA-Z0-9_-]{1,}", RegexOptions.Compiled),
 
         // lang=regex PornHub
-        RegexPrefix + @"((www|m)\.)?pornhub\.com\/view_video\.php(\?viewkey=|.*?&viewkey=)ph[a-zA-Z0-9]{1,}",
+        new(RegexPrefix + @"((www|m)\.)?pornhub\.com\/view_video\.php(\?viewkey=|.*?&viewkey=)ph[a-zA-Z0-9]{1,}", RegexOptions.Compiled),
 
         // lang=regex Reddit
-        RegexPrefix + @"(([a-zA-Z]{1,}.)?reddit\.com\/r\/[a-zA-Z0-9-_]{1,}\/(comments\/)?[a-zA-Z0-9]{1,}|(i\.|v\.)?redd\.it\/[a-zA-Z0-9]{1,})",
-
+        new(RegexPrefix + @"(([a-zA-Z]{1,}.)?reddit\.com\/r\/[a-zA-Z0-9-_]{1,}\/(comments\/)?[a-zA-Z0-9]{1,}|(i\.|v\.)?redd\.it\/[a-zA-Z0-9]{1,})", RegexOptions.Compiled),
+        
         // lang=regex Twitter
-        RegexPrefix + @"(t\.co\/[a-zA-Z0-9]{1,})|(((m|mobile)\.)?twitter\.com\/(i|[a-zA-Z0-9]{1,})\/status\/[0-9]{1,})",
-
+        new(RegexPrefix + @"(t\.co\/[a-zA-Z0-9]{1,})|(((m|mobile)\.)?twitter\.com\/(i|[a-zA-Z0-9]{1,})\/status\/[0-9]{1,})", RegexOptions.Compiled),
+        
         // lang=regex Twitch
-        RegexPrefix + @"(((www|m)\.)?twitch\.tv\/((videos\/[0-9]{1,})|[a-zA-Z0-9_-]{1,}\/clip\/[a-zA-Z0-9_-]{1,})|clips\.twitch\.tv\/(clips\/)?[^clip_missing][a-zA-Z0-9_-]{1,})",
+        new(RegexPrefix + @"(((www|m)\.)?twitch\.tv\/((videos\/[0-9]{1,})|[a-zA-Z0-9_-]{1,}\/clip\/[a-zA-Z0-9_-]{1,})|clips\.twitch\.tv\/(clips\/)?[^clip_missing][a-zA-Z0-9_-]{1,})", RegexOptions.Compiled),
         //((www\.|m\.)?twitch.tv\/((videos\/[0-9]{1,})|[a-zA-Z0-9_-]{1,}\/clip\/[a-zA-Z0-9_-]{1,})|clips.twitch.tv\/(clips\/)?[a-zA-Z0-9_-]{1,})
-
+        
         // lang=regex SoundCloud
-        RegexPrefix + @"((www|m)\.)?soundcloud\.com\/[a-zA-Z0-9_-]{1,}\/[a-zA-Z0-9_-]{1,}",
-
+        new(RegexPrefix + @"((www|m)\.)?soundcloud\.com\/[a-zA-Z0-9_-]{1,}\/[a-zA-Z0-9_-]{1,}", RegexOptions.Compiled),
+        
         // lang=regex Imgur
-        RegexPrefix + @"((www|m|i)\.)?imgur\.com(\/(a|gallery))?\/[a-zA-Z0-9]{1,}",
+        new(RegexPrefix + @"((www|m|i)\.)?imgur\.com(\/(a|gallery))?\/[a-zA-Z0-9]{1,}", RegexOptions.Compiled),
+
+        // Base
+        //new(RegexPrefix + "", RegexOptions.Compiled),
     };
 
-    public static bool IsReddit(string Url) => Regex.IsMatch(Url, LinkRegularExpression[2], RegexOptions.Compiled);
+    public static bool IsReddit(string Url) => CompiledRegex[2].IsMatch(Url);
 
     public static string GetUrlBase(string Url, bool OverrideSubdomain = false) {
         if (Url.StartsWith("https://")) {
@@ -70,25 +73,12 @@ public class DownloadHelper {
         return Url;
     }
 
-    public static bool SupportedDownloadLink(string Url) {
-        Regex LinkMatcher;
-        for (int i = 0; i < LinkRegularExpression.Length; i++) {
-            LinkMatcher = new(LinkRegularExpression[i], RegexOptions.Compiled);
-            if (LinkMatcher.IsMatch(Url)) return true;
-        }
-        return false;
-    }
+    public static bool SupportedDownloadLink(string Url) => CompiledRegex.ForIf((x) => x.IsMatch(Url));
 
     public static string GetTransferData(string[] LineParts, ref float Percentage, bool ShowEta) {
         if (LineParts[1].Contains('%')) {
             Percentage = float.Parse(LineParts[1][..LineParts[1].IndexOf('%')]);
-            return ShowEta ?
-                $"{LineParts[1]} of {LineParts[3]} @ {LineParts[5]}{(
-                    LineParts.Length > 7 ?
-                        $" ETA {LineParts[7]}" :
-                        "")}":
-
-                $"{LineParts[1]} of {LineParts[3]} @ {LineParts[5]}";
+            return $"{LineParts[1]} of {LineParts[3]} @ {LineParts[5]}{(ShowEta && LineParts.Length > 7 ? $" ETA {LineParts[7]}" : "")}";
         }
         return "could not parse line";
     }

@@ -1,5 +1,7 @@
 ﻿namespace youtube_dl_gui;
-
+/// <summary>
+/// Represents an object that contains information about a media download, with settings for the download.
+/// </summary>
 public sealed class DownloadInfo {
     /// <summary>
     /// The URL of the video to download.
@@ -100,17 +102,27 @@ public sealed class DownloadInfo {
     /// </summary>
     public int PlaylistSelectionIndexEnd { get; set; } = -1;
 
+    /// <summary>
+    /// Initializes a new instance of <see cref="DownloadInfo"/> with information for downloading a media object.
+    /// </summary>
     public DownloadInfo() {
         FileNameSchema = Config.Settings.Downloads.fileNameSchema;
     }
 
-    public bool GenerateArguments(murrty.controls.ExtendedRichTextBox Verbose, out string Arguments, out string CensoredArguments) {
+    /// <summary>
+    /// Generates the arguments for the download instance.
+    /// </summary>
+    /// <param name="Verbose">The ExtendedRichTextBox object to export verbose information to.</param>
+    /// <param name="Arguments">The output arguments.</param>
+    /// <param name="CensoredArguments">The output censored arguments to censor login information.</param>
+    /// <returns><see langword="true"/> if the arguments generated successfully; otherwise, <see langword="false"/>.</returns>
+    public bool GenerateArguments(Action<string> Verbose, out string Arguments, out string CensoredArguments) {
         Status = DownloadStatus.GeneratingArguments;
         Arguments = null;
         CensoredArguments = null;
 
         if (DownloadURL.IsNullEmptyWhitespace()) {
-            Verbose.AppendLine("The URL is null or empty. Please enter a URL to download.");
+            Verbose("The URL is null or empty. Please enter a URL to download.");
             Log.Write("Cannot continue download.");
             return false;
         }
@@ -127,22 +139,22 @@ public sealed class DownloadInfo {
 
         #region youtube-dl path
         if (Verification.YoutubeDlPath.IsNullEmptyWhitespace()) {
-            Verbose.AppendLine("Youtube-DL has not been found\r\nA rescan for youtube-dl was called");
+            Verbose("Youtube-DL has not been found\r\nA rescan for youtube-dl was called");
             Verification.RefreshYoutubeDlLocation();
             if (Verification.YoutubeDlPath is not null)
-                Verbose.AppendLine("Rescan finished and found, continuing");
+                Verbose("Rescan finished and found, continuing");
             else {
-                Verbose.AppendLine("still couldnt find youtube-dl.");
+                Verbose("still couldnt find youtube-dl.");
                 Status = DownloadStatus.ProgramError;
                 Log.Write("Youtube-dl could not be found.");
                 return false;
             }
         }
-        Verbose.AppendLine("Youtube-DL has been found and set");
+        Verbose("Youtube-DL has been found and set");
         #endregion
 
         #region Output
-        Verbose.AppendLine("Generating output directory structure");
+        Verbose("Generating output directory structure");
 
         StringBuilder OutputDirectory = new($"\"{(
             Config.Settings.Downloads.downloadPath.StartsWith("./") || Config.Settings.Downloads.downloadPath.StartsWith(".\\") ?
@@ -171,13 +183,13 @@ public sealed class DownloadInfo {
                     OutputDirectory.Append("\\Custom");
                     break;
                 default:
-                    Verbose.AppendLine("Unable to determine what download type to use (expected 0, 1, or 2)");
+                    Verbose("Unable to determine what download type to use (expected 0, 1, or 2)");
                     Status = DownloadStatus.ProgramError;
                     return false;
             }
         }
         if (string.IsNullOrWhiteSpace(FileNameSchema)) {
-            Verbose.AppendLine("The file name schema is not properly set, falling back to the default one. Consider setting it in the settings, or making sure the schema list has a proper schema format on the main form.");
+            Verbose("The file name schema is not properly set, falling back to the default one. Consider setting it in the settings, or making sure the schema list has a proper schema format on the main form.");
             OutputDirectory.Append("\\%(title)s-%(id)s.%(ext)s");
         }
         else
@@ -186,7 +198,7 @@ public sealed class DownloadInfo {
         if (!MostlyCustomArguments)
             ArgumentsBuffer.Append($"{DownloadURL} -o {OutputDirectory}");
 
-        Verbose.AppendLine("The output was generated and will be used");
+        Verbose("The output was generated and will be used");
         #endregion
 
         #region Quality & format
@@ -216,23 +228,23 @@ public sealed class DownloadInfo {
                     ArgumentsBuffer.Append($" --extract-audio --audio-format {Formats.GetAudioFormat(AudioFormat)}");
             } break;
             case DownloadType.Custom: {
-                Verbose.AppendLine("Custom was requested, skipping quality + format");
+                Verbose("Custom was requested, skipping quality + format");
                 if (MostlyCustomArguments)
                     ArgumentsBuffer = new($"{DownloadArguments} -o \"{OutputDirectory}\"");
                 else if (!string.IsNullOrWhiteSpace(DownloadArguments))
                     ArgumentsBuffer.Append($" {DownloadArguments}");
                 else {
-                    Verbose.AppendLine("No custom arguments were provided.");
+                    Verbose("No custom arguments were provided.");
                     return false;
                 }
             } break;
             default: {
-                Verbose.AppendLine("Expected a downloadtype (Quality + Format)");
+                Verbose("Expected a downloadtype (Quality + Format)");
                 Status = DownloadStatus.ProgramError;
             } return false;
         }
 
-        Verbose.AppendLine("The quality and format has been set");
+        Verbose("The quality and format has been set");
         #endregion
 
         #region Arguments
@@ -260,17 +272,17 @@ public sealed class DownloadInfo {
             }
 
             if ((Config.Settings.Downloads.PreferFFmpeg || DownloadHelper.IsReddit(DownloadURL)) && Config.Settings.Downloads.fixReddit) {
-                Verbose.AppendLine("Looking for ffmpeg");
+                Verbose("Looking for ffmpeg");
                 if (Verification.FFmpegPath is not null) {
                     if (Config.Settings.General.UseStaticFFmpeg)
                         ArgumentsBuffer.Append($" --ffmpeg-location \"{Config.Settings.General.ffmpegPath}\" --hls-prefer-ffmpeg");
                     else
                         ArgumentsBuffer.Append($" --ffmpeg-location \"{Verification.FFmpegPath}\" --hls-prefer-ffmpeg");
 
-                    Verbose.AppendLine("ffmpeg was found");
+                    Verbose("ffmpeg was found");
                 }
                 else
-                    Verbose.AppendLine("ffmpeg path is null, downloading may be affected");
+                    Verbose("ffmpeg path is null, downloading may be affected");
             }
 
             if (Config.Settings.Downloads.SaveSubtitles) {
@@ -297,13 +309,13 @@ public sealed class DownloadInfo {
                             if (VideoFormat == VideoFormatType.mp4)
                                 ArgumentsBuffer.Append(" --embed-thumbnail");
                             else
-                                Verbose.AppendLine("!!!!!!!! WARNING !!!!!!!!\r\nCannot embed thumbnail to non-mp4 videos files");
+                                Verbose("!!!!!!!! WARNING !!!!!!!!\r\nCannot embed thumbnail to non-mp4 videos files");
                             break;
                         case DownloadType.Audio:
                             if (AudioFormat == AudioFormatType.m4a || AudioFormat == AudioFormatType.mp3)
                                 ArgumentsBuffer.Append(" --embed-thumbnail");
                             else
-                                Verbose.AppendLine("!!!!!!!! WARNING !!!!!!!!\r\nCannot embed thumbnail to non-m4a/mp3 audio files");
+                                Verbose("!!!!!!!! WARNING !!!!!!!!\r\nCannot embed thumbnail to non-m4a/mp3 audio files");
                             break;
                     }
                 }
@@ -340,8 +352,8 @@ public sealed class DownloadInfo {
             if (Config.Settings.Downloads.UseProxy && Config.Settings.Downloads.ProxyType > -1 && !string.IsNullOrEmpty(Config.Settings.Downloads.ProxyIP) && !string.IsNullOrEmpty(Config.Settings.Downloads.ProxyPort))
                 ArgumentsBuffer.Append($" --proxy {DownloadHelper.ProxyProtocols[Config.Settings.Downloads.ProxyType]}{Config.Settings.Downloads.ProxyIP}:{Config.Settings.Downloads.ProxyPort}/");
 
-            if (!DownloadArguments.ReplaceWhitespace(" ").IsNullEmptyWhitespace())
-                ArgumentsBuffer.Append(" " + DownloadArguments.ReplaceWhitespace(" ").Trim());
+            if (!DownloadArguments.ReplaceWhitespace().IsNullEmptyWhitespace())
+                ArgumentsBuffer.Append(" " + DownloadArguments.ReplaceWhitespace().Trim());
         }
         #endregion
 
@@ -380,7 +392,7 @@ public sealed class DownloadInfo {
         }
         #endregion
 
-        Verbose.AppendLine("Arguments have been generated");
+        Verbose("Arguments have been generated");
         Arguments = ArgumentsBuffer.ToString();
         CensoredArguments = PreviewArguments.ToString();
         return true;

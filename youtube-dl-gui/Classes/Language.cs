@@ -86,6 +86,8 @@ public static class Language {
     public static string dlgUpdatedYoutubeDl { get; private set; }
     public static string dlgUpdaterHashNoMatch { get; private set; }
     public static string dlgUpateYoutubeDlNoUpdateRequired { get; private set; }
+
+    public static string frmFileNameSchemaHistory { get; private set; }
     #endregion
 
     #region Shared downloader
@@ -327,6 +329,8 @@ public static class Language {
 
     public static string lbSettingsDownloadsDownloadPath { get; private set; }
     public static string lbSettingsDownloadsFileNameSchema { get; private set; }
+    public static string btnSettingsDownloadsFileNameSchemaHistory { get; private set; }
+
     public static string tabDownloadsGeneral { get; private set; }
     public static string tabDownloadsSorting { get; private set; }
     public static string tabDownloadsFixes { get; private set; }
@@ -431,6 +435,7 @@ public static class Language {
     public static string llSettingsDownloadsSchemaHelpHint { get; private set; }
     public static string lbSettingsDownloadsFileNameSchemaHint { get; private set; }
     public static string txtSettingsDownloadsFileNameSchemaHint { get; private set; }
+    public static string btnSettingsDownloadsFileNameSchemaHistoryHint { get; private set; }
     public static string btnSettingsDownloadsInstallProtocolHint { get; private set; }
 
     public static string chkSettingsDownloadsSaveFormatQualityHint { get; private set; }
@@ -591,6 +596,8 @@ public static class Language {
         public const string dlgUpdatedYoutubeDl = "Youtube-dl has been updated.";
         public const string dlgUpateYoutubeDlNoUpdateRequired = "Youtube-dl does not require an update at this moment.\r\n\r\nCurrent version: {0}\r\nLatest release: {1}";
         public const string dlgUpdaterHashNoMatch = "The hash of the updater does not match the internally known hash. It might still work but yknow. Update anyways?";
+
+        public const string frmFileNameSchemaHistory = "File name schema history editor";
         #endregion
 
         #region Shared downloading
@@ -881,6 +888,8 @@ public static class Language {
         public const string txtSettingsDownloadsSavePathHint = "where your downloads will be saved to";
         public const string btnSettingsDownloadsBrowseSavePathHint = "browse for a new save folder";
         public const string lbSettingsDownloadsFileNameSchema = "file name schema";
+        public const string btnSettingsDownloadsSchemaHistory = "History";
+        public const string btnSettingsDownloadsSchemaHistoryHint = "Shows a basic history editor to modify the schema list.";
         public const string btnSettingsDownloadsInstallProtocolNotInstalled = "Install browser protocol";
         public const string btnSettingsDownloadsInstallProtocolInstalled = "Browser protocol installed";
 
@@ -1130,10 +1139,10 @@ public static class Language {
         dlgUpdateNoBetaUpdateAvailable = InternalEnglish.dlgUpdateNoBetaUpdateAvailable;
         dlgUpdateNoValidYoutubeDl = InternalEnglish.dlgUpdateNoValidYoutubeDl;
         dlgUpdatedYoutubeDl = InternalEnglish.dlgUpdatedYoutubeDl;
-        dlgUpateYoutubeDlNoUpdateRequired = InternalEnglish.dlgUpateYoutubeDlNoUpdateRequired;
         dlgUpdaterHashNoMatch = InternalEnglish.dlgUpdaterHashNoMatch;
-        GenericSave = InternalEnglish.GenericSave;
-        GenericSave = InternalEnglish.GenericSave;
+        dlgUpateYoutubeDlNoUpdateRequired = InternalEnglish.dlgUpateYoutubeDlNoUpdateRequired;
+
+        frmFileNameSchemaHistory = InternalEnglish.frmFileNameSchemaHistory;
 
         // Shared downloading
         pbDownloadProgressFfmpegPostProcessing = InternalEnglish.pbDownloadProgressFfmpegPostProcessing;
@@ -1360,6 +1369,8 @@ public static class Language {
 
         lbSettingsDownloadsDownloadPath = InternalEnglish.lbSettingsDownloadsDownloadPath;
         lbSettingsDownloadsFileNameSchema = InternalEnglish.lbSettingsDownloadsFileNameSchema;
+        btnSettingsDownloadsFileNameSchemaHistory = InternalEnglish.btnSettingsDownloadsSchemaHistory;
+
         tabDownloadsGeneral = InternalEnglish.tabDownloadsGeneral;
         tabDownloadsSorting = InternalEnglish.tabDownloadsSorting;
         tabDownloadsFixes = InternalEnglish.tabdownloadsFixes;
@@ -1463,6 +1474,7 @@ public static class Language {
         llSettingsDownloadsSchemaHelpHint = InternalEnglish.llSettingsDownloadsSchemaHelpHint;
         lbSettingsDownloadsFileNameSchemaHint = InternalEnglish.lbSettingsDownloadsFileNameSchemaHint;
         txtSettingsDownloadsFileNameSchemaHint = InternalEnglish.txtSettingsDownloadsFileNameSchemaHint;
+        btnSettingsDownloadsFileNameSchemaHistoryHint = InternalEnglish.btnSettingsDownloadsSchemaHistoryHint;
         btnSettingsDownloadsInstallProtocolHint = InternalEnglish.btnSettingsDownloadsInstallProtocolHint;
 
         chkSettingsDownloadsSaveFormatQualityHint = InternalEnglish.chkSettingsDownloadsSaveFormatQualityHint;
@@ -1625,6 +1637,8 @@ public static class Language {
         dlgUpdatedYoutubeDl = nameof(dlgUpdatedYoutubeDl);
         dlgUpateYoutubeDlNoUpdateRequired = nameof(dlgUpateYoutubeDlNoUpdateRequired);
         dlgUpdaterHashNoMatch = nameof(dlgUpdaterHashNoMatch);
+
+        frmFileNameSchemaHistory = nameof(frmFileNameSchemaHistory);
 
         // Shared downloader
         pbDownloadProgressFfmpegPostProcessing = nameof(pbDownloadProgressFfmpegPostProcessing);
@@ -1851,6 +1865,8 @@ public static class Language {
 
         lbSettingsDownloadsDownloadPath = nameof(lbSettingsDownloadsDownloadPath);
         lbSettingsDownloadsFileNameSchema = nameof(lbSettingsDownloadsFileNameSchema);
+        btnSettingsDownloadsFileNameSchemaHistory = nameof(btnSettingsDownloadsFileNameSchemaHistory);
+
         tabDownloadsGeneral = nameof(tabDownloadsGeneral);
         tabDownloadsSorting = nameof(tabDownloadsSorting);
         tabDownloadsFixes = nameof(tabDownloadsFixes);
@@ -1954,6 +1970,7 @@ public static class Language {
         llSettingsDownloadsSchemaHelpHint = nameof(llSettingsDownloadsSchemaHelpHint);
         lbSettingsDownloadsFileNameSchemaHint = nameof(lbSettingsDownloadsFileNameSchemaHint);
         txtSettingsDownloadsFileNameSchemaHint = nameof(txtSettingsDownloadsFileNameSchemaHint);
+        btnSettingsDownloadsFileNameSchemaHistoryHint = nameof(btnSettingsDownloadsFileNameSchemaHistoryHint);
         btnSettingsDownloadsInstallProtocolHint = nameof(btnSettingsDownloadsInstallProtocolHint);
 
         chkSettingsDownloadsSaveFormatQualityHint = nameof(chkSettingsDownloadsSaveFormatQualityHint);
@@ -2262,6 +2279,10 @@ public static class Language {
                                 continue;
                             case "dlgupdaterhashnomatch":
                                 dlgUpdaterHashNoMatch = ReadValue;
+                                continue;
+
+                            case "frmfilenameschemahistory":
+                                frmFileNameSchemaHistory = ReadValue;
                                 continue;
                             #endregion
 
@@ -2958,6 +2979,10 @@ public static class Language {
                             case "lbsettingsdownloadsfilenameschema":
                                 lbSettingsDownloadsFileNameSchema = ReadValue;
                                 continue;
+                            case "btnsettingsdownloadsfilenameschemahistory":
+                                btnSettingsDownloadsFileNameSchemaHistory = ReadValue;
+                                continue;
+
                             case "tabdownloadsgeneral":
                                 tabDownloadsGeneral = ReadValue;
                                 continue;
@@ -3090,6 +3115,9 @@ public static class Language {
                                 continue;
                             case "txtsettingsdownloadsfilenameschemahint":
                                 txtSettingsDownloadsFileNameSchemaHint = ReadValue;
+                                continue;
+                            case "btnsettingsdownloadsfilenameschemahistoryhint":
+                                btnSettingsDownloadsFileNameSchemaHistoryHint = ReadValue;
                                 continue;
                             case "btnsettingsdownloadsinstallprotocolhint":
                                 btnSettingsDownloadsInstallProtocolHint = ReadValue;

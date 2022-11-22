@@ -27,10 +27,6 @@ public partial class frmMain : Form {
             trayIcon.Visible = true;
             tcMain.TabPages.Remove(tabDebug);
         }
-        cbSchema.Text = Config.Settings.Downloads.fileNameSchema;
-
-        if (!string.IsNullOrEmpty(Config.Settings.Saved.FileNameSchemaHistory))
-            cbSchema.Items.AddRange(Config.Settings.Saved.FileNameSchemaHistory.Split('|'));
 
         //mDownloadSeparator.Enabled = mDownloadSeparator.Visible =
         //    mQuickDownloadForm.Enabled = mQuickDownloadForm.Visible =
@@ -165,12 +161,23 @@ public partial class frmMain : Form {
         }
 
         mClipboardAutoDownloadVerifyLinks.Checked = cmTrayClipboardAutoDownloadVerifyLinks.Checked = Config.Settings.General.ClipboardAutoDownloadVerifyLinks;
-        
-        if (ProtocolInput) {
-            if (Config.Settings.Downloads.AutomaticallyDownloadFromProtocol) {
-                // download ...
-            }
+
+        if (!Config.Settings.Saved.FileNameSchemaHistory.IsNullEmptyWhitespace())
+            cbSchema.Items.AddRange(Config.Settings.Saved.FileNameSchemaHistory.Split('|'));
+        int index = cbSchema.Items.IndexOf(Config.Settings.Downloads.fileNameSchema);
+        if (index > -1) {
+            cbSchema.SelectedIndex = index;
         }
+        else {
+            cbSchema.Items.Add(Config.Settings.Downloads.fileNameSchema);
+            cbSchema.SelectedIndex = cbSchema.Items.Count - 1;
+        }
+
+        //if (ProtocolInput) {
+        //    if (Config.Settings.Downloads.AutomaticallyDownloadFromProtocol) {
+        //        // download ...
+        //    }
+        //}
 
         if (Config.Settings.General.DeleteUpdaterOnStartup) {
             System.IO.File.Delete(Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe");
