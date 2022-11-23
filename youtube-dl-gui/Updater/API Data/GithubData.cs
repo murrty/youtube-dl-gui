@@ -96,15 +96,15 @@ public sealed class GithubData {
     /// <returns></returns>
     private string FindHash() {
         if (!VersionDescription.IsNullEmptyWhitespace()) {
-            MatchCollection Matches = Regex.Matches(VersionDescription, "(?<=exe sha-256: )[0-9a-fA-F]{64}(?=)");
+            MatchCollection Matches = Regex.Matches(VersionDescription, "(?<=exe sha-256: )(`)?[0-9a-fA-F]{64}(`)?(?=)");
             if (Matches.Count > 0) {
                 return Matches[0].Value;
             }
-            Matches = Regex.Matches(VersionDescription, "(?<=exe sha256: )[0-9a-fA-F]{64}(?=)");
+            Matches = Regex.Matches(VersionDescription, "(?<=exe sha256: )(`)?[0-9a-fA-F]{64}(`)?(?=)");
             if (Matches.Count > 0) {
                 return Matches[0].Value;
             }
-            Matches = Regex.Matches(VersionDescription, "(?<=exe sha 256: )[0-9a-fA-F]{64}(?=)");
+            Matches = Regex.Matches(VersionDescription, "(?<=exe sha 256: )(`)?[0-9a-fA-F]{64}(`)?(?=)");
             if (Matches.Count > 0) {
                 return Matches[0].Value;
             }

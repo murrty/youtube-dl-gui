@@ -365,6 +365,7 @@ internal static class Program {
         // Any downloads/conversion/merges in progress will finish before fully closing for updates.
         MainForm?.RemoveTrayIcon();
         MainForm?.Dispose();
+        Messages?.Dispose();
     }
 
     internal static void SetTls() {

@@ -12,8 +12,10 @@ internal static class SystemRegistry {
             ProtocolKey.GetValue("URL Protocol") is not null &&
             ProtocolKey.OpenSubKey("shell\\open\\command").GetValue("").ToString().ToLowerInvariant() == $"\"{Program.FullProgramPath}\" \"%1\"".ToLowerInvariant();
         
-        ProtocolKey.Close();
-        ProtocolKey.Dispose();
+        if (ProtocolKey is not null) {
+            ProtocolKey.Close();
+            ProtocolKey.Dispose();
+        }
         
         return Available;
     }
