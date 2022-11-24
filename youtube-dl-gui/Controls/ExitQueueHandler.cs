@@ -19,17 +19,11 @@ public partial class ExitQueueHandler : Form {
         this.Text = Program.ProgramGUID;
         this.WindowState = FormWindowState.Minimized;
 
-        //Label l = new();
-        //l.Text = "??";
-        //this.Controls.Add(l);
-        //l.Location = Point.Empty;
-
         AwaitTasksThread = new(() => {
             Log.Write("Awaiting for the rest of the download actions.");
-            while (Program.RunningActions.Count > 0) {
-                //l.Invoke(() => l.Text = $"{Program.RunningActions.Count} items.");
+
+            while (Program.RunningActions.Count > 0)
                 Thread.Sleep(500);
-            }
 
             Log.Write("Idle form no longer required.");
             this.Invoke(() => this.Dispose());
@@ -43,7 +37,7 @@ public partial class ExitQueueHandler : Form {
         switch (m.Msg) {
             case CopyData.WM_COPYDATA: {
                 Log.Write("Retrieved data");
-                var Data = CopyData.GetParam<SentData>(m.LParam);
+                var Data = CopyData.GetParam<SendLinks>(m.LParam);
                 string[] ReceivedArguments = Data.Argument.Split('|');
                 if (ReceivedArguments.Length > 0) {
                     var RetrievedArguments = Arguments.RetrieveArguments(ReceivedArguments);
@@ -54,6 +48,8 @@ public partial class ExitQueueHandler : Form {
             } break;
 
             case CopyData.WM_SHOWFORM: {
+                if (Program.RunningActions.Count > 0)
+                    Program.RunningActions.ElementAt(0).Show();
                 m.Result = IntPtr.Zero;
             } break;
 

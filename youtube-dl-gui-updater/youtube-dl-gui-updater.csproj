@@ -51,8 +51,28 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\GithubData.cs" />
+    <Compile Include="Classes\Language.cs" />
     <Compile Include="Classes\NativeMethods.cs" />
     <Compile Include="Classes\ProgramData.cs" />
+    <Compile Include="Classes\Serializer.cs" />
+    <Compile Include="..\Controls\Enums\HttpMethod.cs">
+      <Link>Controls\Shared\Enums\HttpMethod.cs</Link>
+    </Compile>
+    <Compile Include="..\Controls\Enums\ProgressState.cs">
+      <Link>Controls\Shared\Enums\ProgressState.cs</Link>
+    </Compile>
+    <Compile Include="..\Controls\Enums\TaskbarProgressState.cs">
+      <Link>Controls\Shared\Enums\TaskbarProgressState.cs</Link>
+    </Compile>
+    <Compile Include="..\Controls\Interfaces\TaskbarInterface.cs">
+      <Link>Controls\Shared\Interfaces\TaskbarInterface.cs</Link>
+    </Compile>
+    <Compile Include="..\Controls\Natives\Consts.cs">
+      <Link>Controls\Shared\Natives\Consts.cs</Link>
+    </Compile>
+    <Compile Include="..\Controls\Natives\NativeMethods.cs">
+      <Link>Controls\Shared\Natives\NativeMethods.cs</Link>
+    </Compile>
     <Compile Include="..\Controls\ExtendedProgressBar.cs">
       <SubType>Component</SubType>
       <Link>Controls\Shared\ExtendedProgressBar.cs</Link>
@@ -65,29 +85,7 @@
       <SubType>Component</SubType>
       <Link>Controls\Shared\ExtendedWebClient.cs</Link>
     </Compile>
-    <Compile Include="..\Controls\Enums\HttpMethod.cs">
-      <Link>Controls\Shared\Enums\HttpMethod.cs</Link>
-    </Compile>
-    <Compile Include="Classes\Serializer.cs" />
     <Compile Include="Controls\MessageHandler.cs" />
-    <Compile Include="..\Controls\Natives\Consts.cs">
-      <Link>Controls\Shared\Natives\Consts.cs</Link>
-    </Compile>
-    <Compile Include="..\Controls\Natives\NativeMethods.cs">
-      <Link>Controls\Shared\Natives\NativeMethods.cs</Link>
-    </Compile>
-    <Compile Include="..\Controls\Enums\ProgressState.cs">
-      <Link>Controls\Shared\Enums\ProgressState.cs</Link>
-    </Compile>
-    <Compile Include="..\Controls\Interfaces\TaskbarInterface.cs">
-      <Link>Controls\Shared\Interfaces\TaskbarInterface.cs</Link>
-    </Compile>
-    <Compile Include="..\Controls\Enums\TaskbarProgressState.cs">
-      <Link>Controls\Shared\Enums\TaskbarProgressState.cs</Link>
-    </Compile>
-    <Compile Include="CopyData\CopyData.cs" />
-    <Compile Include="CopyData\CopyDataStruct.cs" />
-    <Compile Include="CopyData\UpdaterData.cs" />
     <Compile Include="Forms\frmUpdaterInvalidData.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -100,12 +98,16 @@
     <Compile Include="Forms\frmUpdater.Designer.cs">
       <DependentUpon>frmUpdater.cs</DependentUpon>
     </Compile>
-    <Compile Include="Classes\Language.cs" />
-    <Compile Include="GlobalNamespaces.cs" />
+	<Compile Include="..\CopyData\CopyDataStruct.cs">
+		<Link>CopyData\CopyDataStruct.cs</Link>
+	</Compile>
+	<Compile Include="..\CopyData\CopyData.cs">
+		<Link>CopyData\CopyData.cs</Link>
+	</Compile>
+	<Compile Include="..\CopyData\UpdaterData.cs">
+		<Link>CopyData\UpdaterData.cs</Link>
+	</Compile>
     <Compile Include="Interfaces\IUpdateForm.cs" />
-    <Compile Include="Log\DwmCompositionInfo.cs" />
-    <Compile Include="Log\DwmCompositionTextInfo.cs" />
-    <Compile Include="Log\ExceptionInfo.cs" />
     <Compile Include="Log\Exceptions\ApiParsingException.cs" />
     <Compile Include="Log\Forms\frmException.cs">
       <SubType>Form</SubType>
@@ -113,13 +115,22 @@
     <Compile Include="Log\Forms\frmException.Designer.cs">
       <DependentUpon>frmException.cs</DependentUpon>
     </Compile>
-    <Compile Include="Log\Log.cs" />
     <Compile Include="Log\Natives\DwmComposition.cs" />
     <Compile Include="Log\Natives\DwmNatives.cs" />
-    <Compile Include="Program.cs" />
-    <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="Log\DwmCompositionInfo.cs" />
+    <Compile Include="Log\DwmCompositionTextInfo.cs" />
+    <Compile Include="Log\ExceptionInfo.cs" />
+    <Compile Include="Log\Log.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Runtime\CompilerServices.cs" />
+    <Compile Include="GlobalNamespaces.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="Program.cs" />
     <EmbeddedResource Include="Forms\frmUpdaterInvalidData.resx">
       <DependentUpon>frmUpdaterInvalidData.cs</DependentUpon>
     </EmbeddedResource>
@@ -134,11 +145,6 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

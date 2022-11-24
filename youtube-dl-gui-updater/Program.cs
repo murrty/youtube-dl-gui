@@ -1,7 +1,5 @@
 ﻿namespace youtube_dl_gui_updater;
-
 using System.Windows.Forms;
-
 static class Program {
     /// <summary>
     /// Current updater version. This is not really used outside of identification diagnostics, so `VERSION` struct is not used here.
@@ -98,6 +96,8 @@ static class Program {
 
         Application.EnableVisualStyles();
         Application.SetCompatibleTextRenderingDefault(false);
+        Log.InitializeLogging();
+        SetTls();
 
         if (!ProgramData.ProgramSet) {
             if (!InvalidData())
@@ -107,7 +107,7 @@ static class Program {
         return StatusCode;
     }
     
-    internal static bool InvalidData() {
+    private static bool InvalidData() {
         using frmUpdaterInvalidData Invalid = new();
         return Invalid.ShowDialog() switch {
             DialogResult.Yes => GetUpdate(true), // Get pre-release
@@ -150,5 +150,33 @@ static class Program {
             return GotLatestUpdate = true;
         }
         return false;
+    }
+    internal static void SetTls() {
+        try { //try TLS 1.3
+            System.Net.ServicePointManager.SecurityProtocol = (System.Net.SecurityProtocolType)12288
+                                                            | (System.Net.SecurityProtocolType)3072
+                                                            | (System.Net.SecurityProtocolType)768
+                                                            | System.Net.SecurityProtocolType.Tls;
+            Log.Write("TLS 1.3 will be used.");
+        }
+        catch (NotSupportedException) {
+            try { //try TLS 1.2
+                System.Net.ServicePointManager.SecurityProtocol = (System.Net.SecurityProtocolType)3072
+                                                                | (System.Net.SecurityProtocolType)768
+                                                                | System.Net.SecurityProtocolType.Tls;
+                Log.Write("TLS 1.2 will be used.");
+            }
+            catch (NotSupportedException) {
+                try { //try TLS 1.1
+                    System.Net.ServicePointManager.SecurityProtocol = (System.Net.SecurityProtocolType)768
+                                                                    | System.Net.SecurityProtocolType.Tls;
+                    Log.Write("TLS 1.1 will be used, Github updating may be affected.");
+                }
+                catch (NotSupportedException) { //TLS 1.0
+                    System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls;
+                    Log.Write("TLS 1.0 will be used, Github updating may be affected.");
+                }
+            }
+        }
     }
 }

@@ -211,7 +211,7 @@ internal static class Program {
 
             if (hwnd != 0) {
                 if (args.Length > 0) {
-                    SentData Data = new() {
+                    SendLinks Data = new() {
                         Argument = string.Join("|", args)
                     };
                     CopyDataStruct DataStruct = new();

@@ -58,104 +58,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Arguments.cs" />
     <Compile Include="Classes\BatchHelpers.cs" />
     <Compile Include="Classes\ConvertHelper.cs" />
+    <Compile Include="Classes\ConvertInfo.cs" />
     <Compile Include="Classes\DataClasses\FfprobeData.cs" />
+    <Compile Include="Classes\DataClasses\YoutubeDlData.cs" />
     <Compile Include="Classes\DataClasses\YoutubeDlFormat.cs" />
     <Compile Include="Classes\DownloadHelper.cs" />
-    <Compile Include="..\Controls\Enums\AllowedCharacters.cs">
-      <Link>Controls\Shared\Enums\AllowedCharacters.cs</Link>
-    </Compile>
-    <Compile Include="..\Controls\Enums\ButtonAlignment.cs">
-      <Link>Controls\Shared\Enums\ButtonAlignment.cs</Link>
-    </Compile>
-    <Compile Include="..\Controls\Enums\ProgressState.cs">
-      <Link>Controls\Shared\Enums\ProgressState.cs</Link>
-    </Compile>
-    <Compile Include="..\Controls\Interfaces\TaskbarInterface.cs">
-      <Link>Controls\Shared\Interfaces\TaskbarInterface.cs</Link>
-    </Compile>
-    <Compile Include="..\Controls\Enums\TaskbarProgressState.cs">
-      <Link>Controls\Shared\Enums\TaskbarProgressState.cs</Link>
-    </Compile>
-    <Compile Include="..\Controls\Events\RegexMatchEventArgs.cs">
-      <Link>Controls\Shared\Events\RegexMatchEventArgs.cs</Link>
-    </Compile>
-    <Compile Include="Classes\SystemRegistry.cs" />
-    <Compile Include="Config\Point.cs" />
-    <Compile Include="Config\Size.cs" />
-    <Compile Include="Controls\ExitQueueHandler.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Controls\ExtendedListView.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Controls\MessageHandler.cs" />
-    <Compile Include="..\Controls\Natives\Consts.cs">
-      <Link>Controls\Shared\Natives\Consts.cs</Link>
-    </Compile>
-    <Compile Include="..\Controls\Natives\NativeMethods.cs">
-      <Link>Controls\Shared\Natives\NativeMethods.cs</Link>
-    </Compile>
-    <Compile Include="Controls\UacButton.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="CopyData\UpdaterData.cs" />
-    <Compile Include="Enums\ArgumentType.cs" />
-    <Compile Include="Forms\frmArchiveDownloader.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\frmArchiveDownloader.Designer.cs">
-      <DependentUpon>frmArchiveDownloader.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\frmDownloader.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\frmDownloader.Designer.cs">
-      <DependentUpon>frmDownloader.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\frmGenericDownloadProgress.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\frmGenericDownloadProgress.Designer.cs">
-      <DependentUpon>frmGenericDownloadProgress.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\frmFileNameSchemaHistory.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\frmFileNameSchemaHistory.Designer.cs">
-      <DependentUpon>frmFileNameSchemaHistory.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Logging\Exceptions\ApiParsingException.cs" />
-    <Compile Include="Logging\Exceptions\DownloadException.cs" />
-    <Compile Include="Logging\Forms\frmLog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Logging\Forms\frmLog.Designer.cs">
-      <DependentUpon>frmLog.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Logging\Natives\DwmComposition.cs" />
+    <Compile Include="Classes\DownloadInfo.cs" />
     <Compile Include="Classes\Extensions.cs" />
-    <Compile Include="Classes\DataClasses\YoutubeDlData.cs" />
-    <Compile Include="..\Controls\ExtendedProgressBar.cs">
-      <SubType>Component</SubType>
-      <Link>Controls\Shared\ExtendedProgressBar.cs</Link>
-    </Compile>
-    <Compile Include="Enums\StatusIcon.cs" />
-    <Compile Include="Enums\DownloadStatus.cs" />
-    <Compile Include="Enums\PlaylistSelectionType.cs" />
-    <Compile Include="Enums\AudioFormatType.cs" />
-    <Compile Include="Enums\AudioVBRQualityType.cs" />
-    <Compile Include="Enums\AudioCBRQualityType.cs" />
-    <Compile Include="Enums\VideoFormatType.cs" />
-    <Compile Include="Enums\VideoQualityType.cs" />
-    <Compile Include="Enums\DownloadType.cs" />
-    <Compile Include="CopyData\CopyDataStruct.cs" />
-    <Compile Include="CopyData\SentData.cs" />
-    <Compile Include="Enums\ConversionStatus.cs" />
-    <Compile Include="Enums\ConversionType.cs" />
     <Compile Include="Classes\Formats.cs" />
+    <Compile Include="Classes\Language.cs" />
+    <Compile Include="Classes\NativeMethods.cs" />
+    <Compile Include="Classes\SystemRegistry.cs" />
+    <Compile Include="Classes\Verification.cs" />
+    <Compile Include="Config\Config.cs" />
     <Compile Include="Config\ConfigType.cs" />
     <Compile Include="Config\Config_Batch.cs" />
     <Compile Include="Config\Config_Converts.cs" />
@@ -165,42 +82,50 @@
     <Compile Include="Config\Config_Initialization.cs" />
     <Compile Include="Config\Config_Saved.cs" />
     <Compile Include="Config\IniProvider.cs" />
-    <Compile Include="Forms\frmExtendedDownloader.cs">
-      <SubType>Form</SubType>
+    <Compile Include="Config\Point.cs" />
+    <Compile Include="Config\Size.cs" />
+    <Compile Include="..\Controls\Enums\AllowedCharacters.cs">
+      <Link>Controls\Shared\Enums\AllowedCharacters.cs</Link>
     </Compile>
-    <Compile Include="Forms\frmExtendedDownloader.Designer.cs">
-      <DependentUpon>frmExtendedDownloader.cs</DependentUpon>
+    <Compile Include="..\Controls\Enums\ButtonAlignment.cs">
+      <Link>Controls\Shared\Enums\ButtonAlignment.cs</Link>
     </Compile>
-    <Compile Include="GlobalNamespaces.cs" />
-    <Compile Include="Logging\DwmCompositionInfo.cs" />
-    <Compile Include="Logging\DwmCompositionTextInfo.cs" />
-    <Compile Include="Logging\Natives\DwmNatives.cs" />
-    <Compile Include="Logging\ExceptionInfo.cs" />
-    <Compile Include="Runtime\Arrays.cs" />
-    <Compile Include="Forms\frmMerger.cs">
-      <SubType>Form</SubType>
+    <Compile Include="..\Controls\Enums\ProgressState.cs">
+      <Link>Controls\Shared\Enums\ProgressState.cs</Link>
     </Compile>
-    <Compile Include="Forms\frmMerger.Designer.cs">
-      <DependentUpon>frmMerger.cs</DependentUpon>
+    <Compile Include="..\Controls\Enums\TaskbarProgressState.cs">
+      <Link>Controls\Shared\Enums\TaskbarProgressState.cs</Link>
     </Compile>
-    <Compile Include="Updater\API Data\GithubData.cs" />
-    <Compile Include="Updater\API Data\GithubAsset.cs" />
-    <Compile Include="Updater\GithubLinks.cs" />
-    <Compile Include="Updater\GitID.cs" />
-    <Compile Include="Updater\API Data\GithubRepoContent.cs" />
-    <Compile Include="Updater\Version.cs" />
+    <Compile Include="..\Controls\Events\RegexMatchEventArgs.cs">
+      <Link>Controls\Shared\Events\RegexMatchEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\Controls\Interfaces\TaskbarInterface.cs">
+      <Link>Controls\Shared\Interfaces\TaskbarInterface.cs</Link>
+    </Compile>
+    <Compile Include="..\Controls\Natives\Consts.cs">
+      <Link>Controls\Shared\Natives\Consts.cs</Link>
+    </Compile>
+    <Compile Include="..\Controls\Natives\NativeMethods.cs">
+      <Link>Controls\Shared\Natives\NativeMethods.cs</Link>
+    </Compile>
     <Compile Include="..\Controls\BetterFolderBrowser.cs">
       <SubType>Component</SubType>
       <Link>Controls\Shared\BetterFolderBrowser.cs</Link>
     </Compile>
-    <Compile Include="Classes\ConvertInfo.cs" />
-    <Compile Include="CopyData\CopyData.cs" />
-    <Compile Include="Config\Config.cs" />
-    <Compile Include="Classes\DownloadInfo.cs" />
-    <Compile Include="Classes\Language.cs" />
-    <Compile Include="Classes\NativeMethods.cs" />
-    <Compile Include="Updater\UpdateChecker.cs" />
-    <Compile Include="Logging\Log.cs" />
+    <Compile Include="Controls\ExitQueueHandler.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="..\Controls\ExtendedLinkLabel.cs">
+      <SubType>Component</SubType>
+      <Link>Controls\Shared\ExtendedLinkLabel.cs</Link>
+    </Compile>
+    <Compile Include="Controls\ExtendedListView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="..\Controls\ExtendedProgressBar.cs">
+      <SubType>Component</SubType>
+      <Link>Controls\Shared\ExtendedProgressBar.cs</Link>
+    </Compile>
     <Compile Include="..\Controls\ExtendedRichTextBox.cs">
       <SubType>Component</SubType>
       <Link>Controls\Shared\ExtendedRichTextBox.cs</Link>
@@ -209,19 +134,55 @@
       <SubType>Component</SubType>
       <Link>Controls\Shared\ExtendedTextBox.cs</Link>
     </Compile>
-    <Compile Include="..\Controls\ExtendedLinkLabel.cs">
-      <SubType>Component</SubType>
-      <Link>Controls\Shared\ExtendedLinkLabel.cs</Link>
-    </Compile>
+    <Compile Include="Controls\MessageHandler.cs" />
     <Compile Include="..\Controls\SplitButton.cs">
       <SubType>Component</SubType>
       <Link>Controls\Shared\SplitButton.cs</Link>
     </Compile>
+    <Compile Include="Controls\UacButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="..\CopyData\CopyData.cs">
+      <Link>CopyData\CopyData.cs</Link>
+    </Compile>
+    <Compile Include="..\CopyData\CopyDataStruct.cs">
+      <Link>CopyData\CopyDataStruct.cs</Link>
+    </Compile>
+	  <Compile Include="..\CopyData\SendLinks.cs">
+		  <Link>CopyData\SendLinks.cs</Link>
+	  </Compile>
+    <Compile Include="..\CopyData\UpdaterData.cs">
+      <Link>CopyData\UpdaterData.cs</Link>
+    </Compile>
+    <Compile Include="Enums\ArgumentType.cs" />
+    <Compile Include="Enums\AudioCBRQualityType.cs" />
+    <Compile Include="Enums\AudioFormatType.cs" />
+    <Compile Include="Enums\AudioVBRQualityType.cs" />
+    <Compile Include="Enums\ConversionStatus.cs" />
+    <Compile Include="Enums\ConversionType.cs" />
+    <Compile Include="Enums\DownloadStatus.cs" />
+    <Compile Include="Enums\DownloadType.cs" />
+    <Compile Include="Enums\PlaylistSelectionType.cs" />
+    <Compile Include="Enums\StatusIcon.cs" />
+    <Compile Include="Enums\VideoFormatType.cs" />
+    <Compile Include="Enums\VideoQualityType.cs" />
     <Compile Include="Forms\frmAbout.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\frmAbout.Designer.cs">
       <DependentUpon>frmAbout.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmArchiveDownloader.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmArchiveDownloader.Designer.cs">
+      <DependentUpon>frmArchiveDownloader.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmAuthentication.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmAuthentication.Designer.cs">
+      <DependentUpon>frmAuthentication.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\frmBatchConverter.cs">
       <SubType>Form</SubType>
@@ -241,17 +202,35 @@
     <Compile Include="Forms\frmConverter.Designer.cs">
       <DependentUpon>frmConverter.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\frmDownloader.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmDownloader.Designer.cs">
+      <DependentUpon>frmDownloader.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\frmDownloadLanguage.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\frmDownloadLanguage.Designer.cs">
       <DependentUpon>frmDownloadLanguage.cs</DependentUpon>
     </Compile>
-    <Compile Include="Logging\Forms\frmException.cs">
+    <Compile Include="Forms\frmExtendedDownloader.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Logging\Forms\frmException.Designer.cs">
-      <DependentUpon>frmException.cs</DependentUpon>
+    <Compile Include="Forms\frmExtendedDownloader.Designer.cs">
+      <DependentUpon>frmExtendedDownloader.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmFileNameSchemaHistory.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmFileNameSchemaHistory.Designer.cs">
+      <DependentUpon>frmFileNameSchemaHistory.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmGenericDownloadProgress.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmGenericDownloadProgress.Designer.cs">
+      <DependentUpon>frmGenericDownloadProgress.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\frmLanguage.cs">
       <SubType>Form</SubType>
@@ -265,6 +244,18 @@
     <Compile Include="Forms\frmMain.Designer.cs">
       <DependentUpon>frmMain.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\frmMerger.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmMerger.Designer.cs">
+      <DependentUpon>frmMerger.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmMiscTools.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmMiscTools.Designer.cs">
+      <DependentUpon>frmMiscTools.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\frmSettings.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -277,31 +268,53 @@
     <Compile Include="Forms\frmSubtitles.Designer.cs">
       <DependentUpon>frmSubtitles.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\frmMiscTools.cs">
+    <Compile Include="Logging\Exceptions\ApiParsingException.cs" />
+    <Compile Include="Logging\Exceptions\DownloadException.cs" />
+    <Compile Include="Logging\Forms\frmException.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmMiscTools.Designer.cs">
-      <DependentUpon>frmMiscTools.cs</DependentUpon>
+    <Compile Include="Logging\Forms\frmException.Designer.cs">
+      <DependentUpon>frmException.cs</DependentUpon>
     </Compile>
+    <Compile Include="Logging\Forms\frmLog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Logging\Forms\frmLog.Designer.cs">
+      <DependentUpon>frmLog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Logging\Natives\DwmComposition.cs" />
+    <Compile Include="Logging\Natives\DwmNatives.cs" />
+    <Compile Include="Logging\DwmCompositionInfo.cs" />
+    <Compile Include="Logging\DwmCompositionTextInfo.cs" />
+    <Compile Include="Logging\ExceptionInfo.cs" />
+    <Compile Include="Logging\Log.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Runtime\Arrays.cs" />
+    <Compile Include="Runtime\CompilerServices.cs" />
+    <Compile Include="Runtime\Index.cs" />
+    <Compile Include="Runtime\Range.cs" />
+    <Compile Include="Updater\API Data\GithubAsset.cs" />
+    <Compile Include="Updater\API Data\GithubData.cs" />
+    <Compile Include="Updater\API Data\GithubRepoContent.cs" />
     <Compile Include="Updater\Form\frmUpdateAvailable.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Updater\Form\frmUpdateAvailable.Designer.cs">
       <DependentUpon>frmUpdateAvailable.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\frmAuthentication.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\frmAuthentication.Designer.cs">
-      <DependentUpon>frmAuthentication.cs</DependentUpon>
-    </Compile>
+    <Compile Include="Updater\GithubLinks.cs" />
+    <Compile Include="Updater\GitID.cs" />
+    <Compile Include="Updater\Version.cs" />
+    <Compile Include="Updater\UpdateChecker.cs" />
+    <Compile Include="Arguments.cs" />
+    <Compile Include="GlobalNamespaces.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Classes\Verification.cs" />
-    <Compile Include="Runtime\CompilerServices.cs" />
-    <Compile Include="Runtime\Index.cs" />
-    <Compile Include="Runtime\Range.cs" />
     <EmbeddedResource Include="Forms\frmAbout.resx">
       <DependentUpon>frmAbout.cs</DependentUpon>
     </EmbeddedResource>
@@ -320,23 +333,20 @@
     <EmbeddedResource Include="Forms\frmConverter.resx">
       <DependentUpon>frmConverter.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmDownloadLanguage.resx">
-      <DependentUpon>frmDownloadLanguage.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmDownloader.resx">
       <DependentUpon>frmDownloader.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmGenericDownloadProgress.resx">
-      <DependentUpon>frmGenericDownloadProgress.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\frmDownloadLanguage.resx">
+      <DependentUpon>frmDownloadLanguage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmExtendedDownloader.resx">
+      <DependentUpon>frmExtendedDownloader.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmFileNameSchemaHistory.resx">
       <DependentUpon>frmFileNameSchemaHistory.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Logging\Forms\frmException.resx">
-      <DependentUpon>frmException.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmExtendedDownloader.resx">
-      <DependentUpon>frmExtendedDownloader.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\frmGenericDownloadProgress.resx">
+      <DependentUpon>frmGenericDownloadProgress.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmLanguage.resx">
       <DependentUpon>frmLanguage.cs</DependentUpon>
@@ -344,17 +354,20 @@
     <EmbeddedResource Include="Forms\frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmMerger.resx">
+      <DependentUpon>frmMerger.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmMiscTools.resx">
+      <DependentUpon>frmMiscTools.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmSettings.resx">
       <DependentUpon>frmSettings.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmSubtitles.resx">
       <DependentUpon>frmSubtitles.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmMiscTools.resx">
-      <DependentUpon>frmMiscTools.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Updater\Form\frmUpdateAvailable.resx">
-      <DependentUpon>frmUpdateAvailable.cs</DependentUpon>
+    <EmbeddedResource Include="Logging\Forms\frmException.resx">
+      <DependentUpon>frmException.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Logging\Forms\frmLog.resx">
       <DependentUpon>frmLog.cs</DependentUpon>
@@ -364,13 +377,8 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <EmbeddedResource Include="Forms\frmMerger.resx">
-      <DependentUpon>frmMerger.cs</DependentUpon>
+    <EmbeddedResource Include="Updater\Form\frmUpdateAvailable.resx">
+      <DependentUpon>frmUpdateAvailable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -390,23 +398,6 @@
     <Content Include="Resources\ProgramIcon.ico" />
     <Content Include="Resources\AboutImage.png" />
   </ItemGroup>
-  <ItemGroup>
-    <BootstrapperPackage Include=".NETFramework,Version=v4.5">
-      <Visible>False</Visible>
-      <ProductName>Microsoft .NET Framework 4.5 %28x86 and x64%29</ProductName>
-      <Install>true</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
-      <Install>false</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1</ProductName>
-      <Install>false</Install>
-    </BootstrapperPackage>
-  </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
@@ -419,11 +410,4 @@ if $(ConfigurationName) == Release (del "$(SolutionDir)Release\$(ProjectName).zi
 if $(ConfigurationName) == Release (7z a -mm=Deflate -mfb=128 -r "$(SolutionDir)Release\$(ProjectName).zip" "$(SolutionDir)Release\*")
 if $(ConfigurationName) == Release "$(SolutionDir)HashCalcConsole.exe" "$(SolutionDir)Release\$(ProjectName).exe" "$(SolutionDir)Release\$(ProjectName).zip"</PostBuildEvent>
   </PropertyGroup>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>
