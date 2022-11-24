@@ -49,7 +49,7 @@ public partial class frmMain : Form {
                     Log.Write("Multiple arguments");
                     var RetrievedArguments = Arguments.RetrieveArguments(ReceivedArguments);
                     if (RetrievedArguments.Count > 0)
-                        Program.CheckArgs(false, RetrievedArguments);
+                        Program.CheckArgs(RetrievedArguments);
                 }
                 m.Result = IntPtr.Zero;
             } break;

@@ -24,8 +24,13 @@ internal sealed class CopyData {
     }
 
     public static T GetParam<T>(nint LParam) {
-        var DataStruct = Marshal.PtrToStructure<CopyDataStruct>(LParam);
-        return Marshal.PtrToStructure<T>(DataStruct.lpData);
+        try {
+            var DataStruct = Marshal.PtrToStructure<CopyDataStruct>(LParam);
+            return Marshal.PtrToStructure<T>(DataStruct.lpData);
+        }
+        catch {
+            return default;
+        }
     }
 
     [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]

@@ -85,6 +85,9 @@
     <Compile Include="Classes\SystemRegistry.cs" />
     <Compile Include="Config\Point.cs" />
     <Compile Include="Config\Size.cs" />
+    <Compile Include="Controls\ExitQueueHandler.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Controls\ExtendedListView.cs">
       <SubType>Component</SubType>
     </Compile>

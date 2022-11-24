@@ -12,7 +12,7 @@ internal static class Program {
     /// <summary>
     /// Gets the curent version of the program.
     /// </summary>
-    public static Version CurrentVersion { get; } = new(3, 2, 0);
+    public static Version CurrentVersion { get; } = new(3, 2, 1);
     /// <summary>
     /// Gets whether the program is running in debug mode.
     /// </summary>
@@ -47,9 +47,9 @@ internal static class Program {
     /// <summary>
     /// Represents the GUID of the program. Used for enforcing the mutex.
     /// </summary>
-    private static GuidAttribute ProgramGUID {
+    public static string ProgramGUID {
         get;
-    } = (GuidAttribute)Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(GuidAttribute), true)[0];
+    } = ((GuidAttribute)Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(GuidAttribute), true)[0]).Value;
     /// <summary>
     /// The full path of the program.
     /// </summary>
@@ -97,10 +97,6 @@ internal static class Program {
     /// </summary>
     private static frmMain MainForm { get; set; }
     /// <summary>
-    /// The idle thread used when argument-downloads are ran, to prevent the program from dying too early.
-    /// </summary>
-    private static Thread ArgumentWaitThread { get; set; }
-    /// <summary>
     /// The message handler for the updater.
     /// </summary>
     private static MessageHandler Messages { get; set; }
@@ -111,7 +107,7 @@ internal static class Program {
         DebugMode = true;
 #endif
 
-        if (DebugMode || (Instance = new(true, ProgramGUID.Value)).WaitOne(TimeSpan.Zero, true)) {
+        if (DebugMode || (Instance = new(true, ProgramGUID)).WaitOne(TimeSpan.Zero, true)) {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             IsAdmin = new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator);
@@ -174,6 +170,7 @@ internal static class Program {
                 && MessageBox.Show(Language.dlgFirstTimeDownloadYoutubeDl, Language.ApplicationName, MessageBoxButtons.YesNo) == DialogResult.Yes
                 && UpdateChecker.CheckForYoutubeDlUpdate())
                     UpdateChecker.UpdateYoutubeDl(null);
+
                 if (Verification.FFmpegPath.IsNullEmptyWhitespace() &&
                 MessageBox.Show(Language.dlgFirstTimeDownloadFfmpeg, Language.ApplicationName, MessageBoxButtons.YesNo) == DialogResult.Yes)
                     UpdateChecker.UpdateFfmpeg(null);
@@ -193,8 +190,8 @@ internal static class Program {
             SetTls();
 
             Arguments.ParseArguments(args);
-            if (CheckArgs(true)) {
-                //AwaitActions();
+            if (CheckArgs()) {
+                AwaitActions();
                 return 0;
             }
 
@@ -208,6 +205,10 @@ internal static class Program {
         }
         else {
             nint hwnd = CopyData.FindWindow(null, Language.ApplicationName);
+
+            if (hwnd == 0 && args.Length > 0)
+                hwnd = CopyData.FindWindow(null, ProgramGUID);
+
             if (hwnd != 0) {
                 if (args.Length > 0) {
                     SentData Data = new() {
@@ -229,7 +230,9 @@ internal static class Program {
                         CopyData.NintFree(ref DataBuffer);
                     }
                 }
-                CopyData.SendMessage(hwnd, CopyData.WM_SHOWFORM, 0, 0);
+                else {
+                    CopyData.SendMessage(hwnd, CopyData.WM_SHOWFORM, 0, 0);
+                }
             }
 
             return 1152;
@@ -243,28 +246,7 @@ internal static class Program {
     }
 
     private static void AwaitActions() {
-        Form IdleForm = new() {
-            Opacity = 0,
-            FormBorderStyle = FormBorderStyle.None,
-            ShowIcon = false,
-            ShowInTaskbar = false,
-        };
-        IdleForm.Load += (s, e) => {
-            ArgumentWaitThread = new(() => {
-                Log.Write("Awaiting for the rest of the download actions.");
-
-                while (RunningActions.Count > 0)
-                    Thread.Sleep(2500);
-
-                Log.Write("Idle form no longer required.");
-                IdleForm.Invoke(() => IdleForm.Dispose());
-            }) {
-                Name = "Awaiting actions"
-            };
-            ArgumentWaitThread.Start();
-        };
-        Application.Run(IdleForm);
-        Thread.Sleep(5000);
+        Application.Run(new ExitQueueHandler());
     }
 
     internal static void KillProcessTree(uint ProcessId) {
@@ -289,7 +271,7 @@ internal static class Program {
         }
     }
 
-    internal static bool CheckArgs(bool UseDialog, List<(ArgumentType Type, string Data)> args = null) {
+    internal static bool CheckArgs(List<(ArgumentType Type, string Data)> args = null) {
         args ??= Arguments.ParsedArguments;
         if (args.Count > 0) {
             int PassedCount = 0;
@@ -297,7 +279,7 @@ internal static class Program {
                 switch (args[i].Type) {
                     case ArgumentType.DownloadVideo when !args[i].Data.IsNullEmptyWhitespace(): {
                         if (Config.Settings.Downloads.ExtendedDownloaderPreferExtendedForm) {
-                            new frmExtendedDownloader(args[i].Data, false).ShowIfCondition(UseDialog);
+                            new frmExtendedDownloader(args[i].Data, false).Show();
                         }
                         else {
                             DownloadInfo NewVideo = new() {
@@ -305,13 +287,13 @@ internal static class Program {
                                 Type = DownloadType.Video,
                                 VideoQuality = (VideoQualityType)Config.Settings.Saved.videoQuality
                             };
-                            new frmDownloader(NewVideo).ShowIfCondition(UseDialog);
+                            new frmDownloader(NewVideo).Show();
                         }
                         PassedCount++;
                     } break;
                     case ArgumentType.DownloadAudio when !args[i].Data.IsNullEmptyWhitespace(): {
                         if (Config.Settings.Downloads.ExtendedDownloaderPreferExtendedForm) {
-                            new frmExtendedDownloader(args[i].Data, false).ShowIfCondition(UseDialog);
+                            new frmExtendedDownloader(args[i].Data, false).Show();
                         }
                         else {
                             DownloadInfo NewAudio = new() {
@@ -324,20 +306,20 @@ internal static class Program {
                             else {
                                 NewAudio.AudioCBRQuality = (AudioCBRQualityType)Config.Settings.Saved.audioQuality;
                             }
-                            new frmDownloader(NewAudio).ShowIfCondition(UseDialog);
+                            new frmDownloader(NewAudio).Show();
                         }
                         PassedCount++;
                     } break;
                     case ArgumentType.DownloadCustom when !args[i].Data.IsNullEmptyWhitespace(): {
                         if (Config.Settings.Downloads.ExtendedDownloaderPreferExtendedForm) {
-                            new frmExtendedDownloader(args[i].Data, false).ShowIfCondition(UseDialog);
+                            new frmExtendedDownloader(args[i].Data, false).Show();
                         }
                         else {
                             DownloadInfo NewCustom = new() {
                                 DownloadURL = args[i].Data,
                                 Type = DownloadType.Custom,
                             };
-                            new frmDownloader(NewCustom).ShowIfCondition(UseDialog);
+                            new frmDownloader(NewCustom).Show();
                         }
                         PassedCount++;
                     } break;

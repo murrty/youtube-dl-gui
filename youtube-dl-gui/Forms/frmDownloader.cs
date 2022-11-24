@@ -19,6 +19,7 @@ namespace youtube_dl_gui {
         }
 
         public frmDownloader() {
+            Program.RunningActions.Add(this);
             InitializeComponent();
             LoadLanguage();
             this.Debug = true;
@@ -219,7 +220,6 @@ namespace youtube_dl_gui {
             rtbVerbose.AppendLine("Creating download thread");
             Log.Write("Beginning download thread.");
             DownloadThread = new Thread(() => {
-                Program.RunningActions.Add(this);
                 string InterimMessage;
                 try {
                     DownloadProcess = new Process() {
