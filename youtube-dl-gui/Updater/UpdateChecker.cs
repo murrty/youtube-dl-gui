@@ -1,5 +1,4 @@
 ﻿namespace youtube_dl_gui;
-
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
@@ -7,11 +6,11 @@ using System.Net;
 using System.Threading;
 using System.Windows.Forms;
 using murrty.updater;
-
-internal class UpdateChecker {
-    #region Fields & Properties
-    private const string KnownUpdaterHash = "3824224AD44847DDF27C38714E068A0408210771CEDD3625B25ABFBCBD7E5C51";
+internal sealed class UpdateChecker {
+    private const string KnownUpdaterHash = "FF477510CD1ADEF8B0873D1F71F20AAA7F1D24107A0F6B59ADCE1F403C782B84";
     private const string FfmpegDownloadLink = "https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-essentials.zip";
+
+    #region Properties
     public static GithubData LastChecked { get; private set; }
     public static GithubData LastCheckedLatestRelease { get; private set; }
     public static GithubData LastCheckedAllRelease { get; private set; }
@@ -79,25 +78,33 @@ internal class UpdateChecker {
     /// </summary>
     public static void UpdateApplication() {
         Log.Write("Running updater.");
+        string UpdaterPath = Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe";
+
         // Delete the file that already exists
-        if (File.Exists(Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe") && Program.CalculateSha256Hash(Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe") != KnownUpdaterHash.ToLowerInvariant()) {
-            // Delete the old one & Write the one from resource.
-            File.Delete(Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe");
+        if (File.Exists(UpdaterPath)) {
+            if (!Program.DebugMode && Program.CalculateSha256Hash(UpdaterPath) != KnownUpdaterHash.ToLowerInvariant()) {
+                // Delete the old one & Write the one from resource.
+                File.Delete(UpdaterPath);
+
+                // Write it.
+                File.WriteAllBytes(UpdaterPath, Properties.Resources.youtube_dl_gui_updater);
+            }
+        }
+        else {
+            // Write it.
+            File.WriteAllBytes(UpdaterPath, Properties.Resources.youtube_dl_gui_updater);
         }
 
-        // Write it.
-        File.WriteAllBytes(Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe", Properties.Resources.youtube_dl_gui_updater);
-
         // Sanity check the updater.
-        if (Program.CalculateSha256Hash(Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe") != KnownUpdaterHash.ToLowerInvariant() && MessageBox.Show(Language.dlgUpdaterHashNoMatch, Language.ApplicationName, MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No) {
-            File.Delete(Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe");
+        if (Program.CalculateSha256Hash(UpdaterPath) != KnownUpdaterHash.ToLowerInvariant() && MessageBox.Show(Language.dlgUpdaterHashNoMatch, Language.ApplicationName, MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No) {
+            File.Delete(UpdaterPath);
             return;
         }
 
         Process Updater = new() {
             StartInfo = new() {
                 Arguments = $"-pid {Process.GetCurrentProcess().Id} -hwnd {Program.GetMessagesHandle()}",
-                FileName = Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe",
+                FileName = UpdaterPath,
                 WorkingDirectory = Environment.CurrentDirectory
             }
         };

@@ -316,8 +316,10 @@ RetryDownload:
             StartUpdate();
         }
 
-        // In theory: the user shouldn't ever reach a state where either of those don't happen.
-        // But, just in case...
-        throw new ApplicationException("The updater does not have a known update method.");
+        else {
+            // In theory: the user shouldn't ever reach a state where either of those don't happen.
+            // But, just in case...
+            throw new ApplicationException("The updater does not have a known update method.");
+        }
     }
 }
