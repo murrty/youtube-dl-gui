@@ -264,7 +264,7 @@ public static class Language {
             }
         }
         catch (Exception ex) {
-            Log.ReportRetriableLanguageException(ex);
+            Log.ReportLanguageException(ex, true);
             return false;
         }
     }

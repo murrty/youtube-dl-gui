@@ -55,33 +55,33 @@
     <Compile Include="Classes\NativeMethods.cs" />
     <Compile Include="Classes\ProgramData.cs" />
     <Compile Include="Classes\Serializer.cs" />
-    <Compile Include="..\Controls\Enums\HttpMethod.cs">
+    <Compile Include="..\Shared\Controls\Enums\HttpMethod.cs">
       <Link>Controls\Shared\Enums\HttpMethod.cs</Link>
     </Compile>
-    <Compile Include="..\Controls\Enums\ProgressState.cs">
+    <Compile Include="..\Shared\Controls\Enums\ProgressState.cs">
       <Link>Controls\Shared\Enums\ProgressState.cs</Link>
     </Compile>
-    <Compile Include="..\Controls\Enums\TaskbarProgressState.cs">
+    <Compile Include="..\Shared\Controls\Enums\TaskbarProgressState.cs">
       <Link>Controls\Shared\Enums\TaskbarProgressState.cs</Link>
     </Compile>
-    <Compile Include="..\Controls\Interfaces\TaskbarInterface.cs">
+    <Compile Include="..\Shared\Controls\Interfaces\TaskbarInterface.cs">
       <Link>Controls\Shared\Interfaces\TaskbarInterface.cs</Link>
     </Compile>
-    <Compile Include="..\Controls\Natives\Consts.cs">
+    <Compile Include="..\Shared\Controls\Natives\Consts.cs">
       <Link>Controls\Shared\Natives\Consts.cs</Link>
     </Compile>
-    <Compile Include="..\Controls\Natives\NativeMethods.cs">
+    <Compile Include="..\Shared\Controls\Natives\NativeMethods.cs">
       <Link>Controls\Shared\Natives\NativeMethods.cs</Link>
     </Compile>
-    <Compile Include="..\Controls\ExtendedProgressBar.cs">
+    <Compile Include="..\Shared\Controls\ExtendedProgressBar.cs">
       <SubType>Component</SubType>
       <Link>Controls\Shared\ExtendedProgressBar.cs</Link>
     </Compile>
-    <Compile Include="..\Controls\ExtendedRichTextBox.cs">
+    <Compile Include="..\Shared\Controls\ExtendedRichTextBox.cs">
       <SubType>Component</SubType>
       <Link>Controls\Shared\ExtendedRichTextBox.cs</Link>
     </Compile>
-    <Compile Include="..\Controls\ExtendedWebClient.cs">
+    <Compile Include="..\Shared\Controls\ExtendedWebClient.cs">
       <SubType>Component</SubType>
       <Link>Controls\Shared\ExtendedWebClient.cs</Link>
     </Compile>
@@ -98,29 +98,30 @@
     <Compile Include="Forms\frmUpdater.Designer.cs">
       <DependentUpon>frmUpdater.cs</DependentUpon>
     </Compile>
-	<Compile Include="..\CopyData\CopyDataStruct.cs">
-		<Link>CopyData\CopyDataStruct.cs</Link>
-	</Compile>
-	<Compile Include="..\CopyData\CopyData.cs">
-		<Link>CopyData\CopyData.cs</Link>
-	</Compile>
-	<Compile Include="..\CopyData\UpdaterData.cs">
-		<Link>CopyData\UpdaterData.cs</Link>
-	</Compile>
+    <Compile Include="..\Shared\CopyData\CopyDataStruct.cs">
+      <Link>CopyData\CopyDataStruct.cs</Link>
+    </Compile>
+    <Compile Include="..\Shared\CopyData\CopyData.cs">
+      <Link>CopyData\CopyData.cs</Link>
+    </Compile>
+    <Compile Include="..\Shared\CopyData\UpdaterData.cs">
+      <Link>CopyData\UpdaterData.cs</Link>
+    </Compile>
     <Compile Include="Interfaces\IUpdateForm.cs" />
-    <Compile Include="Log\Exceptions\ApiParsingException.cs" />
-    <Compile Include="Log\Forms\frmException.cs">
+    <Compile Include="Logging\Exceptions\ApiParsingException.cs" />
+    <Compile Include="Logging\ExceptionType.cs" />
+    <Compile Include="Logging\Forms\frmException.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Log\Forms\frmException.Designer.cs">
+    <Compile Include="Logging\Forms\frmException.Designer.cs">
       <DependentUpon>frmException.cs</DependentUpon>
     </Compile>
-    <Compile Include="Log\Natives\DwmComposition.cs" />
-    <Compile Include="Log\Natives\DwmNatives.cs" />
-    <Compile Include="Log\DwmCompositionInfo.cs" />
-    <Compile Include="Log\DwmCompositionTextInfo.cs" />
-    <Compile Include="Log\ExceptionInfo.cs" />
-    <Compile Include="Log\Log.cs" />
+    <Compile Include="Logging\Natives\DwmComposition.cs" />
+    <Compile Include="Logging\Natives\DwmNatives.cs" />
+    <Compile Include="Logging\DwmCompositionInfo.cs" />
+    <Compile Include="Logging\DwmCompositionTextInfo.cs" />
+    <Compile Include="Logging\ExceptionInfo.cs" />
+    <Compile Include="Logging\Log.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -137,7 +138,7 @@
     <EmbeddedResource Include="Forms\frmUpdater.resx">
       <DependentUpon>frmUpdater.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Log\Forms\frmException.resx">
+    <EmbeddedResource Include="Logging\Forms\frmException.resx">
       <DependentUpon>frmException.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">

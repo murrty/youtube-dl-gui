@@ -6,7 +6,7 @@ using System.Security.Cryptography;
 using System.Threading;
 using System.Windows.Forms;
 
-using youtube_dl_gui;
+using youtube_dl_gui_updater;
 using murrty.classes;
 
 /// <summary>
@@ -61,7 +61,7 @@ public partial class frmException : Form {
         LoadLanguage();
 
         // The icon for the exception form.
-        this.Icon = global::youtube_dl_gui.Properties.Resources.ProgramIcon;
+        this.Icon = global::youtube_dl_gui_updater.Properties.Resources.ProgramIcon;
 
         // Check if there is a valid github link
         btnExceptionGithub.Enabled = true;

@@ -3425,13 +3425,9 @@ public static class Language {
             }
         }
         catch (Exception ex) {
-            using murrty.forms.frmException error = new(new(ex) {
-                FromLanguage = true,
-                AllowRetry = true
-            });
-            if (error.ShowDialog() == System.Windows.Forms.DialogResult.Retry) {
+            if (Log.ReportLanguageException(ex, true) == System.Windows.Forms.DialogResult.Retry)
                 return LoadLanguage(LanguageFile);
-            }
+
             LoadInternalEnglish();
             return false;
         }

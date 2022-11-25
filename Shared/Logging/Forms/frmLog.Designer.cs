@@ -16,8 +16,8 @@
             this.panelControls = new System.Windows.Forms.Panel();
             this.btnTestLine = new System.Windows.Forms.Button();
             this.lbLines = new System.Windows.Forms.Label();
-            this.btnClear = new System.Windows.Forms.Button();
-            this.btnClose = new System.Windows.Forms.Button();
+            this.btnClear = new murrty.controls.ExtendedButton();
+            this.btnClose = new murrty.controls.ExtendedButton();
             this.tcMain = new System.Windows.Forms.TabControl();
             this.tpMainLog = new System.Windows.Forms.TabPage();
             this.rtbLog = new murrty.controls.ExtendedRichTextBox();
@@ -27,10 +27,12 @@
             this.tcExceptions = new System.Windows.Forms.TabControl();
             this.cmLog = new System.Windows.Forms.ContextMenu();
             this.mCopyText = new System.Windows.Forms.MenuItem();
+            this.vmLogger = new wyDay.Controls.VistaMenu(this.components);
             this.panelControls.SuspendLayout();
             this.tcMain.SuspendLayout();
             this.tpMainLog.SuspendLayout();
             this.tpExceptions.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.vmLogger)).BeginInit();
             this.SuspendLayout();
             // 
             // panelControls
@@ -116,6 +118,7 @@
             this.rtbLog.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.rtbLog.Location = new System.Drawing.Point(3, 3);
             this.rtbLog.Name = "rtbLog";
+            this.rtbLog.ShowLineNumbers = true;
             this.rtbLog.Size = new System.Drawing.Size(620, 421);
             this.rtbLog.TabIndex = 1;
             this.rtbLog.Text = "";
@@ -172,10 +175,15 @@
             // 
             // mCopyText
             // 
+            this.vmLogger.SetImage(this.mCopyText, global::aphrodite.Properties.Resources.CopyIcon);
             this.mCopyText.Index = 0;
             this.mCopyText.Shortcut = System.Windows.Forms.Shortcut.CtrlC;
             this.mCopyText.Text = "Copy   ";
             this.mCopyText.Click += new System.EventHandler(this.mCopyText_Click);
+            // 
+            // vmLogger
+            // 
+            this.vmLogger.ContainerControl = this;
             // 
             // frmLog
             // 
@@ -198,6 +206,7 @@
             this.tpMainLog.ResumeLayout(false);
             this.tpExceptions.ResumeLayout(false);
             this.tpExceptions.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.vmLogger)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -206,8 +215,8 @@
 
         public murrty.controls.ExtendedRichTextBox rtbLog;
         private System.Windows.Forms.Panel panelControls;
-        private System.Windows.Forms.Button btnClear;
-        private System.Windows.Forms.Button btnClose;
+        private murrty.controls.ExtendedButton btnClear;
+        private murrty.controls.ExtendedButton btnClose;
         private System.Windows.Forms.Label lbLines;
         private System.Windows.Forms.TabControl tcMain;
         private System.Windows.Forms.TabPage tpMainLog;
@@ -218,5 +227,6 @@
         private System.Windows.Forms.ContextMenu cmLog;
         private System.Windows.Forms.MenuItem mCopyText;
         private System.Windows.Forms.Button btnTestLine;
+        private wyDay.Controls.VistaMenu vmLogger;
     }
 }

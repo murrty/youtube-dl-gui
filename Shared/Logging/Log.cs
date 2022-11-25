@@ -1,23 +1,28 @@
-﻿#define ALLOWUNHANDLEDCATCHING
+﻿/// Log is a part of https://github.com/murrty/aphrodite booru downloader.
+/// Licensed via GPL-3.0, if you did not receieve a license with this file; idk figure it out.
+/// This code, *as-is*, should not be a part of another project; it should really only be used as reference or testing.
+
+// This definintion will allow the application to catch unhandled exceptions.
+// Not useful for debugging, but useful for exception handling debugging.
+#define ALLOWUNHANDLEDCATCHING
 namespace murrty.logging;
 
 using System.Diagnostics;
 using System.Management;
-using System.Threading;
 using System.Windows.Forms;
+using aphrodite;
 
-using youtube_dl_gui;
 using WinMsg = System.Windows.Forms.MessageBox;
 
 /// <summary>
-/// This class will control the Errors that get reported in try statements.
+/// The central logging system used to handle the log form, log messages, report exceptions, and display message boxes.
 /// </summary>
-internal static class Log {
+public static class Log {
     #region Properties & Fields
     /// <summary>
     /// The default value that should appear in the message box titles.
     /// </summary>
-    public const string MessageBoxTitle = Language.ApplicationName;
+    public const string MessageBoxTitle = "aphrodite";
 
     /// <summary>
     /// The log form that is used globally to log data.
@@ -56,8 +61,7 @@ internal static class Log {
     /// <summary>
     /// Initializes the log.
     /// </summary>
-    public static void InitializeLogging() {
-        // Catch any exceptions that are unhandled, so we can report it.
+    internal static void InitializeLogging() {
 #if !DEBUG || ALLOWUNHANDLEDCATCHING
         try {
             Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
@@ -95,26 +99,22 @@ internal static class Log {
         }
 #endif
 
-        // Build up a string containing relevant information about the computer.
         Write("Creating ComputerVersionInformation for exceptions.");
-        ManagementObjectSearcher MgtSearcher = new("SELECT * FROM Win32_OperatingSystem");
-        ManagementObject MgtInfo = MgtSearcher?.Get().Cast<ManagementObject>().FirstOrDefault();
-        ComputerVersionInformation = $$"""
-            Current Version: {{Program.CurrentVersion}}
-            Current Culture: {{Thread.CurrentThread.CurrentCulture.EnglishName}}
-            """ + "\n" + (MgtInfo is null ? "The ManagementObject for Win32_OperatingSystem is null and cannot be used." : $$"""
-            System Caption: {{MgtInfo.Properties["Caption"].Value ?? "couldn't query"}}
-            System Version: {{MgtInfo.Properties["Version"].Value ?? "couldn't query"}}
-            Service Pack Major: {{MgtInfo.Properties["ServicePackMajorVersion"].Value ?? "couldn't query"}}
-            Service Pack Minor: {{MgtInfo.Properties["ServicePackMinorVersion"].Value ?? "couldn't query"}}
-            """);
+        ManagementObjectSearcher searcher = new("SELECT * FROM Win32_OperatingSystem");
+        ManagementObject info = searcher?.Get().Cast<ManagementObject>().FirstOrDefault();
+        ComputerVersionInformation = info is not null ?
+            $"System Caption: {info.Properties["Caption"].Value ?? "couldn't query"}\n" +
+            $"Version: {info.Properties["Version"].Value ?? "couldn't query"}\n" +
+            $"Service Pack Major: {info.Properties["ServicePackMajorVersion"].Value ?? "couldn't query"}\n" +
+            $"Service Pack Minor: {info.Properties["ServicePackMinorVersion"].Value ?? "couldn't query"}" :
+            "The ManagementObject for Win32_OperatingSystem is null and cannot be used.";
     }
 
     /// <summary>
     /// Enables the logging form.
     /// </summary>
     //[DebuggerStepThrough]
-    public static void EnableLogging() {
+    internal static void EnableLogging() {
         if (LogFormUsable) {
             Write("Logging is already enabled.");
         }
@@ -129,16 +129,16 @@ internal static class Log {
     /// Disables the logging form, but debug logging will still occur.
     /// </summary>
     //[DebuggerStepThrough]
-    public static void DisableLogging() {
+    internal static void DisableLogging() {
         if (LogFormEnabled) {
             if (LogForm is not null) {
                 if (!LogForm.IsDisposed && (LogForm.WindowState == FormWindowState.Minimized || LogForm.WindowState == FormWindowState.Maximized)) {
                     LogForm.Opacity = 0;
                     LogForm.WindowState = FormWindowState.Normal;
 
-                    Config.Settings.Saved.LogLocation = LogForm.Location;
-                    Config.Settings.Saved.LogSize = LogForm.Size;
-                    Config.Settings.Saved.Save();
+                    Config.Settings.FormSettings.frmLog_Location = LogForm.Location;
+                    Config.Settings.FormSettings.frmLog_Size = LogForm.Size;
+                    Config.Settings.FormSettings.Save();
                     LogForm.Dispose();
                 }
             }
@@ -182,7 +182,8 @@ internal static class Log {
     /// <summary>
     /// Writes a message to the log.
     /// </summary>
-    /// <param name="message">The message to be sent to the log.</param>
+    /// <param name="message">The message to be sent to the log</param>
+    /// <param name="initial">If the message is the initial one to be sent, does not add a new line break.</param>
     [DebuggerStepThrough]
     public static void Write(string message) {
         Debug.Print(message);
@@ -193,21 +194,13 @@ internal static class Log {
     /// <summary>
     /// Writes a message to the log, not including date/time of the message.
     /// </summary>
-    /// <param name="message">The message to be sent to the log.</param>
+    /// <param name="message">The message to be sent to the log</param>
+    /// <param name="initial">If the message is the initial one to be sent, does not add a new line break.</param>
     [DebuggerStepThrough]
     public static void WriteNoDate(string message) {
         Debug.Print(message);
         if (LogFormUsable)
             LogForm.AppendNoDate(message);
-    }
-
-    /// <summary>
-    /// Writes a message to the console, and does not include a date/time of the message.
-    /// </summary>
-    /// <param name="message">The message to be sent to the console.</param>
-    [DebuggerStepThrough]
-    public static void WriteToConsole(string message) {
-        Console.WriteLine(message);
     }
     #endregion
 
@@ -260,50 +253,6 @@ internal static class Log {
 
         // Returns the exception forms dialog result.
         return DisplayException(ExceptionData, AllowWritingToFile);
-    }
-
-    /// <summary>
-    /// Reports an exception that occurs when language data is being changed.
-    /// </summary>
-    /// <param name="ReceivedException">The receieved exception that will be reported.</param>
-    /// <param name="CanRetry">Whether the problematic issue can be retried.</param>
-    /// <param name="ExtraInfo">Optional extra information regarding the error.</param>
-    /// <returns>The <see cref="DialogResult"/> of the displayed exception form.</returns>
-    public static DialogResult ReportLanguageException(Exception ReceivedException, bool CanRetry, object ExtraInfo = null) {
-        // Gets the time this gets called for reporting the exception time.
-        DateTime ExceptionTime = DateTime.Now;
-
-        // Create the exception info class with data relating to the exception and next actions.
-        ExceptionInfo ExceptionData = new(ReceivedException, ExtraInfo) {
-            AllowRetry = CanRetry,
-            CustomDescription = null,
-            ExceptionTime = ExceptionTime,
-            ExtraMessage = null,
-            FromLanguage = false,
-            SkipDwmComposition = false,
-            ExceptionType = ExceptionType.Caught
-        };
-
-        // Returns the exception forms dialog result.
-        return DisplayException(ExceptionData, AllowWritingToFile);
-    }
-
-    /// <summary>
-    /// Reports an exception using a user generated <see cref="ExceptionInfo"/> instance.
-    /// </summary>
-    /// <param name="ReceivedException">The <see cref="ExceptionInfo"/> instance to reference for the exception.</param>
-    /// <returns>The <see cref="DialogResult"/> of the displayed exception form.</returns>
-    public static DialogResult ReportException(ExceptionInfo ReceivedException) {
-        if (ReceivedException is null) {
-            ReportException(new NullReferenceException(nameof(ReceivedException)));
-            return DialogResult.OK;
-        }
-        if (ReceivedException.Exception is null) {
-            ReportException(new NullReferenceException(nameof(ReceivedException.Exception)));
-            return DialogResult.OK;
-        }
-
-        return DisplayException(ReceivedException, AllowWritingToFile);
     }
 
     /// <summary>

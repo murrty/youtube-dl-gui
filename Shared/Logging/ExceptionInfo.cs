@@ -1,10 +1,13 @@
-﻿namespace murrty.logging;
+﻿/// ExceptionInfo is a part of https://github.com/murrty/aphrodite booru downloader.
+/// Licensed via GPL-3.0, if you did not receieve a license with this file; idk figure it out.
+/// This code, *as-is*, should not be a part of another project; it should really only be used as reference or testing.
+namespace murrty.logging;
 
 /// <summary>
 /// The base exception detail class containing information about the exception, and modifiers about the actions.
 /// </summary>
-public sealed class ExceptionInfo {
-    #region Fields
+public class ExceptionInfo {
+    #region Variables / Fields / Whatever
     /// <summary>
     /// Gets the <see cref="System.Exception"/> object that is received.
     /// </summary>
@@ -49,44 +52,13 @@ public sealed class ExceptionInfo {
     #endregion
 
     #region Constructor
-    /// <summary>
-    /// Initializes a new instance of <see cref="ExceptionInfo"/>.
-    /// </summary>
-    /// <param name="ReceivedException">The received exception.</param>
     public ExceptionInfo(Exception ReceivedException) {
         this.Exception = ReceivedException;
     }
 
-    /// <summary>
-    /// Initializes a new instance of <see cref="ExceptionInfo"/>.
-    /// </summary>
-    /// <param name="ReceivedException">The received exception.</param>
-    /// <param name="ExtraInfo">Extra information of the exception.</param>
     public ExceptionInfo(Exception ReceivedException, object ExtraInfo) {
         this.Exception = ReceivedException;
         this.ExtraInfo = ExtraInfo;
-    }
-
-    /// <summary>
-    /// Initializes a new instance of <see cref="ExceptionInfo"/>.
-    /// </summary>
-    /// <param name="ReceivedException">The received exception.</param>
-    /// <param name="ExtraMessage">The extra message relating to the exception.</param>
-    public ExceptionInfo(Exception ReceivedException, string ExtraMessage) {
-        this.Exception = ReceivedException;
-        this.ExtraMessage = ExtraMessage;
-    }
-
-    /// <summary>
-    /// Initializes a new instance of <see cref="ExceptionInfo"/>.
-    /// </summary>
-    /// <param name="ReceivedException">The received exception.</param>
-    /// <param name="ExtraInfo">Extra information of the exception.</param>
-    /// <param name="ExtraMessage">The extra message relating to the exception.</param>
-    public ExceptionInfo(Exception ReceivedException, object ExtraInfo, string ExtraMessage) {
-        this.Exception = ReceivedException;
-        this.ExtraInfo = ExtraInfo;
-        this.ExtraMessage = ExtraMessage;
     }
     #endregion
 }

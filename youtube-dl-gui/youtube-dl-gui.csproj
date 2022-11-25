@@ -84,75 +84,15 @@
     <Compile Include="Config\IniProvider.cs" />
     <Compile Include="Config\Point.cs" />
     <Compile Include="Config\Size.cs" />
-    <Compile Include="..\Controls\Enums\AllowedCharacters.cs">
-      <Link>Controls\Shared\Enums\AllowedCharacters.cs</Link>
-    </Compile>
-    <Compile Include="..\Controls\Enums\ButtonAlignment.cs">
-      <Link>Controls\Shared\Enums\ButtonAlignment.cs</Link>
-    </Compile>
-    <Compile Include="..\Controls\Enums\ProgressState.cs">
-      <Link>Controls\Shared\Enums\ProgressState.cs</Link>
-    </Compile>
-    <Compile Include="..\Controls\Enums\TaskbarProgressState.cs">
-      <Link>Controls\Shared\Enums\TaskbarProgressState.cs</Link>
-    </Compile>
-    <Compile Include="..\Controls\Events\RegexMatchEventArgs.cs">
-      <Link>Controls\Shared\Events\RegexMatchEventArgs.cs</Link>
-    </Compile>
-    <Compile Include="..\Controls\Interfaces\TaskbarInterface.cs">
-      <Link>Controls\Shared\Interfaces\TaskbarInterface.cs</Link>
-    </Compile>
-    <Compile Include="..\Controls\Natives\Consts.cs">
-      <Link>Controls\Shared\Natives\Consts.cs</Link>
-    </Compile>
-    <Compile Include="..\Controls\Natives\NativeMethods.cs">
-      <Link>Controls\Shared\Natives\NativeMethods.cs</Link>
-    </Compile>
-    <Compile Include="..\Controls\BetterFolderBrowser.cs">
-      <SubType>Component</SubType>
-      <Link>Controls\Shared\BetterFolderBrowser.cs</Link>
-    </Compile>
     <Compile Include="Controls\ExitQueueHandler.cs">
       <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="..\Controls\ExtendedLinkLabel.cs">
-      <SubType>Component</SubType>
-      <Link>Controls\Shared\ExtendedLinkLabel.cs</Link>
     </Compile>
     <Compile Include="Controls\ExtendedListView.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="..\Controls\ExtendedProgressBar.cs">
-      <SubType>Component</SubType>
-      <Link>Controls\Shared\ExtendedProgressBar.cs</Link>
-    </Compile>
-    <Compile Include="..\Controls\ExtendedRichTextBox.cs">
-      <SubType>Component</SubType>
-      <Link>Controls\Shared\ExtendedRichTextBox.cs</Link>
-    </Compile>
-    <Compile Include="..\Controls\ExtendedTextBox.cs">
-      <SubType>Component</SubType>
-      <Link>Controls\Shared\ExtendedTextBox.cs</Link>
-    </Compile>
     <Compile Include="Controls\MessageHandler.cs" />
-    <Compile Include="..\Controls\SplitButton.cs">
-      <SubType>Component</SubType>
-      <Link>Controls\Shared\SplitButton.cs</Link>
-    </Compile>
     <Compile Include="Controls\UacButton.cs">
       <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="..\CopyData\CopyData.cs">
-      <Link>CopyData\CopyData.cs</Link>
-    </Compile>
-    <Compile Include="..\CopyData\CopyDataStruct.cs">
-      <Link>CopyData\CopyDataStruct.cs</Link>
-    </Compile>
-	  <Compile Include="..\CopyData\SendLinks.cs">
-		  <Link>CopyData\SendLinks.cs</Link>
-	  </Compile>
-    <Compile Include="..\CopyData\UpdaterData.cs">
-      <Link>CopyData\UpdaterData.cs</Link>
     </Compile>
     <Compile Include="Enums\ArgumentType.cs" />
     <Compile Include="Enums\AudioCBRQualityType.cs" />
@@ -268,8 +208,12 @@
     <Compile Include="Forms\frmSubtitles.Designer.cs">
       <DependentUpon>frmSubtitles.cs</DependentUpon>
     </Compile>
+    <Compile Include="Logging\DwmCompositionInfo.cs" />
+    <Compile Include="Logging\DwmCompositionTextInfo.cs" />
+    <Compile Include="Logging\ExceptionInfo.cs" />
     <Compile Include="Logging\Exceptions\ApiParsingException.cs" />
     <Compile Include="Logging\Exceptions\DownloadException.cs" />
+    <Compile Include="Logging\ExceptionType.cs" />
     <Compile Include="Logging\Forms\frmException.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -279,15 +223,12 @@
     <Compile Include="Logging\Forms\frmLog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Logging\Forms\frmLog.Designer.cs">
+    <Compile Include="Logging\Forms\frmLog.designer.cs">
       <DependentUpon>frmLog.cs</DependentUpon>
     </Compile>
+    <Compile Include="Logging\Log.cs" />
     <Compile Include="Logging\Natives\DwmComposition.cs" />
     <Compile Include="Logging\Natives\DwmNatives.cs" />
-    <Compile Include="Logging\DwmCompositionInfo.cs" />
-    <Compile Include="Logging\DwmCompositionTextInfo.cs" />
-    <Compile Include="Logging\ExceptionInfo.cs" />
-    <Compile Include="Logging\Log.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -298,6 +239,66 @@
     <Compile Include="Runtime\CompilerServices.cs" />
     <Compile Include="Runtime\Index.cs" />
     <Compile Include="Runtime\Range.cs" />
+    <Compile Include="..\Shared\Controls\Enums\AllowedCharacters.cs">
+      <Link>Controls\Shared\Enums\AllowedCharacters.cs</Link>
+    </Compile>
+    <Compile Include="..\Shared\Controls\Enums\ButtonAlignment.cs">
+      <Link>Controls\Shared\Enums\ButtonAlignment.cs</Link>
+    </Compile>
+    <Compile Include="..\Shared\Controls\Enums\ProgressState.cs">
+      <Link>Controls\Shared\Enums\ProgressState.cs</Link>
+    </Compile>
+    <Compile Include="..\Shared\Controls\Enums\TaskbarProgressState.cs">
+      <Link>Controls\Shared\Enums\TaskbarProgressState.cs</Link>
+    </Compile>
+    <Compile Include="..\Shared\Controls\Events\RegexMatchEventArgs.cs">
+      <Link>Controls\Shared\Events\RegexMatchEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\Shared\Controls\Interfaces\TaskbarInterface.cs">
+      <Link>Controls\Shared\Interfaces\TaskbarInterface.cs</Link>
+    </Compile>
+    <Compile Include="..\Shared\Controls\Natives\Consts.cs">
+      <Link>Controls\Shared\Natives\Consts.cs</Link>
+    </Compile>
+    <Compile Include="..\Shared\Controls\Natives\NativeMethods.cs">
+      <Link>Controls\Shared\Natives\NativeMethods.cs</Link>
+    </Compile>
+    <Compile Include="..\Shared\Controls\BetterFolderBrowser.cs">
+      <SubType>Component</SubType>
+      <Link>Controls\Shared\BetterFolderBrowser.cs</Link>
+    </Compile>
+    <Compile Include="..\Shared\Controls\ExtendedLinkLabel.cs">
+      <SubType>Component</SubType>
+      <Link>Controls\Shared\ExtendedLinkLabel.cs</Link>
+    </Compile>
+    <Compile Include="..\Shared\Controls\ExtendedProgressBar.cs">
+      <SubType>Component</SubType>
+      <Link>Controls\Shared\ExtendedProgressBar.cs</Link>
+    </Compile>
+    <Compile Include="..\Shared\Controls\ExtendedRichTextBox.cs">
+      <SubType>Component</SubType>
+      <Link>Controls\Shared\ExtendedRichTextBox.cs</Link>
+    </Compile>
+    <Compile Include="..\Shared\Controls\ExtendedTextBox.cs">
+      <SubType>Component</SubType>
+      <Link>Controls\Shared\ExtendedTextBox.cs</Link>
+    </Compile>
+    <Compile Include="..\Shared\Controls\SplitButton.cs">
+      <SubType>Component</SubType>
+      <Link>Controls\Shared\SplitButton.cs</Link>
+    </Compile>
+    <Compile Include="..\Shared\CopyData\CopyData.cs">
+      <Link>CopyData\CopyData.cs</Link>
+    </Compile>
+    <Compile Include="..\Shared\CopyData\CopyDataStruct.cs">
+      <Link>CopyData\CopyDataStruct.cs</Link>
+    </Compile>
+    <Compile Include="..\Shared\CopyData\SendLinks.cs">
+      <Link>CopyData\SendLinks.cs</Link>
+    </Compile>
+    <Compile Include="..\Shared\CopyData\UpdaterData.cs">
+      <Link>CopyData\UpdaterData.cs</Link>
+    </Compile>
     <Compile Include="Updater\API Data\GithubAsset.cs" />
     <Compile Include="Updater\API Data\GithubData.cs" />
     <Compile Include="Updater\API Data\GithubRepoContent.cs" />

@@ -201,6 +201,7 @@ RetryDownload:
             #endregion
 
             #region Replace old version try block
+RetryReplacing:
             try {
                 // If a download error occurred, we need to delete the temp file.
                 if (DownloadError && File.Exists(FileDestination)) {
@@ -281,7 +282,8 @@ RetryDownload:
                     pbDownloadProgress.ProgressState = murrty.controls.ProgressState.Error;
                     pbDownloadProgress.Text = Language.pbDownloadProgressErrorProcessingDownload;
                 });
-                Log.ReportRetriableLanguageException(ex);
+                if (Log.ReportRetriableException(ex) == DialogResult.Retry)
+                    goto RetryReplacing;
             }
             #endregion
 

@@ -184,6 +184,7 @@ internal static class Program {
                 Language.LoadLanguage($"{Environment.CurrentDirectory}\\lang\\{Config.Settings.Initialization.LanguageFile}.ini");
             }
 
+            //throw new Exception("test");
             murrty.controls.natives.Consts.UpdateHand();
             Formats.LoadCustomFormats();
             Messages = new();
@@ -212,7 +213,7 @@ internal static class Program {
             if (hwnd != 0) {
                 if (args.Length > 0) {
                     SendLinks Data = new() {
-                        Argument = string.Join("|", args)
+                        Argument = args.JoinUntilLimit("|", 65_535)
                     };
                     CopyDataStruct DataStruct = new();
                     nint CopyDataBuffer = 0;

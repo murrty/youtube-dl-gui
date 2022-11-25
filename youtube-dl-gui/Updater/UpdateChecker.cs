@@ -7,7 +7,7 @@ using System.Threading;
 using System.Windows.Forms;
 using murrty.updater;
 internal sealed class UpdateChecker {
-    private const string KnownUpdaterHash = "FF477510CD1ADEF8B0873D1F71F20AAA7F1D24107A0F6B59ADCE1F403C782B84";
+    private const string KnownUpdaterHash = "C4961090B55CD0351CA652DB6517C7C0E0657A510B0EAB259A8096BA6DB15802";
     private const string FfmpegDownloadLink = "https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-essentials.zip";
 
     #region Properties
@@ -32,7 +32,7 @@ internal sealed class UpdateChecker {
                 CanRetry = false;
             }
             catch (Exception ex) {
-                if (Log.ReportRetriableLanguageException(ex) != DialogResult.Retry)
+                if (Log.ReportRetriableException(ex) != DialogResult.Retry)
                     return null;
             }
         } while (CanRetry);

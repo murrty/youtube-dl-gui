@@ -3,7 +3,7 @@
 /// This code, *as-is*, should not be a part of another project; it should really only be used as reference or testing.
 namespace murrty.logging;
 
-using youtube_dl_gui;
+using aphrodite;
 using System.Windows.Forms;
 
 internal partial class frmLog : Form {
@@ -19,19 +19,21 @@ internal partial class frmLog : Form {
         }
 
         // The icon for the exception form.
-        this.Icon = global::youtube_dl_gui.Properties.Resources.ProgramIcon;
+        this.Icon = global::aphrodite.Properties.Resources.ProgramIcon;
 
-        lbLines.Dispose();
+        rtbLog.AutoScroll = controls.AutoScroll.ScrolledToBottom;
+        rtbLog.LineCountChanged += (s, e) => lbLines.Text = $"Log count: {rtbLog.TotalLines}";
         rtbLog.ContextMenu = cmLog;
     }
     private void frmLog_Load(object sender, EventArgs e) {
-        if (Config.Settings.Saved.LogLocation.Valid) {
+        if (Config.ValidPoint(Config.Settings.FormSettings.frmLog_Location)) {
             this.StartPosition = FormStartPosition.Manual;
-            this.Location = Config.Settings.Saved.LogLocation;
+            this.Location = Config.Settings.FormSettings.frmLog_Location;
         }
 
-        if (Config.Settings.Saved.LogSize.Valid)
-            this.Size = Config.Settings.Saved.LogSize;
+        if (Config.ValidSize(Config.Settings.FormSettings.frmLog_Size)) {
+            this.Size = Config.Settings.FormSettings.frmLog_Size;
+        }
     }
     private void frmLog_FormClosing(object sender, FormClosingEventArgs e) {
         e.Cancel = true;
@@ -86,24 +88,16 @@ internal partial class frmLog : Form {
     /// </summary>
     /// <param name="message">The message to append.</param>
     [System.Diagnostics.DebuggerStepThrough]
-    public void Append(string message) {
-        if (rtbLog.InvokeRequired)
-            rtbLog.Invoke(() => rtbLog.AppendText($"[{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff}] {message}", true));
-        else
-            rtbLog.AppendText($"[{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff}] {message}", true);
-    }
+    public void Append(string message) =>
+        rtbLog.InvokeIfRequired(() => rtbLog.AppendText($"[{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff}] {message}", true));
 
     /// <summary>
     /// Appends text to the log, not including date/time of the message.
     /// </summary>
     /// <param name="message">The message to append.</param>
     [System.Diagnostics.DebuggerStepThrough]
-    public void AppendNoDate(string message) {
-        if (rtbLog.InvokeRequired)
-            rtbLog.Invoke(() => rtbLog.AppendText(message, true));
-        else
-            rtbLog.AppendText(message, true);
-    }
+    public void AppendNoDate(string message) =>
+        rtbLog.InvokeIfRequired(() => rtbLog.AppendText(message, true));
 
     /// <summary>
     /// Adds a new exception to the log.

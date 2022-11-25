@@ -94,6 +94,14 @@ public class ExtendedRichTextBox : RichTextBox {
         }
     }
 
+    public void ScrollToTop() {
+        NativeMethods.SendMessage(this.Handle, 0x115, 6, 0);
+    }
+
+    public void ScrollToBottom() {
+        NativeMethods.SendMessage(this.Handle, 0x115, 7, 0);
+    }
+
     private void SuspendPaint() {
         if (_Painting) {
             _SuspendIndex = this.SelectionStart;

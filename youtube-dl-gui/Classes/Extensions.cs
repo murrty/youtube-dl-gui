@@ -1,14 +1,16 @@
 ﻿namespace youtube_dl_gui;
 using System.Text;
+using System.Text.RegularExpressions;
+using System.Runtime.Serialization.Json;
 internal static class Extensions {
-    private static readonly System.Runtime.Serialization.Json.DataContractJsonSerializerSettings Settings = new() {
+    private static readonly DataContractJsonSerializerSettings Settings = new() {
         UseSimpleDictionaryFormat = true,
         SerializeReadOnlyTypes = false,
     };
-    private static readonly System.Text.RegularExpressions.Regex WhitespaceCleaner = new(@"\s+", System.Text.RegularExpressions.RegexOptions.Compiled);
+    private static readonly Regex WhitespaceCleaner = new(@"\s+", RegexOptions.Compiled);
     public static T JsonDeserialize<T>(this string value) {
         using System.IO.MemoryStream ms = new(Encoding.UTF8.GetBytes(value));
-        System.Runtime.Serialization.Json.DataContractJsonSerializer ser = new(typeof(T), Settings);
+        DataContractJsonSerializer ser = new(typeof(T), Settings);
         T val = (T)ser.ReadObject(ms);
         ms.Close();
         return val;
@@ -48,12 +50,25 @@ internal static class Extensions {
     }
     public static bool IsNotNullEmptyWhitespace(this string value) => !IsNullEmptyWhitespace(value);
     public static string Join(this IEnumerable<string> str, string joiner) => string.Join(joiner, str);
+    public static string JoinUntilLimit(this string[] str, string joiner, int limit) {
+        if (limit < 0)
+            throw new ArgumentOutOfRangeException(nameof(limit));
+        if (str is null)
+            throw new NullReferenceException(nameof(str));
+        if (joiner.IsNullEmptyWhitespace())
+            throw new NullReferenceException($"{nameof(joiner)} is null, empty, or whitespace.");
+
+        StringBuilder Builder = new(limit);
+        for (int i = 0; i < str.Length; i++) {
+            if (Builder.Length + str[i].Length <= limit)
+                Builder.Append(str[i]);
+            else break;
+        }
+
+        return Builder.ToString();
+    }
     public static string ReplaceWhitespace(this string str) => WhitespaceCleaner.Replace(str, " ");
     public static string ReplaceWhitespace(this string str, string replacement) => WhitespaceCleaner.Replace(str, replacement);
-    public static void ShowIfCondition(this System.Windows.Forms.Form frm, bool AsDialog) {
-        if (AsDialog) frm.ShowDialog();
-        else frm.Show();
-    }
     public static bool ForIf<T>(this T[] items, Func<T, bool> act) {
         for (int i = 0; i < items.Length; i++)
             if (act(items[i])) return true;

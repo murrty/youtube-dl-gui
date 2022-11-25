@@ -1,7 +1,7 @@
 ﻿namespace youtube_dl_gui_shared;
 using System.Runtime.InteropServices;
 using System.Text;
-internal sealed class CopyData {
+internal static class CopyData {
     /// <summary>
     /// An application sends the WM_COPYDATA message to pass data to another application.
     /// <para />
@@ -30,7 +30,7 @@ internal sealed class CopyData {
     /// <returns>A pointer address to the structure data in unmanaged memory.</returns>
     public static nint NintAlloc<StructVal>(StructVal Structure) {
         nint PointerAddress = Marshal.AllocHGlobal(Marshal.SizeOf(Structure));
-        Marshal.StructureToPtr(Structure, PointerAddress, false);
+        Marshal.StructureToPtr(Structure, PointerAddress, true);
         return PointerAddress;
     }
 

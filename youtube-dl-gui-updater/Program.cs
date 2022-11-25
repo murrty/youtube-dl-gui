@@ -133,7 +133,7 @@ static class Program {
                 }
             }
             catch (Exception ex) {
-                if (Log.ReportRetriableLanguageException(ex) != DialogResult.Retry) {
+                if (Log.ReportRetriableException(ex) != DialogResult.Retry) {
                     CanRetry = false;
                     return false;
                 }
