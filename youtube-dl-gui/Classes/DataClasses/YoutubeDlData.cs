@@ -11,7 +11,11 @@ using System.Runtime.Serialization;
 /// </summary>
 [DataContract]
 internal sealed class YoutubeDlData {
-    public static YoutubeDlData GenerateData(string URL, out string RetrievedData) {
+    // Tested on yt-dlp
+
+    public static YoutubeDlData GenerateData(string URL, out string RetrievedData) => Generate(URL, "-j", out RetrievedData);
+    public static YoutubeDlData GeneratePlaylist(string URL, out string RetrievedData) => Generate(URL, "-J", out RetrievedData);
+    private static YoutubeDlData Generate(string URL, string GenerateCommand, out string RetrievedData) {
         RetrievedData = null;
         if (!URL.IsNullEmptyWhitespace()) {
             Log.Write($"Gathering data for \"{URL}\".");
@@ -23,24 +27,21 @@ internal sealed class YoutubeDlData {
 
             StringBuilder ConnectionArgs = new(string.Empty);
 
-            if (Config.Settings.Downloads.RetryAttempts != 10 && Config.Settings.Downloads.RetryAttempts > 0) {
+            if (Config.Settings.Downloads.RetryAttempts != 10 && Config.Settings.Downloads.RetryAttempts > 0)
                 ConnectionArgs.Append($"--retries {Config.Settings.Downloads.RetryAttempts} ");
-            }
 
-            if (Config.Settings.Downloads.ForceIPv4) {
+            if (Config.Settings.Downloads.ForceIPv4)
                 ConnectionArgs.Append("--force-ipv4 ");
-            }
-            else if (Config.Settings.Downloads.ForceIPv6) {
+            else if (Config.Settings.Downloads.ForceIPv6)
                 ConnectionArgs.Append("--force-ipv6 ");
-            }
 
-            if (Config.Settings.Downloads.UseProxy && Config.Settings.Downloads.ProxyType > -1 && !string.IsNullOrEmpty(Config.Settings.Downloads.ProxyIP) && !string.IsNullOrEmpty(Config.Settings.Downloads.ProxyPort)) {
+            if (Config.Settings.Downloads.UseProxy && Config.Settings.Downloads.ProxyType > -1 &&
+            !string.IsNullOrEmpty(Config.Settings.Downloads.ProxyIP) && !string.IsNullOrEmpty(Config.Settings.Downloads.ProxyPort))
                 ConnectionArgs.Append($"--proxy {DownloadHelper.ProxyProtocols[Config.Settings.Downloads.ProxyType]}{Config.Settings.Downloads.ProxyIP}:{Config.Settings.Downloads.ProxyPort}/ ");
-            }
 
             Process Enumeration = new() {
                 StartInfo = new() {
-                    Arguments = $"--simulate --no-warnings --no-cache-dir --print-json {ConnectionArgs}{URL}",
+                    Arguments = $"--simulate --no-warnings --no-cache-dir {GenerateCommand} {ConnectionArgs}{URL}",
                     FileName = Verification.YoutubeDlPath,
                     CreateNoWindow = true,
                     RedirectStandardError = true,
@@ -64,6 +65,7 @@ internal sealed class YoutubeDlData {
                 Log.Write($"Downloading info for \"{URL}\" output some errors.");
                 Log.Write(Error.ToString());
             }
+
             if (!Output.ToString().IsNullEmptyWhitespace()) {
                 Log.Write($"Finished downloading info for \"{URL}\", deserializing the data.");
                 RetrievedData = Output.ToString();
@@ -74,12 +76,8 @@ internal sealed class YoutubeDlData {
         }
         return null;
     }
-    public Image GetThumbnail() {
-        if (Config.Settings.Downloads.YtdlType switch { (int)GitID.YtDlp or (int)GitID.YtDlpNightly => false, _ => true }) {
-            Log.Write($"Cannot download the thumbnail for \"{URL}\" because the selected youtube-dl fork is not supported.");
-            return null;
-        }
 
+    public Image GetThumbnail() {
         Log.Write($"Downloading the thumbnail for \"{URL}\".");
         using WebClient wc = new();
         byte[] thumbBytes = wc.DownloadData(this.ThumbnailLink);
@@ -99,8 +97,6 @@ internal sealed class YoutubeDlData {
                     Arguments = $"-nostats -hide_banner -i \"{ThumbPath}.webp\" \"{ThumbPath}.jpg\"",
                     FileName = Verification.FFmpegPath,
                     CreateNoWindow = true,
-                    //RedirectStandardError = true,
-                    //RedirectStandardOutput = true,
                     UseShellExecute = false,
                     WindowStyle = ProcessWindowStyle.Hidden,
                 }
@@ -123,11 +119,21 @@ internal sealed class YoutubeDlData {
     [IgnoreDataMember]
     public string Duration {
         get {
-            if (DurationTime is not null) {
-                int hours = 0;
-                int minutes = 0;
-                decimal seconds = DurationTime.Value;
+            int hours = 0;
+            int minutes = 0;
+            decimal seconds = 0;
 
+            if (DurationTime is not null) {
+                seconds = DurationTime.Value;
+            }
+            else if (IsPlaylist) {
+                for (int i = 0; i < PlaylistVideos.Length; i++) {
+                    if (PlaylistVideos[i].DurationTime is not null)
+                        seconds += PlaylistVideos[i].DurationTime.Value;
+                }
+            }
+
+            if (seconds > 0) {
                 while (seconds >= 60) {
                     minutes++;
                     seconds -= 60;
@@ -141,12 +147,18 @@ internal sealed class YoutubeDlData {
                 return $"{(hours > 0 ? $"{hours:N0}:{minutes:00.##}" : $"{minutes}")}:{Math.Round(seconds, MidpointRounding.ToEven):00.##}";
             }
 
-            return DurationString.IsNullEmptyWhitespace() ? "???" : DurationString;
+            return DurationString.IsNullEmptyWhitespace() ? "?:??" : DurationString;
         }
     }
 
     [IgnoreDataMember]
-    public string URL { get; set; }
+    public string URL { get; private set; }
+
+    [IgnoreDataMember]
+    public bool IsPlaylist => PlaylistVideos is not null && PlaylistVideos.Length > 0;
+
+    [DataMember(Name = "entries")]
+    public YoutubeDlData[] PlaylistVideos { get; set; }
 
     [DataMember(Name = "title")]
     public string Title { get; set; }
