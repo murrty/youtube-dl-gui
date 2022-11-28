@@ -1,5 +1,5 @@
 # youtube-dl-gui
-GUI for [youtube-dl](https://ytdl-org.github.io/youtube-dl/) (and forks) + [ffmpeg](https://ffmpeg.org/) (ffmpeg.exe & ffprobe.exe) which is used for converting. [AtomicParsley](http://atomicparsley.sourceforge.net/) may be required for embedding data into files.
+GUI for [yt-dlp](https://github.com/yt-dlp/yt-dlp) ([youtube-dl](https://github.com/ytdl-org/youtube-dl) and [yt-dlc](https://github.com/blackjack4494/yt-dlc) are supported, but yt-dlp is suggested) + [ffmpeg](https://ffmpeg.org/) (ffmpeg.exe & ffprobe.exe) which is used for converting. [AtomicParsley](http://atomicparsley.sourceforge.net/) may be required for embedding data into files.
 
 ![it looks like this!!](preview.png)  
 <sup>it may look different between versions</sup>
@@ -7,8 +7,6 @@ GUI for [youtube-dl](https://ytdl-org.github.io/youtube-dl/) (and forks) + [ffmp
 The goal of youtube-dl-gui is to make it as accessible to as many people as possible, with as many arguments added as options as I use them... or get requested to add them. If at all.
 
 Powerusers can use the custom arguments option to have almost absolute control of the input arguments, excepting the URL and the output.
-
-The forks that are supported are [youtube-dl](https://github.com/ytdl-org/youtube-dl), [yt-dlc](https://github.com/blackjack4494/yt-dlc), and [yt-dlp](https://github.com/yt-dlp/yt-dlp). Additional forks can be added, by request.
 
 Additionally, [userscripts](USERSCRIPTS.md) can be used in conjunction with this program to extend functionality.
 
