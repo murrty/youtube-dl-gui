@@ -4,7 +4,6 @@
 /// Controls the language strings of the program. Most, if not all, strings get their text from here.
 /// </summary>
 public static class Language {
-
     #region Constants
     public const string ApplicationName = "youtube-dl-gui";
     #endregion
@@ -3473,5 +3472,4 @@ public static class Language {
         }
     }
     #endregion
-
 }

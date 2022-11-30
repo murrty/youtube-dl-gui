@@ -1,14 +1,11 @@
 ﻿namespace murrty.logging;
-
 using System.Drawing;
 using System.Net;
 using System.Security.Cryptography;
 using System.Threading;
 using System.Windows.Forms;
-
 using youtube_dl_gui;
 using murrty.classes;
-
 /// <summary>
 /// Represents a form that displays exception information to the user.
 /// </summary>
@@ -39,13 +36,14 @@ public partial class frmException : Form {
     /// <param name="ReportedException">A <see cref="ExceptionInfo"/> instnace for a specific exception.</param>
     public frmException(ExceptionInfo ReportedException) {
         if (ReportedException is null) {
-            MessageBox.Show("The reported exception is null and the exception cannot be displayed.", "youtube-dl-gui-updater");
+            Log.MessageBox("The reported exception is null and the exception cannot be displayed.");
             this.Load += (s, e) => this.Dispose();
             return;
         }
 
         this.ReportedException = ReportedException;
         InitializeComponent();
+        this.MaximumSize = new(1280, 720);
         rtbExtraData.Clear();
 
         // Roll for UwU-ification.
@@ -82,34 +80,31 @@ public partial class frmException : Form {
         // Add the date
         lbDate.Text = $"{ReportedException.ExceptionTime:yyyy/MM/dd HH:mm:ss}";
 
+        // Hell
         if (DwmComposition.CompositionSupported && !ReportedException.SkipDwmComposition) {
             DwmCompositor = new();
             DwmInfo = new(
-                this.Handle,
-                new() {
+                hWnd: this.Handle,
+                Margins: new() {
                     m_Top = pnDWM.Height,
                     m_Bottom = 0,
                     m_Left = 0,
-                    m_Right = 0
-                },
-                new(
+                    m_Right = 0 },
+                DwmRectangle: new(
                     pnDWM.Location.X,
                     pnDWM.Location.Y,
                     this.MaximumSize.Width,
-                    pnDWM.Size.Height
-                ),
-                new(
-                    lbExceptionHeader.Text,
-                    lbExceptionHeader.Font,
-                    Color.FromKnownColor(KnownColor.ActiveCaptionText),
-                    10,
-                    new(
+                    pnDWM.Size.Height),
+                NewInfo: new(
+                    text: lbExceptionHeader.Text,
+                    font: lbExceptionHeader.Font,
+                    color: Color.FromKnownColor(KnownColor.ActiveCaptionText),
+                    glowsize: 10,
+                    rectangle: new(
                         lbExceptionHeader.Location.X,
                         lbExceptionHeader.Location.Y,
                         lbExceptionHeader.Size.Width,
-                        lbExceptionHeader.Size.Height
-                    )
-                )
+                        lbExceptionHeader.Size.Height))
             );
 
             pnDWM.Visible = false;
@@ -212,6 +207,51 @@ public partial class frmException : Form {
                         {{ThrAbrEx.StackTrace}}
                         """ + (ThrAbrEx.InnerException is not null ? "\nInner Exception: " + ThrAbrEx.InnerException : "") + "\n");
                 } break;
+                case System.Threading.Tasks.TaskCanceledException TkCdEx: {
+                    rtbExceptionDetails.AppendText("This exception may have been pushed here on accident.\n");
+
+                    if (ReportedException.ExtraMessage is not null)
+                        rtbExceptionDetails.AppendText(ReportedException.ExtraMessage + "\n");
+
+                    rtbExceptionDetails.AppendText($$"""
+                        Message: {{TkCdEx.Message}}
+                        Type: {{TkCdEx.GetType().FullName}}
+                        Source: {{TkCdEx.Source}}
+                        Target Site: {{TkCdEx.TargetSite}}
+                        Stacktrace:
+                        {{TkCdEx.StackTrace}}
+                        """ + (TkCdEx.InnerException is not null ? "\nInner Exception: " + TkCdEx.InnerException : "") + "\n");
+                } break;
+                case OperationCanceledException OpCdEx: {
+                    rtbExceptionDetails.AppendText("This exception may have been pushed here on accident.\n");
+
+                    if (ReportedException.ExtraMessage is not null)
+                        rtbExceptionDetails.AppendText(ReportedException.ExtraMessage + "\n");
+
+                    rtbExceptionDetails.AppendText($$"""
+                        Message: {{OpCdEx.Message}}
+                        Type: {{OpCdEx.GetType().FullName}}
+                        Source: {{OpCdEx.Source}}
+                        Target Site: {{OpCdEx.TargetSite}}
+                        Stacktrace:
+                        {{OpCdEx.StackTrace}}
+                        """ + (OpCdEx.InnerException is not null ? "\nInner Exception: " + OpCdEx.InnerException : "") + "\n");
+                } break;
+
+                case DownloadException DlEx: {
+                    if (ReportedException.ExtraMessage is not null)
+                        rtbExceptionDetails.AppendText(ReportedException.ExtraMessage + "\n");
+
+                    rtbExceptionDetails.AppendText($$"""
+                        Message: {{DlEx.Message}}
+                        Media URL: {{DlEx.URL}}
+                        Type: {{DlEx.GetType().FullName}}
+                        Source: {{DlEx.Source}}
+                        Target Site: {{DlEx.TargetSite}}
+                        Stacktrace:
+                        {{DlEx.StackTrace}}
+                        """ + (DlEx.InnerException is not null ? "\nInner Exception: " + DlEx.InnerException : "") + "\n");
+                } break;
                 case WebException WebEx: {
                     if (ReportedException.ExtraMessage is not null)
                         rtbExceptionDetails.AppendText(ReportedException.ExtraMessage + "\n");
@@ -239,13 +279,14 @@ public partial class frmException : Form {
                         {{Ex.StackTrace}}
                         """ + (Ex.InnerException is not null ? "\nInner Exception: " + Ex.InnerException : "") + "\n");
                 } break;
+
                 default: {
                     rtbExceptionDetails.Text = ReportedException.ExceptionType switch {
                         ExceptionType.Caught => "A caught unknown-typed exception occured.",
                         ExceptionType.Unhandled => "An unrecoverable unknown-typed exception occurred, and the application will exit.",
                         ExceptionType.ThreadException => "An uncaught unknown-typed exception occurred and the application may resume.",
                         _ => "A caught unknown-typed exception occurred and the state of the application is undeterminable.",
-                    } + "\n\n" + $"{(ReportedException.ExtraMessage is not null ? $"\n\n{ReportedException.ExtraMessage}" : "")}\n";
+                    } + "\n\n" + $"{(ReportedException.ExtraMessage is not null ? ReportedException.ExtraMessage : "")}\n";
                 } break;
             }
         }

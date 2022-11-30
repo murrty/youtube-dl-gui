@@ -42,9 +42,9 @@ internal sealed class DwmComposition {
     /// <param name="rgn">The rectangle where the region should be rendered at.</param>
     public void FillBlackRegion(DwmCompositionInfo Info) {
         IntPtr Memdc = DwmNatives.CreateCompatibleDC(Info.destdc);
-        if (!(DwmNatives.SaveDC(Memdc) == 0)) {
+        if (DwmNatives.SaveDC(Memdc) != 0) {
             IntPtr bitmap = DwmNatives.CreateDIBSection(Memdc, ref Info.dib, DwmNatives.DIB_RGB_COLORS, 0, IntPtr.Zero, 0);
-            if (!(bitmap == IntPtr.Zero)) {
+            if (bitmap != IntPtr.Zero) {
                 IntPtr bitmapOld = DwmNatives.SelectObject(Memdc, bitmap);
                 try {
                     DwmNatives.BitBlt(Info.destdc, Info.Rect.left, Info.Rect.top, Info.Rect.right - Info.Rect.left, Info.Rect.bottom - Info.Rect.top, Memdc, 0, 0, DwmNatives.SRCCOPY);
@@ -67,9 +67,9 @@ internal sealed class DwmComposition {
     /// <param name="Info">The <see cref="DwmCompositionInfo"/> object that contains information used to render the text.</param>
     public void DrawTextOnGlass(DwmCompositionInfo DwmInfo, DwmCompositionTextInfo Info) {
         IntPtr Memdc = DwmNatives.CreateCompatibleDC(DwmInfo.destdc); // Set up a memory DC where we'll draw the text.
-        if (!(DwmNatives.SaveDC(Memdc) == 0)) {
+        if (DwmNatives.SaveDC(Memdc) != 0) {
             IntPtr bitmap = DwmNatives.CreateDIBSection(Memdc, ref Info.BitmapInfo, DwmNatives.DIB_RGB_COLORS, 0, IntPtr.Zero, 0); // Create a 32-bit bmp for use in offscreen drawing when glass is on
-            if (!(bitmap == IntPtr.Zero)) {
+            if (bitmap != IntPtr.Zero) {
                 IntPtr bitmapOld = DwmNatives.SelectObject(Memdc, bitmap);
                 IntPtr hFont = Info.Font.ToHfont();
                 IntPtr logfnotOld = DwmNatives.SelectObject(Memdc, hFont);

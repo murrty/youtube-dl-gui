@@ -138,19 +138,28 @@ public sealed class DownloadInfo {
         StringBuilder PreviewArguments;
 
         #region youtube-dl path
+        string DownloadProvider = Config.Settings.Downloads.YtdlType switch {
+            0 => "yt-dlp",
+            1 => "youtube-dl",
+            3 => "youtube-dl-patch",
+            2 => "yt-dlp-patch",
+            _ => throw new InvalidDownloadProviderException(Config.Settings.Downloads.YtdlType)
+        };
+
+        Verbose($"Using {DownloadProvider} as the download provider.");
         if (Verification.YoutubeDlPath.IsNullEmptyWhitespace()) {
-            Verbose("Youtube-DL has not been found\r\nA rescan for youtube-dl was called");
+            Verbose($"The download provider has not been found\r\nA rescan for {DownloadProvider} was called");
             Verification.RefreshYoutubeDlLocation();
             if (Verification.YoutubeDlPath is not null)
                 Verbose("Rescan finished and found, continuing");
             else {
-                Verbose("still couldnt find youtube-dl.");
+                Verbose($"still couldnt find {DownloadProvider}.");
                 Status = DownloadStatus.ProgramError;
-                Log.Write("Youtube-dl could not be found.");
+                Log.Write($"{DownloadProvider} could not be found.");
                 return false;
             }
         }
-        Verbose("Youtube-DL has been found and set");
+        Verbose($"{DownloadProvider} has been found and set");
         #endregion
 
         #region Output

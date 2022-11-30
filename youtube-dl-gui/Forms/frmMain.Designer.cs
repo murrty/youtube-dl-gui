@@ -28,15 +28,10 @@
             this.rbVideoSelectionBeforeDate = new System.Windows.Forms.RadioButton();
             this.rbVideoSelectionPlaylistIndex = new System.Windows.Forms.RadioButton();
             this.panelDate = new System.Windows.Forms.Panel();
-            this.txtVideoDate = new murrty.controls.ExtendedTextBox();
             this.panelPlaylistStartEnd = new System.Windows.Forms.Panel();
-            this.txtPlaylistEnd = new murrty.controls.ExtendedTextBox();
-            this.txtPlaylistStart = new murrty.controls.ExtendedTextBox();
             this.panelPlaylistItems = new System.Windows.Forms.Panel();
-            this.txtPlaylistItems = new murrty.controls.ExtendedTextBox();
             this.cbFormat = new System.Windows.Forms.ComboBox();
             this.lbFormat = new System.Windows.Forms.Label();
-            this.sbDownload = new murrty.controls.SplitButton();
             this.cmDownload = new System.Windows.Forms.ContextMenu();
             this.mDownloadWithAuthentication = new System.Windows.Forms.MenuItem();
             this.mBatchDownloadFromFile = new System.Windows.Forms.MenuItem();
@@ -52,7 +47,6 @@
             this.rbCustom = new System.Windows.Forms.RadioButton();
             this.rbAudio = new System.Windows.Forms.RadioButton();
             this.rbVideo = new System.Windows.Forms.RadioButton();
-            this.txtUrl = new murrty.controls.ExtendedTextBox();
             this.tabConvert = new System.Windows.Forms.TabPage();
             this.rbConvertCustom = new System.Windows.Forms.RadioButton();
             this.rbConvertAudio = new System.Windows.Forms.RadioButton();
@@ -66,19 +60,6 @@
             this.btnConvertInput = new System.Windows.Forms.Button();
             this.lbConvertInput = new System.Windows.Forms.Label();
             this.txtConvertInput = new System.Windows.Forms.TextBox();
-            this.tabMerge = new System.Windows.Forms.TabPage();
-            this.chkMergeDeleteInputFiles = new System.Windows.Forms.CheckBox();
-            this.chkMergeAudioTracks = new System.Windows.Forms.CheckBox();
-            this.btnMerge = new System.Windows.Forms.Button();
-            this.btnBrwsMergeOutput = new System.Windows.Forms.Button();
-            this.txtMergeOutput = new System.Windows.Forms.TextBox();
-            this.lbMergeOutput = new System.Windows.Forms.Label();
-            this.btnBrwsMergeInput2 = new System.Windows.Forms.Button();
-            this.txtMergeInput2 = new System.Windows.Forms.TextBox();
-            this.btnBrwsMergeInput1 = new System.Windows.Forms.Button();
-            this.txtMergeInput1 = new System.Windows.Forms.TextBox();
-            this.lbMergeInput2 = new System.Windows.Forms.Label();
-            this.lbMergeInput1 = new System.Windows.Forms.Label();
             this.tabDebug = new System.Windows.Forms.TabPage();
             this.chkDebugDontDownload = new System.Windows.Forms.CheckBox();
             this.btnDebugCheckVerification = new System.Windows.Forms.Button();
@@ -129,6 +110,13 @@
             this.cmTraySep = new System.Windows.Forms.MenuItem();
             this.cmTrayExit = new System.Windows.Forms.MenuItem();
             this.trayIcon = new System.Windows.Forms.NotifyIcon(this.components);
+            this.txtVideoDate = new murrty.controls.ExtendedTextBox();
+            this.txtPlaylistEnd = new murrty.controls.ExtendedTextBox();
+            this.txtPlaylistStart = new murrty.controls.ExtendedTextBox();
+            this.txtPlaylistItems = new murrty.controls.ExtendedTextBox();
+            this.sbDownload = new murrty.controls.SplitButton();
+            this.txtUrl = new murrty.controls.ExtendedTextBox();
+            this.chkDebugPlaylistDownload = new System.Windows.Forms.CheckBox();
             this.tcMain.SuspendLayout();
             this.tabDownload.SuspendLayout();
             this.gbSelection.SuspendLayout();
@@ -137,7 +125,6 @@
             this.panelPlaylistItems.SuspendLayout();
             this.gbDownloadType.SuspendLayout();
             this.tabConvert.SuspendLayout();
-            this.tabMerge.SuspendLayout();
             this.tabDebug.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -154,7 +141,6 @@
             // 
             this.tcMain.Controls.Add(this.tabDownload);
             this.tcMain.Controls.Add(this.tabConvert);
-            this.tcMain.Controls.Add(this.tabMerge);
             this.tcMain.Controls.Add(this.tabDebug);
             this.tcMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tcMain.Location = new System.Drawing.Point(0, 0);
@@ -325,26 +311,6 @@
             this.panelDate.TabIndex = 18;
             this.panelDate.Visible = false;
             // 
-            // txtVideoDate
-            // 
-            this.txtVideoDate.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtVideoDate.ButtonAlignment = murrty.controls.ButtonAlignment.Left;
-            this.txtVideoDate.ButtonCursor = System.Windows.Forms.Cursors.Default;
-            this.txtVideoDate.ButtonFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtVideoDate.ButtonImageIndex = -1;
-            this.txtVideoDate.ButtonSize = new System.Drawing.Size(22, 21);
-            this.txtVideoDate.ButtonText = "";
-            this.txtVideoDate.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.txtVideoDate.Location = new System.Drawing.Point(3, 3);
-            this.txtVideoDate.MaxLength = 8;
-            this.txtVideoDate.Name = "txtVideoDate";
-            this.txtVideoDate.RegexPatterns = null;
-            this.txtVideoDate.Size = new System.Drawing.Size(207, 22);
-            this.txtVideoDate.TabIndex = 0;
-            this.txtVideoDate.TextHint = "txtVideoDateHint";
-            this.txtVideoDate.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtVideoDate_KeyPress);
-            // 
             // panelPlaylistStartEnd
             // 
             this.panelPlaylistStartEnd.Anchor = System.Windows.Forms.AnchorStyles.Top;
@@ -356,40 +322,6 @@
             this.panelPlaylistStartEnd.TabIndex = 16;
             this.panelPlaylistStartEnd.Visible = false;
             // 
-            // txtPlaylistEnd
-            // 
-            this.txtPlaylistEnd.ButtonAlignment = murrty.controls.ButtonAlignment.Left;
-            this.txtPlaylistEnd.ButtonCursor = System.Windows.Forms.Cursors.Default;
-            this.txtPlaylistEnd.ButtonFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPlaylistEnd.ButtonImageIndex = -1;
-            this.txtPlaylistEnd.ButtonSize = new System.Drawing.Size(22, 21);
-            this.txtPlaylistEnd.ButtonText = "";
-            this.txtPlaylistEnd.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.txtPlaylistEnd.Location = new System.Drawing.Point(108, 3);
-            this.txtPlaylistEnd.Name = "txtPlaylistEnd";
-            this.txtPlaylistEnd.RegexPatterns = null;
-            this.txtPlaylistEnd.Size = new System.Drawing.Size(100, 22);
-            this.txtPlaylistEnd.TabIndex = 1;
-            this.txtPlaylistEnd.TextHint = "txtPlaylistEndHint";
-            this.txtPlaylistEnd.TextType = murrty.controls.AllowedCharacters.NumericOnly;
-            // 
-            // txtPlaylistStart
-            // 
-            this.txtPlaylistStart.ButtonAlignment = murrty.controls.ButtonAlignment.Left;
-            this.txtPlaylistStart.ButtonCursor = System.Windows.Forms.Cursors.Default;
-            this.txtPlaylistStart.ButtonFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPlaylistStart.ButtonImageIndex = -1;
-            this.txtPlaylistStart.ButtonSize = new System.Drawing.Size(22, 21);
-            this.txtPlaylistStart.ButtonText = "";
-            this.txtPlaylistStart.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.txtPlaylistStart.Location = new System.Drawing.Point(3, 3);
-            this.txtPlaylistStart.Name = "txtPlaylistStart";
-            this.txtPlaylistStart.RegexPatterns = null;
-            this.txtPlaylistStart.Size = new System.Drawing.Size(100, 22);
-            this.txtPlaylistStart.TabIndex = 0;
-            this.txtPlaylistStart.TextHint = "txtPlaylistStartHint";
-            this.txtPlaylistStart.TextType = murrty.controls.AllowedCharacters.NumericOnly;
-            // 
             // panelPlaylistItems
             // 
             this.panelPlaylistItems.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -400,25 +332,6 @@
             this.panelPlaylistItems.Size = new System.Drawing.Size(213, 26);
             this.panelPlaylistItems.TabIndex = 17;
             this.panelPlaylistItems.Visible = false;
-            // 
-            // txtPlaylistItems
-            // 
-            this.txtPlaylistItems.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtPlaylistItems.ButtonAlignment = murrty.controls.ButtonAlignment.Left;
-            this.txtPlaylistItems.ButtonCursor = System.Windows.Forms.Cursors.Default;
-            this.txtPlaylistItems.ButtonFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPlaylistItems.ButtonImageIndex = -1;
-            this.txtPlaylistItems.ButtonSize = new System.Drawing.Size(22, 21);
-            this.txtPlaylistItems.ButtonText = "";
-            this.txtPlaylistItems.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.txtPlaylistItems.Location = new System.Drawing.Point(3, 3);
-            this.txtPlaylistItems.Name = "txtPlaylistItems";
-            this.txtPlaylistItems.RegexPatterns = null;
-            this.txtPlaylistItems.Size = new System.Drawing.Size(207, 22);
-            this.txtPlaylistItems.TabIndex = 0;
-            this.txtPlaylistItems.TextHint = "txtPlaylistItemsHint";
-            this.txtPlaylistItems.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPlaylistItems_KeyPress);
             // 
             // cbFormat
             // 
@@ -439,19 +352,6 @@
             this.lbFormat.TabIndex = 10;
             this.lbFormat.Text = "lbFormat";
             this.lbFormat.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // sbDownload
-            // 
-            this.sbDownload.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.sbDownload.ContextMenu = this.cmDownload;
-            this.sbDownload.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.sbDownload.Location = new System.Drawing.Point(78, 297);
-            this.sbDownload.Name = "sbDownload";
-            this.sbDownload.Size = new System.Drawing.Size(83, 25);
-            this.sbDownload.TabIndex = 14;
-            this.sbDownload.Text = "sbDownload";
-            this.sbDownload.UseVisualStyleBackColor = true;
-            this.sbDownload.Click += new System.EventHandler(this.sbDownload_Click);
             // 
             // cmDownload
             // 
@@ -593,26 +493,6 @@
             this.rbVideo.Text = "rbVideo";
             this.rbVideo.UseVisualStyleBackColor = true;
             this.rbVideo.CheckedChanged += new System.EventHandler(this.rbVideo_CheckedChanged);
-            // 
-            // txtUrl
-            // 
-            this.txtUrl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtUrl.ButtonAlignment = murrty.controls.ButtonAlignment.Left;
-            this.txtUrl.ButtonCursor = System.Windows.Forms.Cursors.Default;
-            this.txtUrl.ButtonFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtUrl.ButtonImageIndex = -1;
-            this.txtUrl.ButtonSize = new System.Drawing.Size(22, 21);
-            this.txtUrl.ButtonText = "";
-            this.txtUrl.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.txtUrl.Location = new System.Drawing.Point(22, 26);
-            this.txtUrl.Name = "txtUrl";
-            this.txtUrl.RegexPatterns = null;
-            this.txtUrl.Size = new System.Drawing.Size(194, 22);
-            this.txtUrl.TabIndex = 2;
-            this.txtUrl.TextChanged += new System.EventHandler(this.txtUrl_TextChanged);
-            this.txtUrl.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtUrl_KeyPress);
-            this.txtUrl.MouseEnter += new System.EventHandler(this.txtUrl_MouseEnter);
             // 
             // tabConvert
             // 
@@ -769,158 +649,9 @@
             this.txtConvertInput.Size = new System.Drawing.Size(167, 22);
             this.txtConvertInput.TabIndex = 2;
             // 
-            // tabMerge
-            // 
-            this.tabMerge.Controls.Add(this.chkMergeDeleteInputFiles);
-            this.tabMerge.Controls.Add(this.chkMergeAudioTracks);
-            this.tabMerge.Controls.Add(this.btnMerge);
-            this.tabMerge.Controls.Add(this.btnBrwsMergeOutput);
-            this.tabMerge.Controls.Add(this.txtMergeOutput);
-            this.tabMerge.Controls.Add(this.lbMergeOutput);
-            this.tabMerge.Controls.Add(this.btnBrwsMergeInput2);
-            this.tabMerge.Controls.Add(this.txtMergeInput2);
-            this.tabMerge.Controls.Add(this.btnBrwsMergeInput1);
-            this.tabMerge.Controls.Add(this.txtMergeInput1);
-            this.tabMerge.Controls.Add(this.lbMergeInput2);
-            this.tabMerge.Controls.Add(this.lbMergeInput1);
-            this.tabMerge.Location = new System.Drawing.Point(4, 22);
-            this.tabMerge.Name = "tabMerge";
-            this.tabMerge.Padding = new System.Windows.Forms.Padding(3);
-            this.tabMerge.Size = new System.Drawing.Size(238, 339);
-            this.tabMerge.TabIndex = 2;
-            this.tabMerge.Text = "tabMerge";
-            this.tabMerge.UseVisualStyleBackColor = true;
-            // 
-            // chkMergeDeleteInputFiles
-            // 
-            this.chkMergeDeleteInputFiles.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.chkMergeDeleteInputFiles.AutoSize = true;
-            this.chkMergeDeleteInputFiles.Location = new System.Drawing.Point(52, 192);
-            this.chkMergeDeleteInputFiles.Name = "chkMergeDeleteInputFiles";
-            this.chkMergeDeleteInputFiles.Size = new System.Drawing.Size(160, 17);
-            this.chkMergeDeleteInputFiles.TabIndex = 11;
-            this.chkMergeDeleteInputFiles.Text = "chkMergeDeleteInputFiles";
-            this.chkMergeDeleteInputFiles.UseVisualStyleBackColor = true;
-            // 
-            // chkMergeAudioTracks
-            // 
-            this.chkMergeAudioTracks.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.chkMergeAudioTracks.AutoSize = true;
-            this.chkMergeAudioTracks.Checked = true;
-            this.chkMergeAudioTracks.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkMergeAudioTracks.Location = new System.Drawing.Point(52, 169);
-            this.chkMergeAudioTracks.Name = "chkMergeAudioTracks";
-            this.chkMergeAudioTracks.Size = new System.Drawing.Size(138, 17);
-            this.chkMergeAudioTracks.TabIndex = 10;
-            this.chkMergeAudioTracks.Text = "chkMergeAudioTracks";
-            this.chkMergeAudioTracks.UseVisualStyleBackColor = true;
-            // 
-            // btnMerge
-            // 
-            this.btnMerge.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.btnMerge.Enabled = false;
-            this.btnMerge.Location = new System.Drawing.Point(79, 232);
-            this.btnMerge.Name = "btnMerge";
-            this.btnMerge.Size = new System.Drawing.Size(79, 25);
-            this.btnMerge.TabIndex = 12;
-            this.btnMerge.Text = "btnMerge";
-            this.btnMerge.UseVisualStyleBackColor = true;
-            this.btnMerge.Click += new System.EventHandler(this.btnMerge_Click);
-            // 
-            // btnBrwsMergeOutput
-            // 
-            this.btnBrwsMergeOutput.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnBrwsMergeOutput.Enabled = false;
-            this.btnBrwsMergeOutput.Location = new System.Drawing.Point(199, 119);
-            this.btnBrwsMergeOutput.Name = "btnBrwsMergeOutput";
-            this.btnBrwsMergeOutput.Size = new System.Drawing.Size(29, 23);
-            this.btnBrwsMergeOutput.TabIndex = 9;
-            this.btnBrwsMergeOutput.Text = "...";
-            this.btnBrwsMergeOutput.UseVisualStyleBackColor = true;
-            this.btnBrwsMergeOutput.Click += new System.EventHandler(this.btnBrwsMergeOutput_Click);
-            // 
-            // txtMergeOutput
-            // 
-            this.txtMergeOutput.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtMergeOutput.Location = new System.Drawing.Point(26, 121);
-            this.txtMergeOutput.Name = "txtMergeOutput";
-            this.txtMergeOutput.ReadOnly = true;
-            this.txtMergeOutput.Size = new System.Drawing.Size(167, 22);
-            this.txtMergeOutput.TabIndex = 8;
-            // 
-            // lbMergeOutput
-            // 
-            this.lbMergeOutput.AutoSize = true;
-            this.lbMergeOutput.Location = new System.Drawing.Point(19, 101);
-            this.lbMergeOutput.Name = "lbMergeOutput";
-            this.lbMergeOutput.Size = new System.Drawing.Size(88, 13);
-            this.lbMergeOutput.TabIndex = 7;
-            this.lbMergeOutput.Text = "lbMergeOutput";
-            // 
-            // btnBrwsMergeInput2
-            // 
-            this.btnBrwsMergeInput2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnBrwsMergeInput2.Enabled = false;
-            this.btnBrwsMergeInput2.Location = new System.Drawing.Point(199, 72);
-            this.btnBrwsMergeInput2.Name = "btnBrwsMergeInput2";
-            this.btnBrwsMergeInput2.Size = new System.Drawing.Size(29, 23);
-            this.btnBrwsMergeInput2.TabIndex = 6;
-            this.btnBrwsMergeInput2.Text = "...";
-            this.btnBrwsMergeInput2.UseVisualStyleBackColor = true;
-            this.btnBrwsMergeInput2.Click += new System.EventHandler(this.btnBrwsMergeInput2_Click);
-            // 
-            // txtMergeInput2
-            // 
-            this.txtMergeInput2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtMergeInput2.Location = new System.Drawing.Point(26, 74);
-            this.txtMergeInput2.Name = "txtMergeInput2";
-            this.txtMergeInput2.ReadOnly = true;
-            this.txtMergeInput2.Size = new System.Drawing.Size(167, 22);
-            this.txtMergeInput2.TabIndex = 5;
-            // 
-            // btnBrwsMergeInput1
-            // 
-            this.btnBrwsMergeInput1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnBrwsMergeInput1.Location = new System.Drawing.Point(199, 25);
-            this.btnBrwsMergeInput1.Name = "btnBrwsMergeInput1";
-            this.btnBrwsMergeInput1.Size = new System.Drawing.Size(29, 23);
-            this.btnBrwsMergeInput1.TabIndex = 3;
-            this.btnBrwsMergeInput1.Text = "...";
-            this.btnBrwsMergeInput1.UseVisualStyleBackColor = true;
-            this.btnBrwsMergeInput1.Click += new System.EventHandler(this.btnBrwsMergeInput1_Click);
-            // 
-            // txtMergeInput1
-            // 
-            this.txtMergeInput1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtMergeInput1.Location = new System.Drawing.Point(26, 27);
-            this.txtMergeInput1.Name = "txtMergeInput1";
-            this.txtMergeInput1.ReadOnly = true;
-            this.txtMergeInput1.Size = new System.Drawing.Size(167, 22);
-            this.txtMergeInput1.TabIndex = 2;
-            // 
-            // lbMergeInput2
-            // 
-            this.lbMergeInput2.AutoSize = true;
-            this.lbMergeInput2.Location = new System.Drawing.Point(19, 54);
-            this.lbMergeInput2.Name = "lbMergeInput2";
-            this.lbMergeInput2.Size = new System.Drawing.Size(84, 13);
-            this.lbMergeInput2.TabIndex = 4;
-            this.lbMergeInput2.Text = "lbMergeInput2";
-            // 
-            // lbMergeInput1
-            // 
-            this.lbMergeInput1.AutoSize = true;
-            this.lbMergeInput1.Location = new System.Drawing.Point(19, 7);
-            this.lbMergeInput1.Name = "lbMergeInput1";
-            this.lbMergeInput1.Size = new System.Drawing.Size(84, 13);
-            this.lbMergeInput1.TabIndex = 1;
-            this.lbMergeInput1.Text = "lbMergeInput1";
-            // 
             // tabDebug
             // 
+            this.tabDebug.Controls.Add(this.chkDebugPlaylistDownload);
             this.tabDebug.Controls.Add(this.chkDebugDontDownload);
             this.tabDebug.Controls.Add(this.btnDebugCheckVerification);
             this.tabDebug.Controls.Add(this.btnYtdlVersion);
@@ -1297,6 +1028,122 @@
             this.trayIcon.BalloonTipTitle = "Unseen easter egg";
             this.trayIcon.Text = "youtube-dl-gui";
             // 
+            // txtVideoDate
+            // 
+            this.txtVideoDate.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtVideoDate.ButtonAlignment = murrty.controls.ButtonAlignment.Left;
+            this.txtVideoDate.ButtonCursor = System.Windows.Forms.Cursors.Default;
+            this.txtVideoDate.ButtonFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtVideoDate.ButtonImageIndex = -1;
+            this.txtVideoDate.ButtonSize = new System.Drawing.Size(22, 21);
+            this.txtVideoDate.ButtonText = "";
+            this.txtVideoDate.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.txtVideoDate.Location = new System.Drawing.Point(3, 3);
+            this.txtVideoDate.MaxLength = 8;
+            this.txtVideoDate.Name = "txtVideoDate";
+            this.txtVideoDate.RegexPatterns = null;
+            this.txtVideoDate.Size = new System.Drawing.Size(207, 22);
+            this.txtVideoDate.TabIndex = 0;
+            this.txtVideoDate.TextHint = "txtVideoDateHint";
+            this.txtVideoDate.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtVideoDate_KeyPress);
+            // 
+            // txtPlaylistEnd
+            // 
+            this.txtPlaylistEnd.ButtonAlignment = murrty.controls.ButtonAlignment.Left;
+            this.txtPlaylistEnd.ButtonCursor = System.Windows.Forms.Cursors.Default;
+            this.txtPlaylistEnd.ButtonFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtPlaylistEnd.ButtonImageIndex = -1;
+            this.txtPlaylistEnd.ButtonSize = new System.Drawing.Size(22, 21);
+            this.txtPlaylistEnd.ButtonText = "";
+            this.txtPlaylistEnd.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.txtPlaylistEnd.Location = new System.Drawing.Point(108, 3);
+            this.txtPlaylistEnd.Name = "txtPlaylistEnd";
+            this.txtPlaylistEnd.RegexPatterns = null;
+            this.txtPlaylistEnd.Size = new System.Drawing.Size(100, 22);
+            this.txtPlaylistEnd.TabIndex = 1;
+            this.txtPlaylistEnd.TextHint = "txtPlaylistEndHint";
+            this.txtPlaylistEnd.TextType = murrty.controls.AllowedCharacters.NumericOnly;
+            // 
+            // txtPlaylistStart
+            // 
+            this.txtPlaylistStart.ButtonAlignment = murrty.controls.ButtonAlignment.Left;
+            this.txtPlaylistStart.ButtonCursor = System.Windows.Forms.Cursors.Default;
+            this.txtPlaylistStart.ButtonFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtPlaylistStart.ButtonImageIndex = -1;
+            this.txtPlaylistStart.ButtonSize = new System.Drawing.Size(22, 21);
+            this.txtPlaylistStart.ButtonText = "";
+            this.txtPlaylistStart.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.txtPlaylistStart.Location = new System.Drawing.Point(3, 3);
+            this.txtPlaylistStart.Name = "txtPlaylistStart";
+            this.txtPlaylistStart.RegexPatterns = null;
+            this.txtPlaylistStart.Size = new System.Drawing.Size(100, 22);
+            this.txtPlaylistStart.TabIndex = 0;
+            this.txtPlaylistStart.TextHint = "txtPlaylistStartHint";
+            this.txtPlaylistStart.TextType = murrty.controls.AllowedCharacters.NumericOnly;
+            // 
+            // txtPlaylistItems
+            // 
+            this.txtPlaylistItems.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtPlaylistItems.ButtonAlignment = murrty.controls.ButtonAlignment.Left;
+            this.txtPlaylistItems.ButtonCursor = System.Windows.Forms.Cursors.Default;
+            this.txtPlaylistItems.ButtonFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtPlaylistItems.ButtonImageIndex = -1;
+            this.txtPlaylistItems.ButtonSize = new System.Drawing.Size(22, 21);
+            this.txtPlaylistItems.ButtonText = "";
+            this.txtPlaylistItems.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.txtPlaylistItems.Location = new System.Drawing.Point(3, 3);
+            this.txtPlaylistItems.Name = "txtPlaylistItems";
+            this.txtPlaylistItems.RegexPatterns = null;
+            this.txtPlaylistItems.Size = new System.Drawing.Size(207, 22);
+            this.txtPlaylistItems.TabIndex = 0;
+            this.txtPlaylistItems.TextHint = "txtPlaylistItemsHint";
+            this.txtPlaylistItems.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPlaylistItems_KeyPress);
+            // 
+            // sbDownload
+            // 
+            this.sbDownload.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.sbDownload.ContextMenu = this.cmDownload;
+            this.sbDownload.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.sbDownload.Location = new System.Drawing.Point(78, 297);
+            this.sbDownload.Name = "sbDownload";
+            this.sbDownload.Size = new System.Drawing.Size(83, 25);
+            this.sbDownload.TabIndex = 14;
+            this.sbDownload.Text = "sbDownload";
+            this.sbDownload.UseVisualStyleBackColor = true;
+            this.sbDownload.Click += new System.EventHandler(this.sbDownload_Click);
+            // 
+            // txtUrl
+            // 
+            this.txtUrl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtUrl.ButtonAlignment = murrty.controls.ButtonAlignment.Left;
+            this.txtUrl.ButtonCursor = System.Windows.Forms.Cursors.Default;
+            this.txtUrl.ButtonFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtUrl.ButtonImageIndex = -1;
+            this.txtUrl.ButtonSize = new System.Drawing.Size(22, 21);
+            this.txtUrl.ButtonText = "";
+            this.txtUrl.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.txtUrl.Location = new System.Drawing.Point(22, 26);
+            this.txtUrl.Name = "txtUrl";
+            this.txtUrl.RegexPatterns = null;
+            this.txtUrl.Size = new System.Drawing.Size(194, 22);
+            this.txtUrl.TabIndex = 2;
+            this.txtUrl.TextChanged += new System.EventHandler(this.txtUrl_TextChanged);
+            this.txtUrl.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtUrl_KeyPress);
+            this.txtUrl.MouseEnter += new System.EventHandler(this.txtUrl_MouseEnter);
+            // 
+            // chkDebugPlaylistDownload
+            // 
+            this.chkDebugPlaylistDownload.AutoSize = true;
+            this.chkDebugPlaylistDownload.Location = new System.Drawing.Point(137, 70);
+            this.chkDebugPlaylistDownload.Name = "chkDebugPlaylistDownload";
+            this.chkDebugPlaylistDownload.Size = new System.Drawing.Size(61, 17);
+            this.chkDebugPlaylistDownload.TabIndex = 8;
+            this.chkDebugPlaylistDownload.Text = "playlist";
+            this.chkDebugPlaylistDownload.UseVisualStyleBackColor = true;
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1328,8 +1175,6 @@
             this.gbDownloadType.PerformLayout();
             this.tabConvert.ResumeLayout(false);
             this.tabConvert.PerformLayout();
-            this.tabMerge.ResumeLayout(false);
-            this.tabMerge.PerformLayout();
             this.tabDebug.ResumeLayout(false);
             this.tabDebug.PerformLayout();
             this.ResumeLayout(false);
@@ -1385,21 +1230,8 @@
         private System.Windows.Forms.MenuItem cmTrayConvertCustom;
         private System.Windows.Forms.MenuItem cmTrayConvertAutomatic;
         private System.Windows.Forms.MenuItem cmTrayConvertAutoFFmpeg;
-        private System.Windows.Forms.TabPage tabMerge;
         private System.Windows.Forms.ComboBox cbQuality;
         private System.Windows.Forms.Label lbQuality;
-        private System.Windows.Forms.Button btnMerge;
-        private System.Windows.Forms.Button btnBrwsMergeOutput;
-        private System.Windows.Forms.TextBox txtMergeOutput;
-        private System.Windows.Forms.Label lbMergeOutput;
-        private System.Windows.Forms.Button btnBrwsMergeInput2;
-        private System.Windows.Forms.TextBox txtMergeInput2;
-        private System.Windows.Forms.Button btnBrwsMergeInput1;
-        private System.Windows.Forms.TextBox txtMergeInput1;
-        private System.Windows.Forms.Label lbMergeInput2;
-        private System.Windows.Forms.Label lbMergeInput1;
-        private System.Windows.Forms.CheckBox chkMergeAudioTracks;
-        private System.Windows.Forms.CheckBox chkMergeDeleteInputFiles;
         private System.Windows.Forms.CheckBox chkDownloadSound;
         private System.Windows.Forms.MenuItem mTools;
         private System.Windows.Forms.MenuItem mBatchDownload;
@@ -1453,6 +1285,7 @@
         private System.Windows.Forms.MenuItem mMerger;
         private System.Windows.Forms.MenuItem mArchiveDownloader;
         private System.Windows.Forms.MenuItem mLog;
+        private System.Windows.Forms.CheckBox chkDebugPlaylistDownload;
     }
 }
 

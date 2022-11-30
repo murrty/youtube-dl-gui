@@ -498,13 +498,13 @@ namespace youtube_dl_gui {
                     AddItemToList(Data[i]);
                 }
             }
-            else MessageBox.Show("The clipboard does not contain text that can be added.");
+            else Log.MessageBox("The clipboard does not contain text that can be added.");
         }
 
         private void chkBatchDownloadClipboardScanner_CheckedChanged(object sender, EventArgs e) {
             if (chkBatchDownloadClipboardScanner.Checked) {
                 if (!Config.Settings.Batch.ClipboardScannerNoticeViewed) {
-                    if (MessageBox.Show(Language.dlgBatchDownloadClipboardScannerNotice, Language.ApplicationName, MessageBoxButtons.OKCancel) == DialogResult.Cancel) {
+                    if (Log.MessageBox(Language.dlgBatchDownloadClipboardScannerNotice, MessageBoxButtons.OKCancel) == DialogResult.Cancel) {
                         chkBatchDownloadClipboardScanner.Checked = false;
                         return;
                     }

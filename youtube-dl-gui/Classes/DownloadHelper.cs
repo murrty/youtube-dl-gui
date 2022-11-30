@@ -75,22 +75,16 @@ public class DownloadHelper {
 
     public static bool SupportedDownloadLink(string Url) => CompiledRegex.ForIf((x) => x.IsMatch(Url));
 
-    public static string GetTransferData(string[] LineParts, ref float Percentage, bool ShowEta) {
-        if (LineParts[1].Contains('%')) {
-            Percentage = float.Parse(LineParts[1][..LineParts[1].IndexOf('%')]);
-            return $"{LineParts[1]} of {LineParts[3]} @ {LineParts[5]}{(ShowEta && LineParts.Length > 7 ? $" ETA {LineParts[7]}" : "")}";
-        }
-        return "could not parse line";
-    }
-
     public static string GetTransferData(string[] LineParts, ref float Percentage, ref string Eta) {
         if (LineParts[1].Contains('%')) {
-            Percentage = float.Parse(LineParts[1][..LineParts[1].IndexOf('%')]);
+            Percentage = float.Parse(LineParts[1][..LineParts[1].IndexOf('%')],
+                System.Globalization.CultureInfo.InvariantCulture);
+
             Eta = LineParts[7];
             return $"{LineParts[1]} of {LineParts[3]} @ {LineParts[5]}";
         }
         Eta = "Unknown";
-        return "could not parse line";
+        return "Could not parse line";
     }
 
 }

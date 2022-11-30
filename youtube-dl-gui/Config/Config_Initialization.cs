@@ -7,6 +7,7 @@ internal class Config_Initialization {
     public Version SkippedVersion { get; set; }
     public Version SkippedBetaVersion { get; set; }
     public bool ScreenshotMode { get; set; }
+    public bool WritePercentageToConsole { get; set; }
 
     private bool ffirstTime { get; set; }
     private string fLanguageFile { get; set; }
@@ -22,6 +23,7 @@ internal class Config_Initialization {
         fSkippedVersion = SkippedVersion = IniProvider.Read(SkippedVersion, Version.Empty);
         SkippedBetaVersion = fSkippedBetaVersion = IniProvider.Read(SkippedVersion, Version.Empty);
         ScreenshotMode = IniProvider.Read(ScreenshotMode, false);
+        WritePercentageToConsole = IniProvider.Read(WritePercentageToConsole, false);
     }
 
     public void Save() {

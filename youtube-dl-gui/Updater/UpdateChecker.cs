@@ -7,7 +7,7 @@ using System.Threading;
 using System.Windows.Forms;
 using murrty.updater;
 internal sealed class UpdateChecker {
-    private const string KnownUpdaterHash = "C4961090B55CD0351CA652DB6517C7C0E0657A510B0EAB259A8096BA6DB15802";
+    private const string KnownUpdaterHash = "49F51D3BA9064B0C1FC053F44BD56901032BAD1CFFD0FA1855379D0E8D301C16";
     private const string FfmpegDownloadLink = "https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-essentials.zip";
 
     #region Properties
@@ -96,7 +96,8 @@ internal sealed class UpdateChecker {
         }
 
         // Sanity check the updater.
-        if (Program.CalculateSha256Hash(UpdaterPath) != KnownUpdaterHash.ToLowerInvariant() && MessageBox.Show(Language.dlgUpdaterHashNoMatch, Language.ApplicationName, MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No) {
+        if (Program.CalculateSha256Hash(UpdaterPath) != KnownUpdaterHash.ToLowerInvariant() &&
+        Log.MessageBox(Language.dlgUpdaterHashNoMatch, MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No) {
             File.Delete(UpdaterPath);
             return;
         }
@@ -117,7 +118,7 @@ internal sealed class UpdateChecker {
     /// </summary>
     /// <param name="ForceCheck"></param>
     public static bool CheckForYoutubeDlUpdate(bool ForceCheck = false) {
-        if (LatestYoutubeDl == null || LatestYoutubeDl.VersionTag == null || ForceCheck) {
+        if (LatestYoutubeDl is null || LatestYoutubeDl.VersionTag is null || ForceCheck) {
             bool ShouldRetry;
             int TypeIndex = Config.Settings.Downloads.YtdlType switch {
                 1 => 1,
@@ -130,7 +131,9 @@ internal sealed class UpdateChecker {
             do {
                 ShouldRetry = false;
                 try {
-                    if (Config.Settings.Downloads.useYtdlUpdater && (Config.Settings.General.UseStaticYtdl && !string.IsNullOrEmpty(Config.Settings.General.ytdlPath) && File.Exists(Config.Settings.General.ytdlPath) || File.Exists(Verification.YoutubeDlPath))) {
+                    if (Config.Settings.Downloads.useYtdlUpdater
+                    && ((Config.Settings.General.UseStaticYtdl && File.Exists(Config.Settings.General.ytdlPath))
+                    || File.Exists(Verification.YoutubeDlPath))) {
                         Log.Write("Using youtube-dls' internal updater to update the program.");
 
                         Process UpdateYoutubeDl = new();
@@ -153,7 +156,7 @@ internal sealed class UpdateChecker {
                                 FileName = null;
                             }
                             else {
-                                MessageBox.Show(Language.dlgUpdateNoValidYoutubeDl, Language.ApplicationName);
+                                Log.MessageBox(Language.dlgUpdateNoValidYoutubeDl);
                                 return false;
                             }
                         }
@@ -161,6 +164,7 @@ internal sealed class UpdateChecker {
 
                     }
                     else {
+                        Log.Write("Manually checking for youtube-dl update...");
                         GetLatestYoutubeDl(TypeIndex);
                         LatestYoutubeDl.IsNewerVersion = Verification.YoutubeDlVersion != LatestYoutubeDl.VersionTag;
                         return LatestYoutubeDl.IsNewerVersion;
@@ -194,8 +198,17 @@ internal sealed class UpdateChecker {
                 }
             } while (ShouldRetry);
         }
-        Log.Write($"Found youtube-dl version: {LatestYoutubeDl.VersionTag}");
-        return LatestYoutubeDl.IsNewerVersion;
+
+        Log.Write("Assuming the update check finished.");
+
+        if (LatestYoutubeDl is null) {
+            Log.Write($"Found youtube-dl version: {LatestYoutubeDl.VersionTag}");
+            return LatestYoutubeDl.IsNewerVersion;
+        }
+        else {
+            Log.ReportException(new InvalidOperationException("LatestYoutubeDl is still null!"));
+            return false;
+        }
     }
 
     /// <summary>
@@ -224,7 +237,7 @@ internal sealed class UpdateChecker {
                     UpdateYoutubeDl.StartInfo.FileName = FileName;
                 }
                 else {
-                    MessageBox.Show(Language.dlgUpdateNoValidYoutubeDl, Language.ApplicationName);
+                    Log.MessageBox(Language.dlgUpdateNoValidYoutubeDl);
                     return false;
                 }
             }
@@ -259,9 +272,9 @@ internal sealed class UpdateChecker {
 
             using frmGenericDownloadProgress Downloader = Location is not null ?
                 new(DownloadUrl, FullSavePath, Location.Value) : new(DownloadUrl, FullSavePath);
+
             if (Downloader.ShowDialog() != DialogResult.OK)
                 return false;
-
         }
         else {
             return false;
@@ -417,6 +430,8 @@ internal sealed class UpdateChecker {
             if (GitID < 0 || GitID + 1 > GithubLinks.Repos.Length)
                 throw new ArgumentOutOfRangeException("GitID", GitID, "The GitID is invalid, youtube-dl cannot be redownloaded.");
 
+            Log.Write("Retrieving Github release data for youtube-dl");
+
             Url = string.Format(GithubLinks.GithubLatestJson, GithubLinks.Users[GitID], GithubLinks.Repos[GitID]);
 
             string Json = GetJSON(Url);
@@ -426,7 +441,7 @@ internal sealed class UpdateChecker {
 
             GithubData CurrentRelease = Json.JsonDeserialize<GithubData>();
 
-            if (LatestYoutubeDl != null && LatestYoutubeDl.VersionTag == CurrentRelease.VersionTag) {
+            if (LatestYoutubeDl is not null && LatestYoutubeDl.VersionTag == CurrentRelease.VersionTag) {
                 return LatestYoutubeDl.VersionTag;
             }
 

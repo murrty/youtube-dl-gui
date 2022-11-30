@@ -4,7 +4,6 @@ using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
 public partial class frmMain : Form {
-
     #region variables
     private Thread UpdateCheckThread;
     private Thread YtdlUpdateCheckThread;
@@ -267,7 +266,6 @@ public partial class frmMain : Form {
 
         tabDownload.Text = Language.tabDownload;
         tabConvert.Text = Language.tabConvert;
-        tabMerge.Text = Language.tabMerge;
 
         lbURL.Text = Language.lbURL;
         txtUrl.TextHint = Language.txtUrlHint;
@@ -306,13 +304,6 @@ public partial class frmMain : Form {
         rbConvertAuto.Text = Language.rbConvertAuto;
         rbConvertAutoFFmpeg.Text = Language.rbConvertAutoFFmpeg;
         btnConvert.Text = Language.btnConvert;
-
-        lbMergeInput1.Text = Language.lbMergeInput1;
-        lbMergeInput2.Text = Language.lbMergeInput2;
-        lbMergeOutput.Text = Language.lbMergeOutput;
-        chkMergeAudioTracks.Text = Language.chkMergeAudioTracks;
-        chkMergeDeleteInputFiles.Text = Language.chkMergeDeleteInputFiles;
-        btnMerge.Text = Language.btnMerge;
 
         cmTrayShowForm.Text = Language.cmTrayShowForm;
         cmTrayDownloader.Text = Language.cmTrayDownloader;
@@ -416,15 +407,6 @@ public partial class frmMain : Form {
             (rbConvertAuto.Location.X + rbConvertAuto.Size.Width) + 2,
             rbConvertAutoFFmpeg.Location.Y
         );
-
-        chkMergeAudioTracks.Location = new(
-            (tabMerge.Size.Width - chkMergeAudioTracks.Size.Width) / 2,
-            chkMergeAudioTracks.Location.Y
-        );
-        chkMergeDeleteInputFiles.Location = new(
-            (tabMerge.Size.Width - chkMergeDeleteInputFiles.Size.Width) / 2,
-            chkMergeDeleteInputFiles.Location.Y
-        );
     }
 
     private void ToggleClipboardScanning() {
@@ -438,9 +420,9 @@ public partial class frmMain : Form {
         }
         else {
             if (!Config.Settings.General.ClipboardAutoDownloadNoticeRead) {
-                if (MessageBox.Show(Language.dlgClipboardAutoDownloadNotice, Language.ApplicationName, MessageBoxButtons.OKCancel) == DialogResult.Cancel) {
+                if (Log.MessageBox(Language.dlgClipboardAutoDownloadNotice, MessageBoxButtons.OKCancel) == DialogResult.Cancel)
                     return;
-                }
+
                 Config.Settings.General.ClipboardAutoDownloadNoticeRead = true;
             }
             if (NativeMethods.AddClipboardFormatListener(this.Handle)) {
@@ -609,11 +591,11 @@ public partial class frmMain : Form {
     private void cmTrayDownloadCustomTxt_Click(object sender, EventArgs e) {
         if (!Clipboard.ContainsText()) {
             if (!System.IO.File.Exists(Environment.CurrentDirectory + "\\args.txt")) {
-                MessageBox.Show(Language.dlgMainArgsTxtDoesntExist, Language.ApplicationName);
+                Log.MessageBox(Language.dlgMainArgsTxtDoesntExist);
                 return;
             }
             else if (string.IsNullOrEmpty(System.IO.File.ReadAllText(Environment.CurrentDirectory + "\\args.txt"))) {
-                MessageBox.Show(Language.dlgMainArgsTxtIsEmpty, Language.ApplicationName);
+                Log.MessageBox(Language.dlgMainArgsTxtIsEmpty);
                 return;
             }
             else {
@@ -630,7 +612,7 @@ public partial class frmMain : Form {
     private void cmTrayDownloadCustomSettings_Click(object sender, EventArgs e) {
         if (!Clipboard.ContainsText() && Config.Settings.Saved.CustomArgumentsIndex < 0) {
             if (string.IsNullOrEmpty(Config.Settings.Saved.DownloadCustomArguments)) {
-                MessageBox.Show(Language.dlgMainArgsNoneSaved, Language.ApplicationName);
+                Log.MessageBox(Language.dlgMainArgsNoneSaved);
                 return;
             }
             else
@@ -889,7 +871,7 @@ public partial class frmMain : Form {
     }
     private void mBatchDownloadFromFile_Click(object sender, EventArgs e) {
         if (!Config.Settings.Downloads.SkipBatchTip) {
-            switch (MessageBox.Show(Language.msgBatchDownloadFromFile, Language.ApplicationName, MessageBoxButtons.YesNoCancel)) {
+            switch (Log.MessageBox(Language.msgBatchDownloadFromFile, MessageBoxButtons.YesNoCancel)) {
                 case DialogResult.Cancel:
                     return;
                 case DialogResult.Yes:
@@ -1140,19 +1122,15 @@ public partial class frmMain : Form {
         }
     }
     private void StartDownloadExtended() {
-        switch (Config.Settings.Downloads.YtdlType) {
-            case 0: case 2: {
-                if (txtUrl.Text.IsNotNullEmptyWhitespace()) {
-                    frmExtendedDownloader Extended = new(txtUrl.Text, false);
-                    Extended.Show();
-                    if (Config.Settings.General.ClearURLOnDownload) {
-                        txtUrl.Clear();
-                    }
-                    if (Config.Settings.General.ClearClipboardOnDownload) {
-                        Clipboard.Clear();
-                    }
-                }
-            } break;
+        if (txtUrl.Text.IsNotNullEmptyWhitespace()) {
+            frmExtendedDownloader Extended = new(txtUrl.Text, false);
+            Extended.Show();
+            if (Config.Settings.General.ClearURLOnDownload) {
+                txtUrl.Clear();
+            }
+            if (Config.Settings.General.ClearClipboardOnDownload) {
+                Clipboard.Clear();
+            }
         }
     }
     #endregion
@@ -1332,65 +1310,6 @@ public partial class frmMain : Form {
     }
     #endregion
 
-    #region merger
-    private void btnBrwsMergeInput1_Click(object sender, EventArgs e) {
-        using OpenFileDialog ofd = new() {
-            Filter = Formats.JoinFormats(new[] {
-                Formats.AllFiles,
-                Formats.VideoFormats,
-                Formats.AudioFormats,
-                !string.IsNullOrWhiteSpace(Formats.CustomFormats) ? Formats.CustomFormats : ""
-            }),
-            Title = Language.dlgMergeSelectFileToMerge
-        };
-
-        if (ofd.ShowDialog() == DialogResult.OK) {
-            txtMergeInput1.Text = ofd.FileName;
-            btnBrwsMergeInput2.Enabled = true;
-            txtMergeOutput.Text = System.IO.Path.GetDirectoryName(ofd.FileName) + "\\" + System.IO.Path.GetFileNameWithoutExtension(ofd.FileName) + "-merged" + System.IO.Path.GetExtension(ofd.FileName);
-        }
-    }
-    private void btnBrwsMergeInput2_Click(object sender, EventArgs e) {
-        using OpenFileDialog ofd = new() {
-            Filter = Formats.JoinFormats(new[] {
-                Formats.AllFiles,
-                Formats.VideoFormats,
-                Formats.AudioFormats,
-                !string.IsNullOrWhiteSpace(Formats.CustomFormats) ? Formats.CustomFormats : ""
-            }),
-            Title = Language.dlgMergeSelectFileToMerge
-        };
-
-        if (ofd.ShowDialog() == DialogResult.OK) {
-            txtMergeInput2.Text = ofd.FileName;
-            btnBrwsMergeOutput.Enabled = true;
-            if (!string.IsNullOrEmpty(txtMergeOutput.Text)) {
-                btnMerge.Enabled = true;
-            }
-        }
-    }
-    private void btnBrwsMergeOutput_Click(object sender, EventArgs e) {
-        using SaveFileDialog sfd = new() {
-            Filter = Formats.JoinFormats(new[] {
-                Formats.AllFiles,
-                Formats.VideoFormats,
-                Formats.AudioFormats,
-                !string.IsNullOrWhiteSpace(Formats.CustomFormats) ? Formats.CustomFormats : ""
-            }),
-            Title = Language.dlgSaveOutputFileAs
-        };
-
-        if (sfd.ShowDialog() == DialogResult.OK) {
-            txtMergeOutput.Text = sfd.FileName;
-            btnMerge.Enabled = true;
-        }
-    }
-
-    private void btnMerge_Click(object sender, EventArgs e) {
-        ConvertHelper.MergeFiles(txtMergeInput1.Text, txtMergeInput2.Text, txtMergeOutput.Text, chkMergeAudioTracks.Checked, chkMergeDeleteInputFiles.Checked);
-    }
-    #endregion
-
     #region debug
     private void btnDebugForceUpdateCheck_Click(object sender, EventArgs e) {
         UpdateChecker.CheckForUpdate(true, true);
@@ -1398,9 +1317,14 @@ public partial class frmMain : Form {
     private void btnDebugForceAvailableUpdate_Click(object sender, EventArgs e) {
     }
     private void btnDebugDownloadArgs_Click(object sender, EventArgs e) {
-        if (!Clipboard.ContainsText()) { return; }
-        frmDownloader Downloader = new();
-        Downloader.Show();
+        if (!Clipboard.ContainsText())
+            return;
+
+        YoutubeDlData testData = chkDebugPlaylistDownload.Checked ?
+            YoutubeDlData.GeneratePlaylist(Clipboard.GetText(), out _) : YoutubeDlData.GenerateData(Clipboard.GetText(), out _);
+
+        //frmDownloader Downloader = new();
+        //Downloader.Show();
     }
     private void btnDebugRotateQualityFormat_Click(object sender, EventArgs e) {
         Point s = lbQuality.Location;
@@ -1414,23 +1338,25 @@ public partial class frmMain : Form {
         cbQuality.Location = v;
     }
     private void btnDebugThrowException_Click(object sender, EventArgs e) {
-        try {
+        //try {
             throw new Exception("An exception has been thrown.");
-        }
-        catch (Exception ex) {
-            Log.ReportException(ex, false);
-        }
+        //}
+        //catch (Exception ex) {
+        //    Log.ReportException(ex, false);
+        //}
     }
     private void btnYtdlVersion_Click(object sender, EventArgs e) {
-        MessageBox.Show(Verification.YoutubeDlVersion);
+        Log.MessageBox(Verification.YoutubeDlVersion);
     }
     private void btnDebugCheckVerification_Click(object sender, EventArgs e) {
-        MessageBox.Show(
-            $"Youtube-DL Path: {{{Verification.YoutubeDlPath}}}\r\nYoutube-DL Version: {{{Verification.YoutubeDlVersion}}}\r\n\r\n" +
-            $"FFmpeg Path: {{{Verification.FFmpegPath}}}\r\n\r\n" +
-            $"AtomicParlsey Path: {{{Verification.AtomicParsleyPath}}}"
-        );
+        Log.MessageBox($$"""
+            Youtube-DL Path: { {{Verification.YoutubeDlPath}} }
+            Youtube-DL Version: { {{Verification.YoutubeDlVersion}} }
+
+            FFmpeg Path: { {{Verification.FFmpegPath}} }
+
+            AtomicParsley Path: { {{Verification.AtomicParsleyPath}} }
+            """);
     }
     #endregion
-
 }

@@ -407,6 +407,13 @@ public partial class frmExtendedDownloader : Form {
             IsBackground = true,
             Priority = ThreadPriority.BelowNormal
         };
+        rtbVerbose.AppendLine(Config.Settings.Downloads.YtdlType switch {
+            0 => "Using yt-dlp as the",
+            1 => "Using youtube-dl as the",
+            3 => "Using youtube-dl-patch as the",
+            2 => "Using yt-dlp-patch as the",
+            _ => "Unknown"
+        } + " download provider.");
         InformationThread.Start();
     }
     private void DownloadThumbnail() {
@@ -662,6 +669,15 @@ public partial class frmExtendedDownloader : Form {
             if (Verification.YoutubeDlPath.IsNullEmptyWhitespace())
                 throw new NullReferenceException("Youtube-dl path is invalid and cannot be used.");
 
+
+            if (Config.Settings.Downloads.LimitDownloads && (Config.Settings.Downloads.YtdlType == 0 || Config.Settings.Downloads.YtdlType == 3)
+            && Environment.OSVersion.Version.Major <= 6 && Environment.OSVersion.Version.Minor <= 1) {
+                rtbVerbose.AppendLine($"""
+                WARNING: Progress MAY not be made using yt-dlp on Windows 7 with limiting downloads enabled.
+                youtube-dl-gui is NOT the cause of this issue, it lies on yt-dlp to implement a fix for.
+                """);
+            }
+
             btnDownloadWithAuthentication.Enabled = false;
             btnDownloadAbortClose.Text = Language.GenericCancel;
             pbStatus.ShowInTaskbar = true;
@@ -807,6 +823,7 @@ public partial class frmExtendedDownloader : Form {
                         pbStatus.ShowInTaskbar = false;
                         btnDownloadAbortClose.Enabled = true;
                         btnDownloadWithAuthentication.Enabled = true;
+                        this.Text = ProgressVideoName;
                         switch (Status) {
                             case DownloadStatus.Aborted: {
                                 rtbVerbose.AppendLine("Aborted download");
@@ -1087,7 +1104,7 @@ public partial class frmExtendedDownloader : Form {
     }
 
     private void btnCreateArgs_Click(object sender, EventArgs e) {
-        MessageBox.Show(GenerateArguments(false) ?? "No args");
+        Log.MessageBox(GenerateArguments(false) ?? "No args");
     }
     private void btnPbAdd_Click(object sender, EventArgs e) {
         if (pbStatus.Value < pbStatus.Maximum)

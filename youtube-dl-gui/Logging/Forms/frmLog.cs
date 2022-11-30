@@ -1,14 +1,11 @@
-﻿/// frmLog is a part of https://github.com/murrty/aphrodite booru downloader.
-/// Licensed via GPL-3.0, if you did not receieve a license with this file; idk figure it out.
-/// This code, *as-is*, should not be a part of another project; it should really only be used as reference or testing.
-namespace murrty.logging;
+﻿namespace murrty.logging;
 
 using youtube_dl_gui;
 using System.Windows.Forms;
 
 internal partial class frmLog : Form {
     public bool IsShown {
-        get; set;
+        get; private set;
     } = false;
 
     public frmLog() {
@@ -61,7 +58,7 @@ internal partial class frmLog : Form {
         Append("Log has been cleared");
     }
     private void btnRemoveException_Click(object sender, EventArgs e) {
-        if (tcExceptions.SelectedTab != null) {
+        if (tcExceptions.SelectedTab is not null) {
             Control[] ex = tcExceptions.SelectedTab.Controls.Find("TextBox", false);
             if (ex.Length > 0 && ex[0] is TextBox txt)
                 txt.Dispose();
@@ -79,6 +76,31 @@ internal partial class frmLog : Form {
     private void btnClose_Click(object sender, EventArgs e) {
         this.Hide();
         IsShown = false;
+    }
+
+    /// <summary>
+    /// Displays the log.
+    /// </summary>
+    [System.Diagnostics.DebuggerStepThrough]
+    public void ShowLog() {
+        if (!IsShown) {
+            this.Show();
+            IsShown = true;
+        }
+        else {
+            this.Activate();
+        }
+    }
+
+    /// <summary>
+    /// Hides the log.
+    /// </summary>
+    [System.Diagnostics.DebuggerStepThrough]
+    public void HideLog() {
+        if (IsShown) {
+            this.Hide();
+            IsShown = false;
+        }
     }
 
     /// <summary>
@@ -111,8 +133,8 @@ internal partial class frmLog : Form {
     /// <param name="type">The exception type</param>
     /// <param name="exception">The inner exception details.</param>
     [System.Diagnostics.DebuggerStepThrough]
-    public void AddException(string type, string exception, DateTime occurance) {
-        TabPage ExceptionPage = new($"{type} @ {occurance:yyyy/MM/dd HH:mm:ss.fff}");
+    public void AddException(ExceptionInfo Exception) {
+        TabPage ExceptionPage = new($"{Exception.Exception.GetType().Name} @ {Exception.ExceptionTime:yyyy/MM/dd HH:mm:ss.fff}");
         TextBox ExceptionDetails = new() {
             Multiline = true,
             ReadOnly = true,
@@ -120,7 +142,17 @@ internal partial class frmLog : Form {
         };
         ExceptionPage.Controls.Add(ExceptionDetails);
         ExceptionDetails.Dock = DockStyle.Fill;
-        ExceptionDetails.Text = exception;
+        ExceptionDetails.Text = $$"""
+            A {{Exception.ExceptionType switch {
+                ExceptionType.Caught => "caught ",
+                ExceptionType.Unhandled => "unhandled ",
+                ExceptionType.ThreadException => "thread-exception ",
+                _ => ""
+            }}}{{Exception.Exception.GetType().Name}} occurred.
+
+            {{Exception.Exception.GetType().FullName}} -> {{Exception.Exception.Source}}
+            {{Exception.Exception.StackTrace}}
+            """;
         ExceptionDetails.ContextMenu = cmLog;
         ExceptionDetails.Font = rtbLog.Font;
         tcExceptions.TabPages.Add(ExceptionPage);

@@ -68,7 +68,7 @@ namespace youtube_dl_gui {
 
             // The SHA on github doesn't match what I can calculate here.
             //if (Program.CalculateSha1Hash(Output).ToLower() != EnumeratedLanguages[listView1.SelectedIndices[0]].Sha.ToLower()) {
-            //    MessageBox.Show(Language.dlgLanguageHashNoMatch, Language.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            //    Log.MessageBox(Language.dlgLanguageHashNoMatch, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             //}
         }
 

@@ -638,7 +638,7 @@ public partial class frmSettings : Form {
         YtdlUpdateCheck = new(() => {
             if (UpdateChecker.CheckForYoutubeDlUpdate(true)) {
                 if (UpdateChecker.UpdateYoutubeDl(new(this.Location.X + 8, this.Location.Y + 8))) {
-                    this.BeginInvoke(() => MessageBox.Show(Language.dlgUpdatedYoutubeDl, Language.ApplicationName, MessageBoxButtons.OK));
+                    this.BeginInvoke(() => Log.MessageBox(Language.dlgUpdatedYoutubeDl, MessageBoxButtons.OK));
                     System.Media.SystemSounds.Asterisk.Play();
                 }
                 else {
@@ -646,9 +646,9 @@ public partial class frmSettings : Form {
                 }
             }
             else {
-                this.BeginInvoke((Action)delegate {
-                    MessageBox.Show(string.Format(Language.dlgUpateYoutubeDlNoUpdateRequired, Verification.YoutubeDlVersion, UpdateChecker.LatestYoutubeDl.VersionTag), Language.ApplicationName, MessageBoxButtons.OK);
-                });
+                this.BeginInvoke(() => Log.MessageBox(
+                    Language.dlgUpateYoutubeDlNoUpdateRequired.Format(Verification.YoutubeDlVersion, UpdateChecker.LatestYoutubeDl.VersionTag),
+                    MessageBoxButtons.OK));
             }
         }) {
             IsBackground = true

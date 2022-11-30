@@ -151,14 +151,14 @@ internal static class Program {
                 Language.LoadLanguage(LangPicker.LanguageFile);
                 Config.Settings.Initialization.Save();
 
-                if (MessageBox.Show(Language.dlgFirstTimeInitialMessage, Language.ApplicationName, MessageBoxButtons.YesNo) != DialogResult.Yes)
+                if (Log.MessageBox(Language.dlgFirstTimeInitialMessage, MessageBoxButtons.YesNo) != DialogResult.Yes)
                     return 1;
 
                 Config.Settings.Initialization.firstTime = false;
                 Config.Settings.Downloads.downloadPath =
                     Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Downloads\\youtube-dl";
 
-                if (MessageBox.Show(Language.dlgFirstTimeDownloadFolder, Language.ApplicationName, MessageBoxButtons.YesNo) == DialogResult.Yes) {
+                if (Log.MessageBox(Language.dlgFirstTimeDownloadFolder, MessageBoxButtons.YesNo) == DialogResult.Yes) {
                     using BetterFolderBrowserNS.BetterFolderBrowser fbd = new();
                     fbd.Title = Language.dlgFindDownloadFolder;
                     fbd.RootFolder = Config.Settings.Downloads.downloadPath;
@@ -167,12 +167,12 @@ internal static class Program {
                 }
 
                 if (Verification.YoutubeDlPath.IsNullEmptyWhitespace()
-                && MessageBox.Show(Language.dlgFirstTimeDownloadYoutubeDl, Language.ApplicationName, MessageBoxButtons.YesNo) == DialogResult.Yes
+                && Log.MessageBox(Language.dlgFirstTimeDownloadYoutubeDl, MessageBoxButtons.YesNo) == DialogResult.Yes
                 && UpdateChecker.CheckForYoutubeDlUpdate())
                     UpdateChecker.UpdateYoutubeDl(null);
 
                 if (Verification.FFmpegPath.IsNullEmptyWhitespace() &&
-                MessageBox.Show(Language.dlgFirstTimeDownloadFfmpeg, Language.ApplicationName, MessageBoxButtons.YesNo) == DialogResult.Yes)
+                Log.MessageBox(Language.dlgFirstTimeDownloadFfmpeg, MessageBoxButtons.YesNo) == DialogResult.Yes)
                     UpdateChecker.UpdateFfmpeg(null);
 
                 Config.Settings.Initialization.Save();
@@ -277,53 +277,43 @@ internal static class Program {
         if (args.Count > 0) {
             int PassedCount = 0;
             for (int i = 0; i < args.Count; i++) {
-                switch (args[i].Type) {
-                    case ArgumentType.DownloadVideo when !args[i].Data.IsNullEmptyWhitespace(): {
-                        if (Config.Settings.Downloads.ExtendedDownloaderPreferExtendedForm) {
-                            new frmExtendedDownloader(args[i].Data, false).Show();
+                if (!args[i].Data.IsNullEmptyWhitespace()) {
+                    if (Config.Settings.Downloads.ExtendedDownloaderPreferExtendedForm) {
+                        new frmExtendedDownloader(args[i].Data, false).Show();
+                    }
+                    else {
+                        switch (args[i].Type) {
+                            case ArgumentType.DownloadVideo: {
+                                DownloadInfo NewVideo = new() {
+                                    DownloadURL = args[i].Data,
+                                    Type = DownloadType.Video,
+                                    VideoQuality = (VideoQualityType)Config.Settings.Saved.videoQuality
+                                };
+                                new frmDownloader(NewVideo).Show();
+                            } break;
+                            case ArgumentType.DownloadAudio: {
+                                DownloadInfo NewAudio = new() {
+                                    DownloadURL = args[i].Data,
+                                    Type = DownloadType.Audio,
+                                };
+                                if (Config.Settings.Downloads.AudioDownloadAsVBR) {
+                                    NewAudio.AudioVBRQuality = (AudioVBRQualityType)Config.Settings.Saved.audioQuality;
+                                }
+                                else {
+                                    NewAudio.AudioCBRQuality = (AudioCBRQualityType)Config.Settings.Saved.audioQuality;
+                                }
+                                new frmDownloader(NewAudio).Show();
+                            } break;
+                            case ArgumentType.DownloadCustom: {
+                                DownloadInfo NewCustom = new() {
+                                    DownloadURL = args[i].Data,
+                                    Type = DownloadType.Custom,
+                                };
+                                new frmDownloader(NewCustom).Show();
+                            } break;
                         }
-                        else {
-                            DownloadInfo NewVideo = new() {
-                                DownloadURL = args[i].Data,
-                                Type = DownloadType.Video,
-                                VideoQuality = (VideoQualityType)Config.Settings.Saved.videoQuality
-                            };
-                            new frmDownloader(NewVideo).Show();
-                        }
-                        PassedCount++;
-                    } break;
-                    case ArgumentType.DownloadAudio when !args[i].Data.IsNullEmptyWhitespace(): {
-                        if (Config.Settings.Downloads.ExtendedDownloaderPreferExtendedForm) {
-                            new frmExtendedDownloader(args[i].Data, false).Show();
-                        }
-                        else {
-                            DownloadInfo NewAudio = new() {
-                                DownloadURL = args[i].Data,
-                                Type = DownloadType.Audio,
-                            };
-                            if (Config.Settings.Downloads.AudioDownloadAsVBR) {
-                                NewAudio.AudioVBRQuality = (AudioVBRQualityType)Config.Settings.Saved.audioQuality;
-                            }
-                            else {
-                                NewAudio.AudioCBRQuality = (AudioCBRQualityType)Config.Settings.Saved.audioQuality;
-                            }
-                            new frmDownloader(NewAudio).Show();
-                        }
-                        PassedCount++;
-                    } break;
-                    case ArgumentType.DownloadCustom when !args[i].Data.IsNullEmptyWhitespace(): {
-                        if (Config.Settings.Downloads.ExtendedDownloaderPreferExtendedForm) {
-                            new frmExtendedDownloader(args[i].Data, false).Show();
-                        }
-                        else {
-                            DownloadInfo NewCustom = new() {
-                                DownloadURL = args[i].Data,
-                                Type = DownloadType.Custom,
-                            };
-                            new frmDownloader(NewCustom).Show();
-                        }
-                        PassedCount++;
-                    } break;
+                    }
+                    PassedCount++;
                 }
             }
             return PassedCount > 0;

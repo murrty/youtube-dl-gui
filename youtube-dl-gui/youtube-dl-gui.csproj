@@ -213,6 +213,7 @@
     <Compile Include="Logging\ExceptionInfo.cs" />
     <Compile Include="Logging\Exceptions\ApiParsingException.cs" />
     <Compile Include="Logging\Exceptions\DownloadException.cs" />
+    <Compile Include="Logging\Exceptions\InvalidDownloadProviderException.cs" />
     <Compile Include="Logging\ExceptionType.cs" />
     <Compile Include="Logging\Forms\frmException.cs">
       <SubType>Form</SubType>

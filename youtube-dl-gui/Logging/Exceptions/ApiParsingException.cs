@@ -5,10 +5,9 @@
 /// </summary>
 [Serializable]
 public sealed class ApiParsingException : Exception {
-    public string ApiUrl { get; set; } = "No API URL provided.";
+    public string ApiUrl { get; } = null;
     public ApiParsingException(string url) : base("No message has been provided.") { ApiUrl = url; }
     public ApiParsingException(string message, string url) : base(message) { ApiUrl = url; }
-    public ApiParsingException(string message, string url, string extraInfo) : base(message) { ApiUrl = url; }
-    public override string ToString() => base.ToString() + "\nApi URL: " + ApiUrl;
+    public override string ToString() => base.ToString() + (ApiUrl is not null ? ($"\nApi URL: {ApiUrl}") : "");
 
 }

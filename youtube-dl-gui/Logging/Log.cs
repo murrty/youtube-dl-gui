@@ -1,6 +1,5 @@
 ﻿#define ALLOWUNHANDLEDCATCHING
 namespace murrty.logging;
-
 using System.Diagnostics;
 using System.Management;
 using System.Threading;
@@ -8,17 +7,11 @@ using System.Windows.Forms;
 
 using youtube_dl_gui;
 using WinMsg = System.Windows.Forms.MessageBox;
-
 /// <summary>
 /// This class will control the Errors that get reported in try statements.
 /// </summary>
 internal static class Log {
     #region Properties & Fields
-    /// <summary>
-    /// The default value that should appear in the message box titles.
-    /// </summary>
-    public const string MessageBoxTitle = Language.ApplicationName;
-
     /// <summary>
     /// The log form that is used globally to log data.
     /// </summary>
@@ -68,12 +61,15 @@ internal static class Log {
 #if !DEBUG || ALLOWUNHANDLEDCATCHING
             Write("Creating unhandled exception event.");
             AppDomain.CurrentDomain.UnhandledException += (sender, exception) => {
-                ExceptionInfo NewException = new((Exception)exception.ExceptionObject) {
+                Exception ExceptionRef = exception.ExceptionObject is Exception ex ?
+                    ex : new ApplicationException("An unhandled exception occurred, but the exception object is not an exception type.");
+
+                ExceptionInfo NewException = new(ExceptionRef) {
                     ExceptionTime = DateTime.Now,
                     ExceptionType = exception.IsTerminating ? ExceptionType.Unhandled : ExceptionType.Caught,
                     AllowRetry = false
                 };
-                AddExceptionToLog(NewException.Exception, NewException.ExceptionTime);
+                AddExceptionToLog(NewException);
                 using frmException ExceptionDisplay = new(NewException);
                 ExceptionDisplay.ShowDialog();
             };
@@ -85,7 +81,7 @@ internal static class Log {
                     ExceptionType = ExceptionType.ThreadException,
                     AllowRetry = false
                 };
-                AddExceptionToLog(NewException.Exception, NewException.ExceptionTime);
+                AddExceptionToLog(NewException);
                 using frmException ExceptionDisplay = new(NewException);
                 ExceptionDisplay.ShowDialog();
             };
@@ -153,17 +149,8 @@ internal static class Log {
     /// </summary>
     //[DebuggerStepThrough]
     internal static void ShowLog() {
-        if (LogFormUsable) {
-            if (LogForm.IsShown) {
-                Write("The log form is already shown.");
-                LogForm.Activate();
-            }
-            else {
-                LogForm.Append("Showing log");
-                LogForm.IsShown = true;
-                LogForm.Show();
-            }
-        }
+        if (LogFormUsable)
+            LogForm.ShowLog();
     }
 
     /// <summary>
@@ -171,12 +158,8 @@ internal static class Log {
     /// </summary>
     //[DebuggerStepThrough]
     internal static void HideLog() {
-        if (LogFormUsable) {
-            if (LogForm.IsShown) {
-                LogForm.Hide();
-                LogForm.IsShown = false;
-            }
-        }
+        if (LogFormUsable)
+            LogForm.HideLog();
     }
 
     /// <summary>
@@ -317,7 +300,7 @@ internal static class Log {
         WriteNoDate($"[{ReceivedException.ExceptionTime:yyyy/MM/dd HH:mm:ss.fff}] An {ReceivedException.Exception.GetType().Name} occurred.");
 
         // Adds the exception to the log form.
-        AddExceptionToLog(ReceivedException.Exception, ReceivedException.ExceptionTime);
+        AddExceptionToLog(ReceivedException);
 
         // Creates the exception form and displays the dialog.
         using frmException NewException = new(ReceivedException);
@@ -336,9 +319,9 @@ internal static class Log {
     /// </summary>
     /// <param name="ReceivedException">The <see cref="Exception"/> receieved.</param>
     /// <param name="ExceptionTime">The time of the exception.</param>
-    private static void AddExceptionToLog(Exception ReceivedException, DateTime ExceptionTime) {
+    private static void AddExceptionToLog(ExceptionInfo ReceivedException) {
         if (LogEnabled)
-            LogForm?.AddException(ReceivedException.GetType().Name, $"{ReceivedException.Message}\r\n\r\n{ReceivedException.StackTrace}", ExceptionTime);
+            LogForm?.AddException(ReceivedException);
     }
 
     /// <summary>
@@ -370,7 +353,7 @@ internal static class Log {
     /// <param name="Message">The message that will be displayed in the dialog.</param>
     /// <returns>The dialog result of the message box.</returns>
     public static DialogResult MessageBox(
-        string Message) => WinMsg.Show(Form.ActiveForm, Message, MessageBoxTitle);
+        string Message) => WinMsg.Show(Form.ActiveForm, Message, Language.ApplicationName);
 
     /// <summary>
     /// Displays a message dialog with a pre-defined caption.
@@ -380,7 +363,7 @@ internal static class Log {
     /// <returns>The dialog result of the message box.</returns>
     public static DialogResult MessageBox(
         string Message,
-        MessageBoxButtons Buttons = MessageBoxButtons.OK) => WinMsg.Show(Form.ActiveForm, Message, MessageBoxTitle, Buttons);
+        MessageBoxButtons Buttons = MessageBoxButtons.OK) => WinMsg.Show(Form.ActiveForm, Message, Language.ApplicationName, Buttons);
 
     /// <summary>
     /// Displays a message dialog with a pre-defined caption.
@@ -392,7 +375,7 @@ internal static class Log {
     public static DialogResult MessageBox(
         string Message,
         MessageBoxButtons Buttons,
-        MessageBoxIcon Icon) => WinMsg.Show(Form.ActiveForm, Message, MessageBoxTitle, Buttons, Icon);
+        MessageBoxIcon Icon) => WinMsg.Show(Form.ActiveForm, Message, Language.ApplicationName, Buttons, Icon);
 
     /// <summary>
     /// Displays a message dialog with a pre-defined caption.
@@ -404,7 +387,7 @@ internal static class Log {
     public static DialogResult MessageBox(
         string Message,
         MessageBoxButtons Buttons,
-        MessageBoxDefaultButton DefaultButton) => WinMsg.Show(Form.ActiveForm, Message, MessageBoxTitle, Buttons, MessageBoxIcon.None, DefaultButton);
+        MessageBoxDefaultButton DefaultButton) => WinMsg.Show(Form.ActiveForm, Message, Language.ApplicationName, Buttons, MessageBoxIcon.None, DefaultButton);
 
     /// <summary>
     /// Displays a message dialog with a pre-defined caption.
@@ -418,6 +401,6 @@ internal static class Log {
         string Message,
         MessageBoxButtons Buttons,
         MessageBoxIcon Icon,
-        MessageBoxDefaultButton DefaultButton) => WinMsg.Show(Form.ActiveForm, Message, MessageBoxTitle, Buttons, Icon, DefaultButton);
+        MessageBoxDefaultButton DefaultButton) => WinMsg.Show(Form.ActiveForm, Message, Language.ApplicationName, Buttons, Icon, DefaultButton);
     #endregion
 }
