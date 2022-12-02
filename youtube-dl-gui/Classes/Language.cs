@@ -1025,8 +1025,7 @@ public static class Language {
         public const string chkSettingsErrorsSuppressErrors = "Suppress errors";
         public const string chkSettingsErrorsShowDetailedErrorsHint = "Shows more details in errors";
         public const string chkSettingsErrorsSaveErrorsAsErrorLogHint = "Saves the latest error as error.log in the exeucting directory of youtube-dl-gui";
-        public const string chkSettingsErrorsSuppressErrorsHint = "This will silence any errors and will not save any error.log files.\n\n" +
-                                                                            "This basically overrides all error settings. Use at your own risk.";
+        public const string chkSettingsErrorsSuppressErrorsHint = "This will silence any errors and will not save any error.log files.\nRetriable errors are exempt from this option.\n\nThis basically overrides all error settings. Use at your own risk.";
         #endregion
 
         #endregion

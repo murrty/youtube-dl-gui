@@ -321,7 +321,7 @@ public partial class frmDownloader : Form {
                                         case '0': {
                                             if (pbStatus.Style != ProgressBarStyle.Blocks)
                                                 pbStatus.Invoke(() => pbStatus.Style = ProgressBarStyle.Blocks);
-                                            if (LineParts[1].Contains('%')) {
+                                            if (LineParts[1].Contains('%') && pbStatus.IsHandleCreated) {
                                                 pbStatus.Invoke(() => {
                                                     pbStatus.Text =
                                                         $"{DownloadHelper.GetTransferData(LineParts, ref Percentage, ref Eta) } ETA {Eta}";

@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.Management;
 using System.Threading;
 using System.Windows.Forms;
-
 using youtube_dl_gui;
 using WinMsg = System.Windows.Forms.MessageBox;
 /// <summary>
@@ -241,6 +240,8 @@ internal static class Log {
             ExceptionType = ExceptionType.Caught
         };
 
+        // Retriable exceptions are exempt from suppression due to the nature of their retriability.
+
         // Returns the exception forms dialog result.
         return DisplayException(ExceptionData, AllowWritingToFile);
     }
@@ -301,6 +302,10 @@ internal static class Log {
 
         // Adds the exception to the log form.
         AddExceptionToLog(ReceivedException);
+
+        // If suppress errors is enabled, return the none result.
+        if (!ReceivedException.AllowRetry && Config.Settings.Errors.suppressErrors)
+            return DialogResult.None;
 
         // Creates the exception form and displays the dialog.
         using frmException NewException = new(ReceivedException);
