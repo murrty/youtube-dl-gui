@@ -129,7 +129,7 @@ internal class Config_Downloads {
         WriteMetadata = fWriteMetadata = IniProvider.Read(WriteMetadata, false, ConfigName);
         SkipBatchTip = fSkipBatchTip = IniProvider.Read(SkipBatchTip, false, ConfigName);
         AutomaticallyDownloadFromProtocol = fAutomaticallyDownloadFromProtocol = IniProvider.Read(AutomaticallyDownloadFromProtocol, true, ConfigName);
-        PreferFFmpeg = fPreferFFmpeg = IniProvider.Read(PreferFFmpeg, true, ConfigName);
+        PreferFFmpeg = fPreferFFmpeg = IniProvider.Read(PreferFFmpeg, false, ConfigName);
         SeparateBatchDownloads = fSeparateBatchDownloads = IniProvider.Read(SeparateBatchDownloads, true, ConfigName);
         AddDateToBatchDownloadFolders = fAddDateToBatchDownloadFolders = IniProvider.Read(AddDateToBatchDownloadFolders, true, ConfigName);
         YtdlType = fYtdlType = IniProvider.Read(YtdlType, 0, ConfigName) switch {

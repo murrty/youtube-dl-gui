@@ -80,8 +80,14 @@ public class DownloadHelper {
             Percentage = float.Parse(LineParts[1][..LineParts[1].IndexOf('%')],
                 System.Globalization.CultureInfo.InvariantCulture);
 
-            Eta = LineParts[7];
-            return $"{LineParts[1]} of {LineParts[3]} @ {LineParts[5]}";
+            if (LineParts[3] == "~") {
+                Eta = LineParts[8];
+                return $"{LineParts[1]} of ~{LineParts[4]} @ {LineParts[6]}";
+            }
+            else {
+                Eta = LineParts[7];
+                return $"{LineParts[1]} of {LineParts[3]} @ {LineParts[5]}";
+            }
         }
         Eta = "Unknown";
         return "Could not parse line";
