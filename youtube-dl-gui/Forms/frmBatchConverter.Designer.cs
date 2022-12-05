@@ -142,7 +142,6 @@
             this.txtBatchConverterCustomConversionArguments.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.txtBatchConverterCustomConversionArguments.Location = new System.Drawing.Point(15, 52);
             this.txtBatchConverterCustomConversionArguments.Name = "txtBatchConverterCustomConversionArguments";
-            this.txtBatchConverterCustomConversionArguments.RegexPatterns = null;
             this.txtBatchConverterCustomConversionArguments.Size = new System.Drawing.Size(515, 20);
             this.txtBatchConverterCustomConversionArguments.TabIndex = 26;
             this.txtBatchConverterCustomConversionArguments.TextHint = "txtBatchConverterCustomConversionArguments";
@@ -198,7 +197,6 @@
             this.txtBatchConverterInputFile.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.txtBatchConverterInputFile.Location = new System.Drawing.Point(5, 19);
             this.txtBatchConverterInputFile.Name = "txtBatchConverterInputFile";
-            this.txtBatchConverterInputFile.RegexPatterns = null;
             this.txtBatchConverterInputFile.ShowButton = true;
             this.txtBatchConverterInputFile.Size = new System.Drawing.Size(251, 20);
             this.txtBatchConverterInputFile.TabIndex = 21;
@@ -220,7 +218,6 @@
             this.txtBatchConverterOutputFile.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.txtBatchConverterOutputFile.Location = new System.Drawing.Point(5, 19);
             this.txtBatchConverterOutputFile.Name = "txtBatchConverterOutputFile";
-            this.txtBatchConverterOutputFile.RegexPatterns = null;
             this.txtBatchConverterOutputFile.ShowButton = true;
             this.txtBatchConverterOutputFile.Size = new System.Drawing.Size(247, 20);
             this.txtBatchConverterOutputFile.TabIndex = 23;

@@ -254,9 +254,6 @@
     <Compile Include="..\Shared\Controls\Enums\TaskbarProgressState.cs">
       <Link>Controls\Shared\Enums\TaskbarProgressState.cs</Link>
     </Compile>
-    <Compile Include="..\Shared\Controls\Events\RegexMatchEventArgs.cs">
-      <Link>Controls\Shared\Events\RegexMatchEventArgs.cs</Link>
-    </Compile>
     <Compile Include="..\Shared\Controls\Interfaces\TaskbarInterface.cs">
       <Link>Controls\Shared\Interfaces\TaskbarInterface.cs</Link>
     </Compile>

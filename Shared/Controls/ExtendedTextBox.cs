@@ -46,10 +46,6 @@ public class ExtendedTextBox : TextBox {
     /// Whether the space key is allowed.
     /// </summary>
     private bool fAllowSpace = true;
-    /// <summary>
-    /// The regular expression patterns array.
-    /// </summary>
-    private string[] fRegexPatterns = null;
 
     /// <summary>
     /// The button that appears inside the textbox.
@@ -65,10 +61,6 @@ public class ExtendedTextBox : TextBox {
     /// Whether the KeyDown event has a SUSSY BAKA key that needs to be checked in the Unfiltered Characters array.
     /// </summary>
     private bool fCheckChar = false;
-    /// <summary>
-    /// Whether the regex matched.
-    /// </summary>
-    private bool fRegexMatched = false;
     /// <summary>
     /// Whether the button is enabled.
     /// </summary>
@@ -264,16 +256,6 @@ public class ExtendedTextBox : TextBox {
                 InsetButton.Font = value;
             }
         }
-    }
-
-    /// <summary>
-    /// Gets or sets the Regular Expression patterns array that will match strings when pasted.
-    /// </summary>
-    [Category("Behavior")]
-    [Description("An array of regular expression patterns that can match strings being pasted.")]
-    public string[] RegexPatterns {
-        get => fRegexPatterns;
-        set => fRegexPatterns = value;
     }
 
     /// <summary>
@@ -479,21 +461,7 @@ public class ExtendedTextBox : TextBox {
                                                 AllowedCharacters.AlphabeticalOnly => $"^[a-zA-Z{(fAllowSpace ? " " : "")}]+$",
                                                 AllowedCharacters.AlphaNumericOnly => $"^[a-zA-Z0-9{(fAllowSpace ? " " : "")}]+$",
                                                 _ => throw new ArgumentOutOfRangeException("Ctrl + V was pressed but regex couldn't use a proper TextType.")
-                                            }
-                                        );
-                                        if (fRegexPatterns.Length > 0 && Clipboard.ContainsText()) {
-                                            Match FoundMatch;
-                                            string ClipboardData = Clipboard.GetText();
-                                            for (int i = 0; i < fRegexPatterns.Length; i++) {
-                                                FoundMatch = Regex.Match(ClipboardData, fRegexPatterns[i]);
-                                                if (FoundMatch.Success) {
-                                                    e.SuppressKeyPress = true;
-                                                    fRegexMatched = true;
-                                                    RegexMatch?.Invoke(this, new(FoundMatch));
-                                                    break;
-                                                }
-                                            }
-                                        }
+                                            });
                                     }
                                 } break;
                             }
@@ -509,7 +477,7 @@ public class ExtendedTextBox : TextBox {
                                 } break;
 
                                 case Keys.V: {
-                                    e.SuppressKeyPress = Clipboard.ContainsText() && Regex.IsMatch(Clipboard.GetText(), $"^[0-9{(fAllowSpace ? " " : "")}]+$", RegexOptions.Compiled);
+                                    e.SuppressKeyPress = Clipboard.ContainsText() && Regex.IsMatch(Clipboard.GetText(), $"^[0-9{(fAllowSpace ? " " : "")}]+$");
                                 } break;
 
                                 default: {
@@ -551,12 +519,9 @@ public class ExtendedTextBox : TextBox {
             } break;
         }
 
-        if (e.SuppressKeyPress && !fRegexMatched) {
+        if (e.SuppressKeyPress) {
             fCheckChar = true;
             e.SuppressKeyPress = false;
-        }
-        else {
-            fRegexMatched = false;
         }
 
         base.OnKeyDown(e);
@@ -583,11 +548,6 @@ public class ExtendedTextBox : TextBox {
         add => InsetButton.Click += value;
         remove => InsetButton.Click -= value;
     }
-
-    /// <summary>
-    /// Event raised when a Regular Expression pattern gets matched.
-    /// </summary>
-    public event EventHandler<RegexMatchEventArgs> RegexMatch;
     #endregion
 
     #region Methods

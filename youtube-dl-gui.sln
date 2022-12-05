@@ -49,11 +49,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Enums", "Enums", "{D9CA86FD
 		Shared\Controls\Enums\TaskbarProgressState.cs = Shared\Controls\Enums\TaskbarProgressState.cs
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Events", "Events", "{ED9864E2-883B-4DA8-9765-4B8540D87A43}"
-	ProjectSection(SolutionItems) = preProject
-		Shared\Controls\Events\RegexMatchEventArgs.cs = Shared\Controls\Events\RegexMatchEventArgs.cs
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Interfaces", "Interfaces", "{48AD0A90-44CD-4A14-A18E-C2E9D6278A4D}"
 	ProjectSection(SolutionItems) = preProject
 		Shared\Controls\Interfaces\TaskbarInterface.cs = Shared\Controls\Interfaces\TaskbarInterface.cs
@@ -105,7 +100,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{98BEC70D-68EE-47FC-9438-3B7DD1D4FB3B} = {EEF611C7-908E-41CB-8584-4976ADB229FB}
 		{D9CA86FD-EB96-472B-936B-845722F2C50B} = {98BEC70D-68EE-47FC-9438-3B7DD1D4FB3B}
-		{ED9864E2-883B-4DA8-9765-4B8540D87A43} = {98BEC70D-68EE-47FC-9438-3B7DD1D4FB3B}
 		{48AD0A90-44CD-4A14-A18E-C2E9D6278A4D} = {98BEC70D-68EE-47FC-9438-3B7DD1D4FB3B}
 		{6FA3D731-C818-476C-AF19-8F24163490B3} = {98BEC70D-68EE-47FC-9438-3B7DD1D4FB3B}
 		{964C2F26-A878-4593-88E3-655C5B70F614} = {6759DD52-499D-4DFF-97BB-0202BAAE2130}

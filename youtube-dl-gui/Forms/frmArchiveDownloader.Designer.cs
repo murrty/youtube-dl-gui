@@ -48,7 +48,6 @@
             this.txtArchiveDownloaderHint.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.txtArchiveDownloaderHint.Location = new System.Drawing.Point(12, 52);
             this.txtArchiveDownloaderHint.Name = "txtArchiveDownloaderHint";
-            this.txtArchiveDownloaderHint.RegexPatterns = null;
             this.txtArchiveDownloaderHint.Size = new System.Drawing.Size(260, 22);
             this.txtArchiveDownloaderHint.TabIndex = 0;
             this.txtArchiveDownloaderHint.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;

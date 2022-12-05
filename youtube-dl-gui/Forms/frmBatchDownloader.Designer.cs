@@ -300,7 +300,6 @@
             this.txtBatchDownloadLink.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.txtBatchDownloadLink.Location = new System.Drawing.Point(15, 26);
             this.txtBatchDownloadLink.Name = "txtBatchDownloadLink";
-            this.txtBatchDownloadLink.RegexPatterns = null;
             this.txtBatchDownloadLink.Size = new System.Drawing.Size(223, 20);
             this.txtBatchDownloadLink.TabIndex = 3;
             this.txtBatchDownloadLink.TextHint = "https://...";

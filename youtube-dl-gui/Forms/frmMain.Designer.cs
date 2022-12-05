@@ -326,7 +326,6 @@
             this.txtVideoDate.Location = new System.Drawing.Point(3, 3);
             this.txtVideoDate.MaxLength = 8;
             this.txtVideoDate.Name = "txtVideoDate";
-            this.txtVideoDate.RegexPatterns = null;
             this.txtVideoDate.Size = new System.Drawing.Size(207, 22);
             this.txtVideoDate.TabIndex = 0;
             this.txtVideoDate.TextHint = "txtVideoDateHint";
@@ -354,7 +353,6 @@
             this.txtPlaylistEnd.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.txtPlaylistEnd.Location = new System.Drawing.Point(108, 3);
             this.txtPlaylistEnd.Name = "txtPlaylistEnd";
-            this.txtPlaylistEnd.RegexPatterns = null;
             this.txtPlaylistEnd.Size = new System.Drawing.Size(100, 22);
             this.txtPlaylistEnd.TabIndex = 1;
             this.txtPlaylistEnd.TextHint = "txtPlaylistEndHint";
@@ -371,7 +369,6 @@
             this.txtPlaylistStart.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.txtPlaylistStart.Location = new System.Drawing.Point(3, 3);
             this.txtPlaylistStart.Name = "txtPlaylistStart";
-            this.txtPlaylistStart.RegexPatterns = null;
             this.txtPlaylistStart.Size = new System.Drawing.Size(100, 22);
             this.txtPlaylistStart.TabIndex = 0;
             this.txtPlaylistStart.TextHint = "txtPlaylistStartHint";
@@ -401,7 +398,6 @@
             this.txtPlaylistItems.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.txtPlaylistItems.Location = new System.Drawing.Point(3, 3);
             this.txtPlaylistItems.Name = "txtPlaylistItems";
-            this.txtPlaylistItems.RegexPatterns = null;
             this.txtPlaylistItems.Size = new System.Drawing.Size(207, 22);
             this.txtPlaylistItems.TabIndex = 0;
             this.txtPlaylistItems.TextHint = "txtPlaylistItemsHint";
@@ -594,7 +590,6 @@
             this.txtUrl.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.txtUrl.Location = new System.Drawing.Point(22, 26);
             this.txtUrl.Name = "txtUrl";
-            this.txtUrl.RegexPatterns = null;
             this.txtUrl.Size = new System.Drawing.Size(194, 22);
             this.txtUrl.TabIndex = 2;
             this.txtUrl.TextChanged += new System.EventHandler(this.txtUrl_TextChanged);

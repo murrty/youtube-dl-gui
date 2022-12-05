@@ -436,7 +436,6 @@
             this.txtSettingsGeneralYoutubeDlPath.Location = new System.Drawing.Point(13, 27);
             this.txtSettingsGeneralYoutubeDlPath.Name = "txtSettingsGeneralYoutubeDlPath";
             this.txtSettingsGeneralYoutubeDlPath.ReadOnly = true;
-            this.txtSettingsGeneralYoutubeDlPath.RegexPatterns = null;
             this.txtSettingsGeneralYoutubeDlPath.Size = new System.Drawing.Size(233, 22);
             this.txtSettingsGeneralYoutubeDlPath.TabIndex = 3;
             this.tipSettings.SetToolTip(this.txtSettingsGeneralYoutubeDlPath, "txtYtdl");
@@ -528,7 +527,6 @@
             this.txtSettingsGeneralFFmpegPath.Location = new System.Drawing.Point(13, 27);
             this.txtSettingsGeneralFFmpegPath.Name = "txtSettingsGeneralFFmpegPath";
             this.txtSettingsGeneralFFmpegPath.ReadOnly = true;
-            this.txtSettingsGeneralFFmpegPath.RegexPatterns = null;
             this.txtSettingsGeneralFFmpegPath.Size = new System.Drawing.Size(233, 22);
             this.txtSettingsGeneralFFmpegPath.TabIndex = 7;
             this.tipSettings.SetToolTip(this.txtSettingsGeneralFFmpegPath, "txtFFmpeg");
@@ -1000,7 +998,6 @@
             this.txtSettingsDownloadsProxyPort.Location = new System.Drawing.Point(189, 126);
             this.txtSettingsDownloadsProxyPort.MaxLength = 5;
             this.txtSettingsDownloadsProxyPort.Name = "txtSettingsDownloadsProxyPort";
-            this.txtSettingsDownloadsProxyPort.RegexPatterns = null;
             this.txtSettingsDownloadsProxyPort.Size = new System.Drawing.Size(44, 22);
             this.txtSettingsDownloadsProxyPort.TabIndex = 12;
             this.txtSettingsDownloadsProxyPort.TextHint = "12345";
@@ -1019,7 +1016,6 @@
             this.txtSettingsDownloadsProxyIp.Location = new System.Drawing.Point(92, 126);
             this.txtSettingsDownloadsProxyIp.MaxLength = 15;
             this.txtSettingsDownloadsProxyIp.Name = "txtSettingsDownloadsProxyIp";
-            this.txtSettingsDownloadsProxyIp.RegexPatterns = null;
             this.txtSettingsDownloadsProxyIp.Size = new System.Drawing.Size(89, 22);
             this.txtSettingsDownloadsProxyIp.TabIndex = 10;
             this.txtSettingsDownloadsProxyIp.TextHint = "255.255.255.255";
@@ -1191,7 +1187,6 @@
             this.txtSettingsDownloadsSavePath.Location = new System.Drawing.Point(30, 32);
             this.txtSettingsDownloadsSavePath.Name = "txtSettingsDownloadsSavePath";
             this.txtSettingsDownloadsSavePath.ReadOnly = true;
-            this.txtSettingsDownloadsSavePath.RegexPatterns = null;
             this.txtSettingsDownloadsSavePath.Size = new System.Drawing.Size(233, 22);
             this.txtSettingsDownloadsSavePath.TabIndex = 2;
             this.tipSettings.SetToolTip(this.txtSettingsDownloadsSavePath, "txtSaveto");
@@ -1612,7 +1607,6 @@
             this.txtSettingsConverterCustomArguments.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.txtSettingsConverterCustomArguments.Location = new System.Drawing.Point(36, 97);
             this.txtSettingsConverterCustomArguments.Name = "txtSettingsConverterCustomArguments";
-            this.txtSettingsConverterCustomArguments.RegexPatterns = null;
             this.txtSettingsConverterCustomArguments.Size = new System.Drawing.Size(228, 22);
             this.txtSettingsConverterCustomArguments.TabIndex = 2;
             this.tipSettings.SetToolTip(this.txtSettingsConverterCustomArguments, "txtSettingsConverterCustomArguments");
@@ -1755,7 +1749,6 @@
             this.txtSettingsExtensionsExtensionShort.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.txtSettingsExtensionsExtensionShort.Location = new System.Drawing.Point(166, 65);
             this.txtSettingsExtensionsExtensionShort.Name = "txtSettingsExtensionsExtensionShort";
-            this.txtSettingsExtensionsExtensionShort.RegexPatterns = null;
             this.txtSettingsExtensionsExtensionShort.Size = new System.Drawing.Size(57, 22);
             this.txtSettingsExtensionsExtensionShort.TabIndex = 5;
             // 
@@ -1772,7 +1765,6 @@
             this.txtSettingsExtensionsExtensionFullName.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.txtSettingsExtensionsExtensionFullName.Location = new System.Drawing.Point(31, 65);
             this.txtSettingsExtensionsExtensionFullName.Name = "txtSettingsExtensionsExtensionFullName";
-            this.txtSettingsExtensionsExtensionFullName.RegexPatterns = null;
             this.txtSettingsExtensionsExtensionFullName.Size = new System.Drawing.Size(129, 22);
             this.txtSettingsExtensionsExtensionFullName.TabIndex = 4;
             // 
