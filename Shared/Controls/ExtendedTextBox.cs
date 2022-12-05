@@ -17,7 +17,6 @@ using murrty.controls.natives;
 /// </summary>
 [System.Diagnostics.DebuggerStepThrough]
 public class ExtendedTextBox : TextBox {
-
     #region Fields
     /// <summary>
     /// The text hint.
@@ -605,5 +604,4 @@ public class ExtendedTextBox : TextBox {
         }
     }
     #endregion
-
 }

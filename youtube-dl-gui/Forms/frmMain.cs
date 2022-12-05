@@ -850,9 +850,11 @@ public partial class frmMain : Form {
             txtUrl.Text = Clipboard.GetText();
         }
     }
-    private void txtUrl_KeyPress(object sender, KeyPressEventArgs e) {
-        if (e.KeyChar == 13) {
-            Download();
+    private void txtUrl_KeyDown(object sender, KeyEventArgs e) {
+        switch (e.KeyCode) {
+            case Keys.Enter: {
+                Download();
+            } break;
         }
     }
     private void txtUrl_TextChanged(object sender, EventArgs e) {
@@ -861,6 +863,16 @@ public partial class frmMain : Form {
     private void txtArgs_KeyPress(object sender, KeyPressEventArgs e) {
         if (e.KeyChar == 13) {
             Download();
+        }
+    }
+    private void cbCustomArguments_KeyPress(object sender, KeyPressEventArgs e) {
+        switch (e.KeyChar) {
+            case '\\': case '/': case ':':
+            case '*': case '?': case '"':
+            case '<': case '>': case '|': {
+                System.Media.SystemSounds.Beep.Play();
+                e.Handled = true;
+            } break;
         }
     }
     private void sbDownload_Click(object sender, EventArgs e) {
@@ -1358,5 +1370,7 @@ public partial class frmMain : Form {
             AtomicParsley Path: { {{Verification.AtomicParsleyPath}} }
             """);
     }
+
     #endregion
+
 }

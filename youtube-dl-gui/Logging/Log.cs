@@ -240,8 +240,6 @@ internal static class Log {
             ExceptionType = ExceptionType.Caught
         };
 
-        // Retriable exceptions are exempt from suppression due to the nature of their retriability.
-
         // Returns the exception forms dialog result.
         return DisplayException(ExceptionData, AllowWritingToFile);
     }

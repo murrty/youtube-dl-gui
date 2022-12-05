@@ -1,6 +1,45 @@
 ﻿namespace youtube_dl_gui_shared;
+
 using System.Runtime.InteropServices;
 using System.Text;
+
+/// <summary>
+/// Contains data to be passed to another application by the WM_COPYDATA message.
+/// </summary>
+/// <param name="dwData">The type of the data to be passed to the receiving application. The receiving application defines the valid types.</param>
+/// <param name="cbData">The size, in bytes, of the data pointed to by the lpData member.</param>
+/// <param name="lpData">The data to be passed to the receiving application.</param>
+[StructLayout(LayoutKind.Sequential)]
+public record struct CopyDataStruct(
+    [MarshalAs(UnmanagedType.SysInt)] nint dwData,
+    [MarshalAs(UnmanagedType.I4)] int cbData,
+    [MarshalAs(UnmanagedType.SysInt)] nint lpData);
+
+/// <summary>
+/// Represents a structure with data for passing update data between youtube-dl-gui and the updater.
+/// </summary>
+/// <param name="FileName">
+/// The full path to the file, with the desired file name.
+/// <para/>
+/// The length of the string is limited to 256 characters.
+/// </param>
+/// <param name="NewVersion">
+/// The tag of the new version.
+/// <para/>
+/// The length of the string is limited to 15 characters.
+/// </param>
+/// <param name="UpdateHash">
+/// The SHA-256 hash of the new version to verify.
+/// The program will display a warning if the value is NULL or does not match the generated SHA-256 of the downloaded stub.
+/// <para/>
+/// The length of the string is limited to 64 characters, which is the length of a standard SHA-256 hash.
+/// </param>
+[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+public record struct UpdaterData(
+    [field: MarshalAs(UnmanagedType.ByValTStr, SizeConst = 257)] string FileName,
+    [field: MarshalAs(UnmanagedType.ByValTStr, SizeConst = 16)] string NewVersion,
+    [field: MarshalAs(UnmanagedType.ByValTStr, SizeConst = 65)] string UpdateHash);
+
 internal static class CopyData {
     /// <summary>
     /// An application sends the WM_COPYDATA message to pass data to another application.

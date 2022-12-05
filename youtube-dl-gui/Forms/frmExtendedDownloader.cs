@@ -3,10 +3,8 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
+// Download specific times: yt-dlp -i --download-sections "*00:00:00-00:00:10"
 public partial class frmExtendedDownloader : Form {
-
-    // Download specific times: yt-dlp -i --download-sections "*00:00:00-00:00:10"
-
     public string URL { get; }
     public string VideoName { get; private set; }
     private bool Debug { get; }
@@ -36,42 +34,6 @@ public partial class frmExtendedDownloader : Form {
             tcVideoData.TabPages.Remove(tabDebug);
         }
 
-        lvVideoFormats.SelectedIndexChanged += (s, e) => {
-            if (lvVideoFormats.SelectedItems.Count > 0) {
-                if (LastSelectedVideoFormat is not null) {
-                    LastSelectedVideoFormat.ImageIndex = LastSelectedVideoFormat.Index == 0 ?
-                        rbVideo.Checked ? 0 : 2 : -1;
-                }
-                lvVideoFormats.SelectedItems[0].ImageIndex = rbVideo.Checked ? 1 : 3;
-                LastSelectedVideoFormat = lvVideoFormats.SelectedItems[0];
-            }
-        };
-        lvAudioFormats.SelectedIndexChanged += (s, e) => {
-            if (lvAudioFormats.SelectedItems.Count > 0) {
-                if (LastSelectedAudioFormat is not null) {
-                    LastSelectedAudioFormat.ImageIndex = LastSelectedAudioFormat.Index == 0 ?
-                        rbAudio.Checked || (rbVideo.Checked && chkVideoDownloadAudio.Checked) ? 0 : 2 : -1;
-                }
-                lvAudioFormats.SelectedItems[0].ImageIndex = rbAudio.Checked || (rbVideo.Checked && chkVideoDownloadAudio.Checked) ? 1 : 3;
-                LastSelectedAudioFormat = lvAudioFormats.SelectedItems[0];
-            }
-        };
-        lvUnknownFormats.SelectedIndexChanged += (s, e) => {
-            if (lvUnknownFormats.SelectedItems.Count > 0) {
-                if (rbUnknownFormat.Checked && lvUnknownFormats.SelectedItems[0].Index == 0) {
-                    lvUnknownFormats.Items[1].Selected = true;
-                }
-                else {
-                    if (LastSelectedUnknownFormat is not null && LastSelectedUnknownFormat.Index > -1) {
-                        LastSelectedUnknownFormat.ImageIndex = LastSelectedUnknownFormat.Index == 1 ?
-                            rbVideo.Checked || rbAudio.Checked || rbUnknownFormat.Checked ? 0 : 2 : -1;
-                    }
-                    lvUnknownFormats.SelectedItems[0].ImageIndex = rbVideo.Checked || rbAudio.Checked || rbUnknownFormat.Checked ? 1 : 3;
-                    LastSelectedUnknownFormat = lvUnknownFormats.SelectedItems[0];
-                }
-            }
-        };
-
         cbVideoRemux.Items.AddRange(
             new[] { "avi", "flv", "mkv", "mov", "mp4", "webm" });
         cbVideoRemux.SelectedIndex = 0;
@@ -92,55 +54,6 @@ public partial class frmExtendedDownloader : Form {
         lvVideoFormats.SmallImageList = Program.ExtendedDownloaderSelectedImages;
         lvAudioFormats.SmallImageList = Program.ExtendedDownloaderSelectedImages;
         lvUnknownFormats.SmallImageList = Program.ExtendedDownloaderSelectedImages;
-
-        this.Load += (s, e) => {
-            if (Config.Settings.Saved.ExtendedDownloaderLocation.Valid) {
-                this.StartPosition = FormStartPosition.Manual;
-                this.Location = Config.Settings.Saved.ExtendedDownloaderLocation;
-            }
-            if (Config.Settings.Saved.ExtendedDownloaderSize.Valid)
-                this.Size = Config.Settings.Saved.ExtendedDownloaderSize;
-            if (!Config.Settings.Saved.ExtendedDownloadVideoColumns.IsNullEmptyWhitespace())
-                lvVideoFormats.SetColumnWidths(Config.Settings.Saved.ExtendedDownloadVideoColumns);
-            if (!Config.Settings.Saved.ExtendedDownloadAudioColumns.IsNullEmptyWhitespace())
-                lvAudioFormats.SetColumnWidths(Config.Settings.Saved.ExtendedDownloadAudioColumns);
-            if (!Config.Settings.Saved.ExtendedDownloadUnknownColumns.IsNullEmptyWhitespace())
-                lvUnknownFormats.SetColumnWidths(Config.Settings.Saved.ExtendedDownloadUnknownColumns);
-
-            chkDownloaderCloseAfterDownload.Checked = Config.Settings.Downloads.CloseExtendedDownloaderAfterFinish;
-        };
-        this.Shown += (s, e) => {
-            DownloadInfo();
-            lbExtendedDownloaderUploader.Focus();
-        };
-        this.FormClosing += (s, e) => {
-            switch (Status) {
-                case DownloadStatus.Downloading: {
-                    Status = DownloadStatus.Aborted;
-                    e.Cancel = true;
-                } break;
-
-                default: {
-                    if (InformationThread is not null && InformationThread.IsAlive)
-                        InformationThread.Abort();
-                    if (ThumbnailThread is not null && ThumbnailThread.IsAlive)
-                        ThumbnailThread.Abort();
-
-                    Config.Settings.Downloads.CloseExtendedDownloaderAfterFinish = chkDownloaderCloseAfterDownload.Checked;
-                    Config.Settings.Saved.ExtendedDownloaderLocation = this.Location;
-                    Config.Settings.Saved.ExtendedDownloaderSize = this.Size;
-                    Config.Settings.Saved.ExtendedDownloadVideoColumns = lvVideoFormats.GetColumnWidths();
-                    Config.Settings.Saved.ExtendedDownloadAudioColumns = lvAudioFormats.GetColumnWidths();
-                    Config.Settings.Saved.ExtendedDownloadUnknownColumns = lvUnknownFormats.GetColumnWidths();
-                    Config.Settings.Downloads.Save();
-                    Config.Settings.Saved.Save();
-
-                    Program.RunningActions.Remove(this);
-
-                    this.Dispose();
-                } break;
-            }
-        };
     }
     public frmExtendedDownloader() {
         InitializeComponent();
@@ -152,6 +65,56 @@ public partial class frmExtendedDownloader : Form {
         };
         t.Tick += (s, e) => rtbVerbose.AppendLine("Hello when when when when when when when when when when when when when when when when when when");
     }
+
+    private void frmExtendedDownloader_Load(object sender, EventArgs e) {
+        if (Config.Settings.Saved.ExtendedDownloaderLocation.Valid) {
+            this.StartPosition = FormStartPosition.Manual;
+            this.Location = Config.Settings.Saved.ExtendedDownloaderLocation;
+        }
+        if (Config.Settings.Saved.ExtendedDownloaderSize.Valid)
+            this.Size = Config.Settings.Saved.ExtendedDownloaderSize;
+        if (!Config.Settings.Saved.ExtendedDownloadVideoColumns.IsNullEmptyWhitespace())
+            lvVideoFormats.SetColumnWidths(Config.Settings.Saved.ExtendedDownloadVideoColumns);
+        if (!Config.Settings.Saved.ExtendedDownloadAudioColumns.IsNullEmptyWhitespace())
+            lvAudioFormats.SetColumnWidths(Config.Settings.Saved.ExtendedDownloadAudioColumns);
+        if (!Config.Settings.Saved.ExtendedDownloadUnknownColumns.IsNullEmptyWhitespace())
+            lvUnknownFormats.SetColumnWidths(Config.Settings.Saved.ExtendedDownloadUnknownColumns);
+
+        chkDownloaderCloseAfterDownload.Checked = Config.Settings.Downloads.CloseExtendedDownloaderAfterFinish;
+    }
+    private void frmExtendedDownloader_Shown(object sender, EventArgs e) {
+        DownloadInfo();
+        lbExtendedDownloaderUploader.Focus();
+    }
+    private void frmExtendedDownloader_FormClosing(object sender, FormClosingEventArgs e) {
+        switch (Status) {
+            case DownloadStatus.Downloading: {
+                Status = DownloadStatus.Aborted;
+                e.Cancel = true;
+            } break;
+
+            default: {
+                if (InformationThread is not null && InformationThread.IsAlive)
+                    InformationThread.Abort();
+                if (ThumbnailThread is not null && ThumbnailThread.IsAlive)
+                    ThumbnailThread.Abort();
+
+                Config.Settings.Downloads.CloseExtendedDownloaderAfterFinish = chkDownloaderCloseAfterDownload.Checked;
+                Config.Settings.Saved.ExtendedDownloaderLocation = this.Location;
+                Config.Settings.Saved.ExtendedDownloaderSize = this.Size;
+                Config.Settings.Saved.ExtendedDownloadVideoColumns = lvVideoFormats.GetColumnWidths();
+                Config.Settings.Saved.ExtendedDownloadAudioColumns = lvAudioFormats.GetColumnWidths();
+                Config.Settings.Saved.ExtendedDownloadUnknownColumns = lvUnknownFormats.GetColumnWidths();
+                Config.Settings.Downloads.Save();
+                Config.Settings.Saved.Save();
+
+                Program.RunningActions.Remove(this);
+
+                this.Dispose();
+            } break;
+        }
+    }
+
     private void LoadLanguage() {
         this.Text = Language.frmExtendedDownloaderRetrieving.Format(Language.ApplicationName);
         lbExtendedDownloaderLink.Text = Language.lbExtendedDownloaderLink;
@@ -864,71 +827,6 @@ public partial class frmExtendedDownloader : Form {
         }
     }
 
-    private void chkAudioVBR_CheckedChanged(object sender, EventArgs e) {
-        cbVbrQualities.Enabled =
-            chkAudioVBR.Checked && (rbAudio.Checked || (rbVideo.Checked && chkVideoDownloadAudio.Checked));
-    }
-    private void chkVideoDownloadAudio_CheckedChanged(object sender, EventArgs e) {
-        chkAudioVBR.Enabled = cbAudioEncoders.Enabled = lvAudioFormats.Enabled = chkVideoSeparateAudio.Enabled =
-            chkVideoDownloadAudio.Checked;
-
-        cbVbrQualities.Enabled = chkVideoDownloadAudio.Checked && chkAudioVBR.Checked;
-
-        if (LastSelectedAudioFormat is not null) {
-            if (chkVideoDownloadAudio.Checked) {
-                if (LastSelectedAudioFormat.Index != 0) {
-                    lvAudioFormats.Items[0].ImageIndex = 0;
-                }
-                LastSelectedAudioFormat.ImageIndex = 1;
-            }
-            else {
-                if (LastSelectedAudioFormat.Index != 0) {
-                    lvAudioFormats.Items[0].ImageIndex = 2;
-                }
-                LastSelectedAudioFormat.ImageIndex = 3;
-            }
-        }
-    }
-    private void btnDownloadThumbnail_Click(object sender, EventArgs e) {
-        DownloadThumbnail();
-        lbExtendedDownloaderUploader.Focus();
-    }
-    private void btnClearOutput_Click(object sender, EventArgs e) {
-        if (Debug) {
-            rtbVerbose.AppendLine("World world world world world world world world world world world world world world");
-            return;
-        }
-        rtbVerbose.Clear();
-        rtbVerbose.AppendText("Cleared");
-    }
-    private void btnDownloadWithAuthentication_Click(object sender, EventArgs e) {
-        switch (Status) {
-            case DownloadStatus.Finished: {
-                this.Dispose();
-            } break;
-
-            default: {
-                BeginDownload(true);
-            } break;
-        }
-    }
-    private void btnDownloadAbortClose_Click(object sender, EventArgs e) {
-        //BeginDownload(false);
-        switch (Status) {
-            //case DownloadStatus.Finished: {
-            //    this.Dispose();
-            //} break;
-
-            case DownloadStatus.Downloading: {
-                Status = DownloadStatus.Aborted;
-            } break;
-
-            default: {
-                BeginDownload(false);
-            } break;
-        }
-    }
-
     private void rbVideo_CheckedChanged(object sender, EventArgs e) {
         if (rbVideo.Checked) {
             lvVideoFormats.Enabled = true;
@@ -1103,6 +1001,116 @@ public partial class frmExtendedDownloader : Form {
         }
     }
 
+    private void lvVideoFormats_SelectedIndexChanged(object sender, EventArgs e) {
+        if (lvVideoFormats.SelectedItems.Count > 0) {
+            if (LastSelectedVideoFormat is not null) {
+                LastSelectedVideoFormat.ImageIndex = LastSelectedVideoFormat.Index == 0 ?
+                    rbVideo.Checked ? 0 : 2 : -1;
+            }
+            lvVideoFormats.SelectedItems[0].ImageIndex = rbVideo.Checked ? 1 : 3;
+            LastSelectedVideoFormat = lvVideoFormats.SelectedItems[0];
+        }
+    }
+    private void lvAudioFormats_SelectedIndexChanged(object sender, EventArgs e) {
+        if (lvAudioFormats.SelectedItems.Count > 0) {
+            if (LastSelectedAudioFormat is not null) {
+                LastSelectedAudioFormat.ImageIndex = LastSelectedAudioFormat.Index == 0 ?
+                    rbAudio.Checked || (rbVideo.Checked && chkVideoDownloadAudio.Checked) ? 0 : 2 : -1;
+            }
+            lvAudioFormats.SelectedItems[0].ImageIndex = rbAudio.Checked || (rbVideo.Checked && chkVideoDownloadAudio.Checked) ? 1 : 3;
+            LastSelectedAudioFormat = lvAudioFormats.SelectedItems[0];
+        }
+    }
+    private void lvUnknownFormats_SelectedIndexChanged(object sender, EventArgs e) {
+        if (lvUnknownFormats.SelectedItems.Count > 0) {
+            if (rbUnknownFormat.Checked && lvUnknownFormats.SelectedItems[0].Index == 0) {
+                lvUnknownFormats.Items[1].Selected = true;
+            }
+            else {
+                if (LastSelectedUnknownFormat is not null && LastSelectedUnknownFormat.Index > -1) {
+                    LastSelectedUnknownFormat.ImageIndex = LastSelectedUnknownFormat.Index == 1 ?
+                        rbVideo.Checked || rbAudio.Checked || rbUnknownFormat.Checked ? 0 : 2 : -1;
+                }
+                lvUnknownFormats.SelectedItems[0].ImageIndex = rbVideo.Checked || rbAudio.Checked || rbUnknownFormat.Checked ? 1 : 3;
+                LastSelectedUnknownFormat = lvUnknownFormats.SelectedItems[0];
+            }
+        }
+    }
+
+    private void cbSchema_KeyPress(object sender, KeyPressEventArgs e) {
+        switch (e.KeyChar) {
+            case '\\': case '/': case ':':
+            case '*': case '?': case '"':
+            case '<': case '>': case '|': {
+                System.Media.SystemSounds.Beep.Play();
+                e.Handled = true;
+            } break;
+        }
+    }
+    private void chkAudioVBR_CheckedChanged(object sender, EventArgs e) {
+        cbVbrQualities.Enabled =
+            chkAudioVBR.Checked && (rbAudio.Checked || (rbVideo.Checked && chkVideoDownloadAudio.Checked));
+    }
+    private void chkVideoDownloadAudio_CheckedChanged(object sender, EventArgs e) {
+        chkAudioVBR.Enabled = cbAudioEncoders.Enabled = lvAudioFormats.Enabled = chkVideoSeparateAudio.Enabled =
+            chkVideoDownloadAudio.Checked;
+
+        cbVbrQualities.Enabled = chkVideoDownloadAudio.Checked && chkAudioVBR.Checked;
+
+        if (LastSelectedAudioFormat is not null) {
+            if (chkVideoDownloadAudio.Checked) {
+                if (LastSelectedAudioFormat.Index != 0) {
+                    lvAudioFormats.Items[0].ImageIndex = 0;
+                }
+                LastSelectedAudioFormat.ImageIndex = 1;
+            }
+            else {
+                if (LastSelectedAudioFormat.Index != 0) {
+                    lvAudioFormats.Items[0].ImageIndex = 2;
+                }
+                LastSelectedAudioFormat.ImageIndex = 3;
+            }
+        }
+    }
+    private void btnDownloadThumbnail_Click(object sender, EventArgs e) {
+        DownloadThumbnail();
+        lbExtendedDownloaderUploader.Focus();
+    }
+    private void btnClearOutput_Click(object sender, EventArgs e) {
+        if (Debug)
+            rtbVerbose.AppendLine("This is a line of text being used for debugging; if you see it, that's not good.");
+        else
+            rtbVerbose.Clear();
+    }
+    private void btnDownloadWithAuthentication_Click(object sender, EventArgs e) {
+        switch (Status) {
+            case DownloadStatus.Finished: {
+                this.Dispose();
+            } break;
+
+            default: {
+                BeginDownload(true);
+            } break;
+        }
+    }
+    private void btnDownloadAbortClose_Click(object sender, EventArgs e) {
+        //BeginDownload(false);
+        switch (Status) {
+            //case DownloadStatus.Finished: {
+            //    this.Dispose();
+            //} break;
+
+            case DownloadStatus.Downloading: {
+                Status = DownloadStatus.Aborted;
+            } break;
+
+            default: {
+                BeginDownload(false);
+            } break;
+        }
+    }
+
+    // Debug
     private void btnCreateArgs_Click(object sender, EventArgs e) {
         Log.MessageBox(GenerateArguments(false) ?? "No args");
     }
@@ -1123,5 +1131,4 @@ public partial class frmExtendedDownloader : Form {
             DownloadProcess.Kill();
         }
     }
-
 }

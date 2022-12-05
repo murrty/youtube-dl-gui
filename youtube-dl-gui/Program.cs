@@ -212,23 +212,21 @@ internal static class Program {
 
             if (hwnd != 0) {
                 if (args.Length > 0) {
-                    SendLinks Data = new() {
-                        Argument = args.JoinUntilLimit("|", 65_535)
-                    };
+                    nint ArgAddress = 0;
+                    SendLinks Arg = new(args.JoinUntilLimit("|", 65_535));
+                    nint CopyDataAddress = 0;
                     CopyDataStruct DataStruct = new();
-                    nint CopyDataBuffer = 0;
-                    nint DataBuffer = 0;
                     try {
-                        DataBuffer = CopyData.NintAlloc(Data);
-                        DataStruct.cbData = Marshal.SizeOf(Data);
+                        ArgAddress = CopyData.NintAlloc(Arg);
+                        DataStruct.cbData = Marshal.SizeOf(Arg);
                         DataStruct.dwData = 1;
-                        DataStruct.lpData = DataBuffer;
-                        CopyDataBuffer = CopyData.NintAlloc(DataStruct);
-                        CopyData.SendMessage(hwnd, CopyData.WM_COPYDATA, 0, CopyDataBuffer);
+                        DataStruct.lpData = ArgAddress;
+                        CopyDataAddress = CopyData.NintAlloc(DataStruct);
+                        CopyData.SendMessage(hwnd, CopyData.WM_COPYDATA, 0, CopyDataAddress);
                     }
                     finally {
-                        CopyData.NintFree(ref CopyDataBuffer);
-                        CopyData.NintFree(ref DataBuffer);
+                        CopyData.NintFree(ref CopyDataAddress);
+                        CopyData.NintFree(ref ArgAddress);
                     }
                 }
                 else {

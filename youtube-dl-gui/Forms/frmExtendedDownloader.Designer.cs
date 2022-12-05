@@ -308,6 +308,7 @@
             this.lvVideoFormats.TabIndex = 13;
             this.lvVideoFormats.UseCompatibleStateImageBehavior = false;
             this.lvVideoFormats.View = System.Windows.Forms.View.Details;
+            this.lvVideoFormats.SelectedIndexChanged += new System.EventHandler(this.lvVideoFormats_SelectedIndexChanged);
             // 
             // chVideoQuality
             // 
@@ -407,6 +408,7 @@
             this.lvAudioFormats.TabIndex = 14;
             this.lvAudioFormats.UseCompatibleStateImageBehavior = false;
             this.lvAudioFormats.View = System.Windows.Forms.View.Details;
+            this.lvAudioFormats.SelectedIndexChanged += new System.EventHandler(this.lvAudioFormats_SelectedIndexChanged);
             // 
             // chAudioBitrate
             // 
@@ -490,6 +492,7 @@
             this.lvUnknownFormats.TabIndex = 15;
             this.lvUnknownFormats.UseCompatibleStateImageBehavior = false;
             this.lvUnknownFormats.View = System.Windows.Forms.View.Details;
+            this.lvUnknownFormats.SelectedIndexChanged += new System.EventHandler(this.lvUnknownFormats_SelectedIndexChanged);
             // 
             // chUnknownQuality
             // 
@@ -681,6 +684,7 @@
             this.cbSchema.Size = new System.Drawing.Size(167, 21);
             this.cbSchema.TabIndex = 24;
             this.cbSchema.Text = "%(title)s-%(id)s.%(ext)s";
+            this.cbSchema.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.cbSchema_KeyPress);
             // 
             // lbAudioEncoder
             // 
@@ -1028,6 +1032,9 @@
             this.Name = "frmExtendedDownloader";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "frmExtendedDownload";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmExtendedDownloader_FormClosing);
+            this.Load += new System.EventHandler(this.frmExtendedDownloader_Load);
+            this.Shown += new System.EventHandler(this.frmExtendedDownloader_Shown);
             ((System.ComponentModel.ISupportInitialize)(this.pbThumbnail)).EndInit();
             this.tcVideoData.ResumeLayout(false);
             this.tabExtendedDownloaderFormats.ResumeLayout(false);

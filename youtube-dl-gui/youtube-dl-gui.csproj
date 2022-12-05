@@ -71,6 +71,7 @@
     <Compile Include="Classes\Formats.cs" />
     <Compile Include="Classes\Language.cs" />
     <Compile Include="Classes\NativeMethods.cs" />
+    <Compile Include="Classes\SendLinks.cs" />
     <Compile Include="Classes\SystemRegistry.cs" />
     <Compile Include="Classes\Verification.cs" />
     <Compile Include="Config\Config.cs" />
@@ -289,17 +290,8 @@
       <SubType>Component</SubType>
       <Link>Controls\Shared\SplitButton.cs</Link>
     </Compile>
-    <Compile Include="..\Shared\CopyData\CopyData.cs">
-      <Link>CopyData\CopyData.cs</Link>
-    </Compile>
-    <Compile Include="..\Shared\CopyData\CopyDataStruct.cs">
-      <Link>CopyData\CopyDataStruct.cs</Link>
-    </Compile>
-    <Compile Include="..\Shared\CopyData\SendLinks.cs">
-      <Link>CopyData\SendLinks.cs</Link>
-    </Compile>
-    <Compile Include="..\Shared\CopyData\UpdaterData.cs">
-      <Link>CopyData\UpdaterData.cs</Link>
+    <Compile Include="..\Shared\CopyData.cs">
+      <Link>Classes\CopyData.cs</Link>
     </Compile>
     <Compile Include="Updater\API Data\GithubAsset.cs" />
     <Compile Include="Updater\API Data\GithubData.cs" />

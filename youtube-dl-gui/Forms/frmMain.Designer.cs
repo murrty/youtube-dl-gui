@@ -28,10 +28,15 @@
             this.rbVideoSelectionBeforeDate = new System.Windows.Forms.RadioButton();
             this.rbVideoSelectionPlaylistIndex = new System.Windows.Forms.RadioButton();
             this.panelDate = new System.Windows.Forms.Panel();
+            this.txtVideoDate = new murrty.controls.ExtendedTextBox();
             this.panelPlaylistStartEnd = new System.Windows.Forms.Panel();
+            this.txtPlaylistEnd = new murrty.controls.ExtendedTextBox();
+            this.txtPlaylistStart = new murrty.controls.ExtendedTextBox();
             this.panelPlaylistItems = new System.Windows.Forms.Panel();
+            this.txtPlaylistItems = new murrty.controls.ExtendedTextBox();
             this.cbFormat = new System.Windows.Forms.ComboBox();
             this.lbFormat = new System.Windows.Forms.Label();
+            this.sbDownload = new murrty.controls.SplitButton();
             this.cmDownload = new System.Windows.Forms.ContextMenu();
             this.mDownloadWithAuthentication = new System.Windows.Forms.MenuItem();
             this.mBatchDownloadFromFile = new System.Windows.Forms.MenuItem();
@@ -47,6 +52,7 @@
             this.rbCustom = new System.Windows.Forms.RadioButton();
             this.rbAudio = new System.Windows.Forms.RadioButton();
             this.rbVideo = new System.Windows.Forms.RadioButton();
+            this.txtUrl = new murrty.controls.ExtendedTextBox();
             this.tabConvert = new System.Windows.Forms.TabPage();
             this.rbConvertCustom = new System.Windows.Forms.RadioButton();
             this.rbConvertAudio = new System.Windows.Forms.RadioButton();
@@ -61,6 +67,7 @@
             this.lbConvertInput = new System.Windows.Forms.Label();
             this.txtConvertInput = new System.Windows.Forms.TextBox();
             this.tabDebug = new System.Windows.Forms.TabPage();
+            this.chkDebugPlaylistDownload = new System.Windows.Forms.CheckBox();
             this.chkDebugDontDownload = new System.Windows.Forms.CheckBox();
             this.btnDebugCheckVerification = new System.Windows.Forms.Button();
             this.btnYtdlVersion = new System.Windows.Forms.Button();
@@ -110,13 +117,6 @@
             this.cmTraySep = new System.Windows.Forms.MenuItem();
             this.cmTrayExit = new System.Windows.Forms.MenuItem();
             this.trayIcon = new System.Windows.Forms.NotifyIcon(this.components);
-            this.txtVideoDate = new murrty.controls.ExtendedTextBox();
-            this.txtPlaylistEnd = new murrty.controls.ExtendedTextBox();
-            this.txtPlaylistStart = new murrty.controls.ExtendedTextBox();
-            this.txtPlaylistItems = new murrty.controls.ExtendedTextBox();
-            this.sbDownload = new murrty.controls.SplitButton();
-            this.txtUrl = new murrty.controls.ExtendedTextBox();
-            this.chkDebugPlaylistDownload = new System.Windows.Forms.CheckBox();
             this.tcMain.SuspendLayout();
             this.tabDownload.SuspendLayout();
             this.gbSelection.SuspendLayout();
@@ -204,6 +204,7 @@
             this.cbCustomArguments.Name = "cbCustomArguments";
             this.cbCustomArguments.Size = new System.Drawing.Size(194, 21);
             this.cbCustomArguments.TabIndex = 21;
+            this.cbCustomArguments.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.cbCustomArguments_KeyPress);
             // 
             // chkUseSelection
             // 
@@ -311,6 +312,26 @@
             this.panelDate.TabIndex = 18;
             this.panelDate.Visible = false;
             // 
+            // txtVideoDate
+            // 
+            this.txtVideoDate.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtVideoDate.ButtonAlignment = murrty.controls.ButtonAlignment.Left;
+            this.txtVideoDate.ButtonCursor = System.Windows.Forms.Cursors.Default;
+            this.txtVideoDate.ButtonFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtVideoDate.ButtonImageIndex = -1;
+            this.txtVideoDate.ButtonSize = new System.Drawing.Size(22, 21);
+            this.txtVideoDate.ButtonText = "";
+            this.txtVideoDate.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.txtVideoDate.Location = new System.Drawing.Point(3, 3);
+            this.txtVideoDate.MaxLength = 8;
+            this.txtVideoDate.Name = "txtVideoDate";
+            this.txtVideoDate.RegexPatterns = null;
+            this.txtVideoDate.Size = new System.Drawing.Size(207, 22);
+            this.txtVideoDate.TabIndex = 0;
+            this.txtVideoDate.TextHint = "txtVideoDateHint";
+            this.txtVideoDate.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtVideoDate_KeyPress);
+            // 
             // panelPlaylistStartEnd
             // 
             this.panelPlaylistStartEnd.Anchor = System.Windows.Forms.AnchorStyles.Top;
@@ -322,6 +343,40 @@
             this.panelPlaylistStartEnd.TabIndex = 16;
             this.panelPlaylistStartEnd.Visible = false;
             // 
+            // txtPlaylistEnd
+            // 
+            this.txtPlaylistEnd.ButtonAlignment = murrty.controls.ButtonAlignment.Left;
+            this.txtPlaylistEnd.ButtonCursor = System.Windows.Forms.Cursors.Default;
+            this.txtPlaylistEnd.ButtonFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtPlaylistEnd.ButtonImageIndex = -1;
+            this.txtPlaylistEnd.ButtonSize = new System.Drawing.Size(22, 21);
+            this.txtPlaylistEnd.ButtonText = "";
+            this.txtPlaylistEnd.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.txtPlaylistEnd.Location = new System.Drawing.Point(108, 3);
+            this.txtPlaylistEnd.Name = "txtPlaylistEnd";
+            this.txtPlaylistEnd.RegexPatterns = null;
+            this.txtPlaylistEnd.Size = new System.Drawing.Size(100, 22);
+            this.txtPlaylistEnd.TabIndex = 1;
+            this.txtPlaylistEnd.TextHint = "txtPlaylistEndHint";
+            this.txtPlaylistEnd.TextType = murrty.controls.AllowedCharacters.NumericOnly;
+            // 
+            // txtPlaylistStart
+            // 
+            this.txtPlaylistStart.ButtonAlignment = murrty.controls.ButtonAlignment.Left;
+            this.txtPlaylistStart.ButtonCursor = System.Windows.Forms.Cursors.Default;
+            this.txtPlaylistStart.ButtonFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtPlaylistStart.ButtonImageIndex = -1;
+            this.txtPlaylistStart.ButtonSize = new System.Drawing.Size(22, 21);
+            this.txtPlaylistStart.ButtonText = "";
+            this.txtPlaylistStart.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.txtPlaylistStart.Location = new System.Drawing.Point(3, 3);
+            this.txtPlaylistStart.Name = "txtPlaylistStart";
+            this.txtPlaylistStart.RegexPatterns = null;
+            this.txtPlaylistStart.Size = new System.Drawing.Size(100, 22);
+            this.txtPlaylistStart.TabIndex = 0;
+            this.txtPlaylistStart.TextHint = "txtPlaylistStartHint";
+            this.txtPlaylistStart.TextType = murrty.controls.AllowedCharacters.NumericOnly;
+            // 
             // panelPlaylistItems
             // 
             this.panelPlaylistItems.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -332,6 +387,25 @@
             this.panelPlaylistItems.Size = new System.Drawing.Size(213, 26);
             this.panelPlaylistItems.TabIndex = 17;
             this.panelPlaylistItems.Visible = false;
+            // 
+            // txtPlaylistItems
+            // 
+            this.txtPlaylistItems.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtPlaylistItems.ButtonAlignment = murrty.controls.ButtonAlignment.Left;
+            this.txtPlaylistItems.ButtonCursor = System.Windows.Forms.Cursors.Default;
+            this.txtPlaylistItems.ButtonFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtPlaylistItems.ButtonImageIndex = -1;
+            this.txtPlaylistItems.ButtonSize = new System.Drawing.Size(22, 21);
+            this.txtPlaylistItems.ButtonText = "";
+            this.txtPlaylistItems.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.txtPlaylistItems.Location = new System.Drawing.Point(3, 3);
+            this.txtPlaylistItems.Name = "txtPlaylistItems";
+            this.txtPlaylistItems.RegexPatterns = null;
+            this.txtPlaylistItems.Size = new System.Drawing.Size(207, 22);
+            this.txtPlaylistItems.TabIndex = 0;
+            this.txtPlaylistItems.TextHint = "txtPlaylistItemsHint";
+            this.txtPlaylistItems.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPlaylistItems_KeyPress);
             // 
             // cbFormat
             // 
@@ -352,6 +426,19 @@
             this.lbFormat.TabIndex = 10;
             this.lbFormat.Text = "lbFormat";
             this.lbFormat.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // sbDownload
+            // 
+            this.sbDownload.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.sbDownload.ContextMenu = this.cmDownload;
+            this.sbDownload.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.sbDownload.Location = new System.Drawing.Point(78, 297);
+            this.sbDownload.Name = "sbDownload";
+            this.sbDownload.Size = new System.Drawing.Size(83, 25);
+            this.sbDownload.TabIndex = 14;
+            this.sbDownload.Text = "sbDownload";
+            this.sbDownload.UseVisualStyleBackColor = true;
+            this.sbDownload.Click += new System.EventHandler(this.sbDownload_Click);
             // 
             // cmDownload
             // 
@@ -493,6 +580,26 @@
             this.rbVideo.Text = "rbVideo";
             this.rbVideo.UseVisualStyleBackColor = true;
             this.rbVideo.CheckedChanged += new System.EventHandler(this.rbVideo_CheckedChanged);
+            // 
+            // txtUrl
+            // 
+            this.txtUrl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtUrl.ButtonAlignment = murrty.controls.ButtonAlignment.Left;
+            this.txtUrl.ButtonCursor = System.Windows.Forms.Cursors.Default;
+            this.txtUrl.ButtonFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtUrl.ButtonImageIndex = -1;
+            this.txtUrl.ButtonSize = new System.Drawing.Size(22, 21);
+            this.txtUrl.ButtonText = "";
+            this.txtUrl.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.txtUrl.Location = new System.Drawing.Point(22, 26);
+            this.txtUrl.Name = "txtUrl";
+            this.txtUrl.RegexPatterns = null;
+            this.txtUrl.Size = new System.Drawing.Size(194, 22);
+            this.txtUrl.TabIndex = 2;
+            this.txtUrl.TextChanged += new System.EventHandler(this.txtUrl_TextChanged);
+            this.txtUrl.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtUrl_KeyDown);
+            this.txtUrl.MouseEnter += new System.EventHandler(this.txtUrl_MouseEnter);
             // 
             // tabConvert
             // 
@@ -667,6 +774,16 @@
             this.tabDebug.TabIndex = 3;
             this.tabDebug.Text = "Debug";
             this.tabDebug.UseVisualStyleBackColor = true;
+            // 
+            // chkDebugPlaylistDownload
+            // 
+            this.chkDebugPlaylistDownload.AutoSize = true;
+            this.chkDebugPlaylistDownload.Location = new System.Drawing.Point(137, 70);
+            this.chkDebugPlaylistDownload.Name = "chkDebugPlaylistDownload";
+            this.chkDebugPlaylistDownload.Size = new System.Drawing.Size(61, 17);
+            this.chkDebugPlaylistDownload.TabIndex = 8;
+            this.chkDebugPlaylistDownload.Text = "playlist";
+            this.chkDebugPlaylistDownload.UseVisualStyleBackColor = true;
             // 
             // chkDebugDontDownload
             // 
@@ -1027,122 +1144,6 @@
             this.trayIcon.BalloonTipText = "You click this thing, and BADA-BOOM, you\'re back in it again";
             this.trayIcon.BalloonTipTitle = "Unseen easter egg";
             this.trayIcon.Text = "youtube-dl-gui";
-            // 
-            // txtVideoDate
-            // 
-            this.txtVideoDate.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtVideoDate.ButtonAlignment = murrty.controls.ButtonAlignment.Left;
-            this.txtVideoDate.ButtonCursor = System.Windows.Forms.Cursors.Default;
-            this.txtVideoDate.ButtonFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtVideoDate.ButtonImageIndex = -1;
-            this.txtVideoDate.ButtonSize = new System.Drawing.Size(22, 21);
-            this.txtVideoDate.ButtonText = "";
-            this.txtVideoDate.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.txtVideoDate.Location = new System.Drawing.Point(3, 3);
-            this.txtVideoDate.MaxLength = 8;
-            this.txtVideoDate.Name = "txtVideoDate";
-            this.txtVideoDate.RegexPatterns = null;
-            this.txtVideoDate.Size = new System.Drawing.Size(207, 22);
-            this.txtVideoDate.TabIndex = 0;
-            this.txtVideoDate.TextHint = "txtVideoDateHint";
-            this.txtVideoDate.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtVideoDate_KeyPress);
-            // 
-            // txtPlaylistEnd
-            // 
-            this.txtPlaylistEnd.ButtonAlignment = murrty.controls.ButtonAlignment.Left;
-            this.txtPlaylistEnd.ButtonCursor = System.Windows.Forms.Cursors.Default;
-            this.txtPlaylistEnd.ButtonFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPlaylistEnd.ButtonImageIndex = -1;
-            this.txtPlaylistEnd.ButtonSize = new System.Drawing.Size(22, 21);
-            this.txtPlaylistEnd.ButtonText = "";
-            this.txtPlaylistEnd.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.txtPlaylistEnd.Location = new System.Drawing.Point(108, 3);
-            this.txtPlaylistEnd.Name = "txtPlaylistEnd";
-            this.txtPlaylistEnd.RegexPatterns = null;
-            this.txtPlaylistEnd.Size = new System.Drawing.Size(100, 22);
-            this.txtPlaylistEnd.TabIndex = 1;
-            this.txtPlaylistEnd.TextHint = "txtPlaylistEndHint";
-            this.txtPlaylistEnd.TextType = murrty.controls.AllowedCharacters.NumericOnly;
-            // 
-            // txtPlaylistStart
-            // 
-            this.txtPlaylistStart.ButtonAlignment = murrty.controls.ButtonAlignment.Left;
-            this.txtPlaylistStart.ButtonCursor = System.Windows.Forms.Cursors.Default;
-            this.txtPlaylistStart.ButtonFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPlaylistStart.ButtonImageIndex = -1;
-            this.txtPlaylistStart.ButtonSize = new System.Drawing.Size(22, 21);
-            this.txtPlaylistStart.ButtonText = "";
-            this.txtPlaylistStart.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.txtPlaylistStart.Location = new System.Drawing.Point(3, 3);
-            this.txtPlaylistStart.Name = "txtPlaylistStart";
-            this.txtPlaylistStart.RegexPatterns = null;
-            this.txtPlaylistStart.Size = new System.Drawing.Size(100, 22);
-            this.txtPlaylistStart.TabIndex = 0;
-            this.txtPlaylistStart.TextHint = "txtPlaylistStartHint";
-            this.txtPlaylistStart.TextType = murrty.controls.AllowedCharacters.NumericOnly;
-            // 
-            // txtPlaylistItems
-            // 
-            this.txtPlaylistItems.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtPlaylistItems.ButtonAlignment = murrty.controls.ButtonAlignment.Left;
-            this.txtPlaylistItems.ButtonCursor = System.Windows.Forms.Cursors.Default;
-            this.txtPlaylistItems.ButtonFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPlaylistItems.ButtonImageIndex = -1;
-            this.txtPlaylistItems.ButtonSize = new System.Drawing.Size(22, 21);
-            this.txtPlaylistItems.ButtonText = "";
-            this.txtPlaylistItems.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.txtPlaylistItems.Location = new System.Drawing.Point(3, 3);
-            this.txtPlaylistItems.Name = "txtPlaylistItems";
-            this.txtPlaylistItems.RegexPatterns = null;
-            this.txtPlaylistItems.Size = new System.Drawing.Size(207, 22);
-            this.txtPlaylistItems.TabIndex = 0;
-            this.txtPlaylistItems.TextHint = "txtPlaylistItemsHint";
-            this.txtPlaylistItems.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPlaylistItems_KeyPress);
-            // 
-            // sbDownload
-            // 
-            this.sbDownload.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.sbDownload.ContextMenu = this.cmDownload;
-            this.sbDownload.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.sbDownload.Location = new System.Drawing.Point(78, 297);
-            this.sbDownload.Name = "sbDownload";
-            this.sbDownload.Size = new System.Drawing.Size(83, 25);
-            this.sbDownload.TabIndex = 14;
-            this.sbDownload.Text = "sbDownload";
-            this.sbDownload.UseVisualStyleBackColor = true;
-            this.sbDownload.Click += new System.EventHandler(this.sbDownload_Click);
-            // 
-            // txtUrl
-            // 
-            this.txtUrl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtUrl.ButtonAlignment = murrty.controls.ButtonAlignment.Left;
-            this.txtUrl.ButtonCursor = System.Windows.Forms.Cursors.Default;
-            this.txtUrl.ButtonFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtUrl.ButtonImageIndex = -1;
-            this.txtUrl.ButtonSize = new System.Drawing.Size(22, 21);
-            this.txtUrl.ButtonText = "";
-            this.txtUrl.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.txtUrl.Location = new System.Drawing.Point(22, 26);
-            this.txtUrl.Name = "txtUrl";
-            this.txtUrl.RegexPatterns = null;
-            this.txtUrl.Size = new System.Drawing.Size(194, 22);
-            this.txtUrl.TabIndex = 2;
-            this.txtUrl.TextChanged += new System.EventHandler(this.txtUrl_TextChanged);
-            this.txtUrl.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtUrl_KeyPress);
-            this.txtUrl.MouseEnter += new System.EventHandler(this.txtUrl_MouseEnter);
-            // 
-            // chkDebugPlaylistDownload
-            // 
-            this.chkDebugPlaylistDownload.AutoSize = true;
-            this.chkDebugPlaylistDownload.Location = new System.Drawing.Point(137, 70);
-            this.chkDebugPlaylistDownload.Name = "chkDebugPlaylistDownload";
-            this.chkDebugPlaylistDownload.Size = new System.Drawing.Size(61, 17);
-            this.chkDebugPlaylistDownload.TabIndex = 8;
-            this.chkDebugPlaylistDownload.Text = "playlist";
-            this.chkDebugPlaylistDownload.UseVisualStyleBackColor = true;
             // 
             // frmMain
             // 
