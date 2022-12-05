@@ -2,7 +2,7 @@
 GUI for [yt-dlp](https://github.com/yt-dlp/yt-dlp) ([youtube-dl](https://github.com/ytdl-org/youtube-dl) and [yt-dlc](https://github.com/blackjack4494/yt-dlc) are supported, but yt-dlp is suggested) + [ffmpeg](https://ffmpeg.org/) (ffmpeg.exe & ffprobe.exe) which is used for converting. [AtomicParsley](http://atomicparsley.sourceforge.net/) may be required for embedding data into files.
 
 ![it looks like this!!](preview.png)  
-<sup>it may look different between versions</sup>
+<sup>it may look different between versions, additionally, the download form in the screenshot is the extended download form.</sup>
 
 The goal of youtube-dl-gui is to make it as accessible to as many people as possible, with as many arguments added as options as I use them... or get requested to add them. If at all.
 
