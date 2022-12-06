@@ -9,7 +9,7 @@ using youtube_dl_gui;
 /// </summary>
 [System.Diagnostics.DebuggerStepThrough]
 [StructLayout(LayoutKind.Sequential), Serializable]
-public struct Version {
+public readonly struct Version {
     /// <summary>
     /// Contains an empty Version with no version information relevant.
     /// </summary>
@@ -19,24 +19,28 @@ public struct Version {
     /// <summary>
     /// The major of the version.
     /// </summary>
+    [field: MarshalAs(UnmanagedType.I1)]
     public byte Major {
         get; init;
     }
     /// <summary>
     /// The minor of the version.
     /// </summary>
+    [field: MarshalAs(UnmanagedType.I1)]
     public byte Minor {
         get; init;
     }
     /// <summary>
     /// The revision of the version.
     /// </summary>
+    [field: MarshalAs(UnmanagedType.I1)]
     public byte Revision {
         get; init;
     }
     /// <summary>
     /// The beta number of the version.
     /// </summary>
+    [field: MarshalAs(UnmanagedType.I1)]
     public byte Beta {
         get; init;
     }
@@ -106,7 +110,7 @@ public struct Version {
             this.Revision = vers.Revision;
             this.Beta = vers.Beta;
         }
-        else throw new ArgumentException($"Data {Data} is invalid.");
+        throw new ArgumentException($"Data {Data} is invalid.");
     }
 
     /// <summary>

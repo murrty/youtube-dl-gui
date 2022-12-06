@@ -129,12 +129,12 @@ public partial class frmExtendedDownloader : Form {
         tabExtendedDownloaderFormats.Text = Language.lbFormat;
         tabExtendedDownloaderDescription.Text = Language.tabExtendedDownloaderDescription;
         tabExtendedDownloaderVerbose.Text = Language.tabExtendedDownloaderVerbose;
-        tabVideoFormats.Text = Language.GenericVideo;
+        tabExtendedDownloaderVideoFormats.Text = Language.GenericVideo;
         lbExtendedDownloaderNoVideoFormatsAvailable.Text = Language.lbExtendedDownloaderNoVideoFormatsAvailable;
-        tabAudioFormats.Text = Language.GenericAudio;
+        tabExtendedDownloaderAudioFormats.Text = Language.GenericAudio;
         lbExtendedDownloaderNoAudioFormatsAvailable.Text = Language.lbExtendedDownloaderNoAudioFormatsAvailable;
-        tabCustom.Text = Language.GenericCustom;
-        tabFormatOptions.Text = Language.tabExtendedDownloaderFormatOptions;
+        tabExtendedDownloaderCustom.Text = Language.GenericCustom;
+        tabExtendedDownloaderFormatOptions.Text = Language.tabExtendedDownloaderFormatOptions;
         lbVideoEncoder.Text = Language.GenericVideo;
         lbAudioEncoder.Text = Language.GenericAudio;
         btnDownloadAbortClose.Text = Language.sbDownload;
@@ -344,7 +344,7 @@ public partial class frmExtendedDownloader : Form {
                     }
                     else if (rbAudio.Enabled) {
                         rbAudio.Checked = true;
-                        tcFormats.SelectedTab = tabAudioFormats;
+                        tcFormats.SelectedTab = tabExtendedDownloaderAudioFormats;
                     }
                     else if (rbUnknownFormat.Enabled) {
                         rbUnknownFormat.Checked = true;
@@ -352,7 +352,7 @@ public partial class frmExtendedDownloader : Form {
                     }
                     else {
                         rbCustom.Checked = true;
-                        tcFormats.SelectedTab = tabCustom;
+                        tcFormats.SelectedTab = tabExtendedDownloaderCustom;
                     }
 
                     if (Config.Settings.Downloads.ExtendedDownloaderAutoDownloadThumbnail)

@@ -101,6 +101,14 @@ internal static class CopyData {
     }
 
     /// <summary>
+    /// Returns the LParam of a <see cref="System.Windows.Forms.Message"/> structure.
+    /// </summary>
+    /// <typeparam name="T">The type of the LParam to marshal as.</typeparam>
+    /// <param name="msg">The message to get the param of.</param>
+    /// <returns>A <typeparamref name="T"/> value from <paramref name="msg"/>.</returns>
+    public static T GetParam<T>(this System.Windows.Forms.Message msg) => (T)msg.GetLParam(typeof(T));
+
+    /// <summary>
     /// The FindWindow function retrieves a handle to the top-level 
     /// window whose class name and window name match the specified strings.
     /// This function does not search child windows. This function does not perform a case-sensitive search.

@@ -71,7 +71,6 @@
     <Compile Include="Classes\Formats.cs" />
     <Compile Include="Classes\Language.cs" />
     <Compile Include="Classes\NativeMethods.cs" />
-    <Compile Include="Classes\SendLinks.cs" />
     <Compile Include="Classes\SystemRegistry.cs" />
     <Compile Include="Classes\Verification.cs" />
     <Compile Include="Config\Config.cs" />
@@ -288,7 +287,7 @@
       <Link>Controls\Shared\SplitButton.cs</Link>
     </Compile>
     <Compile Include="..\Shared\CopyData.cs">
-      <Link>Classes\CopyData.cs</Link>
+      <Link>CopyData.cs</Link>
     </Compile>
     <Compile Include="Runtime\System\Runtime\CompilerServices\IsExternalInit.cs" />
     <Compile Include="Updater\API Data\GithubAsset.cs" />

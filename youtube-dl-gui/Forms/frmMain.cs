@@ -42,7 +42,7 @@ public partial class frmMain : Form {
         switch (m.Msg) {
             case CopyData.WM_COPYDATA: {
                 Log.Write("Retrieved data");
-                var Data = CopyData.GetParam<SendLinks>(m.LParam);
+                var Data = m.GetParam<SendLinks>();
                 string[] ReceivedArguments = Data.Argument.Split('|');
                 if (ReceivedArguments.Length > 0) {
                     Log.Write("Multiple arguments");
