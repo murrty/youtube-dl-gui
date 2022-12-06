@@ -238,10 +238,10 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Runtime\Arrays.cs" />
-    <Compile Include="Runtime\CompilerServices.cs" />
-    <Compile Include="Runtime\Index.cs" />
-    <Compile Include="Runtime\Range.cs" />
+    <Compile Include="Runtime\System\Runtime\CompilerServices\CallerArgumentExpressionAttribute.cs" />
+    <Compile Include="Runtime\System\Runtime\CompilerServices\RuntimeHelpers.cs" />
+    <Compile Include="Runtime\System\Index.cs" />
+    <Compile Include="Runtime\System\Range.cs" />
     <Compile Include="..\Shared\Controls\Enums\AllowedCharacters.cs">
       <Link>Controls\Shared\Enums\AllowedCharacters.cs</Link>
     </Compile>
@@ -290,6 +290,7 @@
     <Compile Include="..\Shared\CopyData.cs">
       <Link>Classes\CopyData.cs</Link>
     </Compile>
+    <Compile Include="Runtime\System\Runtime\CompilerServices\IsExternalInit.cs" />
     <Compile Include="Updater\API Data\GithubAsset.cs" />
     <Compile Include="Updater\API Data\GithubData.cs" />
     <Compile Include="Updater\API Data\GithubRepoContent.cs" />

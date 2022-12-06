@@ -1,20 +1,5 @@
 ﻿namespace System.Runtime.CompilerServices;
 
-using System.ComponentModel;
-
-[EditorBrowsable(EditorBrowsableState.Never)]
-internal static class IsExternalInit {}
-
-
-[AttributeUsage(AttributeTargets.Parameter, AllowMultiple = false, Inherited = false)]
-internal sealed class CallerArgumentExpressionAttribute : Attribute {
-    public CallerArgumentExpressionAttribute(string parameterName) {
-        ParameterName = parameterName;
-    }
-    public string ParameterName { get; }
-}
-
-
 internal static class RuntimeHelpers {
     /// <summary>
     /// Slices the specified array using the specified range.
@@ -31,7 +16,7 @@ internal static class RuntimeHelpers {
             // We know the type of the array to be exactly T[].
 
             if (length == 0) {
-                return Arrays.Empty<T>();
+                return Array.Empty<T>();
             }
 
             var dest = new T[length];

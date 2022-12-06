@@ -113,11 +113,8 @@ internal sealed class SplitButton : Button {
     }
 
     private void SetDropDown(bool IsPushed) {
-        NativeMethods.SendMessage(
-            Handle,
-            BCM_SETDROPDOWNSTATE,
-            IsPushed ? SplitButtonPressed : SplitButtonReleased,
-            0);
+        NativeMethods.SendMessage(Handle, BCM_SETDROPDOWNSTATE,
+            IsPushed ? SplitButtonPressed : SplitButtonReleased, 0);
     }
 
     private void ShowMenu() {

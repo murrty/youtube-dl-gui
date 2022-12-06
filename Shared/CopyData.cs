@@ -11,9 +11,9 @@ using System.Text;
 /// <param name="lpData">The data to be passed to the receiving application.</param>
 [StructLayout(LayoutKind.Sequential)]
 public record struct CopyDataStruct(
-    [MarshalAs(UnmanagedType.SysInt)] nint dwData,
-    [MarshalAs(UnmanagedType.I4)] int cbData,
-    [MarshalAs(UnmanagedType.SysInt)] nint lpData);
+    [field: MarshalAs(UnmanagedType.SysInt)] nint dwData,
+    [field: MarshalAs(UnmanagedType.I4)] int cbData,
+    [field: MarshalAs(UnmanagedType.SysInt)] nint lpData);
 
 /// <summary>
 /// Represents a structure with data for passing update data between youtube-dl-gui and the updater.

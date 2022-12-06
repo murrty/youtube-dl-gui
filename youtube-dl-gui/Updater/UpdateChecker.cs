@@ -7,7 +7,7 @@ using System.Threading;
 using System.Windows.Forms;
 using murrty.updater;
 internal sealed class UpdateChecker {
-    private const string KnownUpdaterHash = "E9BF35F8E9C51C642848E645A6B819AD28717160683EF660D443D9DECB4038D4";
+    private const string KnownUpdaterHash = "3E00CD25C1A9616533BD062FEE1AF61ADF09EB6BD96AB5C607ED9868C9017E10";
     private const string FfmpegDownloadLink = "https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-essentials.zip";
 
     #region Properties
