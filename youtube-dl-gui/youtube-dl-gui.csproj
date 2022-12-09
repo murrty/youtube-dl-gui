@@ -62,14 +62,22 @@
     <Compile Include="Classes\BatchHelpers.cs" />
     <Compile Include="Classes\ConvertHelper.cs" />
     <Compile Include="Classes\ConvertInfo.cs" />
+    <Compile Include="Classes\DataClasses\ExtendedMediaDetails.cs" />
     <Compile Include="Classes\DataClasses\FfprobeData.cs" />
     <Compile Include="Classes\DataClasses\YoutubeDlData.cs" />
     <Compile Include="Classes\DataClasses\YoutubeDlFormat.cs" />
     <Compile Include="Classes\DownloadHelper.cs" />
     <Compile Include="Classes\DownloadInfo.cs" />
-    <Compile Include="Classes\Extensions.cs" />
+    <Compile Include="Enums\ExtendedBatchStatus.cs" />
+    <Compile Include="Extensions.cs" />
     <Compile Include="Classes\Formats.cs" />
-    <Compile Include="Classes\Language.cs" />
+    <Compile Include="Forms\frmExtendedBatchDownloader.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmExtendedBatchDownloader.designer.cs">
+      <DependentUpon>frmExtendedBatchDownloader.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Language.cs" />
     <Compile Include="Classes\NativeMethods.cs" />
     <Compile Include="Classes\SystemRegistry.cs" />
     <Compile Include="Classes\Verification.cs" />
@@ -107,6 +115,7 @@
     <Compile Include="Enums\StatusIcon.cs" />
     <Compile Include="Enums\VideoFormatType.cs" />
     <Compile Include="Enums\VideoQualityType.cs" />
+    <Compile Include="Classes\DataClasses\AuthenticationDetails.cs" />
     <Compile Include="Forms\frmAbout.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -238,6 +247,8 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Runtime\System\Runtime\CompilerServices\CallerArgumentExpressionAttribute.cs" />
+    <Compile Include="Runtime\System\Runtime\CompilerServices\CompilerFeatureRequiredAttribute.cs" />
+    <Compile Include="Runtime\System\Runtime\CompilerServices\RequiredMemberAttribute.cs" />
     <Compile Include="Runtime\System\Runtime\CompilerServices\RuntimeHelpers.cs" />
     <Compile Include="Runtime\System\Index.cs" />
     <Compile Include="Runtime\System\Range.cs" />
@@ -330,6 +341,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmDownloadLanguage.resx">
       <DependentUpon>frmDownloadLanguage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmExtendedBatchDownloader.resx">
+      <DependentUpon>frmExtendedBatchDownloader.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmExtendedDownloader.resx">
       <DependentUpon>frmExtendedDownloader.cs</DependentUpon>

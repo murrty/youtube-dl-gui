@@ -48,7 +48,33 @@ internal class Formats {
     public const string AllKnownAudioFormats =
         "All known audio formats|*.aac;*.aiff;*.aif;*.aifc;*.flac;*.m4a;*.mp4;*.mp2;*.mp3;*.oga;*.ogg;*.opus;*.wav";
 
+    /// <summary>
+    /// String array of known yt-dlp supported video formats.
+    /// </summary>
+    public static readonly string[] ExtendedVideoFormats = {
+        "avi",
+        "flv",
+        "mkv",
+        "mov",
+        "mp4",
+        "webm"
+    };
 
+    /// <summary>
+    /// String array of known yt-dlp supported audio formats.
+    /// </summary>
+    public static readonly string[] ExtendedAudioFormats = {
+        "aac",
+        "aiff",
+        "alac",
+        "flac",
+        "mp3",
+        "m4a",
+        "ogg",
+        "opus",
+        "vorbis",
+        "wav"
+    };
 
     #region Video Arrays
     public static readonly string[] VideoQualityArray = { "best",

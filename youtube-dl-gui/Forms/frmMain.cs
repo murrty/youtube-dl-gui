@@ -468,8 +468,13 @@ public partial class frmMain : Form {
     }
 
     private void mBatchDownload_Click(object sender, EventArgs e) {
+        #if DEBUG
+        frmExtendedBatchDownloader Batch = new();
+        Batch.Show();
+        #else
         frmBatchDownloader BatchDownload = new();
         BatchDownload.Show();
+        #endif
     }
     private void mBatchConverter_Click(object sender, EventArgs e) {
         frmBatchConverter BatchConvert = new();
@@ -1021,23 +1026,7 @@ public partial class frmMain : Form {
             if (WithAuth) {
                 frmAuthentication auth = new();
                 if (auth.ShowDialog() == DialogResult.OK) {
-                    if (auth.Username != null) {
-                        NewInfo.AuthUsername = auth.Username;
-                        auth.Username = null;
-                    }
-                    if (auth.Password != null) {
-                        NewInfo.AuthPassword = auth.Password;
-                        auth.Password = null;
-                    }
-                    if (auth.TwoFactor != null) {
-                        NewInfo.Auth2Factor = auth.TwoFactor;
-                        auth.TwoFactor = null;
-                    }
-                    if (auth.VideoPassword != null) {
-                        NewInfo.AuthVideoPassword = auth.VideoPassword;
-                        auth.VideoPassword = null;
-                    }
-                    NewInfo.AuthNetrc = auth.Netrc;
+                    NewInfo.Authentication = auth.Authentication;
                     auth.Dispose();
                 }
                 else {
@@ -1372,5 +1361,4 @@ public partial class frmMain : Form {
     }
 
     #endregion
-
 }

@@ -34,15 +34,12 @@ public partial class frmExtendedDownloader : Form {
             tcVideoData.TabPages.Remove(tabDebug);
         }
 
-        cbVideoRemux.Items.AddRange(
-            new[] { "avi", "flv", "mkv", "mov", "mp4", "webm" });
+        cbVideoRemux.Items.AddRange(Formats.ExtendedVideoFormats);
         cbVideoRemux.SelectedIndex = 0;
-        cbVideoEncoders.Items.AddRange(
-            new[] { "avi", "flv", "mkv", "mov", "mp4", "webm" });
+        cbVideoEncoders.Items.AddRange(Formats.ExtendedVideoFormats);
         cbVideoEncoders.SelectedIndex = 0;
 
-        cbAudioEncoders.Items.AddRange(
-            new[] { "aac", "aiff", "alac", "flac", "mp3", "m4a", "ogg", "opus", "vorbis", "wav" });
+        cbAudioEncoders.Items.AddRange(Formats.ExtendedAudioFormats);
         cbAudioEncoders.SelectedIndex = 0;
 
         cbVbrQualities.Items.AddRange(Formats.VbrQualities);
@@ -73,12 +70,12 @@ public partial class frmExtendedDownloader : Form {
         }
         if (Config.Settings.Saved.ExtendedDownloaderSize.Valid)
             this.Size = Config.Settings.Saved.ExtendedDownloaderSize;
-        if (!Config.Settings.Saved.ExtendedDownloadVideoColumns.IsNullEmptyWhitespace())
-            lvVideoFormats.SetColumnWidths(Config.Settings.Saved.ExtendedDownloadVideoColumns);
-        if (!Config.Settings.Saved.ExtendedDownloadAudioColumns.IsNullEmptyWhitespace())
-            lvAudioFormats.SetColumnWidths(Config.Settings.Saved.ExtendedDownloadAudioColumns);
-        if (!Config.Settings.Saved.ExtendedDownloadUnknownColumns.IsNullEmptyWhitespace())
-            lvUnknownFormats.SetColumnWidths(Config.Settings.Saved.ExtendedDownloadUnknownColumns);
+        if (!Config.Settings.Saved.ExtendedDownloaderVideoColumns.IsNullEmptyWhitespace())
+            lvVideoFormats.SetColumnWidths(Config.Settings.Saved.ExtendedDownloaderVideoColumns);
+        if (!Config.Settings.Saved.ExtendedDownloaderAudioColumns.IsNullEmptyWhitespace())
+            lvAudioFormats.SetColumnWidths(Config.Settings.Saved.ExtendedDownloaderAudioColumns);
+        if (!Config.Settings.Saved.ExtendedDownloaderUnknownColumns.IsNullEmptyWhitespace())
+            lvUnknownFormats.SetColumnWidths(Config.Settings.Saved.ExtendedDownloaderUnknownColumns);
 
         chkDownloaderCloseAfterDownload.Checked = Config.Settings.Downloads.CloseExtendedDownloaderAfterFinish;
     }
@@ -102,9 +99,9 @@ public partial class frmExtendedDownloader : Form {
                 Config.Settings.Downloads.CloseExtendedDownloaderAfterFinish = chkDownloaderCloseAfterDownload.Checked;
                 Config.Settings.Saved.ExtendedDownloaderLocation = this.Location;
                 Config.Settings.Saved.ExtendedDownloaderSize = this.Size;
-                Config.Settings.Saved.ExtendedDownloadVideoColumns = lvVideoFormats.GetColumnWidths();
-                Config.Settings.Saved.ExtendedDownloadAudioColumns = lvAudioFormats.GetColumnWidths();
-                Config.Settings.Saved.ExtendedDownloadUnknownColumns = lvUnknownFormats.GetColumnWidths();
+                Config.Settings.Saved.ExtendedDownloaderVideoColumns = lvVideoFormats.GetColumnWidths();
+                Config.Settings.Saved.ExtendedDownloaderAudioColumns = lvAudioFormats.GetColumnWidths();
+                Config.Settings.Saved.ExtendedDownloaderUnknownColumns = lvUnknownFormats.GetColumnWidths();
                 Config.Settings.Downloads.Save();
                 Config.Settings.Saved.Save();
 
@@ -584,30 +581,43 @@ public partial class frmExtendedDownloader : Form {
         if (Authentication) {
             frmAuthentication auth = new();
             if (auth.ShowDialog() == DialogResult.OK) {
+                AuthenticationDetails Details = auth.Authentication;
+                auth.Authentication = AuthenticationDetails.Default;
+
                 txtGeneratedArguments.Text = ArgumentBuffer.ToString();
-                if (auth.Username != null) {
-                    ArgumentBuffer.Append($" --username {auth.Username}");
+                if (!Details.Username.IsNullEmptyWhitespace()) {
+                    ArgumentBuffer.Append($" --username {Details.Username}");
                     txtGeneratedArguments.AppendText(" --username ***");
-                    auth.Username = null;
+                    Details.Username = null;
                 }
-                if (auth.Password != null) {
-                    ArgumentBuffer.Append($" --password {auth.Password}");
+                if (Details.Password?.Length > 0) {
+                    ArgumentBuffer.Append($" --password {Details.GetPassword()}");
                     txtGeneratedArguments.AppendText(" --password ***");
-                    auth.Password = null;
+                    Details.Password = null;
                 }
-                if (auth.TwoFactor != null) {
-                    ArgumentBuffer.Append($" --twofactor {auth.TwoFactor}");
+                if (!Details.TwoFactor.IsNullEmptyWhitespace()) {
+                    ArgumentBuffer.Append($" --twofactor {Details.TwoFactor}");
                     txtGeneratedArguments.AppendText(" --twofactor ***");
-                    auth.TwoFactor = null;
+                    Details.TwoFactor = null;
                 }
-                if (auth.VideoPassword != null) {
-                    ArgumentBuffer.Append($" --video-password {auth.VideoPassword}");
+                if (Details.MediaPassword?.Length > 0) {
+                    ArgumentBuffer.Append($" --video-password {Details.GetMediaPassword()}");
                     txtGeneratedArguments.AppendText(" --video-password ***");
-                    auth.VideoPassword = null;
+                    Details.MediaPassword = null;
                 }
-                if (auth.Netrc) {
+                if (Details.NetRC) {
                     ArgumentBuffer.Append(" --netrc");
                     txtGeneratedArguments.AppendText(" --netrc");
+                }
+                if (!Details.CookiesFile.IsNullEmptyWhitespace()) {
+                    ArgumentBuffer.Append($" --cookies {Details.CookiesFile}");
+                    txtGeneratedArguments.AppendText(" --cookies ***");
+                    Details.CookiesFile = null;
+                }
+                if (!Details.CookiesFromBrowser.IsNullEmptyWhitespace()) {
+                    ArgumentBuffer.Append($" --cookies-from-browser {Details.CookiesFromBrowser}");
+                    txtGeneratedArguments.AppendText(" --cookies-from-browser ***");
+                    Details.CookiesFromBrowser = null;
                 }
                 auth.Dispose();
             }

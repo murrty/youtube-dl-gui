@@ -159,11 +159,24 @@ internal static class Program {
                     Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Downloads\\youtube-dl";
 
                 if (Log.MessageBox(Language.dlgFirstTimeDownloadFolder, MessageBoxButtons.YesNo) == DialogResult.Yes) {
-                    using BetterFolderBrowserNS.BetterFolderBrowser fbd = new();
-                    fbd.Title = Language.dlgFindDownloadFolder;
-                    fbd.RootFolder = Config.Settings.Downloads.downloadPath;
-                    if (fbd.ShowDialog() == DialogResult.OK)
-                        Config.Settings.Downloads.downloadPath = fbd.SelectedPath;
+                    if (Environment.OSVersion.Platform == PlatformID.Win32NT) {
+                        using BetterFolderBrowserNS.BetterFolderBrowser fbd = new() {
+                            RootFolder = Config.Settings.Downloads.downloadPath,
+                            Title = Language.dlgFindDownloadFolder
+                        };
+
+                        if (fbd.ShowDialog() == DialogResult.OK)
+                            Config.Settings.Downloads.downloadPath = fbd.SelectedPath;
+                    }
+                    else {
+                        using FolderBrowserDialog fbd = new() {
+                            SelectedPath = Config.Settings.Downloads.downloadPath,
+                            Description = Language.dlgFindDownloadFolder
+                        };
+
+                        if (fbd.ShowDialog() == DialogResult.OK)
+                            Config.Settings.Downloads.downloadPath = fbd.SelectedPath;
+                    }
                 }
 
                 if (Verification.YoutubeDlPath.IsNullEmptyWhitespace()

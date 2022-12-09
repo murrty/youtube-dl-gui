@@ -70,25 +70,10 @@ public sealed class DownloadInfo {
     /// </summary>
     public string BatchTime { get; set; } = null;
     /// <summary>
-    /// The username for authentication.
+    /// The authentication for this instance.
     /// </summary>
-    public string AuthUsername { get; set; } = null;
-    /// <summary>
-    /// The password for authentication.
-    /// </summary>
-    public string AuthPassword { get; set; } = null;
-    /// <summary>
-    /// The 2-factor answer for authentication.
-    /// </summary>
-    public string Auth2Factor { get; set; } = null;
-    /// <summary>
-    /// The video password for authentication.
-    /// </summary>
-    public string AuthVideoPassword { get; set; } = null;
-    /// <summary>
-    /// Determines if authentication should use NetRC.
-    /// </summary>
-    public bool AuthNetrc { get; set; } = false;
+    public AuthenticationDetails Authentication { get => fAuth; set => fAuth = value; }
+    private AuthenticationDetails fAuth = new();
     /// <summary>
     /// The arguments for playlist selection.
     /// </summary>
@@ -129,9 +114,10 @@ public sealed class DownloadInfo {
 
         #region URL cleaning
         DownloadURL.Trim('\\', '"', '\n', '\r', '\t', '\0', '\b', '\'');
-        if (!DownloadURL.StartsWith("https://"))
-            if (DownloadURL.StartsWith("http://"))
-                DownloadURL = "https" + DownloadURL[4..];
+        //if (!DownloadURL.StartsWith("https://")) {
+        //    if (DownloadURL.StartsWith("http://")) DownloadURL = "https" + DownloadURL[4..];
+        //    else DownloadURL = "https://" + DownloadURL;
+        //}
         #endregion
 
         StringBuilder ArgumentsBuffer = new(string.Empty);
@@ -192,7 +178,7 @@ public sealed class DownloadInfo {
                     OutputDirectory.Append("\\Custom");
                     break;
                 default:
-                    Verbose("Unable to determine what download type to use (expected 0, 1, or 2)");
+                    Verbose("Unable to determine what download type to use.");
                     Status = DownloadStatus.ProgramError;
                     return false;
             }
@@ -373,30 +359,40 @@ public sealed class DownloadInfo {
         PreviewArguments = new(ArgumentsBuffer.ToString());
 
         if (!MostlyCustomArguments) {
-            if (AuthUsername is not null) {
-                ArgumentsBuffer.Append($" --username {AuthUsername}");
-                AuthUsername = null;
+            if (!fAuth.Username.IsNullEmptyWhitespace()) {
+                ArgumentsBuffer.Append($" --username {fAuth.Username}");
+                fAuth.Username = null;
                 PreviewArguments.Append(" --username ***");
             }
-            if (AuthPassword is not null) {
-                ArgumentsBuffer.Append($" --password {AuthPassword}");
-                AuthPassword = null;
+            if (fAuth.Password?.Length > 0) {
+                ArgumentsBuffer.Append($" --password {fAuth.GetPassword()}");
+                fAuth.Password.Clear();
                 PreviewArguments.Append(" --password ***");
             }
-            if (Auth2Factor is not null) {
-                ArgumentsBuffer.Append($" --twofactor {Auth2Factor}");
-                Auth2Factor = null;
+            if (!fAuth.TwoFactor.IsNullEmptyWhitespace()) {
+                ArgumentsBuffer.Append($" --twofactor {fAuth.TwoFactor}");
+                fAuth.TwoFactor = null;
                 PreviewArguments.Append(" --twofactor ***");
             }
-            if (AuthVideoPassword is not null) {
-                ArgumentsBuffer.Append($" --video-password {AuthVideoPassword}");
-                AuthVideoPassword = null;
+            if (fAuth.MediaPassword?.Length > 0) {
+                ArgumentsBuffer.Append($" --video-password {fAuth.GetMediaPassword()}");
+                fAuth.MediaPassword.Clear();
                 PreviewArguments.Append(" --video-password ***");
             }
-            if (AuthNetrc) {
-                AuthNetrc = false;
+            if (fAuth.NetRC) {
                 ArgumentsBuffer.Append(" --netrc");
                 PreviewArguments.Append(" --netrc ***");
+                fAuth.NetRC = false;
+            }
+            if (!fAuth.CookiesFile.IsNullEmptyWhitespace()) {
+                ArgumentsBuffer.Append($" --cookies {fAuth.CookiesFile}");
+                PreviewArguments.Append(" --cookies ***");
+                fAuth.CookiesFile = null;
+            }
+            if (!fAuth.CookiesFromBrowser.IsNullEmptyWhitespace()) {
+                ArgumentsBuffer.Append($" --cookies-from-browser {fAuth.CookiesFromBrowser}");
+                PreviewArguments.Append(" --cookies-from-browser ***");
+                fAuth.CookiesFromBrowser = null;
             }
         }
         #endregion

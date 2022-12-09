@@ -43,8 +43,6 @@
             this.txtSettingsGeneralFFmpegPath = new murrty.controls.ExtendedTextBox();
             this.tabSettingsDownloads = new System.Windows.Forms.TabPage();
             this.btnSettingsDownloadsFileNameSchemaHistory = new System.Windows.Forms.Button();
-            this.btnSettingsDownloadsInstallProtocol = new murrty.controls.UacButton();
-            this.llbSettingsDownloadsInstallProtocolMoreInfo = new murrty.controls.ExtendedLinkLabel();
             this.chkSettingsDownloadsDownloadPathUseRelativePath = new System.Windows.Forms.CheckBox();
             this.tabDownloads = new System.Windows.Forms.TabControl();
             this.tabDownloadsGeneral = new System.Windows.Forms.TabPage();
@@ -90,13 +88,15 @@
             this.tabYtdlpExtendedOptions = new System.Windows.Forms.TabPage();
             this.chkYtdlpExtendedAutomaticallyDownloadThumbnail = new System.Windows.Forms.CheckBox();
             this.chkYtdlpPreferExtendedDialog = new System.Windows.Forms.CheckBox();
-            this.llSettingsDownloadsSchemaHelp = new murrty.controls.ExtendedLinkLabel();
             this.lbSettingsDownloadsDownloadPath = new System.Windows.Forms.Label();
-            this.txtSettingsDownloadsSavePath = new murrty.controls.ExtendedTextBox();
             this.btnSettingsDownloadsBrowseSavePath = new System.Windows.Forms.Button();
             this.lbSepDownloads = new System.Windows.Forms.Label();
             this.lbSettingsDownloadsFileNameSchema = new System.Windows.Forms.Label();
             this.txtSettingsDownloadsFileNameSchema = new System.Windows.Forms.ComboBox();
+            this.btnSettingsDownloadsInstallProtocol = new murrty.controls.UacButton();
+            this.llbSettingsDownloadsInstallProtocolMoreInfo = new murrty.controls.ExtendedLinkLabel();
+            this.llSettingsDownloadsSchemaHelp = new murrty.controls.ExtendedLinkLabel();
+            this.txtSettingsDownloadsSavePath = new murrty.controls.ExtendedTextBox();
             this.tabSettingsConverter = new System.Windows.Forms.TabPage();
             this.chkSettingsConverterHideFFmpegCompileInfo = new System.Windows.Forms.CheckBox();
             this.chkSettingsConverterDetectOutputFileType = new System.Windows.Forms.CheckBox();
@@ -534,17 +534,17 @@
             // tabSettingsDownloads
             // 
             this.tabSettingsDownloads.Controls.Add(this.btnSettingsDownloadsFileNameSchemaHistory);
-            this.tabSettingsDownloads.Controls.Add(this.btnSettingsDownloadsInstallProtocol);
-            this.tabSettingsDownloads.Controls.Add(this.llbSettingsDownloadsInstallProtocolMoreInfo);
             this.tabSettingsDownloads.Controls.Add(this.chkSettingsDownloadsDownloadPathUseRelativePath);
             this.tabSettingsDownloads.Controls.Add(this.tabDownloads);
-            this.tabSettingsDownloads.Controls.Add(this.llSettingsDownloadsSchemaHelp);
             this.tabSettingsDownloads.Controls.Add(this.lbSettingsDownloadsDownloadPath);
-            this.tabSettingsDownloads.Controls.Add(this.txtSettingsDownloadsSavePath);
             this.tabSettingsDownloads.Controls.Add(this.btnSettingsDownloadsBrowseSavePath);
             this.tabSettingsDownloads.Controls.Add(this.lbSepDownloads);
             this.tabSettingsDownloads.Controls.Add(this.lbSettingsDownloadsFileNameSchema);
             this.tabSettingsDownloads.Controls.Add(this.txtSettingsDownloadsFileNameSchema);
+            this.tabSettingsDownloads.Controls.Add(this.btnSettingsDownloadsInstallProtocol);
+            this.tabSettingsDownloads.Controls.Add(this.llbSettingsDownloadsInstallProtocolMoreInfo);
+            this.tabSettingsDownloads.Controls.Add(this.llSettingsDownloadsSchemaHelp);
+            this.tabSettingsDownloads.Controls.Add(this.txtSettingsDownloadsSavePath);
             this.tabSettingsDownloads.Location = new System.Drawing.Point(4, 22);
             this.tabSettingsDownloads.Name = "tabSettingsDownloads";
             this.tabSettingsDownloads.Padding = new System.Windows.Forms.Padding(3);
@@ -564,33 +564,6 @@
             this.tipSettings.SetToolTip(this.btnSettingsDownloadsFileNameSchemaHistory, "btnSettingsDownloadsFileNameSchemaHistoryHint");
             this.btnSettingsDownloadsFileNameSchemaHistory.UseVisualStyleBackColor = true;
             this.btnSettingsDownloadsFileNameSchemaHistory.Click += new System.EventHandler(this.btnSettingsDownloadsFileNameSchemaHistory_Click);
-            // 
-            // btnSettingsDownloadsInstallProtocol
-            // 
-            this.btnSettingsDownloadsInstallProtocol.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSettingsDownloadsInstallProtocol.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.btnSettingsDownloadsInstallProtocol.Location = new System.Drawing.Point(6, 333);
-            this.btnSettingsDownloadsInstallProtocol.Name = "btnSettingsDownloadsInstallProtocol";
-            this.btnSettingsDownloadsInstallProtocol.Size = new System.Drawing.Size(184, 23);
-            this.btnSettingsDownloadsInstallProtocol.TabIndex = 13;
-            this.btnSettingsDownloadsInstallProtocol.Text = "btnSettingsDownloadsInstallProtocol";
-            this.tipSettings.SetToolTip(this.btnSettingsDownloadsInstallProtocol, "btnSettingsDownloadsInstallProtocolHint");
-            this.btnSettingsDownloadsInstallProtocol.UseVisualStyleBackColor = true;
-            this.btnSettingsDownloadsInstallProtocol.Click += new System.EventHandler(this.btnSettingsDownloadsInstallProtocol_Click);
-            // 
-            // llbSettingsDownloadsInstallProtocolMoreInfo
-            // 
-            this.llbSettingsDownloadsInstallProtocolMoreInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.llbSettingsDownloadsInstallProtocolMoreInfo.AutoSize = true;
-            this.llbSettingsDownloadsInstallProtocolMoreInfo.Location = new System.Drawing.Point(196, 338);
-            this.llbSettingsDownloadsInstallProtocolMoreInfo.Name = "llbSettingsDownloadsInstallProtocolMoreInfo";
-            this.llbSettingsDownloadsInstallProtocolMoreInfo.Size = new System.Drawing.Size(243, 13);
-            this.llbSettingsDownloadsInstallProtocolMoreInfo.TabIndex = 12;
-            this.llbSettingsDownloadsInstallProtocolMoreInfo.TabStop = true;
-            this.llbSettingsDownloadsInstallProtocolMoreInfo.Text = "llbSettingsDownloadsInstallProtocolMoreInfo";
-            this.llbSettingsDownloadsInstallProtocolMoreInfo.VisitedLinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(0)))), ((int)(((byte)(128)))));
-            this.llbSettingsDownloadsInstallProtocolMoreInfo.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llbSettingsDownloadsInstallProtocolMoreInfo_LinkClicked);
             // 
             // chkSettingsDownloadsDownloadPathUseRelativePath
             // 
@@ -721,6 +694,7 @@
             // chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing
             // 
             this.chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing.AutoSize = true;
+            this.chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing.Enabled = false;
             this.chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing.Location = new System.Drawing.Point(6, 144);
             this.chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing.Name = "chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing";
             this.chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing.Size = new System.Drawing.Size(369, 17);
@@ -1150,19 +1124,6 @@
             this.tipSettings.SetToolTip(this.chkYtdlpPreferExtendedDialog, "chkYtdlpPreferExtendedDialogHint");
             this.chkYtdlpPreferExtendedDialog.UseVisualStyleBackColor = true;
             // 
-            // llSettingsDownloadsSchemaHelp
-            // 
-            this.llSettingsDownloadsSchemaHelp.AutoSize = true;
-            this.llSettingsDownloadsSchemaHelp.Location = new System.Drawing.Point(210, 59);
-            this.llSettingsDownloadsSchemaHelp.Name = "llSettingsDownloadsSchemaHelp";
-            this.llSettingsDownloadsSchemaHelp.Size = new System.Drawing.Size(12, 13);
-            this.llSettingsDownloadsSchemaHelp.TabIndex = 5;
-            this.llSettingsDownloadsSchemaHelp.TabStop = true;
-            this.llSettingsDownloadsSchemaHelp.Text = "?";
-            this.tipSettings.SetToolTip(this.llSettingsDownloadsSchemaHelp, "llSchema");
-            this.llSettingsDownloadsSchemaHelp.VisitedLinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(0)))), ((int)(((byte)(128)))));
-            this.llSettingsDownloadsSchemaHelp.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llSettingsDownloadsSchemaHelp_LinkClicked);
-            // 
             // lbSettingsDownloadsDownloadPath
             // 
             this.lbSettingsDownloadsDownloadPath.AutoSize = true;
@@ -1172,24 +1133,6 @@
             this.lbSettingsDownloadsDownloadPath.TabIndex = 1;
             this.lbSettingsDownloadsDownloadPath.Text = "lbSettingsDownloadsDownloadPath";
             this.tipSettings.SetToolTip(this.lbSettingsDownloadsDownloadPath, "lbSettingsDownloadsDownloadPath");
-            // 
-            // txtSettingsDownloadsSavePath
-            // 
-            this.txtSettingsDownloadsSavePath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtSettingsDownloadsSavePath.ButtonAlignment = murrty.controls.ButtonAlignment.Left;
-            this.txtSettingsDownloadsSavePath.ButtonCursor = System.Windows.Forms.Cursors.Default;
-            this.txtSettingsDownloadsSavePath.ButtonFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtSettingsDownloadsSavePath.ButtonImageIndex = -1;
-            this.txtSettingsDownloadsSavePath.ButtonSize = new System.Drawing.Size(22, 21);
-            this.txtSettingsDownloadsSavePath.ButtonText = "";
-            this.txtSettingsDownloadsSavePath.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.txtSettingsDownloadsSavePath.Location = new System.Drawing.Point(30, 32);
-            this.txtSettingsDownloadsSavePath.Name = "txtSettingsDownloadsSavePath";
-            this.txtSettingsDownloadsSavePath.ReadOnly = true;
-            this.txtSettingsDownloadsSavePath.Size = new System.Drawing.Size(233, 22);
-            this.txtSettingsDownloadsSavePath.TabIndex = 2;
-            this.tipSettings.SetToolTip(this.txtSettingsDownloadsSavePath, "txtSaveto");
             // 
             // btnSettingsDownloadsBrowseSavePath
             // 
@@ -1236,6 +1179,64 @@
             this.txtSettingsDownloadsFileNameSchema.Text = "%(title)s-%(id)s.%(ext)s";
             this.tipSettings.SetToolTip(this.txtSettingsDownloadsFileNameSchema, "txtSettingsDownloadsFileNameSchemaHint");
             this.txtSettingsDownloadsFileNameSchema.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtSettingsDownloadsFileNameSchema_KeyPress);
+            // 
+            // btnSettingsDownloadsInstallProtocol
+            // 
+            this.btnSettingsDownloadsInstallProtocol.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSettingsDownloadsInstallProtocol.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.btnSettingsDownloadsInstallProtocol.Location = new System.Drawing.Point(6, 333);
+            this.btnSettingsDownloadsInstallProtocol.Name = "btnSettingsDownloadsInstallProtocol";
+            this.btnSettingsDownloadsInstallProtocol.Size = new System.Drawing.Size(184, 23);
+            this.btnSettingsDownloadsInstallProtocol.TabIndex = 13;
+            this.btnSettingsDownloadsInstallProtocol.Text = "btnSettingsDownloadsInstallProtocol";
+            this.tipSettings.SetToolTip(this.btnSettingsDownloadsInstallProtocol, "btnSettingsDownloadsInstallProtocolHint");
+            this.btnSettingsDownloadsInstallProtocol.UseVisualStyleBackColor = true;
+            this.btnSettingsDownloadsInstallProtocol.Click += new System.EventHandler(this.btnSettingsDownloadsInstallProtocol_Click);
+            // 
+            // llbSettingsDownloadsInstallProtocolMoreInfo
+            // 
+            this.llbSettingsDownloadsInstallProtocolMoreInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.llbSettingsDownloadsInstallProtocolMoreInfo.AutoSize = true;
+            this.llbSettingsDownloadsInstallProtocolMoreInfo.Location = new System.Drawing.Point(196, 338);
+            this.llbSettingsDownloadsInstallProtocolMoreInfo.Name = "llbSettingsDownloadsInstallProtocolMoreInfo";
+            this.llbSettingsDownloadsInstallProtocolMoreInfo.Size = new System.Drawing.Size(243, 13);
+            this.llbSettingsDownloadsInstallProtocolMoreInfo.TabIndex = 12;
+            this.llbSettingsDownloadsInstallProtocolMoreInfo.TabStop = true;
+            this.llbSettingsDownloadsInstallProtocolMoreInfo.Text = "llbSettingsDownloadsInstallProtocolMoreInfo";
+            this.llbSettingsDownloadsInstallProtocolMoreInfo.VisitedLinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(0)))), ((int)(((byte)(128)))));
+            this.llbSettingsDownloadsInstallProtocolMoreInfo.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llbSettingsDownloadsInstallProtocolMoreInfo_LinkClicked);
+            // 
+            // llSettingsDownloadsSchemaHelp
+            // 
+            this.llSettingsDownloadsSchemaHelp.AutoSize = true;
+            this.llSettingsDownloadsSchemaHelp.Location = new System.Drawing.Point(210, 59);
+            this.llSettingsDownloadsSchemaHelp.Name = "llSettingsDownloadsSchemaHelp";
+            this.llSettingsDownloadsSchemaHelp.Size = new System.Drawing.Size(12, 13);
+            this.llSettingsDownloadsSchemaHelp.TabIndex = 5;
+            this.llSettingsDownloadsSchemaHelp.TabStop = true;
+            this.llSettingsDownloadsSchemaHelp.Text = "?";
+            this.tipSettings.SetToolTip(this.llSettingsDownloadsSchemaHelp, "llSchema");
+            this.llSettingsDownloadsSchemaHelp.VisitedLinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(0)))), ((int)(((byte)(128)))));
+            this.llSettingsDownloadsSchemaHelp.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llSettingsDownloadsSchemaHelp_LinkClicked);
+            // 
+            // txtSettingsDownloadsSavePath
+            // 
+            this.txtSettingsDownloadsSavePath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtSettingsDownloadsSavePath.ButtonAlignment = murrty.controls.ButtonAlignment.Left;
+            this.txtSettingsDownloadsSavePath.ButtonCursor = System.Windows.Forms.Cursors.Default;
+            this.txtSettingsDownloadsSavePath.ButtonFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtSettingsDownloadsSavePath.ButtonImageIndex = -1;
+            this.txtSettingsDownloadsSavePath.ButtonSize = new System.Drawing.Size(22, 21);
+            this.txtSettingsDownloadsSavePath.ButtonText = "";
+            this.txtSettingsDownloadsSavePath.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.txtSettingsDownloadsSavePath.Location = new System.Drawing.Point(30, 32);
+            this.txtSettingsDownloadsSavePath.Name = "txtSettingsDownloadsSavePath";
+            this.txtSettingsDownloadsSavePath.ReadOnly = true;
+            this.txtSettingsDownloadsSavePath.Size = new System.Drawing.Size(233, 22);
+            this.txtSettingsDownloadsSavePath.TabIndex = 2;
+            this.tipSettings.SetToolTip(this.txtSettingsDownloadsSavePath, "txtSaveto");
             // 
             // tabSettingsConverter
             // 

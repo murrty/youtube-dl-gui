@@ -74,4 +74,17 @@ internal static class Extensions {
             if (act(items[i])) return true;
         return false;
     }
+    public static void For<T>(this T[] items, Action<T> act) {
+        if (items.Length > 0) {
+            for (int i = 0; i < items.Length; i++) {
+                act(items[i]);
+            }
+        }
+    }
+    public static void For<T>(this IList<T> items, Action<T> act) {
+        if (items.Count > 0) {
+            for (int i = 0; i < items.Count; i++)
+                act(items[i]);
+        }
+    }
 }

@@ -184,7 +184,7 @@ public partial class frmSettings : Form {
         tipSettings.SetToolTip(txtSettingsDownloadsProxyPort, Language.txtSettingsDownloadsProxyPortHint);
 
         chksettingsDownloadsUseYoutubeDlsUpdater.Text = Language.chkSettingsDownloadsUseYoutubeDlsUpdater;
-        tipSettings.SetToolTip(chksettingsDownloadsUseYoutubeDlsUpdater, Language.chksettingsDownloadsUseYoutubeDlsUpdaterHint);
+        tipSettings.SetToolTip(chksettingsDownloadsUseYoutubeDlsUpdater, Language.chkSettingsDownloadsUseYoutubeDlsUpdaterHint);
         lbSettingsDownloadsUpdatingYtdlType.Text = Language.lbSettingsDownloadsUpdatingYtdlType;
         tipSettings.SetToolTip(cbSettingsDownloadsUpdatingYtdlType, Language.cbSettingsDownloadsUpdatingYtdlTypeHint);
         llbSettingsDownloadsYtdlTypeViewRepo.Text = Language.llbSettingsDownloadsYtdlTypeViewRepo;
@@ -672,22 +672,29 @@ public partial class frmSettings : Form {
         }
     }
     private void btnSettingsDownloadsBrowseSavePath_Click(object sender, EventArgs e) {
-        using BetterFolderBrowserNS.BetterFolderBrowser fbd = new();
-        fbd.Title = Language.dlgFindDownloadFolder;
-        if (chkSettingsDownloadsDownloadPathUseRelativePath.Checked) {
-            fbd.RootFolder = Program.ProgramPath;
+        string GetSelectedPath(string path) => chkSettingsDownloadsDownloadPathUseRelativePath.Checked
+        && path.ToLowerInvariant().StartsWith(Program.ProgramPath.ToLowerInvariant()) ?
+            (".\\" + path[(Program.ProgramPath.Length + 1)..]) : path;
+        
+        if (Environment.OSVersion.Platform == PlatformID.Win32NT) {
+            using BetterFolderBrowserNS.BetterFolderBrowser fbd = new() {
+                RootFolder = chkSettingsDownloadsDownloadPathUseRelativePath.Checked ?
+                    Program.ProgramPath : (Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Downloads"),
+                Title = Language.dlgFindDownloadFolder
+            };
+
+            if (fbd.ShowDialog() == DialogResult.OK)
+                txtSettingsDownloadsSavePath.Text = GetSelectedPath(fbd.SelectedPath);
         }
         else {
-            fbd.RootFolder = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Downloads";
-        }
+            using FolderBrowserDialog fbd = new() {
+                SelectedPath = chkSettingsDownloadsDownloadPathUseRelativePath.Checked ?
+                    Program.ProgramPath : (Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Downloads"),
+                Description = Language.dlgFindDownloadFolder
+            };
 
-        if (fbd.ShowDialog() == DialogResult.OK) {
-            if (chkSettingsDownloadsDownloadPathUseRelativePath.Checked && fbd.SelectedPath.StartsWith(Program.ProgramPath)) {
-                txtSettingsDownloadsSavePath.Text = ".\\" + fbd.SelectedPath[(Program.ProgramPath.Length + 1)..];
-            }
-            else {
-                txtSettingsDownloadsSavePath.Text = fbd.SelectedPath;
-            }
+            if (fbd.ShowDialog() == DialogResult.OK)
+                txtSettingsDownloadsSavePath.Text = GetSelectedPath(fbd.SelectedPath);
         }
     }
     private void llSettingsDownloadsSchemaHelp_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {

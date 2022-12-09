@@ -28,12 +28,15 @@ internal class Config_Saved {
     public Point ArchiveDownloaderLocation { get; set; }
     public Point LogLocation { get; set; }
     public Size LogSize { get; set; }
-    public string ExtendedDownloadVideoColumns { get; set; }
-    public string ExtendedDownloadAudioColumns { get; set; }
-    public string ExtendedDownloadUnknownColumns { get; set; }
+    public string ExtendedDownloaderVideoColumns { get; set; }
+    public string ExtendedDownloaderAudioColumns { get; set; }
+    public string ExtendedDownloaderUnknownColumns { get; set; }
     public Point QuickDownloaderLocation { get; set; }
     public Point FileNameSchemaHistoryLocation { get; set; }
     public Size FileNameSchemaHistorySize { get; set; }
+    public Point ExtendedBatchDownloaderLocation { get; set; }
+    public Size ExtendedBatchDownloaderSize { get; set; }
+    public string ExtendedBatchDownloaderQueuedColumns { get; set; }
 
     private int fdownloadType { get; set; }
     private int fconvertSaveVideoIndex { get; set; }
@@ -65,6 +68,9 @@ internal class Config_Saved {
     private Point fQuickDownloaderLocation { get; set; }
     private Point fFileNameSchemaHistoryLocation { get; set; }
     private Size fFileNameSchemaHistorySize { get; set; }
+    public Point fExtendedBatchDownloaderLocation { get; set; }
+    public Size fExtendedBatchDownloaderSize { get; set; }
+    public string fExtendedBatchDownloaderQueuedColumns { get; set; }
     #endregion
 
     public void Load() {
@@ -94,12 +100,15 @@ internal class Config_Saved {
         ArchiveDownloaderLocation = fArchiveDownloaderLocation = IniProvider.Read(ArchiveDownloaderLocation, Point.Invalid, ConfigName);
         LogLocation = fLogLocation = IniProvider.Read(LogLocation, Point.Invalid, ConfigName);
         LogSize = fLogSize = IniProvider.Read(LogSize, Size.Empty, ConfigName);
-        ExtendedDownloadVideoColumns = fExtendedDownloadVideoColumns = IniProvider.Read(ExtendedDownloadVideoColumns, string.Empty, ConfigName);
-        ExtendedDownloadAudioColumns = fExtendedDownloadAudioColumns = IniProvider.Read(ExtendedDownloadAudioColumns, string.Empty, ConfigName);
-        ExtendedDownloadUnknownColumns = fExtendedDownloadUnknownColumns = IniProvider.Read(ExtendedDownloadUnknownColumns, string.Empty, ConfigName);
+        ExtendedDownloaderVideoColumns = fExtendedDownloadVideoColumns = IniProvider.Read(ExtendedDownloaderVideoColumns, string.Empty, ConfigName);
+        ExtendedDownloaderAudioColumns = fExtendedDownloadAudioColumns = IniProvider.Read(ExtendedDownloaderAudioColumns, string.Empty, ConfigName);
+        ExtendedDownloaderUnknownColumns = fExtendedDownloadUnknownColumns = IniProvider.Read(ExtendedDownloaderUnknownColumns, string.Empty, ConfigName);
         QuickDownloaderLocation = fQuickDownloaderLocation = IniProvider.Read(QuickDownloaderLocation, Point.Invalid, ConfigName);
         FileNameSchemaHistoryLocation = fFileNameSchemaHistoryLocation = IniProvider.Read(FileNameSchemaHistoryLocation, Point.Invalid, ConfigName);
         FileNameSchemaHistorySize = fFileNameSchemaHistorySize = IniProvider.Read(FileNameSchemaHistorySize, Size.Empty, ConfigName);
+        ExtendedBatchDownloaderLocation = fExtendedBatchDownloaderLocation = IniProvider.Read(ExtendedBatchDownloaderLocation, Point.Empty, ConfigName);
+        ExtendedBatchDownloaderSize = fExtendedBatchDownloaderSize = IniProvider.Read(ExtendedBatchDownloaderSize, Size.Empty, ConfigName);
+        ExtendedBatchDownloaderQueuedColumns = fExtendedBatchDownloaderQueuedColumns = IniProvider.Read(ExtendedBatchDownloaderQueuedColumns, string.Empty, ConfigName);
     }
 
     public void Save() {
@@ -153,17 +162,23 @@ internal class Config_Saved {
             fLogLocation = IniProvider.Write(LogLocation, ConfigName);
         if (LogSize != fLogSize) 
             fLogSize = IniProvider.Write(LogSize, ConfigName);
-        if (ExtendedDownloadVideoColumns != fExtendedDownloadVideoColumns)
-            fExtendedDownloadVideoColumns = IniProvider.Write(ExtendedDownloadVideoColumns, ConfigName);
-        if (ExtendedDownloadAudioColumns != fExtendedDownloadAudioColumns)
-            fExtendedDownloadAudioColumns = IniProvider.Write(ExtendedDownloadAudioColumns, ConfigName);
-        if (ExtendedDownloadUnknownColumns != fExtendedDownloadUnknownColumns)
-            fExtendedDownloadUnknownColumns = IniProvider.Write(ExtendedDownloadUnknownColumns, ConfigName);
+        if (ExtendedDownloaderVideoColumns != fExtendedDownloadVideoColumns)
+            fExtendedDownloadVideoColumns = IniProvider.Write(ExtendedDownloaderVideoColumns, ConfigName);
+        if (ExtendedDownloaderAudioColumns != fExtendedDownloadAudioColumns)
+            fExtendedDownloadAudioColumns = IniProvider.Write(ExtendedDownloaderAudioColumns, ConfigName);
+        if (ExtendedDownloaderUnknownColumns != fExtendedDownloadUnknownColumns)
+            fExtendedDownloadUnknownColumns = IniProvider.Write(ExtendedDownloaderUnknownColumns, ConfigName);
         if (QuickDownloaderLocation != fQuickDownloaderLocation)
             fQuickDownloaderLocation = IniProvider.Write(QuickDownloaderLocation, ConfigName);
         if (FileNameSchemaHistoryLocation != fFileNameSchemaHistoryLocation)
             fFileNameSchemaHistoryLocation = IniProvider.Write(FileNameSchemaHistoryLocation, ConfigName);
         if (FileNameSchemaHistorySize != fFileNameSchemaHistorySize)
             fFileNameSchemaHistorySize = IniProvider.Write(FileNameSchemaHistorySize, ConfigName);
+        if (ExtendedBatchDownloaderLocation != fExtendedBatchDownloaderLocation)
+            fExtendedBatchDownloaderLocation = IniProvider.Write(ExtendedBatchDownloaderLocation, ConfigName);
+        if (ExtendedBatchDownloaderSize != fExtendedBatchDownloaderSize)
+            fExtendedBatchDownloaderSize = IniProvider.Write(ExtendedBatchDownloaderSize, ConfigName);
+        if (ExtendedBatchDownloaderQueuedColumns != fExtendedBatchDownloaderQueuedColumns)
+            fExtendedBatchDownloaderQueuedColumns = IniProvider.Write(ExtendedBatchDownloaderQueuedColumns, ConfigName);
     }
 }
