@@ -106,7 +106,7 @@ internal class Config_Saved {
         QuickDownloaderLocation = fQuickDownloaderLocation = IniProvider.Read(QuickDownloaderLocation, Point.Invalid, ConfigName);
         FileNameSchemaHistoryLocation = fFileNameSchemaHistoryLocation = IniProvider.Read(FileNameSchemaHistoryLocation, Point.Invalid, ConfigName);
         FileNameSchemaHistorySize = fFileNameSchemaHistorySize = IniProvider.Read(FileNameSchemaHistorySize, Size.Empty, ConfigName);
-        ExtendedBatchDownloaderLocation = fExtendedBatchDownloaderLocation = IniProvider.Read(ExtendedBatchDownloaderLocation, Point.Empty, ConfigName);
+        ExtendedBatchDownloaderLocation = fExtendedBatchDownloaderLocation = IniProvider.Read(ExtendedBatchDownloaderLocation, Point.Invalid, ConfigName);
         ExtendedBatchDownloaderSize = fExtendedBatchDownloaderSize = IniProvider.Read(ExtendedBatchDownloaderSize, Size.Empty, ConfigName);
         ExtendedBatchDownloaderQueuedColumns = fExtendedBatchDownloaderQueuedColumns = IniProvider.Read(ExtendedBatchDownloaderQueuedColumns, string.Empty, ConfigName);
     }

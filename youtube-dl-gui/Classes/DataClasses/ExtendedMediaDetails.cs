@@ -422,8 +422,10 @@ internal sealed class ExtendedMediaDetails : IDisposable {
                     NewFormat.Tag = Format;
                     Format.ListViewItem = NewFormat;
 
-                    if (VideoItems.Count == 0)
+                    if (VideoItems.Count == 0) {
                         SelectedVideoItem = NewFormat;
+                        SelectedVideoFormat = Format;
+                    }
 
                     VideoItems.Add(NewFormat);
                 }
@@ -438,8 +440,10 @@ internal sealed class ExtendedMediaDetails : IDisposable {
                     NewFormat.Tag = Format;
                     Format.ListViewItem = NewFormat;
 
-                    if (AudioItems.Count == 0)
+                    if (AudioItems.Count == 0) {
                         SelectedAudioItem = NewFormat;
+                        SelectedAudioFormat = Format;
+                    }
 
                     AudioItems.Add(NewFormat);
                 }
@@ -472,8 +476,11 @@ internal sealed class ExtendedMediaDetails : IDisposable {
                     NewFormat.Tag = Format;
                     Format.ListViewItem = NewFormat;
 
-                    if (UnknownItems.Count == 0)
+                    if (UnknownItems.Count == 0) {
                         NewFormat.ImageIndex = 0;
+                        SelectedUnknownItem = null;
+                        SelectedUnknownFormat = null;
+                    }
 
                     UnknownItems.Add(NewFormat);
                 }
@@ -481,6 +488,11 @@ internal sealed class ExtendedMediaDetails : IDisposable {
                 MediaName = MediaData.Title;
                 ProgressMediaName =
                     $"{(Config.Settings.Initialization.ScreenshotMode ? "The videos' title will appear here" : MediaName)} - {Language.ApplicationName}";
+
+                SelectedType = VideoFormats.Count > 0 ? DownloadType.Video :
+                    AudioFormats.Count > 0 ? DownloadType.Audio :
+                    UnknownFormats.Count > 0 ? DownloadType.Unknown :
+                    DownloadType.Custom;
             });
 
             InfoRetrieved = true;

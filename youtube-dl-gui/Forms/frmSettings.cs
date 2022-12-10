@@ -3,7 +3,6 @@ using System.Diagnostics;
 using System.Threading;
 using System.Windows.Forms;
 public partial class frmSettings : Form {
-
     #region vars
     private bool LoadingForm = false;
     private readonly bool ProtocolAvailable = false;
@@ -636,19 +635,23 @@ public partial class frmSettings : Form {
 
     private void btnSettingsRedownloadYoutubeDl_Click(object sender, EventArgs e) {
         YtdlUpdateCheck = new(() => {
-            if (UpdateChecker.CheckForYoutubeDlUpdate(true)) {
+            if (chksettingsDownloadsUseYoutubeDlsUpdater.Checked) {
+                if (!UpdateChecker.UpdateYoutubeDlInternally())
+                    System.Media.SystemSounds.Hand.Play();
+            }
+            else {
+                if (!UpdateChecker.CheckForYoutubeDlUpdate(true)) {
+                    this.BeginInvoke(() => Log.MessageBox(Language.dlgUpateYoutubeDlNoUpdateRequired.Format(Verification.YoutubeDlVersion, UpdateChecker.LatestYoutubeDl.VersionTag), MessageBoxButtons.OK));
+                    return;
+                }
+
                 if (UpdateChecker.UpdateYoutubeDl(new(this.Location.X + 8, this.Location.Y + 8))) {
-                    this.BeginInvoke(() => Log.MessageBox(Language.dlgUpdatedYoutubeDl, MessageBoxButtons.OK));
+                    this.Invoke(() => Log.MessageBox(Language.dlgUpdatedYoutubeDl, MessageBoxButtons.OK));
                     System.Media.SystemSounds.Asterisk.Play();
                 }
                 else {
                     System.Media.SystemSounds.Hand.Play();
                 }
-            }
-            else {
-                this.BeginInvoke(() => Log.MessageBox(
-                    Language.dlgUpateYoutubeDlNoUpdateRequired.Format(Verification.YoutubeDlVersion, UpdateChecker.LatestYoutubeDl.VersionTag),
-                    MessageBoxButtons.OK));
             }
         }) {
             IsBackground = true
@@ -897,5 +900,4 @@ public partial class frmSettings : Form {
         lbSettingsExtensionsFileName.Text = "FileName.ext";
     }
     #endregion
-
 }

@@ -3,21 +3,21 @@
 /// <summary>
 /// Enumeration of indexes of icons based on item status.
 /// </summary>
-public enum StatusIcon : int {
+public readonly struct StatusIcon {
     /// <summary>
     /// The item is waiting to be processed.
     /// </summary>
-    Waiting = 0,
+    public static int Waiting { get; } = 0;
     /// <summary>
     /// The item is being processed.
     /// </summary>
-    Processing = 1,
+    public static int Processing { get; } = 1;
     /// <summary>
     /// The item process has finished.
     /// </summary>
-    Finished = 2,
+    public static int Finished { get; } = 2;
     /// <summary>
     /// The item process encountered an error.
     /// </summary>
-    Errored = 3
+    public static int Errored { get; } = 3;
 }

@@ -124,51 +124,16 @@ internal sealed class UpdateChecker {
                 1 => 1,
                 2 => 2,
                 3 => 3,
-                4 => 4,
                 _ => 0,
             };
 
             do {
                 ShouldRetry = false;
                 try {
-                    if (Config.Settings.Downloads.useYtdlUpdater
-                    && ((Config.Settings.General.UseStaticYtdl && File.Exists(Config.Settings.General.ytdlPath))
-                    || File.Exists(Verification.YoutubeDlPath))) {
-                        Log.Write("Using youtube-dls' internal updater to update the program.");
-
-                        Process UpdateYoutubeDl = new();
-                        UpdateYoutubeDl.StartInfo.Arguments = "-U";
-
-                        if (Config.Settings.General.UseStaticYtdl && !string.IsNullOrWhiteSpace(Config.Settings.General.ytdlPath) && File.Exists(Config.Settings.General.ytdlPath)) {
-                            UpdateYoutubeDl.StartInfo.FileName = Config.Settings.General.ytdlPath;
-                        }
-                        else {
-                            string FileName = $"{Program.ProgramPath}\\" + Config.Settings.Downloads.YtdlType switch {
-                                1 => "youtube-dl.exe",
-                                2 => "youtube-dlc.exe",
-                                3 => "youtube-dl-n.exe",
-                                4 => "yt-dlp-n.exe",
-                                _ => "yt-dlp.exe",
-                            };
-
-                            if (File.Exists(FileName)) {
-                                UpdateYoutubeDl.StartInfo.FileName = FileName;
-                                FileName = null;
-                            }
-                            else {
-                                Log.MessageBox(Language.dlgUpdateNoValidYoutubeDl);
-                                return false;
-                            }
-                        }
-                        UpdateYoutubeDl.Start();
-
-                    }
-                    else {
-                        Log.Write("Manually checking for youtube-dl update...");
-                        GetLatestYoutubeDl(TypeIndex);
-                        LatestYoutubeDl.IsNewerVersion = Verification.YoutubeDlVersion != LatestYoutubeDl.VersionTag;
-                        return LatestYoutubeDl.IsNewerVersion;
-                    }
+                    Log.Write("Manually checking for youtube-dl update...");
+                    GetLatestYoutubeDl(TypeIndex);
+                    LatestYoutubeDl.IsNewerVersion = Verification.YoutubeDlVersion != LatestYoutubeDl.VersionTag;
+                    return LatestYoutubeDl.IsNewerVersion;
                 }
                 catch (ApiParsingException APEx) {
                     if (Log.ReportRetriableException(APEx) == DialogResult.Retry) {
@@ -202,87 +167,101 @@ internal sealed class UpdateChecker {
         Log.Write("Assuming the update check finished.");
 
         if (LatestYoutubeDl is null) {
-            Log.Write($"Found youtube-dl version: {LatestYoutubeDl.VersionTag}");
-            return LatestYoutubeDl.IsNewerVersion;
-        }
-        else {
             Log.ReportException(new InvalidOperationException("LatestYoutubeDl is still null!"));
             return false;
         }
+
+        Log.Write($"Found youtube-dl version: {LatestYoutubeDl.VersionTag}");
+        return LatestYoutubeDl.IsNewerVersion;
     }
 
     /// <summary>
     /// Updates youtube-dl (or a fork) to their latest release.
     /// </summary>
     public static bool UpdateYoutubeDl(System.Drawing.Point? Location) {
-        if (Config.Settings.Downloads.useYtdlUpdater && (Config.Settings.General.UseStaticYtdl && !string.IsNullOrEmpty(Config.Settings.General.ytdlPath) && File.Exists(Config.Settings.General.ytdlPath) || File.Exists(Verification.YoutubeDlPath))) {
-            Log.Write("Using youtube-dls' internal updater to update the program.");
+        if (!LatestYoutubeDl.IsNewerVersion)
+            return false;
 
-            Process UpdateYoutubeDl = new();
-            UpdateYoutubeDl.StartInfo.Arguments = "-U";
+        Log.Write($"Downloading youtube-dl version {LatestYoutubeDl.VersionTag}.");
+        int TypeIndex = Config.Settings.Downloads.YtdlType switch {
+            1 => 1,
+            2 => 2,
+            3 => 3,
+            _ => 0,
+        };
 
-            if (Config.Settings.General.UseStaticYtdl && !string.IsNullOrWhiteSpace(Config.Settings.General.ytdlPath) && File.Exists(Config.Settings.General.ytdlPath)) {
-                UpdateYoutubeDl.StartInfo.FileName = Config.Settings.General.ytdlPath;
-            }
-            else {
-                string FileName = $"{Program.ProgramPath}\\" + Config.Settings.Downloads.YtdlType switch {
-                    1 => "youtube-dl.exe",
-                    2 => "youtube-dlc.exe",
-                    3 => "youtube-dl-n.exe",
-                    4 => "yt-dlp-n.exe",
-                    _ => "yt-dlp.exe",
-                };
+        string DownloadUrl =
+            GithubLinks.ApplicationDownloadUrl.Format(
+                GithubLinks.Users[TypeIndex],
+                GithubLinks.Repos[TypeIndex],
+                LatestYoutubeDl.VersionTag);
 
-                if (File.Exists(FileName)) {
-                    UpdateYoutubeDl.StartInfo.FileName = FileName;
-                }
-                else {
-                    Log.MessageBox(Language.dlgUpdateNoValidYoutubeDl);
-                    return false;
-                }
-            }
-            UpdateYoutubeDl.Start();
-            UpdateYoutubeDl.WaitForExit();
-            return UpdateYoutubeDl.ExitCode == 0;
-        }
-        else if (LatestYoutubeDl.IsNewerVersion) {
-            Log.Write($"Downloading youtube-dl version {LatestYoutubeDl.VersionTag}.");
-            int TypeIndex = Config.Settings.Downloads.YtdlType switch {
-                1 => 1,
-                2 => 2,
-                3 => 3,
-                4 => 4,
-                _ => 0,
+        string FullSavePath = Config.Settings.General.UseStaticYtdl && !Config.Settings.General.ytdlPath.IsNullEmptyWhitespace() ?
+            Config.Settings.General.ytdlPath :
+            $"{Program.ProgramPath}\\" + TypeIndex switch {
+                1 => "youtube-dl.exe",
+                2 => "youtube-dl-n.exe",
+                3 => "yt-dlp-n.exe",
+                _ => "yt-dlp.exe",
             };
 
-            string DownloadUrl = string.Format(GithubLinks.ApplicationDownloadUrl,
-                                 GithubLinks.Users[TypeIndex],
-                                 GithubLinks.Repos[TypeIndex],
-                                 LatestYoutubeDl.VersionTag);
+        using frmGenericDownloadProgress Downloader = Location is not null ?
+            new(DownloadUrl, FullSavePath, Location.Value) : new(DownloadUrl, FullSavePath);
 
-            string FullSavePath = Config.Settings.General.UseStaticYtdl && !string.IsNullOrEmpty(Config.Settings.General.ytdlPath) ?
-                Config.Settings.General.ytdlPath :
-                $"{Program.ProgramPath}\\" + TypeIndex switch {
-                    1 => "youtube-dl.exe",
-                    2 => "youtube-dlc.exe",
-                    3 => "youtube-dl-n.exe",
-                    4 => "yt-dlp-n.exe",
-                    _ => "yt-dlp.exe",
-                };
-
-            using frmGenericDownloadProgress Downloader = Location is not null ?
-                new(DownloadUrl, FullSavePath, Location.Value) : new(DownloadUrl, FullSavePath);
-
-            if (Downloader.ShowDialog() != DialogResult.OK)
-                return false;
-        }
-        else {
+        if (Downloader.ShowDialog() != DialogResult.OK)
             return false;
-        }
 
         Verification.RefreshYoutubeDlLocation();
         LatestYoutubeDl.IsNewerVersion = false;
         return true;
+    }
+
+    /// <summary>
+    /// Updates youtube-dl using youtube-dls internal updater. Does not report update progress or the success.
+    /// </summary>
+    /// <returns><see langword="true"/> if the update function has started; otherwise, <see langword="false"/>.</returns>
+    public static bool UpdateYoutubeDlInternally() {
+        try {
+            if (!((Config.Settings.General.UseStaticYtdl && File.Exists(Config.Settings.General.ytdlPath)) || File.Exists(Verification.YoutubeDlPath)))
+                return false;
+
+            Log.Write("Using youtube-dls' internal updater to update the program.");
+            string FilePath;
+
+            if (Config.Settings.General.UseStaticYtdl && File.Exists(Config.Settings.General.ytdlPath)) {
+                FilePath = Config.Settings.General.ytdlPath;
+                Log.Write($"Given the file {Config.Settings.General.ytdlPath}.");
+            }
+            else {
+                Log.Write("Specifying a manual version.");
+                string FileName = $"{Program.ProgramPath}\\" + Config.Settings.Downloads.YtdlType switch {
+                    1 => "youtube-dl.exe",
+                    2 => "youtube-dl-n.exe",
+                    3 => "yt-dlp-n.exe",
+                    _ => "yt-dlp.exe",
+                };
+                Log.Write($"Applied file path {FileName}");
+
+                if (!File.Exists(FileName)) {
+                    Log.MessageBox(Language.dlgUpdateNoValidYoutubeDl);
+                    return false;
+                }
+                FilePath = FileName;
+            }
+
+            Process UpdateYoutubeDl = new() {
+                StartInfo = new() {
+                    Arguments = "-U",
+                    FileName = FilePath
+                }
+            };
+            UpdateYoutubeDl.Start();
+            return true;
+        }
+        catch (Exception ex) {
+            Log.ReportException(ex);
+            return false;
+        }
     }
 
     /// <summary>
@@ -425,36 +404,30 @@ internal sealed class UpdateChecker {
     /// <param name="GitID">The youtube-dl fork ID from <seealso cref="GithubLinks.GitLinks.Repos"/>, authored by <seealso cref="GithubLinks.GitLinks.Users"/></param>
     /// <returns>The string of the latest version of the specified fork ID.</returns>
     private static string GetLatestYoutubeDl(int GitID) {
-        string Url = string.Empty;
-        try {
-            if (GitID < 0 || GitID + 1 > GithubLinks.Repos.Length)
-                throw new ArgumentOutOfRangeException("GitID", GitID, "The GitID is invalid, youtube-dl cannot be redownloaded.");
+        if (GitID < 0 || GitID + 1 > GithubLinks.Repos.Length)
+            throw new ArgumentOutOfRangeException("GitID", GitID, "The GitID is invalid, youtube-dl cannot be redownloaded.");
 
-            Log.Write("Retrieving Github release data for youtube-dl");
+        Log.Write("Retrieving Github release data for youtube-dl");
 
-            Url = string.Format(GithubLinks.GithubLatestJson, GithubLinks.Users[GitID], GithubLinks.Repos[GitID]);
+        string Url = GithubLinks.GithubLatestJson.Format(GithubLinks.Users[GitID], GithubLinks.Repos[GitID]);
 
-            string Json = GetJSON(Url);
+        Log.Write("Retrieving JSON data");
+        string Json = GetJSON(Url);
 
-            if (Json == null)
-                throw new ApiParsingException("The retrieved xml returned null.", Url);
+        if (Json == null)
+            throw new ApiParsingException("The retrieved xml returned null.", Url);
 
-            GithubData CurrentRelease = Json.JsonDeserialize<GithubData>();
+        Log.Write("Deserializing");
+        GithubData CurrentRelease = Json.JsonDeserialize<GithubData>();
 
-            if (LatestYoutubeDl is not null && LatestYoutubeDl.VersionTag == CurrentRelease.VersionTag) {
-                return LatestYoutubeDl.VersionTag;
-            }
-
-            LatestYoutubeDl = CurrentRelease;
+        if (LatestYoutubeDl is not null && LatestYoutubeDl.VersionTag == CurrentRelease.VersionTag) {
+            Log.Write("LatestYoutubeDl is already up to date.");
             return LatestYoutubeDl.VersionTag;
         }
-        catch (WebException WebEx) {
-            Log.ReportException(WebEx, Url);
-            return null;
-        }
-        catch {
-            throw;
-        }
+
+        Log.Write("A new version is available.");
+        LatestYoutubeDl = CurrentRelease;
+        return LatestYoutubeDl.VersionTag;
     }
     #endregion
 }

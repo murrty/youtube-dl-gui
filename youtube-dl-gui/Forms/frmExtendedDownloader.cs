@@ -280,7 +280,7 @@ public partial class frmExtendedDownloader : Form {
 
                         if (lvUnknownFormats.Items.Count == 0) {
                             lvUnknownFormats.Invoke(() => lvUnknownFormats.Items.Add(Language.GenericDoNotDownload));
-                            NewFormat.ImageIndex = 0;
+                            NewFormat.ImageIndex = MediaStatusIcon.Best;
                         }
 
                         lvUnknownFormats.Invoke(() => lvUnknownFormats.Items.Add(NewFormat));
@@ -414,7 +414,7 @@ public partial class frmExtendedDownloader : Form {
         lbExtendedDownloaderDownloadingThumbnail.Text = Language.lbExtendedDownloaderDownloadingThumbnail;
         ThumbnailThread.Start();
     }
-    public string GenerateArguments(bool Authentication = false) {
+    private string GenerateArguments(bool Authentication = false) {
         StringBuilder ArgumentBuffer = new($"\"{URL}\" -o \"");
 
         ArgumentBuffer.Append(
@@ -632,7 +632,7 @@ public partial class frmExtendedDownloader : Form {
         ArgumentBuffer.Clear();
         return Data;
     }
-    public void BeginDownload(bool Auth) {
+    private void BeginDownload(bool Auth) {
         rtbVerbose.Invoke(() => rtbVerbose.AppendText($"Starting download @ {DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff} \r\n------------------------"));
         string args = GenerateArguments(Auth);
         if (args.IsNotNullEmptyWhitespace()) {
@@ -858,20 +858,20 @@ public partial class frmExtendedDownloader : Form {
 
             if (LastSelectedVideoFormat is not null) {
                 if (LastSelectedVideoFormat.Index != 0)
-                    lvVideoFormats.Items[0].ImageIndex = 0;
-                LastSelectedVideoFormat.ImageIndex = 1;
+                    lvVideoFormats.Items[0].ImageIndex = MediaStatusIcon.Best;
+                LastSelectedVideoFormat.ImageIndex = MediaStatusIcon.Selected;
             }
 
             if (LastSelectedAudioFormat is not null) {
                 if (chkVideoDownloadAudio.Checked) {
                     if (LastSelectedAudioFormat.Index != 0)
-                        lvAudioFormats.Items[0].ImageIndex = 0;
-                    LastSelectedAudioFormat.ImageIndex = 1;
+                        lvAudioFormats.Items[0].ImageIndex = MediaStatusIcon.Best;
+                    LastSelectedAudioFormat.ImageIndex = MediaStatusIcon.Selected;
                 }
                 else {
                     if (LastSelectedAudioFormat.Index != 0)
-                        lvAudioFormats.Items[0].ImageIndex = 2;
-                    LastSelectedAudioFormat.ImageIndex = 3;
+                        lvAudioFormats.Items[0].ImageIndex = MediaStatusIcon.BestDisabled;
+                    LastSelectedAudioFormat.ImageIndex = MediaStatusIcon.SelectedDisabled;
                 }
             }
 
@@ -882,11 +882,11 @@ public partial class frmExtendedDownloader : Form {
                 }
 
                 if (LastSelectedUnknownFormat.Index != 1)
-                    lvUnknownFormats.Items[1].ImageIndex = 2;
-                LastSelectedUnknownFormat.ImageIndex = 1;
+                    lvUnknownFormats.Items[1].ImageIndex = MediaStatusIcon.BestDisabled;
+                LastSelectedUnknownFormat.ImageIndex = MediaStatusIcon.Selected;
             }
             else if (lvUnknownFormats.Items.Count > 0) {
-                lvUnknownFormats.Items[1].ImageIndex = 0;
+                lvUnknownFormats.Items[1].ImageIndex = MediaStatusIcon.Best;
             }
         }
     }
@@ -908,14 +908,14 @@ public partial class frmExtendedDownloader : Form {
 
             if (LastSelectedVideoFormat is not null) {
                 if (LastSelectedVideoFormat.Index != 0)
-                    lvVideoFormats.Items[0].ImageIndex = 2;
-                LastSelectedVideoFormat.ImageIndex = 3;
+                    lvVideoFormats.Items[0].ImageIndex = MediaStatusIcon.BestDisabled;
+                LastSelectedVideoFormat.ImageIndex = MediaStatusIcon.SelectedDisabled;
             }
 
             if (LastSelectedAudioFormat is not null) {
                 if (LastSelectedAudioFormat.Index != 0)
-                    lvAudioFormats.Items[0].ImageIndex = 0;
-                LastSelectedAudioFormat.ImageIndex = 1;
+                    lvAudioFormats.Items[0].ImageIndex = MediaStatusIcon.Best;
+                LastSelectedAudioFormat.ImageIndex = MediaStatusIcon.Selected;
             }
 
             if (LastSelectedUnknownFormat is not null) {
@@ -925,11 +925,11 @@ public partial class frmExtendedDownloader : Form {
                 }
 
                 if (LastSelectedUnknownFormat.Index != 1)
-                    lvUnknownFormats.Items[1].ImageIndex = 2;
-                LastSelectedUnknownFormat.ImageIndex = 1;
+                    lvUnknownFormats.Items[1].ImageIndex = MediaStatusIcon.BestDisabled;
+                LastSelectedUnknownFormat.ImageIndex = MediaStatusIcon.Selected;
             }
             else if (lvUnknownFormats.Items.Count > 0) {
-                lvUnknownFormats.Items[1].ImageIndex = 0;
+                lvUnknownFormats.Items[1].ImageIndex = MediaStatusIcon.Best;
             }
         }
     }
@@ -949,14 +949,14 @@ public partial class frmExtendedDownloader : Form {
 
             if (LastSelectedVideoFormat is not null) {
                 if (LastSelectedVideoFormat.Index != 0)
-                    lvVideoFormats.Items[0].ImageIndex = 2;
-                LastSelectedVideoFormat.ImageIndex = 3;
+                    lvVideoFormats.Items[0].ImageIndex = MediaStatusIcon.BestDisabled;
+                LastSelectedVideoFormat.ImageIndex = MediaStatusIcon.SelectedDisabled;
             }
 
             if (LastSelectedAudioFormat is not null) {
                 if (LastSelectedAudioFormat.Index != 0)
-                    lvAudioFormats.Items[0].ImageIndex = 2;
-                LastSelectedAudioFormat.ImageIndex = 3;
+                    lvAudioFormats.Items[0].ImageIndex = MediaStatusIcon.BestDisabled;
+                LastSelectedAudioFormat.ImageIndex = MediaStatusIcon.SelectedDisabled;
             }
 
             if (LastSelectedUnknownFormat is not null) {
@@ -966,8 +966,8 @@ public partial class frmExtendedDownloader : Form {
                 }
 
                 if (LastSelectedUnknownFormat.Index != 1)
-                    lvUnknownFormats.Items[1].ImageIndex = 2;
-                LastSelectedUnknownFormat.ImageIndex = 1;
+                    lvUnknownFormats.Items[1].ImageIndex = MediaStatusIcon.BestDisabled;
+                LastSelectedUnknownFormat.ImageIndex = MediaStatusIcon.Selected;
             }
             else if (lvUnknownFormats.Items.Count > 0) {
                 lvUnknownFormats.Items[1].Selected = true;
@@ -990,23 +990,23 @@ public partial class frmExtendedDownloader : Form {
 
             if (LastSelectedVideoFormat is not null) {
                 if (LastSelectedVideoFormat.Index != 0)
-                    lvVideoFormats.Items[0].ImageIndex = 2;
-                LastSelectedVideoFormat.ImageIndex = 3;
+                    lvVideoFormats.Items[0].ImageIndex = MediaStatusIcon.BestDisabled;
+                LastSelectedVideoFormat.ImageIndex = MediaStatusIcon.SelectedDisabled;
             }
 
             if (LastSelectedAudioFormat is not null) {
                 if (LastSelectedAudioFormat.Index != 0)
-                    lvAudioFormats.Items[0].ImageIndex = 2;
-                LastSelectedAudioFormat.ImageIndex = 3;
+                    lvAudioFormats.Items[0].ImageIndex = MediaStatusIcon.BestDisabled;
+                LastSelectedAudioFormat.ImageIndex = MediaStatusIcon.SelectedDisabled;
             }
 
             if (LastSelectedUnknownFormat is not null) {
                 if (LastSelectedUnknownFormat.Index != 1)
-                    lvUnknownFormats.Items[1].ImageIndex = 2;
-                LastSelectedUnknownFormat.ImageIndex = 3;
+                    lvUnknownFormats.Items[1].ImageIndex = MediaStatusIcon.BestDisabled;
+                LastSelectedUnknownFormat.ImageIndex = MediaStatusIcon.SelectedDisabled;
             }
             else if (lvUnknownFormats.Items.Count > 0) {
-                lvUnknownFormats.Items[1].ImageIndex = 2;
+                lvUnknownFormats.Items[1].ImageIndex = MediaStatusIcon.BestDisabled;
             }
         }
     }
@@ -1070,15 +1070,15 @@ public partial class frmExtendedDownloader : Form {
         if (LastSelectedAudioFormat is not null) {
             if (chkVideoDownloadAudio.Checked) {
                 if (LastSelectedAudioFormat.Index != 0) {
-                    lvAudioFormats.Items[0].ImageIndex = 0;
+                    lvAudioFormats.Items[0].ImageIndex = MediaStatusIcon.Best;
                 }
-                LastSelectedAudioFormat.ImageIndex = 1;
+                LastSelectedAudioFormat.ImageIndex = MediaStatusIcon.Selected;
             }
             else {
                 if (LastSelectedAudioFormat.Index != 0) {
-                    lvAudioFormats.Items[0].ImageIndex = 2;
+                    lvAudioFormats.Items[0].ImageIndex = MediaStatusIcon.BestDisabled;
                 }
-                LastSelectedAudioFormat.ImageIndex = 3;
+                LastSelectedAudioFormat.ImageIndex = MediaStatusIcon.SelectedDisabled;
             }
         }
     }

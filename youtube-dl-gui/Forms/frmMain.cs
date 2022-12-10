@@ -468,13 +468,10 @@ public partial class frmMain : Form {
     }
 
     private void mBatchDownload_Click(object sender, EventArgs e) {
-        #if DEBUG
         frmExtendedBatchDownloader Batch = new();
         Batch.Show();
-        #else
-        frmBatchDownloader BatchDownload = new();
-        BatchDownload.Show();
-        #endif
+        //frmBatchDownloader BatchDownload = new();
+        //BatchDownload.Show();
     }
     private void mBatchConverter_Click(object sender, EventArgs e) {
         frmBatchConverter BatchConvert = new();

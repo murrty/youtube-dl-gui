@@ -85,6 +85,11 @@ internal partial class frmLog : Form {
     public void ShowLog() {
         if (!IsShown) {
             this.Show();
+
+            this.Text = Language.frmLog;
+            btnClear.Text = Language.frmLogClear;
+            btnClose.Text = Language.GenericClose;
+
             IsShown = true;
         }
         else {

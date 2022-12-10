@@ -1,4 +1,5 @@
-﻿namespace youtube_dl_gui;
+﻿#define ENABLETRY2
+namespace youtube_dl_gui;
 using System.Diagnostics;
 using System.Drawing;
 using System.Threading;
@@ -34,18 +35,13 @@ public partial class frmExtendedBatchDownloader : Form {
         cbSchema.Text = Config.Settings.Downloads.fileNameSchema;
         if (!string.IsNullOrEmpty(Config.Settings.Saved.FileNameSchemaHistory))
             cbSchema.Items.AddRange(Config.Settings.Saved.FileNameSchemaHistory.Split('|'));
+
+        lvQueuedMedia.SmallImageList = Program.BatchStatusImages;
         lvVideoFormats.SmallImageList = Program.ExtendedDownloaderSelectedImages;
         lvAudioFormats.SmallImageList = Program.ExtendedDownloaderSelectedImages;
         lvUnknownFormats.SmallImageList = Program.ExtendedDownloaderSelectedImages;
 
         lvQueuedMedia.ContextMenu = cmQueuedMedia;
-        rtbVerbose.AppendLine(Config.Settings.Downloads.YtdlType switch {
-            0 => "Using yt-dlp as the",
-            1 => "Using youtube-dl as the",
-            3 => "Using youtube-dl-patch as the",
-            2 => "Using yt-dlp-patch as the",
-            _ => "Unknown"
-        } + " download provider.");
     }
     public frmExtendedBatchDownloader(string URL) : this() => QueuedParsingList.Add(URL);
     public frmExtendedBatchDownloader(string[] URLs) : this() => QueuedParsingList.AddRange(URLs);
@@ -159,13 +155,17 @@ public partial class frmExtendedBatchDownloader : Form {
 
         InformationThread = new(() => {
             string Link = null;
+#if ENABLETRY
             try {
+#endif
                 Status = ExtendedBatchStatus.GatheringInformation;
                 while (QueuedParsingList.Count > 0) {
                     Link = QueuedParsingList[0];
                     QueuedParsingList.RemoveAt(0);
                     try {
-                        ListViewItem NewLink = new(Link);
+                        ListViewItem NewLink = new(Link) {
+                            ImageIndex = StatusIcon.Waiting
+                        };
                         NewLink.SubItems.Add("-"); // Title
                         NewLink.SubItems.Add("-"); // Length
                         NewLink.SubItems.Add("-"); // Uploader
@@ -187,27 +187,44 @@ public partial class frmExtendedBatchDownloader : Form {
                                     x.QueueItem.SubItems[4].Text = NewMedia.MediaData.Views.HasValue ? NewMedia.MediaData.Views.Value.ToString("#,000") : "?";
 
                                     if (lvQueuedMedia.SelectedItems.Count > 0 && lvQueuedMedia.Items[0] == x.QueueItem) {
+                                        ChangingQueuedItem = true;
                                         if (x.VideoItems.Count > 0) {
-                                            rbVideo.Enabled = true;
-                                            x.VideoItems.For((Format) => {
-                                                
-                                            });
+                                            lvVideoFormats.Enabled = rbVideo.Enabled = true;
+                                            lbExtendedDownloaderNoVideoFormatsAvailable.Visible = false;
+                                            lvVideoFormats.Items.Clear();
+                                            x.VideoItems.For((Format) => lvVideoFormats.Items.Add(Format));
+                                            x.SelectedVideoItem.Selected = true;
                                         }
                                         else {
                                             rbVideo.Enabled = false;
+                                            lbExtendedDownloaderNoVideoFormatsAvailable.Visible = true;
                                         }
+
                                         if (x.AudioItems.Count > 0) {
-                                            rbAudio.Enabled = true;
+                                            lvAudioFormats.Enabled = rbAudio.Enabled = true;
+                                            lbExtendedDownloaderNoAudioFormatsAvailable.Visible = false;
+                                            lvAudioFormats.Items.Clear();
+                                            x.AudioItems.For((Format) => lvAudioFormats.Items.Add(Format));
+                                            x.SelectedAudioItem.Selected = true;
                                         }
                                         else {
                                             rbAudio.Enabled = false;
+                                            lbExtendedDownloaderNoAudioFormatsAvailable.Visible = true;
                                         }
+
                                         if (x.UnknownItems.Count > 0) {
-                                            rbUnknownFormat.Enabled = true;
+                                            lvUnknownFormats.Enabled = rbUnknownFormat.Enabled = true;
+                                            lbExtendedDownloaderNoUnknownFormatsFound.Visible = false;
+                                            lvUnknownFormats.Items.Clear();
+                                            x.UnknownItems.For((Format) => lvUnknownFormats.Items.Add(Format));
                                         }
                                         else {
                                             rbUnknownFormat.Enabled = false;
+                                            lbExtendedDownloaderNoUnknownFormatsFound.Visible = true;
                                         }
+
+                                        txtCustomArguments.Enabled = true;
+                                        ChangingQueuedItem = false;
                                     }
                                 }
                             });
@@ -217,11 +234,13 @@ public partial class frmExtendedBatchDownloader : Form {
                         Log.ReportException(ex, $"Exception received at URL \"{Link}\".");
                     }
                 }
+#if ENABLETRY
             }
             catch (ThreadAbortException) { }
             catch (Exception ex) {
                 Log.ReportException(ex, $"Exception received at URL \"{Link ?? "No URL"}\".");
             }
+#endif
 
             Status = ExtendedBatchStatus.Waiting;
         }) {
@@ -230,8 +249,155 @@ public partial class frmExtendedBatchDownloader : Form {
         };
         InformationThread.Start();
     }
-    public void BeginDownload() {
+    /// <summary>
+    /// Applies settings to the selected media. Should only occur when the queued item is changing or the download starts.
+    /// </summary>
+    private void ApplyMediaSettings() {
+        if (SelectedMedia is null)
+            return;
 
+        SelectedMedia.SelectedType = true switch {
+            _ when rbVideo.Checked => DownloadType.Video,
+            _ when rbAudio.Checked => DownloadType.Audio,
+            _ when rbUnknownFormat.Checked => DownloadType.Unknown,
+            _ => DownloadType.Custom,
+        };
+
+        SelectedMedia.CustomArguments = txtCustomArguments.Text;
+
+        SelectedMedia.FileNameSchema = cbSchema.Text;
+        SelectedMedia.FileNameSchemaIndex = cbSchema.Items.IndexOf(cbSchema.Text);
+
+        SelectedMedia.AudioVBR = chkAudioVBR.Checked;
+        SelectedMedia.VBRIndex = cbVbrQualities.SelectedIndex;
+
+        SelectedMedia.VideoDownloadAudio = chkVideoDownloadAudio.Checked;
+        SelectedMedia.VideoSeparateAudio = chkVideoSeparateAudio.Checked;
+
+        SelectedMedia.VideoRemuxIndex = cbVideoRemux.SelectedIndex;
+        SelectedMedia.VideoEncoderIndex = cbVideoEncoders.SelectedIndex;
+
+        SelectedMedia.AudioEncoderIndex = cbAudioEncoders.SelectedIndex;
+
+        if (lvVideoFormats.SelectedItems.Count > 0) {
+            SelectedMedia.SelectedVideoItem = lvVideoFormats.SelectedItems[0];
+            SelectedMedia.SelectedVideoFormat = SelectedMedia.SelectedVideoItem.Tag as YoutubeDlFormat;
+        }
+        if (lvAudioFormats.SelectedItems.Count > 0) {
+            SelectedMedia.SelectedAudioItem = lvAudioFormats.SelectedItems[0];
+            SelectedMedia.SelectedAudioFormat = SelectedMedia.SelectedAudioItem.Tag as YoutubeDlFormat;
+        }
+        if (lvUnknownFormats.SelectedItems.Count > 0) {
+            SelectedMedia.SelectedUnknownItem = lvUnknownFormats.SelectedItems[0];
+            SelectedMedia.SelectedUnknownFormat = SelectedMedia.SelectedUnknownItem.Tag as YoutubeDlFormat;
+        }
+    }
+    /// <summary>
+    /// Loads the saved media settings.
+    /// </summary>
+    private void LoadMediaSettings() {
+        if (SelectedMedia is null)
+            return;
+
+        switch (SelectedMedia.SelectedType) {
+            case DownloadType.Video: {
+                rbVideo.Checked = true;
+            } break;
+            case DownloadType.Audio: {
+                rbAudio.Checked = true;
+            } break;
+            case DownloadType.Unknown: {
+                rbUnknownFormat.Checked = true;
+            } break;
+            default: {
+                rbCustom.Checked = true;
+            } break;
+        }
+
+        txtCustomArguments.Text = SelectedMedia.CustomArguments ?? string.Empty;
+
+        if (SelectedMedia.FileNameSchemaIndex > -1) cbSchema.SelectedIndex = SelectedMedia.FileNameSchemaIndex;
+        else cbSchema.Text = SelectedMedia.FileNameSchema;
+
+        chkAudioVBR.Checked = SelectedMedia.AudioVBR;
+        cbVbrQualities.SelectedIndex = SelectedMedia.VBRIndex;
+
+        chkVideoDownloadAudio.Checked = SelectedMedia.VideoDownloadAudio;
+        chkVideoSeparateAudio.Checked = SelectedMedia.VideoSeparateAudio;
+
+        cbVideoRemux.SelectedIndex = SelectedMedia.VideoRemuxIndex;
+        cbVideoEncoders.SelectedIndex = SelectedMedia.VideoEncoderIndex;
+
+        cbAudioEncoders.SelectedIndex = SelectedMedia.AudioEncoderIndex;
+
+        lvVideoFormats.Items.Clear();
+        if (SelectedMedia.VideoItems.Count > 0) {
+            SelectedMedia.VideoItems.For((Item) => lvVideoFormats.Items.Add(Item));
+            if (SelectedMedia.SelectedVideoItem is not null && lvVideoFormats.Items.Contains(SelectedMedia.SelectedVideoItem)) {
+                SelectedMedia.SelectedVideoItem.Selected = true;
+            }
+            else {
+                lvVideoFormats.Items[0].Selected = true;
+            }
+
+            lbExtendedDownloaderNoVideoFormatsAvailable.Visible = false;
+            lvVideoFormats.Enabled= true;
+        }
+        else {
+            lbExtendedDownloaderNoVideoFormatsAvailable.Visible = true;
+            lvVideoFormats.Enabled = false;
+        }
+
+        lvAudioFormats.Items.Clear();
+        if (SelectedMedia.AudioItems.Count > 0) {
+            SelectedMedia.AudioItems.For((Item) => lvAudioFormats.Items.Add(Item));
+            if (SelectedMedia.SelectedAudioItem is not null && lvAudioFormats.Items.Contains(SelectedMedia.SelectedAudioItem)) {
+                SelectedMedia.SelectedAudioItem.Selected = true;
+            }
+            else {
+                lvAudioFormats.Items[0].Selected = true;
+            }
+
+            lbExtendedDownloaderNoAudioFormatsAvailable.Visible = false;
+        }
+        else {
+
+            lbExtendedDownloaderNoAudioFormatsAvailable.Visible = true;
+            lvAudioFormats.Enabled = false;
+        }
+
+        lvUnknownFormats.Items.Clear();
+        if (SelectedMedia.UnknownItems.Count > 0) {
+            SelectedMedia.UnknownItems.For((Item) => lvUnknownFormats.Items.Add(Item));
+            if (SelectedMedia.SelectedUnknownItem is not null && lvUnknownFormats.Items.Contains(SelectedMedia.SelectedUnknownItem)) {
+                SelectedMedia.SelectedUnknownItem.Selected = true;
+            }
+            else {
+                lvUnknownFormats.Items[0].Selected = true;
+            }
+
+            lbExtendedDownloaderNoUnknownFormatsFound.Visible = false;
+        }
+        else {
+
+            lbExtendedDownloaderNoUnknownFormatsFound.Visible = true;
+            lvUnknownFormats.Enabled = false;
+        }
+
+    }
+    public void BeginDownload() {
+        if (lvQueuedMedia.Items.Count < 1)
+            return;
+
+        rtbVerbose.AppendLine(Config.Settings.Downloads.YtdlType switch {
+            0 => "Using yt-dlp as the",
+            1 => "Using youtube-dl as the",
+            3 => "Using youtube-dl-patch as the",
+            2 => "Using yt-dlp-patch as the",
+            _ => "Unknown"
+        } + " download provider.");
+
+        ApplyMediaSettings();
     }
 
     private void btnEnqeue_Click(object sender, EventArgs e) {
@@ -247,16 +413,17 @@ public partial class frmExtendedBatchDownloader : Form {
     }
     private void lvQueuedMedia_SelectedIndexChanged(object sender, EventArgs e) {
         ChangingQueuedItem = true;
-        if (SelectedMedia is not null) {
-
-        }
-
-        if (lvQueuedMedia.SelectedItems.Count > 0) {
-
-        }
+        ApplyMediaSettings();
 
         SelectedMedia = lvQueuedMedia.SelectedItems.Count > 0 ?
             lvQueuedMedia.SelectedItems[0].Tag as ExtendedMediaDetails : null;
+
+        if (SelectedMedia is not null) {
+            LoadMediaSettings();
+        }
+        else {
+
+        }
         // TODO: Select all the options for the selected media entry.
         ChangingQueuedItem = false;
     }
