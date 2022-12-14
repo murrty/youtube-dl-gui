@@ -204,7 +204,7 @@ internal class Formats {
             VideoQualityType.q240p => " -f \"bestvideo[height<=240]+bestaudio/best\"",
             VideoQualityType.q144p => " -f \"bestvideo[height<=144]+bestaudio/best\"",
             VideoQualityType.worst => " -f \"worstvideo+worstaudio/worst\"",
-            _ => "",
+            _ => " -f \"bestvideo+bestaudio/best\"",
         };
     }
     public static string GetVideoQualityArgsNoSound(VideoQualityType Quality) {
@@ -224,7 +224,7 @@ internal class Formats {
             VideoQualityType.q240p => " -f \"bestvideo[height<=240]/best\"",
             VideoQualityType.q144p => " -f \"bestvideo[height<=144]/best\"",
             VideoQualityType.worst => " -f \"worstvideo\"",
-            _ => "",
+            _ => " -f \"bestvideo\"",
         };
     }
     public static string GetVideoRecodeInfo(VideoFormatType Format) {

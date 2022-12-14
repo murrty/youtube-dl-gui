@@ -104,7 +104,7 @@ public partial class frmExtendedBatchDownloader : Form {
         lbSchema.Text = Language.lbSettingsDownloadsFileNameSchema;
         chkVideoSeparateAudio.Text = Language.chkExtendedDownloaderVideoSeparateAudio;
         lbVideoRemux.Text = Language.lbVideoRemux;
-        txtExtendedDownloaderMediaTitle.Text = Language.txtExtendedDownloaderMediaTitle;
+        txtExtendedDownloaderMediaTitle.Text = "";//Language.txtExtendedDownloaderMediaTitle;
         tabExtendedDownloaderUnknownFormats.Text = Language.tabExtendedDownloaderUnknownFormats;
         lbExtendedDownloaderNoUnknownFormatsFound.Text = Language.lbExtendedDownloaderNoUnknownFormatsFound;
         btnClearOutput.Text = Language.GenericClear;
@@ -169,6 +169,7 @@ public partial class frmExtendedBatchDownloader : Form {
                         NewLink.SubItems.Add("-"); // Title
                         NewLink.SubItems.Add("-"); // Length
                         NewLink.SubItems.Add("-"); // Uploader
+                        NewLink.SubItems.Add("-"); // UploadedOn
                         NewLink.SubItems.Add("-"); // Views
 
                         lvQueuedMedia.Invoke(() => lvQueuedMedia.Items.Add(NewLink));
@@ -181,10 +182,11 @@ public partial class frmExtendedBatchDownloader : Form {
                         NewMedia.GetMediaInfo((x) => {
                             lvQueuedMedia.Invoke(() => {
                                 if (lvQueuedMedia.Items.Contains(x.QueueItem)) {
-                                    x.QueueItem.SubItems[1].Text = NewMedia.MediaName;
+                                    x.QueueItem.SubItems[1].Text = NewMedia.MediaTitle;
                                     x.QueueItem.SubItems[2].Text = NewMedia.MediaData.Duration;
                                     x.QueueItem.SubItems[3].Text = NewMedia.MediaData.Uploader;
-                                    x.QueueItem.SubItems[4].Text = NewMedia.MediaData.Views.HasValue ? NewMedia.MediaData.Views.Value.ToString("#,000") : "?";
+                                    x.QueueItem.SubItems[4].Text = NewMedia.MediaData.UploadedOn;
+                                    x.QueueItem.SubItems[5].Text = NewMedia.MediaData.Views.HasValue ? NewMedia.MediaData.Views.Value.ToString("#,000") : "?";
 
                                     if (lvQueuedMedia.SelectedItems.Count > 0 && lvQueuedMedia.Items[0] == x.QueueItem) {
                                         ChangingQueuedItem = true;
@@ -384,6 +386,7 @@ public partial class frmExtendedBatchDownloader : Form {
             lvUnknownFormats.Enabled = false;
         }
 
+        txtExtendedDownloaderMediaTitle.Text = SelectedMedia.MediaTitle;
     }
     public void BeginDownload() {
         if (lvQueuedMedia.Items.Count < 1)

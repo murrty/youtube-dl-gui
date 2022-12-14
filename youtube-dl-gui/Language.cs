@@ -46,6 +46,7 @@ public static class Language {
     public static string GenericMoreInfo { get; private set; }
     public static string GenericTitle { get; private set; }
     public static string GenericLength { get; private set; }
+    public static string GenericUploadedOn { get; private set; }
 
     public static string frmGenericDownloadProgress { get; private set; }
     public static string chContainer { get; private set; }
@@ -594,6 +595,7 @@ public static class Language {
         public const string GenericMoreInfo = "More info";
         public const string GenericTitle = "Title";
         public const string GenericLength = "Length";
+        public const string GenericUploadedOn = "Uploaded on";
 
         public const string frmGenericDownloadProgress = "Downloading...";
         public const string chContainer = "Container";
@@ -1181,6 +1183,7 @@ public static class Language {
         GenericMoreInfo = InternalEnglish.GenericMoreInfo;
         GenericTitle = InternalEnglish.GenericTitle;
         GenericLength = InternalEnglish.GenericLength;
+        GenericUploadedOn = InternalEnglish.GenericUploadedOn;
 
         frmGenericDownloadProgress = InternalEnglish.frmGenericDownloadProgress;
         chContainer = InternalEnglish.chContainer;
@@ -1751,6 +1754,7 @@ public static class Language {
         GenericMoreInfo = nameof(GenericMoreInfo);
         GenericTitle = nameof(GenericTitle);
         GenericLength = nameof(GenericLength);
+        GenericUploadedOn = nameof(GenericUploadedOn);
 
         frmGenericDownloadProgress = nameof(frmGenericDownloadProgress);
         chContainer = nameof(chContainer);
@@ -2404,8 +2408,11 @@ public static class Language {
                             case "generictitle":
                                 GenericTitle = ReadValue;
                                 continue;
-                            case "GenericLength":
+                            case "genericlength":
                                 GenericLength = ReadValue;
+                                continue;
+                            case "genericuploadedon":
+                                GenericUploadedOn = ReadValue;
                                 continue;
 
                             case "frmgenericdownloadprogress":

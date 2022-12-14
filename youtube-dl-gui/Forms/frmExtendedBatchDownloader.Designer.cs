@@ -97,6 +97,7 @@
             this.mViewInBrowser = new System.Windows.Forms.MenuItem();
             this.pbStatus = new murrty.controls.ExtendedProgressBar();
             this.txtQueueLink = new murrty.controls.ExtendedTextBox();
+            this.chBatchUploadedOn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tcVideoData.SuspendLayout();
             this.tabExtendedDownloaderFormats.SuspendLayout();
             this.tcFormats.SuspendLayout();
@@ -807,6 +808,7 @@
             this.chBatchTitle,
             this.chBatchLength,
             this.chBatchUploader,
+            this.chBatchUploadedOn,
             this.chBatchViews});
             this.lvQueuedMedia.FullRowSelect = true;
             this.lvQueuedMedia.HideSelection = false;
@@ -826,7 +828,7 @@
             // chBatchTitle
             // 
             this.chBatchTitle.Text = "Title";
-            this.chBatchTitle.Width = 170;
+            this.chBatchTitle.Width = 169;
             // 
             // chBatchLength
             // 
@@ -899,6 +901,10 @@
             this.txtQueueLink.Name = "txtQueueLink";
             this.txtQueueLink.Size = new System.Drawing.Size(353, 22);
             this.txtQueueLink.TabIndex = 27;
+            // 
+            // chBatchUploadedOn
+            // 
+            this.chBatchUploadedOn.Text = "Uploaded on";
             // 
             // frmExtendedBatchDownloader
             // 
@@ -1035,5 +1041,6 @@
         private System.Windows.Forms.ColumnHeader chBatchViews;
         private System.Windows.Forms.MenuItem mViewInBrowser;
         private System.Windows.Forms.Button btnCreateArgs;
+        private System.Windows.Forms.ColumnHeader chBatchUploadedOn;
     }
 }

@@ -183,4 +183,7 @@ internal sealed class YoutubeDlData {
 
     [DataMember(Name = "duration")]
     public decimal? DurationTime { get; set; }
+
+    [DataMember(Name = "upload_date")]
+    public string UploadedOn { get; set; }
 }

@@ -257,7 +257,7 @@ internal sealed class ExtendedMediaDetails : IDisposable {
     /// <summary>
     /// Gets or sets the name of the media associated with this instance.
     /// </summary>
-    public string MediaName { get; set; } = string.Empty;
+    public string MediaTitle { get; set; } = string.Empty;
     /// <summary>
     /// Gets or sets the title progress name base of the media associated with this instance.
     /// </summary>
@@ -484,16 +484,16 @@ internal sealed class ExtendedMediaDetails : IDisposable {
 
                     UnknownItems.Add(NewFormat);
                 }
-
-                MediaName = MediaData.Title;
-                ProgressMediaName =
-                    $"{(Config.Settings.Initialization.ScreenshotMode ? "The videos' title will appear here" : MediaName)} - {Language.ApplicationName}";
-
-                SelectedType = VideoFormats.Count > 0 ? DownloadType.Video :
-                    AudioFormats.Count > 0 ? DownloadType.Audio :
-                    UnknownFormats.Count > 0 ? DownloadType.Unknown :
-                    DownloadType.Custom;
             });
+
+            MediaTitle = MediaData.Title;
+            ProgressMediaName =
+                $"{(Config.Settings.Initialization.ScreenshotMode ? "The videos' title will appear here" : MediaTitle)} - {Language.ApplicationName}";
+
+            SelectedType = VideoFormats.Count > 0 ? DownloadType.Video :
+                AudioFormats.Count > 0 ? DownloadType.Audio :
+                UnknownFormats.Count > 0 ? DownloadType.Unknown :
+                DownloadType.Custom;
 
             InfoRetrieved = true;
 

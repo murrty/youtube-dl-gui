@@ -390,6 +390,7 @@ public partial class frmDownloader : Form {
                 Program.RunningActions.Remove(this);
                 if (this.IsHandleCreated) {
                     this.BeginInvoke(() => {
+                        pbStatus.Style = ProgressBarStyle.Continuous;
                         pbStatus.ShowInTaskbar = false;
                         DownloadFinished();
                     });
