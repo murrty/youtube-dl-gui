@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
 // Download specific times: yt-dlp -i --download-sections "*00:00:00-00:00:10"
+// --abort-on-unavailable-fragment (may prevent broken files)
 public partial class frmExtendedDownloader : Form {
     public string URL { get; }
     public string VideoName { get; private set; }
@@ -51,6 +52,9 @@ public partial class frmExtendedDownloader : Form {
         lvVideoFormats.SmallImageList = Program.ExtendedDownloaderSelectedImages;
         lvAudioFormats.SmallImageList = Program.ExtendedDownloaderSelectedImages;
         lvUnknownFormats.SmallImageList = Program.ExtendedDownloaderSelectedImages;
+    }
+    public frmExtendedDownloader(string URL, string CustomArguments, bool Archived) : this (URL, Archived) {
+        txtCustomArguments.Text = CustomArguments.IsNullEmptyWhitespace() ? string.Empty : CustomArguments;
     }
     public frmExtendedDownloader() {
         InitializeComponent();
@@ -1049,9 +1053,9 @@ public partial class frmExtendedDownloader : Form {
 
     private void cbSchema_KeyPress(object sender, KeyPressEventArgs e) {
         switch (e.KeyChar) {
-            case '\\': case '/': case ':':
-            case '*': case '?': case '"':
-            case '<': case '>': case '|': {
+            case ':': case '*': case '?':
+            case '"': case '<': case '>':
+            case '|': {
                 System.Media.SystemSounds.Beep.Play();
                 e.Handled = true;
             } break;

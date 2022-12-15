@@ -194,6 +194,7 @@
             this.cbSchema.Size = new System.Drawing.Size(167, 21);
             this.cbSchema.TabIndex = 22;
             this.cbSchema.Text = "%(title)s-%(id)s.%(ext)s";
+            this.cbSchema.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.cbSchema_KeyPress);
             // 
             // cbCustomArguments
             // 
@@ -204,7 +205,6 @@
             this.cbCustomArguments.Name = "cbCustomArguments";
             this.cbCustomArguments.Size = new System.Drawing.Size(194, 21);
             this.cbCustomArguments.TabIndex = 21;
-            this.cbCustomArguments.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.cbCustomArguments_KeyPress);
             // 
             // chkUseSelection
             // 
@@ -613,7 +613,7 @@
             this.tabConvert.Location = new System.Drawing.Point(4, 22);
             this.tabConvert.Name = "tabConvert";
             this.tabConvert.Padding = new System.Windows.Forms.Padding(3);
-            this.tabConvert.Size = new System.Drawing.Size(238, 339);
+            this.tabConvert.Size = new System.Drawing.Size(238, 318);
             this.tabConvert.TabIndex = 1;
             this.tabConvert.Text = "tabConvert";
             this.tabConvert.UseVisualStyleBackColor = true;
@@ -765,7 +765,7 @@
             this.tabDebug.Location = new System.Drawing.Point(4, 22);
             this.tabDebug.Name = "tabDebug";
             this.tabDebug.Padding = new System.Windows.Forms.Padding(3);
-            this.tabDebug.Size = new System.Drawing.Size(238, 339);
+            this.tabDebug.Size = new System.Drawing.Size(238, 318);
             this.tabDebug.TabIndex = 3;
             this.tabDebug.Text = "Debug";
             this.tabDebug.UseVisualStyleBackColor = true;

@@ -11,12 +11,6 @@ public partial class frmDownloader : Form {
     private volatile string Msg = string.Empty; // Output message.
     private readonly bool Debug = false;
 
-    public frmDownloader(DownloadInfo Info) {
-        InitializeComponent();
-        LoadLanguage();
-        CurrentDownload = Info;
-    }
-
     public frmDownloader() {
         Program.RunningActions.Add(this);
         InitializeComponent();
@@ -28,6 +22,11 @@ public partial class frmDownloader : Form {
         };
         t.Tick += (s, e) => rtbVerbose.AppendLine("Hello when when when when when when when when when when when when when when when when when when");
     }
+    public frmDownloader(DownloadInfo Info) {
+        InitializeComponent();
+        LoadLanguage();
+        CurrentDownload = Info;
+    }
 
     private void LoadLanguage() {
         this.Text = Language.frmDownloader + " ";
@@ -38,124 +37,6 @@ public partial class frmDownloader : Form {
         chkDownloaderCloseAfterDownload.Text = Language.chkDownloaderCloseAfterDownload;
         chkDownloaderCloseAfterDownload.Checked = Config.Settings.Downloads.CloseDownloaderAfterFinish;
     }
-
-    private void frmExtendedMassDownloader_Load(object sender, EventArgs e) {
-        if (Debug) {
-            btnDownloaderAbortBatchDownload.Visible = true;
-            tmrTitleActivity.Start();
-        }
-        else {
-            if (CurrentDownload.BatchDownload) {
-                this.WindowState = FormWindowState.Minimized;
-                btnDownloaderAbortBatchDownload.Enabled = true;
-                btnDownloaderAbortBatchDownload.Visible = true;
-            }
-        }
-
-        if (Config.Settings.Saved.QuickDownloaderLocation.Valid) {
-            this.StartPosition = FormStartPosition.Manual;
-            this.Location = Config.Settings.Saved.QuickDownloaderLocation;
-        }
-
-    }
-    private void frmExtendedMassDownloader_Shown(object sender, EventArgs e) {
-        pbStatus.Focus();
-        if (!Debug)
-            BeginDownload();
-    }
-    private void frmExtendedMassDownloader_FormClosing(object sender, FormClosingEventArgs e) {
-        DialogResult Finish = DialogResult.None;
-        switch (CurrentDownload.Status) {
-            case DownloadStatus.Aborted:
-                if (CurrentDownload.BatchDownload)
-                    Finish = AbortBatch ? DialogResult.Abort : DialogResult.Ignore;
-                break;
-
-            case DownloadStatus.Finished:
-                if (CurrentDownload.BatchDownload)
-                    Finish = DownloadProcess.ExitCode == 0 ? DialogResult.Yes : DialogResult.No;
-                break;
-
-            case DownloadStatus.ProgramError:
-            case DownloadStatus.YtdlError:
-                if (CurrentDownload.BatchDownload)
-                    Finish = DialogResult.No;
-                break;
-
-            default:
-                if (DownloadThread is not null && DownloadThread.IsAlive) {
-                    DownloadThread.Abort();
-                    e.Cancel = true;
-                }
-                break;
-        }
-        if (!e.Cancel) {
-            if (!CurrentDownload.BatchDownload)
-                Config.Settings.Downloads.CloseDownloaderAfterFinish = chkDownloaderCloseAfterDownload.Checked;
-            Config.Settings.Saved.QuickDownloaderLocation = this.Location;
-            this.DialogResult = Finish;
-            this.Dispose();
-        }
-    }
-    private void tmrTitleActivity_Tick(object sender, EventArgs e) {
-        this.Text = this.Text.EndsWith("....") ? this.Text.TrimEnd('.') : this.Text += ".";
-    }
-    private void btnClearOutput_Click(object sender, EventArgs e) {
-        if (Debug)
-            rtbVerbose.AppendLine("Hello, world world world world world world world world world world world world");
-        else
-            rtbVerbose.Clear();
-    }
-    private void btnDownloaderAbortBatchDownload_Click(object sender, EventArgs e) {
-        switch (CurrentDownload.Status) {
-            case DownloadStatus.YtdlError:
-            case DownloadStatus.ProgramError:
-            case DownloadStatus.Aborted: {
-                btnDownloaderAbortBatchDownload.Visible = false;
-                btnDownloaderAbortBatchDownload.Enabled = false;
-                this.Text = Language.frmDownloader + " ";
-                tmrTitleActivity.Start();
-                BeginDownload();
-            } break;
-
-            default: {
-                AbortBatch = true;
-                switch (CurrentDownload.Status) {
-                    case DownloadStatus.Finished:
-                    case DownloadStatus.Aborted:
-                    case DownloadStatus.YtdlError:
-                    case DownloadStatus.ProgramError:
-                        rtbVerbose.AppendLine("The user requested to abort subsequent batch downloads");
-                        btnDownloaderAbortBatchDownload.Enabled = false;
-                        btnDownloaderAbortBatchDownload.Visible = false;
-                        break;
-                    default:
-                        if (DownloadThread is not null && DownloadThread.IsAlive) {
-                            DownloadThread.Abort();
-                        }
-                        rtbVerbose.AppendLine("Additionally, the batch download has been cancelled.");
-                        this.Close();
-                        break;
-                }
-            } break;
-        }
-    }
-    private void btnDownloaderCancelExit_Click(object sender, EventArgs e) {
-        switch (CurrentDownload.Status) {
-            case DownloadStatus.Finished:
-            case DownloadStatus.YtdlError:
-            case DownloadStatus.Aborted:
-                this.Close();
-                break;
-            default:
-                Log.Write("Aborting download.");
-                if (DownloadThread is not null && DownloadThread.IsAlive) {
-                    DownloadThread.Abort();
-                }
-                break;
-        }
-    }
-
     public void Abort() {
         switch (CurrentDownload.Status) {
             case DownloadStatus.YtdlError:
@@ -481,4 +362,120 @@ public partial class frmDownloader : Form {
         }
     }
 
+    private void frmExtendedMassDownloader_Load(object sender, EventArgs e) {
+        if (Debug) {
+            btnDownloaderAbortBatchDownload.Visible = true;
+            tmrTitleActivity.Start();
+        }
+        else {
+            if (CurrentDownload.BatchDownload) {
+                this.WindowState = FormWindowState.Minimized;
+                btnDownloaderAbortBatchDownload.Enabled = true;
+                btnDownloaderAbortBatchDownload.Visible = true;
+            }
+        }
+
+        if (Config.Settings.Saved.QuickDownloaderLocation.Valid) {
+            this.StartPosition = FormStartPosition.Manual;
+            this.Location = Config.Settings.Saved.QuickDownloaderLocation;
+        }
+
+    }
+    private void frmExtendedMassDownloader_Shown(object sender, EventArgs e) {
+        pbStatus.Focus();
+        if (!Debug)
+            BeginDownload();
+    }
+    private void frmExtendedMassDownloader_FormClosing(object sender, FormClosingEventArgs e) {
+        DialogResult Finish = DialogResult.None;
+        switch (CurrentDownload.Status) {
+            case DownloadStatus.Aborted:
+                if (CurrentDownload.BatchDownload)
+                    Finish = AbortBatch ? DialogResult.Abort : DialogResult.Ignore;
+                break;
+
+            case DownloadStatus.Finished:
+                if (CurrentDownload.BatchDownload)
+                    Finish = DownloadProcess.ExitCode == 0 ? DialogResult.Yes : DialogResult.No;
+                break;
+
+            case DownloadStatus.ProgramError:
+            case DownloadStatus.YtdlError:
+                if (CurrentDownload.BatchDownload)
+                    Finish = DialogResult.No;
+                break;
+
+            default:
+                if (DownloadThread is not null && DownloadThread.IsAlive) {
+                    DownloadThread.Abort();
+                    e.Cancel = true;
+                }
+                break;
+        }
+        if (!e.Cancel) {
+            if (!CurrentDownload.BatchDownload)
+                Config.Settings.Downloads.CloseDownloaderAfterFinish = chkDownloaderCloseAfterDownload.Checked;
+            Config.Settings.Saved.QuickDownloaderLocation = this.Location;
+            this.DialogResult = Finish;
+            this.Dispose();
+        }
+    }
+    private void tmrTitleActivity_Tick(object sender, EventArgs e) {
+        this.Text = this.Text.EndsWith("....") ? this.Text.TrimEnd('.') : this.Text += ".";
+    }
+    private void btnClearOutput_Click(object sender, EventArgs e) {
+        if (Debug)
+            rtbVerbose.AppendLine("Hello, world world world world world world world world world world world world");
+        else
+            rtbVerbose.Clear();
+    }
+    private void btnDownloaderAbortBatchDownload_Click(object sender, EventArgs e) {
+        switch (CurrentDownload.Status) {
+            case DownloadStatus.YtdlError:
+            case DownloadStatus.ProgramError:
+            case DownloadStatus.Aborted: {
+                btnDownloaderAbortBatchDownload.Visible = false;
+                btnDownloaderAbortBatchDownload.Enabled = false;
+                this.Text = Language.frmDownloader + " ";
+                tmrTitleActivity.Start();
+                BeginDownload();
+            } break;
+
+            default: {
+                AbortBatch = true;
+                switch (CurrentDownload.Status) {
+                    case DownloadStatus.Finished:
+                    case DownloadStatus.Aborted:
+                    case DownloadStatus.YtdlError:
+                    case DownloadStatus.ProgramError:
+                        rtbVerbose.AppendLine("The user requested to abort subsequent batch downloads");
+                        btnDownloaderAbortBatchDownload.Enabled = false;
+                        btnDownloaderAbortBatchDownload.Visible = false;
+                        break;
+                    default:
+                        if (DownloadThread is not null && DownloadThread.IsAlive) {
+                            DownloadThread.Abort();
+                        }
+                        rtbVerbose.AppendLine("Additionally, the batch download has been cancelled.");
+                        this.Close();
+                        break;
+                }
+            } break;
+        }
+    }
+    private void btnDownloaderCancelExit_Click(object sender, EventArgs e) {
+        switch (CurrentDownload.Status) {
+            case DownloadStatus.Finished:
+            case DownloadStatus.YtdlError:
+            case DownloadStatus.Aborted:
+                this.Close();
+                break;
+            default:
+                Log.Write("Aborting download.");
+                if (DownloadThread is not null && DownloadThread.IsAlive) {
+                    DownloadThread.Abort();
+                }
+                break;
+        }
+    }
 }

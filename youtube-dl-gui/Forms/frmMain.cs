@@ -468,10 +468,10 @@ public partial class frmMain : Form {
     }
 
     private void mBatchDownload_Click(object sender, EventArgs e) {
-        frmExtendedBatchDownloader Batch = new();
-        Batch.Show();
-        //frmBatchDownloader BatchDownload = new();
-        //BatchDownload.Show();
+        //frmExtendedBatchDownloader Batch = new();
+        //Batch.Show();
+        frmBatchDownloader BatchDownload = new();
+        BatchDownload.Show();
     }
     private void mBatchConverter_Click(object sender, EventArgs e) {
         frmBatchConverter BatchConvert = new();
@@ -862,19 +862,19 @@ public partial class frmMain : Form {
     private void txtUrl_TextChanged(object sender, EventArgs e) {
         //btnMainYtdlpExtended.Enabled = txtUrl.Text.Length > 0;
     }
-    private void txtArgs_KeyPress(object sender, KeyPressEventArgs e) {
-        if (e.KeyChar == 13) {
-            Download();
-        }
-    }
-    private void cbCustomArguments_KeyPress(object sender, KeyPressEventArgs e) {
+    private void cbSchema_KeyPress(object sender, KeyPressEventArgs e) {
         switch (e.KeyChar) {
-            case '\\': case '/': case ':':
-            case '*': case '?': case '"':
-            case '<': case '>': case '|': {
+            case ':': case '*': case '?':
+            case '"': case '<': case '>':
+            case '|': {
                 System.Media.SystemSounds.Beep.Play();
                 e.Handled = true;
             } break;
+        }
+    }
+    private void txtArgs_KeyPress(object sender, KeyPressEventArgs e) {
+        if (e.KeyChar == 13) {
+            Download();
         }
     }
     private void sbDownload_Click(object sender, EventArgs e) {
@@ -1121,7 +1121,7 @@ public partial class frmMain : Form {
     }
     private void StartDownloadExtended() {
         if (txtUrl.Text.IsNotNullEmptyWhitespace()) {
-            frmExtendedDownloader Extended = new(txtUrl.Text, false);
+            frmExtendedDownloader Extended = new(txtUrl.Text, cbCustomArguments.Text, false);
             Extended.Show();
             if (Config.Settings.General.ClearURLOnDownload) {
                 txtUrl.Clear();
@@ -1358,4 +1358,5 @@ public partial class frmMain : Form {
     }
 
     #endregion
+
 }

@@ -12,7 +12,7 @@ internal static class Program {
     /// <summary>
     /// Gets the curent version of the program.
     /// </summary>
-    public static Version CurrentVersion { get; } = new(3, 2, 1);
+    public static Version CurrentVersion { get; } = new(3, 2, 3);
     /// <summary>
     /// Gets whether the program is running in debug mode.
     /// </summary>
