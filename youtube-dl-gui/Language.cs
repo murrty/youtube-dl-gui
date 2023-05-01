@@ -3773,7 +3773,7 @@ public static class Language {
                 if (Input.Contains("//"))
                     Input = Input[..Input.IndexOf("//")];
                 Key = Input.Split('=')[0].ToLowerInvariant().Trim();
-                Value = Input[(Input.IndexOf('=') + 1)..].Trim();
+                Value = Input[(Input.IndexOf('=') + 1)..].Trim().Replace("\\n", "\n").Replace("\\r", "\r");
             } break;
         }
     }
