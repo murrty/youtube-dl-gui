@@ -55,7 +55,7 @@ internal sealed class ExtendedMediaDetails : IDisposable {
                         ArgumentBuffer.Append("\\Video");
 
                     if (VideoSeparateAudio)
-                        Schema = Schema[..8] + "_%(format_id)s.%(ext)s";
+                        Schema = Schema[..^8] + "_%(format_id)s.%(ext)s";
                 }
                 break;
                 case DownloadType.Audio: {
