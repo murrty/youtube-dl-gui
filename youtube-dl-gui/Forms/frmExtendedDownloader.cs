@@ -740,7 +740,7 @@ public partial class frmExtendedDownloader : Form {
         ProcessingThread.Start();
     }
     private void SaveMediaOptions() {
-        if (BatchDownload && lvQueuedMedia.SelectedItems.Count == 0)
+        if (BatchDownload && MediaDetails is null)
             return;
 
         MediaDetails.CustomArguments = txtCustomArguments.Text;
