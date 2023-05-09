@@ -682,7 +682,7 @@ public partial class frmMain : Form {
             cbQuality.Items.Clear();
             cbQuality.Items.AddRange(Formats.VideoQualityArray);
             cbQuality.Items[0] = Language.GenericInputBest;
-            //cbQuality.Items[^1] = Language.GenericInputWorst;
+            cbQuality.Items[^1] = Language.GenericInputWorst;
             cbFormat.SelectedIndex = -1;
             cbFormat.Items.Clear();
             cbFormat.Items.AddRange(Formats.VideoFormatsNamesArray);
@@ -715,10 +715,11 @@ public partial class frmMain : Form {
             else {
                 cbQuality.Items.AddRange(Formats.AudioQualityNamesArray);
                 cbQuality.Items[0] = Language.GenericInputBest;
-                //cbQuality.Items[^1] = Language.GenericInputWorst;
+                cbQuality.Items[^1] = Language.GenericInputWorst;
             }
             cbFormat.Items.Clear();
             cbFormat.Items.AddRange(Formats.AudioFormatsArray);
+            cbFormat.Items[0] = Language.GenericInputBest;
             cbQuality.Enabled = true;
             cbFormat.Enabled = true;
             chkDownloadSound.Enabled = true;
