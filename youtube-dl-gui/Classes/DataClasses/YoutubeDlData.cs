@@ -13,9 +13,15 @@ using System.Runtime.Serialization;
 internal sealed class YoutubeDlData {
     // Tested on yt-dlp
 
-    public static YoutubeDlData GenerateData(string URL, out string RetrievedData) => Generate(URL, "-j", out RetrievedData);
-    public static YoutubeDlData GeneratePlaylist(string URL, out string RetrievedData) => Generate(URL, "-J", out RetrievedData);
-    private static YoutubeDlData Generate(string URL, string GenerateCommand, out string RetrievedData) {
+    public static YoutubeDlData GenerateData(string URL, out string RetrievedData) =>
+        Generate(URL, "-j", null, out RetrievedData);
+    public static YoutubeDlData GenerateData(string URL, AuthenticationDetails Auth, out string RetrievedData) =>
+        Generate(URL, "-j", Auth, out RetrievedData);
+    public static YoutubeDlData GeneratePlaylist(string URL, out string RetrievedData) =>
+        Generate(URL, "-J", null, out RetrievedData);
+    public static YoutubeDlData GeneratePlaylist(string URL, AuthenticationDetails Auth, out string RetrievedData) =>
+        Generate(URL, "-J", Auth, out RetrievedData);
+    private static YoutubeDlData Generate(string URL, string GenerateCommand, AuthenticationDetails Auth, out string RetrievedData) {
         RetrievedData = null;
         if (!URL.IsNullEmptyWhitespace()) {
             Log.Write($"Gathering data for \"{URL}\".");
@@ -39,6 +45,23 @@ internal sealed class YoutubeDlData {
             !string.IsNullOrEmpty(Config.Settings.Downloads.ProxyIP) && !string.IsNullOrEmpty(Config.Settings.Downloads.ProxyPort))
                 ConnectionArgs.Append($"--proxy {DownloadHelper.ProxyProtocols[Config.Settings.Downloads.ProxyType]}{Config.Settings.Downloads.ProxyIP}:{Config.Settings.Downloads.ProxyPort}/ ");
 
+            if (Auth is not null) {
+                if (!Auth.Username.IsNullEmptyWhitespace())
+                    ConnectionArgs.Append($"--username {Auth.Username} ");
+                if (Auth.Password?.Length > 0)
+                    ConnectionArgs.Append($"--password {Auth.GetPassword()} ");
+                if (!Auth.TwoFactor.IsNullEmptyWhitespace())
+                    ConnectionArgs.Append($" --twofactor {Auth.TwoFactor} ");
+                if (Auth.MediaPassword?.Length > 0)
+                    ConnectionArgs.Append($"--video-password {Auth.GetMediaPassword()} ");
+                if (Auth.NetRC)
+                    ConnectionArgs.Append("--netrc ");
+                if (!Auth.CookiesFile.IsNullEmptyWhitespace())
+                    ConnectionArgs.Append($"--cookies {Auth.CookiesFile} ");
+                if (!Auth.CookiesFromBrowser.IsNullEmptyWhitespace())
+                    ConnectionArgs.Append($"--cookies-from-browser {Auth.CookiesFromBrowser} ");
+            }
+
             Process Enumeration = new() {
                 StartInfo = new() {
                     Arguments = $"--simulate --no-warnings --no-cache-dir {GenerateCommand} {ConnectionArgs}{URL}",
@@ -60,6 +83,8 @@ internal sealed class YoutubeDlData {
             Enumeration.BeginOutputReadLine();
             Enumeration.BeginErrorReadLine();
             Enumeration.WaitForExit();
+
+            Enumeration.StartInfo.Arguments = null;
 
             if (!Error.ToString().IsNullEmptyWhitespace()) {
                 Log.Write($"Downloading info for \"{URL}\" output some errors.");

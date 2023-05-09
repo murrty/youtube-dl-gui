@@ -12,6 +12,8 @@
         #region Windows Form Designer generated code
 
         private void InitializeComponent() {
+            murrty.controls.Time time1 = new murrty.controls.Time();
+            murrty.controls.Time time2 = new murrty.controls.Time();
             this.pbThumbnail = new System.Windows.Forms.PictureBox();
             this.txtExtendedDownloaderMediaTitle = new System.Windows.Forms.TextBox();
             this.lbExtendedDownloaderUploader = new System.Windows.Forms.Label();
@@ -67,6 +69,13 @@
             this.tabExtendedDownloaderCustom = new System.Windows.Forms.TabPage();
             this.txtCustomArguments = new System.Windows.Forms.TextBox();
             this.tabExtendedDownloaderFormatOptions = new System.Windows.Forms.TabPage();
+            this.tpStartTime = new murrty.controls.TimePicker();
+            this.lbExtendedTimePicker = new System.Windows.Forms.Label();
+            this.tpEndTime = new murrty.controls.TimePicker();
+            this.lbFragmentThreads = new System.Windows.Forms.Label();
+            this.numFragmentThreads = new System.Windows.Forms.NumericUpDown();
+            this.chkAbortOnError = new System.Windows.Forms.CheckBox();
+            this.chkSkipUnavailableFragments = new System.Windows.Forms.CheckBox();
             this.lbVideoRemux = new System.Windows.Forms.Label();
             this.cbVideoRemux = new System.Windows.Forms.ComboBox();
             this.chkVideoSeparateAudio = new System.Windows.Forms.CheckBox();
@@ -79,6 +88,8 @@
             this.lbVideoEncoder = new System.Windows.Forms.Label();
             this.cbAudioEncoders = new System.Windows.Forms.ComboBox();
             this.cbVideoEncoders = new System.Windows.Forms.ComboBox();
+            this.lbTimePickSeparator = new System.Windows.Forms.Label();
+            this.llbSpecifyTimesHint = new murrty.controls.ExtendedLinkLabel();
             this.tabExtendedDownloaderDescription = new System.Windows.Forms.TabPage();
             this.rtbMediaDescription = new murrty.controls.ExtendedRichTextBox();
             this.tabExtendedDownloaderVerbose = new System.Windows.Forms.TabPage();
@@ -94,14 +105,36 @@
             this.rbVideo = new System.Windows.Forms.RadioButton();
             this.rbAudio = new System.Windows.Forms.RadioButton();
             this.rbCustom = new System.Windows.Forms.RadioButton();
-            this.btnDownloadAbortClose = new System.Windows.Forms.Button();
-            this.btnDownloadWithAuthentication = new System.Windows.Forms.Button();
             this.chkDownloaderCloseAfterDownload = new System.Windows.Forms.CheckBox();
-            this.txtLink = new System.Windows.Forms.TextBox();
-            this.lbExtendedDownloaderLink = new System.Windows.Forms.Label();
             this.pbThumbnailBackground = new System.Windows.Forms.PictureBox();
+            this.rbUnknown = new System.Windows.Forms.RadioButton();
+            this.cmDownload = new System.Windows.Forms.ContextMenu();
+            this.mDownload = new System.Windows.Forms.MenuItem();
+            this.mDownloadWithAuthentication = new System.Windows.Forms.MenuItem();
+            this.sbtnDownload = new murrty.controls.SplitButton();
             this.pbStatus = new murrty.controls.ExtendedProgressBar();
-            this.rbUnknownFormat = new System.Windows.Forms.RadioButton();
+            this.pnSingleDownload = new System.Windows.Forms.Panel();
+            this.llbLink = new murrty.controls.ExtendedLinkLabel();
+            this.pnBatchDownload = new System.Windows.Forms.Panel();
+            this.btnEnqueue = new murrty.controls.SplitButton();
+            this.cmEnqueue = new System.Windows.Forms.ContextMenu();
+            this.mEnqueue = new System.Windows.Forms.MenuItem();
+            this.mEnqueueCopyOptions = new System.Windows.Forms.MenuItem();
+            this.mEnqueueWithAuthentication = new System.Windows.Forms.MenuItem();
+            this.mEnqueueCopyAuthentication = new System.Windows.Forms.MenuItem();
+            this.lvQueuedMedia = new System.Windows.Forms.ListView();
+            this.chBatchURL = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.chBatchTitle = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.chBatchLength = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.chBatchUploader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.chBatchUploadedOn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.chBatchViews = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.txtQueueLink = new murrty.controls.ExtendedTextBox();
+            this.cmQueuedMedia = new System.Windows.Forms.ContextMenu();
+            this.mQueueCopyLink = new System.Windows.Forms.MenuItem();
+            this.mQueueViewInBrowser = new System.Windows.Forms.MenuItem();
+            this.mQueueSeparator = new System.Windows.Forms.MenuItem();
+            this.mQueueRemoveSelected = new System.Windows.Forms.MenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.pbThumbnail)).BeginInit();
             this.tcVideoData.SuspendLayout();
             this.tabExtendedDownloaderFormats.SuspendLayout();
@@ -111,16 +144,19 @@
             this.tabExtendedDownloaderUnknownFormats.SuspendLayout();
             this.tabExtendedDownloaderCustom.SuspendLayout();
             this.tabExtendedDownloaderFormatOptions.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numFragmentThreads)).BeginInit();
             this.tabExtendedDownloaderDescription.SuspendLayout();
             this.tabExtendedDownloaderVerbose.SuspendLayout();
             this.tabDebug.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbThumbnailBackground)).BeginInit();
+            this.pnSingleDownload.SuspendLayout();
+            this.pnBatchDownload.SuspendLayout();
             this.SuspendLayout();
             // 
             // pbThumbnail
             // 
             this.pbThumbnail.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.pbThumbnail.Location = new System.Drawing.Point(12, 12);
+            this.pbThumbnail.Location = new System.Drawing.Point(3, 24);
             this.pbThumbnail.Name = "pbThumbnail";
             this.pbThumbnail.Size = new System.Drawing.Size(320, 180);
             this.pbThumbnail.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -133,7 +169,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtExtendedDownloaderMediaTitle.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtExtendedDownloaderMediaTitle.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtExtendedDownloaderMediaTitle.Location = new System.Drawing.Point(12, 198);
+            this.txtExtendedDownloaderMediaTitle.Location = new System.Drawing.Point(12, 214);
             this.txtExtendedDownloaderMediaTitle.Name = "txtExtendedDownloaderMediaTitle";
             this.txtExtendedDownloaderMediaTitle.ReadOnly = true;
             this.txtExtendedDownloaderMediaTitle.Size = new System.Drawing.Size(450, 22);
@@ -144,7 +180,7 @@
             // 
             this.lbExtendedDownloaderUploader.AutoSize = true;
             this.lbExtendedDownloaderUploader.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbExtendedDownloaderUploader.Location = new System.Drawing.Point(335, 107);
+            this.lbExtendedDownloaderUploader.Location = new System.Drawing.Point(327, 118);
             this.lbExtendedDownloaderUploader.Name = "lbExtendedDownloaderUploader";
             this.lbExtendedDownloaderUploader.Size = new System.Drawing.Size(160, 13);
             this.lbExtendedDownloaderUploader.TabIndex = 10;
@@ -156,18 +192,18 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtUploader.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtUploader.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtUploader.Location = new System.Drawing.Point(338, 119);
+            this.txtUploader.Location = new System.Drawing.Point(330, 130);
             this.txtUploader.Name = "txtUploader";
             this.txtUploader.ReadOnly = true;
-            this.txtUploader.Size = new System.Drawing.Size(126, 22);
+            this.txtUploader.Size = new System.Drawing.Size(204, 22);
             this.txtUploader.TabIndex = 11;
             // 
             // lbExtendedDownloaderDownloadingThumbnail
             // 
             this.lbExtendedDownloaderDownloadingThumbnail.AutoSize = true;
-            this.lbExtendedDownloaderDownloadingThumbnail.BackColor = System.Drawing.Color.Transparent;
+            this.lbExtendedDownloaderDownloadingThumbnail.BackColor = System.Drawing.SystemColors.ControlDark;
             this.lbExtendedDownloaderDownloadingThumbnail.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbExtendedDownloaderDownloadingThumbnail.Location = new System.Drawing.Point(20, 20);
+            this.lbExtendedDownloaderDownloadingThumbnail.Location = new System.Drawing.Point(11, 32);
             this.lbExtendedDownloaderDownloadingThumbnail.Name = "lbExtendedDownloaderDownloadingThumbnail";
             this.lbExtendedDownloaderDownloadingThumbnail.Size = new System.Drawing.Size(281, 17);
             this.lbExtendedDownloaderDownloadingThumbnail.TabIndex = 12;
@@ -177,7 +213,7 @@
             // btnExtendedDownloaderDownloadThumbnail
             // 
             this.btnExtendedDownloaderDownloadThumbnail.BackColor = System.Drawing.Color.Transparent;
-            this.btnExtendedDownloaderDownloadThumbnail.Location = new System.Drawing.Point(20, 159);
+            this.btnExtendedDownloaderDownloadThumbnail.Location = new System.Drawing.Point(11, 171);
             this.btnExtendedDownloaderDownloadThumbnail.Name = "btnExtendedDownloaderDownloadThumbnail";
             this.btnExtendedDownloaderDownloadThumbnail.Size = new System.Drawing.Size(122, 23);
             this.btnExtendedDownloaderDownloadThumbnail.TabIndex = 13;
@@ -191,7 +227,7 @@
             this.lbTimestamp.AutoSize = true;
             this.lbTimestamp.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
             this.lbTimestamp.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.lbTimestamp.Location = new System.Drawing.Point(294, 169);
+            this.lbTimestamp.Location = new System.Drawing.Point(285, 181);
             this.lbTimestamp.Name = "lbTimestamp";
             this.lbTimestamp.Size = new System.Drawing.Size(28, 13);
             this.lbTimestamp.TabIndex = 14;
@@ -204,17 +240,17 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtViews.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtViews.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtViews.Location = new System.Drawing.Point(338, 168);
+            this.txtViews.Location = new System.Drawing.Point(330, 179);
             this.txtViews.Name = "txtViews";
             this.txtViews.ReadOnly = true;
-            this.txtViews.Size = new System.Drawing.Size(126, 22);
+            this.txtViews.Size = new System.Drawing.Size(204, 22);
             this.txtViews.TabIndex = 16;
             // 
             // lbExtendedDownloaderViews
             // 
             this.lbExtendedDownloaderViews.AutoSize = true;
             this.lbExtendedDownloaderViews.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbExtendedDownloaderViews.Location = new System.Drawing.Point(335, 156);
+            this.lbExtendedDownloaderViews.Location = new System.Drawing.Point(327, 167);
             this.lbExtendedDownloaderViews.Name = "lbExtendedDownloaderViews";
             this.lbExtendedDownloaderViews.Size = new System.Drawing.Size(143, 13);
             this.lbExtendedDownloaderViews.TabIndex = 15;
@@ -230,7 +266,8 @@
             this.tcVideoData.Controls.Add(this.tabExtendedDownloaderDescription);
             this.tcVideoData.Controls.Add(this.tabExtendedDownloaderVerbose);
             this.tcVideoData.Controls.Add(this.tabDebug);
-            this.tcVideoData.Location = new System.Drawing.Point(12, 255);
+            this.tcVideoData.Enabled = false;
+            this.tcVideoData.Location = new System.Drawing.Point(12, 271);
             this.tcVideoData.Name = "tcVideoData";
             this.tcVideoData.SelectedIndex = 0;
             this.tcVideoData.Size = new System.Drawing.Size(450, 199);
@@ -569,9 +606,17 @@
             this.txtCustomArguments.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtCustomArguments.Size = new System.Drawing.Size(422, 135);
             this.txtCustomArguments.TabIndex = 15;
+            this.txtCustomArguments.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCustomArguments_KeyDown);
             // 
             // tabExtendedDownloaderFormatOptions
             // 
+            this.tabExtendedDownloaderFormatOptions.Controls.Add(this.tpStartTime);
+            this.tabExtendedDownloaderFormatOptions.Controls.Add(this.lbExtendedTimePicker);
+            this.tabExtendedDownloaderFormatOptions.Controls.Add(this.tpEndTime);
+            this.tabExtendedDownloaderFormatOptions.Controls.Add(this.lbFragmentThreads);
+            this.tabExtendedDownloaderFormatOptions.Controls.Add(this.numFragmentThreads);
+            this.tabExtendedDownloaderFormatOptions.Controls.Add(this.chkAbortOnError);
+            this.tabExtendedDownloaderFormatOptions.Controls.Add(this.chkSkipUnavailableFragments);
             this.tabExtendedDownloaderFormatOptions.Controls.Add(this.lbVideoRemux);
             this.tabExtendedDownloaderFormatOptions.Controls.Add(this.cbVideoRemux);
             this.tabExtendedDownloaderFormatOptions.Controls.Add(this.chkVideoSeparateAudio);
@@ -584,6 +629,8 @@
             this.tabExtendedDownloaderFormatOptions.Controls.Add(this.lbVideoEncoder);
             this.tabExtendedDownloaderFormatOptions.Controls.Add(this.cbAudioEncoders);
             this.tabExtendedDownloaderFormatOptions.Controls.Add(this.cbVideoEncoders);
+            this.tabExtendedDownloaderFormatOptions.Controls.Add(this.lbTimePickSeparator);
+            this.tabExtendedDownloaderFormatOptions.Controls.Add(this.llbSpecifyTimesHint);
             this.tabExtendedDownloaderFormatOptions.Location = new System.Drawing.Point(4, 22);
             this.tabExtendedDownloaderFormatOptions.Name = "tabExtendedDownloaderFormatOptions";
             this.tabExtendedDownloaderFormatOptions.Padding = new System.Windows.Forms.Padding(3);
@@ -592,12 +639,101 @@
             this.tabExtendedDownloaderFormatOptions.Text = "tabExtendedDownloaderFormatOptions";
             this.tabExtendedDownloaderFormatOptions.UseVisualStyleBackColor = true;
             // 
+            // tpStartTime
+            // 
+            this.tpStartTime.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.tpStartTime.Location = new System.Drawing.Point(8, 50);
+            this.tpStartTime.Name = "tpStartTime";
+            this.tpStartTime.Size = new System.Drawing.Size(96, 23);
+            this.tpStartTime.TabIndex = 41;
+            this.tpStartTime.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tpStartTime.TimeValue = time1;
+            this.tpStartTime.Value = System.TimeSpan.Parse("00:00:00");
+            // 
+            // lbExtendedTimePicker
+            // 
+            this.lbExtendedTimePicker.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lbExtendedTimePicker.AutoSize = true;
+            this.lbExtendedTimePicker.Location = new System.Drawing.Point(6, 34);
+            this.lbExtendedTimePicker.Name = "lbExtendedTimePicker";
+            this.lbExtendedTimePicker.Size = new System.Drawing.Size(148, 13);
+            this.lbExtendedTimePicker.TabIndex = 39;
+            this.lbExtendedTimePicker.Text = "Specific times (hh:mm:ss.fff)";
+            // 
+            // tpEndTime
+            // 
+            this.tpEndTime.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.tpEndTime.DateBasedTime = false;
+            this.tpEndTime.Location = new System.Drawing.Point(117, 50);
+            this.tpEndTime.Name = "tpEndTime";
+            this.tpEndTime.Size = new System.Drawing.Size(96, 23);
+            this.tpEndTime.TabIndex = 37;
+            this.tpEndTime.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tpEndTime.TimeValue = time2;
+            this.tpEndTime.Value = System.TimeSpan.Parse("00:00:00");
+            // 
+            // lbFragmentThreads
+            // 
+            this.lbFragmentThreads.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbFragmentThreads.Location = new System.Drawing.Point(248, 34);
+            this.lbFragmentThreads.Name = "lbFragmentThreads";
+            this.lbFragmentThreads.Size = new System.Drawing.Size(128, 20);
+            this.lbFragmentThreads.TabIndex = 35;
+            this.lbFragmentThreads.Text = "lbFragmentThreads";
+            this.lbFragmentThreads.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // numFragmentThreads
+            // 
+            this.numFragmentThreads.Location = new System.Drawing.Point(382, 35);
+            this.numFragmentThreads.Maximum = new decimal(new int[] {
+            25,
+            0,
+            0,
+            0});
+            this.numFragmentThreads.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numFragmentThreads.Name = "numFragmentThreads";
+            this.numFragmentThreads.Size = new System.Drawing.Size(52, 22);
+            this.numFragmentThreads.TabIndex = 34;
+            this.numFragmentThreads.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // chkAbortOnError
+            // 
+            this.chkAbortOnError.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.chkAbortOnError.AutoSize = true;
+            this.chkAbortOnError.Checked = true;
+            this.chkAbortOnError.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkAbortOnError.Location = new System.Drawing.Point(8, 102);
+            this.chkAbortOnError.Name = "chkAbortOnError";
+            this.chkAbortOnError.Size = new System.Drawing.Size(113, 17);
+            this.chkAbortOnError.TabIndex = 33;
+            this.chkAbortOnError.Text = "chkAbortOnError";
+            this.chkAbortOnError.UseVisualStyleBackColor = true;
+            // 
+            // chkSkipUnavailableFragments
+            // 
+            this.chkSkipUnavailableFragments.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.chkSkipUnavailableFragments.AutoSize = true;
+            this.chkSkipUnavailableFragments.Location = new System.Drawing.Point(8, 79);
+            this.chkSkipUnavailableFragments.Name = "chkSkipUnavailableFragments";
+            this.chkSkipUnavailableFragments.Size = new System.Drawing.Size(179, 17);
+            this.chkSkipUnavailableFragments.TabIndex = 32;
+            this.chkSkipUnavailableFragments.Text = "chkSkipUnavailableFragments";
+            this.chkSkipUnavailableFragments.UseVisualStyleBackColor = true;
+            // 
             // lbVideoRemux
             // 
             this.lbVideoRemux.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.lbVideoRemux.Location = new System.Drawing.Point(192, 90);
+            this.lbVideoRemux.Location = new System.Drawing.Point(173, 90);
             this.lbVideoRemux.Name = "lbVideoRemux";
-            this.lbVideoRemux.Size = new System.Drawing.Size(109, 21);
+            this.lbVideoRemux.Size = new System.Drawing.Size(128, 21);
             this.lbVideoRemux.TabIndex = 31;
             this.lbVideoRemux.Text = "lbVideoRemux";
             this.lbVideoRemux.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -631,7 +767,7 @@
             this.cbVbrQualities.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbVbrQualities.Enabled = false;
             this.cbVbrQualities.FormattingEnabled = true;
-            this.cbVbrQualities.Location = new System.Drawing.Point(59, 100);
+            this.cbVbrQualities.Location = new System.Drawing.Point(360, 63);
             this.cbVbrQualities.Name = "cbVbrQualities";
             this.cbVbrQualities.Size = new System.Drawing.Size(74, 21);
             this.cbVbrQualities.TabIndex = 27;
@@ -639,13 +775,14 @@
             // chkAudioVBR
             // 
             this.chkAudioVBR.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.chkAudioVBR.AutoSize = true;
+            this.chkAudioVBR.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.chkAudioVBR.Enabled = false;
-            this.chkAudioVBR.Location = new System.Drawing.Point(8, 102);
+            this.chkAudioVBR.Location = new System.Drawing.Point(230, 65);
             this.chkAudioVBR.Name = "chkAudioVBR";
-            this.chkAudioVBR.Size = new System.Drawing.Size(45, 17);
+            this.chkAudioVBR.Size = new System.Drawing.Size(124, 17);
             this.chkAudioVBR.TabIndex = 26;
             this.chkAudioVBR.Text = "VBR";
+            this.chkAudioVBR.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.chkAudioVBR.UseVisualStyleBackColor = true;
             this.chkAudioVBR.CheckedChanged += new System.EventHandler(this.chkAudioVBR_CheckedChanged);
             // 
@@ -667,9 +804,9 @@
             // lbSchema
             // 
             this.lbSchema.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.lbSchema.Location = new System.Drawing.Point(152, 10);
+            this.lbSchema.Location = new System.Drawing.Point(145, 10);
             this.lbSchema.Name = "lbSchema";
-            this.lbSchema.Size = new System.Drawing.Size(113, 15);
+            this.lbSchema.Size = new System.Drawing.Size(120, 15);
             this.lbSchema.TabIndex = 25;
             this.lbSchema.Text = "lbSchema";
             this.lbSchema.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -689,9 +826,9 @@
             // lbAudioEncoder
             // 
             this.lbAudioEncoder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.lbAudioEncoder.Location = new System.Drawing.Point(192, 144);
+            this.lbAudioEncoder.Location = new System.Drawing.Point(173, 144);
             this.lbAudioEncoder.Name = "lbAudioEncoder";
-            this.lbAudioEncoder.Size = new System.Drawing.Size(109, 21);
+            this.lbAudioEncoder.Size = new System.Drawing.Size(128, 21);
             this.lbAudioEncoder.TabIndex = 20;
             this.lbAudioEncoder.Text = "lbAudioEncoder";
             this.lbAudioEncoder.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -699,9 +836,9 @@
             // lbVideoEncoder
             // 
             this.lbVideoEncoder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.lbVideoEncoder.Location = new System.Drawing.Point(192, 117);
+            this.lbVideoEncoder.Location = new System.Drawing.Point(173, 117);
             this.lbVideoEncoder.Name = "lbVideoEncoder";
-            this.lbVideoEncoder.Size = new System.Drawing.Size(109, 21);
+            this.lbVideoEncoder.Size = new System.Drawing.Size(128, 21);
             this.lbVideoEncoder.TabIndex = 19;
             this.lbVideoEncoder.Text = "lbVideoEncoder";
             this.lbVideoEncoder.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -727,6 +864,30 @@
             this.cbVideoEncoders.Name = "cbVideoEncoders";
             this.cbVideoEncoders.Size = new System.Drawing.Size(127, 21);
             this.cbVideoEncoders.TabIndex = 16;
+            // 
+            // lbTimePickSeparator
+            // 
+            this.lbTimePickSeparator.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lbTimePickSeparator.AutoSize = true;
+            this.lbTimePickSeparator.Location = new System.Drawing.Point(105, 49);
+            this.lbTimePickSeparator.Name = "lbTimePickSeparator";
+            this.lbTimePickSeparator.Size = new System.Drawing.Size(12, 13);
+            this.lbTimePickSeparator.TabIndex = 38;
+            this.lbTimePickSeparator.Text = "_";
+            // 
+            // llbSpecifyTimesHint
+            // 
+            this.llbSpecifyTimesHint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.llbSpecifyTimesHint.AutoSize = true;
+            this.llbSpecifyTimesHint.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.llbSpecifyTimesHint.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
+            this.llbSpecifyTimesHint.Location = new System.Drawing.Point(214, 53);
+            this.llbSpecifyTimesHint.Name = "llbSpecifyTimesHint";
+            this.llbSpecifyTimesHint.Size = new System.Drawing.Size(14, 17);
+            this.llbSpecifyTimesHint.TabIndex = 40;
+            this.llbSpecifyTimesHint.TabStop = true;
+            this.llbSpecifyTimesHint.Text = "?";
+            this.llbSpecifyTimesHint.VisitedLinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(0)))), ((int)(((byte)(128)))));
             // 
             // tabExtendedDownloaderDescription
             // 
@@ -869,7 +1030,7 @@
             // 
             this.rbVideo.Appearance = System.Windows.Forms.Appearance.Button;
             this.rbVideo.Enabled = false;
-            this.rbVideo.Location = new System.Drawing.Point(12, 226);
+            this.rbVideo.Location = new System.Drawing.Point(12, 242);
             this.rbVideo.Name = "rbVideo";
             this.rbVideo.Size = new System.Drawing.Size(100, 23);
             this.rbVideo.TabIndex = 10;
@@ -883,7 +1044,7 @@
             this.rbAudio.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.rbAudio.Appearance = System.Windows.Forms.Appearance.Button;
             this.rbAudio.Enabled = false;
-            this.rbAudio.Location = new System.Drawing.Point(128, 226);
+            this.rbAudio.Location = new System.Drawing.Point(128, 242);
             this.rbAudio.Name = "rbAudio";
             this.rbAudio.Size = new System.Drawing.Size(100, 23);
             this.rbAudio.TabIndex = 11;
@@ -897,7 +1058,7 @@
             this.rbCustom.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.rbCustom.Appearance = System.Windows.Forms.Appearance.Button;
             this.rbCustom.Enabled = false;
-            this.rbCustom.Location = new System.Drawing.Point(362, 226);
+            this.rbCustom.Location = new System.Drawing.Point(362, 242);
             this.rbCustom.Name = "rbCustom";
             this.rbCustom.Size = new System.Drawing.Size(100, 23);
             this.rbCustom.TabIndex = 12;
@@ -906,71 +1067,71 @@
             this.rbCustom.UseVisualStyleBackColor = true;
             this.rbCustom.CheckedChanged += new System.EventHandler(this.rbCustom_CheckedChanged);
             // 
-            // btnDownloadAbortClose
-            // 
-            this.btnDownloadAbortClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnDownloadAbortClose.Enabled = false;
-            this.btnDownloadAbortClose.Location = new System.Drawing.Point(371, 460);
-            this.btnDownloadAbortClose.Name = "btnDownloadAbortClose";
-            this.btnDownloadAbortClose.Size = new System.Drawing.Size(87, 23);
-            this.btnDownloadAbortClose.TabIndex = 18;
-            this.btnDownloadAbortClose.Text = "btnDownloadAbortClose";
-            this.btnDownloadAbortClose.UseVisualStyleBackColor = true;
-            this.btnDownloadAbortClose.Click += new System.EventHandler(this.btnDownloadAbortClose_Click);
-            // 
-            // btnDownloadWithAuthentication
-            // 
-            this.btnDownloadWithAuthentication.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnDownloadWithAuthentication.Enabled = false;
-            this.btnDownloadWithAuthentication.Location = new System.Drawing.Point(211, 460);
-            this.btnDownloadWithAuthentication.Name = "btnDownloadWithAuthentication";
-            this.btnDownloadWithAuthentication.Size = new System.Drawing.Size(154, 23);
-            this.btnDownloadWithAuthentication.TabIndex = 19;
-            this.btnDownloadWithAuthentication.Text = "btnDownloadWithAuthentication";
-            this.btnDownloadWithAuthentication.UseVisualStyleBackColor = true;
-            this.btnDownloadWithAuthentication.Click += new System.EventHandler(this.btnDownloadWithAuthentication_Click);
-            // 
             // chkDownloaderCloseAfterDownload
             // 
             this.chkDownloaderCloseAfterDownload.AutoSize = true;
-            this.chkDownloaderCloseAfterDownload.Location = new System.Drawing.Point(338, 12);
+            this.chkDownloaderCloseAfterDownload.Location = new System.Drawing.Point(330, 23);
             this.chkDownloaderCloseAfterDownload.Name = "chkDownloaderCloseAfterDownload";
             this.chkDownloaderCloseAfterDownload.Size = new System.Drawing.Size(214, 17);
             this.chkDownloaderCloseAfterDownload.TabIndex = 21;
             this.chkDownloaderCloseAfterDownload.Text = "chkDownloaderCloseAfterDownload";
             this.chkDownloaderCloseAfterDownload.UseVisualStyleBackColor = true;
             // 
-            // txtLink
-            // 
-            this.txtLink.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtLink.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtLink.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtLink.Location = new System.Drawing.Point(338, 70);
-            this.txtLink.Name = "txtLink";
-            this.txtLink.ReadOnly = true;
-            this.txtLink.Size = new System.Drawing.Size(126, 22);
-            this.txtLink.TabIndex = 23;
-            // 
-            // lbExtendedDownloaderLink
-            // 
-            this.lbExtendedDownloaderLink.AutoSize = true;
-            this.lbExtendedDownloaderLink.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbExtendedDownloaderLink.Location = new System.Drawing.Point(335, 58);
-            this.lbExtendedDownloaderLink.Name = "lbExtendedDownloaderLink";
-            this.lbExtendedDownloaderLink.Size = new System.Drawing.Size(135, 13);
-            this.lbExtendedDownloaderLink.TabIndex = 22;
-            this.lbExtendedDownloaderLink.Text = "lbExtendedDownloaderLink";
-            // 
             // pbThumbnailBackground
             // 
             this.pbThumbnailBackground.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.pbThumbnailBackground.Location = new System.Drawing.Point(11, 11);
+            this.pbThumbnailBackground.Location = new System.Drawing.Point(2, 23);
             this.pbThumbnailBackground.Name = "pbThumbnailBackground";
             this.pbThumbnailBackground.Size = new System.Drawing.Size(322, 182);
             this.pbThumbnailBackground.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pbThumbnailBackground.TabIndex = 24;
             this.pbThumbnailBackground.TabStop = false;
+            // 
+            // rbUnknown
+            // 
+            this.rbUnknown.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.rbUnknown.Appearance = System.Windows.Forms.Appearance.Button;
+            this.rbUnknown.Enabled = false;
+            this.rbUnknown.Location = new System.Drawing.Point(246, 242);
+            this.rbUnknown.Name = "rbUnknown";
+            this.rbUnknown.Size = new System.Drawing.Size(100, 23);
+            this.rbUnknown.TabIndex = 25;
+            this.rbUnknown.Text = "rbUnknown";
+            this.rbUnknown.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.rbUnknown.UseVisualStyleBackColor = true;
+            this.rbUnknown.CheckedChanged += new System.EventHandler(this.rbUnknown_CheckedChanged);
+            // 
+            // cmDownload
+            // 
+            this.cmDownload.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+            this.mDownload,
+            this.mDownloadWithAuthentication});
+            // 
+            // mDownload
+            // 
+            this.mDownload.Index = 0;
+            this.mDownload.Text = "mDownload";
+            this.mDownload.Click += new System.EventHandler(this.mDownload_Click);
+            // 
+            // mDownloadWithAuthentication
+            // 
+            this.mDownloadWithAuthentication.Index = 1;
+            this.mDownloadWithAuthentication.Text = "mDownloadWithAuthentication";
+            this.mDownloadWithAuthentication.Click += new System.EventHandler(this.mDownloadWithAuthentication_Click);
+            // 
+            // sbtnDownload
+            // 
+            this.sbtnDownload.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.sbtnDownload.ContextMenu = this.cmDownload;
+            this.sbtnDownload.Enabled = false;
+            this.sbtnDownload.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.sbtnDownload.Location = new System.Drawing.Point(362, 476);
+            this.sbtnDownload.Name = "sbtnDownload";
+            this.sbtnDownload.Size = new System.Drawing.Size(100, 23);
+            this.sbtnDownload.TabIndex = 26;
+            this.sbtnDownload.Text = "sbtnDownload";
+            this.sbtnDownload.UseVisualStyleBackColor = true;
+            this.sbtnDownload.Click += new System.EventHandler(this.sbtnDownload_Click);
             // 
             // pbStatus
             // 
@@ -978,63 +1139,227 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pbStatus.ContainerParent = this;
             this.pbStatus.FastValueUpdate = true;
-            this.pbStatus.Location = new System.Drawing.Point(12, 461);
+            this.pbStatus.Location = new System.Drawing.Point(12, 478);
             this.pbStatus.Name = "pbStatus";
             this.pbStatus.ShowText = true;
-            this.pbStatus.Size = new System.Drawing.Size(193, 21);
+            this.pbStatus.Size = new System.Drawing.Size(344, 21);
             this.pbStatus.TabIndex = 20;
             this.pbStatus.Text = ".  .  .";
             // 
-            // rbUnknownFormat
+            // pnSingleDownload
             // 
-            this.rbUnknownFormat.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.rbUnknownFormat.Appearance = System.Windows.Forms.Appearance.Button;
-            this.rbUnknownFormat.Enabled = false;
-            this.rbUnknownFormat.Location = new System.Drawing.Point(246, 226);
-            this.rbUnknownFormat.Name = "rbUnknownFormat";
-            this.rbUnknownFormat.Size = new System.Drawing.Size(100, 23);
-            this.rbUnknownFormat.TabIndex = 25;
-            this.rbUnknownFormat.Text = "rbUnknownFormat";
-            this.rbUnknownFormat.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.rbUnknownFormat.UseVisualStyleBackColor = true;
-            this.rbUnknownFormat.CheckedChanged += new System.EventHandler(this.rbUnknownFormat_CheckedChanged);
+            this.pnSingleDownload.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pnSingleDownload.Controls.Add(this.llbLink);
+            this.pnSingleDownload.Controls.Add(this.lbExtendedDownloaderDownloadingThumbnail);
+            this.pnSingleDownload.Controls.Add(this.lbExtendedDownloaderViews);
+            this.pnSingleDownload.Controls.Add(this.btnExtendedDownloaderDownloadThumbnail);
+            this.pnSingleDownload.Controls.Add(this.lbExtendedDownloaderUploader);
+            this.pnSingleDownload.Controls.Add(this.lbTimestamp);
+            this.pnSingleDownload.Controls.Add(this.txtUploader);
+            this.pnSingleDownload.Controls.Add(this.chkDownloaderCloseAfterDownload);
+            this.pnSingleDownload.Controls.Add(this.txtViews);
+            this.pnSingleDownload.Controls.Add(this.pbThumbnail);
+            this.pnSingleDownload.Controls.Add(this.pbThumbnailBackground);
+            this.pnSingleDownload.Location = new System.Drawing.Point(4, 4);
+            this.pnSingleDownload.Name = "pnSingleDownload";
+            this.pnSingleDownload.Size = new System.Drawing.Size(466, 208);
+            this.pnSingleDownload.TabIndex = 28;
+            // 
+            // llbLink
+            // 
+            this.llbLink.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.llbLink.AutoEllipsis = true;
+            this.llbLink.AutoSize = true;
+            this.llbLink.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
+            this.llbLink.Location = new System.Drawing.Point(5, 1);
+            this.llbLink.Name = "llbLink";
+            this.llbLink.Size = new System.Drawing.Size(54, 13);
+            this.llbLink.TabIndex = 25;
+            this.llbLink.TabStop = true;
+            this.llbLink.Text = "https://...";
+            this.llbLink.VisitedLinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(0)))), ((int)(((byte)(128)))));
+            // 
+            // pnBatchDownload
+            // 
+            this.pnBatchDownload.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pnBatchDownload.Controls.Add(this.btnEnqueue);
+            this.pnBatchDownload.Controls.Add(this.lvQueuedMedia);
+            this.pnBatchDownload.Controls.Add(this.txtQueueLink);
+            this.pnBatchDownload.Location = new System.Drawing.Point(4, 4);
+            this.pnBatchDownload.Name = "pnBatchDownload";
+            this.pnBatchDownload.Size = new System.Drawing.Size(466, 208);
+            this.pnBatchDownload.TabIndex = 29;
+            // 
+            // btnEnqueue
+            // 
+            this.btnEnqueue.ContextMenu = this.cmEnqueue;
+            this.btnEnqueue.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.btnEnqueue.Location = new System.Drawing.Point(367, 8);
+            this.btnEnqueue.Name = "btnEnqueue";
+            this.btnEnqueue.Size = new System.Drawing.Size(91, 23);
+            this.btnEnqueue.TabIndex = 31;
+            this.btnEnqueue.Text = "btnEnqueue";
+            this.btnEnqueue.UseVisualStyleBackColor = true;
+            this.btnEnqueue.Click += new System.EventHandler(this.btnEnqueue_Click);
+            // 
+            // cmEnqueue
+            // 
+            this.cmEnqueue.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+            this.mEnqueue,
+            this.mEnqueueCopyOptions,
+            this.mEnqueueWithAuthentication,
+            this.mEnqueueCopyAuthentication});
+            // 
+            // mEnqueue
+            // 
+            this.mEnqueue.Index = 0;
+            this.mEnqueue.Text = "mEnqueue";
+            this.mEnqueue.Click += new System.EventHandler(this.mEnqueue_Click);
+            // 
+            // mEnqueueCopyOptions
+            // 
+            this.mEnqueueCopyOptions.Index = 1;
+            this.mEnqueueCopyOptions.Text = "mEnqueueCopyOptions";
+            this.mEnqueueCopyOptions.Click += new System.EventHandler(this.mEnqueueCopyOptions_Click);
+            // 
+            // mEnqueueWithAuthentication
+            // 
+            this.mEnqueueWithAuthentication.Index = 2;
+            this.mEnqueueWithAuthentication.Text = "mEnqueueWithAuthentication";
+            this.mEnqueueWithAuthentication.Click += new System.EventHandler(this.mEnqueueWithAuthentication_Click);
+            // 
+            // mEnqueueCopyAuthentication
+            // 
+            this.mEnqueueCopyAuthentication.Index = 3;
+            this.mEnqueueCopyAuthentication.Text = "mEnqueueCopyAuthentication";
+            this.mEnqueueCopyAuthentication.Click += new System.EventHandler(this.mEnqueueCopyAuthentication_Click);
+            // 
+            // lvQueuedMedia
+            // 
+            this.lvQueuedMedia.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lvQueuedMedia.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.chBatchURL,
+            this.chBatchTitle,
+            this.chBatchLength,
+            this.chBatchUploader,
+            this.chBatchUploadedOn,
+            this.chBatchViews});
+            this.lvQueuedMedia.FullRowSelect = true;
+            this.lvQueuedMedia.HideSelection = false;
+            this.lvQueuedMedia.Location = new System.Drawing.Point(8, 36);
+            this.lvQueuedMedia.MultiSelect = false;
+            this.lvQueuedMedia.Name = "lvQueuedMedia";
+            this.lvQueuedMedia.Size = new System.Drawing.Size(450, 168);
+            this.lvQueuedMedia.TabIndex = 29;
+            this.lvQueuedMedia.UseCompatibleStateImageBehavior = false;
+            this.lvQueuedMedia.View = System.Windows.Forms.View.Details;
+            this.lvQueuedMedia.SelectedIndexChanged += new System.EventHandler(this.lvQueuedMedia_SelectedIndexChanged);
+            // 
+            // chBatchURL
+            // 
+            this.chBatchURL.Text = "URL";
+            this.chBatchURL.Width = 136;
+            // 
+            // chBatchTitle
+            // 
+            this.chBatchTitle.Text = "Title";
+            this.chBatchTitle.Width = 169;
+            // 
+            // chBatchLength
+            // 
+            this.chBatchLength.Text = "Length";
+            this.chBatchLength.Width = 50;
+            // 
+            // chBatchUploader
+            // 
+            this.chBatchUploader.Text = "Uploader";
+            this.chBatchUploader.Width = 93;
+            // 
+            // chBatchUploadedOn
+            // 
+            this.chBatchUploadedOn.Text = "Uploaded on";
+            // 
+            // chBatchViews
+            // 
+            this.chBatchViews.Text = "Views";
+            // 
+            // txtQueueLink
+            // 
+            this.txtQueueLink.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtQueueLink.ButtonAlignment = murrty.controls.ButtonAlignment.Left;
+            this.txtQueueLink.ButtonCursor = System.Windows.Forms.Cursors.Default;
+            this.txtQueueLink.ButtonFont = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtQueueLink.ButtonImageIndex = -1;
+            this.txtQueueLink.ButtonSize = new System.Drawing.Size(75, 21);
+            this.txtQueueLink.ButtonText = "";
+            this.txtQueueLink.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.txtQueueLink.Location = new System.Drawing.Point(8, 8);
+            this.txtQueueLink.Name = "txtQueueLink";
+            this.txtQueueLink.Size = new System.Drawing.Size(353, 22);
+            this.txtQueueLink.TabIndex = 30;
+            // 
+            // cmQueuedMedia
+            // 
+            this.cmQueuedMedia.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+            this.mQueueCopyLink,
+            this.mQueueViewInBrowser,
+            this.mQueueSeparator,
+            this.mQueueRemoveSelected});
+            // 
+            // mQueueCopyLink
+            // 
+            this.mQueueCopyLink.Index = 0;
+            this.mQueueCopyLink.Text = "&Copy link";
+            this.mQueueCopyLink.Click += new System.EventHandler(this.mQueueCopyLink_Click);
+            // 
+            // mQueueViewInBrowser
+            // 
+            this.mQueueViewInBrowser.Index = 1;
+            this.mQueueViewInBrowser.Text = "&View in WebBrowser";
+            this.mQueueViewInBrowser.Click += new System.EventHandler(this.mQueueViewInBrowser_Click);
+            // 
+            // mQueueSeparator
+            // 
+            this.mQueueSeparator.Index = 2;
+            this.mQueueSeparator.Text = "-";
+            // 
+            // mQueueRemoveSelected
+            // 
+            this.mQueueRemoveSelected.Index = 3;
+            this.mQueueRemoveSelected.Text = "&Remove";
+            this.mQueueRemoveSelected.Click += new System.EventHandler(this.mQueueRemoveSelected_Click);
             // 
             // frmExtendedDownloader
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(474, 495);
-            this.Controls.Add(this.txtLink);
-            this.Controls.Add(this.lbExtendedDownloaderLink);
-            this.Controls.Add(this.chkDownloaderCloseAfterDownload);
-            this.Controls.Add(this.txtViews);
-            this.Controls.Add(this.txtUploader);
+            this.ClientSize = new System.Drawing.Size(474, 511);
+            this.Controls.Add(this.sbtnDownload);
             this.Controls.Add(this.pbStatus);
-            this.Controls.Add(this.btnDownloadWithAuthentication);
-            this.Controls.Add(this.btnDownloadAbortClose);
             this.Controls.Add(this.tcVideoData);
             this.Controls.Add(this.rbCustom);
             this.Controls.Add(this.rbAudio);
             this.Controls.Add(this.rbVideo);
-            this.Controls.Add(this.lbExtendedDownloaderViews);
-            this.Controls.Add(this.lbTimestamp);
-            this.Controls.Add(this.btnExtendedDownloaderDownloadThumbnail);
-            this.Controls.Add(this.lbExtendedDownloaderDownloadingThumbnail);
-            this.Controls.Add(this.lbExtendedDownloaderUploader);
             this.Controls.Add(this.txtExtendedDownloaderMediaTitle);
-            this.Controls.Add(this.pbThumbnail);
-            this.Controls.Add(this.pbThumbnailBackground);
-            this.Controls.Add(this.rbUnknownFormat);
+            this.Controls.Add(this.rbUnknown);
+            this.Controls.Add(this.pnBatchDownload);
+            this.Controls.Add(this.pnSingleDownload);
             this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = global::youtube_dl_gui.Properties.Resources.ProgramIcon;
             this.MaximizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(490, 530);
+            this.MinimumSize = new System.Drawing.Size(490, 546);
             this.Name = "frmExtendedDownloader";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "frmExtendedDownload";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmExtendedDownloader_FormClosing);
             this.Load += new System.EventHandler(this.frmExtendedDownloader_Load);
             this.Shown += new System.EventHandler(this.frmExtendedDownloader_Shown);
+            this.SizeChanged += new System.EventHandler(this.frmExtendedDownloader_SizeChanged);
             ((System.ComponentModel.ISupportInitialize)(this.pbThumbnail)).EndInit();
             this.tcVideoData.ResumeLayout(false);
             this.tabExtendedDownloaderFormats.ResumeLayout(false);
@@ -1049,12 +1374,17 @@
             this.tabExtendedDownloaderCustom.PerformLayout();
             this.tabExtendedDownloaderFormatOptions.ResumeLayout(false);
             this.tabExtendedDownloaderFormatOptions.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numFragmentThreads)).EndInit();
             this.tabExtendedDownloaderDescription.ResumeLayout(false);
             this.tabExtendedDownloaderVerbose.ResumeLayout(false);
             this.tabExtendedDownloaderVerbose.PerformLayout();
             this.tabDebug.ResumeLayout(false);
             this.tabDebug.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbThumbnailBackground)).EndInit();
+            this.pnSingleDownload.ResumeLayout(false);
+            this.pnSingleDownload.PerformLayout();
+            this.pnBatchDownload.ResumeLayout(false);
+            this.pnBatchDownload.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1104,8 +1434,6 @@
         private System.Windows.Forms.TabPage tabExtendedDownloaderFormatOptions;
         private System.Windows.Forms.Label lbAudioEncoder;
         private System.Windows.Forms.Label lbVideoEncoder;
-        private System.Windows.Forms.Button btnDownloadAbortClose;
-        private System.Windows.Forms.Button btnDownloadWithAuthentication;
         private murrty.controls.ExtendedProgressBar pbStatus;
         private System.Windows.Forms.CheckBox chkPbTaskbar;
         private System.Windows.Forms.Button btnPbRemove;
@@ -1123,8 +1451,6 @@
         private System.Windows.Forms.CheckBox chkDownloaderCloseAfterDownload;
         private System.Windows.Forms.ColumnHeader chVideoFormatId;
         private System.Windows.Forms.ColumnHeader chAudioFormatId;
-        private System.Windows.Forms.TextBox txtLink;
-        private System.Windows.Forms.Label lbExtendedDownloaderLink;
         private System.Windows.Forms.Label lbExtendedDownloaderNoVideoFormatsAvailable;
         private System.Windows.Forms.Label lbExtendedDownloaderNoAudioFormatsAvailable;
         private System.Windows.Forms.Label lbVideoRemux;
@@ -1134,7 +1460,7 @@
         private System.Windows.Forms.ColumnHeader chVideoAudioBitrate;
         private System.Windows.Forms.PictureBox pbThumbnailBackground;
         private System.Windows.Forms.TabPage tabExtendedDownloaderUnknownFormats;
-        private System.Windows.Forms.RadioButton rbUnknownFormat;
+        private System.Windows.Forms.RadioButton rbUnknown;
         private System.Windows.Forms.Label lbExtendedDownloaderNoUnknownFormatsFound;
         private murrty.controls.ExtendedListView lvUnknownFormats;
         private System.Windows.Forms.ColumnHeader chUnknownQuality;
@@ -1152,5 +1478,40 @@
         private System.Windows.Forms.ColumnHeader chAudioChannels;
         private System.Windows.Forms.ColumnHeader chUnknownAudioChannels;
         private System.Windows.Forms.Button btnClearOutput;
+        private murrty.controls.SplitButton sbtnDownload;
+        private System.Windows.Forms.ContextMenu cmDownload;
+        private System.Windows.Forms.MenuItem mDownload;
+        private System.Windows.Forms.MenuItem mDownloadWithAuthentication;
+        private System.Windows.Forms.CheckBox chkAbortOnError;
+        private System.Windows.Forms.CheckBox chkSkipUnavailableFragments;
+        private System.Windows.Forms.Label lbFragmentThreads;
+        private System.Windows.Forms.NumericUpDown numFragmentThreads;
+        private System.Windows.Forms.Label lbExtendedTimePicker;
+        private murrty.controls.TimePicker tpEndTime;
+        private System.Windows.Forms.Label lbTimePickSeparator;
+        private murrty.controls.ExtendedLinkLabel llbSpecifyTimesHint;
+        private murrty.controls.TimePicker tpStartTime;
+        private System.Windows.Forms.Panel pnSingleDownload;
+        private System.Windows.Forms.Panel pnBatchDownload;
+        private murrty.controls.ExtendedLinkLabel llbLink;
+        private murrty.controls.SplitButton btnEnqueue;
+        private System.Windows.Forms.ListView lvQueuedMedia;
+        private System.Windows.Forms.ColumnHeader chBatchURL;
+        private System.Windows.Forms.ColumnHeader chBatchTitle;
+        private System.Windows.Forms.ColumnHeader chBatchLength;
+        private System.Windows.Forms.ColumnHeader chBatchUploader;
+        private System.Windows.Forms.ColumnHeader chBatchUploadedOn;
+        private System.Windows.Forms.ColumnHeader chBatchViews;
+        private murrty.controls.ExtendedTextBox txtQueueLink;
+        private System.Windows.Forms.ContextMenu cmQueuedMedia;
+        private System.Windows.Forms.MenuItem mQueueRemoveSelected;
+        private System.Windows.Forms.MenuItem mQueueViewInBrowser;
+        private System.Windows.Forms.ContextMenu cmEnqueue;
+        private System.Windows.Forms.MenuItem mEnqueue;
+        private System.Windows.Forms.MenuItem mEnqueueWithAuthentication;
+        private System.Windows.Forms.MenuItem mEnqueueCopyAuthentication;
+        private System.Windows.Forms.MenuItem mQueueCopyLink;
+        private System.Windows.Forms.MenuItem mQueueSeparator;
+        private System.Windows.Forms.MenuItem mEnqueueCopyOptions;
     }
 }

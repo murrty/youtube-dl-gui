@@ -373,6 +373,6 @@ public readonly struct Version {
     /// <param name="versb">The second version to check</param>
     /// <returns><see langword="true"/> if the left version is newer-than or equal-to; otherwise, <see langword="false"/>.</returns>
     public static bool operator >=(Version versa, Version versb) {
-        return versa == versb || versa >= versb;
+        return versa == versb || versa > versb;
     }
 }

@@ -152,7 +152,7 @@ namespace youtube_dl_gui {
                 sfd.Title = "Select a place to save the merged file to";
                 if (sfd.ShowDialog() == DialogResult.OK) {
                     ConvertInfo MergerInfo = new() {
-                        CustomArguments = Argument + $" {sfd.FileName}",
+                        CustomArguments = Argument + $" \"{sfd.FileName}\"",
                         FullCustomArguments = true
                     };
                     frmConverter Merger = new(MergerInfo);

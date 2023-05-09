@@ -37,6 +37,7 @@ internal class Config_Saved {
     public Point ExtendedBatchDownloaderLocation { get; set; }
     public Size ExtendedBatchDownloaderSize { get; set; }
     public string ExtendedBatchDownloaderQueuedColumns { get; set; }
+    public bool CustomArgumentsForNonCustomTypes { get; set; }
 
     private int fdownloadType { get; set; }
     private int fconvertSaveVideoIndex { get; set; }
@@ -71,6 +72,7 @@ internal class Config_Saved {
     public Point fExtendedBatchDownloaderLocation { get; set; }
     public Size fExtendedBatchDownloaderSize { get; set; }
     public string fExtendedBatchDownloaderQueuedColumns { get; set; }
+    private bool fCustomArgumentsForNonCustomTypes { get; set; }
     #endregion
 
     public void Load() {
@@ -109,6 +111,7 @@ internal class Config_Saved {
         ExtendedBatchDownloaderLocation = fExtendedBatchDownloaderLocation = IniProvider.Read(ExtendedBatchDownloaderLocation, Point.Invalid, ConfigName);
         ExtendedBatchDownloaderSize = fExtendedBatchDownloaderSize = IniProvider.Read(ExtendedBatchDownloaderSize, Size.Empty, ConfigName);
         ExtendedBatchDownloaderQueuedColumns = fExtendedBatchDownloaderQueuedColumns = IniProvider.Read(ExtendedBatchDownloaderQueuedColumns, string.Empty, ConfigName);
+        CustomArgumentsForNonCustomTypes = fCustomArgumentsForNonCustomTypes = IniProvider.Read(CustomArgumentsForNonCustomTypes, true, ConfigName);
     }
 
     public void Save() {
@@ -180,5 +183,7 @@ internal class Config_Saved {
             fExtendedBatchDownloaderSize = IniProvider.Write(ExtendedBatchDownloaderSize, ConfigName);
         if (ExtendedBatchDownloaderQueuedColumns != fExtendedBatchDownloaderQueuedColumns)
             fExtendedBatchDownloaderQueuedColumns = IniProvider.Write(ExtendedBatchDownloaderQueuedColumns, ConfigName);
+        if (CustomArgumentsForNonCustomTypes != fCustomArgumentsForNonCustomTypes)
+            fCustomArgumentsForNonCustomTypes = IniProvider.Write(CustomArgumentsForNonCustomTypes, ConfigName);
     }
 }

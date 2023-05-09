@@ -1,9 +1,11 @@
 ﻿namespace murrty.controls;
 
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
+[DebuggerStepThrough]
 internal class ExtendedListView : ListView {
     [DllImport("uxtheme.dll", ExactSpelling = true, CharSet = CharSet.Unicode)]
     private static extern int SetWindowTheme(nint hwnd, string pszSubAppName, string pszSubIdList);

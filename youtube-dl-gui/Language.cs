@@ -224,7 +224,9 @@ public static class Language {
     #region frmMain
     public static string mSettings { get; private set; }
     public static string mTools { get; private set; }
+    public static string mBatch { get; private set; }
     public static string mBatchDownload { get; private set; }
+    public static string mBatchExtendedDownload { get; private set; }
     public static string mBatchConvert { get; private set; }
     public static string mArchiveDownloader { get; private set; }
     public static string mDownloadSubtitles { get; private set; }
@@ -261,6 +263,7 @@ public static class Language {
     public static string mQuickDownloadForm { get; private set; }
     public static string mQuickDownloadFormAuthentication { get; private set; }
     public static string mExtendedDownloadForm { get; private set; }
+    public static string mExtendedDownloadFormAuthentication { get; private set; }
     public static string msgBatchDownloadFromFile { get; private set; }
     public static string btnMainExtended { get; private set; }
 
@@ -400,8 +403,10 @@ public static class Language {
     public static string chkSettingsDownloadsSaveThumbnailsHint { get; private set; }
     public static string chkSettingsDownloadsEmbedThumbnails { get; private set; }
     public static string chkSettingsDownloadsEmbedThumbnailsHint { get; private set; }
-    public static string chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing { get; private set; }
-    public static string chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosingHint { get; private set; }
+    public static string chkSettingsDownloadsSkipUnavailableFragments { get; private set; }
+    public static string chkSettingsDownloadsSkipUnavailableFragmentsHint { get; private set; }
+    public static string chkSettingsDownloadsAbortOnError { get; private set; }
+    public static string chkSettingsDownloadsAbortOnErrorHint { get; private set; }
     #endregion
 
     #region Sorting
@@ -443,6 +448,8 @@ public static class Language {
     public static string cbSettingsDownloadsProxyTypeHint { get; private set; }
     public static string txtSettingsDownloadsProxyIpHint { get; private set; }
     public static string txtSettingsDownloadsProxyPortHint { get; private set; }
+    public static string lbSettingsDownloadsFragmentThreads { get; private set; }
+    public static string lbSettingsDownloadsFragmentThreadsHint { get; private set; }
     #endregion
 
     #region Updating
@@ -454,6 +461,8 @@ public static class Language {
     public static string cbSettingsDownloadsUpdatingYtdlTypeHint { get; private set; }
     public static string llbSettingsDownloadsYtdlTypeViewRepo { get; private set; }
     public static string llbSettingsDownloadsYtdlTypeViewRepoHint { get; private set; }
+    public static string chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing { get; private set; }
+    public static string chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosingHint { get; private set; }
     #endregion
 
     #region Batch
@@ -472,6 +481,8 @@ public static class Language {
     public static string chkExtendedPreferExtendedDialogHint { get; private set; }
     public static string chkExtendedAutomaticallyDownloadThumbnail { get; private set; }
     public static string chkExtendedAutomaticallyDownloadThumbnailHint { get; private set; }
+    public static string chkExtendedIncludeCustomArguments { get; private set;}
+    public static string chkExtendedIncludeCustomArgumentsHint { get; private set; }
     #endregion
 
     #endregion
@@ -781,15 +792,17 @@ public static class Language {
         // frmMain / menu
         public const string mSettings = "Settings";
         public const string mTools = "Tools";
-        public const string mBatchDownload = "Batch download";
-        public const string mBatchConvert = "Batch convert";
-        public const string mDownloadSubtitles = "Download subtitles";
-        public const string mArchiveDownloader = "Archive downloader";
-        public const string mMiscTools = "Misc tools";
+        public const string mBatch = "Batch operations";
+        public const string mBatchDownload = "Batch download...";
+        public const string mBatchExtendedDownload = "Batch extended download...";
+        public const string mBatchConvert = "Batch convert...";
+        public const string mDownloadSubtitles = "Download subtitles...";
+        public const string mArchiveDownloader = "Archive downloader...";
+        public const string mMiscTools = "Misc tools...";
         public const string mClipboardAutoDownload = "Clipboard auto download";
         public const string mHelp = "Help";
-        public const string mLanguage = "Language";
-        public const string mSupportedSites = "Supported sites";
+        public const string mLanguage = "Language...";
+        public const string mSupportedSites = "Supported sites...";
         public const string mAbout = "About";
         // frmMain / tcMain
         public const string tabDownload = "Download";
@@ -823,6 +836,7 @@ public static class Language {
         public const string mQuickDownloadForm = "Quick download";
         public const string mQuickDownloadFormAuthentication = "Quick download (authenticate)";
         public const string mExtendedDownloadForm = "Extended download...";
+        public const string mExtendedDownloadFormAuthentication = "Extended download (authenticate)...";
         // frmMain / tcMain / Convert
         public const string lbConvertInput = "Input";
         public const string lbConvertOutput = "Output";
@@ -915,7 +929,7 @@ public static class Language {
         public const string rbSettingsGeneralCustomArgumentsDontSave = "Don't save";
         public const string rbSettingsGeneralCustomArgumentsDontSaveHint = "Doesn't save any custom arguments";
         public const string rbSettingsGeneralCustomArgumentsSaveAsArgsText = "Save as ./args.txt";
-        public const string rbSettingsGeneralCustomArgumentsSaveAsArgsTextHint = "Saves custom arguments as args.txt in youtube-dl-gui's directory";
+        public const string rbSettingsGeneralCustomArgumentsSaveAsArgsTextHint = "Saves custom arguments as args.txt in youtube-dl-guis directory";
         public const string rbSettingsGeneralCustomArgumentsSaveInSettings = "Save in settings";
         public const string rbSettingsGeneralCustomArgumentsSaveInSettingsHint = "Saves custom arguments in the application settings";
         #endregion
@@ -925,7 +939,7 @@ public static class Language {
 
         public const string lbSettingsDownloadsDownloadPath = "download path";
         public const string lbSettingsDownloadsDownloadPathHint = "The path of the folder where files will be downloaded to";
-        public const string chkSettingsDownloadsDownloadPathUseRelativePathHint = "Save to the program's relative path\r\n\r\nIf checked, the program will check the save path and use the current directory as the base path.\r\nSaving anywhere outside of the current directory will not set the flag and will set it to wherever you selected.";
+        public const string chkSettingsDownloadsDownloadPathUseRelativePathHint = "Save to the programs relative path\r\n\r\nIf checked, the program will check the save path and use the current directory as the base path.\r\nSaving anywhere outside of the current directory will not set the flag and will set it to wherever you selected.";
         public const string txtSettingsDownloadsSavePathHint = "where your downloads will be saved to";
         public const string btnSettingsDownloadsBrowseSavePathHint = "browse for a new save folder";
         public const string lbSettingsDownloadsFileNameSchema = "file name schema";
@@ -949,21 +963,23 @@ public static class Language {
         public const string chkSettingsDownloadsEmbedSubtitles = "Embed subtitles into file";
         public const string chkSettingsDownloadsEmbedSubtitlesHint = "Embeds downloaded subtitles into the output file\nOnly works for mp4, webm, and mkv videos";
         public const string chkSettingsDownloadsSaveVideoInfo = "Save video info";
-        public const string chkSettingsDownloadsSaveVideoInfoHint = "Saves the video's info into a .info.json file";
+        public const string chkSettingsDownloadsSaveVideoInfoHint = "Saves the videos info into a .info.json file";
         public const string chkSettingsDownloadsWriteMetadataToFile = "Write metadata to file";
-        public const string chkSettingsDownloadsWriteMetadataToFileHint = "Writes the video's metadata to the output file";
+        public const string chkSettingsDownloadsWriteMetadataToFileHint = "Writes the videos metadata to the output file";
         public const string chkSettingsDownloadsSaveDescription = "Save description";
-        public const string chkSettingsDownloadsSaveDescriptionHint = "Saves the video's description to a .description file";
+        public const string chkSettingsDownloadsSaveDescriptionHint = "Saves the videos description to a .description file";
         public const string chkSettingsDownloadsKeepOriginalFiles = "Keep original files";
         public const string chkSettingsDownloadsKeepOriginalFilesHint = "Keeps the original files of the download\nBy default, youtube-dl will delete them after merging";
         public const string chkSettingsDownloadsSaveAnnotations = "Save annotations";
-        public const string chkSettingsDownloadsSaveAnnotationsHint = "Saves the video's annotations to a .annotations.xml file";
+        public const string chkSettingsDownloadsSaveAnnotationsHint = "Saves the videos annotations to a .annotations.xml file";
         public const string chkSettingsDownloadsSaveThumbnails = "Save thumbnails";
-        public const string chkSettingsDownloadsSaveThumbnailsHint = "Saves the video's thumbnail";
+        public const string chkSettingsDownloadsSaveThumbnailsHint = "Saves the videos thumbnail";
         public const string chkSettingsDownloadsEmbedThumbnails = "Embed thumbnail into file";
         public const string chkSettingsDownloadsEmbedThumbnailsHint = "Embeds downloaded thumbnails into the output file as cover art\nRequires AtomicParsley (https://github.com/wez/atomicparsley), or youtube-dl will result in an error";
-        public const string chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing = "Automatically delete youtube-dl when closing";
-        public const string chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosingHint = "Automatically delete youtube-dl.exe when closing youtube-dl-gui";
+        public const string chkSettingsDownloadsSkipUnavailableFragments = "Skip unavailable fragments";
+        public const string chkSettingsDownloadsSkipUnavailableFragmentsHint = "Skips any fragments of a video that may be unavailable. Disabling this will abort downloads if any unavailable fragments are caught.";
+        public const string chkSettingsDownloadsAbortOnError = "Abort on error";
+        public const string chkSettingsDownloadsAbortOnErrorHint = "Aborts a download if an error occurs. Disabling this will make downloads continue if an error occurs during download.";
         #endregion
 
         #region Sorting
@@ -983,14 +999,13 @@ public static class Language {
 
 
         public const string chkSettingsDownloadsFixVReddIt = "Fix v.redd.it";
-        public const string chkSettingsDownloadsFixVReddItHint = "Fixes visual corruptions on v.redd.it/reddit.com links using ffmpeg's HTTP Live Streaming (HLS)\n\n" + "Recommended to stay on.\nThis requires FFMPEG to be installed and available, it will fallback to youtube-dl's default.";
+        public const string chkSettingsDownloadsFixVReddItHint = "Fixes visual corruptions on v.redd.it/reddit.com links using ffmpegs HTTP Live Streaming (HLS)\n\n" + "Recommended to stay on.\nThis requires FFMPEG to be installed and available, it will fallback to youtube-dls default.";
         public const string chkSettingsDownloadsPreferFFmpeg = "Prefer ffmpeg for downloads";
-        public const string chkSettingsDownloadsPreferFFmpegHint = "Prefer's ffmpeg's hls over youtube-dl's own. This may fix some sites, and break others.";
+        public const string chkSettingsDownloadsPreferFFmpegHint = "Prefers ffmpegs hls over youtube-dls own. This may fix some sites, and break others.";
         #endregion
 
         #region Connection
         public const string tabDownloadsConnection = "Connection";
-
 
         public const string chkSettingsDownloadsLimitDownload = "Limit download";
         public const string chkSettingsDownloadsLimitDownloadHint = "Limits the downloads to the specified speed";
@@ -1008,18 +1023,21 @@ public static class Language {
         public const string cbSettingsDownloadsProxyTypeHint = "The proxy protocol that will be used";
         public const string txtSettingsDownloadsProxyIpHint = "The proxy IP that will be used";
         public const string txtSettingsDownloadsProxyPortHint = "The proxy port that will be used";
+        public const string lbSettingsDownloadsFragmentThreads = "Fragment threads";
+        public const string lbSettingsDownloadsFragmentThreadsHint = "The amount of fragments of a video that will be downloaded in parallel (if supported).";
         #endregion
 
         #region Updating
         public const string tabDownloadsUpdating = "Updating";
 
-
-        public const string chkSettingsDownloadsUseYoutubeDlsUpdater = "Use youtube-dl's internal updater";
-        public const string chkSettingsDownloadsUseYoutubeDlsUpdaterHint = "Use youtube-dl's internal updater instead of this application's updater";
+        public const string chkSettingsDownloadsUseYoutubeDlsUpdater = "Use youtube-dls internal updater";
+        public const string chkSettingsDownloadsUseYoutubeDlsUpdaterHint = "Use youtube-dls internal updater instead of this applications updater";
         public const string lbSettingsDownloadsUpdatingYtdlType = "Youtube-DL fork";
         public const string cbSettingsDownloadsUpdatingYtdlTypeHint = "The youtube-dl repo that will be targetted";
         public const string llbSettingsDownloadsYtdlTypeViewRepo = "View source repo";
         public const string llbSettingsDownloadsYtdlTypeViewRepoHint = "Go to the repository page of the selected fork";
+        public const string chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing = "Automatically delete youtube-dl when closing";
+        public const string chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosingHint = "Automatically delete youtube-dl.exe when closing youtube-dl-gui";
         #endregion
 
         #region Batch
@@ -1035,11 +1053,12 @@ public static class Language {
         #region Extended downloader
         public const string tabExtendedOptions = "Extended downloader";
 
-
         public const string chkExtendedPreferExtendedDialog = "Prefer extended downloader";
         public const string chkExtendedPreferExtendedDialogHint = "Uses the extended downloader instead of the quick downloader when clicking \"Download\" on the main form.";
         public const string chkExtendedAutomaticallyDownloadThumbnail = "Automatically download thumbnails";
         public const string chkExtendedAutomaticallyDownloadThumbnailHint = "Automatically downloads the videos thumbnail to display in the form, when available.";
+        public const string chkExtendedIncludeCustomArguments = "Include custom arguments";
+        public const string chkExtendedIncludeCustomArgumentsHint = "Copies the custom arguments from the main form onto the extended form.";
         #endregion
         #endregion
 
@@ -1361,7 +1380,9 @@ public static class Language {
         #region frmMain
         mSettings = InternalEnglish.mSettings;
         mTools = InternalEnglish.mTools;
+        mBatch = InternalEnglish.mBatch;
         mBatchDownload = InternalEnglish.mBatchDownload;
+        mBatchExtendedDownload = InternalEnglish.mBatchExtendedDownload;
         mBatchConvert = InternalEnglish.mBatchConvert;
         mArchiveDownloader = InternalEnglish.mArchiveDownloader;
         mDownloadSubtitles = InternalEnglish.mDownloadSubtitles;
@@ -1400,6 +1421,7 @@ public static class Language {
         mQuickDownloadForm = InternalEnglish.mQuickDownloadForm;
         mQuickDownloadFormAuthentication = InternalEnglish.mQuickDownloadFormAuthentication;
         mExtendedDownloadForm = InternalEnglish.mExtendedDownloadForm;
+        mExtendedDownloadFormAuthentication = InternalEnglish.mExtendedDownloadFormAuthentication;
 
         lbConvertInput = InternalEnglish.lbConvertInput;
         lbConvertOutput = InternalEnglish.lbConvertOutput;
@@ -1536,8 +1558,10 @@ public static class Language {
         chkSettingsDownloadsSaveThumbnailsHint = InternalEnglish.chkSettingsDownloadsSaveThumbnailsHint;
         chkSettingsDownloadsEmbedThumbnails = InternalEnglish.chkSettingsDownloadsEmbedThumbnails;
         chkSettingsDownloadsEmbedThumbnailsHint = InternalEnglish.chkSettingsDownloadsEmbedThumbnailsHint;
-        chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing = InternalEnglish.chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing;
-        chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosingHint = InternalEnglish.chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosingHint;
+        chkSettingsDownloadsSkipUnavailableFragments = InternalEnglish.chkSettingsDownloadsSkipUnavailableFragments;
+        chkSettingsDownloadsSkipUnavailableFragmentsHint = InternalEnglish.chkSettingsDownloadsSkipUnavailableFragmentsHint;
+        chkSettingsDownloadsAbortOnError = InternalEnglish.chkSettingsDownloadsAbortOnError;
+        chkSettingsDownloadsAbortOnErrorHint = InternalEnglish.chkSettingsDownloadsAbortOnErrorHint;
         #endregion
 
         #region Sorting
@@ -1565,7 +1589,6 @@ public static class Language {
         #region Connection
         tabDownloadsConnection = InternalEnglish.tabDownloadsConnection;
 
-
         chkSettingsDownloadsLimitDownload = InternalEnglish.chkSettingsDownloadsLimitDownload;
         chkSettingsDownloadsLimitDownloadHint = InternalEnglish.chkSettingsDownloadsLimitDownloadHint;
         numSettingsDownloadsLimitDownloadHint = InternalEnglish.numSettingsDownloadsLimitDownloadHint;
@@ -1582,11 +1605,12 @@ public static class Language {
         cbSettingsDownloadsProxyTypeHint = InternalEnglish.cbSettingsDownloadsProxyTypeHint;
         txtSettingsDownloadsProxyIpHint = InternalEnglish.txtSettingsDownloadsProxyIpHint;
         txtSettingsDownloadsProxyPortHint = InternalEnglish.txtSettingsDownloadsProxyPortHint;
+        lbSettingsDownloadsFragmentThreads = InternalEnglish.lbSettingsDownloadsFragmentThreads;
+        lbSettingsDownloadsFragmentThreadsHint = InternalEnglish.lbSettingsDownloadsFragmentThreadsHint;
         #endregion
 
         #region Updating
         tabDownloadsUpdating = InternalEnglish.tabDownloadsUpdating;
-
 
         chkSettingsDownloadsUseYoutubeDlsUpdater = InternalEnglish.chkSettingsDownloadsUseYoutubeDlsUpdater;
         chkSettingsDownloadsUseYoutubeDlsUpdaterHint = InternalEnglish.chkSettingsDownloadsUseYoutubeDlsUpdaterHint;
@@ -1594,6 +1618,8 @@ public static class Language {
         cbSettingsDownloadsUpdatingYtdlTypeHint = InternalEnglish.cbSettingsDownloadsUpdatingYtdlTypeHint;
         llbSettingsDownloadsYtdlTypeViewRepo = InternalEnglish.llbSettingsDownloadsYtdlTypeViewRepo;
         llbSettingsDownloadsYtdlTypeViewRepoHint = InternalEnglish.llbSettingsDownloadsYtdlTypeViewRepoHint;
+        chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing = InternalEnglish.chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing;
+        chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosingHint = InternalEnglish.chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosingHint;
         #endregion
 
         #region Batch
@@ -1614,6 +1640,8 @@ public static class Language {
         chkExtendedPreferExtendedDialogHint = InternalEnglish.chkExtendedPreferExtendedDialogHint;
         chkExtendedAutomaticallyDownloadThumbnail = InternalEnglish.chkExtendedAutomaticallyDownloadThumbnail;
         chkExtendedAutomaticallyDownloadThumbnailHint = InternalEnglish.chkExtendedAutomaticallyDownloadThumbnailHint;
+        chkExtendedIncludeCustomArguments = InternalEnglish.chkExtendedIncludeCustomArguments;
+        chkExtendedIncludeCustomArgumentsHint = InternalEnglish.chkExtendedIncludeCustomArguments;
         #endregion
         #endregion
 
@@ -1932,7 +1960,9 @@ public static class Language {
         #region frmMain
         mSettings = nameof(mSettings);
         mTools = nameof(mTools);
+        mBatch = nameof(mBatch);
         mBatchDownload = nameof(mBatchDownload);
+        mBatchExtendedDownload = nameof(mBatchExtendedDownload);
         mBatchConvert = nameof(mBatchConvert);
         mArchiveDownloader = nameof(mArchiveDownloader);
         mDownloadSubtitles = nameof(mDownloadSubtitles);
@@ -1971,6 +2001,7 @@ public static class Language {
         mQuickDownloadForm = nameof(mQuickDownloadForm);
         mQuickDownloadFormAuthentication = nameof(mQuickDownloadFormAuthentication);
         mExtendedDownloadForm = nameof(mExtendedDownloadForm);
+        mExtendedDownloadFormAuthentication = nameof(mExtendedDownloadFormAuthentication);
 
         lbConvertInput = nameof(lbConvertInput);
         lbConvertOutput = nameof(lbConvertOutput);
@@ -2106,8 +2137,10 @@ public static class Language {
         chkSettingsDownloadsSaveThumbnailsHint = nameof(chkSettingsDownloadsSaveThumbnailsHint);
         chkSettingsDownloadsEmbedThumbnails = nameof(chkSettingsDownloadsEmbedThumbnails);
         chkSettingsDownloadsEmbedThumbnailsHint = nameof(chkSettingsDownloadsEmbedThumbnailsHint);
-        chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing = nameof(chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing);
-        chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosingHint = nameof(chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosingHint);
+        chkSettingsDownloadsSkipUnavailableFragments = nameof(chkSettingsDownloadsSkipUnavailableFragments);
+        chkSettingsDownloadsSkipUnavailableFragmentsHint = nameof(chkSettingsDownloadsSkipUnavailableFragmentsHint);
+        chkSettingsDownloadsAbortOnError = nameof(chkSettingsDownloadsAbortOnError);
+        chkSettingsDownloadsAbortOnErrorHint = nameof(chkSettingsDownloadsAbortOnErrorHint);
         #endregion
 
         #region Sorting
@@ -2152,11 +2185,12 @@ public static class Language {
         cbSettingsDownloadsProxyTypeHint = nameof(cbSettingsDownloadsProxyTypeHint);
         txtSettingsDownloadsProxyIpHint = nameof(txtSettingsDownloadsProxyIpHint);
         txtSettingsDownloadsProxyPortHint = nameof(txtSettingsDownloadsProxyPortHint);
+        lbSettingsDownloadsFragmentThreads = nameof(lbSettingsDownloadsFragmentThreads);
+        lbSettingsDownloadsFragmentThreadsHint = nameof(lbSettingsDownloadsFragmentThreadsHint);
         #endregion
 
         #region Updating
         tabDownloadsUpdating = nameof(tabDownloadsUpdating);
-
 
         chkSettingsDownloadsUseYoutubeDlsUpdater = nameof(chkSettingsDownloadsUseYoutubeDlsUpdater);
         chkSettingsDownloadsUseYoutubeDlsUpdaterHint = nameof(chkSettingsDownloadsUseYoutubeDlsUpdaterHint);
@@ -2164,6 +2198,8 @@ public static class Language {
         cbSettingsDownloadsUpdatingYtdlTypeHint = nameof(cbSettingsDownloadsUpdatingYtdlTypeHint);
         llbSettingsDownloadsYtdlTypeViewRepo = nameof(llbSettingsDownloadsYtdlTypeViewRepo);
         llbSettingsDownloadsYtdlTypeViewRepoHint = nameof(llbSettingsDownloadsYtdlTypeViewRepoHint);
+        chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing = nameof(chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing);
+        chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosingHint = nameof(chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosingHint);
         #endregion
 
         #region Batch
@@ -2184,6 +2220,8 @@ public static class Language {
         chkExtendedPreferExtendedDialogHint = nameof(chkExtendedPreferExtendedDialogHint);
         chkExtendedAutomaticallyDownloadThumbnail = nameof(chkExtendedAutomaticallyDownloadThumbnail);
         chkExtendedAutomaticallyDownloadThumbnailHint = nameof(chkExtendedAutomaticallyDownloadThumbnailHint);
+        chkExtendedIncludeCustomArguments = nameof(chkExtendedIncludeCustomArguments);
+        chkExtendedIncludeCustomArgumentsHint = nameof(chkExtendedIncludeCustomArgumentsHint);
         #endregion
         #endregion
 
@@ -2319,7 +2357,7 @@ public static class Language {
                         GetControlInfo(ReadLine, out string ReadControl, out string ReadValue);
 
                         switch (ReadControl) {
-
+                            
                             #region Language File
                             case "currentlanguageshort":
                                 CurrentLanguageShort = ReadValue;
@@ -2845,8 +2883,14 @@ public static class Language {
                             case "mtools":
                                 mTools = ReadValue;
                                 continue;
+                            case "mbatch":
+                                mBatch = ReadValue;
+                                continue;
                             case "mbatchdownload":
                                 mBatchDownload = ReadValue;
+                                continue;
+                            case "mbatchextendeddownload":
+                                mBatchExtendedDownload = ReadValue;
                                 continue;
                             case "mbatchconvert":
                                 mBatchConvert = ReadValue;
@@ -2959,6 +3003,9 @@ public static class Language {
                                 continue;
                             case "mextendeddownloadform":
                                 mExtendedDownloadForm = ReadValue;
+                                continue;
+                            case "mextendeddownloadformauthentication":
+                                mExtendedDownloadFormAuthentication = ReadValue;
                                 continue;
 
                             // frmMain / tcMain / Convert
@@ -3326,11 +3373,17 @@ public static class Language {
                             case "chksettingsdownloadsembedthumbnailshint":
                                 chkSettingsDownloadsEmbedThumbnailsHint = ReadValue;
                                 continue;
-                            case "chksettingsdownloadsautomaticallydeleteyoutubedlwhenclosing":
-                                chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing = ReadValue;
+                            case "chksettingsdownloadsskipunavailablefragments":
+                                chkSettingsDownloadsSkipUnavailableFragments = ReadValue;
                                 continue;
-                            case "chksettingsdownloadsautomaticallydeleteyoutubedlwhenclosinghint":
-                                chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosingHint = ReadValue;
+                            case "chksettingsdownloadsskipunavailablefragmentshint":
+                                chkSettingsDownloadsSkipUnavailableFragmentsHint = ReadValue;
+                                continue;
+                            case "chksettingsdownloadsabortonerror":
+                                chkSettingsDownloadsAbortOnError = ReadValue;
+                                continue;
+                            case "chksettingsdownloadsabortonerrorhint":
+                                chkSettingsDownloadsAbortOnErrorHint = ReadValue;
                                 continue;
                             #endregion
 
@@ -3434,13 +3487,18 @@ public static class Language {
                             case "txtsettingsdownloadsproxyporthint":
                                 txtSettingsDownloadsProxyPortHint = ReadValue;
                                 continue;
+                            case "lbsettingsdownloadsfragmentthreads":
+                                lbSettingsDownloadsFragmentThreads = ReadValue;
+                                continue;
+                            case "lbsettingsdownloadsfragmentthreadshint":
+                                lbSettingsDownloadsFragmentThreadsHint = ReadValue;
+                                continue;
                             #endregion
 
                             #region Updating
                             case "tabdownloadsupdating":
                                 tabDownloadsUpdating = ReadValue;
                                 continue;
-
 
                             case "chksettingsdownloadsuseyoutubedlsupdater":
                                 chkSettingsDownloadsUseYoutubeDlsUpdater = ReadValue;
@@ -3459,6 +3517,12 @@ public static class Language {
                                 continue;
                             case "llbsettingsdownloadsytdltypeviewrepohint":
                                 llbSettingsDownloadsYtdlTypeViewRepoHint = ReadValue;
+                                continue;
+                            case "chksettingsdownloadsautomaticallydeleteyoutubedlwhenclosing":
+                                chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing = ReadValue;
+                                continue;
+                            case "chksettingsdownloadsautomaticallydeleteyoutubedlwhenclosinghint":
+                                chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosingHint = ReadValue;
                                 continue;
                             #endregion
 
@@ -3499,6 +3563,12 @@ public static class Language {
                                 continue;
                             case "chkextendedautomaticallydownloadthumbnailhint":
                                 chkExtendedAutomaticallyDownloadThumbnailHint = ReadValue;
+                                continue;
+                            case "chkextendedincludecustomarguments":
+                                chkExtendedIncludeCustomArguments = ReadValue;
+                                continue;
+                            case "chkextendedincludecustomargumentshint":
+                                chkExtendedIncludeCustomArgumentsHint = ReadValue;
                                 continue;
                             #endregion
                             #endregion

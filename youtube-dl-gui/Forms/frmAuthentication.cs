@@ -9,14 +9,6 @@ public partial class frmAuthentication : Form {
     public AuthenticationDetails Authentication { get => AuthenticationData; set => AuthenticationData = value; }
     private AuthenticationDetails AuthenticationData;
 
-    private bool ChangingText = false;
-
-    //public string Username;
-    //public string Password;
-    //public string TwoFactor;
-    //public string VideoPassword;
-    //public bool Netrc;
-
     public frmAuthentication() {
         InitializeComponent();
         LoadLanguage();
@@ -60,13 +52,7 @@ public partial class frmAuthentication : Form {
             txtUsername.Text = string.Empty;
         }
         if (!txtPassword.Text.IsNullEmptyWhitespace()) {
-            AuthenticationData.Password = new();
-
-            for (int i = 0; i < txtPassword.Text.Length; i++)
-                AuthenticationData.Password.AppendChar(txtPassword.Text[i]);
-
-            AuthenticationData.Password.MakeReadOnly();
-
+            AuthenticationData.SetPassword(txtPassword.Text);
             txtPassword.Text = string.Empty;
         }
         if (!txt2Factor.Text.IsNullEmptyWhitespace()) {
@@ -74,13 +60,7 @@ public partial class frmAuthentication : Form {
             txt2Factor.Text = string.Empty;
         }
         if (!txtVideoPassword.Text.IsNullEmptyWhitespace()) {
-            AuthenticationData.MediaPassword = new();
-
-            for (int i = 0; i < txtVideoPassword.Text.Length; i++)
-                AuthenticationData.MediaPassword.AppendChar(txtVideoPassword.Text[i]);
-
-            AuthenticationData.MediaPassword.MakeReadOnly();
-
+            AuthenticationData.SetMediaPassword(txtVideoPassword.Text);
             txtVideoPassword.Text = string.Empty;
         }
         if (!txtCookiesFile.Text.IsNullEmptyWhitespace() && System.IO.File.Exists(txtCookiesFile.Text)) {

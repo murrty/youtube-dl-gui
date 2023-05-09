@@ -38,7 +38,7 @@
             // 
             this.lbAuthNotice.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.lbAuthNotice.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbAuthNotice.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbAuthNotice.Location = new System.Drawing.Point(12, 11);
             this.lbAuthNotice.Name = "lbAuthNotice";
             this.lbAuthNotice.Size = new System.Drawing.Size(300, 29);
@@ -61,7 +61,7 @@
             this.txtUsername.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.txtUsername.Location = new System.Drawing.Point(127, 50);
             this.txtUsername.Name = "txtUsername";
-            this.txtUsername.Size = new System.Drawing.Size(165, 20);
+            this.txtUsername.Size = new System.Drawing.Size(165, 22);
             this.txtUsername.TabIndex = 2;
             // 
             // txtPassword
@@ -70,7 +70,7 @@
             this.txtPassword.Location = new System.Drawing.Point(127, 76);
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.PasswordChar = '●';
-            this.txtPassword.Size = new System.Drawing.Size(165, 20);
+            this.txtPassword.Size = new System.Drawing.Size(165, 22);
             this.txtPassword.TabIndex = 4;
             // 
             // lbAuthPassword
@@ -88,7 +88,7 @@
             this.txt2Factor.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.txt2Factor.Location = new System.Drawing.Point(127, 102);
             this.txt2Factor.Name = "txt2Factor";
-            this.txt2Factor.Size = new System.Drawing.Size(165, 20);
+            this.txt2Factor.Size = new System.Drawing.Size(165, 22);
             this.txt2Factor.TabIndex = 7;
             // 
             // lbAuth2Factor
@@ -107,7 +107,7 @@
             this.txtVideoPassword.Location = new System.Drawing.Point(127, 128);
             this.txtVideoPassword.Name = "txtVideoPassword";
             this.txtVideoPassword.PasswordChar = '●';
-            this.txtVideoPassword.Size = new System.Drawing.Size(165, 20);
+            this.txtVideoPassword.Size = new System.Drawing.Size(165, 22);
             this.txtVideoPassword.TabIndex = 9;
             // 
             // lbAuthVideoPassword
@@ -181,7 +181,7 @@
             this.chkAuthUseNetrc.AutoSize = true;
             this.chkAuthUseNetrc.Location = new System.Drawing.Point(107, 211);
             this.chkAuthUseNetrc.Name = "chkAuthUseNetrc";
-            this.chkAuthUseNetrc.Size = new System.Drawing.Size(110, 17);
+            this.chkAuthUseNetrc.Size = new System.Drawing.Size(114, 17);
             this.chkAuthUseNetrc.TabIndex = 11;
             this.chkAuthUseNetrc.Text = "chkAuthUseNetrc";
             this.chkAuthUseNetrc.UseVisualStyleBackColor = true;
@@ -193,13 +193,13 @@
             this.txtCookiesFile.ButtonCursor = System.Windows.Forms.Cursors.Default;
             this.txtCookiesFile.ButtonFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtCookiesFile.ButtonImageIndex = -1;
-            this.txtCookiesFile.ButtonSize = new System.Drawing.Size(24, 19);
+            this.txtCookiesFile.ButtonSize = new System.Drawing.Size(24, 21);
             this.txtCookiesFile.ButtonText = "...";
             this.txtCookiesFile.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.txtCookiesFile.Location = new System.Drawing.Point(127, 154);
             this.txtCookiesFile.Name = "txtCookiesFile";
             this.txtCookiesFile.ShowButton = true;
-            this.txtCookiesFile.Size = new System.Drawing.Size(185, 20);
+            this.txtCookiesFile.Size = new System.Drawing.Size(185, 22);
             this.txtCookiesFile.TabIndex = 15;
             // 
             // lbAuthCookiesFromFile
@@ -217,7 +217,7 @@
             this.txtCookiesFromBrowser.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.txtCookiesFromBrowser.Location = new System.Drawing.Point(127, 180);
             this.txtCookiesFromBrowser.Name = "txtCookiesFromBrowser";
-            this.txtCookiesFromBrowser.Size = new System.Drawing.Size(185, 20);
+            this.txtCookiesFromBrowser.Size = new System.Drawing.Size(185, 22);
             this.txtCookiesFromBrowser.TabIndex = 18;
             // 
             // lbAuthCookiesFromBrowser
@@ -234,9 +234,11 @@
             // 
             this.llCookiesFromBrowserHint.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.llCookiesFromBrowserHint.AutoSize = true;
+            this.llCookiesFromBrowserHint.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.llCookiesFromBrowserHint.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
             this.llCookiesFromBrowserHint.Location = new System.Drawing.Point(299, 203);
             this.llCookiesFromBrowserHint.Name = "llCookiesFromBrowserHint";
-            this.llCookiesFromBrowserHint.Size = new System.Drawing.Size(13, 13);
+            this.llCookiesFromBrowserHint.Size = new System.Drawing.Size(14, 17);
             this.llCookiesFromBrowserHint.TabIndex = 19;
             this.llCookiesFromBrowserHint.TabStop = true;
             this.llCookiesFromBrowserHint.Text = "?";
@@ -269,6 +271,7 @@
             this.Controls.Add(this.txtUsername);
             this.Controls.Add(this.lbAuthUsername);
             this.Controls.Add(this.lbAuthNotice);
+            this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = global::youtube_dl_gui.Properties.Resources.ProgramIcon;
             this.MaximizeBox = false;
             this.MinimumSize = new System.Drawing.Size(340, 340);

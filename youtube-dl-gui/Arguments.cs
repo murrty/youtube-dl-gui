@@ -90,24 +90,33 @@ internal static class Arguments {
                 switch (Arguments[i].ToLowerInvariant()) {
                     case "v" or "video" when ++i < Arguments.Length: {
                         TemporaryList.Add((ArgumentType.DownloadVideo, Arguments[i]));
-                    }
-                    break;
+                    } break;
+                    case "vau" or "vauth" or "videoauth" when ++i < Arguments.Length: {
+                        TemporaryList.Add((ArgumentType.DownloadAuthenticateVideo, Arguments[i]));
+                    } break;
 
                     case "a" or "audio" when ++i < Arguments.Length: {
                         TemporaryList.Add((ArgumentType.DownloadAudio, Arguments[i]));
-                    }
-                    break;
+                    } break;
+                    case "aau" or "aauth" or "audioauth" when ++i < Arguments.Length: {
+                        TemporaryList.Add((ArgumentType.DownloadAuthenticateAudio, Arguments[i]));
+                    } break;
 
                     case "c" or "custom" when ++i < Arguments.Length: {
                         TemporaryList.Add((ArgumentType.DownloadCustom, Arguments[i]));
-                    }
-                    break;
+                    } break;
+                    case "cau" or "cauth" or "customauth" when ++i < Arguments.Length: {
+                        TemporaryList.Add((ArgumentType.DownloadAuthenticateCustom, Arguments[i]));
+                    } break;
+
+                    case "archived" or "ar" when ++i < Arguments.Length: {
+                        TemporaryList.Add((ArgumentType.DownloadArchived, Arguments[i]));
+                    } break;
 
                     case "installprotocol": {
                         TemporaryList.Add((ArgumentType.InstallProtocol, null));
                         BreakLoop = true;
-                    }
-                    break;
+                    } break;
                 }
 
                 if (BreakLoop)

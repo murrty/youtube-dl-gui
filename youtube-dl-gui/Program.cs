@@ -12,81 +12,57 @@ internal static class Program {
     /// <summary>
     /// Gets the curent version of the program.
     /// </summary>
-    public static Version CurrentVersion { get; } = new(3, 2, 3);
+    public static Version CurrentVersion { get; } = new(3, 3, 0, 1);
     /// <summary>
     /// Gets whether the program is running in debug mode.
     /// </summary>
-    internal static bool DebugMode {
-        get; private set;
-    } = false;
+    internal static bool DebugMode { get; private set; } = false;
     /// <summary>
     /// Gets whether the program is running as administrator.
     /// </summary>
-    public static bool IsAdmin {
-        get; private set;
-    } = false;
+    public static bool IsAdmin { get; private set; } = false;
     /// <summary>
     /// Gets or sets the exit code of the application.
     /// </summary>
-    public static int ExitCode {
-        get; internal set;
-    } = 0;
+    public static int ExitCode { get; internal set; } = 0;
     /// <summary>
     /// Gets or sets whether the update was checked this run.
     /// </summary>
-    internal static bool UpdateChecked {
-        get; set;
-    }
+    internal static bool UpdateChecked { get; set; } = false;
     /// <summary>
     /// Gets or sets whether the program is starting an update.
     /// </summary>
-    internal static bool IsUpdating {
-        get; set;
-    } = false;
+    internal static bool IsUpdating { get; set; } = false;
 
     /// <summary>
     /// Represents the GUID of the program. Used for enforcing the mutex.
     /// </summary>
-    public static string ProgramGUID {
-        get;
-    } = ((GuidAttribute)Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(GuidAttribute), true)[0]).Value;
+    public static string ProgramGUID { get; } = ((GuidAttribute)Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(GuidAttribute), true)[0]).Value;
     /// <summary>
     /// The full path of the program.
     /// </summary>
-    public static string FullProgramPath {
-        get; private set;
-    } = Process.GetCurrentProcess().MainModule.FileName;
+    public static string FullProgramPath { get; private set; } = Process.GetCurrentProcess().MainModule.FileName;
     /// <summary>
     /// The path of the program, not inculding file name.
     /// </summary>
-    public static string ProgramPath {
-        get;
-    } = Path.GetDirectoryName(FullProgramPath);
+    public static string ProgramPath { get; } = Path.GetDirectoryName(FullProgramPath);
     /// <summary>
     /// The user-agent used for web client calls.
     /// </summary>
-    public static string UserAgent {
-        get;
-    } = "youtube-dl-gui/" + CurrentVersion;
+    public static string UserAgent { get; } = "youtube-dl-gui/" + CurrentVersion;
 
     /// <summary>
     /// The list of running downloads or conversions.
     /// </summary>
-    internal static HashSet<Form> RunningActions {
-        get;
-    } = new();
+    internal static HashSet<Form> RunningActions { get; } = new();
     /// <summary>
     /// The image list used for batch actions.
     /// </summary>
-    internal static ImageList BatchStatusImages {
-        get; private set;
-    }
+    internal static ImageList BatchStatusImages { get; private set; }
     /// <summary>
     /// The image list used for the extended downloader.
     /// </summary>
-    internal static ImageList ExtendedDownloaderSelectedImages {
-        get; private set;
-    }
+    internal static ImageList ExtendedDownloaderSelectedImages { get; private set; }
 
     /// <summary>
     /// The mutex used for enforcing the applications' single instance.
@@ -131,8 +107,8 @@ internal static class Program {
                 ColorDepth = ColorDepth.Depth32Bit,
                 TransparentColor = System.Drawing.Color.Transparent
             };
-            ExtendedDownloaderSelectedImages.Images.Add(Properties.Resources.best);         // 0
-            ExtendedDownloaderSelectedImages.Images.Add(Properties.Resources.selected);     // 1
+            ExtendedDownloaderSelectedImages.Images.Add(Properties.Resources.best);             // 0
+            ExtendedDownloaderSelectedImages.Images.Add(Properties.Resources.selected);         // 1
             ExtendedDownloaderSelectedImages.Images.Add(Properties.Resources.best_disabled);    // 2
             ExtendedDownloaderSelectedImages.Images.Add(Properties.Resources.selected_disabled);// 3
 
@@ -224,23 +200,60 @@ internal static class Program {
                 hwnd = CopyData.FindWindow(null, ProgramGUID);
 
             if (hwnd != 0) {
-                if (args.Length > 0) {
-                    nint ArgAddress = 0;
-                    SendLinks Arg = new(args.JoinUntilLimit("|", 65_535));
-                    nint CopyDataAddress = 0;
-                    CopyDataStruct DataStruct = new();
-                    try {
-                        ArgAddress = CopyData.NintAlloc(Arg);
-                        DataStruct.cbData = Marshal.SizeOf(Arg);
-                        DataStruct.dwData = 1;
-                        DataStruct.lpData = ArgAddress;
-                        CopyDataAddress = CopyData.NintAlloc(DataStruct);
-                        CopyData.SendMessage(hwnd, CopyData.WM_COPYDATA, 0, CopyDataAddress);
+                List<(ArgumentType Type, string Data)> Arguments;
+                if (args.Length > 0 && (Arguments = youtube_dl_gui.Arguments.RetrieveArguments(args)).Count > 0) {
+                    for (int i = 0; i < Arguments.Count; i++) {
+                        nint valPointer = 0;
+                        nint cdsPointer = 0;
+                        try {
+                            byte[] bytes = Encoding.Unicode.GetBytes(Arguments[0].Data);
+                            valPointer = Marshal.AllocHGlobal(bytes.Length);
+                            Marshal.Copy(bytes, 0, valPointer, bytes.Length);
+
+                            CopyDataStruct copyData = new() {
+                                dwData = (nint)Arguments[i].Type,
+                                cbData = Encoding.Unicode.GetByteCount(Arguments[i].Data),
+                                lpData = valPointer
+                            };
+
+                            cdsPointer = CopyData.NintAlloc(copyData);
+                            CopyData.SendMessage(
+                                hWnd: hwnd,
+                                Msg: CopyData.WM_COPYDATA,
+                                wParam: 0x1,
+                                lParam: cdsPointer);
+
+                            // wParam should be the handle to the Window that sent the message.
+                            // Since WM_COPYDATA is overridden, I can DO WHAT I WANT.
+                            // Regardless, wParam is unused in this program, so.
+                            // 0x1 = The data was sent from another instance.
+
+                            Marshal.FreeHGlobal(cdsPointer);
+                            Marshal.FreeHGlobal(valPointer);
+                        }
+                        finally {
+                            if (valPointer != 0)
+                                Marshal.FreeHGlobal(valPointer);
+                            if (cdsPointer != 0)
+                                Marshal.FreeHGlobal(cdsPointer);
+                        }
                     }
-                    finally {
-                        CopyData.NintFree(ref CopyDataAddress);
-                        CopyData.NintFree(ref ArgAddress);
-                    }
+                    //nint ArgAddress = 0;
+                    //SendLinks Arg = new(args.JoinUntilLimit("|", 65_535));
+                    //nint CopyDataAddress = 0;
+                    //CopyDataStruct DataStruct = new();
+                    //try {
+                    //    ArgAddress = CopyData.NintAlloc(Arg);
+                    //    DataStruct.cbData = Marshal.SizeOf(Arg);
+                    //    DataStruct.dwData = 1;
+                    //    DataStruct.lpData = ArgAddress;
+                    //    CopyDataAddress = CopyData.NintAlloc(DataStruct);
+                    //    CopyData.SendMessage(hwnd, CopyData.WM_COPYDATA, 0, CopyDataAddress);
+                    //}
+                    //finally {
+                    //    CopyData.NintFree(ref CopyDataAddress);
+                    //    CopyData.NintFree(ref ArgAddress);
+                    //}
                 }
                 else {
                     CopyData.SendMessage(hwnd, CopyData.WM_SHOWFORM, 0, 0);
@@ -270,11 +283,16 @@ internal static class Program {
                 if ((int)id != ProcessId) {
                     try {
                         KillProcessTree(id);
-                        Process.GetProcessById((int)id).Kill();
+                        Process procInstance = Process.GetProcessById((int)id);
+                        if (!procInstance.HasExited)
+                            procInstance.Kill();
                     }
-                    catch (ArgumentException) {
-                        // Not running?
-                    }
+                    //catch (ArgumentException) {
+                    //    // Not running?
+                    //}
+                    //catch (System.ComponentModel.Win32Exception w32) {
+                    //    //w32.NativeErrorCode
+                    //}
                     catch (Exception ex) {
                         Log.ReportException(ex);
                     }
@@ -307,12 +325,10 @@ internal static class Program {
                                     DownloadURL = args[i].Data,
                                     Type = DownloadType.Audio,
                                 };
-                                if (Config.Settings.Downloads.AudioDownloadAsVBR) {
+                                if (Config.Settings.Downloads.AudioDownloadAsVBR)
                                     NewAudio.AudioVBRQuality = (AudioVBRQualityType)Config.Settings.Saved.audioQuality;
-                                }
-                                else {
+                                else
                                     NewAudio.AudioCBRQuality = (AudioCBRQualityType)Config.Settings.Saved.audioQuality;
-                                }
                                 new frmDownloader(NewAudio).Show();
                             } break;
                             case ArgumentType.DownloadCustom: {
@@ -330,6 +346,162 @@ internal static class Program {
             return PassedCount > 0;
         }
         return false;
+    }
+
+    internal static void ParseCopyData(ref Message m, string CustomArguments) {
+        CopyDataStruct cds = Marshal.PtrToStructure<CopyDataStruct>(m.LParam);
+        byte[] bytes = new byte[cds.cbData];
+        Marshal.Copy(cds.lpData, bytes, 0, cds.cbData);
+        string URL = Encoding.Unicode.GetString(bytes);
+        ArgumentType Type = (ArgumentType)cds.dwData;
+        switch (Type) {
+            case ArgumentType.DownloadVideo:
+            case ArgumentType.DownloadAudio:
+            case ArgumentType.DownloadCustom:
+            case ArgumentType.DownloadAuthenticateVideo:
+            case ArgumentType.DownloadAuthenticateAudio:
+            case ArgumentType.DownloadAuthenticateCustom:
+            case ArgumentType.DownloadArchived: {
+                ProcessCopyData(URL, Type, CustomArguments);
+            } break;
+
+            default: break;
+        }
+    }
+
+    internal static void ProcessCopyData(string URL, ArgumentType Type, string CustomArguments) {
+        Log.Write($"ProcessCopyData called: {Type} > {URL ?? "null"}");
+
+        switch (Type) {
+            case ArgumentType.DownloadVideo:
+            case ArgumentType.DownloadAuthenticateVideo: {
+                AuthenticationDetails Auth = null;
+                if (Type == ArgumentType.DownloadAuthenticateVideo) {
+                    Auth = AuthenticationDetails.GetAuthentication();
+                    if (Auth is null) {
+                        Log.Write("Authentication required, but the user cancelled the dialog.");
+                        return;
+                    }
+                }
+
+                Form DownloadForm;
+                if (Config.Settings.Downloads.ExtendedDownloaderPreferExtendedForm) {
+                    DownloadForm = new frmExtendedDownloader(
+                        URL: URL,
+                        CustomArguments: CustomArguments,
+                        Archived: false,
+                        Auth: Auth);
+                }
+                else {
+                    DownloadInfo NewInfo = new(URL: URL) {
+                        Type = DownloadType.Video,
+                        VideoQuality = (VideoQualityType)Config.Settings.Saved.videoQuality,
+                        VideoFormat = (VideoFormatType)Config.Settings.Saved.VideoFormat,
+                        SkipAudioForVideos = !Config.Settings.Downloads.VideoDownloadSound,
+                        DownloadArguments = CustomArguments,
+                        Authentication = Auth,
+                    };
+                    DownloadForm = new frmDownloader(Info: NewInfo);
+                }
+                DownloadForm.Show();
+            } break;
+
+            case ArgumentType.DownloadAudio:
+            case ArgumentType.DownloadAuthenticateAudio: {
+                AuthenticationDetails Auth = null;
+                if (Type == ArgumentType.DownloadAuthenticateAudio) {
+                    Auth = AuthenticationDetails.GetAuthentication();
+                    if (Auth is null) {
+                        Log.Write("Authentication required, but the user cancelled the dialog.");
+                        return;
+                    }
+                }
+
+                Form DownloadForm;
+                if (Config.Settings.Downloads.ExtendedDownloaderPreferExtendedForm) {
+                    DownloadForm = new frmExtendedDownloader(
+                        URL: URL,
+                        CustomArguments: CustomArguments,
+                        Archived: false,
+                        Auth: Auth);
+                }
+                else {
+                    DownloadInfo NewInfo = new(URL: URL) {
+                        Type = DownloadType.Audio,
+                        UseVBR = Config.Settings.Downloads.AudioDownloadAsVBR,
+                        AudioFormat = (AudioFormatType)Config.Settings.Saved.AudioFormat,
+                        DownloadArguments = CustomArguments,
+                        Authentication = Auth,
+                    };
+
+                    if (Config.Settings.Downloads.AudioDownloadAsVBR) {
+                        NewInfo.AudioVBRQuality = (AudioVBRQualityType)Config.Settings.Saved.AudioVBRQuality;
+                    }
+                    else {
+                        NewInfo.AudioCBRQuality = (AudioCBRQualityType)Config.Settings.Saved.audioQuality;
+                    }
+
+                    DownloadForm = new frmDownloader(Info: NewInfo);
+                }
+                DownloadForm.Show();
+            } break;
+
+            case ArgumentType.DownloadCustom:
+            case ArgumentType.DownloadAuthenticateCustom: {
+                AuthenticationDetails Auth = null;
+                if (Type == ArgumentType.DownloadAuthenticateCustom) {
+                    Auth = AuthenticationDetails.GetAuthentication();
+                    if (Auth is null) {
+                        Log.Write("Authentication required, but the user cancelled the dialog.");
+                        return;
+                    }
+                }
+
+                Form DownloadForm;
+                if (Config.Settings.Downloads.ExtendedDownloaderPreferExtendedForm) {
+                    DownloadForm = new frmExtendedDownloader(
+                        URL: URL,
+                        CustomArguments: CustomArguments,
+                        Archived: false,
+                        Auth: Auth);
+                }
+                else {
+                    DownloadInfo NewInfo = new(URL: URL) {
+                        Type = DownloadType.Custom,
+                        DownloadArguments = CustomArguments,
+                    Authentication = Auth,
+                    };
+                    DownloadForm = new frmDownloader(Info: NewInfo);
+                }
+               DownloadForm.Show();
+            } break;
+
+            case ArgumentType.DownloadArchived: {
+                if (DownloadHelper.IsYoutubeLink(URL)) {
+                    Log.Write("YouTube link given for archival download.");
+                    URL = DownloadHelper.GetYoutubeVideoKey(URL);
+                }
+                if (!DownloadHelper.IsYoutubeKey(URL)) {
+                    Log.Write("The YouTube key given for archival download is not a valid video key.");
+                    return;
+                }
+
+                Form DownloadForm;
+                if (Config.Settings.Downloads.ExtendedDownloaderPreferExtendedForm) {
+                    DownloadForm = new frmExtendedDownloader($"ytarchive:{URL}", true);
+                }
+                else {
+                    DownloadInfo NewInfo = new() {
+                        DownloadArguments = $"ytarchive:{URL}",
+                        DownloadURL = $"https://archived.youtube.com/watch?v={URL}",
+                        MostlyCustomArguments = true,
+                        Type = DownloadType.Custom
+                    };
+                    DownloadForm = new frmDownloader(NewInfo);
+                }
+                DownloadForm.Show();
+            } break;
+        }
     }
 
     internal static string CalculateSha256Hash(string File) {

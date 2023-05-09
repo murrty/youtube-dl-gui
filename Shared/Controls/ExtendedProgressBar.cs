@@ -6,6 +6,7 @@ namespace murrty.controls;
 
 using System.ComponentModel;
 using System.ComponentModel.Design;
+using System.Diagnostics;
 using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
@@ -468,6 +469,7 @@ public sealed class ExtendedProgressBar : ProgressBar {
     }
 
     /// <inheritdoc/>
+    [DebuggerStepThrough]
     protected override void WndProc(ref Message m) {
         switch (m.Msg) {
             case Consts.WM_PAINT: {
@@ -513,6 +515,7 @@ public sealed class ExtendedProgressBar : ProgressBar {
     /// <summary>
     /// Draws the text onto the control.
     /// </summary>
+    [DebuggerStepThrough]
     private void DrawText() {
         TextGraphics = CreateGraphics();
         if (_ShowTextDropShadow) {

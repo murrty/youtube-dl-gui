@@ -46,14 +46,15 @@
             this.chkSettingsDownloadsDownloadPathUseRelativePath = new System.Windows.Forms.CheckBox();
             this.tabDownloads = new System.Windows.Forms.TabControl();
             this.tabDownloadsGeneral = new System.Windows.Forms.TabPage();
+            this.chkSettingsDownloadsAbortOnError = new System.Windows.Forms.CheckBox();
             this.chkSettingsDownloadsKeepOriginalFiles = new System.Windows.Forms.CheckBox();
             this.chkSettingsDownloadsWriteMetadataToFile = new System.Windows.Forms.CheckBox();
+            this.chkSettingsDownloadsSkipUnavailableFragments = new System.Windows.Forms.CheckBox();
             this.chkSettingsDownloadsEmbedSubtitles = new System.Windows.Forms.CheckBox();
             this.chkSettingsDownloadsEmbedThumbnails = new System.Windows.Forms.CheckBox();
             this.chkSettingsDownloadsSaveThumbnails = new System.Windows.Forms.CheckBox();
             this.chkSettingsDownloadsSaveFormatQuality = new System.Windows.Forms.CheckBox();
             this.chkSettingsDownloadsSaveAnnotations = new System.Windows.Forms.CheckBox();
-            this.chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing = new System.Windows.Forms.CheckBox();
             this.chkSettingsDownloadsSaveDescription = new System.Windows.Forms.CheckBox();
             this.chkSettingsDownloadsDownloadSubtitles = new System.Windows.Forms.CheckBox();
             this.chkSettingsDownloadsSaveVideoInfo = new System.Windows.Forms.CheckBox();
@@ -65,6 +66,8 @@
             this.chkSettingsDownloadsPreferFFmpeg = new System.Windows.Forms.CheckBox();
             this.chkSettingsDownloadsFixVReddIt = new System.Windows.Forms.CheckBox();
             this.tabDownloadsConnection = new System.Windows.Forms.TabPage();
+            this.numSettingsDownloadsFragmentThreads = new System.Windows.Forms.NumericUpDown();
+            this.lbSettingsDownloadsFragmentThreads = new System.Windows.Forms.Label();
             this.cbSettingsDownloadsProxyType = new System.Windows.Forms.ComboBox();
             this.chkSettingsDownloadsForceIpv6 = new System.Windows.Forms.CheckBox();
             this.chkSettingsDownloadsForceIpv4 = new System.Windows.Forms.CheckBox();
@@ -82,12 +85,14 @@
             this.lbSettingsDownloadsUpdatingYtdlType = new System.Windows.Forms.Label();
             this.cbSettingsDownloadsUpdatingYtdlType = new System.Windows.Forms.ComboBox();
             this.chksettingsDownloadsUseYoutubeDlsUpdater = new System.Windows.Forms.CheckBox();
+            this.chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing = new System.Windows.Forms.CheckBox();
             this.tabDownloadsBatch = new System.Windows.Forms.TabPage();
             this.chkSettingsDownloadsAddDateToBatchDownloadFolders = new System.Windows.Forms.CheckBox();
             this.chkSettingsDownloadsSeparateBatchDownloads = new System.Windows.Forms.CheckBox();
-            this.tabYtdlpExtendedOptions = new System.Windows.Forms.TabPage();
-            this.chkYtdlpExtendedAutomaticallyDownloadThumbnail = new System.Windows.Forms.CheckBox();
-            this.chkYtdlpPreferExtendedDialog = new System.Windows.Forms.CheckBox();
+            this.tabExtendedOptions = new System.Windows.Forms.TabPage();
+            this.chkExtendedIncludeCustomArguments = new System.Windows.Forms.CheckBox();
+            this.chkExtendedAutomaticallyDownloadThumbnail = new System.Windows.Forms.CheckBox();
+            this.chkExtendedPreferExtendedDialog = new System.Windows.Forms.CheckBox();
             this.lbSettingsDownloadsDownloadPath = new System.Windows.Forms.Label();
             this.btnSettingsDownloadsBrowseSavePath = new System.Windows.Forms.Button();
             this.lbSepDownloads = new System.Windows.Forms.Label();
@@ -112,16 +117,11 @@
             this.cbConvertVideoPreset = new System.Windows.Forms.ComboBox();
             this.numConvertVideoBitrate = new System.Windows.Forms.NumericUpDown();
             this.lbConvertVideoThousands = new System.Windows.Forms.Label();
-            this.lbSettingsConverterVideoBitrate = new System.Windows.Forms.Label();
-            this.lbSettingsConverterVideoPreset = new System.Windows.Forms.Label();
-            this.lbSettingsConverterVideoProfile = new System.Windows.Forms.Label();
-            this.lbSettingsConverterVideoCRF = new System.Windows.Forms.Label();
             this.tcSettingsConverterAudio = new System.Windows.Forms.TabPage();
-            this.chkUseAudioBitrate = new System.Windows.Forms.CheckBox();
             this.numConvertAudioBitrate = new System.Windows.Forms.NumericUpDown();
             this.lbidkwhatsup = new System.Windows.Forms.Label();
             this.lbConvertAudioThousands = new System.Windows.Forms.Label();
-            this.lbSettingsConverterAudioBitrate = new System.Windows.Forms.Label();
+            this.chkSettingsConverterAudioBitrate = new System.Windows.Forms.CheckBox();
             this.tcSettingsConverterCustom = new System.Windows.Forms.TabPage();
             this.txtSettingsConverterCustomArguments = new murrty.controls.ExtendedTextBox();
             this.lbSettingsConverterCustomHeader = new System.Windows.Forms.Label();
@@ -156,11 +156,12 @@
             this.tabDownloadsSorting.SuspendLayout();
             this.tabDownloadsFixes.SuspendLayout();
             this.tabDownloadsConnection.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numSettingsDownloadsFragmentThreads)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numSettingsDownloadsRetryAttempts)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numSettingsDownloadsLimitDownload)).BeginInit();
             this.tabDownloadsUpdating.SuspendLayout();
             this.tabDownloadsBatch.SuspendLayout();
-            this.tabYtdlpExtendedOptions.SuspendLayout();
+            this.tabExtendedOptions.SuspendLayout();
             this.tabSettingsConverter.SuspendLayout();
             this.tcConverter.SuspendLayout();
             this.tcSettingsConverterVideo.SuspendLayout();
@@ -587,7 +588,7 @@
             this.tabDownloads.Controls.Add(this.tabDownloadsConnection);
             this.tabDownloads.Controls.Add(this.tabDownloadsUpdating);
             this.tabDownloads.Controls.Add(this.tabDownloadsBatch);
-            this.tabDownloads.Controls.Add(this.tabYtdlpExtendedOptions);
+            this.tabDownloads.Controls.Add(this.tabExtendedOptions);
             this.tabDownloads.Location = new System.Drawing.Point(6, 116);
             this.tabDownloads.Name = "tabDownloads";
             this.tabDownloads.SelectedIndex = 0;
@@ -596,14 +597,16 @@
             // 
             // tabDownloadsGeneral
             // 
+            this.tabDownloadsGeneral.AutoScroll = true;
+            this.tabDownloadsGeneral.Controls.Add(this.chkSettingsDownloadsAbortOnError);
             this.tabDownloadsGeneral.Controls.Add(this.chkSettingsDownloadsKeepOriginalFiles);
             this.tabDownloadsGeneral.Controls.Add(this.chkSettingsDownloadsWriteMetadataToFile);
+            this.tabDownloadsGeneral.Controls.Add(this.chkSettingsDownloadsSkipUnavailableFragments);
             this.tabDownloadsGeneral.Controls.Add(this.chkSettingsDownloadsEmbedSubtitles);
             this.tabDownloadsGeneral.Controls.Add(this.chkSettingsDownloadsEmbedThumbnails);
             this.tabDownloadsGeneral.Controls.Add(this.chkSettingsDownloadsSaveThumbnails);
             this.tabDownloadsGeneral.Controls.Add(this.chkSettingsDownloadsSaveFormatQuality);
             this.tabDownloadsGeneral.Controls.Add(this.chkSettingsDownloadsSaveAnnotations);
-            this.tabDownloadsGeneral.Controls.Add(this.chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing);
             this.tabDownloadsGeneral.Controls.Add(this.chkSettingsDownloadsSaveDescription);
             this.tabDownloadsGeneral.Controls.Add(this.chkSettingsDownloadsDownloadSubtitles);
             this.tabDownloadsGeneral.Controls.Add(this.chkSettingsDownloadsSaveVideoInfo);
@@ -615,10 +618,21 @@
             this.tabDownloadsGeneral.Text = "tabDownloadsGeneral";
             this.tabDownloadsGeneral.UseVisualStyleBackColor = true;
             // 
+            // chkSettingsDownloadsAbortOnError
+            // 
+            this.chkSettingsDownloadsAbortOnError.AutoSize = true;
+            this.chkSettingsDownloadsAbortOnError.Location = new System.Drawing.Point(292, 144);
+            this.chkSettingsDownloadsAbortOnError.Name = "chkSettingsDownloadsAbortOnError";
+            this.chkSettingsDownloadsAbortOnError.Size = new System.Drawing.Size(214, 17);
+            this.chkSettingsDownloadsAbortOnError.TabIndex = 12;
+            this.chkSettingsDownloadsAbortOnError.Text = "chkSettingsDownloadsAbortOnError";
+            this.tipSettings.SetToolTip(this.chkSettingsDownloadsAbortOnError, "chkSettingsDownloadsAbortOnErrorHint");
+            this.chkSettingsDownloadsAbortOnError.UseVisualStyleBackColor = true;
+            // 
             // chkSettingsDownloadsKeepOriginalFiles
             // 
             this.chkSettingsDownloadsKeepOriginalFiles.AutoSize = true;
-            this.chkSettingsDownloadsKeepOriginalFiles.Location = new System.Drawing.Point(224, 75);
+            this.chkSettingsDownloadsKeepOriginalFiles.Location = new System.Drawing.Point(238, 75);
             this.chkSettingsDownloadsKeepOriginalFiles.Name = "chkSettingsDownloadsKeepOriginalFiles";
             this.chkSettingsDownloadsKeepOriginalFiles.Size = new System.Drawing.Size(234, 17);
             this.chkSettingsDownloadsKeepOriginalFiles.TabIndex = 7;
@@ -629,7 +643,7 @@
             // chkSettingsDownloadsWriteMetadataToFile
             // 
             this.chkSettingsDownloadsWriteMetadataToFile.AutoSize = true;
-            this.chkSettingsDownloadsWriteMetadataToFile.Location = new System.Drawing.Point(216, 52);
+            this.chkSettingsDownloadsWriteMetadataToFile.Location = new System.Drawing.Point(230, 52);
             this.chkSettingsDownloadsWriteMetadataToFile.Name = "chkSettingsDownloadsWriteMetadataToFile";
             this.chkSettingsDownloadsWriteMetadataToFile.Size = new System.Drawing.Size(251, 17);
             this.chkSettingsDownloadsWriteMetadataToFile.TabIndex = 5;
@@ -637,10 +651,21 @@
             this.tipSettings.SetToolTip(this.chkSettingsDownloadsWriteMetadataToFile, "chkSettingsDownloadsWriteMetadataToFileHint");
             this.chkSettingsDownloadsWriteMetadataToFile.UseVisualStyleBackColor = true;
             // 
+            // chkSettingsDownloadsSkipUnavailableFragments
+            // 
+            this.chkSettingsDownloadsSkipUnavailableFragments.AutoSize = true;
+            this.chkSettingsDownloadsSkipUnavailableFragments.Location = new System.Drawing.Point(6, 144);
+            this.chkSettingsDownloadsSkipUnavailableFragments.Name = "chkSettingsDownloadsSkipUnavailableFragments";
+            this.chkSettingsDownloadsSkipUnavailableFragments.Size = new System.Drawing.Size(280, 17);
+            this.chkSettingsDownloadsSkipUnavailableFragments.TabIndex = 11;
+            this.chkSettingsDownloadsSkipUnavailableFragments.Text = "chkSettingsDownloadsSkipUnavailableFragments";
+            this.tipSettings.SetToolTip(this.chkSettingsDownloadsSkipUnavailableFragments, "chkSettingsDownloadsSkipUnavailableFragmentsHint");
+            this.chkSettingsDownloadsSkipUnavailableFragments.UseVisualStyleBackColor = true;
+            // 
             // chkSettingsDownloadsEmbedSubtitles
             // 
             this.chkSettingsDownloadsEmbedSubtitles.AutoSize = true;
-            this.chkSettingsDownloadsEmbedSubtitles.Location = new System.Drawing.Point(234, 29);
+            this.chkSettingsDownloadsEmbedSubtitles.Location = new System.Drawing.Point(255, 29);
             this.chkSettingsDownloadsEmbedSubtitles.Name = "chkSettingsDownloadsEmbedSubtitles";
             this.chkSettingsDownloadsEmbedSubtitles.Size = new System.Drawing.Size(224, 17);
             this.chkSettingsDownloadsEmbedSubtitles.TabIndex = 3;
@@ -651,7 +676,7 @@
             // chkSettingsDownloadsEmbedThumbnails
             // 
             this.chkSettingsDownloadsEmbedThumbnails.AutoSize = true;
-            this.chkSettingsDownloadsEmbedThumbnails.Location = new System.Drawing.Point(225, 121);
+            this.chkSettingsDownloadsEmbedThumbnails.Location = new System.Drawing.Point(234, 121);
             this.chkSettingsDownloadsEmbedThumbnails.Name = "chkSettingsDownloadsEmbedThumbnails";
             this.chkSettingsDownloadsEmbedThumbnails.Size = new System.Drawing.Size(239, 17);
             this.chkSettingsDownloadsEmbedThumbnails.TabIndex = 10;
@@ -690,19 +715,6 @@
             this.chkSettingsDownloadsSaveAnnotations.TabIndex = 8;
             this.chkSettingsDownloadsSaveAnnotations.Text = "chkSettingsDownloadsSaveAnnotations";
             this.chkSettingsDownloadsSaveAnnotations.UseVisualStyleBackColor = true;
-            // 
-            // chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing
-            // 
-            this.chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing.AutoSize = true;
-            this.chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing.Enabled = false;
-            this.chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing.Location = new System.Drawing.Point(6, 144);
-            this.chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing.Name = "chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing";
-            this.chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing.Size = new System.Drawing.Size(369, 17);
-            this.chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing.TabIndex = 11;
-            this.chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing.Text = "chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing";
-            this.tipSettings.SetToolTip(this.chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing, "chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing");
-            this.chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing.UseVisualStyleBackColor = true;
-            this.chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing.Visible = false;
             // 
             // chkSettingsDownloadsSaveDescription
             // 
@@ -825,6 +837,9 @@
             // 
             // tabDownloadsConnection
             // 
+            this.tabDownloadsConnection.AutoScroll = true;
+            this.tabDownloadsConnection.Controls.Add(this.numSettingsDownloadsFragmentThreads);
+            this.tabDownloadsConnection.Controls.Add(this.lbSettingsDownloadsFragmentThreads);
             this.tabDownloadsConnection.Controls.Add(this.cbSettingsDownloadsProxyType);
             this.tabDownloadsConnection.Controls.Add(this.chkSettingsDownloadsForceIpv6);
             this.tabDownloadsConnection.Controls.Add(this.chkSettingsDownloadsForceIpv4);
@@ -844,6 +859,38 @@
             this.tabDownloadsConnection.TabIndex = 1;
             this.tabDownloadsConnection.Text = "tabDownloadsConnection";
             this.tabDownloadsConnection.UseVisualStyleBackColor = true;
+            // 
+            // numSettingsDownloadsFragmentThreads
+            // 
+            this.numSettingsDownloadsFragmentThreads.Location = new System.Drawing.Point(215, 154);
+            this.numSettingsDownloadsFragmentThreads.Maximum = new decimal(new int[] {
+            25,
+            0,
+            0,
+            0});
+            this.numSettingsDownloadsFragmentThreads.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numSettingsDownloadsFragmentThreads.Name = "numSettingsDownloadsFragmentThreads";
+            this.numSettingsDownloadsFragmentThreads.Size = new System.Drawing.Size(52, 22);
+            this.numSettingsDownloadsFragmentThreads.TabIndex = 36;
+            this.numSettingsDownloadsFragmentThreads.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // lbSettingsDownloadsFragmentThreads
+            // 
+            this.lbSettingsDownloadsFragmentThreads.AutoSize = true;
+            this.lbSettingsDownloadsFragmentThreads.Location = new System.Drawing.Point(2, 158);
+            this.lbSettingsDownloadsFragmentThreads.Name = "lbSettingsDownloadsFragmentThreads";
+            this.lbSettingsDownloadsFragmentThreads.Size = new System.Drawing.Size(208, 13);
+            this.lbSettingsDownloadsFragmentThreads.TabIndex = 37;
+            this.lbSettingsDownloadsFragmentThreads.Text = "lbSettingsDownloadsFragmentThreads";
+            this.lbSettingsDownloadsFragmentThreads.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // cbSettingsDownloadsProxyType
             // 
@@ -1002,6 +1049,7 @@
             this.tabDownloadsUpdating.Controls.Add(this.lbSettingsDownloadsUpdatingYtdlType);
             this.tabDownloadsUpdating.Controls.Add(this.cbSettingsDownloadsUpdatingYtdlType);
             this.tabDownloadsUpdating.Controls.Add(this.chksettingsDownloadsUseYoutubeDlsUpdater);
+            this.tabDownloadsUpdating.Controls.Add(this.chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing);
             this.tabDownloadsUpdating.Location = new System.Drawing.Point(4, 22);
             this.tabDownloadsUpdating.Name = "tabDownloadsUpdating";
             this.tabDownloadsUpdating.Padding = new System.Windows.Forms.Padding(3);
@@ -1013,6 +1061,7 @@
             // llbSettingsDownloadsYtdlTypeViewRepo
             // 
             this.llbSettingsDownloadsYtdlTypeViewRepo.AutoSize = true;
+            this.llbSettingsDownloadsYtdlTypeViewRepo.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
             this.llbSettingsDownloadsYtdlTypeViewRepo.Location = new System.Drawing.Point(194, 54);
             this.llbSettingsDownloadsYtdlTypeViewRepo.Name = "llbSettingsDownloadsYtdlTypeViewRepo";
             this.llbSettingsDownloadsYtdlTypeViewRepo.Size = new System.Drawing.Size(215, 13);
@@ -1056,6 +1105,19 @@
             this.chksettingsDownloadsUseYoutubeDlsUpdater.UseVisualStyleBackColor = true;
             this.chksettingsDownloadsUseYoutubeDlsUpdater.CheckedChanged += new System.EventHandler(this.chksettingsDownloadsUseYoutubeDlsUpdater_CheckedChanged);
             // 
+            // chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing
+            // 
+            this.chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing.AutoSize = true;
+            this.chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing.Enabled = false;
+            this.chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing.Location = new System.Drawing.Point(6, 78);
+            this.chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing.Name = "chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing";
+            this.chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing.Size = new System.Drawing.Size(369, 17);
+            this.chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing.TabIndex = 11;
+            this.chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing.Text = "chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing";
+            this.tipSettings.SetToolTip(this.chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing, "chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing");
+            this.chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing.UseVisualStyleBackColor = true;
+            this.chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing.Visible = false;
+            // 
             // tabDownloadsBatch
             // 
             this.tabDownloadsBatch.Controls.Add(this.chkSettingsDownloadsAddDateToBatchDownloadFolders);
@@ -1090,39 +1152,51 @@
             this.tipSettings.SetToolTip(this.chkSettingsDownloadsSeparateBatchDownloads, "chkSettingsDownloadsSeparateBatchDownloadsHint");
             this.chkSettingsDownloadsSeparateBatchDownloads.UseVisualStyleBackColor = true;
             // 
-            // tabYtdlpExtendedOptions
+            // tabExtendedOptions
             // 
-            this.tabYtdlpExtendedOptions.Controls.Add(this.chkYtdlpExtendedAutomaticallyDownloadThumbnail);
-            this.tabYtdlpExtendedOptions.Controls.Add(this.chkYtdlpPreferExtendedDialog);
-            this.tabYtdlpExtendedOptions.Location = new System.Drawing.Point(4, 22);
-            this.tabYtdlpExtendedOptions.Name = "tabYtdlpExtendedOptions";
-            this.tabYtdlpExtendedOptions.Padding = new System.Windows.Forms.Padding(3);
-            this.tabYtdlpExtendedOptions.Size = new System.Drawing.Size(300, 168);
-            this.tabYtdlpExtendedOptions.TabIndex = 6;
-            this.tabYtdlpExtendedOptions.Text = "tabYtdlpExtendedOptions";
-            this.tabYtdlpExtendedOptions.UseVisualStyleBackColor = true;
+            this.tabExtendedOptions.Controls.Add(this.chkExtendedIncludeCustomArguments);
+            this.tabExtendedOptions.Controls.Add(this.chkExtendedAutomaticallyDownloadThumbnail);
+            this.tabExtendedOptions.Controls.Add(this.chkExtendedPreferExtendedDialog);
+            this.tabExtendedOptions.Location = new System.Drawing.Point(4, 22);
+            this.tabExtendedOptions.Name = "tabExtendedOptions";
+            this.tabExtendedOptions.Padding = new System.Windows.Forms.Padding(3);
+            this.tabExtendedOptions.Size = new System.Drawing.Size(300, 168);
+            this.tabExtendedOptions.TabIndex = 6;
+            this.tabExtendedOptions.Text = "tabExtendedOptions";
+            this.tabExtendedOptions.UseVisualStyleBackColor = true;
             // 
-            // chkYtdlpExtendedAutomaticallyDownloadThumbnail
+            // chkExtendedIncludeCustomArguments
             // 
-            this.chkYtdlpExtendedAutomaticallyDownloadThumbnail.AutoSize = true;
-            this.chkYtdlpExtendedAutomaticallyDownloadThumbnail.Location = new System.Drawing.Point(6, 29);
-            this.chkYtdlpExtendedAutomaticallyDownloadThumbnail.Name = "chkYtdlpExtendedAutomaticallyDownloadThumbnail";
-            this.chkYtdlpExtendedAutomaticallyDownloadThumbnail.Size = new System.Drawing.Size(295, 17);
-            this.chkYtdlpExtendedAutomaticallyDownloadThumbnail.TabIndex = 1;
-            this.chkYtdlpExtendedAutomaticallyDownloadThumbnail.Text = "chkYtdlpExtendedAutomaticallyDownloadThumbnail";
-            this.tipSettings.SetToolTip(this.chkYtdlpExtendedAutomaticallyDownloadThumbnail, "chkYtdlpExtendedAutomaticallyDownloadThumbnailHint");
-            this.chkYtdlpExtendedAutomaticallyDownloadThumbnail.UseVisualStyleBackColor = true;
+            this.chkExtendedIncludeCustomArguments.AutoSize = true;
+            this.chkExtendedIncludeCustomArguments.Location = new System.Drawing.Point(6, 52);
+            this.chkExtendedIncludeCustomArguments.Name = "chkExtendedIncludeCustomArguments";
+            this.chkExtendedIncludeCustomArguments.Size = new System.Drawing.Size(224, 17);
+            this.chkExtendedIncludeCustomArguments.TabIndex = 2;
+            this.chkExtendedIncludeCustomArguments.Text = "chkExtendedIncludeCustomArguments";
+            this.tipSettings.SetToolTip(this.chkExtendedIncludeCustomArguments, "chkExtendedIncludeCustomArgumentsHint");
+            this.chkExtendedIncludeCustomArguments.UseVisualStyleBackColor = true;
             // 
-            // chkYtdlpPreferExtendedDialog
+            // chkExtendedAutomaticallyDownloadThumbnail
             // 
-            this.chkYtdlpPreferExtendedDialog.AutoSize = true;
-            this.chkYtdlpPreferExtendedDialog.Location = new System.Drawing.Point(6, 6);
-            this.chkYtdlpPreferExtendedDialog.Name = "chkYtdlpPreferExtendedDialog";
-            this.chkYtdlpPreferExtendedDialog.Size = new System.Drawing.Size(181, 17);
-            this.chkYtdlpPreferExtendedDialog.TabIndex = 0;
-            this.chkYtdlpPreferExtendedDialog.Text = "chkYtdlpPreferExtendedDialog";
-            this.tipSettings.SetToolTip(this.chkYtdlpPreferExtendedDialog, "chkYtdlpPreferExtendedDialogHint");
-            this.chkYtdlpPreferExtendedDialog.UseVisualStyleBackColor = true;
+            this.chkExtendedAutomaticallyDownloadThumbnail.AutoSize = true;
+            this.chkExtendedAutomaticallyDownloadThumbnail.Location = new System.Drawing.Point(6, 29);
+            this.chkExtendedAutomaticallyDownloadThumbnail.Name = "chkExtendedAutomaticallyDownloadThumbnail";
+            this.chkExtendedAutomaticallyDownloadThumbnail.Size = new System.Drawing.Size(269, 17);
+            this.chkExtendedAutomaticallyDownloadThumbnail.TabIndex = 1;
+            this.chkExtendedAutomaticallyDownloadThumbnail.Text = "chkExtendedAutomaticallyDownloadThumbnail";
+            this.tipSettings.SetToolTip(this.chkExtendedAutomaticallyDownloadThumbnail, "chkExtendedAutomaticallyDownloadThumbnailHint");
+            this.chkExtendedAutomaticallyDownloadThumbnail.UseVisualStyleBackColor = true;
+            // 
+            // chkExtendedPreferExtendedDialog
+            // 
+            this.chkExtendedPreferExtendedDialog.AutoSize = true;
+            this.chkExtendedPreferExtendedDialog.Location = new System.Drawing.Point(6, 6);
+            this.chkExtendedPreferExtendedDialog.Name = "chkExtendedPreferExtendedDialog";
+            this.chkExtendedPreferExtendedDialog.Size = new System.Drawing.Size(203, 17);
+            this.chkExtendedPreferExtendedDialog.TabIndex = 0;
+            this.chkExtendedPreferExtendedDialog.Text = "chkExtendedPreferExtendedDialog";
+            this.tipSettings.SetToolTip(this.chkExtendedPreferExtendedDialog, "chkExtendedPreferExtendedDialogHint");
+            this.chkExtendedPreferExtendedDialog.UseVisualStyleBackColor = true;
             // 
             // lbSettingsDownloadsDownloadPath
             // 
@@ -1198,6 +1272,7 @@
             // 
             this.llbSettingsDownloadsInstallProtocolMoreInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.llbSettingsDownloadsInstallProtocolMoreInfo.AutoSize = true;
+            this.llbSettingsDownloadsInstallProtocolMoreInfo.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
             this.llbSettingsDownloadsInstallProtocolMoreInfo.Location = new System.Drawing.Point(196, 338);
             this.llbSettingsDownloadsInstallProtocolMoreInfo.Name = "llbSettingsDownloadsInstallProtocolMoreInfo";
             this.llbSettingsDownloadsInstallProtocolMoreInfo.Size = new System.Drawing.Size(243, 13);
@@ -1210,7 +1285,8 @@
             // llSettingsDownloadsSchemaHelp
             // 
             this.llSettingsDownloadsSchemaHelp.AutoSize = true;
-            this.llSettingsDownloadsSchemaHelp.Location = new System.Drawing.Point(210, 59);
+            this.llSettingsDownloadsSchemaHelp.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
+            this.llSettingsDownloadsSchemaHelp.Location = new System.Drawing.Point(234, 59);
             this.llSettingsDownloadsSchemaHelp.Name = "llSettingsDownloadsSchemaHelp";
             this.llSettingsDownloadsSchemaHelp.Size = new System.Drawing.Size(12, 13);
             this.llSettingsDownloadsSchemaHelp.TabIndex = 5;
@@ -1302,10 +1378,6 @@
             this.tcSettingsConverterVideo.Controls.Add(this.cbConvertVideoPreset);
             this.tcSettingsConverterVideo.Controls.Add(this.numConvertVideoBitrate);
             this.tcSettingsConverterVideo.Controls.Add(this.lbConvertVideoThousands);
-            this.tcSettingsConverterVideo.Controls.Add(this.lbSettingsConverterVideoBitrate);
-            this.tcSettingsConverterVideo.Controls.Add(this.lbSettingsConverterVideoPreset);
-            this.tcSettingsConverterVideo.Controls.Add(this.lbSettingsConverterVideoProfile);
-            this.tcSettingsConverterVideo.Controls.Add(this.lbSettingsConverterVideoCRF);
             this.tcSettingsConverterVideo.Location = new System.Drawing.Point(4, 22);
             this.tcSettingsConverterVideo.Name = "tcSettingsConverterVideo";
             this.tcSettingsConverterVideo.Padding = new System.Windows.Forms.Padding(3);
@@ -1318,42 +1390,54 @@
             // 
             this.chkSettingsConverterVideoCRF.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.chkSettingsConverterVideoCRF.AutoSize = true;
+            this.chkSettingsConverterVideoCRF.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.chkSettingsConverterVideoCRF.Checked = true;
             this.chkSettingsConverterVideoCRF.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkSettingsConverterVideoCRF.Location = new System.Drawing.Point(72, 96);
+            this.chkSettingsConverterVideoCRF.Location = new System.Drawing.Point(-52, 95);
             this.chkSettingsConverterVideoCRF.Name = "chkSettingsConverterVideoCRF";
-            this.chkSettingsConverterVideoCRF.Size = new System.Drawing.Size(14, 13);
+            this.chkSettingsConverterVideoCRF.Size = new System.Drawing.Size(177, 17);
             this.chkSettingsConverterVideoCRF.TabIndex = 11;
+            this.chkSettingsConverterVideoCRF.Text = "lbSettingsConverterVideoCRF";
+            this.tipSettings.SetToolTip(this.chkSettingsConverterVideoCRF, "lbSettingsConverterVideoCRFHint");
             this.chkSettingsConverterVideoCRF.UseVisualStyleBackColor = true;
             // 
             // chkSettingsConverterVideoProfile
             // 
             this.chkSettingsConverterVideoProfile.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.chkSettingsConverterVideoProfile.AutoSize = true;
-            this.chkSettingsConverterVideoProfile.Location = new System.Drawing.Point(72, 70);
+            this.chkSettingsConverterVideoProfile.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.chkSettingsConverterVideoProfile.Location = new System.Drawing.Point(-65, 69);
             this.chkSettingsConverterVideoProfile.Name = "chkSettingsConverterVideoProfile";
-            this.chkSettingsConverterVideoProfile.Size = new System.Drawing.Size(14, 13);
+            this.chkSettingsConverterVideoProfile.Size = new System.Drawing.Size(190, 17);
             this.chkSettingsConverterVideoProfile.TabIndex = 8;
+            this.chkSettingsConverterVideoProfile.Text = "lbSettingsConverterVideoProfile";
+            this.tipSettings.SetToolTip(this.chkSettingsConverterVideoProfile, "lbSettingsConverterVideoProfileHint");
             this.chkSettingsConverterVideoProfile.UseVisualStyleBackColor = true;
             // 
             // chkSettingsConverterVideoPreset
             // 
             this.chkSettingsConverterVideoPreset.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.chkSettingsConverterVideoPreset.AutoSize = true;
-            this.chkSettingsConverterVideoPreset.Location = new System.Drawing.Point(72, 43);
+            this.chkSettingsConverterVideoPreset.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.chkSettingsConverterVideoPreset.Location = new System.Drawing.Point(-63, 42);
             this.chkSettingsConverterVideoPreset.Name = "chkSettingsConverterVideoPreset";
-            this.chkSettingsConverterVideoPreset.Size = new System.Drawing.Size(14, 13);
+            this.chkSettingsConverterVideoPreset.Size = new System.Drawing.Size(188, 17);
             this.chkSettingsConverterVideoPreset.TabIndex = 5;
+            this.chkSettingsConverterVideoPreset.Text = "lbSettingsConverterVideoPreset";
+            this.tipSettings.SetToolTip(this.chkSettingsConverterVideoPreset, "lbSettingsConverterVideoPresetHint");
             this.chkSettingsConverterVideoPreset.UseVisualStyleBackColor = true;
             // 
             // chkSettingsConverterVideoBitrate
             // 
             this.chkSettingsConverterVideoBitrate.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.chkSettingsConverterVideoBitrate.AutoSize = true;
-            this.chkSettingsConverterVideoBitrate.Location = new System.Drawing.Point(72, 16);
+            this.chkSettingsConverterVideoBitrate.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.chkSettingsConverterVideoBitrate.Location = new System.Drawing.Point(-65, 15);
             this.chkSettingsConverterVideoBitrate.Name = "chkSettingsConverterVideoBitrate";
-            this.chkSettingsConverterVideoBitrate.Size = new System.Drawing.Size(14, 13);
+            this.chkSettingsConverterVideoBitrate.Size = new System.Drawing.Size(190, 17);
             this.chkSettingsConverterVideoBitrate.TabIndex = 1;
+            this.chkSettingsConverterVideoBitrate.Text = "lbSettingsConverterVideoBitrate";
+            this.tipSettings.SetToolTip(this.chkSettingsConverterVideoBitrate, "lbSettingsConverterVideoBitrateHint");
             this.chkSettingsConverterVideoBitrate.UseVisualStyleBackColor = true;
             // 
             // chkSettingsConverterVideoFastStart
@@ -1453,61 +1537,12 @@
             this.lbConvertVideoThousands.TabIndex = 4;
             this.lbConvertVideoThousands.Text = "K";
             // 
-            // lbSettingsConverterVideoBitrate
-            // 
-            this.lbSettingsConverterVideoBitrate.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.lbSettingsConverterVideoBitrate.AutoSize = true;
-            this.lbSettingsConverterVideoBitrate.Location = new System.Drawing.Point(86, 16);
-            this.lbSettingsConverterVideoBitrate.Name = "lbSettingsConverterVideoBitrate";
-            this.lbSettingsConverterVideoBitrate.Size = new System.Drawing.Size(172, 13);
-            this.lbSettingsConverterVideoBitrate.TabIndex = 2;
-            this.lbSettingsConverterVideoBitrate.Text = "lbSettingsConverterVideoBitrate";
-            this.tipSettings.SetToolTip(this.lbSettingsConverterVideoBitrate, "lbSettingsConverterVideoBitrate");
-            this.lbSettingsConverterVideoBitrate.Click += new System.EventHandler(this.lbSettingsConverterVideoBitrate_Click);
-            // 
-            // lbSettingsConverterVideoPreset
-            // 
-            this.lbSettingsConverterVideoPreset.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.lbSettingsConverterVideoPreset.AutoSize = true;
-            this.lbSettingsConverterVideoPreset.Location = new System.Drawing.Point(86, 43);
-            this.lbSettingsConverterVideoPreset.Name = "lbSettingsConverterVideoPreset";
-            this.lbSettingsConverterVideoPreset.Size = new System.Drawing.Size(176, 13);
-            this.lbSettingsConverterVideoPreset.TabIndex = 6;
-            this.lbSettingsConverterVideoPreset.Text = "lbkSettingsConverterVideoPreset";
-            this.tipSettings.SetToolTip(this.lbSettingsConverterVideoPreset, "lbSettingsConverterVideoPreset");
-            this.lbSettingsConverterVideoPreset.Click += new System.EventHandler(this.lbSettingsConverterVideoPreset_Click);
-            // 
-            // lbSettingsConverterVideoProfile
-            // 
-            this.lbSettingsConverterVideoProfile.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.lbSettingsConverterVideoProfile.AutoSize = true;
-            this.lbSettingsConverterVideoProfile.Location = new System.Drawing.Point(87, 70);
-            this.lbSettingsConverterVideoProfile.Name = "lbSettingsConverterVideoProfile";
-            this.lbSettingsConverterVideoProfile.Size = new System.Drawing.Size(172, 13);
-            this.lbSettingsConverterVideoProfile.TabIndex = 9;
-            this.lbSettingsConverterVideoProfile.Text = "lbSettingsConverterVideoProfile";
-            this.tipSettings.SetToolTip(this.lbSettingsConverterVideoProfile, "lbSettingsConverterVideoProfile");
-            this.lbSettingsConverterVideoProfile.Click += new System.EventHandler(this.lbSettingsConverterVideoProfile_Click);
-            // 
-            // lbSettingsConverterVideoCRF
-            // 
-            this.lbSettingsConverterVideoCRF.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.lbSettingsConverterVideoCRF.AutoSize = true;
-            this.lbSettingsConverterVideoCRF.Location = new System.Drawing.Point(95, 96);
-            this.lbSettingsConverterVideoCRF.Name = "lbSettingsConverterVideoCRF";
-            this.lbSettingsConverterVideoCRF.Size = new System.Drawing.Size(159, 13);
-            this.lbSettingsConverterVideoCRF.TabIndex = 12;
-            this.lbSettingsConverterVideoCRF.Text = "lbSettingsConverterVideoCRF";
-            this.tipSettings.SetToolTip(this.lbSettingsConverterVideoCRF, "lbSettingsConverterVideoCRF");
-            this.lbSettingsConverterVideoCRF.Click += new System.EventHandler(this.lbSettingsConverterVideoCRF_Click);
-            // 
             // tcSettingsConverterAudio
             // 
-            this.tcSettingsConverterAudio.Controls.Add(this.chkUseAudioBitrate);
             this.tcSettingsConverterAudio.Controls.Add(this.numConvertAudioBitrate);
             this.tcSettingsConverterAudio.Controls.Add(this.lbidkwhatsup);
             this.tcSettingsConverterAudio.Controls.Add(this.lbConvertAudioThousands);
-            this.tcSettingsConverterAudio.Controls.Add(this.lbSettingsConverterAudioBitrate);
+            this.tcSettingsConverterAudio.Controls.Add(this.chkSettingsConverterAudioBitrate);
             this.tcSettingsConverterAudio.Location = new System.Drawing.Point(4, 22);
             this.tcSettingsConverterAudio.Name = "tcSettingsConverterAudio";
             this.tcSettingsConverterAudio.Padding = new System.Windows.Forms.Padding(3);
@@ -1515,18 +1550,6 @@
             this.tcSettingsConverterAudio.TabIndex = 1;
             this.tcSettingsConverterAudio.Text = "tcSettingsConverterAudio";
             this.tcSettingsConverterAudio.UseVisualStyleBackColor = true;
-            // 
-            // chkUseAudioBitrate
-            // 
-            this.chkUseAudioBitrate.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.chkUseAudioBitrate.AutoSize = true;
-            this.chkUseAudioBitrate.Checked = true;
-            this.chkUseAudioBitrate.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkUseAudioBitrate.Location = new System.Drawing.Point(88, 21);
-            this.chkUseAudioBitrate.Name = "chkUseAudioBitrate";
-            this.chkUseAudioBitrate.Size = new System.Drawing.Size(14, 13);
-            this.chkUseAudioBitrate.TabIndex = 1;
-            this.chkUseAudioBitrate.UseVisualStyleBackColor = true;
             // 
             // numConvertAudioBitrate
             // 
@@ -1573,16 +1596,20 @@
             this.lbConvertAudioThousands.TabIndex = 4;
             this.lbConvertAudioThousands.Text = "K";
             // 
-            // lbSettingsConverterAudioBitrate
+            // chkSettingsConverterAudioBitrate
             // 
-            this.lbSettingsConverterAudioBitrate.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.lbSettingsConverterAudioBitrate.AutoSize = true;
-            this.lbSettingsConverterAudioBitrate.Location = new System.Drawing.Point(102, 21);
-            this.lbSettingsConverterAudioBitrate.Name = "lbSettingsConverterAudioBitrate";
-            this.lbSettingsConverterAudioBitrate.Size = new System.Drawing.Size(181, 13);
-            this.lbSettingsConverterAudioBitrate.TabIndex = 2;
-            this.lbSettingsConverterAudioBitrate.Text = "chkSettingsConverterAudioBitrate";
-            this.tipSettings.SetToolTip(this.lbSettingsConverterAudioBitrate, "lbSettingsConverterAudioBitrate");
+            this.chkSettingsConverterAudioBitrate.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.chkSettingsConverterAudioBitrate.AutoSize = true;
+            this.chkSettingsConverterAudioBitrate.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.chkSettingsConverterAudioBitrate.Checked = true;
+            this.chkSettingsConverterAudioBitrate.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkSettingsConverterAudioBitrate.Location = new System.Drawing.Point(-52, 22);
+            this.chkSettingsConverterAudioBitrate.Name = "chkSettingsConverterAudioBitrate";
+            this.chkSettingsConverterAudioBitrate.Size = new System.Drawing.Size(191, 17);
+            this.chkSettingsConverterAudioBitrate.TabIndex = 1;
+            this.chkSettingsConverterAudioBitrate.Text = "lbSettingsConverterAudioBitrate";
+            this.tipSettings.SetToolTip(this.chkSettingsConverterAudioBitrate, "lbSettingsConverterAudioBitrateHint");
+            this.chkSettingsConverterAudioBitrate.UseVisualStyleBackColor = true;
             // 
             // tcSettingsConverterCustom
             // 
@@ -1886,14 +1913,15 @@
             this.tabDownloadsFixes.PerformLayout();
             this.tabDownloadsConnection.ResumeLayout(false);
             this.tabDownloadsConnection.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numSettingsDownloadsFragmentThreads)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numSettingsDownloadsRetryAttempts)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numSettingsDownloadsLimitDownload)).EndInit();
             this.tabDownloadsUpdating.ResumeLayout(false);
             this.tabDownloadsUpdating.PerformLayout();
             this.tabDownloadsBatch.ResumeLayout(false);
             this.tabDownloadsBatch.PerformLayout();
-            this.tabYtdlpExtendedOptions.ResumeLayout(false);
-            this.tabYtdlpExtendedOptions.PerformLayout();
+            this.tabExtendedOptions.ResumeLayout(false);
+            this.tabExtendedOptions.PerformLayout();
             this.tabSettingsConverter.ResumeLayout(false);
             this.tabSettingsConverter.PerformLayout();
             this.tcConverter.ResumeLayout(false);
@@ -1958,12 +1986,8 @@
         private System.Windows.Forms.TabPage tcSettingsConverterAudio;
         private System.Windows.Forms.NumericUpDown numConvertVideoBitrate;
         private System.Windows.Forms.Label lbConvertVideoThousands;
-        private System.Windows.Forms.Label lbSettingsConverterVideoBitrate;
         private System.Windows.Forms.ComboBox cbConvertVideoPreset;
-        private System.Windows.Forms.Label lbSettingsConverterVideoPreset;
-        private System.Windows.Forms.Label lbSettingsConverterVideoProfile;
         private System.Windows.Forms.ComboBox cbConvertVideoProfile;
-        private System.Windows.Forms.Label lbSettingsConverterVideoCRF;
         private System.Windows.Forms.NumericUpDown numConvertVideoCRF;
         private System.Windows.Forms.CheckBox chkSettingsConverterVideoFastStart;
         private System.Windows.Forms.TabPage tcSettingsConverterCustom;
@@ -1990,8 +2014,7 @@
         private System.Windows.Forms.CheckBox chkSettingsConverterVideoProfile;
         private System.Windows.Forms.CheckBox chkSettingsConverterVideoPreset;
         private System.Windows.Forms.CheckBox chkSettingsConverterVideoBitrate;
-        private System.Windows.Forms.CheckBox chkUseAudioBitrate;
-        private System.Windows.Forms.Label lbSettingsConverterAudioBitrate;
+        private System.Windows.Forms.CheckBox chkSettingsConverterAudioBitrate;
         private System.Windows.Forms.CheckBox chkSettingsDownloadsFixVReddIt;
         private System.Windows.Forms.CheckBox chkSettingsDownloadsSeparateIntoWebsiteUrl;
         private System.Windows.Forms.CheckBox chkSettingsDownloadsDownloadSubtitles;
@@ -2036,9 +2059,9 @@
         private System.Windows.Forms.CheckBox chkDeleteOldVersionAfterUpdating;
         private System.Windows.Forms.CheckBox chkSettingsGeneralDeleteUpdaterAfterUpdating;
         private System.Windows.Forms.CheckBox chkSettingsDownloadsWebsiteSubdomains;
-        private System.Windows.Forms.TabPage tabYtdlpExtendedOptions;
-        private System.Windows.Forms.CheckBox chkYtdlpExtendedAutomaticallyDownloadThumbnail;
-        private System.Windows.Forms.CheckBox chkYtdlpPreferExtendedDialog;
+        private System.Windows.Forms.TabPage tabExtendedOptions;
+        private System.Windows.Forms.CheckBox chkExtendedAutomaticallyDownloadThumbnail;
+        private System.Windows.Forms.CheckBox chkExtendedPreferExtendedDialog;
         private System.Windows.Forms.TabControl tcExternalApplications;
         private System.Windows.Forms.TabPage tabSettingsGeneralYoutubeDl;
         private System.Windows.Forms.TabPage tabSettingsGeneralFfmpeg;
@@ -2046,5 +2069,10 @@
         private murrty.controls.ExtendedLinkLabel llbSettingsDownloadsInstallProtocolMoreInfo;
         private murrty.controls.UacButton btnSettingsDownloadsInstallProtocol;
         private System.Windows.Forms.Button btnSettingsDownloadsFileNameSchemaHistory;
+        private System.Windows.Forms.CheckBox chkExtendedIncludeCustomArguments;
+        private System.Windows.Forms.CheckBox chkSettingsDownloadsAbortOnError;
+        private System.Windows.Forms.CheckBox chkSettingsDownloadsSkipUnavailableFragments;
+        private System.Windows.Forms.Label lbSettingsDownloadsFragmentThreads;
+        private System.Windows.Forms.NumericUpDown numSettingsDownloadsFragmentThreads;
     }
 }

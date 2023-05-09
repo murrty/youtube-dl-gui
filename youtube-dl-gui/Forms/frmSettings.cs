@@ -130,7 +130,7 @@ public partial class frmSettings : Form {
         tabDownloadsConnection.Text = Language.tabDownloadsConnection;
         tabDownloadsUpdating.Text = Language.tabDownloadsUpdating;
         tabDownloadsBatch.Text = Language.tabDownloadsBatch;
-        tabYtdlpExtendedOptions.Text = Language.tabExtendedOptions;
+        tabExtendedOptions.Text = Language.tabExtendedOptions;
 
         chkSettingsDownloadsSaveFormatQuality.Text = Language.chkSettingsDownloadsSaveFormatQuality;
         tipSettings.SetToolTip(chkSettingsDownloadsSaveFormatQuality, Language.chkSettingsDownloadsSaveFormatQualityHint);
@@ -152,8 +152,11 @@ public partial class frmSettings : Form {
         tipSettings.SetToolTip(chkSettingsDownloadsSaveThumbnails, Language.chkSettingsDownloadsSaveThumbnailsHint);
         chkSettingsDownloadsEmbedThumbnails.Text = Language.chkSettingsDownloadsEmbedThumbnails;
         tipSettings.SetToolTip(chkSettingsDownloadsEmbedThumbnails, Language.chkSettingsDownloadsEmbedThumbnailsHint);
-        chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing.Text = Language.chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing;
-        tipSettings.SetToolTip(chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing, Language.chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosingHint);
+        chkSettingsDownloadsSkipUnavailableFragments.Text = Language.chkSettingsDownloadsSkipUnavailableFragments;
+        tipSettings.SetToolTip(chkSettingsDownloadsSkipUnavailableFragments, Language.chkSettingsDownloadsSkipUnavailableFragmentsHint);
+        chkSettingsDownloadsAbortOnError.Text = Language.chkSettingsDownloadsAbortOnError;
+        tipSettings.SetToolTip(chkSettingsDownloadsAbortOnError, Language.chkSettingsDownloadsAbortOnErrorHint);
+
         chkSettingsDownloadsSeparateDownloadsToDifferentFolders.Text = Language.chkSettingsDownloadsSeparateDownloadsToDifferentFolders;
         tipSettings.SetToolTip(chkSettingsDownloadsSeparateDownloadsToDifferentFolders, Language.chkSettingsDownloadsSeparateDownloadsToDifferentFoldersHint);
         chkSettingsDownloadsSeparateIntoWebsiteUrl.Text = Language.chkSettingsDownloadsSeparateIntoWebsiteUrl;
@@ -181,6 +184,9 @@ public partial class frmSettings : Form {
         tipSettings.SetToolTip(cbSettingsDownloadsProxyType, Language.cbSettingsDownloadsProxyTypeHint);
         tipSettings.SetToolTip(txtSettingsDownloadsProxyIp, Language.txtSettingsDownloadsProxyIpHint);
         tipSettings.SetToolTip(txtSettingsDownloadsProxyPort, Language.txtSettingsDownloadsProxyPortHint);
+        lbSettingsDownloadsFragmentThreads.Text = Language.lbSettingsDownloadsFragmentThreads;
+        tipSettings.SetToolTip(lbSettingsDownloadsFragmentThreads, Language.lbSettingsDownloadsFragmentThreadsHint);
+        tipSettings.SetToolTip(numSettingsDownloadsFragmentThreads, Language.lbSettingsDownloadsFragmentThreadsHint);
 
         chksettingsDownloadsUseYoutubeDlsUpdater.Text = Language.chkSettingsDownloadsUseYoutubeDlsUpdater;
         tipSettings.SetToolTip(chksettingsDownloadsUseYoutubeDlsUpdater, Language.chkSettingsDownloadsUseYoutubeDlsUpdaterHint);
@@ -188,16 +194,20 @@ public partial class frmSettings : Form {
         tipSettings.SetToolTip(cbSettingsDownloadsUpdatingYtdlType, Language.cbSettingsDownloadsUpdatingYtdlTypeHint);
         llbSettingsDownloadsYtdlTypeViewRepo.Text = Language.llbSettingsDownloadsYtdlTypeViewRepo;
         tipSettings.SetToolTip(llbSettingsDownloadsYtdlTypeViewRepo, Language.llbSettingsDownloadsYtdlTypeViewRepoHint);
+        chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing.Text = Language.chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing;
+        tipSettings.SetToolTip(chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing, Language.chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosingHint);
 
         chkSettingsDownloadsSeparateBatchDownloads.Text = Language.chkSettingsDownloadsSeparateBatchDownloads;
         tipSettings.SetToolTip(chkSettingsDownloadsSeparateBatchDownloads, Language.chkSettingsDownloadsSeparateBatchDownloadsHint);
         chkSettingsDownloadsAddDateToBatchDownloadFolders.Text = Language.chkSettingsDownloadsAddDateToBatchDownloadFolders;
         tipSettings.SetToolTip(chkSettingsDownloadsAddDateToBatchDownloadFolders, Language.chkSettingsDownloadsAddDateToBatchDownloadFoldersHint);
 
-        chkYtdlpPreferExtendedDialog.Text = Language.chkExtendedPreferExtendedDialog;
-        tipSettings.SetToolTip(chkYtdlpPreferExtendedDialog, Language.chkExtendedPreferExtendedDialogHint);
-        chkYtdlpExtendedAutomaticallyDownloadThumbnail.Text = Language.chkExtendedAutomaticallyDownloadThumbnail;
-        tipSettings.SetToolTip(chkYtdlpExtendedAutomaticallyDownloadThumbnail, Language.chkExtendedAutomaticallyDownloadThumbnailHint);
+        chkExtendedPreferExtendedDialog.Text = Language.chkExtendedPreferExtendedDialog;
+        tipSettings.SetToolTip(chkExtendedPreferExtendedDialog, Language.chkExtendedPreferExtendedDialogHint);
+        chkExtendedAutomaticallyDownloadThumbnail.Text = Language.chkExtendedAutomaticallyDownloadThumbnail;
+        tipSettings.SetToolTip(chkExtendedAutomaticallyDownloadThumbnail, Language.chkExtendedAutomaticallyDownloadThumbnailHint);
+        chkExtendedIncludeCustomArguments.Text = Language.chkExtendedIncludeCustomArguments;
+        tipSettings.SetToolTip(chkExtendedIncludeCustomArguments, Language.chkExtendedIncludeCustomArgumentsHint);
 
         chkSettingsConverterClearOutputAfterConverting.Text = Language.chkSettingsConverterClearOutputAfterConverting;
         tipSettings.SetToolTip(chkSettingsConverterClearOutputAfterConverting, Language.chkSettingsConverterClearOutputAfterConvertingHint);
@@ -212,18 +222,18 @@ public partial class frmSettings : Form {
         tcSettingsConverterAudio.Text = Language.tcSettingsConverterAudio;
         tcSettingsConverterCustom.Text = Language.tcSettingsConverterCustom;
 
-        lbSettingsConverterVideoBitrate.Text = Language.lbSettingsConverterVideoBitrate;
-        tipSettings.SetToolTip(lbSettingsConverterVideoBitrate, Language.lbSettingsConverterVideoBitrateHint);
-        lbSettingsConverterVideoPreset.Text = Language.lbSettingsConverterVideoPreset;
-        tipSettings.SetToolTip(lbSettingsConverterVideoPreset, Language.lbSettingsConverterVideoPresetHint);
-        lbSettingsConverterVideoProfile.Text = Language.lbSettingsConverterVideoProfile;
-        tipSettings.SetToolTip(lbSettingsConverterVideoProfile, Language.lbSettingsConverterVideoProfileHint);
-        lbSettingsConverterVideoCRF.Text = Language.lbSettingsConverterVideoCRF;
-        tipSettings.SetToolTip(lbSettingsConverterVideoCRF, Language.lbSettingsConverterVideoCRFHint);
+        chkSettingsConverterVideoBitrate.Text = Language.lbSettingsConverterVideoBitrate;
+        tipSettings.SetToolTip(chkSettingsConverterVideoBitrate, Language.lbSettingsConverterVideoBitrateHint);
+        chkSettingsConverterVideoPreset.Text = Language.lbSettingsConverterVideoPreset;
+        tipSettings.SetToolTip(chkSettingsConverterVideoPreset, Language.lbSettingsConverterVideoPresetHint);
+        chkSettingsConverterVideoProfile.Text = Language.lbSettingsConverterVideoProfile;
+        tipSettings.SetToolTip(chkSettingsConverterVideoProfile, Language.lbSettingsConverterVideoProfileHint);
+        chkSettingsConverterVideoCRF.Text = Language.lbSettingsConverterVideoCRF;
+        tipSettings.SetToolTip(chkSettingsConverterVideoCRF, Language.lbSettingsConverterVideoCRFHint);
         chkSettingsConverterVideoFastStart.Text = Language.chkSettingsConverterVideoFastStart;
         tipSettings.SetToolTip(chkSettingsConverterVideoFastStart, Language.chkSettingsConverterVideoFastStartHint);
-        lbSettingsConverterAudioBitrate.Text = Language.lbSettingsConverterAudioBitrate;
-        tipSettings.SetToolTip(lbSettingsConverterAudioBitrate, Language.lbSettingsConverterAudioBitrateHint);
+        chkSettingsConverterAudioBitrate.Text = Language.lbSettingsConverterAudioBitrate;
+        tipSettings.SetToolTip(chkSettingsConverterAudioBitrate, Language.lbSettingsConverterAudioBitrateHint);
         lbSettingsConverterCustomHeader.Text = Language.lbSettingsConverterCustomHeader;
         tipSettings.SetToolTip(txtSettingsConverterCustomArguments, Language.txtSettingsConverterCustomArgumentsHint);
 
@@ -316,6 +326,10 @@ public partial class frmSettings : Form {
             (chkSettingsDownloadsDownloadSubtitles.Location.X + chkSettingsDownloadsDownloadSubtitles.Size.Width + 2),
             chkSettingsDownloadsDownloadSubtitles.Location.Y
         );
+        chkSettingsDownloadsAbortOnError.Location = new(
+            (chkSettingsDownloadsSkipUnavailableFragments.Location.X + chkSettingsDownloadsSkipUnavailableFragments.Size.Width + 2),
+            chkSettingsDownloadsSkipUnavailableFragments.Location.Y
+        );
 
         numSettingsDownloadsLimitDownload.Location = new(
             (chkSettingsDownloadsLimitDownload.Location.X + chkSettingsDownloadsLimitDownload.Size.Width) + 2,
@@ -329,6 +343,29 @@ public partial class frmSettings : Form {
             (lbSettingsDownloadsRetryAttempts.Location.X + lbSettingsDownloadsRetryAttempts.Size.Width),
             numSettingsDownloadsRetryAttempts.Location.Y
         );
+        numSettingsDownloadsFragmentThreads.Location = new(
+            lbSettingsDownloadsFragmentThreads.Location.X + lbSettingsDownloadsFragmentThreads.Width + 2,
+            numSettingsDownloadsFragmentThreads.Location.Y
+        );
+
+        chkSettingsConverterVideoBitrate.Location = new(
+            numConvertVideoBitrate.Location.X - chkSettingsConverterVideoBitrate.Width - numConvertVideoBitrate.Margin.Left - chkSettingsConverterVideoBitrate.Margin.Left,
+            chkSettingsConverterVideoBitrate.Location.Y);
+        chkSettingsConverterVideoPreset.Location = new(
+            cbConvertVideoPreset.Location.X - chkSettingsConverterVideoPreset.Width - cbConvertVideoPreset.Margin.Left - chkSettingsConverterVideoPreset.Margin.Left,
+            chkSettingsConverterVideoPreset.Location.Y);
+        chkSettingsConverterVideoProfile.Location = new(
+            cbConvertVideoProfile.Location.X - chkSettingsConverterVideoProfile.Width - cbConvertVideoProfile.Margin.Left - chkSettingsConverterVideoProfile.Margin.Left,
+            chkSettingsConverterVideoProfile.Location.Y);
+        chkSettingsConverterVideoCRF.Location = new(
+            numConvertVideoCRF.Location.X - chkSettingsConverterVideoCRF.Width - numConvertVideoCRF.Margin.Left - chkSettingsConverterVideoCRF.Margin.Left,
+            chkSettingsConverterVideoCRF.Location.Y);
+
+        chkSettingsConverterAudioBitrate.Location = new(
+            numConvertAudioBitrate.Location.X - chkSettingsConverterAudioBitrate.Width - numConvertAudioBitrate.Margin.Left - chkSettingsConverterAudioBitrate.Margin.Left,
+            chkSettingsConverterAudioBitrate.Location.Y);
+
+
     }
     private void LoadSettings() {
         if (Config.Settings.General.UseStaticYtdl && !string.IsNullOrEmpty(Config.Settings.General.ytdlPath)) {
@@ -410,7 +447,8 @@ public partial class frmSettings : Form {
         chkSettingsDownloadsSaveThumbnails.Checked = Config.Settings.Downloads.SaveThumbnail;
         chkSettingsDownloadsEmbedThumbnails.Enabled = Config.Settings.Downloads.SaveThumbnail;
         chkSettingsDownloadsEmbedThumbnails.Checked = Config.Settings.Downloads.EmbedThumbnails;
-        chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing.Checked = Config.Settings.Downloads.deleteYtdlOnClose;
+        chkSettingsDownloadsSkipUnavailableFragments.Checked = Config.Settings.Downloads.SkipUnavailableFragments;
+        chkSettingsDownloadsAbortOnError.Checked = Config.Settings.Downloads.AbortOnError;
         chkSettingsDownloadsSeparateDownloadsToDifferentFolders.Checked = Config.Settings.Downloads.separateDownloads;
         chkSettingsDownloadsSeparateIntoWebsiteUrl.Checked = Config.Settings.Downloads.separateIntoWebsiteURL;
         chkSettingsDownloadsWebsiteSubdomains.Checked = Config.Settings.Downloads.SubdomainFolderNames;
@@ -426,10 +464,12 @@ public partial class frmSettings : Form {
         cbSettingsDownloadsProxyType.SelectedIndex = Config.Settings.Downloads.ProxyType;
         txtSettingsDownloadsProxyIp.Text = Config.Settings.Downloads.ProxyIP;
         txtSettingsDownloadsProxyPort.Text = Config.Settings.Downloads.ProxyPort;
+        numSettingsDownloadsFragmentThreads.Value = Config.Settings.Downloads.FragmentThreads;
         chksettingsDownloadsUseYoutubeDlsUpdater.Checked = useYtdlUpdater_Last = Config.Settings.Downloads.useYtdlUpdater;
         cbSettingsDownloadsUpdatingYtdlType.SelectedIndex = YtdlType_Last = Config.Settings.Downloads.YtdlType;
-        chkYtdlpPreferExtendedDialog.Checked = Config.Settings.Downloads.ExtendedDownloaderPreferExtendedForm;
-        chkYtdlpExtendedAutomaticallyDownloadThumbnail.Checked = Config.Settings.Downloads.ExtendedDownloaderAutoDownloadThumbnail;
+        chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing.Checked = Config.Settings.Downloads.deleteYtdlOnClose;
+        chkExtendedPreferExtendedDialog.Checked = Config.Settings.Downloads.ExtendedDownloaderPreferExtendedForm;
+        chkExtendedAutomaticallyDownloadThumbnail.Checked = Config.Settings.Downloads.ExtendedDownloaderAutoDownloadThumbnail;
 
         chkSettingsConverterDetectOutputFileType.Checked = Config.Settings.Converts.detectFiletype;
         chkSettingsConverterClearOutputAfterConverting.Checked = Config.Settings.Converts.clearOutput;
@@ -447,7 +487,7 @@ public partial class frmSettings : Form {
 
         chkSettingsConverterVideoFastStart.Checked = Config.Settings.Converts.videoFastStart;
 
-        chkUseAudioBitrate.Checked = Config.Settings.Converts.audioUseBitrate;
+        chkSettingsConverterAudioBitrate.Checked = Config.Settings.Converts.audioUseBitrate;
         numConvertAudioBitrate.Value = Config.Settings.Converts.audioBitrate;
 
         txtSettingsConverterCustomArguments.Text = Config.Settings.Saved.convertCustom;
@@ -525,7 +565,8 @@ public partial class frmSettings : Form {
         Config.Settings.Downloads.SaveAnnotations = chkSettingsDownloadsSaveAnnotations.Checked;
         Config.Settings.Downloads.SaveThumbnail = chkSettingsDownloadsSaveThumbnails.Checked;
         Config.Settings.Downloads.EmbedThumbnails = chkSettingsDownloadsEmbedThumbnails.Checked;
-        Config.Settings.Downloads.deleteYtdlOnClose = chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing.Checked;
+        Config.Settings.Downloads.SkipUnavailableFragments = chkSettingsDownloadsSkipUnavailableFragments.Checked;
+        Config.Settings.Downloads.AbortOnError = chkSettingsDownloadsAbortOnError.Checked;
         Config.Settings.Downloads.separateDownloads = chkSettingsDownloadsSeparateDownloadsToDifferentFolders.Checked;
         Config.Settings.Downloads.separateIntoWebsiteURL = chkSettingsDownloadsSeparateIntoWebsiteUrl.Checked;
         if (chkSettingsDownloadsSeparateIntoWebsiteUrl.Checked) {
@@ -542,13 +583,15 @@ public partial class frmSettings : Form {
         Config.Settings.Downloads.ProxyType = cbSettingsDownloadsProxyType.SelectedIndex;
         Config.Settings.Downloads.ProxyIP = txtSettingsDownloadsProxyIp.Text;
         Config.Settings.Downloads.ProxyPort = txtSettingsDownloadsProxyPort.Text;
+        Config.Settings.Downloads.FragmentThreads = (int)numSettingsDownloadsFragmentThreads.Value;
         Config.Settings.Downloads.useYtdlUpdater = chksettingsDownloadsUseYoutubeDlsUpdater.Checked;
         if (cbSettingsDownloadsUpdatingYtdlType.SelectedIndex != YtdlType_Last) {
             RefreshYtdl = true;
         }
         Config.Settings.Downloads.YtdlType = cbSettingsDownloadsUpdatingYtdlType.SelectedIndex;
-        Config.Settings.Downloads.ExtendedDownloaderPreferExtendedForm = chkYtdlpPreferExtendedDialog.Checked;
-        Config.Settings.Downloads.ExtendedDownloaderAutoDownloadThumbnail = chkYtdlpExtendedAutomaticallyDownloadThumbnail.Checked;
+        Config.Settings.Downloads.deleteYtdlOnClose = chkSettingsDownloadsAutomaticallyDeleteYoutubeDlWhenClosing.Checked;
+        Config.Settings.Downloads.ExtendedDownloaderPreferExtendedForm = chkExtendedPreferExtendedDialog.Checked;
+        Config.Settings.Downloads.ExtendedDownloaderAutoDownloadThumbnail = chkExtendedAutomaticallyDownloadThumbnail.Checked;
 
         Config.Settings.Converts.detectFiletype = chkSettingsConverterDetectOutputFileType.Checked;
         Config.Settings.Converts.clearOutput = chkSettingsConverterClearOutputAfterConverting.Checked;
@@ -565,7 +608,7 @@ public partial class frmSettings : Form {
         Config.Settings.Converts.videoCRF = Decimal.ToInt32(numConvertVideoCRF.Value);
         Config.Settings.Converts.videoFastStart = chkSettingsConverterVideoFastStart.Checked;
 
-        Config.Settings.Converts.audioUseBitrate = chkUseAudioBitrate.Checked;
+        Config.Settings.Converts.audioUseBitrate = chkSettingsConverterAudioBitrate.Checked;
         Config.Settings.Converts.audioBitrate = Decimal.ToInt32(numConvertAudioBitrate.Value);
 
         Config.Settings.Saved.convertCustom = txtSettingsConverterCustomArguments.Text;
@@ -767,7 +810,7 @@ public partial class frmSettings : Form {
         }
     }
     private void llbSettingsDownloadsInstallProtocolMoreInfo_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
-        // TODO: Open link to protocol info.
+        Process.Start("https://github.com/murrty/youtube-dl-gui/blob/master/ARGUMENTS.md#protocol-support");
     }
     private void chkSettingsDownloadsDownloadSubtitles_CheckedChanged(object sender, EventArgs e) {
         chkSettingsDownloadsEmbedSubtitles.Enabled = chkSettingsDownloadsDownloadSubtitles.Checked;

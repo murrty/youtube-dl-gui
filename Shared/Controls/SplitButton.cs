@@ -3,6 +3,7 @@
 namespace murrty.controls;
 
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Windows.Forms;
 using murrty.controls.natives;
 
@@ -68,6 +69,7 @@ internal sealed class SplitButton : Button {
         }
     }
 
+    [DebuggerStepThrough]
     protected override void WndProc(ref Message m) {
         switch (m.Msg) {
             case WM_PAINT when DropDownPushed: {

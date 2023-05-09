@@ -37,60 +37,25 @@ public partial class frmArchiveDownloader : Form {
             System.Media.SystemSounds.Exclamation.Play();
             return;
         }
-        string URL;
-        if (!new Regex(@"^[a-zA-Z0-9-_]{11}").IsMatch(txtArchiveDownloaderHint.Text)) {
-            if (!new Regex(@"(((http|https):\/\/)?(.){0,5}(youtube\.com|youtu\.be)\/(watch\?v=)?)?[a-zA-Z0-9-_]{11}").IsMatch(txtArchiveDownloaderHint.Text)) {
-                txtArchiveDownloaderHint.Focus();
-                System.Media.SystemSounds.Exclamation.Play();
-                return;
-            }
-            else {
-                URL = txtArchiveDownloaderHint.Text.Split('&')[0];
-                string URLLower = URL.ToLower();
-                if (URLLower.StartsWith("http://")) {
-                    URL = URL[7..];
-                    URLLower = URLLower[7..];
-                }
-                else if (URLLower.StartsWith("https://")) {
-                    URL = URL[8..];
-                    URLLower = URLLower[8..];
-                }
-                if (URLLower.StartsWith("www.")) {
-                    URL = URL[4..];
-                    URLLower = URLLower[4..];
-                }
-                if (URLLower.StartsWith("youtube.com/watch?v=")) {
-                    URL = URL[20..];
-                    URLLower = URLLower[20..];
-                }
-                else if (URLLower.StartsWith("youtu.be/")) {
-                    URL = URL[9..];
-                    URLLower = URLLower[9..];
-                }
+        
+        string VideoKey = txtArchiveDownloaderHint.Text;
+        if (DownloadHelper.IsYoutubeLink(VideoKey))
+            VideoKey = DownloadHelper.GetYoutubeVideoKey(VideoKey);
 
-                if (URL.Length > 11) {
-                    URL = URL[..11];
-                }
-
-                if (!new Regex(@"^[a-zA-Z0-9-_]{11}$").IsMatch(URL)) {
-                    txtArchiveDownloaderHint.Focus();
-                    System.Media.SystemSounds.Exclamation.Play();
-                    return;
-                }
-            }
-        }
-        else {
-            URL = txtArchiveDownloaderHint.Text.Length > 11 ? txtArchiveDownloaderHint.Text[..11] : txtArchiveDownloaderHint.Text;
+        if (!DownloadHelper.IsYoutubeKey(VideoKey)) {
+            txtArchiveDownloaderHint.Focus();
+            System.Media.SystemSounds.Exclamation.Play();
+            return;
         }
 
         if (Extended) {
-            frmExtendedDownloader ExtendedForm = new($"ytarchive:{URL}", true);
+            frmExtendedDownloader ExtendedForm = new($"ytarchive:{VideoKey}", true);
             ExtendedForm.Show();
         }
         else {
             DownloadInfo NewInfo = new() {
-                DownloadArguments = $"ytarchive:{URL}",
-                DownloadURL = $"https://archived.youtube.com/watch?v={URL}",
+                DownloadArguments = $"ytarchive:{VideoKey}",
+                DownloadURL = $"https://archived.youtube.com/watch?v={VideoKey}",
                 MostlyCustomArguments = true,
                 Type = DownloadType.Custom
             };

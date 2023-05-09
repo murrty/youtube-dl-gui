@@ -87,6 +87,9 @@ public class YoutubeDlFormat {
         _ => false
     };
 
+    [IgnoreDataMember]
+    public bool Best { get; set; }
+
     /// <summary>
     /// Get ListViewItem associated with this format.
     /// </summary>

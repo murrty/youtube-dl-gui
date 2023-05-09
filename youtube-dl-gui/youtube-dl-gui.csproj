@@ -51,6 +51,7 @@
     <Reference Include="System.Management" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="Microsoft.CSharp" />
@@ -68,16 +69,12 @@
     <Compile Include="Classes\DataClasses\YoutubeDlFormat.cs" />
     <Compile Include="Classes\DownloadHelper.cs" />
     <Compile Include="Classes\DownloadInfo.cs" />
+    <Compile Include="Controls\TimePicker.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Enums\MediaStatusIcon.cs" />
-    <Compile Include="Enums\ExtendedBatchStatus.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Classes\Formats.cs" />
-    <Compile Include="Forms\frmExtendedBatchDownloader.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\frmExtendedBatchDownloader.designer.cs">
-      <DependentUpon>frmExtendedBatchDownloader.cs</DependentUpon>
-    </Compile>
     <Compile Include="Language.cs" />
     <Compile Include="Classes\NativeMethods.cs" />
     <Compile Include="Classes\SystemRegistry.cs" />
@@ -342,9 +339,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmDownloadLanguage.resx">
       <DependentUpon>frmDownloadLanguage.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmExtendedBatchDownloader.resx">
-      <DependentUpon>frmExtendedBatchDownloader.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmExtendedDownloader.resx">
       <DependentUpon>frmExtendedDownloader.cs</DependentUpon>

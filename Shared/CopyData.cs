@@ -109,6 +109,13 @@ internal static class CopyData {
     public static T GetParam<T>(this System.Windows.Forms.Message msg) => (T)msg.GetLParam(typeof(T));
 
     /// <summary>
+    /// Gets the <see cref="CopyDataStruct"/> associated with the message.
+    /// </summary>
+    /// <param name="msg">The message to get the param of.</param>
+    /// <returns>A <see cref="CopyDataStruct"/> representing the data from the LParam associated with <paramref name="msg"/>.</returns>
+    public static CopyDataStruct GetCopyDataStructure(this System.Windows.Forms.Message msg) => Marshal.PtrToStructure<CopyDataStruct>(msg.LParam);
+
+    /// <summary>
     /// The FindWindow function retrieves a handle to the top-level 
     /// window whose class name and window name match the specified strings.
     /// This function does not search child windows. This function does not perform a case-sensitive search.
@@ -120,12 +127,6 @@ internal static class CopyData {
     public static extern nint FindWindow(
         string strClassName,
         string strWindowName);
-
-    //[DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
-    //public static extern int GetClassName(
-    //    nint hWnd,
-    //    StringBuilder lpClassName,
-    //    int nMaxCount);
 
     /// <summary>
     /// Sends the specified message to a window or windows. The SendMessage function calls the window procedure for the specified window and does not return until the window procedure has processed the message.

@@ -12,7 +12,6 @@ public partial class frmDownloader : Form {
     private readonly bool Debug = false;
 
     public frmDownloader() {
-        Program.RunningActions.Add(this);
         InitializeComponent();
         LoadLanguage();
         this.Debug = true;
@@ -23,6 +22,7 @@ public partial class frmDownloader : Form {
         t.Tick += (s, e) => rtbVerbose.AppendLine("Hello when when when when when when when when when when when when when when when when when when");
     }
     public frmDownloader(DownloadInfo Info) {
+        Program.RunningActions.Add(this);
         InitializeComponent();
         LoadLanguage();
         CurrentDownload = Info;

@@ -14,9 +14,11 @@
         [System.Diagnostics.DebuggerStepThrough]
         private void InitializeComponent() {
             this.components = new System.ComponentModel.Container();
+            murrty.controls.Time time1 = new murrty.controls.Time();
             this.lbURL = new System.Windows.Forms.Label();
             this.tcMain = new System.Windows.Forms.TabControl();
             this.tabDownload = new System.Windows.Forms.TabPage();
+            this.btnSaveTo = new System.Windows.Forms.Button();
             this.lbSchema = new System.Windows.Forms.Label();
             this.cbSchema = new System.Windows.Forms.ComboBox();
             this.cbCustomArguments = new System.Windows.Forms.ComboBox();
@@ -44,6 +46,7 @@
             this.mQuickDownloadForm = new System.Windows.Forms.MenuItem();
             this.mQuickDownloadFormAuthentication = new System.Windows.Forms.MenuItem();
             this.mExtendedDownloadForm = new System.Windows.Forms.MenuItem();
+            this.mExtendedDownloadFormAuthentication = new System.Windows.Forms.MenuItem();
             this.chkDownloadSound = new System.Windows.Forms.CheckBox();
             this.cbQuality = new System.Windows.Forms.ComboBox();
             this.lbQuality = new System.Windows.Forms.Label();
@@ -53,7 +56,9 @@
             this.rbAudio = new System.Windows.Forms.RadioButton();
             this.rbVideo = new System.Windows.Forms.RadioButton();
             this.txtUrl = new murrty.controls.ExtendedTextBox();
+            this.chkCustomArgumentsForNonCustomTypes = new System.Windows.Forms.CheckBox();
             this.tabConvert = new System.Windows.Forms.TabPage();
+            this.timePicker1 = new murrty.controls.TimePicker();
             this.rbConvertCustom = new System.Windows.Forms.RadioButton();
             this.rbConvertAudio = new System.Windows.Forms.RadioButton();
             this.rbConvertAutoFFmpeg = new System.Windows.Forms.RadioButton();
@@ -67,6 +72,7 @@
             this.lbConvertInput = new System.Windows.Forms.Label();
             this.txtConvertInput = new System.Windows.Forms.TextBox();
             this.tabDebug = new System.Windows.Forms.TabPage();
+            this.btnTestCopyData = new System.Windows.Forms.Button();
             this.chkDebugPlaylistDownload = new System.Windows.Forms.CheckBox();
             this.chkDebugDontDownload = new System.Windows.Forms.CheckBox();
             this.btnDebugCheckVerification = new System.Windows.Forms.Button();
@@ -79,7 +85,10 @@
             this.menu = new System.Windows.Forms.MainMenu(this.components);
             this.mSettings = new System.Windows.Forms.MenuItem();
             this.mTools = new System.Windows.Forms.MenuItem();
+            this.mBatch = new System.Windows.Forms.MenuItem();
             this.mBatchDownload = new System.Windows.Forms.MenuItem();
+            this.mBatchExtendedDownload = new System.Windows.Forms.MenuItem();
+            this.mBatchSeparator = new System.Windows.Forms.MenuItem();
             this.mBatchConverter = new System.Windows.Forms.MenuItem();
             this.mArchiveDownloader = new System.Windows.Forms.MenuItem();
             this.mMerger = new System.Windows.Forms.MenuItem();
@@ -151,6 +160,7 @@
             // 
             // tabDownload
             // 
+            this.tabDownload.Controls.Add(this.btnSaveTo);
             this.tabDownload.Controls.Add(this.lbSchema);
             this.tabDownload.Controls.Add(this.cbSchema);
             this.tabDownload.Controls.Add(this.cbCustomArguments);
@@ -166,6 +176,7 @@
             this.tabDownload.Controls.Add(this.lbURL);
             this.tabDownload.Controls.Add(this.gbDownloadType);
             this.tabDownload.Controls.Add(this.txtUrl);
+            this.tabDownload.Controls.Add(this.chkCustomArgumentsForNonCustomTypes);
             this.tabDownload.Location = new System.Drawing.Point(4, 22);
             this.tabDownload.Name = "tabDownload";
             this.tabDownload.Padding = new System.Windows.Forms.Padding(3);
@@ -174,24 +185,34 @@
             this.tabDownload.Text = "tabDownload";
             this.tabDownload.UseVisualStyleBackColor = true;
             // 
+            // btnSaveTo
+            // 
+            this.btnSaveTo.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.btnSaveTo.Location = new System.Drawing.Point(44, 297);
+            this.btnSaveTo.Name = "btnSaveTo";
+            this.btnSaveTo.Size = new System.Drawing.Size(28, 25);
+            this.btnSaveTo.TabIndex = 25;
+            this.btnSaveTo.Text = "...";
+            this.btnSaveTo.UseVisualStyleBackColor = true;
+            // 
             // lbSchema
             // 
             this.lbSchema.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lbSchema.Location = new System.Drawing.Point(-5, 217);
+            this.lbSchema.Location = new System.Drawing.Point(15, 205);
             this.lbSchema.Name = "lbSchema";
-            this.lbSchema.Size = new System.Drawing.Size(63, 15);
+            this.lbSchema.Size = new System.Drawing.Size(103, 15);
             this.lbSchema.TabIndex = 23;
             this.lbSchema.Text = "lbSchema";
-            this.lbSchema.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lbSchema.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // cbSchema
             // 
             this.cbSchema.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cbSchema.FormattingEnabled = true;
-            this.cbSchema.Location = new System.Drawing.Point(60, 215);
+            this.cbSchema.Location = new System.Drawing.Point(14, 223);
             this.cbSchema.Name = "cbSchema";
-            this.cbSchema.Size = new System.Drawing.Size(167, 21);
+            this.cbSchema.Size = new System.Drawing.Size(213, 21);
             this.cbSchema.TabIndex = 22;
             this.cbSchema.Text = "%(title)s-%(id)s.%(ext)s";
             this.cbSchema.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.cbSchema_KeyPress);
@@ -201,15 +222,16 @@
             this.cbCustomArguments.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cbCustomArguments.FormattingEnabled = true;
-            this.cbCustomArguments.Location = new System.Drawing.Point(22, 265);
+            this.cbCustomArguments.Location = new System.Drawing.Point(30, 269);
             this.cbCustomArguments.Name = "cbCustomArguments";
             this.cbCustomArguments.Size = new System.Drawing.Size(194, 21);
             this.cbCustomArguments.TabIndex = 21;
+            this.cbCustomArguments.KeyDown += new System.Windows.Forms.KeyEventHandler(this.cbCustomArguments_KeyDown);
             // 
             // chkUseSelection
             // 
             this.chkUseSelection.AutoSize = true;
-            this.chkUseSelection.Location = new System.Drawing.Point(8, 163);
+            this.chkUseSelection.Location = new System.Drawing.Point(8, 159);
             this.chkUseSelection.Name = "chkUseSelection";
             this.chkUseSelection.Size = new System.Drawing.Size(109, 17);
             this.chkUseSelection.TabIndex = 20;
@@ -229,7 +251,7 @@
             this.gbSelection.Controls.Add(this.panelDate);
             this.gbSelection.Controls.Add(this.panelPlaylistStartEnd);
             this.gbSelection.Controls.Add(this.panelPlaylistItems);
-            this.gbSelection.Location = new System.Drawing.Point(7, 163);
+            this.gbSelection.Location = new System.Drawing.Point(7, 159);
             this.gbSelection.MinimumSize = new System.Drawing.Size(0, 20);
             this.gbSelection.Name = "gbSelection";
             this.gbSelection.Size = new System.Drawing.Size(227, 20);
@@ -408,7 +430,7 @@
             this.cbFormat.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.cbFormat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbFormat.FormattingEnabled = true;
-            this.cbFormat.Location = new System.Drawing.Point(71, 136);
+            this.cbFormat.Location = new System.Drawing.Point(71, 132);
             this.cbFormat.Name = "cbFormat";
             this.cbFormat.Size = new System.Drawing.Size(80, 21);
             this.cbFormat.TabIndex = 11;
@@ -416,7 +438,7 @@
             // lbFormat
             // 
             this.lbFormat.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.lbFormat.Location = new System.Drawing.Point(5, 139);
+            this.lbFormat.Location = new System.Drawing.Point(5, 135);
             this.lbFormat.Name = "lbFormat";
             this.lbFormat.Size = new System.Drawing.Size(63, 13);
             this.lbFormat.TabIndex = 10;
@@ -444,7 +466,8 @@
             this.mDownloadSeparator,
             this.mQuickDownloadForm,
             this.mQuickDownloadFormAuthentication,
-            this.mExtendedDownloadForm});
+            this.mExtendedDownloadForm,
+            this.mExtendedDownloadFormAuthentication});
             // 
             // mDownloadWithAuthentication
             // 
@@ -481,13 +504,19 @@
             this.mExtendedDownloadForm.Text = "mExtendedDownloadForm";
             this.mExtendedDownloadForm.Click += new System.EventHandler(this.mExtendedDownloadForm_Click);
             // 
+            // mExtendedDownloadFormAuthentication
+            // 
+            this.mExtendedDownloadFormAuthentication.Index = 6;
+            this.mExtendedDownloadFormAuthentication.Text = "mExtendedDownloadFormAuthentication";
+            this.mExtendedDownloadFormAuthentication.Click += new System.EventHandler(this.mExtendedDownloadFormAuthentication_Click);
+            // 
             // chkDownloadSound
             // 
             this.chkDownloadSound.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.chkDownloadSound.AutoSize = true;
             this.chkDownloadSound.Checked = true;
             this.chkDownloadSound.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkDownloadSound.Location = new System.Drawing.Point(157, 109);
+            this.chkDownloadSound.Location = new System.Drawing.Point(157, 105);
             this.chkDownloadSound.Name = "chkDownloadSound";
             this.chkDownloadSound.Size = new System.Drawing.Size(131, 17);
             this.chkDownloadSound.TabIndex = 9;
@@ -500,7 +529,7 @@
             this.cbQuality.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.cbQuality.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbQuality.FormattingEnabled = true;
-            this.cbQuality.Location = new System.Drawing.Point(71, 107);
+            this.cbQuality.Location = new System.Drawing.Point(71, 103);
             this.cbQuality.Name = "cbQuality";
             this.cbQuality.Size = new System.Drawing.Size(80, 21);
             this.cbQuality.TabIndex = 8;
@@ -508,7 +537,7 @@
             // lbQuality
             // 
             this.lbQuality.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.lbQuality.Location = new System.Drawing.Point(5, 109);
+            this.lbQuality.Location = new System.Drawing.Point(5, 105);
             this.lbQuality.Name = "lbQuality";
             this.lbQuality.Size = new System.Drawing.Size(63, 15);
             this.lbQuality.TabIndex = 7;
@@ -519,7 +548,7 @@
             // 
             this.lbCustomArguments.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lbCustomArguments.AutoSize = true;
-            this.lbCustomArguments.Location = new System.Drawing.Point(15, 244);
+            this.lbCustomArguments.Location = new System.Drawing.Point(15, 252);
             this.lbCustomArguments.Name = "lbCustomArguments";
             this.lbCustomArguments.Size = new System.Drawing.Size(112, 13);
             this.lbCustomArguments.TabIndex = 12;
@@ -531,7 +560,7 @@
             this.gbDownloadType.Controls.Add(this.rbCustom);
             this.gbDownloadType.Controls.Add(this.rbAudio);
             this.gbDownloadType.Controls.Add(this.rbVideo);
-            this.gbDownloadType.Location = new System.Drawing.Point(8, 59);
+            this.gbDownloadType.Location = new System.Drawing.Point(8, 55);
             this.gbDownloadType.Name = "gbDownloadType";
             this.gbDownloadType.Size = new System.Drawing.Size(225, 40);
             this.gbDownloadType.TabIndex = 3;
@@ -596,8 +625,22 @@
             this.txtUrl.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtUrl_KeyDown);
             this.txtUrl.MouseEnter += new System.EventHandler(this.txtUrl_MouseEnter);
             // 
+            // chkCustomArgumentsForNonCustomTypes
+            // 
+            this.chkCustomArgumentsForNonCustomTypes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.chkCustomArgumentsForNonCustomTypes.AutoSize = true;
+            this.chkCustomArgumentsForNonCustomTypes.Checked = true;
+            this.chkCustomArgumentsForNonCustomTypes.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkCustomArgumentsForNonCustomTypes.Enabled = false;
+            this.chkCustomArgumentsForNonCustomTypes.Location = new System.Drawing.Point(14, 273);
+            this.chkCustomArgumentsForNonCustomTypes.Name = "chkCustomArgumentsForNonCustomTypes";
+            this.chkCustomArgumentsForNonCustomTypes.Size = new System.Drawing.Size(14, 13);
+            this.chkCustomArgumentsForNonCustomTypes.TabIndex = 24;
+            this.chkCustomArgumentsForNonCustomTypes.UseVisualStyleBackColor = true;
+            // 
             // tabConvert
             // 
+            this.tabConvert.Controls.Add(this.timePicker1);
             this.tabConvert.Controls.Add(this.rbConvertCustom);
             this.tabConvert.Controls.Add(this.rbConvertAudio);
             this.tabConvert.Controls.Add(this.rbConvertAutoFFmpeg);
@@ -613,16 +656,26 @@
             this.tabConvert.Location = new System.Drawing.Point(4, 22);
             this.tabConvert.Name = "tabConvert";
             this.tabConvert.Padding = new System.Windows.Forms.Padding(3);
-            this.tabConvert.Size = new System.Drawing.Size(238, 318);
+            this.tabConvert.Size = new System.Drawing.Size(238, 339);
             this.tabConvert.TabIndex = 1;
             this.tabConvert.Text = "tabConvert";
             this.tabConvert.UseVisualStyleBackColor = true;
+            // 
+            // timePicker1
+            // 
+            this.timePicker1.DateBasedTime = false;
+            this.timePicker1.Location = new System.Drawing.Point(58, 233);
+            this.timePicker1.Name = "timePicker1";
+            this.timePicker1.Size = new System.Drawing.Size(126, 23);
+            this.timePicker1.TabIndex = 13;
+            this.timePicker1.TimeValue = time1;
+            this.timePicker1.Value = System.TimeSpan.Parse("00:00:00");
             // 
             // rbConvertCustom
             // 
             this.rbConvertCustom.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.rbConvertCustom.AutoSize = true;
-            this.rbConvertCustom.Location = new System.Drawing.Point(124, 79);
+            this.rbConvertCustom.Location = new System.Drawing.Point(124, 99);
             this.rbConvertCustom.Name = "rbConvertCustom";
             this.rbConvertCustom.Size = new System.Drawing.Size(114, 17);
             this.rbConvertCustom.TabIndex = 9;
@@ -634,7 +687,7 @@
             // 
             this.rbConvertAudio.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.rbConvertAudio.AutoSize = true;
-            this.rbConvertAudio.Location = new System.Drawing.Point(67, 79);
+            this.rbConvertAudio.Location = new System.Drawing.Point(67, 99);
             this.rbConvertAudio.Name = "rbConvertAudio";
             this.rbConvertAudio.Size = new System.Drawing.Size(106, 17);
             this.rbConvertAudio.TabIndex = 8;
@@ -646,7 +699,7 @@
             // 
             this.rbConvertAutoFFmpeg.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.rbConvertAutoFFmpeg.AutoSize = true;
-            this.rbConvertAutoFFmpeg.Location = new System.Drawing.Point(93, 102);
+            this.rbConvertAutoFFmpeg.Location = new System.Drawing.Point(93, 122);
             this.rbConvertAutoFFmpeg.Name = "rbConvertAutoFFmpeg";
             this.rbConvertAutoFFmpeg.Size = new System.Drawing.Size(141, 17);
             this.rbConvertAutoFFmpeg.TabIndex = 11;
@@ -658,7 +711,7 @@
             // 
             this.rbConvertAuto.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.rbConvertAuto.AutoSize = true;
-            this.rbConvertAuto.Location = new System.Drawing.Point(16, 102);
+            this.rbConvertAuto.Location = new System.Drawing.Point(16, 122);
             this.rbConvertAuto.Name = "rbConvertAuto";
             this.rbConvertAuto.Size = new System.Drawing.Size(100, 17);
             this.rbConvertAuto.TabIndex = 10;
@@ -670,7 +723,7 @@
             // 
             this.btnConvert.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.btnConvert.Enabled = false;
-            this.btnConvert.Location = new System.Drawing.Point(79, 232);
+            this.btnConvert.Location = new System.Drawing.Point(79, 274);
             this.btnConvert.Name = "btnConvert";
             this.btnConvert.Size = new System.Drawing.Size(79, 25);
             this.btnConvert.TabIndex = 12;
@@ -682,7 +735,7 @@
             // 
             this.rbConvertVideo.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.rbConvertVideo.AutoSize = true;
-            this.rbConvertVideo.Location = new System.Drawing.Point(8, 79);
+            this.rbConvertVideo.Location = new System.Drawing.Point(8, 99);
             this.rbConvertVideo.Name = "rbConvertVideo";
             this.rbConvertVideo.Size = new System.Drawing.Size(105, 17);
             this.rbConvertVideo.TabIndex = 7;
@@ -694,7 +747,7 @@
             // 
             this.btnConvertOutput.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.btnConvertOutput.Enabled = false;
-            this.btnConvertOutput.Location = new System.Drawing.Point(199, 162);
+            this.btnConvertOutput.Location = new System.Drawing.Point(199, 182);
             this.btnConvertOutput.Name = "btnConvertOutput";
             this.btnConvertOutput.Size = new System.Drawing.Size(29, 23);
             this.btnConvertOutput.TabIndex = 6;
@@ -706,7 +759,7 @@
             // 
             this.lbConvertOutput.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.lbConvertOutput.AutoSize = true;
-            this.lbConvertOutput.Location = new System.Drawing.Point(19, 144);
+            this.lbConvertOutput.Location = new System.Drawing.Point(19, 164);
             this.lbConvertOutput.Name = "lbConvertOutput";
             this.lbConvertOutput.Size = new System.Drawing.Size(95, 13);
             this.lbConvertOutput.TabIndex = 4;
@@ -715,7 +768,7 @@
             // txtConvertOutput
             // 
             this.txtConvertOutput.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtConvertOutput.Location = new System.Drawing.Point(26, 164);
+            this.txtConvertOutput.Location = new System.Drawing.Point(26, 184);
             this.txtConvertOutput.Name = "txtConvertOutput";
             this.txtConvertOutput.ReadOnly = true;
             this.txtConvertOutput.Size = new System.Drawing.Size(167, 22);
@@ -753,6 +806,7 @@
             // 
             // tabDebug
             // 
+            this.tabDebug.Controls.Add(this.btnTestCopyData);
             this.tabDebug.Controls.Add(this.chkDebugPlaylistDownload);
             this.tabDebug.Controls.Add(this.chkDebugDontDownload);
             this.tabDebug.Controls.Add(this.btnDebugCheckVerification);
@@ -765,10 +819,20 @@
             this.tabDebug.Location = new System.Drawing.Point(4, 22);
             this.tabDebug.Name = "tabDebug";
             this.tabDebug.Padding = new System.Windows.Forms.Padding(3);
-            this.tabDebug.Size = new System.Drawing.Size(238, 318);
+            this.tabDebug.Size = new System.Drawing.Size(238, 339);
             this.tabDebug.TabIndex = 3;
             this.tabDebug.Text = "Debug";
             this.tabDebug.UseVisualStyleBackColor = true;
+            // 
+            // btnTestCopyData
+            // 
+            this.btnTestCopyData.Location = new System.Drawing.Point(8, 211);
+            this.btnTestCopyData.Name = "btnTestCopyData";
+            this.btnTestCopyData.Size = new System.Drawing.Size(123, 23);
+            this.btnTestCopyData.TabIndex = 9;
+            this.btnTestCopyData.Text = "Copy data test";
+            this.btnTestCopyData.UseVisualStyleBackColor = true;
+            this.btnTestCopyData.Click += new System.EventHandler(this.btnTestCopyData_Click);
             // 
             // chkDebugPlaylistDownload
             // 
@@ -878,8 +942,7 @@
             // 
             this.mTools.Index = 1;
             this.mTools.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.mBatchDownload,
-            this.mBatchConverter,
+            this.mBatch,
             this.mArchiveDownloader,
             this.mMerger,
             this.mDownloadSubtitles,
@@ -889,57 +952,78 @@
             this.mClipboardAutoDownloadVerifyLinks});
             this.mTools.Text = "mt";
             // 
+            // mBatch
+            // 
+            this.mBatch.Index = 0;
+            this.mBatch.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+            this.mBatchDownload,
+            this.mBatchExtendedDownload,
+            this.mBatchSeparator,
+            this.mBatchConverter});
+            this.mBatch.Text = "mBatch";
+            // 
             // mBatchDownload
             // 
             this.mBatchDownload.Index = 0;
             this.mBatchDownload.Text = "mBatchDownload";
             this.mBatchDownload.Click += new System.EventHandler(this.mBatchDownload_Click);
             // 
+            // mBatchExtendedDownload
+            // 
+            this.mBatchExtendedDownload.Index = 1;
+            this.mBatchExtendedDownload.Text = "mBatchExtendedDownload";
+            this.mBatchExtendedDownload.Click += new System.EventHandler(this.mBatchExtendedDownload_Click);
+            // 
+            // mBatchSeparator
+            // 
+            this.mBatchSeparator.Index = 2;
+            this.mBatchSeparator.Text = "-";
+            // 
             // mBatchConverter
             // 
-            this.mBatchConverter.Index = 1;
+            this.mBatchConverter.Index = 3;
             this.mBatchConverter.Text = "mBatchConverter";
             this.mBatchConverter.Click += new System.EventHandler(this.mBatchConverter_Click);
             // 
             // mArchiveDownloader
             // 
-            this.mArchiveDownloader.Index = 2;
+            this.mArchiveDownloader.Index = 1;
             this.mArchiveDownloader.Text = "mArchiveDownloader";
             this.mArchiveDownloader.Click += new System.EventHandler(this.mArchiveDownloader_Click);
             // 
             // mMerger
             // 
-            this.mMerger.Index = 3;
+            this.mMerger.Index = 2;
             this.mMerger.Text = "mMerger";
             this.mMerger.Click += new System.EventHandler(this.mMerger_Click);
             // 
             // mDownloadSubtitles
             // 
-            this.mDownloadSubtitles.Index = 4;
+            this.mDownloadSubtitles.Index = 3;
             this.mDownloadSubtitles.Text = "mDownloadSubtitles";
             this.mDownloadSubtitles.Click += new System.EventHandler(this.mDownloadSubtitles_Click);
             // 
             // mMiscTools
             // 
-            this.mMiscTools.Index = 5;
+            this.mMiscTools.Index = 4;
             this.mMiscTools.Text = "mMiscTools";
             this.mMiscTools.Click += new System.EventHandler(this.mMiscTools_Click);
             // 
             // mToolsSeparator
             // 
-            this.mToolsSeparator.Index = 6;
+            this.mToolsSeparator.Index = 5;
             this.mToolsSeparator.Text = "-";
             // 
             // mClipboardAutoDownload
             // 
-            this.mClipboardAutoDownload.Index = 7;
+            this.mClipboardAutoDownload.Index = 6;
             this.mClipboardAutoDownload.Text = "mClipboardAutoDownload";
             this.mClipboardAutoDownload.Click += new System.EventHandler(this.mClipboardAutoDownload_Click);
             // 
             // mClipboardAutoDownloadVerifyLinks
             // 
             this.mClipboardAutoDownloadVerifyLinks.Enabled = false;
-            this.mClipboardAutoDownloadVerifyLinks.Index = 8;
+            this.mClipboardAutoDownloadVerifyLinks.Index = 7;
             this.mClipboardAutoDownloadVerifyLinks.Text = "GenericVerifyLinks";
             this.mClipboardAutoDownloadVerifyLinks.Click += new System.EventHandler(this.mClipboardAutoDownloadVerifyLinks_Click);
             // 
@@ -1282,6 +1366,14 @@
         private System.Windows.Forms.MenuItem mArchiveDownloader;
         private System.Windows.Forms.MenuItem mLog;
         private System.Windows.Forms.CheckBox chkDebugPlaylistDownload;
+        private System.Windows.Forms.MenuItem mBatch;
+        private System.Windows.Forms.MenuItem mBatchSeparator;
+        private System.Windows.Forms.MenuItem mBatchExtendedDownload;
+        private System.Windows.Forms.MenuItem mExtendedDownloadFormAuthentication;
+        private System.Windows.Forms.Button btnTestCopyData;
+        private System.Windows.Forms.CheckBox chkCustomArgumentsForNonCustomTypes;
+        private murrty.controls.TimePicker timePicker1;
+        private System.Windows.Forms.Button btnSaveTo;
     }
 }
 

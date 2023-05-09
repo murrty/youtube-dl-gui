@@ -20,7 +20,7 @@ public sealed class DownloadInfo {
     /// </summary>
     public string FileNameSchema { get; set; } = null;
     /// <summary>
-    /// Whether the arguments are full custom, excepting for output.
+    /// Whether the only generated arguments through this application is the output folder. This should be <see langword="true"/> for ytarchive downloads or downloads that are specialized and only require the output folder to be generated for the arguments.
     /// </summary>
     public bool MostlyCustomArguments { get; set; } = false;
 
@@ -72,8 +72,7 @@ public sealed class DownloadInfo {
     /// <summary>
     /// The authentication for this instance.
     /// </summary>
-    public AuthenticationDetails Authentication { get => fAuth; set => fAuth = value; }
-    private AuthenticationDetails fAuth = new();
+    public AuthenticationDetails Authentication { get; set; }
     /// <summary>
     /// The arguments for playlist selection.
     /// </summary>
@@ -92,6 +91,14 @@ public sealed class DownloadInfo {
     /// </summary>
     public DownloadInfo() {
         FileNameSchema = Config.Settings.Downloads.fileNameSchema;
+    }
+
+    /// <summary>
+    /// Initializes a new instance of <see cref="DownloadInfo"/> with information for downloading a media object.
+    /// </summary>
+    /// <param name="URL">The URL to download.</param>
+    public DownloadInfo(string URL) : this() {
+        this.DownloadURL = URL;
     }
 
     /// <summary>
@@ -347,7 +354,16 @@ public sealed class DownloadInfo {
             if (Config.Settings.Downloads.UseProxy && Config.Settings.Downloads.ProxyType > -1 && !string.IsNullOrEmpty(Config.Settings.Downloads.ProxyIP) && !string.IsNullOrEmpty(Config.Settings.Downloads.ProxyPort))
                 ArgumentsBuffer.Append($" --proxy {DownloadHelper.ProxyProtocols[Config.Settings.Downloads.ProxyType]}{Config.Settings.Downloads.ProxyIP}:{Config.Settings.Downloads.ProxyPort}/");
 
-            if (!DownloadArguments.ReplaceWhitespace().IsNullEmptyWhitespace())
+            if (Config.Settings.Downloads.AbortForUnavailableFragments)
+                ArgumentsBuffer.Append(" --abort-on-unavailable-fragment");
+
+            if (!Config.Settings.Downloads.AbortOnError)
+                ArgumentsBuffer.Append(" --no-abort-on-error");
+
+            if (Config.Settings.Downloads.FragmentThreads > 1)
+                ArgumentsBuffer.Append(" --concurrent-fragments " + Config.Settings.Downloads.FragmentThreads);
+
+            if (!DownloadArguments.IsNullEmptyWhitespace() && !DownloadArguments.ReplaceWhitespace().IsNullEmptyWhitespace())
                 ArgumentsBuffer.Append(" " + DownloadArguments.ReplaceWhitespace().Trim());
         }
         #endregion
@@ -359,40 +375,42 @@ public sealed class DownloadInfo {
         PreviewArguments = new(ArgumentsBuffer.ToString());
 
         if (!MostlyCustomArguments) {
-            if (!fAuth.Username.IsNullEmptyWhitespace()) {
-                ArgumentsBuffer.Append($" --username {fAuth.Username}");
-                fAuth.Username = null;
-                PreviewArguments.Append(" --username ***");
-            }
-            if (fAuth.Password?.Length > 0) {
-                ArgumentsBuffer.Append($" --password {fAuth.GetPassword()}");
-                fAuth.Password.Clear();
-                PreviewArguments.Append(" --password ***");
-            }
-            if (!fAuth.TwoFactor.IsNullEmptyWhitespace()) {
-                ArgumentsBuffer.Append($" --twofactor {fAuth.TwoFactor}");
-                fAuth.TwoFactor = null;
-                PreviewArguments.Append(" --twofactor ***");
-            }
-            if (fAuth.MediaPassword?.Length > 0) {
-                ArgumentsBuffer.Append($" --video-password {fAuth.GetMediaPassword()}");
-                fAuth.MediaPassword.Clear();
-                PreviewArguments.Append(" --video-password ***");
-            }
-            if (fAuth.NetRC) {
-                ArgumentsBuffer.Append(" --netrc");
-                PreviewArguments.Append(" --netrc ***");
-                fAuth.NetRC = false;
-            }
-            if (!fAuth.CookiesFile.IsNullEmptyWhitespace()) {
-                ArgumentsBuffer.Append($" --cookies {fAuth.CookiesFile}");
-                PreviewArguments.Append(" --cookies ***");
-                fAuth.CookiesFile = null;
-            }
-            if (!fAuth.CookiesFromBrowser.IsNullEmptyWhitespace()) {
-                ArgumentsBuffer.Append($" --cookies-from-browser {fAuth.CookiesFromBrowser}");
-                PreviewArguments.Append(" --cookies-from-browser ***");
-                fAuth.CookiesFromBrowser = null;
+            if (Authentication is not null) {
+                if (!Authentication.Username.IsNullEmptyWhitespace()) {
+                    ArgumentsBuffer.Append($" --username {Authentication.Username}");
+                    Authentication.Username = null;
+                    PreviewArguments.Append(" --username ***");
+                }
+                if (Authentication.Password?.Length > 0) {
+                    ArgumentsBuffer.Append($" --password {Authentication.GetPassword()}");
+                    Array.Clear(Authentication.Password, 0, Authentication.Password.Length);
+                    PreviewArguments.Append(" --password ***");
+                }
+                if (!Authentication.TwoFactor.IsNullEmptyWhitespace()) {
+                    ArgumentsBuffer.Append($" --twofactor {Authentication.TwoFactor}");
+                    Authentication.TwoFactor = null;
+                    PreviewArguments.Append(" --twofactor ***");
+                }
+                if (Authentication.MediaPassword?.Length > 0) {
+                    ArgumentsBuffer.Append($" --video-password {Authentication.GetMediaPassword()}");
+                    Array.Clear(Authentication.MediaPassword, 0, Authentication.MediaPassword.Length);
+                    PreviewArguments.Append(" --video-password ***");
+                }
+                if (Authentication.NetRC) {
+                    ArgumentsBuffer.Append(" --netrc");
+                    PreviewArguments.Append(" --netrc ***");
+                    Authentication.NetRC = false;
+                }
+                if (!Authentication.CookiesFile.IsNullEmptyWhitespace()) {
+                    ArgumentsBuffer.Append($" --cookies {Authentication.CookiesFile}");
+                    PreviewArguments.Append(" --cookies ***");
+                    Authentication.CookiesFile = null;
+                }
+                if (!Authentication.CookiesFromBrowser.IsNullEmptyWhitespace()) {
+                    ArgumentsBuffer.Append($" --cookies-from-browser {Authentication.CookiesFromBrowser}");
+                    PreviewArguments.Append(" --cookies-from-browser ***");
+                    Authentication.CookiesFromBrowser = null;
+                }
             }
         }
         #endregion

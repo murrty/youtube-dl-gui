@@ -1,6 +1,9 @@
 ﻿namespace youtube_dl_gui;
+using System;
 using System.Diagnostics;
 using System.Drawing;
+using System.Runtime.InteropServices;
+using System.Security.Policy;
 using System.Threading;
 using System.Windows.Forms;
 public partial class frmMain : Form {
@@ -41,16 +44,21 @@ public partial class frmMain : Form {
     protected override void WndProc(ref Message m) {
         switch (m.Msg) {
             case CopyData.WM_COPYDATA: {
-                Log.Write("Retrieved data");
-                var Data = m.GetParam<SendLinks>();
-                string[] ReceivedArguments = Data.Argument.Split('|');
-                if (ReceivedArguments.Length > 0) {
-                    Log.Write("Multiple arguments");
-                    var RetrievedArguments = Arguments.RetrieveArguments(ReceivedArguments);
-                    if (RetrievedArguments.Count > 0)
-                        Program.CheckArgs(RetrievedArguments);
+                nint wp = m.WParam;
+                // wParam should be the handle to the Window that sent the message.
+                // Since WM_COPYDATA is overridden, I can DO WHAT I WANT.
+                switch (wp) {
+                    // 0x1 = The data was sent from another instance.
+                    case 0x1: {
+                        Program.ParseCopyData(ref m, chkCustomArgumentsForNonCustomTypes.Checked ? cbCustomArguments.Text : null);
+                        m.Result = IntPtr.Zero;
+                    } break;
+
+                    // No associated processing for this instance.
+                    default: {
+                        base.WndProc(ref m);
+                    } break;
                 }
-                m.Result = IntPtr.Zero;
             } break;
             case CopyData.WM_SHOWFORM: {
                 if (this.WindowState == FormWindowState.Minimized)
@@ -71,7 +79,7 @@ public partial class frmMain : Form {
                     }
                     txtUrl.Text = ClipboardData;
                     ClipboardData = null;
-                    Download();
+                    DownloadDefaults(false);
                 }
                 m.Result = IntPtr.Zero;
             } break;
@@ -172,6 +180,8 @@ public partial class frmMain : Form {
             cbSchema.SelectedIndex = cbSchema.Items.Count - 1;
         }
 
+        chkCustomArgumentsForNonCustomTypes.Checked = Config.Settings.Saved.CustomArgumentsForNonCustomTypes;
+
         //if (ProtocolInput) {
         //    if (Config.Settings.Downloads.AutomaticallyDownloadFromProtocol) {
         //        // download ...
@@ -209,15 +219,14 @@ public partial class frmMain : Form {
                     txtOutputBuffer.AppendLine(cbCustomArguments.GetItemText(cbCustomArguments.Items[i]));
                 }
                 System.IO.File.WriteAllText(Environment.CurrentDirectory + "\\args.txt", txtOutputBuffer.ToString());
-                Config.Settings.Saved.CustomArgumentsIndex = cbCustomArguments.SelectedIndex;
+                Config.Settings.Saved.CustomArgumentsIndex = cbCustomArguments.Text.IsNullEmptyWhitespace() ? -1 : cbCustomArguments.SelectedIndex;
                 break;
             case 2: // settings
                 string stngOutputBuffer = string.Empty;
-                for (int i = 0; i < cbCustomArguments.Items.Count; i++) {
+                for (int i = 0; i < cbCustomArguments.Items.Count; i++)
                     stngOutputBuffer += cbCustomArguments.GetItemText(cbCustomArguments.Items[i]) + "|";
-                }
                 Config.Settings.Saved.DownloadCustomArguments = stngOutputBuffer.Trim('|');
-                Config.Settings.Saved.CustomArgumentsIndex = cbCustomArguments.SelectedIndex;
+                Config.Settings.Saved.CustomArgumentsIndex = cbCustomArguments.Text.IsNullEmptyWhitespace() ? -1 : cbCustomArguments.SelectedIndex;
                 break;
         }
 
@@ -241,6 +250,7 @@ public partial class frmMain : Form {
         else
             Config.Settings.Saved.convertType = -1;
 
+        Config.Settings.Saved.CustomArgumentsForNonCustomTypes = chkCustomArgumentsForNonCustomTypes.Checked;
         Config.Settings.Saved.MainFormLocation = this.Location;
 
         Config.Settings.Save(ConfigType.Saved);
@@ -250,7 +260,9 @@ public partial class frmMain : Form {
     private void LoadLanguage() {
         mSettings.Text = Language.mSettings;
         mTools.Text = Language.mTools;
+        mBatch.Text = Language.mBatch;
         mBatchDownload.Text = Language.mBatchDownload;
+        mBatchExtendedDownload.Text = Language.mBatchExtendedDownload;
         mBatchConverter.Text = Language.mBatchConvert;
         mArchiveDownloader.Text = Language.mArchiveDownloader;
         mMerger.Text = Language.tabMerge;
@@ -295,6 +307,7 @@ public partial class frmMain : Form {
         mQuickDownloadForm.Text = Language.mQuickDownloadForm;
         mQuickDownloadFormAuthentication.Text = Language.mQuickDownloadFormAuthentication;
         mExtendedDownloadForm.Text = Language.mExtendedDownloadForm;
+        mExtendedDownloadFormAuthentication.Text = Language.mExtendedDownloadFormAuthentication;
 
         lbConvertInput.Text = Language.lbConvertInput;
         lbConvertOutput.Text = Language.lbConvertOutput;
@@ -468,10 +481,12 @@ public partial class frmMain : Form {
     }
 
     private void mBatchDownload_Click(object sender, EventArgs e) {
-        //frmExtendedBatchDownloader Batch = new();
-        //Batch.Show();
         frmBatchDownloader BatchDownload = new();
         BatchDownload.Show();
+    }
+    private void mBatchExtendedDownload_Click(object sender, EventArgs e) {
+        frmExtendedDownloader Batch = new();
+        Batch.Show();
     }
     private void mBatchConverter_Click(object sender, EventArgs e) {
         frmBatchConverter BatchConvert = new();
@@ -685,6 +700,7 @@ public partial class frmMain : Form {
                 cbQuality.SelectedIndex = 0;
                 cbFormat.SelectedIndex = 0;
             }
+            chkCustomArgumentsForNonCustomTypes.Enabled = true;
         }
     }
     private void rbAudio_CheckedChanged(object sender, EventArgs e) {
@@ -716,6 +732,7 @@ public partial class frmMain : Form {
                 cbQuality.SelectedIndex = 0;
                 cbFormat.SelectedIndex = 0;
             }
+            chkCustomArgumentsForNonCustomTypes.Enabled = true;
         }
     }
     private void rbCustom_CheckedChanged(object sender, EventArgs e) {
@@ -727,12 +744,9 @@ public partial class frmMain : Form {
             cbFormat.Enabled = false;
             chkDownloadSound.Checked = false;
             chkDownloadSound.Enabled = false;
-            if (Config.Settings.Downloads.SaveFormatQuality) {
+            if (Config.Settings.Downloads.SaveFormatQuality)
                 cbCustomArguments.SelectedIndex = Config.Settings.Saved.CustomArgumentsIndex;
-            }
-        }
-        else {
-            cbCustomArguments.Enabled = false;
+            chkCustomArgumentsForNonCustomTypes.Enabled = false;
         }
     }
     private void chkDownloadSound_CheckedChanged(object sender, EventArgs e) {
@@ -742,22 +756,12 @@ public partial class frmMain : Form {
             if (chkDownloadSound.Checked) {
                 cbQuality.SelectedIndex = -1;
                 cbQuality.Items.AddRange(Formats.VbrQualities);
-                if (Config.Settings.Downloads.SaveFormatQuality) {
-                    cbQuality.SelectedIndex = Config.Settings.Saved.AudioVBRQuality;
-                }
-                else {
-                    cbQuality.SelectedIndex = 0;
-                }
+                cbQuality.SelectedIndex = Config.Settings.Downloads.SaveFormatQuality ? Config.Settings.Saved.AudioVBRQuality : 0;
             }
             else {
                 cbQuality.Items.AddRange(Formats.AudioQualityNamesArray);
                 cbQuality.Items[0] = Language.GenericInputBest;
-                if (Config.Settings.Downloads.SaveFormatQuality) {
-                    cbQuality.SelectedIndex = Config.Settings.Saved.audioQuality;
-                }
-                else {
-                    cbQuality.SelectedIndex = 0;
-                }
+                cbQuality.SelectedIndex = Config.Settings.Downloads.SaveFormatQuality ? Config.Settings.Saved.audioQuality : 0;
             }
         }
     }
@@ -853,11 +857,8 @@ public partial class frmMain : Form {
         }
     }
     private void txtUrl_KeyDown(object sender, KeyEventArgs e) {
-        switch (e.KeyCode) {
-            case Keys.Enter: {
-                Download();
-            } break;
-        }
+        if (e.KeyCode == Keys.Return)
+                DownloadDefaults(false);
     }
     private void txtUrl_TextChanged(object sender, EventArgs e) {
         //btnMainYtdlpExtended.Enabled = txtUrl.Text.Length > 0;
@@ -872,16 +873,19 @@ public partial class frmMain : Form {
             } break;
         }
     }
-    private void txtArgs_KeyPress(object sender, KeyPressEventArgs e) {
-        if (e.KeyChar == 13) {
-            Download();
+    private void cbCustomArguments_KeyDown(object sender, KeyEventArgs e) {
+        switch (e.KeyCode) {
+            case Keys.OemPipe when e.Shift: {
+                e.Handled = e.SuppressKeyPress = true;
+                System.Media.SystemSounds.Exclamation.Play();
+            } break;
         }
     }
     private void sbDownload_Click(object sender, EventArgs e) {
-        Download();
+        DownloadDefaults(false);
     }
     private void mDownloadWithAuthentication_Click(object sender, EventArgs e) {
-        StartDownload(true);
+        DownloadDefaults(true);
     }
     private void mBatchDownloadFromFile_Click(object sender, EventArgs e) {
         if (!Config.Settings.Downloads.SkipBatchTip) {
@@ -987,52 +991,63 @@ public partial class frmMain : Form {
         BatchThread.Start();
     }
     private void mQuickDownloadForm_Click(object sender, EventArgs e) {
-        StartDownload(false);
+        StartDownload(
+            Extended: false,
+            Authenticate: false);
     }
     private void mQuickDownloadFormAuthentication_Click(object sender, EventArgs e) {
-        StartDownload(true);
+        StartDownload(
+            Extended: false,
+            Authenticate: true);
     }
     private void mExtendedDownloadForm_Click(object sender, EventArgs e) {
-        StartDownloadExtended();
+        StartDownload(
+            Extended: true,
+            Authenticate: false);
+    }
+    private void mExtendedDownloadFormAuthentication_Click(object sender, EventArgs e) {
+        StartDownload(
+            Extended: true,
+            Authenticate: true);
     }
 
-    private void Download() {
-        if (Config.Settings.Downloads.ExtendedDownloaderPreferExtendedForm)
-            StartDownloadExtended();
-        else
-            StartDownload(false);
-    }
-    [DebuggerStepThrough]
-    private void StartDownload(bool WithAuth = false) {
-        try {
-            if (string.IsNullOrEmpty(txtUrl.Text)) { return; }
-            txtUrl.Text = txtUrl.Text.Replace("\\", "-");
-            DownloadInfo NewInfo = new();
-            if (!string.IsNullOrWhiteSpace(cbSchema.Text)) {
-                NewInfo.FileNameSchema = cbSchema.Text;
-                if (!Config.Settings.Saved.FileNameSchemaHistory.Contains(cbSchema.Text)) {
-                    cbSchema.Items.Add(cbSchema.Text);
-                    Config.Settings.Saved.FileNameSchemaHistory = Config.Settings.Saved.FileNameSchemaHistory is null ?
-                        cbSchema.Text :
-                        Config.Settings.Saved.FileNameSchemaHistory += "|" + cbSchema.Text;
-                    Config.Settings.Saved.Save();
-                }
+    private void DownloadDefaults(bool auth) =>
+        StartDownload(Config.Settings.Downloads.ExtendedDownloaderPreferExtendedForm, auth);
+    private void StartDownload(bool Extended, bool Authenticate) {
+        if (txtUrl.Text.IsNullEmptyWhitespace()) {
+            txtUrl.Focus();
+            System.Media.SystemSounds.Exclamation.Play();
+            return;
+        }
+
+        string URL = txtUrl.Text;//.Replace("\\", "-");
+
+        AuthenticationDetails Auth = null;
+        if (Authenticate) {
+            Auth = AuthenticationDetails.GetAuthentication();
+            if (Auth is null)
+                return;
+        }
+
+        Form Downloader;
+
+        if (Extended) {
+            string Arguments = null;
+            if (Config.Settings.Downloads.ExtendedDownloaderIncludeCustomArguments && chkCustomArgumentsForNonCustomTypes.Checked) {
+                Arguments = cbCustomArguments.Text.IsNullEmptyWhitespace() ? string.Empty : cbCustomArguments.Text;
+
+                if (!cbCustomArguments.Items.Contains(cbCustomArguments.Text) && !cbCustomArguments.Text.IsNullEmptyWhitespace())
+                    cbCustomArguments.Items.Add(cbCustomArguments.Text);
             }
 
-            // First, authenticate.
-            if (WithAuth) {
-                frmAuthentication auth = new();
-                if (auth.ShowDialog() == DialogResult.OK) {
-                    NewInfo.Authentication = auth.Authentication;
-                    auth.Dispose();
-                }
-                else {
-                    auth.Dispose();
-                    return;
-                }
-            }
-
-            NewInfo.DownloadURL = txtUrl.Text;
+            Downloader = new frmExtendedDownloader(
+                URL,
+                Arguments,
+                false,
+                Auth);
+        }
+        else {
+            DownloadInfo NewInfo = new(URL);
             if (!rbCustom.Checked) {
                 if (chkUseSelection.Checked) {
                     if (rbVideoSelectionPlaylistIndex.Checked && txtPlaylistStart.Text.Length > 0 || txtPlaylistEnd.Text.Length > 0) {
@@ -1077,9 +1092,11 @@ public partial class frmMain : Form {
                     NewInfo.Type = DownloadType.Audio;
                     if (chkDownloadSound.Checked) {
                         NewInfo.AudioVBRQuality = (AudioVBRQualityType)cbQuality.SelectedIndex;
+                        Config.Settings.Saved.AudioVBRQuality = cbQuality.SelectedIndex;
                     }
                     else {
                         NewInfo.AudioCBRQuality = (AudioCBRQualityType)cbQuality.SelectedIndex;
+                        Config.Settings.Saved.audioQuality = cbQuality.SelectedIndex;
                     }
                     NewInfo.UseVBR = chkDownloadSound.Checked;
                     NewInfo.AudioFormat = (AudioFormatType)cbFormat.SelectedIndex;
@@ -1099,37 +1116,26 @@ public partial class frmMain : Form {
                 Config.Settings.Saved.downloadType = (int)DownloadType.Custom;
             }
 
-            NewInfo.DownloadArguments = cbCustomArguments.Text;
-            if (!cbCustomArguments.Items.Contains(cbCustomArguments.Text) && !string.IsNullOrWhiteSpace(cbCustomArguments.Text))
-                cbCustomArguments.Items.Add(cbCustomArguments.Text);
-
-            if (!chkDebugDontDownload.Checked) {
-                frmDownloader Downloader = new(NewInfo);
-                Downloader.Show();
+            if (chkCustomArgumentsForNonCustomTypes.Checked) {
+                NewInfo.DownloadArguments = cbCustomArguments.Text;
+                if (!cbCustomArguments.Items.Contains(cbCustomArguments.Text) && !cbCustomArguments.Text.IsNullEmptyWhitespace())
+                    cbCustomArguments.Items.Add(cbCustomArguments.Text);
             }
 
-            if (Config.Settings.General.ClearURLOnDownload) {
-                txtUrl.Clear();
-            }
-            if (Config.Settings.General.ClearClipboardOnDownload) {
-                Clipboard.Clear();
-            }
+            NewInfo.FileNameSchema = cbSchema.Text;
+            if (!cbSchema.Items.Contains(cbSchema.Text))
+                cbSchema.Items.Add(cbSchema.Text);
+
+            Downloader = new frmDownloader(NewInfo);
         }
-        catch (Exception ex) {
-            Log.ReportException(ex);
-        }
-    }
-    private void StartDownloadExtended() {
-        if (txtUrl.Text.IsNotNullEmptyWhitespace()) {
-            frmExtendedDownloader Extended = new(txtUrl.Text, cbCustomArguments.Text, false);
-            Extended.Show();
-            if (Config.Settings.General.ClearURLOnDownload) {
-                txtUrl.Clear();
-            }
-            if (Config.Settings.General.ClearClipboardOnDownload) {
-                Clipboard.Clear();
-            }
-        }
+
+        Downloader.Show();
+
+        if (Config.Settings.General.ClearURLOnDownload)
+            txtUrl.Clear();
+
+        if (Config.Settings.General.ClearClipboardOnDownload)
+            Clipboard.Clear();
     }
     #endregion
 
@@ -1356,7 +1362,39 @@ public partial class frmMain : Form {
             AtomicParsley Path: { {{Verification.AtomicParsleyPath}} }
             """);
     }
+    private void btnTestCopyData_Click(object sender, EventArgs e) {
+#if DEBUG
+        nint valPointer = 0;
+        nint cdsPointer = 0;
+        try {
+            string Argument = "Hello, world!";
+            byte[] bytes = Encoding.Unicode.GetBytes(Argument);
+            valPointer = Marshal.AllocHGlobal(bytes.Length);
+            Marshal.Copy(bytes, 0, valPointer, bytes.Length);
 
+            CopyDataStruct copyData = new() {
+                dwData = (int)DownloadType.Video,
+                cbData = Encoding.Unicode.GetByteCount(Argument),
+                lpData = valPointer
+            };
+
+            cdsPointer = CopyData.NintAlloc(copyData);
+            CopyData.SendMessage(
+                hWnd: this.Handle,
+                Msg: CopyData.WM_COPYDATA,
+                wParam: 0x1,
+                lParam: cdsPointer);
+            // wParam should be the handle to the Window that sent the message.
+            // Since WM_COPYDATA is overridden, I can DO WHAT I WANT.
+            // 0x1 = The data was sent from another instance.
+        }
+        finally {
+            if (valPointer != 0)
+                Marshal.FreeHGlobal(valPointer);
+            if (cdsPointer != 0)
+                Marshal.FreeHGlobal(cdsPointer);
+        }
+#endif
+    }
     #endregion
-
 }

@@ -36,15 +36,21 @@ public partial class ExitQueueHandler : Form {
     protected override void WndProc(ref Message m) {
         switch (m.Msg) {
             case CopyData.WM_COPYDATA: {
-                Log.Write("Retrieved data");
-                var Data = CopyData.GetParam<SendLinks>(m.LParam);
-                string[] ReceivedArguments = Data.Argument.Split('|');
-                if (ReceivedArguments.Length > 0) {
-                    var RetrievedArguments = Arguments.RetrieveArguments(ReceivedArguments);
-                    if (RetrievedArguments.Count > 0)
-                        Program.CheckArgs(RetrievedArguments);
+                nint wp = m.WParam;
+                // wParam should be the handle to the Window that sent the message.
+                // Since WM_COPYDATA is overridden, I can DO WHAT I WANT.
+                switch (wp) {
+                    // 0x1 = The data was sent from another instance.
+                    case 0x1: {
+                        Program.ParseCopyData(ref m, null); // TODO: Extract the last selected custom argument from the saved config.
+                        m.Result = IntPtr.Zero;
+                    } break;
+
+                    // No associated processing for this instance.
+                    default: {
+                        base.WndProc(ref m);
+                    } break;
                 }
-                m.Result = IntPtr.Zero;
             } break;
 
             case CopyData.WM_SHOWFORM: {

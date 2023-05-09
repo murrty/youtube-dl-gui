@@ -93,4 +93,39 @@ public class DownloadHelper {
         return "Could not parse line";
     }
 
+    public static bool IsYoutubeKey(string key) => Regex.IsMatch(key, "^[a-zA-Z0-9-_]{11}$");
+
+    public static bool IsYoutubeLink(string url) => Regex.IsMatch(url, @"(((http|https):\/\/)?(.){0,5}\.(youtube\.com|youtu\.be)\/(watch\?v=)?)?[a-zA-Z0-9-_]{11}");
+
+    public static string GetYoutubeVideoKey(string URL) {
+        string URLLower = URL.ToLower();
+        if (URLLower.StartsWith("http://")) {
+            URL = URL[7..];
+            URLLower = URLLower[7..];
+        }
+        else if (URLLower.StartsWith("https://")) {
+            URL = URL[8..];
+            URLLower = URLLower[8..];
+        }
+
+        if (URLLower.StartsWith("www.")) {
+            URL = URL[4..];
+            URLLower = URLLower[4..];
+        }
+
+        if (URLLower.StartsWith("youtube.com/watch?v=")) {
+            URL = URL[20..];
+            URLLower = URLLower[20..];
+        }
+        else if (URLLower.StartsWith("youtu.be/")) {
+            URL = URL[9..];
+            URLLower = URLLower[9..];
+        }
+
+        if (URL.Length > 11) {
+            URL = URL[..11];
+        }
+
+        return IsYoutubeKey(URL) ? URL : null;
+    }
 }

@@ -65,6 +65,7 @@
             // llbGithub
             // 
             this.llbGithub.AutoSize = true;
+            this.llbGithub.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
             this.llbGithub.Location = new System.Drawing.Point(222, 120);
             this.llbGithub.Name = "llbGithub";
             this.llbGithub.Size = new System.Drawing.Size(38, 13);
@@ -77,6 +78,7 @@
             // llbCheckForUpdates
             // 
             this.llbCheckForUpdates.AutoSize = true;
+            this.llbCheckForUpdates.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
             this.llbCheckForUpdates.Location = new System.Drawing.Point(85, 120);
             this.llbCheckForUpdates.Name = "llbCheckForUpdates";
             this.llbCheckForUpdates.Size = new System.Drawing.Size(94, 13);

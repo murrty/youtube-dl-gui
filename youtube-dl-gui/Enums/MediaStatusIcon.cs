@@ -19,4 +19,8 @@ internal readonly struct MediaStatusIcon {
     /// The media is selected, but it is not accesible.
     /// </summary>
     public static int SelectedDisabled { get; } = 3;
+    /// <summary>
+    /// The media is not selected.
+    /// </summary>
+    public static int NotSelected { get; } = -1;
 }
