@@ -14,9 +14,9 @@ internal sealed class YoutubeDlData {
     // Tested on yt-dlp
 
     public static YoutubeDlData GenerateData(string URL, out string RetrievedData) =>
-        Generate(URL, "-j", null, out RetrievedData);
+        Generate(URL, "-j --no-playlist", null, out RetrievedData);
     public static YoutubeDlData GenerateData(string URL, AuthenticationDetails Auth, out string RetrievedData) =>
-        Generate(URL, "-j", Auth, out RetrievedData);
+        Generate(URL, "-j --no-playlist", Auth, out RetrievedData);
     public static YoutubeDlData GeneratePlaylist(string URL, out string RetrievedData) =>
         Generate(URL, "-J", null, out RetrievedData);
     public static YoutubeDlData GeneratePlaylist(string URL, AuthenticationDetails Auth, out string RetrievedData) =>

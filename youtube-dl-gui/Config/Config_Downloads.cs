@@ -47,7 +47,7 @@ internal class Config_Downloads {
     public bool ExtendedDownloaderPreferExtendedForm { get; set; }
     public bool ExtendedDownloaderAutoDownloadThumbnail { get; set; }
     public bool ExtendedDownloaderIncludeCustomArguments { get; set; }
-    public bool AbortForUnavailableFragments { get; set; }
+    public bool SkipUnavailableFragments { get; set; }
     public bool AbortOnError { get; set; }
     public int FragmentThreads { get; set; }
 
@@ -94,7 +94,7 @@ internal class Config_Downloads {
     private bool fExtendedDownloaderPreferExtendedForm { get; set; }
     private bool fExtendedDownloaderAutoDownloadThumbnail { get; set; }
     private bool fExtendedDownloaderIncludeCustomArguments { get; set; }
-    public bool fAbortForUnavailableFragments { get; set; }
+    public bool fSkipUnavailableFragments { get; set; }
     public bool fAbortOnError { get; set; }
     public int fFragmentThreads { get; set; }
     #endregion
@@ -235,8 +235,8 @@ internal class Config_Downloads {
         ExtendedDownloaderIncludeCustomArguments = fExtendedDownloaderIncludeCustomArguments =
             IniProvider.Read(ExtendedDownloaderIncludeCustomArguments, true, ConfigName);
 
-        AbortForUnavailableFragments = fAbortForUnavailableFragments =
-            IniProvider.Read(AbortForUnavailableFragments, true, ConfigName);
+        SkipUnavailableFragments = fSkipUnavailableFragments =
+            IniProvider.Read(SkipUnavailableFragments, true, ConfigName);
 
         AbortOnError = fAbortOnError =
             IniProvider.Read(AbortOnError, true, ConfigName);
@@ -380,8 +380,8 @@ internal class Config_Downloads {
         if (ExtendedDownloaderIncludeCustomArguments != fExtendedDownloaderIncludeCustomArguments)
             fExtendedDownloaderIncludeCustomArguments = IniProvider.Write(ExtendedDownloaderIncludeCustomArguments, ConfigName);
 
-        if (AbortForUnavailableFragments != fAbortForUnavailableFragments)
-            fAbortForUnavailableFragments = IniProvider.Write(AbortForUnavailableFragments, ConfigName);
+        if (SkipUnavailableFragments != fSkipUnavailableFragments)
+            fSkipUnavailableFragments = IniProvider.Write(SkipUnavailableFragments, ConfigName);
 
         if (AbortOnError != fAbortOnError)
             fAbortOnError = IniProvider.Write(AbortOnError, ConfigName);

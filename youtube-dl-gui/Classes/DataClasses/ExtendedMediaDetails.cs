@@ -233,6 +233,9 @@ internal sealed class ExtendedMediaDetails : IDisposable {
                     ArgumentBuffer.Append(" --download-sections \"*00:00:00-" + EndTime.ToString() + "\"");
                 }
 
+                if (!BatchDownloadItem)
+                    ArgumentBuffer.Append(" --no-playlist");
+
                 if (!CustomArguments.IsNullEmptyWhitespace())
                     ArgumentBuffer.Append($" {CustomArguments.Replace("\r\n", "\n").Split('\n').Join(" ")}");
             }
@@ -280,7 +283,6 @@ internal sealed class ExtendedMediaDetails : IDisposable {
     /// Gets the protected arguments that censors out the Username/Password of accounts.
     /// </summary>
     public string ProtectedArguments { get; private set; } = string.Empty;
-
 
     /// <summary>
     /// Gets or sets the deserialized data associated with this instance.

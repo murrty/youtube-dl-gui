@@ -354,7 +354,7 @@ public sealed class DownloadInfo {
             if (Config.Settings.Downloads.UseProxy && Config.Settings.Downloads.ProxyType > -1 && !string.IsNullOrEmpty(Config.Settings.Downloads.ProxyIP) && !string.IsNullOrEmpty(Config.Settings.Downloads.ProxyPort))
                 ArgumentsBuffer.Append($" --proxy {DownloadHelper.ProxyProtocols[Config.Settings.Downloads.ProxyType]}{Config.Settings.Downloads.ProxyIP}:{Config.Settings.Downloads.ProxyPort}/");
 
-            if (Config.Settings.Downloads.AbortForUnavailableFragments)
+            if (Config.Settings.Downloads.SkipUnavailableFragments)
                 ArgumentsBuffer.Append(" --abort-on-unavailable-fragment");
 
             if (!Config.Settings.Downloads.AbortOnError)
@@ -362,6 +362,9 @@ public sealed class DownloadInfo {
 
             if (Config.Settings.Downloads.FragmentThreads > 1)
                 ArgumentsBuffer.Append(" --concurrent-fragments " + Config.Settings.Downloads.FragmentThreads);
+
+            if (!BatchDownload)
+                ArgumentsBuffer.Append(" --no-playlist");
 
             if (!DownloadArguments.IsNullEmptyWhitespace() && !DownloadArguments.ReplaceWhitespace().IsNullEmptyWhitespace())
                 ArgumentsBuffer.Append(" " + DownloadArguments.ReplaceWhitespace().Trim());
