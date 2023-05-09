@@ -120,11 +120,8 @@ internal static class Program {
 
                 // Select a language first
                 using frmLanguage LangPicker = new();
-                if (LangPicker.ShowDialog() != DialogResult.Yes)
+                if (LangPicker.ShowDialog() != DialogResult.OK)
                     return 1;
-
-                Config.Settings.Initialization.LanguageFile = LangPicker.LanguageFile;
-                Language.LoadLanguage(LangPicker.LanguageFile);
                 Config.Settings.Initialization.Save();
 
                 if (Log.MessageBox(Language.dlgFirstTimeInitialMessage, MessageBoxButtons.YesNo) != DialogResult.Yes)

@@ -40,7 +40,7 @@
             this.lvAvailableLanguages.TileSize = new System.Drawing.Size(284, 40);
             this.lvAvailableLanguages.UseCompatibleStateImageBehavior = false;
             this.lvAvailableLanguages.View = System.Windows.Forms.View.Tile;
-            this.lvAvailableLanguages.SelectedIndexChanged += new System.EventHandler(this.listView1_SelectedIndexChanged);
+            this.lvAvailableLanguages.SelectedIndexChanged += new System.EventHandler(this.lvAvailableLanguages_SelectedIndexChanged);
             // 
             // chName
             // 

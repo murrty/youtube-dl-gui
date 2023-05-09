@@ -6,6 +6,7 @@
 public static class Language {
     #region Constants
     public const string ApplicationName = "youtube-dl-gui";
+    internal static List<ILocalizedForm> OpenedForms = new();
     #endregion
 
     #region GetSetRadio (AKA Properties)
@@ -47,6 +48,9 @@ public static class Language {
     public static string GenericTitle { get; private set; }
     public static string GenericLength { get; private set; }
     public static string GenericUploadedOn { get; private set; }
+    public static string GenericInput { get; private set; }
+    public static string GenericOutput { get; private set; }
+    public static string GenericArguments { get; private set; }
 
     public static string frmGenericDownloadProgress { get; private set; }
     public static string chContainer { get; private set; }
@@ -607,6 +611,9 @@ public static class Language {
         public const string GenericTitle = "Title";
         public const string GenericLength = "Length";
         public const string GenericUploadedOn = "Uploaded on";
+        public const string GenericInput = "Input";
+        public const string GenericOutput = "Output";
+        public const string GenericArguments = "Arguments";
 
         public const string frmGenericDownloadProgress = "Downloading...";
         public const string chContainer = "Container";
@@ -1203,6 +1210,9 @@ public static class Language {
         GenericTitle = InternalEnglish.GenericTitle;
         GenericLength = InternalEnglish.GenericLength;
         GenericUploadedOn = InternalEnglish.GenericUploadedOn;
+        GenericInput = InternalEnglish.GenericInput;
+        GenericOutput = InternalEnglish.GenericOutput;
+        GenericArguments = InternalEnglish.GenericArguments;
 
         frmGenericDownloadProgress = InternalEnglish.frmGenericDownloadProgress;
         chContainer = InternalEnglish.chContainer;
@@ -1783,6 +1793,9 @@ public static class Language {
         GenericTitle = nameof(GenericTitle);
         GenericLength = nameof(GenericLength);
         GenericUploadedOn = nameof(GenericUploadedOn);
+        GenericInput = nameof(GenericInput);
+        GenericOutput = nameof(GenericOutput);
+        GenericArguments = nameof(GenericArguments);
 
         frmGenericDownloadProgress = nameof(frmGenericDownloadProgress);
         chContainer = nameof(chContainer);
@@ -2331,8 +2344,12 @@ public static class Language {
     public static bool LoadLanguage(string LanguageFile = null) {
         try {
             ResetControlNames(); // Load the control IDs for any untranslated & undocumented strings
+
             if (LanguageFile.IsNullEmptyWhitespace() || !System.IO.File.Exists(LanguageFile)) {
                 LoadInternalEnglish();
+                LoadedFile = null;
+                UsingInternalEnglish = true;
+                LocalizationChanged();
                 return true;
             }
             else {
@@ -2451,6 +2468,15 @@ public static class Language {
                                 continue;
                             case "genericuploadedon":
                                 GenericUploadedOn = ReadValue;
+                                continue;
+                            case "genericinput":
+                                GenericInput = ReadValue;
+                                continue;
+                            case "genericoutput":
+                                GenericOutput = ReadValue;
+                                continue;
+                            case "genericarguments":
+                                GenericArguments = ReadValue;
                                 continue;
 
                             case "frmgenericdownloadprogress":
@@ -3796,6 +3822,7 @@ public static class Language {
                 LoadedFile = LanguageFile;
                 UsingInternalEnglish = false;
                 Log.Write("Finished loading external language.");
+                LocalizationChanged();
                 return true;
             }
         }
@@ -3804,6 +3831,7 @@ public static class Language {
                 return LoadLanguage(LanguageFile);
 
             LoadInternalEnglish();
+            LocalizationChanged();
             return false;
         }
     }
@@ -3846,6 +3874,27 @@ public static class Language {
                 Value = Input[(Input.IndexOf('=') + 1)..].Trim().Replace("\\n", "\n").Replace("\\r", "\r");
             } break;
         }
+    }
+
+    /// <summary>
+    /// Registers a <see cref="ILocalizedForm"/> to the callback when the localization is changed.
+    /// </summary>
+    /// <param name="Form"></param>
+    internal static void RegisterForm(ILocalizedForm Form) => OpenedForms.Add(Form);
+
+    /// <summary>
+    /// Unregisters a <see cref="ILocalizedForm"/> from the callback when the localization is changed.
+    /// </summary>
+    /// <param name="Form"></param>
+    internal static void UnregisterForm(ILocalizedForm Form) => OpenedForms.Remove(Form);
+
+    /// <summary>
+    /// Occurs when the localization has been changed.
+    /// </summary>
+    private static void LocalizationChanged() {
+        if (OpenedForms.Count < 1)
+            return;
+        OpenedForms.For((f) => f.LoadLanguage());
     }
     #endregion
 }

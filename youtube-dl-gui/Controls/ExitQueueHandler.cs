@@ -53,6 +53,7 @@ public partial class ExitQueueHandler : Form {
                 }
             } break;
 
+            // WM_SHOWFORM is a custom message.
             case CopyData.WM_SHOWFORM: {
                 if (Program.RunningActions.Count > 0)
                     Program.RunningActions.ElementAt(0).Show();

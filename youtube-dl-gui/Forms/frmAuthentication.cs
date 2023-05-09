@@ -1,22 +1,22 @@
 ﻿namespace youtube_dl_gui;
-using System.Runtime.InteropServices;
 using System.Windows.Forms;
-public partial class frmAuthentication : Form {
+public partial class frmAuthentication : Form, ILocalizedForm {
 
     /// <summary>
     /// Gets or sets the authentication data for the instance.
     /// </summary>
-    public AuthenticationDetails Authentication { get => AuthenticationData; set => AuthenticationData = value; }
-    private AuthenticationDetails AuthenticationData;
+    public AuthenticationDetails Authentication { get; set; }
 
     public frmAuthentication() {
         InitializeComponent();
         LoadLanguage();
-        CalculatePositions();
-    }
-    public frmAuthentication(AuthenticationDetails Details) : this() => AuthenticationData = Details;
 
-    private void LoadLanguage() {
+        this.Load += (s, e) => RegisterLocalizedForm();
+        this.FormClosing += (s, e) => UnregisterLocalizedForm();
+    }
+    public frmAuthentication(AuthenticationDetails Details) : this() => Authentication = Details;
+
+    public void LoadLanguage() {
         this.Text = Language.frmAuthentication;
         lbAuthNotice.Text = Language.lbAuthNotice;
         lbAuthUsername.Text = Language.lbAuthUsername;
@@ -29,14 +29,15 @@ public partial class frmAuthentication : Form {
         lbAuthNoSave.Text = Language.lbAuthNoSave;
         btnAuthBeginDownload.Text = Language.btnAuthBeginDownload;
         btnAuthGenericCancel.Text = Language.GenericCancel;
-    }
-    private void CalculatePositions() {
+
         chkAuthUseNetrc.Location = new(
             //(this.Size.Width - chkAuthUseNetrc.Size.Width) / 2,
             (this.ClientSize.Width - chkAuthUseNetrc.Size.Width) / 2,
             chkAuthUseNetrc.Location.Y
         );
     }
+    public void RegisterLocalizedForm() => Language.RegisterForm(this);
+    public void UnregisterLocalizedForm() => Language.UnregisterForm(this);
 
     private void chkPasswordVisible_CheckedChanged(object sender, EventArgs e) {
         txtPassword.PasswordChar = chkPasswordVisible.Checked ? '\0' : '●';
@@ -45,33 +46,33 @@ public partial class frmAuthentication : Form {
         txtVideoPassword.PasswordChar = chkVideoPassVisible.Checked ? '\0' : '●';
     }
     private void btnAuthBeginDownload_Click(object sender, EventArgs e) {
-        AuthenticationData = new();
+        Authentication = new();
 
         if (!txtUsername.Text.IsNullEmptyWhitespace()) {
-            AuthenticationData.Username = txtUsername.Text;
+            Authentication.Username = txtUsername.Text;
             txtUsername.Text = string.Empty;
         }
         if (!txtPassword.Text.IsNullEmptyWhitespace()) {
-            AuthenticationData.SetPassword(txtPassword.Text);
+            Authentication.SetPassword(txtPassword.Text);
             txtPassword.Text = string.Empty;
         }
         if (!txt2Factor.Text.IsNullEmptyWhitespace()) {
-            AuthenticationData.TwoFactor = txt2Factor.Text;
+            Authentication.TwoFactor = txt2Factor.Text;
             txt2Factor.Text = string.Empty;
         }
         if (!txtVideoPassword.Text.IsNullEmptyWhitespace()) {
-            AuthenticationData.SetMediaPassword(txtVideoPassword.Text);
+            Authentication.SetMediaPassword(txtVideoPassword.Text);
             txtVideoPassword.Text = string.Empty;
         }
         if (!txtCookiesFile.Text.IsNullEmptyWhitespace() && System.IO.File.Exists(txtCookiesFile.Text)) {
-            AuthenticationData.CookiesFile = txtCookiesFile.Text;
+            Authentication.CookiesFile = txtCookiesFile.Text;
             txtCookiesFile.Text = string.Empty;
         }
         if (!txtCookiesFromBrowser.Text.IsNullEmptyWhitespace()) {
-            AuthenticationData.CookiesFromBrowser = txtCookiesFromBrowser.Text;
+            Authentication.CookiesFromBrowser = txtCookiesFromBrowser.Text;
             txtCookiesFromBrowser.Text = string.Empty;
         }
-        AuthenticationData.NetRC = chkAuthUseNetrc.Checked;
+        Authentication.NetRC = chkAuthUseNetrc.Checked;
 
         this.DialogResult = DialogResult.OK;
     }

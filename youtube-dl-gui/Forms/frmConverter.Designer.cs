@@ -113,7 +113,6 @@
             this.Name = "frmConverter";
             this.Text = "frmConverter";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmConverter_FormClosing);
-            this.Load += new System.EventHandler(this.frmConverter_Load);
             this.Shown += new System.EventHandler(this.frmConverter_Shown);
             this.ResumeLayout(false);
             this.PerformLayout();

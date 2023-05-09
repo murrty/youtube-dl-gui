@@ -1,36 +1,36 @@
 ﻿namespace youtube_dl_gui;
-
-using System.Text.RegularExpressions;
 using System.Windows.Forms;
-
-public partial class frmArchiveDownloader : Form {
+public partial class frmArchiveDownloader : Form, ILocalizedForm {
     public frmArchiveDownloader() {
         InitializeComponent();
         LoadLanguage();
 
         this.Load += (s, e) => {
+            RegisterLocalizedForm();
             if (Config.Settings.Saved.ArchiveDownloaderLocation.Valid) {
                 this.StartPosition = FormStartPosition.Manual;
                 this.Location = Config.Settings.Saved.ArchiveDownloaderLocation;
             }
         };
         this.FormClosing += (s, e) => {
+            UnregisterLocalizedForm();
             Config.Settings.Saved.ArchiveDownloaderLocation = this.Location;
             Config.Settings.Saved.Save();
         };
         txtArchiveDownloaderHint.MouseEnter += (s, e) => {
-            if (Config.Settings.General.HoverOverURLTextBoxToPaste) {
+            if (Config.Settings.General.HoverOverURLTextBoxToPaste)
                 txtArchiveDownloaderHint.Text = Clipboard.GetText();
-            }
         };
     }
-    private void LoadLanguage() {
+    public void LoadLanguage() {
         this.Text = Language.frmArchiveDownloader;
         lbArchiveDownloaderDescription.Text = Language.lbArchiveDownloaderDescription;
         txtArchiveDownloaderHint.TextHint = Language.txtArchiveDownloaderHint;
         btnDownload.Text = Language.sbDownload;
         btnExtendedDownload.Text = Language.mExtendedDownloadForm;
     }
+    public void RegisterLocalizedForm() => Language.RegisterForm(this);
+    public void UnregisterLocalizedForm() => Language.UnregisterForm(this);
     private void Download(bool Extended) {
         if (txtArchiveDownloaderHint.Text.IsNullEmptyWhitespace()) {
             txtArchiveDownloaderHint.Focus();
@@ -63,10 +63,6 @@ public partial class frmArchiveDownloader : Form {
             Downloader.ShowDialog();
         }
     }
-    private void btnDownload_Click(object sender, EventArgs e) {
-        Download(false);
-    }
-    private void btnExtendedDownload_Click(object sender, EventArgs e) {
-        Download(true);
-    }
+    private void btnDownload_Click(object sender, EventArgs e) => Download(false);
+    private void btnExtendedDownload_Click(object sender, EventArgs e) => Download(true);
 }

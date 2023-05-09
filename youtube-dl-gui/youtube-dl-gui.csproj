@@ -69,12 +69,14 @@
     <Compile Include="Classes\DataClasses\YoutubeDlFormat.cs" />
     <Compile Include="Classes\DownloadHelper.cs" />
     <Compile Include="Classes\DownloadInfo.cs" />
+    <Compile Include="Config\CustomArguments.cs" />
     <Compile Include="Controls\TimePicker.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Enums\MediaStatusIcon.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Classes\Formats.cs" />
+    <Compile Include="Interfaces\ILocalizedForm.cs" />
     <Compile Include="Language.cs" />
     <Compile Include="Classes\NativeMethods.cs" />
     <Compile Include="Classes\SystemRegistry.cs" />

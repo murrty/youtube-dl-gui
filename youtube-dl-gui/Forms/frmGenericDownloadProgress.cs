@@ -4,16 +4,16 @@ using System.Net;
 using System.Threading;
 using System.Windows.Forms;
 
-public partial class frmGenericDownloadProgress : Form {
+public partial class frmGenericDownloadProgress : Form, ILocalizedForm {
     public string URL { get; private set; }
     public string Output { get; private set; }
     private readonly Thread DownloadThread;
     private WebClient DownloadClient;
     private int ThrottleCount;
     private bool Cancelled = false;
+    private bool Finished = false;
     public frmGenericDownloadProgress(string URL, string Output) {
         InitializeComponent();
-        this.Text = Language.frmGenericDownloadProgress;
         this.URL = URL;
         this.Output = Output;
         Log.Write($"Using generic downloader to display progress for \"{URL}\".");
@@ -34,6 +34,8 @@ public partial class frmGenericDownloadProgress : Form {
                     }
                 };
                 DownloadClient.DownloadFileCompleted += (s, e) => {
+                    Finished = true;
+                    UnregisterLocalizedForm();
                     this.DialogResult = Cancelled ? DialogResult.Cancel : DialogResult.OK;
                 };
                 DownloadClient.Headers.Add("user-agent", Program.UserAgent);
@@ -70,7 +72,7 @@ public partial class frmGenericDownloadProgress : Form {
             DownloadThread.Start();
         };
         this.FormClosing += (s, e) => {
-            if (!Cancelled) {
+            if (!Finished && !Cancelled) {
                 Cancelled = true;
                 Log.Write("Cancelling download.");
                 if (DownloadClient is not null && DownloadClient.IsBusy) {
@@ -81,7 +83,10 @@ public partial class frmGenericDownloadProgress : Form {
                     DownloadThread.Abort();
                     e.Cancel = true;
                 }
+                return;
             }
+
+            UnregisterLocalizedForm();
         };
     }
     public frmGenericDownloadProgress(string URL, string Output, Point Location) : this(URL, Output) {
@@ -92,4 +97,9 @@ public partial class frmGenericDownloadProgress : Form {
             }
         };
     }
+    public void LoadLanguage() {
+        this.Text = Language.frmGenericDownloadProgress;
+    }
+    public void RegisterLocalizedForm() => Language.RegisterForm(this);
+    public void UnregisterLocalizedForm() => Language.UnregisterForm(this);
 }

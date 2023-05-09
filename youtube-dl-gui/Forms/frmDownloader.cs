@@ -2,7 +2,8 @@
 using System.Diagnostics;
 using System.Threading;
 using System.Windows.Forms;
-public partial class frmDownloader : Form {
+
+public partial class frmDownloader : Form, ILocalizedForm {
     public DownloadInfo CurrentDownload { get; }
 
     private Thread DownloadThread;              // The thread of the process for youtube-dl.
@@ -28,7 +29,7 @@ public partial class frmDownloader : Form {
         CurrentDownload = Info;
     }
 
-    private void LoadLanguage() {
+    public void LoadLanguage() {
         this.Text = Language.frmDownloader + " ";
         btnDownloaderAbortBatchDownload.Text = Language.btnDownloaderAbortBatch;
         btnClearOutput.Text = Language.GenericClear;
@@ -36,7 +37,63 @@ public partial class frmDownloader : Form {
         btnDownloaderCancelExit.Text = Language.GenericCancel;
         chkDownloaderCloseAfterDownload.Text = Language.chkDownloaderCloseAfterDownload;
         chkDownloaderCloseAfterDownload.Checked = Config.Settings.Downloads.CloseDownloaderAfterFinish;
+        switch (CurrentDownload.Status) {
+            case DownloadStatus.Aborted: {
+                pbStatus.Text = "Aborted";
+                btnDownloaderAbortBatchDownload.Text = Language.GenericRetry;
+                btnDownloaderCancelExit.Text = Language.GenericExit;
+            } break;
+            case DownloadStatus.YtdlError: {
+                pbStatus.Text = "ytdl error";
+                btnDownloaderAbortBatchDownload.Text = Language.GenericRetry;
+                btnDownloaderCancelExit.Text = Language.GenericExit;
+            } break;
+            case DownloadStatus.ProgramError: {
+                pbStatus.Text = "Error";
+                btnDownloaderAbortBatchDownload.Text = Language.GenericRetry;
+                btnDownloaderCancelExit.Text = Language.GenericExit;
+            } break;
+            case DownloadStatus.AbortForClose: {
+                btnDownloaderAbortBatchDownload.Text = Language.GenericRetry;
+                btnDownloaderCancelExit.Text = Language.GenericExit;
+            } break;
+            case DownloadStatus.Preparing: {
+                pbStatus.Text = "Beginning download";
+                btnDownloaderAbortBatchDownload.Text = Language.GenericCancel;
+            } break;
+            case DownloadStatus.Downloading: {
+                btnDownloaderAbortBatchDownload.Text = Language.GenericCancel;
+            } break;
+            case DownloadStatus.MergingFiles: {
+                pbStatus.Text = Language.pbDownloadProgressMergingFormats;
+                btnDownloaderAbortBatchDownload.Text = Language.GenericCancel;
+            } break;
+            case DownloadStatus.Converting: {
+                pbStatus.Text = Language.pbDownloadProgressConverting;
+                btnDownloaderAbortBatchDownload.Text = Language.GenericCancel;
+            } break;
+            case DownloadStatus.FfmpegPostProcessing: {
+                pbStatus.Text = Language.pbDownloadProgressFfmpegPostProcessing;
+                btnDownloaderAbortBatchDownload.Text = Language.GenericCancel;
+            } break;
+            case DownloadStatus.EmbeddingSubtitles: {
+                pbStatus.Text = Language.pbDownloadProgressEmbeddingSubtitles;
+                btnDownloaderAbortBatchDownload.Text = Language.GenericCancel;
+            } break;
+            case DownloadStatus.EmbeddingMetadata: {
+                btnDownloaderAbortBatchDownload.Text = Language.GenericCancel;
+            } break;
+            case DownloadStatus.Finished: {
+                pbStatus.Text = "Completed";
+                btnDownloaderCancelExit.Text = Language.GenericExit;
+            } break;
+            default: {
+                pbStatus.Text = ".  .  .";
+            } break;
+        }
     }
+    public void RegisterLocalizedForm() => Language.RegisterForm(this);
+    public void UnregisterLocalizedForm() => Language.UnregisterForm(this);
     public void Abort() {
         switch (CurrentDownload.Status) {
             case DownloadStatus.YtdlError:
@@ -379,7 +436,7 @@ public partial class frmDownloader : Form {
             this.StartPosition = FormStartPosition.Manual;
             this.Location = Config.Settings.Saved.QuickDownloaderLocation;
         }
-
+        RegisterLocalizedForm();
     }
     private void frmExtendedMassDownloader_Shown(object sender, EventArgs e) {
         pbStatus.Focus();
@@ -416,6 +473,7 @@ public partial class frmDownloader : Form {
             if (!CurrentDownload.BatchDownload)
                 Config.Settings.Downloads.CloseDownloaderAfterFinish = chkDownloaderCloseAfterDownload.Checked;
             Config.Settings.Saved.QuickDownloaderLocation = this.Location;
+            UnregisterLocalizedForm();
             this.DialogResult = Finish;
             this.Dispose();
         }
@@ -472,9 +530,8 @@ public partial class frmDownloader : Form {
                 break;
             default:
                 Log.Write("Aborting download.");
-                if (DownloadThread is not null && DownloadThread.IsAlive) {
+                if (DownloadThread is not null && DownloadThread.IsAlive)
                     DownloadThread.Abort();
-                }
                 break;
         }
     }

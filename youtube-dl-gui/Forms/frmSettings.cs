@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Threading;
 using System.Windows.Forms;
-public partial class frmSettings : Form {
+public partial class frmSettings : Form, ILocalizedForm {
     #region vars
     private bool LoadingForm = false;
     private readonly bool ProtocolAvailable = false;
@@ -29,7 +29,6 @@ public partial class frmSettings : Form {
         ProtocolAvailable = SystemRegistry.CheckRegistry();
 
         LoadLanguage();
-        CalculatePositions();
         LoadSettings();
     }
     private void frmSettings_Load(object sender, EventArgs e) {
@@ -38,14 +37,15 @@ public partial class frmSettings : Form {
             this.Size = Config.Settings.Saved.SettingsFormSize;
         }
         LoadingForm = false;
+        RegisterLocalizedForm();
     }
     private void frmSettings_FormClosing(object sender, FormClosingEventArgs e) {
-        if (YtdlUpdateCheck != null && YtdlUpdateCheck.IsAlive) {
+        if (YtdlUpdateCheck is not null && YtdlUpdateCheck.IsAlive)
             YtdlUpdateCheck.Abort();
-        }
+        UnregisterLocalizedForm();
     }
 
-    private void LoadLanguage() {
+    public void LoadLanguage() {
         this.Text = Language.frmSettings;
         btnSettingsCancel.Text = Language.GenericCancel;
         tipSettings.SetToolTip(btnSettingsCancel, Language.btnSettingsCancelHint);
@@ -258,8 +258,8 @@ public partial class frmSettings : Form {
         tipSettings.SetToolTip(chkSettingsErrorsSaveErrorsAsErrorLog, Language.chkSettingsErrorsSaveErrorsAsErrorLogHint);
         chkSettingsErrorsSuppressErrors.Text = Language.chkSettingsErrorsSuppressErrors;
         tipSettings.SetToolTip(chkSettingsErrorsSuppressErrors, Language.chkSettingsErrorsSuppressErrorsHint);
-    }
-    private void CalculatePositions() {
+
+
         chkSettingsGeneralCheckForUpdatesOnLaunch.Location = new(
             (tabSettingsGeneral.Size.Width - chkSettingsGeneralCheckForUpdatesOnLaunch.Size.Width) / 2,
             chkSettingsGeneralCheckForUpdatesOnLaunch.Location.Y
@@ -364,9 +364,9 @@ public partial class frmSettings : Form {
         chkSettingsConverterAudioBitrate.Location = new(
             numConvertAudioBitrate.Location.X - chkSettingsConverterAudioBitrate.Width - numConvertAudioBitrate.Margin.Left - chkSettingsConverterAudioBitrate.Margin.Left,
             chkSettingsConverterAudioBitrate.Location.Y);
-
-
     }
+    public void RegisterLocalizedForm() => Language.RegisterForm(this);
+    public void UnregisterLocalizedForm() => Language.UnregisterForm(this);
     private void LoadSettings() {
         if (Config.Settings.General.UseStaticYtdl && !string.IsNullOrEmpty(Config.Settings.General.ytdlPath)) {
             txtSettingsGeneralYoutubeDlPath.Text = Config.Settings.General.ytdlPath;

@@ -109,7 +109,7 @@ public sealed class DownloadInfo {
     /// <param name="CensoredArguments">The output censored arguments to censor login information.</param>
     /// <returns><see langword="true"/> if the arguments generated successfully; otherwise, <see langword="false"/>.</returns>
     public bool GenerateArguments(Action<string> Verbose, out string Arguments, out string CensoredArguments) {
-        Status = DownloadStatus.GeneratingArguments;
+        Status = DownloadStatus.Preparing;
         Arguments = null;
         CensoredArguments = null;
 

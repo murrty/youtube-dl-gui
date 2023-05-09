@@ -1,102 +1,107 @@
-﻿using System.Drawing;
+﻿namespace youtube_dl_gui;
+using System.Drawing;
 using System.Windows.Forms;
 using murrty.updater;
+public partial class frmDownloadLanguage : Form, ILocalizedForm {
+    private readonly Font SubItemFont;
+    private readonly GithubRepoContent[] EnumeratedLanguages;
 
-namespace youtube_dl_gui {
-    public partial class frmDownloadLanguage : Form {
+    public string FileName { get; private set; }
 
-        private readonly Font SubItemFont;
-        private readonly GithubRepoContent[] EnumeratedLanguages;
-
-        public string FileName { get; private set; }
-
-        public frmDownloadLanguage() {
-            InitializeComponent();
-            SubItemFont = new("Segoi UI", this.Font.Size, FontStyle.Italic);
-            try {
-                EnumeratedLanguages = UpdateChecker.GetAvailableLanguages();
-                if (EnumeratedLanguages.Length > 0) {
-                    // Uncomment these out when the SHA calcuation gets fixed.
-                    for (int i = 0; i < EnumeratedLanguages.Length; i++) {
-                        ListViewItem NewItem = new($"Item {EnumeratedLanguages[i].name}");
-                        NewItem.SubItems[0].Text = $"{i + 1}: {(EnumeratedLanguages[i].name.EndsWith(".ini") ? EnumeratedLanguages[i].name[..^4] : EnumeratedLanguages[i].name)} ({EnumeratedLanguages[i].size.SizeToString()})";
-                        NewItem.UseItemStyleForSubItems = false;
-                        NewItem.SubItems.Add(new ListViewItem.ListViewSubItem());
-                        NewItem.SubItems[1].Text = EnumeratedLanguages[i].download_url;
-                        //NewItem.SubItems[1].Text = $"{EnumeratedLanguages[i].Sha}";
-                        NewItem.SubItems[1].ForeColor = Color.FromKnownColor(KnownColor.ScrollBar);
-                        NewItem.SubItems[1].Font = SubItemFont;
-                        //NewItem.ToolTipText = EnumeratedLanguages[i].DownloadUrl;
-                        lvAvailableLanguages.Items.Add(NewItem);
-                    }
+    public frmDownloadLanguage() {
+        InitializeComponent();
+        SubItemFont = new("Segoi UI", this.Font.Size, FontStyle.Italic);
+        try {
+            EnumeratedLanguages = UpdateChecker.GetAvailableLanguages();
+            if (EnumeratedLanguages.Length > 0) {
+                // Uncomment these out when the SHA calcuation gets fixed.
+                for (int i = 0; i < EnumeratedLanguages.Length; i++) {
+                    ListViewItem NewItem = new($"Item {EnumeratedLanguages[i].name}");
+                    NewItem.SubItems[0].Text = $"{i + 1}: {(EnumeratedLanguages[i].name.EndsWith(".ini") ? EnumeratedLanguages[i].name[..^4] : EnumeratedLanguages[i].name)} ({EnumeratedLanguages[i].size.SizeToString()})";
+                    NewItem.UseItemStyleForSubItems = false;
+                    NewItem.SubItems.Add(new ListViewItem.ListViewSubItem());
+                    NewItem.SubItems[1].Text = EnumeratedLanguages[i].download_url;
+                    //NewItem.SubItems[1].Text = $"{EnumeratedLanguages[i].Sha}";
+                    NewItem.SubItems[1].ForeColor = Color.FromKnownColor(KnownColor.ScrollBar);
+                    NewItem.SubItems[1].Font = SubItemFont;
+                    //NewItem.ToolTipText = EnumeratedLanguages[i].DownloadUrl;
+                    lvAvailableLanguages.Items.Add(NewItem);
                 }
             }
-            catch (Exception ex) {
-                Log.ReportException(ex);
-            }
-            if (Config.Settings.Initialization.firstTime) {
-                btnCancel.Text = Language.InternalEnglish.GenericCancel;
-                btnOk.Text = Language.InternalEnglish.GenericOk;
-                btnDownloadSelected.Text = Language.InternalEnglish.sbDownload;
-                this.Text = Language.InternalEnglish.frmDownloadLanguage;
-            }
-            else {
-                btnCancel.Text = Language.GenericCancel;
-                btnOk.Text = Language.GenericOk;
-                btnDownloadSelected.Text = Language.sbDownload;
-                this.Text = Language.frmDownloadLanguage;
-            }
+        }
+        catch (Exception ex) {
+            Log.ReportException(ex);
         }
 
-        private void DownloadSelectedLanguageFile() {
-            Log.Write($"Downloading language file {EnumeratedLanguages[lvAvailableLanguages.SelectedIndices[0]].name}.");
-            if (!System.IO.Directory.Exists(Environment.CurrentDirectory + "\\lang")) {
-                System.IO.Directory.CreateDirectory(Environment.CurrentDirectory + "\\lang");
-            }
-            string URL = EnumeratedLanguages[lvAvailableLanguages.SelectedIndices[0]].download_url;
-            string Output = Environment.CurrentDirectory + "\\lang\\" + EnumeratedLanguages[lvAvailableLanguages.SelectedIndices[0]].name;
-            using frmGenericDownloadProgress Downloader = new(URL, Output);
-            if (Downloader.ShowDialog() == DialogResult.OK) {
-                Log.Write($"Finished downloading language file {EnumeratedLanguages[lvAvailableLanguages.SelectedIndices[0]].name}");
-                System.Media.SystemSounds.Asterisk.Play();
-                btnOk_Click(this, EventArgs.Empty);
-            }
-            else {
-                Log.Write($"Could not download language file {EnumeratedLanguages[lvAvailableLanguages.SelectedIndices[0]].name}.");
-                System.Media.SystemSounds.Hand.Play();
-            }
+        this.Load += (s, e) => RegisterLocalizedForm();
+        this.FormClosing += (s, e) => UnregisterLocalizedForm();
+    }
 
-            // The SHA on github doesn't match what I can calculate here.
-            //if (Program.CalculateSha1Hash(Output).ToLower() != EnumeratedLanguages[listView1.SelectedIndices[0]].Sha.ToLower()) {
-            //    Log.MessageBox(Language.dlgLanguageHashNoMatch, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            //}
+    public void LoadLanguage() {
+        if (Config.Settings.Initialization.firstTime) {
+            btnCancel.Text = Language.InternalEnglish.GenericCancel;
+            btnOk.Text = Language.InternalEnglish.GenericOk;
+            btnDownloadSelected.Text = Language.InternalEnglish.sbDownload;
+            this.Text = Language.InternalEnglish.frmDownloadLanguage;
+        }
+        else {
+            btnCancel.Text = Language.GenericCancel;
+            btnOk.Text = Language.GenericOk;
+            btnDownloadSelected.Text = Language.sbDownload;
+            this.Text = Language.frmDownloadLanguage;
+        }
+    }
+    public void RegisterLocalizedForm() => Language.RegisterForm(this);
+    public void UnregisterLocalizedForm() => Language.UnregisterForm(this);
+
+    private void DownloadSelectedLanguageFile() {
+        Log.Write($"Downloading language file {EnumeratedLanguages[lvAvailableLanguages.SelectedIndices[0]].name}.");
+        if (!System.IO.Directory.Exists(Environment.CurrentDirectory + "\\lang")) {
+            System.IO.Directory.CreateDirectory(Environment.CurrentDirectory + "\\lang");
+        }
+        string URL = EnumeratedLanguages[lvAvailableLanguages.SelectedIndices[0]].download_url;
+        string Output = Environment.CurrentDirectory + "\\lang\\" + EnumeratedLanguages[lvAvailableLanguages.SelectedIndices[0]].name;
+        using frmGenericDownloadProgress Downloader = new(URL, Output);
+        if (Downloader.ShowDialog() == DialogResult.OK) {
+            Log.Write($"Finished downloading language file {EnumeratedLanguages[lvAvailableLanguages.SelectedIndices[0]].name}");
+            System.Media.SystemSounds.Asterisk.Play();
+            btnOk_Click(this, EventArgs.Empty);
+        }
+        else {
+            Log.Write($"Could not download language file {EnumeratedLanguages[lvAvailableLanguages.SelectedIndices[0]].name}.");
+            System.Media.SystemSounds.Hand.Play();
         }
 
-        private void btnDownloadSelected_Click(object sender, EventArgs e) {
+        // The SHA on github doesn't match what I can calculate here.
+        //if (Program.CalculateSha1Hash(Output).ToLower() != EnumeratedLanguages[listView1.SelectedIndices[0]].Sha.ToLower()) {
+        //    Log.MessageBox(Language.dlgLanguageHashNoMatch, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        //}
+    }
+
+    private void btnDownloadSelected_Click(object sender, EventArgs e) {
+        DownloadSelectedLanguageFile();
+    }
+
+    private void btnCancel_Click(object sender, EventArgs e) {
+        this.DialogResult = DialogResult.Cancel;
+    }
+
+    private void btnOk_Click(object sender, EventArgs e) {
+        if (lvAvailableLanguages.SelectedIndices.Count > 0) {
             DownloadSelectedLanguageFile();
+            FileName = EnumeratedLanguages[lvAvailableLanguages.SelectedIndices[0]].name;
+            if (FileName.EndsWith(".ini"))
+                FileName = FileName[..^4];
+            this.DialogResult = DialogResult.OK;
         }
-
-        private void btnCancel_Click(object sender, EventArgs e) {
+        else {
+            FileName = null;
             this.DialogResult = DialogResult.Cancel;
         }
+    }
 
-        private void btnOk_Click(object sender, EventArgs e) {
-            if (lvAvailableLanguages.SelectedIndices.Count > 0) {
-                DownloadSelectedLanguageFile();
-                FileName = EnumeratedLanguages[lvAvailableLanguages.SelectedIndices[0]].name;
-                if (FileName.EndsWith(".ini"))
-                    FileName = FileName[..^4];
-                this.DialogResult = DialogResult.OK;
-            }
-            else {
-                FileName = null;
-                this.DialogResult = DialogResult.Cancel;
-            }
-        }
-
-        private void listView1_SelectedIndexChanged(object sender, EventArgs e) {
-            btnOk.Enabled = lvAvailableLanguages.SelectedIndices.Count > 0;
-            btnDownloadSelected.Enabled = lvAvailableLanguages.SelectedIndices.Count > 0;
-        }
+    private void lvAvailableLanguages_SelectedIndexChanged(object sender, EventArgs e) {
+        btnOk.Enabled = lvAvailableLanguages.SelectedIndices.Count > 0;
+        btnDownloadSelected.Enabled = lvAvailableLanguages.SelectedIndices.Count > 0;
     }
 }

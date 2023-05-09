@@ -19,14 +19,14 @@
             this.btnBatchConverterRemoveSelected = new System.Windows.Forms.Button();
             this.btnBatchConverterAdd = new System.Windows.Forms.Button();
             this.scConversionFiles = new System.Windows.Forms.SplitContainer();
+            this.txtBatchConverterInputFile = new murrty.controls.ExtendedTextBox();
+            this.txtBatchConverterOutputFile = new murrty.controls.ExtendedTextBox();
             this.sbBatchConversionLoadArgs = new murrty.controls.SplitButton();
             this.txtBatchConverterCustomConversionArguments = new murrty.controls.ExtendedTextBox();
             this.lvBatchConvertQueue = new murrty.controls.ExtendedListView();
-            this.clInput = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.clOutput = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.clArgs = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.txtBatchConverterInputFile = new murrty.controls.ExtendedTextBox();
-            this.txtBatchConverterOutputFile = new murrty.controls.ExtendedTextBox();
+            this.chInput = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.chOutput = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.chArguments = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             ((System.ComponentModel.ISupportInitialize)(this.scConversionFiles)).BeginInit();
             this.scConversionFiles.Panel1.SuspendLayout();
             this.scConversionFiles.Panel2.SuspendLayout();
@@ -97,7 +97,7 @@
             // 
             // scConversionFiles
             // 
-            this.scConversionFiles.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.scConversionFiles.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.scConversionFiles.Location = new System.Drawing.Point(10, 7);
             this.scConversionFiles.Name = "scConversionFiles";
@@ -117,76 +117,10 @@
             this.scConversionFiles.SplitterDistance = 261;
             this.scConversionFiles.TabIndex = 27;
             // 
-            // sbBatchConversionLoadArgs
-            // 
-            this.sbBatchConversionLoadArgs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.sbBatchConversionLoadArgs.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.sbBatchConversionLoadArgs.Location = new System.Drawing.Point(536, 96);
-            this.sbBatchConversionLoadArgs.Name = "sbBatchConversionLoadArgs";
-            this.sbBatchConversionLoadArgs.Size = new System.Drawing.Size(106, 23);
-            this.sbBatchConversionLoadArgs.TabIndex = 28;
-            this.sbBatchConversionLoadArgs.Text = "sbBatchDownloadLoadArgs";
-            this.sbBatchConversionLoadArgs.UseVisualStyleBackColor = true;
-            this.sbBatchConversionLoadArgs.Visible = false;
-            // 
-            // txtBatchConverterCustomConversionArguments
-            // 
-            this.txtBatchConverterCustomConversionArguments.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtBatchConverterCustomConversionArguments.ButtonAlignment = murrty.controls.ButtonAlignment.Left;
-            this.txtBatchConverterCustomConversionArguments.ButtonCursor = System.Windows.Forms.Cursors.Default;
-            this.txtBatchConverterCustomConversionArguments.ButtonFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtBatchConverterCustomConversionArguments.ButtonImageIndex = -1;
-            this.txtBatchConverterCustomConversionArguments.ButtonSize = new System.Drawing.Size(75, 19);
-            this.txtBatchConverterCustomConversionArguments.ButtonText = "";
-            this.txtBatchConverterCustomConversionArguments.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.txtBatchConverterCustomConversionArguments.Location = new System.Drawing.Point(15, 52);
-            this.txtBatchConverterCustomConversionArguments.Name = "txtBatchConverterCustomConversionArguments";
-            this.txtBatchConverterCustomConversionArguments.Size = new System.Drawing.Size(515, 20);
-            this.txtBatchConverterCustomConversionArguments.TabIndex = 26;
-            this.txtBatchConverterCustomConversionArguments.TextHint = "txtBatchConverterCustomConversionArguments";
-            // 
-            // lvBatchConvertQueue
-            // 
-            this.lvBatchConvertQueue.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.lvBatchConvertQueue.BackColor = System.Drawing.SystemColors.Window;
-            this.lvBatchConvertQueue.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.clInput,
-            this.clOutput,
-            this.clArgs});
-            this.lvBatchConvertQueue.FullRowSelect = true;
-            this.lvBatchConvertQueue.HideSelection = false;
-            this.lvBatchConvertQueue.Location = new System.Drawing.Point(12, 78);
-            this.lvBatchConvertQueue.Name = "lvBatchConvertQueue";
-            this.lvBatchConvertQueue.Size = new System.Drawing.Size(518, 199);
-            this.lvBatchConvertQueue.TabIndex = 18;
-            this.lvBatchConvertQueue.UseCompatibleStateImageBehavior = false;
-            this.lvBatchConvertQueue.View = System.Windows.Forms.View.Details;
-            this.lvBatchConvertQueue.SelectedIndexChanged += new System.EventHandler(this.lvBatchConvertQueue_SelectedIndexChanged);
-            this.lvBatchConvertQueue.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lvBatchConvertQueue_KeyDown);
-            this.lvBatchConvertQueue.KeyUp += new System.Windows.Forms.KeyEventHandler(this.lvBatchConvertQueue_KeyUp);
-            // 
-            // clInput
-            // 
-            this.clInput.Text = "Input";
-            this.clInput.Width = 246;
-            // 
-            // clOutput
-            // 
-            this.clOutput.Text = "Output";
-            this.clOutput.Width = 194;
-            // 
-            // clArgs
-            // 
-            this.clArgs.Text = "Arguments";
-            this.clArgs.Width = 67;
-            // 
             // txtBatchConverterInputFile
             // 
             this.txtBatchConverterInputFile.AllowDrop = true;
-            this.txtBatchConverterInputFile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.txtBatchConverterInputFile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtBatchConverterInputFile.ButtonAlignment = murrty.controls.ButtonAlignment.Left;
             this.txtBatchConverterInputFile.ButtonCursor = System.Windows.Forms.Cursors.Default;
@@ -207,7 +141,7 @@
             // txtBatchConverterOutputFile
             // 
             this.txtBatchConverterOutputFile.AllowDrop = true;
-            this.txtBatchConverterOutputFile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.txtBatchConverterOutputFile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtBatchConverterOutputFile.ButtonAlignment = murrty.controls.ButtonAlignment.Left;
             this.txtBatchConverterOutputFile.ButtonCursor = System.Windows.Forms.Cursors.Default;
@@ -224,6 +158,72 @@
             this.txtBatchConverterOutputFile.TextHint = "txtBatchConverterOutputFile";
             this.txtBatchConverterOutputFile.ButtonClick += new System.EventHandler(this.txtBatchConverterOutput_ButtonClick);
             this.txtBatchConverterOutputFile.TextChanged += new System.EventHandler(this.txtBatchConverterOutputFile_TextChanged);
+            // 
+            // sbBatchConversionLoadArgs
+            // 
+            this.sbBatchConversionLoadArgs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.sbBatchConversionLoadArgs.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.sbBatchConversionLoadArgs.Location = new System.Drawing.Point(536, 96);
+            this.sbBatchConversionLoadArgs.Name = "sbBatchConversionLoadArgs";
+            this.sbBatchConversionLoadArgs.Size = new System.Drawing.Size(106, 23);
+            this.sbBatchConversionLoadArgs.TabIndex = 28;
+            this.sbBatchConversionLoadArgs.Text = "sbBatchDownloadLoadArgs";
+            this.sbBatchConversionLoadArgs.UseVisualStyleBackColor = true;
+            this.sbBatchConversionLoadArgs.Visible = false;
+            // 
+            // txtBatchConverterCustomConversionArguments
+            // 
+            this.txtBatchConverterCustomConversionArguments.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtBatchConverterCustomConversionArguments.ButtonAlignment = murrty.controls.ButtonAlignment.Left;
+            this.txtBatchConverterCustomConversionArguments.ButtonCursor = System.Windows.Forms.Cursors.Default;
+            this.txtBatchConverterCustomConversionArguments.ButtonFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtBatchConverterCustomConversionArguments.ButtonImageIndex = -1;
+            this.txtBatchConverterCustomConversionArguments.ButtonSize = new System.Drawing.Size(75, 19);
+            this.txtBatchConverterCustomConversionArguments.ButtonText = "";
+            this.txtBatchConverterCustomConversionArguments.ButtonTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.txtBatchConverterCustomConversionArguments.Location = new System.Drawing.Point(15, 52);
+            this.txtBatchConverterCustomConversionArguments.Name = "txtBatchConverterCustomConversionArguments";
+            this.txtBatchConverterCustomConversionArguments.Size = new System.Drawing.Size(515, 20);
+            this.txtBatchConverterCustomConversionArguments.TabIndex = 26;
+            this.txtBatchConverterCustomConversionArguments.TextHint = "txtBatchConverterCustomConversionArguments";
+            // 
+            // lvBatchConvertQueue
+            // 
+            this.lvBatchConvertQueue.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lvBatchConvertQueue.BackColor = System.Drawing.SystemColors.Window;
+            this.lvBatchConvertQueue.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.chInput,
+            this.chOutput,
+            this.chArguments});
+            this.lvBatchConvertQueue.FullRowSelect = true;
+            this.lvBatchConvertQueue.HideSelection = false;
+            this.lvBatchConvertQueue.Location = new System.Drawing.Point(12, 78);
+            this.lvBatchConvertQueue.Name = "lvBatchConvertQueue";
+            this.lvBatchConvertQueue.Size = new System.Drawing.Size(518, 199);
+            this.lvBatchConvertQueue.TabIndex = 18;
+            this.lvBatchConvertQueue.UseCompatibleStateImageBehavior = false;
+            this.lvBatchConvertQueue.View = System.Windows.Forms.View.Details;
+            this.lvBatchConvertQueue.SelectedIndexChanged += new System.EventHandler(this.lvBatchConvertQueue_SelectedIndexChanged);
+            this.lvBatchConvertQueue.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lvBatchConvertQueue_KeyDown);
+            this.lvBatchConvertQueue.KeyUp += new System.Windows.Forms.KeyEventHandler(this.lvBatchConvertQueue_KeyUp);
+            // 
+            // chInput
+            // 
+            this.chInput.Text = "chInput";
+            this.chInput.Width = 246;
+            // 
+            // chOutput
+            // 
+            this.chOutput.Text = "chOutput";
+            this.chOutput.Width = 194;
+            // 
+            // chArguments
+            // 
+            this.chArguments.Text = "chArguments";
+            this.chArguments.Width = 67;
             // 
             // frmBatchConverter
             // 
@@ -258,8 +258,8 @@
 
         private System.Windows.Forms.StatusBar sbBatchConverter;
         private murrty.controls.ExtendedListView lvBatchConvertQueue;
-        private System.Windows.Forms.ColumnHeader clInput;
-        private System.Windows.Forms.ColumnHeader clOutput;
+        private System.Windows.Forms.ColumnHeader chInput;
+        private System.Windows.Forms.ColumnHeader chOutput;
         private System.Windows.Forms.Button btnBatchConverterStartStopExit;
         private murrty.controls.ExtendedTextBox txtBatchConverterInputFile;
         private System.Windows.Forms.Label lbBatchConverterInput;
@@ -268,7 +268,7 @@
         private System.Windows.Forms.Button btnBatchConverterRemoveSelected;
         private System.Windows.Forms.Button btnBatchConverterAdd;
         private murrty.controls.ExtendedTextBox txtBatchConverterCustomConversionArguments;
-        private System.Windows.Forms.ColumnHeader clArgs;
+        private System.Windows.Forms.ColumnHeader chArguments;
         private System.Windows.Forms.SplitContainer scConversionFiles;
         private murrty.controls.SplitButton sbBatchConversionLoadArgs;
     }

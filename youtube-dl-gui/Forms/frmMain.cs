@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 using System.Security.Policy;
 using System.Threading;
 using System.Windows.Forms;
-public partial class frmMain : Form {
+public partial class frmMain : Form, ILocalizedForm {
     #region variables
     private Thread UpdateCheckThread;
     private Thread YtdlUpdateCheckThread;
@@ -20,6 +20,8 @@ public partial class frmMain : Form {
     #region form
     public frmMain() {
         InitializeComponent();
+        RegisterLocalizedForm();
+
         if (Program.DebugMode) {
             trayIcon.Dispose();
         }
@@ -182,32 +184,21 @@ public partial class frmMain : Form {
 
         chkCustomArgumentsForNonCustomTypes.Checked = Config.Settings.Saved.CustomArgumentsForNonCustomTypes;
 
-        //if (ProtocolInput) {
-        //    if (Config.Settings.Downloads.AutomaticallyDownloadFromProtocol) {
-        //        // download ...
-        //    }
-        //}
-
-        if (Config.Settings.General.DeleteUpdaterOnStartup) {
+        if (Config.Settings.General.DeleteUpdaterOnStartup)
             System.IO.File.Delete(Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe");
-        }
-        if (Config.Settings.General.DeleteBackupOnStartup) {
+        if (Config.Settings.General.DeleteBackupOnStartup)
             System.IO.File.Delete(Environment.CurrentDirectory + "\\youtube-dl-gui.old.exe");
-        }
     }
 
     private void frmMain_FormClosing(object sender, FormClosingEventArgs e) {
-        if (UpdateCheckThread != null && UpdateCheckThread.IsAlive) {
+        if (UpdateCheckThread is not null && UpdateCheckThread.IsAlive)
             UpdateCheckThread.Abort();
-        }
-        if (YtdlUpdateCheckThread != null && YtdlUpdateCheckThread.IsAlive) {
+        if (YtdlUpdateCheckThread is not null && YtdlUpdateCheckThread.IsAlive)
             YtdlUpdateCheckThread.Abort();
-        }
 
         this.Opacity = 0;
-        if (this.WindowState == FormWindowState.Minimized) {
+        if (this.WindowState == FormWindowState.Minimized)
             this.WindowState = FormWindowState.Normal;
-        }
 
         chkUseSelection.Checked = false;
         Config.Settings.Saved.MainFormSize = this.Size;
@@ -215,9 +206,9 @@ public partial class frmMain : Form {
         switch (Config.Settings.General.SaveCustomArgs) {
             case 1: // txt
                 StringBuilder txtOutputBuffer = new();
-                for (int i = 0; i < cbCustomArguments.Items.Count; i++) {
+                for (int i = 0; i < cbCustomArguments.Items.Count; i++)
                     txtOutputBuffer.AppendLine(cbCustomArguments.GetItemText(cbCustomArguments.Items[i]));
-                }
+
                 System.IO.File.WriteAllText(Environment.CurrentDirectory + "\\args.txt", txtOutputBuffer.ToString());
                 Config.Settings.Saved.CustomArgumentsIndex = cbCustomArguments.Text.IsNullEmptyWhitespace() ? -1 : cbCustomArguments.SelectedIndex;
                 break;
@@ -225,6 +216,7 @@ public partial class frmMain : Form {
                 string stngOutputBuffer = string.Empty;
                 for (int i = 0; i < cbCustomArguments.Items.Count; i++)
                     stngOutputBuffer += cbCustomArguments.GetItemText(cbCustomArguments.Items[i]) + "|";
+
                 Config.Settings.Saved.DownloadCustomArguments = stngOutputBuffer.Trim('|');
                 Config.Settings.Saved.CustomArgumentsIndex = cbCustomArguments.Text.IsNullEmptyWhitespace() ? -1 : cbCustomArguments.SelectedIndex;
                 break;
@@ -254,10 +246,11 @@ public partial class frmMain : Form {
         Config.Settings.Saved.MainFormLocation = this.Location;
 
         Config.Settings.Save(ConfigType.Saved);
+        UnregisterLocalizedForm();
         trayIcon.Visible = false;
     }
 
-    private void LoadLanguage() {
+    public void LoadLanguage() {
         mSettings.Text = Language.mSettings;
         mTools.Text = Language.mTools;
         mBatch.Text = Language.mBatch;
@@ -345,12 +338,8 @@ public partial class frmMain : Form {
             cbQuality.Items[0] = Language.GenericInputBest;
         }
 
-        CalculateLocations();
-    }
-
-    private void CalculateLocations() {
         gbDownloadType.Size = new(
-            ((rbVideo.Size.Width + 2) + rbAudio.Size.Width +  (rbCustom.Size.Width - 2)) + 12,
+            ((rbVideo.Size.Width + 2) + rbAudio.Size.Width + (rbCustom.Size.Width - 2)) + 12,
             gbDownloadType.Size.Height
         );
         gbDownloadType.Location = new(
@@ -421,6 +410,10 @@ public partial class frmMain : Form {
             rbConvertAutoFFmpeg.Location.Y
         );
     }
+
+    public void RegisterLocalizedForm() => Language.RegisterForm(this);
+
+    public void UnregisterLocalizedForm() => Language.UnregisterForm(this);
 
     private void ToggleClipboardScanning() {
         if (ClipboardScannerActive) {
@@ -517,18 +510,7 @@ public partial class frmMain : Form {
 
     private void mLanguage_Click(object sender, EventArgs e) {
         using frmLanguage LangPicker = new();
-        switch (LangPicker.ShowDialog()) {
-            case DialogResult.Yes:
-                if (LangPicker.LanguageFile == null) {
-                    Config.Settings.Initialization.LanguageFile = string.Empty;
-                }
-                else {
-                    Config.Settings.Initialization.LanguageFile = LangPicker.LanguageFile;
-                }
-                Config.Settings.Initialization.Save();
-                LoadLanguage();
-                break;
-        }
+        LangPicker.ShowDialog();
     }
     private void mSupportedSites_Click(object sender, EventArgs e) {
         switch (Config.Settings.Downloads.YtdlType) {
