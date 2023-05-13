@@ -19,16 +19,14 @@ internal class ConvertHelper {
             string[] formatsV = { ".avi", ".flv", ".mkv", ".mov", ".mp4", ".webm", ".wmv" };
             bool input1IsVideo = false; // is input1 video?
 
-            if (Verification.FFmpegPath.IsNullEmptyWhitespace()) {
+            if (!Verification.FfmpegAvailable) {
                 Verification.RefreshFFmpegLocation();
-                if (Verification.FFmpegPath.IsNullEmptyWhitespace()) {
+                if (!Verification.FfmpegAvailable)
                     return false;
-                }
             }
 
             using Process ffMerge = new() {
-                StartInfo = new() {
-                    FileName = Verification.FFmpegPath,
+                StartInfo = new(Verification.FFmpegPath) {
                     UseShellExecute = true,
                 }
             };

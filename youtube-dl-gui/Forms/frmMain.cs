@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 using System.Security.Policy;
 using System.Threading;
 using System.Windows.Forms;
-public partial class frmMain : Form, ILocalizedForm {
+public partial class frmMain : LocalizedForm {
     #region variables
     private Thread UpdateCheckThread;
     private Thread YtdlUpdateCheckThread;
@@ -20,7 +20,6 @@ public partial class frmMain : Form, ILocalizedForm {
     #region form
     public frmMain() {
         InitializeComponent();
-        RegisterLocalizedForm();
 
         if (Program.DebugMode) {
             trayIcon.Dispose();
@@ -138,6 +137,12 @@ public partial class frmMain : Form, ILocalizedForm {
 
         LoadLanguage();
 
+        //if (!Config.Settings.Saved.DownloadCustomArguments.IsNullEmptyWhitespace()) {
+        //    cbCustomArguments.Items.AddRange(Config.Settings.Saved.DownloadCustomArguments.Split('|'));
+        //    if (Config.Settings.Saved.CustomArgumentsIndex > -1 && Config.Settings.Saved.CustomArgumentsIndex <= cbCustomArguments.Items.Count - 1)
+        //        cbCustomArguments.SelectedIndex = Config.Settings.Saved.CustomArgumentsIndex;
+        //}
+
         switch (Config.Settings.General.SaveCustomArgs) {
             case 1:
                 if (System.IO.File.Exists(Environment.CurrentDirectory + "\\args.txt")) {
@@ -246,11 +251,10 @@ public partial class frmMain : Form, ILocalizedForm {
         Config.Settings.Saved.MainFormLocation = this.Location;
 
         Config.Settings.Save(ConfigType.Saved);
-        UnregisterLocalizedForm();
         trayIcon.Visible = false;
     }
 
-    public void LoadLanguage() {
+    public override void LoadLanguage() {
         mSettings.Text = Language.mSettings;
         mTools.Text = Language.mTools;
         mBatch.Text = Language.mBatch;
@@ -410,10 +414,6 @@ public partial class frmMain : Form, ILocalizedForm {
             rbConvertAutoFFmpeg.Location.Y
         );
     }
-
-    public void RegisterLocalizedForm() => Language.RegisterForm(this);
-
-    public void UnregisterLocalizedForm() => Language.UnregisterForm(this);
 
     private void ToggleClipboardScanning() {
         if (ClipboardScannerActive) {
@@ -1341,8 +1341,6 @@ public partial class frmMain : Form, ILocalizedForm {
             Youtube-DL Version: { {{Verification.YoutubeDlVersion}} }
 
             FFmpeg Path: { {{Verification.FFmpegPath}} }
-
-            AtomicParsley Path: { {{Verification.AtomicParsleyPath}} }
             """);
     }
     private void btnTestCopyData_Click(object sender, EventArgs e) {

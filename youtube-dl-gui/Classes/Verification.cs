@@ -4,19 +4,36 @@ internal static class Verification {
     private static GitID YoutubeDlGitType = GitID.YtDlp;
 
     public static string YoutubeDlPath { get; private set; }
+    public static string YoutubeDlVersion { get; private set; }
     public static string FFmpegPath { get; private set; }
     public static string FFprobePath { get; private set; }
-    public static string AtomicParsleyPath { get; private set; }
-    public static string YoutubeDlVersion { get; private set; }
+
+    public static bool YoutubeDlAvailable => YoutubeDlPath.IsNotNullEmptyWhitespace() && File.Exists(YoutubeDlPath);
+    public static bool FfmpegAvailable => FFmpegPath.IsNotNullEmptyWhitespace() && File.Exists(FFmpegPath);
+    public static bool FfprobeAvailable => FFprobePath.IsNotNullEmptyWhitespace() && File.Exists(FFprobePath);
+
+    public static string YoutubeDlProvider => Config.Settings.Downloads.YtdlType switch {
+        1 => "youtube-dl",
+        2 => "youtube-dl-patch",
+        3 => "yt-dlp-patch",
+
+        _ => "yt-dlp"
+    };
+    public static int YoutubeDlType => Config.Settings.Downloads.YtdlType switch {
+        1 => 1,
+        2 => 2,
+        3 => 3,
+
+        _ => 0
+    };
 
     public static void Refresh() {
         RefreshYoutubeDlLocation();
         RefreshFFmpegLocation();
-        RefreshAtomicParsleyLocation();
     }
 
-    public static void RefreshYoutubeDlLocation() {
-        YoutubeDlGitType = (GitID)Config.Settings.Downloads.YtdlType;
+    public static bool RefreshYoutubeDlLocation() {
+        YoutubeDlGitType = (GitID)YoutubeDlType;
         string TempPath;
         string YoutubeDlName = YoutubeDlGitType switch {
             GitID.YoutubeDl => "youtube-dl.exe",
@@ -25,44 +42,39 @@ internal static class Verification {
             _ => "yt-dlp.exe",
         };
 
-        if (Config.Settings.General.UseStaticYtdl && File.Exists(Config.Settings.General.ytdlPath)) {
+        if (Config.Settings.General.UseStaticYtdl && File.Exists(Config.Settings.General.ytdlPath))
             TempPath = Config.Settings.General.ytdlPath;
-        }
-        else if (ProgramInExecutingDirectory(YoutubeDlName)) {
+        else if (ProgramInExecutingDirectory(YoutubeDlName))
             TempPath = Program.ProgramPath + "\\" + YoutubeDlName;
-        }
-        else if (ProgramInSystemPath(YoutubeDlName, out TempPath)) { }
-        else return;
+        else if (!ProgramInSystemPath(YoutubeDlName, out TempPath))
+            return false;
 
-        YoutubeDlPath = TempPath;
-
-        if (YoutubeDlPath is not null)
+        if (TempPath.IsNotNullEmptyWhitespace() && File.Exists(TempPath)) {
+            YoutubeDlPath = TempPath;
             YoutubeDlVersion = GetProgramVersion(YoutubeDlPath);
+            return true;
+        }
+        
+        return false;
     }
-    public static void RefreshFFmpegLocation() {
-        if (Config.Settings.General.UseStaticFFmpeg && File.Exists(Config.Settings.General.ffmpegPath)) {
-            FFmpegPath = Config.Settings.General.ffmpegPath;
-        }
-        else if (ProgramInExecutingDirectory("ffmpeg.exe")) {
-            FFmpegPath = $"{Program.ProgramPath}\\ffmpeg.exe";
-        }
-        else if (ProgramInSystemPath("ffmpeg.exe", out string TempPath)) {
-            FFmpegPath = TempPath;
-        }
-        else return;
+    public static bool RefreshFFmpegLocation() {
+        string TempPath;
+        if (Config.Settings.General.UseStaticFFmpeg && File.Exists(Config.Settings.General.ffmpegPath))
+            TempPath = Config.Settings.General.ffmpegPath;
+        else if (ProgramInExecutingDirectory("ffmpeg.exe"))
+            TempPath = $"{Program.ProgramPath}\\ffmpeg.exe";
+        else if (!ProgramInSystemPath("ffmpeg.exe", out TempPath))
+            return false;
 
-        string ffprobe = $"{Path.GetDirectoryName(FFmpegPath)}\\ffprobe.exe";
-        if (File.Exists(ffprobe)) {
-            FFprobePath = ffprobe;
+        if (TempPath.IsNotNullEmptyWhitespace() && Directory.Exists(TempPath) && File.Exists(TempPath + "\\ffmpeg.exe")) {
+            FFmpegPath = $"{TempPath}\\ffmpeg.exe";
+            string ffprobe = $"{TempPath}\\ffprobe.exe";
+            if (File.Exists(ffprobe))
+                FFprobePath = ffprobe;
+            return true;
         }
-    }
-    public static void RefreshAtomicParsleyLocation() {
-        if (ProgramInExecutingDirectory("atomicparsley.exe")) {
-            AtomicParsleyPath = $"{Program.ProgramPath}\\atomicparsley.exe";
-        }
-        else if (ProgramInSystemPath("atomicparsley.exe", out string TempPath)) {
-            AtomicParsleyPath = TempPath;
-        }
+
+        return false;
     }
 
     private static string GetProgramVersion(string ProgramPath) {

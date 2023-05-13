@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 using murrty.updater;
-public partial class frmDownloadLanguage : Form, ILocalizedForm {
+public partial class frmDownloadLanguage : LocalizedForm {
     private readonly Font SubItemFont;
     private readonly GithubRepoContent[] EnumeratedLanguages;
 
@@ -32,12 +32,9 @@ public partial class frmDownloadLanguage : Form, ILocalizedForm {
         catch (Exception ex) {
             Log.ReportException(ex);
         }
-
-        this.Load += (s, e) => RegisterLocalizedForm();
-        this.FormClosing += (s, e) => UnregisterLocalizedForm();
     }
 
-    public void LoadLanguage() {
+    public override void LoadLanguage() {
         if (Config.Settings.Initialization.firstTime) {
             btnCancel.Text = Language.InternalEnglish.GenericCancel;
             btnOk.Text = Language.InternalEnglish.GenericOk;
@@ -51,8 +48,6 @@ public partial class frmDownloadLanguage : Form, ILocalizedForm {
             this.Text = Language.frmDownloadLanguage;
         }
     }
-    public void RegisterLocalizedForm() => Language.RegisterForm(this);
-    public void UnregisterLocalizedForm() => Language.UnregisterForm(this);
 
     private void DownloadSelectedLanguageFile() {
         Log.Write($"Downloading language file {EnumeratedLanguages[lvAvailableLanguages.SelectedIndices[0]].name}.");

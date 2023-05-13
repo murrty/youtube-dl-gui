@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Threading;
 using System.Windows.Forms;
-public partial class frmSettings : Form, ILocalizedForm {
+public partial class frmSettings : LocalizedForm {
     #region vars
     private bool LoadingForm = false;
     private readonly bool ProtocolAvailable = false;
@@ -37,15 +37,13 @@ public partial class frmSettings : Form, ILocalizedForm {
             this.Size = Config.Settings.Saved.SettingsFormSize;
         }
         LoadingForm = false;
-        RegisterLocalizedForm();
     }
     private void frmSettings_FormClosing(object sender, FormClosingEventArgs e) {
         if (YtdlUpdateCheck is not null && YtdlUpdateCheck.IsAlive)
             YtdlUpdateCheck.Abort();
-        UnregisterLocalizedForm();
     }
 
-    public void LoadLanguage() {
+    public override void LoadLanguage() {
         this.Text = Language.frmSettings;
         btnSettingsCancel.Text = Language.GenericCancel;
         tipSettings.SetToolTip(btnSettingsCancel, Language.btnSettingsCancelHint);
@@ -365,28 +363,14 @@ public partial class frmSettings : Form, ILocalizedForm {
             numConvertAudioBitrate.Location.X - chkSettingsConverterAudioBitrate.Width - numConvertAudioBitrate.Margin.Left - chkSettingsConverterAudioBitrate.Margin.Left,
             chkSettingsConverterAudioBitrate.Location.Y);
     }
-    public void RegisterLocalizedForm() => Language.RegisterForm(this);
-    public void UnregisterLocalizedForm() => Language.UnregisterForm(this);
     private void LoadSettings() {
-        if (Config.Settings.General.UseStaticYtdl && !string.IsNullOrEmpty(Config.Settings.General.ytdlPath)) {
-            txtSettingsGeneralYoutubeDlPath.Text = Config.Settings.General.ytdlPath;
-            chkSettingsGeneralUseStaticYoutubeDl.Checked = Config.Settings.General.UseStaticYtdl;
-        }
-        else {
-            if (Verification.YoutubeDlPath != null) {
-                txtSettingsGeneralYoutubeDlPath.Text = Verification.YoutubeDlPath;
-            }
-        }
+        if (Verification.YoutubeDlAvailable)
+            txtSettingsGeneralYoutubeDlPath.Text = Verification.YoutubeDlPath;
+        chkSettingsGeneralUseStaticYoutubeDl.Checked = Config.Settings.General.UseStaticYtdl;
 
-        if (Config.Settings.General.UseStaticFFmpeg && !string.IsNullOrEmpty(Config.Settings.General.ffmpegPath)) {
-            txtSettingsGeneralFFmpegPath.Text = Config.Settings.General.ffmpegPath;
-            chkSettingsGeneralUseStaticFFmpeg.Checked = Config.Settings.General.UseStaticFFmpeg;
-        }
-        else {
-            if (Verification.FFmpegPath != null) {
-                txtSettingsGeneralFFmpegPath.Text = Verification.FFmpegPath;
-            }
-        }
+        if (Verification.FfmpegAvailable)
+            txtSettingsGeneralFFmpegPath.Text = Verification.FFmpegPath;
+        chkSettingsGeneralUseStaticFFmpeg.Checked = Config.Settings.General.UseStaticFFmpeg;
 
         chkSettingsGeneralCheckForUpdatesOnLaunch.Checked = Config.Settings.General.CheckForUpdatesOnLaunch;
         chkSettingsGeneralCheckForBetaUpdates.Checked = Config.Settings.General.DownloadBetaVersions;
@@ -692,9 +676,8 @@ public partial class frmSettings : Form, ILocalizedForm {
                     this.Invoke(() => Log.MessageBox(Language.dlgUpdatedYoutubeDl, MessageBoxButtons.OK));
                     System.Media.SystemSounds.Asterisk.Play();
                 }
-                else {
+                else
                     System.Media.SystemSounds.Hand.Play();
-                }
             }
         }) {
             IsBackground = true

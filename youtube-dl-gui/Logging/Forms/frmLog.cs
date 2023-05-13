@@ -1,9 +1,9 @@
 ﻿namespace murrty.logging;
 
-using youtube_dl_gui;
 using System.Windows.Forms;
+using youtube_dl_gui;
 
-internal partial class frmLog : Form {
+internal partial class frmLog : Form, ILocalizedForm {
     public bool IsShown {
         get; private set;
     } = false;
@@ -11,15 +11,16 @@ internal partial class frmLog : Form {
     public frmLog() {
         InitializeComponent();
 
-        if (!Program.DebugMode) {
+        if (!Program.DebugMode)
             btnTestLine.Enabled = btnTestLine.Visible = false;
-        }
 
         // The icon for the exception form.
         this.Icon = global::youtube_dl_gui.Properties.Resources.ProgramIcon;
 
         lbLines.Dispose();
         rtbLog.ContextMenu = cmLog;
+
+        Language.RegisterForm(this);
     }
     private void frmLog_Load(object sender, EventArgs e) {
         if (Config.Settings.Saved.LogLocation.Valid) {
@@ -34,7 +35,19 @@ internal partial class frmLog : Form {
         e.Cancel = true;
         this.Hide();
         IsShown = false;
+        Language.UnregisterForm(this);
     }
+
+    public void LoadLanguage() {
+        this.Text = Language.frmLog;
+        tpMainLog.Text = Language.frmLog;
+        tpExceptions.Text = Language.frmLogExceptions;
+        lbExceptionDetails.Text = Language.lbLogPastExceptions;
+        btnRemoveException.Text = Language.GenericRemove;
+        btnClear.Text = Language.frmLogClear;
+        btnClose.Text = Language.GenericClose;
+    }
+    public string GetFormName() => this.Name;
 
     private void mCopyText_Click(object sender, EventArgs e) {
         if (tcMain.SelectedTab == tpMainLog) {
@@ -168,4 +181,5 @@ internal partial class frmLog : Form {
     private void btnTestLine_Click(object sender, EventArgs e) {
         rtbLog.AppendLine("Hello!");
     }
+
 }

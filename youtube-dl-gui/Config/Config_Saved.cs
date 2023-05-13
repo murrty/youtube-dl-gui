@@ -22,6 +22,8 @@ internal class Config_Saved {
     public string FileNameSchemaHistory { get; set; }
     public string DownloadCustomArguments { get; set; }
     public int CustomArgumentsIndex { get; set; }
+    public string ConvertCustomArguments { get; set; }
+    public int ConvertCustomArgumentsIndex { get; set; }
     public Point MainFormLocation { get; set; }
     public Point ExtendedDownloaderLocation { get; set; }
     public Size ExtendedDownloaderSize { get; set; }
@@ -57,6 +59,8 @@ internal class Config_Saved {
     private string fFileNameSchemaHistory { get; set; }
     private string fDownloadCustomArguments { get; set; }
     private int fCustomArgumentsIndex { get; set; }
+    private string fConvertCustomArguments { get; set; }
+    private int fConvertCustomArgumentsIndex { get; set; }
     private Point fMainFormLocation { get; set; }
     private Point fExtendedDownloaderLocation { get; set; }
     private Size fExtendedDownloaderSize { get; set; }
@@ -69,9 +73,9 @@ internal class Config_Saved {
     private Point fQuickDownloaderLocation { get; set; }
     private Point fFileNameSchemaHistoryLocation { get; set; }
     private Size fFileNameSchemaHistorySize { get; set; }
-    public Point fExtendedBatchDownloaderLocation { get; set; }
-    public Size fExtendedBatchDownloaderSize { get; set; }
-    public string fExtendedBatchDownloaderQueuedColumns { get; set; }
+    private Point fExtendedBatchDownloaderLocation { get; set; }
+    private Size fExtendedBatchDownloaderSize { get; set; }
+    private string fExtendedBatchDownloaderQueuedColumns { get; set; }
     private bool fCustomArgumentsForNonCustomTypes { get; set; }
     #endregion
 
@@ -96,6 +100,8 @@ internal class Config_Saved {
         FileNameSchemaHistory = fFileNameSchemaHistory = IniProvider.Read(FileNameSchemaHistory, "%(title)s-%(id)s.%(ext)s|%(uploader)s\\(%(playlist_index)s) %(title)s-%(id)s.%(ext)s", ConfigName);
         DownloadCustomArguments = fDownloadCustomArguments = IniProvider.Read(DownloadCustomArguments, string.Empty, ConfigName);
         CustomArgumentsIndex = fCustomArgumentsIndex = IniProvider.Read(CustomArgumentsIndex, -1, ConfigName);
+        ConvertCustomArguments = fConvertCustomArguments = IniProvider.Read(ConvertCustomArguments, string.Empty, ConfigName);
+        ConvertCustomArgumentsIndex = fConvertCustomArgumentsIndex = IniProvider.Read(ConvertCustomArgumentsIndex, -1, ConfigName);
         MainFormLocation = fMainFormLocation = IniProvider.Read(MainFormLocation, Point.Invalid, ConfigName);
         ExtendedDownloaderLocation = fExtendedDownloaderLocation = IniProvider.Read(ExtendedDownloaderLocation, Point.Invalid, ConfigName);
         ExtendedDownloaderSize = fExtendedDownloaderSize = IniProvider.Read(ExtendedDownloaderSize, Size.Empty, ConfigName);
@@ -153,6 +159,10 @@ internal class Config_Saved {
             fDownloadCustomArguments = IniProvider.Write(DownloadCustomArguments, ConfigName);
         if (CustomArgumentsIndex != fCustomArgumentsIndex) 
             fCustomArgumentsIndex = IniProvider.Write(CustomArgumentsIndex, ConfigName);
+        if (ConvertCustomArguments != fConvertCustomArguments)
+            fConvertCustomArguments = IniProvider.Write(ConvertCustomArguments, ConfigName);
+        if (ConvertCustomArgumentsIndex != fConvertCustomArgumentsIndex)
+            fConvertCustomArgumentsIndex = IniProvider.Write(ConvertCustomArgumentsIndex, ConfigName);
         if (MainFormLocation != fMainFormLocation) 
             fMainFormLocation = IniProvider.Write(MainFormLocation, ConfigName);
         if (ExtendedDownloaderLocation != fExtendedDownloaderLocation) 

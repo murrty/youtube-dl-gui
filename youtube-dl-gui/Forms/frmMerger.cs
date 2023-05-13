@@ -1,7 +1,7 @@
 ﻿namespace youtube_dl_gui;
 using System.Windows.Forms;
 // TODO: add localization
-public partial class frmMerger : Form {
+public partial class frmMerger : LocalizedForm {
 
     private readonly List<FfprobeData> LoadedMediaFiles = new();
 
@@ -9,12 +9,17 @@ public partial class frmMerger : Form {
         InitializeComponent();
     }
 
+    public override void LoadLanguage() {
+        btnAddFiles.Text = Language.GenericAdd;
+        btnRemoveFiles.Text = Language.GenericRemove;
+    }
+
     private string GenerateList() {
         List<string> Files = new();
         StringBuilder InputArgument = new(string.Empty);
         StringBuilder MapArgument = new(string.Empty);
 
-        int FileIndex = -1;
+        int FileIndex;
         FfprobeNodeTag CurrentFile;
         foreach (TreeNode RootNode in tvSelectedStreams.Nodes) {
             if (RootNode.Nodes.Count > 0) {
@@ -27,20 +32,6 @@ public partial class frmMerger : Form {
                         FileIndex = Files.Count - 1;
                     }
                     MapArgument.Append($"-map {FileIndex}:{CurrentFile.Stream.index} ");
-                    //switch (RootNode.Index) {
-                    //    case 0: { // vid
-                    //        Arguments[FileIndex].Append($"-map {FileIndex}:{CurrentFile.Stream.index}");
-                    //    } break;
-                    //    case 1: { // aud
-                    //        Arguments[FileIndex].Append($"-map {FileIndex}:{CurrentFile.Stream.index}");
-                    //    } break;
-                    //    case 2: { // sub
-                    //        Arguments[FileIndex].Append($"-map {FileIndex}:{CurrentFile.Stream.index}");
-                    //    } break;
-                    //    case 3: { // att
-                    //        Arguments[FileIndex].Append($"-map {FileIndex}:{CurrentFile.Stream.index}");
-                    //    } break;
-                    //}
                 }
             }
         }

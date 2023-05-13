@@ -1,19 +1,17 @@
 ﻿namespace youtube_dl_gui;
 using System.Windows.Forms;
-public partial class frmArchiveDownloader : Form, ILocalizedForm {
+public partial class frmArchiveDownloader : LocalizedForm {
     public frmArchiveDownloader() {
         InitializeComponent();
         LoadLanguage();
 
         this.Load += (s, e) => {
-            RegisterLocalizedForm();
             if (Config.Settings.Saved.ArchiveDownloaderLocation.Valid) {
                 this.StartPosition = FormStartPosition.Manual;
                 this.Location = Config.Settings.Saved.ArchiveDownloaderLocation;
             }
         };
         this.FormClosing += (s, e) => {
-            UnregisterLocalizedForm();
             Config.Settings.Saved.ArchiveDownloaderLocation = this.Location;
             Config.Settings.Saved.Save();
         };
@@ -22,15 +20,13 @@ public partial class frmArchiveDownloader : Form, ILocalizedForm {
                 txtArchiveDownloaderHint.Text = Clipboard.GetText();
         };
     }
-    public void LoadLanguage() {
+    public override void LoadLanguage() {
         this.Text = Language.frmArchiveDownloader;
         lbArchiveDownloaderDescription.Text = Language.lbArchiveDownloaderDescription;
         txtArchiveDownloaderHint.TextHint = Language.txtArchiveDownloaderHint;
         btnDownload.Text = Language.sbDownload;
         btnExtendedDownload.Text = Language.mExtendedDownloadForm;
     }
-    public void RegisterLocalizedForm() => Language.RegisterForm(this);
-    public void UnregisterLocalizedForm() => Language.UnregisterForm(this);
     private void Download(bool Extended) {
         if (txtArchiveDownloaderHint.Text.IsNullEmptyWhitespace()) {
             txtArchiveDownloaderHint.Focus();

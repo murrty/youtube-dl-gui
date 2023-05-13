@@ -1,14 +1,14 @@
 ﻿namespace youtube_dl_gui;
 using System.Threading;
 using System.Windows.Forms;
-// TODO: Dynamically load the language based on the conversion status.
-public partial class frmBatchConverter : Form, ILocalizedForm {
+public partial class frmBatchConverter : LocalizedForm {
 
     private readonly List<string> InputFiles = new();
     private readonly List<string> OutputFiles = new();
     private readonly List<string> Arguments = new();
     private Thread ConversionThread;
     private bool InProgress = false;
+    private bool AbortConversions = false;
     private frmConverter Converter;
     private ConvertInfo NewInfo;
 
@@ -22,15 +22,13 @@ public partial class frmBatchConverter : Form, ILocalizedForm {
                 this.StartPosition = FormStartPosition.Manual;
                 this.Location = Config.Settings.Saved.BatchConverterLocation;
             }
-            RegisterLocalizedForm();
         };
         this.FormClosing += (s, e) => {
             Config.Settings.Saved.BatchConverterLocation = this.Location;
-            UnregisterLocalizedForm();
         };
     }
 
-    public void LoadLanguage() {
+    public override void LoadLanguage() {
         btnBatchConverterAdd.Text = Language.GenericAdd;
         btnBatchConverterRemoveSelected.Text = Language.GenericRemoveSelected;
         btnBatchConverterStartStopExit.Text = Language.GenericStart;
@@ -44,9 +42,13 @@ public partial class frmBatchConverter : Form, ILocalizedForm {
         chInput.Text = Language.GenericInput;
         chOutput.Text = Language.GenericOutput;
         chArguments.Text = Language.GenericArguments;
+        if (AbortConversions) {
+            sbBatchConverter.Text = Language.sbBatchConverterAborted;
+        }
+        else {
+            sbBatchConverter.Text = InProgress ? Language.sbBatchConverterConverting : Language.sbBatchConverterIdle;
+        }
     }
-    public void RegisterLocalizedForm() => Language.RegisterForm(this);
-    public void UnregisterLocalizedForm() => Language.UnregisterForm(this);
 
     private void SelectInput() {
         using OpenFileDialog ofd = new();
@@ -149,7 +151,7 @@ public partial class frmBatchConverter : Form, ILocalizedForm {
             Program.RunningActions.Add(this);
             Log.Write($"Starting batch conversion with {lvBatchConvertQueue.Items.Count} links to download.");
             InProgress = true;
-            bool AbortConversions = false;
+            AbortConversions = false;
             btnBatchConverterStartStopExit.Text = Language.GenericStop;
             sbBatchConverter.Text = Language.sbBatchConverterConverting;
             ConversionThread = new(() => {
@@ -211,7 +213,6 @@ public partial class frmBatchConverter : Form, ILocalizedForm {
                 lvBatchConvertQueue.Invoke((Action)delegate {
                     if (AbortConversions) {
                         sbBatchConverter.Text = Language.sbBatchConverterAborted;
-                        AbortConversions = false;
                     }
                     else {
                         sbBatchConverter.Text = Language.sbBatchConverterFinished;

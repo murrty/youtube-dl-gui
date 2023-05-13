@@ -152,12 +152,12 @@ internal static class Program {
                     }
                 }
 
-                if (Verification.YoutubeDlPath.IsNullEmptyWhitespace()
+                if (!Verification.YoutubeDlAvailable
                 && Log.MessageBox(Language.dlgFirstTimeDownloadYoutubeDl, MessageBoxButtons.YesNo) == DialogResult.Yes
                 && UpdateChecker.CheckForYoutubeDlUpdate())
                     UpdateChecker.UpdateYoutubeDl(null);
 
-                if (Verification.FFmpegPath.IsNullEmptyWhitespace() &&
+                if (!Verification.FfmpegAvailable &&
                 Log.MessageBox(Language.dlgFirstTimeDownloadFfmpeg, MessageBoxButtons.YesNo) == DialogResult.Yes)
                     UpdateChecker.UpdateFfmpeg(null);
 

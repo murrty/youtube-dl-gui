@@ -1,6 +1,6 @@
 ﻿namespace youtube_dl_gui;
 using System.Windows.Forms;
-public partial class frmFileNameSchemaHistory : Form, ILocalizedForm {
+public partial class frmFileNameSchemaHistory : LocalizedForm {
     public string NewSchema { get; private set; }
     public frmFileNameSchemaHistory() {
         InitializeComponent();
@@ -17,22 +17,17 @@ public partial class frmFileNameSchemaHistory : Form, ILocalizedForm {
 
             if (!Config.Settings.Saved.FileNameSchemaHistory.IsNullEmptyWhitespace())
                 listHistory.Items.AddRange(Config.Settings.Saved.FileNameSchemaHistory.Split('|'));
-
-            RegisterLocalizedForm();
         };
         this.FormClosed += (s, e) => {
             Config.Settings.Saved.FileNameSchemaHistoryLocation = this.Location;
             Config.Settings.Saved.FileNameSchemaHistorySize = this.Size;
-            UnregisterLocalizedForm();
         };
     }
-    public void LoadLanguage() {
+    public override void LoadLanguage() {
         this.Text = Language.frmFileNameSchemaHistory;
         btnSave.Text = Language.GenericSave;
         btnCancel.Text = Language.GenericCancel;
     }
-    public void RegisterLocalizedForm() => Language.RegisterForm(this);
-    public void UnregisterLocalizedForm() => Language.UnregisterForm(this);
     private void listHistory_SelectedIndexChanged(object sender, EventArgs e) {
         if (listHistory.SelectedIndex > -1) {
             txtSchema.Text = listHistory.Items[listHistory.SelectedIndex] as string;

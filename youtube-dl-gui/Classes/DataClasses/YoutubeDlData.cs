@@ -25,11 +25,11 @@ internal sealed class YoutubeDlData {
         RetrievedData = null;
         if (!URL.IsNullEmptyWhitespace()) {
             Log.Write($"Gathering data for \"{URL}\".");
-            if (Verification.YoutubeDlPath.IsNullEmptyWhitespace())
+            if (!Verification.YoutubeDlAvailable) {
                 Verification.RefreshYoutubeDlLocation();
-
-            if (Verification.YoutubeDlPath.IsNullEmptyWhitespace())
-                return null;
+                if (Verification.YoutubeDlAvailable)
+                    return null;
+            }
 
             StringBuilder ConnectionArgs = new(string.Empty);
 
@@ -63,9 +63,8 @@ internal sealed class YoutubeDlData {
             }
 
             Process Enumeration = new() {
-                StartInfo = new() {
+                StartInfo = new(Verification.YoutubeDlPath) {
                     Arguments = $"--simulate --no-warnings --no-cache-dir {GenerateCommand} {ConnectionArgs}{URL}",
-                    FileName = Verification.YoutubeDlPath,
                     CreateNoWindow = true,
                     RedirectStandardError = true,
                     RedirectStandardInput = true,
@@ -111,16 +110,17 @@ internal sealed class YoutubeDlData {
             Log.Write("The thumbnail is a .webp file and must be converted to be viewable.");
             string ThumbPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + $"\\temp\\{DateTime.Now:yyyyMMddhmmssfffffff}s";
             File.WriteAllBytes($"{ThumbPath}.webp", thumbBytes);
-            if (Verification.FFmpegPath.IsNullEmptyWhitespace())
+            if (!Verification.FfmpegAvailable) {
                 Verification.RefreshFFmpegLocation();
-            if (Verification.FFmpegPath.IsNullEmptyWhitespace())
-                return null;
+                if (!Verification.FfmpegAvailable)
+                    return null;
+            }
+
 
             //-vf \"scale=1920:-1\"
             Process ffmpegConvert = new() {
-                StartInfo = new() {
+                StartInfo = new(Verification.FFmpegPath) {
                     Arguments = $"-nostats -hide_banner -i \"{ThumbPath}.webp\" \"{ThumbPath}.jpg\"",
-                    FileName = Verification.FFmpegPath,
                     CreateNoWindow = true,
                     UseShellExecute = false,
                     WindowStyle = ProcessWindowStyle.Hidden,
@@ -129,12 +129,12 @@ internal sealed class YoutubeDlData {
             ffmpegConvert.Start();
             ffmpegConvert.WaitForExit();
 
-            if (File.Exists(ThumbPath + ".jpg")) {
-                thumbBytes = File.ReadAllBytes(ThumbPath + ".jpg");
-                File.Delete(ThumbPath + ".webp");
-                File.Delete(ThumbPath + ".jpg");
-            }
-            else return null;
+            if (!File.Exists(ThumbPath + ".jpg"))
+                return null;
+
+            thumbBytes = File.ReadAllBytes(ThumbPath + ".jpg");
+            File.Delete(ThumbPath + ".webp");
+            File.Delete(ThumbPath + ".jpg");
         }
 
         using MemoryStream Stream = new(thumbBytes);

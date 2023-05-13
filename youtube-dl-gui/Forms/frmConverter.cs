@@ -2,8 +2,7 @@
 using System.Diagnostics;
 using System.Threading;
 using System.Windows.Forms;
-// TODO: Dynamically load the language based on the conversion status.
-public partial class frmConverter : Form, ILocalizedForm {
+public partial class frmConverter : LocalizedForm {
     public bool Debugging = false;
     public volatile ConvertInfo CurrentConversion;
 
@@ -15,7 +14,6 @@ public partial class frmConverter : Form, ILocalizedForm {
         InitializeComponent();
         LoadLanguage();
         this.CurrentConversion = Info;
-        this.Load += (s, e) => RegisterLocalizedForm();
     }
     private void frmConverter_Shown(object sender, EventArgs e) {
         BeginConversion();
@@ -55,30 +53,46 @@ public partial class frmConverter : Form, ILocalizedForm {
         if (!e.Cancel) {
             Config.Settings.Converts.CloseAfterFinish = chkConverterCloseAfterConversion.Checked;
             Config.Settings.Converts.Save();
-            UnregisterLocalizedForm();
 
             this.DialogResult = Finish;
             this.Dispose();
         }
     }
 
-    public void LoadLanguage() {
+    public override void LoadLanguage() {
         this.Text = Language.frmConverter + " ";
         if (CurrentConversion.BatchConversion) {
             this.WindowState = FormWindowState.Minimized;
             btnConverterAbortBatchConversions.Enabled = true;
             btnConverterAbortBatchConversions.Visible = true;
             btnConverterAbortBatchConversions.Text = Language.btnConverterAbortBatchConversions;
-            btnConverterCancelExit.Text = Language.GenericSkip;
-        }
-        else {
-            btnConverterCancelExit.Text = Language.GenericCancel;
         }
         chkConverterCloseAfterConversion.Text = Language.chkConverterCloseAfterConversion;
         chkConverterCloseAfterConversion.Checked = Config.Settings.Converts.CloseAfterFinish;
+
+        switch (CurrentConversion.Status) {
+            case ConversionStatus.None:
+            case ConversionStatus.Preparing:
+            case ConversionStatus.Converting: {
+                this.Text = Language.frmConverter + " ";
+
+                if (CurrentConversion.BatchConversion)
+                    btnConverterCancelExit.Text = Language.GenericSkip;
+                else
+                    btnConverterCancelExit.Text = Language.GenericCancel;
+            } break;
+            case ConversionStatus.Finished: {
+                this.Text = Language.frmConverter + " ";
+                btnConverterCancelExit.Text = Language.GenericExit;
+            } break;
+            case ConversionStatus.FfmpegError:
+            case ConversionStatus.ProgramError: {
+                this.Text = Language.frmConverterError;
+                btnConverterAbortBatchConversions.Text = Language.GenericRetry;
+                btnConverterCancelExit.Text = Language.GenericExit;
+            } break;
+        }
     }
-    public void RegisterLocalizedForm() => Language.RegisterForm(this);
-    public void UnregisterLocalizedForm() => Language.UnregisterForm(this);
 
     public void Abort() {
         switch (CurrentConversion.Status) {
@@ -87,7 +101,7 @@ public partial class frmConverter : Form, ILocalizedForm {
             case ConversionStatus.Aborted:
                 btnConverterAbortBatchConversions.Visible = false;
                 btnConverterAbortBatchConversions.Enabled = false;
-                this.Text = Language.frmDownloader + " ";
+                this.Text = Language.frmConverter + " ";
                 tmrTitleActivity.Start();
                 BeginConversion();
                 break;
@@ -103,9 +117,8 @@ public partial class frmConverter : Form, ILocalizedForm {
                         btnConverterAbortBatchConversions.Visible = false;
                         break;
                     default:
-                        if (ConverterThread is not null && ConverterThread.IsAlive) {
+                        if (ConverterThread is not null && ConverterThread.IsAlive)
                             ConverterThread.Abort();
-                        }
                         rtbConsoleOutput.AppendLine("Additionally, the batch conversion has been cancelled.");
                         CurrentConversion.Status = ConversionStatus.Aborted;
                         this.Close();
@@ -116,34 +129,30 @@ public partial class frmConverter : Form, ILocalizedForm {
     }
 
     private void BeginConversion() {
-        Log.Write($"Starting conversion for \"{CurrentConversion.InputFile}\" -> \"{CurrentConversion.OutputFile}\".");
-        if (!CurrentConversion.FullCustomArguments) {
-            if (CurrentConversion.InputFile.IsNullEmptyWhitespace()) {
-                rtbConsoleOutput.AppendText("The input file is null or empty. Cannot continue converting.");
-                CurrentConversion.Status = ConversionStatus.ProgramError;
-                Log.Write("Conversion cannot conintue.");
-                return;
-            }
-            if (CurrentConversion.OutputFile.IsNullEmptyWhitespace()) {
-                rtbConsoleOutput.AppendText("The output file is null or empty. Cannot continue converting.");
-                CurrentConversion.Status = ConversionStatus.ProgramError;
-                Log.Write("Conversion cannot conintue.");
-                return;
-            }
+        if (CurrentConversion.InputFile.IsNullEmptyWhitespace()) {
+            rtbConsoleOutput.AppendText("The input file is null or empty. Cannot continue converting.");
+            CurrentConversion.Status = ConversionStatus.ProgramError;
+            Log.Write("Conversion cannot conintue.");
+            return;
         }
-        else {
-            if (CurrentConversion.CustomArguments.IsNullEmptyWhitespace()) {
-                rtbConsoleOutput.AppendText("Custom arguments are required, but none were provided.");
-                CurrentConversion.Status = ConversionStatus.ProgramError;
-                Log.Write("Conversion cannot conintue.");
-                return;
-            }
+        if (CurrentConversion.OutputFile.IsNullEmptyWhitespace()) {
+            rtbConsoleOutput.AppendText("The output file is null or empty. Cannot continue converting.");
+            CurrentConversion.Status = ConversionStatus.ProgramError;
+            Log.Write("Conversion cannot conintue.");
+            return;
+        }
+
+        Log.Write($"Starting conversion for \"{CurrentConversion.InputFile}\" -> \"{CurrentConversion.OutputFile}\".");
+        if (CurrentConversion.FullCustomArguments && CurrentConversion.CustomArguments.IsNullEmptyWhitespace()) {
+            rtbConsoleOutput.AppendText("Custom arguments are required, but none were provided.");
+            CurrentConversion.Status = ConversionStatus.ProgramError;
+            Log.Write("Conversion cannot conintue.");
+            return;
         }
 
         rtbConsoleOutput.AppendText("Beginning conversion, this box will output progress");
-        if (CurrentConversion.BatchConversion) {
+        if (CurrentConversion.BatchConversion)
             chkConverterCloseAfterConversion.Checked = true;
-        }
 
         CurrentConversion.Status = ConversionStatus.Preparing;
 
@@ -151,18 +160,16 @@ public partial class frmConverter : Form, ILocalizedForm {
             CurrentConversion.CustomArguments : "-i \"" + CurrentConversion.InputFile + "\"");
 
         #region ffmpeg path
-        if (Verification.FFmpegPath.IsNullEmptyWhitespace()) {
+        if (!Verification.FfmpegAvailable) {
             rtbConsoleOutput.AppendLine("ffmpeg has not been found.\r\nA rescan for ffmpeg was called");
             Verification.RefreshFFmpegLocation();
-            if (Verification.FFmpegPath.IsNullEmptyWhitespace()) {
-                rtbConsoleOutput.AppendLine("Rescan finished and found, continuing");
-            }
-            else {
-                rtbConsoleOutput.AppendLine("still couldn't find ffmpeg.");
+            if (!Verification.FfmpegAvailable) {
                 CurrentConversion.Status = ConversionStatus.ProgramError;
+                rtbConsoleOutput.AppendLine("still couldn't find ffmpeg.");
                 Log.Write("ffmpeg could not be found.");
                 return;
             }
+            rtbConsoleOutput.AppendLine("Rescan finished and found, continuing");
         }
         rtbConsoleOutput.AppendLine("ffmpeg has been found and set");
         #endregion
@@ -298,12 +305,10 @@ public partial class frmConverter : Form, ILocalizedForm {
         if (CurrentConversion.BatchConversion) {
             switch (CurrentConversion.Status) {
                 case ConversionStatus.Aborted:
-                    if (AbortBatch) {
+                    if (AbortBatch)
                         this.DialogResult = DialogResult.Abort;
-                    }
-                    else {
+                    else
                         this.DialogResult = DialogResult.Ignore;
-                    }
                     break;
                 case ConversionStatus.FfmpegError:
                     this.Activate();
@@ -346,13 +351,19 @@ public partial class frmConverter : Form, ILocalizedForm {
                     break;
                 case ConversionStatus.Finished:
                     this.Text = Language.frmConverterComplete;
+                    btnConverterCancelExit.Text = Language.GenericExit;
                     rtbConsoleOutput.AppendLine("Conversion has finished.");
-                    if (chkConverterCloseAfterConversion.Checked) { this.Close(); }
+
+                    if (chkConverterCloseAfterConversion.Checked)
+                        this.Close();
                     break;
                 default:
                     this.Text = Language.frmConverterComplete;
+                    btnConverterCancelExit.Text = Language.GenericExit;
                     rtbConsoleOutput.AppendLine("CurrentConversion.Status not defined (Not a batch download)\r\nAssuming success.");
-                    if (chkConverterCloseAfterConversion.Checked) { this.Close(); }
+
+                    if (chkConverterCloseAfterConversion.Checked)
+                        this.Close();
                     break;
             }
         }

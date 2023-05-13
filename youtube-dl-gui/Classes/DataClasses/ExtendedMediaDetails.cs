@@ -151,10 +151,10 @@ internal sealed class ExtendedMediaDetails : IDisposable {
             #region Other settings (if not Custom)
             if (SelectedType != DownloadType.Custom) {
                 if (Config.Settings.Downloads.PreferFFmpeg || (DownloadHelper.IsReddit(URL) && Config.Settings.Downloads.fixReddit)) {
-                    if (Verification.FFmpegPath.IsNullEmptyWhitespace())
+                    if (!Verification.FfmpegAvailable)
                         Verification.RefreshFFmpegLocation();
 
-                    if (!Verification.FFmpegPath.IsNullEmptyWhitespace())
+                    if (Verification.FfmpegAvailable)
                         ArgumentBuffer.Append($" --ffmpeg-location \"{Verification.FFmpegPath}\" --hls-prefer-ffmpeg");
                 }
 

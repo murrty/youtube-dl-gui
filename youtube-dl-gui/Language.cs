@@ -51,6 +51,11 @@ public static class Language {
     public static string GenericInput { get; private set; }
     public static string GenericOutput { get; private set; }
     public static string GenericArguments { get; private set; }
+    public static string GenericAborted { get; private set; }
+    public static string GenericError { get; private set; }
+    public static string GenericAltError { get; private set; }
+    public static string GenericCompleted { get; private set; }
+    public static string GenericRemove { get; private set; }
 
     public static string frmGenericDownloadProgress { get; private set; }
     public static string chContainer { get; private set; }
@@ -65,6 +70,8 @@ public static class Language {
     public static string chAudioSampleRate { get; private set; }
     public static string chAudioCodec { get; private set; }
     public static string chAudioChannels { get; private set; }
+    public static string dlBeginningDownload { get; private set; }
+    public static string cvBeginningConversion { get; private set; }
     #endregion
 
     #region Dialogs
@@ -212,6 +219,15 @@ public static class Language {
     public static string lbExtendedDownloaderNoUnknownFormatsFound { get; private set; }
     public static string lbVideoRemux { get; private set; }
     public static string txtExtendedDownloaderMediaTitle { get; private set; }
+    public static string txtExtendedDownloaderBatchMediaTitle { get; private set; }
+    public static string mExtendedDownloaderEnqueueCopyOptions { get; private set ;}
+    public static string mExtendedDownloaderEnqueueWithAuthentication { get; private set; }
+    public static string mExtendedDownloaderEnqueueCopyAuthentication { get; private set; }
+    public static string mExtendedDownloaderQueueCopyLink { get; private set; }
+    public static string mExtendedDownloaderQueueViewInBrowser { get; private set; }
+    public static string mExtendedDownloaderEnqueueImportLinksWithAuthentication { get; private set; }
+    public static string mExtendedDownloaderEnqueueImportLinksCopyOptions { get; private set; }
+    public static string mExtendedDownloaderEnqueueImportLinksCopyAuthentication { get; private set; }
     #endregion
 
     #region frmLanguage
@@ -223,6 +239,8 @@ public static class Language {
     #region frmLog
     public static string frmLog { get; private set; }
     public static string frmLogClear { get; private set; }
+    public static string frmLogExceptions { get; private set; }
+    public static string lbLogPastExceptions { get; private set; }
     #endregion
 
     #region frmMain
@@ -614,6 +632,11 @@ public static class Language {
         public const string GenericInput = "Input";
         public const string GenericOutput = "Output";
         public const string GenericArguments = "Arguments";
+        public const string GenericAborted = "Aborted";
+        public const string GenericError = "Error";
+        public const string GenericAltError = "{0} error";
+        public const string GenericCompleted = "Completed";
+        public const string GenericRemove = "Remove";
 
         public const string frmGenericDownloadProgress = "Downloading...";
         public const string chContainer = "Container";
@@ -628,6 +651,8 @@ public static class Language {
         public const string chAudioSampleRate = "Audio sample rate";
         public const string chAudioCodec = "Audio codec";
         public const string chAudioChannels = "Audio channels";
+        public const string dlBeginningDownload = "Beginning download";
+        public const string cvBeginningConversion = "Beginning conversion";
         #endregion
 
         #region Dialogs
@@ -780,6 +805,15 @@ public static class Language {
         public const string lbExtendedDownloaderNoUnknownFormatsFound = "No unknown formats were found.";
         public const string lbVideoRemux = "Video remux";
         public const string txtExtendedDownloaderMediaTitle = "Retrieving media information...";
+        public const string txtExtendedDownloaderBatchMediaTitle = "Select an item to view the details";
+        public const string mExtendedDownloaderEnqueueCopyOptions = "Add (Copy selected options)";
+        public const string mExtendedDownloaderEnqueueWithAuthentication = "Add (Authenticate)";
+        public const string mExtendedDownloaderEnqueueCopyAuthentication = "Add (Copy selected auth)";
+        public const string mExtendedDownloaderQueueCopyLink = "Copy link";
+        public const string mExtendedDownloaderQueueViewInBrowser = "View in browser";
+        public const string mExtendedDownloaderEnqueueImportLinksWithAuthentication = "Import with authentication";
+        public const string mExtendedDownloaderEnqueueImportLinksCopyOptions = "Import and copy selected item options";
+        public const string mExtendedDownloaderEnqueueImportLinksCopyAuthentication = "Import and copy select item auth";
         #endregion
 
         #region frmLanguage
@@ -791,6 +825,8 @@ public static class Language {
         #region frmLog
         public const string frmLog = "Log";
         public const string frmLogClear = "Clear";
+        public const string frmLogExceptions = "Exceptions";
+        public const string lbLogPastExceptions = "Past exceptions will appear here";
         #endregion
 
         #region frmMain
@@ -1213,6 +1249,11 @@ public static class Language {
         GenericInput = InternalEnglish.GenericInput;
         GenericOutput = InternalEnglish.GenericOutput;
         GenericArguments = InternalEnglish.GenericArguments;
+        GenericAborted = InternalEnglish.GenericAborted;
+        GenericError = InternalEnglish.GenericError;
+        GenericAltError = InternalEnglish.GenericAltError;
+        GenericCompleted = InternalEnglish.GenericCompleted;
+        GenericRemove = InternalEnglish.GenericRemove;
 
         frmGenericDownloadProgress = InternalEnglish.frmGenericDownloadProgress;
         chContainer = InternalEnglish.chContainer;
@@ -1227,6 +1268,8 @@ public static class Language {
         chAudioSampleRate = InternalEnglish.chAudioSampleRate;
         chAudioCodec = InternalEnglish.chAudioCodec;
         chAudioChannels = InternalEnglish.chAudioChannels;
+        dlBeginningDownload = InternalEnglish.dlBeginningDownload;
+        cvBeginningConversion = InternalEnglish.cvBeginningConversion;
         #endregion
 
         #region Dialogs
@@ -1374,6 +1417,15 @@ public static class Language {
         lbExtendedDownloaderNoUnknownFormatsFound = InternalEnglish.lbExtendedDownloaderNoUnknownFormatsFound;
         lbVideoRemux = InternalEnglish.lbVideoRemux;
         txtExtendedDownloaderMediaTitle = InternalEnglish.txtExtendedDownloaderMediaTitle;
+        txtExtendedDownloaderBatchMediaTitle = InternalEnglish.txtExtendedDownloaderBatchMediaTitle;
+        mExtendedDownloaderEnqueueCopyOptions = InternalEnglish.mExtendedDownloaderEnqueueCopyOptions;
+        mExtendedDownloaderEnqueueWithAuthentication = InternalEnglish.mExtendedDownloaderEnqueueWithAuthentication;
+        mExtendedDownloaderEnqueueCopyAuthentication = InternalEnglish.mExtendedDownloaderEnqueueCopyAuthentication;
+        mExtendedDownloaderQueueCopyLink = InternalEnglish.mExtendedDownloaderQueueCopyLink;
+        mExtendedDownloaderQueueViewInBrowser = InternalEnglish.mExtendedDownloaderQueueViewInBrowser;
+        mExtendedDownloaderEnqueueImportLinksWithAuthentication = InternalEnglish.mExtendedDownloaderEnqueueImportLinksWithAuthentication;
+        mExtendedDownloaderEnqueueImportLinksCopyOptions = InternalEnglish.mExtendedDownloaderEnqueueImportLinksCopyOptions;
+        mExtendedDownloaderEnqueueImportLinksCopyAuthentication = InternalEnglish.mExtendedDownloaderEnqueueImportLinksCopyAuthentication;
         #endregion
 
         #region frmLanguage
@@ -1385,6 +1437,8 @@ public static class Language {
         #region frmLog
         frmLog = InternalEnglish.frmLog;
         frmLogClear = InternalEnglish.frmLogClear;
+        frmLogExceptions = InternalEnglish.frmLogExceptions;
+        lbLogPastExceptions = InternalEnglish.lbLogPastExceptions;
         #endregion
 
         #region frmMain
@@ -1796,6 +1850,11 @@ public static class Language {
         GenericInput = nameof(GenericInput);
         GenericOutput = nameof(GenericOutput);
         GenericArguments = nameof(GenericArguments);
+        GenericAborted = nameof(GenericAborted);
+        GenericError = nameof(GenericError);
+        GenericAltError = nameof(GenericAltError);
+        GenericCompleted = nameof(GenericCompleted);
+        GenericRemove = nameof(GenericRemove);
 
         frmGenericDownloadProgress = nameof(frmGenericDownloadProgress);
         chContainer = nameof(chContainer);
@@ -1810,6 +1869,8 @@ public static class Language {
         chAudioSampleRate = nameof(chAudioSampleRate);
         chAudioCodec = nameof(chAudioCodec);
         chAudioChannels = nameof(chAudioChannels);
+        dlBeginningDownload = nameof(dlBeginningDownload);
+        cvBeginningConversion = nameof(cvBeginningConversion);
         #endregion
 
         #region Dialogs
@@ -1957,6 +2018,15 @@ public static class Language {
         lbExtendedDownloaderNoUnknownFormatsFound = nameof(lbExtendedDownloaderNoUnknownFormatsFound);
         lbVideoRemux = nameof(lbVideoRemux);
         txtExtendedDownloaderMediaTitle = nameof(txtExtendedDownloaderMediaTitle);
+        txtExtendedDownloaderBatchMediaTitle = nameof(txtExtendedDownloaderBatchMediaTitle);
+        mExtendedDownloaderEnqueueCopyOptions = nameof(mExtendedDownloaderEnqueueCopyOptions);
+        mExtendedDownloaderEnqueueWithAuthentication = nameof(mExtendedDownloaderEnqueueWithAuthentication);
+        mExtendedDownloaderEnqueueCopyAuthentication = nameof(mExtendedDownloaderEnqueueCopyAuthentication);
+        mExtendedDownloaderQueueCopyLink = nameof(mExtendedDownloaderQueueCopyLink);
+        mExtendedDownloaderQueueViewInBrowser = nameof(mExtendedDownloaderQueueViewInBrowser);
+        mExtendedDownloaderEnqueueImportLinksWithAuthentication = nameof(mExtendedDownloaderEnqueueImportLinksWithAuthentication);
+        mExtendedDownloaderEnqueueImportLinksCopyOptions = nameof(mExtendedDownloaderEnqueueImportLinksCopyOptions);
+        mExtendedDownloaderEnqueueImportLinksCopyAuthentication = nameof(mExtendedDownloaderEnqueueImportLinksCopyAuthentication);
         #endregion
 
         #region frmLanguage
@@ -1968,6 +2038,8 @@ public static class Language {
         #region frmLog
         frmLog = nameof(frmLog);
         frmLogClear = nameof(frmLogClear);
+        frmLogExceptions = nameof(frmLogExceptions);
+        lbLogPastExceptions = nameof(lbLogPastExceptions);
         #endregion
 
         #region frmMain
@@ -2478,6 +2550,21 @@ public static class Language {
                             case "genericarguments":
                                 GenericArguments = ReadValue;
                                 continue;
+                            case "genericaborted":
+                                GenericAborted = ReadValue;
+                                continue;
+                            case "genericerror":
+                                GenericError = ReadValue;
+                                continue;
+                            case "genericalterror":
+                                GenericAltError = ReadValue;
+                                continue;
+                            case "genericcompleted":
+                                GenericCompleted = ReadValue;
+                                continue;
+                            case "genericremove":
+                                GenericRemove = ReadValue;
+                                continue;
 
                             case "frmgenericdownloadprogress":
                                 frmGenericDownloadProgress = ReadValue;
@@ -2517,6 +2604,12 @@ public static class Language {
                                 continue;
                             case "chaudiochannels":
                                 chAudioChannels = ReadValue;
+                                continue;
+                            case "dlbeginningdownload":
+                                dlBeginningDownload = ReadValue;
+                                continue;
+                            case "cvbeginningconversion":
+                                cvBeginningConversion = ReadValue;
                                 continue;
                             #endregion
 
@@ -2878,6 +2971,33 @@ public static class Language {
                             case "txtextendeddownloadermediatitle":
                                 txtExtendedDownloaderMediaTitle = ReadValue;
                                 continue;
+                            case "txtextendeddownloaderbatchmediatitle":
+                                txtExtendedDownloaderBatchMediaTitle = ReadValue;
+                                continue;
+                            case "mextendeddownloaderenqueuecopyoptions":
+                                mExtendedDownloaderEnqueueCopyOptions = ReadValue;
+                                continue;
+                            case "mextendeddownloaderenqueuewithauthentication":
+                                mExtendedDownloaderEnqueueWithAuthentication = ReadValue;
+                                continue;
+                            case "mextendeddownloaderenqueuecopyauthentication":
+                                mExtendedDownloaderEnqueueCopyAuthentication = ReadValue;
+                                continue;
+                            case "mextendeddownloaderqueuecopylink":
+                                mExtendedDownloaderQueueCopyLink = ReadValue;
+                                continue;
+                            case "mextendeddownloaderqueueviewinbrowser":
+                                mExtendedDownloaderQueueViewInBrowser = ReadValue;
+                                continue;
+                            case "mextendeddownloaderenqueueimportlinkswithauthentication":
+                                mExtendedDownloaderEnqueueImportLinksWithAuthentication = ReadValue;
+                                continue;
+                            case "mextendeddownloaderenqueueimportlinkscopyoptions":
+                                mExtendedDownloaderEnqueueImportLinksCopyOptions = ReadValue;
+                                continue;
+                            case "mextendeddownloaderenqueueimportlinkscopyauthentication":
+                                mExtendedDownloaderEnqueueImportLinksCopyAuthentication = ReadValue;
+                                continue;
                             #endregion
 
                             #region frmLanguage
@@ -2898,6 +3018,12 @@ public static class Language {
                                 continue;
                             case "frmlogclear":
                                 frmLogClear = ReadValue;
+                                continue;
+                            case "frmlogexceptions":
+                                frmLogExceptions = ReadValue;
+                                continue;
+                            case "lblogpastexceptions":
+                                lbLogPastExceptions = ReadValue;
                                 continue;
                             #endregion
 
@@ -3880,13 +4006,27 @@ public static class Language {
     /// Registers a <see cref="ILocalizedForm"/> to the callback when the localization is changed.
     /// </summary>
     /// <param name="Form"></param>
-    internal static void RegisterForm(ILocalizedForm Form) => OpenedForms.Add(Form);
+    internal static void RegisterForm(ILocalizedForm Form) {
+        if (OpenedForms.Contains(Form)) {
+            Log.Write($"Localized form {Form.GetFormName()} already in the list.");
+            return;
+        }
+        OpenedForms.Add(Form);
+        Log.Write($"Added new localized form {Form.GetFormName()}");
+    }
 
     /// <summary>
     /// Unregisters a <see cref="ILocalizedForm"/> from the callback when the localization is changed.
     /// </summary>
     /// <param name="Form"></param>
-    internal static void UnregisterForm(ILocalizedForm Form) => OpenedForms.Remove(Form);
+    internal static void UnregisterForm(ILocalizedForm Form) {
+        if (OpenedForms.Remove(Form)) {
+            Log.Write($"Form {Form.GetFormName()} was removed from the list.");
+        }
+        else {
+            Log.Write($"Form {Form.GetFormName()} was not in the list.");
+        }
+    }
 
     /// <summary>
     /// Occurs when the localization has been changed.

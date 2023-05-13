@@ -2,12 +2,11 @@
 using System.Diagnostics;
 using System.Threading;
 using System.Windows.Forms;
-public partial class frmAbout : Form, ILocalizedForm {
+public partial class frmAbout : LocalizedForm {
     Thread UpdateCheckThread;
     public frmAbout() {
         InitializeComponent();
         LoadLanguage();
-        RegisterLocalizedForm();
         pbIcon.Image = Properties.Resources.AboutImage;
         pbIcon.Cursor = NativeMethods.SystemHandCursor;
         lbVersion.Text = $"v{Program.CurrentVersion}";
@@ -19,19 +18,13 @@ public partial class frmAbout : Form, ILocalizedForm {
 
         if (Config.Settings.Initialization.ScreenshotMode)
             this.FormClosing += (s, e) => this.Dispose();
-
-        this.FormClosing += (s, e) => UnregisterLocalizedForm();
     }
 
-    public void LoadLanguage() {
+    public override void LoadLanguage() {
         lbAboutBody.Text = string.Format(Language.lbAboutBody + "\n\n\nKnown as a gross red monster.", "murrty", Properties.Resources.BuildDate);
         llbCheckForUpdates.Text = Language.llbCheckForUpdates;
         this.Text = $"{Language.frmAbout} youtube-dl-gui";
     }
-
-    public void RegisterLocalizedForm() => Language.RegisterForm(this);
-
-    public void UnregisterLocalizedForm() => Language.UnregisterForm(this);
 
     private void llbCheckForUpdates_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
         if (UpdateCheckThread is null || !UpdateCheckThread.IsAlive) {

@@ -2,8 +2,7 @@
 using System.Diagnostics;
 using System.Threading;
 using System.Windows.Forms;
-
-public partial class frmDownloader : Form, ILocalizedForm {
+public partial class frmDownloader : LocalizedForm {
     public DownloadInfo CurrentDownload { get; }
 
     private Thread DownloadThread;              // The thread of the process for youtube-dl.
@@ -29,7 +28,7 @@ public partial class frmDownloader : Form, ILocalizedForm {
         CurrentDownload = Info;
     }
 
-    public void LoadLanguage() {
+    public override void LoadLanguage() {
         this.Text = Language.frmDownloader + " ";
         btnDownloaderAbortBatchDownload.Text = Language.btnDownloaderAbortBatch;
         btnClearOutput.Text = Language.GenericClear;
@@ -37,19 +36,20 @@ public partial class frmDownloader : Form, ILocalizedForm {
         btnDownloaderCancelExit.Text = Language.GenericCancel;
         chkDownloaderCloseAfterDownload.Text = Language.chkDownloaderCloseAfterDownload;
         chkDownloaderCloseAfterDownload.Checked = Config.Settings.Downloads.CloseDownloaderAfterFinish;
+
         switch (CurrentDownload.Status) {
             case DownloadStatus.Aborted: {
-                pbStatus.Text = "Aborted";
+                pbStatus.Text = Language.GenericAborted;
                 btnDownloaderAbortBatchDownload.Text = Language.GenericRetry;
                 btnDownloaderCancelExit.Text = Language.GenericExit;
             } break;
             case DownloadStatus.YtdlError: {
-                pbStatus.Text = "ytdl error";
+                pbStatus.Text = Language.GenericAltError.Format("youtube-dl");
                 btnDownloaderAbortBatchDownload.Text = Language.GenericRetry;
                 btnDownloaderCancelExit.Text = Language.GenericExit;
             } break;
             case DownloadStatus.ProgramError: {
-                pbStatus.Text = "Error";
+                pbStatus.Text = Language.GenericError;
                 btnDownloaderAbortBatchDownload.Text = Language.GenericRetry;
                 btnDownloaderCancelExit.Text = Language.GenericExit;
             } break;
@@ -58,7 +58,7 @@ public partial class frmDownloader : Form, ILocalizedForm {
                 btnDownloaderCancelExit.Text = Language.GenericExit;
             } break;
             case DownloadStatus.Preparing: {
-                pbStatus.Text = "Beginning download";
+                pbStatus.Text = Language.dlBeginningDownload;
                 btnDownloaderAbortBatchDownload.Text = Language.GenericCancel;
             } break;
             case DownloadStatus.Downloading: {
@@ -84,7 +84,7 @@ public partial class frmDownloader : Form, ILocalizedForm {
                 btnDownloaderAbortBatchDownload.Text = Language.GenericCancel;
             } break;
             case DownloadStatus.Finished: {
-                pbStatus.Text = "Completed";
+                pbStatus.Text = Language.GenericCompleted;
                 btnDownloaderCancelExit.Text = Language.GenericExit;
             } break;
             default: {
@@ -92,9 +92,7 @@ public partial class frmDownloader : Form, ILocalizedForm {
             } break;
         }
     }
-    public void RegisterLocalizedForm() => Language.RegisterForm(this);
-    public void UnregisterLocalizedForm() => Language.UnregisterForm(this);
-    public void Abort() {
+    public void RetryOrAbort() {
         switch (CurrentDownload.Status) {
             case DownloadStatus.YtdlError:
             case DownloadStatus.ProgramError:
@@ -139,15 +137,31 @@ public partial class frmDownloader : Form, ILocalizedForm {
         if (CurrentDownload.DownloadURL.IsNullEmptyWhitespace()) {
             rtbVerbose.AppendText("The URL is null or empty. Please enter a URL to download.");
             Log.Write("Cannot continue download.");
+            CurrentDownload.Status = DownloadStatus.ProgramError;
             return;
+        }
+
+        if (!Verification.YoutubeDlAvailable) {
+            Verification.RefreshYoutubeDlLocation();
+
+            if (!Verification.YoutubeDlAvailable) {
+                CurrentDownload.Status = DownloadStatus.ProgramError;
+                rtbVerbose.AppendLine("Youtube-dl could not be found.");
+                Log.Write("Youtube-dl could not be found.");
+                DownloadFinished();
+                return;
+            }
         }
 
         rtbVerbose.AppendText("Beginning download, this box will output progress");
         if (CurrentDownload.BatchDownload)
             chkDownloaderCloseAfterDownload.Checked = true;
 
-        if (!CurrentDownload.GenerateArguments(rtbVerbose.AppendLine, out string Arguments, out string PreviewArguments))
+        if (!CurrentDownload.GenerateArguments(rtbVerbose.AppendLine, out string Arguments, out string PreviewArguments)) {
+            CurrentDownload.Status = DownloadStatus.ProgramError;
+            DownloadFinished();
             return;
+        }
 
         rtbVerbose.AppendLine("Arguments have been generated and are readonly in the textbox");
         if (Config.Settings.Downloads.LimitDownloads && (Config.Settings.Downloads.YtdlType == 0 || Config.Settings.Downloads.YtdlType == 3)
@@ -224,90 +238,91 @@ public partial class frmDownloader : Form, ILocalizedForm {
                 };
                 Arguments = null;
 
-                if (CurrentDownload.Status != DownloadStatus.Aborted) {
-                    this.Invoke(() => {
-                        tmrTitleActivity.Start();
-                        pbStatus.ShowInTaskbar = true;
-                    });
-                    DownloadProcess.Start();
+                if (CurrentDownload.Status == DownloadStatus.Aborted)
+                    return;
 
-                    DownloadProcess.BeginOutputReadLine();
-                    DownloadProcess.BeginErrorReadLine();
+                this.Invoke(() => {
+                    tmrTitleActivity.Start();
+                    pbStatus.ShowInTaskbar = true;
+                });
+                DownloadProcess.Start();
 
-                    float Percentage = 0;
-                    string Eta = "Unknown";
+                DownloadProcess.BeginOutputReadLine();
+                DownloadProcess.BeginErrorReadLine();
 
-                    while (!DownloadProcess.HasExited) {
-                        if (CurrentDownload.Status == DownloadStatus.Aborted || CurrentDownload.Status == DownloadStatus.AbortForClose) {
-                            if (!DownloadProcess.HasExited) {
-                                Program.KillProcessTree((uint)DownloadProcess.Id);
-                                DownloadProcess.Kill();
-                            }
-                            return;
+                float Percentage = 0;
+                string Eta = "Unknown";
+
+                while (!DownloadProcess.HasExited) {
+                    if (CurrentDownload.Status == DownloadStatus.Aborted || CurrentDownload.Status == DownloadStatus.AbortForClose) {
+                        if (!DownloadProcess.HasExited) {
+                            Program.KillProcessTree((uint)DownloadProcess.Id);
+                            DownloadProcess.Kill();
                         }
-
-                        if (Msg.IsNotNullEmptyWhitespace()) {
-                            //Console.WriteLine(Msg);
-                            string Line = Msg.ReplaceWhitespace();
-                            switch (Line[..5].ToLower()) {
-                                case "[down": {
-                                    string[] LineParts = Line.Split(' ');
-                                    switch (LineParts[1][0]) {
-                                        case '1': case '2': case '3':
-                                        case '4': case '5': case '6':
-                                        case '7': case '8': case '9':
-                                        case '0': {
-                                            if (pbStatus.Style != ProgressBarStyle.Blocks)
-                                                pbStatus.Invoke(() => pbStatus.Style = ProgressBarStyle.Blocks);
-                                            if (LineParts[1].Contains('%') && pbStatus.IsHandleCreated) {
-                                                pbStatus.Invoke(() => {
-                                                    pbStatus.Text =
-                                                        $"{DownloadHelper.GetTransferData(LineParts, ref Percentage, ref Eta) } ETA {Eta}";
-                                                    pbStatus.Value = (int)Math.Floor(Percentage);
-                                                });
-                                            }
-                                        } break;
-                                    }
-                                } break;
-                                case "[ffmp": {
-                                    rtbVerbose.Invoke(() => rtbVerbose.AppendLine(Line));
-                                    pbStatus.Invoke(() => {
-                                        pbStatus.Style = ProgressBarStyle.Marquee;
-                                        pbStatus.Text = Language.pbDownloadProgressFfmpegPostProcessing;
-                                        pbStatus.Value = 100;
-                                    });
-                                    Msg = null;
-                                } break;
-                                case "[embe": {
-                                    rtbVerbose.Invoke(() => rtbVerbose.AppendLine(Line));
-                                    pbStatus.Invoke(() => {
-                                        pbStatus.Style = ProgressBarStyle.Marquee;
-                                        pbStatus.Text = Language.pbDownloadProgressEmbeddingSubtitles;
-                                        pbStatus.Value = 100;
-                                    });
-                                    Msg = null;
-                                } break;
-                                case "[meta": {
-                                    rtbVerbose.Invoke(() => rtbVerbose.AppendLine(Line));
-                                    pbStatus.Invoke(() => {
-                                        pbStatus.Style = ProgressBarStyle.Marquee;
-                                        pbStatus.Text = Language.pbDownloadProgressEmbeddingMetadata;
-                                        pbStatus.Value = 100;
-                                    });
-                                    Msg = null;
-                                } break;
-                            }
-                            Msg = null;
-                        }
-
-                        Thread.Sleep(250);
+                        return;
                     }
 
-                    CurrentDownload.Status = DownloadProcess.ExitCode switch {
-                        0 => DownloadStatus.Finished,
-                        _ => CurrentDownload.Status == DownloadStatus.Aborted ? DownloadStatus.Aborted : DownloadStatus.YtdlError
-                    };
+                    if (Msg.IsNotNullEmptyWhitespace()) {
+                        //Console.WriteLine(Msg);
+                        string Line = Msg.ReplaceWhitespace();
+                        switch (Line[..5].ToLower()) {
+                            case "[down": {
+                                string[] LineParts = Line.Split(' ');
+                                switch (LineParts[1][0]) {
+                                    case '1': case '2': case '3':
+                                    case '4': case '5': case '6':
+                                    case '7': case '8': case '9':
+                                    case '0': {
+                                        if (pbStatus.Style != ProgressBarStyle.Blocks)
+                                            pbStatus.Invoke(() => pbStatus.Style = ProgressBarStyle.Blocks);
+                                        if (LineParts[1].Contains('%') && pbStatus.IsHandleCreated) {
+                                            pbStatus.Invoke(() => {
+                                                pbStatus.Text =
+                                                    $"{DownloadHelper.GetTransferData(LineParts, ref Percentage, ref Eta) } ETA {Eta}";
+                                                pbStatus.Value = (int)Math.Floor(Percentage);
+                                            });
+                                        }
+                                    } break;
+                                }
+                            } break;
+                            case "[ffmp": {
+                                rtbVerbose.Invoke(() => rtbVerbose.AppendLine(Line));
+                                pbStatus.Invoke(() => {
+                                    pbStatus.Style = ProgressBarStyle.Marquee;
+                                    pbStatus.Text = Language.pbDownloadProgressFfmpegPostProcessing;
+                                    pbStatus.Value = 100;
+                                });
+                                Msg = null;
+                            } break;
+                            case "[embe": {
+                                rtbVerbose.Invoke(() => rtbVerbose.AppendLine(Line));
+                                pbStatus.Invoke(() => {
+                                    pbStatus.Style = ProgressBarStyle.Marquee;
+                                    pbStatus.Text = Language.pbDownloadProgressEmbeddingSubtitles;
+                                    pbStatus.Value = 100;
+                                });
+                                Msg = null;
+                            } break;
+                            case "[meta": {
+                                rtbVerbose.Invoke(() => rtbVerbose.AppendLine(Line));
+                                pbStatus.Invoke(() => {
+                                    pbStatus.Style = ProgressBarStyle.Marquee;
+                                    pbStatus.Text = Language.pbDownloadProgressEmbeddingMetadata;
+                                    pbStatus.Value = 100;
+                                });
+                                Msg = null;
+                            } break;
+                        }
+                        Msg = null;
+                    }
+
+                    Thread.Sleep(250);
                 }
+
+                CurrentDownload.Status = DownloadProcess.ExitCode switch {
+                    0 => DownloadStatus.Finished,
+                    _ => CurrentDownload.Status == DownloadStatus.Aborted ? DownloadStatus.Aborted : DownloadStatus.YtdlError
+                };
             }
             catch (ThreadAbortException) {
                 Program.KillProcessTree((uint)DownloadProcess.Id);
@@ -380,7 +395,7 @@ public partial class frmDownloader : Form, ILocalizedForm {
             switch (CurrentDownload.Status) {
                 case DownloadStatus.Aborted:
                     pbStatus.ProgressState = murrty.controls.ProgressState.Error;
-                    pbStatus.Text = "Aborted";
+                    pbStatus.Text = Language.GenericAborted;
                     break;
                 case DownloadStatus.YtdlError:
                     rtbVerbose.AppendLine("An error occured\r\nTHIS IS A YOUTUBE-DL ERROR, NOT A ERROR WITH THIS PROGRAM!");
@@ -388,7 +403,7 @@ public partial class frmDownloader : Form, ILocalizedForm {
                     btnDownloaderAbortBatchDownload.Enabled = true;
                     btnDownloaderAbortBatchDownload.Text = Language.GenericRetry;
                     pbStatus.ProgressState = murrty.controls.ProgressState.Error;
-                    pbStatus.Text = "Youtube-dl error";
+                    pbStatus.Text = Language.GenericAltError.Format("youtube-dl");
                     this.Text = Language.frmDownloaderError;
                     this.Activate();
                     System.Media.SystemSounds.Hand.Play();
@@ -396,7 +411,7 @@ public partial class frmDownloader : Form, ILocalizedForm {
                 case DownloadStatus.ProgramError:
                     rtbVerbose.AppendLine("An error occured\r\nAn error log was presented, if enabled.");
                     pbStatus.ProgressState = murrty.controls.ProgressState.Error;
-                    pbStatus.Text = "Error";
+                    pbStatus.Text = Language.GenericError;
                     this.Text = Language.frmDownloaderError;
                     this.Activate();
                     System.Media.SystemSounds.Hand.Play();
@@ -407,7 +422,7 @@ public partial class frmDownloader : Form, ILocalizedForm {
                     if (chkDownloaderCloseAfterDownload.Checked) { this.Close(); }
                     else {
                         pbStatus.Value = pbStatus.Maximum;
-                        pbStatus.Text = "Finished";
+                        pbStatus.Text = Language.GenericCompleted;
                     }
                     break;
                 default:
@@ -436,7 +451,6 @@ public partial class frmDownloader : Form, ILocalizedForm {
             this.StartPosition = FormStartPosition.Manual;
             this.Location = Config.Settings.Saved.QuickDownloaderLocation;
         }
-        RegisterLocalizedForm();
     }
     private void frmExtendedMassDownloader_Shown(object sender, EventArgs e) {
         pbStatus.Focus();
@@ -473,7 +487,6 @@ public partial class frmDownloader : Form, ILocalizedForm {
             if (!CurrentDownload.BatchDownload)
                 Config.Settings.Downloads.CloseDownloaderAfterFinish = chkDownloaderCloseAfterDownload.Checked;
             Config.Settings.Saved.QuickDownloaderLocation = this.Location;
-            UnregisterLocalizedForm();
             this.DialogResult = Finish;
             this.Dispose();
         }

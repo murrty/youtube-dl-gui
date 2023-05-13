@@ -1,8 +1,7 @@
 ﻿namespace youtube_dl_gui;
 using System.Threading;
 using System.Windows.Forms;
-// TODO: Dynamically load the language based on the download status.
-public partial class frmBatchDownloader : Form, ILocalizedForm {
+public partial class frmBatchDownloader : LocalizedForm {
     public bool Debugging = false;
 
     private readonly List<int> DownloadTypes = new();       // List of types to download
@@ -12,6 +11,7 @@ public partial class frmBatchDownloader : Form, ILocalizedForm {
     private readonly List<int> DownloadFormat = new();      // List of the formats
     private readonly List<bool> DownloadSoundVBR = new();   // List of if sound/vbr should be downloaded
     private bool InProgress = false;                        // Bool if the batch download is in progress
+    private bool AbortDownload = false;
     private frmDownloader Downloader;                       // The Downloader form that will be around. Will be disposed if aborted.
     private DownloadInfo NewInfo;                           // The info of the download
     private Thread DownloadThread;                          // The thread for the batch downloader.
@@ -45,7 +45,7 @@ public partial class frmBatchDownloader : Form, ILocalizedForm {
             ClipboardScannerActive = false;
     }
 
-    public void LoadLanguage() {
+    public override void LoadLanguage() {
         this.Text = Language.frmBatchDownload;
         lbBatchDownloadLink.Text = Language.lbBatchDownloadLink;
         lbBatchDownloadType.Text = Language.lbBatchDownloadType;
@@ -59,7 +59,6 @@ public partial class frmBatchDownloader : Form, ILocalizedForm {
         mBatchDownloaderImportLinksFromClipboard.Text = Language.mBatchDownloaderImportLinksFromClipboard;
         btnBatchDownloadRemoveSelected.Text = Language.GenericRemoveSelected;
         btnBatchDownloadStartStopExit.Text = Language.GenericStart;
-        sbBatchDownloader.Text = Language.sbBatchDownloaderIdle;
         lvBatchDownloadQueue.Columns[1].Text = Language.lbBatchDownloadType;
         lvBatchDownloadQueue.Columns[2].Text = Language.lbBatchDownloadVideoSpecificArgument;
         cbBatchDownloadType.Items.Add(Language.GenericVideo);
@@ -68,9 +67,13 @@ public partial class frmBatchDownloader : Form, ILocalizedForm {
         sbBatchDownloaderImportLinks.Text = Language.sbBatchDownloaderImportLinks;
         chkBatchDownloadClipboardScanner.Text = Language.chkBatchDownloadClipboardScanner;
         chkBatchDownloadClipboardScanVerifyLinks.Text = Language.GenericVerifyLinks;
+        if (AbortDownload) {
+            sbBatchDownloader.Text = Language.sbBatchDownloaderAborted;
+        }
+        else {
+            sbBatchDownloader.Text = InProgress ? Language.sbBatchDownloaderDownloading : Language.sbBatchDownloaderIdle;
+        }
     }
-    public void RegisterLocalizedForm() => Language.RegisterForm(this);
-    public void UnregisterLocalizedForm() => Language.UnregisterForm(this);
 
     private void frmBatchDownloader_Load(object sender, EventArgs e) {
         cbBatchDownloadType.SelectedIndex = Config.Settings.Batch.SelectedType;
@@ -284,16 +287,16 @@ public partial class frmBatchDownloader : Form, ILocalizedForm {
     private void btnBatchDownloadStartStopExit_Click(object sender, EventArgs e) {
         if (InProgress) {
             Downloader.Invoke((Action)delegate {
-                Downloader.Abort();
+                Downloader.RetryOrAbort();
             });
         }
         else if (DownloadUrls.Count > 0) {
             Program.RunningActions.Add(this);
             Log.Write($"Starting batch download with {DownloadUrls.Count} links to download.");
             InProgress = true;
+            AbortDownload = false;
             btnBatchDownloadRemoveSelected.Enabled = false;
             btnBatchDownloadStartStopExit.Text = Language.GenericStop;
-            bool AbortDownload = false;
             string BatchTime = BatchHelpers.CurrentTime;
             DownloadThread = new(() => {
                 for (int i = 0; i < DownloadUrls.Count; i++) {
@@ -367,7 +370,6 @@ public partial class frmBatchDownloader : Form, ILocalizedForm {
                 this.Invoke((Action)delegate {
                     if (AbortDownload) {
                         sbBatchDownloader.Text = Language.sbBatchDownloaderAborted;
-                        AbortDownload = false;
                     }
                     else {
                         sbBatchDownloader.Text = Language.sbBatchDownloaderFinished;

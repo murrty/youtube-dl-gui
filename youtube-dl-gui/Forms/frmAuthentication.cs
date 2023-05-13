@@ -1,6 +1,6 @@
 ﻿namespace youtube_dl_gui;
 using System.Windows.Forms;
-public partial class frmAuthentication : Form, ILocalizedForm {
+public partial class frmAuthentication : LocalizedForm {
 
     /// <summary>
     /// Gets or sets the authentication data for the instance.
@@ -10,13 +10,10 @@ public partial class frmAuthentication : Form, ILocalizedForm {
     public frmAuthentication() {
         InitializeComponent();
         LoadLanguage();
-
-        this.Load += (s, e) => RegisterLocalizedForm();
-        this.FormClosing += (s, e) => UnregisterLocalizedForm();
     }
     public frmAuthentication(AuthenticationDetails Details) : this() => Authentication = Details;
 
-    public void LoadLanguage() {
+    public override void LoadLanguage() {
         this.Text = Language.frmAuthentication;
         lbAuthNotice.Text = Language.lbAuthNotice;
         lbAuthUsername.Text = Language.lbAuthUsername;
@@ -36,8 +33,6 @@ public partial class frmAuthentication : Form, ILocalizedForm {
             chkAuthUseNetrc.Location.Y
         );
     }
-    public void RegisterLocalizedForm() => Language.RegisterForm(this);
-    public void UnregisterLocalizedForm() => Language.UnregisterForm(this);
 
     private void chkPasswordVisible_CheckedChanged(object sender, EventArgs e) {
         txtPassword.PasswordChar = chkPasswordVisible.Checked ? '\0' : '●';

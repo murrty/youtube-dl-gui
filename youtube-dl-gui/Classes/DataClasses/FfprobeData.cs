@@ -3,9 +3,6 @@
 using System.IO;
 using System.Diagnostics;
 using System.Runtime.Serialization;
-using System.Threading.Tasks;
-using System.Globalization;
-
 //ffprobe -v quiet -print_format json -show_format -show_streams 
 
 [DataContract]
@@ -14,11 +11,11 @@ public sealed class FfprobeData {
     public static FfprobeData GenerateData(string MediaFile, out string RetrievedData) {
         RetrievedData = null;
         if (!MediaFile.IsNullEmptyWhitespace() && File.Exists(MediaFile)) {
-            if (Verification.FFprobePath.IsNullEmptyWhitespace())
+            if (!Verification.FfprobeAvailable) {
                 Verification.RefreshFFmpegLocation();
-
-            if (Verification.FFprobePath.IsNullEmptyWhitespace())
-                return null;
+                if (!Verification.FfprobeAvailable)
+                    return null;
+            }
 
             Process Enumeration = new() {
                 StartInfo = new() {

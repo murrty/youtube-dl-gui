@@ -1,7 +1,7 @@
 ﻿namespace youtube_dl_gui;
 using System.IO;
 using System.Windows.Forms;
-public partial class frmLanguage : Form, ILocalizedForm {
+public partial class frmLanguage : Form {
     public frmLanguage() {
         InitializeComponent();
         LoadLanguage();
@@ -33,9 +33,6 @@ public partial class frmLanguage : Form, ILocalizedForm {
             ttLanguage.SetToolTip(lbCurrentLanguageShort, $"{Language.CurrentLanguageLong} ({Language.CurrentLanguageShort})\nv{Language.CurrentLanguageVersion}");
         }
     }
-    // Ignore Registration because it is not used.
-    public void RegisterLocalizedForm() { }
-    public void UnregisterLocalizedForm() { }
     public void LoadFiles() {
         if (Directory.Exists(Environment.CurrentDirectory + "\\lang\\")) {
             DirectoryInfo LangFolder = new(Environment.CurrentDirectory + "\\lang\\");
@@ -70,5 +67,4 @@ public partial class frmLanguage : Form, ILocalizedForm {
     private void btnLanguageCancel_Click(object sender, EventArgs e) {
         this.DialogResult = DialogResult.Cancel;
     }
-
 }

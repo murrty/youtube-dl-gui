@@ -1,10 +1,11 @@
 ﻿namespace youtube_dl_gui;
 
 using System.Net;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Windows.Forms;
 
-public partial class frmGenericDownloadProgress : Form, ILocalizedForm {
+public partial class frmGenericDownloadProgress : LocalizedForm {
     public string URL { get; private set; }
     public string Output { get; private set; }
     private readonly Thread DownloadThread;
@@ -35,7 +36,6 @@ public partial class frmGenericDownloadProgress : Form, ILocalizedForm {
                 };
                 DownloadClient.DownloadFileCompleted += (s, e) => {
                     Finished = true;
-                    UnregisterLocalizedForm();
                     this.DialogResult = Cancelled ? DialogResult.Cancel : DialogResult.OK;
                 };
                 DownloadClient.Headers.Add("user-agent", Program.UserAgent);
@@ -85,21 +85,17 @@ public partial class frmGenericDownloadProgress : Form, ILocalizedForm {
                 }
                 return;
             }
-
-            UnregisterLocalizedForm();
         };
     }
-    public frmGenericDownloadProgress(string URL, string Output, Point Location) : this(URL, Output) {
+    public frmGenericDownloadProgress(string URL, string Output, Point? Location) : this(URL, Output) {
         this.Load += (s, e) => {
-            if (Location.Valid) {
+            if (Location is not null && Location.HasValue && Location.Value.Valid) {
                 this.StartPosition = FormStartPosition.Manual;
-                this.Location = Location;
+                this.Location = Location.Value;
             }
         };
     }
-    public void LoadLanguage() {
+    public override void LoadLanguage() {
         this.Text = Language.frmGenericDownloadProgress;
     }
-    public void RegisterLocalizedForm() => Language.RegisterForm(this);
-    public void UnregisterLocalizedForm() => Language.UnregisterForm(this);
 }

@@ -132,20 +132,17 @@ public sealed class DownloadInfo {
 
         #region youtube-dl path
         string DownloadProvider = Config.Settings.Downloads.YtdlType switch {
-            0 => "yt-dlp",
             1 => "youtube-dl",
             3 => "youtube-dl-patch",
             2 => "yt-dlp-patch",
-            _ => throw new InvalidDownloadProviderException(Config.Settings.Downloads.YtdlType)
+            _ => "yt-dlp",
         };
 
         Verbose($"Using {DownloadProvider} as the download provider.");
-        if (Verification.YoutubeDlPath.IsNullEmptyWhitespace()) {
+        if (!Verification.YoutubeDlAvailable) {
             Verbose($"The download provider has not been found\r\nA rescan for {DownloadProvider} was called");
             Verification.RefreshYoutubeDlLocation();
-            if (Verification.YoutubeDlPath is not null)
-                Verbose("Rescan finished and found, continuing");
-            else {
+            if (!Verification.YoutubeDlAvailable) {
                 Verbose($"still couldnt find {DownloadProvider}.");
                 Status = DownloadStatus.ProgramError;
                 Log.Write($"{DownloadProvider} could not be found.");
@@ -273,18 +270,22 @@ public sealed class DownloadInfo {
                     break;
             }
 
-            if ((Config.Settings.Downloads.PreferFFmpeg || DownloadHelper.IsReddit(DownloadURL)) && Config.Settings.Downloads.fixReddit) {
+            if (Config.Settings.Downloads.PreferFFmpeg || (DownloadHelper.IsReddit(DownloadURL) && Config.Settings.Downloads.fixReddit)) {
                 Verbose("Looking for ffmpeg");
-                if (Verification.FFmpegPath is not null) {
-                    if (Config.Settings.General.UseStaticFFmpeg)
-                        ArgumentsBuffer.Append($" --ffmpeg-location \"{Config.Settings.General.ffmpegPath}\" --hls-prefer-ffmpeg");
-                    else
-                        ArgumentsBuffer.Append($" --ffmpeg-location \"{Verification.FFmpegPath}\" --hls-prefer-ffmpeg");
-
-                    Verbose("ffmpeg was found");
+                bool AddArg = true;
+                if (!Verification.FfmpegAvailable) {
+                    Verbose("WARNING: ffmpeg could not be found; refreshing location");
+                    Verification.RefreshFFmpegLocation();
+                    if (!Verification.FfmpegAvailable) {
+                        Verbose("WARNING: Could not find ffmpeg, it will not be used, downloading may be affected");
+                        AddArg = false;
+                    }
                 }
-                else
-                    Verbose("ffmpeg path is null, downloading may be affected");
+
+                if (AddArg) {
+                    Verbose("ffmpeg will be used for HLS");
+                    ArgumentsBuffer.Append($" --ffmpeg-location \"{Verification.FFmpegPath}\" --hls-prefer-ffmpeg");
+                }
             }
 
             if (Config.Settings.Downloads.SaveSubtitles) {

@@ -1,10 +1,10 @@
 ﻿namespace youtube_dl_gui;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Threading;
 using System.Windows.Forms;
-// TODO: Dynamically load the language based on the download status.
-public partial class frmExtendedDownloader : Form, ILocalizedForm {
+public partial class frmExtendedDownloader : LocalizedForm {
     private bool Debug { get; } = false;
     public bool BatchDownload { get; } = false;
     private bool SwitchingQueuedItem { get; set; } = false;
@@ -15,8 +15,8 @@ public partial class frmExtendedDownloader : Form, ILocalizedForm {
     private List<ExtendedMediaDetails> QueueList { get; }
     private DownloadStatus Status { get; set; } = DownloadStatus.None;
 
-    private bool ClipboardScannerActive = false;            // Whether the clipboard scanner is active.
-    string ClipboardData = null;                            // Clipboard data buffer.
+    private bool ClipboardScannerActive = false;    // Whether the clipboard scanner is active.
+    private string ClipboardData = null;            // Clipboard data buffer.
 
     public frmExtendedDownloader() : this (true) { }
     private frmExtendedDownloader(bool BatchDownload) {
@@ -31,11 +31,15 @@ public partial class frmExtendedDownloader : Form, ILocalizedForm {
         if (!Program.DebugMode)
             tcVideoData.TabPages.Remove(tabDebug);
 
+        cbVideoRemux.Items.Add(Language.GenericDoNotRemux);
         cbVideoRemux.Items.AddRange(Formats.ExtendedVideoFormats);
         cbVideoRemux.SelectedIndex = 0;
+
+        cbVideoEncoders.Items.Add(Language.GenericDoNotReEncode);
         cbVideoEncoders.Items.AddRange(Formats.ExtendedVideoFormats);
         cbVideoEncoders.SelectedIndex = 0;
 
+        cbAudioEncoders.Items.Add(Language.GenericDoNotReEncode);
         cbAudioEncoders.Items.AddRange(Formats.ExtendedAudioFormats);
         cbAudioEncoders.SelectedIndex = 0;
 
@@ -84,17 +88,41 @@ public partial class frmExtendedDownloader : Form, ILocalizedForm {
     public frmExtendedDownloader(string URL, string CustomArguments, bool Archived, AuthenticationDetails Auth) : this(URL, CustomArguments, Archived) =>
         MediaDetails.Authentication = Auth;
 
-    public void LoadLanguage() {
-        //lbExtendedDownloaderLink.Text = Language.lbExtendedDownloaderLink;
+    public override void LoadLanguage() {
         if (BatchDownload) {
             this.Text = Language.frmBatchDownload;
             if (lvQueuedMedia.SelectedItems.Count > 0 && MediaDetails is not null) {
-                txtExtendedDownloaderMediaTitle.Text = MediaDetails.MediaName;
+                txtExtendedDownloaderMediaTitle.Text = MediaDetails.InfoRetrieved ? MediaDetails.MediaName : Language.txtExtendedDownloaderMediaTitle;
+                txtExtendedDownloaderMediaTitle.Enabled = true;
             }
             else {
-                txtExtendedDownloaderMediaTitle.Text = "Select an item to view the details";
+                txtExtendedDownloaderMediaTitle.Text = Language.txtExtendedDownloaderBatchMediaTitle;
                 txtExtendedDownloaderMediaTitle.Enabled = false;
             }
+
+            btnEnqueue.Text = Language.GenericAdd;
+            mEnqueue.Text = Language.GenericAdd;
+            mEnqueueCopyOptions.Text = Language.mExtendedDownloaderEnqueueCopyOptions;
+            mEnqueueWithAuthentication.Text = Language.mExtendedDownloaderEnqueueWithAuthentication;
+            mEnqueueCopyAuthentication.Text = Language.mExtendedDownloaderEnqueueCopyAuthentication;
+
+            mEnqueueImportLinksFromClipboard.Text = Language.mBatchDownloaderImportLinksFromClipboard;
+            mEnqueueClipboardLinks.Text = Language.mBatchDownloaderImportLinksFromClipboard;
+            mEnqueueClipboardLinksWithAuthentication.Text = Language.mExtendedDownloaderEnqueueImportLinksWithAuthentication;
+            mEnqueueClipboardLinksCopyOptions.Text = Language.mExtendedDownloaderEnqueueImportLinksCopyOptions;
+            mEnqueueClipboardLinksCopyAuthentication.Text = Language.mExtendedDownloaderEnqueueImportLinksCopyAuthentication;
+            mEnqueueImportLinksFromFile.Text = Language.mBatchDownloaderImportLinksFromFile;
+            mEnqueueFileLinks.Text = Language.mBatchDownloaderImportLinksFromFile;
+            mEnqueueFileLinksWithAuthentication.Text = Language.mExtendedDownloaderEnqueueImportLinksWithAuthentication;
+            mEnqueueFileLinksCopyOptions.Text = Language.mExtendedDownloaderEnqueueImportLinksCopyOptions;
+            mEnqueueFileLinksCopyAuthentication.Text = Language.mExtendedDownloaderEnqueueImportLinksCopyAuthentication;
+
+            mEnqueueClipboardScanner.Text = Language.chkBatchDownloadClipboardScanner;
+            mEnqueueClipboardScannerVerifyLinks.Text = Language.GenericVerifyLinks;
+
+            mQueueCopyLink.Text = Language.mExtendedDownloaderQueueCopyLink;
+            mQueueViewInBrowser.Text = Language.mExtendedDownloaderQueueViewInBrowser;
+            mQueueRemove.Text = Language.GenericRemoveSelected;
         }
         else {
             if (MediaDetails is not null && MediaDetails.InfoRetrieved) {
@@ -105,26 +133,30 @@ public partial class frmExtendedDownloader : Form, ILocalizedForm {
                 this.Text = Language.frmExtendedDownloaderRetrieving.Format(Language.ApplicationName);
                 txtExtendedDownloaderMediaTitle.Text = Language.txtExtendedDownloaderMediaTitle;
             }
+
+            lbExtendedDownloaderUploader.Text = Language.lbExtendedDownloaderUploader;
+            lbExtendedDownloaderViews.Text = Language.lbExtendedDownloaderViews;
+            btnExtendedDownloaderDownloadThumbnail.Text = Language.btnExtendedDownloaderDownloadThumbnail;
         }
 
         switch (Status) {
             case DownloadStatus.Aborted: {
-                pbStatus.Text = "Aborted";
+                pbStatus.Text = Language.GenericAborted;
                 sbtnDownload.Text = Language.GenericRetry;
             } break;
             case DownloadStatus.YtdlError: {
-                pbStatus.Text = "ytdl error";
+                pbStatus.Text = Language.GenericError.Format("youtube-dl");
                 sbtnDownload.Text = Language.GenericRetry;
             } break;
             case DownloadStatus.ProgramError: {
-                pbStatus.Text = "Error";
+                pbStatus.Text = Language.GenericError;
                 sbtnDownload.Text = Language.GenericRetry;
             } break;
             case DownloadStatus.AbortForClose: {
                 sbtnDownload.Text = Language.GenericRetry;
             } break;
             case DownloadStatus.Preparing: {
-                pbStatus.Text = "Beginning download";
+                pbStatus.Text = Language.dlBeginningDownload;
                 sbtnDownload.Text = Language.GenericCancel;
             } break;
             case DownloadStatus.Downloading: {
@@ -151,7 +183,7 @@ public partial class frmExtendedDownloader : Form, ILocalizedForm {
                 sbtnDownload.Text = Language.GenericCancel;
             } break;
             case DownloadStatus.Finished: {
-                pbStatus.Text = "Completed";
+                pbStatus.Text = Language.GenericCompleted;
                 sbtnDownload.Text = Language.sbDownload;
             } break;
             default: {
@@ -160,9 +192,6 @@ public partial class frmExtendedDownloader : Form, ILocalizedForm {
             } break;
         }
 
-        lbExtendedDownloaderUploader.Text = Language.lbExtendedDownloaderUploader;
-        lbExtendedDownloaderViews.Text = Language.lbExtendedDownloaderViews;
-        btnExtendedDownloaderDownloadThumbnail.Text = Language.btnExtendedDownloaderDownloadThumbnail;
 
         rbVideo.Text = Language.GenericVideo;
         rbAudio.Text = Language.GenericAudio;
@@ -210,6 +239,7 @@ public partial class frmExtendedDownloader : Form, ILocalizedForm {
         chVideoAudioCodec.Text = Language.chAudioCodec;
         chVideoAudioChannels.Text = Language.chAudioChannels;
         chVideoFormatId.Text = Language.chFormatId;
+
         // lvAudioFormats
         chAudioBitrate.Text = Language.chAudioBitrate;
         chAudioContainer.Text = Language.chContainer;
@@ -218,6 +248,7 @@ public partial class frmExtendedDownloader : Form, ILocalizedForm {
         chAudioCodec.Text = Language.chAudioCodec;
         chAudioChannels.Text = Language.chAudioChannels;
         chAudioFormatId.Text = Language.chFormatId;
+
         // lvUnknownFormats
         chUnknownQuality.Text = Language.chVideoQuality;
         chUnknownFPS.Text = Language.chVideoFPS;
@@ -232,13 +263,12 @@ public partial class frmExtendedDownloader : Form, ILocalizedForm {
         chUnknownAudioChannels.Text = Language.chAudioChannels;
         chUnknownFormatId.Text = Language.chFormatId;
 
-
-        cbVideoRemux.Items.Add(Language.GenericDoNotRemux);
-        cbVideoEncoders.Items.Add(Language.GenericDoNotReEncode);
-        cbAudioEncoders.Items.Add(Language.GenericDoNotReEncode);
+        if (this.IsHandleCreated) {
+            cbVideoRemux.Items[0] = Language.GenericDoNotRemux;
+            cbVideoEncoders.Items[0] = Language.GenericDoNotReEncode;
+            cbAudioEncoders.Items[0] = Language.GenericDoNotReEncode;
+        }
     }
-    public void RegisterLocalizedForm() => Language.RegisterForm(this);
-    public void UnregisterLocalizedForm() => Language.UnregisterForm(this);
     private void frmExtendedDownloader_Load(object sender, EventArgs e) {
         if (Config.Settings.Saved.ExtendedDownloaderLocation.Valid) {
             this.StartPosition = FormStartPosition.Manual;
@@ -255,7 +285,6 @@ public partial class frmExtendedDownloader : Form, ILocalizedForm {
 
         chkDownloaderCloseAfterDownload.Checked = Config.Settings.Downloads.CloseExtendedDownloaderAfterFinish;
         llbLink.MaximumSize = new(this.Width - 30, llbLink.Height);
-        RegisterLocalizedForm();
     }
     private void frmExtendedDownloader_Shown(object sender, EventArgs e) {
         if (!BatchDownload) {
@@ -301,22 +330,20 @@ public partial class frmExtendedDownloader : Form, ILocalizedForm {
                     MediaDetails?.Dispose();
                 }
 
-                UnregisterLocalizedForm();
                 this.Dispose();
             } break;
         }
     }
 
     
-    [System.Diagnostics.DebuggerStepThrough]
+    [DebuggerStepThrough]
     protected override void WndProc(ref Message m) {
         switch (m.Msg) {
             case NativeMethods.WM_CLIPBOARDUPDATE: {
                 if (Clipboard.ContainsText()) {
                     ClipboardData = Clipboard.GetText();
-                    if (!mEnqueueClipboardScannerVerifyLinks.Checked || DownloadHelper.SupportedDownloadLink(ClipboardData)) {
+                    if (!mEnqueueClipboardScannerVerifyLinks.Checked || DownloadHelper.SupportedDownloadLink(ClipboardData))
                         QueueNewItem(ClipboardData, false, false, false);
-                    }
                     ClipboardData = null;
                 }
             } break;
@@ -406,11 +433,12 @@ public partial class frmExtendedDownloader : Form, ILocalizedForm {
 
         rtbVerbose.Invoke(() => rtbVerbose.AppendLine($"Starting download @ {DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff} \r\n------------------------"));
 
-        if (Verification.YoutubeDlPath.IsNullEmptyWhitespace())
+        if (!Verification.YoutubeDlAvailable) {
             Verification.RefreshYoutubeDlLocation();
+            if (!Verification.YoutubeDlAvailable)
+                throw new NullReferenceException("Youtube-dl path is invalid and cannot be used.");
+        }
 
-        if (Verification.YoutubeDlPath.IsNullEmptyWhitespace())
-            throw new NullReferenceException("Youtube-dl path is invalid and cannot be used.");
 
         if (Auth && !MediaDetails.Authenticate()) {
             rtbVerbose.Invoke(() => rtbVerbose.AppendLine("Authentication was not provided; cancelling."));
@@ -437,20 +465,19 @@ public partial class frmExtendedDownloader : Form, ILocalizedForm {
             pbStatus.ProgressState = murrty.controls.ProgressState.Normal;
             pbStatus.Text = "Beginning download";
             ProcessingThread = new(() => {
+                Status = DownloadStatus.Downloading;
+                string Msg = null;
+
                 DownloadProcess = new() {
-                    StartInfo = new() {
+                    StartInfo = new(Verification.YoutubeDlPath) {
                         Arguments = args,
                         CreateNoWindow = true,
-                        FileName = Verification.YoutubeDlPath,
                         RedirectStandardError = true,
                         RedirectStandardOutput = true,
                         UseShellExecute = false,
                         WindowStyle = ProcessWindowStyle.Hidden,
                     }
                 };
-                args = null;
-                Status = DownloadStatus.Downloading;
-                string Msg = null;
                 DownloadProcess.OutputDataReceived += (s, e) => {
                     if (e.Data is not null && e.Data.Length > 0) {
                         switch (e.Data[..8].ToLower()) {
@@ -485,12 +512,13 @@ public partial class frmExtendedDownloader : Form, ILocalizedForm {
                 };
                 DownloadProcess.ErrorDataReceived += (s, e) => {
                     if (e.Data is not null && e.Data.Length > 0)
-                        rtbVerbose.Invoke(() => rtbVerbose.AppendLine($"Error: {e.Data.Trim()}"));
+                        rtbVerbose.Invoke(() => rtbVerbose.AppendLine($"{e.Data.Trim()}"));
                 };
                 DownloadProcess.Start();
                 DownloadProcess.BeginOutputReadLine();
                 DownloadProcess.BeginErrorReadLine();
 
+                args = null;
                 float Percentage = 0;
                 string ETA = "Unknown";
 
@@ -584,14 +612,14 @@ public partial class frmExtendedDownloader : Form, ILocalizedForm {
                         switch (Status) {
                             case DownloadStatus.Aborted: {
                                 rtbVerbose.AppendLine("Aborted download");
-                                pbStatus.Text = "Aborted";
+                                pbStatus.Text = Language.GenericAborted;
                                 pbStatus.Value = pbStatus.Minimum;
                                 sbtnDownload.Text = Language.GenericRetry;
                                 System.Media.SystemSounds.Exclamation.Play();
                             } break;
                             case DownloadStatus.Finished: {
                                 rtbVerbose.AppendLine("Download completed");
-                                pbStatus.Text = "Completed";
+                                pbStatus.Text = Language.GenericCompleted;
                                 pbStatus.Value = pbStatus.Maximum;
                                 sbtnDownload.Text = Language.sbDownload;
                                 System.Media.SystemSounds.Asterisk.Play();
@@ -599,7 +627,7 @@ public partial class frmExtendedDownloader : Form, ILocalizedForm {
                             case DownloadStatus.AbortForClose: { } break;
                             default: {
                                 rtbVerbose.AppendLine("Download error");
-                                pbStatus.Text = "Downlod error";
+                                pbStatus.Text = Status == DownloadStatus.YtdlError ? Language.GenericAltError.Format("youtube-dl") : Language.GenericError;
                                 pbStatus.Value = pbStatus.Minimum;
                                 sbtnDownload.Text = Language.GenericRetry;
                                 tcVideoData.SelectedTab = tabExtendedDownloaderVerbose;
@@ -622,11 +650,11 @@ public partial class frmExtendedDownloader : Form, ILocalizedForm {
 
         rtbVerbose.Invoke(() => rtbVerbose.AppendLine($"Starting batch download @ {DateTime.Now:yyyy-MM-dd HH:mm:ss.fffffff} \r\n------------------------"));
 
-        if (Verification.YoutubeDlPath.IsNullEmptyWhitespace())
+        if (!Verification.YoutubeDlAvailable) {
             Verification.RefreshYoutubeDlLocation();
-
-        if (Verification.YoutubeDlPath.IsNullEmptyWhitespace())
-            throw new NullReferenceException("Youtube-dl path is invalid and cannot be used.");
+            if (!Verification.YoutubeDlAvailable)
+                throw new NullReferenceException("Youtube-dl path is invalid and cannot be used.");
+        }
 
         if (Config.Settings.Downloads.LimitDownloads && (Config.Settings.Downloads.YtdlType == 0 || Config.Settings.Downloads.YtdlType == 3)
         && Environment.OSVersion.Version.Major <= 6 && Environment.OSVersion.Version.Minor <= 1) {
@@ -667,19 +695,17 @@ public partial class frmExtendedDownloader : Form, ILocalizedForm {
 
                 MediaDetails.BatchDownloadTime = BatchTime;
                 args = MediaDetails.Arguments;
+
                 DownloadProcess = new() {
-                    StartInfo = new() {
+                    StartInfo = new(Verification.YoutubeDlPath) {
                         Arguments = args,
                         CreateNoWindow = true,
-                        FileName = Verification.YoutubeDlPath,
                         RedirectStandardError = true,
                         RedirectStandardOutput = true,
                         UseShellExecute = false,
                         WindowStyle = ProcessWindowStyle.Hidden,
                     }
                 };
-                args = null;
-                    
                 DownloadProcess.OutputDataReceived += (s, e) => {
                     if (e.Data is not null && e.Data.Length > 0) {
                         switch (e.Data[..8].ToLower()) {
@@ -718,6 +744,7 @@ public partial class frmExtendedDownloader : Form, ILocalizedForm {
                 DownloadProcess.BeginOutputReadLine();
                 DownloadProcess.BeginErrorReadLine();
 
+                args = null;
                 while (!DownloadProcess.HasExited) {
                     if (Status == DownloadStatus.Aborted || Status == DownloadStatus.AbortForClose) {
                         if (!DownloadProcess.HasExited) {
@@ -808,7 +835,7 @@ public partial class frmExtendedDownloader : Form, ILocalizedForm {
                 switch (Status) {
                     case DownloadStatus.Aborted: {
                         rtbVerbose.AppendLine("Aborted download");
-                        pbStatus.Text = "Aborted";
+                        pbStatus.Text = Language.GenericAborted;
                         pbStatus.Value = pbStatus.Minimum;
                         sbtnDownload.Text = Language.GenericRetry;
                         System.Media.SystemSounds.Exclamation.Play();
@@ -817,14 +844,14 @@ public partial class frmExtendedDownloader : Form, ILocalizedForm {
                     case DownloadStatus.Downloading: {
                         Status = DownloadStatus.Finished;
                         rtbVerbose.AppendLine("Download completed");
-                        pbStatus.Text = "Completed";
+                        pbStatus.Text = Language.GenericCompleted;
                         pbStatus.Value = pbStatus.Maximum;
                         sbtnDownload.Text = Language.sbDownload;
                         System.Media.SystemSounds.Asterisk.Play();
                     } break;
                     default: {
                         rtbVerbose.AppendLine("Download error");
-                        pbStatus.Text = "Downlod error";
+                        pbStatus.Text = Status == DownloadStatus.YtdlError ? Language.GenericAltError.Format("youtube-dl") : Language.GenericError;
                         pbStatus.Value = pbStatus.Minimum;
                         sbtnDownload.Text = Language.GenericRetry;
                         tcVideoData.SelectedTab = tabExtendedDownloaderVerbose;
@@ -1100,6 +1127,20 @@ public partial class frmExtendedDownloader : Form, ILocalizedForm {
         cbAudioEncoders.Enabled = false;
     }
 
+    private void llbLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
+        if (MediaDetails is null || MediaDetails.URL.IsNullEmptyWhitespace())
+            return;
+
+        switch (e.Button) {
+            case MouseButtons.Left: {
+                Process.Start(MediaDetails.URL);
+            } break;
+            case MouseButtons.Right: {
+                Clipboard.SetText(MediaDetails.URL);
+                System.Media.SystemSounds.Exclamation.Play();
+            } break;
+        }
+    }
     private void lvVideoFormats_SelectedIndexChanged(object sender, EventArgs e) {
         if (lvVideoFormats.SelectedItems.Count < 1)
             return;
@@ -1229,19 +1270,55 @@ public partial class frmExtendedDownloader : Form, ILocalizedForm {
         }
     }
 
-    private void lvQueuedMedia_SelectedIndexChanged(object sender, EventArgs e) {
-        SwitchingQueuedItem = true;
-        SelectedMediaChanged(lvQueuedMedia.SelectedItems.Count > 0 ? lvQueuedMedia.SelectedItems[0].Tag as ExtendedMediaDetails : null);
-        SwitchingQueuedItem = false;
-    }
+    /// <summary>
+    /// Adds a new item to the batch queue.
+    /// </summary>
+    /// <param name="Link">
+    ///     The link that will be added.
+    /// </param>
+    /// <param name="Authenticate">
+    ///     Whether authentication is required.
+    ///     Ignored if <paramref name="CopySelectedOptions"/> is <see langword="true"/>
+    /// </param>
+    /// <param name="CopySelectedAuthentication">
+    ///     Whether to copy authentication details from the selected queue item, if there is one.
+    ///     Ignored it <paramref name="CopySelectedOptions"/> is <see langword="true"/>.
+    /// </param>
+    /// <param name="CopySelectedOptions">
+    ///     Whether to copy download options from the selected queue item, if there is one.
+    ///     Everything (including Authentication details) will be copied over.
+    /// </param>
     private void QueueNewItem(string Link, bool Authenticate, bool CopySelectedAuthentication, bool CopySelectedOptions) {
+        QueueNewItem(Link, Authenticate, CopySelectedAuthentication, CopySelectedOptions, MediaDetails);
+    }
+    /// <summary>
+    /// Adds a new item to the batch queue.
+    /// </summary>
+    /// <param name="Link">
+    ///     The link that will be added.
+    /// </param>
+    /// <param name="Authenticate">
+    ///     Whether authentication is required.
+    ///     Ignored if <paramref name="CopySelectedOptions"/> is <see langword="true"/>
+    /// </param>
+    /// <param name="CopySelectedAuthentication">
+    ///     Whether to copy authentication details from the selected queue item, if there is one.
+    ///     Ignored it <paramref name="CopySelectedOptions"/> is <see langword="true"/>.
+    /// </param>
+    /// <param name="CopySelectedOptions">
+    ///     Whether to copy download options from the selected queue item, if there is one.
+    ///     Everything (including Authentication details) will be copied over.
+    /// </param>
+    /// <param name="CopyFrom">
+    ///     The <see cref="ExtendedMediaDetails"/> that will be copied, if required.
+    /// </param>
+    private void QueueNewItem(string Link, bool Authenticate, bool CopySelectedAuthentication, bool CopySelectedOptions, ExtendedMediaDetails CopyFrom) {
         if (Link.IsNullEmptyWhitespace()) {
             txtQueueLink.Focus();
             System.Media.SystemSounds.Exclamation.Play();
             return;
         }
         sbtnDownload.Enabled = false;
-        txtQueueLink.Clear();
 
         ListViewItem NewItem = new(Link) {
             ImageIndex = StatusIcon.Waiting,
@@ -1262,30 +1339,30 @@ public partial class frmExtendedDownloader : Form, ILocalizedForm {
         NewItem.Tag = NewMedia;
         lvQueuedMedia.Items.Add(NewItem);
 
-        if (CopySelectedOptions && MediaDetails is not null) {
+        if (CopySelectedOptions && CopyFrom is not null) {
             SaveMediaOptions();
-            NewMedia.Authentication = MediaDetails.Authentication;
-            NewMedia.SelectedType = MediaDetails.SelectedType;
-            NewMedia.FileNameSchema = MediaDetails.FileNameSchema;
-            NewMedia.FileNameSchemaIndex = MediaDetails.FileNameSchemaIndex;
-            NewMedia.AudioVBR = MediaDetails.AudioVBR;
-            NewMedia.VBRIndex = MediaDetails.VBRIndex;
-            NewMedia.VideoDownloadAudio = MediaDetails.VideoDownloadAudio;
-            NewMedia.VideoSeparateAudio = MediaDetails.VideoSeparateAudio;
-            NewMedia.VideoRemuxIndex = MediaDetails.VideoRemuxIndex;
-            NewMedia.VideoEncoderIndex = MediaDetails.VideoEncoderIndex;
-            NewMedia.AudioEncoderIndex = MediaDetails.AudioEncoderIndex;
-            NewMedia.AbortOnError = MediaDetails.AbortOnError;
-            NewMedia.SkipUnavailableFragments = MediaDetails.SkipUnavailableFragments;
-            NewMedia.CustomArguments = MediaDetails.CustomArguments;
-            NewMedia.StartTime = MediaDetails.StartTime;
-            NewMedia.EndTime = MediaDetails.EndTime;
-            NewMedia.FragmentThreads = MediaDetails.FragmentThreads;
+            NewMedia.Authentication = CopyFrom.Authentication;
+            NewMedia.SelectedType = CopyFrom.SelectedType;
+            NewMedia.FileNameSchema = CopyFrom.FileNameSchema;
+            NewMedia.FileNameSchemaIndex = CopyFrom.FileNameSchemaIndex;
+            NewMedia.AudioVBR = CopyFrom.AudioVBR;
+            NewMedia.VBRIndex = CopyFrom.VBRIndex;
+            NewMedia.VideoDownloadAudio = CopyFrom.VideoDownloadAudio;
+            NewMedia.VideoSeparateAudio = CopyFrom.VideoSeparateAudio;
+            NewMedia.VideoRemuxIndex = CopyFrom.VideoRemuxIndex;
+            NewMedia.VideoEncoderIndex = CopyFrom.VideoEncoderIndex;
+            NewMedia.AudioEncoderIndex = CopyFrom.AudioEncoderIndex;
+            NewMedia.AbortOnError = CopyFrom.AbortOnError;
+            NewMedia.SkipUnavailableFragments = CopyFrom.SkipUnavailableFragments;
+            NewMedia.CustomArguments = CopyFrom.CustomArguments;
+            NewMedia.StartTime = CopyFrom.StartTime;
+            NewMedia.EndTime = CopyFrom.EndTime;
+            NewMedia.FragmentThreads = CopyFrom.FragmentThreads;
         }
 
         if (Authenticate && !CopySelectedOptions) {
-            if (CopySelectedAuthentication && MediaDetails is not null) {
-                NewMedia.Authentication = MediaDetails.Authentication;
+            if (CopySelectedAuthentication && CopyFrom is not null) {
+                NewMedia.Authentication = CopyFrom.Authentication;
             }
             else {
                 using frmAuthentication Auth = new();
@@ -1331,11 +1408,121 @@ public partial class frmExtendedDownloader : Form, ILocalizedForm {
             ProcessingThread.Start();
         }
     }
-    private void btnEnqueue_Click(object sender, EventArgs e) => QueueNewItem(txtQueueLink.Text, false, false, false);
-    private void mEnqueue_Click(object sender, EventArgs e) => QueueNewItem(txtQueueLink.Text, false, false, false);
-    private void mEnqueueCopyOptions_Click(object sender, EventArgs e) => QueueNewItem(txtQueueLink.Text, false, true, true);
-    private void mEnqueueWithAuthentication_Click(object sender, EventArgs e) => QueueNewItem(txtQueueLink.Text, true, false, false);
-    private void mEnqueueCopyAuthentication_Click(object sender, EventArgs e) => QueueNewItem(txtQueueLink.Text, true, true, false);
+    private string[] GetLinksFromClipboard() {
+        if (!Clipboard.ContainsText())
+            return Array.Empty<string>();
+        string ClipboardData = Clipboard.GetText().Replace("\r\n", "\n");
+        return ClipboardData.Split('\n');
+    }
+    private string[] GetLinksFromFile() {
+        using OpenFileDialog OFD = new() {
+            Multiselect = false,
+            Title = Language.mBatchDownloaderImportLinksFromFile
+        };
+
+        if (OFD.ShowDialog() != DialogResult.OK)
+            return Array.Empty<string>();
+
+        FileInfo Info = new(OFD.FileName);
+        if (!Info.Exists || Info.Length < 2)
+            return Array.Empty<string>();
+
+        string FileData = File.ReadAllText(OFD.FileName);
+        return FileData.Replace("\r\n", "\n").Split('\n');
+    }
+    private void lvQueuedMedia_SelectedIndexChanged(object sender, EventArgs e) {
+        SwitchingQueuedItem = true;
+        SelectedMediaChanged(lvQueuedMedia.SelectedItems.Count > 0 ? lvQueuedMedia.SelectedItems[0].Tag as ExtendedMediaDetails : null);
+        SwitchingQueuedItem = false;
+    }
+    private void btnEnqueue_Click(object sender, EventArgs e) {
+        QueueNewItem(txtQueueLink.Text, false, false, false);
+        txtQueueLink.Clear();
+    }
+    private void mEnqueue_Click(object sender, EventArgs e) {
+        QueueNewItem(txtQueueLink.Text, false, false, false);
+        txtQueueLink.Clear();
+    }
+    private void mEnqueueCopyOptions_Click(object sender, EventArgs e) {
+        QueueNewItem(txtQueueLink.Text, false, false, true);
+        txtQueueLink.Clear();
+    }
+    private void mEnqueueWithAuthentication_Click(object sender, EventArgs e) {
+        QueueNewItem(txtQueueLink.Text, true, false, false);
+        txtQueueLink.Clear();
+    }
+    private void mEnqueueCopyAuthentication_Click(object sender, EventArgs e) {
+        QueueNewItem(txtQueueLink.Text, true, true, false);
+        txtQueueLink.Clear();
+    }
+    private void mEnqueueClipboardLinks_Click(object sender, EventArgs e) {
+        string[] Links = GetLinksFromClipboard();
+        if (Links.Length < 1) {
+            System.Media.SystemSounds.Asterisk.Play();
+            return;
+        }
+        Links.For((Link) => QueueNewItem(Link, false, false, false));
+    }
+    private void mEnqueueClipboardLinksWithAuthentication_Click(object sender, EventArgs e) {
+        string[] Links = GetLinksFromClipboard();
+        if (Links.Length < 1) {
+            System.Media.SystemSounds.Asterisk.Play();
+            return;
+        }
+        Links.For((Link) => QueueNewItem(Link, true, false, false));
+    }
+    private void mEnqueueClipboardLinksCopyOptions_Click(object sender, EventArgs e) {
+        string[] Links = GetLinksFromClipboard();
+        if (Links.Length < 1) {
+            System.Media.SystemSounds.Asterisk.Play();
+            return;
+        }
+        ExtendedMediaDetails SelectedMedia = MediaDetails;
+        Links.For((Link) => QueueNewItem(Link, false, false, true, SelectedMedia));
+    }
+    private void mEnqueueClipboardLinksCopyAuthentication_Click(object sender, EventArgs e) {
+        string[] Links = GetLinksFromClipboard();
+        if (Links.Length < 1) {
+            System.Media.SystemSounds.Asterisk.Play();
+            return;
+        }
+        ExtendedMediaDetails SelectedMedia = MediaDetails;
+        Links.For((Link) => QueueNewItem(Link, true, true, false, SelectedMedia));
+    }
+    private void mEnqueueFileLinks_Click(object sender, EventArgs e) {
+        string[] Links = GetLinksFromFile();
+        if (Links.Length < 1) {
+            System.Media.SystemSounds.Asterisk.Play();
+            return;
+        }
+        Links.For((Link) => QueueNewItem(Link, false, false, false));
+    }
+    private void mEnqueueFileLinksWithAuthentication_Click(object sender, EventArgs e) {
+        string[] Links = GetLinksFromFile();
+        if (Links.Length < 1) {
+            System.Media.SystemSounds.Asterisk.Play();
+            return;
+        }
+        Links.For((Link) => QueueNewItem(Link, true, false, false));
+    }
+    private void mEnqueueFileLinksCopyOptions_Click(object sender, EventArgs e) {
+        string[] Links = GetLinksFromFile();
+        if (Links.Length < 1) {
+            System.Media.SystemSounds.Asterisk.Play();
+            return;
+        }
+        ExtendedMediaDetails SelectedMedia = MediaDetails;
+        Links.For((Link) => QueueNewItem(Link, false, false, true, SelectedMedia));
+    }
+    private void mEnqueueFileLinksCopyAuthentication_Click(object sender, EventArgs e) {
+        string[] Links = GetLinksFromFile();
+        if (Links.Length < 1) {
+            System.Media.SystemSounds.Asterisk.Play();
+            return;
+        }
+        ExtendedMediaDetails SelectedMedia = MediaDetails;
+        Links.For((Link) => QueueNewItem(Link, true, true, false, SelectedMedia));
+    }
     private void mEnqueueClipboardScanner_Click(object sender, EventArgs e) {
         mEnqueueClipboardScanner.Checked ^=  true;
 
@@ -1393,21 +1580,11 @@ public partial class frmExtendedDownloader : Form, ILocalizedForm {
     private void btnCreateArgs_Click(object sender, EventArgs e) {
         Log.MessageBox(MediaDetails.Arguments ?? "No args");
     }
-    private void btnPbAdd_Click(object sender, EventArgs e) {
-        if (pbStatus.Value < pbStatus.Maximum)
-            pbStatus.Value++;
-    }
-    private void btnPbRemove_Click(object sender, EventArgs e) {
-        if (pbStatus.Value > pbStatus.Minimum)
-            pbStatus.Value--;
-    }
-    private void chkPbTaskbar_CheckedChanged(object sender, EventArgs e) {
-        pbStatus.ShowInTaskbar = chkPbTaskbar.Checked;
-    }
     private void btnKill_Click(object sender, EventArgs e) {
         if (DownloadProcess is not null && !DownloadProcess.HasExited) {
             Program.KillProcessTree((uint)DownloadProcess.Id);
             DownloadProcess.Kill();
         }
     }
+
 }

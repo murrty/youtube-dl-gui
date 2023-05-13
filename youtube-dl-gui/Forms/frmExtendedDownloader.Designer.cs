@@ -12,8 +12,8 @@
         #region Windows Form Designer generated code
 
         private void InitializeComponent() {
-            murrty.controls.Time time1 = new murrty.controls.Time();
-            murrty.controls.Time time2 = new murrty.controls.Time();
+            murrty.controls.Time time3 = new murrty.controls.Time();
+            murrty.controls.Time time4 = new murrty.controls.Time();
             this.pbThumbnail = new System.Windows.Forms.PictureBox();
             this.txtExtendedDownloaderMediaTitle = new System.Windows.Forms.TextBox();
             this.lbExtendedDownloaderUploader = new System.Windows.Forms.Label();
@@ -98,9 +98,6 @@
             this.rtbVerbose = new murrty.controls.ExtendedRichTextBox();
             this.tabDebug = new System.Windows.Forms.TabPage();
             this.btnKill = new System.Windows.Forms.Button();
-            this.chkPbTaskbar = new System.Windows.Forms.CheckBox();
-            this.btnPbRemove = new System.Windows.Forms.Button();
-            this.btnPbAdd = new System.Windows.Forms.Button();
             this.btnCreateArgs = new System.Windows.Forms.Button();
             this.rbVideo = new System.Windows.Forms.RadioButton();
             this.rbAudio = new System.Windows.Forms.RadioButton();
@@ -117,10 +114,21 @@
             this.btnEnqueue = new murrty.controls.SplitButton();
             this.cmEnqueue = new System.Windows.Forms.ContextMenu();
             this.mEnqueue = new System.Windows.Forms.MenuItem();
-            this.mEnqueueCopyOptions = new System.Windows.Forms.MenuItem();
             this.mEnqueueWithAuthentication = new System.Windows.Forms.MenuItem();
+            this.mEnqueueCopyOptions = new System.Windows.Forms.MenuItem();
             this.mEnqueueCopyAuthentication = new System.Windows.Forms.MenuItem();
             this.mEnqueueSeparator = new System.Windows.Forms.MenuItem();
+            this.mEnqueueImportLinksFromClipboard = new System.Windows.Forms.MenuItem();
+            this.mEnqueueClipboardLinks = new System.Windows.Forms.MenuItem();
+            this.mEnqueueClipboardLinksWithAuthentication = new System.Windows.Forms.MenuItem();
+            this.mEnqueueClipboardLinksCopyOptions = new System.Windows.Forms.MenuItem();
+            this.mEnqueueClipboardLinksCopyAuthentication = new System.Windows.Forms.MenuItem();
+            this.mEnqueueImportLinksFromFile = new System.Windows.Forms.MenuItem();
+            this.mEnqueueFileLinks = new System.Windows.Forms.MenuItem();
+            this.mEnqueueFileLinksWithAuthentication = new System.Windows.Forms.MenuItem();
+            this.mEnqueueFileLinksCopyOptions = new System.Windows.Forms.MenuItem();
+            this.mEnqueueFileLinksCopyAuthentication = new System.Windows.Forms.MenuItem();
+            this.mEnqueueSeparator2 = new System.Windows.Forms.MenuItem();
             this.mEnqueueClipboardScanner = new System.Windows.Forms.MenuItem();
             this.mEnqueueClipboardScannerVerifyLinks = new System.Windows.Forms.MenuItem();
             this.lvQueuedMedia = new murrty.controls.ExtendedListView();
@@ -135,7 +143,7 @@
             this.mQueueCopyLink = new System.Windows.Forms.MenuItem();
             this.mQueueViewInBrowser = new System.Windows.Forms.MenuItem();
             this.mQueueSeparator = new System.Windows.Forms.MenuItem();
-            this.mQueueRemoveSelected = new System.Windows.Forms.MenuItem();
+            this.mQueueRemove = new System.Windows.Forms.MenuItem();
             this.sbtnDownload = new murrty.controls.SplitButton();
             this.pbStatus = new murrty.controls.ExtendedProgressBar();
             ((System.ComponentModel.ISupportInitialize)(this.pbThumbnail)).BeginInit();
@@ -340,6 +348,7 @@
             this.lvVideoFormats.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lvVideoFormats.Enabled = false;
             this.lvVideoFormats.FullRowSelect = true;
+            this.lvVideoFormats.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.lvVideoFormats.HideSelection = false;
             this.lvVideoFormats.Location = new System.Drawing.Point(3, 3);
             this.lvVideoFormats.MultiSelect = false;
@@ -440,6 +449,7 @@
             this.lvAudioFormats.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lvAudioFormats.Enabled = false;
             this.lvAudioFormats.FullRowSelect = true;
+            this.lvAudioFormats.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.lvAudioFormats.HideSelection = false;
             this.lvAudioFormats.Location = new System.Drawing.Point(3, 3);
             this.lvAudioFormats.MultiSelect = false;
@@ -524,6 +534,7 @@
             this.lvUnknownFormats.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lvUnknownFormats.Enabled = false;
             this.lvUnknownFormats.FullRowSelect = true;
+            this.lvUnknownFormats.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.lvUnknownFormats.HideSelection = false;
             this.lvUnknownFormats.Location = new System.Drawing.Point(3, 3);
             this.lvUnknownFormats.MultiSelect = false;
@@ -650,7 +661,7 @@
             this.tpStartTime.Size = new System.Drawing.Size(96, 23);
             this.tpStartTime.TabIndex = 41;
             this.tpStartTime.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.tpStartTime.TimeValue = time1;
+            this.tpStartTime.TimeValue = time3;
             this.tpStartTime.Value = System.TimeSpan.Parse("00:00:00");
             // 
             // lbExtendedTimePicker
@@ -875,7 +886,7 @@
             this.tpEndTime.Size = new System.Drawing.Size(96, 23);
             this.tpEndTime.TabIndex = 37;
             this.tpEndTime.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.tpEndTime.TimeValue = time2;
+            this.tpEndTime.TimeValue = time4;
             this.tpEndTime.Value = System.TimeSpan.Parse("00:00:00");
             // 
             // llbSpecifyTimesHint
@@ -963,9 +974,6 @@
             // tabDebug
             // 
             this.tabDebug.Controls.Add(this.btnKill);
-            this.tabDebug.Controls.Add(this.chkPbTaskbar);
-            this.tabDebug.Controls.Add(this.btnPbRemove);
-            this.tabDebug.Controls.Add(this.btnPbAdd);
             this.tabDebug.Controls.Add(this.btnCreateArgs);
             this.tabDebug.Location = new System.Drawing.Point(4, 22);
             this.tabDebug.Name = "tabDebug";
@@ -984,40 +992,6 @@
             this.btnKill.Text = "Kill";
             this.btnKill.UseVisualStyleBackColor = true;
             this.btnKill.Click += new System.EventHandler(this.btnKill_Click);
-            // 
-            // chkPbTaskbar
-            // 
-            this.chkPbTaskbar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.chkPbTaskbar.AutoSize = true;
-            this.chkPbTaskbar.Location = new System.Drawing.Point(79, 148);
-            this.chkPbTaskbar.Name = "chkPbTaskbar";
-            this.chkPbTaskbar.Size = new System.Drawing.Size(64, 17);
-            this.chkPbTaskbar.TabIndex = 3;
-            this.chkPbTaskbar.Text = "Taskbar";
-            this.chkPbTaskbar.UseVisualStyleBackColor = true;
-            this.chkPbTaskbar.CheckedChanged += new System.EventHandler(this.chkPbTaskbar_CheckedChanged);
-            // 
-            // btnPbRemove
-            // 
-            this.btnPbRemove.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnPbRemove.Location = new System.Drawing.Point(43, 144);
-            this.btnPbRemove.Name = "btnPbRemove";
-            this.btnPbRemove.Size = new System.Drawing.Size(30, 23);
-            this.btnPbRemove.TabIndex = 2;
-            this.btnPbRemove.Text = "-";
-            this.btnPbRemove.UseVisualStyleBackColor = true;
-            this.btnPbRemove.Click += new System.EventHandler(this.btnPbRemove_Click);
-            // 
-            // btnPbAdd
-            // 
-            this.btnPbAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnPbAdd.Location = new System.Drawing.Point(7, 144);
-            this.btnPbAdd.Name = "btnPbAdd";
-            this.btnPbAdd.Size = new System.Drawing.Size(30, 23);
-            this.btnPbAdd.TabIndex = 1;
-            this.btnPbAdd.Text = "+";
-            this.btnPbAdd.UseVisualStyleBackColor = true;
-            this.btnPbAdd.Click += new System.EventHandler(this.btnPbAdd_Click);
             // 
             // btnCreateArgs
             // 
@@ -1156,6 +1130,7 @@
             this.llbLink.TabStop = true;
             this.llbLink.Text = "https://...";
             this.llbLink.VisitedLinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(0)))), ((int)(((byte)(128)))));
+            this.llbLink.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llbLink_LinkClicked);
             // 
             // pnBatchDownload
             // 
@@ -1185,10 +1160,13 @@
             // 
             this.cmEnqueue.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.mEnqueue,
-            this.mEnqueueCopyOptions,
             this.mEnqueueWithAuthentication,
+            this.mEnqueueCopyOptions,
             this.mEnqueueCopyAuthentication,
             this.mEnqueueSeparator,
+            this.mEnqueueImportLinksFromClipboard,
+            this.mEnqueueImportLinksFromFile,
+            this.mEnqueueSeparator2,
             this.mEnqueueClipboardScanner,
             this.mEnqueueClipboardScannerVerifyLinks});
             // 
@@ -1198,17 +1176,17 @@
             this.mEnqueue.Text = "mEnqueue";
             this.mEnqueue.Click += new System.EventHandler(this.mEnqueue_Click);
             // 
-            // mEnqueueCopyOptions
-            // 
-            this.mEnqueueCopyOptions.Index = 1;
-            this.mEnqueueCopyOptions.Text = "mEnqueueCopyOptions";
-            this.mEnqueueCopyOptions.Click += new System.EventHandler(this.mEnqueueCopyOptions_Click);
-            // 
             // mEnqueueWithAuthentication
             // 
-            this.mEnqueueWithAuthentication.Index = 2;
+            this.mEnqueueWithAuthentication.Index = 1;
             this.mEnqueueWithAuthentication.Text = "mEnqueueWithAuthentication";
             this.mEnqueueWithAuthentication.Click += new System.EventHandler(this.mEnqueueWithAuthentication_Click);
+            // 
+            // mEnqueueCopyOptions
+            // 
+            this.mEnqueueCopyOptions.Index = 2;
+            this.mEnqueueCopyOptions.Text = "mEnqueueCopyOptions";
+            this.mEnqueueCopyOptions.Click += new System.EventHandler(this.mEnqueueCopyOptions_Click);
             // 
             // mEnqueueCopyAuthentication
             // 
@@ -1221,16 +1199,88 @@
             this.mEnqueueSeparator.Index = 4;
             this.mEnqueueSeparator.Text = "-";
             // 
+            // mEnqueueImportLinksFromClipboard
+            // 
+            this.mEnqueueImportLinksFromClipboard.Index = 5;
+            this.mEnqueueImportLinksFromClipboard.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+            this.mEnqueueClipboardLinks,
+            this.mEnqueueClipboardLinksWithAuthentication,
+            this.mEnqueueClipboardLinksCopyOptions,
+            this.mEnqueueClipboardLinksCopyAuthentication});
+            this.mEnqueueImportLinksFromClipboard.Text = "mEnqueueImportLinksFromClipboard";
+            // 
+            // mEnqueueClipboardLinks
+            // 
+            this.mEnqueueClipboardLinks.Index = 0;
+            this.mEnqueueClipboardLinks.Text = "mEnqueueClipboardLinks";
+            this.mEnqueueClipboardLinks.Click += new System.EventHandler(this.mEnqueueClipboardLinks_Click);
+            // 
+            // mEnqueueClipboardLinksWithAuthentication
+            // 
+            this.mEnqueueClipboardLinksWithAuthentication.Index = 1;
+            this.mEnqueueClipboardLinksWithAuthentication.Text = "mEnqueueClipboardLinksWithAuthentication";
+            this.mEnqueueClipboardLinksWithAuthentication.Click += new System.EventHandler(this.mEnqueueClipboardLinksWithAuthentication_Click);
+            // 
+            // mEnqueueClipboardLinksCopyOptions
+            // 
+            this.mEnqueueClipboardLinksCopyOptions.Index = 2;
+            this.mEnqueueClipboardLinksCopyOptions.Text = "mEnqueueClipboardLinksCopyOptions";
+            this.mEnqueueClipboardLinksCopyOptions.Click += new System.EventHandler(this.mEnqueueClipboardLinksCopyOptions_Click);
+            // 
+            // mEnqueueClipboardLinksCopyAuthentication
+            // 
+            this.mEnqueueClipboardLinksCopyAuthentication.Index = 3;
+            this.mEnqueueClipboardLinksCopyAuthentication.Text = "mEnqueueClipboardLinksCopyAuthentication";
+            this.mEnqueueClipboardLinksCopyAuthentication.Click += new System.EventHandler(this.mEnqueueClipboardLinksCopyAuthentication_Click);
+            // 
+            // mEnqueueImportLinksFromFile
+            // 
+            this.mEnqueueImportLinksFromFile.Index = 6;
+            this.mEnqueueImportLinksFromFile.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+            this.mEnqueueFileLinks,
+            this.mEnqueueFileLinksWithAuthentication,
+            this.mEnqueueFileLinksCopyOptions,
+            this.mEnqueueFileLinksCopyAuthentication});
+            this.mEnqueueImportLinksFromFile.Text = "mEnqueueImportLinksFromFile";
+            // 
+            // mEnqueueFileLinks
+            // 
+            this.mEnqueueFileLinks.Index = 0;
+            this.mEnqueueFileLinks.Text = "mEnqueueFileLinks";
+            this.mEnqueueFileLinks.Click += new System.EventHandler(this.mEnqueueFileLinks_Click);
+            // 
+            // mEnqueueFileLinksWithAuthentication
+            // 
+            this.mEnqueueFileLinksWithAuthentication.Index = 1;
+            this.mEnqueueFileLinksWithAuthentication.Text = "mEnqueueFileLinksWithAuthentication";
+            this.mEnqueueFileLinksWithAuthentication.Click += new System.EventHandler(this.mEnqueueFileLinksWithAuthentication_Click);
+            // 
+            // mEnqueueFileLinksCopyOptions
+            // 
+            this.mEnqueueFileLinksCopyOptions.Index = 2;
+            this.mEnqueueFileLinksCopyOptions.Text = "mEnqueueFileLinksCopyOptions";
+            this.mEnqueueFileLinksCopyOptions.Click += new System.EventHandler(this.mEnqueueFileLinksCopyOptions_Click);
+            // 
+            // mEnqueueFileLinksCopyAuthentication
+            // 
+            this.mEnqueueFileLinksCopyAuthentication.Index = 3;
+            this.mEnqueueFileLinksCopyAuthentication.Text = "mEnqueueFileLinksCopyAuthentication";
+            this.mEnqueueFileLinksCopyAuthentication.Click += new System.EventHandler(this.mEnqueueFileLinksCopyAuthentication_Click);
+            // 
+            // mEnqueueSeparator2
+            // 
+            this.mEnqueueSeparator2.Index = 7;
+            this.mEnqueueSeparator2.Text = "-";
+            // 
             // mEnqueueClipboardScanner
             // 
-            this.mEnqueueClipboardScanner.Index = 5;
+            this.mEnqueueClipboardScanner.Index = 8;
             this.mEnqueueClipboardScanner.Text = "mEnqueueClipboardScanner";
             this.mEnqueueClipboardScanner.Click += new System.EventHandler(this.mEnqueueClipboardScanner_Click);
             // 
             // mEnqueueClipboardScannerVerifyLinks
             // 
-            this.mEnqueueClipboardScannerVerifyLinks.Checked = true;
-            this.mEnqueueClipboardScannerVerifyLinks.Index = 6;
+            this.mEnqueueClipboardScannerVerifyLinks.Index = 9;
             this.mEnqueueClipboardScannerVerifyLinks.Text = "mEnqueueClipboardScannerVerifyLinks";
             this.mEnqueueClipboardScannerVerifyLinks.Click += new System.EventHandler(this.mEnqueueClipboardScannerVerifyLinks_Click);
             // 
@@ -1308,18 +1358,18 @@
             this.mQueueCopyLink,
             this.mQueueViewInBrowser,
             this.mQueueSeparator,
-            this.mQueueRemoveSelected});
+            this.mQueueRemove});
             // 
             // mQueueCopyLink
             // 
             this.mQueueCopyLink.Index = 0;
-            this.mQueueCopyLink.Text = "&Copy link";
+            this.mQueueCopyLink.Text = "mQueueCopyLink";
             this.mQueueCopyLink.Click += new System.EventHandler(this.mQueueCopyLink_Click);
             // 
             // mQueueViewInBrowser
             // 
             this.mQueueViewInBrowser.Index = 1;
-            this.mQueueViewInBrowser.Text = "&View in WebBrowser";
+            this.mQueueViewInBrowser.Text = "mQueueViewInBrowser";
             this.mQueueViewInBrowser.Click += new System.EventHandler(this.mQueueViewInBrowser_Click);
             // 
             // mQueueSeparator
@@ -1327,11 +1377,11 @@
             this.mQueueSeparator.Index = 2;
             this.mQueueSeparator.Text = "-";
             // 
-            // mQueueRemoveSelected
+            // mQueueRemove
             // 
-            this.mQueueRemoveSelected.Index = 3;
-            this.mQueueRemoveSelected.Text = "&Remove";
-            this.mQueueRemoveSelected.Click += new System.EventHandler(this.mQueueRemoveSelected_Click);
+            this.mQueueRemove.Index = 3;
+            this.mQueueRemove.Text = "mQueueRemove";
+            this.mQueueRemove.Click += new System.EventHandler(this.mQueueRemoveSelected_Click);
             // 
             // sbtnDownload
             // 
@@ -1405,7 +1455,6 @@
             this.tabExtendedDownloaderVerbose.ResumeLayout(false);
             this.tabExtendedDownloaderVerbose.PerformLayout();
             this.tabDebug.ResumeLayout(false);
-            this.tabDebug.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbThumbnailBackground)).EndInit();
             this.pnSingleDownload.ResumeLayout(false);
             this.pnSingleDownload.PerformLayout();
@@ -1461,9 +1510,6 @@
         private System.Windows.Forms.Label lbAudioEncoder;
         private System.Windows.Forms.Label lbVideoEncoder;
         private murrty.controls.ExtendedProgressBar pbStatus;
-        private System.Windows.Forms.CheckBox chkPbTaskbar;
-        private System.Windows.Forms.Button btnPbRemove;
-        private System.Windows.Forms.Button btnPbAdd;
         private System.Windows.Forms.TabPage tabExtendedDownloaderVerbose;
         private murrty.controls.ExtendedRichTextBox rtbVerbose;
         private System.Windows.Forms.Button btnKill;
@@ -1530,7 +1576,7 @@
         private System.Windows.Forms.ColumnHeader chBatchViews;
         private murrty.controls.ExtendedTextBox txtQueueLink;
         private System.Windows.Forms.ContextMenu cmQueuedMedia;
-        private System.Windows.Forms.MenuItem mQueueRemoveSelected;
+        private System.Windows.Forms.MenuItem mQueueRemove;
         private System.Windows.Forms.MenuItem mQueueViewInBrowser;
         private System.Windows.Forms.ContextMenu cmEnqueue;
         private System.Windows.Forms.MenuItem mEnqueue;
@@ -1542,5 +1588,16 @@
         private System.Windows.Forms.MenuItem mEnqueueSeparator;
         private System.Windows.Forms.MenuItem mEnqueueClipboardScanner;
         private System.Windows.Forms.MenuItem mEnqueueClipboardScannerVerifyLinks;
+        private System.Windows.Forms.MenuItem mEnqueueImportLinksFromClipboard;
+        private System.Windows.Forms.MenuItem mEnqueueSeparator2;
+        private System.Windows.Forms.MenuItem mEnqueueClipboardLinks;
+        private System.Windows.Forms.MenuItem mEnqueueClipboardLinksWithAuthentication;
+        private System.Windows.Forms.MenuItem mEnqueueClipboardLinksCopyOptions;
+        private System.Windows.Forms.MenuItem mEnqueueClipboardLinksCopyAuthentication;
+        private System.Windows.Forms.MenuItem mEnqueueImportLinksFromFile;
+        private System.Windows.Forms.MenuItem mEnqueueFileLinks;
+        private System.Windows.Forms.MenuItem mEnqueueFileLinksWithAuthentication;
+        private System.Windows.Forms.MenuItem mEnqueueFileLinksCopyOptions;
+        private System.Windows.Forms.MenuItem mEnqueueFileLinksCopyAuthentication;
     }
 }

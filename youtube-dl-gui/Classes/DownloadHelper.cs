@@ -23,7 +23,7 @@ public class DownloadHelper {
         new(RegexPrefix + @"((www|m)\.)?pornhub\.com\/view_video\.php(\?viewkey=|.*?&viewkey=)ph[a-zA-Z0-9]{1,}", RegexOptions.Compiled),
 
         // lang=regex Reddit
-        new(RegexPrefix + @"(([a-zA-Z]{1,}.)?reddit\.com\/r\/[a-zA-Z0-9-_]{1,}\/(comments\/)?[a-zA-Z0-9]{1,}|(i\.|v\.)?redd\.it\/[a-zA-Z0-9]{1,})", RegexOptions.Compiled),
+        new(RegexPrefix + @"([a-zA-Z]{1,}\.)?reddit\.com\/r\/[a-zA-Z0-9-_]{1,}\/(comments\/)?[a-zA-Z0-9]{1,}|(i\.|v\.)?redd\.it\/[a-zA-Z0-9]{1,}", RegexOptions.Compiled),
         
         // lang=regex Twitter
         new(RegexPrefix + @"(t\.co\/[a-zA-Z0-9]{1,})|(((m|mobile)\.)?twitter\.com\/(i|[a-zA-Z0-9]{1,})\/status\/[0-9]{1,})", RegexOptions.Compiled),
@@ -41,6 +41,8 @@ public class DownloadHelper {
         // Base
         //new(RegexPrefix + "", RegexOptions.Compiled),
     };
+
+    private static readonly Regex BasicUrlRegex = new(@"([^\r\n\t\f\v]){1,}\.([^\r\n\t\f\v]){1,}", RegexOptions.Compiled);
 
     public static bool IsReddit(string Url) => CompiledRegex[2].IsMatch(Url);
 
@@ -73,7 +75,7 @@ public class DownloadHelper {
         return Url;
     }
 
-    public static bool SupportedDownloadLink(string Url) => CompiledRegex.ForIf((x) => x.IsMatch(Url));
+    public static bool SupportedDownloadLink(string Url) => BasicUrlRegex.IsMatch(Url);
 
     public static string GetTransferData(string[] LineParts, ref float Percentage, ref string Eta) {
         if (LineParts[1].Contains('%')) {
