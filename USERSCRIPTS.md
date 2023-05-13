@@ -6,4 +6,4 @@ If you don't have a repo to host it, you can add it to the [addons folder within
 
 |Userscript|Author|Website(s) supported|
 |-|-|-|
-|[reddit downloader](https://github.com/murrty/youtube-dl-gui/raw/master/Addons/reddit%20video%20download%20button.user.js)|me (murrty)|reddit.com|
+|[reddit downloader](https://github.com/murrty/youtube-dl-gui/raw/master/Addons/reddit%20video%20download%20button.user.js)|me (murrty)|(old layout) reddit.com|
