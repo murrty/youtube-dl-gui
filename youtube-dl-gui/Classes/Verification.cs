@@ -7,10 +7,12 @@ internal static class Verification {
     public static string YoutubeDlVersion { get; private set; }
     public static string FFmpegPath { get; private set; }
     public static string FFprobePath { get; private set; }
+    public static string MediaInfoPath { get; private set; }
 
     public static bool YoutubeDlAvailable => YoutubeDlPath.IsNotNullEmptyWhitespace() && File.Exists(YoutubeDlPath);
     public static bool FfmpegAvailable => FFmpegPath.IsNotNullEmptyWhitespace() && File.Exists(FFmpegPath);
     public static bool FfprobeAvailable => FFprobePath.IsNotNullEmptyWhitespace() && File.Exists(FFprobePath);
+    public static bool MediaInfoAvailable => false;
 
     public static string YoutubeDlProvider => Config.Settings.Downloads.YtdlType switch {
         1 => "youtube-dl",
@@ -44,10 +46,9 @@ internal static class Verification {
 
         if (Config.Settings.General.UseStaticYtdl && File.Exists(Config.Settings.General.ytdlPath))
             TempPath = Config.Settings.General.ytdlPath;
-        else if (ProgramInExecutingDirectory(YoutubeDlName))
-            TempPath = Program.ProgramPath + "\\" + YoutubeDlName;
-        else if (!ProgramInSystemPath(YoutubeDlName, out TempPath))
-            return false;
+        else if (ProgramInExecutingDirectory(YoutubeDlName, out TempPath) || ProgramInSystemPath(YoutubeDlName, out TempPath))
+            TempPath += "\\" + YoutubeDlName;
+        else return false;
 
         if (TempPath.IsNotNullEmptyWhitespace() && File.Exists(TempPath)) {
             YoutubeDlPath = TempPath;
@@ -61,9 +62,7 @@ internal static class Verification {
         string TempPath;
         if (Config.Settings.General.UseStaticFFmpeg && File.Exists(Config.Settings.General.ffmpegPath))
             TempPath = Config.Settings.General.ffmpegPath;
-        else if (ProgramInExecutingDirectory("ffmpeg.exe"))
-            TempPath = $"{Program.ProgramPath}\\ffmpeg.exe";
-        else if (!ProgramInSystemPath("ffmpeg.exe", out TempPath))
+        else if (!ProgramInExecutingDirectory("ffmpeg.exe", out TempPath) && !ProgramInSystemPath("ffmpeg.exe", out TempPath))
             return false;
 
         if (TempPath.IsNotNullEmptyWhitespace() && Directory.Exists(TempPath) && File.Exists(TempPath + "\\ffmpeg.exe")) {
@@ -71,6 +70,18 @@ internal static class Verification {
             string ffprobe = $"{TempPath}\\ffprobe.exe";
             if (File.Exists(ffprobe))
                 FFprobePath = ffprobe;
+            return true;
+        }
+
+        return false;
+    }
+    public static bool RefreshMediaInfoLocation() {
+        if (ProgramInExecutingDirectory("mediainfo.exe", out string TempPath) || ProgramInSystemPath("mediainfo.exe", out TempPath))
+            TempPath += "mediainfo.exe";
+        else return false;
+
+        if (TempPath.IsNotNullEmptyWhitespace() && File.Exists(TempPath)) {
+            MediaInfoPath = TempPath;
             return true;
         }
 
@@ -88,8 +99,19 @@ internal static class Verification {
             return null;
         }
     }
-    private static bool ProgramInExecutingDirectory(string ProgramName) {
-        return File.Exists($"{Program.ProgramPath}\\{ProgramName}");
+    private static bool ProgramInExecutingDirectory(string ProgramName, out string OutputDir) {
+        if (File.Exists($"{Program.ProgramPath}\\{ProgramName}")) {
+            OutputDir = Program.ProgramPath;
+            return true;
+        }
+
+        if (File.Exists($"{Program.ProgramPath}\\bin\\{ProgramName}")) {
+            OutputDir = $"{Program.ProgramPath}\\bin";
+            return true;
+        }
+
+        OutputDir = null;
+        return false;
     }
     private static bool ProgramInSystemPath(string ProgramName, out string OutputDir) {
         string[] PathLocations = Environment.GetEnvironmentVariable("PATH").Split(';');
