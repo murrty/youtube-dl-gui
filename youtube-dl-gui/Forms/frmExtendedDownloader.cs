@@ -681,7 +681,7 @@ public partial class frmExtendedDownloader : LocalizedForm {
             float Percentage = 0;
             string ETA = "Unknown";
             ExtendedMediaDetails MediaDetails;
-            string BatchTime = BatchHelpers.CurrentTime;
+            string BatchTime = BatchHelper.CurrentTime;
 
             for (int i = 0; i < lvQueuedMedia.Items.Count; i++) {
                 if ((bool)lvQueuedMedia.Invoke(() => lvQueuedMedia.Items[i].Tag is not ExtendedMediaDetails)) {

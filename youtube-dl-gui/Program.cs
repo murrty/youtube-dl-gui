@@ -86,6 +86,7 @@ internal static class Program {
         if (DebugMode || (Instance = new(true, ProgramGUID)).WaitOne(TimeSpan.Zero, true)) {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+
             IsAdmin = new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator);
             Log.InitializeLogging();
 
@@ -353,16 +354,109 @@ internal static class Program {
         ArgumentType Type = (ArgumentType)cds.dwData;
         switch (Type) {
             case ArgumentType.DownloadVideo:
-            case ArgumentType.DownloadAudio:
-            case ArgumentType.DownloadCustom:
-            case ArgumentType.DownloadAuthenticateVideo:
-            case ArgumentType.DownloadAuthenticateAudio:
-            case ArgumentType.DownloadAuthenticateCustom:
-            case ArgumentType.DownloadArchived: {
-                ProcessCopyData(URL, Type, CustomArguments);
+            case ArgumentType.DownloadAuthenticateVideo: {
+                AuthenticationDetails Auth = null;
+                if (Type == ArgumentType.DownloadAuthenticateVideo) {
+                    Auth = AuthenticationDetails.GetAuthentication();
+                    if (Auth is null) {
+                        Log.Write("Authentication required, but the user cancelled the dialog.");
+                        return;
+                    }
+                }
+
+                Form DownloadForm;
+                if (Config.Settings.Downloads.ExtendedDownloaderPreferExtendedForm) {
+                    DownloadForm = new frmExtendedDownloader(
+                        URL: URL,
+                        CustomArguments: CustomArguments,
+                        Archived: false,
+                        Auth: Auth);
+                }
+                else {
+                    DownloadInfo NewInfo = new(URL: URL) {
+                        Type = DownloadType.Video,
+                        VideoQuality = (VideoQualityType)Config.Settings.Saved.videoQuality,
+                        VideoFormat = (VideoFormatType)Config.Settings.Saved.VideoFormat,
+                        SkipAudioForVideos = !Config.Settings.Downloads.VideoDownloadSound,
+                        DownloadArguments = CustomArguments,
+                        Authentication = Auth,
+                    };
+                    DownloadForm = new frmDownloader(Info: NewInfo);
+                }
+                DownloadForm.Show();
             } break;
 
-            default: break;
+            case ArgumentType.DownloadAudio:
+            case ArgumentType.DownloadAuthenticateAudio: {
+                AuthenticationDetails Auth = null;
+                if (Type == ArgumentType.DownloadAuthenticateAudio) {
+                    Auth = AuthenticationDetails.GetAuthentication();
+                    if (Auth is null) {
+                        Log.Write("Authentication required, but the user cancelled the dialog.");
+                        return;
+                    }
+                }
+
+                Form DownloadForm;
+                if (Config.Settings.Downloads.ExtendedDownloaderPreferExtendedForm) {
+                    DownloadForm = new frmExtendedDownloader(
+                        URL: URL,
+                        CustomArguments: CustomArguments,
+                        Archived: false,
+                        Auth: Auth);
+                }
+                else {
+                    DownloadInfo NewInfo = new(URL: URL) {
+                        Type = DownloadType.Audio,
+                        UseVBR = Config.Settings.Downloads.AudioDownloadAsVBR,
+                        AudioFormat = (AudioFormatType)Config.Settings.Saved.AudioFormat,
+                        DownloadArguments = CustomArguments,
+                        Authentication = Auth,
+                    };
+
+                    if (Config.Settings.Downloads.AudioDownloadAsVBR)
+                        NewInfo.AudioVBRQuality = (AudioVBRQualityType)Config.Settings.Saved.AudioVBRQuality;
+                    else
+                        NewInfo.AudioCBRQuality = (AudioCBRQualityType)Config.Settings.Saved.audioQuality;
+
+                    DownloadForm = new frmDownloader(Info: NewInfo);
+                }
+                DownloadForm.Show();
+            } break;
+
+            case ArgumentType.DownloadCustom:
+            case ArgumentType.DownloadAuthenticateCustom: {
+                AuthenticationDetails Auth = null;
+                if (Type == ArgumentType.DownloadAuthenticateCustom) {
+                    Auth = AuthenticationDetails.GetAuthentication();
+                    if (Auth is null) {
+                        Log.Write("Authentication required, but the user cancelled the dialog.");
+                        return;
+                    }
+                }
+
+                Form DownloadForm;
+                if (Config.Settings.Downloads.ExtendedDownloaderPreferExtendedForm) {
+                    DownloadForm = new frmExtendedDownloader(
+                        URL: URL,
+                        CustomArguments: CustomArguments,
+                        Archived: false,
+                        Auth: Auth);
+                }
+                else {
+                    DownloadInfo NewInfo = new(URL: URL) {
+                        Type = DownloadType.Custom,
+                        DownloadArguments = CustomArguments,
+                        Authentication = Auth,
+                    };
+                    DownloadForm = new frmDownloader(Info: NewInfo);
+                }
+                DownloadForm.Show();
+            } break;
+
+            case ArgumentType.DownloadArchived: {
+
+            } break;
         }
     }
 
@@ -431,12 +525,10 @@ internal static class Program {
                         Authentication = Auth,
                     };
 
-                    if (Config.Settings.Downloads.AudioDownloadAsVBR) {
+                    if (Config.Settings.Downloads.AudioDownloadAsVBR)
                         NewInfo.AudioVBRQuality = (AudioVBRQualityType)Config.Settings.Saved.AudioVBRQuality;
-                    }
-                    else {
+                    else
                         NewInfo.AudioCBRQuality = (AudioCBRQualityType)Config.Settings.Saved.audioQuality;
-                    }
 
                     DownloadForm = new frmDownloader(Info: NewInfo);
                 }
@@ -474,10 +566,11 @@ internal static class Program {
             } break;
 
             case ArgumentType.DownloadArchived: {
-                if (DownloadHelper.IsYoutubeLink(URL)) {
+                if (!DownloadHelper.IsYoutubeLink(URL)) {
                     Log.Write("YouTube link given for archival download.");
                     URL = DownloadHelper.GetYoutubeVideoKey(URL);
                 }
+
                 if (!DownloadHelper.IsYoutubeKey(URL)) {
                     Log.Write("The YouTube key given for archival download is not a valid video key.");
                     return;

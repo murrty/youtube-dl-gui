@@ -12,6 +12,7 @@
         #region Windows Form Designer generated code
 
         private void InitializeComponent() {
+            this.components = new System.ComponentModel.Container();
             System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("<---");
             System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Video sources");
             System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Audio sources");
@@ -31,6 +32,7 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.tvSelectedSources = new System.Windows.Forms.TreeView();
             this.tvSelectedStreams = new System.Windows.Forms.TreeView();
+            this.ttFiles = new System.Windows.Forms.ToolTip(this.components);
             this.pnLower.SuspendLayout();
             this.pnLoadedFiles.SuspendLayout();
             this.pnStreams.SuspendLayout();
@@ -74,6 +76,7 @@
             // 
             // btnRemoveFiles
             // 
+            this.btnRemoveFiles.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnRemoveFiles.Location = new System.Drawing.Point(95, 297);
             this.btnRemoveFiles.Name = "btnRemoveFiles";
             this.btnRemoveFiles.Size = new System.Drawing.Size(75, 23);
@@ -84,6 +87,7 @@
             // 
             // btnAddFiles
             // 
+            this.btnAddFiles.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnAddFiles.Location = new System.Drawing.Point(7, 297);
             this.btnAddFiles.Name = "btnAddFiles";
             this.btnAddFiles.Size = new System.Drawing.Size(75, 23);
@@ -94,6 +98,8 @@
             // 
             // lbFileSources
             // 
+            this.lbFileSources.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.lbFileSources.FormattingEnabled = true;
             this.lbFileSources.Location = new System.Drawing.Point(3, 3);
             this.lbFileSources.Name = "lbFileSources";
@@ -150,6 +156,8 @@
             treeNode3,
             treeNode4,
             treeNode5});
+            this.tvSelectedSources.ShowLines = false;
+            this.tvSelectedSources.ShowNodeToolTips = true;
             this.tvSelectedSources.Size = new System.Drawing.Size(191, 317);
             this.tvSelectedSources.TabIndex = 0;
             this.tvSelectedSources.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.tvSelectedSources_NodeMouseDoubleClick);
@@ -174,6 +182,7 @@
             treeNode7,
             treeNode8,
             treeNode9});
+            this.tvSelectedStreams.ShowLines = false;
             this.tvSelectedStreams.Size = new System.Drawing.Size(191, 317);
             this.tvSelectedStreams.TabIndex = 1;
             this.tvSelectedStreams.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.tvSelectedStreams_NodeMouseDoubleClick);
@@ -214,5 +223,6 @@
         private System.Windows.Forms.Button btnMergeFiles;
         private System.Windows.Forms.TreeView tvSelectedSources;
         private System.Windows.Forms.TreeView tvSelectedStreams;
+        private System.Windows.Forms.ToolTip ttFiles;
     }
 }

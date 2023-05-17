@@ -4,15 +4,18 @@ using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
 
-// TODO: add localization
-public partial class frmMiscTools : Form {
+public partial class frmMiscTools : LocalizedForm {
     public frmMiscTools() {
         InitializeComponent();
+    }
+
+    public override void LoadLanguage() {
         this.Text = Language.frmTools;
         btnMiscToolsRemoveAudio.Text = Language.btnMiscToolsRemoveAudio;
         btnMiscToolsExtractAudio.Text = Language.btnMiscToolsExtractAudio;
         btnMiscToolsVideoToGif.Text = Language.btnMiscToolsVideoToGif;
     }
+
     private void frmTools_FormClosing(object sender, FormClosingEventArgs e) {
         this.Dispose();
     }

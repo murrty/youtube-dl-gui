@@ -355,7 +355,56 @@ public struct Time : IEquatable<Time> {
         Seconds = 0;
         Milliseconds = 0;
     }
+    public Time(int Hours) {
+        if (Hours < 0)
+            throw new ArgumentOutOfRangeException(nameof(Hours));
+
+        this.Hours = Hours;
+        Minutes = 0;
+        Seconds = 0;
+        Milliseconds = 0;
+    }
+    public Time(int Hours, int Minutes) {
+        if (Hours < 0)
+            throw new ArgumentOutOfRangeException(nameof(Hours));
+
+        if (Minutes < 0)
+            throw new ArgumentOutOfRangeException(nameof(Minutes));
+
+        this.Hours = Hours;
+        this.Minutes = Minutes;
+        Seconds = 0;
+        Milliseconds = 0;
+    }
+    public Time(int Hours, int Minutes, int Seconds) {
+        if (Hours < 0)
+            throw new ArgumentOutOfRangeException(nameof(Hours));
+
+        if (Minutes < 0)
+            throw new ArgumentOutOfRangeException(nameof(Minutes));
+
+        if (Seconds < 0)
+            throw new ArgumentOutOfRangeException(nameof(Seconds));
+
+        this.Hours = Hours;
+        this.Minutes = Minutes;
+        this.Seconds = Seconds;
+        Milliseconds = 0;
+    }
     public Time(int Hours, int Minutes, int Seconds, int Milliseconds) {
+        if (Hours < 0)
+            throw new ArgumentOutOfRangeException(nameof(Hours));
+
+        if (Minutes < 0)
+            throw new ArgumentOutOfRangeException(nameof(Minutes));
+
+        if (Seconds < 0)
+            throw new ArgumentOutOfRangeException(nameof(Seconds));
+
+        if (Milliseconds < 0)
+            throw new ArgumentOutOfRangeException(nameof(Milliseconds));
+
+
         this.Hours = Hours;
         this.Minutes = Minutes;
         this.Seconds = Seconds;
@@ -505,4 +554,16 @@ public struct Time : IEquatable<Time> {
 
         return buf.ToString();
     }
+}
+
+public struct TimeOffset : IEquatable<TimeOffset> {
+    public static TimeOffset Empty;
+
+    public Time StartingTime;
+    public Time EndingTime;
+
+    public bool HasStartingTime => StartingTime != Time.Empty;
+    public bool HasEndingTime => EndingTime != Time.Empty;
+
+    public bool Equals(TimeOffset other) => throw new NotImplementedException();
 }

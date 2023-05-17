@@ -320,9 +320,9 @@ public static class Language {
     public static string frmMerger { get; private set; }
     public static string btnMerge { get; private set; }
     public static string frmMergerVideoSources { get; private set; }
-    public static string frmMergerAudioSourcers { get; private set; }
-    public static string frmMergerSubtitleSourcers { get; private set; }
-    public static string frmMergerAttatchmentSourcers { get; private set; }
+    public static string frmMergerAudioSources { get; private set; }
+    public static string frmMergerSubtitleSources { get; private set; }
+    public static string frmMergerAttatchmentSources { get; private set; }
     #endregion
 
     #region frmSettings
@@ -917,9 +917,9 @@ public static class Language {
         public const string frmMerger = "Media merger";
         public const string btnMerge = "Merge";
         public const string frmMergerVideoSources = "Video sources";
-        public const string frmMergerAudioSourcers = "Audio sources";
-        public const string frmMergerSubtitleSourcers = "Subtitle sources";
-        public const string frmMergerAttatchmentSourcers = "Attatchment sources";
+        public const string frmMergerAudioSources = "Audio sources";
+        public const string frmMergerSubtitleSources = "Subtitle sources";
+        public const string frmMergerAttatchmentSources = "Attatchment sources";
         #endregion
 
         #region frmSettings
@@ -1522,9 +1522,9 @@ public static class Language {
         frmMerger = InternalEnglish.frmMerger;
         btnMerge = InternalEnglish.btnMerge;
         frmMergerVideoSources = InternalEnglish.frmMergerVideoSources;
-        frmMergerAudioSourcers = InternalEnglish.frmMergerAudioSourcers;
-        frmMergerSubtitleSourcers = InternalEnglish.frmMergerSubtitleSourcers;
-        frmMergerAttatchmentSourcers = InternalEnglish.frmMergerAttatchmentSourcers;
+        frmMergerAudioSources = InternalEnglish.frmMergerAudioSources;
+        frmMergerSubtitleSources = InternalEnglish.frmMergerSubtitleSources;
+        frmMergerAttatchmentSources = InternalEnglish.frmMergerAttatchmentSources;
         #endregion
 
         #region frmSettings
@@ -2125,9 +2125,9 @@ public static class Language {
         frmMerger = nameof(frmMerger);
         btnMerge = nameof(btnMerge);
         frmMergerVideoSources = nameof(frmMergerVideoSources);
-        frmMergerAudioSourcers = nameof(frmMergerAudioSourcers);
-        frmMergerSubtitleSourcers = nameof(frmMergerSubtitleSourcers);
-        frmMergerAttatchmentSourcers = nameof(frmMergerAttatchmentSourcers);
+        frmMergerAudioSources = nameof(frmMergerAudioSources);
+        frmMergerSubtitleSources = nameof(frmMergerSubtitleSources);
+        frmMergerAttatchmentSources = nameof(frmMergerAttatchmentSources);
         #endregion
 
         #region frmSettings
@@ -3251,14 +3251,14 @@ public static class Language {
                             case nameof(frmMergerVideoSources):
                                 frmMergerVideoSources = ReadValue;
                                 continue;
-                            case nameof(frmMergerAudioSourcers):
-                                frmMergerAudioSourcers = ReadValue;
+                            case nameof(frmMergerAudioSources):
+                                frmMergerAudioSources = ReadValue;
                                 continue;
-                            case nameof(frmMergerSubtitleSourcers):
-                                frmMergerSubtitleSourcers = ReadValue;
+                            case nameof(frmMergerSubtitleSources):
+                                frmMergerSubtitleSources = ReadValue;
                                 continue;
-                            case nameof(frmMergerAttatchmentSourcers):
-                                frmMergerAttatchmentSourcers = ReadValue;
+                            case nameof(frmMergerAttatchmentSources):
+                                frmMergerAttatchmentSources = ReadValue;
                                 continue;
                             #endregion
 
