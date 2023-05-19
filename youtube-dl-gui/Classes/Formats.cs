@@ -7,46 +7,63 @@ internal class Formats {
     public const string AllFiles = "All Files (*.*)|*.*";
 
     /// <summary>
-    ///  All known video formats, as a filter.
+    ///  All known video formats used by ffmpeg, as a filter.
     /// </summary>
-    public const string VideoFormats = "Audio Video Interleave (*.avi)|*.avi"       + "|" +
-                                       "Flash Video (*.flv)|*.flv"                  + "|" +
-                                       "Matroska Video (*.mkv)|*.mkv"               + "|" +
-                                       "Ogg Video (*.ogv, *ogx)|*.ogv;*.ogx"        + "|" +
-                                       "QuickTime Movie (*.mov, *.qt)|*.mov;*.qt"   + "|" +
-                                       "MPEG Video (*.mpeg, *.mpg)|*.mpeg;*.mpg"    + "|" +
-                                       "MPEG-II Video Stream (*.m2v)|*.m2v"         + "|" +
-                                       "MPEG-IV Part 14 (*.mp4)|*.mp4"              + "|" +
-                                       "VP8/9 (*.webm)|*.webm"                      + "|" +
-                                       "Windows Media Video (*.wmv)|*.wmv"          + "|" +
-                                       AllKnownVideoFormats;
+    public const string VideoFormats =
+        "3rd Generation Partnership (*.3gp, *3g2)|*.3gp;*.3g2"                  + "|" +
+        "Actions Media Video (*.amv, *.mtv)|*.amv;*.mtv"                        + "|" +
+        "Audio Video Interleave (*.avi)|*.avi"                                  + "|" +
+        "Bink Video (*.bink, *.bik, *.bk2, *.bik2)|*.bink;*.bik;*.bk2;*.bik2"   + "|" +
+        "Flash Video (*.flv)|*.flv"                                             + "|" +
+        "Matroska (*.mkv)|*.mkv"                                                + "|" +
+        "Ogg Video (*.ogv, *ogx)|*.ogv;*.ogx"                                   + "|" +
+        "QuickTime Movie (*.mov, *.qt)|*.mov;*.qt"                              + "|" +
+        "MPEG Video (*.mpeg, *.mpg)|*.mpeg;*.mpg"                               + "|" +
+        "MPEG-2 Video Stream (*.m2v)|*.m2v"                                     + "|" +
+        "MPEG-4 Part 14 (*.mp4)|*.mp4"                                          + "|" +
+        "Smacker video (*.smk)|*.smk"                                           + "|" +
+        "Shockwave Flash (*.swf)|*.swf"                                         + "|" +
+        "VP8/9 (*.webm)|*.webm"                                                 + "|" +
+        "Windows Media Video (*.wmv)|*.wmv"                                     + "|" +
+        "Xbox Media Video (*.xmv)|*.xmv"                                        + "|" +
+        AllKnownVideoFormats + "|" + AllFiles;
 
     /// <summary>
-    /// All the known video formats, as a single filter.
+    /// All the known video formats used by ffmpeg, as a single filter.
     /// </summary>
     public const string AllKnownVideoFormats =
-        "All known video formats|*.avi;*.flv;*.mkv;*.ogv;*.ogx;*.mov;*.qt;*.mpeg;*.mpg;*.m2v;*.mp4;*.webm;*.wmv";
+        "All known video formats|*3gp;*3g2;*.amv;*.avi;*.bink;*.bik;*.bk2;*.bik2;*.flv;*.mkv;*.ogv;*.ogx;*.mov;*.mtv;*.qt;*.mpeg;*.mpg;*.m2v;*.mp4;*.smk;*.swf;*.webm;*.wmv;*.xmv";
 
     /// <summary>
-    /// All known audio formats, as a filter.
+    /// All known audio formats used by ffmpeg, as a filter.
     /// </summary>
-    public const string AudioFormats = "Advanced Audo Codec (*.aac)|*.aac"                                          + "|" +
-                                       "Audio Interchange File Format (*.aiff, *.aif, *.aifc)|*.aiff;*.aif;*.aifc"  + "|" +
-                                       "Audio Interchange File Format Compressed (*.aifc)|*.aifc"                   + "|" +
-                                       "Free Lossless Audio Codec (*.flac)|*.flac"                                  + "|" +
-                                       "MPEG-4 Audio (*.m4a, *.mp4)|*.m4a;*.mp4"                                    + "|" +
-                                       "MPEG-1 AudioLayer II (*.mp2)|*.mp2"                                         + "|" +
-                                       "MPEG-1 AudioLayer III (*.mp3)|*.mp3"                                        + "|" +
-                                       "OGG Vorbis (*.oga, *.ogg, *.opus)|*.oga;*.ogg;*.opus"                       + "|" +
-                                       "Opus OGG Compressed (*.opus)|*.opus"                                        + "|" +
-                                       "Waveform Audio (*.wav)|*.wav"                                               + "|" +
-                                       AllKnownAudioFormats;
+    public const string AudioFormats = 
+        "Advanced Audo Codec (*.aac)|*.aac"                                             + "|" +
+        "Audible Audio / Audible Enhanced Audio (*.aa, *.aax)|*.aa;*.aax"               + "|" +
+        "Audio Codec 3 (*.ac3)|*.ac3"                                                   + "|" +
+        "Audio Interchange File Format (*.aiff, *.aif, *.aifc)|*.aiff;*.aif;*.aifc"     + "|" +
+        "Audio Interchange File Format Compressed (*.aifc)|*.aifc"                      + "|" +
+        "Bink Audio (*.binka)|*.binka"                                                  + "|" +
+        "Binary Revolution Stream (*.brstm)|*.brstm"                                    + "|" +
+        "FMOD Sample Bank (*.fsb)|*.fsb"                                                + "|" +
+        "Free Lossless Audio Codec (*.flac)|*.flac"                                     + "|" +
+        "Monkey's Audio (*.ape)|*.ape"                                                  + "|" +
+        "MPEG-4 Audio (*.m4a)|*.m4a"                                                    + "|" +
+        "MPEG-1 AudioLayer II (*.mp2)|*.mp2"                                            + "|" +
+        "MPEG-1 AudioLayer III (*.mp3)|*.mp3"                                           + "|" +
+        "OGG Vorbis (*.oga, *.ogg)|*.oga;*.ogg"                                         + "|" +
+        "Opus OGG Compressed (*.opus)|*.opus"                                           + "|" +
+        "True Audio (*.tta)|*.tta"                                                      + "|" +
+        "Waveform Audio (*.wav)|*.wav"                                                  + "|" +
+        "Windows Media Audio (*.wma)|*.wma"                                             + "|" +
+        "Xbox Windows Media Audio (*.xwma)|*.xwma"                                      + "|" +
+        AllKnownAudioFormats + "|" + AllFiles;
 
     /// <summary>
-    /// All the known audio formats, as a single filter.
+    /// All the known audio formats used by ffmpeg, as a single filter.
     /// </summary>
     public const string AllKnownAudioFormats =
-        "All known audio formats|*.aac;*.aiff;*.aif;*.aifc;*.flac;*.m4a;*.mp4;*.mp2;*.mp3;*.oga;*.ogg;*.opus;*.wav";
+        "All known audio formats|*.aa;*.aac;*.aax;*.ac3;*.aiff;*.aif;*.aifc;*.ape;*.binka;*.brstm;*.fsb;*.flac;*.m4a;*.mp2;*.mp3;*.oga;*.ogg;*.opus;*.tta;*.wav;*.wma;*.xwma";
 
     /// <summary>
     /// String array of known yt-dlp supported video formats.
@@ -163,18 +180,6 @@ internal class Formats {
                 }
             } else CustomFormats = null;
         }
-    }
-
-    // i dont remember what i was going to use this for.
-    /// <summary>
-    /// Get a filter-ready string of all known formats, including user-defined formats.
-    /// </summary>
-    /// <returns>A filter-ready string containing all known and user-defined formats.</returns>
-    public static string GetAllKnownFormats() {
-        return $"All known media formats|" +
-            $"{AllKnownVideoFormats.Split('|')[1]};" +
-            $"{AllKnownAudioFormats.Split('|')[1]}" +
-            $"{(Config.Settings.General.extensionsShort.Length > 0 ? ";*." + Config.Settings.General.extensionsShort.Replace("|", "*.") : "")}";
     }
 
     /// <summary>
