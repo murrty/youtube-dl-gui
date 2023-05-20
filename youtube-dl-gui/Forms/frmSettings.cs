@@ -641,6 +641,7 @@ public partial class frmSettings : LocalizedForm {
 
         if (ofd.ShowDialog() == DialogResult.OK) {
             txtSettingsGeneralYoutubeDlPath.Text = ofd.FileName;
+            chkSettingsGeneralUseStaticYoutubeDl.Checked = true;
         }
     }
 
@@ -657,6 +658,7 @@ public partial class frmSettings : LocalizedForm {
 
         if (ofd.ShowDialog() == DialogResult.OK) {
             txtSettingsGeneralFFmpegPath.Text = ofd.FileName;
+            chkSettingsGeneralUseStaticFFmpeg.Checked = true;
         }
     }
 
