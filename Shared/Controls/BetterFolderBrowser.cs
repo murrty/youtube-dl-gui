@@ -104,8 +104,8 @@ namespace BetterFolderBrowserNS {
         [Description("Sets the folder dialog box title.")]
         [DefaultValue("Please select a folder...")]
         public string Title {
-            get { return _dialog.Title; }
-            set { _dialog.Title = value; }
+            get => _dialog.Title;
+            set => _dialog.Title = value;
         }
 
         /// <summary>
@@ -116,8 +116,8 @@ namespace BetterFolderBrowserNS {
         [Description("Sets the root folder where the browsing starts from.")]
         [DefaultValue("")]
         public string RootFolder {
-            get { return _dialog.InitialDirectory; }
-            set { _dialog.InitialDirectory = value; }
+            get => _dialog.InitialDirectory;
+            set => _dialog.InitialDirectory = value;
         }
 
         /// <summary>
@@ -129,8 +129,8 @@ namespace BetterFolderBrowserNS {
                      "box allows multiple folders to be selected.")]
         [DefaultValue(false)]
         public bool Multiselect {
-            get { return _dialog.AllowMultiselect; }
-            set { _dialog.AllowMultiselect = value; }
+            get => _dialog.AllowMultiselect;
+            set => _dialog.AllowMultiselect = value;
         }
 
         #endregion
@@ -141,35 +141,13 @@ namespace BetterFolderBrowserNS {
         /// Gets the folder-path selected by the user.
         /// </summary>
         [Browsable(false)]
-        public string SelectedPath {
-            get { return _dialog.FileName; }
-        }
+        public string SelectedPath => _dialog.FileName;
 
         /// <summary>
         /// Gets the list of folder-paths selected by the user.
         /// </summary>
         [Browsable(false)]
-        public string[] SelectedPaths {
-            get { return _dialog.FileNames; }
-        }
-
-        /// <summary>
-        /// Variant of <see cref="SelectedPath"/> property.
-        /// Gets the folder-path selected by the user.
-        /// </summary>
-        [Browsable(false)]
-        public string SelectedFolder {
-            get { return _dialog.FileName; }
-        }
-
-        /// <summary>
-        /// Variant of <see cref="SelectedPaths"/> property.
-        /// Gets the list of folder-paths selected by the user.
-        /// </summary>
-        [Browsable(false)]
-        public string[] SelectedFolders {
-            get { return _dialog.FileNames; }
-        }
+        public string[] SelectedPaths => _dialog.FileNames;
 
         #endregion
 
@@ -192,9 +170,7 @@ namespace BetterFolderBrowserNS {
         /// <summary>
         /// Runs a common dialog box with a default owner.
         /// </summary>
-        public new DialogResult ShowDialog() {
-            return _dialog.ShowDialog(0) ? DialogResult.OK : DialogResult.Cancel;
-        }
+        public new DialogResult ShowDialog() => _dialog.ShowDialog(0) ? DialogResult.OK : DialogResult.Cancel;
 
         /// <summary>
         /// Runs a common dialog box with the specified owner.
@@ -203,9 +179,7 @@ namespace BetterFolderBrowserNS {
         /// Any object that implements <see cref="IWin32Window"/> that represents
         /// the top-level window that will own the modal dialog box.
         /// </param>
-        public new DialogResult ShowDialog(IWin32Window owner) {
-            return _dialog.ShowDialog(owner.Handle) ? DialogResult.OK : DialogResult.Cancel;
-        }
+        public new DialogResult ShowDialog(IWin32Window owner) => _dialog.ShowDialog(owner.Handle) ? DialogResult.OK : DialogResult.Cancel;
 
         #endregion
 
@@ -219,16 +193,12 @@ namespace BetterFolderBrowserNS {
         /// the top-level window that will own the modal dialog box.
         /// </param>
         /// <returns></returns>
-        protected override bool RunDialog(nint hwndOwner) {
-            return _dialog.ShowDialog(hwndOwner);
-        }
+        protected override bool RunDialog(nint hwndOwner) => _dialog.ShowDialog(hwndOwner);
 
         /// <summary>
         /// Resets all properties to their default values.
         /// </summary>
-        public override void Reset() {
-            SetDefaults();
-        }
+        public override void Reset() => SetDefaults();
 
         #endregion
 
@@ -491,6 +461,7 @@ namespace BetterFolderBrowserNS.Helpers {
         #region Fields
 
         private readonly OpenFileDialog ofd = null;
+        private readonly bool IsWine = Process.GetProcessesByName("winlogon").Length < 1;
 
         #endregion
 
@@ -501,39 +472,35 @@ namespace BetterFolderBrowserNS.Helpers {
         /// </summary>
         /// <remarks></remarks>
         public bool AllowMultiselect {
-            get { return ofd.Multiselect; }
-            set { ofd.Multiselect = value; }
+            get => ofd.Multiselect;
+            set => ofd.Multiselect = value;
         }
 
         /// <summary>
         /// Gets the list of selected folders as filenames.
         /// </summary>
-        public string[] FileNames {
-            get { return ofd.FileNames; }
-        }
+        public string[] FileNames => ofd.FileNames;
 
         /// <summary>
         /// Gets/Sets the initial folder to be selected. A null value selects the current directory.
         /// </summary>
         public string InitialDirectory {
-            get { return ofd.InitialDirectory; }
-            set {
-                ofd.InitialDirectory = (value == null || value.Length == 0) ? Environment.CurrentDirectory : value;
-            }
+            get => ofd.InitialDirectory;
+            set => ofd.InitialDirectory = (value == null || value.Length == 0) ? Environment.CurrentDirectory : value;
         }
 
         /// <summary>
         /// Gets/Sets the title to show in the dialog.
         /// </summary>
         public string Title {
-            get { return ofd.Title; }
-            set { ofd.Title = value ?? "Select a folder"; }
+            get => ofd.Title;
+            set => ofd.Title = value ?? "Select a folder";
         }
 
         /// <summary>
         /// Gets the selected folder.
         /// </summary>
-        public string FileName { get { return ofd.FileName; } }
+        public string FileName => ofd.FileName;
 
         #endregion
 
@@ -543,9 +510,7 @@ namespace BetterFolderBrowserNS.Helpers {
         /// Shows the dialog.
         /// </summary>
         /// <returns>True if the user presses OK else false.</returns>
-        public bool ShowDialog() {
-            return ShowDialog(0);
-        }
+        public bool ShowDialog() => ShowDialog(0);
 
         /// <summary>
         /// Shows the dialog.
@@ -555,7 +520,7 @@ namespace BetterFolderBrowserNS.Helpers {
         public bool ShowDialog(nint hWndOwner) {
             bool flag = false;
 
-            if (Environment.OSVersion.Version.Major >= 6) {
+            if (!IsWine && Environment.OSVersion.Platform == PlatformID.Win32NT && Environment.OSVersion.Version.Major >= 6) {
                 var r = new Reflector("System.Windows.Forms");
 
                 uint num = 0;
