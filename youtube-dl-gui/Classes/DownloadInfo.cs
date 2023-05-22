@@ -56,7 +56,7 @@ public sealed class DownloadInfo {
     /// <summary>
     /// Determines of the video should skip downloading the audio
     /// </summary>
-    public bool SkipAudioForVideos { get; set; } = true;
+    public bool SkipAudioForVideos { get; set; } = false;
     /// <summary>
     /// Determines if the audio should be in VBR (Variable bit rate)
     /// </summary>
