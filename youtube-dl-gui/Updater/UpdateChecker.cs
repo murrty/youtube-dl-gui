@@ -58,12 +58,10 @@ internal sealed class UpdateChecker {
                     } break;
 
                     case DialogResult.Ignore: {
-                        if (Config.Settings.General.DownloadBetaVersions) {
+                        if (Config.Settings.General.DownloadBetaVersions)
                             Config.Settings.Initialization.SkippedBetaVersion = LastCheckedAllRelease.Version;
-                        }
-                        else {
-                            Config.Settings.Initialization.SkippedVersion = LastCheckedLatestRelease.Version;
-                        }
+                        else Config.Settings.Initialization.SkippedVersion = LastCheckedLatestRelease.Version;
+
                         Config.Settings.Save(ConfigType.Initialization);
                     } break;
                 }
@@ -119,7 +117,7 @@ internal sealed class UpdateChecker {
     /// <param name="ForceCheck"></param>
     public static bool CheckForYoutubeDlUpdate(bool ForceCheck = false) {
         if (LatestYoutubeDl is null || LatestYoutubeDl.VersionTag is null || ForceCheck) {
-            int TypeIndex = Verification.YoutubeDlType;
+            int TypeIndex = Verification.GetYoutubeDlType();
             bool ShouldRetry;
 
             do {
@@ -146,8 +144,9 @@ internal sealed class UpdateChecker {
                 }
                 catch (WebException WebEx) {
                     if (Log.ReportRetriableException(WebEx, GithubLinks.ApplicationDownloadUrl.Format(
-                        GithubLinks.Users[TypeIndex],
-                        GithubLinks.Repos[TypeIndex],
+                        GithubLinks.ProviderRepos[TypeIndex].User,
+                        GithubLinks.ProviderRepos[TypeIndex].Repo,
+                        GithubLinks.ProviderRepos[TypeIndex].FriendlyName,
                         LatestYoutubeDl.VersionTag)) != DialogResult.Retry) return false;
 
                     ShouldRetry = true;
@@ -183,15 +182,16 @@ internal sealed class UpdateChecker {
             return false;
 
         Log.Write($"Downloading youtube-dl version {LatestYoutubeDl.VersionTag}.");
-        int TypeIndex = Verification.YoutubeDlType;
+        int TypeIndex = Verification.GetYoutubeDlType();
 
         string DownloadUrl =
             GithubLinks.ApplicationDownloadUrl.Format(
-                GithubLinks.Users[TypeIndex],
-                GithubLinks.Repos[TypeIndex],
+                GithubLinks.ProviderRepos[TypeIndex].User,
+                GithubLinks.ProviderRepos[TypeIndex].Repo,
+                GithubLinks.ProviderRepos[TypeIndex].FriendlyName,
                 LatestYoutubeDl.VersionTag);
 
-        using frmGenericDownloadProgress Downloader = new(DownloadUrl, Verification.YoutubeDlPath, Location);
+        using frmGenericDownloadProgress Downloader = new(DownloadUrl, Verification.YoutubeDlPath ?? Verification.GetExpectedYoutubeDlPath(), Location);
 
         if (Downloader.ShowDialog() != DialogResult.OK)
             return false;
@@ -241,7 +241,7 @@ internal sealed class UpdateChecker {
         bool CanRetry = true;
         do {
             try {
-                string FfmpegPath = Verification.FFmpegPath is null ? Environment.CurrentDirectory : Path.GetDirectoryName(Verification.FFmpegPath);
+                string FfmpegPath = Verification.FFmpegPath is null ? Environment.CurrentDirectory : Path.GetDirectoryName(Verification.FFmpegPath ?? Verification.GetExpectedFfmpegPath());
                 using ZipArchive archive = ZipFile.OpenRead(FfmpegZipPath);
                 ZipArchiveEntry[] Files = archive.Entries
                     .Where(e => e.Name.ToLower() switch {
@@ -365,18 +365,15 @@ internal sealed class UpdateChecker {
     /// <param name="GitID">The youtube-dl fork ID from <seealso cref="GithubLinks.GitLinks.Repos"/>, authored by <seealso cref="GithubLinks.GitLinks.Users"/></param>
     /// <returns>The string of the latest version of the specified fork ID.</returns>
     private static string GetLatestYoutubeDl(int GitID) {
-        if (GitID < 0 || GitID + 1 > GithubLinks.Repos.Length)
+        if (GitID < 0 || GitID + 1 > GithubLinks.ProviderRepos.Length)
             throw new ArgumentOutOfRangeException("GitID", GitID, "The GitID is invalid, youtube-dl cannot be redownloaded.");
 
         Log.Write("Retrieving Github release data for youtube-dl");
 
-        string Url = GithubLinks.GithubLatestJson.Format(GithubLinks.Users[GitID], GithubLinks.Repos[GitID]);
+        string Url = GithubLinks.GithubLatestJson.Format(GithubLinks.ProviderRepos[GitID].User, GithubLinks.ProviderRepos[GitID].Repo);
 
         Log.Write("Retrieving JSON data");
-        string Json = GetJSON(Url);
-
-        if (Json == null)
-            throw new ApiParsingException("The retrieved xml returned null.", Url);
+        string Json = GetJSON(Url) ?? throw new ApiParsingException("The retrieved xml returned null.", Url);
 
         Log.Write("Deserializing");
         GithubData CurrentRelease = Json.JsonDeserialize<GithubData>();
