@@ -328,8 +328,8 @@ internal static class Updater {
     /// <param name="Url">The URL to download the string from.</param>
     /// <returns>A string from the URL.</returns>
     private static async Task<string> GetJSON(string Url) {
-        string Json;
-        bool CanRetry = true;
+        string Json = null;;
+        bool CanRetry;
         int Retries = 0;
         do {
             try {
@@ -360,9 +360,7 @@ internal static class Updater {
             }
         } while (CanRetry);
 
-        Task<string> DownloadTask = Program.HttpClient.DownloadStringTaskAsync(new(Url, UriKind.Absolute), CancellationToken.None);
-        DownloadTask.Wait();
-        return DownloadTask.Result;
+        return Json;
     }
 
     /// <summary>
