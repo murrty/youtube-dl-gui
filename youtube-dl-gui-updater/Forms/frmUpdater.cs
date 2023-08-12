@@ -16,6 +16,7 @@ internal partial class frmUpdater : Form {
     private Process ProgramProcess;
     private readonly ApplicationHandles ApplicationData;
     private readonly bool DownloadLatest = false;
+    //private bool Received = false;
 
 
     private frmUpdater() {
@@ -53,6 +54,7 @@ internal partial class frmUpdater : Form {
                 if (!UpdateData.FileName.ToLowerInvariant().EndsWith(".exe"))
                     UpdateData.FileName += ".exe";
                 CopyData.SendMessage(ApplicationData.MessageHandle, CopyData.WM_UPDATERREADY, 0, 0);
+                //Received = true;
                 m.Result = IntPtr.Zero;
             } break;
             default: {
@@ -76,23 +78,26 @@ internal partial class frmUpdater : Form {
         if (DownloadLatest)
             await GetVersionFromGithub();
 
+        // Wait for the main application to exit.
+        if (ProgramProcess is not null)
+            await WaitForApplication();
+
         // This will be the backup location for the current version.
         string BackupLocation = UpdateData.FileName + ".old";
-        // The URL that will be downloaded using the client
-        string FileUrl = string.Format(ApplicationDownloadUrl, Language.ApplicationName, UpdateData.NewVersion.ToString());
+
         // The temp path of the file.
         string UpdateDestination = $"{Environment.CurrentDirectory}\\update.part";
-        bool MovedOldVersion = false;
-        bool MovedNewVersion = false;
+
+        // The URL that will be downloaded using the client
+        string FileUrl = string.Format(ApplicationDownloadUrl, Language.ApplicationName, UpdateData.NewVersion.ToString());
+
+        // Whethre the old and new version have been moved.
+        bool MovedOldVersion = false, MovedNewVersion = false;
 
         try {
             // Delete the old backup, if it exists, since it's clearly unused.
             if (File.Exists(BackupLocation))
                 File.Delete(BackupLocation);
-
-            // Wait for the main application to exit.
-            if (ProgramProcess is not null)
-                await WaitForApplication();
 
             // Add the events.
             Program.DownloadClient.ProgressChanged += DownloadProgressChanged;

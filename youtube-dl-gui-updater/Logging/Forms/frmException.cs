@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using youtube_dl_gui_updater;
 using murrty.classes;
 using System.Security.Cryptography;
+using murrty.controls;
 
 internal sealed partial class frmException : Form {
     private ExceptionInfo ReportedException { get; }
@@ -264,6 +265,20 @@ internal sealed partial class frmException : Form {
                         Stacktrace:
                         {{WebEx.StackTrace}}
                         """ + (WebEx.InnerException is not null ? "\nInner Exception: " + WebEx.InnerException : "") + "\n");
+                } break;
+                case HttpException HttpEx: {
+                    if (ReportedException.ExtraMessage is not null)
+                        rtbExceptionDetails.AppendText(ReportedException.ExtraMessage + "\n");
+
+                    rtbExceptionDetails.AppendText($$"""
+                        Message: {{HttpEx.Message}}
+                        Status: {{(int)HttpEx.StatusCode}} (HttpStatusCode.{{HttpEx.StatusCode}}) - {{HttpEx.StatusDescription}}
+                        Uri: {{HttpEx.Uri}}
+                        Source: {{HttpEx.Source}}
+                        Target Site: {{HttpEx.TargetSite}}
+                        Stacktrace:
+                        {{HttpEx.StackTrace}}
+                        """ + (HttpEx.InnerException is not null ? "\nInner Exception: " + HttpEx.InnerException : "") + "\n");
                 } break;
 
                 case Exception Ex: {

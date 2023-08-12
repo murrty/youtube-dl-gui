@@ -102,7 +102,11 @@ public sealed class GithubData {
 
     [OnDeserialized]
     void Deserialized(StreamingContext ctx) {
-        Version = Version.Parse(VersionTag);
+        // Skip any that cannot be parsed by the version string.
+        if (!Version.TryParse(VersionTag, out Version vers))
+            return;
+
+        Version = vers;
         IsNewerVersion = Version > Program.CurrentVersion;
         ExecutableHash = FindHash();
         ExecutableSize = 0;
