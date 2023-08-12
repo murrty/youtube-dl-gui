@@ -28,15 +28,16 @@ public partial class frmAbout : LocalizedForm {
 
     private async void llbCheckForUpdates_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
         try {
-            bool? result;
-            if ((result = await Updater.CheckForUpdate(chkForceCheckUpdate.Checked)) is null) 
-                return;
-
-            if (result == false) {
-                Log.MessageBox(
-                    Program.CurrentVersion.IsBeta ?
+            switch (await Updater.CheckForUpdate(chkForceCheckUpdate.Checked)) {
+                case null: return;
+                case false: {
+                    Log.MessageBox(Program.CurrentVersion.IsBeta ?
                         Language.dlgUpdateNoBetaUpdateAvailable.Format(Program.CurrentVersion, Updater.LastChecked.Version) :
                         Language.dlgUpdateNoUpdateAvailable.Format(Program.CurrentVersion, Updater.LastChecked.Version));
+                } break;
+                case true: {
+                    Updater.ShowUpdateForm(false);
+                } break;
             }
 
             Program.UpdateChecked = true;
