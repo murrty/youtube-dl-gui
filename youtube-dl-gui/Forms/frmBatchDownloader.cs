@@ -1,7 +1,7 @@
 ﻿namespace youtube_dl_gui;
 using System.Threading;
 using System.Windows.Forms;
-public partial class frmBatchDownloader : LocalizedForm {
+public partial class frmBatchDownloader : LocalizedProcessingForm {
     public bool Debugging = false;
 
     private readonly List<int> DownloadTypes = new();       // List of types to download
@@ -76,29 +76,29 @@ public partial class frmBatchDownloader : LocalizedForm {
     }
 
     private void frmBatchDownloader_Load(object sender, EventArgs e) {
-        cbBatchDownloadType.SelectedIndex = Config.Settings.Batch.SelectedType;
-        if (Config.Settings.Batch.SelectedType == 0) {
-            chkBatchDownloaderSoundVBR.Checked = Config.Settings.Batch.DownloadVideoSound;
-            cbBatchQuality.SelectedIndex = Config.Settings.Batch.SelectedVideoQuality;
-            cbBatchFormat.SelectedIndex = Config.Settings.Batch.SelectedVideoFormat;
+        cbBatchDownloadType.SelectedIndex = Batch.SelectedType;
+        if (Batch.SelectedType == 0) {
+            chkBatchDownloaderSoundVBR.Checked = Batch.DownloadVideoSound;
+            cbBatchQuality.SelectedIndex = Batch.SelectedVideoQuality;
+            cbBatchFormat.SelectedIndex = Batch.SelectedVideoFormat;
         }
-        else if (Config.Settings.Batch.SelectedType == 1) {
-            if (Config.Settings.Batch.DownloadAudioVBR) {
+        else if (Batch.SelectedType == 1) {
+            if (Batch.DownloadAudioVBR) {
                 chkBatchDownloaderSoundVBR.Checked = true;
-                cbBatchQuality.SelectedIndex = Config.Settings.Batch.SelectedAudioQualityVBR;
+                cbBatchQuality.SelectedIndex = Batch.SelectedAudioQualityVBR;
             }
             else {
                 chkBatchDownloaderSoundVBR.Checked = false;
-                cbBatchQuality.SelectedIndex = Config.Settings.Batch.SelectedAudioQuality;
+                cbBatchQuality.SelectedIndex = Batch.SelectedAudioQuality;
             }
-            cbBatchFormat.SelectedIndex = Config.Settings.Batch.SelectedAudioFormat;
+            cbBatchFormat.SelectedIndex = Batch.SelectedAudioFormat;
         }
 
-        if (Config.Settings.Saved.BatchDownloaderLocation.Valid) {
+        if (Saved.BatchDownloaderLocation.Valid) {
             this.StartPosition = FormStartPosition.Manual;
-            this.Location = Config.Settings.Saved.BatchDownloaderLocation;
+            this.Location = Saved.BatchDownloaderLocation;
         }
-        chkBatchDownloadClipboardScanVerifyLinks.Checked = Config.Settings.Batch.ClipboardScannerVerifyLinks;
+        chkBatchDownloadClipboardScanVerifyLinks.Checked = Batch.ClipboardScannerVerifyLinks;
     }
 
     private void frmBatchDownloader_FormClosing(object sender, FormClosingEventArgs e) {
@@ -106,8 +106,8 @@ public partial class frmBatchDownloader : LocalizedForm {
             this.Opacity = 0;
             this.WindowState = FormWindowState.Normal;
         }
-        Config.Settings.Batch.ClipboardScannerVerifyLinks = chkBatchDownloadClipboardScanVerifyLinks.Checked;
-        Config.Settings.Saved.BatchDownloaderLocation = this.Location;
+        Batch.ClipboardScannerVerifyLinks = chkBatchDownloadClipboardScanVerifyLinks.Checked;
+        Saved.BatchDownloaderLocation = this.Location;
         this.Dispose();
     }
 
@@ -132,39 +132,24 @@ public partial class frmBatchDownloader : LocalizedForm {
     }
 
     private void sbBatchDownloadLoadArgs_Click(object sender, EventArgs e) {
-        if (!string.IsNullOrEmpty(Config.Settings.Saved.DownloadCustomArguments)) {
-            cbArguments.Items.AddRange(Config.Settings.Saved.DownloadCustomArguments.Split('|'));
-            cbArguments.SelectedIndex = Config.Settings.Saved.CustomArgumentsIndex;
-        }
-
-        if (System.IO.File.Exists(Environment.CurrentDirectory + "\\args.txt")) {
-            cbArguments.Items.AddRange(System.IO.File.ReadAllLines(Environment.CurrentDirectory + "\\args.txt"));
-            if (Config.Settings.Saved.CustomArgumentsIndex > -1 && Config.Settings.Saved.CustomArgumentsIndex <= cbArguments.Items.Count) {
-                cbArguments.SelectedIndex = Config.Settings.Saved.CustomArgumentsIndex;
-            }
-        }
-        using OpenFileDialog ofd = new();
-        ofd.Title = "Select a file to read as arguments";
-        ofd.Filter = "All files (*.*)|*.*";
-        if (ofd.ShowDialog() == DialogResult.OK) {
-            if (System.IO.File.Exists(ofd.FileName)) {
-                cbArguments.Text = System.IO.File.ReadAllText(ofd.FileName).Trim(' ').Replace('\n', ' ').Trim(' ');
-            }
+        if (CustomArguments.YtdlArguments.Count > 0) {
+            CustomArguments.YtdlArguments.For((Arg) => cbArguments.Items.Add(Arg));
+            cbArguments.SelectedIndex = Saved.CustomArgumentsIndex;
         }
     }
 
     private void mBatchDownloaderLoadArgsFromSettings_Click(object sender, EventArgs e) {
-        if (Config.Settings.Saved.DownloadCustomArguments.Length > 0) {
-            cbArguments.Items.AddRange(Config.Settings.Saved.DownloadCustomArguments.Split('|'));
-            cbArguments.SelectedIndex = Config.Settings.Saved.CustomArgumentsIndex;
+        if (CustomArguments.YtdlArguments.Count > 0) {
+            CustomArguments.YtdlArguments.For((Arg) => cbArguments.Items.Add(Arg));
+            cbArguments.SelectedIndex = Saved.CustomArgumentsIndex;
         }
     }
 
     private void mBatchDownloaderLoadArgsFromArgsTxt_Click(object sender, EventArgs e) {
         if (System.IO.File.Exists(Environment.CurrentDirectory + "\\args.txt")) {
             cbArguments.Items.AddRange(System.IO.File.ReadAllLines(Environment.CurrentDirectory + "\\args.txt"));
-            if (Config.Settings.Saved.CustomArgumentsIndex > -1 && Config.Settings.Saved.CustomArgumentsIndex <= cbArguments.Items.Count) {
-                cbArguments.SelectedIndex = Config.Settings.Saved.CustomArgumentsIndex;
+            if (Saved.CustomArgumentsIndex > -1 && Saved.CustomArgumentsIndex <= cbArguments.Items.Count) {
+                cbArguments.SelectedIndex = Saved.CustomArgumentsIndex;
             }
         }
     }
@@ -222,11 +207,11 @@ public partial class frmBatchDownloader : LocalizedForm {
             cbBatchQuality.Items.Clear();
             if (chkBatchDownloaderSoundVBR.Checked) {
                 cbBatchQuality.Items.AddRange(new string[] { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" });
-                cbBatchQuality.SelectedIndex = Config.Settings.Batch.SelectedAudioQualityVBR;
+                cbBatchQuality.SelectedIndex = Batch.SelectedAudioQualityVBR;
             }
             else {
                 cbBatchQuality.Items.AddRange(Formats.AudioQualityNamesArray);
-                cbBatchQuality.SelectedIndex = Config.Settings.Batch.SelectedAudioQualityVBR;
+                cbBatchQuality.SelectedIndex = Batch.SelectedAudioQualityVBR;
             }
         }
     }
@@ -245,27 +230,27 @@ public partial class frmBatchDownloader : LocalizedForm {
                 case 0: {
                     cbBatchQuality.Items.AddRange(Formats.VideoQualityArray);
                     cbBatchFormat.Items.AddRange(Formats.VideoFormatsNamesArray);
-                    cbBatchQuality.SelectedIndex = Config.Settings.Batch.SelectedVideoQuality;
-                    cbBatchFormat.SelectedIndex = Config.Settings.Batch.SelectedVideoFormat;
+                    cbBatchQuality.SelectedIndex = Batch.SelectedVideoQuality;
+                    cbBatchFormat.SelectedIndex = Batch.SelectedVideoFormat;
                     chkBatchDownloaderSoundVBR.Text = Language.GenericSound;
-                    chkBatchDownloaderSoundVBR.Checked = Config.Settings.Batch.DownloadVideoSound;
+                    chkBatchDownloaderSoundVBR.Checked = Batch.DownloadVideoSound;
 
                     SetControls(false);
                 } break;
 
                 case 1: {
-                    if (Config.Settings.Batch.DownloadAudioVBR) {
+                    if (Batch.DownloadAudioVBR) {
                         cbBatchQuality.Items.AddRange(new string[] { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" });
-                        cbBatchQuality.SelectedIndex = Config.Settings.Batch.SelectedAudioQualityVBR;
+                        cbBatchQuality.SelectedIndex = Batch.SelectedAudioQualityVBR;
                     }
                     else {
                         cbBatchQuality.Items.AddRange(Formats.AudioQualityNamesArray);
-                        cbBatchQuality.SelectedIndex = Config.Settings.Batch.SelectedAudioQuality;
+                        cbBatchQuality.SelectedIndex = Batch.SelectedAudioQuality;
                     }
                     cbBatchFormat.Items.AddRange(Formats.AudioFormatsArray);
-                    cbBatchFormat.SelectedIndex = Config.Settings.Batch.SelectedAudioFormat;
+                    cbBatchFormat.SelectedIndex = Batch.SelectedAudioFormat;
                     chkBatchDownloaderSoundVBR.Text = "VBR";
-                    chkBatchDownloaderSoundVBR.Checked = Config.Settings.Batch.DownloadAudioVBR;
+                    chkBatchDownloaderSoundVBR.Checked = Batch.DownloadAudioVBR;
 
                     SetControls(false);
                 } break;
@@ -291,7 +276,6 @@ public partial class frmBatchDownloader : LocalizedForm {
             });
         }
         else if (DownloadUrls.Count > 0) {
-            Program.RunningActions.Add(this);
             Log.Write($"Starting batch download with {DownloadUrls.Count} links to download.");
             InProgress = true;
             AbortDownload = false;
@@ -379,7 +363,6 @@ public partial class frmBatchDownloader : LocalizedForm {
                 System.Media.SystemSounds.Exclamation.Play();
                 InProgress = false;
                 Log.Write($"Batch download finished running.");
-                Program.RunningActions.Remove(this);
             }) {
                 Name = $"Batch download {BatchTime}"
             };
@@ -502,13 +485,13 @@ public partial class frmBatchDownloader : LocalizedForm {
 
     private void chkBatchDownloadClipboardScanner_CheckedChanged(object sender, EventArgs e) {
         if (chkBatchDownloadClipboardScanner.Checked) {
-            if (!Config.Settings.Batch.ClipboardScannerNoticeViewed) {
+            if (!Batch.ClipboardScannerNoticeViewed) {
                 if (Log.MessageBox(Language.dlgBatchDownloadClipboardScannerNotice, MessageBoxButtons.OKCancel) == DialogResult.Cancel) {
                     chkBatchDownloadClipboardScanner.Checked = false;
                     return;
                 }
                 else {
-                    Config.Settings.Batch.ClipboardScannerNoticeViewed = true;
+                    Batch.ClipboardScannerNoticeViewed = true;
                 }
             }
             if (NativeMethods.AddClipboardFormatListener(this.Handle)) {

@@ -55,17 +55,17 @@ internal sealed class ExtendedMediaDetails : IDisposable {
             StringBuilder ArgumentBuffer = new($"\"{URL}\" -o \"");
 
             #region Outuput path
-            ArgumentBuffer.Append(Config.Settings.Downloads.downloadPath.StartsWith("./") || Config.Settings.Downloads.downloadPath.StartsWith("\\.") ?
-                $"{Program.ProgramPath}\\{Config.Settings.Downloads.downloadPath[2..]}" : Config.Settings.Downloads.downloadPath);
+            ArgumentBuffer.Append(Downloads.downloadPath.StartsWith("./") || Downloads.downloadPath.StartsWith("\\.") ?
+                $"{Program.ProgramPath}\\{Downloads.downloadPath[2..]}" : Downloads.downloadPath);
 
-            if (BatchDownloadItem && Config.Settings.Downloads.SeparateBatchDownloads) {
+            if (BatchDownloadItem && Downloads.SeparateBatchDownloads) {
                 ArgumentBuffer.Append("\\# Batch Downloads #");
 
-                if (Config.Settings.Downloads.AddDateToBatchDownloadFolders)
+                if (Downloads.AddDateToBatchDownloadFolders)
                     ArgumentBuffer.Append($"\\{BatchDownloadTime}");
             }
 
-            if (Config.Settings.Downloads.separateIntoWebsiteURL)
+            if (Downloads.separateIntoWebsiteURL)
                 ArgumentBuffer.Append(URL.ToLowerInvariant().StartsWith("ytarchive:") ? "\\archived.youtube.com" : $"\\{DownloadHelper.GetUrlBase(URL)}");
 
             string Schema = FileNameSchema.IsNullEmptyWhitespace() ? "%(title)s-%(id)s.%(ext)s" : FileNameSchema;
@@ -75,22 +75,22 @@ internal sealed class ExtendedMediaDetails : IDisposable {
 
             switch (SelectedType) {
                 case DownloadType.Video: {
-                    if (Config.Settings.Downloads.separateDownloads)
+                    if (Downloads.separateDownloads)
                         ArgumentBuffer.Append("\\Video");
 
                     if (VideoSeparateAudio)
                         Schema = Schema[..^8] + "_%(format_id)s.%(ext)s";
                 } break;
                 case DownloadType.Audio: {
-                    if (Config.Settings.Downloads.separateDownloads)
+                    if (Downloads.separateDownloads)
                         ArgumentBuffer.Append("\\Audio");
                 } break;
                 case DownloadType.Custom: {
-                    if (Config.Settings.Downloads.separateDownloads)
+                    if (Downloads.separateDownloads)
                         ArgumentBuffer.Append("\\Custom");
                 } break;
                 case DownloadType.Unknown: {
-                    if (Config.Settings.Downloads.separateDownloads)
+                    if (Downloads.separateDownloads)
                         ArgumentBuffer.Append("\\Unknown");
                 } break;
                 default: throw InvalidType;
@@ -100,25 +100,25 @@ internal sealed class ExtendedMediaDetails : IDisposable {
             #endregion
 
             #region Formats
-            YoutubeDlFormat VideoFormat = null;
-            YoutubeDlFormat AudioFormat = null;
-            YoutubeDlFormat UnknownFormat;
+            YoutubeDlSubdata.Format VideoFormat = null;
+            YoutubeDlSubdata.Format AudioFormat = null;
+            YoutubeDlSubdata.Format UnknownFormat;
 
             switch (SelectedType) {
                 case DownloadType.Custom: {
                     ArgumentBuffer.Append(CustomArguments.IsNullEmptyWhitespace() ? $" {CustomArguments.Replace("\r\n", "\n").Split('\n').Join("\n")}" : string.Empty);
                 } break;
                 case DownloadType.Video: {
-                    VideoFormat = SelectedVideoItem.Tag as YoutubeDlFormat;
+                    VideoFormat = SelectedVideoItem.Tag as YoutubeDlSubdata.Format;
                     ArgumentBuffer.Append($" -f {VideoFormat.Identifier}");
                     if (VideoDownloadAudio && SelectedAudioItem is not null) {
-                        AudioFormat = SelectedAudioItem.Tag as YoutubeDlFormat;
+                        AudioFormat = SelectedAudioItem.Tag as YoutubeDlSubdata.Format;
                         ArgumentBuffer.Append($"{(VideoSeparateAudio ? "/best," : "+") + AudioFormat.Identifier}/best");
                     }
                     else ArgumentBuffer.Append("/best");
 
-                    if (SelectedUnknownItem is not null && SelectedUnknownItem.Tag is YoutubeDlFormat) {
-                        UnknownFormat = SelectedUnknownItem.Tag as YoutubeDlFormat;
+                    if (SelectedUnknownItem is not null && SelectedUnknownItem.Tag is YoutubeDlSubdata.Format) {
+                        UnknownFormat = SelectedUnknownItem.Tag as YoutubeDlSubdata.Format;
                         ArgumentBuffer.Append($",{UnknownFormat.Identifier}");
                     }
 
@@ -128,12 +128,12 @@ internal sealed class ExtendedMediaDetails : IDisposable {
                         ArgumentBuffer.Append($" --recode-video {Formats.ExtendedVideoFormats[VideoRemuxIndex - 1]}");
                 } break;
                 case DownloadType.Audio: {
-                    AudioFormat = SelectedAudioItem.Tag as YoutubeDlFormat;
+                    AudioFormat = SelectedAudioItem.Tag as YoutubeDlSubdata.Format;
 
                     ArgumentBuffer.Append($" -f {AudioFormat.Identifier}/best");
 
-                    if (SelectedUnknownItem is not null && SelectedUnknownItem.Tag is YoutubeDlFormat) {
-                        UnknownFormat = SelectedUnknownItem.Tag as YoutubeDlFormat;
+                    if (SelectedUnknownItem is not null && SelectedUnknownItem.Tag is YoutubeDlSubdata.Format) {
+                        UnknownFormat = SelectedUnknownItem.Tag as YoutubeDlSubdata.Format;
                         ArgumentBuffer.Append($",{UnknownFormat.Identifier}");
                     }
 
@@ -141,7 +141,7 @@ internal sealed class ExtendedMediaDetails : IDisposable {
                         ArgumentBuffer.Append($" --recode-video {Formats.ExtendedAudioFormats[AudioEncoderIndex - 1]}");
                 } break;
                 case DownloadType.Unknown: {
-                    UnknownFormat = SelectedUnknownItem.Tag as YoutubeDlFormat;
+                    UnknownFormat = SelectedUnknownItem.Tag as YoutubeDlSubdata.Format;
                     ArgumentBuffer.Append($" -f {UnknownFormat.Identifier}/best");
                 } break;
                 default: throw InvalidType;
@@ -150,7 +150,7 @@ internal sealed class ExtendedMediaDetails : IDisposable {
 
             #region Other settings (if not Custom)
             if (SelectedType != DownloadType.Custom) {
-                if (Config.Settings.Downloads.PreferFFmpeg || (DownloadHelper.IsReddit(URL) && Config.Settings.Downloads.fixReddit)) {
+                if (Downloads.PreferFFmpeg || (DownloadHelper.IsReddit(URL) && Downloads.fixReddit)) {
                     if (!Verification.FfmpegAvailable)
                         Verification.RefreshFFmpegLocation();
 
@@ -158,25 +158,25 @@ internal sealed class ExtendedMediaDetails : IDisposable {
                         ArgumentBuffer.Append($" --ffmpeg-location \"{Verification.FFmpegPath}\" --hls-prefer-ffmpeg");
                 }
 
-                if (Config.Settings.Downloads.SaveSubtitles) {
+                if (Downloads.SaveSubtitles) {
                     ArgumentBuffer.Append(" --all-subs");
-                    if (Config.Settings.Downloads.SubtitleFormat.IsNotNullEmptyWhitespace())
-                        ArgumentBuffer.Append($" --sub-format {Config.Settings.Downloads.SubtitleFormat}");
+                    if (Downloads.SubtitleFormat.IsNotNullEmptyWhitespace())
+                        ArgumentBuffer.Append($" --sub-format {Downloads.SubtitleFormat}");
 
-                    if (Config.Settings.Downloads.EmbedSubtitles && SelectedType == DownloadType.Video)
+                    if (Downloads.EmbedSubtitles && SelectedType == DownloadType.Video)
                         ArgumentBuffer.Append(" --embed-subs");
                 }
 
-                if (Config.Settings.Downloads.SaveVideoInfo)
+                if (Downloads.SaveVideoInfo)
                     ArgumentBuffer.Append(" --write-info-json");
 
-                if (Config.Settings.Downloads.SaveDescription)
+                if (Downloads.SaveDescription)
                     ArgumentBuffer.Append(" --write-description");
 
-                if (Config.Settings.Downloads.SaveAnnotations)
+                if (Downloads.SaveAnnotations)
                     ArgumentBuffer.Append(" --write-annotations");
 
-                if (Config.Settings.Downloads.SaveThumbnail) {
+                if (Downloads.SaveThumbnail) {
                     ArgumentBuffer.Append(" --write-thumbnail");
                     switch (SelectedType) {
                         case DownloadType.Video when VideoFormat.VideoThumbnailEmbedding || VideoEncoderIndex == 4:
@@ -186,33 +186,33 @@ internal sealed class ExtendedMediaDetails : IDisposable {
                     }
                 }
 
-                if (Config.Settings.Downloads.WriteMetadata)
+                if (Downloads.WriteMetadata)
                     ArgumentBuffer.Append(" --add-metadata");
 
-                if (Config.Settings.Downloads.KeepOriginalFiles)
+                if (Downloads.KeepOriginalFiles)
                     ArgumentBuffer.Append(" -k");
 
-                if (Config.Settings.Downloads.LimitDownloads && Config.Settings.Downloads.DownloadLimit > 0)
-                    ArgumentBuffer.Append($" --limit-rate {Config.Settings.Downloads.DownloadLimit}{Config.Settings.Downloads.DownloadLimitType switch {
+                if (Downloads.LimitDownloads && Downloads.DownloadLimit > 0)
+                    ArgumentBuffer.Append($" --limit-rate {Downloads.DownloadLimit}{Downloads.DownloadLimitType switch {
                         1 => "M",
                         2 => "G",
                         _ => "K"
                     }}");
 
-                if (Config.Settings.Downloads.ForceIPv4)
+                if (Downloads.ForceIPv4)
                     ArgumentBuffer.Append(" --force-ipv4");
-                else if (Config.Settings.Downloads.ForceIPv6)
+                else if (Downloads.ForceIPv6)
                     ArgumentBuffer.Append(" --force-ipv6");
 
-                if (Config.Settings.Downloads.UseProxy
-                && Config.Settings.Downloads.ProxyType > -1
-                && !Config.Settings.Downloads.ProxyIP.IsNullEmptyWhitespace()
-                && !Config.Settings.Downloads.ProxyPort.IsNullEmptyWhitespace()) {
-                    ArgumentBuffer.Append($" --proxy {DownloadHelper.ProxyProtocols[Config.Settings.Downloads.ProxyType]}{Config.Settings.Downloads.ProxyIP}:{Config.Settings.Downloads.ProxyPort}/");
+                if (Downloads.UseProxy
+                && Downloads.ProxyType > -1
+                && !Downloads.ProxyIP.IsNullEmptyWhitespace()
+                && !Downloads.ProxyPort.IsNullEmptyWhitespace()) {
+                    ArgumentBuffer.Append($" --proxy {DownloadHelper.ProxyProtocols[Downloads.ProxyType]}{Downloads.ProxyIP}:{Downloads.ProxyPort}/");
                 }
 
-                if (Config.Settings.Downloads.RetryAttempts != 10 && Config.Settings.Downloads.RetryAttempts > 0)
-                    ArgumentBuffer.Append($" --retries {Config.Settings.Downloads.RetryAttempts}");
+                if (Downloads.RetryAttempts != 10 && Downloads.RetryAttempts > 0)
+                    ArgumentBuffer.Append($" --retries {Downloads.RetryAttempts}");
 
                 if (!SkipUnavailableFragments)
                     ArgumentBuffer.Append(" --abort-on-unavailable-fragment");
@@ -314,7 +314,7 @@ internal sealed class ExtendedMediaDetails : IDisposable {
     /// <summary>
     /// Gets the list of Video formats for the current media.
     /// </summary>
-    public List<YoutubeDlFormat> VideoFormats { get; private set; } = new();
+    public List<YoutubeDlSubdata.Format> VideoFormats { get; private set; } = new();
     /// <summary>
     /// Gets the list of Video list view items for the current media.
     /// </summary>
@@ -328,7 +328,7 @@ internal sealed class ExtendedMediaDetails : IDisposable {
     /// <summary>
     /// Gets the list of Audio formats for the current media.
     /// </summary>
-    public List<YoutubeDlFormat> AudioFormats { get; private set; } = new();
+    public List<YoutubeDlSubdata.Format> AudioFormats { get; private set; } = new();
     /// <summary>
     /// Gets the list of Audio list view items for the current media.
     /// </summary>
@@ -341,7 +341,7 @@ internal sealed class ExtendedMediaDetails : IDisposable {
     /// <summary>
     /// Gets the list of Unkown formats for the current media.
     /// </summary>
-    public List<YoutubeDlFormat> UnknownFormats { get; private set; } = new();
+    public List<YoutubeDlSubdata.Format> UnknownFormats { get; private set; } = new();
     /// <summary>
     /// Gets the list of Unknown list view items for the current media.
     /// </summary>
@@ -716,7 +716,7 @@ internal sealed class ExtendedMediaDetails : IDisposable {
         MediaName = MediaData.Title ?? "[media name unavailable]";
         MediaDescription = MediaData.Description ?? string.Empty;
         ProgressMediaName =
-            $"{(Config.Settings.Initialization.ScreenshotMode ? "The videos' title will appear here" : MediaName)} - {Language.ApplicationName}";
+            $"{(Initialization.ScreenshotMode ? "The videos' title will appear here" : MediaName)} - {Language.ApplicationName}";
 
         SelectedType = VideoFormats.Count > 0 ? DownloadType.Video :
             AudioFormats.Count > 0 ? DownloadType.Audio :

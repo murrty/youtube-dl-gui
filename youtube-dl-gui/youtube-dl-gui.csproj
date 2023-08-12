@@ -30,7 +30,7 @@
     <DebugType>none</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;RELEASE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
@@ -63,44 +63,59 @@
     <Compile Include="Classes\BatchHelper.cs" />
     <Compile Include="Classes\ConvertHelper.cs" />
     <Compile Include="Classes\ConvertInfo.cs" />
+    <Compile Include="Classes\DataClasses\ExtendedConversionDetails.cs" />
     <Compile Include="Classes\DataClasses\ExtendedMediaDetails.cs" />
     <Compile Include="Classes\DataClasses\FfprobeData.cs" />
     <Compile Include="Classes\DataClasses\YoutubeDlData.cs" />
     <Compile Include="Classes\DownloadHelper.cs" />
     <Compile Include="Classes\DownloadInfo.cs" />
-    <Compile Include="Config\CustomArguments.cs" />
+    <Compile Include="Classes\QueueList.cs" />
+    <Compile Include="Config\Interfacing\CustomArguments.cs" />
+    <Compile Include="Controls\ExplorerTreeView.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controls\LocalizedForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\LocalizedProcessingForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Controls\TimePicker.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Enums\AudioSampleRates.cs" />
     <Compile Include="Enums\MediaStatusIcon.cs" />
+    <Compile Include="Enums\VideoPresets.cs" />
+    <Compile Include="Enums\VideoProfiles.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Classes\Formats.cs" />
+    <Compile Include="Forms\frmExtendedConverter.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmExtendedConverter.Designer.cs">
+      <DependentUpon>frmExtendedConverter.cs</DependentUpon>
+    </Compile>
     <Compile Include="Language.cs" />
     <Compile Include="Classes\NativeMethods.cs" />
     <Compile Include="Classes\SystemRegistry.cs" />
     <Compile Include="Classes\Verification.cs" />
-    <Compile Include="Config\Config.cs" />
-    <Compile Include="Config\ConfigType.cs" />
-    <Compile Include="Config\Config_Batch.cs" />
-    <Compile Include="Config\Config_Converts.cs" />
-    <Compile Include="Config\Config_Downloads.cs" />
-    <Compile Include="Config\Config_Errors.cs" />
-    <Compile Include="Config\Config_General.cs" />
-    <Compile Include="Config\Config_Initialization.cs" />
-    <Compile Include="Config\Config_Saved.cs" />
-    <Compile Include="Config\IniProvider.cs" />
-    <Compile Include="Config\Point.cs" />
-    <Compile Include="Config\Size.cs" />
-    <Compile Include="Controls\ExitQueueHandler.cs">
+    <Compile Include="Config\Batch.cs" />
+    <Compile Include="Config\Converts.cs" />
+    <Compile Include="Config\Downloads.cs" />
+    <Compile Include="Config\Errors.cs" />
+    <Compile Include="Config\General.cs" />
+    <Compile Include="Config\Initialization.cs" />
+    <Compile Include="Config\Saved.cs" />
+    <Compile Include="Config\Interfacing\IniProvider.cs" />
+    <Compile Include="Config\Interfacing\Point.cs" />
+    <Compile Include="Config\Interfacing\Size.cs" />
+    <Compile Include="Controls\MessageHandler.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Controls\ExtendedListView.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controls\MessageHandler.cs" />
+    <Compile Include="Controls\UpdateMessageHandler.cs" />
     <Compile Include="Controls\UacButton.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -219,13 +234,9 @@
     <Compile Include="Forms\frmSubtitles.Designer.cs">
       <DependentUpon>frmSubtitles.cs</DependentUpon>
     </Compile>
-    <Compile Include="Logging\DwmCompositionInfo.cs" />
-    <Compile Include="Logging\DwmCompositionTextInfo.cs" />
-    <Compile Include="Logging\ExceptionInfo.cs" />
-    <Compile Include="Logging\Exceptions\ApiParsingException.cs" />
     <Compile Include="Logging\Exceptions\DownloadException.cs" />
+    <Compile Include="Logging\Exceptions\ExtractOnlyException.cs" />
     <Compile Include="Logging\Exceptions\InvalidDownloadProviderException.cs" />
-    <Compile Include="Logging\ExceptionType.cs" />
     <Compile Include="Logging\Forms\frmException.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -239,72 +250,12 @@
       <DependentUpon>frmLog.cs</DependentUpon>
     </Compile>
     <Compile Include="Logging\Log.cs" />
-    <Compile Include="Logging\Natives\DwmComposition.cs" />
-    <Compile Include="Logging\Natives\DwmNatives.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Runtime\System\Runtime\CompilerServices\CallerArgumentExpressionAttribute.cs" />
-    <Compile Include="Runtime\System\Runtime\CompilerServices\CompilerFeatureRequiredAttribute.cs" />
-    <Compile Include="Runtime\System\Runtime\CompilerServices\RequiredMemberAttribute.cs" />
-    <Compile Include="Runtime\System\Runtime\CompilerServices\RuntimeHelpers.cs" />
-    <Compile Include="Runtime\System\Index.cs" />
-    <Compile Include="Runtime\System\Range.cs" />
-    <Compile Include="..\Shared\Controls\Enums\AllowedCharacters.cs">
-      <Link>Controls\Shared\Enums\AllowedCharacters.cs</Link>
-    </Compile>
-    <Compile Include="..\Shared\Controls\Enums\ButtonAlignment.cs">
-      <Link>Controls\Shared\Enums\ButtonAlignment.cs</Link>
-    </Compile>
-    <Compile Include="..\Shared\Controls\Enums\ProgressState.cs">
-      <Link>Controls\Shared\Enums\ProgressState.cs</Link>
-    </Compile>
-    <Compile Include="..\Shared\Controls\Enums\TaskbarProgressState.cs">
-      <Link>Controls\Shared\Enums\TaskbarProgressState.cs</Link>
-    </Compile>
-    <Compile Include="..\Shared\Controls\Interfaces\TaskbarInterface.cs">
-      <Link>Controls\Shared\Interfaces\TaskbarInterface.cs</Link>
-    </Compile>
-    <Compile Include="..\Shared\Controls\Natives\Consts.cs">
-      <Link>Controls\Shared\Natives\Consts.cs</Link>
-    </Compile>
-    <Compile Include="..\Shared\Controls\Natives\NativeMethods.cs">
-      <Link>Controls\Shared\Natives\NativeMethods.cs</Link>
-    </Compile>
-    <Compile Include="..\Shared\Controls\BetterFolderBrowser.cs">
-      <SubType>Component</SubType>
-      <Link>Controls\Shared\BetterFolderBrowser.cs</Link>
-    </Compile>
-    <Compile Include="..\Shared\Controls\ExtendedLinkLabel.cs">
-      <SubType>Component</SubType>
-      <Link>Controls\Shared\ExtendedLinkLabel.cs</Link>
-    </Compile>
-    <Compile Include="..\Shared\Controls\ExtendedProgressBar.cs">
-      <SubType>Component</SubType>
-      <Link>Controls\Shared\ExtendedProgressBar.cs</Link>
-    </Compile>
-    <Compile Include="..\Shared\Controls\ExtendedRichTextBox.cs">
-      <SubType>Component</SubType>
-      <Link>Controls\Shared\ExtendedRichTextBox.cs</Link>
-    </Compile>
-    <Compile Include="..\Shared\Controls\ExtendedTextBox.cs">
-      <SubType>Component</SubType>
-      <Link>Controls\Shared\ExtendedTextBox.cs</Link>
-    </Compile>
-    <Compile Include="..\Shared\Controls\SplitButton.cs">
-      <SubType>Component</SubType>
-      <Link>Controls\Shared\SplitButton.cs</Link>
-    </Compile>
-    <Compile Include="..\Shared\CopyData.cs">
-      <Link>CopyData.cs</Link>
-    </Compile>
-    <Compile Include="Runtime\System\Runtime\CompilerServices\IsExternalInit.cs" />
-    <Compile Include="Updater\API Data\GithubAsset.cs" />
-    <Compile Include="Updater\API Data\GithubData.cs" />
-    <Compile Include="Updater\API Data\GithubRepoContent.cs" />
     <Compile Include="Updater\Form\frmUpdateAvailable.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -312,9 +263,11 @@
       <DependentUpon>frmUpdateAvailable.cs</DependentUpon>
     </Compile>
     <Compile Include="Updater\GithubLinks.cs" />
+    <Compile Include="Updater\Github\GithubAsset.cs" />
+    <Compile Include="Updater\Github\GithubData.cs" />
+    <Compile Include="Updater\Github\GithubRepoContent.cs" />
     <Compile Include="Updater\GitID.cs" />
-    <Compile Include="Updater\Version.cs" />
-    <Compile Include="Updater\UpdateChecker.cs" />
+    <Compile Include="Updater\Updater.cs" />
     <Compile Include="Arguments.cs" />
     <Compile Include="GlobalNamespaces.cs" />
     <Compile Include="GlobalSuppressions.cs" />
@@ -342,6 +295,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmDownloadLanguage.resx">
       <DependentUpon>frmDownloadLanguage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmExtendedConverter.resx">
+      <DependentUpon>frmExtendedConverter.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmExtendedDownloader.resx">
       <DependentUpon>frmExtendedDownloader.cs</DependentUpon>
@@ -403,6 +359,7 @@
     <Content Include="Resources\AboutImage.png" />
   </ItemGroup>
   <ItemGroup />
+  <Import Project="..\Controls\Controls.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>if $(ConfigurationName) == Release "BuildDateWriter.exe" "$(ProjectDir)\Resources\BuildDate.txt"</PreBuildEvent>

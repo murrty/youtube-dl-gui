@@ -1,9 +1,9 @@
 ﻿namespace youtube_dl_gui;
 using System.Diagnostics;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 public partial class frmAbout : LocalizedForm {
-    Thread UpdateCheckThread;
     public frmAbout() {
         InitializeComponent();
         LoadLanguage();
@@ -16,7 +16,7 @@ public partial class frmAbout : LocalizedForm {
             llbCheckForUpdates.Location.Y
         );
 
-        if (Config.Settings.Initialization.ScreenshotMode)
+        if (Initialization.ScreenshotMode)
             this.FormClosing += (s, e) => this.Dispose();
     }
 
@@ -26,36 +26,28 @@ public partial class frmAbout : LocalizedForm {
         this.Text = $"{Language.frmAbout} youtube-dl-gui";
     }
 
-    private void llbCheckForUpdates_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
-        if (UpdateCheckThread is null || !UpdateCheckThread.IsAlive) {
-            UpdateCheckThread = new Thread(() => {
-                try {
-                    bool? result;
-                    if ((result = UpdateChecker.CheckForUpdate(chkForceCheckUpdate.Checked, false, this)) is not null) {
-                        if (result == false) {
-                            this.BeginInvoke(() => {
-                                Log.MessageBox(
-                                    Program.CurrentVersion.IsBeta ?
-                                        Language.dlgUpdateNoBetaUpdateAvailable.Format(Program.CurrentVersion, UpdateChecker.LastChecked.Version) :
-                                        Language.dlgUpdateNoUpdateAvailable.Format(Program.CurrentVersion, UpdateChecker.LastChecked.Version));
-                            });
-                        }
-                        Program.UpdateChecked = true;
-                        if (!Program.IsUpdating && this.IsHandleCreated)
-                            llbCheckForUpdates.Invoke(() => llbCheckForUpdates.LinkVisited = true);
-                    }
-                }
-                catch (ThreadAbortException) {
-                    // do nothing
-                }
-                catch (Exception ex) {
-                    Log.ReportException(ex);
-                }
-            }) {
-                Name = "Checks for updates",
-                IsBackground = true
-            };
-            UpdateCheckThread.Start();
+    private async void llbCheckForUpdates_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
+        try {
+            bool? result;
+            if ((result = await Updater.CheckForUpdate(chkForceCheckUpdate.Checked)) is null) 
+                return;
+
+            if (result == false) {
+                Log.MessageBox(
+                    Program.CurrentVersion.IsBeta ?
+                        Language.dlgUpdateNoBetaUpdateAvailable.Format(Program.CurrentVersion, Updater.LastChecked.Version) :
+                        Language.dlgUpdateNoUpdateAvailable.Format(Program.CurrentVersion, Updater.LastChecked.Version));
+            }
+
+            Program.UpdateChecked = true;
+            if (!Program.IsUpdating && this.IsHandleCreated)
+                llbCheckForUpdates.Invoke(() => llbCheckForUpdates.LinkVisited = true);
+        }
+        catch (Exception ex) {
+            if (ex is ThreadAbortException or OperationCanceledException or TaskCanceledException)
+                return;
+
+            Log.ReportException(ex);
         }
     }
 

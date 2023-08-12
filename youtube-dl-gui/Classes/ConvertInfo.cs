@@ -25,58 +25,58 @@ public sealed class ConvertInfo {
     /// <summary>
     /// Hides the compile information from ffmpeg.
     /// </summary>
-    public bool HideFFmpegCompile { get; set; } = Config.Settings.Converts.hideFFmpegCompile;
+    public bool HideFFmpegCompile { get; set; } = Converts.hideFFmpegCompile;
     
     /// <summary>
     /// Determines if the video conversions should use bitrate.
     /// </summary>
-    public bool VideoUseBitrate { get; set; } = Config.Settings.Converts.videoUseBitrate;
+    public bool VideoUseBitrate { get; set; } = Converts.videoUseBitrate;
     /// <summary>
     /// The conversion bitrate of the video.
     /// </summary>
-    public int VideoBitrate { get; set; } = Config.Settings.Converts.videoBitrate;
+    public int VideoBitrate { get; set; } = Converts.videoBitrate;
     /// <summary>
     /// Determines if video conversions should use a preset.
     /// </summary>
-    public bool VideoUsePreset { get; set; } = Config.Settings.Converts.videoUsePreset;
+    public bool VideoUsePreset { get; set; } = Converts.videoUsePreset;
     /// <summary>
     /// The conversion preset of the video.
     /// </summary>
-    public int VideoPreset { get; set; } = Config.Settings.Converts.videoPreset;
+    public int VideoPreset { get; set; } = Converts.videoPreset;
     /// <summary>
     /// Determines if video conversions should use a profile.
     /// </summary>
-    public bool VideoUseProfile { get; set; } = Config.Settings.Converts.videoUseProfile;
+    public bool VideoUseProfile { get; set; } = Converts.videoUseProfile;
     /// <summary>
     /// The conversion profile of the video.
     /// </summary>
-    public int VideoProfile { get; set; } = Config.Settings.Converts.videoProfile;
+    public int VideoProfile { get; set; } = Converts.videoProfile;
     /// <summary>
     /// Determines if video conversions should use CRF.
     /// </summary>
-    public bool VideoUseCRF { get; set; } = Config.Settings.Converts.videoUseCRF;
+    public bool VideoUseCRF { get; set; } = Converts.videoUseCRF;
     /// <summary>
     /// The conversion CRF of the video.
     /// </summary>
-    public int VideoCRF { get; set; } = Config.Settings.Converts.videoCRF;
+    public int VideoCRF { get; set; } = Converts.videoCRF;
     /// <summary>
     /// Determines if video conversions should have the faststart flag.
     /// </summary>
-    public bool VideoFastStart { get; set; } = Config.Settings.Converts.videoFastStart;
+    public bool VideoFastStart { get; set; } = Converts.videoFastStart;
 
     /// <summary>
     /// Determines if audio conversions should use bitrate.
     /// </summary>
-    public bool AudioUseBitrate { get; set; } = Config.Settings.Converts.audioUseBitrate;
+    public bool AudioUseBitrate { get; set; } = Converts.audioUseBitrate;
     /// <summary>
     /// The conversion bitrate of the audio.
     /// </summary>
-    public int AudioBitrate { get; set; } = Config.Settings.Converts.audioBitrate;
+    public int AudioBitrate { get; set; } = Converts.audioBitrate;
 
     /// <summary>
     /// The custom arguments to be used.
     /// </summary>
-    public string CustomArguments { get; set; } = Config.Settings.Saved.convertCustom;
+    public string CustomArguments { get; set; } = Saved.convertCustom;
     /// <summary>
     /// Whether to skip any argument generation including input/output.
     /// </summary>

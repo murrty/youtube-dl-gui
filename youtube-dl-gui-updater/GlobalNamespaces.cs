@@ -6,3 +6,4 @@ global using System.Threading;
 
 global using youtube_dl_gui_shared;
 global using Log = murrty.logging.Log;
+global using Version = murrty.updater.Version;

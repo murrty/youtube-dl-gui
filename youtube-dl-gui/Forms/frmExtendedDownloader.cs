@@ -4,7 +4,7 @@ using System.Drawing;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
-public partial class frmExtendedDownloader : LocalizedForm {
+public partial class frmExtendedDownloader : LocalizedProcessingForm {
     private bool Debug { get; } = false;
     public bool BatchDownload { get; } = false;
     private bool SwitchingQueuedItem { get; set; } = false;
@@ -20,9 +20,6 @@ public partial class frmExtendedDownloader : LocalizedForm {
 
     public frmExtendedDownloader() : this (true) { }
     private frmExtendedDownloader(bool BatchDownload) {
-        if (!BatchDownload)
-            Program.RunningActions.Add(this);
-
         this.BatchDownload = BatchDownload;
 
         InitializeComponent();
@@ -46,14 +43,14 @@ public partial class frmExtendedDownloader : LocalizedForm {
         cbVbrQualities.Items.AddRange(Formats.VbrQualities);
         cbVbrQualities.SelectedIndex = 0;
 
-        if (!string.IsNullOrEmpty(Config.Settings.Saved.FileNameSchemaHistory))
-            cbSchema.Items.AddRange(Config.Settings.Saved.FileNameSchemaHistory.Split('|'));
+        if (!string.IsNullOrEmpty(Saved.FileNameSchemaHistory))
+            cbSchema.Items.AddRange(Saved.FileNameSchemaHistory.Split('|'));
 
-        int SchemaIndex = cbSchema.Items.IndexOf(Config.Settings.Downloads.fileNameSchema);
+        int SchemaIndex = cbSchema.Items.IndexOf(Downloads.fileNameSchema);
         if (SchemaIndex > -1)
             cbSchema.SelectedIndex = SchemaIndex;
         else
-            cbSchema.Text = Config.Settings.Downloads.fileNameSchema;
+            cbSchema.Text = Downloads.fileNameSchema;
 
         lvVideoFormats.SmallImageList = Program.ExtendedDownloaderSelectedImages;
         lvAudioFormats.SmallImageList = Program.ExtendedDownloaderSelectedImages;
@@ -270,20 +267,23 @@ public partial class frmExtendedDownloader : LocalizedForm {
         }
     }
     private void frmExtendedDownloader_Load(object sender, EventArgs e) {
-        if (Config.Settings.Saved.ExtendedDownloaderLocation.Valid) {
+        if (Saved.ExtendedDownloaderLocation.Valid) {
             this.StartPosition = FormStartPosition.Manual;
-            this.Location = Config.Settings.Saved.ExtendedDownloaderLocation;
+            this.Location = Saved.ExtendedDownloaderLocation;
         }
-        if (Config.Settings.Saved.ExtendedDownloaderSize.Valid)
-            this.Size = Config.Settings.Saved.ExtendedDownloaderSize;
-        if (!Config.Settings.Saved.ExtendedDownloaderVideoColumns.IsNullEmptyWhitespace())
-            lvVideoFormats.SetColumnWidths(Config.Settings.Saved.ExtendedDownloaderVideoColumns);
-        if (!Config.Settings.Saved.ExtendedDownloaderAudioColumns.IsNullEmptyWhitespace())
-            lvAudioFormats.SetColumnWidths(Config.Settings.Saved.ExtendedDownloaderAudioColumns);
-        if (!Config.Settings.Saved.ExtendedDownloaderUnknownColumns.IsNullEmptyWhitespace())
-            lvUnknownFormats.SetColumnWidths(Config.Settings.Saved.ExtendedDownloaderUnknownColumns);
+        if (Saved.ExtendedDownloaderSize.Valid)
+            this.Size = Saved.ExtendedDownloaderSize;
+        if (!Saved.ExtendedDownloaderVideoColumns.IsNullEmptyWhitespace())
+            lvVideoFormats.SetColumnWidths(Saved.ExtendedDownloaderVideoColumns);
+        if (!Saved.ExtendedDownloaderAudioColumns.IsNullEmptyWhitespace())
+            lvAudioFormats.SetColumnWidths(Saved.ExtendedDownloaderAudioColumns);
+        if (!Saved.ExtendedDownloaderUnknownColumns.IsNullEmptyWhitespace())
+            lvUnknownFormats.SetColumnWidths(Saved.ExtendedDownloaderUnknownColumns);
 
-        chkDownloaderCloseAfterDownload.Checked = Config.Settings.Downloads.CloseExtendedDownloaderAfterFinish;
+        if (CustomArguments.YtdlArguments.Count > 0)
+            CustomArguments.YtdlArguments.For((Arg) => cbCustomArguments.Items.Add(Arg));
+
+        chkDownloaderCloseAfterDownload.Checked = Downloads.CloseExtendedDownloaderAfterFinish;
         llbLink.MaximumSize = new(this.Width - 30, llbLink.Height);
     }
     private void frmExtendedDownloader_Shown(object sender, EventArgs e) {
@@ -308,16 +308,12 @@ public partial class frmExtendedDownloader : LocalizedForm {
                 if (ProcessingThread is not null && ProcessingThread.IsAlive)
                     ProcessingThread.Abort();
 
-                Config.Settings.Downloads.CloseExtendedDownloaderAfterFinish = chkDownloaderCloseAfterDownload.Checked;
-                Config.Settings.Saved.ExtendedDownloaderLocation = this.Location;
-                Config.Settings.Saved.ExtendedDownloaderSize = this.Size;
-                Config.Settings.Saved.ExtendedDownloaderVideoColumns = lvVideoFormats.GetColumnWidths();
-                Config.Settings.Saved.ExtendedDownloaderAudioColumns = lvAudioFormats.GetColumnWidths();
-                Config.Settings.Saved.ExtendedDownloaderUnknownColumns = lvUnknownFormats.GetColumnWidths();
-                Config.Settings.Downloads.Save();
-                Config.Settings.Saved.Save();
-
-                Program.RunningActions.Remove(this);
+                Downloads.CloseExtendedDownloaderAfterFinish = chkDownloaderCloseAfterDownload.Checked;
+                Saved.ExtendedDownloaderLocation = this.Location;
+                Saved.ExtendedDownloaderSize = this.Size;
+                Saved.ExtendedDownloaderVideoColumns = lvVideoFormats.GetColumnWidths();
+                Saved.ExtendedDownloaderAudioColumns = lvAudioFormats.GetColumnWidths();
+                Saved.ExtendedDownloaderUnknownColumns = lvUnknownFormats.GetColumnWidths();
 
                 if (BatchDownload) {
                     if (lvQueuedMedia.Items.Count > 0) {
@@ -375,13 +371,7 @@ public partial class frmExtendedDownloader : LocalizedForm {
             Priority = ThreadPriority.BelowNormal
         };
 
-        rtbVerbose.AppendLine(Config.Settings.Downloads.YtdlType switch {
-            0 => "Using yt-dlp as the",
-            1 => "Using youtube-dl as the",
-            3 => "Using youtube-dl-patch as the",
-            2 => "Using yt-dlp-patch as the",
-            _ => "Unknown"
-        } + " download provider.");
+        rtbVerbose.AppendLine(Verification.GetYoutubeDlProvider(false) + " as the download provider.");
 
         ProcessingThread.Start();
     }
@@ -445,8 +435,7 @@ public partial class frmExtendedDownloader : LocalizedForm {
             return;
         }
 
-        if (Config.Settings.Downloads.LimitDownloads && (Config.Settings.Downloads.YtdlType == 0 || Config.Settings.Downloads.YtdlType == 3)
-        && Environment.OSVersion.Version.Major <= 6 && Environment.OSVersion.Version.Minor <= 1) {
+        if (Verification.YtDlpProgressProblem) {
             rtbVerbose.AppendLine($"""
             WARNING: Progress MAY not be made using yt-dlp on Windows 7 (and below) with limiting downloads enabled.
             youtube-dl-gui is NOT the cause of this issue, it lies on yt-dlp to implement a fix for.
@@ -467,6 +456,7 @@ public partial class frmExtendedDownloader : LocalizedForm {
             ProcessingThread = new(() => {
                 Status = DownloadStatus.Downloading;
                 string Msg = null;
+                int MsgIndex = -1;
 
                 DownloadProcess = new() {
                     StartInfo = new(Verification.YoutubeDlPath) {
@@ -480,29 +470,52 @@ public partial class frmExtendedDownloader : LocalizedForm {
                 };
                 DownloadProcess.OutputDataReceived += (s, e) => {
                     if (e.Data is not null && e.Data.Length > 0) {
-                        switch (e.Data[..8].ToLower()) {
+                        switch (e.Data[..8].ToLowerInvariant()) {
                             case "[downloa": case "[ffmpeg]":
                             case "[embedsu": case "[metadat": {
                                 Msg = e.Data;
                             } break;
 
                             default: {
-                                Msg = e.Data.ToLower();
-                                if (Msg.StartsWith("[merger]")) {
-                                    Status = DownloadStatus.MergingFiles;
-                                    pbStatus.Invoke(() => {
-                                        pbStatus.Style = ProgressBarStyle.Marquee;
-                                        pbStatus.Value = pbStatus.Maximum;
-                                        pbStatus.Text = Language.pbDownloadProgressMergingFormats;
-                                    });
+                                Msg = e.Data.ToLowerInvariant();
+                                MsgIndex = Msg.IndexOf(']');
+                                if (MsgIndex > -1) {
+                                    switch (Msg[..(MsgIndex + 1)]) {
+                                        case "[merger]": {
+                                            Status = DownloadStatus.MergingFiles;
+                                            pbStatus.Invoke(() => {
+                                                pbStatus.Style = ProgressBarStyle.Marquee;
+                                                pbStatus.Value = pbStatus.Maximum;
+                                                pbStatus.Text = Language.pbDownloadProgressMergingFormats;
+                                            });
+                                        } break;
+                                        case "[videoconvertor]": {
+                                            Status = DownloadStatus.Converting;
+                                            pbStatus.Invoke(() => {
+                                                pbStatus.Style = ProgressBarStyle.Marquee;
+                                                pbStatus.Value = pbStatus.Maximum;
+                                                pbStatus.Text = Language.pbDownloadProgressConverting;
+                                            });
+                                        } break;
+                                        case "[extractaudio]": {
+                                            Status = DownloadStatus.ExtractingAudio;
+                                            pbStatus.Invoke(() => {
+                                                pbStatus.Style = ProgressBarStyle.Marquee;
+                                                pbStatus.Value = pbStatus.Maximum;
+                                                pbStatus.Text = Language.pbDownloadProgressExtractingAudio;
+                                            });
+                                        } break;
+                                    }
                                 }
-                                else if (Msg.StartsWith("[videoconvertor]")) { // Converter?
-                                    Status = DownloadStatus.Converting;
-                                    pbStatus.Invoke(() => {
-                                        pbStatus.Style = ProgressBarStyle.Marquee;
-                                        pbStatus.Value = pbStatus.Maximum;
-                                        pbStatus.Text = Language.pbDownloadProgressConverting;
-                                    });
+                                else {
+                                    if (pbStatus.Style != ProgressBarStyle.Blocks)
+                                        pbStatus.Invoke(() => pbStatus.Style = ProgressBarStyle.Blocks);
+
+                                    if (pbStatus.Text != ".  .  .")
+                                        pbStatus.Invoke(() => pbStatus.Text = ".  .  .");
+
+                                    if (pbStatus.Value != 0)
+                                        pbStatus.Invoke(() => pbStatus.Value = 0);
                                 }
                                 Msg = null;
                                 rtbVerbose.Invoke(() => rtbVerbose.AppendLine(e.Data));
@@ -534,7 +547,7 @@ public partial class frmExtendedDownloader : LocalizedForm {
                     if (Msg is not null) {
                         string Line = Msg.ReplaceWhitespace();
                         string[] LineParts = Line.Split(' ');
-                        switch (Line[..5].ToLower()) {
+                        switch (Line[..5].ToLowerInvariant()) {
                             case "[down": {
                                 Status = DownloadStatus.Downloading;
                                 switch (LineParts[1][0]) {
@@ -542,22 +555,22 @@ public partial class frmExtendedDownloader : LocalizedForm {
                                     case '4': case '5': case '6':
                                     case '7': case '8': case '9':
                                     case '0': {
-                                        if (LineParts[1].Contains('%')) {
-                                            if (pbStatus.Style != ProgressBarStyle.Blocks)
-                                                pbStatus.Invoke(() => pbStatus.Style = ProgressBarStyle.Blocks);
+                                        if (!LineParts[1].Contains('%') || !this.IsHandleCreated)
+                                            break;
 
-                                            if (pbStatus.IsHandleCreated)
-                                                this.Invoke(() => {
-                                                    pbStatus.Text = DownloadHelper.GetTransferData(
-                                                        Eta: ref ETA,
-                                                        LineParts: LineParts,
-                                                        Percentage: ref Percentage);
+                                        if (pbStatus.Style != ProgressBarStyle.Blocks)
+                                            pbStatus.Invoke(() => pbStatus.Style = ProgressBarStyle.Blocks);
 
-                                                    pbStatus.Value = (int)Math.Floor(Percentage);
+                                        this.Invoke(() => {
+                                            pbStatus.Text = DownloadHelper.GetTransferData(
+                                                Eta: ref ETA,
+                                                LineParts: LineParts,
+                                                Percentage: ref Percentage);
 
-                                                    this.Text = $"ETA: {ETA} - {MediaDetails.ProgressMediaName}";
-                                                });
-                                        }
+                                            pbStatus.Value = (int)Math.Floor(Percentage);
+
+                                            this.Text = $"ETA: {ETA} - {MediaDetails.ProgressMediaName}";
+                                        });
                                     } break;
                                 }
                             } break;
@@ -656,8 +669,7 @@ public partial class frmExtendedDownloader : LocalizedForm {
                 throw new NullReferenceException("Youtube-dl path is invalid and cannot be used.");
         }
 
-        if (Config.Settings.Downloads.LimitDownloads && (Config.Settings.Downloads.YtdlType == 0 || Config.Settings.Downloads.YtdlType == 3)
-        && Environment.OSVersion.Version.Major <= 6 && Environment.OSVersion.Version.Minor <= 1) {
+        if (Verification.YtDlpProgressProblem) {
             rtbVerbose.AppendLine($"""
                 WARNING: Progress MAY not be made using yt-dlp on Windows 7 (and below) with limiting downloads enabled.
                 youtube-dl-gui is NOT the cause of this issue, it lies on yt-dlp to implement a fix for.
@@ -666,7 +678,6 @@ public partial class frmExtendedDownloader : LocalizedForm {
 
         SaveMediaOptions();
 
-        Program.RunningActions.Add(this);
         mDownload.Enabled = mDownloadWithAuthentication.Enabled = false;
         sbtnDownload.Text = Language.GenericCancel;
         pbStatus.ShowInTaskbar = true;
@@ -831,7 +842,6 @@ public partial class frmExtendedDownloader : LocalizedForm {
             }
 
             this.Invoke(() => {
-                Program.RunningActions.Remove(this);
                 switch (Status) {
                     case DownloadStatus.Aborted: {
                         rtbVerbose.AppendLine("Aborted download");
@@ -884,8 +894,8 @@ public partial class frmExtendedDownloader : LocalizedForm {
         MediaDetails.VideoRemuxIndex = cbVideoRemux.SelectedIndex;
         MediaDetails.VideoEncoderIndex = cbVideoEncoders.SelectedIndex;
         MediaDetails.AudioEncoderIndex = cbAudioEncoders.SelectedIndex;
-        MediaDetails.StartTime = tpStartTime.TimeValue;
-        MediaDetails.EndTime = tpEndTime.TimeValue;
+        MediaDetails.StartTime = tpStartTime.Value;
+        MediaDetails.EndTime = tpEndTime.Value;
     }
     private void LoadMediaOptions() {
         if (MediaDetails is null)
@@ -905,8 +915,8 @@ public partial class frmExtendedDownloader : LocalizedForm {
         cbVideoRemux.SelectedIndex = MediaDetails.VideoRemuxIndex;
         cbVideoEncoders.SelectedIndex = MediaDetails.VideoEncoderIndex;
         cbAudioEncoders.SelectedIndex = MediaDetails.AudioEncoderIndex;
-        tpStartTime.TimeValue = MediaDetails.StartTime;
-        tpEndTime.TimeValue = MediaDetails.EndTime;
+        tpStartTime.Value = MediaDetails.StartTime;
+        tpEndTime.Value = MediaDetails.EndTime;
     }
     private void SelectedMediaChanged(ExtendedMediaDetails MediaDetails) {
         if (this.MediaDetails is not null)
@@ -1026,7 +1036,7 @@ public partial class frmExtendedDownloader : LocalizedForm {
                 lbTimestamp.Text = MediaDetails.MediaData.Duration;
 
                 if (!MediaDetails.MediaData.ThumbnailLink.IsNullEmptyWhitespace()) {
-                    if (Config.Settings.Downloads.ExtendedDownloaderAutoDownloadThumbnail)
+                    if (Downloads.ExtendedDownloaderAutoDownloadThumbnail)
                         ProcessThumbnail();
                     else
                         btnExtendedDownloaderDownloadThumbnail.Enabled = btnExtendedDownloaderDownloadThumbnail.Visible = true;
@@ -1198,6 +1208,14 @@ public partial class frmExtendedDownloader : LocalizedForm {
                 e.Handled = e.SuppressKeyPress = true;
                 System.Media.SystemSounds.Exclamation.Play();
             } break;
+        }
+    }
+    private void cbCustomArguments_SelectedIndexChanged(object sender, EventArgs e) {
+        if (cbCustomArguments.SelectedIndex > -1) {
+            txtCustomArguments.Text = txtCustomArguments.Text.Length > 0 ?
+                txtCustomArguments.Text.Trim(' ') + " " + cbCustomArguments.SelectedItem.ToString() :
+                cbCustomArguments.SelectedItem.ToString();
+            cbCustomArguments.SelectedIndex = -1;
         }
     }
 
@@ -1527,13 +1545,13 @@ public partial class frmExtendedDownloader : LocalizedForm {
         mEnqueueClipboardScanner.Checked ^=  true;
 
         if (mEnqueueClipboardScanner.Checked) {
-            if (!Config.Settings.Batch.ClipboardScannerNoticeViewed) {
+            if (!Batch.ClipboardScannerNoticeViewed) {
                 if (Log.MessageBox(Language.dlgBatchDownloadClipboardScannerNotice, MessageBoxButtons.OKCancel) == DialogResult.Cancel) {
                     mEnqueueClipboardScanner.Checked = false;
                     return;
                 }
                 else {
-                    Config.Settings.Batch.ClipboardScannerNoticeViewed = true;
+                    Batch.ClipboardScannerNoticeViewed = true;
                 }
             }
             if (NativeMethods.AddClipboardFormatListener(this.Handle)) {

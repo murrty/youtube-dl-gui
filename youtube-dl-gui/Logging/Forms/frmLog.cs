@@ -23,13 +23,13 @@ internal partial class frmLog : Form, ILocalizedForm {
         Language.RegisterForm(this);
     }
     private void frmLog_Load(object sender, EventArgs e) {
-        if (Config.Settings.Saved.LogLocation.Valid) {
+        if (Saved.LogLocation.Valid) {
             this.StartPosition = FormStartPosition.Manual;
-            this.Location = Config.Settings.Saved.LogLocation;
+            this.Location = Saved.LogLocation;
         }
 
-        if (Config.Settings.Saved.LogSize.Valid)
-            this.Size = Config.Settings.Saved.LogSize;
+        if (Saved.LogSize.Valid)
+            this.Size = Saved.LogSize;
     }
     private void frmLog_FormClosing(object sender, FormClosingEventArgs e) {
         e.Cancel = true;

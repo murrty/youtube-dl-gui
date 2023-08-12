@@ -7,20 +7,20 @@ public partial class frmFileNameSchemaHistory : LocalizedForm {
         LoadLanguage();
 
         this.Load += (s, e) => {
-            if (Config.Settings.Saved.FileNameSchemaHistoryLocation.Valid) {
+            if (Saved.FileNameSchemaHistoryLocation.Valid) {
                 this.StartPosition = FormStartPosition.Manual;
-                this.Location = Config.Settings.Saved.FileNameSchemaHistoryLocation;
+                this.Location = Saved.FileNameSchemaHistoryLocation;
             }
 
-            if (Config.Settings.Saved.FileNameSchemaHistorySize.Valid)
-                this.Size = Config.Settings.Saved.FileNameSchemaHistorySize;
+            if (Saved.FileNameSchemaHistorySize.Valid)
+                this.Size = Saved.FileNameSchemaHistorySize;
 
-            if (!Config.Settings.Saved.FileNameSchemaHistory.IsNullEmptyWhitespace())
-                listHistory.Items.AddRange(Config.Settings.Saved.FileNameSchemaHistory.Split('|'));
+            if (!Saved.FileNameSchemaHistory.IsNullEmptyWhitespace())
+                listHistory.Items.AddRange(Saved.FileNameSchemaHistory.Split('|'));
         };
         this.FormClosed += (s, e) => {
-            Config.Settings.Saved.FileNameSchemaHistoryLocation = this.Location;
-            Config.Settings.Saved.FileNameSchemaHistorySize = this.Size;
+            Saved.FileNameSchemaHistoryLocation = this.Location;
+            Saved.FileNameSchemaHistorySize = this.Size;
         };
     }
     public override void LoadLanguage() {
@@ -53,11 +53,11 @@ public partial class frmFileNameSchemaHistory : LocalizedForm {
         this.Close();
     }
     private void btnSave_Click(object sender, EventArgs e) {
-        if (!listHistory.Items.Contains(Config.Settings.Downloads.fileNameSchema))
-            listHistory.Items.Add(Config.Settings.Downloads.fileNameSchema);
+        if (!listHistory.Items.Contains(Downloads.fileNameSchema))
+            listHistory.Items.Add(Downloads.fileNameSchema);
 
         NewSchema = listHistory.Items.Cast<string>().Join("|");
-        this.DialogResult = Config.Settings.Saved.FileNameSchemaHistory != NewSchema ? DialogResult.OK : DialogResult.Cancel;
+        this.DialogResult = Saved.FileNameSchemaHistory != NewSchema ? DialogResult.OK : DialogResult.Cancel;
         this.Close();
     }
 }

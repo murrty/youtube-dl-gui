@@ -11,7 +11,8 @@ public enum DownloadStatus : int {
 
     MergingFiles = 8,
     Converting = 9,
-    FfmpegPostProcessing = 10,
-    EmbeddingSubtitles = 11,
-    EmbeddingMetadata = 12,
+    ExtractingAudio = 10,
+    FfmpegPostProcessing = 11,
+    EmbeddingSubtitles = 12,
+    EmbeddingMetadata = 13,
 }

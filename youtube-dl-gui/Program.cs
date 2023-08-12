@@ -7,12 +7,15 @@ using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Security.Principal;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
+using murrty.controls;
+
 internal static class Program {
     /// <summary>
     /// Gets the curent version of the program.
     /// </summary>
-    public static Version CurrentVersion { get; } = new(3, 3, 0, 1);
+    public static Version CurrentVersion { get; } = new(3, 0, 0, 1);
     /// <summary>
     /// Gets whether the program is running in debug mode.
     /// </summary>
@@ -54,7 +57,7 @@ internal static class Program {
     /// <summary>
     /// The list of running downloads or conversions.
     /// </summary>
-    internal static HashSet<Form> RunningActions { get; } = new();
+    internal static QueueList<Form> RunningActions { get; } = new();
     /// <summary>
     /// The image list used for batch actions.
     /// </summary>
@@ -71,131 +74,25 @@ internal static class Program {
     /// <summary>
     /// The main form used for the application.
     /// </summary>
-    private static frmMain MainForm { get; set; }
+    public static frmMain MainForm { get; private set; }
     /// <summary>
-    /// The message handler for the updater.
+    /// The argument handler for sent arguments.
     /// </summary>
-    private static MessageHandler Messages { get; set; }
+    private static MessageHandler QueueHandler { get; set; }
+    /// <summary>
+    /// Represents the HttpClient used through the applications' life.
+    /// </summary>
+    internal static ManagedHttpClient HttpClient { get; private set; }
+    internal static bool UpdaterEnabled { get; private set; } = true;
 
     [STAThread]
     private static int Main(string[] args) {
 #if DEBUG
         DebugMode = true;
-#endif
-
-        if (DebugMode || (Instance = new(true, ProgramGUID)).WaitOne(TimeSpan.Zero, true)) {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-
-            IsAdmin = new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator);
-            Log.InitializeLogging();
-
-            if (Environment.CurrentDirectory != ProgramPath) {
-                Log.Write("The current directory is wrong.");
-                Environment.CurrentDirectory = ProgramPath;
-            }
-
-            BatchStatusImages = new() {
-                ColorDepth = ColorDepth.Depth32Bit,
-                TransparentColor = System.Drawing.Color.Transparent
-            };
-            BatchStatusImages.Images.Add(Properties.Resources.waiting);  // 0
-            BatchStatusImages.Images.Add(Properties.Resources.download); // 1
-            BatchStatusImages.Images.Add(Properties.Resources.finished); // 2
-            BatchStatusImages.Images.Add(Properties.Resources.error);    // 3
-
-            ExtendedDownloaderSelectedImages = new() {
-                ColorDepth = ColorDepth.Depth32Bit,
-                TransparentColor = System.Drawing.Color.Transparent
-            };
-            ExtendedDownloaderSelectedImages.Images.Add(Properties.Resources.best);             // 0
-            ExtendedDownloaderSelectedImages.Images.Add(Properties.Resources.selected);         // 1
-            ExtendedDownloaderSelectedImages.Images.Add(Properties.Resources.best_disabled);    // 2
-            ExtendedDownloaderSelectedImages.Images.Add(Properties.Resources.selected_disabled);// 3
-
-            (Config.Settings = new Config()).Load(ConfigType.All);
-            Verification.Refresh();
-            if (Config.Settings.Initialization.firstTime) {
-                Log.Write("Initiating first time setup.");
-                Language.LoadInternalEnglish();
-
-                // Select a language first
-                using frmLanguage LangPicker = new();
-                if (LangPicker.ShowDialog() != DialogResult.OK)
-                    return 1;
-                Config.Settings.Initialization.Save();
-
-                if (Log.MessageBox(Language.dlgFirstTimeInitialMessage, MessageBoxButtons.YesNo) != DialogResult.Yes)
-                    return 1;
-
-                Config.Settings.Initialization.firstTime = false;
-                Config.Settings.Downloads.downloadPath =
-                    Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Downloads\\youtube-dl";
-
-                if (Log.MessageBox(Language.dlgFirstTimeDownloadFolder, MessageBoxButtons.YesNo) == DialogResult.Yes) {
-                    if (Environment.OSVersion.Platform == PlatformID.Win32NT) {
-                        using BetterFolderBrowserNS.BetterFolderBrowser fbd = new() {
-                            RootFolder = Config.Settings.Downloads.downloadPath,
-                            Title = Language.dlgFindDownloadFolder
-                        };
-
-                        if (fbd.ShowDialog() == DialogResult.OK)
-                            Config.Settings.Downloads.downloadPath = fbd.SelectedPath;
-                    }
-                    else {
-                        using FolderBrowserDialog fbd = new() {
-                            SelectedPath = Config.Settings.Downloads.downloadPath,
-                            Description = Language.dlgFindDownloadFolder
-                        };
-
-                        if (fbd.ShowDialog() == DialogResult.OK)
-                            Config.Settings.Downloads.downloadPath = fbd.SelectedPath;
-                    }
-                }
-
-                if (!Verification.YoutubeDlAvailable
-                && Log.MessageBox(Language.dlgFirstTimeDownloadYoutubeDl, MessageBoxButtons.YesNo) == DialogResult.Yes
-                && UpdateChecker.CheckForYoutubeDlUpdate())
-                    UpdateChecker.UpdateYoutubeDl(null);
-
-                if (!Verification.FfmpegAvailable &&
-                Log.MessageBox(Language.dlgFirstTimeDownloadFfmpeg, MessageBoxButtons.YesNo) == DialogResult.Yes)
-                    UpdateChecker.UpdateFfmpeg(null);
-
-                Config.Settings.Initialization.Save();
-                Config.Settings.Downloads.Save();
-
-                Log.Write("First time setup has concluded.");
-            }
-            else {
-                Language.LoadLanguage($"{Environment.CurrentDirectory}\\lang\\{Config.Settings.Initialization.LanguageFile}.ini");
-            }
-
-            //throw new Exception("test");
-            murrty.controls.natives.Consts.UpdateHand();
-            Formats.LoadCustomFormats();
-            Messages = new();
-            SetTls();
-
-            Arguments.ParseArguments(args);
-            if (CheckArgs()) {
-                AwaitActions();
-                return 0;
-            }
-
-            (MainForm = new frmMain()).ShowDialog();
-
-            if (RunningActions.Count > 0)
-                AwaitActions();
-
-            if (!DebugMode)
-                Instance.ReleaseMutex();
-        }
-        else {
-            nint hwnd = CopyData.FindWindow(null, Language.ApplicationName);
-
-            if (hwnd == 0 && args.Length > 0)
-                hwnd = CopyData.FindWindow(null, ProgramGUID);
+        Instance = new(true, ProgramGUID);
+#else
+        if (!(Instance = new(true, ProgramGUID)).WaitOne(TimeSpan.Zero, true)) {
+            nint hwnd = CopyData.FindWindow(null, ProgramGUID);
 
             if (hwnd != 0) {
                 List<(ArgumentType Type, string Data)> Arguments;
@@ -204,13 +101,13 @@ internal static class Program {
                         nint valPointer = 0;
                         nint cdsPointer = 0;
                         try {
-                            byte[] bytes = Encoding.Unicode.GetBytes(Arguments[0].Data);
+                            byte[] bytes = Encoding.Unicode.GetBytes(Arguments[i].Data);
                             valPointer = Marshal.AllocHGlobal(bytes.Length);
                             Marshal.Copy(bytes, 0, valPointer, bytes.Length);
 
                             CopyDataStruct copyData = new() {
                                 dwData = (nint)Arguments[i].Type,
-                                cbData = Encoding.Unicode.GetByteCount(Arguments[i].Data),
+                                cbData = bytes.Length,
                                 lpData = valPointer
                             };
 
@@ -227,49 +124,128 @@ internal static class Program {
                             // 0x1 = The data was sent from another instance.
 
                             Marshal.FreeHGlobal(cdsPointer);
+                            cdsPointer = 0;
                             Marshal.FreeHGlobal(valPointer);
+                            valPointer = 0;
                         }
                         finally {
-                            if (valPointer != 0)
-                                Marshal.FreeHGlobal(valPointer);
                             if (cdsPointer != 0)
                                 Marshal.FreeHGlobal(cdsPointer);
+                            if (valPointer != 0)
+                                Marshal.FreeHGlobal(valPointer);
                         }
                     }
-                    //nint ArgAddress = 0;
-                    //SendLinks Arg = new(args.JoinUntilLimit("|", 65_535));
-                    //nint CopyDataAddress = 0;
-                    //CopyDataStruct DataStruct = new();
-                    //try {
-                    //    ArgAddress = CopyData.NintAlloc(Arg);
-                    //    DataStruct.cbData = Marshal.SizeOf(Arg);
-                    //    DataStruct.dwData = 1;
-                    //    DataStruct.lpData = ArgAddress;
-                    //    CopyDataAddress = CopyData.NintAlloc(DataStruct);
-                    //    CopyData.SendMessage(hwnd, CopyData.WM_COPYDATA, 0, CopyDataAddress);
-                    //}
-                    //finally {
-                    //    CopyData.NintFree(ref CopyDataAddress);
-                    //    CopyData.NintFree(ref ArgAddress);
-                    //}
                 }
-                else {
-                    CopyData.SendMessage(hwnd, CopyData.WM_SHOWFORM, 0, 0);
-                }
+                else CopyData.SendMessage(hwnd, CopyData.WM_SHOWFORM, 0, 0);
             }
 
             return 1152;
         }
+#endif
 
-        if (RunningActions.Count > 0) {
-            AwaitActions();
+        Application.EnableVisualStyles();
+        Application.SetCompatibleTextRenderingDefault(false);
+
+        IsAdmin = new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator);
+
+        if (Environment.CurrentDirectory != ProgramPath) {
+            Log.Write("The current directory is wrong.");
+            Environment.CurrentDirectory = ProgramPath;
         }
+
+        if (Initialization.firstTime) {
+            Log.Write("Initiating first time setup.");
+            Language.LoadInternalEnglish();
+
+            // Select a language first
+            using frmLanguage LangPicker = new();
+            if (LangPicker.ShowDialog() != DialogResult.OK)
+                return 1;
+
+            if (Log.MessageBox(Language.dlgFirstTimeInitialMessage, MessageBoxButtons.YesNo) != DialogResult.Yes)
+                return 1;
+
+            Initialization.firstTime = false;
+            Downloads.downloadPath =
+                Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Downloads\\youtube-dl";
+
+            if (Log.MessageBox(Language.dlgFirstTimeDownloadFolder, MessageBoxButtons.YesNo) == DialogResult.Yes) {
+                using BetterFolderBrowserNS.BetterFolderBrowser fbd = new() {
+                    RootFolder = Downloads.downloadPath,
+                    Title = Language.dlgFindDownloadFolder
+                };
+
+                if (fbd.ShowDialog() == DialogResult.OK)
+                    Downloads.downloadPath = fbd.SelectedPath;
+            }
+
+            if (!Verification.YoutubeDlAvailable
+            && Log.MessageBox(Language.dlgFirstTimeDownloadYoutubeDl, MessageBoxButtons.YesNo) == DialogResult.Yes) {
+                Task<bool> UpdateCheckTask = Updater.CheckForYoutubeDlUpdate();
+                UpdateCheckTask.Wait();
+
+                if (UpdateCheckTask.Result)
+                    Updater.UpdateYoutubeDl(false, null);
+            }
+
+            if (!Verification.FfmpegAvailable &&
+            Log.MessageBox(Language.dlgFirstTimeDownloadFfmpeg, MessageBoxButtons.YesNo) == DialogResult.Yes)
+                Updater.UpdateFfmpeg(null);
+
+            Log.Write("First time setup has concluded.");
+        }
+        else Language.LoadLanguage($"{Environment.CurrentDirectory}\\lang\\{Initialization.LanguageFile}.ini");
+
+        BatchStatusImages = new() {
+            ColorDepth = ColorDepth.Depth32Bit,
+            TransparentColor = System.Drawing.Color.Transparent
+        };
+        BatchStatusImages.Images.Add(Properties.Resources.waiting);  // 0
+        BatchStatusImages.Images.Add(Properties.Resources.download); // 1
+        BatchStatusImages.Images.Add(Properties.Resources.finished); // 2
+        BatchStatusImages.Images.Add(Properties.Resources.error);    // 3
+
+        ExtendedDownloaderSelectedImages = new() {
+            ColorDepth = ColorDepth.Depth32Bit,
+            TransparentColor = System.Drawing.Color.Transparent
+        };
+        ExtendedDownloaderSelectedImages.Images.Add(Properties.Resources.best);             // 0
+        ExtendedDownloaderSelectedImages.Images.Add(Properties.Resources.selected);         // 1
+        ExtendedDownloaderSelectedImages.Images.Add(Properties.Resources.best_disabled);    // 2
+        ExtendedDownloaderSelectedImages.Images.Add(Properties.Resources.selected_disabled);// 3
+
+        //throw new Exception("test");
+        murrty.controls.natives.Consts.UpdateHand();
+        Formats.LoadCustomFormats();
+        SetTls();
+
+        (QueueHandler = new()).Show();
+
+        Arguments.ParseArguments(args);
+        if (CheckArgs()) {
+            AwaitActions();
+            return ExitCode;
+        }
+
+        // Etc.
+        Thread.CurrentThread.Name = "Main application thread";
+        ManagedHttpClient.UpdateDownloadClient(UserAgent);
+        ManagedHttpClient.UpdateSyncContext(SynchronizationContext.Current);
+        HttpClient = new();
+        (MainForm = new frmMain()).ShowDialog();
+        MainForm = null;
+
+        if (RunningActions.Count > 0)
+            AwaitActions();
+
+        Instance?.ReleaseMutex();
 
         return ExitCode;
     }
 
     private static void AwaitActions() {
-        Application.Run(new ExitQueueHandler());
+        QueueHandler.AwaitExit();
+        Application.Run(QueueHandler);
     }
 
     internal static void KillProcessTree(uint ProcessId) {
@@ -305,40 +281,44 @@ internal static class Program {
             int PassedCount = 0;
             for (int i = 0; i < args.Count; i++) {
                 if (!args[i].Data.IsNullEmptyWhitespace()) {
-                    if (Config.Settings.Downloads.ExtendedDownloaderPreferExtendedForm) {
-                        new frmExtendedDownloader(args[i].Data, false).Show();
-                    }
-                    else {
-                        switch (args[i].Type) {
-                            case ArgumentType.DownloadVideo: {
-                                DownloadInfo NewVideo = new() {
-                                    DownloadURL = args[i].Data,
-                                    Type = DownloadType.Video,
-                                    VideoQuality = (VideoQualityType)Config.Settings.Saved.videoQuality
-                                };
-                                new frmDownloader(NewVideo).Show();
-                            } break;
-                            case ArgumentType.DownloadAudio: {
-                                DownloadInfo NewAudio = new() {
-                                    DownloadURL = args[i].Data,
-                                    Type = DownloadType.Audio,
-                                };
-                                if (Config.Settings.Downloads.AudioDownloadAsVBR)
-                                    NewAudio.AudioVBRQuality = (AudioVBRQualityType)Config.Settings.Saved.audioQuality;
-                                else
-                                    NewAudio.AudioCBRQuality = (AudioCBRQualityType)Config.Settings.Saved.audioQuality;
-                                new frmDownloader(NewAudio).Show();
-                            } break;
-                            case ArgumentType.DownloadCustom: {
-                                DownloadInfo NewCustom = new() {
-                                    DownloadURL = args[i].Data,
-                                    Type = DownloadType.Custom,
-                                };
-                                new frmDownloader(NewCustom).Show();
-                            } break;
-                        }
-                    }
                     PassedCount++;
+                    if (Downloads.ExtendedDownloaderPreferExtendedForm) {
+                        new frmExtendedDownloader(args[i].Data, false).Show();
+                        continue;
+                    }
+
+                    // TODO: Implement the rest of the argument types
+                    switch (args[i].Type) {
+                        case ArgumentType.DownloadVideo: {
+                            DownloadInfo NewVideo = new() {
+                                DownloadURL = args[i].Data,
+                                Type = DownloadType.Video,
+                                VideoQuality = (VideoQualityType)Saved.videoQuality,
+                            };
+                            new frmDownloader(NewVideo).Show();
+                        } break;
+                        case ArgumentType.DownloadAudio: {
+                            DownloadInfo NewAudio = new() {
+                                DownloadURL = args[i].Data,
+                                Type = DownloadType.Audio,
+                            };
+                            if (Downloads.AudioDownloadAsVBR)
+                                NewAudio.AudioVBRQuality = (AudioVBRQualityType)Saved.audioQuality;
+                            else
+                                NewAudio.AudioCBRQuality = (AudioCBRQualityType)Saved.audioQuality;
+                            new frmDownloader(NewAudio).Show();
+                        } break;
+                        case ArgumentType.DownloadCustom: {
+                            DownloadInfo NewCustom = new() {
+                                DownloadURL = args[i].Data,
+                                Type = DownloadType.Custom,
+                            };
+                            new frmDownloader(NewCustom).Show();
+                        } break;
+                        default: {
+                            PassedCount--;
+                        } break;
+                    }
                 }
             }
             return PassedCount > 0;
@@ -354,7 +334,9 @@ internal static class Program {
         ArgumentType Type = (ArgumentType)cds.dwData;
         switch (Type) {
             case ArgumentType.DownloadVideo:
-            case ArgumentType.DownloadAuthenticateVideo: {
+            case ArgumentType.DownloadAuthenticateVideo:
+            case ArgumentType.DownloadVideoNoSound:
+            case ArgumentType.DownloadAuthenticateVideoNoSound: {
                 AuthenticationDetails Auth = null;
                 if (Type == ArgumentType.DownloadAuthenticateVideo) {
                     Auth = AuthenticationDetails.GetAuthentication();
@@ -365,7 +347,7 @@ internal static class Program {
                 }
 
                 Form DownloadForm;
-                if (Config.Settings.Downloads.ExtendedDownloaderPreferExtendedForm) {
+                if (Downloads.ExtendedDownloaderPreferExtendedForm) {
                     DownloadForm = new frmExtendedDownloader(
                         URL: URL,
                         CustomArguments: CustomArguments,
@@ -375,9 +357,9 @@ internal static class Program {
                 else {
                     DownloadInfo NewInfo = new(URL: URL) {
                         Type = DownloadType.Video,
-                        VideoQuality = (VideoQualityType)Config.Settings.Saved.videoQuality,
-                        VideoFormat = (VideoFormatType)Config.Settings.Saved.VideoFormat,
-                        SkipAudioForVideos = !Config.Settings.Downloads.VideoDownloadSound,
+                        VideoQuality = (VideoQualityType)Saved.videoQuality,
+                        VideoFormat = (VideoFormatType)Saved.VideoFormat,
+                        SkipAudioForVideos = Type == ArgumentType.DownloadVideoNoSound || Type == ArgumentType.DownloadAuthenticateVideoNoSound,
                         DownloadArguments = CustomArguments,
                         Authentication = Auth,
                     };
@@ -398,7 +380,7 @@ internal static class Program {
                 }
 
                 Form DownloadForm;
-                if (Config.Settings.Downloads.ExtendedDownloaderPreferExtendedForm) {
+                if (Downloads.ExtendedDownloaderPreferExtendedForm) {
                     DownloadForm = new frmExtendedDownloader(
                         URL: URL,
                         CustomArguments: CustomArguments,
@@ -408,16 +390,16 @@ internal static class Program {
                 else {
                     DownloadInfo NewInfo = new(URL: URL) {
                         Type = DownloadType.Audio,
-                        UseVBR = Config.Settings.Downloads.AudioDownloadAsVBR,
-                        AudioFormat = (AudioFormatType)Config.Settings.Saved.AudioFormat,
+                        UseVBR = Downloads.AudioDownloadAsVBR,
+                        AudioFormat = (AudioFormatType)Saved.AudioFormat,
                         DownloadArguments = CustomArguments,
                         Authentication = Auth,
                     };
 
-                    if (Config.Settings.Downloads.AudioDownloadAsVBR)
-                        NewInfo.AudioVBRQuality = (AudioVBRQualityType)Config.Settings.Saved.AudioVBRQuality;
+                    if (Downloads.AudioDownloadAsVBR)
+                        NewInfo.AudioVBRQuality = (AudioVBRQualityType)Saved.AudioVBRQuality;
                     else
-                        NewInfo.AudioCBRQuality = (AudioCBRQualityType)Config.Settings.Saved.audioQuality;
+                        NewInfo.AudioCBRQuality = (AudioCBRQualityType)Saved.audioQuality;
 
                     DownloadForm = new frmDownloader(Info: NewInfo);
                 }
@@ -436,7 +418,7 @@ internal static class Program {
                 }
 
                 Form DownloadForm;
-                if (Config.Settings.Downloads.ExtendedDownloaderPreferExtendedForm) {
+                if (Downloads.ExtendedDownloaderPreferExtendedForm) {
                     DownloadForm = new frmExtendedDownloader(
                         URL: URL,
                         CustomArguments: CustomArguments,
@@ -455,7 +437,7 @@ internal static class Program {
             } break;
 
             case ArgumentType.DownloadArchived: {
-
+                // TODO: Implement download archived argument
             } break;
         }
     }
@@ -476,7 +458,7 @@ internal static class Program {
                 }
 
                 Form DownloadForm;
-                if (Config.Settings.Downloads.ExtendedDownloaderPreferExtendedForm) {
+                if (Downloads.ExtendedDownloaderPreferExtendedForm) {
                     DownloadForm = new frmExtendedDownloader(
                         URL: URL,
                         CustomArguments: CustomArguments,
@@ -486,9 +468,9 @@ internal static class Program {
                 else {
                     DownloadInfo NewInfo = new(URL: URL) {
                         Type = DownloadType.Video,
-                        VideoQuality = (VideoQualityType)Config.Settings.Saved.videoQuality,
-                        VideoFormat = (VideoFormatType)Config.Settings.Saved.VideoFormat,
-                        SkipAudioForVideos = !Config.Settings.Downloads.VideoDownloadSound,
+                        VideoQuality = (VideoQualityType)Saved.videoQuality,
+                        VideoFormat = (VideoFormatType)Saved.VideoFormat,
+                        SkipAudioForVideos = !Downloads.VideoDownloadSound,
                         DownloadArguments = CustomArguments,
                         Authentication = Auth,
                     };
@@ -509,7 +491,7 @@ internal static class Program {
                 }
 
                 Form DownloadForm;
-                if (Config.Settings.Downloads.ExtendedDownloaderPreferExtendedForm) {
+                if (Downloads.ExtendedDownloaderPreferExtendedForm) {
                     DownloadForm = new frmExtendedDownloader(
                         URL: URL,
                         CustomArguments: CustomArguments,
@@ -519,16 +501,16 @@ internal static class Program {
                 else {
                     DownloadInfo NewInfo = new(URL: URL) {
                         Type = DownloadType.Audio,
-                        UseVBR = Config.Settings.Downloads.AudioDownloadAsVBR,
-                        AudioFormat = (AudioFormatType)Config.Settings.Saved.AudioFormat,
+                        UseVBR = Downloads.AudioDownloadAsVBR,
+                        AudioFormat = (AudioFormatType)Saved.AudioFormat,
                         DownloadArguments = CustomArguments,
                         Authentication = Auth,
                     };
 
-                    if (Config.Settings.Downloads.AudioDownloadAsVBR)
-                        NewInfo.AudioVBRQuality = (AudioVBRQualityType)Config.Settings.Saved.AudioVBRQuality;
+                    if (Downloads.AudioDownloadAsVBR)
+                        NewInfo.AudioVBRQuality = (AudioVBRQualityType)Saved.AudioVBRQuality;
                     else
-                        NewInfo.AudioCBRQuality = (AudioCBRQualityType)Config.Settings.Saved.audioQuality;
+                        NewInfo.AudioCBRQuality = (AudioCBRQualityType)Saved.audioQuality;
 
                     DownloadForm = new frmDownloader(Info: NewInfo);
                 }
@@ -547,7 +529,7 @@ internal static class Program {
                 }
 
                 Form DownloadForm;
-                if (Config.Settings.Downloads.ExtendedDownloaderPreferExtendedForm) {
+                if (Downloads.ExtendedDownloaderPreferExtendedForm) {
                     DownloadForm = new frmExtendedDownloader(
                         URL: URL,
                         CustomArguments: CustomArguments,
@@ -577,7 +559,7 @@ internal static class Program {
                 }
 
                 Form DownloadForm;
-                if (Config.Settings.Downloads.ExtendedDownloaderPreferExtendedForm) {
+                if (Downloads.ExtendedDownloaderPreferExtendedForm) {
                     DownloadForm = new frmExtendedDownloader($"ytarchive:{URL}", true);
                 }
                 else {
@@ -602,17 +584,14 @@ internal static class Program {
         return UpdaterHash;
     }
 
-    internal static nint GetMessagesHandle() {
-        return Messages.Handle;
-    }
-
     internal static void KillForUpdate() {
         // Form diposes
         // Any downloads/conversion/merges in progress will finish before fully closing for updates.
         MainForm?.RemoveTrayIcon();
         MainForm?.Dispose();
-        Messages?.Dispose();
     }
+
+    internal static nint GetMessagesHandle() => QueueHandler.Handle;
 
     internal static void SetTls() {
         try { //try TLS 1.3
@@ -630,6 +609,8 @@ internal static class Program {
                 Log.Write("TLS 1.2 will be used.");
             }
             catch (NotSupportedException) {
+                UpdaterEnabled = false;
+
                 try { //try TLS 1.1
                     System.Net.ServicePointManager.SecurityProtocol = (System.Net.SecurityProtocolType)768
                                                                     |  System.Net.SecurityProtocolType.Tls;
@@ -641,5 +622,14 @@ internal static class Program {
                 }
             }
         }
+    }
+
+    internal static void AddProcessingForm(Form form) {
+        RunningActions.TryAdd(form);
+    }
+
+    internal static void RemoveProcessingForm(Form form) {
+        if (RunningActions.TryRemove(form))
+            QueueHandler.CheckExit();
     }
 }

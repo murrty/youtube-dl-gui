@@ -4,50 +4,53 @@ internal class Formats {
     /// <summary>
     /// The all files filter.
     /// </summary>
-    public const string AllFiles = "All Files (*.*)|*.*";
+    public static string AllFiles { get; } = "All Files (*.*)|*.*";
 
     /// <summary>
     ///  All known video formats used by ffmpeg, as a filter.
     /// </summary>
-    public const string VideoFormats =
+    public static string VideoFormats { get; } =
         "3rd Generation Partnership (*.3gp, *3g2)|*.3gp;*.3g2"                  + "|" +
-        "Actions Media Video (*.amv, *.mtv)|*.amv;*.mtv"                        + "|" +
+        //"Actions Media Video (*.amv)|*.amv"                        + "|" +
         "Audio Video Interleave (*.avi)|*.avi"                                  + "|" +
-        "Bink Video (*.bink, *.bik, *.bk2, *.bik2)|*.bink;*.bik;*.bk2;*.bik2"   + "|" +
+        //"Bink Video (*.bink, *.bik, *.bk2, *.bik2)|*.bink;*.bik;*.bk2;*.bik2"   + "|" +
         "Flash Video (*.flv)|*.flv"                                             + "|" +
-        "Matroska (*.mkv)|*.mkv"                                                + "|" +
-        "Ogg Video (*.ogv, *ogx)|*.ogv;*.ogx"                                   + "|" +
-        "QuickTime Movie (*.mov, *.qt)|*.mov;*.qt"                              + "|" +
+        "Matroska Video (*.mkv)|*.mkv"                                          + "|" +
+        "Theora Video (*.ogv)|*.ogv"                                            + "|" +
+        "QuickTime Movie (*.mov)|*.mov"                                         + "|" +
         "MPEG Video (*.mpeg, *.mpg)|*.mpeg;*.mpg"                               + "|" +
         "MPEG-2 Video Stream (*.m2v)|*.m2v"                                     + "|" +
         "MPEG-4 Part 14 (*.mp4)|*.mp4"                                          + "|" +
-        "Smacker video (*.smk)|*.smk"                                           + "|" +
+        "NUT Video File (*.nut)|*.nut"                                          + "|" +
+        //"Smacker video (*.smk)|*.smk"                                           + "|" +
         "Shockwave Flash (*.swf)|*.swf"                                         + "|" +
         "VP8/9 (*.webm)|*.webm"                                                 + "|" +
-        "Windows Media Video (*.wmv)|*.wmv"                                     + "|" +
-        "Xbox Media Video (*.xmv)|*.xmv"                                        + "|" +
-        AllKnownVideoFormats + "|" + AllFiles;
+        "Windows Media Video (*.wmv)|*.wmv"                                     //+ "|" +
+        //"Xbox Media Video (*.xmv)|*.xmv"                                        + "|" +
+        //AllKnownVideoFormats + "|" + AllFiles;
+        ;
 
     /// <summary>
     /// All the known video formats used by ffmpeg, as a single filter.
     /// </summary>
-    public const string AllKnownVideoFormats =
-        "All known video formats|*3gp;*3g2;*.amv;*.avi;*.bink;*.bik;*.bk2;*.bik2;*.flv;*.mkv;*.ogv;*.ogx;*.mov;*.mtv;*.qt;*.mpeg;*.mpg;*.m2v;*.mp4;*.smk;*.swf;*.webm;*.wmv;*.xmv";
+    public static string AllKnownVideoFormats { get; } =
+        "*3gp;*3g2;*.avi;*.flv;*.mkv;*.ogv;*.mov;*.mpeg;*.mpg;*.m2v;*.mp4;*.nut;*.swf;*.webm;*.wmv";
 
     /// <summary>
     /// All known audio formats used by ffmpeg, as a filter.
     /// </summary>
-    public const string AudioFormats = 
+    public static string AudioFormats  { get; } = 
         "Advanced Audo Codec (*.aac)|*.aac"                                             + "|" +
-        "Audible Audio / Audible Enhanced Audio (*.aa, *.aax)|*.aa;*.aax"               + "|" +
+        //"Audible Audio / Audible Enhanced Audio (*.aa, *.aax)|*.aa;*.aax"               + "|" +
         "Audio Codec 3 (*.ac3)|*.ac3"                                                   + "|" +
         "Audio Interchange File Format (*.aiff, *.aif, *.aifc)|*.aiff;*.aif;*.aifc"     + "|" +
         "Audio Interchange File Format Compressed (*.aifc)|*.aifc"                      + "|" +
-        "Bink Audio (*.binka)|*.binka"                                                  + "|" +
-        "Binary Revolution Stream (*.brstm)|*.brstm"                                    + "|" +
-        "FMOD Sample Bank (*.fsb)|*.fsb"                                                + "|" +
+        //"Bink Audio (*.binka)|*.binka"                                                  + "|" +
+        //"Binary Revolution Stream (*.brstm)|*.brstm"                                    + "|" +
+        //"FMOD Sample Bank (*.fsb)|*.fsb"                                                + "|" +
         "Free Lossless Audio Codec (*.flac)|*.flac"                                     + "|" +
-        "Monkey's Audio (*.ape)|*.ape"                                                  + "|" +
+        "Matroska Audio (*.mka)|*.mka"                                                  + "|" +
+        //"Monkey's Audio (*.ape)|*.ape"                                                  + "|" +
         "MPEG-4 Audio (*.m4a)|*.m4a"                                                    + "|" +
         "MPEG-1 AudioLayer II (*.mp2)|*.mp2"                                            + "|" +
         "MPEG-1 AudioLayer III (*.mp3)|*.mp3"                                           + "|" +
@@ -55,20 +58,27 @@ internal class Formats {
         "Opus OGG Compressed (*.opus)|*.opus"                                           + "|" +
         "True Audio (*.tta)|*.tta"                                                      + "|" +
         "Waveform Audio (*.wav)|*.wav"                                                  + "|" +
-        "Windows Media Audio (*.wma)|*.wma"                                             + "|" +
-        "Xbox Windows Media Audio (*.xwma)|*.xwma"                                      + "|" +
-        AllKnownAudioFormats + "|" + AllFiles;
+        "Windows Media Audio (*.wma)|*.wma"                                             //+ "|" +
+        //"Xbox Windows Media Audio (*.xwma)|*.xwma"                                      + "|" +
+        //AllKnownAudioFormats + "|" + AllFiles;
+        ;
 
     /// <summary>
     /// All the known audio formats used by ffmpeg, as a single filter.
     /// </summary>
-    public const string AllKnownAudioFormats =
-        "All known audio formats|*.aa;*.aac;*.aax;*.ac3;*.aiff;*.aif;*.aifc;*.ape;*.binka;*.brstm;*.fsb;*.flac;*.m4a;*.mp2;*.mp3;*.oga;*.ogg;*.opus;*.tta;*.wav;*.wma;*.xwma";
+    public static string AllKnownAudioFormats { get; } =
+        "*.aac;*.ac3;*.aiff;*.aif;*.aifc;*.flac;*.m4a;*.mka;*.mp2;*.mp3;*.oga;*.ogg;*.opus;*.tta;*.wav;*.wma";
+
+    /// <summary>
+    /// An aggregated string of all known video and audio formates with the all files filter as well.
+    /// </summary>
+    public static string AllFormats { get; } =
+        $"All known formats|{AllKnownVideoFormats};{AllKnownAudioFormats}|{AllFiles}|{ VideoFormats}|{AudioFormats}";
 
     /// <summary>
     /// String array of known yt-dlp supported video formats.
     /// </summary>
-    public static readonly string[] ExtendedVideoFormats = {
+    public static string[] ExtendedVideoFormats { get; } = {
         "avi",
         "flv",
         "mkv",
@@ -80,7 +90,7 @@ internal class Formats {
     /// <summary>
     /// String array of known yt-dlp supported audio formats.
     /// </summary>
-    public static readonly string[] ExtendedAudioFormats = {
+    public static string[] ExtendedAudioFormats { get; } = {
         "aac",
         "aiff",
         "alac",
@@ -94,62 +104,58 @@ internal class Formats {
     };
 
     #region Video Arrays
-    public static readonly string[] VideoQualityArray = { "best",
-                                                 "4320p60", "4320p", // 1
-                                                 "2160p60", "2160p", // 3
-                                                 "1440p60", "1440p", // 5
-                                                 "1080p60", "1080p", // 7
-                                                 "720p60", "720p",   // 9
-                                                 "480p",
-                                                 "360p",
-                                                 "240p",
-                                                 "144p",
-                                                 "worst" };
-    public static readonly string[] VideoFormatsNamesArray = { "best",
-                                                      "avi",
-                                                      "flv",
-                                                      "mkv",
-                                                      "mp4",
-                                                      "ogg",
-                                                      "webm"
-                                                    };
-    public static readonly string[] VideoFormatsArray = { " --recode-video avi",
-                                                 " --recode-video flv",
-                                                 " --merge-output-format mkv",//" --recode-video mkv", //" --merge-output-format mkv",
-                                                 "",//" --recode-video mp4", //" --merge-output-format mp4",
-                                                 " --recode-video ogg",
-                                                 " --recode-video webm" //" --merge-output-format webm"
-                                               };
+    public static string[] VideoQualityArray { get; } = {
+        "best",
+        "4320p60", "4320p", // 1
+        "2160p60", "2160p", // 3
+        "1440p60", "1440p", // 5
+        "1080p60", "1080p", // 7
+        "720p60", "720p",   // 9
+        "480p",
+        "360p",
+        "240p",
+        "144p",
+        "worst"
+    };
 
-    //mp4|flv|ogg|webm|mkv|avi
-
+    public static string[] VideoFormatsNamesArray { get; } = {
+        "best",
+        "avi",
+        "flv",
+        "mkv",
+        "mp4",
+        "ogg",
+        "webm"
+    };
     #endregion
 
     #region Audio Arrays
-    public static readonly string[] AudioQualityNamesArray = { "best",
-                                                      "320k",
-                                                      "256k",
-                                                      "224k",
-                                                      "192k",
-                                                      "160k",
-                                                      "128k",
-                                                      "96k",
-                                                      "64k",
-                                                      "32k",
-                                                      "16k",
-                                                      "worst"
-                                              };
-    public static readonly string[] AudioFormatsArray = { "best",
-                                                 "aac",
-                                                 "flac",
-                                                 "mp3",
-                                                 "m4a",
-                                                 "opus",
-                                                 "vorbis",
-                                                 "wav"
-                                             };
+    public static string[] AudioQualityNamesArray { get; } = {
+        "best",
+        "320k",
+        "256k",
+        "224k",
+        "192k",
+        "160k",
+        "128k",
+        "96k",
+        "64k",
+        "32k",
+        "16k",
+        "worst"
+    };
+    public static string[] AudioFormatsArray { get; } = {
+        "best",
+        "aac",
+        "flac",
+        "mp3",
+        "m4a",
+        "opus",
+        "vorbis",
+        "wav"
+    };
 
-    public static readonly string[] VbrQualities = new string[] {
+    public static string[] VbrQualities { get; } = new string[] {
         "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"
     };
     #endregion
@@ -169,9 +175,9 @@ internal class Formats {
     /// Loads the custom formats into memory.
     /// </summary>
     public static void LoadCustomFormats() {
-        if (Config.Settings.General.extensionsName.Length > 0) {
-            string[] Names = Config.Settings.General.extensionsName.Split('|');
-            string[] Extensions = Config.Settings.General.extensionsShort.Split('|');
+        if (General.extensionsName.Length > 0) {
+            string[] Names = General.extensionsName.Split('|');
+            string[] Extensions = General.extensionsShort.Split('|');
             int MinimumList = Math.Min(Names.Length, Extensions.Length);
             if (MinimumList > 0) {
                 CustomFormats = string.Empty;

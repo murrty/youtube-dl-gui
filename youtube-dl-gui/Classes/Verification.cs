@@ -12,10 +12,12 @@ internal static class Verification {
     public static bool FfprobeAvailable => FFprobePath.IsNotNullEmptyWhitespace() && File.Exists(FFprobePath);
     public static bool MediaInfoAvailable => MediaInfoPath.IsNotNullEmptyWhitespace() && File.Exists(MediaInfoPath);
 
-    public static string GetYoutubeDlProvider(bool IncludeExe) => Config.Settings.Downloads.YtdlType switch {
+    static Verification() => Refresh();
+
+    public static string GetYoutubeDlProvider(bool IncludeExe) => Downloads.YtdlType switch {
+        (int)GitID.YtDlpNightly => "yt-dlp-nightly" + (IncludeExe ? ".exe" : ""),
         (int)GitID.YoutubeDl => "youtube-dl" + (IncludeExe ? ".exe" : ""),
         (int)GitID.YoutubeDlNightly => "youtube-dl-nightly" + (IncludeExe ? ".exe" : ""),
-        (int)GitID.YtDlpNightly => "yt-dlp-nightly" + (IncludeExe ? ".exe" : ""),
 
         _ => "yt-dlp" + (IncludeExe ? ".exe" : "")
     };
@@ -26,7 +28,7 @@ internal static class Verification {
     /// <param name="CheckType">The ID of the type to verify.</param>
     /// <returns>A valid ID, if <paramref name="CheckType"/> is valid then it will be the value returned.</returns>
     public static int GetYoutubeDlType(int? CheckType) {
-        int CheckId = CheckType ?? Config.Settings.Downloads.YtdlType;
+        int CheckId = CheckType ?? Downloads.YtdlType;
         return CheckId switch {
             (int)GitID.YtDlpNightly => 1,
             (int)GitID.YoutubeDl => 2,
@@ -37,7 +39,7 @@ internal static class Verification {
     /// <summary>
     /// Returns whether downloading will most likely not produce any progress (affects Windows 7).
     /// </summary>
-    public static bool YtDlpProgressProblem => Config.Settings.Downloads.LimitDownloads && (Config.Settings.Downloads.YtdlType == (int)GitID.YtDlp || Config.Settings.Downloads.YtdlType == (int)GitID.YtDlpNightly) && Environment.OSVersion.Version.Major <= 6 && Environment.OSVersion.Version.Minor <= 1;
+    public static bool YtDlpProgressProblem => Downloads.LimitDownloads && (Downloads.YtdlType == (int)GitID.YtDlp || Downloads.YtdlType == (int)GitID.YtDlpNightly) && Environment.OSVersion.Version.Major <= 6 && Environment.OSVersion.Version.Minor <= 1;
 
     public static void Refresh() {
         RefreshYoutubeDlLocation();
@@ -49,8 +51,8 @@ internal static class Verification {
         string TempPath;
         string YoutubeDlName = GetYoutubeDlProvider(true);
 
-        if (Config.Settings.General.UseStaticYtdl && File.Exists(Config.Settings.General.ytdlPath))
-            TempPath = Config.Settings.General.ytdlPath;
+        if (General.UseStaticYtdl && File.Exists(General.ytdlPath))
+            TempPath = General.ytdlPath;
         else if (ProgramInExecutingDirectory(YoutubeDlName, out TempPath) || ProgramInSystemPath(YoutubeDlName, out TempPath))
             TempPath += "\\" + YoutubeDlName;
         else return false;
@@ -66,8 +68,8 @@ internal static class Verification {
     public static bool RefreshFFmpegLocation() {
         FFmpegPath = null;
         string TempPath;
-        if (Config.Settings.General.UseStaticFFmpeg && File.Exists(Config.Settings.General.ffmpegPath))
-            TempPath = Config.Settings.General.ffmpegPath;
+        if (General.UseStaticFFmpeg && File.Exists(General.ffmpegPath))
+            TempPath = General.ffmpegPath;
         else if (!ProgramInExecutingDirectory("ffmpeg.exe", out TempPath) && !ProgramInSystemPath("ffmpeg.exe", out TempPath))
             return false;
 
@@ -95,8 +97,8 @@ internal static class Verification {
         return false;
     }
 
-    public static string GetExpectedYoutubeDlPath() => Config.Settings.General.UseStaticYtdl ? Config.Settings.General.ytdlPath : Program.ProgramPath + "\\" + GetYoutubeDlProvider(true);
-    public static string GetExpectedFfmpegPath() => Config.Settings.General.UseStaticFFmpeg ? Config.Settings.General.ffmpegPath : Program.ProgramPath + "\\ffmpeg.exe";
+    public static string GetExpectedYoutubeDlPath() => General.UseStaticYtdl ? General.ytdlPath : Program.ProgramPath + "\\" + GetYoutubeDlProvider(true);
+    public static string GetExpectedFfmpegPath() => General.UseStaticFFmpeg ? General.ffmpegPath : Program.ProgramPath + "\\ffmpeg.exe";
 
     private static string GetProgramVersion(string ProgramPath) {
         try {

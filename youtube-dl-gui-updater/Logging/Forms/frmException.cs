@@ -1,52 +1,45 @@
 ﻿namespace murrty.logging;
 
+using System;
 using System.Drawing;
 using System.Net;
-using System.Security.Cryptography;
-using System.Threading;
 using System.Windows.Forms;
 
 using youtube_dl_gui_updater;
 using murrty.classes;
+using System.Security.Cryptography;
 
-/// <summary>
-/// Represents a form that displays exception information to the user.
-/// </summary>
-public partial class frmException : Form {
-    /// <summary>
-    /// The private ExceptionInfo holding information about the exception.
-    /// </summary>
+internal sealed partial class frmException : Form {
     private ExceptionInfo ReportedException { get; }
-
-    /// <summary>
-    /// The DWM compositor, for making the form look prettier.
-    /// </summary>
-    private DwmComposition DwmCompositor { get; }
-
-    /// <summary>
-    /// Composition info relating to each form instance.
-    /// </summary>
     private DwmCompositionInfo DwmInfo { get; }
-
-    /// <summary>
-    /// Whether the form will be UwU-ified.
-    /// </summary>
     private bool UwU_ify { get; }
 
-    /// <summary>
-    /// Initializes a new <see cref="frmException"/> instance.
-    /// </summary>
-    /// <param name="ReportedException">A <see cref="ExceptionInfo"/> instnace for a specific exception.</param>
     public frmException(ExceptionInfo ReportedException) {
         if (ReportedException is null) {
-            MessageBox.Show("The reported exception is null and the exception cannot be displayed.", "youtube-dl-gui-updater");
+            Log.MessageBox("The reported exception is null and the exception cannot be displayed.");
             this.Load += (s, e) => this.Dispose();
             return;
         }
 
         this.ReportedException = ReportedException;
         InitializeComponent();
+        rtbExceptionDetails.ContextMenu = cmDetails;
+        rtbExtraData.ContextMenu = cmDetails;
+        mCopy.Click += (s, e) => {
+            if (tcExceptionDetails.SelectedTab == tabExceptionDetails) {
+                rtbExceptionDetails.Copy();
+            }
+            else if (tabExceptionExtraInfo is not null && tcExceptionDetails.SelectedTab == tabExceptionExtraInfo) {
+                rtbExtraData.Copy();
+            }
+        };
+        this.MaximumSize = new(1280, 720);
         rtbExtraData.Clear();
+
+        if (ReportedException.ExtraInfo is null) {
+            rtbExtraData.Dispose();
+            tabExceptionExtraInfo.Dispose();
+        }
 
         // Roll for UwU-ification.
         RandomNumberGenerator RNG = new RNGCryptoServiceProvider();
@@ -55,7 +48,6 @@ public partial class frmException : Form {
         uint RandUint = BitConverter.ToUInt32(ByteData, 0);
         int GeneratedNumber = (int)Math.Floor(5000d * (RandUint / (uint.MaxValue + 1.0)));
         UwU_ify = GeneratedNumber == 621;
-        Log.WriteToConsole($"The generated exception number was {GeneratedNumber}.");
 
         // Set the language.
         LoadLanguage();
@@ -63,47 +55,58 @@ public partial class frmException : Form {
         // The icon for the exception form.
         this.Icon = global::youtube_dl_gui_updater.Properties.Resources.ProgramIcon;
 
-        // Check if there is a valid github link
-        btnExceptionGithub.Enabled = true;
-        btnExceptionGithub.Visible = true;
+        Point GetDateLocation(Control NeighborControl) =>
+            new(NeighborControl.Location.X - (lbDate.Size.Width + lbDate.Margin.Right + NeighborControl.Margin.Left), lbDate.Location.Y);
 
         // Check if allow retry.
         if (ReportedException.AllowRetry) {
             btnExceptionRetry.Enabled = btnExceptionRetry.Visible = true;
+            if (ReportedException.AllowAbort) {
+                btnExceptionAbort.Enabled = btnExceptionAbort.Visible = true;
+                lbDate.Location = GetDateLocation(btnExceptionAbort);
+            }
+            else {
+                btnExceptionAbort.Enabled = btnExceptionAbort.Visible = false;
+                lbDate.Location = GetDateLocation(btnExceptionRetry);
+            }
         }
         else {
             btnExceptionRetry.Enabled = btnExceptionRetry.Visible = false;
-            btnExceptionGithub.Location = btnExceptionRetry.Location;
-            lbDate.Location = new(
-                btnExceptionGithub.Location.X - (lbDate.Size.Width + lbDate.Margin.Right + btnExceptionGithub.Margin.Left),
-                lbDate.Location.Y);
+            if (ReportedException.AllowAbort) {
+                btnExceptionAbort.Location = btnExceptionRetry.Location;
+                btnExceptionAbort.Enabled = btnExceptionAbort.Visible = true;
+                lbDate.Location = GetDateLocation(btnExceptionAbort);
+            }
+            else {
+                btnExceptionAbort.Enabled = btnExceptionAbort.Visible = false;
+                lbDate.Location = GetDateLocation(btnExceptionOk);
+            }
         }
 
         // Add the date
         lbDate.Text = $"{ReportedException.ExceptionTime:yyyy/MM/dd HH:mm:ss}";
 
         if (DwmComposition.CompositionSupported && !ReportedException.SkipDwmComposition) {
-            DwmCompositor = new();
             DwmInfo = new(
-                this.Handle,
-                new() {
+                hWnd: this.Handle,
+                Margins: new() {
                     m_Top = pnDWM.Height,
                     m_Bottom = 0,
                     m_Left = 0,
                     m_Right = 0
                 },
-                new(
+                DwmRectangle: new(
                     pnDWM.Location.X,
                     pnDWM.Location.Y,
                     this.MaximumSize.Width,
                     pnDWM.Size.Height
                 ),
-                new(
-                    lbExceptionHeader.Text,
-                    lbExceptionHeader.Font,
-                    Color.FromKnownColor(KnownColor.ActiveCaptionText),
-                    10,
-                    new(
+                NewInfo: new(
+                    text: lbExceptionHeader.Text,
+                    font: lbExceptionHeader.Font,
+                    color: Color.FromKnownColor(KnownColor.ActiveCaptionText),
+                    glowsize: 10,
+                    rectangle: new(
                         lbExceptionHeader.Location.X,
                         lbExceptionHeader.Location.Y,
                         lbExceptionHeader.Size.Width,
@@ -114,14 +117,14 @@ public partial class frmException : Form {
 
             pnDWM.Visible = false;
             lbExceptionHeader.Visible = false;
-            DwmCompositor.ExtendFrame(DwmInfo);
+            DwmComposition.ExtendFrame(DwmInfo);
             this.Paint += (s, e) => {
-                DwmCompositor.FillBlackRegion(DwmInfo);
-                DwmCompositor.DrawTextOnGlass(DwmInfo, DwmInfo.Text);
+                DwmComposition.FillBlackRegion(DwmInfo);
+                DwmComposition.DrawTextOnGlass(DwmInfo, DwmInfo.Text);
             };
             this.MouseDown += (s, e) => {
                 if (e.Button == MouseButtons.Left && DwmInfo.DwmRectangle.Contains(e.Location)) {
-                    DwmCompositor.MoveForm(DwmInfo);
+                    DwmComposition.MoveForm(DwmInfo);
                 }
             };
         }
@@ -133,20 +136,16 @@ public partial class frmException : Form {
 
         this.Shown += (s, e) => System.Media.SystemSounds.Hand.Play();
     }
-
-    /// <summary>
-    /// Loads the Language for the form.
-    /// </summary>
+    
     private void LoadLanguage() {
         if (UwU_ify) {
-            // Just fuck my shit up
             this.Text = "Exception occowwed unu";
             lbExceptionHeader.Text = "An exception occowwed qwq";
             lbExceptionDescription.Text = "The pwogwam accidentawy made a fucky wucky";
             rtbExceptionDetails.Text = "Sowwy for fucky wucky, u can powst dis as a new issue on githuwb :3";
-            btnExceptionGithub.Text = "Githuwb";
             btnExceptionRetry.Text = "Retwy";
             btnExceptionOk.Text = "Okie uwu";
+            btnExceptionAbort.Text = "Abowot";
             tabExceptionDetails.Text = "Detaiws";
             tabExceptionExtraInfo.Text = "Extwa info";
         }
@@ -156,7 +155,7 @@ public partial class frmException : Form {
                 lbExceptionHeader.Text = Language.InternalEnglish.lbExceptionHeader;
                 lbExceptionDescription.Text = Language.InternalEnglish.lbExceptionDescription;
                 rtbExceptionDetails.Text = Language.InternalEnglish.rtbExceptionDetails;
-                btnExceptionGithub.Text = Language.InternalEnglish.btnExceptionGithub;
+                btnExceptionAbort.Text = Language.InternalEnglish.GenericAbort;
                 btnExceptionRetry.Text = Language.InternalEnglish.GenericRetry;
                 btnExceptionOk.Text = Language.InternalEnglish.GenericOk;
                 tabExceptionDetails.Text = Language.InternalEnglish.tabExceptionDetails;
@@ -167,7 +166,7 @@ public partial class frmException : Form {
                 lbExceptionHeader.Text = Language.lbExceptionHeader;
                 lbExceptionDescription.Text = Language.lbExceptionDescription;
                 rtbExceptionDetails.Text = Language.rtbExceptionDetails;
-                btnExceptionGithub.Text = Language.btnExceptionGithub;
+                btnExceptionAbort.Text = Language.GenericAbort;
                 btnExceptionRetry.Text = Language.GenericRetry;
                 btnExceptionOk.Text = Language.GenericOk;
                 tabExceptionDetails.Text = Language.tabExceptionDetails;
@@ -176,12 +175,7 @@ public partial class frmException : Form {
         }
     }
 
-    /// <summary>
-    /// Form loading event. The parsing happens here.
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    private void frmException_Load(object sender, EventArgs e) {
+    private void frmError_Load(object sender, EventArgs e) {
         // A custom description was set, so we aren't going to write anything except for
         // what was written in the custom descrption.
         if (ReportedException.CustomDescription is not null) rtbExceptionDetails.Text = $"{ReportedException.CustomDescription}\n";
@@ -191,12 +185,13 @@ public partial class frmException : Form {
         else if (ReportedException.Exception is not null) {
             rtbExceptionDetails.Text = ReportedException.ExceptionType switch {
                 ExceptionType.Caught => $"A caught {ReportedException.Exception.GetType().Name} occurred.",
-                ExceptionType.Unhandled => $"An unrecoverable {ReportedException.Exception.GetType().Name} occurred and the application will need to exit.",
+                ExceptionType.Unhandled => $"An unrecoverable {ReportedException.Exception.GetType().Name} occurred and the application will exit.",
                 ExceptionType.ThreadException => $"An uncaught {ReportedException.Exception.GetType().Name} occurred and the application may resume.",
                 _ => $"A caught {ReportedException.Exception.GetType().Name} occurred and the state of the application is undeterminable.",
             } + "\n\n";
 
             switch (ReportedException.Exception) {
+                // Abort/Cancellation related exceptions.
                 case ThreadAbortException ThrAbrEx: {
                     rtbExceptionDetails.AppendText("This exception may have been pushed here on accident.\n");
 
@@ -205,20 +200,64 @@ public partial class frmException : Form {
 
                     rtbExceptionDetails.AppendText($$"""
                         Message: {{ThrAbrEx.Message}}
-                        Type: {{ThrAbrEx.GetType().FullName}}
                         Source: {{ThrAbrEx.Source}}
                         Target Site: {{ThrAbrEx.TargetSite}}
                         Stacktrace:
                         {{ThrAbrEx.StackTrace}}
                         """ + (ThrAbrEx.InnerException is not null ? "\nInner Exception: " + ThrAbrEx.InnerException : "") + "\n");
                 } break;
+                case System.Threading.Tasks.TaskCanceledException TkCdEx: {
+                    rtbExceptionDetails.AppendText("This exception may have been pushed here on accident.\n");
+
+                    if (ReportedException.ExtraMessage is not null)
+                        rtbExceptionDetails.AppendText(ReportedException.ExtraMessage + "\n");
+
+                    rtbExceptionDetails.AppendText($$"""
+                        Message: {{TkCdEx.Message}}
+                        Source: {{TkCdEx.Source}}
+                        Target Site: {{TkCdEx.TargetSite}}
+                        Stacktrace:
+                        {{TkCdEx.StackTrace}}
+                        """ + (TkCdEx.InnerException is not null ? "\nInner Exception: " + TkCdEx.InnerException : "") + "\n");
+                } break;
+                case OperationCanceledException OpCdEx: {
+                    rtbExceptionDetails.AppendText("This exception may have been pushed here on accident.\n");
+
+                    if (ReportedException.ExtraMessage is not null)
+                        rtbExceptionDetails.AppendText(ReportedException.ExtraMessage + "\n");
+
+                    rtbExceptionDetails.AppendText($$"""
+                        Message: {{OpCdEx.Message}}
+                        Source: {{OpCdEx.Source}}
+                        Target Site: {{OpCdEx.TargetSite}}
+                        Stacktrace:
+                        {{OpCdEx.StackTrace}}
+                        """ + (OpCdEx.InnerException is not null ? "\nInner Exception: " + OpCdEx.InnerException : "") + "\n");
+                } break;
+
+                // Non-expected exceptions.
+                case ApiParsingException ApPrEx: {
+                    rtbExceptionDetails.AppendText("This exception may have been pushed here on accident.\n");
+
+                    if (ReportedException.ExtraMessage is not null)
+                        rtbExceptionDetails.AppendText(ReportedException.ExtraMessage + "\n");
+
+                    rtbExceptionDetails.AppendText($$"""
+                        Message: {{ApPrEx.Message}}
+                        Source: {{ApPrEx.Source}}
+                        Target Site: {{ApPrEx.TargetSite}}
+                        Stacktrace:
+                        {{ApPrEx.StackTrace}}
+                        """ + (ApPrEx.InnerException is not null ? "\nInner Exception: " + ApPrEx.InnerException : "") + "\n");
+                } break;
+
+                // Possible exceptions.
                 case WebException WebEx: {
                     if (ReportedException.ExtraMessage is not null)
                         rtbExceptionDetails.AppendText(ReportedException.ExtraMessage + "\n");
 
                     rtbExceptionDetails.AppendText($$"""
                         Message: {{WebEx.Message}}
-                        Type: {{WebEx.GetType().FullName}}
                         Response: {{WebEx.Response}}
                         Source: {{WebEx.Source}}
                         Target Site: {{WebEx.TargetSite}}
@@ -226,6 +265,7 @@ public partial class frmException : Form {
                         {{WebEx.StackTrace}}
                         """ + (WebEx.InnerException is not null ? "\nInner Exception: " + WebEx.InnerException : "") + "\n");
                 } break;
+
                 case Exception Ex: {
                     if (ReportedException.ExtraMessage is not null)
                         rtbExceptionDetails.AppendText(ReportedException.ExtraMessage + "\n");
@@ -239,10 +279,11 @@ public partial class frmException : Form {
                         {{Ex.StackTrace}}
                         """ + (Ex.InnerException is not null ? "\nInner Exception: " + Ex.InnerException : "") + "\n");
                 } break;
+
                 default: {
                     rtbExceptionDetails.Text = ReportedException.ExceptionType switch {
                         ExceptionType.Caught => "A caught unknown-typed exception occured.",
-                        ExceptionType.Unhandled => "An unrecoverable unknown-typed exception occurred, and the application will exit.",
+                        ExceptionType.Unhandled => "An unrecoverable unknown-typed exception occurred, and the application may exit.",
                         ExceptionType.ThreadException => "An uncaught unknown-typed exception occurred and the application may resume.",
                         _ => "A caught unknown-typed exception occurred and the state of the application is undeterminable.",
                     } + "\n\n" + $"{(ReportedException.ExtraMessage is not null ? $"\n\n{ReportedException.ExtraMessage}" : "")}\n";
@@ -251,7 +292,7 @@ public partial class frmException : Form {
         }
 
         // The exception itself is null, but the reported data is not.
-        else rtbExceptionDetails.Text = "An exception occurred, but the received exception is null.\n";
+        else rtbExceptionDetails.Text = "An exception occurred, but the received exception is null.";
 
         // Add the OS info to the end of the main exception display.
         rtbExceptionDetails.AppendText("\n" + $$"""
@@ -268,17 +309,7 @@ public partial class frmException : Form {
 
         // Sets the version of the program to the exception form.
         lbVersion.Text = "v" + Program.CurrentVersion.ToString();
-
-        // Scroll to the top, because my rtb control is funny.
-        rtbExceptionDetails.ScrollToTop();
-        rtbExtraData.ScrollToTop();
     }
-
-    /// <summary>
-    /// Displays the github page.
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    private void btnExceptionGithub_Click(object sender, EventArgs e) =>
+    private void lbVersion_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) =>
         System.Diagnostics.Process.Start("https://github.com/murrty/youtube-dl-gui/issues");
 }

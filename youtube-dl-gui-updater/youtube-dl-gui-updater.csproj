@@ -50,42 +50,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Classes\GithubData.cs" />
-    <Compile Include="Classes\Language.cs" />
+    <Compile Include="Classes\DownloadType.cs" />
+    <Compile Include="Classes\Github.cs" />
+    <Compile Include="Github\GithubAsset.cs" />
+    <Compile Include="Github\GithubData.cs" />
+    <Compile Include="Github\GithubRepoContent.cs" />
+    <Compile Include="Language.cs" />
     <Compile Include="Classes\NativeMethods.cs" />
-    <Compile Include="Classes\ProgramData.cs" />
     <Compile Include="Classes\Serializer.cs" />
-    <Compile Include="..\Shared\Controls\Enums\HttpMethod.cs">
-      <Link>Controls\Shared\Enums\HttpMethod.cs</Link>
-    </Compile>
-    <Compile Include="..\Shared\Controls\Enums\ProgressState.cs">
-      <Link>Controls\Shared\Enums\ProgressState.cs</Link>
-    </Compile>
-    <Compile Include="..\Shared\Controls\Enums\TaskbarProgressState.cs">
-      <Link>Controls\Shared\Enums\TaskbarProgressState.cs</Link>
-    </Compile>
-    <Compile Include="..\Shared\Controls\Interfaces\TaskbarInterface.cs">
-      <Link>Controls\Shared\Interfaces\TaskbarInterface.cs</Link>
-    </Compile>
-    <Compile Include="..\Shared\Controls\Natives\Consts.cs">
-      <Link>Controls\Shared\Natives\Consts.cs</Link>
-    </Compile>
-    <Compile Include="..\Shared\Controls\Natives\NativeMethods.cs">
-      <Link>Controls\Shared\Natives\NativeMethods.cs</Link>
-    </Compile>
-    <Compile Include="..\Shared\Controls\ExtendedProgressBar.cs">
-      <SubType>Component</SubType>
-      <Link>Controls\Shared\ExtendedProgressBar.cs</Link>
-    </Compile>
-    <Compile Include="..\Shared\Controls\ExtendedRichTextBox.cs">
-      <SubType>Component</SubType>
-      <Link>Controls\Shared\ExtendedRichTextBox.cs</Link>
-    </Compile>
-    <Compile Include="..\Shared\Controls\ExtendedWebClient.cs">
-      <SubType>Component</SubType>
-      <Link>Controls\Shared\ExtendedWebClient.cs</Link>
-    </Compile>
-    <Compile Include="Controls\MessageHandler.cs" />
     <Compile Include="Forms\frmUpdaterInvalidData.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -98,23 +70,12 @@
     <Compile Include="Forms\frmUpdater.Designer.cs">
       <DependentUpon>frmUpdater.cs</DependentUpon>
     </Compile>
-    <Compile Include="..\Shared\CopyData.cs">
-      <Link>Classes\CopyData.cs</Link>
-    </Compile>
-    <Compile Include="Interfaces\IUpdateForm.cs" />
-    <Compile Include="Logging\Exceptions\ApiParsingException.cs" />
-    <Compile Include="Logging\ExceptionType.cs" />
     <Compile Include="Logging\Forms\frmException.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Logging\Forms\frmException.Designer.cs">
       <DependentUpon>frmException.cs</DependentUpon>
     </Compile>
-    <Compile Include="Logging\Natives\DwmComposition.cs" />
-    <Compile Include="Logging\Natives\DwmNatives.cs" />
-    <Compile Include="Logging\DwmCompositionInfo.cs" />
-    <Compile Include="Logging\DwmCompositionTextInfo.cs" />
-    <Compile Include="Logging\ExceptionInfo.cs" />
     <Compile Include="Logging\Log.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -122,7 +83,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Runtime\CompilerServices.cs" />
     <Compile Include="GlobalNamespaces.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Program.cs" />
@@ -154,6 +114,7 @@
   <ItemGroup>
     <None Include="Resources\ProgramIcon.ico" />
   </ItemGroup>
+  <Import Project="..\Controls\Controls.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>if $(ConfigurationName) == Release copy "$(TargetPath)" "$(SolutionDir)youtube-dl-gui\Resources"</PostBuildEvent>

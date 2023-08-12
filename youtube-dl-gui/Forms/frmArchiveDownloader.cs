@@ -6,17 +6,14 @@ public partial class frmArchiveDownloader : LocalizedForm {
         LoadLanguage();
 
         this.Load += (s, e) => {
-            if (Config.Settings.Saved.ArchiveDownloaderLocation.Valid) {
+            if (Saved.ArchiveDownloaderLocation.Valid) {
                 this.StartPosition = FormStartPosition.Manual;
-                this.Location = Config.Settings.Saved.ArchiveDownloaderLocation;
+                this.Location = Saved.ArchiveDownloaderLocation;
             }
         };
-        this.FormClosing += (s, e) => {
-            Config.Settings.Saved.ArchiveDownloaderLocation = this.Location;
-            Config.Settings.Saved.Save();
-        };
+        this.FormClosing += (s, e) => Saved.ArchiveDownloaderLocation = this.Location;
         txtArchiveDownloaderHint.MouseEnter += (s, e) => {
-            if (Config.Settings.General.HoverOverURLTextBoxToPaste)
+            if (General.HoverOverURLTextBoxToPaste)
                 txtArchiveDownloaderHint.Text = Clipboard.GetText();
         };
     }

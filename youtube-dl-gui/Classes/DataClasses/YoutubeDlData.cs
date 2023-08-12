@@ -13,14 +13,11 @@ using System.Runtime.Serialization;
 internal sealed class YoutubeDlData {
     // Tested on yt-dlp
 
-    public static YoutubeDlData GenerateData(string URL, out string RetrievedData) =>
-        Generate(URL, "-j --no-playlist", null, out RetrievedData);
-    public static YoutubeDlData GenerateData(string URL, AuthenticationDetails Auth, out string RetrievedData) =>
-        Generate(URL, "-j --no-playlist", Auth, out RetrievedData);
-    public static YoutubeDlData GeneratePlaylist(string URL, out string RetrievedData) =>
-        Generate(URL, "-J", null, out RetrievedData);
-    public static YoutubeDlData GeneratePlaylist(string URL, AuthenticationDetails Auth, out string RetrievedData) =>
-        Generate(URL, "-J", Auth, out RetrievedData);
+    public static YoutubeDlData GenerateData(string URL, out string RetrievedData) => Generate(URL, "-j --no-playlist", null, out RetrievedData);
+    public static YoutubeDlData GenerateData(string URL, AuthenticationDetails Auth, out string RetrievedData) => Generate(URL, "-j --no-playlist", Auth, out RetrievedData);
+    public static YoutubeDlData GeneratePlaylist(string URL, out string RetrievedData) => Generate(URL, "-J", null, out RetrievedData);
+    public static YoutubeDlData GeneratePlaylist(string URL, AuthenticationDetails Auth, out string RetrievedData) => Generate(URL, "-J", Auth, out RetrievedData);
+
     private static YoutubeDlData Generate(string URL, string GenerateCommand, AuthenticationDetails Auth, out string RetrievedData) {
         RetrievedData = null;
         if (!URL.IsNullEmptyWhitespace()) {
@@ -33,17 +30,17 @@ internal sealed class YoutubeDlData {
 
             StringBuilder ConnectionArgs = new(string.Empty);
 
-            if (Config.Settings.Downloads.RetryAttempts != 10 && Config.Settings.Downloads.RetryAttempts > 0)
-                ConnectionArgs.Append($"--retries {Config.Settings.Downloads.RetryAttempts} ");
+            if (Downloads.RetryAttempts != 10 && Downloads.RetryAttempts > 0)
+                ConnectionArgs.Append($"--retries {Downloads.RetryAttempts} ");
 
-            if (Config.Settings.Downloads.ForceIPv4)
+            if (Downloads.ForceIPv4)
                 ConnectionArgs.Append("--force-ipv4 ");
-            else if (Config.Settings.Downloads.ForceIPv6)
+            else if (Downloads.ForceIPv6)
                 ConnectionArgs.Append("--force-ipv6 ");
 
-            if (Config.Settings.Downloads.UseProxy && Config.Settings.Downloads.ProxyType > -1 &&
-            !string.IsNullOrEmpty(Config.Settings.Downloads.ProxyIP) && !string.IsNullOrEmpty(Config.Settings.Downloads.ProxyPort))
-                ConnectionArgs.Append($"--proxy {DownloadHelper.ProxyProtocols[Config.Settings.Downloads.ProxyType]}{Config.Settings.Downloads.ProxyIP}:{Config.Settings.Downloads.ProxyPort}/ ");
+            if (Downloads.UseProxy && Downloads.ProxyType > -1 &&
+            !string.IsNullOrEmpty(Downloads.ProxyIP) && !string.IsNullOrEmpty(Downloads.ProxyPort))
+                ConnectionArgs.Append($"--proxy {DownloadHelper.ProxyProtocols[Downloads.ProxyType]}{Downloads.ProxyIP}:{Downloads.ProxyPort}/ ");
 
             if (Auth is not null) {
                 if (!Auth.Username.IsNullEmptyWhitespace())
@@ -102,6 +99,7 @@ internal sealed class YoutubeDlData {
         }
         return null;
     }
+
 
     public Image GetThumbnail() {
         Log.Write($"Downloading the thumbnail for \"{URL}\".");
@@ -240,15 +238,18 @@ internal sealed class YoutubeDlSubdata {
                 if (Extension is null || !ExtensionValidGeneric)
                     return false;
 
-                if (VideoResolution is not null && VideoResolution.ToLower() == "audio only")
+                if (VideoResolution is not null && VideoResolution.ToLowerInvariant() == "audio only")
                     return false;
 
                 return
-                    VideoCodec.IsNotNullEmptyWhitespace() && VideoCodec.ToLower() != "none" && (
+                    VideoCodec.IsNotNullEmptyWhitespace() && VideoCodec.ToLowerInvariant() != "none" && (
                     VideoWidth is not null && VideoWidth > 0 ||
                     VideoHeight is not null && VideoHeight > 0 ||
                     VideoFps is not null && VideoFps > 0 ||
-                    VideoBitrate is not null && VideoBitrate > 0
+                    VideoBitrate is not null && VideoBitrate > 0 ||
+
+                    // Fixes #176
+                    Identifier.ToLowerInvariant().StartsWith("video-")
                     );
             }
         }
@@ -262,16 +263,21 @@ internal sealed class YoutubeDlSubdata {
                 if (Extension is null || !ExtensionValidGeneric)
                     return false;
 
+                // Fixes soundcloud issues where high-quality WAV files were filed under "Unknown".
                 if (Extension is not null) {
-                    if (Extension.ToLower() == "wav")
+                    if (Extension.ToLowerInvariant() == "wav")
                         return true;
                 }
 
                 return (
-                    AudioCodec.IsNotNullEmptyWhitespace() && AudioCodec.ToLower() != "none" ||
+                    (AudioCodec.IsNotNullEmptyWhitespace() && AudioCodec.ToLowerInvariant() != "none") ||
                     AudioSampleRate is not null && AudioSampleRate > 0 ||
                     AudioBitrate is not null && AudioBitrate > 0 ||
-                    AudioChannels is not null && AudioChannels > 0);
+                    AudioChannels is not null && AudioChannels > 0 ||
+
+                    // Fixes #176
+                    Identifier.ToLowerInvariant().StartsWith("audio-")
+                    );
             }
         }
 

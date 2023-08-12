@@ -9,16 +9,11 @@ using murrty.classes;
 /// <summary>
 /// Represents a form that displays exception information to the user.
 /// </summary>
-public partial class frmException : Form {
+internal partial class frmException : Form {
     /// <summary>
     /// The private ExceptionInfo holding information about the exception.
     /// </summary>
     private ExceptionInfo ReportedException { get; }
-
-    /// <summary>
-    /// The DWM compositor, for making the form look prettier.
-    /// </summary>
-    private DwmComposition DwmCompositor { get; }
 
     /// <summary>
     /// Composition info relating to each form instance.
@@ -82,7 +77,6 @@ public partial class frmException : Form {
 
         // Hell
         if (DwmComposition.CompositionSupported && !ReportedException.SkipDwmComposition) {
-            DwmCompositor = new();
             DwmInfo = new(
                 hWnd: this.Handle,
                 Margins: new() {
@@ -109,14 +103,14 @@ public partial class frmException : Form {
 
             pnDWM.Visible = false;
             lbExceptionHeader.Visible = false;
-            DwmCompositor.ExtendFrame(DwmInfo);
+            DwmComposition.ExtendFrame(DwmInfo);
             this.Paint += (s, e) => {
-                DwmCompositor.FillBlackRegion(DwmInfo);
-                DwmCompositor.DrawTextOnGlass(DwmInfo, DwmInfo.Text);
+                DwmComposition.FillBlackRegion(DwmInfo);
+                DwmComposition.DrawTextOnGlass(DwmInfo, DwmInfo.Text);
             };
             this.MouseDown += (s, e) => {
                 if (e.Button == MouseButtons.Left && DwmInfo.DwmRectangle.Contains(e.Location)) {
-                    DwmCompositor.MoveForm(DwmInfo);
+                    DwmComposition.MoveForm(DwmInfo);
                 }
             };
         }

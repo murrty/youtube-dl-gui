@@ -3,6 +3,7 @@ namespace murrty.controls;
 
 using System.ComponentModel;
 using System.Drawing;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 [DefaultEvent("OnValueChanged")]
@@ -22,7 +23,7 @@ public sealed class TimePicker : UserControl {
         this.TimeDisplay.Name = "TheTimeBox";
         this.TimeDisplay.Size = new Size(75, 20);
         this.TimeDisplay.TabIndex = 0;
-        this.TimeDisplay.Text = "00:00:00.000";
+        this.TimeDisplay.Text = "00:00:00";
         this.TimeDisplay.Click += new EventHandler(this.TimeDisplay_Click);
         this.TimeDisplay.KeyDown += new KeyEventHandler(this.TimeDisplay_KeyDown);
         this.TimeDisplay.LostFocus += new EventHandler(TimeDisplay_LostFocus);
@@ -49,18 +50,44 @@ public sealed class TimePicker : UserControl {
 
     [Browsable(true)]
     public event EventHandler OnValueChanged;
-    [DefaultValue(0)]
-    public int Hours { get; set; } = 0;
-    [DefaultValue(0)]
-    public int Minutes { get; set; } = 0;
-    [DefaultValue(0)]
-    public int Seconds { get; set; } = 0;
-    [DefaultValue(0)]
-    public int Milliseconds { get; set; } = 0;
+    [Browsable(true)]
+    public new Font Font { get => TimeDisplay.Font; set => TimeDisplay.Font = value; }
     [DefaultValue(true)]
     public bool DateBasedTime { get; set; } = true;
+    [DefaultValue(false)]
+    public bool ShowMilliseconds {
+        get => _showms;
+        set {
+            _showms = value;
+            UpdateDisplay();
+        }
+    }
+    //[DefaultValue("00:00:00")]
+    //[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    //public string Time {
+    //    get => TimeDisplay.Text;
+    //    set {
+    //        if (value is null || !Regex.IsMatch(value, "([0-9]{1,}:)?[0-9]{1,2}:[0-9]{1,2}(\\.[0-9]{1,3})?")) {
+    //            Hours = 0;
+    //            Minutes = 0;
+    //            Seconds = 0;
+    //            Milliseconds = 0;
+    //        }
+    //        else {
+                
+    //        }
 
-    public TimeSpan Value {
+    //    }
+    //}
+    private int Hours { get; set; } = 0;
+    private int Minutes { get; set; } = 0;
+    private int Seconds { get; set; } = 0;
+    private int Milliseconds { get; set; } = 0;
+    private bool _showms = false;
+
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public TimeSpan TimeSpan {
         get {
             return new TimeSpan(0, Hours > 24 ? 0 : Hours, Minutes, Seconds, Milliseconds);
         }
@@ -73,7 +100,8 @@ public sealed class TimePicker : UserControl {
     }
 
     [Browsable(false)]
-    public Time TimeValue {
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public Time Value {
         get => new(Hours, Minutes, Seconds, Milliseconds);
         set {
             Hours = value.Hours;
@@ -98,44 +126,52 @@ public sealed class TimePicker : UserControl {
         InitializeComponent();
     }
 
-    public void SetValues(int Hour, int Minute, int Second, int Millisecond) {
+    private bool SpecifyingNumbers = false;
+    private int NumbersStartingIndex = -1;
+
+    protected override bool ProcessTabKey(bool forward) {
+        if (SpecifyingNumbers)
+            UpdateControl();
+
+        if (TimeDisplay.SelectionStart <= HourToMinuteSeparator) {
+            SelectMinutePosition();
+            return true;
+        }
+        else if (TimeDisplay.SelectionStart <= MinuteToSecondSeparator) {
+            SelectSecondPosition();
+            return true;
+        }
+        else if (ShowMilliseconds && TimeDisplay.SelectionStart <= SecondToMillisecondSeparator) {
+            SelectMillisecondPosition();
+            return true;
+        }
+        else {
+            SelectHourPosition();
+            return base.ProcessTabKey(forward);
+        }
+    }
+    public void SetValue(int Hour, int Minute, int Second, int Millisecond) {
         this.Hours = Hour >= 24 && DateBasedTime ? 24 : Hours < 0 ? 0 : Hours;
         this.Minutes = Minute >= 59 ? 59 : Minute < 0 ? 0 : Minute;
         this.Seconds = Second >= 59 ? 59 : Second < 0 ? 0 : Second;
         this.Milliseconds = Millisecond >= 999 ? 999 : Millisecond < 0 ? 0 : Millisecond;
         UpdateDisplay();
     }
-
-    private void TimeDisplay_LostFocus(object sender, EventArgs e) {
-        if (SpecifyingNumbers) {
-            try {
-                UpdateControl();
-            }
-            catch { }
-        }
-    }
     private void UpdateControl() {
-        //Debug.Print("UpdateControl");
-
         string[] Parts = TimeDisplay.Text.Trim().Split(":".ToCharArray());
-        string[] SecondParts = Parts[2].Split(".".ToCharArray());
 
-        if (!int.TryParse(Parts[0], out int ParseHours) || ParseHours < 0)
-            ParseHours = 0;
+        this.Hours = !int.TryParse(Parts[0], out int ParseHours) || ParseHours < 0 ? 0 : ParseHours >= 25 && DateBasedTime ? 24 : ParseHours;
+        this.Minutes = !int.TryParse(Parts[1], out int ParseMinutes) || ParseMinutes < 0 ? 0 : ParseMinutes >= 59 ? 59 : ParseMinutes;
 
-        if (!int.TryParse(Parts[1], out int ParseMinutes) || ParseMinutes < 0)
-            ParseMinutes = 0;
-
-        if (!int.TryParse(SecondParts[0], out int ParseSeconds) || ParseSeconds < 0)
-            ParseSeconds = 0;
-
-        if (!int.TryParse(SecondParts[1], out int ParseMilliseconds) || ParseMilliseconds < 0)
-            ParseMilliseconds = 0;
-
-        this.Hours = ParseHours >= 24 && DateBasedTime ? 24 : ParseHours;
-        this.Minutes = ParseMinutes >= 59 ? 59 : ParseMinutes;
-        this.Seconds = ParseSeconds >= 59 ? 59 : ParseSeconds;
-        this.Milliseconds = ParseMilliseconds >= 999 ? 999 : ParseMilliseconds;
+        if (ShowMilliseconds) {
+            string[] SecondParts = Parts[2].Split(".".ToCharArray());
+            this.Seconds = !int.TryParse(SecondParts[0], out int ParseSeconds) || ParseSeconds < 0 ? 0 : ParseSeconds >= 59 ? 59 : ParseSeconds;
+            this.Milliseconds = !int.TryParse(SecondParts[1], out int ParseMilliseconds) || ParseMilliseconds < 0 ? 0 : ParseMilliseconds >= 999 ? 999 : ParseMilliseconds;
+        }
+        else {
+            this.Seconds = !int.TryParse(Parts[2], out int ParseSeconds) || ParseSeconds < 0 ? 0: ParseSeconds >= 59 ? 59 : ParseSeconds;
+            this.Milliseconds = 0;
+        }
 
         UpdateHourSeparator();
         UpdateDisplay();
@@ -143,10 +179,8 @@ public sealed class TimePicker : UserControl {
         OnValueChanged?.Invoke(null, new EventArgs());
     }
     private void UpdateDisplay() {
-        //Debug.Print("UpdateDisplay");
-
         int SelectedIndex = SpecifyingNumbers ? NumbersStartingIndex : TimeDisplay.SelectionStart;
-        TimeDisplay.Text = $"{Hours:D2}:{Minutes:D2}:{Seconds:D2}.{Milliseconds:D3}";
+        TimeDisplay.Text = $"{Hours:D2}:{Minutes:D2}:{Seconds:D2}" + (ShowMilliseconds ? $".{Milliseconds:D3}" : "");
         SelectedIndex = SelectedIndex > TimeDisplay.Text.Length ? TimeDisplay.Text.Length : SelectedIndex;
         SelectCorrectText(SelectedIndex);
     }
@@ -164,29 +198,32 @@ public sealed class TimePicker : UserControl {
             _ => 10,
         };
     }
-    bool SpecifyingNumbers = false;
-    private int NumbersStartingIndex = -1;
+    private void SelectCorrectText(int SelectedIndex) {
+        //Debug.Print("SelectCorrectText");
 
-    protected override bool ProcessTabKey(bool forward) {
-        if (SpecifyingNumbers)
-            UpdateControl();
+        if (SelectedIndex <= HourToMinuteSeparator)
+            SelectHourPosition();
+        else if (SelectedIndex <= MinuteToSecondSeparator)
+            SelectMinutePosition();
+        else if (SelectedIndex <= SecondToMillisecondSeparator || !ShowMilliseconds)
+            SelectSecondPosition();
+        else
+            SelectMillisecondPosition();
+    }
 
-        if (TimeDisplay.SelectionStart <= HourToMinuteSeparator) {
-            TimeDisplay.Select(HourToMinuteSeparator + 1, 2);
-            return true;
+    public void SelectHourPosition() => TimeDisplay.Select(0, HourToMinuteSeparator);
+    public void SelectMinutePosition() => TimeDisplay.Select(HourToMinuteSeparator + 1, 2);
+    public void SelectSecondPosition() => TimeDisplay.Select(MinuteToSecondSeparator + 1, 2);
+    public void SelectMillisecondPosition(bool? GoToHours = null) {
+        if (!ShowMilliseconds) {
+            if (GoToHours is not null) {
+                if (GoToHours == true)
+                    SelectHourPosition();
+                else SelectSecondPosition();
+            }
+            return;
         }
-        else if (TimeDisplay.SelectionStart <= MinuteToSecondSeparator) {
-            TimeDisplay.Select(MinuteToSecondSeparator + 1, 2);
-            return true;
-        }
-        else if (TimeDisplay.SelectionStart <= SecondToMillisecondSeparator) {
-            TimeDisplay.Select(SecondToMillisecondSeparator + 1, 3);
-            return true;
-        }
-        else {
-            TimeDisplay.Select(0, HourToMinuteSeparator);
-            return base.ProcessTabKey(forward);
-        }
+        TimeDisplay.Select(SecondToMillisecondSeparator + 1, 3);
     }
 
     private void TimeDisplay_KeyDown(object sender, KeyEventArgs e) {
@@ -195,26 +232,46 @@ public sealed class TimePicker : UserControl {
                 if (SpecifyingNumbers)
                     UpdateControl();
 
-                if (TimeDisplay.SelectionStart <= HourToMinuteSeparator) {
-                    if (DateBasedTime && Hours >= 24) {
-                        Hours = 0;
-                    } else Hours++;
-                    UpdateHourSeparator();
-                }
-                else if (TimeDisplay.SelectionStart <= MinuteToSecondSeparator) {
-                    if (Minutes >= 59) {
-                        Minutes = 0;
-                    } else Minutes++;
-                }
-                else if (TimeDisplay.SelectionStart <= SecondToMillisecondSeparator) {
-                    if (Seconds >= 59) {
-                        Seconds = 0;
-                    } else Seconds++;
+                if (ShowMilliseconds) {
+                    if (TimeDisplay.SelectionStart <= HourToMinuteSeparator) {
+                        if (DateBasedTime && Hours >= 24) {
+                            Hours = 0;
+                        } else Hours++;
+                        UpdateHourSeparator();
+                    }
+                    else if (TimeDisplay.SelectionStart <= MinuteToSecondSeparator) {
+                        if (Minutes >= 59) {
+                            Minutes = 0;
+                        } else Minutes++;
+                    }
+                    else if (TimeDisplay.SelectionStart <= SecondToMillisecondSeparator) {
+                        if (Seconds >= 59) {
+                            Seconds = 0;
+                        } else Seconds++;
+                    }
+                    else {
+                        if (Milliseconds >= 999) {
+                            Milliseconds = 0;
+                        } else Milliseconds++;
+                    }
                 }
                 else {
-                    if (Milliseconds >= 999) {
-                        Milliseconds = 0;
-                    } else Milliseconds++;
+                    if (TimeDisplay.SelectionStart <= HourToMinuteSeparator) {
+                        if (DateBasedTime && Hours >= 24) {
+                            Hours = 0;
+                        } else Hours++;
+                        UpdateHourSeparator();
+                    }
+                    else if (TimeDisplay.SelectionStart <= MinuteToSecondSeparator) {
+                        if (Minutes >= 59) {
+                            Minutes = 0;
+                        } else Minutes++;
+                    }
+                    else {
+                        if (Seconds >= 59) {
+                            Seconds = 0;
+                        } else Seconds++;
+                    }
                 }
 
                 UpdateDisplay();
@@ -225,32 +282,58 @@ public sealed class TimePicker : UserControl {
                 if (SpecifyingNumbers)
                     UpdateControl();
 
-                if (TimeDisplay.SelectionStart <= HourToMinuteSeparator) {
-                    if (Hours <= 0) {
-                        if (!DateBasedTime) {
-                            e.Handled = true;
-                            e.SuppressKeyPress = true;
-                            System.Media.SystemSounds.Exclamation.Play();
-                            return;
-                        }
-                        Hours = 24;
-                    } else Hours--;
-                    UpdateHourSeparator();
-                }
-                else if (TimeDisplay.SelectionStart <= MinuteToSecondSeparator) {
-                    if (Minutes <= 0) {
-                        Minutes = 59;
-                    } else Minutes--;
-                }
-                else if (TimeDisplay.SelectionStart <= SecondToMillisecondSeparator) {
-                    if (Seconds <= 0) {
-                        Seconds = 59;
-                    } else Seconds--;
+                if (ShowMilliseconds) {
+                    if (TimeDisplay.SelectionStart <= HourToMinuteSeparator) {
+                        if (Hours <= 0) {
+                            if (!DateBasedTime) {
+                                e.Handled = true;
+                                e.SuppressKeyPress = true;
+                                System.Media.SystemSounds.Exclamation.Play();
+                                return;
+                            }
+                            Hours = 24;
+                        } else Hours--;
+                        UpdateHourSeparator();
+                    }
+                    else if (TimeDisplay.SelectionStart <= MinuteToSecondSeparator) {
+                        if (Minutes <= 0) {
+                            Minutes = 59;
+                        } else Minutes--;
+                    }
+                    else if (TimeDisplay.SelectionStart <= SecondToMillisecondSeparator) {
+                        if (Seconds <= 0) {
+                            Seconds = 59;
+                        } else Seconds--;
+                    }
+                    else {
+                        if (Milliseconds <= 0) {
+                            Milliseconds = 999;
+                        } else Milliseconds--;
+                    }
                 }
                 else {
-                    if (Milliseconds <= 0) {
-                        Milliseconds = 999;
-                    } else Milliseconds--;
+                    if (TimeDisplay.SelectionStart <= HourToMinuteSeparator) {
+                        if (Hours <= 0) {
+                            if (!DateBasedTime) {
+                                e.Handled = true;
+                                e.SuppressKeyPress = true;
+                                System.Media.SystemSounds.Exclamation.Play();
+                                return;
+                            }
+                            Hours = 24;
+                        } else Hours--;
+                        UpdateHourSeparator();
+                    }
+                    else if (TimeDisplay.SelectionStart <= MinuteToSecondSeparator) {
+                        if (Minutes <= 0) {
+                            Minutes = 59;
+                        } else Minutes--;
+                    }
+                    else {
+                        if (Seconds <= 0) {
+                            Seconds = 59;
+                        } else Seconds--;
+                    }
                 }
 
                 UpdateDisplay();
@@ -261,18 +344,14 @@ public sealed class TimePicker : UserControl {
                 if (SpecifyingNumbers)
                     UpdateControl();
 
-                if (TimeDisplay.SelectionStart <= HourToMinuteSeparator) {
-                    TimeDisplay.Select(SecondToMillisecondSeparator + 1, 3);
-                }
-                else if (TimeDisplay.SelectionStart <= MinuteToSecondSeparator) {
-                    TimeDisplay.Select(0, HourToMinuteSeparator);
-                }
-                else if (TimeDisplay.SelectionStart <= SecondToMillisecondSeparator) {
-                    TimeDisplay.Select(HourToMinuteSeparator + 1, 2);
-                }
-                else {
-                    TimeDisplay.Select(MinuteToSecondSeparator + 1, 2);
-                }
+                if (TimeDisplay.SelectionStart <= HourToMinuteSeparator)
+                    SelectMillisecondPosition(false);
+                else if (TimeDisplay.SelectionStart <= MinuteToSecondSeparator)
+                    SelectHourPosition();
+                else if (TimeDisplay.SelectionStart <= SecondToMillisecondSeparator)
+                    SelectMinutePosition();
+                else
+                    SelectSecondPosition();
 
                 e.Handled = e.SuppressKeyPress = true;
             } break;
@@ -280,18 +359,14 @@ public sealed class TimePicker : UserControl {
                 if (SpecifyingNumbers)
                     UpdateControl();
 
-                if (TimeDisplay.SelectionStart <= HourToMinuteSeparator) {
-                    TimeDisplay.Select(HourToMinuteSeparator + 1, 2);
-                }
-                else if (TimeDisplay.SelectionStart <= MinuteToSecondSeparator) {
-                    TimeDisplay.Select(MinuteToSecondSeparator + 1, 2);
-                }
-                else if (TimeDisplay.SelectionStart <= SecondToMillisecondSeparator) {
-                    TimeDisplay.Select(SecondToMillisecondSeparator + 1, 3);
-                }
-                else {
-                    TimeDisplay.Select(0, HourToMinuteSeparator);
-                }
+                if (TimeDisplay.SelectionStart <= HourToMinuteSeparator)
+                    SelectMinutePosition();
+                else if (TimeDisplay.SelectionStart <= MinuteToSecondSeparator)
+                    SelectSecondPosition();
+                else if (ShowMilliseconds && TimeDisplay.SelectionStart <= SecondToMillisecondSeparator)
+                    SelectMillisecondPosition();
+                else
+                    SelectHourPosition();
 
                 e.Handled = e.SuppressKeyPress = true;
             } break;
@@ -319,21 +394,14 @@ public sealed class TimePicker : UserControl {
             } break;
         }
     }
-    private void SelectCorrectText(int SelectedIndex) {
-        //Debug.Print("SelectCorrectText");
+    private void TimeDisplay_LostFocus(object sender, EventArgs e) {
+        if (!SpecifyingNumbers)
+            return;
 
-        if (SelectedIndex <= HourToMinuteSeparator) {
-            TimeDisplay.Select(0, HourToMinuteSeparator);
+        try {
+            UpdateControl();
         }
-        else if (SelectedIndex <= MinuteToSecondSeparator) {
-            TimeDisplay.Select(HourToMinuteSeparator + 1, 2);
-        }
-        else if (SelectedIndex <= SecondToMillisecondSeparator) {
-            TimeDisplay.Select(MinuteToSecondSeparator + 1, 2);
-        }
-        else {
-            TimeDisplay.Select(SecondToMillisecondSeparator + 1, 3);
-        }
+        catch { }
     }
     private void TimeDisplay_Click(object sender, EventArgs e) {
         if (SpecifyingNumbers)
@@ -561,6 +629,23 @@ public struct TimeOffset : IEquatable<TimeOffset> {
 
     public Time StartingTime;
     public Time EndingTime;
+
+    public TimeOffset() {
+        StartingTime = Time.Empty;
+        EndingTime = Time.Empty;
+    }
+    
+    public TimeOffset(Time StartingTime) {
+        this.StartingTime = StartingTime;
+        EndingTime = Time.Empty;
+    }
+
+    public TimeOffset(Time StartingTime, Time EndingTime) {
+        if (EndingTime >= StartingTime)
+            throw new ArgumentOutOfRangeException(nameof(EndingTime));
+        this.StartingTime = StartingTime;
+        this.EndingTime = EndingTime;
+    }
 
     public bool HasStartingTime => StartingTime != Time.Empty;
     public bool HasEndingTime => EndingTime != Time.Empty;

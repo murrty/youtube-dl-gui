@@ -40,11 +40,13 @@ public static class Language {
     public static string GenericAdd { get; private set; }
     public static string GenericClose { get; private set; }
     public static string GenericClear { get; private set; }
+    public static string GenericAbort { get; private set; }
     public static string GenericRemoveSelected { get; private set; }
     public static string GenericVerifyLinks { get; private set; }
     public static string GenericDoNotReEncode { get; private set; }
     public static string GenericDoNotRemux { get; private set; }
     public static string GenericDoNotDownload { get; private set; }
+    public static string GenericDoNotInclude { get; private set; }
     public static string GenericUnknownFormat { get; private set; }
     public static string GenericMoreInfo { get; private set; }
     public static string GenericTitle { get; private set; }
@@ -113,6 +115,7 @@ public static class Language {
     public static string pbDownloadProgressEmbeddingMetadata { get; private set; }
     public static string pbDownloadProgressMergingFormats { get; private set; }
     public static string pbDownloadProgressConverting { get; private set; }
+    public static string pbDownloadProgressExtractingAudio { get; private set; }
     #endregion
 
     #region frmAbout
@@ -623,11 +626,13 @@ public static class Language {
         public const string GenericAdd = "Add";
         public const string GenericClose = "Close";
         public const string GenericClear = "Clear";
+        public const string GenericAbort = "Abort";
         public const string GenericRemoveSelected = "Remove selected";
         public const string GenericVerifyLinks = "Verify copied links";
         public const string GenericDoNotReEncode = "(Do not re-encode)";
         public const string GenericDoNotRemux = "(Do not remux)";
         public const string GenericDoNotDownload = "(Do not download)";
+        public const string GenericDoNotInclude = "(Do not include)";
         public const string GenericUnknownFormat = "Unknown format";
         public const string GenericMoreInfo = "More info";
         public const string GenericTitle = "Title";
@@ -696,6 +701,7 @@ public static class Language {
         public const string pbDownloadProgressEmbeddingMetadata = "Emedding metadata...";
         public const string pbDownloadProgressMergingFormats = "Merging formats...";
         public const string pbDownloadProgressConverting = "Converting media...";
+        public const string pbDownloadProgressExtractingAudio = "Extracting audio...";
         #endregion
 
         #region frmAbout
@@ -1242,11 +1248,13 @@ public static class Language {
         GenericAdd = InternalEnglish.GenericAdd;
         GenericClose = InternalEnglish.GenericClose;
         GenericClear = InternalEnglish.GenericClear;
+        GenericAbort = InternalEnglish.GenericAbort;
         GenericRemoveSelected = InternalEnglish.GenericRemoveSelected;
         GenericVerifyLinks = InternalEnglish.GenericVerifyLinks;
         GenericDoNotReEncode = InternalEnglish.GenericDoNotReEncode;
         GenericDoNotRemux = InternalEnglish.GenericDoNotRemux;
         GenericDoNotDownload = InternalEnglish.GenericDoNotDownload;
+        GenericDoNotInclude = InternalEnglish.GenericDoNotInclude;
         GenericUnknownFormat = InternalEnglish.GenericUnknownFormat;
         GenericMoreInfo = InternalEnglish.GenericMoreInfo;
         GenericTitle = InternalEnglish.GenericTitle;
@@ -1315,6 +1323,7 @@ public static class Language {
         pbDownloadProgressEmbeddingMetadata = InternalEnglish.pbDownloadProgressEmbeddingMetadata;
         pbDownloadProgressMergingFormats = InternalEnglish.pbDownloadProgressMergingFormats;
         pbDownloadProgressConverting = InternalEnglish.pbDownloadProgressConverting;
+        pbDownloadProgressExtractingAudio = InternalEnglish.pbDownloadProgressExtractingAudio;
         #endregion
 
         #region frmAbout
@@ -1845,11 +1854,13 @@ public static class Language {
         GenericAdd = nameof(GenericAdd);
         GenericClose = nameof(GenericClose);
         GenericClear = nameof(GenericClear);
+        GenericAbort = nameof(GenericAbort);
         GenericRemoveSelected = nameof(GenericRemoveSelected);
         GenericVerifyLinks = nameof(GenericVerifyLinks);
         GenericDoNotReEncode = nameof(GenericDoNotReEncode);
         GenericDoNotRemux = nameof(GenericDoNotRemux);
         GenericDoNotDownload = nameof(GenericDoNotDownload);
+        GenericDoNotInclude = nameof(GenericDoNotInclude);
         GenericUnknownFormat = nameof(GenericUnknownFormat);
         GenericMoreInfo = nameof(GenericMoreInfo);
         GenericTitle = nameof(GenericTitle);
@@ -1918,6 +1929,7 @@ public static class Language {
         pbDownloadProgressEmbeddingMetadata = nameof(pbDownloadProgressEmbeddingMetadata);
         pbDownloadProgressMergingFormats = nameof(pbDownloadProgressMergingFormats);
         pbDownloadProgressConverting = nameof(pbDownloadProgressConverting);
+        pbDownloadProgressExtractingAudio = nameof(pbDownloadProgressExtractingAudio);
         #endregion
 
         #region frmAbout
@@ -2440,7 +2452,7 @@ public static class Language {
 
                 using System.IO.StreamReader ReadLanguageFile = new(LanguageFile);
                 string ReadLine;    // The line of the file
-                while ((ReadLine = ReadLanguageFile.ReadLine()) != null) {
+                while ((ReadLine = ReadLanguageFile.ReadLine()) is not null) {
                     if (ReadLine.StartsWith("//") || string.IsNullOrWhiteSpace(ReadLine))
                         continue;
                     else if (ReadLine.StartsWith("[") && ReadLine.Contains("]")) {
@@ -2521,6 +2533,9 @@ public static class Language {
                             case nameof(GenericClear):
                                 GenericClear = ReadValue;
                                 continue;
+                            case nameof(GenericAbort):
+                                GenericAbort = ReadValue;
+                                continue;
                             case nameof(GenericRemoveSelected):
                                 GenericRemoveSelected = ReadValue;
                                 continue;
@@ -2535,6 +2550,9 @@ public static class Language {
                                 continue;
                             case nameof(GenericDoNotDownload):
                                 GenericDoNotDownload = ReadValue;
+                                continue;
+                            case nameof(GenericDoNotInclude):
+                                GenericDoNotInclude = ReadValue;
                                 continue;
                             case nameof(GenericUnknownFormat):
                                 GenericUnknownFormat = ReadValue;
@@ -2715,6 +2733,9 @@ public static class Language {
                                 continue;
                             case nameof(pbDownloadProgressConverting):
                                 pbDownloadProgressConverting = ReadValue;
+                                continue;
+                            case nameof(pbDownloadProgressExtractingAudio):
+                                pbDownloadProgressExtractingAudio = ReadValue;
                                 continue;
                             #endregion
 

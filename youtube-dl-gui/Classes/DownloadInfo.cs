@@ -90,7 +90,7 @@ public sealed class DownloadInfo {
     /// Initializes a new instance of <see cref="DownloadInfo"/> with information for downloading a media object.
     /// </summary>
     public DownloadInfo() {
-        FileNameSchema = Config.Settings.Downloads.fileNameSchema;
+        FileNameSchema = Downloads.fileNameSchema;
     }
 
     /// <summary>
@@ -131,12 +131,7 @@ public sealed class DownloadInfo {
         StringBuilder PreviewArguments;
 
         #region youtube-dl path
-        string DownloadProvider = Config.Settings.Downloads.YtdlType switch {
-            1 => "youtube-dl",
-            3 => "youtube-dl-patch",
-            2 => "yt-dlp-patch",
-            _ => "yt-dlp",
-        };
+        string DownloadProvider = Verification.GetYoutubeDlProvider(false);
 
         Verbose($"Using {DownloadProvider} as the download provider.");
         if (!Verification.YoutubeDlAvailable) {
@@ -156,21 +151,21 @@ public sealed class DownloadInfo {
         Verbose("Generating output directory structure");
 
         StringBuilder OutputDirectory = new($"\"{(
-            Config.Settings.Downloads.downloadPath.StartsWith("./") || Config.Settings.Downloads.downloadPath.StartsWith(".\\") ?
-                $"{Program.ProgramPath}\\{Config.Settings.Downloads.downloadPath[2..]}" :
-                Config.Settings.Downloads.downloadPath)}");
+            Downloads.downloadPath.StartsWith("./") || Downloads.downloadPath.StartsWith(".\\") ?
+                $"{Program.ProgramPath}\\{Downloads.downloadPath[2..]}" :
+                Downloads.downloadPath)}");
 
-        if (BatchDownload && Config.Settings.Downloads.SeparateBatchDownloads) {
+        if (BatchDownload && Downloads.SeparateBatchDownloads) {
             OutputDirectory.Append("\\# Batch Downloads #");
 
-            if (Config.Settings.Downloads.AddDateToBatchDownloadFolders)
+            if (Downloads.AddDateToBatchDownloadFolders)
                 OutputDirectory.Append($"\\{BatchTime}");
         }
 
-        if (Config.Settings.Downloads.separateIntoWebsiteURL)
+        if (Downloads.separateIntoWebsiteURL)
             OutputDirectory.Append($"\\{DownloadHelper.GetUrlBase(DownloadURL, MostlyCustomArguments)}");
 
-        if (Config.Settings.Downloads.separateDownloads && !MostlyCustomArguments) {
+        if (Downloads.separateDownloads && !MostlyCustomArguments) {
             switch (Type) {
                 case DownloadType.Video:
                     OutputDirectory.Append("\\Video");
@@ -270,7 +265,7 @@ public sealed class DownloadInfo {
                     break;
             }
 
-            if (Config.Settings.Downloads.PreferFFmpeg || (DownloadHelper.IsReddit(DownloadURL) && Config.Settings.Downloads.fixReddit)) {
+            if (Downloads.PreferFFmpeg || (DownloadHelper.IsReddit(DownloadURL) && Downloads.fixReddit)) {
                 Verbose("Looking for ffmpeg");
                 bool AddArg = true;
                 if (!Verification.FfmpegAvailable) {
@@ -288,25 +283,25 @@ public sealed class DownloadInfo {
                 }
             }
 
-            if (Config.Settings.Downloads.SaveSubtitles) {
+            if (Downloads.SaveSubtitles) {
                 ArgumentsBuffer.Append(" --all-subs");
 
-                if (!string.IsNullOrEmpty(Config.Settings.Downloads.SubtitleFormat))
-                    ArgumentsBuffer.Append($" --sub-format {Config.Settings.Downloads.SubtitleFormat} ");
+                if (!string.IsNullOrEmpty(Downloads.SubtitleFormat))
+                    ArgumentsBuffer.Append($" --sub-format {Downloads.SubtitleFormat} ");
 
-                if (Config.Settings.Downloads.EmbedSubtitles && Type == DownloadType.Video)
+                if (Downloads.EmbedSubtitles && Type == DownloadType.Video)
                     ArgumentsBuffer.Append(" --embed-subs");
             }
-            if (Config.Settings.Downloads.SaveVideoInfo)
+            if (Downloads.SaveVideoInfo)
                 ArgumentsBuffer.Append(" --write-info-json");
-            if (Config.Settings.Downloads.SaveDescription)
+            if (Downloads.SaveDescription)
                 ArgumentsBuffer.Append(" --write-description");
-            if (Config.Settings.Downloads.SaveAnnotations)
+            if (Downloads.SaveAnnotations)
                 ArgumentsBuffer.Append(" --write-annotations");
-            if (Config.Settings.Downloads.SaveThumbnail) {
+            if (Downloads.SaveThumbnail) {
                 // ArgumentsBuffer += "--write-all-thumbnails "; // Maybe?
                 ArgumentsBuffer.Append(" --write-thumbnail");
-                if (Config.Settings.Downloads.EmbedThumbnails) {
+                if (Downloads.EmbedThumbnails) {
                     switch (Type) {
                         case DownloadType.Video:
                             if (VideoFormat == VideoFormatType.mp4)
@@ -323,15 +318,15 @@ public sealed class DownloadInfo {
                     }
                 }
             }
-            if (Config.Settings.Downloads.WriteMetadata)
+            if (Downloads.WriteMetadata)
                 ArgumentsBuffer.Append(" --add-metadata");
 
-            if (Config.Settings.Downloads.KeepOriginalFiles)
+            if (Downloads.KeepOriginalFiles)
                 ArgumentsBuffer.Append(" -k");
 
-            if (Config.Settings.Downloads.LimitDownloads && Config.Settings.Downloads.DownloadLimit > 0) {
-                ArgumentsBuffer.Append($" --limit-rate {Config.Settings.Downloads.DownloadLimit}");
-                switch (Config.Settings.Downloads.DownloadLimitType) {
+            if (Downloads.LimitDownloads && Downloads.DownloadLimit > 0) {
+                ArgumentsBuffer.Append($" --limit-rate {Downloads.DownloadLimit}");
+                switch (Downloads.DownloadLimitType) {
                     case 1: { // mb
                         ArgumentsBuffer.Append("M ");
                     } break;
@@ -344,25 +339,25 @@ public sealed class DownloadInfo {
                 }
             }
 
-            if (Config.Settings.Downloads.RetryAttempts != 10 && Config.Settings.Downloads.RetryAttempts > 0)
-                ArgumentsBuffer.Append($" --retries {Config.Settings.Downloads.RetryAttempts}");
+            if (Downloads.RetryAttempts != 10 && Downloads.RetryAttempts > 0)
+                ArgumentsBuffer.Append($" --retries {Downloads.RetryAttempts}");
 
-            if (Config.Settings.Downloads.ForceIPv4)
+            if (Downloads.ForceIPv4)
                 ArgumentsBuffer.Append(" --force-ipv4");
-            else if (Config.Settings.Downloads.ForceIPv6)
+            else if (Downloads.ForceIPv6)
                 ArgumentsBuffer.Append(" --force-ipv6");
 
-            if (Config.Settings.Downloads.UseProxy && Config.Settings.Downloads.ProxyType > -1 && !string.IsNullOrEmpty(Config.Settings.Downloads.ProxyIP) && !string.IsNullOrEmpty(Config.Settings.Downloads.ProxyPort))
-                ArgumentsBuffer.Append($" --proxy {DownloadHelper.ProxyProtocols[Config.Settings.Downloads.ProxyType]}{Config.Settings.Downloads.ProxyIP}:{Config.Settings.Downloads.ProxyPort}/");
+            if (Downloads.UseProxy && Downloads.ProxyType > -1 && !string.IsNullOrEmpty(Downloads.ProxyIP) && !string.IsNullOrEmpty(Downloads.ProxyPort))
+                ArgumentsBuffer.Append($" --proxy {DownloadHelper.ProxyProtocols[Downloads.ProxyType]}{Downloads.ProxyIP}:{Downloads.ProxyPort}/");
 
-            if (Config.Settings.Downloads.SkipUnavailableFragments)
+            if (Downloads.SkipUnavailableFragments)
                 ArgumentsBuffer.Append(" --abort-on-unavailable-fragment");
 
-            if (!Config.Settings.Downloads.AbortOnError)
+            if (!Downloads.AbortOnError)
                 ArgumentsBuffer.Append(" --no-abort-on-error");
 
-            if (Config.Settings.Downloads.FragmentThreads > 1)
-                ArgumentsBuffer.Append(" --concurrent-fragments " + Config.Settings.Downloads.FragmentThreads);
+            if (Downloads.FragmentThreads > 1)
+                ArgumentsBuffer.Append(" --concurrent-fragments " + Downloads.FragmentThreads);
 
             if (!BatchDownload)
                 ArgumentsBuffer.Append(" --no-playlist");

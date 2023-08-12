@@ -13,15 +13,15 @@
 
         private void InitializeComponent() {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("<---");
-            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Video sources");
-            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Audio sources");
-            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Subtitle sources");
-            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Attatchment sources");
-            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Video sources");
-            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("Audio sources");
-            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Subtitle sources");
-            System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("Attatchment sources");
+            System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("<---");
+            System.Windows.Forms.TreeNode treeNode11 = new System.Windows.Forms.TreeNode("nSelectedSourceVideo");
+            System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("nSelectedSourceAudio");
+            System.Windows.Forms.TreeNode treeNode13 = new System.Windows.Forms.TreeNode("nSelectedSourceSubtitle");
+            System.Windows.Forms.TreeNode treeNode14 = new System.Windows.Forms.TreeNode("nSelectedSourceAttachment");
+            System.Windows.Forms.TreeNode treeNode15 = new System.Windows.Forms.TreeNode("nSelectedStreamsVideo");
+            System.Windows.Forms.TreeNode treeNode16 = new System.Windows.Forms.TreeNode("nSelectedStreamsAudio");
+            System.Windows.Forms.TreeNode treeNode17 = new System.Windows.Forms.TreeNode("nSelectedStreamsSubtitle");
+            System.Windows.Forms.TreeNode treeNode18 = new System.Windows.Forms.TreeNode("nSelectedStreamsAttachment");
             this.pnLower = new System.Windows.Forms.Panel();
             this.btnMergeFiles = new System.Windows.Forms.Button();
             this.pnLoadedFiles = new System.Windows.Forms.Panel();
@@ -30,8 +30,8 @@
             this.lbFileSources = new System.Windows.Forms.ListBox();
             this.pnStreams = new System.Windows.Forms.Panel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.tvSelectedSources = new System.Windows.Forms.TreeView();
-            this.tvSelectedStreams = new System.Windows.Forms.TreeView();
+            this.tvSelectedSources = new youtube_dl_gui.ExplorerTreeView();
+            this.tvSelectedStreams = new youtube_dl_gui.ExplorerTreeView();
             this.ttFiles = new System.Windows.Forms.ToolTip(this.components);
             this.pnLower.SuspendLayout();
             this.pnLoadedFiles.SuspendLayout();
@@ -59,7 +59,7 @@
             this.btnMergeFiles.Name = "btnMergeFiles";
             this.btnMergeFiles.Size = new System.Drawing.Size(109, 23);
             this.btnMergeFiles.TabIndex = 0;
-            this.btnMergeFiles.Text = "Merge files";
+            this.btnMergeFiles.Text = "btnMergeFiles";
             this.btnMergeFiles.UseVisualStyleBackColor = true;
             this.btnMergeFiles.Click += new System.EventHandler(this.btnMergeFiles_Click);
             // 
@@ -81,7 +81,7 @@
             this.btnRemoveFiles.Name = "btnRemoveFiles";
             this.btnRemoveFiles.Size = new System.Drawing.Size(75, 23);
             this.btnRemoveFiles.TabIndex = 2;
-            this.btnRemoveFiles.Text = "Remove";
+            this.btnRemoveFiles.Text = "btnRemoveFiles";
             this.btnRemoveFiles.UseVisualStyleBackColor = true;
             this.btnRemoveFiles.Click += new System.EventHandler(this.btnRemoveFiles_Click);
             // 
@@ -92,7 +92,7 @@
             this.btnAddFiles.Name = "btnAddFiles";
             this.btnAddFiles.Size = new System.Drawing.Size(75, 23);
             this.btnAddFiles.TabIndex = 1;
-            this.btnAddFiles.Text = "Add files";
+            this.btnAddFiles.Text = "btnAddFiles";
             this.btnAddFiles.UseVisualStyleBackColor = true;
             this.btnAddFiles.Click += new System.EventHandler(this.btnAddFiles_Click);
             // 
@@ -140,22 +140,22 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tvSelectedSources.Location = new System.Drawing.Point(6, 3);
             this.tvSelectedSources.Name = "tvSelectedSources";
-            treeNode1.Name = "nodeFile";
-            treeNode1.Text = "<---";
-            treeNode2.Name = "nodeVideos";
-            treeNode2.Text = "Video sources";
-            treeNode3.Name = "nodeAudios";
-            treeNode3.Text = "Audio sources";
-            treeNode4.Name = "noteSubtitles";
-            treeNode4.Text = "Subtitle sources";
-            treeNode5.Name = "nodeAttatchments";
-            treeNode5.Text = "Attatchment sources";
+            treeNode10.Name = "nodeFile";
+            treeNode10.Text = "<---";
+            treeNode11.Name = "nSelectedSourceVideo";
+            treeNode11.Text = "nSelectedSourceVideo";
+            treeNode12.Name = "nSelectedSourceAudio";
+            treeNode12.Text = "nSelectedSourceAudio";
+            treeNode13.Name = "nSelectedSourceSubtitle";
+            treeNode13.Text = "nSelectedSourceSubtitle";
+            treeNode14.Name = "nSelectedSourceAttachment";
+            treeNode14.Text = "nSelectedSourceAttachment";
             this.tvSelectedSources.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode1,
-            treeNode2,
-            treeNode3,
-            treeNode4,
-            treeNode5});
+            treeNode10,
+            treeNode11,
+            treeNode12,
+            treeNode13,
+            treeNode14});
             this.tvSelectedSources.ShowLines = false;
             this.tvSelectedSources.ShowNodeToolTips = true;
             this.tvSelectedSources.Size = new System.Drawing.Size(191, 317);
@@ -169,19 +169,19 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tvSelectedStreams.Location = new System.Drawing.Point(3, 3);
             this.tvSelectedStreams.Name = "tvSelectedStreams";
-            treeNode6.Name = "nodeVideos";
-            treeNode6.Text = "Video sources";
-            treeNode7.Name = "nodeAudios";
-            treeNode7.Text = "Audio sources";
-            treeNode8.Name = "noteSubtitles";
-            treeNode8.Text = "Subtitle sources";
-            treeNode9.Name = "nodeAttatchments";
-            treeNode9.Text = "Attatchment sources";
+            treeNode15.Name = "nSelectedStreamsVideo";
+            treeNode15.Text = "nSelectedStreamsVideo";
+            treeNode16.Name = "nSelectedStreamsAudio";
+            treeNode16.Text = "nSelectedStreamsAudio";
+            treeNode17.Name = "nSelectedStreamsSubtitle";
+            treeNode17.Text = "nSelectedStreamsSubtitle";
+            treeNode18.Name = "nSelectedStreamsAttachment";
+            treeNode18.Text = "nSelectedStreamsAttachment";
             this.tvSelectedStreams.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode6,
-            treeNode7,
-            treeNode8,
-            treeNode9});
+            treeNode15,
+            treeNode16,
+            treeNode17,
+            treeNode18});
             this.tvSelectedStreams.ShowLines = false;
             this.tvSelectedStreams.Size = new System.Drawing.Size(191, 317);
             this.tvSelectedStreams.TabIndex = 1;
@@ -189,6 +189,7 @@
             // 
             // frmMerger
             // 
+            this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
@@ -200,6 +201,8 @@
             this.Icon = global::youtube_dl_gui.Properties.Resources.ProgramIcon;
             this.Name = "frmMerger";
             this.Text = "frmMerger";
+            this.DragDrop += new System.Windows.Forms.DragEventHandler(this.frmMerger_DragDrop);
+            this.DragEnter += new System.Windows.Forms.DragEventHandler(this.frmMerger_DragEnter);
             this.pnLower.ResumeLayout(false);
             this.pnLoadedFiles.ResumeLayout(false);
             this.pnStreams.ResumeLayout(false);
@@ -221,8 +224,8 @@
         private System.Windows.Forms.ListBox lbFileSources;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.Button btnMergeFiles;
-        private System.Windows.Forms.TreeView tvSelectedSources;
-        private System.Windows.Forms.TreeView tvSelectedStreams;
+        private ExplorerTreeView tvSelectedSources;
+        private ExplorerTreeView tvSelectedStreams;
         private System.Windows.Forms.ToolTip ttFiles;
     }
 }

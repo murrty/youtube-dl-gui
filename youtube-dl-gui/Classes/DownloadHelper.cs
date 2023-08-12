@@ -66,7 +66,7 @@ public class DownloadHelper {
 
         Url = Url.Split('/')[0];
 
-        if (!OverrideSubdomain && !Config.Settings.Downloads.SubdomainFolderNames) {
+        if (!OverrideSubdomain && !Downloads.SubdomainFolderNames) {
             if (Url.IndexOf('.') != Url.LastIndexOf('.')) {
                 Url = Url[(Url.IndexOf('.') + 1)..];
             }

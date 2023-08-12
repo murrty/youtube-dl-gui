@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>e1adaf73-4046-4046-9082-004b1890ea3a</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Controls</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)BetterFolderBrowser.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CopyData.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Enums\AllowedCharacters.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Enums\ButtonAlignment.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Enums\ProgressState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Enums\TaskbarProgressState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\DownloadFinishedEventArgs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\DownloadProgressChangedEventArgs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ExtendedLinkLabel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ExtendedProgressBar.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ExtendedRichTextBox.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ExtendedTextBox.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Exceptions\HttpException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\TaskbarInterface.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Logging\DwmCompositionInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Logging\DwmCompositionTextInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Logging\ExceptionInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Logging\Exceptions\ApiParsingException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Logging\ExceptionType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Logging\Natives\DwmComposition.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Logging\Natives\DwmNatives.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ManagedHttpClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Natives\Consts.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Natives\NativeMethods.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Runtime\System\Index.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Runtime\System\Range.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Runtime\System\Runtime\CompilerServices\CallerArgumentExpressionAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Runtime\System\Runtime\CompilerServices\CompilerFeatureRequiredAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Runtime\System\Runtime\CompilerServices\IsExternalInit.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Runtime\System\Runtime\CompilerServices\RequiredMemberAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Runtime\System\Runtime\CompilerServices\RuntimeHelpers.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SplitButton.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Version.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WebDecompress.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Exceptions\" />
+  </ItemGroup>
+</Project>

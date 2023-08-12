@@ -3,9 +3,10 @@ using System;
 using System.Diagnostics;
 using System.Drawing;
 using System.Runtime.InteropServices;
-using System.Security.Policy;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
+
 public partial class frmMain : LocalizedForm {
     #region variables
     private Thread UpdateCheckThread;
@@ -20,7 +21,6 @@ public partial class frmMain : LocalizedForm {
     #region form
     public frmMain() {
         InitializeComponent();
-
         if (Program.DebugMode) {
             trayIcon.Dispose();
         }
@@ -29,6 +29,7 @@ public partial class frmMain : LocalizedForm {
             trayIcon.ContextMenu = cmTray;
             trayIcon.Visible = true;
             tcMain.TabPages.Remove(tabDebug);
+            btnDebugExtendedConverter.Dispose();
         }
 
         //mDownloadSeparator.Enabled = mDownloadSeparator.Visible =
@@ -36,40 +37,39 @@ public partial class frmMain : LocalizedForm {
         //    mQuickDownloadFormAuthentication.Enabled = mQuickDownloadFormAuthentication.Visible =
         //    mExtendedDownloadForm.Enabled = mExtendedDownloadForm.Visible = true;
 
-        this.Shown += (s, e) => {
+        // Hacky way to check for both updates.
+        this.Shown += async (s, e) => {
             Log.Write("Startup finished.");
+            if (General.CheckForUpdatesOnLaunch) {
+                try {
+                    await Updater.CheckForUpdate(false);
+                }
+                catch (ThreadAbortException) {
+                    // do nothing
+                }
+                catch (Exception ex) {
+                    if (!(ex is ThreadAbortException or OperationCanceledException or TaskCanceledException))
+                        Log.ReportException(ex);
+                }
+            }
+        };
+        this.Shown += async (s, e) => {
+            if (General.AutoUpdateYoutubeDl) {
+                try {
+                    if (await Updater.CheckForYoutubeDlUpdate())
+                        Updater.UpdateYoutubeDl(Downloads.useYtdlUpdater, this.Location);
+                }
+                catch (Exception ex) {
+                    if (!(ex is ThreadAbortException or OperationCanceledException or TaskCanceledException))
+                        Log.ReportException(ex);
+                }
+            }
         };
     }
 
     [DebuggerStepThrough]
     protected override void WndProc(ref Message m) {
         switch (m.Msg) {
-            case CopyData.WM_COPYDATA: {
-                nint wp = m.WParam;
-                // wParam should be the handle to the Window that sent the message.
-                // Since WM_COPYDATA is overridden, I can DO WHAT I WANT.
-                switch (wp) {
-                    // 0x1 = The data was sent from another instance.
-                    case 0x1: {
-                        Program.ParseCopyData(ref m, chkCustomArgumentsForNonCustomTypes.Checked ? cbCustomArguments.Text : null);
-                        m.Result = IntPtr.Zero;
-                    } break;
-
-                    // No associated processing for this instance.
-                    default: {
-                        base.WndProc(ref m);
-                    } break;
-                }
-            } break;
-            case CopyData.WM_SHOWFORM: {
-                if (this.WindowState == FormWindowState.Minimized)
-                    this.WindowState = FormWindowState.Normal;
-
-                this.Show();
-                this.Activate();
-                System.Media.SystemSounds.Asterisk.Play();
-                m.Result = IntPtr.Zero;
-            } break;
             case NativeMethods.WM_CLIPBOARDUPDATE: {
                 if (Clipboard.ContainsText()) {
                     ClipboardData = Clipboard.GetText();
@@ -91,78 +91,42 @@ public partial class frmMain : LocalizedForm {
     }
 
     private void frmMain_Load(object sender, EventArgs e) {
-        if (Config.Settings.General.CheckForUpdatesOnLaunch) {
-            UpdateCheckThread = new(() => {
-                try {
-                    UpdateChecker.CheckForUpdate(false, true, this);
-                }
-                catch (ThreadAbortException) {
-                    // do nothing
-                }
-                catch (Exception ex) {
-                    Log.ReportException(ex);
-                }
-            }) {
-                Name = "Checks for updates",
-                IsBackground = true
-            };
-            UpdateCheckThread.Start();
-        }
-        if (Config.Settings.General.AutoUpdateYoutubeDl) {
-            YtdlUpdateCheckThread = new(() => {
-                try {
-                    if (UpdateChecker.CheckForYoutubeDlUpdate())
-                        UpdateChecker.UpdateYoutubeDl(this.Location);
-                }
-                catch (ThreadAbortException) {
-                    // do nothing
-                }
-                catch (Exception ex) {
-                    Log.ReportException(ex);
-                }
-            }) {
-                Name = "Checks for ytdl updates",
-                IsBackground = true
-            };
-            YtdlUpdateCheckThread.Start();
-        }
-
-        if (Config.Settings.Saved.MainFormLocation.Valid) {
+        if (Saved.MainFormLocation.Valid) {
             this.StartPosition = FormStartPosition.Manual;
-            this.Location = Config.Settings.Saved.MainFormLocation;
+            this.Location = Saved.MainFormLocation;
         }
 
-        this.Size = Config.Settings.Saved.MainFormSize.Valid ?
-            Config.Settings.Saved.MainFormSize : this.MinimumSize;
+        this.Size = Saved.MainFormSize.Valid ?
+            Saved.MainFormSize : this.MinimumSize;
 
         LoadLanguage();
 
-        //if (!Config.Settings.Saved.DownloadCustomArguments.IsNullEmptyWhitespace()) {
-        //    cbCustomArguments.Items.AddRange(Config.Settings.Saved.DownloadCustomArguments.Split('|'));
-        //    if (Config.Settings.Saved.CustomArgumentsIndex > -1 && Config.Settings.Saved.CustomArgumentsIndex <= cbCustomArguments.Items.Count - 1)
-        //        cbCustomArguments.SelectedIndex = Config.Settings.Saved.CustomArgumentsIndex;
+        //if (!Saved.DownloadCustomArguments.IsNullEmptyWhitespace()) {
+        //    cbCustomArguments.Items.AddRange(Saved.DownloadCustomArguments.Split('|'));
+        //    if (Saved.CustomArgumentsIndex > -1 && Saved.CustomArgumentsIndex <= cbCustomArguments.Items.Count - 1)
+        //        cbCustomArguments.SelectedIndex = Saved.CustomArgumentsIndex;
         //}
 
-        switch (Config.Settings.General.SaveCustomArgs) {
-            case 1:
-                if (System.IO.File.Exists(Environment.CurrentDirectory + "\\args.txt")) {
-                    cbCustomArguments.Items.AddRange(System.IO.File.ReadAllLines(Environment.CurrentDirectory + "\\args.txt"));
-                    if (Config.Settings.Saved.CustomArgumentsIndex > -1 && Config.Settings.Saved.CustomArgumentsIndex <= cbCustomArguments.Items.Count - 1) {
-                        cbCustomArguments.SelectedIndex = Config.Settings.Saved.CustomArgumentsIndex;
-                    }
-                }
-                break;
-            case 2:
-                if (!string.IsNullOrWhiteSpace(Config.Settings.Saved.DownloadCustomArguments)) {
-                    cbCustomArguments.Items.AddRange(Config.Settings.Saved.DownloadCustomArguments.Split('|'));
-                    if (Config.Settings.Saved.CustomArgumentsIndex > -1 && Config.Settings.Saved.CustomArgumentsIndex <= cbCustomArguments.Items.Count - 1) {
-                        cbCustomArguments.SelectedIndex = Config.Settings.Saved.CustomArgumentsIndex;
-                    }
-                }
-                break;
-        }
+        //switch (General.SaveCustomArgs) {
+        //    case 1:
+        //        if (System.IO.File.Exists(Environment.CurrentDirectory + "\\args.txt")) {
+        //            cbCustomArguments.Items.AddRange(System.IO.File.ReadAllLines(Environment.CurrentDirectory + "\\args.txt"));
+        //            if (Saved.CustomArgumentsIndex > -1 && Saved.CustomArgumentsIndex <= cbCustomArguments.Items.Count - 1) {
+        //                cbCustomArguments.SelectedIndex = Saved.CustomArgumentsIndex;
+        //            }
+        //        }
+        //        break;
+        //    case 2:
+        //        if (!string.IsNullOrWhiteSpace(Saved.DownloadCustomArguments)) {
+        //            cbCustomArguments.Items.AddRange(Saved.DownloadCustomArguments.Split('|'));
+        //            if (Saved.CustomArgumentsIndex > -1 && Saved.CustomArgumentsIndex <= cbCustomArguments.Items.Count - 1) {
+        //                cbCustomArguments.SelectedIndex = Saved.CustomArgumentsIndex;
+        //            }
+        //        }
+        //        break;
+        //}
 
-        switch (Config.Settings.Saved.downloadType) {
+        switch (Saved.downloadType) {
             case 1:
                 rbAudio.Checked = true;
                 break;
@@ -174,24 +138,28 @@ public partial class frmMain : LocalizedForm {
                 break;
         }
 
-        mClipboardAutoDownloadVerifyLinks.Checked = cmTrayClipboardAutoDownloadVerifyLinks.Checked = Config.Settings.General.ClipboardAutoDownloadVerifyLinks;
+        if (CustomArguments.YtdlArguments.Count > 0) {
+            CustomArguments.YtdlArguments.For((Arg) => cbCustomArguments.Items.Add(Arg));
+            if (Saved.CustomArgumentsIndex < cbCustomArguments.Items.Count)
+                cbCustomArguments.SelectedIndex = rbCustom.Checked ? Saved.CustomArgumentsIndex : Saved.CustomArgumentsIndex + 1;
+        }
 
-        if (!Config.Settings.Saved.FileNameSchemaHistory.IsNullEmptyWhitespace())
-            cbSchema.Items.AddRange(Config.Settings.Saved.FileNameSchemaHistory.Split('|'));
-        int index = cbSchema.Items.IndexOf(Config.Settings.Downloads.fileNameSchema);
+        mClipboardAutoDownloadVerifyLinks.Checked = cmTrayClipboardAutoDownloadVerifyLinks.Checked = General.ClipboardAutoDownloadVerifyLinks;
+
+        if (!Saved.FileNameSchemaHistory.IsNullEmptyWhitespace())
+            cbSchema.Items.AddRange(Saved.FileNameSchemaHistory.Split('|'));
+        int index = cbSchema.Items.IndexOf(Downloads.fileNameSchema);
         if (index > -1) {
             cbSchema.SelectedIndex = index;
         }
         else {
-            cbSchema.Items.Add(Config.Settings.Downloads.fileNameSchema);
+            cbSchema.Items.Add(Downloads.fileNameSchema);
             cbSchema.SelectedIndex = cbSchema.Items.Count - 1;
         }
 
-        chkCustomArgumentsForNonCustomTypes.Checked = Config.Settings.Saved.CustomArgumentsForNonCustomTypes;
-
-        if (Config.Settings.General.DeleteUpdaterOnStartup)
+        if (General.DeleteUpdaterOnStartup)
             System.IO.File.Delete(Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe");
-        if (Config.Settings.General.DeleteBackupOnStartup)
+        if (General.DeleteBackupOnStartup)
             System.IO.File.Delete(Environment.CurrentDirectory + "\\youtube-dl-gui.old.exe");
     }
 
@@ -206,51 +174,31 @@ public partial class frmMain : LocalizedForm {
             this.WindowState = FormWindowState.Normal;
 
         chkUseSelection.Checked = false;
-        Config.Settings.Saved.MainFormSize = this.Size;
-
-        switch (Config.Settings.General.SaveCustomArgs) {
-            case 1: // txt
-                StringBuilder txtOutputBuffer = new();
-                for (int i = 0; i < cbCustomArguments.Items.Count; i++)
-                    txtOutputBuffer.AppendLine(cbCustomArguments.GetItemText(cbCustomArguments.Items[i]));
-
-                System.IO.File.WriteAllText(Environment.CurrentDirectory + "\\args.txt", txtOutputBuffer.ToString());
-                Config.Settings.Saved.CustomArgumentsIndex = cbCustomArguments.Text.IsNullEmptyWhitespace() ? -1 : cbCustomArguments.SelectedIndex;
-                break;
-            case 2: // settings
-                string stngOutputBuffer = string.Empty;
-                for (int i = 0; i < cbCustomArguments.Items.Count; i++)
-                    stngOutputBuffer += cbCustomArguments.GetItemText(cbCustomArguments.Items[i]) + "|";
-
-                Config.Settings.Saved.DownloadCustomArguments = stngOutputBuffer.Trim('|');
-                Config.Settings.Saved.CustomArgumentsIndex = cbCustomArguments.Text.IsNullEmptyWhitespace() ? -1 : cbCustomArguments.SelectedIndex;
-                break;
-        }
+        Saved.MainFormSize = this.Size;
+        Saved.CustomArgumentsIndex = rbCustom.Checked ? cbCustomArguments.SelectedIndex : cbCustomArguments.SelectedIndex - 1;
 
         if (rbVideo.Checked)
-            Config.Settings.Saved.downloadType = 0;
+            Saved.downloadType = 0;
         else if (rbAudio.Checked)
-            Config.Settings.Saved.downloadType = 1;
+            Saved.downloadType = 1;
         else if (rbCustom.Checked)
-            Config.Settings.Saved.downloadType = 2;
+            Saved.downloadType = 2;
         else
-            Config.Settings.Saved.downloadType = -1;
+            Saved.downloadType = -1;
 
         if (rbConvertVideo.Checked)
-            Config.Settings.Saved.convertType = 0;
+            Saved.convertType = 0;
         else if (rbConvertAudio.Checked)
-            Config.Settings.Saved.convertType = 1;
+            Saved.convertType = 1;
         else if (rbConvertCustom.Checked)
-            Config.Settings.Saved.convertType = 2;
+            Saved.convertType = 2;
         else if (rbConvertAutoFFmpeg.Checked)
-            Config.Settings.Saved.convertType = 6;
+            Saved.convertType = 6;
         else
-            Config.Settings.Saved.convertType = -1;
+            Saved.convertType = -1;
 
-        Config.Settings.Saved.CustomArgumentsForNonCustomTypes = chkCustomArgumentsForNonCustomTypes.Checked;
-        Config.Settings.Saved.MainFormLocation = this.Location;
+        Saved.MainFormLocation = this.Location;
 
-        Config.Settings.Save(ConfigType.Saved);
         trayIcon.Visible = false;
     }
 
@@ -342,6 +290,9 @@ public partial class frmMain : LocalizedForm {
             cbQuality.Items[0] = Language.GenericInputBest;
         }
 
+        if (!rbCustom.Checked && cbCustomArguments.Items.Count > 0)
+            cbCustomArguments.Items[0] = Language.GenericDoNotInclude;
+
         gbDownloadType.Size = new(
             ((rbVideo.Size.Width + 2) + rbAudio.Size.Width + (rbCustom.Size.Width - 2)) + 12,
             gbDownloadType.Size.Height
@@ -425,11 +376,11 @@ public partial class frmMain : LocalizedForm {
             }
         }
         else {
-            if (!Config.Settings.General.ClipboardAutoDownloadNoticeRead) {
+            if (!General.ClipboardAutoDownloadNoticeRead) {
                 if (Log.MessageBox(Language.dlgClipboardAutoDownloadNotice, MessageBoxButtons.OKCancel) == DialogResult.Cancel)
                     return;
 
-                Config.Settings.General.ClipboardAutoDownloadNoticeRead = true;
+                General.ClipboardAutoDownloadNoticeRead = true;
             }
             if (NativeMethods.AddClipboardFormatListener(this.Handle)) {
                 Application.ApplicationExit += ApplicationExit;
@@ -461,10 +412,10 @@ public partial class frmMain : LocalizedForm {
     private void mSettings_Click(object sender, EventArgs e) {
         using frmSettings settings = new();
         settings.ShowDialog();
-        cbSchema.Text = Config.Settings.Downloads.fileNameSchema;
+        cbSchema.Text = Downloads.fileNameSchema;
         cbSchema.Items.Clear();
-        if (!string.IsNullOrEmpty(Config.Settings.Saved.FileNameSchemaHistory)) {
-            cbSchema.Items.AddRange(Config.Settings.Saved.FileNameSchemaHistory.Split('|'));
+        if (!string.IsNullOrEmpty(Saved.FileNameSchemaHistory)) {
+            cbSchema.Items.AddRange(Saved.FileNameSchemaHistory.Split('|'));
         }
 
         //mDownloadSeparator.Enabled = mDownloadSeparator.Visible =
@@ -513,19 +464,14 @@ public partial class frmMain : LocalizedForm {
         LangPicker.ShowDialog();
     }
     private void mSupportedSites_Click(object sender, EventArgs e) {
-        switch (Config.Settings.Downloads.YtdlType) {
-            case 1:
-                Process.Start("https://github.com/blackjack4494/youtube-dlc/blob/master/docs/supportedsites.md");
-                break;
-
-            case 2:
-                Process.Start("https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md");
-                break;
-
-
-            default:
+        switch (Verification.GetYoutubeDlType()) {
+            case (int)GitID.YoutubeDl:
+            case (int)GitID.YoutubeDlNightly: {
                 Process.Start("https://github.com/ytdl-org/youtube-dl/blob/master/docs/supportedsites.md");
-                break;
+            } break;
+            default: {
+                Process.Start("https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md");
+            } break;
         }
     }
     private void mLog_Click(object sender, EventArgs e) {
@@ -533,7 +479,7 @@ public partial class frmMain : LocalizedForm {
     }
 
     private void mAbout_Click(object sender, EventArgs e) {
-        if (Config.Settings.Initialization.ScreenshotMode) {
+        if (Initialization.ScreenshotMode) {
             frmAbout about = new();
             about.Show();
         }
@@ -552,7 +498,7 @@ public partial class frmMain : LocalizedForm {
     private void cmTrayDownloadBestVideo_Click(object sender, EventArgs e) {
         if (!Clipboard.ContainsText()) { return; }
         DownloadInfo NewInfo = new() {
-            VideoQuality = (VideoQualityType)Config.Settings.Saved.videoQuality,
+            VideoQuality = (VideoQualityType)Saved.videoQuality,
             Type = 0,
             DownloadURL = Clipboard.GetText()
         };
@@ -588,7 +534,7 @@ public partial class frmMain : LocalizedForm {
         }
     }
     private void cmTrayDownloadCustomTxt_Click(object sender, EventArgs e) {
-        if (!Clipboard.ContainsText()) {
+        if (Clipboard.ContainsText()) {
             if (!System.IO.File.Exists(Environment.CurrentDirectory + "\\args.txt")) {
                 Log.MessageBox(Language.dlgMainArgsTxtDoesntExist);
                 return;
@@ -609,15 +555,14 @@ public partial class frmMain : LocalizedForm {
         }
     }
     private void cmTrayDownloadCustomSettings_Click(object sender, EventArgs e) {
-        if (!Clipboard.ContainsText() && Config.Settings.Saved.CustomArgumentsIndex < 0) {
-            if (string.IsNullOrEmpty(Config.Settings.Saved.DownloadCustomArguments)) {
+        if (Clipboard.ContainsText() && Saved.CustomArgumentsIndex > -1) {
+            if (cbCustomArguments.Items.Count < (rbCustom.Checked ? 1 : 2)) {
                 Log.MessageBox(Language.dlgMainArgsNoneSaved);
                 return;
             }
-            else
-            {
+            else {
                 DownloadInfo NewInfo = new() {
-                    DownloadArguments = Config.Settings.Saved.DownloadCustomArguments.Split('|')[Config.Settings.Saved.CustomArgumentsIndex],
+                    DownloadArguments = cbCustomArguments.Items[Saved.CustomArgumentsIndex] as string,
                     Type = DownloadType.Custom,
                     DownloadURL = Clipboard.GetText()
                 };
@@ -650,7 +595,6 @@ public partial class frmMain : LocalizedForm {
     }
 
     private void cmTrayExit_Click(object sender, EventArgs e) {
-        Config.Settings.Save(ConfigType.All);
         trayIcon.Visible = false;
         Environment.Exit(0);
     }
@@ -658,79 +602,85 @@ public partial class frmMain : LocalizedForm {
 
     #region downloader
     private void rbVideo_CheckedChanged(object sender, EventArgs e) {
-        if (rbVideo.Checked) {
-            //cbCustomArguments.Enabled = false;
-            cbQuality.SelectedIndex = -1;
-            cbQuality.Items.Clear();
-            cbQuality.Items.AddRange(Formats.VideoQualityArray);
-            cbQuality.Items[0] = Language.GenericInputBest;
-            cbQuality.Items[^1] = Language.GenericInputWorst;
-            cbFormat.SelectedIndex = -1;
-            cbFormat.Items.Clear();
-            cbFormat.Items.AddRange(Formats.VideoFormatsNamesArray);
-            cbFormat.Items[0] = Language.GenericInputBest;
-            cbQuality.Enabled = true;
-            cbFormat.Enabled = true;
-            chkDownloadSound.Enabled = true;
-            chkDownloadSound.Text = Language.GenericSound;
-            if (Config.Settings.Downloads.SaveFormatQuality) {
-                cbQuality.SelectedIndex = Config.Settings.Saved.videoQuality;
-                cbFormat.SelectedIndex = Config.Settings.Saved.VideoFormat;
-                chkDownloadSound.Checked = Config.Settings.Downloads.VideoDownloadSound;
-            }
-            else {
-                cbQuality.SelectedIndex = 0;
-                cbFormat.SelectedIndex = 0;
-            }
-            chkCustomArgumentsForNonCustomTypes.Enabled = true;
+        if (!rbVideo.Checked)
+            return;
+
+        //cbCustomArguments.Enabled = false;
+        cbQuality.SelectedIndex = -1;
+        cbQuality.Items.Clear();
+        cbQuality.Items.AddRange(Formats.VideoQualityArray);
+        cbQuality.Items[0] = Language.GenericInputBest;
+        cbQuality.Items[^1] = Language.GenericInputWorst;
+        cbFormat.SelectedIndex = -1;
+        cbFormat.Items.Clear();
+        cbFormat.Items.AddRange(Formats.VideoFormatsNamesArray);
+        cbFormat.Items[0] = Language.GenericInputBest;
+        cbQuality.Enabled = true;
+        cbFormat.Enabled = true;
+        chkDownloadSound.Enabled = true;
+        chkDownloadSound.Text = Language.GenericSound;
+        if (Downloads.SaveFormatQuality) {
+            cbQuality.SelectedIndex = Saved.videoQuality;
+            cbFormat.SelectedIndex = Saved.VideoFormat;
+            chkDownloadSound.Checked = Downloads.VideoDownloadSound;
+        }
+        else {
+            cbQuality.SelectedIndex = 0;
+            cbFormat.SelectedIndex = 0;
+        }
+        if (cbCustomArguments.Items.Count == 0 || (string)cbCustomArguments.Items[0] != Language.GenericDoNotInclude) {
+            cbCustomArguments.Items.Insert(0, Language.GenericDoNotInclude);
         }
     }
     private void rbAudio_CheckedChanged(object sender, EventArgs e) {
-        if (rbAudio.Checked) {
-            //cbCustomArguments.Enabled = false;
-            cbQuality.SelectedIndex = -1;
-            cbFormat.SelectedIndex = -1;
-            cbQuality.Items.Clear();
-            if (Config.Settings.Downloads.AudioDownloadAsVBR) {
-                cbQuality.Items.AddRange(new string[] { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" });
-            }
-            else {
-                cbQuality.Items.AddRange(Formats.AudioQualityNamesArray);
-                cbQuality.Items[0] = Language.GenericInputBest;
-                cbQuality.Items[^1] = Language.GenericInputWorst;
-            }
-            cbFormat.Items.Clear();
-            cbFormat.Items.AddRange(Formats.AudioFormatsArray);
-            cbFormat.Items[0] = Language.GenericInputBest;
-            cbQuality.Enabled = true;
-            cbFormat.Enabled = true;
-            chkDownloadSound.Enabled = true;
-            chkDownloadSound.Checked = Config.Settings.Downloads.AudioDownloadAsVBR;
-            chkDownloadSound.Text = "VBR";
-            if (Config.Settings.Downloads.SaveFormatQuality) {
-                cbQuality.SelectedIndex = Config.Settings.Saved.audioQuality;
-                cbFormat.SelectedIndex = Config.Settings.Saved.AudioFormat;
-            }
-            else {
-                cbQuality.SelectedIndex = 0;
-                cbFormat.SelectedIndex = 0;
-            }
-            chkCustomArgumentsForNonCustomTypes.Enabled = true;
+        if (!rbAudio.Checked)
+            return;
+
+        cbQuality.SelectedIndex = -1;
+        cbFormat.SelectedIndex = -1;
+        cbQuality.Items.Clear();
+        if (Downloads.AudioDownloadAsVBR) {
+            cbQuality.Items.AddRange(new string[] { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" });
+        }
+        else {
+            cbQuality.Items.AddRange(Formats.AudioQualityNamesArray);
+            cbQuality.Items[0] = Language.GenericInputBest;
+            cbQuality.Items[^1] = Language.GenericInputWorst;
+        }
+        cbFormat.Items.Clear();
+        cbFormat.Items.AddRange(Formats.AudioFormatsArray);
+        cbFormat.Items[0] = Language.GenericInputBest;
+        cbQuality.Enabled = true;
+        cbFormat.Enabled = true;
+        chkDownloadSound.Enabled = true;
+        chkDownloadSound.Checked = Downloads.AudioDownloadAsVBR;
+        chkDownloadSound.Text = "VBR";
+        if (Downloads.SaveFormatQuality) {
+            cbQuality.SelectedIndex = Saved.audioQuality;
+            cbFormat.SelectedIndex = Saved.AudioFormat;
+        }
+        else {
+            cbQuality.SelectedIndex = 0;
+            cbFormat.SelectedIndex = 0;
+        }
+        if (cbCustomArguments.Items.Count == 0 || (string)cbCustomArguments.Items[0] != Language.GenericDoNotInclude) {
+            cbCustomArguments.Items.Insert(0, Language.GenericDoNotInclude);
         }
     }
     private void rbCustom_CheckedChanged(object sender, EventArgs e) {
-        if (rbCustom.Checked) {
-            //cbCustomArguments.Enabled = true;
-            cbQuality.SelectedIndex = -1;
-            cbFormat.SelectedIndex = -1;
-            cbQuality.Enabled = false;
-            cbFormat.Enabled = false;
-            chkDownloadSound.Checked = false;
-            chkDownloadSound.Enabled = false;
-            if (Config.Settings.Downloads.SaveFormatQuality)
-                cbCustomArguments.SelectedIndex = Config.Settings.Saved.CustomArgumentsIndex;
-            chkCustomArgumentsForNonCustomTypes.Enabled = false;
-        }
+        if (!rbCustom.Checked)
+            return;
+
+        cbQuality.SelectedIndex = -1;
+        cbFormat.SelectedIndex = -1;
+        cbQuality.Enabled = false;
+        cbFormat.Enabled = false;
+        chkDownloadSound.Checked = false;
+        chkDownloadSound.Enabled = false;
+        if ((string)cbCustomArguments.Items[0] == Language.GenericDoNotInclude)
+            cbCustomArguments.Items.RemoveAt(0);
+        if (Downloads.SaveFormatQuality)
+            cbCustomArguments.SelectedIndex = Saved.CustomArgumentsIndex;
     }
     private void chkDownloadSound_CheckedChanged(object sender, EventArgs e) {
         if (rbAudio.Checked) {
@@ -739,12 +689,12 @@ public partial class frmMain : LocalizedForm {
             if (chkDownloadSound.Checked) {
                 cbQuality.SelectedIndex = -1;
                 cbQuality.Items.AddRange(Formats.VbrQualities);
-                cbQuality.SelectedIndex = Config.Settings.Downloads.SaveFormatQuality ? Config.Settings.Saved.AudioVBRQuality : 0;
+                cbQuality.SelectedIndex = Downloads.SaveFormatQuality ? Saved.AudioVBRQuality : 0;
             }
             else {
                 cbQuality.Items.AddRange(Formats.AudioQualityNamesArray);
                 cbQuality.Items[0] = Language.GenericInputBest;
-                cbQuality.SelectedIndex = Config.Settings.Downloads.SaveFormatQuality ? Config.Settings.Saved.audioQuality : 0;
+                cbQuality.SelectedIndex = Downloads.SaveFormatQuality ? Saved.audioQuality : 0;
             }
         }
     }
@@ -835,7 +785,7 @@ public partial class frmMain : LocalizedForm {
     }
 
     private void txtUrl_MouseEnter(object sender, EventArgs e) {
-        if (Config.Settings.General.HoverOverURLTextBoxToPaste && txtUrl.Text != Clipboard.GetText()) {
+        if (General.HoverOverURLTextBoxToPaste && txtUrl.Text != Clipboard.GetText()) {
             txtUrl.Text = Clipboard.GetText();
         }
     }
@@ -867,16 +817,27 @@ public partial class frmMain : LocalizedForm {
     private void sbDownload_Click(object sender, EventArgs e) {
         DownloadDefaults(false);
     }
+    private void btnSaveTo_Click(object sender, EventArgs e) {
+        using BetterFolderBrowserNS.BetterFolderBrowser fbd = new() {
+            Multiselect = false,
+            RootFolder = Downloads.downloadPath,
+        };
+
+        if (fbd.ShowDialog() != DialogResult.OK)
+            return;
+
+        Downloads.downloadPath = fbd.SelectedPath;
+    }
     private void mDownloadWithAuthentication_Click(object sender, EventArgs e) {
         DownloadDefaults(true);
     }
     private void mBatchDownloadFromFile_Click(object sender, EventArgs e) {
-        if (!Config.Settings.Downloads.SkipBatchTip) {
+        if (!Downloads.SkipBatchTip) {
             switch (Log.MessageBox(Language.msgBatchDownloadFromFile, MessageBoxButtons.YesNoCancel)) {
                 case DialogResult.Cancel:
                     return;
                 case DialogResult.Yes:
-                    Config.Settings.Downloads.SkipBatchTip = true;
+                    Downloads.SkipBatchTip = true;
                     break;
             }
         }
@@ -906,15 +867,14 @@ public partial class frmMain : LocalizedForm {
                 BatchQuality = cbQuality.SelectedIndex;
                 if (!string.IsNullOrWhiteSpace(cbSchema.Text)) {
                     schema = cbSchema.Text;
-                    if (!Config.Settings.Saved.FileNameSchemaHistory.Contains(cbSchema.Text)) {
+                    if (!Saved.FileNameSchemaHistory.Contains(cbSchema.Text)) {
                         cbSchema.Items.Add(cbSchema.Text);
-                        if (Config.Settings.Saved.FileNameSchemaHistory == null) {
-                            Config.Settings.Saved.FileNameSchemaHistory = cbSchema.Text;
+                        if (Saved.FileNameSchemaHistory == null) {
+                            Saved.FileNameSchemaHistory = cbSchema.Text;
                         }
                         else {
-                            Config.Settings.Saved.FileNameSchemaHistory += "|" + cbSchema.Text;
+                            Saved.FileNameSchemaHistory += "|" + cbSchema.Text;
                         }
-                        Config.Settings.Saved.Save();
                     }
                 }
                 if (rbVideo.Checked) { Type = DownloadType.Video; }
@@ -995,7 +955,7 @@ public partial class frmMain : LocalizedForm {
     }
 
     private void DownloadDefaults(bool auth) =>
-        StartDownload(Config.Settings.Downloads.ExtendedDownloaderPreferExtendedForm, auth);
+        StartDownload(Downloads.ExtendedDownloaderPreferExtendedForm, auth);
     private void StartDownload(bool Extended, bool Authenticate) {
         if (txtUrl.Text.IsNullEmptyWhitespace()) {
             txtUrl.Focus();
@@ -1016,11 +976,13 @@ public partial class frmMain : LocalizedForm {
 
         if (Extended) {
             string Arguments = null;
-            if (Config.Settings.Downloads.ExtendedDownloaderIncludeCustomArguments && chkCustomArgumentsForNonCustomTypes.Checked) {
+            if (Downloads.ExtendedDownloaderIncludeCustomArguments && ((rbVideo.Checked || rbAudio.Checked) && cbCustomArguments.SelectedIndex > 0)) {
                 Arguments = cbCustomArguments.Text.IsNullEmptyWhitespace() ? string.Empty : cbCustomArguments.Text;
 
-                if (!cbCustomArguments.Items.Contains(cbCustomArguments.Text) && !cbCustomArguments.Text.IsNullEmptyWhitespace())
-                    cbCustomArguments.Items.Add(cbCustomArguments.Text);
+                if (!cbCustomArguments.Items.Contains(cbCustomArguments.Text) && !cbCustomArguments.Text.IsNullEmptyWhitespace()) {
+                    cbCustomArguments.SelectedIndex = cbCustomArguments.Items.Add(cbCustomArguments.Text);
+                    CustomArguments.AddYtdlArgument(cbCustomArguments.Text, true);
+                }
             }
 
             Downloader = new frmExtendedDownloader(
@@ -1066,29 +1028,28 @@ public partial class frmMain : LocalizedForm {
                     NewInfo.Type = DownloadType.Video;
                     NewInfo.SkipAudioForVideos = !chkDownloadSound.Checked;
 
-                    Config.Settings.Saved.downloadType = (int)DownloadType.Video;
-                    Config.Settings.Saved.videoQuality = cbQuality.SelectedIndex;
-                    Config.Settings.Saved.VideoFormat = cbFormat.SelectedIndex;
-                    Config.Settings.Downloads.VideoDownloadSound = chkDownloadSound.Checked;
+                    Saved.downloadType = (int)DownloadType.Video;
+                    Saved.videoQuality = cbQuality.SelectedIndex;
+                    Saved.VideoFormat = cbFormat.SelectedIndex;
+                    Downloads.VideoDownloadSound = chkDownloadSound.Checked;
                 }
                 else if (rbAudio.Checked) {
                     NewInfo.Type = DownloadType.Audio;
                     if (chkDownloadSound.Checked) {
                         NewInfo.AudioVBRQuality = (AudioVBRQualityType)cbQuality.SelectedIndex;
-                        Config.Settings.Saved.AudioVBRQuality = cbQuality.SelectedIndex;
+                        Saved.AudioVBRQuality = cbQuality.SelectedIndex;
                     }
                     else {
                         NewInfo.AudioCBRQuality = (AudioCBRQualityType)cbQuality.SelectedIndex;
-                        Config.Settings.Saved.audioQuality = cbQuality.SelectedIndex;
+                        Saved.audioQuality = cbQuality.SelectedIndex;
                     }
                     NewInfo.UseVBR = chkDownloadSound.Checked;
                     NewInfo.AudioFormat = (AudioFormatType)cbFormat.SelectedIndex;
 
-
-                    Config.Settings.Saved.downloadType = (int)DownloadType.Audio;
-                    Config.Settings.Saved.audioQuality = cbQuality.SelectedIndex;
-                    Config.Settings.Saved.AudioFormat = cbFormat.SelectedIndex;
-                    Config.Settings.Downloads.AudioDownloadAsVBR = chkDownloadSound.Checked;
+                    Saved.downloadType = (int)DownloadType.Audio;
+                    Saved.audioQuality = cbQuality.SelectedIndex;
+                    Saved.AudioFormat = cbFormat.SelectedIndex;
+                    Downloads.AudioDownloadAsVBR = chkDownloadSound.Checked;
                 }
                 else {
                     throw new Exception("Video, Audio, or Custom was not selected in the form, please select an actual download option to proceed.");
@@ -1096,13 +1057,23 @@ public partial class frmMain : LocalizedForm {
             }
             else {
                 NewInfo.Type = DownloadType.Custom;
-                Config.Settings.Saved.downloadType = (int)DownloadType.Custom;
+                NewInfo.DownloadArguments = cbCustomArguments.Text;
+                if (!cbCustomArguments.Text.IsNullEmptyWhitespace() && !cbCustomArguments.Items.Contains(cbCustomArguments.Text)) {
+                    cbCustomArguments.SelectedIndex = cbCustomArguments.Items.Add(cbCustomArguments.Text);
+                    CustomArguments.AddYtdlArgument(cbCustomArguments.Text, true);
+                }
+
+                Saved.downloadType = (int)DownloadType.Custom;
             }
 
-            if (chkCustomArgumentsForNonCustomTypes.Checked) {
-                NewInfo.DownloadArguments = cbCustomArguments.Text;
-                if (!cbCustomArguments.Items.Contains(cbCustomArguments.Text) && !cbCustomArguments.Text.IsNullEmptyWhitespace())
-                    cbCustomArguments.Items.Add(cbCustomArguments.Text);
+            if ((rbVideo.Checked || rbAudio.Checked) && cbCustomArguments.SelectedIndex != 0) {
+                if (!cbCustomArguments.Text.IsNullEmptyWhitespace()) {
+                    NewInfo.DownloadArguments = cbCustomArguments.Text;
+                    if (!cbCustomArguments.Items.Contains(cbCustomArguments.Text)) {
+                        cbCustomArguments.Items.Add(cbCustomArguments.Text);
+                        CustomArguments.AddYtdlArgument(cbCustomArguments.Text, true);
+                    }
+                }
             }
 
             NewInfo.FileNameSchema = cbSchema.Text;
@@ -1114,10 +1085,10 @@ public partial class frmMain : LocalizedForm {
 
         Downloader.Show();
 
-        if (Config.Settings.General.ClearURLOnDownload)
+        if (General.ClearURLOnDownload)
             txtUrl.Clear();
 
-        if (Config.Settings.General.ClearClipboardOnDownload)
+        if (General.ClearClipboardOnDownload)
             Clipboard.Clear();
     }
     #endregion
@@ -1154,7 +1125,7 @@ public partial class frmMain : LocalizedForm {
                             !string.IsNullOrWhiteSpace(Formats.CustomFormats) ? Formats.CustomFormats : "",
                             Formats.AllFiles
                         });
-                sfd.FilterIndex = Config.Settings.Saved.convertSaveVideoIndex;
+                sfd.FilterIndex = Saved.convertSaveVideoIndex;
             }
             else if (rbConvertAudio.Checked) {
                 sfd.Filter = Formats.JoinFormats(new[] {
@@ -1162,23 +1133,23 @@ public partial class frmMain : LocalizedForm {
                             !string.IsNullOrWhiteSpace(Formats.CustomFormats) ? Formats.CustomFormats : "",
                             Formats.AllFiles
                         });
-                sfd.FilterIndex = Config.Settings.Saved.convertSaveAudioIndex;
+                sfd.FilterIndex = Saved.convertSaveAudioIndex;
             }
             else {
                 sfd.Filter = AllFormats;
-                sfd.FilterIndex = Config.Settings.Saved.convertSaveUnknownIndex;
+                sfd.FilterIndex = Saved.convertSaveUnknownIndex;
             }
             if (sfd.ShowDialog() == DialogResult.OK) {
                 txtConvertOutput.Text = sfd.FileName;
                 btnConvert.Enabled = true;
                 if (rbConvertVideo.Checked) {
-                    Config.Settings.Saved.convertSaveVideoIndex = sfd.FilterIndex;
+                    Saved.convertSaveVideoIndex = sfd.FilterIndex;
                 }
                 else if (rbConvertAudio.Checked) {
-                    Config.Settings.Saved.convertSaveAudioIndex = sfd.FilterIndex;
+                    Saved.convertSaveAudioIndex = sfd.FilterIndex;
                 }
                 else {
-                    Config.Settings.Saved.convertSaveUnknownIndex = sfd.FilterIndex;
+                    Saved.convertSaveUnknownIndex = sfd.FilterIndex;
                 }
             }
         }
@@ -1193,14 +1164,14 @@ public partial class frmMain : LocalizedForm {
                     Formats.VideoFormats,
                     !string.IsNullOrWhiteSpace(Formats.CustomFormats) ? Formats.CustomFormats : ""
                 });
-            sfd.FilterIndex = Config.Settings.Saved.convertSaveVideoIndex;
+            sfd.FilterIndex = Saved.convertSaveVideoIndex;
         }
         else if (rbConvertAudio.Checked) {
             sfd.Filter = Formats.JoinFormats(new[] {
                     Formats.AudioFormats,
                     !string.IsNullOrWhiteSpace(Formats.CustomFormats) ? Formats.CustomFormats : ""
                 });
-            sfd.FilterIndex = Config.Settings.Saved.convertSaveAudioIndex;
+            sfd.FilterIndex = Saved.convertSaveAudioIndex;
         }
         else {
             sfd.Filter = Formats.JoinFormats(new[] {
@@ -1209,20 +1180,20 @@ public partial class frmMain : LocalizedForm {
                     Formats.AudioFormats,
                     !string.IsNullOrWhiteSpace(Formats.CustomFormats) ? Formats.CustomFormats : ""
                 });
-            sfd.FilterIndex = Config.Settings.Saved.convertSaveUnknownIndex;
+            sfd.FilterIndex = Saved.convertSaveUnknownIndex;
         }
 
         if (sfd.ShowDialog() == DialogResult.OK) {
             txtConvertOutput.Text = sfd.FileName;
             btnConvert.Enabled = true;
             if (rbConvertVideo.Checked) {
-                Config.Settings.Saved.convertSaveVideoIndex = sfd.FilterIndex;
+                Saved.convertSaveVideoIndex = sfd.FilterIndex;
             }
             else if (rbConvertAudio.Checked) {
-                Config.Settings.Saved.convertSaveAudioIndex = sfd.FilterIndex;
+                Saved.convertSaveAudioIndex = sfd.FilterIndex;
             }
             else {
-                Config.Settings.Saved.convertSaveUnknownIndex = sfd.FilterIndex;
+                Saved.convertSaveUnknownIndex = sfd.FilterIndex;
             }
         }
     }
@@ -1298,8 +1269,8 @@ public partial class frmMain : LocalizedForm {
     #endregion
 
     #region debug
-    private void btnDebugForceUpdateCheck_Click(object sender, EventArgs e) {
-        UpdateChecker.CheckForUpdate(true, true);
+    private async void btnDebugForceUpdateCheck_Click(object sender, EventArgs e) {
+        await Updater.CheckForUpdate(true);
     }
     private void btnDebugForceAvailableUpdate_Click(object sender, EventArgs e) {
     }
@@ -1376,6 +1347,18 @@ public partial class frmMain : LocalizedForm {
                 Marshal.FreeHGlobal(cdsPointer);
         }
 #endif
+    }
+
+    private void btnDebugExtendedConverter_Click(object sender, EventArgs e) {
+        //using OpenFileDialog ofd = new();
+        //if (ofd.ShowDialog() == DialogResult.OK) {
+        //    MediaInfoData mdata = MediaInfoData.GenerateData(ofd.FileName, out _);
+        //    FfprobeData fdata = FfprobeData.GenerateData(ofd.FileName, out _);
+        //    Console.WriteLine();
+        //}
+
+        frmExtendedConverter cv = new();
+        cv.Show();
     }
     #endregion
 }

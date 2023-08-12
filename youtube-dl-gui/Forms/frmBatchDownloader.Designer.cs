@@ -77,7 +77,6 @@
             // 
             // lbBatchVideoSpecificArgument
             // 
-            this.lbBatchVideoSpecificArgument.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.lbBatchVideoSpecificArgument.AutoSize = true;
             this.lbBatchVideoSpecificArgument.Location = new System.Drawing.Point(372, 9);
             this.lbBatchVideoSpecificArgument.Name = "lbBatchVideoSpecificArgument";
@@ -191,7 +190,7 @@
             // 
             // cbArguments
             // 
-            this.cbArguments.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.cbArguments.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cbArguments.FormattingEnabled = true;
             this.cbArguments.Location = new System.Drawing.Point(375, 26);
@@ -308,8 +307,8 @@
             // 
             // lvBatchDownloadQueue
             // 
-            this.lvBatchDownloadQueue.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.lvBatchDownloadQueue.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lvBatchDownloadQueue.BackColor = System.Drawing.SystemColors.Window;
             this.lvBatchDownloadQueue.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {

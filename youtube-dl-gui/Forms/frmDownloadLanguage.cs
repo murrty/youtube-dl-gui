@@ -12,7 +12,7 @@ public partial class frmDownloadLanguage : LocalizedForm {
         InitializeComponent();
         SubItemFont = new("Segoi UI", this.Font.Size, FontStyle.Italic);
         try {
-            EnumeratedLanguages = UpdateChecker.GetAvailableLanguages();
+            EnumeratedLanguages = Updater.GetAvailableLanguages();
             if (EnumeratedLanguages.Length > 0) {
                 // Uncomment these out when the SHA calcuation gets fixed.
                 for (int i = 0; i < EnumeratedLanguages.Length; i++) {
@@ -35,7 +35,7 @@ public partial class frmDownloadLanguage : LocalizedForm {
     }
 
     public override void LoadLanguage() {
-        if (Config.Settings.Initialization.firstTime) {
+        if (Initialization.firstTime) {
             btnCancel.Text = Language.InternalEnglish.GenericCancel;
             btnOk.Text = Language.InternalEnglish.GenericOk;
             btnDownloadSelected.Text = Language.InternalEnglish.sbDownload;

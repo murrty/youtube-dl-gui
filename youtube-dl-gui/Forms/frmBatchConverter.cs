@@ -1,7 +1,7 @@
 ﻿namespace youtube_dl_gui;
 using System.Threading;
 using System.Windows.Forms;
-public partial class frmBatchConverter : LocalizedForm {
+public partial class frmBatchConverter : LocalizedProcessingForm {
 
     private readonly List<string> InputFiles = new();
     private readonly List<string> OutputFiles = new();
@@ -18,13 +18,13 @@ public partial class frmBatchConverter : LocalizedForm {
         lvBatchConvertQueue.SmallImageList = Program.BatchStatusImages;
 
         this.Load += (s, e) => {
-            if (Config.Settings.Saved.BatchConverterLocation.Valid) {
+            if (Saved.BatchConverterLocation.Valid) {
                 this.StartPosition = FormStartPosition.Manual;
-                this.Location = Config.Settings.Saved.BatchConverterLocation;
+                this.Location = Saved.BatchConverterLocation;
             }
         };
         this.FormClosing += (s, e) => {
-            Config.Settings.Saved.BatchConverterLocation = this.Location;
+            Saved.BatchConverterLocation = this.Location;
         };
     }
 
@@ -148,7 +148,6 @@ public partial class frmBatchConverter : LocalizedForm {
             });
         }
         else if (lvBatchConvertQueue.Items.Count > 0) {
-            Program.RunningActions.Add(this);
             Log.Write($"Starting batch conversion with {lvBatchConvertQueue.Items.Count} links to download.");
             InProgress = true;
             AbortConversions = false;
@@ -222,7 +221,6 @@ public partial class frmBatchConverter : LocalizedForm {
                 System.Media.SystemSounds.Exclamation.Play();
                 InProgress = false;
                 Log.Write($"Batch conversion finished running.");
-                Program.RunningActions.Remove(this);
             }) {
                 Name = "Conversion thread",
             };

@@ -12,8 +12,6 @@
         #region Windows Form Designer generated code
 
         private void InitializeComponent() {
-            murrty.controls.Time time3 = new murrty.controls.Time();
-            murrty.controls.Time time4 = new murrty.controls.Time();
             this.pbThumbnail = new System.Windows.Forms.PictureBox();
             this.txtExtendedDownloaderMediaTitle = new System.Windows.Forms.TextBox();
             this.lbExtendedDownloaderUploader = new System.Windows.Forms.Label();
@@ -68,6 +66,8 @@
             this.chUnknownFormatId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tabExtendedDownloaderCustom = new System.Windows.Forms.TabPage();
             this.txtCustomArguments = new System.Windows.Forms.TextBox();
+            this.pnSavedCustomArgs = new System.Windows.Forms.Panel();
+            this.cbCustomArguments = new System.Windows.Forms.ComboBox();
             this.tabExtendedDownloaderFormatOptions = new System.Windows.Forms.TabPage();
             this.tpStartTime = new murrty.controls.TimePicker();
             this.lbExtendedTimePicker = new System.Windows.Forms.Label();
@@ -154,6 +154,7 @@
             this.tabExtendedDownloaderAudioFormats.SuspendLayout();
             this.tabExtendedDownloaderUnknownFormats.SuspendLayout();
             this.tabExtendedDownloaderCustom.SuspendLayout();
+            this.pnSavedCustomArgs.SuspendLayout();
             this.tabExtendedDownloaderFormatOptions.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numFragmentThreads)).BeginInit();
             this.tabExtendedDownloaderDescription.SuspendLayout();
@@ -603,6 +604,7 @@
             // tabExtendedDownloaderCustom
             // 
             this.tabExtendedDownloaderCustom.Controls.Add(this.txtCustomArguments);
+            this.tabExtendedDownloaderCustom.Controls.Add(this.pnSavedCustomArgs);
             this.tabExtendedDownloaderCustom.Location = new System.Drawing.Point(4, 22);
             this.tabExtendedDownloaderCustom.Name = "tabExtendedDownloaderCustom";
             this.tabExtendedDownloaderCustom.Padding = new System.Windows.Forms.Padding(3);
@@ -618,9 +620,28 @@
             this.txtCustomArguments.Multiline = true;
             this.txtCustomArguments.Name = "txtCustomArguments";
             this.txtCustomArguments.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtCustomArguments.Size = new System.Drawing.Size(422, 135);
+            this.txtCustomArguments.Size = new System.Drawing.Size(422, 107);
             this.txtCustomArguments.TabIndex = 15;
             this.txtCustomArguments.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCustomArguments_KeyDown);
+            // 
+            // pnSavedCustomArgs
+            // 
+            this.pnSavedCustomArgs.Controls.Add(this.cbCustomArguments);
+            this.pnSavedCustomArgs.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.pnSavedCustomArgs.Location = new System.Drawing.Point(3, 110);
+            this.pnSavedCustomArgs.Name = "pnSavedCustomArgs";
+            this.pnSavedCustomArgs.Size = new System.Drawing.Size(422, 28);
+            this.pnSavedCustomArgs.TabIndex = 16;
+            // 
+            // cbCustomArguments
+            // 
+            this.cbCustomArguments.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbCustomArguments.FormattingEnabled = true;
+            this.cbCustomArguments.Location = new System.Drawing.Point(3, 3);
+            this.cbCustomArguments.Name = "cbCustomArguments";
+            this.cbCustomArguments.Size = new System.Drawing.Size(416, 21);
+            this.cbCustomArguments.TabIndex = 0;
+            this.cbCustomArguments.SelectedIndexChanged += new System.EventHandler(this.cbCustomArguments_SelectedIndexChanged);
             // 
             // tabExtendedDownloaderFormatOptions
             // 
@@ -661,8 +682,6 @@
             this.tpStartTime.Size = new System.Drawing.Size(96, 23);
             this.tpStartTime.TabIndex = 41;
             this.tpStartTime.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.tpStartTime.TimeValue = time3;
-            this.tpStartTime.Value = System.TimeSpan.Parse("00:00:00");
             // 
             // lbExtendedTimePicker
             // 
@@ -886,8 +905,6 @@
             this.tpEndTime.Size = new System.Drawing.Size(96, 23);
             this.tpEndTime.TabIndex = 37;
             this.tpEndTime.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.tpEndTime.TimeValue = time4;
-            this.tpEndTime.Value = System.TimeSpan.Parse("00:00:00");
             // 
             // llbSpecifyTimesHint
             // 
@@ -1448,6 +1465,7 @@
             this.tabExtendedDownloaderUnknownFormats.PerformLayout();
             this.tabExtendedDownloaderCustom.ResumeLayout(false);
             this.tabExtendedDownloaderCustom.PerformLayout();
+            this.pnSavedCustomArgs.ResumeLayout(false);
             this.tabExtendedDownloaderFormatOptions.ResumeLayout(false);
             this.tabExtendedDownloaderFormatOptions.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numFragmentThreads)).EndInit();
@@ -1599,5 +1617,7 @@
         private System.Windows.Forms.MenuItem mEnqueueFileLinksWithAuthentication;
         private System.Windows.Forms.MenuItem mEnqueueFileLinksCopyOptions;
         private System.Windows.Forms.MenuItem mEnqueueFileLinksCopyAuthentication;
+        private System.Windows.Forms.Panel pnSavedCustomArgs;
+        private System.Windows.Forms.ComboBox cbCustomArguments;
     }
 }

@@ -44,7 +44,7 @@ namespace youtube_dl_gui {
             lbUpdateAvailableUpdateVersion.Text = $"{Language.lbUpdateAvailableUpdateVersion.Format(UpdateData.Version)}";
             txtUpdateAvailableName.Text = UpdateData.VersionHeader;
             rtbUpdateAvailableChangelog.Text = UpdateData.VersionDescription;
-            lbUpdateSize.Text = Language.lbUpdateSize.Format(Extensions.SizeToString(UpdateData.GetExecutableSize()));
+            lbUpdateSize.Text = Language.lbUpdateSize.Format(UpdateData.ExecutableSize.SizeToString());
         }
     }
 }

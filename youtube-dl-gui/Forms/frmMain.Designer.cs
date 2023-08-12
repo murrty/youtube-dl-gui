@@ -14,7 +14,6 @@
         [System.Diagnostics.DebuggerStepThrough]
         private void InitializeComponent() {
             this.components = new System.ComponentModel.Container();
-            murrty.controls.Time time1 = new murrty.controls.Time();
             this.lbURL = new System.Windows.Forms.Label();
             this.tcMain = new System.Windows.Forms.TabControl();
             this.tabDownload = new System.Windows.Forms.TabPage();
@@ -56,9 +55,8 @@
             this.rbAudio = new System.Windows.Forms.RadioButton();
             this.rbVideo = new System.Windows.Forms.RadioButton();
             this.txtUrl = new murrty.controls.ExtendedTextBox();
-            this.chkCustomArgumentsForNonCustomTypes = new System.Windows.Forms.CheckBox();
             this.tabConvert = new System.Windows.Forms.TabPage();
-            this.timePicker1 = new murrty.controls.TimePicker();
+            this.btnDebugExtendedConverter = new System.Windows.Forms.Button();
             this.rbConvertCustom = new System.Windows.Forms.RadioButton();
             this.rbConvertAudio = new System.Windows.Forms.RadioButton();
             this.rbConvertAutoFFmpeg = new System.Windows.Forms.RadioButton();
@@ -155,7 +153,7 @@
             this.tcMain.Location = new System.Drawing.Point(0, 0);
             this.tcMain.Name = "tcMain";
             this.tcMain.SelectedIndex = 0;
-            this.tcMain.Size = new System.Drawing.Size(246, 365);
+            this.tcMain.Size = new System.Drawing.Size(246, 344);
             this.tcMain.TabIndex = 0;
             // 
             // tabDownload
@@ -176,11 +174,10 @@
             this.tabDownload.Controls.Add(this.lbURL);
             this.tabDownload.Controls.Add(this.gbDownloadType);
             this.tabDownload.Controls.Add(this.txtUrl);
-            this.tabDownload.Controls.Add(this.chkCustomArgumentsForNonCustomTypes);
             this.tabDownload.Location = new System.Drawing.Point(4, 22);
             this.tabDownload.Name = "tabDownload";
             this.tabDownload.Padding = new System.Windows.Forms.Padding(3);
-            this.tabDownload.Size = new System.Drawing.Size(238, 339);
+            this.tabDownload.Size = new System.Drawing.Size(238, 318);
             this.tabDownload.TabIndex = 0;
             this.tabDownload.Text = "tabDownload";
             this.tabDownload.UseVisualStyleBackColor = true;
@@ -188,17 +185,18 @@
             // btnSaveTo
             // 
             this.btnSaveTo.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.btnSaveTo.Location = new System.Drawing.Point(44, 297);
+            this.btnSaveTo.Location = new System.Drawing.Point(44, 276);
             this.btnSaveTo.Name = "btnSaveTo";
             this.btnSaveTo.Size = new System.Drawing.Size(28, 25);
             this.btnSaveTo.TabIndex = 25;
             this.btnSaveTo.Text = "...";
             this.btnSaveTo.UseVisualStyleBackColor = true;
+            this.btnSaveTo.Click += new System.EventHandler(this.btnSaveTo_Click);
             // 
             // lbSchema
             // 
             this.lbSchema.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lbSchema.Location = new System.Drawing.Point(15, 205);
+            this.lbSchema.Location = new System.Drawing.Point(15, 184);
             this.lbSchema.Name = "lbSchema";
             this.lbSchema.Size = new System.Drawing.Size(103, 15);
             this.lbSchema.TabIndex = 23;
@@ -210,7 +208,7 @@
             this.cbSchema.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cbSchema.FormattingEnabled = true;
-            this.cbSchema.Location = new System.Drawing.Point(14, 223);
+            this.cbSchema.Location = new System.Drawing.Point(14, 202);
             this.cbSchema.Name = "cbSchema";
             this.cbSchema.Size = new System.Drawing.Size(213, 21);
             this.cbSchema.TabIndex = 22;
@@ -222,9 +220,9 @@
             this.cbCustomArguments.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cbCustomArguments.FormattingEnabled = true;
-            this.cbCustomArguments.Location = new System.Drawing.Point(30, 269);
+            this.cbCustomArguments.Location = new System.Drawing.Point(15, 248);
             this.cbCustomArguments.Name = "cbCustomArguments";
-            this.cbCustomArguments.Size = new System.Drawing.Size(194, 21);
+            this.cbCustomArguments.Size = new System.Drawing.Size(212, 21);
             this.cbCustomArguments.TabIndex = 21;
             this.cbCustomArguments.KeyDown += new System.Windows.Forms.KeyEventHandler(this.cbCustomArguments_KeyDown);
             // 
@@ -450,7 +448,7 @@
             this.sbDownload.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.sbDownload.ContextMenu = this.cmDownload;
             this.sbDownload.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.sbDownload.Location = new System.Drawing.Point(78, 297);
+            this.sbDownload.Location = new System.Drawing.Point(78, 276);
             this.sbDownload.Name = "sbDownload";
             this.sbDownload.Size = new System.Drawing.Size(83, 25);
             this.sbDownload.TabIndex = 14;
@@ -548,7 +546,7 @@
             // 
             this.lbCustomArguments.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lbCustomArguments.AutoSize = true;
-            this.lbCustomArguments.Location = new System.Drawing.Point(15, 252);
+            this.lbCustomArguments.Location = new System.Drawing.Point(15, 231);
             this.lbCustomArguments.Name = "lbCustomArguments";
             this.lbCustomArguments.Size = new System.Drawing.Size(112, 13);
             this.lbCustomArguments.TabIndex = 12;
@@ -625,22 +623,9 @@
             this.txtUrl.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtUrl_KeyDown);
             this.txtUrl.MouseEnter += new System.EventHandler(this.txtUrl_MouseEnter);
             // 
-            // chkCustomArgumentsForNonCustomTypes
-            // 
-            this.chkCustomArgumentsForNonCustomTypes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.chkCustomArgumentsForNonCustomTypes.AutoSize = true;
-            this.chkCustomArgumentsForNonCustomTypes.Checked = true;
-            this.chkCustomArgumentsForNonCustomTypes.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkCustomArgumentsForNonCustomTypes.Enabled = false;
-            this.chkCustomArgumentsForNonCustomTypes.Location = new System.Drawing.Point(14, 273);
-            this.chkCustomArgumentsForNonCustomTypes.Name = "chkCustomArgumentsForNonCustomTypes";
-            this.chkCustomArgumentsForNonCustomTypes.Size = new System.Drawing.Size(14, 13);
-            this.chkCustomArgumentsForNonCustomTypes.TabIndex = 24;
-            this.chkCustomArgumentsForNonCustomTypes.UseVisualStyleBackColor = true;
-            // 
             // tabConvert
             // 
-            this.tabConvert.Controls.Add(this.timePicker1);
+            this.tabConvert.Controls.Add(this.btnDebugExtendedConverter);
             this.tabConvert.Controls.Add(this.rbConvertCustom);
             this.tabConvert.Controls.Add(this.rbConvertAudio);
             this.tabConvert.Controls.Add(this.rbConvertAutoFFmpeg);
@@ -661,15 +646,15 @@
             this.tabConvert.Text = "tabConvert";
             this.tabConvert.UseVisualStyleBackColor = true;
             // 
-            // timePicker1
+            // btnDebugExtendedConverter
             // 
-            this.timePicker1.DateBasedTime = false;
-            this.timePicker1.Location = new System.Drawing.Point(58, 233);
-            this.timePicker1.Name = "timePicker1";
-            this.timePicker1.Size = new System.Drawing.Size(126, 23);
-            this.timePicker1.TabIndex = 13;
-            this.timePicker1.TimeValue = time1;
-            this.timePicker1.Value = System.TimeSpan.Parse("00:00:00");
+            this.btnDebugExtendedConverter.Location = new System.Drawing.Point(58, 237);
+            this.btnDebugExtendedConverter.Name = "btnDebugExtendedConverter";
+            this.btnDebugExtendedConverter.Size = new System.Drawing.Size(123, 23);
+            this.btnDebugExtendedConverter.TabIndex = 13;
+            this.btnDebugExtendedConverter.Text = "Extended converter...";
+            this.btnDebugExtendedConverter.UseVisualStyleBackColor = true;
+            this.btnDebugExtendedConverter.Click += new System.EventHandler(this.btnDebugExtendedConverter_Click);
             // 
             // rbConvertCustom
             // 
@@ -847,7 +832,7 @@
             // chkDebugDontDownload
             // 
             this.chkDebugDontDownload.AutoSize = true;
-            this.chkDebugDontDownload.Location = new System.Drawing.Point(8, 261);
+            this.chkDebugDontDownload.Location = new System.Drawing.Point(8, 269);
             this.chkDebugDontDownload.Name = "chkDebugDontDownload";
             this.chkDebugDontDownload.Size = new System.Drawing.Size(110, 17);
             this.chkDebugDontDownload.TabIndex = 7;
@@ -1228,7 +1213,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(246, 365);
+            this.ClientSize = new System.Drawing.Size(246, 344);
             this.Controls.Add(this.tcMain);
             this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = global::youtube_dl_gui.Properties.Resources.ProgramIcon;
@@ -1371,9 +1356,8 @@
         private System.Windows.Forms.MenuItem mBatchExtendedDownload;
         private System.Windows.Forms.MenuItem mExtendedDownloadFormAuthentication;
         private System.Windows.Forms.Button btnTestCopyData;
-        private System.Windows.Forms.CheckBox chkCustomArgumentsForNonCustomTypes;
-        private murrty.controls.TimePicker timePicker1;
         private System.Windows.Forms.Button btnSaveTo;
+        private System.Windows.Forms.Button btnDebugExtendedConverter;
     }
 }
 

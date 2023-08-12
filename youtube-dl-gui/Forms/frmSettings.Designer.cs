@@ -1201,7 +1201,7 @@
             // lbSettingsDownloadsDownloadPath
             // 
             this.lbSettingsDownloadsDownloadPath.AutoSize = true;
-            this.lbSettingsDownloadsDownloadPath.Location = new System.Drawing.Point(19, 12);
+            this.lbSettingsDownloadsDownloadPath.Location = new System.Drawing.Point(6, 12);
             this.lbSettingsDownloadsDownloadPath.Name = "lbSettingsDownloadsDownloadPath";
             this.lbSettingsDownloadsDownloadPath.Size = new System.Drawing.Size(195, 13);
             this.lbSettingsDownloadsDownloadPath.TabIndex = 1;
@@ -1235,7 +1235,7 @@
             // lbSettingsDownloadsFileNameSchema
             // 
             this.lbSettingsDownloadsFileNameSchema.AutoSize = true;
-            this.lbSettingsDownloadsFileNameSchema.Location = new System.Drawing.Point(19, 59);
+            this.lbSettingsDownloadsFileNameSchema.Location = new System.Drawing.Point(6, 59);
             this.lbSettingsDownloadsFileNameSchema.Name = "lbSettingsDownloadsFileNameSchema";
             this.lbSettingsDownloadsFileNameSchema.Size = new System.Drawing.Size(204, 13);
             this.lbSettingsDownloadsFileNameSchema.TabIndex = 4;
@@ -1246,9 +1246,9 @@
             this.txtSettingsDownloadsFileNameSchema.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtSettingsDownloadsFileNameSchema.FormattingEnabled = true;
-            this.txtSettingsDownloadsFileNameSchema.Location = new System.Drawing.Point(30, 79);
+            this.txtSettingsDownloadsFileNameSchema.Location = new System.Drawing.Point(17, 79);
             this.txtSettingsDownloadsFileNameSchema.Name = "txtSettingsDownloadsFileNameSchema";
-            this.txtSettingsDownloadsFileNameSchema.Size = new System.Drawing.Size(191, 21);
+            this.txtSettingsDownloadsFileNameSchema.Size = new System.Drawing.Size(204, 21);
             this.txtSettingsDownloadsFileNameSchema.TabIndex = 9;
             this.txtSettingsDownloadsFileNameSchema.Text = "%(title)s-%(id)s.%(ext)s";
             this.tipSettings.SetToolTip(this.txtSettingsDownloadsFileNameSchema, "txtSettingsDownloadsFileNameSchemaHint");
@@ -1286,7 +1286,7 @@
             // 
             this.llSettingsDownloadsSchemaHelp.AutoSize = true;
             this.llSettingsDownloadsSchemaHelp.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-            this.llSettingsDownloadsSchemaHelp.Location = new System.Drawing.Point(234, 59);
+            this.llSettingsDownloadsSchemaHelp.Location = new System.Drawing.Point(221, 59);
             this.llSettingsDownloadsSchemaHelp.Name = "llSettingsDownloadsSchemaHelp";
             this.llSettingsDownloadsSchemaHelp.Size = new System.Drawing.Size(12, 13);
             this.llSettingsDownloadsSchemaHelp.TabIndex = 5;

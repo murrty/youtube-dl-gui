@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Threading;
 using System.Windows.Forms;
-public partial class frmConverter : LocalizedForm {
+public partial class frmConverter : LocalizedProcessingForm {
     public bool Debugging = false;
     public volatile ConvertInfo CurrentConversion;
 
@@ -51,8 +51,7 @@ public partial class frmConverter : LocalizedForm {
                 } break;
         }
         if (!e.Cancel) {
-            Config.Settings.Converts.CloseAfterFinish = chkConverterCloseAfterConversion.Checked;
-            Config.Settings.Converts.Save();
+            Converts.CloseAfterFinish = chkConverterCloseAfterConversion.Checked;
 
             this.DialogResult = Finish;
             this.Dispose();
@@ -68,9 +67,9 @@ public partial class frmConverter : LocalizedForm {
             btnConverterAbortBatchConversions.Text = Language.btnConverterAbortBatchConversions;
         }
         chkConverterCloseAfterConversion.Text = Language.chkConverterCloseAfterConversion;
-        chkConverterCloseAfterConversion.Checked = Config.Settings.Converts.CloseAfterFinish;
+        chkConverterCloseAfterConversion.Checked = Converts.CloseAfterFinish;
 
-        switch (CurrentConversion.Status) {
+        switch (CurrentConversion?.Status) {
             case ConversionStatus.None:
             case ConversionStatus.Preparing:
             case ConversionStatus.Converting: {
@@ -229,7 +228,6 @@ public partial class frmConverter : LocalizedForm {
         #region Conversion thread
         Log.Write("Beginning conversion thread.");
         ConverterThread = new Thread(() => {
-            Program.RunningActions.Add(this);
             try {
                 ConverterProcess = new Process() {
                     StartInfo = new(Verification.FFmpegPath) {
@@ -285,7 +283,6 @@ public partial class frmConverter : LocalizedForm {
                 CurrentConversion.Status = ConversionStatus.ProgramError;
             }
             finally {
-                Program.RunningActions.Remove(this);
                 if (this.IsHandleCreated && CurrentConversion.Status != ConversionStatus.Aborted || CurrentConversion.BatchConversion) {
                     this.BeginInvoke(() => ConversionFinished());
                 }

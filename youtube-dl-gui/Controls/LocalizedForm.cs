@@ -3,9 +3,7 @@ using System;
 using System.Windows.Forms;
 public class LocalizedForm : Form, ILocalizedForm {
     // This is supposed to be overridden.
-    public virtual void LoadLanguage() {
-        throw new InvalidProgramException("Method LoadLanguage was not overridden.");
-    }
+    public virtual void LoadLanguage() { }
     public string GetFormName() => this.Name;
     /// <inheritdoc/>
     protected override void OnLoad(EventArgs e) {

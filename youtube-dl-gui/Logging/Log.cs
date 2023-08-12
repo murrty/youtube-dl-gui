@@ -10,6 +10,7 @@ using WinMsg = System.Windows.Forms.MessageBox;
 /// This class will control the Errors that get reported in try statements.
 /// </summary>
 internal static class Log {
+
     #region Properties & Fields
     /// <summary>
     /// The log form that is used globally to log data.
@@ -46,18 +47,18 @@ internal static class Log {
 
     #region Log stuff
     /// <summary>
-    /// Initializes the log.
+    /// Initializer
     /// </summary>
-    public static void InitializeLogging() {
+    static Log() {
         // Catch any exceptions that are unhandled, so we can report it.
-#if !DEBUG || ALLOWUNHANDLEDCATCHING
+#if RELEASE && ALLOWUNHANDLEDCATCHING
         try {
             Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
 #endif
 
             EnableLogging();
 
-#if !DEBUG || ALLOWUNHANDLEDCATCHING
+#if RELEASE && ALLOWUNHANDLEDCATCHING
             Write("Creating unhandled exception event.");
             AppDomain.CurrentDomain.UnhandledException += (sender, exception) => {
                 Exception ExceptionRef = exception.ExceptionObject is Exception ex ?
@@ -103,6 +104,7 @@ internal static class Log {
             Service Pack Major: {{MgtInfo.Properties["ServicePackMajorVersion"].Value ?? "couldn't query"}}
             Service Pack Minor: {{MgtInfo.Properties["ServicePackMinorVersion"].Value ?? "couldn't query"}}
             """);
+
     }
 
     /// <summary>
@@ -131,9 +133,8 @@ internal static class Log {
                     LogForm.Opacity = 0;
                     LogForm.WindowState = FormWindowState.Normal;
 
-                    Config.Settings.Saved.LogLocation = LogForm.Location;
-                    Config.Settings.Saved.LogSize = LogForm.Size;
-                    Config.Settings.Saved.Save();
+                    Saved.LogLocation = LogForm.Location;
+                    Saved.LogSize = LogForm.Size;
                     LogForm.Dispose();
                 }
             }
@@ -198,9 +199,33 @@ internal static class Log {
     /// Reports an exception to the user and logs it to the application.
     /// </summary>
     /// <param name="ReceivedException">The receieved exception that will be reported.</param>
+    /// <returns>The <see cref="DialogResult"/> of the displayed exception form.</returns>
+    public static DialogResult ReportException(Exception ReceivedException) {
+        // Gets the time this gets called for reporting the exception time.
+        DateTime ExceptionTime = DateTime.Now;
+
+        // Create the exception info class with data relating to the exception and next actions.
+        ExceptionInfo ExceptionData = new(ReceivedException, null) {
+            AllowRetry = false,
+            CustomDescription = null,
+            ExceptionTime = ExceptionTime,
+            ExtraMessage = null,
+            FromLanguage = false,
+            SkipDwmComposition = false,
+            ExceptionType = ExceptionType.Caught
+        };
+
+        // Returns the exception forms dialog result.
+        return DisplayException(ExceptionData, AllowWritingToFile);
+    }
+
+    /// <summary>
+    /// Reports an exception to the user and logs it to the application.
+    /// </summary>
+    /// <param name="ReceivedException">The receieved exception that will be reported.</param>
     /// <param name="ExtraInfo">Optional extra information regarding the error.</param>
     /// <returns>The <see cref="DialogResult"/> of the displayed exception form.</returns>
-    public static DialogResult ReportException(Exception ReceivedException, object ExtraInfo = null) {
+    public static DialogResult ReportException(Exception ReceivedException, object ExtraInfo) {
         // Gets the time this gets called for reporting the exception time.
         DateTime ExceptionTime = DateTime.Now;
 
@@ -223,9 +248,33 @@ internal static class Log {
     /// Reports an exception that can be retried to the user, and logs it to the application.
     /// </summary>
     /// <param name="ReceivedException">The receieved exception that will be reported.</param>
+    /// <returns>The <see cref="DialogResult"/> of the displayed exception form.</returns>
+    public static DialogResult ReportRetriableException(Exception ReceivedException) {
+        // Gets the time this gets called for reporting the exception time.
+        DateTime ExceptionTime = DateTime.Now;
+
+        // Create the exception info class with data relating to the exception and next actions.
+        ExceptionInfo ExceptionData = new(ReceivedException, null) {
+            AllowRetry = true,
+            CustomDescription = null,
+            ExceptionTime = ExceptionTime,
+            ExtraMessage = null,
+            FromLanguage = false,
+            SkipDwmComposition = false,
+            ExceptionType = ExceptionType.Caught
+        };
+
+        // Returns the exception forms dialog result.
+        return DisplayException(ExceptionData, AllowWritingToFile);
+    }
+
+    /// <summary>
+    /// Reports an exception that can be retried to the user, and logs it to the application.
+    /// </summary>
+    /// <param name="ReceivedException">The receieved exception that will be reported.</param>
     /// <param name="ExtraInfo">Optional extra information regarding the error.</param>
     /// <returns>The <see cref="DialogResult"/> of the displayed exception form.</returns>
-    public static DialogResult ReportRetriableException(Exception ReceivedException, object ExtraInfo = null) {
+    public static DialogResult ReportRetriableException(Exception ReceivedException, object ExtraInfo) {
         // Gets the time this gets called for reporting the exception time.
         DateTime ExceptionTime = DateTime.Now;
 
@@ -249,9 +298,34 @@ internal static class Log {
     /// </summary>
     /// <param name="ReceivedException">The receieved exception that will be reported.</param>
     /// <param name="CanRetry">Whether the problematic issue can be retried.</param>
+    /// <returns>The <see cref="DialogResult"/> of the displayed exception form.</returns>
+    public static DialogResult ReportLanguageException(Exception ReceivedException, bool CanRetry) {
+        // Gets the time this gets called for reporting the exception time.
+        DateTime ExceptionTime = DateTime.Now;
+
+        // Create the exception info class with data relating to the exception and next actions.
+        ExceptionInfo ExceptionData = new(ReceivedException, null) {
+            AllowRetry = CanRetry,
+            CustomDescription = null,
+            ExceptionTime = ExceptionTime,
+            ExtraMessage = null,
+            FromLanguage = false,
+            SkipDwmComposition = false,
+            ExceptionType = ExceptionType.Caught
+        };
+
+        // Returns the exception forms dialog result.
+        return DisplayException(ExceptionData, AllowWritingToFile);
+    }
+
+    /// <summary>
+    /// Reports an exception that occurs when language data is being changed.
+    /// </summary>
+    /// <param name="ReceivedException">The receieved exception that will be reported.</param>
+    /// <param name="CanRetry">Whether the problematic issue can be retried.</param>
     /// <param name="ExtraInfo">Optional extra information regarding the error.</param>
     /// <returns>The <see cref="DialogResult"/> of the displayed exception form.</returns>
-    public static DialogResult ReportLanguageException(Exception ReceivedException, bool CanRetry, object ExtraInfo = null) {
+    public static DialogResult ReportLanguageException(Exception ReceivedException, bool CanRetry, object ExtraInfo) {
         // Gets the time this gets called for reporting the exception time.
         DateTime ExceptionTime = DateTime.Now;
 
@@ -271,24 +345,6 @@ internal static class Log {
     }
 
     /// <summary>
-    /// Reports an exception using a user generated <see cref="ExceptionInfo"/> instance.
-    /// </summary>
-    /// <param name="ReceivedException">The <see cref="ExceptionInfo"/> instance to reference for the exception.</param>
-    /// <returns>The <see cref="DialogResult"/> of the displayed exception form.</returns>
-    public static DialogResult ReportException(ExceptionInfo ReceivedException) {
-        if (ReceivedException is null) {
-            ReportException(new NullReferenceException(nameof(ReceivedException)));
-            return DialogResult.OK;
-        }
-        if (ReceivedException.Exception is null) {
-            ReportException(new NullReferenceException(nameof(ReceivedException.Exception)));
-            return DialogResult.OK;
-        }
-
-        return DisplayException(ReceivedException, AllowWritingToFile);
-    }
-
-    /// <summary>
     /// Displays an exception dialog.
     /// </summary>
     /// <param name="ReceivedException">The <see cref="ExceptionInfo"/> instance.</param>
@@ -302,7 +358,7 @@ internal static class Log {
         AddExceptionToLog(ReceivedException);
 
         // If suppress errors is enabled, return the none result.
-        if (!ReceivedException.AllowRetry && Config.Settings.Errors.suppressErrors)
+        if (!ReceivedException.AllowRetry && Errors.suppressErrors)
             return DialogResult.None;
 
         // Creates the exception form and displays the dialog.
@@ -406,4 +462,5 @@ internal static class Log {
         MessageBoxIcon Icon,
         MessageBoxDefaultButton DefaultButton) => WinMsg.Show(Form.ActiveForm, Message, Language.ApplicationName, Buttons, Icon, DefaultButton);
     #endregion
+
 }

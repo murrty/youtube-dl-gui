@@ -1,4 +1,6 @@
 ﻿namespace murrty.logging {
+    using murrty.controls;
+
     partial class frmException {
 
         /// <summary>
@@ -24,21 +26,24 @@
         /// <para>This should only be ran in the initializer once.</para>
         /// </summary>
         private void InitializeComponent() {
+            this.components = new System.ComponentModel.Container();
             this.btnExceptionOk = new System.Windows.Forms.Button();
-            this.lbVersion = new System.Windows.Forms.Label();
-            this.btnExceptionGithub = new System.Windows.Forms.Button();
+            this.lbVersion = new murrty.controls.ExtendedLinkLabel();
             this.btnExceptionRetry = new System.Windows.Forms.Button();
             this.lbDate = new System.Windows.Forms.Label();
             this.pnLower = new System.Windows.Forms.Panel();
+            this.btnExceptionAbort = new System.Windows.Forms.Button();
             this.pnDWM = new System.Windows.Forms.Panel();
             this.lbExceptionHeader = new System.Windows.Forms.Label();
-            this.rtbExceptionDetails = new murrty.controls.ExtendedRichTextBox();
             this.lbExceptionDescription = new System.Windows.Forms.Label();
             this.tcExceptionDetails = new System.Windows.Forms.TabControl();
             this.tabExceptionDetails = new System.Windows.Forms.TabPage();
+            this.rtbExceptionDetails = new System.Windows.Forms.RichTextBox();
             this.tabExceptionExtraInfo = new System.Windows.Forms.TabPage();
-            this.rtbExtraData = new murrty.controls.ExtendedRichTextBox();
+            this.rtbExtraData = new System.Windows.Forms.RichTextBox();
             this.pnExceptionDescription = new System.Windows.Forms.Panel();
+            this.cmDetails = new System.Windows.Forms.ContextMenu();
+            this.mCopy = new System.Windows.Forms.MenuItem();
             this.pnLower.SuspendLayout();
             this.pnDWM.SuspendLayout();
             this.tcExceptionDetails.SuspendLayout();
@@ -66,19 +71,10 @@
             this.lbVersion.Name = "lbVersion";
             this.lbVersion.Size = new System.Drawing.Size(55, 13);
             this.lbVersion.TabIndex = 4;
+            this.lbVersion.TabStop = true;
             this.lbVersion.Text = "lbVersion";
-            // 
-            // btnExceptionGithub
-            // 
-            this.btnExceptionGithub.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnExceptionGithub.Location = new System.Drawing.Point(225, 7);
-            this.btnExceptionGithub.Name = "btnExceptionGithub";
-            this.btnExceptionGithub.Size = new System.Drawing.Size(75, 23);
-            this.btnExceptionGithub.TabIndex = 5;
-            this.btnExceptionGithub.Text = "btnExceptionGithub";
-            this.btnExceptionGithub.UseVisualStyleBackColor = true;
-            this.btnExceptionGithub.Visible = false;
-            this.btnExceptionGithub.Click += new System.EventHandler(this.btnExceptionGithub_Click);
+            this.lbVersion.VisitedLinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(0)))), ((int)(((byte)(128)))));
+            this.lbVersion.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lbVersion_LinkClicked);
             // 
             // btnExceptionRetry
             // 
@@ -108,13 +104,25 @@
             this.pnLower.Controls.Add(this.btnExceptionOk);
             this.pnLower.Controls.Add(this.lbVersion);
             this.pnLower.Controls.Add(this.lbDate);
-            this.pnLower.Controls.Add(this.btnExceptionGithub);
+            this.pnLower.Controls.Add(this.btnExceptionAbort);
             this.pnLower.Controls.Add(this.btnExceptionRetry);
             this.pnLower.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnLower.Location = new System.Drawing.Point(0, 243);
+            this.pnLower.Location = new System.Drawing.Point(0, 263);
             this.pnLower.Name = "pnLower";
             this.pnLower.Size = new System.Drawing.Size(474, 42);
             this.pnLower.TabIndex = 16;
+            // 
+            // btnExceptionAbort
+            // 
+            this.btnExceptionAbort.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnExceptionAbort.DialogResult = System.Windows.Forms.DialogResult.Abort;
+            this.btnExceptionAbort.Location = new System.Drawing.Point(225, 7);
+            this.btnExceptionAbort.Name = "btnExceptionAbort";
+            this.btnExceptionAbort.Size = new System.Drawing.Size(75, 23);
+            this.btnExceptionAbort.TabIndex = 5;
+            this.btnExceptionAbort.Text = "GenericAbort";
+            this.btnExceptionAbort.UseVisualStyleBackColor = true;
+            this.btnExceptionAbort.Visible = false;
             // 
             // pnDWM
             // 
@@ -122,7 +130,7 @@
             this.pnDWM.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnDWM.Location = new System.Drawing.Point(0, 0);
             this.pnDWM.Name = "pnDWM";
-            this.pnDWM.Size = new System.Drawing.Size(474, 37);
+            this.pnDWM.Size = new System.Drawing.Size(474, 40);
             this.pnDWM.TabIndex = 0;
             this.pnDWM.Visible = false;
             // 
@@ -131,30 +139,18 @@
             this.lbExceptionHeader.AutoSize = true;
             this.lbExceptionHeader.Font = new System.Drawing.Font("Segoe UI Semibold", 14.25F, System.Drawing.FontStyle.Bold);
             this.lbExceptionHeader.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.lbExceptionHeader.Location = new System.Drawing.Point(7, 0);
+            this.lbExceptionHeader.Location = new System.Drawing.Point(7, 1);
             this.lbExceptionHeader.Name = "lbExceptionHeader";
             this.lbExceptionHeader.Size = new System.Drawing.Size(174, 25);
             this.lbExceptionHeader.TabIndex = 17;
             this.lbExceptionHeader.Text = "lbExceptionHeader";
             this.lbExceptionHeader.Visible = false;
             // 
-            // rtbExceptionDetails
-            // 
-            this.rtbExceptionDetails.DetectUrls = false;
-            this.rtbExceptionDetails.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.rtbExceptionDetails.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rtbExceptionDetails.Location = new System.Drawing.Point(3, 3);
-            this.rtbExceptionDetails.Name = "rtbExceptionDetails";
-            this.rtbExceptionDetails.ReadOnly = true;
-            this.rtbExceptionDetails.Size = new System.Drawing.Size(460, 149);
-            this.rtbExceptionDetails.TabIndex = 19;
-            this.rtbExceptionDetails.Text = "rtbExceptionDetails";
-            // 
             // lbExceptionDescription
             // 
             this.lbExceptionDescription.AutoSize = true;
             this.lbExceptionDescription.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbExceptionDescription.Location = new System.Drawing.Point(14, 3);
+            this.lbExceptionDescription.Location = new System.Drawing.Point(14, 1);
             this.lbExceptionDescription.Name = "lbExceptionDescription";
             this.lbExceptionDescription.Size = new System.Drawing.Size(141, 17);
             this.lbExceptionDescription.TabIndex = 1;
@@ -170,7 +166,7 @@
             this.tcExceptionDetails.Location = new System.Drawing.Point(0, 62);
             this.tcExceptionDetails.Name = "tcExceptionDetails";
             this.tcExceptionDetails.SelectedIndex = 0;
-            this.tcExceptionDetails.Size = new System.Drawing.Size(474, 181);
+            this.tcExceptionDetails.Size = new System.Drawing.Size(474, 201);
             this.tcExceptionDetails.TabIndex = 20;
             // 
             // tabExceptionDetails
@@ -179,10 +175,23 @@
             this.tabExceptionDetails.Location = new System.Drawing.Point(4, 22);
             this.tabExceptionDetails.Name = "tabExceptionDetails";
             this.tabExceptionDetails.Padding = new System.Windows.Forms.Padding(3);
-            this.tabExceptionDetails.Size = new System.Drawing.Size(466, 155);
+            this.tabExceptionDetails.Size = new System.Drawing.Size(466, 175);
             this.tabExceptionDetails.TabIndex = 0;
             this.tabExceptionDetails.Text = "tabExceptionDetails";
             this.tabExceptionDetails.UseVisualStyleBackColor = true;
+            // 
+            // rtbExceptionDetails
+            // 
+            this.rtbExceptionDetails.BackColor = System.Drawing.SystemColors.Window;
+            this.rtbExceptionDetails.DetectUrls = false;
+            this.rtbExceptionDetails.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.rtbExceptionDetails.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rtbExceptionDetails.Location = new System.Drawing.Point(3, 3);
+            this.rtbExceptionDetails.Name = "rtbExceptionDetails";
+            this.rtbExceptionDetails.ReadOnly = true;
+            this.rtbExceptionDetails.Size = new System.Drawing.Size(460, 169);
+            this.rtbExceptionDetails.TabIndex = 19;
+            this.rtbExceptionDetails.Text = "rtbExceptionDetails";
             // 
             // tabExceptionExtraInfo
             // 
@@ -190,20 +199,21 @@
             this.tabExceptionExtraInfo.Location = new System.Drawing.Point(4, 22);
             this.tabExceptionExtraInfo.Name = "tabExceptionExtraInfo";
             this.tabExceptionExtraInfo.Padding = new System.Windows.Forms.Padding(3);
-            this.tabExceptionExtraInfo.Size = new System.Drawing.Size(466, 155);
+            this.tabExceptionExtraInfo.Size = new System.Drawing.Size(466, 175);
             this.tabExceptionExtraInfo.TabIndex = 1;
             this.tabExceptionExtraInfo.Text = "tabExceptionExtraInfo";
             this.tabExceptionExtraInfo.UseVisualStyleBackColor = true;
             // 
             // rtbExtraData
             // 
+            this.rtbExtraData.BackColor = System.Drawing.SystemColors.Window;
             this.rtbExtraData.DetectUrls = false;
             this.rtbExtraData.Dock = System.Windows.Forms.DockStyle.Fill;
             this.rtbExtraData.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.rtbExtraData.Location = new System.Drawing.Point(3, 3);
             this.rtbExtraData.Name = "rtbExtraData";
             this.rtbExtraData.ReadOnly = true;
-            this.rtbExtraData.Size = new System.Drawing.Size(460, 149);
+            this.rtbExtraData.Size = new System.Drawing.Size(460, 169);
             this.rtbExtraData.TabIndex = 20;
             this.rtbExtraData.Text = "rtbExtraData";
             // 
@@ -212,31 +222,39 @@
             this.pnExceptionDescription.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pnExceptionDescription.Controls.Add(this.lbExceptionDescription);
-            this.pnExceptionDescription.Location = new System.Drawing.Point(0, 37);
+            this.pnExceptionDescription.Location = new System.Drawing.Point(0, 40);
             this.pnExceptionDescription.Name = "pnExceptionDescription";
-            this.pnExceptionDescription.Size = new System.Drawing.Size(474, 26);
+            this.pnExceptionDescription.Size = new System.Drawing.Size(474, 22);
             this.pnExceptionDescription.TabIndex = 21;
+            // 
+            // cmDetails
+            // 
+            this.cmDetails.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+            this.mCopy});
+            // 
+            // mCopy
+            // 
+            this.mCopy.Index = 0;
+            this.mCopy.Shortcut = System.Windows.Forms.Shortcut.CtrlC;
+            this.mCopy.Text = "&Copy";
             // 
             // frmException
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
-            this.ClientSize = new System.Drawing.Size(474, 285);
+            this.ClientSize = new System.Drawing.Size(474, 305);
             this.Controls.Add(this.tcExceptionDetails);
             this.Controls.Add(this.pnLower);
             this.Controls.Add(this.pnExceptionDescription);
             this.Controls.Add(this.pnDWM);
             this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(1280, 720);
-            this.MinimumSize = new System.Drawing.Size(490, 320);
+            this.MinimumSize = new System.Drawing.Size(490, 340);
             this.Name = "frmException";
-            this.ShowIcon = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "frmException";
-            this.Load += new System.EventHandler(this.frmException_Load);
+            this.Load += new System.EventHandler(this.frmError_Load);
             this.pnLower.ResumeLayout(false);
             this.pnLower.PerformLayout();
             this.pnDWM.ResumeLayout(false);
@@ -253,19 +271,21 @@
         #endregion
 
         private System.Windows.Forms.Button btnExceptionOk;
-        private System.Windows.Forms.Label lbVersion;
-        private System.Windows.Forms.Button btnExceptionGithub;
+        private ExtendedLinkLabel lbVersion;
         private System.Windows.Forms.Button btnExceptionRetry;
         private System.Windows.Forms.Label lbDate;
         private System.Windows.Forms.Panel pnLower;
         private System.Windows.Forms.Panel pnDWM;
         private System.Windows.Forms.Label lbExceptionHeader;
-        private murrty.controls.ExtendedRichTextBox rtbExceptionDetails;
+        private System.Windows.Forms.RichTextBox rtbExceptionDetails;
         private System.Windows.Forms.Label lbExceptionDescription;
         private System.Windows.Forms.TabControl tcExceptionDetails;
         private System.Windows.Forms.TabPage tabExceptionDetails;
         private System.Windows.Forms.TabPage tabExceptionExtraInfo;
-        private murrty.controls.ExtendedRichTextBox rtbExtraData;
+        private System.Windows.Forms.RichTextBox rtbExtraData;
         private System.Windows.Forms.Panel pnExceptionDescription;
+        private System.Windows.Forms.ContextMenu cmDetails;
+        private System.Windows.Forms.MenuItem mCopy;
+        private System.Windows.Forms.Button btnExceptionAbort;
     }
 }

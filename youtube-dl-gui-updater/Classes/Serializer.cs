@@ -1,14 +1,23 @@
 ﻿namespace youtube_dl_gui_updater;
+using System.IO;
+using System.Runtime.Serialization.Json;
+using System.Text;
+using System.Threading.Tasks;
 internal static class Serializer {
-    private static readonly System.Runtime.Serialization.Json.DataContractJsonSerializerSettings Settings = new() {
+    private static readonly DataContractJsonSerializerSettings Settings = new() {
         UseSimpleDictionaryFormat = true,
         SerializeReadOnlyTypes = false,
     };
-    public static T JsonDeserialize<T>(this string value) {
-        using System.IO.MemoryStream ms = new(Encoding.UTF8.GetBytes(value));
-        System.Runtime.Serialization.Json.DataContractJsonSerializer ser = new(typeof(T), Settings);
-        T val = (T)ser.ReadObject(ms);
-        ms.Close();
-        return val;
+    public static async Task<T> JsonDeserializeAsync<T>(this string JSON) {
+        T ReturnData = default;
+
+        await Task.Run(() => {
+            using MemoryStream Stream = new(Encoding.UTF8.GetBytes(JSON));
+            DataContractJsonSerializer Serializer = new(typeof(T), Settings);
+            ReturnData = (T)Serializer.ReadObject(Stream);
+            Stream.Close();
+        });
+
+        return ReturnData;
     }
 }

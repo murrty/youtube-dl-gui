@@ -1,8 +1,11 @@
 ﻿namespace youtube_dl_gui;
+
+using System.IO;
 using System.Windows.Forms;
+
 public partial class frmMerger : LocalizedForm {
 
-    private readonly List<FfprobeData> LoadedMediaFiles = new();
+    private List<FfprobeData> LoadedMediaFiles { get; } = new();
 
     public frmMerger() {
         InitializeComponent();
@@ -11,11 +14,21 @@ public partial class frmMerger : LocalizedForm {
         tvSelectedSources.HandleCreated += (s, e) => murrty.controls.natives.NativeMethods.SetWindowTheme(tvSelectedSources.Handle, "Explorer", null);
         tvSelectedStreams.HandleCreated += (s, e) => murrty.controls.natives.NativeMethods.SetWindowTheme(tvSelectedStreams.Handle, "Explorer", null);
     }
+    private void frmMerger_DragEnter(object sender, DragEventArgs e) {
+        if (e.Data.GetDataPresent(DataFormats.FileDrop)) {
+            string[] Files = (string[])e.Data.GetData(DataFormats.FileDrop);
+            e.Effect = File.Exists(Files[0]) ? DragDropEffects.Copy : DragDropEffects.None;
+        }
+    }
+    private void frmMerger_DragDrop(object sender, DragEventArgs e) {
+        string[] Files = (string[])e.Data.GetData(DataFormats.FileDrop);
+        AddFiles(Files);
+    }
 
     public override void LoadLanguage() {
+        this.Text = Language.frmMerger;
         btnAddFiles.Text = Language.GenericAdd;
         btnRemoveFiles.Text = Language.GenericRemove;
-        this.Text = Language.GenericAdd;
         btnAddFiles.Text = Language.GenericAdd;
         btnMergeFiles.Text = Language.btnMerge;
 
@@ -54,6 +67,48 @@ public partial class frmMerger : LocalizedForm {
 
         return Files.Count > 0 ? $"{InputArgument}{MapArgument.ToString().Trim()}" : null;
     }
+    private bool AddFile(string FilePath) {
+        string ffdata = string.Empty;
+        try {
+            FfprobeData NewData = FfprobeData.GenerateData(FilePath, out ffdata);
+
+            if (NewData is null || NewData.MediaStreams is null || NewData.MediaStreams.Length < 1)
+                return false;
+
+            for (int x = 0; x < NewData.MediaStreams.Length; x++) {
+                FfprobeNodeTag CurrentTag = new() {
+                    ParentFile = NewData,
+                    Stream = NewData.MediaStreams[x]
+                };
+
+                NewData.MediaStreams[x].Node = new TreeNode($"{x} - {NewData.MediaStreams[x].codec_long_name}") {
+                    Tag = CurrentTag
+                };
+
+                NewData.MediaStreams[x].QueuedNode = new TreeNode($"{x} - {NewData.MediaStreams[x].codec_long_name}") {
+                    Tag = CurrentTag
+                };
+            }
+            LoadedMediaFiles.Add(NewData);
+            lbFileSources.Items.Add(FilePath);
+            NewData.FileName = FilePath;
+            NewData.FilePath = FilePath;
+            return true;
+        }
+        catch (Exception ex) {
+            Log.ReportException(ex, ffdata);
+        }
+        return false;
+    }
+    private void AddFiles(string[] Files) {
+        int Failures = 0;
+        for (int i = 0; i < Files.Length; i++) {
+            if (!AddFile(Files[i]))
+                Failures++;
+        }
+        if (Failures > 0)
+            System.Media.SystemSounds.Exclamation.Play();
+    }
 
     private void btnAddFiles_Click(object sender, EventArgs e) {
         using OpenFileDialog ofd = new() {
@@ -64,39 +119,7 @@ public partial class frmMerger : LocalizedForm {
         if (ofd.ShowDialog() != DialogResult.OK)
             return;
 
-        string ffdata = null;
-        for (int i = 0; i < ofd.FileNames.Length; i++) {
-            try {
-                FfprobeData NewData = FfprobeData.GenerateData(ofd.FileNames[i], out ffdata);
-
-                if (NewData.MediaStreams.Length < 1)
-                    continue;
-
-                for (int x = 0; x < NewData.MediaStreams.Length; x++) {
-                    FfprobeNodeTag CurrentTag = new() {
-                        ParentFile = NewData,
-                        Stream = NewData.MediaStreams[x]
-                    };
-
-                    NewData.MediaStreams[x].Node = new TreeNode(i.ToString() + NewData.MediaStreams[x].codec_long_name) {
-                        Tag = CurrentTag
-                    };
-
-                    NewData.MediaStreams[x].QueuedNode = new TreeNode(i.ToString() + NewData.MediaStreams[x].codec_long_name) {
-                        Tag = CurrentTag
-                    };
-                }
-                LoadedMediaFiles.Add(NewData);
-                lbFileSources.Items.Add(ofd.SafeFileNames[i]);
-                NewData.FileName = ofd.SafeFileNames[i];
-                NewData.FilePath = ofd.FileNames[i];
-            }
-            catch (Exception ex) {
-                Log.ReportException(ex, ffdata);
-            }
-        }
-
-        Console.WriteLine();
+        AddFiles(ofd.FileNames);
     }
     private void btnRemoveFiles_Click(object sender, EventArgs e) {
         if (lbFileSources.SelectedItems.Count > 0) {
@@ -169,7 +192,7 @@ public partial class frmMerger : LocalizedForm {
         if (e.Node is null)
             return;
 
-        if (e.Node.Index == 0) {
+        if (e.Node.Parent is null) {
             if (tvSelectedSources.Nodes[1].Nodes.Count > 0) {
                 for (int i = 0; i < tvSelectedSources.Nodes[1].Nodes.Count; i++) {
                     tvSelectedStreams.Nodes[0].Nodes.Add(((FfprobeNodeTag)tvSelectedSources.Nodes[1].Nodes[i].Tag).Stream.QueuedNode);
@@ -197,12 +220,21 @@ public partial class frmMerger : LocalizedForm {
             return;
         }
 
-        tvSelectedStreams.Nodes[tvSelectedSources.SelectedNode.Parent.Index - 1].Nodes.Add(
-            ((FfprobeNodeTag)tvSelectedSources.SelectedNode.Tag).Stream.QueuedNode
-        );
+        TreeNode Node = ((FfprobeNodeTag)tvSelectedSources.SelectedNode.Tag).Stream.QueuedNode;
+        int SelectedIndex = tvSelectedSources.SelectedNode.Parent.Index - 1;
+
+        if (tvSelectedStreams.Nodes[SelectedIndex].Nodes.Contains(Node)) {
+            tvSelectedStreams.Focus();
+            tvSelectedStreams.SelectedNode = Node;
+            System.Media.SystemSounds.Asterisk.Play();
+            return;
+        }
+        
+        tvSelectedStreams.Nodes[SelectedIndex].Nodes.Add(Node);
+        //tvSelectedStreams.Nodes[tvSelectedSources.SelectedNode.Parent.Index - 1].Nodes.Add(
+        //    ((FfprobeNodeTag)tvSelectedSources.SelectedNode.Tag).Stream.QueuedNode);
     }
     private void tvSelectedStreams_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e) {
         tvSelectedStreams.SelectedNode.Remove();
     }
-
 }

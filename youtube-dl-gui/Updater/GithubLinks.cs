@@ -48,14 +48,33 @@ internal static class GithubLinks {
     /// <summary>
     /// An array of youtube-dl provider repositories supported.
     /// <para/>
-    /// This is a (s User, s Repo, s FriendlyName) tuple array.
+    /// This is a (<see langword="string"/> User, <see langword="string"/> Repo, <see langword="string"/> FriendlyName) tuple array.
     /// <para/>
-    /// FriendlyName is the expected file name for the provider.
+    /// FriendlyName is the expected file name that is associated with the release for the repo, not the local file name.
     /// </summary>
     public static (string User, string Repo, string FriendlyName)[] ProviderRepos { get; } = {
-        ("yt-dlp",          "yt-dlp",                   "yt-dlp"),
-        ("yt-dlp",          "yt-dlp-nightly-builds",    "yt-dlp"),
-        ("ytdl-org",        "youtube-dl",               "youtube-dl"),
-        ("ytdl-patched",    "youtube-dl",               "youtube-dl"),
+        (
+            "yt-dlp",
+            "yt-dlp",
+            "yt-dlp"
+        ),
+
+        (
+            "yt-dlp",
+            "yt-dlp-nightly-builds",
+            "yt-dlp"
+        ),
+
+        (
+            "ytdl-org",
+            "youtube-dl",
+            "youtube-dl"
+        ),
+
+        (
+            "ytdl-patched",
+            "youtube-dl",
+            "youtube-dl"
+        ),
     };
 }

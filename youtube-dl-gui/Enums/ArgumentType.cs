@@ -1,18 +1,21 @@
 ﻿namespace youtube_dl_gui; 
-internal enum ArgumentType : int {
-    NoArguments = 0,
+internal enum ArgumentType {
+    NoArguments,
     
-    DownloadVideo = 1,
-    DownloadAudio = 2,
-    DownloadCustom = 3,
+    DownloadVideo,
+    DownloadAudio,
+    DownloadCustom,
 
-    DownloadAuthenticateVideo = 4,
-    DownloadAuthenticateAudio = 5,
-    DownloadAuthenticateCustom = 6,
+    DownloadAuthenticateVideo,
+    DownloadAuthenticateAudio,
+    DownloadAuthenticateCustom,
 
-    DownloadArchived = 7,
+    DownloadVideoNoSound,
+    DownloadAuthenticateVideoNoSound,
 
-    PushToForm = 90,
+    DownloadArchived,
+    DownloadArchivedNoSound,
 
-    InstallProtocol = 91,
+    PushToForm,
+    InstallProtocol,
 }

@@ -7,12 +7,12 @@ public partial class frmLanguage : Form {
         LoadLanguage();
         LoadFiles();
         cbLanguages.SelectedIndex = string.IsNullOrWhiteSpace(Language.LoadedFile) ? 
-            0 : cbLanguages.FindStringExact(Config.Settings.Initialization.LanguageFile);
+            0 : cbLanguages.FindStringExact(Initialization.LanguageFile);
         lbCurrentVersion.Text = Program.CurrentVersion.ToString();
     }
 
     public void LoadLanguage() {
-        if (Config.Settings.Initialization.firstTime) {
+        if (Initialization.firstTime) {
             this.Text = Language.InternalEnglish.frmLanguage;
             btnLanguageRefresh.Text = Language.InternalEnglish.btnLanguageRefresh;
             btnLanguageCancel.Text = Language.InternalEnglish.GenericCancel;
@@ -58,10 +58,9 @@ public partial class frmLanguage : Form {
             cbLanguages.SelectedIndex = cbLanguages.FindStringExact(DownloadLanguage.FileName is null ? CurrentFile : DownloadLanguage.FileName);
     }
     private void btnLanguageSave_Click(object sender, EventArgs e) {
-        Config.Settings.Initialization.LanguageFile = cbLanguages.SelectedIndex > 0 ?
+        Initialization.LanguageFile = cbLanguages.SelectedIndex > 0 ?
             cbLanguages.GetItemText(cbLanguages.SelectedItem) : null;
-        Config.Settings.Initialization.Save();
-        Language.LoadLanguage($"{Environment.CurrentDirectory}\\lang\\{Config.Settings.Initialization.LanguageFile}.ini");
+        Language.LoadLanguage($"{Environment.CurrentDirectory}\\lang\\{Initialization.LanguageFile}.ini");
         this.DialogResult = DialogResult.OK;
     }
     private void btnLanguageCancel_Click(object sender, EventArgs e) {
