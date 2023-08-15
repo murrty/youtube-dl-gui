@@ -531,6 +531,9 @@ public partial class frmDownloader : LocalizedProcessingForm {
                 btnDownloaderAbortBatchDownload.Visible = false;
                 btnDownloaderAbortBatchDownload.Enabled = false;
                 this.Text = Language.frmDownloader + " ";
+                pbStatus.Text = ".  .  .";
+                pbStatus.Value = 0;
+                pbStatus.ProgressState = murrty.controls.ProgressState.Normal;
                 tmrTitleActivity.Start();
                 BeginDownload();
             } break;
