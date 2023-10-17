@@ -1,4 +1,5 @@
-﻿namespace youtube_dl_gui;
+﻿#nullable enable
+namespace youtube_dl_gui;
 
 using System.Drawing;
 using System.Windows.Forms;
@@ -14,18 +15,21 @@ internal delegate void AfterMediaParse(ExtendedMediaDetails sender);
 /// Represents data about media when using an extended downloader.
 /// </summary>
 internal sealed class ExtendedMediaDetails : IDisposable {
+    private static readonly char[] BadUrlChars = { '\\', '"', '\n', '\r', '\t', '\0', '\b', '\'' };
+
     /// <summary>
     /// Gets the URL associated with this instance.
     /// </summary>
     public required string URL {
         get => fURL;
         init {
-            if (value.IsNullEmptyWhitespace())
-                throw new ArgumentException($"URL is null/empty/whitespace.");
-            fURL = value.Trim('\\', '"', '\n', '\r', '\t', '\0', '\b', '\'');
+            if (value.IsNullEmptyWhitespace()) {
+                throw new ArgumentException("URL is null/empty/whitespace.");
+            }
+            fURL = value.Trim(BadUrlChars);
         }
     }
-    private readonly string fURL;
+    private string fURL = string.Empty;
 
     /// <summary>
     /// Gets or sets whether the media is archived.
@@ -46,7 +50,7 @@ internal sealed class ExtendedMediaDetails : IDisposable {
     /// <summary>
     /// Gets or sets the batch download time associated with this media instance.
     /// </summary>
-    public string BatchDownloadTime { get; set; } = string.Empty;
+    public string? BatchDownloadTime { get; set; } = string.Empty;
     /// <summary>
     /// Gets the arguments associated with this media instance. It will be generated on the fly.
     /// </summary>
@@ -61,88 +65,104 @@ internal sealed class ExtendedMediaDetails : IDisposable {
             if (BatchDownloadItem && Downloads.SeparateBatchDownloads) {
                 ArgumentBuffer.Append("\\# Batch Downloads #");
 
-                if (Downloads.AddDateToBatchDownloadFolders)
-                    ArgumentBuffer.Append($"\\{BatchDownloadTime}");
+                if (Downloads.AddDateToBatchDownloadFolders) {
+                    ArgumentBuffer.Append('\\').Append(BatchDownloadTime);
+                }
             }
 
-            if (Downloads.separateIntoWebsiteURL)
-                ArgumentBuffer.Append(URL.ToLowerInvariant().StartsWith("ytarchive:") ? "\\archived.youtube.com" : $"\\{DownloadHelper.GetUrlBase(URL)}");
+            if (Downloads.separateIntoWebsiteURL) {
+                ArgumentBuffer.Append(URL.StartsWith("ytarchive:", StringComparison.InvariantCultureIgnoreCase) ? "\\archived.youtube.com" : $"\\{DownloadHelper.GetUrlBase(URL)}");
+            }
 
             string Schema = FileNameSchema.IsNullEmptyWhitespace() ? "%(title)s-%(id)s.%(ext)s" : FileNameSchema;
 
-            if (!Schema.ToLowerInvariant().EndsWith(".%(ext)s"))
+            if (!Schema.EndsWith(".%(ext)s", StringComparison.InvariantCultureIgnoreCase)) {
                 Schema += ".%(ext)s";
+            }
 
             switch (SelectedType) {
                 case DownloadType.Video: {
-                    if (Downloads.separateDownloads)
+                    if (Downloads.separateDownloads) {
                         ArgumentBuffer.Append("\\Video");
+                    }
 
-                    if (VideoSeparateAudio)
+                    if (VideoSeparateAudio) {
                         Schema = Schema[..^8] + "_%(format_id)s.%(ext)s";
+                    }
                 } break;
                 case DownloadType.Audio: {
-                    if (Downloads.separateDownloads)
+                    if (Downloads.separateDownloads) {
                         ArgumentBuffer.Append("\\Audio");
+                    }
                 } break;
                 case DownloadType.Custom: {
-                    if (Downloads.separateDownloads)
+                    if (Downloads.separateDownloads) {
                         ArgumentBuffer.Append("\\Custom");
+                    }
                 } break;
                 case DownloadType.Unknown: {
-                    if (Downloads.separateDownloads)
+                    if (Downloads.separateDownloads) {
                         ArgumentBuffer.Append("\\Unknown");
+                    }
                 } break;
                 default: throw InvalidType;
             }
 
-            ArgumentBuffer.Append($"\\{Schema}\"");
+            ArgumentBuffer.Append('\\').Append(Schema).Append('\"');
             #endregion
 
             #region Formats
-            YoutubeDlSubdata.Format VideoFormat = null;
-            YoutubeDlSubdata.Format AudioFormat = null;
-            YoutubeDlSubdata.Format UnknownFormat;
+            YoutubeDlSubdata.Format? VideoFormat = null;
+            YoutubeDlSubdata.Format? AudioFormat = null;
+            YoutubeDlSubdata.Format? UnknownFormat;
 
             switch (SelectedType) {
+                case DownloadType.Video when SelectedVideoItem?.Tag is YoutubeDlSubdata.Format vf: {
+                    VideoFormat = vf;
+
+                    ArgumentBuffer.Append(" -f ").Append(VideoFormat.Identifier);
+                    if (VideoDownloadAudio && SelectedAudioItem?.Tag is YoutubeDlSubdata.Format af) {
+                        AudioFormat = af;
+                        ArgumentBuffer.Append(VideoSeparateAudio ? "/best," : "+").Append(AudioFormat.Identifier).Append("/best");
+                    }
+                    else {
+                        ArgumentBuffer.Append("/best");
+                    }
+
+                    if (SelectedUnknownItem?.Tag is YoutubeDlSubdata.Format uf) {
+                        UnknownFormat = uf;
+                        ArgumentBuffer.Append(',').Append(UnknownFormat.Identifier);
+                    }
+
+                    if (VideoRemuxIndex > 0) {
+                        ArgumentBuffer.Append(" --remux-video ").Append(Formats.ExtendedVideoFormats[VideoRemuxIndex - 1]);
+                    }
+                    else if (VideoEncoderIndex > 0) {
+                        ArgumentBuffer.Append(" --recode-video ").Append(Formats.ExtendedVideoFormats[VideoRemuxIndex - 1]);
+                    }
+                } break;
+                case DownloadType.Audio when SelectedAudioItem?.Tag is YoutubeDlSubdata.Format af: {
+                    AudioFormat = af;
+
+                    ArgumentBuffer.Append(" -f ").Append(AudioFormat.Identifier).Append("/best");
+
+                    if (SelectedUnknownItem?.Tag is YoutubeDlSubdata.Format uf) {
+                        UnknownFormat = uf;
+                        ArgumentBuffer.Append(',').Append(UnknownFormat.Identifier);
+                    }
+
+                    if (AudioEncoderIndex > 0) {
+                        ArgumentBuffer.Append(" --recode-video ").Append(Formats.ExtendedAudioFormats[AudioEncoderIndex - 1]);
+                    }
+                } break;
+                case DownloadType.Unknown when SelectedUnknownItem?.Tag is YoutubeDlSubdata.Format uf: {
+                    UnknownFormat = uf;
+                    ArgumentBuffer.Append(" -f ").Append(UnknownFormat.Identifier).Append("/best");
+                } break;
                 case DownloadType.Custom: {
-                    ArgumentBuffer.Append(CustomArguments.IsNullEmptyWhitespace() ? $" {CustomArguments.Replace("\r\n", "\n").Split('\n').Join("\n")}" : string.Empty);
-                } break;
-                case DownloadType.Video: {
-                    VideoFormat = SelectedVideoItem.Tag as YoutubeDlSubdata.Format;
-                    ArgumentBuffer.Append($" -f {VideoFormat.Identifier}");
-                    if (VideoDownloadAudio && SelectedAudioItem is not null) {
-                        AudioFormat = SelectedAudioItem.Tag as YoutubeDlSubdata.Format;
-                        ArgumentBuffer.Append($"{(VideoSeparateAudio ? "/best," : "+") + AudioFormat.Identifier}/best");
+                    if (!CustomArguments.IsNullEmptyWhitespace()) {
+                        ArgumentBuffer.Append(' ').Append(CustomArguments.Replace("\r\n", "\n").Split('\n').Join("\n"));
                     }
-                    else ArgumentBuffer.Append("/best");
-
-                    if (SelectedUnknownItem is not null && SelectedUnknownItem.Tag is YoutubeDlSubdata.Format) {
-                        UnknownFormat = SelectedUnknownItem.Tag as YoutubeDlSubdata.Format;
-                        ArgumentBuffer.Append($",{UnknownFormat.Identifier}");
-                    }
-
-                    if (VideoRemuxIndex > 0)
-                        ArgumentBuffer.Append($" --remux-video {Formats.ExtendedVideoFormats[VideoRemuxIndex - 1]}");
-                    else if (VideoEncoderIndex > 0)
-                        ArgumentBuffer.Append($" --recode-video {Formats.ExtendedVideoFormats[VideoRemuxIndex - 1]}");
-                } break;
-                case DownloadType.Audio: {
-                    AudioFormat = SelectedAudioItem.Tag as YoutubeDlSubdata.Format;
-
-                    ArgumentBuffer.Append($" -f {AudioFormat.Identifier}/best");
-
-                    if (SelectedUnknownItem is not null && SelectedUnknownItem.Tag is YoutubeDlSubdata.Format) {
-                        UnknownFormat = SelectedUnknownItem.Tag as YoutubeDlSubdata.Format;
-                        ArgumentBuffer.Append($",{UnknownFormat.Identifier}");
-                    }
-
-                    if (AudioEncoderIndex > 0)
-                        ArgumentBuffer.Append($" --recode-video {Formats.ExtendedAudioFormats[AudioEncoderIndex - 1]}");
-                } break;
-                case DownloadType.Unknown: {
-                    UnknownFormat = SelectedUnknownItem.Tag as YoutubeDlSubdata.Format;
-                    ArgumentBuffer.Append($" -f {UnknownFormat.Identifier}/best");
                 } break;
                 default: throw InvalidType;
             }
@@ -151,93 +171,116 @@ internal sealed class ExtendedMediaDetails : IDisposable {
             #region Other settings (if not Custom)
             if (SelectedType != DownloadType.Custom) {
                 if (Downloads.PreferFFmpeg || (DownloadHelper.IsReddit(URL) && Downloads.fixReddit)) {
-                    if (!Verification.FfmpegAvailable)
+                    if (!Verification.FfmpegAvailable) {
                         Verification.RefreshFFmpegLocation();
+                    }
 
-                    if (Verification.FfmpegAvailable)
-                        ArgumentBuffer.Append($" --ffmpeg-location \"{Verification.FFmpegPath}\" --hls-prefer-ffmpeg");
+                    if (Verification.FfmpegAvailable) {
+                        ArgumentBuffer.Append(" --ffmpeg-location \"").Append(Verification.FFmpegPath).Append("\" --hls-prefer-ffmpeg");
+                    }
                 }
 
                 if (Downloads.SaveSubtitles) {
                     ArgumentBuffer.Append(" --all-subs");
-                    if (Downloads.SubtitleFormat.IsNotNullEmptyWhitespace())
-                        ArgumentBuffer.Append($" --sub-format {Downloads.SubtitleFormat}");
+                    if (Downloads.SubtitleFormat.IsNotNullEmptyWhitespace()) {
+                        ArgumentBuffer.Append(" --sub-format ").Append(Downloads.SubtitleFormat);
+                    }
 
-                    if (Downloads.EmbedSubtitles && SelectedType == DownloadType.Video)
+                    if (Downloads.EmbedSubtitles && SelectedType == DownloadType.Video) {
                         ArgumentBuffer.Append(" --embed-subs");
+                    }
                 }
 
-                if (Downloads.SaveVideoInfo)
+                if (Downloads.SaveVideoInfo) {
                     ArgumentBuffer.Append(" --write-info-json");
+                }
 
-                if (Downloads.SaveDescription)
+                if (Downloads.SaveDescription) {
                     ArgumentBuffer.Append(" --write-description");
+                }
 
-                if (Downloads.SaveAnnotations)
+                if (Downloads.SaveAnnotations) {
                     ArgumentBuffer.Append(" --write-annotations");
+                }
 
                 if (Downloads.SaveThumbnail) {
                     ArgumentBuffer.Append(" --write-thumbnail");
                     switch (SelectedType) {
-                        case DownloadType.Video when VideoFormat.VideoThumbnailEmbedding || VideoEncoderIndex == 4:
-                        case DownloadType.Audio when AudioFormat.AudioThumbnailEmbedding || AudioEncoderIndex == 1 || AudioEncoderIndex == 2: {
+                        case DownloadType.Video when VideoFormat?.VideoThumbnailEmbedding == true || VideoEncoderIndex == 4:
+                        case DownloadType.Audio when AudioFormat?.AudioThumbnailEmbedding == true || AudioEncoderIndex == 1 || AudioEncoderIndex == 2: {
                             ArgumentBuffer.Append(" --embed-thumbnail");
                         } break;
                     }
                 }
 
-                if (Downloads.WriteMetadata)
+                if (Downloads.WriteMetadata) {
                     ArgumentBuffer.Append(" --add-metadata");
+                }
 
-                if (Downloads.KeepOriginalFiles)
+                if (Downloads.KeepOriginalFiles) {
                     ArgumentBuffer.Append(" -k");
+                }
 
-                if (Downloads.LimitDownloads && Downloads.DownloadLimit > 0)
-                    ArgumentBuffer.Append($" --limit-rate {Downloads.DownloadLimit}{Downloads.DownloadLimitType switch {
+                if (Downloads.LimitDownloads && Downloads.DownloadLimit > 0) {
+                    ArgumentBuffer.Append(" --limit-rate ").Append(Downloads.DownloadLimit).Append(Downloads.DownloadLimitType switch {
                         1 => "M",
                         2 => "G",
                         _ => "K"
-                    }}");
+                    });
+                }
 
-                if (Downloads.ForceIPv4)
+                if (Downloads.ForceIPv4) {
                     ArgumentBuffer.Append(" --force-ipv4");
-                else if (Downloads.ForceIPv6)
+                }
+                else if (Downloads.ForceIPv6) {
                     ArgumentBuffer.Append(" --force-ipv6");
+                }
 
                 if (Downloads.UseProxy
                 && Downloads.ProxyType > -1
                 && !Downloads.ProxyIP.IsNullEmptyWhitespace()
                 && !Downloads.ProxyPort.IsNullEmptyWhitespace()) {
-                    ArgumentBuffer.Append($" --proxy {DownloadHelper.ProxyProtocols[Downloads.ProxyType]}{Downloads.ProxyIP}:{Downloads.ProxyPort}/");
+                    ArgumentBuffer.Append(" --proxy ")
+                        .Append(DownloadHelper.ProxyProtocols[Downloads.ProxyType])
+                        .Append(Downloads.ProxyIP)
+                        .Append(':')
+                        .Append(Downloads.ProxyPort)
+                        .Append('/');
                 }
 
-                if (Downloads.RetryAttempts != 10 && Downloads.RetryAttempts > 0)
-                    ArgumentBuffer.Append($" --retries {Downloads.RetryAttempts}");
+                if (Downloads.RetryAttempts != 10 && Downloads.RetryAttempts > 0) {
+                    ArgumentBuffer.Append(" --retries ").Append(Downloads.RetryAttempts);
+                }
 
-                if (!SkipUnavailableFragments)
+                if (!SkipUnavailableFragments) {
                     ArgumentBuffer.Append(" --abort-on-unavailable-fragment");
+                }
 
-                if (!AbortOnError)
+                if (!AbortOnError) {
                     ArgumentBuffer.Append(" --no-abort-on-error");
+                }
 
-                if (FragmentThreads > 1)
-                    ArgumentBuffer.Append(" --concurrent-fragments " + FragmentThreads);
+                if (FragmentThreads > 1) {
+                    ArgumentBuffer.Append(" --concurrent-fragments ").Append(FragmentThreads);
+                }
 
                 if (StartTime.HasValue && EndTime.HasValue) {
-                    ArgumentBuffer.Append(" --download-sections \"*" + StartTime.ToString() + "-" + EndTime.ToString() + "\"");
+                    ArgumentBuffer.Append(" --download-sections \"*").Append(StartTime.ToString()).Append('-').Append(EndTime.ToString()).Append('\"');
                 }
                 else if (StartTime.HasValue) {
-                    ArgumentBuffer.Append(" --download-sections \"*" + StartTime.ToString() + "-inf\"");
+                    ArgumentBuffer.Append(" --download-sections \"*").Append(StartTime.ToString()).Append("-inf\"");
                 }
                 else if (EndTime.HasValue) {
-                    ArgumentBuffer.Append(" --download-sections \"*00:00:00-" + EndTime.ToString() + "\"");
+                    ArgumentBuffer.Append(" --download-sections \"*00:00:00-").Append(EndTime.ToString()).Append('\"');
                 }
 
-                if (!BatchDownloadItem)
+                if (!BatchDownloadItem) {
                     ArgumentBuffer.Append(" --no-playlist");
+                }
 
-                if (!CustomArguments.IsNullEmptyWhitespace())
-                    ArgumentBuffer.Append($" {CustomArguments.Replace("\r\n", "\n").Split('\n').Join(" ")}");
+                if (!CustomArguments.IsNullEmptyWhitespace()) {
+                    ArgumentBuffer.Append(' ').Append(CustomArguments.Replace("\r\n", "\n").Split('\n').Join(" "));
+                }
             }
             #endregion
 
@@ -245,19 +288,19 @@ internal sealed class ExtendedMediaDetails : IDisposable {
             StringBuilder ProtectedArguments = new(ArgumentBuffer.ToString());
             if (Authentication is not null) {
                 if (!Authentication.Username.IsNullEmptyWhitespace()) {
-                    ArgumentBuffer.Append($" --username {Authentication.Username}");
+                    ArgumentBuffer.Append(" --username ").Append(Authentication.Username);
                     ProtectedArguments.Append(" --username ***");
                 }
                 if (Authentication.Password?.Length > 0) {
-                    ArgumentBuffer.Append($" --password {Authentication.GetPassword()}");
+                    ArgumentBuffer.Append(" --password ").Append(Authentication.GetPassword());
                     ProtectedArguments.Append(" --password ***");
                 }
                 if (!Authentication.TwoFactor.IsNullEmptyWhitespace()) {
-                    ArgumentBuffer.Append($" --twofactor {Authentication.TwoFactor}");
+                    ArgumentBuffer.Append(" --twofactor ").Append(Authentication.TwoFactor);
                     ProtectedArguments.Append(" --twofactor ***");
                 }
                 if (Authentication.MediaPassword?.Length > 0) {
-                    ArgumentBuffer.Append($" --video-password {Authentication.GetMediaPassword()}");
+                    ArgumentBuffer.Append(" --video-password ").Append(Authentication.GetMediaPassword());
                     ProtectedArguments.Append(" --video-password ***");
                 }
                 if (Authentication.NetRC) {
@@ -265,11 +308,11 @@ internal sealed class ExtendedMediaDetails : IDisposable {
                     ProtectedArguments.Append(" --netrc");
                 }
                 if (!Authentication.CookiesFile.IsNullEmptyWhitespace()) {
-                    ArgumentBuffer.Append($" --cookies {Authentication.CookiesFile}");
+                    ArgumentBuffer.Append(" --cookies ").Append(Authentication.CookiesFile);
                     ProtectedArguments.Append(" --cookies ***");
                 }
                 if (!Authentication.CookiesFromBrowser.IsNullEmptyWhitespace()) {
-                    ArgumentBuffer.Append($" --cookies-from-browser {Authentication.CookiesFromBrowser}");
+                    ArgumentBuffer.Append(" --cookies-from-browser ").Append(Authentication.CookiesFromBrowser);
                     ProtectedArguments.Append(" --cookies-from-browser ***");
                 }
             }
@@ -287,74 +330,74 @@ internal sealed class ExtendedMediaDetails : IDisposable {
     /// <summary>
     /// Gets or sets the deserialized data associated with this instance.
     /// </summary>
-    public YoutubeDlData MediaData { get; set; } = null;
+    public YoutubeDlData? MediaData { get; set; }
     /// <summary>
     /// Gets or sets the queued list view item of this instance within the extended batch downloader.
     /// QueuedListViewItem.Tag is this <see cref="ExtendedMediaDetails"/> object associated with the item.
     /// </summary>
-    public ListViewItem QueueItem { get; set; } = null;
+    public ListViewItem? QueueItem { get; set; }
 
     /// <summary>
     /// Gets or sets the name of the media associated with this instance.
     /// </summary>
-    public string MediaName { get; set; } = string.Empty;
+    public string? MediaName { get; set; } = string.Empty;
     /// <summary>
     /// Gets or sets the title progress name base of the media associated with this instance.
     /// </summary>
-    public string ProgressMediaName { get; set; } = string.Empty;
+    public string? ProgressMediaName { get; set; } = string.Empty;
     /// <summary>
     /// Gets or sets the description of the media associated with this instance.
     /// </summary>
-    public string MediaDescription { get; set; } = string.Empty;
+    public string? MediaDescription { get; set; } = string.Empty;
     /// <summary>
     /// Gets or sets the thumbnail image of the media associated with this instance.
     /// </summary>
-    public Image Thumbnail { get; set; } = null;
+    public Image? Thumbnail { get; set; }
 
     /// <summary>
     /// Gets the list of Video formats for the current media.
     /// </summary>
-    public List<YoutubeDlSubdata.Format> VideoFormats { get; private set; } = new();
+    public List<YoutubeDlSubdata.Format> VideoFormats { get; } = new();
     /// <summary>
     /// Gets the list of Video list view items for the current media.
     /// </summary>
-    public List<ListViewItem> VideoItems { get; private set; } = new();
+    public List<ListViewItem> VideoItems { get; } = new();
     /// <summary>
     /// Gets or sets the last selected video format listviewitem of this instance.
     /// LastSelectedVideoFormat.Tag is the <see cref="YoutubeDlFormat"/> object that will be downloaded.
     /// </summary>
-    public ListViewItem SelectedVideoItem { get; set; } = null;
+    public ListViewItem? SelectedVideoItem { get; set; }
 
     /// <summary>
     /// Gets the list of Audio formats for the current media.
     /// </summary>
-    public List<YoutubeDlSubdata.Format> AudioFormats { get; private set; } = new();
+    public List<YoutubeDlSubdata.Format> AudioFormats { get; } = new();
     /// <summary>
     /// Gets the list of Audio list view items for the current media.
     /// </summary>
-    public List<ListViewItem> AudioItems { get; private set; } = new();
+    public List<ListViewItem> AudioItems { get; } = new();
     /// <summary>
     /// Gets or sets the selected audio format listviewitem of this instance.
     /// </summary>
-    public ListViewItem SelectedAudioItem { get; set; } = null;
+    public ListViewItem? SelectedAudioItem { get; set; }
 
     /// <summary>
     /// Gets the list of Unkown formats for the current media.
     /// </summary>
-    public List<YoutubeDlSubdata.Format> UnknownFormats { get; private set; } = new();
+    public List<YoutubeDlSubdata.Format> UnknownFormats { get; } = new();
     /// <summary>
     /// Gets the list of Unknown list view items for the current media.
     /// </summary>
-    public List<ListViewItem> UnknownItems { get; private set; } = new();
+    public List<ListViewItem> UnknownItems { get; } = new();
     /// <summary>
     /// Gets or sets the last selected unknown format listviewitem of this instance.
     /// </summary>
-    public ListViewItem SelectedUnknownItem { get; set; } = null;
+    public ListViewItem? SelectedUnknownItem { get; set; }
 
     /// <summary>
     /// Gets or sets the Authentication details used for this instance.
     /// </summary>
-    public AuthenticationDetails Authentication {get; set; } = null;
+    public AuthenticationDetails? Authentication {get; set; }
 
     // Download settings
     /// <summary>
@@ -364,7 +407,7 @@ internal sealed class ExtendedMediaDetails : IDisposable {
     /// <summary>
     /// Gets or sets the custom arguments for the current media which will be generated when it downloads.
     /// </summary>
-    public string CustomArguments { get; set; } = string.Empty;
+    public string? CustomArguments { get; set; } = string.Empty;
     /// <summary>
     /// Gets or sets the string-value representation of the file name schema.
     /// </summary>
@@ -426,8 +469,9 @@ internal sealed class ExtendedMediaDetails : IDisposable {
     /// Downloads and parses the information for this media.
     /// </summary>
     public void GetMediaInfo() {
-        if (InfoRetrieved)
+        if (InfoRetrieved) {
             return;
+        }
 
         RetrieveInfo();
     }
@@ -436,29 +480,34 @@ internal sealed class ExtendedMediaDetails : IDisposable {
     /// </summary>
     /// <param name="ParsingFinished">Delegate for when the media is finished being parsed.</param>
     public void GetMediaInfo(AfterMediaParse ParsingFinished) {
-        if (InfoRetrieved)
+        if (InfoRetrieved) {
             return;
+        }
 
         RetrieveInfo();
-        if (System.Threading.SynchronizationContext.Current is not null)
-            System.Threading.SynchronizationContext.Current.Send((callback) => ParsingFinished(this), null);
-        else ParsingFinished(this);
+        if (System.Threading.SynchronizationContext.Current is not null) {
+            System.Threading.SynchronizationContext.Current.Send((_) => ParsingFinished(this), null);
+        }
+        else {
+            ParsingFinished(this);
+        }
     }
     /// <summary>
     /// Downloads the media thumbnail, converting to jpg if required.
     /// If the thumbnail was already downloaded, it will return the previously acquired thumbnail.
     /// </summary>
     /// <returns>An <see cref="Image"/> of the thumbnail.</returns>
-    public Image DownloadThumbnail() => DownloadThumbnail(false);
+    public Image? DownloadThumbnail() => DownloadThumbnail(false);
     /// <summary>
     /// Downloads the media thumbnail, converting to jpg if required.
     /// If <paramref name="ForceRedownload"/> is <see langword="true"/>, the thumbnail will be downloaded regardless of if it already has been downloaded.
     /// </summary>
     /// <param name="ForceRedownload">Whether to redownload the thumbnail regardless of if it already exists in memory.</param>
     /// <returns>An <see cref="Image"/> of the thumbnail.</returns>
-    public Image DownloadThumbnail(bool ForceRedownload) {
-        if (Thumbnail is null || ForceRedownload)
+    public Image? DownloadThumbnail(bool ForceRedownload) {
+        if (MediaData is not null && (Thumbnail is null || ForceRedownload)) {
             Thumbnail = MediaData.GetThumbnail();
+        }
 
         return Thumbnail;
     }
@@ -470,87 +519,101 @@ internal sealed class ExtendedMediaDetails : IDisposable {
     public void ChangeMediaType(DownloadType NewType) {
         switch (NewType) {
             case DownloadType.Video: {
-                if (VideoFormats.Count < 1)
-                    throw new ArgumentException($"Cannot select video format when there are no video tracks to download.");
+                if (VideoFormats.Count < 1) {
+                    throw new ArgumentException("Cannot select video format when there are no video tracks to download.");
+                }
 
                 if (SelectedVideoItem is not null) {
-                    if (SelectedVideoItem.Index != 0)
+                    if (SelectedVideoItem.Index != 0) {
                         VideoItems[0].ImageIndex = MediaStatusIcon.Best;
+                    }
                     SelectedVideoItem.ImageIndex = MediaStatusIcon.Selected;
                 }
 
                 if (SelectedAudioItem is not null) {
                     if (VideoDownloadAudio) {
-                        if (SelectedAudioItem.Index != 0)
+                        if (SelectedAudioItem.Index != 0) {
                             AudioItems[0].ImageIndex = MediaStatusIcon.Best;
+                        }
                         SelectedAudioItem.ImageIndex = MediaStatusIcon.Selected;
                     }
                     else {
-                        if (SelectedAudioItem.Index != 0)
+                        if (SelectedAudioItem.Index != 0) {
                             AudioItems[0].ImageIndex = MediaStatusIcon.BestDisabled;
+                        }
                         SelectedAudioItem.ImageIndex = MediaStatusIcon.SelectedDisabled;
                     }
                 }
 
                 if (SelectedUnknownItem is not null) {
-                    if (SelectedUnknownItem.Index != 1)
+                    if (SelectedUnknownItem.Index != 1) {
                         UnknownItems[1].ImageIndex = MediaStatusIcon.Best;
+                    }
                     SelectedUnknownItem.ImageIndex = MediaStatusIcon.Selected;
                 }
 
                 SelectedType = DownloadType.Video;
             } break;
             case DownloadType.Audio: {
-                if (AudioFormats.Count < 1)
-                    throw new ArgumentException($"Cannot select audio format when there are no audio tracks to download.");
+                if (AudioFormats.Count < 1) {
+                    throw new ArgumentException("Cannot select audio format when there are no audio tracks to download.");
+                }
 
                 if (SelectedVideoItem is not null) {
-                    if (SelectedVideoItem.Index != 0)
+                    if (SelectedVideoItem.Index != 0) {
                         VideoItems[0].ImageIndex = MediaStatusIcon.BestDisabled;
+                    }
                     SelectedVideoItem.ImageIndex = MediaStatusIcon.SelectedDisabled;
                 }
 
                 if (SelectedAudioItem is not null) {
-                    if (SelectedAudioItem.Index != 0)
+                    if (SelectedAudioItem.Index != 0) {
                         AudioItems[0].ImageIndex = MediaStatusIcon.Best;
+                    }
                     SelectedAudioItem.ImageIndex = MediaStatusIcon.Selected;
                 }
 
                 if (SelectedUnknownItem is not null) {
-                    if (SelectedUnknownItem.Index != 1)
+                    if (SelectedUnknownItem.Index != 1) {
                         UnknownItems[1].ImageIndex = MediaStatusIcon.Best;
+                    }
                     SelectedUnknownItem.ImageIndex = MediaStatusIcon.Selected;
                 }
 
                 SelectedType = DownloadType.Audio;
             } break;
             case DownloadType.Unknown: {
-                if (UnknownFormats.Count < 1)
-                    throw new ArgumentException($"Cannot select unknown format when there are no unknown tracks to download.");
+                if (UnknownFormats.Count < 1) {
+                    throw new ArgumentException("Cannot select unknown format when there are no unknown tracks to download.");
+                }
 
                 if (SelectedVideoItem is not null) {
-                    if (SelectedVideoItem.Index != 0)
+                    if (SelectedVideoItem.Index != 0) {
                         VideoItems[0].ImageIndex = MediaStatusIcon.BestDisabled;
+                    }
                     SelectedVideoItem.ImageIndex = MediaStatusIcon.SelectedDisabled;
                 }
 
                 if (SelectedAudioItem is not null) {
-                    if (SelectedAudioItem.Index != 0)
+                    if (SelectedAudioItem.Index != 0) {
                         AudioItems[0].ImageIndex = MediaStatusIcon.BestDisabled;
+                    }
                     SelectedAudioItem.ImageIndex = MediaStatusIcon.SelectedDisabled;
                 }
 
                 if (UnknownFormatsOnly) {
                     if (SelectedUnknownItem is not null) {
-                        if (SelectedUnknownItem.Index != 0)
+                        if (SelectedUnknownItem.Index != 0) {
                             UnknownItems[0].ImageIndex = MediaStatusIcon.Best;
+                        }
                         SelectedUnknownItem.ImageIndex = MediaStatusIcon.Selected;
                     }
                 }
                 else {
                     if (SelectedUnknownItem is not null) {
-                        if (SelectedUnknownItem.Index != 1)
+                        if (SelectedUnknownItem.Index != 1) {
                             UnknownItems[1].ImageIndex = MediaStatusIcon.Best;
+                        }
                         SelectedUnknownItem.ImageIndex = MediaStatusIcon.Selected;
                     }
                 }
@@ -559,20 +622,23 @@ internal sealed class ExtendedMediaDetails : IDisposable {
             } break;
             case DownloadType.Custom: {
                 if (SelectedVideoItem is not null) {
-                    if (SelectedVideoItem.Index != 0)
+                    if (SelectedVideoItem.Index != 0) {
                         VideoItems[0].ImageIndex = MediaStatusIcon.BestDisabled;
+                    }
                     SelectedVideoItem.ImageIndex = MediaStatusIcon.SelectedDisabled;
                 }
 
                 if (SelectedAudioItem is not null) {
-                    if (SelectedAudioItem.Index != 0)
+                    if (SelectedAudioItem.Index != 0) {
                         AudioItems[0].ImageIndex = MediaStatusIcon.BestDisabled;
+                    }
                     SelectedAudioItem.ImageIndex = MediaStatusIcon.SelectedDisabled;
                 }
 
                 if (SelectedUnknownItem is not null) {
-                    if (SelectedUnknownItem.Index != 1)
+                    if (SelectedUnknownItem.Index != 1) {
                         UnknownItems[1].ImageIndex = MediaStatusIcon.BestDisabled;
+                    }
                     SelectedUnknownItem.ImageIndex = MediaStatusIcon.SelectedDisabled;
                 }
                 else if (UnknownItems.Count > 0) {
@@ -591,20 +657,23 @@ internal sealed class ExtendedMediaDetails : IDisposable {
     public bool Authenticate() {
         if (Authentication is null) {
             using frmAuthentication Auth = new();
-            if (Auth.ShowDialog() != DialogResult.OK)
+            if (Auth.ShowDialog() != DialogResult.OK) {
                 return false;
+            }
             Authentication = Auth.Authentication;
         }
         return true;
     }
 
     private void RetrieveInfo() {
-        if (URL.IsNullEmptyWhitespace())
+        if (URL.IsNullEmptyWhitespace()) {
             throw new DownloadException(URL, "The media you are trying to access was not entered in correctly.");
+        }
 
         MediaData = YoutubeDlData.GenerateData(URL, Authentication, out _);
-        if (MediaData is null || MediaData.AvailableFormats.Length == 0)
+        if (MediaData is null || MediaData.AvailableFormats.Length == 0) {
             throw new DownloadException(URL, "The media you are trying to access may not be accessible at this time, or it may have been removed.");
+        }
 
         MediaData.AvailableFormats.ForReverse((Format) => {
             if (Format.ValidVideoFormat) {
@@ -737,27 +806,32 @@ internal sealed class ExtendedMediaDetails : IDisposable {
         ClearData();
     }
 
-    public ExtendedMediaDetails() { }
+    public ExtendedMediaDetails() {
+        fURL = string.Empty;
+    }
 
     public ExtendedMediaDetails(string URL) {
         this.URL = URL;
     }
 
     private void ClearData() {
-        if (Authentication is null)
+        if (Authentication is null) {
             return;
+        }
 
         Authentication.Username = null;
 
-        if (Authentication.Password is not null)
+        if (Authentication.Password is not null) {
             Array.Clear(Authentication.Password, 0, Authentication.Password.Length);
+        }
 
         Authentication.Password = null;
 
         Authentication.TwoFactor = null;
 
-        if (Authentication.MediaPassword is not null)
+        if (Authentication.MediaPassword is not null) {
             Array.Clear(Authentication.MediaPassword, 0, Authentication.MediaPassword.Length);
+        }
 
         Authentication.MediaPassword = null;
 
@@ -775,19 +849,20 @@ internal sealed class ExtendedMediaDetails : IDisposable {
         GC.SuppressFinalize(this);
     }
     private void Dispose(bool disposing) {
-        if (Disposed)
+        if (Disposed) {
             return;
+        }
 
         if (disposing) {
             ClearData();
             Authentication = null;
-                
+
             if (SelectedVideoItem is not null) {
                 SelectedVideoItem.Tag = null;
                 SelectedVideoItem = null;
             }
             VideoItems.Clear();
-                
+
             if (SelectedAudioItem is not null) {
                 SelectedAudioItem.Tag = null;
                 SelectedAudioItem = null;
@@ -802,7 +877,7 @@ internal sealed class ExtendedMediaDetails : IDisposable {
 
             CustomArguments = null;
             MediaData = null;
-            ProtectedArguments = null;
+            ProtectedArguments = string.Empty;
             Thumbnail = null;
         }
         Disposed = true;
