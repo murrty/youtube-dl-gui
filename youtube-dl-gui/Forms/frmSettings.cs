@@ -567,6 +567,7 @@ public partial class frmSettings : LocalizedForm {
         Downloads.LimitDownloads = chkSettingsDownloadsLimitDownload.Checked;
         Downloads.DownloadLimit = (int)numSettingsDownloadsLimitDownload.Value;
         Downloads.DownloadLimitType = cbSettingsDownloadsLimitDownload.SelectedIndex;
+        Downloads.RetryAttempts = (int)numSettingsDownloadsRetryAttempts.Value;
         Downloads.ForceIPv4 = chkSettingsDownloadsForceIpv4.Checked;
         Downloads.ForceIPv6 = chkSettingsDownloadsForceIpv6.Checked;
         Downloads.UseProxy = chkSettingsDownloadsUseProxy.Checked;
