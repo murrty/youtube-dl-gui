@@ -1,9 +1,9 @@
-﻿namespace youtube_dl_gui;
+﻿#nullable enable
+namespace youtube_dl_gui;
 
+using System.Diagnostics.CodeAnalysis;
 using System.Text.RegularExpressions;
-
-public class DownloadHelper {
-
+public static class DownloadHelper {
     public static readonly string[] ProxyProtocols = {
         "https://",
         "http://",
@@ -24,17 +24,17 @@ public class DownloadHelper {
 
         // lang=regex Reddit
         new(RegexPrefix + @"([a-zA-Z]{1,}\.)?reddit\.com\/r\/[a-zA-Z0-9-_]{1,}\/(comments\/)?[a-zA-Z0-9]{1,}|(i\.|v\.)?redd\.it\/[a-zA-Z0-9]{1,}", RegexOptions.Compiled),
-        
+
         // lang=regex Twitter
         new(RegexPrefix + @"(t\.co\/[a-zA-Z0-9]{1,})|(((m|mobile)\.)?twitter\.com\/(i|[a-zA-Z0-9]{1,})\/status\/[0-9]{1,})", RegexOptions.Compiled),
-        
+
         // lang=regex Twitch
         new(RegexPrefix + @"(((www|m)\.)?twitch\.tv\/((videos\/[0-9]{1,})|[a-zA-Z0-9_-]{1,}\/clip\/[a-zA-Z0-9_-]{1,})|clips\.twitch\.tv\/(clips\/)?[^clip_missing][a-zA-Z0-9_-]{1,})", RegexOptions.Compiled),
         //((www\.|m\.)?twitch.tv\/((videos\/[0-9]{1,})|[a-zA-Z0-9_-]{1,}\/clip\/[a-zA-Z0-9_-]{1,})|clips.twitch.tv\/(clips\/)?[a-zA-Z0-9_-]{1,})
-        
+
         // lang=regex SoundCloud
         new(RegexPrefix + @"((www|m)\.)?soundcloud\.com\/[a-zA-Z0-9_-]{1,}\/[a-zA-Z0-9_-]{1,}", RegexOptions.Compiled),
-        
+
         // lang=regex Imgur
         new(RegexPrefix + @"((www|m|i)\.)?imgur\.com(\/(a|gallery))?\/[a-zA-Z0-9]{1,}", RegexOptions.Compiled),
 
@@ -95,36 +95,35 @@ public class DownloadHelper {
         return "Could not parse line";
     }
 
-    public static bool IsYoutubeKey(string key) => Regex.IsMatch(key, "^[a-zA-Z0-9-_]{11}$");
+    public static bool IsYoutubeKey([NotNullWhen(true)] string? key) {
+        if (key.IsNullEmptyWhitespace()) {
+            return false;
+        }
+        return Regex.IsMatch(key, "^[a-zA-Z0-9-_]{11}$");
+    }
 
     public static bool IsYoutubeLink(string url) => Regex.IsMatch(url, @"(((http|https):\/\/)?(.){0,5}\.(youtube\.com|youtu\.be)\/(watch\?v=)?)?[a-zA-Z0-9-_]{11}");
 
-    public static string GetYoutubeVideoKey(string URL) {
-        string URLLower = URL.ToLower();
-        if (URLLower.StartsWith("http://")) {
+    public static string? GetYoutubeVideoKey(string URL) {
+        if (URL.StartsWith("http://",  StringComparison.InvariantCultureIgnoreCase)) {
             URL = URL[7..];
-            URLLower = URLLower[7..];
         }
-        else if (URLLower.StartsWith("https://")) {
+        else if (URL.StartsWith("https://", StringComparison.InvariantCultureIgnoreCase)) {
             URL = URL[8..];
-            URLLower = URLLower[8..];
         }
 
-        if (URLLower.StartsWith("www.")) {
+        if (URL.StartsWith("www.", StringComparison.InvariantCultureIgnoreCase)) {
             URL = URL[4..];
-            URLLower = URLLower[4..];
         }
 
-        if (URLLower.StartsWith("youtube.com/watch?v=")) {
+        if (URL.StartsWith("youtube.com/watch?v=", StringComparison.InvariantCultureIgnoreCase)) {
             URL = URL[20..];
-            URLLower = URLLower[20..];
         }
-        else if (URLLower.StartsWith("youtu.be/")) {
+        else if (URL.StartsWith("youtu.be/", StringComparison.InvariantCultureIgnoreCase)) {
             URL = URL[9..];
-            URLLower = URLLower[9..];
         }
 
-        if (URL.Length > 11) {
+        if (URL.Length >= 11) {
             URL = URL[..11];
         }
 

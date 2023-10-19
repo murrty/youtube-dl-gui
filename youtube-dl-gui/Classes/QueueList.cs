@@ -1,4 +1,5 @@
-﻿namespace youtube_dl_gui;
+﻿#nullable enable
+namespace youtube_dl_gui;
 
 internal sealed class QueueList<T> : List<T> {
     public bool TryAdd(T item) {

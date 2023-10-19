@@ -15,7 +15,7 @@ internal delegate void AfterMediaParse(ExtendedMediaDetails sender);
 /// Represents data about media when using an extended downloader.
 /// </summary>
 internal sealed class ExtendedMediaDetails : IDisposable {
-    private static readonly char[] BadUrlChars = { '\\', '"', '\n', '\r', '\t', '\0', '\b', '\'' };
+    internal static readonly char[] BadUrlChars = { '\\', '"', '\n', '\r', '\t', '\0', '\b', '\'' };
 
     /// <summary>
     /// Gets the URL associated with this instance.
@@ -182,7 +182,7 @@ internal sealed class ExtendedMediaDetails : IDisposable {
 
                 if (Downloads.SaveSubtitles) {
                     ArgumentBuffer.Append(" --all-subs");
-                    if (Downloads.SubtitleFormat.IsNotNullEmptyWhitespace()) {
+                    if (!Downloads.SubtitleFormat.IsNullEmptyWhitespace()) {
                         ArgumentBuffer.Append(" --sub-format ").Append(Downloads.SubtitleFormat);
                     }
 
@@ -691,13 +691,13 @@ internal sealed class ExtendedMediaDetails : IDisposable {
                     AudioChannels = Format.AudioChannels is not null ? Format.AudioChannels.ToString() : "?";
                 }
 
-                ListViewItem NewFormat = new(Format.QualityName.IsNotNullEmptyWhitespace() ? Format.QualityName : "?");
+                ListViewItem NewFormat = new(!Format.QualityName.IsNullEmptyWhitespace() ? Format.QualityName : "?");
                 NewFormat.SubItems.Add(Format.VideoFps is not null && Format.VideoFps > 0 ? $"{Format.VideoFps}" : "?");
                 NewFormat.SubItems.Add(Format.Extension ?? "Unknown");
                 NewFormat.SubItems.Add(Format.Size);
                 NewFormat.SubItems.Add(Format.VideoBitrate is not null && Format.VideoBitrate > 0 ? $"{Format.VideoBitrate}Kbps" : "?");
                 NewFormat.SubItems.Add($"{Format.VideoWidth ?? -1}x{Format.VideoHeight ?? -1}");
-                NewFormat.SubItems.Add(Format.VideoCodec.IsNotNullEmptyWhitespace() && Format.VideoCodec != "none" ? Format.VideoCodec : "Unknown");
+                NewFormat.SubItems.Add(!Format.VideoCodec.IsNullEmptyWhitespace() && Format.VideoCodec != "none" ? Format.VideoCodec : "Unknown");
                 NewFormat.SubItems.Add(AudioBitrate);
                 NewFormat.SubItems.Add(SampleRate);
                 NewFormat.SubItems.Add(AudioCodec);
@@ -749,13 +749,13 @@ internal sealed class ExtendedMediaDetails : IDisposable {
                     AudioChannels = Format.AudioChannels is not null ? Format.AudioChannels.ToString() : "?";
                 }
 
-                ListViewItem NewFormat = new(Format.QualityName.IsNotNullEmptyWhitespace() ? Format.QualityName : "?");
+                ListViewItem NewFormat = new(!Format.QualityName.IsNullEmptyWhitespace() ? Format.QualityName : "?");
                 NewFormat.SubItems.Add(Format.VideoFps is not null && Format.VideoFps > 0 ? $"{Format.VideoFps}" : "?");
                 NewFormat.SubItems.Add(Format.Extension ?? "Unknown");
                 NewFormat.SubItems.Add(Format.Size);
                 NewFormat.SubItems.Add(Format.VideoBitrate is not null && Format.VideoBitrate > 0 ? $"{Format.VideoBitrate}Kbps" : "?");
                 NewFormat.SubItems.Add($"{Format.VideoWidth ?? -1}x{Format.VideoHeight ?? -1}");
-                NewFormat.SubItems.Add(Format.VideoCodec.IsNotNullEmptyWhitespace() && Format.VideoCodec != "none" ? Format.VideoCodec : "Unknown");
+                NewFormat.SubItems.Add(!Format.VideoCodec.IsNullEmptyWhitespace() && Format.VideoCodec != "none" ? Format.VideoCodec : "Unknown");
                 NewFormat.SubItems.Add(AudioBitrate);
                 NewFormat.SubItems.Add(SampleRate);
                 NewFormat.SubItems.Add(AudioCodec);

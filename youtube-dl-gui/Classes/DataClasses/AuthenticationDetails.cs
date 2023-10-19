@@ -1,4 +1,5 @@
-﻿namespace youtube_dl_gui;
+﻿#nullable enable
+namespace youtube_dl_gui;
 using System.Security.Cryptography;
 /// <summary>
 /// Represents authentication information for an instance of accessing media.
@@ -8,35 +9,35 @@ public class AuthenticationDetails {
     /// Returns an empty <see cref="AuthenticationDetails"/> instance.
     /// </summary>
     public static readonly AuthenticationDetails Default = new();
-    
+
     /// <summary>
     /// Gets or sets the username associated with this authentication instance.
     /// </summary>
-    public string Username { get; set; } = string.Empty;
+    public string? Username { get; set; }
     /// <summary>
     /// Gets or sets the encrypted password associated with this authentication instance.
     /// </summary>
-    public byte[] Password { get; set; } = new byte[0];
+    public byte[]? Password { get; set; }
     /// <summary>
     /// Gets or sets the two-factor password associated with this authentication instance.
     /// </summary>
-    public string TwoFactor { get; set; } = string.Empty;
+    public string? TwoFactor { get; set; }
     /// <summary>
     /// Gets or sets the encrypted password to access the media associated with this authentication instance.
     /// </summary>
-    public byte[] MediaPassword { get; set; } = new byte[0];
+    public byte[]? MediaPassword { get; set; }
     /// <summary>
     /// Gets or sets whether this authentication instance will rely on netrc for authentication.
     /// </summary>
-    public bool NetRC { get; set; } = false;
+    public bool NetRC { get; set; }
     /// <summary>
     /// Gets or sets the cookies file for the authentication instance.
     /// </summary>
-    public string CookiesFile { get; set; } = string.Empty; 
+    public string? CookiesFile { get; set; }
     /// <summary>
     /// Gets or sets browsers from the browser for this authentication instance.
     /// </summary>
-    public string CookiesFromBrowser { get; set; } = string.Empty;
+    public string? CookiesFromBrowser { get; set; }
 
     /// <summary>
     /// Initializes an empty <see cref="AuthenticationDetails"/> instance.
@@ -106,7 +107,7 @@ public class AuthenticationDetails {
     /// </summary>
     /// <returns>A decrypted string if there is a password set; otherwise, an empty string.</returns>
     public string GetPassword() {
-        if (Password.Length > 0) {
+        if (Password?.Length > 0) {
             return Encoding.UTF8.GetString(ProtectedData.Unprotect(
                 encryptedData: Password,
                 optionalEntropy: null,
@@ -120,7 +121,7 @@ public class AuthenticationDetails {
     /// </summary>
     /// <returns>A decrypted string if there is a password set; otherwise, an empty string.</returns>
     public string GetMediaPassword() {
-        if (MediaPassword.Length > 0) {
+        if (MediaPassword?.Length > 0) {
             return Encoding.UTF8.GetString(ProtectedData.Unprotect(
                 encryptedData: MediaPassword,
                 optionalEntropy: null,
@@ -139,19 +140,21 @@ public class AuthenticationDetails {
     public AuthenticationDetails Clone() {
         AuthenticationDetails clone = new() {
             Username = this.Username,
-            Password = new byte[this.Password.Length],
+            Password = new byte[this.Password?.Length ?? 0],
             TwoFactor = this.TwoFactor,
-            MediaPassword = new byte[this.MediaPassword.Length],
+            MediaPassword = new byte[this.MediaPassword?.Length ?? 0],
             NetRC = this.NetRC,
             CookiesFile = this.CookiesFile,
             CookiesFromBrowser = this.CookiesFromBrowser,
         };
 
-        if (this.Password.Length > 0)
+        if (this.Password?.Length > 0) {
             Array.Copy(this.Password, clone.Password, this.Password.Length);
+        }
 
-        if (this.MediaPassword.Length > 0)
+        if (this.MediaPassword?.Length > 0) {
             Array.Copy(this.MediaPassword, clone.MediaPassword, this.MediaPassword.Length);
+        }
 
         return clone;
     }
@@ -160,11 +163,11 @@ public class AuthenticationDetails {
     /// Displays the authentication form to gather authentication details for the media.
     /// </summary>
     /// <returns>An instance of the <see cref="AuthenticationDetails"/> class with user authentication available.</returns>
-    public static AuthenticationDetails GetAuthentication() {
+    public static AuthenticationDetails? GetAuthentication() {
         using frmAuthentication Authenticator = new();
-        if (Authenticator.ShowDialog() != System.Windows.Forms.DialogResult.OK)
+        if (Authenticator.ShowDialog() != System.Windows.Forms.DialogResult.OK) {
             return null;
-
+        }
         return Authenticator.Authentication;
     }
 }

@@ -1,10 +1,9 @@
-﻿namespace youtube_dl_gui;
-
+﻿#nullable enable
+namespace youtube_dl_gui;
 /// <summary>
 /// Contains batch-process helpers
 /// </summary>
 public static class BatchHelper {
-
     /// <summary>
     /// Gets the current date and time in "yyyy_MM_dd-HH_mm_ss" format.
     /// </summary>

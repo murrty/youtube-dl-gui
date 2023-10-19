@@ -1,4 +1,5 @@
-﻿namespace youtube_dl_gui;
+﻿#nullable enable
+namespace youtube_dl_gui;
 /// <summary>
 /// Represents an object that contains information about a media download, with settings for the download.
 /// </summary>
@@ -6,11 +7,11 @@ public sealed class DownloadInfo {
     /// <summary>
     /// The URL of the video to download.
     /// </summary>
-    public string DownloadURL { get; set; } = null;
+    public string DownloadURL { get; set; }
     /// <summary>
     /// The arguments passed for youtube-dl
     /// </summary>
-    public string DownloadArguments { get; set; } = null;
+    public string? DownloadArguments { get; set; }
     /// <summary>
     /// The status of the current download
     /// </summary>
@@ -18,11 +19,11 @@ public sealed class DownloadInfo {
     /// <summary>
     /// The file-name schema of the download.
     /// </summary>
-    public string FileNameSchema { get; set; } = null;
+    public string FileNameSchema { get; set; }
     /// <summary>
     /// Whether the only generated arguments through this application is the output folder. This should be <see langword="true"/> for ytarchive downloads or downloads that are specialized and only require the output folder to be generated for the arguments.
     /// </summary>
-    public bool MostlyCustomArguments { get; set; } = false;
+    public bool MostlyCustomArguments { get; set; }
 
     /// <summary>
     /// The type of the download.
@@ -56,27 +57,27 @@ public sealed class DownloadInfo {
     /// <summary>
     /// Determines of the video should skip downloading the audio
     /// </summary>
-    public bool SkipAudioForVideos { get; set; } = false;
+    public bool SkipAudioForVideos { get; set; }
     /// <summary>
     /// Determines if the audio should be in VBR (Variable bit rate)
     /// </summary>
-    public bool UseVBR { get; set; } = false;
+    public bool UseVBR { get; set; }
     /// <summary>
     /// Determines if the download is a part of a batch process.
     /// </summary>
-    public bool BatchDownload { get; set; } = false;
+    public bool BatchDownload { get; set; }
     /// <summary>
     /// The time of the batch download start.
     /// </summary>
-    public string BatchTime { get; set; } = null;
+    public string? BatchTime { get; set; }
     /// <summary>
     /// The authentication for this instance.
     /// </summary>
-    public AuthenticationDetails Authentication { get; set; }
+    public AuthenticationDetails? Authentication { get; set; }
     /// <summary>
     /// The arguments for playlist selection.
     /// </summary>
-    public string PlaylistSelectionArg { get; set; } = null;
+    public string? PlaylistSelectionArg { get; set; }
     /// <summary>
     /// The int index of the start of the playlist.
     /// </summary>
@@ -89,16 +90,10 @@ public sealed class DownloadInfo {
     /// <summary>
     /// Initializes a new instance of <see cref="DownloadInfo"/> with information for downloading a media object.
     /// </summary>
-    public DownloadInfo() {
-        FileNameSchema = Downloads.fileNameSchema;
-    }
-
-    /// <summary>
-    /// Initializes a new instance of <see cref="DownloadInfo"/> with information for downloading a media object.
-    /// </summary>
     /// <param name="URL">The URL to download.</param>
-    public DownloadInfo(string URL) : this() {
+    public DownloadInfo(string URL) {
         this.DownloadURL = URL;
+        FileNameSchema = Downloads.fileNameSchema;
     }
 
     /// <summary>
@@ -108,7 +103,7 @@ public sealed class DownloadInfo {
     /// <param name="Arguments">The output arguments.</param>
     /// <param name="CensoredArguments">The output censored arguments to censor login information.</param>
     /// <returns><see langword="true"/> if the arguments generated successfully; otherwise, <see langword="false"/>.</returns>
-    public bool GenerateArguments(Action<string> Verbose, out string Arguments, out string CensoredArguments) {
+    public bool GenerateArguments(Action<string> Verbose, out string? Arguments, out string? CensoredArguments) {
         Status = DownloadStatus.Preparing;
         Arguments = null;
         CensoredArguments = null;
@@ -120,15 +115,15 @@ public sealed class DownloadInfo {
         }
 
         #region URL cleaning
-        DownloadURL.Trim('\\', '"', '\n', '\r', '\t', '\0', '\b', '\'');
+        DownloadURL = DownloadURL.Trim(ExtendedMediaDetails.BadUrlChars);
         //if (!DownloadURL.StartsWith("https://")) {
         //    if (DownloadURL.StartsWith("http://")) DownloadURL = "https" + DownloadURL[4..];
         //    else DownloadURL = "https://" + DownloadURL;
         //}
         #endregion
 
-        StringBuilder ArgumentsBuffer = new(string.Empty);
-        StringBuilder PreviewArguments;
+        ArgumentList ArgumentsBuffer = new();
+        ArgumentList PreviewArguments;
 
         #region youtube-dl path
         string DownloadProvider = Verification.GetYoutubeDlProvider(false);
@@ -159,11 +154,11 @@ public sealed class DownloadInfo {
             OutputDirectory.Append("\\# Batch Downloads #");
 
             if (Downloads.AddDateToBatchDownloadFolders)
-                OutputDirectory.Append($"\\{BatchTime}");
+                OutputDirectory.Append('\\').Append(BatchTime);
         }
 
         if (Downloads.separateIntoWebsiteURL)
-            OutputDirectory.Append($"\\{DownloadHelper.GetUrlBase(DownloadURL, MostlyCustomArguments)}");
+            OutputDirectory.Append('\\').Append(DownloadHelper.GetUrlBase(DownloadURL, MostlyCustomArguments));
 
         if (Downloads.separateDownloads && !MostlyCustomArguments) {
             switch (Type) {
@@ -182,15 +177,17 @@ public sealed class DownloadInfo {
                     return false;
             }
         }
-        if (string.IsNullOrWhiteSpace(FileNameSchema)) {
+        if (FileNameSchema.IsNullEmptyWhitespace()) {
             Verbose("The file name schema is not properly set, falling back to the default one. Consider setting it in the settings, or making sure the schema list has a proper schema format on the main form.");
-            OutputDirectory.Append("\\%(title)s-%(id)s.%(ext)s");
+            OutputDirectory.Append("\\%(title)s-%(id)s.%(ext)s\"");
         }
-        else
-            OutputDirectory.Append($"\\{FileNameSchema}\"");
+        else {
+            OutputDirectory.Append('\\').Append(FileNameSchema).Append('\"');
+        }
 
-        if (!MostlyCustomArguments)
-            ArgumentsBuffer.Append($"{DownloadURL} -o {OutputDirectory}");
+        if (!MostlyCustomArguments) {
+            ArgumentsBuffer.Add($"{DownloadURL} -o {OutputDirectory}");
+        }
 
         Verbose("The output was generated and will be used");
         #endregion
@@ -198,35 +195,43 @@ public sealed class DownloadInfo {
         #region Quality & format
         switch (Type) {
             case DownloadType.Video: {
-                if (SkipAudioForVideos)
-                    ArgumentsBuffer.Append(Formats.GetVideoQualityArgsNoSound(VideoQuality));
-                else
-                    ArgumentsBuffer.Append(Formats.GetVideoQualityArgs(VideoQuality));
+                if (SkipAudioForVideos) {
+                    ArgumentsBuffer.Add(Formats.GetVideoQualityArgsNoSound(VideoQuality));
+                }
+                else {
+                    ArgumentsBuffer.Add(Formats.GetVideoQualityArgs(VideoQuality));
+                }
 
-                ArgumentsBuffer.Append(Formats.GetVideoRecodeInfo(VideoFormat));
+                ArgumentsBuffer.Add(Formats.GetVideoRecodeInfo(VideoFormat));
             } break;
             case DownloadType.Audio: {
                 if (AudioCBRQuality == AudioCBRQualityType.best || AudioVBRQuality == AudioVBRQualityType.q0) {
-                    ArgumentsBuffer.Append(" --extract-audio --audio-quality 0");
+                    ArgumentsBuffer.Add("--extract-audio --audio-quality 0");
                 }
                 else {
-                    if (UseVBR)
-                        ArgumentsBuffer.Append($" --extract-audio --audio-quality {AudioVBRQuality}");
-                    else
-                        ArgumentsBuffer.Append($" --extract-audio --audio-quality {Formats.GetAudioQuality(AudioCBRQuality)}");
+                    if (UseVBR) {
+                        ArgumentsBuffer.Add($"--extract-audio --audio-quality {AudioVBRQuality}");
+                    }
+                    else {
+                        ArgumentsBuffer.Add($"--extract-audio --audio-quality {Formats.GetAudioQuality(AudioCBRQuality)}");
+                    }
                 }
 
-                if (AudioFormat == AudioFormatType.best)
-                    ArgumentsBuffer.Append(" --audio-format best");
-                else
-                    ArgumentsBuffer.Append($" --extract-audio --audio-format {Formats.GetAudioFormat(AudioFormat)}");
+                if (AudioFormat == AudioFormatType.best) {
+                    ArgumentsBuffer.Add("--audio-format best");
+                }
+                else {
+                    ArgumentsBuffer.Add($"--extract-audio --audio-format {Formats.GetAudioFormat(AudioFormat)}");
+                }
             } break;
             case DownloadType.Custom: {
                 Verbose("Custom was requested, skipping quality + format");
-                if (MostlyCustomArguments)
+                if (MostlyCustomArguments) {
                     ArgumentsBuffer = new($"{DownloadArguments} -o \"{OutputDirectory}\"");
-                else if (!string.IsNullOrWhiteSpace(DownloadArguments))
-                    ArgumentsBuffer.Append($" {DownloadArguments}");
+                }
+                else if (!DownloadArguments.IsNullEmptyWhitespace()) {
+                    ArgumentsBuffer.Add(DownloadArguments);
+                }
                 else {
                     Verbose("No custom arguments were provided.");
                     return false;
@@ -245,23 +250,25 @@ public sealed class DownloadInfo {
         if (Type != DownloadType.Custom) {
             switch (PlaylistSelection) {
                 case PlaylistSelectionType.PlaylistStartPlaylistEnd: // playlist-start and playlist-end
-                    if (PlaylistSelectionIndexStart > 0)
-                        ArgumentsBuffer.Append($" --playlist-start {PlaylistSelectionIndexStart}");
+                    if (PlaylistSelectionIndexStart > 0) {
+                        ArgumentsBuffer.Add($"--playlist-start {PlaylistSelectionIndexStart}");
+                    }
 
-                    if (PlaylistSelectionIndexEnd > 0)
-                        ArgumentsBuffer.Append($" --playlist-end {(PlaylistSelectionIndexStart + PlaylistSelectionIndexEnd)}");
+                    if (PlaylistSelectionIndexEnd > 0) {
+                        ArgumentsBuffer.Add($"--playlist-end {PlaylistSelectionIndexStart + PlaylistSelectionIndexEnd}");
+                    }
                     break;
                 case PlaylistSelectionType.PlaylistItems: // playlist-items
-                    ArgumentsBuffer.Append($" --playlist-items {PlaylistSelectionArg}");
+                    ArgumentsBuffer.Add($"--playlist-items {PlaylistSelectionArg}");
                     break;
                 case PlaylistSelectionType.DateBefore: // datebefore
-                    ArgumentsBuffer.Append($" --datebefore {PlaylistSelectionArg}");
+                    ArgumentsBuffer.Add($"--datebefore {PlaylistSelectionArg}");
                     break;
                 case PlaylistSelectionType.DateDuring: // date
-                    ArgumentsBuffer.Append($" --date {PlaylistSelectionArg}");
+                    ArgumentsBuffer.Add($"--date {PlaylistSelectionArg}");
                     break;
                 case PlaylistSelectionType.DateAfter: // dateafter
-                    ArgumentsBuffer.Append($" --dateafter {PlaylistSelectionArg}");
+                    ArgumentsBuffer.Add($"--dateafter {PlaylistSelectionArg}");
                     break;
             }
 
@@ -279,91 +286,114 @@ public sealed class DownloadInfo {
 
                 if (AddArg) {
                     Verbose("ffmpeg will be used for HLS");
-                    ArgumentsBuffer.Append($" --ffmpeg-location \"{Verification.FFmpegPath}\" --hls-prefer-ffmpeg");
+                    ArgumentsBuffer.Add($"--ffmpeg-location \"{Verification.FFmpegPath}\" --hls-prefer-ffmpeg");
                 }
             }
 
             if (Downloads.SaveSubtitles) {
-                ArgumentsBuffer.Append(" --all-subs");
+                ArgumentsBuffer.Add("--all-subs");
 
-                if (!string.IsNullOrEmpty(Downloads.SubtitleFormat))
-                    ArgumentsBuffer.Append($" --sub-format {Downloads.SubtitleFormat} ");
+                if (!Downloads.SubtitleFormat.IsNullEmptyWhitespace()) {
+                    ArgumentsBuffer.Add($"--sub-format {Downloads.SubtitleFormat} ");
+                }
 
-                if (Downloads.EmbedSubtitles && Type == DownloadType.Video)
-                    ArgumentsBuffer.Append(" --embed-subs");
+                if (Downloads.EmbedSubtitles && Type == DownloadType.Video) {
+                    ArgumentsBuffer.Add("--embed-subs");
+                }
             }
-            if (Downloads.SaveVideoInfo)
-                ArgumentsBuffer.Append(" --write-info-json");
-            if (Downloads.SaveDescription)
-                ArgumentsBuffer.Append(" --write-description");
-            if (Downloads.SaveAnnotations)
-                ArgumentsBuffer.Append(" --write-annotations");
+            if (Downloads.SaveVideoInfo) {
+                ArgumentsBuffer.Add("--write-info-json");
+            }
+            if (Downloads.SaveDescription) {
+                ArgumentsBuffer.Add("--write-description");
+            }
+            if (Downloads.SaveAnnotations) {
+                ArgumentsBuffer.Add("--write-annotations");
+            }
             if (Downloads.SaveThumbnail) {
                 // ArgumentsBuffer += "--write-all-thumbnails "; // Maybe?
-                ArgumentsBuffer.Append(" --write-thumbnail");
+                ArgumentsBuffer.Add("--write-thumbnail");
                 if (Downloads.EmbedThumbnails) {
                     switch (Type) {
                         case DownloadType.Video:
-                            if (VideoFormat == VideoFormatType.mp4)
-                                ArgumentsBuffer.Append(" --embed-thumbnail");
-                            else
+                            if (VideoFormat == VideoFormatType.mp4) {
+                                ArgumentsBuffer.Add("--embed-thumbnail");
+                            }
+                            else {
                                 Verbose("!!!!!!!! WARNING !!!!!!!!\r\nCannot embed thumbnail to non-mp4 videos files");
+                            }
                             break;
                         case DownloadType.Audio:
-                            if (AudioFormat == AudioFormatType.m4a || AudioFormat == AudioFormatType.mp3)
-                                ArgumentsBuffer.Append(" --embed-thumbnail");
-                            else
+                            if (AudioFormat == AudioFormatType.m4a || AudioFormat == AudioFormatType.mp3) {
+                                ArgumentsBuffer.Add("--embed-thumbnail");
+                            }
+                            else {
                                 Verbose("!!!!!!!! WARNING !!!!!!!!\r\nCannot embed thumbnail to non-m4a/mp3 audio files");
+                            }
                             break;
                     }
                 }
             }
-            if (Downloads.WriteMetadata)
-                ArgumentsBuffer.Append(" --add-metadata");
+            if (Downloads.WriteMetadata) {
+                ArgumentsBuffer.Add("--add-metadata");
+            }
 
-            if (Downloads.KeepOriginalFiles)
-                ArgumentsBuffer.Append(" -k");
+            if (Downloads.KeepOriginalFiles) {
+                ArgumentsBuffer.Add("-k");
+            }
 
             if (Downloads.LimitDownloads && Downloads.DownloadLimit > 0) {
-                ArgumentsBuffer.Append($" --limit-rate {Downloads.DownloadLimit}");
+                ArgumentsBuffer.Add($"--limit-rate {Downloads.DownloadLimit}");
                 switch (Downloads.DownloadLimitType) {
                     case 1: { // mb
-                        ArgumentsBuffer.Append("M ");
+                        ArgumentsBuffer.Add("M");
                     } break;
                     case 2: { // gb
-                        ArgumentsBuffer.Append("G ");
+                        ArgumentsBuffer.Add("G");
                     } break;
                     default: { // kb default
-                        ArgumentsBuffer.Append("K ");
+                        ArgumentsBuffer.Add("K");
                     } break;
                 }
             }
 
-            if (Downloads.RetryAttempts != 10 && Downloads.RetryAttempts > 0)
-                ArgumentsBuffer.Append($" --retries {Downloads.RetryAttempts}");
+            if (Downloads.RetryAttempts != 10 && Downloads.RetryAttempts > 0) {
+                ArgumentsBuffer.Add($"--retries {Downloads.RetryAttempts}");
+            }
 
-            if (Downloads.ForceIPv4)
-                ArgumentsBuffer.Append(" --force-ipv4");
-            else if (Downloads.ForceIPv6)
-                ArgumentsBuffer.Append(" --force-ipv6");
+            if (Downloads.ForceIPv4) {
+                ArgumentsBuffer.Add("--force-ipv4");
+            }
+            else if (Downloads.ForceIPv6) {
+                ArgumentsBuffer.Add("--force-ipv6");
+            }
 
-            if (Downloads.UseProxy && Downloads.ProxyType > -1 && !string.IsNullOrEmpty(Downloads.ProxyIP) && !string.IsNullOrEmpty(Downloads.ProxyPort))
-                ArgumentsBuffer.Append($" --proxy {DownloadHelper.ProxyProtocols[Downloads.ProxyType]}{Downloads.ProxyIP}:{Downloads.ProxyPort}/");
+            if (Downloads.UseProxy && Downloads.ProxyType > -1 && !string.IsNullOrEmpty(Downloads.ProxyIP) && !string.IsNullOrEmpty(Downloads.ProxyPort)) {
+                ArgumentsBuffer.Add($"--proxy {DownloadHelper.ProxyProtocols[Downloads.ProxyType]}{Downloads.ProxyIP}:{Downloads.ProxyPort}/");
+            }
 
-            if (Downloads.SkipUnavailableFragments)
-                ArgumentsBuffer.Append(" --abort-on-unavailable-fragment");
+            if (Downloads.SkipUnavailableFragments) {
+                ArgumentsBuffer.Add("--abort-on-unavailable-fragment");
+            }
 
-            if (!Downloads.AbortOnError)
-                ArgumentsBuffer.Append(" --no-abort-on-error");
+            if (!Downloads.AbortOnError) {
+                ArgumentsBuffer.Add("--no-abort-on-error");
+            }
 
-            if (Downloads.FragmentThreads > 1)
-                ArgumentsBuffer.Append(" --concurrent-fragments " + Downloads.FragmentThreads);
+            if (Downloads.FragmentThreads > 1) {
+                ArgumentsBuffer.Add("--concurrent-fragments " + Downloads.FragmentThreads);
+            }
 
-            if (!BatchDownload)
-                ArgumentsBuffer.Append(" --no-playlist");
+            if (!BatchDownload) {
+                ArgumentsBuffer.Add("--no-playlist");
+            }
 
-            if (!DownloadArguments.IsNullEmptyWhitespace() && !DownloadArguments.ReplaceWhitespace().IsNullEmptyWhitespace())
-                ArgumentsBuffer.Append(" " + DownloadArguments.ReplaceWhitespace().Trim());
+            if (!DownloadArguments.IsNullEmptyWhitespace()) {
+                DownloadArguments = DownloadArguments.ReplaceWhitespace().Trim();
+                if (!DownloadArguments.IsNullEmptyWhitespace()) {
+                    ArgumentsBuffer.Add(DownloadArguments);
+                }
+            }
         }
         #endregion
 
@@ -376,38 +406,38 @@ public sealed class DownloadInfo {
         if (!MostlyCustomArguments) {
             if (Authentication is not null) {
                 if (!Authentication.Username.IsNullEmptyWhitespace()) {
-                    ArgumentsBuffer.Append($" --username {Authentication.Username}");
+                    ArgumentsBuffer.Add($"--username {Authentication.Username}");
                     Authentication.Username = null;
-                    PreviewArguments.Append(" --username ***");
+                    PreviewArguments.Add("--username ***");
                 }
                 if (Authentication.Password?.Length > 0) {
-                    ArgumentsBuffer.Append($" --password {Authentication.GetPassword()}");
+                    ArgumentsBuffer.Add($"--password {Authentication.GetPassword()}");
                     Array.Clear(Authentication.Password, 0, Authentication.Password.Length);
-                    PreviewArguments.Append(" --password ***");
+                    PreviewArguments.Add("--password ***");
                 }
                 if (!Authentication.TwoFactor.IsNullEmptyWhitespace()) {
-                    ArgumentsBuffer.Append($" --twofactor {Authentication.TwoFactor}");
+                    ArgumentsBuffer.Add($"--twofactor {Authentication.TwoFactor}");
                     Authentication.TwoFactor = null;
-                    PreviewArguments.Append(" --twofactor ***");
+                    PreviewArguments.Add("--twofactor ***");
                 }
                 if (Authentication.MediaPassword?.Length > 0) {
-                    ArgumentsBuffer.Append($" --video-password {Authentication.GetMediaPassword()}");
+                    ArgumentsBuffer.Add($"--video-password {Authentication.GetMediaPassword()}");
                     Array.Clear(Authentication.MediaPassword, 0, Authentication.MediaPassword.Length);
-                    PreviewArguments.Append(" --video-password ***");
+                    PreviewArguments.Add("--video-password ***");
                 }
                 if (Authentication.NetRC) {
-                    ArgumentsBuffer.Append(" --netrc");
-                    PreviewArguments.Append(" --netrc ***");
+                    ArgumentsBuffer.Add("--netrc");
+                    PreviewArguments.Add("--netrc ***");
                     Authentication.NetRC = false;
                 }
                 if (!Authentication.CookiesFile.IsNullEmptyWhitespace()) {
-                    ArgumentsBuffer.Append($" --cookies {Authentication.CookiesFile}");
-                    PreviewArguments.Append(" --cookies ***");
+                    ArgumentsBuffer.Add($"--cookies {Authentication.CookiesFile}");
+                    PreviewArguments.Add("--cookies ***");
                     Authentication.CookiesFile = null;
                 }
                 if (!Authentication.CookiesFromBrowser.IsNullEmptyWhitespace()) {
-                    ArgumentsBuffer.Append($" --cookies-from-browser {Authentication.CookiesFromBrowser}");
-                    PreviewArguments.Append(" --cookies-from-browser ***");
+                    ArgumentsBuffer.Add($"--cookies-from-browser {Authentication.CookiesFromBrowser}");
+                    PreviewArguments.Add("--cookies-from-browser ***");
                     Authentication.CookiesFromBrowser = null;
                 }
             }
@@ -417,6 +447,9 @@ public sealed class DownloadInfo {
         Verbose("Arguments have been generated");
         Arguments = ArgumentsBuffer.ToString();
         CensoredArguments = PreviewArguments.ToString();
+
+        ArgumentsBuffer.Clear();
+        PreviewArguments.Clear();
         return true;
     }
 }

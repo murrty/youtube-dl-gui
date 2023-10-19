@@ -1,9 +1,8 @@
-﻿namespace youtube_dl_gui;
-
+﻿#nullable enable
+namespace youtube_dl_gui;
 using System.Diagnostics;
 using System.IO;
-
-internal class ConvertHelper {
+internal static class ConvertHelper {
     /// <summary>
     /// Merges 2 files together
     /// </summary>
@@ -13,7 +12,7 @@ internal class ConvertHelper {
     /// <param name="mergeAudio">Should audio be merged?</param>
     /// <param name="deleteAfterMerge">Should the inputs be deleted after merge?</param>
     /// <returns></returns>
-    [Obsolete("Untested as of 2022-09, needs redo and retesting.")]
+    [Obsolete("Fast merging is deprecated in favor of advance conversion/merging form.")]
     public static bool MergeFiles(string input1, string input2, string output, bool mergeAudio, bool deleteAfterMerge) {
         try {
             string[] formatsV = { ".avi", ".flv", ".mkv", ".mov", ".mp4", ".webm", ".wmv" };
@@ -139,7 +138,6 @@ internal class ConvertHelper {
             string Format = File[^1];
             return Formats.VideoFormats.Contains(Format) ? ConversionType.Video : (Formats.AudioFormats.Contains(Format) ? ConversionType.Audio : ConversionType.FfmpegDefault);
         }
-        
         return ConversionType.FfmpegDefault;
     }
 }

@@ -1,18 +1,27 @@
-﻿namespace youtube_dl_gui;
-
-public sealed class ConvertInfo {
+﻿#nullable enable
+namespace youtube_dl_gui;
+/// <summary>
+/// Base class to represent a quick conversion.
+/// </summary>
+/// <param name="Input">
+/// The input of the file to be converted.
+/// </param>
+/// <param name="Output">
+/// The output of the converted file.
+/// </param>
+public sealed class ConvertInfo(string Input, string Output) {
     /// <summary>
     /// The input of the file to be converted.
     /// </summary>
-    public string InputFile { get; set; } = null;
+    public string InputFile { get; set; } = Input;
     /// <summary>
     /// The output of the converted file.
     /// </summary>
-    public string OutputFile { get; set; } = null;
+    public string? OutputFile { get; set; } = Output;
     /// <summary>
     /// Determines if the current conversion is in a batch conversion.
     /// </summary>
-    public bool BatchConversion { get; set; } = false;
+    public bool BatchConversion { get; set; }
     /// <summary>
     /// The conversion type, used for user-specified settings.
     /// </summary>
@@ -26,7 +35,7 @@ public sealed class ConvertInfo {
     /// Hides the compile information from ffmpeg.
     /// </summary>
     public bool HideFFmpegCompile { get; set; } = Converts.hideFFmpegCompile;
-    
+
     /// <summary>
     /// Determines if the video conversions should use bitrate.
     /// </summary>
@@ -80,5 +89,5 @@ public sealed class ConvertInfo {
     /// <summary>
     /// Whether to skip any argument generation including input/output.
     /// </summary>
-    public bool FullCustomArguments { get; set; } = false;
+    public bool FullCustomArguments { get; set; }
 }

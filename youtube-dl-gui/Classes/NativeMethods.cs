@@ -1,10 +1,10 @@
-﻿namespace youtube_dl_gui;
+﻿#nullable enable
+namespace youtube_dl_gui;
 
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
-internal class NativeMethods {
-
+internal static class NativeMethods {
     #region Ini
     [DllImport("kernel32", CharSet = CharSet.Unicode)]
     public static extern int WritePrivateProfileString(string lpAppName,
@@ -55,5 +55,4 @@ internal class NativeMethods {
         [In] nint hwnd
     );
     #endregion
-
 }

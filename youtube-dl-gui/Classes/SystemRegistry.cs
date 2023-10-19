@@ -1,4 +1,5 @@
-﻿namespace youtube_dl_gui;
+﻿#nullable enable
+namespace youtube_dl_gui;
 using Microsoft.Win32;
 internal static class SystemRegistry {
     /// <summary>
@@ -7,16 +8,16 @@ internal static class SystemRegistry {
     /// <returns><see langword="true"/> if the registry for the protocol exists and points to the current application path; otherwise, <see langword="false"/>.</returns>
     public static bool CheckRegistry() {
         RegistryKey ProtocolKey = Registry.ClassesRoot.OpenSubKey("ytdlgui", false);
-        
-        bool Available = ProtocolKey is not null &&
-            ProtocolKey.GetValue("URL Protocol") is not null &&
-            ProtocolKey.OpenSubKey("shell\\open\\command").GetValue("").ToString().ToLowerInvariant() == $"\"{Program.FullProgramPath}\" \"%1\"".ToLowerInvariant();
-        
+
+        bool Available = ProtocolKey?.GetValue("URL Protocol") is not null &&
+            ProtocolKey.OpenSubKey("shell\\open\\command").GetValue("").ToString()
+                .Equals($"\"{Program.FullProgramPath}\" \"%1\"", StringComparison.InvariantCultureIgnoreCase);
+
         if (ProtocolKey is not null) {
             ProtocolKey.Close();
             ProtocolKey.Dispose();
         }
-        
+
         return Available;
     }
     /// <summary>

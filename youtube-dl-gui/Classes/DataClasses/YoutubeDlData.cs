@@ -1,6 +1,8 @@
-﻿namespace youtube_dl_gui;
+﻿#nullable enable
+namespace youtube_dl_gui;
 
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.IO;
 using System.Net;
@@ -13,96 +15,127 @@ using System.Runtime.Serialization;
 internal sealed class YoutubeDlData {
     // Tested on yt-dlp
 
-    public static YoutubeDlData GenerateData(string URL, out string RetrievedData) => Generate(URL, "-j --no-playlist", null, out RetrievedData);
-    public static YoutubeDlData GenerateData(string URL, AuthenticationDetails Auth, out string RetrievedData) => Generate(URL, "-j --no-playlist", Auth, out RetrievedData);
-    public static YoutubeDlData GeneratePlaylist(string URL, out string RetrievedData) => Generate(URL, "-J", null, out RetrievedData);
-    public static YoutubeDlData GeneratePlaylist(string URL, AuthenticationDetails Auth, out string RetrievedData) => Generate(URL, "-J", Auth, out RetrievedData);
+    public static YoutubeDlData? GenerateData(string URL, out string? RetrievedData) {
+        return Generate(URL, "-j --no-playlist", null, out RetrievedData);
+    }
+    public static YoutubeDlData? GenerateData(string URL, AuthenticationDetails Auth, out string? RetrievedData) {
+        return Generate(URL, "-j --no-playlist", Auth, out RetrievedData);
+    }
+    public static YoutubeDlData? GeneratePlaylist(string URL, out string? RetrievedData) {
+        return Generate(URL, "-J", null, out RetrievedData);
+    }
+    public static YoutubeDlData? GeneratePlaylist(string URL, AuthenticationDetails Auth, out string? RetrievedData) {
+        return Generate(URL, "-J", Auth, out RetrievedData);
+    }
 
-    private static YoutubeDlData Generate(string URL, string GenerateCommand, AuthenticationDetails Auth, out string RetrievedData) {
+    private static YoutubeDlData? Generate(string URL, string? GenerateCommand, AuthenticationDetails? Auth, out string? RetrievedData) {
         RetrievedData = null;
-        if (!URL.IsNullEmptyWhitespace()) {
-            Log.Write($"Gathering data for \"{URL}\".");
+
+        if (URL.IsNullEmptyWhitespace()) {
+            return null;
+        }
+
+        Log.Write($"Gathering data for \"{URL}\".");
+        if (!Verification.YoutubeDlAvailable) {
+            Verification.RefreshYoutubeDlLocation();
             if (!Verification.YoutubeDlAvailable) {
-                Verification.RefreshYoutubeDlLocation();
-                if (Verification.YoutubeDlAvailable)
-                    return null;
-            }
-
-            StringBuilder ConnectionArgs = new(string.Empty);
-
-            if (Downloads.RetryAttempts != 10 && Downloads.RetryAttempts > 0)
-                ConnectionArgs.Append($"--retries {Downloads.RetryAttempts} ");
-
-            if (Downloads.ForceIPv4)
-                ConnectionArgs.Append("--force-ipv4 ");
-            else if (Downloads.ForceIPv6)
-                ConnectionArgs.Append("--force-ipv6 ");
-
-            if (Downloads.UseProxy && Downloads.ProxyType > -1 &&
-            !string.IsNullOrEmpty(Downloads.ProxyIP) && !string.IsNullOrEmpty(Downloads.ProxyPort))
-                ConnectionArgs.Append($"--proxy {DownloadHelper.ProxyProtocols[Downloads.ProxyType]}{Downloads.ProxyIP}:{Downloads.ProxyPort}/ ");
-
-            if (Auth is not null) {
-                if (!Auth.Username.IsNullEmptyWhitespace())
-                    ConnectionArgs.Append($"--username {Auth.Username} ");
-                if (Auth.Password?.Length > 0)
-                    ConnectionArgs.Append($"--password {Auth.GetPassword()} ");
-                if (!Auth.TwoFactor.IsNullEmptyWhitespace())
-                    ConnectionArgs.Append($" --twofactor {Auth.TwoFactor} ");
-                if (Auth.MediaPassword?.Length > 0)
-                    ConnectionArgs.Append($"--video-password {Auth.GetMediaPassword()} ");
-                if (Auth.NetRC)
-                    ConnectionArgs.Append("--netrc ");
-                if (!Auth.CookiesFile.IsNullEmptyWhitespace())
-                    ConnectionArgs.Append($"--cookies {Auth.CookiesFile} ");
-                if (!Auth.CookiesFromBrowser.IsNullEmptyWhitespace())
-                    ConnectionArgs.Append($"--cookies-from-browser {Auth.CookiesFromBrowser} ");
-            }
-
-            Process Enumeration = new() {
-                StartInfo = new(Verification.YoutubeDlPath) {
-                    Arguments = $"--simulate --no-warnings --no-cache-dir {GenerateCommand} {ConnectionArgs}{URL}",
-                    CreateNoWindow = true,
-                    RedirectStandardError = true,
-                    RedirectStandardInput = true,
-                    RedirectStandardOutput = true,
-                    UseShellExecute = false,
-                    StandardErrorEncoding = Encoding.UTF8, //Encoding.GetEncoding(CultureInfo.CurrentCulture.TextInfo.OEMCodePage),
-                    StandardOutputEncoding = Encoding.UTF8, //Encoding.GetEncoding(CultureInfo.CurrentCulture.TextInfo.OEMCodePage),
-                    WindowStyle = ProcessWindowStyle.Hidden,
-                }
-            };
-
-            StringBuilder Output = new(string.Empty);
-            StringBuilder Error = new(string.Empty);
-            Enumeration.OutputDataReceived += (s, e) => Output.Append(e.Data);
-            Enumeration.ErrorDataReceived += (s, e) => Error.Append(e.Data);
-            Enumeration.Start();
-            Enumeration.BeginOutputReadLine();
-            Enumeration.BeginErrorReadLine();
-            Enumeration.WaitForExit();
-
-            Enumeration.StartInfo.Arguments = null;
-
-            if (!Error.ToString().IsNullEmptyWhitespace()) {
-                Log.Write($"Downloading info for \"{URL}\" output some errors.");
-                Log.Write(Error.ToString());
-            }
-
-            if (!Output.ToString().IsNullEmptyWhitespace()) {
-                Log.Write($"Finished downloading info for \"{URL}\", deserializing the data.");
-                RetrievedData = Output.ToString();
-                var data = RetrievedData.JsonDeserialize<YoutubeDlData>();
-                data.URL = URL;
-                return data;
+                return null;
             }
         }
+
+        ArgumentList Arguments = new();
+
+        if (Downloads.RetryAttempts != 10 && Downloads.RetryAttempts > 0) {
+            Arguments.Add("--retries " + Downloads.RetryAttempts);
+        }
+
+        if (Downloads.ForceIPv4) {
+            Arguments.Add("--force-ipv4");
+        }
+        else if (Downloads.ForceIPv6) {
+            Arguments.Add("--force-ipv6");
+        }
+
+        if (Downloads.UseProxy && Downloads.ProxyType > -1 && !Downloads.ProxyIP.IsNullEmptyWhitespace() && !Downloads.ProxyPort.IsNullEmptyWhitespace()) {
+            Arguments.Add($"--proxy {DownloadHelper.ProxyProtocols[Downloads.ProxyType]}{Downloads.ProxyIP}:{Downloads.ProxyPort}/");
+        }
+
+        if (Auth is not null) {
+            if (!Auth.Username.IsNullEmptyWhitespace()) {
+                Arguments.Add("--username " + Auth.Username);
+            }
+            if (Auth.Password?.Length > 0) {
+                Arguments.Add("--password " + Auth.GetPassword());
+            }
+            if (!Auth.TwoFactor.IsNullEmptyWhitespace()) {
+                Arguments.Add("--twofactor " + Auth.TwoFactor);
+            }
+            if (Auth.MediaPassword?.Length > 0) {
+                Arguments.Add("--video-password " + Auth.GetMediaPassword());
+            }
+            if (Auth.NetRC) {
+                Arguments.Add("--netrc");
+            }
+            if (!Auth.CookiesFile.IsNullEmptyWhitespace()) {
+                Arguments.Add("--cookies " + Auth.CookiesFile);
+            }
+            if (!Auth.CookiesFromBrowser.IsNullEmptyWhitespace()) {
+                Arguments.Add("--cookies-from-browser " + Auth.CookiesFromBrowser);
+            }
+        }
+
+        Arguments.Append(URL);
+
+        Process Enumeration = new() {
+            StartInfo = new(Verification.YoutubeDlPath) {
+                Arguments = $"--simulate --no-warnings --no-cache-dir {GenerateCommand} {Arguments}",
+                CreateNoWindow = true,
+                RedirectStandardError = true,
+                RedirectStandardInput = true,
+                RedirectStandardOutput = true,
+                UseShellExecute = false,
+                StandardErrorEncoding = Encoding.UTF8, //Encoding.GetEncoding(CultureInfo.CurrentCulture.TextInfo.OEMCodePage),
+                StandardOutputEncoding = Encoding.UTF8, //Encoding.GetEncoding(CultureInfo.CurrentCulture.TextInfo.OEMCodePage),
+                WindowStyle = ProcessWindowStyle.Hidden,
+            }
+        };
+
+        StringBuilder Output = new(string.Empty);
+        StringBuilder Error = new(string.Empty);
+        Enumeration.OutputDataReceived += (s, e) => Output.Append(e.Data);
+        Enumeration.ErrorDataReceived += (s, e) => Error.Append(e.Data);
+        Enumeration.Start();
+        Enumeration.BeginOutputReadLine();
+        Enumeration.BeginErrorReadLine();
+        Enumeration.WaitForExit();
+
+        Enumeration.StartInfo.Arguments = null;
+
+        if (!Error.ToString().IsNullEmptyWhitespace()) {
+            Log.Write($"Downloading info for \"{URL}\" output some errors.");
+            Log.Write(Error.ToString());
+        }
+
+        RetrievedData = Output.Length > 0 ? Output.ToString() : null;
+
+        if (!RetrievedData.IsNullEmptyWhitespace()) {
+            Log.Write($"Finished downloading info for \"{URL}\", deserializing the data.");
+            var Data = RetrievedData.JsonDeserialize<YoutubeDlData>();
+            Data.URL = URL;
+            return Data;
+        }
+
         return null;
     }
 
+    public Image? GetThumbnail() {
+        if (this.ThumbnailLink.IsNullEmptyWhitespace()) {
+            Log.Write("Cannot download thumbnail, thumb url is null/empty/whitespace.");
+            return null;
+        }
 
-    public Image GetThumbnail() {
         Log.Write($"Downloading the thumbnail for \"{URL}\".");
+
         using WebClient wc = new();
         byte[] thumbBytes = wc.DownloadData(this.ThumbnailLink);
 
@@ -112,10 +145,10 @@ internal sealed class YoutubeDlData {
             File.WriteAllBytes($"{ThumbPath}.webp", thumbBytes);
             if (!Verification.FfmpegAvailable) {
                 Verification.RefreshFFmpegLocation();
-                if (!Verification.FfmpegAvailable)
+                if (!Verification.FfmpegAvailable) {
                     return null;
+                }
             }
-
 
             //-vf \"scale=1920:-1\"
             Process ffmpegConvert = new() {
@@ -153,8 +186,9 @@ internal sealed class YoutubeDlData {
             }
             else if (IsPlaylist) {
                 for (int i = 0; i < PlaylistVideos.Length; i++) {
-                    if (PlaylistVideos[i].DurationTime is not null)
-                        seconds += PlaylistVideos[i].DurationTime.Value;
+                    if (PlaylistVideos[i].DurationTime is not null) {
+                        seconds += PlaylistVideos[i].DurationTime!.Value;
+                    }
                 }
             }
 
@@ -177,40 +211,41 @@ internal sealed class YoutubeDlData {
     }
 
     [IgnoreDataMember]
-    public string URL { get; private set; }
+    public string? URL { get; private set; }
 
     [IgnoreDataMember]
-    public bool IsPlaylist => PlaylistVideos is not null && PlaylistVideos.Length > 0;
+    [MemberNotNullWhen(true, nameof(PlaylistVideos))]
+    public bool IsPlaylist => PlaylistVideos?.Length > 0;
 
     [DataMember(Name = "entries")]
-    public YoutubeDlData[] PlaylistVideos { get; set; }
+    public YoutubeDlData[]? PlaylistVideos { get; set; }
 
     [DataMember(Name = "title")]
-    public string Title { get; set; }
+    public string? Title { get; set; }
 
     [DataMember(Name = "formats")]
-    public YoutubeDlSubdata.Format[] AvailableFormats { get; set; }
+    public YoutubeDlSubdata.Format[]? AvailableFormats { get; set; }
 
     [DataMember(Name = "thumbnail")]
-    public string ThumbnailLink { get; set; }
+    public string? ThumbnailLink { get; set; }
 
     [DataMember(Name = "description")]
-    public string Description { get; set; }
+    public string? Description { get; set; }
 
     [DataMember(Name = "uploader")]
-    public string Uploader { get; set; }
+    public string? Uploader { get; set; }
 
     [DataMember(Name = "view_count")]
     public long? Views { get; set; }
 
     [DataMember(Name = "duration_string")]
-    public string DurationString { get; set; }
+    public string? DurationString { get; set; }
 
     [DataMember(Name = "duration")]
     public decimal? DurationTime { get; set; }
 
     [DataMember(Name = "upload_date")]
-    public string UploadedOn { get; set; }
+    public string? UploadedOn { get; set; }
 }
 
 internal sealed class YoutubeDlSubdata {
@@ -224,7 +259,7 @@ internal sealed class YoutubeDlSubdata {
         /// </summary>
         [IgnoreDataMember]
         private bool ExtensionValidGeneric =>
-            Extension.ToLower() switch {
+            Extension?.ToLowerInvariant() switch {
                 "mhtml" or "none" => false,
                 _ => true
             };
@@ -238,19 +273,18 @@ internal sealed class YoutubeDlSubdata {
                 if (Extension is null || !ExtensionValidGeneric)
                     return false;
 
-                if (VideoResolution is not null && VideoResolution.ToLowerInvariant() == "audio only")
+                if (!VideoResolution.IsNullEmptyWhitespace() && VideoResolution.Equals("audio only", StringComparison.InvariantCultureIgnoreCase))
                     return false;
 
                 return
-                    VideoCodec.IsNotNullEmptyWhitespace() && VideoCodec.ToLowerInvariant() != "none" && (
-                    VideoWidth is not null && VideoWidth > 0 ||
-                    VideoHeight is not null && VideoHeight > 0 ||
-                    VideoFps is not null && VideoFps > 0 ||
-                    VideoBitrate is not null && VideoBitrate > 0 ||
+                    !VideoCodec.IsNullEmptyWhitespace() && !VideoCodec.Equals("none", StringComparison.InvariantCultureIgnoreCase)
+                    && ((VideoWidth is not null && VideoWidth > 0)
+                    || (VideoHeight is not null && VideoHeight > 0)
+                    || (VideoFps is not null && VideoFps > 0)
+                    || (VideoBitrate is not null && VideoBitrate > 0)
 
                     // Fixes #176
-                    Identifier.ToLowerInvariant().StartsWith("video-")
-                    );
+                    || Identifier?.StartsWith("video-", StringComparison.InvariantCultureIgnoreCase) == true);
             }
         }
 
@@ -265,19 +299,18 @@ internal sealed class YoutubeDlSubdata {
 
                 // Fixes soundcloud issues where high-quality WAV files were filed under "Unknown".
                 if (Extension is not null) {
-                    if (Extension.ToLowerInvariant() == "wav")
+                    if (Extension.Equals("wav", StringComparison.InvariantCultureIgnoreCase))
                         return true;
                 }
 
-                return (
-                    (AudioCodec.IsNotNullEmptyWhitespace() && AudioCodec.ToLowerInvariant() != "none") ||
-                    AudioSampleRate is not null && AudioSampleRate > 0 ||
-                    AudioBitrate is not null && AudioBitrate > 0 ||
-                    AudioChannels is not null && AudioChannels > 0 ||
+                return
+                    (!AudioCodec.IsNullEmptyWhitespace() && !AudioCodec.Equals("none", StringComparison.InvariantCultureIgnoreCase))
+                    || (AudioSampleRate is not null && AudioSampleRate > 0)
+                    || (AudioBitrate is not null && AudioBitrate > 0)
+                    || (AudioChannels is not null && AudioChannels > 0)
 
                     // Fixes #176
-                    Identifier.ToLowerInvariant().StartsWith("audio-")
-                    );
+                    || Identifier?.StartsWith("audio-", StringComparison.InvariantCultureIgnoreCase) == true;
             }
         }
 
@@ -288,7 +321,9 @@ internal sealed class YoutubeDlSubdata {
         public string Size {
             get {
                 return FileSize is not null ?
-                    FileSize.Value.SizeToString() : ApproximateFileSize is not null ? ApproximateFileSize.Value.SizeToString() : "null";
+                    FileSize.Value.SizeToString() :
+                ApproximateFileSize is not null ?
+                    ApproximateFileSize.Value.SizeToString() : "null";
             }
         }
 
@@ -296,13 +331,16 @@ internal sealed class YoutubeDlSubdata {
         /// Gets whether this format can support thumbnail embedding, if it is a video format.
         /// </summary>
         [IgnoreDataMember]
-        public bool VideoThumbnailEmbedding => Extension.ToLowerInvariant() == "mp4";
+        public bool VideoThumbnailEmbedding => Extension?.ToLowerInvariant() switch {
+            "mp4" or "mkv" => true,
+            _ => false,
+        };
 
         /// <summary>
         /// Gets whether this format can support thumbnail embedding, if it is an audio format.
         /// </summary>
         [IgnoreDataMember]
-        public bool AudioThumbnailEmbedding => Extension.ToLowerInvariant() switch {
+        public bool AudioThumbnailEmbedding => Extension?.ToLowerInvariant() switch {
             "mp3" or "m4a" => true,
             _ => false
         };
@@ -314,37 +352,37 @@ internal sealed class YoutubeDlSubdata {
         /// Get ListViewItem associated with this format.
         /// </summary>
         [IgnoreDataMember]
-        public System.Windows.Forms.ListViewItem ListViewItem { get; set; }
+        public System.Windows.Forms.ListViewItem? ListViewItem { get; set; }
 
         /// <summary>
         /// Gets the identifier of this format.
         /// </summary>
         [DataMember(Name = "format_id")]
-        public string Identifier { get; set; }
+        public string? Identifier { get; set; }
 
         /// <summary>
         /// Gets the quality name of this format.
         /// </summary>
         [DataMember(Name = "format_note")]
-        public string QualityName { get; set; }
+        public string? QualityName { get; set; }
 
         /// <summary>
         /// Gets the extension used for this format.
         /// </summary>
         [DataMember(Name = "ext")]
-        public string Extension { get; set; }
+        public string? Extension { get; set; }
 
         /// <summary>
         /// Gets the audio codec of this format.
         /// </summary>
         [DataMember(Name = "acodec")]
-        public string AudioCodec { get; set; }
+        public string? AudioCodec { get; set; }
 
         /// <summary>
         /// Gets the video codec of this format.
         /// </summary>
         [DataMember(Name = "vcodec")]
-        public string VideoCodec { get; set; }
+        public string? VideoCodec { get; set; }
 
         /// <summary>
         /// Gets the video width of this format.
@@ -398,7 +436,7 @@ internal sealed class YoutubeDlSubdata {
         /// Gets the video resolution for this format.
         /// </summary>
         [DataMember(Name = "resolution")]
-        public string VideoResolution { get; set; }
+        public string? VideoResolution { get; set; }
 
         /// <summary>
         /// Gets the amount of audio channels for this format.
@@ -409,14 +447,17 @@ internal sealed class YoutubeDlSubdata {
         /// <inheritdoc/>
         public override string ToString() {
             StringBuilder ts = new("{ ");
-            if (ValidVideoFormat)
+            if (ValidVideoFormat) {
                 ts.Append("Video");
-            else if (ValidAudioFormat)
+            }
+            else if (ValidAudioFormat) {
                 ts.Append("Audio");
-            else
+            }
+            else {
                 ts.Append("Unknown");
+            }
 
-            return ts.Append($" -> {Identifier} }}").ToString();
+            return ts.Append(" -> ").Append(Identifier).Append(" }").ToString();
         }
     }
 }
