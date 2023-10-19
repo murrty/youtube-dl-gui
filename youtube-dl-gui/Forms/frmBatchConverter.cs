@@ -1,16 +1,20 @@
-﻿namespace youtube_dl_gui;
+﻿#nullable enable
+namespace youtube_dl_gui;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Windows.Forms;
 public partial class frmBatchConverter : LocalizedProcessingForm {
-
     private readonly List<string> InputFiles = new();
     private readonly List<string> OutputFiles = new();
-    private readonly List<string> Arguments = new();
-    private Thread ConversionThread;
-    private bool InProgress = false;
-    private bool AbortConversions = false;
-    private frmConverter Converter;
-    private ConvertInfo NewInfo;
+    private readonly List<string?> Arguments = new();
+
+    [MemberNotNullWhen(true, nameof(ConversionThread), nameof(Converter))]
+    private bool InProgress { get; set; }
+
+    private bool AbortConversions;
+    private Thread? ConversionThread;
+    private frmConverter? Converter;
+    private ConvertInfo? NewInfo;
 
     public frmBatchConverter() {
         InitializeComponent();
@@ -23,9 +27,7 @@ public partial class frmBatchConverter : LocalizedProcessingForm {
                 this.Location = Saved.BatchConverterLocation;
             }
         };
-        this.FormClosing += (s, e) => {
-            Saved.BatchConverterLocation = this.Location;
-        };
+        this.FormClosing += (s, e) => Saved.BatchConverterLocation = this.Location;
     }
 
     public override void LoadLanguage() {
@@ -55,11 +57,11 @@ public partial class frmBatchConverter : LocalizedProcessingForm {
         ofd.Title = Language.dlgConvertSelectFileToConvert;
         ofd.AutoUpgradeEnabled = true;
         ofd.Multiselect = false;
-        ofd.Filter = Formats.JoinFormats(new[] {
+        ofd.Filter = Formats.JoinFormats(new string[] {
             Formats.AllFiles,
             Formats.VideoFormats,
             Formats.AudioFormats,
-            !string.IsNullOrWhiteSpace(Formats.CustomFormats) ? Formats.CustomFormats : ""
+            !Formats.CustomFormats.IsNullEmptyWhitespace() ? Formats.CustomFormats : ""
         });
 
         if (ofd.ShowDialog() == DialogResult.OK) {
@@ -80,7 +82,7 @@ public partial class frmBatchConverter : LocalizedProcessingForm {
             Formats.AllFiles,
             Formats.VideoFormats,
             Formats.AudioFormats,
-            !string.IsNullOrWhiteSpace(Formats.CustomFormats) ? Formats.CustomFormats : ""
+            !Formats.CustomFormats.IsNullEmptyWhitespace() ? Formats.CustomFormats : ""
         });
 
         if (!string.IsNullOrWhiteSpace(txtBatchConverterInputFile.Text)) {
@@ -158,17 +160,16 @@ public partial class frmBatchConverter : LocalizedProcessingForm {
                     lvBatchConvertQueue.Invoke((Action)delegate {
                         lvBatchConvertQueue.Items[i].ImageIndex = StatusIcon.Processing;
                     });
-                    NewInfo = new() {
+                    NewInfo = new(InputFiles[i], OutputFiles[i]) {
                         BatchConversion = true,
-                        InputFile = InputFiles[i],
-                        OutputFile = OutputFiles[i],
                     };
-                    if (Arguments[i] == null) {
+
+                    if (Arguments[i].IsNullEmptyWhitespace()) {
                         NewInfo.Type = ConversionType.FfmpegDefault;
                     }
                     else {
                         NewInfo.Type = ConversionType.Custom;
-                        NewInfo.CustomArguments = Arguments[i];
+                        NewInfo.CustomArguments = Arguments[i]!;
                     }
 
                     Converter = new(NewInfo);
@@ -220,7 +221,7 @@ public partial class frmBatchConverter : LocalizedProcessingForm {
                 });
                 System.Media.SystemSounds.Exclamation.Play();
                 InProgress = false;
-                Log.Write($"Batch conversion finished running.");
+                Log.Write("Batch conversion finished running.");
             }) {
                 Name = "Conversion thread",
             };

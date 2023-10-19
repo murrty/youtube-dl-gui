@@ -14,9 +14,9 @@ public partial class frmGenericDownloadProgress : LocalizedForm {
 
     private readonly ManagedHttpClient DownloadClient;
     private readonly CancellationTokenSource CancelToken;
-    private bool Cancelled = false;
-    private bool Finished = false;
-    private bool Downloaded = false;
+    private bool Cancelled;
+    private bool Finished;
+    private bool Downloaded;
 
     public frmGenericDownloadProgress(string URL, string Output) : this(URL, Output, null) { }
     public frmGenericDownloadProgress(string URL, string Output, Point? Location) {
@@ -38,9 +38,7 @@ public partial class frmGenericDownloadProgress : LocalizedForm {
             }
         };
 
-        this.Shown += (s, e) => {
-            _ = RunDownload();
-        };
+        this.Shown += (s, e) => _ = RunDownload();
 
         this.FormClosing += (s, e) => {
             if (!Finished) {
@@ -64,6 +62,7 @@ public partial class frmGenericDownloadProgress : LocalizedForm {
                 if (File.Exists(TempFile))
                     File.Delete(TempFile);
 
+                //await Task.Delay(5000000, CancelToken.Token);
                 await DownloadClient.DownloadFileTaskAsync(new Uri(URL, UriKind.Absolute), TempFile, CancelToken.Token);
 
                 if (File.Exists(BackupFile))
@@ -83,28 +82,26 @@ public partial class frmGenericDownloadProgress : LocalizedForm {
 
                 if (ex is ThreadAbortException or OperationCanceledException or TaskCanceledException) {
                     Cancelled = true;
-                    Finished = true;
                     CanRetry = false;
                 }
-
-                if ((DialogResult)this.Invoke(() => Log.ReportRetriableException(ex, URL)) != DialogResult.Retry) {
+                else if ((DialogResult)this.Invoke(() => Log.ReportRetriableException(ex, URL)) != DialogResult.Retry) {
                     Cancelled = true;
-                    Finished = true;
                     CanRetry = false;
                 }
             }
         }
 
+        Finished = true;
         this.Invoke(this.Close);
     }
 
     private void OnProgressChanged(object sender, DownloadProgressChangedEventArgs e) {
         this.Invoke(() => {
             pbProgress.Value = (int)Math.Floor(e.Percentage);
-            pbProgress.Text = $"{e.Percentage}% ({e.BytesReceived.SizeToString()} / {e.TotalBytesToReceive.SizeToString()})";
+            pbProgress.Text = $"{e.Percentage:N2}% ({e.BytesReceived.SizeToString()} / {e.TotalBytesToReceive.SizeToString()})";
         });
     }
     private void OnDownloadFinished(object sender, DownloadFinishedEventArgs e) {
-        Finished = true;
+        this.Invoke(() => pbProgress.Value = 100);
     }
 }

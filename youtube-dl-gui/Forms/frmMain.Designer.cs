@@ -153,7 +153,7 @@
             this.tcMain.Location = new System.Drawing.Point(0, 0);
             this.tcMain.Name = "tcMain";
             this.tcMain.SelectedIndex = 0;
-            this.tcMain.Size = new System.Drawing.Size(246, 344);
+            this.tcMain.Size = new System.Drawing.Size(246, 365);
             this.tcMain.TabIndex = 0;
             // 
             // tabDownload
@@ -177,7 +177,7 @@
             this.tabDownload.Location = new System.Drawing.Point(4, 22);
             this.tabDownload.Name = "tabDownload";
             this.tabDownload.Padding = new System.Windows.Forms.Padding(3);
-            this.tabDownload.Size = new System.Drawing.Size(238, 318);
+            this.tabDownload.Size = new System.Drawing.Size(238, 339);
             this.tabDownload.TabIndex = 0;
             this.tabDownload.Text = "tabDownload";
             this.tabDownload.UseVisualStyleBackColor = true;
@@ -185,7 +185,7 @@
             // btnSaveTo
             // 
             this.btnSaveTo.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.btnSaveTo.Location = new System.Drawing.Point(44, 276);
+            this.btnSaveTo.Location = new System.Drawing.Point(44, 297);
             this.btnSaveTo.Name = "btnSaveTo";
             this.btnSaveTo.Size = new System.Drawing.Size(28, 25);
             this.btnSaveTo.TabIndex = 25;
@@ -196,7 +196,7 @@
             // lbSchema
             // 
             this.lbSchema.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lbSchema.Location = new System.Drawing.Point(15, 184);
+            this.lbSchema.Location = new System.Drawing.Point(15, 205);
             this.lbSchema.Name = "lbSchema";
             this.lbSchema.Size = new System.Drawing.Size(103, 15);
             this.lbSchema.TabIndex = 23;
@@ -208,7 +208,7 @@
             this.cbSchema.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cbSchema.FormattingEnabled = true;
-            this.cbSchema.Location = new System.Drawing.Point(14, 202);
+            this.cbSchema.Location = new System.Drawing.Point(14, 223);
             this.cbSchema.Name = "cbSchema";
             this.cbSchema.Size = new System.Drawing.Size(213, 21);
             this.cbSchema.TabIndex = 22;
@@ -220,7 +220,7 @@
             this.cbCustomArguments.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cbCustomArguments.FormattingEnabled = true;
-            this.cbCustomArguments.Location = new System.Drawing.Point(15, 248);
+            this.cbCustomArguments.Location = new System.Drawing.Point(15, 269);
             this.cbCustomArguments.Name = "cbCustomArguments";
             this.cbCustomArguments.Size = new System.Drawing.Size(212, 21);
             this.cbCustomArguments.TabIndex = 21;
@@ -448,7 +448,7 @@
             this.sbDownload.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.sbDownload.ContextMenu = this.cmDownload;
             this.sbDownload.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.sbDownload.Location = new System.Drawing.Point(78, 276);
+            this.sbDownload.Location = new System.Drawing.Point(78, 297);
             this.sbDownload.Name = "sbDownload";
             this.sbDownload.Size = new System.Drawing.Size(83, 25);
             this.sbDownload.TabIndex = 14;
@@ -546,7 +546,7 @@
             // 
             this.lbCustomArguments.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lbCustomArguments.AutoSize = true;
-            this.lbCustomArguments.Location = new System.Drawing.Point(15, 231);
+            this.lbCustomArguments.Location = new System.Drawing.Point(15, 252);
             this.lbCustomArguments.Name = "lbCustomArguments";
             this.lbCustomArguments.Size = new System.Drawing.Size(112, 13);
             this.lbCustomArguments.TabIndex = 12;
@@ -648,6 +648,7 @@
             // 
             // btnDebugExtendedConverter
             // 
+            this.btnDebugExtendedConverter.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.btnDebugExtendedConverter.Location = new System.Drawing.Point(58, 237);
             this.btnDebugExtendedConverter.Name = "btnDebugExtendedConverter";
             this.btnDebugExtendedConverter.Size = new System.Drawing.Size(123, 23);
@@ -660,7 +661,7 @@
             // 
             this.rbConvertCustom.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.rbConvertCustom.AutoSize = true;
-            this.rbConvertCustom.Location = new System.Drawing.Point(124, 99);
+            this.rbConvertCustom.Location = new System.Drawing.Point(124, 109);
             this.rbConvertCustom.Name = "rbConvertCustom";
             this.rbConvertCustom.Size = new System.Drawing.Size(114, 17);
             this.rbConvertCustom.TabIndex = 9;
@@ -672,7 +673,7 @@
             // 
             this.rbConvertAudio.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.rbConvertAudio.AutoSize = true;
-            this.rbConvertAudio.Location = new System.Drawing.Point(67, 99);
+            this.rbConvertAudio.Location = new System.Drawing.Point(67, 109);
             this.rbConvertAudio.Name = "rbConvertAudio";
             this.rbConvertAudio.Size = new System.Drawing.Size(106, 17);
             this.rbConvertAudio.TabIndex = 8;
@@ -684,7 +685,7 @@
             // 
             this.rbConvertAutoFFmpeg.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.rbConvertAutoFFmpeg.AutoSize = true;
-            this.rbConvertAutoFFmpeg.Location = new System.Drawing.Point(93, 122);
+            this.rbConvertAutoFFmpeg.Location = new System.Drawing.Point(93, 132);
             this.rbConvertAutoFFmpeg.Name = "rbConvertAutoFFmpeg";
             this.rbConvertAutoFFmpeg.Size = new System.Drawing.Size(141, 17);
             this.rbConvertAutoFFmpeg.TabIndex = 11;
@@ -696,7 +697,7 @@
             // 
             this.rbConvertAuto.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.rbConvertAuto.AutoSize = true;
-            this.rbConvertAuto.Location = new System.Drawing.Point(16, 122);
+            this.rbConvertAuto.Location = new System.Drawing.Point(16, 132);
             this.rbConvertAuto.Name = "rbConvertAuto";
             this.rbConvertAuto.Size = new System.Drawing.Size(100, 17);
             this.rbConvertAuto.TabIndex = 10;
@@ -708,7 +709,7 @@
             // 
             this.btnConvert.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.btnConvert.Enabled = false;
-            this.btnConvert.Location = new System.Drawing.Point(79, 274);
+            this.btnConvert.Location = new System.Drawing.Point(79, 295);
             this.btnConvert.Name = "btnConvert";
             this.btnConvert.Size = new System.Drawing.Size(79, 25);
             this.btnConvert.TabIndex = 12;
@@ -720,7 +721,7 @@
             // 
             this.rbConvertVideo.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.rbConvertVideo.AutoSize = true;
-            this.rbConvertVideo.Location = new System.Drawing.Point(8, 99);
+            this.rbConvertVideo.Location = new System.Drawing.Point(8, 109);
             this.rbConvertVideo.Name = "rbConvertVideo";
             this.rbConvertVideo.Size = new System.Drawing.Size(105, 17);
             this.rbConvertVideo.TabIndex = 7;
@@ -732,7 +733,7 @@
             // 
             this.btnConvertOutput.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.btnConvertOutput.Enabled = false;
-            this.btnConvertOutput.Location = new System.Drawing.Point(199, 182);
+            this.btnConvertOutput.Location = new System.Drawing.Point(199, 192);
             this.btnConvertOutput.Name = "btnConvertOutput";
             this.btnConvertOutput.Size = new System.Drawing.Size(29, 23);
             this.btnConvertOutput.TabIndex = 6;
@@ -744,7 +745,7 @@
             // 
             this.lbConvertOutput.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.lbConvertOutput.AutoSize = true;
-            this.lbConvertOutput.Location = new System.Drawing.Point(19, 164);
+            this.lbConvertOutput.Location = new System.Drawing.Point(19, 174);
             this.lbConvertOutput.Name = "lbConvertOutput";
             this.lbConvertOutput.Size = new System.Drawing.Size(95, 13);
             this.lbConvertOutput.TabIndex = 4;
@@ -753,7 +754,7 @@
             // txtConvertOutput
             // 
             this.txtConvertOutput.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtConvertOutput.Location = new System.Drawing.Point(26, 184);
+            this.txtConvertOutput.Location = new System.Drawing.Point(26, 194);
             this.txtConvertOutput.Name = "txtConvertOutput";
             this.txtConvertOutput.ReadOnly = true;
             this.txtConvertOutput.Size = new System.Drawing.Size(167, 22);
@@ -804,7 +805,7 @@
             this.tabDebug.Location = new System.Drawing.Point(4, 22);
             this.tabDebug.Name = "tabDebug";
             this.tabDebug.Padding = new System.Windows.Forms.Padding(3);
-            this.tabDebug.Size = new System.Drawing.Size(238, 339);
+            this.tabDebug.Size = new System.Drawing.Size(238, 318);
             this.tabDebug.TabIndex = 3;
             this.tabDebug.Text = "Debug";
             this.tabDebug.UseVisualStyleBackColor = true;
@@ -1213,7 +1214,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(246, 344);
+            this.ClientSize = new System.Drawing.Size(246, 365);
             this.Controls.Add(this.tcMain);
             this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = global::youtube_dl_gui.Properties.Resources.ProgramIcon;

@@ -10,32 +10,31 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using murrty.controls;
-
 internal static class Program {
     /// <summary>
     /// Gets the curent version of the program.
     /// </summary>
-    public static Version CurrentVersion { get; } = new(3, 0, 0, 1);
+    public static Version CurrentVersion { get; } = new(3, 0, 0, 2);
     /// <summary>
     /// Gets whether the program is running in debug mode.
     /// </summary>
-    internal static bool DebugMode { get; private set; } = false;
+    internal static bool DebugMode { get; private set; }
     /// <summary>
     /// Gets whether the program is running as administrator.
     /// </summary>
-    public static bool IsAdmin { get; private set; } = false;
+    public static bool IsAdmin { get; private set; }
     /// <summary>
     /// Gets or sets the exit code of the application.
     /// </summary>
-    public static int ExitCode { get; internal set; } = 0;
+    public static int ExitCode { get; internal set; }
     /// <summary>
     /// Gets or sets whether the update was checked this run.
     /// </summary>
-    internal static bool UpdateChecked { get; set; } = false;
+    internal static bool UpdateChecked { get; set; }
     /// <summary>
     /// Gets or sets whether the program is starting an update.
     /// </summary>
-    internal static bool IsUpdating { get; set; } = false;
+    internal static bool IsUpdating { get; set; }
 
     /// <summary>
     /// Represents the GUID of the program. Used for enforcing the mutex.
@@ -44,7 +43,7 @@ internal static class Program {
     /// <summary>
     /// The full path of the program.
     /// </summary>
-    public static string FullProgramPath { get; private set; } = Process.GetCurrentProcess().MainModule.FileName;
+    public static string FullProgramPath { get; } = Process.GetCurrentProcess().MainModule.FileName;
     /// <summary>
     /// The path of the program, not inculding file name.
     /// </summary>
@@ -129,10 +128,12 @@ internal static class Program {
                             valPointer = 0;
                         }
                         finally {
-                            if (cdsPointer != 0)
+                            if (cdsPointer != 0) {
                                 Marshal.FreeHGlobal(cdsPointer);
-                            if (valPointer != 0)
+                            }
+                            if (valPointer != 0) {
                                 Marshal.FreeHGlobal(valPointer);
+                            }
                         }
                     }
                 }
@@ -159,11 +160,13 @@ internal static class Program {
 
             // Select a language first
             using frmLanguage LangPicker = new();
-            if (LangPicker.ShowDialog() != DialogResult.OK)
+            if (LangPicker.ShowDialog() != DialogResult.OK) {
                 return 1;
+            }
 
-            if (Log.MessageBox(Language.dlgFirstTimeInitialMessage, MessageBoxButtons.YesNo) != DialogResult.Yes)
+            if (Log.MessageBox(Language.dlgFirstTimeInitialMessage, MessageBoxButtons.YesNo) != DialogResult.Yes) {
                 return 1;
+            }
 
             Initialization.firstTime = false;
             Downloads.downloadPath =
@@ -175,26 +178,29 @@ internal static class Program {
                     Title = Language.dlgFindDownloadFolder
                 };
 
-                if (fbd.ShowDialog() == DialogResult.OK)
+                if (fbd.ShowDialog() == DialogResult.OK) {
                     Downloads.downloadPath = fbd.SelectedPath;
+                }
             }
 
-            if (!Verification.YoutubeDlAvailable
-            && Log.MessageBox(Language.dlgFirstTimeDownloadYoutubeDl, MessageBoxButtons.YesNo) == DialogResult.Yes) {
+            if (!Verification.YoutubeDlAvailable && Log.MessageBox(Language.dlgFirstTimeDownloadYoutubeDl, MessageBoxButtons.YesNo) == DialogResult.Yes) {
                 Task<bool> UpdateCheckTask = Updater.CheckForYoutubeDlUpdate();
                 UpdateCheckTask.Wait();
 
-                if (UpdateCheckTask.Result)
+                if (UpdateCheckTask.Result) {
                     Updater.UpdateYoutubeDl(false, null);
+                }
             }
 
-            if (!Verification.FfmpegAvailable &&
-            Log.MessageBox(Language.dlgFirstTimeDownloadFfmpeg, MessageBoxButtons.YesNo) == DialogResult.Yes)
-                Updater.UpdateFfmpeg(null);
+            if (!Verification.FfmpegAvailable && Log.MessageBox(Language.dlgFirstTimeDownloadFfmpeg, MessageBoxButtons.YesNo) == DialogResult.Yes) {
+                Updater.UpdateFfmpeg(null).Wait();
+            }
 
             Log.Write("First time setup has concluded.");
         }
-        else Language.LoadLanguage($"{Environment.CurrentDirectory}\\lang\\{Initialization.LanguageFile}.ini");
+        else {
+            Language.LoadLanguage($"{Environment.CurrentDirectory}\\lang\\{Initialization.LanguageFile}.ini");
+        }
 
         BatchStatusImages = new() {
             ColorDepth = ColorDepth.Depth32Bit,
@@ -235,8 +241,9 @@ internal static class Program {
         (MainForm = new frmMain()).ShowDialog();
         MainForm = null;
 
-        if (RunningActions.Count > 0)
+        if (RunningActions.Count > 0) {
             AwaitActions();
+        }
 
         Instance?.ReleaseMutex();
 
@@ -290,16 +297,14 @@ internal static class Program {
                     // TODO: Implement the rest of the argument types
                     switch (args[i].Type) {
                         case ArgumentType.DownloadVideo: {
-                            DownloadInfo NewVideo = new() {
-                                DownloadURL = args[i].Data,
+                            DownloadInfo NewVideo = new(args[i].Data) {
                                 Type = DownloadType.Video,
                                 VideoQuality = (VideoQualityType)Saved.videoQuality,
                             };
                             new frmDownloader(NewVideo).Show();
                         } break;
                         case ArgumentType.DownloadAudio: {
-                            DownloadInfo NewAudio = new() {
-                                DownloadURL = args[i].Data,
+                            DownloadInfo NewAudio = new(args[i].Data) {
                                 Type = DownloadType.Audio,
                             };
                             if (Downloads.AudioDownloadAsVBR)
@@ -309,8 +314,7 @@ internal static class Program {
                             new frmDownloader(NewAudio).Show();
                         } break;
                         case ArgumentType.DownloadCustom: {
-                            DownloadInfo NewCustom = new() {
-                                DownloadURL = args[i].Data,
+                            DownloadInfo NewCustom = new(args[i].Data) {
                                 Type = DownloadType.Custom,
                             };
                             new frmDownloader(NewCustom).Show();
@@ -360,7 +364,7 @@ internal static class Program {
                         VideoQuality = (VideoQualityType)Saved.videoQuality,
                         VideoFormat = (VideoFormatType)Saved.VideoFormat,
                         SkipAudioForVideos = Type == ArgumentType.DownloadVideoNoSound || Type == ArgumentType.DownloadAuthenticateVideoNoSound,
-                        DownloadArguments = CustomArguments,
+                        Arguments = CustomArguments,
                         Authentication = Auth,
                     };
                     DownloadForm = new frmDownloader(Info: NewInfo);
@@ -392,7 +396,7 @@ internal static class Program {
                         Type = DownloadType.Audio,
                         UseVBR = Downloads.AudioDownloadAsVBR,
                         AudioFormat = (AudioFormatType)Saved.AudioFormat,
-                        DownloadArguments = CustomArguments,
+                        Arguments = CustomArguments,
                         Authentication = Auth,
                     };
 
@@ -428,7 +432,7 @@ internal static class Program {
                 else {
                     DownloadInfo NewInfo = new(URL: URL) {
                         Type = DownloadType.Custom,
-                        DownloadArguments = CustomArguments,
+                        Arguments = CustomArguments,
                         Authentication = Auth,
                     };
                     DownloadForm = new frmDownloader(Info: NewInfo);
@@ -441,7 +445,6 @@ internal static class Program {
             } break;
         }
     }
-
     internal static void ProcessCopyData(string URL, ArgumentType Type, string CustomArguments) {
         Log.Write($"ProcessCopyData called: {Type} > {URL ?? "null"}");
 
@@ -471,7 +474,7 @@ internal static class Program {
                         VideoQuality = (VideoQualityType)Saved.videoQuality,
                         VideoFormat = (VideoFormatType)Saved.VideoFormat,
                         SkipAudioForVideos = !Downloads.VideoDownloadSound,
-                        DownloadArguments = CustomArguments,
+                        Arguments = CustomArguments,
                         Authentication = Auth,
                     };
                     DownloadForm = new frmDownloader(Info: NewInfo);
@@ -503,7 +506,7 @@ internal static class Program {
                         Type = DownloadType.Audio,
                         UseVBR = Downloads.AudioDownloadAsVBR,
                         AudioFormat = (AudioFormatType)Saved.AudioFormat,
-                        DownloadArguments = CustomArguments,
+                        Arguments = CustomArguments,
                         Authentication = Auth,
                     };
 
@@ -539,7 +542,7 @@ internal static class Program {
                 else {
                     DownloadInfo NewInfo = new(URL: URL) {
                         Type = DownloadType.Custom,
-                        DownloadArguments = CustomArguments,
+                        Arguments = CustomArguments,
                     Authentication = Auth,
                     };
                     DownloadForm = new frmDownloader(Info: NewInfo);
@@ -563,9 +566,8 @@ internal static class Program {
                     DownloadForm = new frmExtendedDownloader($"ytarchive:{URL}", true);
                 }
                 else {
-                    DownloadInfo NewInfo = new() {
-                        DownloadArguments = $"ytarchive:{URL}",
-                        DownloadURL = $"https://archived.youtube.com/watch?v={URL}",
+                    DownloadInfo NewInfo = new($"https://archived.youtube.com/watch?v={URL}") {
+                        Arguments = $"ytarchive:{URL}",
                         MostlyCustomArguments = true,
                         Type = DownloadType.Custom
                     };

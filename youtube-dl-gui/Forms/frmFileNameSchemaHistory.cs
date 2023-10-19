@@ -1,7 +1,8 @@
-﻿namespace youtube_dl_gui;
+﻿#nullable enable
+namespace youtube_dl_gui;
 using System.Windows.Forms;
 public partial class frmFileNameSchemaHistory : LocalizedForm {
-    public string NewSchema { get; private set; }
+    public string? NewSchema { get; private set; }
     public frmFileNameSchemaHistory() {
         InitializeComponent();
         LoadLanguage();

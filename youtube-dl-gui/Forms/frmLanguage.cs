@@ -1,4 +1,5 @@
-﻿namespace youtube_dl_gui;
+﻿#nullable enable
+namespace youtube_dl_gui;
 using System.IO;
 using System.Windows.Forms;
 public partial class frmLanguage : Form {
@@ -6,7 +7,7 @@ public partial class frmLanguage : Form {
         InitializeComponent();
         LoadLanguage();
         LoadFiles();
-        cbLanguages.SelectedIndex = string.IsNullOrWhiteSpace(Language.LoadedFile) ? 
+        cbLanguages.SelectedIndex = string.IsNullOrWhiteSpace(Language.LoadedFile) ?
             0 : cbLanguages.FindStringExact(Initialization.LanguageFile);
         lbCurrentVersion.Text = Program.CurrentVersion.ToString();
     }
@@ -54,8 +55,9 @@ public partial class frmLanguage : Form {
         string CurrentFile = cbLanguages.GetItemText(cbLanguages.SelectedItem);
         cbLanguages.SelectedIndex = -1;
         LoadFiles();
-        if (result == DialogResult.OK)
-            cbLanguages.SelectedIndex = cbLanguages.FindStringExact(DownloadLanguage.FileName is null ? CurrentFile : DownloadLanguage.FileName);
+        if (result == DialogResult.OK) {
+            cbLanguages.SelectedIndex = cbLanguages.FindStringExact(DownloadLanguage.FileName ?? CurrentFile);
+        }
     }
     private void btnLanguageSave_Click(object sender, EventArgs e) {
         Initialization.LanguageFile = cbLanguages.SelectedIndex > 0 ?

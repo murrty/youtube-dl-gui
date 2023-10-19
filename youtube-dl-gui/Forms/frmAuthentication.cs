@@ -1,17 +1,17 @@
-﻿namespace youtube_dl_gui;
+﻿#nullable enable
+namespace youtube_dl_gui;
 using System.Windows.Forms;
 public partial class frmAuthentication : LocalizedForm {
-
     /// <summary>
     /// Gets or sets the authentication data for the instance.
     /// </summary>
-    public AuthenticationDetails Authentication { get; set; }
+    public AuthenticationDetails? Authentication { get; set; }
 
     public frmAuthentication() {
         InitializeComponent();
         LoadLanguage();
     }
-    public frmAuthentication(AuthenticationDetails Details) : this() => Authentication = Details;
+    public frmAuthentication(AuthenticationDetails? Details) : this() => Authentication = Details;
 
     public override void LoadLanguage() {
         this.Text = Language.frmAuthentication;
@@ -80,7 +80,5 @@ public partial class frmAuthentication : LocalizedForm {
         this.DialogResult = DialogResult.Cancel;
     }
 
-    private void llCookiesFromBrowserHint_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
-
-    }
+    private void llCookiesFromBrowserHint_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) { }
 }

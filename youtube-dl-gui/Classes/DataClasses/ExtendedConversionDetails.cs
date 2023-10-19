@@ -2,11 +2,11 @@
 namespace youtube_dl_gui;
 using System.Windows.Forms;
 using murrty.controls;
-internal sealed class ExtendedConversionDetails {
+internal sealed class ExtendedConversionDetails(string InputFile) : MediaDetails(InputFile) {
     /// <summary>
     /// The input file that will be the source.
     /// </summary>
-    public required string InputFilePath { get; init; }
+    public string InputFilePath => base.Source;
     /// <summary>
     /// The output file that will be converted to.
     /// </summary>
@@ -16,10 +16,6 @@ internal sealed class ExtendedConversionDetails {
     /// Gets whether the info for this conversion instance was retrieved.
     /// </summary>
     public bool InfoRetrieved { get; private set; }
-    /// <summary>
-    /// Gets the arguments that have been generated when <see cref="GenerateArguments"/> is called.
-    /// </summary>
-    public string? Arguments { get; private set; }
     /// <summary>
     /// Gets whether the substreams (subtitles, attachments, data) for this instance have to be extracted instead of included.
     /// <para/>
@@ -210,18 +206,7 @@ internal sealed class ExtendedConversionDetails {
         };
     }
 
-    /// <summary>
-    /// Aggregates information for the input media file.
-    /// </summary>
-    public void GetMediaInfo() {
-        if (InfoRetrieved) {
-            return;
-        }
-
-        RetrieveInfo_Ffprobe();
-    }
-
-    private void RetrieveInfo_Ffprobe() {
+    protected override void Parse() {
         if (InputFilePath.IsNullEmptyWhitespace()) {
             throw new ArgumentNullException(nameof(InputFilePath));
         }
@@ -361,13 +346,7 @@ internal sealed class ExtendedConversionDetails {
 
         InfoRetrieved = true;
     }
-
-    /// <summary>
-    /// Generates arguments for this instance
-    /// </summary>
-    /// <returns></returns>
-    /// <exception cref="InvalidProgramException"></exception>
-    public string GenerateArguments(bool ForceRecreate = false) {
+    public override bool GenerateArguments() {
         if (this.OutputFilePath.IsNullEmptyWhitespace()) {
             throw new ArgumentException("Please specify an output file path before generating arguments.");
         }
@@ -376,13 +355,7 @@ internal sealed class ExtendedConversionDetails {
             throw new ArgumentException(nameof(FfprobeData));
         }
 
-        if (!this.Arguments.IsNullEmptyWhitespace() && !ForceRecreate) {
-            return this.Arguments;
-        }
-
-        ArgumentList Args = new() {
-            $"-i \"{this.InputFilePath}\""
-        };
+        ArgumentList Args = new($"-i \"{this.InputFilePath}\"");
 
         bool VideoStreams = false;
         bool AudioStreams = false;
@@ -558,14 +531,146 @@ internal sealed class ExtendedConversionDetails {
 
         Args.Add('\"' + this.OutputFilePath + '\"');
         this.Arguments = Args.ToString();
-        return this.Arguments;
+        return true;
+    }
+    public bool GenerateArgumentsTest() {
+        if (InputFilePath.IsNullEmptyWhitespace() || OutputFilePath.IsNullEmptyWhitespace()) {
+            return false;
+        }
+
+        bool CopyCodecs = this.CopyCodecs && InputFilePath[InputFilePath.LastIndexOf('.')..].Equals(
+            OutputFilePath[OutputFilePath.LastIndexOf('.')..], StringComparison.InvariantCultureIgnoreCase);
+
+        ArgumentList Args = new($"-i \"{InputFilePath}\"");
+        List<int> DisabledVideoStreams = new();
+        List<int> DisabledAudioStreams = new();
+        List<int> DisabledSubtitles = new();
+        List<int> DisabledAttachments = new();
+        List<int> DisabledData = new();
+
+        #region Options
+        if (StartTime.HasValue) {
+            Args.Add($"-ss {StartTime}");
+
+            if (EndTime.HasValue) {
+                Args.Add($"-to {EndTime}");
+            }
+        }
+        else if (EndTime.HasValue) {
+            Args.Add($"-ss 0:00 -to {EndTime}");
+        }
+
+        Args.Add("-map 0");
+
+        if (CopyCodecs) {
+            Args.Add("-c copy");
+
+            if (VideoItems.Count > 0) {
+                for (int i = 0; i < VideoItems.Count; i++) {
+                    if (!VideoItems[i].Checked) {
+                        DisabledVideoStreams.Add(((FfprobeSubdata.Stream)VideoItems[i].Tag).index);
+                    }
+                }
+
+                if (DisabledVideoStreams.Count > 0) {
+                    if (DisabledVideoStreams.Count == VideoItems.Count) {
+                        Args.Add("-map -0:v");
+                    }
+                    else {
+                        DisabledVideoStreams.For((Stream) => Args.Add($"-map -0:v:{Stream}"));
+                    }
+                }
+            }
+
+            if (AudioItems.Count > 0) {
+                for (int i = 0; i < AudioItems.Count; i++) {
+                    if (!AudioItems[i].Checked) {
+                        DisabledAudioStreams.Add(((FfprobeSubdata.Stream)AudioItems[i].Tag).index);
+                    }
+                }
+
+                if (DisabledAudioStreams.Count > 0) {
+                    if (DisabledAudioStreams.Count == AudioItems.Count) {
+                        Args.Add("-map -0:a");
+                    }
+                    else {
+                        DisabledAudioStreams.For((Stream) => Args.Add($"-map -0:a:{Stream}"));
+                    }
+                }
+            }
+
+            if (SubtitleItems.Count > 0) {
+                for (int i = 0; i < SubtitleItems.Count; i++) {
+                    if (!SubtitleItems[i].Checked) {
+                        DisabledSubtitles.Add(((FfprobeSubdata.Stream)SubtitleItems[i].Tag).index);
+                    }
+                }
+
+                if (DisabledSubtitles.Count > 0) {
+                    if (DisabledSubtitles.Count == SubtitleItems.Count) {
+                        Args.Add("-map -0:a");
+                    }
+                    else {
+                        DisabledSubtitles.For((Stream) => Args.Add($"-map -0:s:{Stream}"));
+                    }
+                }
+            }
+
+            if (AttachmentItems.Count > 0) {
+                for (int i = 0; i < AttachmentItems.Count; i++) {
+                    if (!AttachmentItems[i].Checked) {
+                        DisabledAttachments.Add(((FfprobeSubdata.Stream)AttachmentItems[i].Tag).index);
+                    }
+                }
+
+                if (DisabledAttachments.Count > 0) {
+                    if (DisabledAttachments.Count == AttachmentItems.Count) {
+                        Args.Add("-map -0:a");
+                    }
+                    else {
+                        DisabledAttachments.For((Stream) => Args.Add($"-map -0:t:{Stream}"));
+                    }
+                }
+            }
+
+            if (DataFileItems.Count > 0) {
+                for (int i = 0; i < DataFileItems.Count; i++) {
+                    if (!DataFileItems[i].Checked) {
+                        DisabledData.Add(((FfprobeSubdata.Stream)DataFileItems[i].Tag).index);
+                    }
+                }
+
+                if (DisabledData.Count > 0) {
+                    if (DisabledData.Count == DataFileItems.Count) {
+                        Args.Add("-map -0:a");
+                    }
+                    else {
+                        DisabledData.For((Stream) => Args.Add($"-map -0:d:{Stream}"));
+                    }
+                }
+            }
+        }
+
+        if (RemoveMetadata) {
+            Args.Add("-map_metadata -1");
+        }
+
+        if (HideFfmpegMetadata) {
+            Args.Add("-hide_banner -fflags +bitexact -flags:v +bitexact -flags:a +bitexact");
+        }
+        #endregion
+
+        Args.Add($"\"{OutputFilePath}\"");
+        Arguments = Args.ToString();
+        Args.Clear();
+        return true;
     }
 
     /// <summary>
     /// Generates an array of strings that will be ran to extract files from the input file.
     /// </summary>
     /// <returns></returns>
-    public string[]? GeenerateExtractionArguments() {
+    public string[]? GenerateExtractionArguments() {
         if (this.OutputFilePath.IsNullEmptyWhitespace()) {
             throw new ArgumentException("Please specify an output file path before generating arguments.");
         }

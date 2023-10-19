@@ -7,7 +7,6 @@ using System.Runtime.InteropServices;
 public partial class MessageHandler : Form {
     public bool AcceptMessages { get; private set;} = false;
     public bool AwaitingExit { get; private set; } = false;
-    public bool Updating { get; set; } = false;
     private bool CanUpdate { get; set; } = false;
 
     public MessageHandler() {
@@ -29,6 +28,8 @@ public partial class MessageHandler : Form {
         this.Load += (s, e) => {
             AcceptMessages = true;
             Log.Write("Message queue handler loaded.");
+            //Log.Write($"Handle: {Handle} (0x{(int)Handle:X})");
+            //Log.Write($"ProcID: {Process.GetCurrentProcess().Id}");
         };
         this.Shown +=(s, e) => this.Hide();
     }
@@ -43,14 +44,6 @@ public partial class MessageHandler : Form {
         AwaitingExit = false;
         this.Dispose();
     }
-
-    //protected override CreateParams CreateParams {
-    //    get {
-    //        var p = base.CreateParams;
-    //        p.ExStyle |= 0x80;
-    //        return p;
-    //    }
-    //}
 
     [DebuggerStepThrough]
     protected override void WndProc(ref Message m) {
@@ -85,11 +78,6 @@ public partial class MessageHandler : Form {
             // WM_UPDATEDATAREQUEST is a custom message.
             // Only allowed when the updater is launched from youtube-dl-gui.
             case CopyData.WM_UPDATEDATAREQUEST: {
-                if (!Updating) {
-                    m.Result = (nint)0;
-                    return;
-                }
-                CanUpdate = true;
                 UpdateData Data = new() {
                     FileName = AppDomain.CurrentDomain.FriendlyName,
                     NewVersion = Updater.LastChecked.Version,
@@ -105,6 +93,7 @@ public partial class MessageHandler : Form {
                     DataStruct.lpData = DataBuffer;
                     CopyDataBuffer = CopyData.NintAlloc(DataStruct);
                     CopyData.SendMessage(m.WParam, CopyData.WM_COPYDATA, Handle, CopyDataBuffer);
+                    CanUpdate = true;
                 }
                 finally {
                     CopyData.NintFree(ref CopyDataBuffer);

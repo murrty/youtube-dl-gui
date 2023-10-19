@@ -18,13 +18,13 @@ internal sealed class YoutubeDlData {
     public static YoutubeDlData? GenerateData(string URL, out string? RetrievedData) {
         return Generate(URL, "-j --no-playlist", null, out RetrievedData);
     }
-    public static YoutubeDlData? GenerateData(string URL, AuthenticationDetails Auth, out string? RetrievedData) {
+    public static YoutubeDlData? GenerateData(string URL, AuthenticationDetails? Auth, out string? RetrievedData) {
         return Generate(URL, "-j --no-playlist", Auth, out RetrievedData);
     }
     public static YoutubeDlData? GeneratePlaylist(string URL, out string? RetrievedData) {
         return Generate(URL, "-J", null, out RetrievedData);
     }
-    public static YoutubeDlData? GeneratePlaylist(string URL, AuthenticationDetails Auth, out string? RetrievedData) {
+    public static YoutubeDlData? GeneratePlaylist(string URL, AuthenticationDetails? Auth, out string? RetrievedData) {
         return Generate(URL, "-J", Auth, out RetrievedData);
     }
 
@@ -44,6 +44,10 @@ internal sealed class YoutubeDlData {
         }
 
         ArgumentList Arguments = new();
+
+        if (!GenerateCommand.IsNullEmptyWhitespace()) {
+            Arguments.Add(GenerateCommand);
+        }
 
         if (Downloads.RetryAttempts != 10 && Downloads.RetryAttempts > 0) {
             Arguments.Add("--retries " + Downloads.RetryAttempts);
@@ -84,11 +88,11 @@ internal sealed class YoutubeDlData {
             }
         }
 
-        Arguments.Append(URL);
+        Arguments.Add(URL);
 
         Process Enumeration = new() {
             StartInfo = new(Verification.YoutubeDlPath) {
-                Arguments = $"--simulate --no-warnings --no-cache-dir {GenerateCommand} {Arguments}",
+                Arguments = $"--simulate --no-warnings --no-cache-dir {Arguments}",
                 CreateNoWindow = true,
                 RedirectStandardError = true,
                 RedirectStandardInput = true,
@@ -99,6 +103,8 @@ internal sealed class YoutubeDlData {
                 WindowStyle = ProcessWindowStyle.Hidden,
             }
         };
+
+        Arguments.Clear();
 
         StringBuilder Output = new(string.Empty);
         StringBuilder Error = new(string.Empty);

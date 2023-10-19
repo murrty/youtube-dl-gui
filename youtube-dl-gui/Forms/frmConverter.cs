@@ -1,14 +1,14 @@
-﻿namespace youtube_dl_gui;
+﻿#nullable enable
+namespace youtube_dl_gui;
 using System.Diagnostics;
 using System.Threading;
 using System.Windows.Forms;
 public partial class frmConverter : LocalizedProcessingForm {
-    public bool Debugging = false;
-    public volatile ConvertInfo CurrentConversion;
+    public ConvertInfo CurrentConversion { get; }
 
-    private Thread ConverterThread;             // The thread of the process for youtube-dl.
-    private volatile Process ConverterProcess;  // The process of youtube-dl which we'll redirect.
-    private volatile bool AbortBatch = false;   // Determines if the rest of the batch downloads should be cancelled.
+    private Thread? ConverterThread;    // The thread of the process for youtube-dl.
+    private Process? ConverterProcess;  // The process of youtube-dl which we'll redirect.
+    private bool AbortBatch;            // Determines if the rest of the batch downloads should be cancelled.
 
     public frmConverter(ConvertInfo Info) {
         InitializeComponent();
@@ -23,32 +23,35 @@ public partial class frmConverter : LocalizedProcessingForm {
         switch (CurrentConversion.Status) {
             case ConversionStatus.Aborted:
                 if (CurrentConversion.BatchConversion) {
-                    if (AbortBatch)
+                    if (AbortBatch) {
                         Finish = DialogResult.Abort;
-                    else
+                    }
+                    else {
                         Finish = DialogResult.Ignore;
+                    }
                 } break;
             case ConversionStatus.Finished:
-                if (ConverterProcess.ExitCode == 0) {
+                if (ConverterProcess is null || ConverterProcess.ExitCode == 0) {
                     if (CurrentConversion.BatchConversion) {
-                        this.DialogResult = DialogResult.Yes;
+                        Finish = DialogResult.Yes;
                     }
                 }
-                else {
-                    if (CurrentConversion.BatchConversion) {
-                        this.DialogResult = DialogResult.No;
-                    }
-                } break;
+                else if (CurrentConversion.BatchConversion) {
+                    Finish = DialogResult.No;
+                }
+                break;
             case ConversionStatus.ProgramError:
             case ConversionStatus.FfmpegError:
                 if (CurrentConversion.BatchConversion) {
                     Finish = DialogResult.No;
-                } break;
+                }
+                break;
             default:
-                if (ConverterThread != null && ConverterThread.IsAlive) {
+                if (ConverterThread?.IsAlive == true) {
                     ConverterThread.Abort();
                     e.Cancel = true;
-                } break;
+                }
+                break;
         }
         if (!e.Cancel) {
             Converts.CloseAfterFinish = chkConverterCloseAfterConversion.Checked;
@@ -75,10 +78,12 @@ public partial class frmConverter : LocalizedProcessingForm {
             case ConversionStatus.Converting: {
                 this.Text = Language.frmConverter + " ";
 
-                if (CurrentConversion.BatchConversion)
+                if (CurrentConversion.BatchConversion) {
                     btnConverterCancelExit.Text = Language.GenericSkip;
-                else
+                }
+                else {
                     btnConverterCancelExit.Text = Language.GenericCancel;
+                }
             } break;
             case ConversionStatus.Finished: {
                 this.Text = Language.frmConverter + " ";
@@ -116,8 +121,9 @@ public partial class frmConverter : LocalizedProcessingForm {
                         btnConverterAbortBatchConversions.Visible = false;
                         break;
                     default:
-                        if (ConverterThread is not null && ConverterThread.IsAlive)
+                        if (ConverterThread?.IsAlive == true) {
                             ConverterThread.Abort();
+                        }
                         rtbConsoleOutput.AppendLine("Additionally, the batch conversion has been cancelled.");
                         CurrentConversion.Status = ConversionStatus.Aborted;
                         this.Close();
@@ -150,12 +156,13 @@ public partial class frmConverter : LocalizedProcessingForm {
         }
 
         rtbConsoleOutput.AppendText("Beginning conversion, this box will output progress");
-        if (CurrentConversion.BatchConversion)
+        if (CurrentConversion.BatchConversion) {
             chkConverterCloseAfterConversion.Checked = true;
+        }
 
         CurrentConversion.Status = ConversionStatus.Preparing;
 
-        StringBuilder ArgumentsBuffer = new(CurrentConversion.FullCustomArguments ?
+        ArgumentList ArgumentsBuffer = new(CurrentConversion.FullCustomArguments ?
             CurrentConversion.CustomArguments : "-i \"" + CurrentConversion.InputFile + "\"");
 
         #region ffmpeg path
@@ -177,31 +184,36 @@ public partial class frmConverter : LocalizedProcessingForm {
         if (!CurrentConversion.FullCustomArguments) {
             switch (CurrentConversion.Type) {
                 case ConversionType.Video:
-                    if (CurrentConversion.VideoUseBitrate)
-                        ArgumentsBuffer.Append($" -b:v {CurrentConversion.VideoBitrate}k");
+                    if (CurrentConversion.VideoUseBitrate) {
+                        ArgumentsBuffer.Add($"-b:v {CurrentConversion.VideoBitrate}k");
+                    }
 
-                    if (CurrentConversion.VideoUsePreset)
-                        ArgumentsBuffer.Append($" -preset {ConvertHelper.GetVideoPreset(CurrentConversion.VideoPreset)}");
+                    if (CurrentConversion.VideoUsePreset) {
+                        ArgumentsBuffer.Add($"-preset {ConvertHelper.GetVideoPreset(CurrentConversion.VideoPreset)}");
+                    }
 
-                    if (CurrentConversion.VideoUseCRF)
-                        ArgumentsBuffer.Append($" -crf {CurrentConversion.VideoCRF}");
+                    if (CurrentConversion.VideoUseCRF) {
+                        ArgumentsBuffer.Add($"-crf {CurrentConversion.VideoCRF}");
+                    }
 
-                    if (!CurrentConversion.OutputFile.EndsWith(".wmv") && CurrentConversion.VideoUseProfile)
-                        ArgumentsBuffer.Append($" -profile:v {ConvertHelper.GetVideoProfile(CurrentConversion.VideoProfile)}");
+                    if (!CurrentConversion.OutputFile.EndsWith(".wmv") && CurrentConversion.VideoUseProfile) {
+                        ArgumentsBuffer.Add($"-profile:v {ConvertHelper.GetVideoProfile(CurrentConversion.VideoProfile)}");
+                    }
 
-                    if (CurrentConversion.VideoFastStart)
-                        ArgumentsBuffer.Append(" -faststart");
+                    if (CurrentConversion.VideoFastStart) {
+                        ArgumentsBuffer.Add("-faststart");
+                    }
                     break;
 
                 case ConversionType.Audio:
-                    if (CurrentConversion.AudioUseBitrate)
-                        ArgumentsBuffer.Append($" -ab {CurrentConversion.AudioBitrate * 1000}");
-
+                    if (CurrentConversion.AudioUseBitrate) {
+                        ArgumentsBuffer.Add($"-ab {CurrentConversion.AudioBitrate * 1000}");
+                    }
                     break;
 
                 case ConversionType.Custom:
                     rtbConsoleOutput.AppendLine("Custom conversion was specified, skipping generating arguments");
-                    ArgumentsBuffer.Append(CurrentConversion.CustomArguments);
+                    ArgumentsBuffer.Add(CurrentConversion.CustomArguments);
                     break;
 
                 default:
@@ -210,19 +222,16 @@ public partial class frmConverter : LocalizedProcessingForm {
             }
 
             // Extra arguments not supported by the custom conversion type
-            if (CurrentConversion.Type != ConversionType.Custom) {
-                if (CurrentConversion.HideFFmpegCompile)
-                    ArgumentsBuffer.Append(" -hide_banner");
+            if (CurrentConversion.Type != ConversionType.Custom && CurrentConversion.HideFFmpegCompile) {
+                ArgumentsBuffer.Add("-hide_banner");
             }
 
-            ArgumentsBuffer.Append($" \"{CurrentConversion.OutputFile}\"");
+            ArgumentsBuffer.Add($"\"{CurrentConversion.OutputFile}\"");
             rtbConsoleOutput.AppendLine("Arguments have been generated and are readonly in the textbox.");
-            txtArgumentsGenerated.Text = ArgumentsBuffer.ToString();
             CurrentConversion.Status = ConversionStatus.Converting;
         }
-        else {
-            txtArgumentsGenerated.Text = ArgumentsBuffer.ToString();
-        }
+
+        txtArgumentsGenerated.Text = ArgumentsBuffer.ToString();
         #endregion
 
         #region Conversion thread
@@ -240,12 +249,14 @@ public partial class frmConverter : LocalizedProcessingForm {
                     EnableRaisingEvents = true
                 };
                 ConverterProcess.OutputDataReceived += (s, e) => {
-                    if (e.Data is not null && e.Data.Length > 0)
-                        rtbConsoleOutput.BeginInvoke(() => rtbConsoleOutput.AppendLine($"{e.Data}"));
+                    if (e.Data?.Length > 0) {
+                        rtbConsoleOutput.BeginInvoke(() => rtbConsoleOutput.AppendLine(e.Data));
+                    }
                 };
                 ConverterProcess.ErrorDataReceived += (s, e) => {
-                    if (e.Data is not null && e.Data.Length > 0)
+                    if (e.Data?.Length > 0) {
                         rtbConsoleOutput.BeginInvoke(() => rtbConsoleOutput.AppendLine($"Error: {e.Data}"));
+                    }
                 };
                 ConverterProcess.Exited += (s, e) => {
                     if (ConverterProcess.ExitCode == 0) {
@@ -259,7 +270,8 @@ public partial class frmConverter : LocalizedProcessingForm {
                 if (CurrentConversion.Status != ConversionStatus.Aborted) {
                     ConverterProcess.Start();
 
-                    ArgumentsBuffer = null;
+                    ArgumentsBuffer.Clear();
+                    ArgumentsBuffer = null!;
 
                     ConverterProcess.BeginOutputReadLine();
                     ConverterProcess.BeginErrorReadLine();
@@ -270,10 +282,12 @@ public partial class frmConverter : LocalizedProcessingForm {
                 }
             }
             catch (ThreadAbortException) {
-                ConverterProcess.CancelErrorRead();
-                ConverterProcess.CancelOutputRead();
-                Program.KillProcessTree((uint)ConverterProcess.Id);
-                ConverterProcess.Kill();
+                if (ConverterProcess is not null) {
+                    ConverterProcess.CancelErrorRead();
+                    ConverterProcess.CancelOutputRead();
+                    Program.KillProcessTree((uint)ConverterProcess.Id);
+                    ConverterProcess.Kill();
+                }
                 this.Invoke((Action)delegate {
                     rtbConsoleOutput.AppendLine("Conversion was aborted by the user.");
                 });
@@ -283,7 +297,7 @@ public partial class frmConverter : LocalizedProcessingForm {
                 CurrentConversion.Status = ConversionStatus.ProgramError;
             }
             finally {
-                if (this.IsHandleCreated && CurrentConversion.Status != ConversionStatus.Aborted || CurrentConversion.BatchConversion) {
+                if ((this.IsHandleCreated && CurrentConversion.Status != ConversionStatus.Aborted) || CurrentConversion.BatchConversion) {
                     this.BeginInvoke(() => ConversionFinished());
                 }
             }
@@ -380,7 +394,7 @@ public partial class frmConverter : LocalizedProcessingForm {
                 break;
             default:
                 Log.Write("Aborting conversion finished.");
-                if (ConverterThread != null && ConverterThread.IsAlive) {
+                if (ConverterThread?.IsAlive == true) {
                     ConverterThread.Abort();
                 }
                 break;

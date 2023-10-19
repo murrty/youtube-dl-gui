@@ -1,7 +1,7 @@
-﻿namespace youtube_dl_gui;
+﻿#nullable enable
+namespace youtube_dl_gui;
 using System.Windows.Forms;
 public partial class frmSubtitles : LocalizedForm {
-
     //youtube-dl --sub-lang en --write-auto-sub --sub-format srt --skip-download
     // language - download auto generated subs - sub format - skip video
     //--write-sub                      Write subtitle file
@@ -30,10 +30,7 @@ public partial class frmSubtitles : LocalizedForm {
     }
 
     private void txtLanguage_KeyPress(object sender, KeyPressEventArgs e) {
-        if (char.IsLetter(e.KeyChar) || e.KeyChar == (char)Keys.Back || e.KeyChar == 44 || e.KeyChar == 45)
-            e.Handled = false;
-        else
-            e.Handled = true;
+        e.Handled = !char.IsLetter(e.KeyChar) && e.KeyChar != (char)Keys.Back && e.KeyChar != 44 && e.KeyChar != 45;
     }
 
     private void btnSubtitlesAddLanguages_Click(object sender, EventArgs e) {
@@ -56,6 +53,5 @@ public partial class frmSubtitles : LocalizedForm {
     }
 
     private void btnSubtitlesDownload_Click(object sender, EventArgs e) {
-
     }
 }

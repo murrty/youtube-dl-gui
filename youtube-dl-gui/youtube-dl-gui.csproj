@@ -60,15 +60,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\ArgumentList.cs" />
     <Compile Include="Classes\BatchHelper.cs" />
     <Compile Include="Classes\ConvertHelper.cs" />
-    <Compile Include="Classes\ConvertInfo.cs" />
+    <Compile Include="Classes\DataClasses\ConvertInfo.cs" />
     <Compile Include="Classes\DataClasses\ExtendedConversionDetails.cs" />
     <Compile Include="Classes\DataClasses\ExtendedMediaDetails.cs" />
     <Compile Include="Classes\DataClasses\FfprobeData.cs" />
+    <Compile Include="Classes\DataClasses\Bases\MediaDetails.cs" />
+    <Compile Include="Classes\DataClasses\Bases\MediaInfo.cs" />
+    <Compile Include="Classes\DataClasses\Bases\MediaData.cs" />
     <Compile Include="Classes\DataClasses\YoutubeDlData.cs" />
     <Compile Include="Classes\DownloadHelper.cs" />
-    <Compile Include="Classes\DownloadInfo.cs" />
+    <Compile Include="Classes\DataClasses\DownloadInfo.cs" />
     <Compile Include="Classes\QueueList.cs" />
     <Compile Include="Config\Interfacing\CustomArguments.cs" />
     <Compile Include="Controls\ExplorerTreeView.cs">
@@ -115,7 +119,6 @@
     <Compile Include="Controls\ExtendedListView.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controls\UpdateMessageHandler.cs" />
     <Compile Include="Controls\UacButton.cs">
       <SubType>Component</SubType>
     </Compile>

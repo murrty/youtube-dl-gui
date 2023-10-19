@@ -1,8 +1,10 @@
-﻿namespace youtube_dl_gui;
+﻿#nullable enable
+namespace youtube_dl_gui;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Windows.Forms;
 public partial class frmBatchDownloader : LocalizedProcessingForm {
-    public bool Debugging = false;
+    public bool Debugging;
 
     private readonly List<int> DownloadTypes = new();       // List of types to download
     private readonly List<string> DownloadUrls = new();     // List of urls to download
@@ -10,13 +12,17 @@ public partial class frmBatchDownloader : LocalizedProcessingForm {
     private readonly List<int> DownloadQuality = new();     // List of the quality
     private readonly List<int> DownloadFormat = new();      // List of the formats
     private readonly List<bool> DownloadSoundVBR = new();   // List of if sound/vbr should be downloaded
-    private bool InProgress = false;                        // Bool if the batch download is in progress
-    private bool AbortDownload = false;
-    private frmDownloader Downloader;                       // The Downloader form that will be around. Will be disposed if aborted.
-    private DownloadInfo NewInfo;                           // The info of the download
-    private Thread DownloadThread;                          // The thread for the batch downloader.
-    private bool ClipboardScannerActive = false;            // Whether the clipboard scanner is active.
-    string ClipboardData = null;                            // Clipboard data buffer.
+
+    // Bool if the batch download is in progress
+    [MemberNotNullWhen(true, nameof(DownloadThread), nameof(Downloader), nameof(NewInfo))]
+    private bool InProgress { get; set; }
+
+    private bool AbortDownload;
+    private Thread? DownloadThread;                         // The thread for the batch downloader.
+    private frmDownloader? Downloader;                      // The Downloader form that will be around. Will be disposed if aborted.
+    private DownloadInfo? NewInfo;                          // The info of the download
+    private bool ClipboardScannerActive;                    // Whether the clipboard scanner is active.
+    string? ClipboardData;                                  // Clipboard data buffer.
 
     public frmBatchDownloader() {
         InitializeComponent();
@@ -266,7 +272,6 @@ public partial class frmBatchDownloader : LocalizedProcessingForm {
             //    }
             //}
         }
-
     }
 
     private void btnBatchDownloadStartStopExit_Click(object sender, EventArgs e) {
@@ -284,10 +289,9 @@ public partial class frmBatchDownloader : LocalizedProcessingForm {
             string BatchTime = BatchHelper.CurrentTime;
             DownloadThread = new(() => {
                 for (int i = 0; i < DownloadUrls.Count; i++) {
-                    NewInfo = new DownloadInfo {
+                    NewInfo = new DownloadInfo(DownloadUrls[i]) {
                         BatchDownload = true,
                         BatchTime = BatchTime,
-                        DownloadURL = DownloadUrls[i]
                     };
                     switch (DownloadTypes[i]) {
                         case 0:
@@ -310,7 +314,7 @@ public partial class frmBatchDownloader : LocalizedProcessingForm {
                             break;
                         case 2:
                             NewInfo.Type = DownloadType.Custom;
-                            NewInfo.DownloadArguments = DownloadArgs[i];
+                            NewInfo.CustomArguments = DownloadArgs[i];
                             break;
                         default:
                             continue;
@@ -362,7 +366,7 @@ public partial class frmBatchDownloader : LocalizedProcessingForm {
                 });
                 System.Media.SystemSounds.Exclamation.Play();
                 InProgress = false;
-                Log.Write($"Batch download finished running.");
+                Log.Write("Batch download finished running.");
             }) {
                 Name = $"Batch download {BatchTime}"
             };
@@ -480,7 +484,9 @@ public partial class frmBatchDownloader : LocalizedProcessingForm {
                 AddItemToList(Data[i]);
             }
         }
-        else Log.MessageBox("The clipboard does not contain text that can be added.");
+        else {
+            Log.MessageBox("The clipboard does not contain text that can be added.");
+        }
     }
 
     private void chkBatchDownloadClipboardScanner_CheckedChanged(object sender, EventArgs e) {

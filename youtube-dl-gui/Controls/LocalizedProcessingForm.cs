@@ -2,7 +2,7 @@
 
 using System;
 
-public abstract class LocalizedProcessingForm : LocalizedForm {
+public class LocalizedProcessingForm : LocalizedForm {
     public LocalizedProcessingForm() {
         Program.AddProcessingForm(this);
     }

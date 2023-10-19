@@ -1,9 +1,9 @@
-﻿namespace youtube_dl_gui;
+﻿#nullable enable
+namespace youtube_dl_gui;
 using System.Diagnostics;
 using System.Threading;
 using System.Windows.Forms;
 public partial class frmSettings : LocalizedForm {
-
     // TODO: ytdl type will save every time it changes. Implement a safeguard to prevent oversaving to ini.
 
     #region vars
@@ -18,8 +18,6 @@ public partial class frmSettings : LocalizedForm {
 
     private bool useYtdlUpdater_Last;
     private int YtdlType_Last;
-
-    private Thread YtdlUpdateCheck;
     #endregion
 
     public frmSettings() {
@@ -43,8 +41,6 @@ public partial class frmSettings : LocalizedForm {
         LoadingForm = false;
     }
     private void frmSettings_FormClosing(object sender, FormClosingEventArgs e) {
-        if (YtdlUpdateCheck is not null && YtdlUpdateCheck.IsAlive)
-            YtdlUpdateCheck.Abort();
     }
 
     public override void LoadLanguage() {
@@ -261,7 +257,6 @@ public partial class frmSettings : LocalizedForm {
         chkSettingsErrorsSuppressErrors.Text = Language.chkSettingsErrorsSuppressErrors;
         tipSettings.SetToolTip(chkSettingsErrorsSuppressErrors, Language.chkSettingsErrorsSuppressErrorsHint);
 
-
         chkSettingsGeneralCheckForUpdatesOnLaunch.Location = new(
             (tabSettingsGeneral.Size.Width - chkSettingsGeneralCheckForUpdatesOnLaunch.Size.Width) / 2,
             chkSettingsGeneralCheckForUpdatesOnLaunch.Location.Y
@@ -299,50 +294,49 @@ public partial class frmSettings : LocalizedForm {
             rbSettingsGeneralCustomArgumentsDontSave.Location.Y
         );
         rbSettingsGeneralCustomArgumentsSaveAsArgsText.Location = new(
-            (rbSettingsGeneralCustomArgumentsDontSave.Location.X + rbSettingsGeneralCustomArgumentsDontSave.Size.Width) + 2,
+            rbSettingsGeneralCustomArgumentsDontSave.Location.X + rbSettingsGeneralCustomArgumentsDontSave.Size.Width + 2,
             rbSettingsGeneralCustomArgumentsDontSave.Location.Y
         );
         rbSettingsGeneralCustomArgumentsSaveInSettings.Location = new(
-            (rbSettingsGeneralCustomArgumentsSaveAsArgsText.Location.X + rbSettingsGeneralCustomArgumentsSaveAsArgsText.Size.Width) + 2,
+            rbSettingsGeneralCustomArgumentsSaveAsArgsText.Location.X + rbSettingsGeneralCustomArgumentsSaveAsArgsText.Size.Width + 2,
             rbSettingsGeneralCustomArgumentsSaveAsArgsText.Location.Y
         );
-
 
         llSettingsDownloadsSchemaHelp.Location = new(
             (lbSettingsDownloadsFileNameSchema.Location.X + lbSettingsDownloadsFileNameSchema.Size.Width) - 4,
             lbSettingsDownloadsFileNameSchema.Location.Y
         );
         chkSettingsDownloadsEmbedThumbnails.Location = new(
-            (chkSettingsDownloadsSaveThumbnails.Location.X + chkSettingsDownloadsSaveThumbnails.Size.Width + 2),
+            chkSettingsDownloadsSaveThumbnails.Location.X + chkSettingsDownloadsSaveThumbnails.Size.Width + 2,
             chkSettingsDownloadsSaveThumbnails.Location.Y
         );
         chkSettingsDownloadsWriteMetadataToFile.Location = new(
-            (chkSettingsDownloadsSaveVideoInfo.Location.X + chkSettingsDownloadsSaveVideoInfo.Size.Width + 2),
+            chkSettingsDownloadsSaveVideoInfo.Location.X + chkSettingsDownloadsSaveVideoInfo.Size.Width + 2,
             chkSettingsDownloadsSaveVideoInfo.Location.Y
         );
         chkSettingsDownloadsKeepOriginalFiles.Location = new(
-            (chkSettingsDownloadsSaveDescription.Location.X + chkSettingsDownloadsSaveDescription.Size.Width + 2),
+            chkSettingsDownloadsSaveDescription.Location.X + chkSettingsDownloadsSaveDescription.Size.Width + 2,
             chkSettingsDownloadsSaveDescription.Location.Y
         );
         chkSettingsDownloadsEmbedSubtitles.Location = new(
-            (chkSettingsDownloadsDownloadSubtitles.Location.X + chkSettingsDownloadsDownloadSubtitles.Size.Width + 2),
+            chkSettingsDownloadsDownloadSubtitles.Location.X + chkSettingsDownloadsDownloadSubtitles.Size.Width + 2,
             chkSettingsDownloadsDownloadSubtitles.Location.Y
         );
         chkSettingsDownloadsAbortOnError.Location = new(
-            (chkSettingsDownloadsSkipUnavailableFragments.Location.X + chkSettingsDownloadsSkipUnavailableFragments.Size.Width + 2),
+            chkSettingsDownloadsSkipUnavailableFragments.Location.X + chkSettingsDownloadsSkipUnavailableFragments.Size.Width + 2,
             chkSettingsDownloadsSkipUnavailableFragments.Location.Y
         );
 
         numSettingsDownloadsLimitDownload.Location = new(
-            (chkSettingsDownloadsLimitDownload.Location.X + chkSettingsDownloadsLimitDownload.Size.Width) + 2,
+            chkSettingsDownloadsLimitDownload.Location.X + chkSettingsDownloadsLimitDownload.Size.Width + 2,
             numSettingsDownloadsLimitDownload.Location.Y
         );
         cbSettingsDownloadsLimitDownload.Location = new(
-            (numSettingsDownloadsLimitDownload.Location.X + numSettingsDownloadsLimitDownload.Size.Width) + 2,
+            numSettingsDownloadsLimitDownload.Location.X + numSettingsDownloadsLimitDownload.Size.Width + 2,
             cbSettingsDownloadsLimitDownload.Location.Y
         );
         numSettingsDownloadsRetryAttempts.Location = new(
-            (lbSettingsDownloadsRetryAttempts.Location.X + lbSettingsDownloadsRetryAttempts.Size.Width),
+            lbSettingsDownloadsRetryAttempts.Location.X + lbSettingsDownloadsRetryAttempts.Size.Width,
             numSettingsDownloadsRetryAttempts.Location.Y
         );
         numSettingsDownloadsFragmentThreads.Location = new(
@@ -368,14 +362,20 @@ public partial class frmSettings : LocalizedForm {
             chkSettingsConverterAudioBitrate.Location.Y);
     }
     private void LoadSettings() {
-        if (Verification.YoutubeDlAvailable)
+        if (Verification.YoutubeDlAvailable) {
             txtSettingsGeneralYoutubeDlPath.Text = Verification.YoutubeDlPath;
-        else txtSettingsGeneralYoutubeDlPath.Text = Verification.GetExpectedYoutubeDlPath();
+        }
+        else {
+            txtSettingsGeneralYoutubeDlPath.Text = Verification.GetExpectedYoutubeDlPath();
+        }
         chkSettingsGeneralUseStaticYoutubeDl.Checked = General.UseStaticYtdl;
 
-        if (Verification.FfmpegAvailable)
+        if (Verification.FfmpegAvailable) {
             txtSettingsGeneralFFmpegPath.Text = Verification.FFmpegPath;
-        else txtSettingsGeneralFFmpegPath.Text = Verification.GetExpectedFfmpegPath();
+        }
+        else {
+            txtSettingsGeneralFFmpegPath.Text = Verification.GetExpectedFfmpegPath();
+        }
         chkSettingsGeneralUseStaticFFmpeg.Checked = General.UseStaticFFmpeg;
 
         chkSettingsGeneralCheckForUpdatesOnLaunch.Checked = General.CheckForUpdatesOnLaunch;
@@ -398,7 +398,6 @@ public partial class frmSettings : LocalizedForm {
                 break;
         }
 
-
         if (Downloads.downloadPath.IsNullEmptyWhitespace()) {
             txtSettingsDownloadsSavePath.Text = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Downloads";
         }
@@ -409,8 +408,9 @@ public partial class frmSettings : LocalizedForm {
             txtSettingsDownloadsSavePath.Text = Downloads.downloadPath;
         }
 
-        if (!Saved.FileNameSchemaHistory.IsNullEmptyWhitespace())
+        if (!Saved.FileNameSchemaHistory.IsNullEmptyWhitespace()) {
             txtSettingsDownloadsFileNameSchema.Items.AddRange(Saved.FileNameSchemaHistory.Split('|'));
+        }
 
         int index = txtSettingsDownloadsFileNameSchema.Items.IndexOf(Downloads.fileNameSchema);
         if (index > -1) {
@@ -618,7 +618,7 @@ public partial class frmSettings : LocalizedForm {
             Verification.RefreshFFmpegLocation();
         }
     }
-    
+
     private void btnSettingsSave_Click(object sender, EventArgs e) {
         SaveSettings();
         this.Dispose();
@@ -656,7 +656,6 @@ public partial class frmSettings : LocalizedForm {
             FileName = "ffmpeg.exe"
         };
 
-
         if (ofd.ShowDialog() == DialogResult.OK) {
             txtSettingsGeneralFFmpegPath.Text = ofd.FileName;
             chkSettingsGeneralUseStaticFFmpeg.Checked = true;
@@ -664,26 +663,38 @@ public partial class frmSettings : LocalizedForm {
     }
 
     private async void btnSettingsRedownloadYoutubeDl_Click(object sender, EventArgs e) {
+        btnSettingsRedownloadYoutubeDl.Enabled = false;
         if (chksettingsDownloadsUseYoutubeDlsUpdater.Checked) {
             if (!Updater.UpdateYoutubeDl(true))
                 System.Media.SystemSounds.Hand.Play();
         }
         else {
             if (!await Updater.CheckForYoutubeDlUpdate(true)) {
-                Log.MessageBox(Language.dlgUpateYoutubeDlNoUpdateRequired.Format(Verification.YoutubeDlVersion, Updater.LatestYoutubeDl.VersionTag), MessageBoxButtons.OK);
+                Log.MessageBox(Language.dlgUpateYoutubeDlNoUpdateRequired.Format(Verification.YoutubeDlVersion ?? "Unknown", Updater.LatestYoutubeDl.VersionTag), MessageBoxButtons.OK);
+                btnSettingsRedownloadYoutubeDl.Enabled = true;
                 return;
             }
 
             if (Updater.UpdateYoutubeDl(false, new(this.Location.X + 8, this.Location.Y + 8))) {
-                Log.MessageBox(Language.dlgUpdatedYoutubeDl, MessageBoxButtons.OK);
                 System.Media.SystemSounds.Asterisk.Play();
+                Log.MessageBox(Language.dlgUpdatedYoutubeDl, MessageBoxButtons.OK);
             }
-            else
+            else {
                 System.Media.SystemSounds.Hand.Play();
+            }
         }
+        btnSettingsRedownloadYoutubeDl.Enabled = true;
     }
-    private void btnSettingsRedownloadFfmpeg_Click(object sender, EventArgs e) {
-        Updater.UpdateFfmpeg(new(this.Location.X + 8, this.Location.Y + 8));
+    private async void btnSettingsRedownloadFfmpeg_Click(object sender, EventArgs e) {
+        btnSettingsRedownloadFfmpeg.Enabled = false;
+        if (await Updater.UpdateFfmpeg(new(this.Location.X + 8, this.Location.Y + 8))) {
+            System.Media.SystemSounds.Asterisk.Play();
+            Log.MessageBox("Placeholder -- ffmpeg downloaded", MessageBoxButtons.OK);
+        }
+        else {
+            System.Media.SystemSounds.Hand.Play();
+        }
+        btnSettingsRedownloadFfmpeg.Enabled = true;
     }
     #endregion
 
@@ -700,9 +711,9 @@ public partial class frmSettings : LocalizedForm {
     }
     private void btnSettingsDownloadsBrowseSavePath_Click(object sender, EventArgs e) {
         string GetSelectedPath(string path) => chkSettingsDownloadsDownloadPathUseRelativePath.Checked
-        && path.ToLowerInvariant().StartsWith(Program.ProgramPath.ToLowerInvariant()) ?
+        && path.StartsWith(Program.ProgramPath, StringComparison.InvariantCultureIgnoreCase) ?
             (".\\" + path[(Program.ProgramPath.Length + 1)..]) : path;
-        
+
         using BetterFolderBrowserNS.BetterFolderBrowser fbd = new() {
             RootFolder = chkSettingsDownloadsDownloadPathUseRelativePath.Checked ?
                 Program.ProgramPath : (Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Downloads"),

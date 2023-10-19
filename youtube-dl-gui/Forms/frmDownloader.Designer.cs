@@ -18,11 +18,11 @@
             this.txtGeneratedArguments = new System.Windows.Forms.TextBox();
             this.btnDownloaderCancelExit = new System.Windows.Forms.Button();
             this.btnClearOutput = new System.Windows.Forms.Button();
-            this.btnDownloaderAbortBatchDownload = new System.Windows.Forms.Button();
+            this.btnDownloaderRetryAbortBatch = new System.Windows.Forms.Button();
             this.pnStatuses = new System.Windows.Forms.Panel();
+            this.pbStatus = new murrty.controls.ExtendedProgressBar();
             this.pnLowerControls = new System.Windows.Forms.Panel();
             this.rtbVerbose = new murrty.controls.ExtendedRichTextBox();
-            this.pbStatus = new murrty.controls.ExtendedProgressBar();
             this.pnStatuses.SuspendLayout();
             this.pnLowerControls.SuspendLayout();
             this.SuspendLayout();
@@ -75,17 +75,17 @@
             this.btnClearOutput.UseVisualStyleBackColor = true;
             this.btnClearOutput.Click += new System.EventHandler(this.btnClearOutput_Click);
             // 
-            // btnDownloaderAbortBatchDownload
+            // btnDownloaderRetryAbortBatch
             // 
-            this.btnDownloaderAbortBatchDownload.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnDownloaderAbortBatchDownload.Location = new System.Drawing.Point(168, 7);
-            this.btnDownloaderAbortBatchDownload.Name = "btnDownloaderAbortBatchDownload";
-            this.btnDownloaderAbortBatchDownload.Size = new System.Drawing.Size(123, 23);
-            this.btnDownloaderAbortBatchDownload.TabIndex = 6;
-            this.btnDownloaderAbortBatchDownload.Text = "btnDownloaderAbortBatchDownload";
-            this.btnDownloaderAbortBatchDownload.UseVisualStyleBackColor = true;
-            this.btnDownloaderAbortBatchDownload.Visible = false;
-            this.btnDownloaderAbortBatchDownload.Click += new System.EventHandler(this.btnDownloaderAbortBatchDownload_Click);
+            this.btnDownloaderRetryAbortBatch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnDownloaderRetryAbortBatch.Location = new System.Drawing.Point(168, 7);
+            this.btnDownloaderRetryAbortBatch.Name = "btnDownloaderRetryAbortBatch";
+            this.btnDownloaderRetryAbortBatch.Size = new System.Drawing.Size(123, 23);
+            this.btnDownloaderRetryAbortBatch.TabIndex = 6;
+            this.btnDownloaderRetryAbortBatch.Text = "btnDownloaderAbortBatchDownload";
+            this.btnDownloaderRetryAbortBatch.UseVisualStyleBackColor = true;
+            this.btnDownloaderRetryAbortBatch.Visible = false;
+            this.btnDownloaderRetryAbortBatch.Click += new System.EventHandler(this.btnDownloaderRetryAbortBatch_Click);
             // 
             // pnStatuses
             // 
@@ -99,10 +99,23 @@
             this.pnStatuses.Size = new System.Drawing.Size(384, 102);
             this.pnStatuses.TabIndex = 9;
             // 
+            // pbStatus
+            // 
+            this.pbStatus.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pbStatus.ContainerParent = this;
+            this.pbStatus.FastValueUpdate = true;
+            this.pbStatus.Location = new System.Drawing.Point(12, 31);
+            this.pbStatus.Name = "pbStatus";
+            this.pbStatus.ShowText = true;
+            this.pbStatus.Size = new System.Drawing.Size(360, 20);
+            this.pbStatus.TabIndex = 1;
+            this.pbStatus.Text = ".  .  .";
+            // 
             // pnLowerControls
             // 
             this.pnLowerControls.BackColor = System.Drawing.SystemColors.Menu;
-            this.pnLowerControls.Controls.Add(this.btnDownloaderAbortBatchDownload);
+            this.pnLowerControls.Controls.Add(this.btnDownloaderRetryAbortBatch);
             this.pnLowerControls.Controls.Add(this.btnDownloaderCancelExit);
             this.pnLowerControls.Controls.Add(this.chkDownloaderCloseAfterDownload);
             this.pnLowerControls.Dock = System.Windows.Forms.DockStyle.Bottom;
@@ -122,19 +135,6 @@
             this.rtbVerbose.Size = new System.Drawing.Size(360, 198);
             this.rtbVerbose.TabIndex = 0;
             this.rtbVerbose.Text = "";
-            // 
-            // pbStatus
-            // 
-            this.pbStatus.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.pbStatus.ContainerParent = this;
-            this.pbStatus.FastValueUpdate = true;
-            this.pbStatus.Location = new System.Drawing.Point(12, 31);
-            this.pbStatus.Name = "pbStatus";
-            this.pbStatus.ShowText = true;
-            this.pbStatus.Size = new System.Drawing.Size(360, 20);
-            this.pbStatus.TabIndex = 1;
-            this.pbStatus.Text = ".  .  .";
             // 
             // frmDownloader
             // 
@@ -171,7 +171,7 @@
         private System.Windows.Forms.Button btnClearOutput;
         private murrty.controls.ExtendedProgressBar pbStatus;
         private System.Windows.Forms.Panel pnStatuses;
-        private System.Windows.Forms.Button btnDownloaderAbortBatchDownload;
+        private System.Windows.Forms.Button btnDownloaderRetryAbortBatch;
         private System.Windows.Forms.Panel pnLowerControls;
     }
 }

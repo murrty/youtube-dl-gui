@@ -1,4 +1,5 @@
-﻿namespace youtube_dl_gui;
+﻿#nullable enable
+namespace youtube_dl_gui;
 using System.Drawing;
 using System.Windows.Forms;
 using murrty.updater;
@@ -6,7 +7,7 @@ public partial class frmDownloadLanguage : LocalizedForm {
     private readonly Font SubItemFont;
     private readonly GithubRepoContent[] EnumeratedLanguages;
 
-    public string FileName { get; private set; }
+    public string? FileName { get; private set; }
 
     public frmDownloadLanguage() {
         InitializeComponent();
@@ -30,6 +31,7 @@ public partial class frmDownloadLanguage : LocalizedForm {
             }
         }
         catch (Exception ex) {
+            EnumeratedLanguages = Array.Empty<GithubRepoContent>();
             Log.ReportException(ex);
         }
     }
@@ -85,14 +87,14 @@ public partial class frmDownloadLanguage : LocalizedForm {
         if (lvAvailableLanguages.SelectedIndices.Count > 0) {
             DownloadSelectedLanguageFile();
             FileName = EnumeratedLanguages[lvAvailableLanguages.SelectedIndices[0]].name;
-            if (FileName.EndsWith(".ini"))
+            if (FileName.EndsWith(".ini")) {
                 FileName = FileName[..^4];
+            }
             this.DialogResult = DialogResult.OK;
+            return;
         }
-        else {
-            FileName = null;
-            this.DialogResult = DialogResult.Cancel;
-        }
+        FileName = null;
+        this.DialogResult = DialogResult.Cancel;
     }
 
     private void lvAvailableLanguages_SelectedIndexChanged(object sender, EventArgs e) {

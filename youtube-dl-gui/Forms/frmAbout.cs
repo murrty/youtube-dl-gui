@@ -1,9 +1,12 @@
-﻿namespace youtube_dl_gui;
+﻿#nullable enable
+namespace youtube_dl_gui;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 public partial class frmAbout : LocalizedForm {
+    private const string FlavorText = "alien slime drink it all the time";
+
     public frmAbout() {
         InitializeComponent();
         LoadLanguage();
@@ -21,7 +24,7 @@ public partial class frmAbout : LocalizedForm {
     }
 
     public override void LoadLanguage() {
-        lbAboutBody.Text = string.Format(Language.lbAboutBody + "\n\n\nKnown as a gross red monster.", "murrty", Properties.Resources.BuildDate);
+        lbAboutBody.Text = string.Format(Language.lbAboutBody + "\n\n\n" + FlavorText, "murrty", Properties.Resources.BuildDate);
         llbCheckForUpdates.Text = Language.llbCheckForUpdates;
         this.Text = $"{Language.frmAbout} youtube-dl-gui";
     }

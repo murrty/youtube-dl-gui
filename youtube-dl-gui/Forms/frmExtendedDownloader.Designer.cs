@@ -1103,12 +1103,14 @@
             // 
             // mDownload
             // 
+            this.mDownload.Enabled = false;
             this.mDownload.Index = 0;
             this.mDownload.Text = "mDownload";
             this.mDownload.Click += new System.EventHandler(this.mDownload_Click);
             // 
             // mDownloadWithAuthentication
             // 
+            this.mDownloadWithAuthentication.Enabled = false;
             this.mDownloadWithAuthentication.Index = 1;
             this.mDownloadWithAuthentication.Text = "mDownloadWithAuthentication";
             this.mDownloadWithAuthentication.Click += new System.EventHandler(this.mDownloadWithAuthentication_Click);
@@ -1440,8 +1442,8 @@
             this.Controls.Add(this.rbVideo);
             this.Controls.Add(this.txtExtendedDownloaderMediaTitle);
             this.Controls.Add(this.rbUnknown);
-            this.Controls.Add(this.pnBatchDownload);
             this.Controls.Add(this.pnSingleDownload);
+            this.Controls.Add(this.pnBatchDownload);
             this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = global::youtube_dl_gui.Properties.Resources.ProgramIcon;
             this.MaximizeBox = false;

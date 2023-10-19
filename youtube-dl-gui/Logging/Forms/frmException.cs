@@ -6,6 +6,8 @@ using System.Threading;
 using System.Windows.Forms;
 using youtube_dl_gui;
 using murrty.classes;
+using murrty.controls;
+
 /// <summary>
 /// Represents a form that displays exception information to the user.
 /// </summary>
@@ -259,6 +261,20 @@ internal partial class frmException : Form {
                         Stacktrace:
                         {{WebEx.StackTrace}}
                         """ + (WebEx.InnerException is not null ? "\nInner Exception: " + WebEx.InnerException : "") + "\n");
+                } break;
+                case HttpException HttpEx: {
+                    if (ReportedException.ExtraMessage is not null)
+                        rtbExceptionDetails.AppendText(ReportedException.ExtraMessage + "\n");
+
+                    rtbExceptionDetails.AppendText($$"""
+                        Message: {{HttpEx.Message}}
+                        Status: {{(int)HttpEx.StatusCode}} (HttpStatusCode.{{HttpEx.StatusCode}}) - {{HttpEx.StatusDescription}}
+                        Uri: {{HttpEx.Uri}}
+                        Source: {{HttpEx.Source}}
+                        Target Site: {{HttpEx.TargetSite}}
+                        Stacktrace:
+                        {{HttpEx.StackTrace}}
+                        """ + (HttpEx.InnerException is not null ? "\nInner Exception: " + HttpEx.InnerException : "") + "\n");
                 } break;
                 case Exception Ex: {
                     if (ReportedException.ExtraMessage is not null)

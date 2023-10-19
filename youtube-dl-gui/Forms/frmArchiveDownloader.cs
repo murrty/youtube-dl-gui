@@ -1,4 +1,5 @@
-﻿namespace youtube_dl_gui;
+﻿#nullable enable
+namespace youtube_dl_gui;
 using System.Windows.Forms;
 public partial class frmArchiveDownloader : LocalizedForm {
     public frmArchiveDownloader() {
@@ -30,10 +31,11 @@ public partial class frmArchiveDownloader : LocalizedForm {
             System.Media.SystemSounds.Exclamation.Play();
             return;
         }
-        
-        string VideoKey = txtArchiveDownloaderHint.Text;
-        if (DownloadHelper.IsYoutubeLink(VideoKey))
+
+        string? VideoKey = txtArchiveDownloaderHint.Text;
+        if (DownloadHelper.IsYoutubeLink(VideoKey)) {
             VideoKey = DownloadHelper.GetYoutubeVideoKey(VideoKey);
+        }
 
         if (!DownloadHelper.IsYoutubeKey(VideoKey)) {
             txtArchiveDownloaderHint.Focus();
@@ -46,9 +48,8 @@ public partial class frmArchiveDownloader : LocalizedForm {
             ExtendedForm.Show();
         }
         else {
-            DownloadInfo NewInfo = new() {
-                DownloadArguments = $"ytarchive:{VideoKey}",
-                DownloadURL = $"https://archived.youtube.com/watch?v={VideoKey}",
+            DownloadInfo NewInfo = new($"https://archived.youtube.com/watch?v={VideoKey}") {
+                Arguments = $"ytarchive:{VideoKey}",
                 MostlyCustomArguments = true,
                 Type = DownloadType.Custom
             };

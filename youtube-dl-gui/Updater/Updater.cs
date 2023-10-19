@@ -1,5 +1,7 @@
-﻿namespace youtube_dl_gui;
+﻿#nullable enable
+namespace youtube_dl_gui;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.IO.Compression;
 using System.Net;
@@ -17,34 +19,34 @@ internal static class Updater {
     /// <summary>
     /// This is the known SHA-256 hash of the updater.
     /// </summary>
-    private const string KnownUpdaterHash = "BC187929F96EE0C90787CDF2863327B7F4470B03A6D046A70D31556C62B49EB7";
+    private const string KnownUpdaterHash = "53AF690186506C675B1907F5FE4A31D3C7B1CD10F4A62F57297DC4F944D3638B";
 
     /// <summary>
     /// This is the direct ffmpeg download link.
     /// </summary>
     private const string FfmpegDownloadLink = "https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-essentials.zip";
 
-    private static bool UpdateCheckerRunning = false;
+    private static bool UpdateCheckerRunning;
     private static CancellationTokenSource UpdateToken = new();
 
     #region Properties
     /// <summary>
     /// Represents the very last checked repository release.
     /// </summary>
-    public static GithubData LastChecked { get; private set; }
+    public static GithubData? LastChecked { get; private set; }
     /// <summary>
     /// Represents the last checked latest release from a repository.
     /// </summary>
-    public static GithubData LastCheckedLatestRelease { get; private set; }
+    public static GithubData? LastCheckedLatestRelease { get; private set; }
     /// <summary>
     /// Represents the last checked any release from a repository (this can include pre-releases).
     /// </summary>
-    public static GithubData LastCheckedAllRelease { get; private set; }
+    public static GithubData? LastCheckedAllRelease { get; private set; }
 
     /// <summary>
     /// Represents the latest youtube-dl provider release.
     /// </summary>
-    public static GithubData LatestYoutubeDl { get; private set; }
+    public static GithubData? LatestYoutubeDl { get; private set; }
     #endregion
 
     #region Major methods
@@ -56,8 +58,9 @@ internal static class Updater {
         }
 
         try {
-            if (UpdateCheckerRunning)
+            if (UpdateCheckerRunning) {
                 return null;
+            }
 
             if (ForceCheck || (General.DownloadBetaVersions ? LastCheckedAllRelease is null : LastCheckedLatestRelease is null)) {
                 UpdateCheckerRunning = true;
@@ -66,17 +69,20 @@ internal static class Updater {
             }
 
             return General.DownloadBetaVersions ?
-                LastCheckedAllRelease is not null && LastCheckedAllRelease.IsNewerVersion :
-                LastCheckedLatestRelease is not null && LastCheckedLatestRelease.IsNewerVersion;
+                LastCheckedAllRelease?.IsNewerVersion == true :
+                LastCheckedLatestRelease?.IsNewerVersion == true;
         }
         finally {
             UpdateCheckerRunning = false;
         }
     }
     public static bool IsSkipped() {
-        if (LastChecked.IsBetaVersion)
+        if (LastChecked?.IsBetaVersion == true) {
             return LastChecked.Version == Initialization.SkippedBetaVersion;
-        else return LastChecked.Version == Initialization.SkippedVersion;
+        }
+        else {
+            return LastChecked?.Version == Initialization.SkippedVersion;
+        }
     }
     public static void AbortUpdateCheck() {
         UpdateToken.Cancel();
@@ -85,8 +91,9 @@ internal static class Updater {
     public async static void ShowUpdateForm(bool AllowSkip) {
         if (General.DownloadBetaVersions ? LastCheckedAllRelease is null : LastCheckedLatestRelease is null) {
             await RefreshRelease();
-            if (!LastChecked.IsNewerVersion)
+            if (LastChecked?.IsNewerVersion != true) {
                 return;
+            }
         }
 
         using frmUpdateAvailable UpdateDialog = new() {
@@ -101,10 +108,12 @@ internal static class Updater {
             case DialogResult.Ignore when AllowSkip: {
                 Log.Write($"Ignoring update v{LastChecked.Version}");
 
-                if (General.DownloadBetaVersions)
+                if (General.DownloadBetaVersions) {
                     Initialization.SkippedBetaVersion = LastCheckedAllRelease.Version;
-                else
+                }
+                else {
                     Initialization.SkippedVersion = LastCheckedLatestRelease.Version;
+                }
             } break;
         }
     }
@@ -160,9 +169,10 @@ internal static class Updater {
                     await GetLatestYoutubeDl(TypeIndex);
 
                     // If the file does not exist, it needs to be re-downloaded.
-                    if (!Verification.YoutubeDlAvailable)
+                    if (!Verification.YoutubeDlAvailable) {
                         return true;
-                    
+                    }
+
                     // Set the is-latest flag in the git data for the ytdl tag.
                     LatestYoutubeDl.IsNewerVersion = Verification.YoutubeDlVersion != LatestYoutubeDl.VersionTag;
 
@@ -180,7 +190,9 @@ internal static class Updater {
                         GithubLinks.ProviderRepos[TypeIndex].User,
                         GithubLinks.ProviderRepos[TypeIndex].Repo,
                         GithubLinks.ProviderRepos[TypeIndex].FriendlyName,
-                        LatestYoutubeDl.VersionTag)) != DialogResult.Retry) return false;
+                        LatestYoutubeDl.VersionTag)) != DialogResult.Retry) {
+                        return false;
+                    }
 
                     CanRetry = true;
                 }
@@ -188,8 +200,9 @@ internal static class Updater {
                     return false;
                 }
                 catch (Exception ex) {
-                    if (Log.ReportRetriableException(ex) != DialogResult.Retry)
+                    if (Log.ReportRetriableException(ex) != DialogResult.Retry) {
                         return false;
+                    }
 
                     CanRetry = true;
                 }
@@ -214,9 +227,14 @@ internal static class Updater {
     /// <param name="Location">The location where the generic downloader should appear.</param>
     /// <returns><see langword="true"/> if the youtube-dl provider update has went through regardless of success; otherwise, <see langword="false"/>.</returns>
     public static bool UpdateYoutubeDl(bool Internal, System.Drawing.Point? Location = null) {
+        if (LatestYoutubeDl is null) {
+            return false;
+        }
+
         if (Internal) {
-            if (!Verification.YoutubeDlAvailable)
+            if (!Verification.YoutubeDlAvailable) {
                 return false;
+            }
 
             Log.Write("Using youtube-dls' internal updater to update the program.");
 
@@ -229,8 +247,9 @@ internal static class Updater {
             return true;
         }
         else {
-            if (Verification.YoutubeDlAvailable && !LatestYoutubeDl.IsNewerVersion)
+            if (Verification.YoutubeDlAvailable && !LatestYoutubeDl.IsNewerVersion) {
                 return false;
+            }
 
             Log.Write($"Downloading youtube-dl version {LatestYoutubeDl.VersionTag}.");
             int TypeIndex = Verification.GetYoutubeDlType();
@@ -243,9 +262,9 @@ internal static class Updater {
                     LatestYoutubeDl.VersionTag);
 
             using frmGenericDownloadProgress Downloader = new(DownloadUrl, Verification.YoutubeDlPath ?? Verification.GetExpectedYoutubeDlPath(), Location);
-
-            if (Downloader.ShowDialog() != DialogResult.OK)
+            if (Downloader.ShowDialog() != DialogResult.OK) {
                 return false;
+            }
 
             Verification.RefreshYoutubeDlLocation();
             LatestYoutubeDl.IsNewerVersion = false;
@@ -257,18 +276,21 @@ internal static class Updater {
     /// Updates ffmpeg.
     /// </summary>
     /// <returns><see langword="true"/> if it was updated; otherwise, <see langword="false"/>.</returns>
-    public static bool UpdateFfmpeg(System.Drawing.Point? Location) {
+    public static async Task<bool> UpdateFfmpeg(System.Drawing.Point? Location) {
         Log.Write("Downloading the latest ffmpeg release.");
         string FfmpegZipPath = Environment.CurrentDirectory + "\\ffmpeg.zip";
 
         using frmGenericDownloadProgress Downloader = new(FfmpegDownloadLink, FfmpegZipPath, Location);
-        if (Downloader.ShowDialog() != DialogResult.OK)
+        if (Downloader.ShowDialog() != DialogResult.OK) {
             return false;
+        }
 
         bool CanRetry = true;
         do {
             try {
-                string FfmpegPath = Verification.FFmpegPath is null ? Environment.CurrentDirectory : Path.GetDirectoryName(Verification.FFmpegPath ?? Verification.GetExpectedFfmpegPath());
+                string FfmpegPath = Verification.FFmpegPath is null ?
+                    Environment.CurrentDirectory : Path.GetDirectoryName(Verification.FFmpegPath ?? Verification.GetExpectedFfmpegPath());
+
                 using ZipArchive archive = ZipFile.OpenRead(FfmpegZipPath);
                 ZipArchiveEntry[] Files = archive.Entries
                     .Where(e => e.Name.ToLower() switch {
@@ -279,9 +301,11 @@ internal static class Updater {
 
                 if (Files.Length > 0) {
                     for (int i = 0; i < Files.Length; i++)
-                        Files[i].ExtractToFile($"{FfmpegPath}\\{Files[i].Name}", true);
+                        await Task.Run(() => Files[i].ExtractToFile($"{FfmpegPath}\\{Files[i].Name}", true));
                 }
-                else return false;
+                else {
+                    return false;
+                }
 
                 CanRetry = false;
             }
@@ -306,18 +330,16 @@ internal static class Updater {
     /// <exception cref="ArgumentOutOfRangeException"></exception>
     public static GithubRepoContent[] GetAvailableLanguages() {
         Log.Write("Enumerating languages available.");
-        string Url = "https://api.github.com/repos/murrty/youtube-dl-gui/contents/Languages";
+        const string Url = "https://api.github.com/repos/murrty/youtube-dl-gui/contents/Languages";
 
-        Task<string> JsonTask = GetJSON(Url);
+        Task<string?> JsonTask = GetJSON(Url);
         JsonTask.Wait();
 
         var AvailableLanguages = JsonTask.Result.JsonDeserialize<GithubRepoContent[]>()
             .Where(x => x.name != "English.ini")
             .ToArray();
 
-        if (AvailableLanguages.Length > 0)
-            return AvailableLanguages;
-        else throw new ArgumentOutOfRangeException(nameof(AvailableLanguages));
+        return AvailableLanguages.Length > 0 ? AvailableLanguages : throw new ArgumentOutOfRangeException(nameof(AvailableLanguages));
     }
     #endregion
 
@@ -327,8 +349,8 @@ internal static class Updater {
     /// </summary>
     /// <param name="Url">The URL to download the string from.</param>
     /// <returns>A string from the URL.</returns>
-    private static async Task<string> GetJSON(string Url) {
-        string Json = null;;
+    private static async Task<string?> GetJSON(string Url) {
+        string? Json = null;
         bool CanRetry;
         int Retries = 0;
         do {
@@ -337,14 +359,16 @@ internal static class Updater {
                 CanRetry = false;
             }
             catch (Exception ex) {
-                while (ex.InnerException is not null)
+                while (ex.InnerException is not null) {
                     ex = ex.InnerException;
+                }
 
-                if (ex is ThreadAbortException or TaskCanceledException or OperationCanceledException)
-                    throw ex;
+                if (ex is ThreadAbortException or TaskCanceledException or OperationCanceledException) {
+                    throw;
+                }
 
                 if (Retries != MaxRetries && (ex is not HttpException hex || (int)hex.StatusCode > 499)) {
-                    Log.Write($"An exception occurred, retrying...");
+                    Log.Write("An exception occurred, retrying...");
                     await Task.Delay(RetryDelay);
                     Retries++;
                     CanRetry = true;
@@ -367,11 +391,12 @@ internal static class Updater {
     /// Refreshes the release data within the application.
     /// </summary>
     private static async Task RefreshRelease() {
-        string Json = await GetJSON((General.DownloadBetaVersions ? GithubLinks.GithubAllReleasesJson : GithubLinks.GithubLatestJson)
+        string? Json = await GetJSON((General.DownloadBetaVersions ? GithubLinks.GithubAllReleasesJson : GithubLinks.GithubLatestJson)
             .Format("murrty", Language.ApplicationName));
 
-        if (Json.IsNullEmptyWhitespace())
+        if (Json.IsNullEmptyWhitespace()) {
             throw new InvalidOperationException("JSON downloaded was empty");
+        }
 
         GithubData CurrentCheck;
 
@@ -392,9 +417,10 @@ internal static class Updater {
     /// </summary>
     /// <param name="GitID">The youtube-dl fork ID from <seealso cref="GithubLinks.GitLinks.Repos"/>, authored by <seealso cref="GithubLinks.GitLinks.Users"/></param>
     /// <returns>The string of the latest version of the specified fork ID.</returns>
-    private static async Task<string> GetLatestYoutubeDl(int GitID) {
-        if (GitID < 0 || GitID + 1 > GithubLinks.ProviderRepos.Length)
-            throw new ArgumentOutOfRangeException("GitID", GitID, "The GitID is invalid, youtube-dl cannot be redownloaded.");
+    private static async Task GetLatestYoutubeDl(int GitID) {
+        if (GitID < 0 || GitID + 1 > GithubLinks.ProviderRepos.Length) {
+            throw new ArgumentOutOfRangeException(nameof(GitID), GitID, "The GitID is invalid, youtube-dl cannot be redownloaded.");
+        }
 
         Log.Write("Retrieving Github release data for youtube-dl");
 
@@ -408,12 +434,11 @@ internal static class Updater {
 
         if (LatestYoutubeDl is not null && LatestYoutubeDl.VersionTag == CurrentRelease.VersionTag) {
             Log.Write("LatestYoutubeDl is already up to date.");
-            return LatestYoutubeDl.VersionTag;
+            return;
         }
 
         Log.Write("A new version is available.");
         LatestYoutubeDl = CurrentRelease;
-        return LatestYoutubeDl.VersionTag;
     }
     #endregion
 }

@@ -69,5 +69,4 @@ internal static class Extensions {
                 act(items[i]);
         }
     }
-    public static void AppendArg(this StringBuilder bld, string str) => bld.Append(str + " ");
 }

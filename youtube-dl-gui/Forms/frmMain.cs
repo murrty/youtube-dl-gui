@@ -1,4 +1,5 @@
-﻿namespace youtube_dl_gui;
+﻿#nullable enable
+namespace youtube_dl_gui;
 using System;
 using System.Diagnostics;
 using System.Drawing;
@@ -9,13 +10,10 @@ using System.Windows.Forms;
 
 public partial class frmMain : LocalizedForm {
     #region variables
-    private Thread UpdateCheckThread;
-    private Thread YtdlUpdateCheckThread;
+    public bool ProtocolInput;
 
-    public bool ProtocolInput = false;
-
-    private bool ClipboardScannerActive = false;
-    private string ClipboardData = null;
+    private bool ClipboardScannerActive;
+    private string? ClipboardData;
     #endregion
 
     #region form
@@ -37,23 +35,24 @@ public partial class frmMain : LocalizedForm {
         //    mQuickDownloadFormAuthentication.Enabled = mQuickDownloadFormAuthentication.Visible =
         //    mExtendedDownloadForm.Enabled = mExtendedDownloadForm.Visible = true;
 
-        // Hacky way to check for both updates.
         this.Shown += async (s, e) => {
             Log.Write("Startup finished.");
             if (General.CheckForUpdatesOnLaunch) {
                 try {
-                    await Updater.CheckForUpdate(false);
-                }
-                catch (ThreadAbortException) {
-                    // do nothing
+                    switch (await Updater.CheckForUpdate(false)) {
+                        case true: {
+                            Updater.ShowUpdateForm(true);
+                        } break;
+                        case null: {
+                            Log.Write("The initial update check returned null.");
+                        } break;
+                    }
                 }
                 catch (Exception ex) {
                     if (!(ex is ThreadAbortException or OperationCanceledException or TaskCanceledException))
                         Log.ReportException(ex);
                 }
             }
-        };
-        this.Shown += async (s, e) => {
             if (General.AutoUpdateYoutubeDl) {
                 try {
                     if (await Updater.CheckForYoutubeDlUpdate())
@@ -73,10 +72,8 @@ public partial class frmMain : LocalizedForm {
             case NativeMethods.WM_CLIPBOARDUPDATE: {
                 if (Clipboard.ContainsText()) {
                     ClipboardData = Clipboard.GetText();
-                    if (mClipboardAutoDownloadVerifyLinks.Checked) {
-                        if (!DownloadHelper.SupportedDownloadLink(ClipboardData)) {
-                            return;
-                        }
+                    if (mClipboardAutoDownloadVerifyLinks.Checked && !DownloadHelper.SupportedDownloadLink(ClipboardData)) {
+                        return;
                     }
                     txtUrl.Text = ClipboardData;
                     ClipboardData = null;
@@ -140,14 +137,16 @@ public partial class frmMain : LocalizedForm {
 
         if (CustomArguments.YtdlArguments.Count > 0) {
             CustomArguments.YtdlArguments.For((Arg) => cbCustomArguments.Items.Add(Arg));
-            if (Saved.CustomArgumentsIndex < cbCustomArguments.Items.Count)
+            if (Saved.CustomArgumentsIndex < cbCustomArguments.Items.Count) {
                 cbCustomArguments.SelectedIndex = rbCustom.Checked ? Saved.CustomArgumentsIndex : Saved.CustomArgumentsIndex + 1;
+            }
         }
 
         mClipboardAutoDownloadVerifyLinks.Checked = cmTrayClipboardAutoDownloadVerifyLinks.Checked = General.ClipboardAutoDownloadVerifyLinks;
 
-        if (!Saved.FileNameSchemaHistory.IsNullEmptyWhitespace())
+        if (!Saved.FileNameSchemaHistory.IsNullEmptyWhitespace()) {
             cbSchema.Items.AddRange(Saved.FileNameSchemaHistory.Split('|'));
+        }
         int index = cbSchema.Items.IndexOf(Downloads.fileNameSchema);
         if (index > -1) {
             cbSchema.SelectedIndex = index;
@@ -157,45 +156,52 @@ public partial class frmMain : LocalizedForm {
             cbSchema.SelectedIndex = cbSchema.Items.Count - 1;
         }
 
-        if (General.DeleteUpdaterOnStartup)
+        if (General.DeleteUpdaterOnStartup) {
             System.IO.File.Delete(Environment.CurrentDirectory + "\\youtube-dl-gui-updater.exe");
-        if (General.DeleteBackupOnStartup)
+        }
+        if (General.DeleteBackupOnStartup) {
             System.IO.File.Delete(Environment.CurrentDirectory + "\\youtube-dl-gui.old.exe");
+        }
     }
 
     private void frmMain_FormClosing(object sender, FormClosingEventArgs e) {
-        if (UpdateCheckThread is not null && UpdateCheckThread.IsAlive)
-            UpdateCheckThread.Abort();
-        if (YtdlUpdateCheckThread is not null && YtdlUpdateCheckThread.IsAlive)
-            YtdlUpdateCheckThread.Abort();
-
         this.Opacity = 0;
-        if (this.WindowState == FormWindowState.Minimized)
+        if (this.WindowState == FormWindowState.Minimized) {
             this.WindowState = FormWindowState.Normal;
+        }
 
         chkUseSelection.Checked = false;
         Saved.MainFormSize = this.Size;
         Saved.CustomArgumentsIndex = rbCustom.Checked ? cbCustomArguments.SelectedIndex : cbCustomArguments.SelectedIndex - 1;
 
-        if (rbVideo.Checked)
+        if (rbVideo.Checked) {
             Saved.downloadType = 0;
-        else if (rbAudio.Checked)
+        }
+        else if (rbAudio.Checked) {
             Saved.downloadType = 1;
-        else if (rbCustom.Checked)
+        }
+        else if (rbCustom.Checked) {
             Saved.downloadType = 2;
-        else
+        }
+        else {
             Saved.downloadType = -1;
+        }
 
-        if (rbConvertVideo.Checked)
+        if (rbConvertVideo.Checked) {
             Saved.convertType = 0;
-        else if (rbConvertAudio.Checked)
+        }
+        else if (rbConvertAudio.Checked) {
             Saved.convertType = 1;
-        else if (rbConvertCustom.Checked)
+        }
+        else if (rbConvertCustom.Checked) {
             Saved.convertType = 2;
-        else if (rbConvertAutoFFmpeg.Checked)
+        }
+        else if (rbConvertAutoFFmpeg.Checked) {
             Saved.convertType = 6;
-        else
+        }
+        else {
             Saved.convertType = -1;
+        }
 
         Saved.MainFormLocation = this.Location;
 
@@ -294,7 +300,7 @@ public partial class frmMain : LocalizedForm {
             cbCustomArguments.Items[0] = Language.GenericDoNotInclude;
 
         gbDownloadType.Size = new(
-            ((rbVideo.Size.Width + 2) + rbAudio.Size.Width + (rbCustom.Size.Width - 2)) + 12,
+            rbVideo.Size.Width + 2 + rbAudio.Size.Width + (rbCustom.Size.Width - 2) + 12,
             gbDownloadType.Size.Height
         );
         gbDownloadType.Location = new(
@@ -307,16 +313,16 @@ public partial class frmMain : LocalizedForm {
             rbVideo.Location.Y
         );
         rbAudio.Location = new(
-            (rbVideo.Location.X + rbVideo.Size.Width) + 2,
+            rbVideo.Location.X + rbVideo.Size.Width + 2,
             rbAudio.Location.Y
         );
         rbCustom.Location = new(
-            ((rbAudio.Location.X + rbAudio.Size.Width) + 2),
+            rbAudio.Location.X + rbAudio.Size.Width + 2,
             rbCustom.Location.Y
         );
 
         gbSelection.Size = new(
-            (rbVideoSelectionBeforeDate.Size.Width + rbVideoSelectionOnDate.Size.Width + rbVideoSelectionAfterDate.Size.Width) + 12,
+            rbVideoSelectionBeforeDate.Size.Width + rbVideoSelectionOnDate.Size.Width + rbVideoSelectionAfterDate.Size.Width + 12,
             20
         );
         gbSelection.Location = new(
@@ -328,7 +334,7 @@ public partial class frmMain : LocalizedForm {
             rbVideoSelectionPlaylistIndex.Location.Y
         );
         rbVideoSelectionPlaylistItems.Location = new(
-            (rbVideoSelectionPlaylistIndex.Location.X + rbVideoSelectionPlaylistItems.Size.Width) + 2,
+            rbVideoSelectionPlaylistIndex.Location.X + rbVideoSelectionPlaylistItems.Size.Width + 2,
             rbVideoSelectionPlaylistItems.Location.Y
         );
         rbVideoSelectionBeforeDate.Location = new(
@@ -336,11 +342,11 @@ public partial class frmMain : LocalizedForm {
             rbVideoSelectionBeforeDate.Location.Y
         );
         rbVideoSelectionOnDate.Location = new(
-            (rbVideoSelectionBeforeDate.Location.X + rbVideoSelectionBeforeDate.Size.Width) + 2,
+            rbVideoSelectionBeforeDate.Location.X + rbVideoSelectionBeforeDate.Size.Width + 2,
             rbVideoSelectionOnDate.Location.Y
         );
         rbVideoSelectionAfterDate.Location = new(
-            (rbVideoSelectionOnDate.Location.X + rbVideoSelectionOnDate.Width) + 2,
+            rbVideoSelectionOnDate.Location.X + rbVideoSelectionOnDate.Width + 2,
             rbVideoSelectionAfterDate.Location.Y
         );
 
@@ -349,19 +355,19 @@ public partial class frmMain : LocalizedForm {
             rbConvertVideo.Location.Y
         );
         rbConvertAudio.Location = new(
-            (rbConvertVideo.Location.X + rbConvertVideo.Width) + 2,
+            rbConvertVideo.Location.X + rbConvertVideo.Width + 2,
             rbConvertVideo.Location.Y
         );
         rbConvertCustom.Location = new(
-            (rbConvertAudio.Location.X + rbConvertAudio.Size.Width) + 2,
+            rbConvertAudio.Location.X + rbConvertAudio.Size.Width + 2,
             rbConvertAudio.Location.Y
         );
         rbConvertAuto.Location = new(
-            ((tabConvert.Size.Width / 2) - ((rbConvertAuto.Width + rbConvertAutoFFmpeg.Width) / 2)),
+            (tabConvert.Size.Width / 2) - ((rbConvertAuto.Width + rbConvertAutoFFmpeg.Width) / 2),
             rbConvertAuto.Location.Y
         );
         rbConvertAutoFFmpeg.Location = new(
-            (rbConvertAuto.Location.X + rbConvertAuto.Size.Width) + 2,
+            rbConvertAuto.Location.X + rbConvertAuto.Size.Width + 2,
             rbConvertAutoFFmpeg.Location.Y
         );
     }
@@ -496,80 +502,85 @@ public partial class frmMain : LocalizedForm {
     }
 
     private void cmTrayDownloadBestVideo_Click(object sender, EventArgs e) {
-        if (!Clipboard.ContainsText()) { return; }
-        DownloadInfo NewInfo = new() {
+        if (!Clipboard.ContainsText()) {
+            return;
+        }
+
+        DownloadInfo NewInfo = new(Clipboard.GetText()) {
             VideoQuality = (VideoQualityType)Saved.videoQuality,
             Type = 0,
-            DownloadURL = Clipboard.GetText()
         };
         frmDownloader Downloader = new(NewInfo);
         Downloader.Show();
     }
     private void cmTrayDownloadBestAudio_Click(object sender, EventArgs e) {
-        DownloadInfo NewInfo = new() {
+        if (!Clipboard.ContainsText()) {
+            return;
+        }
+
+        DownloadInfo NewInfo = new(Clipboard.GetText()) {
             AudioCBRQuality = AudioCBRQualityType.best,
             Type = DownloadType.Audio,
-            DownloadURL = Clipboard.GetText()
         };
         frmDownloader Downloader = new(NewInfo);
         Downloader.Show();
     }
 
     private void cmTrayDownloadCustomTxtBox_Click(object sender, EventArgs e) {
-        if (Clipboard.ContainsText()) {
-            if (string.IsNullOrEmpty(cbCustomArguments.Text)) {
-                System.Media.SystemSounds.Asterisk.Play();
-                cbCustomArguments.Focus();
-                return;
-            }
-            else {
-                DownloadInfo NewInfo = new() {
-                    DownloadArguments = cbCustomArguments.Text,
-                    Type = DownloadType.Custom,
-                    DownloadURL = Clipboard.GetText()
-                };
-                frmDownloader Downloader = new(NewInfo);
-                Downloader.Show();
-            }
+        if (!Clipboard.ContainsText()) {
+            return;
         }
+
+        if (string.IsNullOrEmpty(cbCustomArguments.Text)) {
+            System.Media.SystemSounds.Asterisk.Play();
+            cbCustomArguments.Focus();
+            return;
+        }
+
+        DownloadInfo NewInfo = new(Clipboard.GetText()) {
+            Arguments = cbCustomArguments.Text,
+            Type = DownloadType.Custom,
+        };
+        frmDownloader Downloader = new(NewInfo);
+        Downloader.Show();
     }
     private void cmTrayDownloadCustomTxt_Click(object sender, EventArgs e) {
-        if (Clipboard.ContainsText()) {
-            if (!System.IO.File.Exists(Environment.CurrentDirectory + "\\args.txt")) {
-                Log.MessageBox(Language.dlgMainArgsTxtDoesntExist);
-                return;
-            }
-            else if (string.IsNullOrEmpty(System.IO.File.ReadAllText(Environment.CurrentDirectory + "\\args.txt"))) {
-                Log.MessageBox(Language.dlgMainArgsTxtIsEmpty);
-                return;
-            }
-            else {
-                DownloadInfo NewInfo = new() {
-                    DownloadArguments = System.IO.File.ReadAllLines(Environment.CurrentDirectory + "\\args.txt")[0],
-                    Type = DownloadType.Custom,
-                    DownloadURL = Clipboard.GetText()
-                };
-                frmDownloader Downloader = new(NewInfo);
-                Downloader.Show();
-            }
+        if (!Clipboard.ContainsText()) {
+            return;
         }
+
+        if (!System.IO.File.Exists(Environment.CurrentDirectory + "\\args.txt")) {
+            Log.MessageBox(Language.dlgMainArgsTxtDoesntExist);
+            return;
+        }
+        if (string.IsNullOrEmpty(System.IO.File.ReadAllText(Environment.CurrentDirectory + "\\args.txt"))) {
+            Log.MessageBox(Language.dlgMainArgsTxtIsEmpty);
+            return;
+        }
+
+        DownloadInfo NewInfo = new(Clipboard.GetText()) {
+            Arguments = System.IO.File.ReadAllLines(Environment.CurrentDirectory + "\\args.txt")[0],
+            Type = DownloadType.Custom,
+        };
+        frmDownloader Downloader = new(NewInfo);
+        Downloader.Show();
     }
     private void cmTrayDownloadCustomSettings_Click(object sender, EventArgs e) {
-        if (Clipboard.ContainsText() && Saved.CustomArgumentsIndex > -1) {
-            if (cbCustomArguments.Items.Count < (rbCustom.Checked ? 1 : 2)) {
-                Log.MessageBox(Language.dlgMainArgsNoneSaved);
-                return;
-            }
-            else {
-                DownloadInfo NewInfo = new() {
-                    DownloadArguments = cbCustomArguments.Items[Saved.CustomArgumentsIndex] as string,
-                    Type = DownloadType.Custom,
-                    DownloadURL = Clipboard.GetText()
-                };
-                frmDownloader Downloader = new(NewInfo);
-                Downloader.Show();
-            }
+        if (Clipboard.ContainsText() || Saved.CustomArgumentsIndex < 0) {
+            return;
         }
+
+        if (cbCustomArguments.Items.Count < (rbCustom.Checked ? 1 : 2)) {
+            Log.MessageBox(Language.dlgMainArgsNoneSaved);
+            return;
+        }
+
+        DownloadInfo NewInfo = new(Clipboard.GetText()) {
+            Arguments = cbCustomArguments.Items[Saved.CustomArgumentsIndex] as string,
+            Type = DownloadType.Custom,
+        };
+        frmDownloader Downloader = new(NewInfo);
+        Downloader.Show();
     }
     private void cmTrayClipboardAutoDownload_Click(object sender, EventArgs e) {
         ToggleClipboardScanning();
@@ -889,9 +900,8 @@ public partial class frmMain : LocalizedForm {
                     return;
                 }
                 for (int i = 0; i < ReadFile.Length; i++) {
-                    DownloadInfo NewInfo = new() {
+                    DownloadInfo NewInfo = new(ReadFile[i].Trim()) {
                         BatchDownload = true,
-                        DownloadURL = ReadFile[i].Trim(' '),
                         FileNameSchema = schema
                     };
                     switch (Type) {
@@ -899,7 +909,7 @@ public partial class frmMain : LocalizedForm {
                             if (!chkDownloadSound.Checked) {
                                 NewInfo.SkipAudioForVideos = true;
                             }
-                            NewInfo.DownloadArguments = videoArguments;
+                            NewInfo.Arguments = videoArguments;
                             NewInfo.VideoQuality = (VideoQualityType)BatchQuality;
                             NewInfo.Type = DownloadType.Video;
                             break;
@@ -913,7 +923,7 @@ public partial class frmMain : LocalizedForm {
                             NewInfo.Type = DownloadType.Audio;
                             break;
                         case DownloadType.Custom:
-                            NewInfo.DownloadArguments = cbCustomArguments.Text;
+                            NewInfo.Arguments = cbCustomArguments.Text;
                             NewInfo.Type = DownloadType.Custom;
                             break;
                         case DownloadType.Unknown:
@@ -965,17 +975,18 @@ public partial class frmMain : LocalizedForm {
 
         string URL = txtUrl.Text;//.Replace("\\", "-");
 
-        AuthenticationDetails Auth = null;
+        AuthenticationDetails? Auth = null;
         if (Authenticate) {
             Auth = AuthenticationDetails.GetAuthentication();
-            if (Auth is null)
+            if (Auth is null) {
                 return;
+            }
         }
 
         Form Downloader;
 
         if (Extended) {
-            string Arguments = null;
+            string? Arguments = null;
             if (Downloads.ExtendedDownloaderIncludeCustomArguments && ((rbVideo.Checked || rbAudio.Checked) && cbCustomArguments.SelectedIndex > 0)) {
                 Arguments = cbCustomArguments.Text.IsNullEmptyWhitespace() ? string.Empty : cbCustomArguments.Text;
 
@@ -995,7 +1006,7 @@ public partial class frmMain : LocalizedForm {
             DownloadInfo NewInfo = new(URL);
             if (!rbCustom.Checked) {
                 if (chkUseSelection.Checked) {
-                    if (rbVideoSelectionPlaylistIndex.Checked && txtPlaylistStart.Text.Length > 0 || txtPlaylistEnd.Text.Length > 0) {
+                    if (rbVideoSelectionPlaylistIndex.Checked && (txtPlaylistStart.Text.Length > 0 || txtPlaylistEnd.Text.Length > 0)) {
                         NewInfo.PlaylistSelection = PlaylistSelectionType.PlaylistStartPlaylistEnd;
                         if (int.TryParse(txtPlaylistStart.Text, out int PlaylistStart)) {
                             NewInfo.PlaylistSelectionIndexStart = PlaylistStart;
@@ -1057,7 +1068,7 @@ public partial class frmMain : LocalizedForm {
             }
             else {
                 NewInfo.Type = DownloadType.Custom;
-                NewInfo.DownloadArguments = cbCustomArguments.Text;
+                NewInfo.Arguments = cbCustomArguments.Text;
                 if (!cbCustomArguments.Text.IsNullEmptyWhitespace() && !cbCustomArguments.Items.Contains(cbCustomArguments.Text)) {
                     cbCustomArguments.SelectedIndex = cbCustomArguments.Items.Add(cbCustomArguments.Text);
                     CustomArguments.AddYtdlArgument(cbCustomArguments.Text, true);
@@ -1068,7 +1079,7 @@ public partial class frmMain : LocalizedForm {
 
             if ((rbVideo.Checked || rbAudio.Checked) && cbCustomArguments.SelectedIndex != 0) {
                 if (!cbCustomArguments.Text.IsNullEmptyWhitespace()) {
-                    NewInfo.DownloadArguments = cbCustomArguments.Text;
+                    NewInfo.Arguments = cbCustomArguments.Text;
                     if (!cbCustomArguments.Items.Contains(cbCustomArguments.Text)) {
                         cbCustomArguments.Items.Add(cbCustomArguments.Text);
                         CustomArguments.AddYtdlArgument(cbCustomArguments.Text, true);
@@ -1085,11 +1096,13 @@ public partial class frmMain : LocalizedForm {
 
         Downloader.Show();
 
-        if (General.ClearURLOnDownload)
+        if (General.ClearURLOnDownload) {
             txtUrl.Clear();
+        }
 
-        if (General.ClearClipboardOnDownload)
+        if (General.ClearClipboardOnDownload) {
             Clipboard.Clear();
+        }
     }
     #endregion
 
@@ -1103,7 +1116,7 @@ public partial class frmMain : LocalizedForm {
             Formats.AllFiles,
             Formats.VideoFormats,
             Formats.AudioFormats,
-            !string.IsNullOrWhiteSpace(Formats.CustomFormats) ? Formats.CustomFormats : ""
+            !Formats.CustomFormats.IsNullEmptyWhitespace() ? Formats.CustomFormats : ""
         });
 
         ofd.Filter = AllFormats;
@@ -1122,7 +1135,7 @@ public partial class frmMain : LocalizedForm {
             if (rbConvertVideo.Checked) {
                 sfd.Filter = Formats.JoinFormats(new[] {
                             Formats.VideoFormats,
-                            !string.IsNullOrWhiteSpace(Formats.CustomFormats) ? Formats.CustomFormats : "",
+                            !Formats.CustomFormats.IsNullEmptyWhitespace() ? Formats.CustomFormats : "",
                             Formats.AllFiles
                         });
                 sfd.FilterIndex = Saved.convertSaveVideoIndex;
@@ -1130,7 +1143,7 @@ public partial class frmMain : LocalizedForm {
             else if (rbConvertAudio.Checked) {
                 sfd.Filter = Formats.JoinFormats(new[] {
                             Formats.AudioFormats,
-                            !string.IsNullOrWhiteSpace(Formats.CustomFormats) ? Formats.CustomFormats : "",
+                            !Formats.CustomFormats.IsNullEmptyWhitespace() ? Formats.CustomFormats : "",
                             Formats.AllFiles
                         });
                 sfd.FilterIndex = Saved.convertSaveAudioIndex;
@@ -1162,14 +1175,14 @@ public partial class frmMain : LocalizedForm {
         if (rbConvertVideo.Checked) {
             sfd.Filter = Formats.JoinFormats(new[] {
                     Formats.VideoFormats,
-                    !string.IsNullOrWhiteSpace(Formats.CustomFormats) ? Formats.CustomFormats : ""
+                    !Formats.CustomFormats.IsNullEmptyWhitespace() ? Formats.CustomFormats : ""
                 });
             sfd.FilterIndex = Saved.convertSaveVideoIndex;
         }
         else if (rbConvertAudio.Checked) {
             sfd.Filter = Formats.JoinFormats(new[] {
                     Formats.AudioFormats,
-                    !string.IsNullOrWhiteSpace(Formats.CustomFormats) ? Formats.CustomFormats : ""
+                    !Formats.CustomFormats.IsNullEmptyWhitespace() ? Formats.CustomFormats : ""
                 });
             sfd.FilterIndex = Saved.convertSaveAudioIndex;
         }
@@ -1178,7 +1191,7 @@ public partial class frmMain : LocalizedForm {
                     Formats.AllFiles,
                     Formats.VideoFormats,
                     Formats.AudioFormats,
-                    !string.IsNullOrWhiteSpace(Formats.CustomFormats) ? Formats.CustomFormats : ""
+                    !Formats.CustomFormats.IsNullEmptyWhitespace() ? Formats.CustomFormats : ""
                 });
             sfd.FilterIndex = Saved.convertSaveUnknownIndex;
         }
@@ -1203,21 +1216,23 @@ public partial class frmMain : LocalizedForm {
         btnConvertInput.Enabled = false;
         btnConvertOutput.Enabled = false;
 
-        ConvertInfo NewConversion = new();
+        ConvertInfo NewConversion = new(txtConvertInput.Text, txtConvertOutput.Text);
 
-        if (rbConvertVideo.Checked)
+        if (rbConvertVideo.Checked) {
             NewConversion.Type = ConversionType.Video;
-        else if (rbConvertAudio.Checked)
+        }
+        else if (rbConvertAudio.Checked) {
             NewConversion.Type = ConversionType.Audio;
-        else if (rbConvertCustom.Checked)
+        }
+        else if (rbConvertCustom.Checked) {
             NewConversion.Type = ConversionType.Custom;
-        else if (rbConvertAuto.Checked)
+        }
+        else if (rbConvertAuto.Checked) {
             NewConversion.Type = ConvertHelper.GetFiletype(txtConvertOutput.Text);
-        else
+        }
+        else {
             NewConversion.Type = ConversionType.FfmpegDefault;
-
-        NewConversion.InputFile = txtConvertInput.Text;
-        NewConversion.OutputFile = txtConvertOutput.Text;
+        }
 
         btnConvert.Enabled = true;
         btnConvertInput.Enabled = true;
@@ -1250,21 +1265,18 @@ public partial class frmMain : LocalizedForm {
             };
 
             if (sfd.ShowDialog() == DialogResult.OK) {
-                frmConverter Converter = new(new() {
-                    InputFile = ofd.FileName,
-                    OutputFile = sfd.FileName,
+                frmConverter Converter = new(new(ofd.FileName, sfd.FileName) {
                     Type = conversionType switch {
                         ConversionType.Video => ConversionType.Video,
                         ConversionType.Audio => ConversionType.Audio,
                         ConversionType.Custom => ConversionType.Custom,
                         _ => ConversionType.FfmpegDefault,
-                    }
+                    },
                 });
                 Converter.Show();
                 //Convert.convertFile(inputFile, outputFile, conversionType);
             }
         }
-
     }
     #endregion
 
@@ -1278,7 +1290,7 @@ public partial class frmMain : LocalizedForm {
         if (!Clipboard.ContainsText())
             return;
 
-        YoutubeDlData testData = chkDebugPlaylistDownload.Checked ?
+        YoutubeDlData? testData = chkDebugPlaylistDownload.Checked ?
             YoutubeDlData.GeneratePlaylist(Clipboard.GetText(), out _) : YoutubeDlData.GenerateData(Clipboard.GetText(), out _);
 
         //frmDownloader Downloader = new();

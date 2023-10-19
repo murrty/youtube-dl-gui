@@ -35,7 +35,7 @@ partial class frmExtendedConverter {
             this.chVideoCodec = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chVideoDisplay = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.pnVideoOptions = new System.Windows.Forms.Panel();
-            this.lbVideoProfile = new System.Windows.Forms.Label();
+            this.chkSetVideoQuality = new System.Windows.Forms.CheckBox();
             this.cbVideoProfile = new System.Windows.Forms.ComboBox();
             this.cbVideoPreset = new System.Windows.Forms.ComboBox();
             this.chkVideoFaststart = new System.Windows.Forms.CheckBox();
@@ -43,7 +43,8 @@ partial class frmExtendedConverter {
             this.numVideoBitrate = new System.Windows.Forms.NumericUpDown();
             this.lbVideoBitrate = new System.Windows.Forms.Label();
             this.cbVideoCRF = new System.Windows.Forms.ComboBox();
-            this.lbVideoPreset = new System.Windows.Forms.Label();
+            this.chkVideoSetPreset = new System.Windows.Forms.CheckBox();
+            this.chkVideoSetProfile = new System.Windows.Forms.CheckBox();
             this.tpAudioStreams = new System.Windows.Forms.TabPage();
             this.lvAudioStreams = new murrty.controls.ExtendedListView();
             this.chAudioIndex = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -52,6 +53,7 @@ partial class frmExtendedConverter {
             this.chAudioBitrate = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chAudioSamplingRate = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.pnAudioSettings = new System.Windows.Forms.Panel();
+            this.chkSetAudioQuality = new System.Windows.Forms.CheckBox();
             this.chkAudioUseVBR = new System.Windows.Forms.CheckBox();
             this.numAudioBitrate = new System.Windows.Forms.NumericUpDown();
             this.lbAudioBitrate = new System.Windows.Forms.Label();
@@ -82,6 +84,8 @@ partial class frmExtendedConverter {
             this.btnDebugGenerateArgs = new System.Windows.Forms.Button();
             this.chkCopyCodecs = new System.Windows.Forms.CheckBox();
             this.chkSelectOutputOnOk = new System.Windows.Forms.CheckBox();
+            this.cbAudioSampleRate = new System.Windows.Forms.ComboBox();
+            this.chkAudioSampleRate = new System.Windows.Forms.CheckBox();
             this.tcMain.SuspendLayout();
             this.tpVideoStreams.SuspendLayout();
             this.pnVideoOptions.SuspendLayout();
@@ -195,7 +199,7 @@ partial class frmExtendedConverter {
             // 
             // pnVideoOptions
             // 
-            this.pnVideoOptions.Controls.Add(this.lbVideoProfile);
+            this.pnVideoOptions.Controls.Add(this.chkSetVideoQuality);
             this.pnVideoOptions.Controls.Add(this.cbVideoProfile);
             this.pnVideoOptions.Controls.Add(this.cbVideoPreset);
             this.pnVideoOptions.Controls.Add(this.chkVideoFaststart);
@@ -203,27 +207,29 @@ partial class frmExtendedConverter {
             this.pnVideoOptions.Controls.Add(this.numVideoBitrate);
             this.pnVideoOptions.Controls.Add(this.lbVideoBitrate);
             this.pnVideoOptions.Controls.Add(this.cbVideoCRF);
-            this.pnVideoOptions.Controls.Add(this.lbVideoPreset);
+            this.pnVideoOptions.Controls.Add(this.chkVideoSetPreset);
+            this.pnVideoOptions.Controls.Add(this.chkVideoSetProfile);
             this.pnVideoOptions.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.pnVideoOptions.Location = new System.Drawing.Point(3, 125);
             this.pnVideoOptions.Name = "pnVideoOptions";
             this.pnVideoOptions.Size = new System.Drawing.Size(399, 58);
             this.pnVideoOptions.TabIndex = 1;
             // 
-            // lbVideoProfile
+            // chkSetVideoQuality
             // 
-            this.lbVideoProfile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.lbVideoProfile.Location = new System.Drawing.Point(228, 37);
-            this.lbVideoProfile.Name = "lbVideoProfile";
-            this.lbVideoProfile.Size = new System.Drawing.Size(67, 13);
-            this.lbVideoProfile.TabIndex = 19;
-            this.lbVideoProfile.Text = "Profiles";
-            this.lbVideoProfile.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.chkSetVideoQuality.AutoSize = true;
+            this.chkSetVideoQuality.Location = new System.Drawing.Point(9, 12);
+            this.chkSetVideoQuality.Name = "chkSetVideoQuality";
+            this.chkSetVideoQuality.Size = new System.Drawing.Size(14, 13);
+            this.chkSetVideoQuality.TabIndex = 20;
+            this.chkSetVideoQuality.UseVisualStyleBackColor = true;
+            this.chkSetVideoQuality.CheckedChanged += new System.EventHandler(this.chkSetVideoQuality_CheckedChanged);
             // 
             // cbVideoProfile
             // 
             this.cbVideoProfile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.cbVideoProfile.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbVideoProfile.Enabled = false;
             this.cbVideoProfile.FormattingEnabled = true;
             this.cbVideoProfile.Items.AddRange(new object[] {
             "baseline",
@@ -241,6 +247,7 @@ partial class frmExtendedConverter {
             // 
             this.cbVideoPreset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.cbVideoPreset.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbVideoPreset.Enabled = false;
             this.cbVideoPreset.FormattingEnabled = true;
             this.cbVideoPreset.Items.AddRange(new object[] {
             "ultrafast",
@@ -270,7 +277,8 @@ partial class frmExtendedConverter {
             // chkVideoUseCRF
             // 
             this.chkVideoUseCRF.AutoSize = true;
-            this.chkVideoUseCRF.Location = new System.Drawing.Point(105, 10);
+            this.chkVideoUseCRF.Enabled = false;
+            this.chkVideoUseCRF.Location = new System.Drawing.Point(125, 10);
             this.chkVideoUseCRF.Name = "chkVideoUseCRF";
             this.chkVideoUseCRF.Size = new System.Drawing.Size(67, 17);
             this.chkVideoUseCRF.TabIndex = 7;
@@ -280,7 +288,8 @@ partial class frmExtendedConverter {
             // 
             // numVideoBitrate
             // 
-            this.numVideoBitrate.Location = new System.Drawing.Point(7, 8);
+            this.numVideoBitrate.Enabled = false;
+            this.numVideoBitrate.Location = new System.Drawing.Point(27, 8);
             this.numVideoBitrate.Maximum = new decimal(new int[] {
             99999999,
             0,
@@ -300,7 +309,7 @@ partial class frmExtendedConverter {
             // 
             this.lbVideoBitrate.AutoSize = true;
             this.lbVideoBitrate.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbVideoBitrate.Location = new System.Drawing.Point(84, 9);
+            this.lbVideoBitrate.Location = new System.Drawing.Point(104, 9);
             this.lbVideoBitrate.Name = "lbVideoBitrate";
             this.lbVideoBitrate.Size = new System.Drawing.Size(16, 17);
             this.lbVideoBitrate.TabIndex = 6;
@@ -309,6 +318,7 @@ partial class frmExtendedConverter {
             // cbVideoCRF
             // 
             this.cbVideoCRF.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbVideoCRF.Enabled = false;
             this.cbVideoCRF.FormattingEnabled = true;
             this.cbVideoCRF.Items.AddRange(new object[] {
             "0 (x264) (BEST)",
@@ -375,21 +385,35 @@ partial class frmExtendedConverter {
             "61 (VPx)",
             "62 (VPx)",
             "63 (VPx) (WORST)"});
-            this.cbVideoCRF.Location = new System.Drawing.Point(7, 8);
+            this.cbVideoCRF.Location = new System.Drawing.Point(27, 8);
             this.cbVideoCRF.Name = "cbVideoCRF";
             this.cbVideoCRF.Size = new System.Drawing.Size(93, 21);
             this.cbVideoCRF.TabIndex = 8;
             this.cbVideoCRF.Visible = false;
             // 
-            // lbVideoPreset
+            // chkVideoSetPreset
             // 
-            this.lbVideoPreset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.lbVideoPreset.Location = new System.Drawing.Point(228, 11);
-            this.lbVideoPreset.Name = "lbVideoPreset";
-            this.lbVideoPreset.Size = new System.Drawing.Size(67, 13);
-            this.lbVideoPreset.TabIndex = 18;
-            this.lbVideoPreset.Text = "Preset";
-            this.lbVideoPreset.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.chkVideoSetPreset.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.chkVideoSetPreset.Location = new System.Drawing.Point(208, 10);
+            this.chkVideoSetPreset.Name = "chkVideoSetPreset";
+            this.chkVideoSetPreset.Size = new System.Drawing.Size(85, 17);
+            this.chkVideoSetPreset.TabIndex = 21;
+            this.chkVideoSetPreset.Text = "Preset";
+            this.chkVideoSetPreset.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.chkVideoSetPreset.UseVisualStyleBackColor = true;
+            this.chkVideoSetPreset.CheckedChanged += new System.EventHandler(this.chkVideoSetPreset_CheckedChanged);
+            // 
+            // chkVideoSetProfile
+            // 
+            this.chkVideoSetProfile.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.chkVideoSetProfile.Location = new System.Drawing.Point(208, 36);
+            this.chkVideoSetProfile.Name = "chkVideoSetProfile";
+            this.chkVideoSetProfile.Size = new System.Drawing.Size(85, 17);
+            this.chkVideoSetProfile.TabIndex = 22;
+            this.chkVideoSetProfile.Text = "Profiles";
+            this.chkVideoSetProfile.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.chkVideoSetProfile.UseVisualStyleBackColor = true;
+            this.chkVideoSetProfile.CheckedChanged += new System.EventHandler(this.chkVideoSetProfile_CheckedChanged);
             // 
             // tpAudioStreams
             // 
@@ -451,6 +475,9 @@ partial class frmExtendedConverter {
             // 
             // pnAudioSettings
             // 
+            this.pnAudioSettings.Controls.Add(this.cbAudioSampleRate);
+            this.pnAudioSettings.Controls.Add(this.chkAudioSampleRate);
+            this.pnAudioSettings.Controls.Add(this.chkSetAudioQuality);
             this.pnAudioSettings.Controls.Add(this.chkAudioUseVBR);
             this.pnAudioSettings.Controls.Add(this.numAudioBitrate);
             this.pnAudioSettings.Controls.Add(this.lbAudioBitrate);
@@ -461,10 +488,21 @@ partial class frmExtendedConverter {
             this.pnAudioSettings.Size = new System.Drawing.Size(399, 58);
             this.pnAudioSettings.TabIndex = 2;
             // 
+            // chkSetAudioQuality
+            // 
+            this.chkSetAudioQuality.AutoSize = true;
+            this.chkSetAudioQuality.Location = new System.Drawing.Point(9, 12);
+            this.chkSetAudioQuality.Name = "chkSetAudioQuality";
+            this.chkSetAudioQuality.Size = new System.Drawing.Size(14, 13);
+            this.chkSetAudioQuality.TabIndex = 21;
+            this.chkSetAudioQuality.UseVisualStyleBackColor = true;
+            this.chkSetAudioQuality.CheckedChanged += new System.EventHandler(this.chkSetAudioQuality_CheckedChanged);
+            // 
             // chkAudioUseVBR
             // 
             this.chkAudioUseVBR.AutoSize = true;
-            this.chkAudioUseVBR.Location = new System.Drawing.Point(105, 10);
+            this.chkAudioUseVBR.Enabled = false;
+            this.chkAudioUseVBR.Location = new System.Drawing.Point(125, 10);
             this.chkAudioUseVBR.Name = "chkAudioUseVBR";
             this.chkAudioUseVBR.Size = new System.Drawing.Size(67, 17);
             this.chkAudioUseVBR.TabIndex = 11;
@@ -473,7 +511,8 @@ partial class frmExtendedConverter {
             // 
             // numAudioBitrate
             // 
-            this.numAudioBitrate.Location = new System.Drawing.Point(7, 8);
+            this.numAudioBitrate.Enabled = false;
+            this.numAudioBitrate.Location = new System.Drawing.Point(27, 8);
             this.numAudioBitrate.Maximum = new decimal(new int[] {
             99999999,
             0,
@@ -493,7 +532,7 @@ partial class frmExtendedConverter {
             // 
             this.lbAudioBitrate.AutoSize = true;
             this.lbAudioBitrate.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbAudioBitrate.Location = new System.Drawing.Point(84, 9);
+            this.lbAudioBitrate.Location = new System.Drawing.Point(104, 9);
             this.lbAudioBitrate.Name = "lbAudioBitrate";
             this.lbAudioBitrate.Size = new System.Drawing.Size(16, 17);
             this.lbAudioBitrate.TabIndex = 10;
@@ -502,6 +541,7 @@ partial class frmExtendedConverter {
             // cbAudioVBR
             // 
             this.cbAudioVBR.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbAudioVBR.Enabled = false;
             this.cbAudioVBR.FormattingEnabled = true;
             this.cbAudioVBR.Items.AddRange(new object[] {
             "0 (BEST)",
@@ -515,7 +555,7 @@ partial class frmExtendedConverter {
             "8",
             "9",
             "10 (WORST)"});
-            this.cbAudioVBR.Location = new System.Drawing.Point(7, 8);
+            this.cbAudioVBR.Location = new System.Drawing.Point(27, 8);
             this.cbAudioVBR.Name = "cbAudioVBR";
             this.cbAudioVBR.Size = new System.Drawing.Size(93, 21);
             this.cbAudioVBR.TabIndex = 12;
@@ -786,6 +826,36 @@ partial class frmExtendedConverter {
             this.chkSelectOutputOnOk.TabIndex = 15;
             this.chkSelectOutputOnOk.UseVisualStyleBackColor = true;
             // 
+            // cbAudioSampleRate
+            // 
+            this.cbAudioSampleRate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cbAudioSampleRate.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbAudioSampleRate.Enabled = false;
+            this.cbAudioSampleRate.FormattingEnabled = true;
+            this.cbAudioSampleRate.Items.AddRange(new object[] {
+            "48000",
+            "44100",
+            "32000",
+            "22050",
+            "11025",
+            "8000"});
+            this.cbAudioSampleRate.Location = new System.Drawing.Point(299, 7);
+            this.cbAudioSampleRate.Name = "cbAudioSampleRate";
+            this.cbAudioSampleRate.Size = new System.Drawing.Size(94, 21);
+            this.cbAudioSampleRate.TabIndex = 22;
+            // 
+            // chkAudioSampleRate
+            // 
+            this.chkAudioSampleRate.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.chkAudioSampleRate.Location = new System.Drawing.Point(208, 10);
+            this.chkAudioSampleRate.Name = "chkAudioSampleRate";
+            this.chkAudioSampleRate.Size = new System.Drawing.Size(85, 17);
+            this.chkAudioSampleRate.TabIndex = 23;
+            this.chkAudioSampleRate.Text = "Sample rate";
+            this.chkAudioSampleRate.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.chkAudioSampleRate.UseVisualStyleBackColor = true;
+            this.chkAudioSampleRate.CheckedChanged += new System.EventHandler(this.chkAudioSampleRate_CheckedChanged);
+            // 
             // frmExtendedConverter
             // 
             this.AllowDrop = true;
@@ -887,8 +957,12 @@ partial class frmExtendedConverter {
     private System.Windows.Forms.Label lbAudioBitrate;
     private System.Windows.Forms.ComboBox cbAudioVBR;
     private System.Windows.Forms.CheckBox chkVideoFaststart;
-    private System.Windows.Forms.Label lbVideoProfile;
     private System.Windows.Forms.ComboBox cbVideoProfile;
     private System.Windows.Forms.ComboBox cbVideoPreset;
-    private System.Windows.Forms.Label lbVideoPreset;
+    private System.Windows.Forms.CheckBox chkSetVideoQuality;
+    private System.Windows.Forms.CheckBox chkVideoSetPreset;
+    private System.Windows.Forms.CheckBox chkVideoSetProfile;
+    private System.Windows.Forms.CheckBox chkSetAudioQuality;
+    private System.Windows.Forms.ComboBox cbAudioSampleRate;
+    private System.Windows.Forms.CheckBox chkAudioSampleRate;
 }
