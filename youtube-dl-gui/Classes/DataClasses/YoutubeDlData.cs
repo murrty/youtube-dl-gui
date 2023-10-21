@@ -180,6 +180,13 @@ internal sealed class YoutubeDlData {
         return Image.FromStream(Stream);
     }
 
+    public string GetApproximateVideoSize(YoutubeDlSubdata.Format Video) {
+        if (DurationTime is null || Video.VideoBitrate is null) {
+            return "null";
+        }
+        return "~" + (DurationTime.Value * (Video.VideoBitrate.Value / 8) * 1024).SizeToString();
+    }
+
     [IgnoreDataMember]
     public string Duration {
         get {
@@ -324,12 +331,15 @@ internal sealed class YoutubeDlSubdata {
         /// Gets the size string of this format.
         /// </summary>
         [IgnoreDataMember]
-        public string Size {
+        public string? Size {
             get {
-                return FileSize is not null ?
-                    FileSize.Value.SizeToString() :
-                ApproximateFileSize is not null ?
-                    ApproximateFileSize.Value.SizeToString() : "null";
+                if (FileSize is not null) {
+                    return FileSize.Value.SizeToString();
+                }
+                if (ApproximateFileSize is not null) {
+                    return ApproximateFileSize.Value.SizeToString();
+                }
+                return null;
             }
         }
 

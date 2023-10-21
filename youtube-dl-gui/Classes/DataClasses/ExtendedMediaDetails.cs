@@ -380,7 +380,7 @@ internal sealed class ExtendedMediaDetails(string URL) : MediaDetails(URL) {
                 ListViewItem NewFormat = new(!Format.QualityName.IsNullEmptyWhitespace() ? Format.QualityName : "?");
                 NewFormat.SubItems.Add(Format.VideoFps is not null && Format.VideoFps > 0 ? $"{Format.VideoFps}" : "?");
                 NewFormat.SubItems.Add(Format.Extension ?? "Unknown");
-                NewFormat.SubItems.Add(Format.Size);
+                NewFormat.SubItems.Add(Format.Size ?? "null");
                 NewFormat.SubItems.Add(Format.VideoBitrate is not null && Format.VideoBitrate > 0 ? $"{Format.VideoBitrate}Kbps" : "?");
                 NewFormat.SubItems.Add($"{Format.VideoWidth ?? -1}x{Format.VideoHeight ?? -1}");
                 NewFormat.SubItems.Add(!Format.VideoCodec.IsNullEmptyWhitespace() && Format.VideoCodec != "none" ? Format.VideoCodec : "Unknown");
@@ -404,7 +404,7 @@ internal sealed class ExtendedMediaDetails(string URL) : MediaDetails(URL) {
             else if (Format.ValidAudioFormat) {
                 ListViewItem NewFormat = new($"{(Format.AudioBitrate is not null && Format.AudioBitrate > 0 ? $"{Format.AudioBitrate}" : "?")}Kbps");
                 NewFormat.SubItems.Add(Format.Extension ?? "Unknown");
-                NewFormat.SubItems.Add(Format.Size);
+                NewFormat.SubItems.Add(Format.Size ?? "null");
                 NewFormat.SubItems.Add($"{(Format.AudioSampleRate is not null && Format.AudioSampleRate > 0 ? $"{Format.AudioSampleRate}" : "?")}Hz");
                 NewFormat.SubItems.Add(Format.AudioCodec ?? "Unknown");
                 NewFormat.SubItems.Add(Format.AudioChannels is not null ? Format.AudioChannels.ToString() : "?");
@@ -438,7 +438,7 @@ internal sealed class ExtendedMediaDetails(string URL) : MediaDetails(URL) {
                 ListViewItem NewFormat = new(!Format.QualityName.IsNullEmptyWhitespace() ? Format.QualityName : "?");
                 NewFormat.SubItems.Add(Format.VideoFps is not null && Format.VideoFps > 0 ? $"{Format.VideoFps}" : "?");
                 NewFormat.SubItems.Add(Format.Extension ?? "Unknown");
-                NewFormat.SubItems.Add(Format.Size);
+                NewFormat.SubItems.Add(Format.Size ?? "null");
                 NewFormat.SubItems.Add(Format.VideoBitrate is not null && Format.VideoBitrate > 0 ? $"{Format.VideoBitrate}Kbps" : "?");
                 NewFormat.SubItems.Add($"{Format.VideoWidth ?? -1}x{Format.VideoHeight ?? -1}");
                 NewFormat.SubItems.Add(!Format.VideoCodec.IsNullEmptyWhitespace() && Format.VideoCodec != "none" ? Format.VideoCodec : "Unknown");
