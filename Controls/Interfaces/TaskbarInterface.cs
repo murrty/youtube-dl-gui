@@ -1,31 +1,20 @@
-﻿namespace murrty.controls.natives;
-
+﻿#nullable enable
+namespace murrty.controls.natives;
 using System.Runtime.InteropServices;
-
 /// <summary>
 /// The class for interfacing with the system taskbar.
 /// </summary>
 internal static class TaskbarInterface {
-    #region Fields
-    /// <summary>
-    /// The TaskbarList interface used to interface with the taskbar.
-    /// </summary>
-    private static ITaskbarList3 _TaskbarList3;
-
-    private static readonly bool bSupported =
-        Environment.OSVersion.Version.Major > 6 ||
-        (Environment.OSVersion.Version.Major == 6 && Environment.OSVersion.Version.Minor >= 1);
-    #endregion
-
     #region Properties
     internal static readonly SynchronizedCollection<ExtendedProgressBar> AccessorPriorityList = new();
-    internal static ExtendedProgressBar Accessor {
+    internal static ExtendedProgressBar? Accessor {
         get => fAccessor;
         set {
             if (value is null) {
                 if (AccessorPriorityList.Count > 0) {
-                    while (AccessorPriorityList[0] is null || AccessorPriorityList[0].IsDisposed)
+                    while (AccessorPriorityList[0]?.IsDisposed != false) {
                         AccessorPriorityList.RemoveAt(0);
+                    }
 
                     fAccessor = AccessorPriorityList[0];
                     AccessorPriorityList.RemoveAt(0);
@@ -41,77 +30,58 @@ internal static class TaskbarInterface {
             }
         }
     }
-    private static ExtendedProgressBar fAccessor;
-
-    /// <summary>
-    /// Gets if the version of windows running supports using the ITaskbarList interface.
-    /// </summary>
-    internal static bool Supported {
-        get => bSupported;
-    }
+    private static ExtendedProgressBar? fAccessor;
 
     /// <summary>
     /// Gets the ITaskbarList3 for interfacing with the taskbar.
     /// </summary>
-    internal static ITaskbarList3 TaskbarList3 {
-        get {
-            if (_TaskbarList3 == null) {
-                //lock (ListLock) {
-                lock (typeof(TaskbarInterface)) {
-                    // Are second checks required?
-                    if (_TaskbarList3 == null) {
-                        _TaskbarList3 = (ITaskbarList3)new CTaskbarList();
-                        _TaskbarList3.HrInit();
-                    }
-                }
-            }
-            return _TaskbarList3;
-        }
-    }
+    internal static ITaskbarList3 TaskbarList3 { get; }
     #endregion
 
+    static TaskbarInterface() {
+        TaskbarList3 = (ITaskbarList3)new CTaskbarList();
+        TaskbarList3.HrInit();
+    }
+
     #region Interfaces
-    [ComImport()]
+    [ComImport]
     [Guid("ea1afb91-9e28-4b86-90e9-9e9f8a5eefaf")]
     [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
     internal interface ITaskbarList3 {
-
         // ITaskbarList
         [PreserveSig]
         void HrInit();
         [PreserveSig]
-        void AddTab(IntPtr hwnd);
+        void AddTab(nint hwnd);
         [PreserveSig]
-        void DeleteTab(IntPtr hwnd);
+        void DeleteTab(nint hwnd);
         [PreserveSig]
-        void ActivateTab(IntPtr hwnd);
+        void ActivateTab(nint hwnd);
         [PreserveSig]
-        void SetActiveAlt(IntPtr hwnd);
+        void SetActiveAlt(nint hwnd);
 
         // ITaskbarList2
         [PreserveSig]
-        void MarkFullscreenWindow(IntPtr hwnd, [MarshalAs(UnmanagedType.Bool)] bool fFullscreen);
+        void MarkFullscreenWindow(nint hwnd, [MarshalAs(UnmanagedType.Bool)] bool fFullscreen);
 
         // ITaskbarList3
-        void SetProgressValue(IntPtr hwnd, UInt64 ullCompleted, UInt64 ullTotal);
-        void SetProgressState(IntPtr hwnd, TaskbarProgressState tbpFlags);
+        void SetProgressValue(nint hwnd, ulong ullCompleted, ulong ullTotal);
+        void SetProgressState(nint hwnd, TaskbarProgressState tbpFlags);
     }
 
-    [Guid("56FDF344-FD6D-11d0-958A-006097C9A090")]
     [ClassInterface(ClassInterfaceType.None)]
-    [ComImport()]
+    [ComImport]
+    [Guid("56FDF344-FD6D-11d0-958A-006097C9A090")]
     internal class CTaskbarList { }
     #endregion
 
     #region Methods
-    public static void SetProgressState(IntPtr hWnd, TaskbarProgressState NewState) {
-        if (Supported)
-            TaskbarList3.SetProgressState(hWnd, NewState);
+    public static void SetProgressState(nint hWnd, TaskbarProgressState NewState) {
+        TaskbarList3.SetProgressState(hWnd, NewState);
     }
 
-    public static void SetProgressValue(IntPtr hWnd, ulong Value, ulong Maximum) {
-        if (Supported)
-            TaskbarList3.SetProgressValue(hWnd, Value, Maximum);
+    public static void SetProgressValue(nint hWnd, ulong Value, ulong Maximum) {
+        TaskbarList3.SetProgressValue(hWnd, Value, Maximum);
     }
     #endregion
 }

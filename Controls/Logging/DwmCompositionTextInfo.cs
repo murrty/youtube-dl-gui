@@ -1,4 +1,5 @@
-﻿namespace murrty.classes;
+﻿#nullable enable
+namespace murrty.classes;
 using System.Drawing;
 using System.Runtime.InteropServices;
 /// <summary>

@@ -1,10 +1,10 @@
-﻿namespace murrty.controls;
+﻿#nullable enable
+namespace murrty.controls;
 public sealed class DownloadProgressChangedEventArgs : EventArgs {
     public long BytesReceived { get; }
     public long TotalBytesToReceive { get; }
     public float Percentage { get; }
     public long EstimateBytesPerSecond { get; }
-
     public DownloadProgressChangedEventArgs(long BytesReceived, long TotalBytesToReceive) {
         this.BytesReceived = BytesReceived;
         this.TotalBytesToReceive = TotalBytesToReceive;

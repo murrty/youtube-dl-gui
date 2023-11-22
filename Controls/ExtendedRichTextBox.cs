@@ -1,4 +1,5 @@
-﻿/* ExtendedRichTextBox by murrty */
+﻿#nullable enable
+/* ExtendedRichTextBox by murrty */
 
 namespace murrty.controls;
 
@@ -162,7 +163,7 @@ internal enum SBOrientation : int {
     SB_HORZ = 0x0,
     SB_VERT = 0x1,
     SB_CTL = 0x2,
-    SB_BOTH = 0x3
+    SB_BOTH = SB_VERT | SB_CTL
 }
 [Serializable, StructLayout(LayoutKind.Sequential)]
 internal struct SCROLLINFO {
@@ -173,5 +174,5 @@ internal struct SCROLLINFO {
     public uint nPage;
     public int nPos;
     public int nTrackPos;
-    public bool ScrolledToBottom => nPage + 2 >= nMax - nPos;
+    public readonly bool ScrolledToBottom => nPage + 2 >= nMax - nPos;
 }

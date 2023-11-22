@@ -1,4 +1,5 @@
-﻿/* ExtendedProgressBar by murrty
+﻿#nullable enable
+/* ExtendedProgressBar by murrty
  Derived from wyDay's progress bar with heavy modifications.
 */
 
@@ -23,12 +24,11 @@ using murrty.controls.natives;
 [ToolboxItem(true)]
 [System.Diagnostics.DebuggerStepThrough]
 public sealed class ExtendedProgressBar : ProgressBar {
-
     #region Fields
     /// <summary>
     /// The parent container of the progress bar.
     /// </summary>
-    private ContainerControl _ContainerParent = null;
+    private ContainerControl? _ContainerParent = null;
 
     /// <summary>
     /// The color used for the drop shadow.
@@ -39,12 +39,6 @@ public sealed class ExtendedProgressBar : ProgressBar {
     /// The brush used for the drop shadow.
     /// </summary>
     private Brush DropShadowBrush = SystemBrushes.ControlDark;
-
-    /// <summary>
-    /// If the progress bar should update the value faster than default.
-    /// <para>Used to bypass the slow progress build of vista progress bars.</para>
-    /// </summary>
-    private bool _FastValueUpdate = true;
 
     /// <summary>
     /// The state of the progress.
@@ -79,7 +73,7 @@ public sealed class ExtendedProgressBar : ProgressBar {
     /// <summary>
     /// The graphics used for drawing text.
     /// </summary>
-    private Graphics TextGraphics;
+    private Graphics? TextGraphics;
 
     /// <summary>
     /// The size of the text (Measured once)
@@ -96,12 +90,12 @@ public sealed class ExtendedProgressBar : ProgressBar {
     [Category("Advanced")]
     [Description("The parent of the progress bar.")]
     [EditorBrowsable(EditorBrowsableState.Advanced)]
-    public ContainerControl ContainerParent {
+    public ContainerControl? ContainerParent {
         get => _ContainerParent;
         set {
             _ContainerParent = value;
 
-            if (_ContainerParent != null && _ContainerParent is Form Parent && !_ContainerParent.Visible)
+            if (_ContainerParent is Form Parent && !_ContainerParent.Visible)
                 Parent.Shown += ExtendedProgressBar_Shown;
         }
     }
@@ -134,12 +128,7 @@ public sealed class ExtendedProgressBar : ProgressBar {
     [DefaultValue(false)]
     [Description("Whether the value will update quickly when updating the value.")]
     [EditorBrowsable(EditorBrowsableState.Always)]
-    public bool FastValueUpdate {
-        get => _FastValueUpdate;
-        set {
-            _FastValueUpdate = value;
-        }
-    }
+    public bool FastValueUpdate { get; set; } = true;
 
     /// <summary>
     /// Gets or sets the Font of the text on the progress bar.
@@ -352,7 +341,7 @@ public sealed class ExtendedProgressBar : ProgressBar {
             if (value > base.Maximum || value < base.Minimum)
                 return;
 
-            if (_FastValueUpdate && base.Value != base.Maximum) {
+            if (FastValueUpdate && base.Value != base.Maximum) {
                 base.Value++;
                 base.Value--;
             }
@@ -411,7 +400,7 @@ public sealed class ExtendedProgressBar : ProgressBar {
         base.PerformStep();
         SetValueInTaskbar();
     }
-    
+
     /// <inheritdoc/>
     protected override CreateParams CreateParams {
         get {
@@ -462,7 +451,7 @@ public sealed class ExtendedProgressBar : ProgressBar {
         set {
             // Runs at design time, ensures designer initializes ContainerControl
             base.Site = value;
-            if (value != null && value.GetService(typeof(IDesignerHost)) is IDesignerHost service) {
+            if (value?.GetService(typeof(IDesignerHost)) is IDesignerHost service) {
                 IComponent rootComponent = service.RootComponent;
                 ContainerParent = rootComponent as ContainerControl;
             }
@@ -506,7 +495,6 @@ public sealed class ExtendedProgressBar : ProgressBar {
                 SetStateInTaskbar();
             }
 
-
             Parent.Shown -= ExtendedProgressBar_Shown;
         }
     }
@@ -542,7 +530,6 @@ public sealed class ExtendedProgressBar : ProgressBar {
                     ContentAlignment.MiddleCenter or
                     ContentAlignment.MiddleRight => (Height - TextSize.Height) / 2,
 
-
                     ContentAlignment.BottomLeft or
                     ContentAlignment.BottomCenter or
                     ContentAlignment.BottomRight => Height - TextSize.Height,
@@ -572,7 +559,6 @@ public sealed class ExtendedProgressBar : ProgressBar {
                 ContentAlignment.MiddleLeft or
                 ContentAlignment.MiddleCenter or
                 ContentAlignment.MiddleRight => (Height - TextSize.Height) / 2,
-
 
                 ContentAlignment.BottomLeft or
                 ContentAlignment.BottomCenter or
@@ -611,5 +597,4 @@ public sealed class ExtendedProgressBar : ProgressBar {
         }
     }
     #endregion
-
 }

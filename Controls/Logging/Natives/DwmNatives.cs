@@ -1,4 +1,5 @@
-﻿namespace murrty.classes;
+﻿#nullable enable
+namespace murrty.classes;
 using System.Runtime.InteropServices;
 /// <summary>
 /// Contains p/invoke and consts used for rendering dwm and text.
@@ -94,7 +95,7 @@ internal sealed class DwmNatives {
         public int iStateId;
         public int fApplyOverlay;
         public int iGlowSize;
-        public IntPtr pfnDrawTextCallback;
+        public nint pfnDrawTextCallback;
         public int lParam;
     };
 
@@ -133,34 +134,30 @@ internal sealed class DwmNatives {
 
     [DllImport("dwmapi.dll")]
     public extern static int DwmIsCompositionEnabled(ref bool isEnabled);
-    [DllImport("dwmapi.dll", EntryPoint = "DwmEnableComposition")]
-    public extern static uint DwmEnableComposition(uint compositionAction);
     [DllImport("dwmapi.dll")]
-    public static extern void DwmExtendFrameIntoClientArea(IntPtr hWnd, ref MARGINS margin);
+    public static extern void DwmExtendFrameIntoClientArea(nint hWnd, ref MARGINS margin);
     [DllImport("user32.dll", ExactSpelling = true, SetLastError = true)]
-    public static extern IntPtr GetDC(IntPtr hdc);
+    public static extern nint GetDC(nint hdc);
     [DllImport("gdi32.dll", ExactSpelling = true, SetLastError = true)]
-    public static extern int SaveDC(IntPtr hdc);
+    public static extern int SaveDC(nint hdc);
     [DllImport("user32.dll", ExactSpelling = true, SetLastError = true)]
-    public static extern int ReleaseDC(IntPtr hdc, int state);
+    public static extern int ReleaseDC(nint hdc, int state);
     [DllImport("gdi32.dll", ExactSpelling = true, SetLastError = true)]
-    public static extern IntPtr CreateCompatibleDC(IntPtr hDC);
+    public static extern nint CreateCompatibleDC(nint hDC);
     [DllImport("gdi32.dll", ExactSpelling = true)]
-    public static extern IntPtr SelectObject(IntPtr hDC, IntPtr hObject);
+    public static extern nint SelectObject(nint hDC, nint hObject);
     [DllImport("gdi32.dll", ExactSpelling = true, SetLastError = true)]
-    public static extern bool DeleteObject(IntPtr hObject);
+    public static extern bool DeleteObject(nint hObject);
     [DllImport("gdi32.dll", ExactSpelling = true, SetLastError = true)]
-    public static extern bool DeleteDC(IntPtr hdc);
+    public static extern bool DeleteDC(nint hdc);
     [DllImport("gdi32.dll")]
-    public static extern bool BitBlt(IntPtr hdc, int nXDest, int nYDest, int nWidth, int nHeight, IntPtr hdcSrc, int nXSrc, int nYSrc, uint dwRop);
+    public static extern bool BitBlt(nint hdc, int nXDest, int nYDest, int nWidth, int nHeight, nint hdcSrc, int nXSrc, int nYSrc, uint dwRop);
     [DllImport("UxTheme.dll", ExactSpelling = true, SetLastError = true, CharSet = CharSet.Unicode)]
-    public static extern int DrawThemeTextEx(IntPtr hTheme, IntPtr hdc, int iPartId, int iStateId, string text, int iCharCount, int dwFlags, ref RECT pRect, ref DTTOPTS pOptions);
-    [DllImport("UxTheme.dll", ExactSpelling = true, SetLastError = true)]
-    public static extern int DrawThemeText(IntPtr hTheme, IntPtr hdc, int iPartId, int iStateId, string text, int iCharCount, int dwFlags1, int dwFlags2, ref RECT pRect);
+    public static extern int DrawThemeTextEx(nint hTheme, nint hdc, int iPartId, int iStateId, string text, int iCharCount, int dwFlags, ref RECT pRect, ref DTTOPTS pOptions);
     [DllImport("gdi32.dll", ExactSpelling = true, SetLastError = true)]
-    public static extern IntPtr CreateDIBSection(IntPtr hdc, ref BITMAPINFO pbmi, uint iUsage, int ppvBits, IntPtr hSection, uint dwOffset);
+    public static extern nint CreateDIBSection(nint hdc, ref BITMAPINFO pbmi, uint iUsage, int ppvBits, nint hSection, uint dwOffset);
     [DllImport("user32.dll")]
-    public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
+    public static extern int SendMessage(nint hWnd, int Msg, int wParam, int lParam);
     [DllImport("user32.dll")]
     public static extern bool ReleaseCapture();
 }

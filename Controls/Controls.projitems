@@ -36,6 +36,18 @@
     <Compile Include="$(MSBuildThisFileDirectory)Natives\NativeMethods.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Runtime\System\Index.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Runtime\System\Range.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Runtime\System\Diagnostics\CodeAnalysis\AllowNullAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Runtime\System\Diagnostics\CodeAnalysis\DisallowNullAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Runtime\System\Diagnostics\CodeAnalysis\DoesNotReturnAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Runtime\System\Diagnostics\CodeAnalysis\DoesNotReturnIfAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Runtime\System\Diagnostics\CodeAnalysis\MaybeNullAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Runtime\System\Diagnostics\CodeAnalysis\MaybeNullWhenAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Runtime\System\Diagnostics\CodeAnalysis\MemberNotNullAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Runtime\System\Diagnostics\CodeAnalysis\MemberNotNullWhenAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Runtime\System\Diagnostics\CodeAnalysis\NotNullAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Runtime\System\Diagnostics\CodeAnalysis\NotNullIfNotNullAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Runtime\System\Diagnostics\CodeAnalysis\NotNullWhenAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Runtime\System\Diagnostics\CodeAnalysis\SetsRequiredMembersAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Runtime\System\Runtime\CompilerServices\CallerArgumentExpressionAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Runtime\System\Runtime\CompilerServices\CompilerFeatureRequiredAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Runtime\System\Runtime\CompilerServices\IsExternalInit.cs" />
@@ -47,5 +59,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Exceptions\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Runtime\System\Diagnostics\" />
   </ItemGroup>
 </Project>

@@ -1,4 +1,5 @@
-﻿namespace murrty.controls;
+﻿#nullable enable
+namespace murrty.controls;
 
 /// <summary>
 /// An enumeration of the alignments that the button can be aligned to.

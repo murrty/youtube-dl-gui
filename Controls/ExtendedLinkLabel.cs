@@ -1,4 +1,5 @@
-﻿/* ExtendedLinkLabel by murrty */
+﻿#nullable enable
+/* ExtendedLinkLabel by murrty */
 
 namespace murrty.controls;
 
@@ -14,7 +15,6 @@ using murrty.controls.natives;
 /// </summary>
 [System.Diagnostics.DebuggerStepThrough]
 internal class ExtendedLinkLabel : LinkLabel {
-
     #region Fields
     /// <summary>
     /// The color the link label appears as when active (mouse down).
@@ -103,5 +103,4 @@ internal class ExtendedLinkLabel : LinkLabel {
         this.VisitedLinkColor = VisitedColor;
     }
     #endregion
-
 }

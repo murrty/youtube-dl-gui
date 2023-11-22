@@ -1,4 +1,5 @@
-﻿namespace murrty.controls;
+﻿#nullable enable
+namespace murrty.controls;
 
 /// <summary>
 /// Represents the state of the progress bars' taskbar influence.

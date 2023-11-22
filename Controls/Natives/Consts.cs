@@ -1,9 +1,8 @@
-﻿namespace murrty.controls.natives;
+﻿#nullable enable
+namespace murrty.controls.natives;
 using System.Reflection;
 using System.Windows.Forms;
-
 internal static class Consts {
-
     /// <summary>
     /// Sets the left margin.
     /// </summary>
@@ -42,5 +41,4 @@ internal static class Consts {
         typeof(Cursors)
         .GetField("hand", BindingFlags.Static | BindingFlags.NonPublic)?
         .SetValue(null, new Cursor(NativeMethods.LoadCursor(0, IDC_HAND)));
-
 }

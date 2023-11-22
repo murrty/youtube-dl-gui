@@ -1,11 +1,10 @@
-﻿namespace murrty.controls;
-
+﻿#nullable enable
+namespace murrty.controls;
 using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
-
 internal sealed class ManagedHttpClient : IDisposable {
     internal const long DefaultBuffer = 2048L; //81920L;
     internal const int ProgressReportTime = 25;
@@ -19,8 +18,8 @@ internal sealed class ManagedHttpClient : IDisposable {
     private readonly ProgressFinishedCallback FinishedCallback;
     private static SynchronizationContext SyncThread;
 
-    public event EventHandler<DownloadProgressChangedEventArgs> ProgressChanged;
-    public event EventHandler<DownloadFinishedEventArgs> DownloadComplete;
+    public event EventHandler<DownloadProgressChangedEventArgs>? ProgressChanged;
+    public event EventHandler<DownloadFinishedEventArgs>? DownloadComplete;
 
     private long CurrentProgress;
     private long CurrentTotalSize;
@@ -28,8 +27,7 @@ internal sealed class ManagedHttpClient : IDisposable {
     private long ByteEstimateBuffer;
     private int EstimateTime;
 
-    public bool IsBusy { get; private set; } = false;
-    public bool Disposed { get; private set; } = false;
+    public bool Disposed { get; private set; }
     public static HttpClient DownloadClientStatic { get; private set; }
     public static bool UseProxy { get; private set; }
     public HttpClient DownloadClient { get; private set; }
@@ -77,14 +75,14 @@ internal sealed class ManagedHttpClient : IDisposable {
         }
         return false;
     }
-    private static async Task<HttpException> GetException(HttpResponseMessage Response) {
+    private static async Task<HttpException> GetException(HttpResponseMessage Response, Uri uri) {
         using Stream ResponseStream = await Response.Content.ReadAsStreamAsync();
         byte[] ResponseContent = Response.Content.Headers.ContentEncoding.FirstOrDefault() switch {
             "gzip" => await WebDecompress.GetGZip(ResponseStream),
             "deflate" => await WebDecompress.GetDeflate(ResponseStream),
             _ => await WebDecompress.GetRaw(ResponseStream)
         };
-        return new HttpException(Response.StatusCode, ResponseContent);
+        return new HttpException(Response.StatusCode, ResponseContent, uri);
     }
 
     private void OnProgressThrottleTicked(object state) {
@@ -97,8 +95,9 @@ internal sealed class ManagedHttpClient : IDisposable {
             EstimateTime++;
         }
 
-        if (ProgressChanged is not null)
-            SyncThread.Post(st => ProgressChanged.Invoke(this, new(CurrentProgress, CurrentTotalSize, ByteEstimate)), null);
+        if (ProgressChanged is not null) {
+            SyncThread.Post(_ => ProgressChanged.Invoke(this, new(CurrentProgress, CurrentTotalSize, ByteEstimate)), null);
+        }
     }
     private void OnProgressThrottleTicked_NoSyncContext(object state) {
         if (EstimateTime == EstimateReportTime) {
@@ -114,7 +113,7 @@ internal sealed class ManagedHttpClient : IDisposable {
 
     private void OnProgressFinished() {
         if (DownloadComplete is not null)
-            SyncThread.Post(st => DownloadComplete.Invoke(this, new(CurrentProgress)), null);
+            SyncThread.Post(_ => DownloadComplete.Invoke(this, new(CurrentProgress)), null);
     }
     private void OnProgressFinished_NoSyncContext() {
         DownloadComplete?.Invoke(this, new(CurrentProgress));
@@ -125,7 +124,7 @@ internal sealed class ManagedHttpClient : IDisposable {
             using HttpResponseMessage Response = await DownloadClient.GetAsync(uri, HttpCompletionOption.ResponseHeadersRead, Token);
 
             if (!Response.IsSuccessStatusCode)
-                throw await GetException(Response);
+                throw await GetException(Response, uri);
 
             CurrentTotalSize = Response.Content.Headers.ContentLength ?? 0;
 
@@ -155,7 +154,7 @@ internal sealed class ManagedHttpClient : IDisposable {
             using HttpResponseMessage Response = await DownloadClient.GetAsync(uri, HttpCompletionOption.ResponseHeadersRead, Token);
 
             if (!Response.IsSuccessStatusCode)
-                throw await GetException(Response);
+                throw await GetException(Response, uri);
 
             CurrentTotalSize = Response.Content.Headers.ContentLength ?? 0;
 
@@ -210,6 +209,7 @@ internal sealed class ManagedHttpClient : IDisposable {
     }
     private void Dispose(bool disposing) {
         if (disposing && !Disposed) {
+            ProgressReportTimer.Change(Timeout.Infinite, Timeout.Infinite);
             ProgressReportTimer.Dispose();
             Disposed = true;
         }

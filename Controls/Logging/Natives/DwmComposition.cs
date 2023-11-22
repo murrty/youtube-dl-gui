@@ -1,4 +1,5 @@
-﻿namespace murrty.classes;
+﻿#nullable enable
+namespace murrty.classes;
 /// <summary>
 /// An implementation of DrawThemeTextEx which supports setting color, glow, and other stuff.
 /// Too bad I'm only 14 years late. This would have looked so cool on 7.
@@ -39,11 +40,11 @@ internal static class DwmComposition {
     /// <param name="gph">The graphics that will be painted with, should be from a forms' paint event.</param>
     /// <param name="rgn">The rectangle where the region should be rendered at.</param>
     public static void FillBlackRegion(DwmCompositionInfo Info) {
-        IntPtr Memdc = DwmNatives.CreateCompatibleDC(Info.destdc);
-        if (!(DwmNatives.SaveDC(Memdc) == 0)) {
-            IntPtr bitmap = DwmNatives.CreateDIBSection(Memdc, ref Info.dib, DwmNatives.DIB_RGB_COLORS, 0, IntPtr.Zero, 0);
-            if (!(bitmap == IntPtr.Zero)) {
-                IntPtr bitmapOld = DwmNatives.SelectObject(Memdc, bitmap);
+        nint Memdc = DwmNatives.CreateCompatibleDC(Info.destdc);
+        if (DwmNatives.SaveDC(Memdc) != 0) {
+            nint bitmap = DwmNatives.CreateDIBSection(Memdc, ref Info.dib, DwmNatives.DIB_RGB_COLORS, 0, 0, 0);
+            if (bitmap != 0) {
+                nint bitmapOld = DwmNatives.SelectObject(Memdc, bitmap);
                 try {
                     DwmNatives.BitBlt(Info.destdc, Info.Rect.left, Info.Rect.top, Info.Rect.right - Info.Rect.left, Info.Rect.bottom - Info.Rect.top, Memdc, 0, 0, DwmNatives.SRCCOPY);
                 }
@@ -64,13 +65,13 @@ internal static class DwmComposition {
     /// </summary>
     /// <param name="Info">The <see cref="DwmCompositionInfo"/> object that contains information used to render the text.</param>
     public static void DrawTextOnGlass(DwmCompositionInfo DwmInfo, DwmCompositionTextInfo Info) {
-        IntPtr Memdc = DwmNatives.CreateCompatibleDC(DwmInfo.destdc); // Set up a memory DC where we'll draw the text.
-        if (!(DwmNatives.SaveDC(Memdc) == 0)) {
-            IntPtr bitmap = DwmNatives.CreateDIBSection(Memdc, ref Info.BitmapInfo, DwmNatives.DIB_RGB_COLORS, 0, IntPtr.Zero, 0); // Create a 32-bit bmp for use in offscreen drawing when glass is on
-            if (!(bitmap == IntPtr.Zero)) {
-                IntPtr bitmapOld = DwmNatives.SelectObject(Memdc, bitmap);
-                IntPtr hFont = Info.Font.ToHfont();
-                IntPtr logfnotOld = DwmNatives.SelectObject(Memdc, hFont);
+        nint Memdc = DwmNatives.CreateCompatibleDC(DwmInfo.destdc); // Set up a memory DC where we'll draw the text.
+        if (DwmNatives.SaveDC(Memdc) != 0) {
+            nint bitmap = DwmNatives.CreateDIBSection(Memdc, ref Info.BitmapInfo, DwmNatives.DIB_RGB_COLORS, 0, IntPtr.Zero, 0); // Create a 32-bit bmp for use in offscreen drawing when glass is on
+            if (bitmap != 0) {
+                nint bitmapOld = DwmNatives.SelectObject(Memdc, bitmap);
+                nint hFont = Info.Font.ToHfont();
+                nint logfnotOld = DwmNatives.SelectObject(Memdc, hFont);
                 try {
                     DwmNatives.DrawThemeTextEx(Info.renderer.Handle, Memdc, 0, 0, Info.Text, -1, Info.uFormat, ref Info.Rect2, ref Info.dttOpts);
                     DwmNatives.BitBlt(DwmInfo.destdc, Info.Rect1.left, Info.Rect1.top, Info.Rect1.right - Info.Rect1.left, Info.Rect1.bottom - Info.Rect1.top, Memdc, 0, 0, DwmNatives.SRCCOPY);
@@ -86,7 +87,6 @@ internal static class DwmComposition {
                     DwmNatives.ReleaseDC(Memdc, -1);
                     DwmNatives.DeleteDC(Memdc);
                 }
-
             }
         }
     }

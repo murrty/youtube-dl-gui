@@ -345,9 +345,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\StatusIcons\selected_disabled.png" />
     <None Include="Resources\StatusIcons\best_disabled.png" />
     <None Include="Resources\StatusIcons\selected.png" />

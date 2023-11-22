@@ -5,7 +5,6 @@
  * modified by murrty
  */
 
-
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
@@ -24,7 +23,6 @@ namespace BetterFolderBrowserNS {
     [ToolboxBitmap(typeof(FolderBrowserDialog))]
     [Description("A .NET component library that delivers a better folder-browsing and selection experience.")]
     public class BetterFolderBrowser : CommonDialog {
-
         #region Designer
         private System.ComponentModel.IContainer components = null;
 
@@ -104,7 +102,7 @@ namespace BetterFolderBrowserNS {
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether the 
+        /// Gets or sets a value indicating whether the
         /// dialog box allows multiple folders to be selected.
         /// </summary>
         [Category("Better Folder Browsing")]
@@ -192,14 +190,13 @@ namespace BetterFolderBrowserNS {
 namespace BetterFolderBrowserNS.Editors {
     /// <summary>
     /// Provides a custom <see cref="BetterFolderBrowser"/> UI Editor
-    /// for browsing through folders via the Properties window. 
+    /// for browsing through folders via the Properties window.
     /// This allows for the selection of a single folder.
     /// It's designed as a replacement for <see cref="FolderBrowserDialog"/>'s
     /// <see cref="UITypeEditor"/>.
-    /// 
     /// <para>
     /// Example:
-    /// <code>[Editor(typeof(BetterFolderBrowserPathEditor), typeof(UITypeEditor))]</code>
+    /// <c>[Editor(typeof(BetterFolderBrowserPathEditor), typeof(UITypeEditor))]</c>
     /// </para>
     /// </summary>
     [DebuggerStepThrough]
@@ -216,7 +213,6 @@ namespace BetterFolderBrowserNS.Editors {
                     Multiselect = false
                 };
 
-
                 if (editor.ShowDialog() == DialogResult.OK)
                     value = editor.SelectedPath;
             }
@@ -227,14 +223,13 @@ namespace BetterFolderBrowserNS.Editors {
 
     /// <summary>
     /// Provides a custom <see cref="BetterFolderBrowser"/> UI Editor
-    /// for browsing through folders via the Properties window. 
+    /// for browsing through folders via the Properties window.
     /// This allows for the selection of a single folder.
     /// It's designed as a replacement for <see cref="FolderBrowserDialog"/>'s
     /// <see cref="UITypeEditor"/>.
-    /// 
     /// <para>
     /// Example:
-    /// <code>[Editor(typeof(BetterFolderBrowserPathsEditor), typeof(UITypeEditor))]</code>
+    /// <c>[Editor(typeof(BetterFolderBrowserPathsEditor), typeof(UITypeEditor))]</c>
     /// </para>
     /// </summary>
     [DebuggerStepThrough]
@@ -251,7 +246,6 @@ namespace BetterFolderBrowserNS.Editors {
                     Multiselect = true
                 };
 
-
                 if (editor.ShowDialog() == DialogResult.OK)
                     value = editor.SelectedPaths;
             }
@@ -263,24 +257,25 @@ namespace BetterFolderBrowserNS.Editors {
 
 namespace BetterFolderBrowserNS.Helpers {
     /// <summary>
-    /// This class is from the Front-End for Dosbox and is 
+    /// <para>
+    /// This class is from the Front-End for Dosbox and is
     /// used to present a 'vista' dialog box to select folders.
     /// http://code.google.com/p/fed/
-    ///
+    /// </para>
+    /// <para/>
     /// For example:
+    /// <para/>
     /// ----------------------------------------------
+    /// <para/>
     /// var r = new Reflector("System.Windows.Forms");
     /// </summary>
     public class Reflector {
         #region Fields
-
         private readonly string m_ns;
         private readonly Assembly m_asmb;
-
         #endregion
 
         #region Constructors
-
         /// <summary>
         /// Creates a new <see cref="Reflector"/> class object.
         /// </summary>
@@ -306,11 +301,9 @@ namespace BetterFolderBrowserNS.Helpers {
                 }
             }
         }
-
         #endregion
 
         #region Methods
-
         /// <summary>
         /// Return a Type instance for a type 'typeName'.
         /// </summary>
@@ -318,7 +311,7 @@ namespace BetterFolderBrowserNS.Helpers {
         /// <returns>A type instance.</returns>
         public Type GetTypo(string typeName) {
             string[] names = typeName.Split('.');
-            Type type = names.Length > 0 ? m_asmb.GetType((m_ns + Convert.ToString(".")) + names[0]) : null;
+            Type type = names.Length > 0 ? m_asmb.GetType(m_ns + Convert.ToString(".") + names[0]) : null;
 
             for (int i = 1; i < names.Length; i++) {
                 type = type.GetNestedType(names[i], BindingFlags.NonPublic);
@@ -431,7 +424,7 @@ namespace BetterFolderBrowserNS.Helpers {
         /// </summary>
         public BetterFolderBrowserDialog() {
             ofd = new() {
-                Filter = "Folders|" + "\n",
+                Filter = "Folders|\n",
                 AddExtension = false,
                 CheckFileExists = false,
                 DereferenceLinks = true,
@@ -475,7 +468,7 @@ namespace BetterFolderBrowserNS.Helpers {
         /// </summary>
         public string InitialDirectory {
             get => ofd.InitialDirectory;
-            set => ofd.InitialDirectory = (value == null || value.Length == 0) ? Environment.CurrentDirectory : value;
+            set => ofd.InitialDirectory = string.IsNullOrWhiteSpace(value) ? Environment.CurrentDirectory : value;
         }
 
         /// <summary>
@@ -528,7 +521,7 @@ namespace BetterFolderBrowserNS.Helpers {
                 num = Convert.ToUInt32(parameters[1]);
 
                 try {
-                    flag = 0 == Convert.ToInt32(r.CallAs(typeIFileDialog, dialog, "Show", hWndOwner));
+                    flag = Convert.ToInt32(r.CallAs(typeIFileDialog, dialog, "Show", hWndOwner)) == 0;
                 }
                 finally {
                     r.CallAs(typeIFileDialog, dialog, "Unadvise", num);
@@ -560,18 +553,14 @@ namespace BetterFolderBrowserNS.Helpers {
     /// Creates IWin32Window around an IntPtr.
     /// </summary>
     public class WindowWrapper : IWin32Window {
-
         #region Properties
-
         /// <summary>
         /// Original pointer.
         /// </summary>
         public nint Handle { get; private set; }
-
         #endregion
 
         #region Methods
-
         /// <summary>
         /// Provides a wrapper for <see cref="IWin32Window"/>.
         /// </summary>
@@ -579,8 +568,6 @@ namespace BetterFolderBrowserNS.Helpers {
         public WindowWrapper(nint handle) {
             Handle = handle;
         }
-
         #endregion
-
     }
 }

@@ -1,4 +1,6 @@
-﻿using System.Text.RegularExpressions;
+﻿#nullable enable
+using System.Diagnostics.CodeAnalysis;
+using System.Text.RegularExpressions;
 internal static class Extensions {
     private static readonly Regex WhitespaceCleaner = new(@"\s+", RegexOptions.Compiled);
     public static string SizeToString(this long Size, int DecimalPlaces = 2) {
@@ -9,7 +11,9 @@ internal static class Extensions {
             DivisionCount++;
         }
 
-        return $"{decimal.Round(Division, DecimalPlaces)}{DivisionCount switch {
+        Division = decimal.Round(Division, DecimalPlaces);
+
+        return $"{Division}{DivisionCount switch {
             0 => "B",
             1 => "KiB",
             2 => "MiB",
@@ -22,28 +26,27 @@ internal static class Extensions {
             _ => "?iB"
         }}";
     }
+    public static string SizeToString(this decimal size, int DecimalPlaces = 2) {
+        size = Math.Round(size, MidpointRounding.ToEven);
+        return ((long)size).SizeToString(DecimalPlaces);
+    }
     public static string Format(this string str, params object[] objs) => string.Format(str, objs);
-    public static bool IsNullEmptyWhitespace(this string value) {
-        if (value is null || value.Length == 0)
+    public static bool IsNullEmptyWhitespace([NotNullWhen(false)] this string? value) {
+        if (value is null) {
             return true;
+        }
+
+        if (value.Length == 0) {
+            return true;
+        }
 
         for (int i = 0; i < value.Length; i++) {
-            if (!char.IsWhiteSpace(value[i]))
+            if (!char.IsWhiteSpace(value[i])) {
                 return false;
+            }
         }
 
         return true;
-    }
-    public static bool IsNotNullEmptyWhitespace(this string value) {
-        if (value is null || value.Length == 0)
-            return false;
-
-        for (int i = 0; i < value.Length; i++) {
-            if (!char.IsWhiteSpace(value[i]))
-                return true;
-        }
-
-        return false;
     }
     public static string ReplaceWhitespace(this string str) => WhitespaceCleaner.Replace(str, " ");
     public static string ReplaceWhitespace(this string str, string replacement) => WhitespaceCleaner.Replace(str, replacement);

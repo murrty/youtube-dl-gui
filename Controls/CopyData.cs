@@ -1,4 +1,5 @@
-﻿namespace youtube_dl_gui_shared;
+﻿#nullable enable
+namespace youtube_dl_gui_shared;
 
 using System.Runtime.InteropServices;
 
@@ -82,7 +83,7 @@ internal static class CopyData {
     /// <typeparam name="T">The struct type that will be generated from the message.</typeparam>
     /// <param name="LParam">The structure object address to generate the data from.</param>
     /// <returns>A new struct with the data passed from WM_COPYDATA if the address contains valid data for the structure; otherwise, the default value.</returns>
-    public static T GetParam<T>(nint LParam) {
+    public static T? GetParam<T>(nint LParam) {
         try {
             var DataStruct = Marshal.PtrToStructure<CopyDataStruct>(LParam);
             return Marshal.PtrToStructure<T>(DataStruct.lpData);
@@ -161,21 +162,23 @@ internal static class CopyData {
         Version NewVersion = new(Bytes[offset++], Bytes[offset++], Bytes[offset++], Bytes[offset++]);
 
         byte[] HashBytes = new byte[64];
-        for (int i = 0; i < 64; i++)
+        for (int i = 0; i < 64; i++) {
             HashBytes[i] = Bytes[offset++];
+        }
         string UpdateHash = Encoding.ASCII.GetString(HashBytes);
 
         byte[] FileNameBytes = new byte[Bytes.Length - offset];
         int nameOffset = 0;
-        while (offset < Bytes.Length)
+        while (offset < Bytes.Length) {
             FileNameBytes[nameOffset++] = Bytes[offset++];
+        }
         string FileName = Encoding.UTF8.GetString(FileNameBytes);
 
         return new(FileName, NewVersion, UpdateHash);
     }
 
     /// <summary>
-    /// The FindWindow function retrieves a handle to the top-level 
+    /// The FindWindow function retrieves a handle to the top-level
     /// window whose class name and window name match the specified strings.
     /// This function does not search child windows. This function does not perform a case-sensitive search.
     /// </summary>

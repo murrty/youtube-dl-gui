@@ -1,14 +1,11 @@
-﻿/* SplitButton by murrty, originally based on another SplitButton from somewhere I don't remember where. */
-
+﻿#nullable enable
+/* SplitButton by murrty, originally based on another SplitButton from somewhere I don't remember where. */
 namespace murrty.controls;
-
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows.Forms;
 using murrty.controls.natives;
-
 internal sealed class SplitButton : Button {
-
     private const int WM_PAINT = 0x0F;
     private const int WM_KILLFOCUS = 0x08;
     private const int WM_LBUTTONDOWN = 0x201;
@@ -19,10 +16,10 @@ internal sealed class SplitButton : Button {
     private const nint SplitButtonPressed = 1;
     private const nint SplitButtonReleased = 0;
 
-    private bool IsMouseDown = false;
-    private bool IsAtDropDown = false;
-    private bool DropDownPushed = false;
-    private bool Painting = false;
+    private bool IsMouseDown;
+    private bool IsAtDropDown;
+    private bool DropDownPushed;
+    private bool Painting;
 
     [Browsable(true)]
     [EditorBrowsable(EditorBrowsableState.Always)]
@@ -54,8 +51,8 @@ internal sealed class SplitButton : Button {
         }
     }
 
-    public event EventHandler<EventArgs> MenuOpening;
-    public event EventHandler<EventArgs> MenuClosing;
+    public event EventHandler<EventArgs>? MenuOpening;
+    public event EventHandler<EventArgs>? MenuClosing;
 
     public SplitButton() {
         base.FlatStyle = FlatStyle.System;
@@ -146,6 +143,5 @@ internal sealed class SplitButton : Button {
     private void CloseMenu(object sender, EventArgs e) {
         MenuClosing?.Invoke(this, EventArgs.Empty);
         SetDropDown(false);
-}
-
+    }
 }

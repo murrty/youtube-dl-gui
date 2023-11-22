@@ -1,4 +1,5 @@
-﻿namespace murrty.classes;
+﻿#nullable enable
+namespace murrty.classes;
 using System.Drawing;
 using System.Runtime.InteropServices;
 /// <summary>
@@ -23,7 +24,7 @@ internal sealed class DwmCompositionInfo {
     /// <summary>
     /// Contains the text that will be rendered.
     /// </summary>
-    public DwmCompositionTextInfo Text;
+    public DwmCompositionTextInfo? Text;
 
     /// <summary>
     /// Device context handle.
@@ -45,22 +46,6 @@ internal sealed class DwmCompositionInfo {
         this.Margins = Margins;
         this.DwmRectangle = DwmRectangle;
 
-        GenerateValues();
-    }
-
-    public DwmCompositionInfo(IntPtr hWnd, DwmNatives.MARGINS Margins, Rectangle DwmRectangle, DwmCompositionTextInfo NewInfo) {
-        this.hWnd = hWnd;
-        this.Margins = Margins;
-        this.DwmRectangle = DwmRectangle;
-        Text = NewInfo;
-
-        GenerateValues();
-    }
-
-    /// <summary>
-    /// Generates used-values for rendering. Created to save lines when generating dwm info with or without text.
-    /// </summary>
-    private void GenerateValues() {
         destdc = DwmNatives.GetDC(hWnd);
 
         Rect = new() {
@@ -78,4 +63,7 @@ internal sealed class DwmCompositionInfo {
         dib.bmiHeader.biBitCount = 32;
         dib.bmiHeader.biCompression = DwmNatives.BI_RGB;
     }
+
+    public DwmCompositionInfo(IntPtr hWnd, DwmNatives.MARGINS Margins, Rectangle DwmRectangle, DwmCompositionTextInfo NewInfo)
+        :this (hWnd, Margins, DwmRectangle) => Text = NewInfo;
 }

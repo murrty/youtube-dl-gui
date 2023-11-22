@@ -1,7 +1,6 @@
-﻿namespace murrty.controls.natives;
-
+﻿#nullable enable
+namespace murrty.controls.natives;
 using System.Runtime.InteropServices;
-
 internal static class NativeMethods {
     /// <summary>
     /// Sends the specified message to a window or windows. The SendMessage function calls the window procedure for the specified window and does not return until the window procedure has processed the message.

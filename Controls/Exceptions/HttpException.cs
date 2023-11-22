@@ -1,19 +1,27 @@
-﻿namespace murrty.controls;
-
+﻿#nullable enable
+namespace murrty.controls;
+#pragma warning disable RCS1194 // Implement exception constructors.
 public sealed class HttpException : Exception {
+#pragma warning restore RCS1194 // Implement exception constructors.
     public System.Net.HttpStatusCode StatusCode { get; }
     public string StatusDescription => GetDescription((int)StatusCode);
     public bool ReportException { get; }
-    public byte[] ResponseContent { get; }
+    public byte[]? ResponseContent { get; }
+    public Uri? Uri { get; }
     public HttpException(System.Net.HttpStatusCode status)
     : base($"The remote server returned an error: {(int)status} - {GetDescription((int)status)}") {
         StatusCode = status;
         ReportException = (int)status < 300;
+    }
+    public HttpException(System.Net.HttpStatusCode status, Uri uri) : this(status) {
+        this.Uri = uri;
         ResponseContent = Array.Empty<byte>();
     }
-    public HttpException(System.Net.HttpStatusCode status, byte[] responseContent) {
-        StatusCode = status;
-        ReportException = (int)status < 300;
+    public HttpException(System.Net.HttpStatusCode status, byte[] responseContent) : this(status) {
+        this.ResponseContent = responseContent;
+    }
+    public HttpException(System.Net.HttpStatusCode status, byte[] responseContent, Uri uri) : this(status) {
+        this.Uri = uri;
         this.ResponseContent = responseContent;
     }
     private static string GetDescription(int status) {

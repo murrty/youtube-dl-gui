@@ -1,8 +1,7 @@
-﻿namespace murrty.updater;
-
+﻿#nullable enable
+namespace murrty.updater;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
-
 /// <summary>
 /// Represents a Version structure that can only be read from.
 /// </summary>
@@ -146,7 +145,11 @@ public readonly struct Version {
     /// <param name="Data">The string value to convert.</param>
     /// <param name="vers">The output <see cref="Version"/> structure.</param>
     /// <returns><see langword="true"/> if the parse was successful; otherwise, <see langword="false"/>.</returns>
-    public static bool TryParse(string Data, out Version vers) {
+    public static bool TryParse(string? Data, out Version vers) {
+        if (Data.IsNullEmptyWhitespace()) {
+            vers = Empty;
+            return false;
+        }
         try {
             return InternalParse(Data, out vers);
         }
@@ -179,10 +182,8 @@ public readonly struct Version {
             byte Beta = 0;
 
             if (Data.Contains("-")) {
-                if (byte.TryParse(Data.Split('-')[1], out Beta)) {
-                    Data = Data.Split('-')[0];
-                }
-                else throw new ArgumentException($"Cannot use {Data} as a version.");
+                Data = byte.TryParse(Data.Split('-')[1], out Beta) ?
+                    Data.Split('-')[0] : throw new ArgumentException($"Cannot use {Data} as a version.");
             }
 
             string[] Splits = Data.Split('.');
@@ -227,20 +228,15 @@ public readonly struct Version {
         return Bytes;
     }
 
-    /// <inheritdoc/>
     public override string ToString() => IsBeta ? $"{Major}.{Minor}.{Revision}-{Beta}" : $"{Major}.{Minor}.{Revision}";
-
-    /// <inheritdoc/>
     public override bool Equals(object obj) =>
         obj is Version version && Major == version.Major && Minor == version.Minor && Revision == version.Revision && Beta == version.Beta;
-
-    /// <inheritdoc/>
     public override int GetHashCode() {
         int hashCode = -1072827954;
-        hashCode = hashCode * -1521134295 + Major.GetHashCode();
-        hashCode = hashCode * -1521134295 + Minor.GetHashCode();
-        hashCode = hashCode * -1521134295 + Revision.GetHashCode();
-        hashCode = hashCode * -1521134295 + Beta.GetHashCode();
+        hashCode = (hashCode * -1521134295) + Major.GetHashCode();
+        hashCode = (hashCode * -1521134295) + Minor.GetHashCode();
+        hashCode = (hashCode * -1521134295) + Revision.GetHashCode();
+        hashCode = (hashCode * -1521134295) + Beta.GetHashCode();
         return hashCode;
     }
 

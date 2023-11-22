@@ -1,9 +1,8 @@
-﻿namespace murrty.controls;
-
+﻿#nullable enable
+namespace murrty.controls;
 using System.IO.Compression;
 using System.IO;
 using System.Threading.Tasks;
-
 internal static class WebDecompress {
     public static async Task<byte[]> GetGZip(Stream input) {
         using MemoryStream Destination = new();

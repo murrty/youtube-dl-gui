@@ -1,4 +1,5 @@
-﻿/* ExtendedTextBox by murrty */
+﻿#nullable enable
+/* ExtendedTextBox by murrty */
 
 namespace murrty.controls;
 
@@ -23,10 +24,6 @@ public class ExtendedTextBox : TextBox {
     /// </summary>
     private string fTextHint = string.Empty;
     /// <summary>
-    /// What kind of text is allowed.
-    /// </summary>
-    private AllowedCharacters fTextType = AllowedCharacters.All;
-    /// <summary>
     /// If the button is shown in the textbox.
     /// </summary>
     private bool fShowButton = false;
@@ -38,14 +35,6 @@ public class ExtendedTextBox : TextBox {
     /// If the font should be syncronized across the button and text.
     /// </summary>
     private bool fSyncFont = false;
-    /// <summary>
-    /// The allowed <see cref="char"/> values in filters.
-    /// </summary>
-    private char[] fUnfilteredCharacters = null;
-    /// <summary>
-    /// Whether the space key is allowed.
-    /// </summary>
-    private bool fAllowSpace = true;
 
     /// <summary>
     /// The button that appears inside the textbox.
@@ -78,10 +67,7 @@ public class ExtendedTextBox : TextBox {
     [Category("Behavior")]
     [DefaultValue(true)]
     [Description("Whether the Space key will be allowed. The unfiltered characters list takes precedent over this value, if this value is false.")]
-    public bool AllowSpace {
-        get => fAllowSpace;
-        set => fAllowSpace = value;
-    }
+    public bool AllowSpace { get; set; } = true;
 
     /// <summary>
     /// Gets or sets the ButtonAlignment of the button.
@@ -96,7 +82,7 @@ public class ExtendedTextBox : TextBox {
             this.Refresh();
         }
     }
-    
+
     /// <summary>
     /// Gets or sets the cursor of the button.
     /// </summary>
@@ -333,10 +319,7 @@ public class ExtendedTextBox : TextBox {
     [Category("Behavior")]
     [DefaultValue(AllowedCharacters.All)]
     [Description("Determines if the Text Box wil only accept certain kinds of characters.")]
-    public AllowedCharacters TextType {
-        get => fTextType;
-        set => fTextType = value;
-    }
+    public AllowedCharacters TextType { get; set; } = AllowedCharacters.All;
 
     /// <summary>
     /// Gets or sets the unfiltered char array for filters to allow characters to be typed.
@@ -344,10 +327,7 @@ public class ExtendedTextBox : TextBox {
     [Category("Behavior")]
     [DefaultValue(null)]
     [Description("The array of characters that will be allowed to be entered in the filtered text box.")]
-    public char[] UnfilteredCharacters {
-        get => fUnfilteredCharacters;
-        set => fUnfilteredCharacters = value;
-    }
+    public char[]? UnfilteredCharacters { get; set; }
     #endregion
 
     #region Constructor
@@ -402,7 +382,7 @@ public class ExtendedTextBox : TextBox {
 
     /// <inheritdoc/>
     protected override void OnKeyDown(KeyEventArgs e) {
-        if (fTextType == AllowedCharacters.UnfilteredCharactersOnly) {
+        if (TextType == AllowedCharacters.UnfilteredCharactersOnly) {
             fCheckChar = true;
             base.OnKeyDown(e);
             return;
@@ -423,7 +403,7 @@ public class ExtendedTextBox : TextBox {
 
             // Space doesn't really have much going on for it.
             case Keys.Space: {
-                e.SuppressKeyPress = fTextType != AllowedCharacters.All && !fAllowSpace;
+                e.SuppressKeyPress = TextType != AllowedCharacters.All && !AllowSpace;
             } break;
 
             // Catch the modifier keys, so it won't
@@ -444,7 +424,7 @@ public class ExtendedTextBox : TextBox {
             case Keys.Q: case Keys.R: case Keys.S: case Keys.T:
             case Keys.U: case Keys.V: case Keys.W: case Keys.X:
             case Keys.Y: case Keys.Z: {
-                switch (fTextType) {
+                switch (TextType) {
                     case AllowedCharacters.AlphabeticalOnly:
                     case AllowedCharacters.AlphaNumericOnly: {
                         e.SuppressKeyPress = e.Alt || e.Control;
@@ -457,9 +437,9 @@ public class ExtendedTextBox : TextBox {
                                 case Keys.V: {
                                     if (Clipboard.ContainsText()) {
                                         e.SuppressKeyPress = !Regex.IsMatch(Clipboard.GetText(),
-                                            fTextType switch {
-                                                AllowedCharacters.AlphabeticalOnly => $"^[a-zA-Z{(fAllowSpace ? " " : "")}]+$",
-                                                AllowedCharacters.AlphaNumericOnly => $"^[a-zA-Z0-9{(fAllowSpace ? " " : "")}]+$",
+                                            TextType switch {
+                                                AllowedCharacters.AlphabeticalOnly => $"^[a-zA-Z{(AllowSpace ? " " : "")}]+$",
+                                                AllowedCharacters.AlphaNumericOnly => $"^[a-zA-Z0-9{(AllowSpace ? " " : "")}]+$",
                                                 _ => throw new ArgumentOutOfRangeException("Ctrl + V was pressed but regex couldn't use a proper TextType.")
                                             });
                                     }
@@ -477,7 +457,7 @@ public class ExtendedTextBox : TextBox {
                                 } break;
 
                                 case Keys.V: {
-                                    e.SuppressKeyPress = Clipboard.ContainsText() && Regex.IsMatch(Clipboard.GetText(), $"^[0-9{(fAllowSpace ? " " : "")}]+$");
+                                    e.SuppressKeyPress = Clipboard.ContainsText() && Regex.IsMatch(Clipboard.GetText(), $"^[0-9{(AllowSpace ? " " : "")}]+$");
                                 } break;
 
                                 default: {
@@ -491,7 +471,7 @@ public class ExtendedTextBox : TextBox {
                     } break;
 
                     default: {
-                        e.SuppressKeyPress = fTextType != AllowedCharacters.All;
+                        e.SuppressKeyPress = TextType != AllowedCharacters.All;
                     } break;
                 }
             } break;
@@ -501,21 +481,21 @@ public class ExtendedTextBox : TextBox {
             case Keys.D4: case Keys.D5: case Keys.D6:
             case Keys.D7: case Keys.D8: case Keys.D9:
             case Keys.D0: {
-                switch (fTextType) {
+                switch (TextType) {
                     case AllowedCharacters.NumericOnly:
                     case AllowedCharacters.AlphaNumericOnly: {
                         e.SuppressKeyPress = e.Shift || e.Alt;
                     } break;
 
                     default: {
-                        e.SuppressKeyPress = fTextType != AllowedCharacters.All;
+                        e.SuppressKeyPress = TextType != AllowedCharacters.All;
                     } break;
                 } break;
             }
 
             // Umbrella check.
             default: {
-                e.SuppressKeyPress = fTextType != AllowedCharacters.All;
+                e.SuppressKeyPress = TextType != AllowedCharacters.All;
             } break;
         }
 
@@ -531,7 +511,7 @@ public class ExtendedTextBox : TextBox {
     protected override void OnKeyPress(KeyPressEventArgs e) {
         if (fCheckChar) {
             fCheckChar = false;
-            e.Handled = fUnfilteredCharacters == null || !fUnfilteredCharacters.Any(x => x == e.KeyChar);
+            e.Handled = UnfilteredCharacters?.Any(x => x == e.KeyChar) != true;
             if (e.Handled) {
                 System.Media.SystemSounds.Beep.Play();
             }
