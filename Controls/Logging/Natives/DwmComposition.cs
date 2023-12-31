@@ -19,8 +19,7 @@ internal static class DwmComposition {
     /// <summary>
     /// Extends the dwm frame into the client area.
     /// </summary>
-    /// <param name="hwnd">The handle of the form to extend into.</param>
-    /// <param name="margins">The margins it'll refer to when extending.</param>
+    /// <param name="Info">DWM info.</param>
     internal static void ExtendFrame(DwmCompositionInfo Info) {
         DwmNatives.DwmExtendFrameIntoClientArea(Info.hWnd, ref Info.Margins);
     }
@@ -28,7 +27,7 @@ internal static class DwmComposition {
     /// <summary>
     /// Enables the form movement function. Be sure to check the mouse button, or this will be funky.
     /// </summary>
-    /// <param name="hwnd">The handle of the form to move.</param>
+    /// <param name="Info">DWM info.</param>
     internal static void MoveForm(DwmCompositionInfo Info) {
         DwmNatives.ReleaseCapture();
         DwmNatives.SendMessage(Info.hWnd, DwmNatives.WM_NCLBUTTONDOWN, DwmNatives.HT_CAPTION, 0);
@@ -37,8 +36,7 @@ internal static class DwmComposition {
     /// <summary>
     /// Fills a region with dwm-aware black, used for rendering the desktop window managers' composition onto the form.
     /// </summary>
-    /// <param name="gph">The graphics that will be painted with, should be from a forms' paint event.</param>
-    /// <param name="rgn">The rectangle where the region should be rendered at.</param>
+    /// <param name="Info">DWM info.</param>
     public static void FillBlackRegion(DwmCompositionInfo Info) {
         nint Memdc = DwmNatives.CreateCompatibleDC(Info.destdc);
         if (DwmNatives.SaveDC(Memdc) != 0) {
