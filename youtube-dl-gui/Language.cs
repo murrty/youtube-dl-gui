@@ -8,7 +8,7 @@ using murrty.logging;
 public static class Language {
     #region Constants
     public const string ApplicationName = "youtube-dl-gui";
-    internal static List<ILocalizedForm> OpenedForms = new();
+    internal static List<ILocalizedForm> OpenedForms = [];
     #endregion
 
     #region GetSetRadio (AKA Properties)
@@ -364,7 +364,6 @@ public static class Language {
     public static string btnSettingsRedownloadFfmpegHint { get; private set; }
     public static string ofdTitleFFmpeg { get; private set; }
     public static string ofdFilterFFmpeg { get; private set; }
-
 
     public static string chkSettingsGeneralCheckForUpdatesOnLaunch { get; private set; }
     public static string chkSettingsGeneralCheckForUpdatesOnLaunchHint { get; private set; }
@@ -949,7 +948,6 @@ public static class Language {
         public const string ofdTitleYoutubeDl = "Select youtube-dl";
         public const string ofdFilterYoutubeDl = "youtube-dl executable";
 
-
         public const string tabSettingsGeneralFfmpeg = "ffmpeg";
         public const string lbSettingsGeneralFFmpegDirectory = "ffmpeg directory";
         public const string lbSettingsGeneralFFmpegDirectoryHint = "Static ffmpeg directory\n\nStatic ffmpeg means ffmpeg will always be located in that one directory.";
@@ -961,7 +959,6 @@ public static class Language {
         public const string btnSettingsRedownloadFfmpegHint = "Downloads the latest version of ffmpeg and extracts it to the path to ffmpeg if one is known; otherwise, the same directory as the program.\n\nIf the path to ffmpeg is not accessible or writeable by this program, the download will fail.";
         public const string ofdTitleFFmpeg = "Select ffmpeg.exe and ffprobe.exe";
         public const string ofdFilterFFmpeg = "ffmpeg and ffprobe executable";
-
 
         public const string chkSettingsGeneralCheckForUpdatesOnLaunch = "Check for updates on launch";
         public const string chkSettingsGeneralCheckForUpdatesOnLaunchHint = "Check for updates on launch of youtube-dl-gui";
@@ -1007,7 +1004,6 @@ public static class Language {
         public const string btnSettingsDownloadsInstallProtocolInstalled = "Browser protocol installed";
         public const string btnSettingsDownloadsInstallProtocolHint = "This will add a key to the registry which will allow browsers to send data to this program. Installing it requires Administrative permissions.";
 
-
         #region General
         public const string tabDownloadsGeneral = "General";
 
@@ -1040,7 +1036,6 @@ public static class Language {
         #region Sorting
         public const string tabDownloadsSorting = "Sorting";
 
-
         public const string chkSettingsDownloadsSeparateDownloadsToDifferentFolders = "Separate downloads to different folders";
         public const string chkSettingsDownloadsSeparateDownloadsToDifferentFoldersHint = "Separates downloads into their own folder based on the download type\n\nVideos would be <download directory>\\Video\nAudio would be <download directory>\\Audio\nCustom would be <download directory>\\Custom";
         public const string chkSettingsDownloadsSeparateIntoWebsiteUrl = "Separate into website url";
@@ -1052,9 +1047,8 @@ public static class Language {
         #region Fixes
         public const string tabDownloadsFixes = "Fixes";
 
-
         public const string chkSettingsDownloadsFixVReddIt = "Fix v.redd.it";
-        public const string chkSettingsDownloadsFixVReddItHint = "Fixes visual corruptions on v.redd.it/reddit.com links using ffmpegs HTTP Live Streaming (HLS)\n\n" + "Recommended to stay on.\nThis requires FFMPEG to be installed and available, it will fallback to youtube-dls default.";
+        public const string chkSettingsDownloadsFixVReddItHint = "Fixes visual corruptions on v.redd.it/reddit.com links using ffmpegs HTTP Live Streaming (HLS)\n\nRecommended to stay on.\nThis requires FFMPEG to be installed and available, it will fallback to youtube-dls default.";
         public const string chkSettingsDownloadsPreferFFmpeg = "Prefer ffmpeg for downloads";
         public const string chkSettingsDownloadsPreferFFmpegHint = "Prefers ffmpegs hls over youtube-dls own. This may fix some sites, and break others.";
         #endregion
@@ -1098,7 +1092,6 @@ public static class Language {
         #region Batch
         public const string tabDownloadsBatch = "Batch";
 
-
         public const string chkSettingsDownloadsSeparateBatchDownloads = "Separate Batch Downloads";
         public const string chkSettingsDownloadsSeparateBatchDownloadsHint = "Batch downloads are separated into a new folder in the designated download path";
         public const string chkSettingsDownloadsAddDateToBatchDownloadFolders = "Include Date onto Download Folders";
@@ -1131,7 +1124,7 @@ public static class Language {
 
         #region Video
         public const string tcSettingsConverterVideo = "Video";
-        
+
         public const string lbSettingsConverterVideoBitrate = "Bitrate";
         public const string lbSettingsConverterVideoBitrateHint = "The bitrate of the video\nA bitrate is how many bits per second are streamed to the player\n\nhigher = better, at the cost of file size\n\nIf you were to input \"10,000\" as the bitrate, it would be interpreted as \"10,000,000\" bits per second.";
         public const string lbSettingsConverterVideoPreset = "Preset";
@@ -1146,14 +1139,14 @@ public static class Language {
 
         #region Audio
         public const string tcSettingsConverterAudio = "Audio";
-        
+
         public const string lbSettingsConverterAudioBitrate = "Bitrate";
         public const string lbSettingsConverterAudioBitrateHint = "The bitrate of the audio\nA bitrate is how many bits are streamed to the player\n\nHigher = better, at the cost of size\n\nIf you were to put \"256\", it would be interpreted as \"256,000\" bits per second.";
         #endregion
 
         #region Custom
         public const string tcSettingsConverterCustom = "Custom";
-        
+
         public const string lbSettingsConverterCustomHeader = "Don't pass input or output directories/fies,\nit's automatically handled by the program";
         public const string txtSettingsConverterCustomArgumentsHint = "Custom arguments that will be passed through ffmpeg instead of built-in arguments";
         #endregion
@@ -1161,7 +1154,7 @@ public static class Language {
 
         #region tabExtensions
         public const string tabSettingsExtensions = "Extensions";
-        
+
         public const string lbSettingsExtensionsHeader = "This allows you to input your own extensions\nto be used with this application";
         public const string lbSettingsExtensionsExtensionFullName = "Extension full name";
         public const string txtSettingsExtensionsExtensionFullName = "Example extension";
@@ -1526,7 +1519,7 @@ public static class Language {
         cmTrayConvertAutoFFmpeg = InternalEnglish.cmTrayConvertAutoFFmpeg;
         cmTrayExit = InternalEnglish.cmTrayExit;
         #endregion
-        
+
         #region frmMerger
         frmMerger = InternalEnglish.frmMerger;
         btnMerge = InternalEnglish.btnMerge;
@@ -1557,7 +1550,6 @@ public static class Language {
         ofdTitleYoutubeDl = InternalEnglish.ofdTitleYoutubeDl;
         ofdFilterYoutubeDl = InternalEnglish.ofdFilterYoutubeDl;
 
-
         tabSettingsGeneralFfmpeg = InternalEnglish.tabSettingsGeneralFfmpeg;
         lbSettingsGeneralFFmpegDirectory = InternalEnglish.lbSettingsGeneralFFmpegDirectory;
         lbSettingsGeneralFFmpegDirectoryHint = InternalEnglish.lbSettingsGeneralFFmpegDirectoryHint;
@@ -1569,7 +1561,6 @@ public static class Language {
         btnSettingsRedownloadFfmpegHint = InternalEnglish.btnSettingsRedownloadFfmpegHint;
         ofdTitleFFmpeg = InternalEnglish.ofdTitleFFmpeg;
         ofdFilterFFmpeg = InternalEnglish.ofdFilterFFmpeg;
-
 
         chkSettingsGeneralCheckForUpdatesOnLaunch = InternalEnglish.chkSettingsGeneralCheckForUpdatesOnLaunch;
         chkSettingsGeneralCheckForUpdatesOnLaunchHint = InternalEnglish.chkSettingsGeneralCheckForUpdatesOnLaunchHint;
@@ -1615,7 +1606,6 @@ public static class Language {
         btnSettingsDownloadsInstallProtocolInstalled = InternalEnglish.btnSettingsDownloadsInstallProtocolInstalled;
         btnSettingsDownloadsInstallProtocolHint = InternalEnglish.btnSettingsDownloadsInstallProtocolHint;
 
-
         #region General
         tabDownloadsGeneral = InternalEnglish.tabDownloadsGeneral;
 
@@ -1648,7 +1638,6 @@ public static class Language {
         #region Sorting
         tabDownloadsSorting = InternalEnglish.tabDownloadsSorting;
 
-
         chkSettingsDownloadsSeparateDownloadsToDifferentFolders = InternalEnglish.chkSettingsDownloadsSeparateDownloadsToDifferentFolders;
         chkSettingsDownloadsSeparateDownloadsToDifferentFoldersHint = InternalEnglish.chkSettingsDownloadsSeparateDownloadsToDifferentFoldersHint;
         chkSettingsDownloadsSeparateIntoWebsiteUrl = InternalEnglish.chkSettingsDownloadsSeparateIntoWebsiteUrl;
@@ -1659,7 +1648,6 @@ public static class Language {
 
         #region Fixes
         tabDownloadsFixes = InternalEnglish.tabDownloadsFixes;
-
 
         chkSettingsDownloadsFixVReddIt = InternalEnglish.chkSettingsDownloadsFixVReddIt;
         chkSettingsDownloadsFixVReddItHint = InternalEnglish.chkSettingsDownloadsFixVReddItHint;
@@ -1706,7 +1694,6 @@ public static class Language {
         #region Batch
         tabDownloadsBatch = InternalEnglish.tabDownloadsBatch;
 
-
         chkSettingsDownloadsSeparateBatchDownloads = InternalEnglish.chkSettingsDownloadsSeparateBatchDownloads;
         chkSettingsDownloadsSeparateBatchDownloadsHint = InternalEnglish.chkSettingsDownloadsSeparateBatchDownloadsHint;
         chkSettingsDownloadsAddDateToBatchDownloadFolders = InternalEnglish.chkSettingsDownloadsAddDateToBatchDownloadFolders;
@@ -1715,7 +1702,6 @@ public static class Language {
 
         #region Extended downloader
         tabExtendedOptions = InternalEnglish.tabExtendedOptions;
-
 
         chkExtendedPreferExtendedDialog = InternalEnglish.chkExtendedPreferExtendedDialog;
         chkExtendedPreferExtendedDialogHint = InternalEnglish.chkExtendedPreferExtendedDialogHint;
@@ -2162,7 +2148,6 @@ public static class Language {
         ofdTitleYoutubeDl = nameof(ofdTitleYoutubeDl);
         ofdFilterYoutubeDl = nameof(ofdFilterYoutubeDl);
 
-
         tabSettingsGeneralFfmpeg = nameof(tabSettingsGeneralFfmpeg);
         lbSettingsGeneralFFmpegDirectory = nameof(lbSettingsGeneralFFmpegDirectory);
         lbSettingsGeneralFFmpegDirectoryHint = nameof(lbSettingsGeneralFFmpegDirectoryHint);
@@ -2174,7 +2159,6 @@ public static class Language {
         btnSettingsRedownloadFfmpegHint = nameof(btnSettingsRedownloadFfmpegHint);
         ofdTitleFFmpeg = nameof(ofdTitleFFmpeg);
         ofdFilterFFmpeg = nameof(ofdFilterFFmpeg);
-
 
         chkSettingsGeneralCheckForUpdatesOnLaunch = nameof(chkSettingsGeneralCheckForUpdatesOnLaunch);
         chkSettingsGeneralCheckForUpdatesOnLaunchHint = nameof(chkSettingsGeneralCheckForUpdatesOnLaunchHint);
@@ -2220,7 +2204,6 @@ public static class Language {
         btnSettingsDownloadsInstallProtocolInstalled = nameof(btnSettingsDownloadsInstallProtocolInstalled);
         btnSettingsDownloadsInstallProtocolHint = nameof(btnSettingsDownloadsInstallProtocolHint);
 
-
         #region General
         tabDownloadsGeneral = nameof(tabDownloadsGeneral);
 
@@ -2253,7 +2236,6 @@ public static class Language {
         #region Sorting
         tabDownloadsSorting = nameof(tabDownloadsSorting);
 
-
         chkSettingsDownloadsSeparateDownloadsToDifferentFolders = nameof(chkSettingsDownloadsSeparateDownloadsToDifferentFolders);
         chkSettingsDownloadsSeparateDownloadsToDifferentFoldersHint = nameof(chkSettingsDownloadsSeparateDownloadsToDifferentFoldersHint);
         chkSettingsDownloadsSeparateIntoWebsiteUrl = nameof(chkSettingsDownloadsSeparateIntoWebsiteUrl);
@@ -2265,7 +2247,6 @@ public static class Language {
         #region Fixes
         tabDownloadsFixes = nameof(tabDownloadsFixes);
 
-
         chkSettingsDownloadsFixVReddIt = nameof(chkSettingsDownloadsFixVReddIt);
         chkSettingsDownloadsFixVReddItHint = nameof(chkSettingsDownloadsFixVReddItHint);
         chkSettingsDownloadsPreferFFmpeg = nameof(chkSettingsDownloadsPreferFFmpeg);
@@ -2274,7 +2255,6 @@ public static class Language {
 
         #region Connection
         tabDownloadsConnection = nameof(tabDownloadsConnection);
-
 
         chkSettingsDownloadsLimitDownload = nameof(chkSettingsDownloadsLimitDownload);
         chkSettingsDownloadsLimitDownloadHint = nameof(chkSettingsDownloadsLimitDownloadHint);
@@ -2312,7 +2292,6 @@ public static class Language {
         #region Batch
         tabDownloadsBatch = nameof(tabDownloadsBatch);
 
-
         chkSettingsDownloadsSeparateBatchDownloads = nameof(chkSettingsDownloadsSeparateBatchDownloads);
         chkSettingsDownloadsSeparateBatchDownloadsHint = nameof(chkSettingsDownloadsSeparateBatchDownloadsHint);
         chkSettingsDownloadsAddDateToBatchDownloadFolders = nameof(chkSettingsDownloadsAddDateToBatchDownloadFolders);
@@ -2321,7 +2300,6 @@ public static class Language {
 
         #region Extended downloader
         tabExtendedOptions = nameof(tabExtendedOptions);
-
 
         chkExtendedPreferExtendedDialog = nameof(chkExtendedPreferExtendedDialog);
         chkExtendedPreferExtendedDialogHint = nameof(chkExtendedPreferExtendedDialogHint);
@@ -2453,22 +2431,28 @@ public static class Language {
                 using System.IO.StreamReader ReadLanguageFile = new(LanguageFile);
                 string ReadLine;    // The line of the file
                 while ((ReadLine = ReadLanguageFile.ReadLine()) is not null) {
-                    if (ReadLine.StartsWith("//") || string.IsNullOrWhiteSpace(ReadLine))
+                    ReadLine = ReadLine.Trim();
+                    if (ReadLine.StartsWith("//") || string.IsNullOrWhiteSpace(ReadLine)) {
                         continue;
-                    else if (ReadLine.StartsWith("[") && ReadLine.Contains("]")) {
+                    }
+
+                    if (ReadLine[0] == '[' && ReadLine[^1] == ']') {
                         ReadHeaderValue(ReadLine, out string ReadHeader);
 
                         if (ReadHeader == null) {
                             throw new Exception("Unable to read the language ini header\nReadValue returned null.\nProblematic line is \"" + ReadLine + "\"\n\n");
                         }
-                        else
+                        else {
                             CurrentLanguageLong = ReadHeader;
+                        }
+
+                        continue;
                     }
-                    else if (ReadLine.Contains("=")) {
+
+                    if (ReadLine.Contains("=")) {
                         GetControlInfo(ReadLine, out string ReadControl, out string ReadValue);
 
                         switch (ReadControl) {
-
                             #region Language File
                             case nameof(CurrentLanguageShort):
                                 CurrentLanguageShort = ReadValue;
@@ -3333,7 +3317,6 @@ public static class Language {
                                 ofdFilterYoutubeDl = ReadValue;
                                 continue;
 
-
                             case nameof(tabSettingsGeneralFfmpeg):
                                 tabSettingsGeneralFfmpeg = ReadValue;
                                 continue;
@@ -3367,7 +3350,6 @@ public static class Language {
                             case nameof(ofdFilterFFmpeg):
                                 ofdFilterFFmpeg = ReadValue;
                                 continue;
-
 
                             case nameof(chkSettingsGeneralCheckForUpdatesOnLaunch):
                                 chkSettingsGeneralCheckForUpdatesOnLaunch = ReadValue;
@@ -3967,7 +3949,6 @@ public static class Language {
                                 btnUpdateAvailableUpdate = ReadValue;
                                 continue;
                             #endregion
-
                         }
                     }
                 }
