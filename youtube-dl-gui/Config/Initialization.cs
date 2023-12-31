@@ -1,7 +1,6 @@
-﻿namespace youtube_dl_gui;
-
+﻿#nullable enable
+namespace youtube_dl_gui;
 internal static class Initialization {
-
     static Initialization() {
         Log.Write("Loading Initialization config.");
 
@@ -60,5 +59,4 @@ internal static class Initialization {
     public static bool ScreenshotMode { get; set; }
 
     public static bool WritePercentageToConsole { get; set; }
-
 }

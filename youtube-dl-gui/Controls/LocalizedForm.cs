@@ -1,4 +1,5 @@
-﻿namespace youtube_dl_gui;
+﻿#nullable enable
+namespace youtube_dl_gui;
 using System;
 using System.Windows.Forms;
 public class LocalizedForm : Form, ILocalizedForm {
@@ -13,8 +14,9 @@ public class LocalizedForm : Form, ILocalizedForm {
     /// <inheritdoc/>
     protected override void OnFormClosing(FormClosingEventArgs e) {
         base.OnFormClosing(e);
-        if (!e.Cancel)
+        if (!e.Cancel) {
             Language.UnregisterForm(this);
+        }
     }
 }
 

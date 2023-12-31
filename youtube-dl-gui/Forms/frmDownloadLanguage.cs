@@ -4,34 +4,37 @@ using System.Drawing;
 using System.Windows.Forms;
 using murrty.updater;
 public partial class frmDownloadLanguage : LocalizedForm {
-    private readonly Font SubItemFont;
     private readonly GithubRepoContent[] EnumeratedLanguages;
 
     public string? FileName { get; private set; }
 
     public frmDownloadLanguage() {
         InitializeComponent();
-        SubItemFont = new("Segoi UI", this.Font.Size, FontStyle.Italic);
+
         try {
-            EnumeratedLanguages = Updater.GetAvailableLanguages();
+            EnumeratedLanguages = Updater.GetAvailableLanguages()
+                .Where(x => !x.name.IsNullEmptyWhitespace() && !x.download_url.IsNullEmptyWhitespace())
+                .ToArray();
+
             if (EnumeratedLanguages.Length > 0) {
                 // Uncomment these out when the SHA calcuation gets fixed.
                 for (int i = 0; i < EnumeratedLanguages.Length; i++) {
-                    ListViewItem NewItem = new($"Item {EnumeratedLanguages[i].name}");
-                    NewItem.SubItems[0].Text = $"{i + 1}: {(EnumeratedLanguages[i].name.EndsWith(".ini") ? EnumeratedLanguages[i].name[..^4] : EnumeratedLanguages[i].name)} ({EnumeratedLanguages[i].size.SizeToString()})";
+                    GithubRepoContent Content = EnumeratedLanguages[i];
+                    ListViewItem NewItem = new($"Item {Content.name}");
+                    NewItem.SubItems[0].Text = $"{i + 1}: {(Content.name!.EndsWith(".ini") ? Content.name[..^4] : Content.name)} ({Content.size.SizeToString()})";
                     NewItem.UseItemStyleForSubItems = false;
                     NewItem.SubItems.Add(new ListViewItem.ListViewSubItem());
-                    NewItem.SubItems[1].Text = EnumeratedLanguages[i].download_url;
-                    //NewItem.SubItems[1].Text = $"{EnumeratedLanguages[i].Sha}";
+                    NewItem.SubItems[1].Text = Content.download_url;
+                    //NewItem.SubItems[1].Text = $"{Content.Sha}";
                     NewItem.SubItems[1].ForeColor = Color.FromKnownColor(KnownColor.ScrollBar);
-                    NewItem.SubItems[1].Font = SubItemFont;
-                    //NewItem.ToolTipText = EnumeratedLanguages[i].DownloadUrl;
+                    NewItem.SubItems[1].Font = this.Font;
+                    //NewItem.ToolTipText = Content.DownloadUrl;
                     lvAvailableLanguages.Items.Add(NewItem);
                 }
             }
         }
         catch (Exception ex) {
-            EnumeratedLanguages = Array.Empty<GithubRepoContent>();
+            EnumeratedLanguages = [];
             Log.ReportException(ex);
         }
     }
@@ -52,20 +55,22 @@ public partial class frmDownloadLanguage : LocalizedForm {
     }
 
     private void DownloadSelectedLanguageFile() {
-        Log.Write($"Downloading language file {EnumeratedLanguages[lvAvailableLanguages.SelectedIndices[0]].name}.");
+        var lang = EnumeratedLanguages[lvAvailableLanguages.SelectedIndices[0]];
+
+        Log.Write($"Downloading language file {lang.name}.");
         if (!System.IO.Directory.Exists(Environment.CurrentDirectory + "\\lang")) {
             System.IO.Directory.CreateDirectory(Environment.CurrentDirectory + "\\lang");
         }
-        string URL = EnumeratedLanguages[lvAvailableLanguages.SelectedIndices[0]].download_url;
-        string Output = Environment.CurrentDirectory + "\\lang\\" + EnumeratedLanguages[lvAvailableLanguages.SelectedIndices[0]].name;
+        string URL = lang.download_url!;
+        string Output = Environment.CurrentDirectory + "\\lang\\" + lang.name;
         using frmGenericDownloadProgress Downloader = new(URL, Output);
         if (Downloader.ShowDialog() == DialogResult.OK) {
-            Log.Write($"Finished downloading language file {EnumeratedLanguages[lvAvailableLanguages.SelectedIndices[0]].name}");
+            Log.Write($"Finished downloading language file {lang.name}");
             System.Media.SystemSounds.Asterisk.Play();
             btnOk_Click(this, EventArgs.Empty);
         }
         else {
-            Log.Write($"Could not download language file {EnumeratedLanguages[lvAvailableLanguages.SelectedIndices[0]].name}.");
+            Log.Write($"Could not download language file {lang.name}.");
             System.Media.SystemSounds.Hand.Play();
         }
 
@@ -86,7 +91,7 @@ public partial class frmDownloadLanguage : LocalizedForm {
     private void btnOk_Click(object sender, EventArgs e) {
         if (lvAvailableLanguages.SelectedIndices.Count > 0) {
             DownloadSelectedLanguageFile();
-            FileName = EnumeratedLanguages[lvAvailableLanguages.SelectedIndices[0]].name;
+            FileName = EnumeratedLanguages[lvAvailableLanguages.SelectedIndices[0]].name!;
             if (FileName.EndsWith(".ini")) {
                 FileName = FileName[..^4];
             }

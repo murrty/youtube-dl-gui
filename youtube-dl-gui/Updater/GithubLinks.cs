@@ -1,4 +1,5 @@
-﻿namespace youtube_dl_gui;
+﻿#nullable enable
+namespace youtube_dl_gui;
 
 internal static class GithubLinks {
     /// <summary>
@@ -52,7 +53,7 @@ internal static class GithubLinks {
     /// <para/>
     /// FriendlyName is the expected file name that is associated with the release for the repo, not the local file name.
     /// </summary>
-    public static (string User, string Repo, string FriendlyName)[] ProviderRepos { get; } = {
+    public static (string User, string Repo, string FriendlyName)[] ProviderRepos { get; } = [
         (
             "yt-dlp",
             "yt-dlp",
@@ -76,5 +77,5 @@ internal static class GithubLinks {
             "youtube-dl",
             "youtube-dl"
         ),
-    };
+    ];
 }

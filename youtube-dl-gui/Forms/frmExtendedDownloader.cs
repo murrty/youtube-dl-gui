@@ -1,7 +1,6 @@
 ﻿#nullable enable
 namespace youtube_dl_gui;
 using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.IO;
 using System.Threading;
@@ -69,7 +68,7 @@ public partial class frmExtendedDownloader : LocalizedProcessingForm {
             lvQueuedMedia.ContextMenu = cmQueuedMedia;
             lvQueuedMedia.SmallImageList = Program.BatchStatusImages;
             pnSingleDownload.Dispose();
-            QueueList = new();
+            QueueList = [];
         }
         else {
             pnBatchDownload.Dispose();
@@ -1220,7 +1219,7 @@ public partial class frmExtendedDownloader : LocalizedProcessingForm {
             } break;
             case MouseButtons.Right: {
                 Clipboard.SetText(MediaDetails.URL);
-                System.Media.SystemSounds.Exclamation.Play();
+                System.Media.SystemSounds.Asterisk.Play();
             } break;
         }
     }
@@ -1500,7 +1499,7 @@ public partial class frmExtendedDownloader : LocalizedProcessingForm {
     }
     private string[] GetLinksFromClipboard() {
         if (!Clipboard.ContainsText()) {
-            return Array.Empty<string>();
+            return [];
         }
         string ClipboardData = Clipboard.GetText().Replace("\r\n", "\n");
         return ClipboardData.Split('\n');
@@ -1511,12 +1510,14 @@ public partial class frmExtendedDownloader : LocalizedProcessingForm {
             Title = Language.mBatchDownloaderImportLinksFromFile
         };
 
-        if (OFD.ShowDialog() != DialogResult.OK)
-            return Array.Empty<string>();
+        if (OFD.ShowDialog() != DialogResult.OK) {
+            return [];
+        }
 
         FileInfo Info = new(OFD.FileName);
-        if (!Info.Exists || Info.Length < 2)
-            return Array.Empty<string>();
+        if (!Info.Exists || Info.Length < 3) {
+            return [];
+        }
 
         string FileData = File.ReadAllText(OFD.FileName);
         return FileData.Replace("\r\n", "\n").Split('\n');

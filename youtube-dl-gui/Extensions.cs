@@ -1,4 +1,5 @@
-﻿namespace youtube_dl_gui;
+﻿#nullable enable
+namespace youtube_dl_gui;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Runtime.Serialization.Json;

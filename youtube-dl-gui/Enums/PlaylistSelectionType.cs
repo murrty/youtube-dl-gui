@@ -1,4 +1,5 @@
-﻿namespace youtube_dl_gui;
+﻿#nullable enable
+namespace youtube_dl_gui;
 public enum PlaylistSelectionType : int {
     None = -1,
     PlaylistStartPlaylistEnd = 0,

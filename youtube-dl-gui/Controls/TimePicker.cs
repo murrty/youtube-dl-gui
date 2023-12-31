@@ -1,19 +1,17 @@
-﻿// Derived from https://www.codeproject.com/Articles/170684/Time-Picker
+﻿#nullable enable
+// Derived from https://www.codeproject.com/Articles/170684/Time-Picker
 namespace murrty.controls;
 
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 [DefaultEvent("OnValueChanged")]
 public sealed class TimePicker : UserControl {
-
-    #region Component Designer generated code
-    /// <summary> 
-    /// Required method for Designer support - do not modify 
-    /// the contents of this method with the code editor.
-    /// </summary>
+    private TextBox TimeDisplay;
+    [MemberNotNull(nameof(TimeDisplay))]
     private void InitializeComponent() {
         this.TimeDisplay = new TextBox();
         this.SuspendLayout();
@@ -24,32 +22,29 @@ public sealed class TimePicker : UserControl {
         this.TimeDisplay.Size = new Size(75, 20);
         this.TimeDisplay.TabIndex = 0;
         this.TimeDisplay.Text = "00:00:00";
-        this.TimeDisplay.Click += new EventHandler(this.TimeDisplay_Click);
-        this.TimeDisplay.KeyDown += new KeyEventHandler(this.TimeDisplay_KeyDown);
-        this.TimeDisplay.LostFocus += new EventHandler(TimeDisplay_LostFocus);
+        this.TimeDisplay.Click += this.TimeDisplay_Click;
+        this.TimeDisplay.KeyDown += this.TimeDisplay_KeyDown;
+        this.TimeDisplay.LostFocus += TimeDisplay_LostFocus;
 
         this.AutoScaleDimensions = new SizeF(6F, 13F);
         this.AutoScaleMode = AutoScaleMode.Font;
         this.Controls.Add(this.TimeDisplay);
-        this.LostFocus += new EventHandler(TimeDisplay_LostFocus);
+        this.LostFocus += TimeDisplay_LostFocus;
         this.Name = "TimePicker";
         this.Size = TimeDisplay.Size;
         this.ResumeLayout(false);
         this.PerformLayout();
-
     }
-    #endregion
-
-    private TextBox TimeDisplay;
 
     protected override void Dispose(bool disposing) {
-        if (disposing)
+        if (disposing) {
             TimeDisplay.Dispose();
+        }
         base.Dispose(disposing);
     }
 
     [Browsable(true)]
-    public event EventHandler OnValueChanged;
+    public event EventHandler? OnValueChanged;
     [Browsable(true)]
     public new Font Font { get => TimeDisplay.Font; set => TimeDisplay.Font = value; }
     [DefaultValue(true)]
@@ -74,9 +69,7 @@ public sealed class TimePicker : UserControl {
     //            Milliseconds = 0;
     //        }
     //        else {
-                
     //        }
-
     //    }
     //}
     private int Hours { get; set; } = 0;
@@ -176,7 +169,7 @@ public sealed class TimePicker : UserControl {
         UpdateHourSeparator();
         UpdateDisplay();
         SpecifyingNumbers = false;
-        OnValueChanged?.Invoke(null, new EventArgs());
+        OnValueChanged?.Invoke(null, EventArgs.Empty);
     }
     private void UpdateDisplay() {
         int SelectedIndex = SpecifyingNumbers ? NumbersStartingIndex : TimeDisplay.SelectionStart;
@@ -229,58 +222,83 @@ public sealed class TimePicker : UserControl {
     private void TimeDisplay_KeyDown(object sender, KeyEventArgs e) {
         switch (e.KeyCode) {
             case Keys.Up: {
-                if (SpecifyingNumbers)
+                if (SpecifyingNumbers) {
                     UpdateControl();
+                }
 
                 if (ShowMilliseconds) {
                     if (TimeDisplay.SelectionStart <= HourToMinuteSeparator) {
                         if (DateBasedTime && Hours >= 24) {
                             Hours = 0;
-                        } else Hours++;
+                        }
+                        else {
+                            Hours++;
+                        }
+
                         UpdateHourSeparator();
                     }
                     else if (TimeDisplay.SelectionStart <= MinuteToSecondSeparator) {
                         if (Minutes >= 59) {
                             Minutes = 0;
-                        } else Minutes++;
+                        }
+                        else {
+                            Minutes++;
+                        }
                     }
                     else if (TimeDisplay.SelectionStart <= SecondToMillisecondSeparator) {
                         if (Seconds >= 59) {
                             Seconds = 0;
-                        } else Seconds++;
+                        }
+                        else {
+                            Seconds++;
+                        }
                     }
                     else {
                         if (Milliseconds >= 999) {
                             Milliseconds = 0;
-                        } else Milliseconds++;
+                        }
+                        else {
+                            Milliseconds++;
+                        }
                     }
                 }
                 else {
                     if (TimeDisplay.SelectionStart <= HourToMinuteSeparator) {
                         if (DateBasedTime && Hours >= 24) {
                             Hours = 0;
-                        } else Hours++;
+                        }
+                        else {
+                            Hours++;
+                        }
+
                         UpdateHourSeparator();
                     }
                     else if (TimeDisplay.SelectionStart <= MinuteToSecondSeparator) {
                         if (Minutes >= 59) {
                             Minutes = 0;
-                        } else Minutes++;
+                        }
+                        else {
+                            Minutes++;
+                        }
                     }
                     else {
                         if (Seconds >= 59) {
                             Seconds = 0;
-                        } else Seconds++;
+                        }
+                        else {
+                            Seconds++;
+                        }
                     }
                 }
 
                 UpdateDisplay();
-                OnValueChanged?.Invoke(null, new EventArgs());
+                OnValueChanged?.Invoke(null, EventArgs.Empty);
                 e.Handled = e.SuppressKeyPress = true;
             } break;
             case Keys.Down: {
-                if (SpecifyingNumbers)
+                if (SpecifyingNumbers) {
                     UpdateControl();
+                }
 
                 if (ShowMilliseconds) {
                     if (TimeDisplay.SelectionStart <= HourToMinuteSeparator) {
@@ -292,23 +310,36 @@ public sealed class TimePicker : UserControl {
                                 return;
                             }
                             Hours = 24;
-                        } else Hours--;
+                        }
+                        else {
+                            Hours--;
+                        }
+
                         UpdateHourSeparator();
                     }
                     else if (TimeDisplay.SelectionStart <= MinuteToSecondSeparator) {
                         if (Minutes <= 0) {
                             Minutes = 59;
-                        } else Minutes--;
+                        }
+                        else {
+                            Minutes--;
+                        }
                     }
                     else if (TimeDisplay.SelectionStart <= SecondToMillisecondSeparator) {
                         if (Seconds <= 0) {
                             Seconds = 59;
-                        } else Seconds--;
+                        }
+                        else {
+                            Seconds--;
+                        }
                     }
                     else {
                         if (Milliseconds <= 0) {
                             Milliseconds = 999;
-                        } else Milliseconds--;
+                        }
+                        else {
+                            Milliseconds--;
+                        }
                     }
                 }
                 else {
@@ -321,58 +352,79 @@ public sealed class TimePicker : UserControl {
                                 return;
                             }
                             Hours = 24;
-                        } else Hours--;
+                        }
+                        else {
+                            Hours--;
+                        }
+
                         UpdateHourSeparator();
                     }
                     else if (TimeDisplay.SelectionStart <= MinuteToSecondSeparator) {
                         if (Minutes <= 0) {
                             Minutes = 59;
-                        } else Minutes--;
+                        }
+                        else {
+                            Minutes--;
+                        }
                     }
                     else {
                         if (Seconds <= 0) {
                             Seconds = 59;
-                        } else Seconds--;
+                        }
+                        else {
+                            Seconds--;
+                        }
                     }
                 }
 
                 UpdateDisplay();
-                OnValueChanged?.Invoke(null, new EventArgs());
+                OnValueChanged?.Invoke(null, EventArgs.Empty);
                 e.Handled = e.SuppressKeyPress = true;
             } break;
             case Keys.Left: {
-                if (SpecifyingNumbers)
+                if (SpecifyingNumbers) {
                     UpdateControl();
+                }
 
-                if (TimeDisplay.SelectionStart <= HourToMinuteSeparator)
+                if (TimeDisplay.SelectionStart <= HourToMinuteSeparator) {
                     SelectMillisecondPosition(false);
-                else if (TimeDisplay.SelectionStart <= MinuteToSecondSeparator)
+                }
+                else if (TimeDisplay.SelectionStart <= MinuteToSecondSeparator) {
                     SelectHourPosition();
-                else if (TimeDisplay.SelectionStart <= SecondToMillisecondSeparator)
+                }
+                else if (TimeDisplay.SelectionStart <= SecondToMillisecondSeparator) {
                     SelectMinutePosition();
-                else
+                }
+                else {
                     SelectSecondPosition();
+                }
 
                 e.Handled = e.SuppressKeyPress = true;
             } break;
             case Keys.Right: {
-                if (SpecifyingNumbers)
+                if (SpecifyingNumbers) {
                     UpdateControl();
+                }
 
-                if (TimeDisplay.SelectionStart <= HourToMinuteSeparator)
+                if (TimeDisplay.SelectionStart <= HourToMinuteSeparator) {
                     SelectMinutePosition();
-                else if (TimeDisplay.SelectionStart <= MinuteToSecondSeparator)
+                }
+                else if (TimeDisplay.SelectionStart <= MinuteToSecondSeparator) {
                     SelectSecondPosition();
-                else if (ShowMilliseconds && TimeDisplay.SelectionStart <= SecondToMillisecondSeparator)
+                }
+                else if (ShowMilliseconds && TimeDisplay.SelectionStart <= SecondToMillisecondSeparator) {
                     SelectMillisecondPosition();
-                else
+                }
+                else {
                     SelectHourPosition();
+                }
 
                 e.Handled = e.SuppressKeyPress = true;
             } break;
             case Keys.Return: {
-                if (SpecifyingNumbers)
+                if (SpecifyingNumbers) {
                     UpdateControl();
+                }
                 e.Handled = e.SuppressKeyPress = true;
             } break;
 
@@ -383,8 +435,9 @@ public sealed class TimePicker : UserControl {
             case Keys.NumPad1: case Keys.NumPad2: case Keys.NumPad3:
             case Keys.NumPad4: case Keys.NumPad5: case Keys.NumPad6:
             case Keys.NumPad7: case Keys.NumPad8: case Keys.NumPad9: {
-                if (!SpecifyingNumbers)
+                if (!SpecifyingNumbers) {
                     NumbersStartingIndex = TimeDisplay.SelectionStart;
+                }
                 SpecifyingNumbers = true;
             } break;
 
@@ -424,8 +477,9 @@ public struct Time : IEquatable<Time> {
         Milliseconds = 0;
     }
     public Time(int Hours) {
-        if (Hours < 0)
+        if (Hours < 0) {
             throw new ArgumentOutOfRangeException(nameof(Hours));
+        }
 
         this.Hours = Hours;
         Minutes = 0;
@@ -433,11 +487,13 @@ public struct Time : IEquatable<Time> {
         Milliseconds = 0;
     }
     public Time(int Hours, int Minutes) {
-        if (Hours < 0)
+        if (Hours < 0) {
             throw new ArgumentOutOfRangeException(nameof(Hours));
+        }
 
-        if (Minutes < 0)
+        if (Minutes < 0) {
             throw new ArgumentOutOfRangeException(nameof(Minutes));
+        }
 
         this.Hours = Hours;
         this.Minutes = Minutes;
@@ -445,14 +501,17 @@ public struct Time : IEquatable<Time> {
         Milliseconds = 0;
     }
     public Time(int Hours, int Minutes, int Seconds) {
-        if (Hours < 0)
+        if (Hours < 0) {
             throw new ArgumentOutOfRangeException(nameof(Hours));
+        }
 
-        if (Minutes < 0)
+        if (Minutes < 0) {
             throw new ArgumentOutOfRangeException(nameof(Minutes));
+        }
 
-        if (Seconds < 0)
+        if (Seconds < 0) {
             throw new ArgumentOutOfRangeException(nameof(Seconds));
+        }
 
         this.Hours = Hours;
         this.Minutes = Minutes;
@@ -460,18 +519,21 @@ public struct Time : IEquatable<Time> {
         Milliseconds = 0;
     }
     public Time(int Hours, int Minutes, int Seconds, int Milliseconds) {
-        if (Hours < 0)
+        if (Hours < 0) {
             throw new ArgumentOutOfRangeException(nameof(Hours));
+        }
 
-        if (Minutes < 0)
+        if (Minutes < 0) {
             throw new ArgumentOutOfRangeException(nameof(Minutes));
+        }
 
-        if (Seconds < 0)
+        if (Seconds < 0) {
             throw new ArgumentOutOfRangeException(nameof(Seconds));
+        }
 
-        if (Milliseconds < 0)
+        if (Milliseconds < 0) {
             throw new ArgumentOutOfRangeException(nameof(Milliseconds));
-
+        }
 
         this.Hours = Hours;
         this.Minutes = Minutes;
@@ -484,141 +546,176 @@ public struct Time : IEquatable<Time> {
     public static bool operator !=(Time a, Time b) =>
         a.Hours != b.Hours || a.Minutes != b.Minutes || a.Seconds != b.Seconds || a.Milliseconds != b.Milliseconds;
     public static bool operator >(Time a, Time b) {
-        if (a.Hours > b.Hours)
+        if (a.Hours > b.Hours) {
             return true;
-        else if (a.Hours < b.Hours)
+        }
+        else if (a.Hours < b.Hours) {
             return false;
+        }
 
-        if (a.Minutes > b.Minutes)
+        if (a.Minutes > b.Minutes) {
             return true;
-        else if (a.Minutes < b.Minutes)
+        }
+        else if (a.Minutes < b.Minutes) {
             return false;
+        }
 
-        if (a.Seconds > b.Seconds)
+        if (a.Seconds > b.Seconds) {
             return true;
-        else if (a.Seconds < b.Seconds)
+        }
+        else if (a.Seconds < b.Seconds) {
             return false;
+        }
 
-        if (a.Milliseconds > b.Milliseconds)
+        if (a.Milliseconds > b.Milliseconds) {
             return true;
-        else if (a.Milliseconds < b.Milliseconds)
+        }
+        else if (a.Milliseconds < b.Milliseconds) {
             return false;
+        }
 
         return false;
     }
     public static bool operator >=(Time a, Time b) {
-        if (a.Hours > b.Hours)
+        if (a.Hours > b.Hours) {
             return true;
-        else if (a.Hours < b.Hours)
+        }
+        else if (a.Hours < b.Hours) {
             return false;
+        }
 
-        if (a.Minutes > b.Minutes)
+        if (a.Minutes > b.Minutes) {
             return true;
-        else if (a.Minutes < b.Minutes)
+        }
+        else if (a.Minutes < b.Minutes) {
             return false;
+        }
 
-        if (a.Seconds > b.Seconds)
+        if (a.Seconds > b.Seconds) {
             return true;
-        else if (a.Seconds < b.Seconds)
+        }
+        else if (a.Seconds < b.Seconds) {
             return false;
+        }
 
-        if (a.Milliseconds > b.Milliseconds)
+        if (a.Milliseconds > b.Milliseconds) {
             return true;
-        else if (a.Milliseconds < b.Milliseconds)
+        }
+        else if (a.Milliseconds < b.Milliseconds) {
             return false;
+        }
 
         return true;
     }
     public static bool operator <(Time a, Time b) {
-        if (a.Hours < b.Hours)
+        if (a.Hours < b.Hours) {
             return true;
-        else if (a.Hours > b.Hours)
+        }
+        else if (a.Hours > b.Hours) {
             return false;
+        }
 
-        if (a.Minutes < b.Minutes)
+        if (a.Minutes < b.Minutes) {
             return true;
-        else if (a.Minutes > b.Minutes)
+        }
+        else if (a.Minutes > b.Minutes) {
             return false;
+        }
 
-        if (a.Seconds < b.Seconds)
+        if (a.Seconds < b.Seconds) {
             return true;
-        else if (a.Seconds > b.Seconds)
+        }
+        else if (a.Seconds > b.Seconds) {
             return false;
+        }
 
-        if (a.Milliseconds < b.Milliseconds)
+        if (a.Milliseconds < b.Milliseconds) {
             return true;
-        else if (a.Milliseconds > b.Milliseconds)
+        }
+        else if (a.Milliseconds > b.Milliseconds) {
             return false;
+        }
 
         return false;
     }
     public static bool operator <=(Time a, Time b) {
-        if (a.Hours < b.Hours)
+        if (a.Hours < b.Hours) {
             return true;
-        else if (a.Hours > b.Hours)
+        }
+        else if (a.Hours > b.Hours) {
             return false;
+        }
 
-        if (a.Minutes < b.Minutes)
+        if (a.Minutes < b.Minutes) {
             return true;
-        else if (a.Minutes > b.Minutes)
+        }
+        else if (a.Minutes > b.Minutes) {
             return false;
+        }
 
-        if (a.Seconds < b.Seconds)
+        if (a.Seconds < b.Seconds) {
             return true;
-        else if (a.Seconds > b.Seconds)
+        }
+        else if (a.Seconds > b.Seconds) {
             return false;
+        }
 
-        if (a.Milliseconds < b.Milliseconds)
+        if (a.Milliseconds < b.Milliseconds) {
             return true;
-        else if (a.Milliseconds > b.Milliseconds)
+        }
+        else if (a.Milliseconds > b.Milliseconds) {
             return false;
+        }
 
         return true;
     }
 
-    public bool HasValue =>
+    public readonly bool HasValue =>
         Hours > 0 || Minutes > 0 || Seconds > 0 || Milliseconds > 0;
 
-    public override bool Equals(object obj) => obj is Time time && Equals(time);
-    public bool Equals(Time other) => Hours == other.Hours && Minutes == other.Minutes && Seconds == other.Seconds && Milliseconds == other.Milliseconds;
+    public override readonly bool Equals(object obj) => obj is Time time && Equals(time);
+    public readonly bool Equals(Time other) => Hours == other.Hours && Minutes == other.Minutes && Seconds == other.Seconds && Milliseconds == other.Milliseconds;
 
     public override int GetHashCode() {
         int hashCode = 446537655;
-        hashCode = hashCode * -1521134295 + Hours.GetHashCode();
-        hashCode = hashCode * -1521134295 + Minutes.GetHashCode();
-        hashCode = hashCode * -1521134295 + Seconds.GetHashCode();
-        hashCode = hashCode * -1521134295 + Milliseconds.GetHashCode();
+        hashCode = (hashCode * -1521134295) + Hours.GetHashCode();
+        hashCode = (hashCode * -1521134295) + Minutes.GetHashCode();
+        hashCode = (hashCode * -1521134295) + Seconds.GetHashCode();
+        hashCode = (hashCode * -1521134295) + Milliseconds.GetHashCode();
         return hashCode;
     }
 
     public override string ToString() {
         StringBuilder buf = new();
 
-        if (Hours > 0)
+        if (Hours > 0) {
             buf.Append(Hours.ToString("D2"));
+        }
 
         if (Minutes > 0) {
             if (buf.Length > 0)
                 buf.Append(":");
             buf.Append(Minutes.ToString());
         }
-        else if (buf.Length > 0)
+        else if (buf.Length > 0) {
             buf.Append(":00");
+        }
 
         if (Seconds > 0) {
             if (buf.Length > 0)
                 buf.Append(":");
             buf.Append(Seconds.ToString());
         }
-        else if (buf.Length > 0)
+        else if (buf.Length > 0) {
             buf.Append(":00");
-
-        if (Milliseconds > 0) {
-            if (buf.Length > 0)
-                buf.Append(".");
-            buf.Append(Milliseconds.ToString());
         }
 
+        if (Milliseconds > 0) {
+            if (buf.Length > 0) {
+                buf.Append(".");
+            }
+            buf.Append(Milliseconds.ToString());
+        }
 
         return buf.ToString();
     }
@@ -634,21 +731,22 @@ public struct TimeOffset : IEquatable<TimeOffset> {
         StartingTime = Time.Empty;
         EndingTime = Time.Empty;
     }
-    
+
     public TimeOffset(Time StartingTime) {
         this.StartingTime = StartingTime;
         EndingTime = Time.Empty;
     }
 
     public TimeOffset(Time StartingTime, Time EndingTime) {
-        if (EndingTime >= StartingTime)
+        if (EndingTime >= StartingTime) {
             throw new ArgumentOutOfRangeException(nameof(EndingTime));
+        }
         this.StartingTime = StartingTime;
         this.EndingTime = EndingTime;
     }
 
-    public bool HasStartingTime => StartingTime != Time.Empty;
-    public bool HasEndingTime => EndingTime != Time.Empty;
+    public readonly bool HasStartingTime => StartingTime != Time.Empty;
+    public readonly bool HasEndingTime => EndingTime != Time.Empty;
 
-    public bool Equals(TimeOffset other) => throw new NotImplementedException();
+    public readonly bool Equals(TimeOffset other) => throw new NotImplementedException();
 }

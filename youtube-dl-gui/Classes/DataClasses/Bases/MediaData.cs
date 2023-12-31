@@ -7,7 +7,7 @@ internal abstract class MediaData : IDisposable {
     /// <summary>
     ///     Bad characters that could be caught within a URL.
     /// </summary>
-    protected static readonly char[] BadUrlChars = { '\\', '"', '\n', '\r', '\t', '\0', '\b', '\'' };
+    protected static readonly char[] BadUrlChars = [ '\\', '"', '\n', '\r', '\t', '\0', '\b', '\'' ];
     private string? _args;
 
     /// <summary>

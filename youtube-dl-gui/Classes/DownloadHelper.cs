@@ -4,18 +4,18 @@ namespace youtube_dl_gui;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.RegularExpressions;
 public static class DownloadHelper {
-    public static readonly string[] ProxyProtocols = {
+    public static readonly string[] ProxyProtocols = [
         "https://",
         "http://",
         "socks4://",
         "socks5://"
-    };
+    ];
 
     // lang=regex The prefix for the initial regex, encompasing the connection protocol.
     private const string RegexPrefix = @"^(http(s)?:\/\/)?";
 
     // From most important ... least important
-    public static Regex[] CompiledRegex = {
+    public static Regex[] CompiledRegex = [
         // lang=regex YouTube
         new(RegexPrefix + @"((www|m)\.)?(youtube\.com\/watch\?(.*?)?v=|(youtu\.be\/))[a-zA-Z0-9_-]{1,}", RegexOptions.Compiled),
 
@@ -40,7 +40,7 @@ public static class DownloadHelper {
 
         // Base
         //new(RegexPrefix + "", RegexOptions.Compiled),
-    };
+    ];
 
     private static readonly Regex BasicUrlRegex = new(@"([^\r\n\t\f\v]){1,}\.([^\r\n\t\f\v]){1,}", RegexOptions.Compiled);
 

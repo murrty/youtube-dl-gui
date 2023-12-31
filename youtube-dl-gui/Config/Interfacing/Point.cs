@@ -29,7 +29,7 @@ public struct Point {
     /// <summary>
     /// Whether the <see cref="Point"/> can be considered a valid <see cref="Point"/> compared to <see cref="Invalid"/>.
     /// </summary>
-    public bool Valid => this.X != Invalid.X && this.Y != Invalid.Y;
+    public readonly bool Valid => this.X != Invalid.X && this.Y != Invalid.Y;
 
     public Point() {
         X = 0;
@@ -42,13 +42,13 @@ public struct Point {
     }
 
     /// <inheritdoc />
-    public override bool Equals(object obj) => obj is Point point && this.X == point.X && this.Y == point.Y;
+    public override readonly bool Equals(object obj) => obj is Point point && this.X == point.X && this.Y == point.Y;
 
     /// <inheritdoc />
-    public override int GetHashCode() {
+    public override readonly int GetHashCode() {
         int hashCode = 1861411795;
-        hashCode = hashCode * -1521134295 + this.X.GetHashCode();
-        hashCode = hashCode * -1521134295 + this.Y.GetHashCode();
+        hashCode = (hashCode * -1521134295) + this.X.GetHashCode();
+        hashCode = (hashCode * -1521134295) + this.Y.GetHashCode();
         return hashCode;
     }
 
@@ -59,12 +59,12 @@ public struct Point {
     /// <summary>
     /// Implicitly converts this Point structure to a System.Drawing.Point structure.
     /// </summary>
-    /// <param name="p"></param>
+    /// <param name="p">The point to convert.</param>
     public static implicit operator System.Drawing.Point(Point p) => new(p.X, p.Y);
 
     /// <summary>
     /// Implicity converts a System.Drawing.Point structure to this Point structure.
     /// </summary>
-    /// <param name="p"></param>
+    /// <param name="p">The point to convert.</param>
     public static implicit operator Point(System.Drawing.Point p) => new(p.X, p.Y);
 }

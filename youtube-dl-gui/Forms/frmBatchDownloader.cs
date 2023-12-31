@@ -6,12 +6,12 @@ using System.Windows.Forms;
 public partial class frmBatchDownloader : LocalizedProcessingForm {
     public bool Debugging;
 
-    private readonly List<int> DownloadTypes = new();       // List of types to download
-    private readonly List<string> DownloadUrls = new();     // List of urls to download
-    private readonly List<string> DownloadArgs = new();     // List of args to download
-    private readonly List<int> DownloadQuality = new();     // List of the quality
-    private readonly List<int> DownloadFormat = new();      // List of the formats
-    private readonly List<bool> DownloadSoundVBR = new();   // List of if sound/vbr should be downloaded
+    private readonly List<int> DownloadTypes = [];      // List of types to download
+    private readonly List<string> DownloadUrls = [];    // List of urls to download
+    private readonly List<string> DownloadArgs = [];    // List of args to download
+    private readonly List<int> DownloadQuality = [];    // List of the quality
+    private readonly List<int> DownloadFormat = [];     // List of the formats
+    private readonly List<bool> DownloadSoundVBR = [];  // List of if sound/vbr should be downloaded
 
     // Bool if the batch download is in progress
     [MemberNotNullWhen(true, nameof(DownloadThread), nameof(Downloader), nameof(NewInfo))]

@@ -1,7 +1,6 @@
-﻿namespace youtube_dl_gui;
-
+﻿#nullable enable
+namespace youtube_dl_gui;
 internal static class Converts {
-
     private const string ConfigName = "Converts";
 
     static Converts() {
@@ -200,5 +199,4 @@ internal static class Converts {
         }
     }
     private static bool fCloseAfterFinish;
-
 }

@@ -158,6 +158,7 @@ public partial class frmExtendedConverter : LocalizedForm {
         }
         SelectedConversion.AudioSampleRate = chkAudioSampleRate.Checked ? (AudioSampleRates)cbAudioSampleRate.SelectedIndex : AudioSampleRates.none;
     }
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("CodeQuality", "IDE0051:Remove unused private members", Justification = "<Pending>")]
     private void LoadMediaOptions() {
         if (SelectedConversion is null) {
             return;
@@ -181,6 +182,7 @@ public partial class frmExtendedConverter : LocalizedForm {
         cbAudioVBR.SelectedIndex = SelectedConversion.AudioVBR;
     }
 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("CodeQuality", "IDE0051:Remove unused private members", Justification = "<Pending>")]
     private bool IsStreamDisabled() {
         if (lvVideoStreams.Items.Count > 0) {
             for (int i = 0; i < lvVideoStreams.Items.Count; i++) {

@@ -236,7 +236,6 @@
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "frmException";
-            this.Load += new System.EventHandler(this.frmException_Load);
             this.pnLower.ResumeLayout(false);
             this.pnLower.PerformLayout();
             this.pnDWM.ResumeLayout(false);

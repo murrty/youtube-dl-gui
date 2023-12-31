@@ -4,6 +4,9 @@ using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Runtime.CompilerServices;
 using System.Text;
+
+[SuppressMessage("Roslynator", "RCS1163:Unused parameter", Justification = "<Pending>")]
+[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "<Pending>")]
 internal static class IniProvider {
     private const string EmptyString = "${empty_key_value}$";
     public static readonly string IniPath = Environment.CurrentDirectory + "\\youtube-dl-gui.ini";

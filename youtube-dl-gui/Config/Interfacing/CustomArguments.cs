@@ -1,5 +1,5 @@
-﻿namespace youtube_dl_gui;
-
+﻿#nullable enable
+namespace youtube_dl_gui;
 /// <summary>
 /// Manages the custom arguments the user provides.
 /// </summary>
@@ -7,7 +7,7 @@ internal static class CustomArguments {
     /// <summary>
     /// Represends a list of all used youtube-dl arguments.
     /// </summary>
-    public static List<string> YtdlArguments { get; } = new();
+    public static List<string> YtdlArguments { get; } = [];
     /// <summary>
     /// Represents the last used youtube-dl argument by the user.
     /// </summary>
@@ -16,7 +16,7 @@ internal static class CustomArguments {
     /// <summary>
     /// Represends a list of all used ffmpeg arguments.
     /// </summary>
-    public static List<string> FfmpegArguments { get; } = new();
+    public static List<string> FfmpegArguments { get; } = [];
     /// <summary>
     /// Represents the last used ffmpeg argument by the user.
     /// </summary>
@@ -24,7 +24,7 @@ internal static class CustomArguments {
 
     static CustomArguments() {
         if (!Saved.DownloadCustomArguments.IsNullEmptyWhitespace()) {
-            HashSet<string> Arguments = new();
+            HashSet<string> Arguments = [];
             string[] Args = Saved.DownloadCustomArguments.Trim('|', ' ').Split('|');
             Args.For((Arg) => {
                 if (!Arg.IsNullEmptyWhitespace())
@@ -44,7 +44,7 @@ internal static class CustomArguments {
         }
 
         if (!Saved.ConvertCustomArguments.IsNullEmptyWhitespace()) {
-            HashSet<string> Arguments = new();
+            HashSet<string> Arguments = [];
             string[] Args = Saved.ConvertCustomArguments.Trim('|', ' ').Split('|');
             Args.For((Arg) => {
                 if (!Arg.IsNullEmptyWhitespace())

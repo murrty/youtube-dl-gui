@@ -1,6 +1,6 @@
-﻿namespace youtube_dl_gui;
-
-internal class Downloads {
+﻿#nullable enable
+namespace youtube_dl_gui;
+internal static class Downloads {
     private const string ConfigName = "Downloads";
 
     static Downloads() {
@@ -232,7 +232,7 @@ internal class Downloads {
         }
     }
     private static bool fseparateIntoWebsiteURL;
-    
+
     public static bool SaveSubtitles {
         get => fSaveSubtitles;
         set {
@@ -254,7 +254,7 @@ internal class Downloads {
         }
     }
     private static string fsubtitlesLanguages;
-    
+
     public static bool CloseDownloaderAfterFinish {
         get => fCloseDownloaderAfterFinish;
         set {
@@ -265,7 +265,7 @@ internal class Downloads {
         }
     }
     private static bool fCloseDownloaderAfterFinish;
-    
+
     public static bool CloseExtendedDownloaderAfterFinish {
         get => fCloseExtendedDownloaderAfterFinish;
         set {
@@ -276,7 +276,7 @@ internal class Downloads {
         }
     }
     private static bool fCloseExtendedDownloaderAfterFinish;
-    
+
     public static bool UseProxy {
         get => fUseProxy;
         set {
@@ -287,7 +287,7 @@ internal class Downloads {
         }
     }
     private static bool fUseProxy;
-    
+
     public static int ProxyType {
         get => fProxyType;
         set {
@@ -298,7 +298,7 @@ internal class Downloads {
         }
     }
     private static int fProxyType;
-    
+
     public static string ProxyIP {
         get => fProxyIP;
         set {
@@ -309,7 +309,7 @@ internal class Downloads {
         }
     }
     private static string fProxyIP;
-    
+
     public static string ProxyPort {
         get => fProxyPort;
         set {
@@ -320,7 +320,7 @@ internal class Downloads {
         }
     }
     private static string fProxyPort;
-    
+
     public static bool SaveThumbnail {
         get => fSaveThumbnail;
         set {
@@ -331,7 +331,7 @@ internal class Downloads {
         }
     }
     private static bool fSaveThumbnail;
-    
+
     public static bool SaveDescription {
         get => fSaveDescription;
         set {
@@ -342,7 +342,7 @@ internal class Downloads {
         }
     }
     private static bool fSaveDescription;
-    
+
     public static bool SaveVideoInfo {
         get => fSaveVideoInfo;
         set {
@@ -353,7 +353,7 @@ internal class Downloads {
         }
     }
     private static bool fSaveVideoInfo;
-    
+
     public static bool SaveAnnotations {
         get => fSaveAnnotations;
         set {
@@ -364,7 +364,7 @@ internal class Downloads {
         }
     }
     private static bool fSaveAnnotations;
-    
+
     public static string SubtitleFormat {
         get => fSubtitleFormat;
         set {
@@ -375,7 +375,7 @@ internal class Downloads {
         }
     }
     private static string fSubtitleFormat;
-    
+
     public static int DownloadLimit {
         get => fDownloadLimit;
         set {
@@ -386,7 +386,7 @@ internal class Downloads {
         }
     }
     private static int fDownloadLimit;
-    
+
     public static int RetryAttempts {
         get => fRetryAttempts;
         set {
@@ -397,7 +397,7 @@ internal class Downloads {
         }
     }
     private static int fRetryAttempts;
-    
+
     public static int DownloadLimitType {
         get => fDownloadLimitType;
         set {
@@ -408,7 +408,7 @@ internal class Downloads {
         }
     }
     private static int fDownloadLimitType;
-    
+
     public static bool ForceIPv4 {
         get => fForceIPv4;
         set {
@@ -419,7 +419,7 @@ internal class Downloads {
         }
     }
     private static bool fForceIPv4;
-    
+
     public static bool ForceIPv6 {
         get => fForceIPv6;
         set {
@@ -430,7 +430,7 @@ internal class Downloads {
         }
     }
     private static bool fForceIPv6;
-    
+
     public static bool LimitDownloads {
         get => fLimitDownloads;
         set {
@@ -441,7 +441,7 @@ internal class Downloads {
         }
     }
     private static bool fLimitDownloads;
-    
+
     public static bool EmbedSubtitles {
         get => fEmbedSubtitles;
         set {
@@ -452,7 +452,7 @@ internal class Downloads {
         }
     }
     private static bool fEmbedSubtitles;
-    
+
     public static bool EmbedThumbnails {
         get => fEmbedThumbnails;
         set {
@@ -463,7 +463,7 @@ internal class Downloads {
         }
     }
     private static bool fEmbedThumbnails;
-    
+
     public static bool VideoDownloadSound {
         get => fVideoDownloadSound;
         set {
@@ -474,7 +474,7 @@ internal class Downloads {
         }
     }
     private static bool fVideoDownloadSound;
-    
+
     public static bool AudioDownloadAsVBR {
         get => fAudioDownloadAsVBR;
         set {
@@ -496,7 +496,7 @@ internal class Downloads {
         }
     }
     private static bool fKeepOriginalFiles;
-    
+
     public static bool WriteMetadata {
         get => fWriteMetadata;
         set {
@@ -507,7 +507,7 @@ internal class Downloads {
         }
     }
     private static bool fWriteMetadata;
-    
+
     public static bool SkipBatchTip {
         get => fSkipBatchTip;
         set {
@@ -518,7 +518,7 @@ internal class Downloads {
         }
     }
     private static bool fSkipBatchTip;
-    
+
     public static bool AutomaticallyDownloadFromProtocol {
         get => fAutomaticallyDownloadFromProtocol;
         set {
@@ -529,7 +529,7 @@ internal class Downloads {
         }
     }
     private static bool fAutomaticallyDownloadFromProtocol;
-    
+
     public static bool PreferFFmpeg {
         get => fPreferFFmpeg;
         set {
@@ -540,7 +540,7 @@ internal class Downloads {
         }
     }
     private static bool fPreferFFmpeg;
-    
+
     public static bool SeparateBatchDownloads {
         get => fSeparateBatchDownloads;
         set {
@@ -551,7 +551,7 @@ internal class Downloads {
         }
     }
     private static bool fSeparateBatchDownloads;
-    
+
     public static bool AddDateToBatchDownloadFolders {
         get => fAddDateToBatchDownloadFolders;
         set {
@@ -562,7 +562,7 @@ internal class Downloads {
         }
     }
     private static bool fAddDateToBatchDownloadFolders;
-    
+
     public static int YtdlType {
         get => fYtdlType;
         set {
@@ -573,7 +573,7 @@ internal class Downloads {
         }
     }
     private static int fYtdlType;
-    
+
     public static bool SubdomainFolderNames {
         get => fSubdomainFolderNames;
         set {
@@ -584,7 +584,7 @@ internal class Downloads {
         }
     }
     private static bool fSubdomainFolderNames;
-    
+
     public static bool ExtendedDownloaderPreferExtendedForm {
         get => fExtendedDownloaderPreferExtendedForm;
         set {
@@ -595,7 +595,7 @@ internal class Downloads {
         }
     }
     private static bool fExtendedDownloaderPreferExtendedForm;
-    
+
     public static bool ExtendedDownloaderAutoDownloadThumbnail {
         get => fExtendedDownloaderAutoDownloadThumbnail;
         set {
@@ -606,7 +606,7 @@ internal class Downloads {
         }
     }
     private static bool fExtendedDownloaderAutoDownloadThumbnail;
-    
+
     public static bool ExtendedDownloaderIncludeCustomArguments {
         get => fExtendedDownloaderIncludeCustomArguments;
         set {
@@ -617,7 +617,7 @@ internal class Downloads {
         }
     }
     private static bool fExtendedDownloaderIncludeCustomArguments;
-    
+
     public static bool SkipUnavailableFragments {
         get => fSkipUnavailableFragments;
         set {
@@ -628,7 +628,7 @@ internal class Downloads {
         }
     }
     private static bool fSkipUnavailableFragments;
-    
+
     public static bool AbortOnError {
         get => fAbortOnError;
         set {
@@ -639,7 +639,7 @@ internal class Downloads {
         }
     }
     private static bool fAbortOnError;
-    
+
     public static int FragmentThreads {
         get => fFragmentThreads;
         set {
@@ -650,5 +650,4 @@ internal class Downloads {
         }
     }
     private static int fFragmentThreads;
-
 }

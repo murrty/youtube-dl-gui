@@ -50,6 +50,7 @@ internal static class Updater {
     #endregion
 
     #region Major methods
+    [MemberNotNullWhen(true, nameof(LastChecked)), MemberNotNullWhen(false, nameof(LastChecked))]
     public static async Task<bool?> CheckForUpdate(bool ForceCheck) {
         if (!Program.UpdaterEnabled) {
             Log.Write("Cannot check for updates: TLS 1.2+ is not in use.");
@@ -96,9 +97,12 @@ internal static class Updater {
             }
         }
 
-        using frmUpdateAvailable UpdateDialog = new() {
-            UpdateData = LastChecked,
-            BlockSkip = !AllowSkip
+        if (LastChecked is null) {
+            return;
+        }
+
+        using frmUpdateAvailable UpdateDialog = new(LastChecked) {
+            BlockSkip = !AllowSkip,
         };
         switch (UpdateDialog.ShowDialog()) {
             case DialogResult.Yes: {
@@ -109,9 +113,11 @@ internal static class Updater {
                 Log.Write($"Ignoring update v{LastChecked.Version}");
 
                 if (General.DownloadBetaVersions) {
-                    Initialization.SkippedBetaVersion = LastCheckedAllRelease.Version;
+                    if (LastCheckedAllRelease is not null) {
+                        Initialization.SkippedBetaVersion = LastCheckedAllRelease.Version;
+                    }
                 }
-                else {
+                else if (LastCheckedLatestRelease is not null) {
                     Initialization.SkippedVersion = LastCheckedLatestRelease.Version;
                 }
             } break;
@@ -169,7 +175,7 @@ internal static class Updater {
                     await GetLatestYoutubeDl(TypeIndex);
 
                     // If the file does not exist, it needs to be re-downloaded.
-                    if (!Verification.YoutubeDlAvailable) {
+                    if (!Verification.YoutubeDlAvailable || LatestYoutubeDl is null) {
                         return true;
                     }
 
@@ -190,7 +196,7 @@ internal static class Updater {
                         GithubLinks.ProviderRepos[TypeIndex].User,
                         GithubLinks.ProviderRepos[TypeIndex].Repo,
                         GithubLinks.ProviderRepos[TypeIndex].FriendlyName,
-                        LatestYoutubeDl.VersionTag)) != DialogResult.Retry) {
+                        LatestYoutubeDl?.VersionTag ?? "0")) != DialogResult.Retry) {
                         return false;
                     }
 
@@ -259,7 +265,7 @@ internal static class Updater {
                     GithubLinks.ProviderRepos[TypeIndex].User,
                     GithubLinks.ProviderRepos[TypeIndex].Repo,
                     GithubLinks.ProviderRepos[TypeIndex].FriendlyName,
-                    LatestYoutubeDl.VersionTag);
+                    LatestYoutubeDl.VersionTag ?? "0");
 
             using frmGenericDownloadProgress Downloader = new(DownloadUrl, Verification.YoutubeDlPath ?? Verification.GetExpectedYoutubeDlPath(), Location);
             if (Downloader.ShowDialog() != DialogResult.OK) {
@@ -335,7 +341,13 @@ internal static class Updater {
         Task<string?> JsonTask = GetJSON(Url);
         JsonTask.Wait();
 
-        var AvailableLanguages = JsonTask.Result.JsonDeserialize<GithubRepoContent[]>()
+        string? JSON = JsonTask.Result;
+
+        if (JSON.IsNullEmptyWhitespace()) {
+            throw new NullReferenceException("Github api is null empty or whitespace.");
+        }
+
+        var AvailableLanguages = JSON.JsonDeserialize<GithubRepoContent[]>()
             .Where(x => x.name != "English.ini")
             .ToArray();
 
@@ -425,19 +437,15 @@ internal static class Updater {
         Log.Write("Retrieving Github release data for youtube-dl");
 
         string Url = GithubLinks.GithubLatestJson.Format(GithubLinks.ProviderRepos[GitID].User, GithubLinks.ProviderRepos[GitID].Repo);
+        string Json = await GetJSON(Url)
+            .ConfigureAwait(true) ?? throw new ApiParsingException("The retrieved xml returned null.", Url);
 
-        Log.Write("Retrieving JSON data");
-        string Json = await GetJSON(Url) ?? throw new ApiParsingException("The retrieved xml returned null.", Url);
-
-        Log.Write("Deserializing");
         GithubData CurrentRelease = Json.JsonDeserialize<GithubData>();
 
         if (LatestYoutubeDl is not null && LatestYoutubeDl.VersionTag == CurrentRelease.VersionTag) {
-            Log.Write("LatestYoutubeDl is already up to date.");
             return;
         }
 
-        Log.Write("A new version is available.");
         LatestYoutubeDl = CurrentRelease;
     }
     #endregion

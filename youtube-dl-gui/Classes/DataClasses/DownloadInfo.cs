@@ -123,7 +123,7 @@ internal sealed class DownloadInfo(string URL) : MediaInfo(URL) {
             return false;
         }
 
-        ArgumentList ArgumentsBuffer = new();
+        ArgumentList ArgumentsBuffer = [];
         ArgumentList PreviewArguments;
 
         #region youtube-dl path

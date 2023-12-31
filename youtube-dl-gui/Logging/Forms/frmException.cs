@@ -1,4 +1,5 @@
-﻿namespace murrty.logging;
+﻿#nullable enable
+namespace murrty.logging;
 using System.Drawing;
 using System.Net;
 using System.Security.Cryptography;
@@ -20,7 +21,7 @@ internal partial class frmException : Form {
     /// <summary>
     /// Composition info relating to each form instance.
     /// </summary>
-    private DwmCompositionInfo DwmInfo { get; }
+    private DwmCompositionInfo? DwmInfo { get; }
 
     /// <summary>
     /// Whether the form will be UwU-ified.
@@ -33,6 +34,7 @@ internal partial class frmException : Form {
     /// <param name="ReportedException">A <see cref="ExceptionInfo"/> instnace for a specific exception.</param>
     public frmException(ExceptionInfo ReportedException) {
         if (ReportedException is null) {
+            this.ReportedException = null!;
             Log.MessageBox("The reported exception is null and the exception cannot be displayed.");
             this.Load += (s, e) => this.Dispose();
             return;
@@ -108,7 +110,7 @@ internal partial class frmException : Form {
             DwmComposition.ExtendFrame(DwmInfo);
             this.Paint += (s, e) => {
                 DwmComposition.FillBlackRegion(DwmInfo);
-                DwmComposition.DrawTextOnGlass(DwmInfo, DwmInfo.Text);
+                DwmComposition.DrawTextOnGlass(DwmInfo, DwmInfo.Text!);
             };
             this.MouseDown += (s, e) => {
                 if (e.Button == MouseButtons.Left && DwmInfo.DwmRectangle.Contains(e.Location)) {
@@ -122,6 +124,7 @@ internal partial class frmException : Form {
             pnDWM.Visible = true;
         }
 
+        this.Load += this.frmException_Load;
         this.Shown += (s, e) => System.Media.SystemSounds.Hand.Play();
     }
 
@@ -175,7 +178,9 @@ internal partial class frmException : Form {
     private void frmException_Load(object sender, EventArgs e) {
         // A custom description was set, so we aren't going to write anything except for
         // what was written in the custom descrption.
-        if (ReportedException.CustomDescription is not null) rtbExceptionDetails.Text = $"{ReportedException.CustomDescription}\n";
+        if (ReportedException.CustomDescription is not null) {
+            rtbExceptionDetails.Text = $"{ReportedException.CustomDescription}\n";
+        }
 
         // We need to figure out what exception occurred.
         // If the custom description is null, we can generate one.
@@ -296,13 +301,15 @@ internal partial class frmException : Form {
                         ExceptionType.Unhandled => "An unrecoverable unknown-typed exception occurred, and the application will exit.",
                         ExceptionType.ThreadException => "An uncaught unknown-typed exception occurred and the application may resume.",
                         _ => "A caught unknown-typed exception occurred and the state of the application is undeterminable.",
-                    } + "\n\n" + $"{(ReportedException.ExtraMessage is not null ? ReportedException.ExtraMessage : "")}\n";
+                    } + "\n\n" + $"{ReportedException.ExtraMessage ?? ""}\n";
                 } break;
             }
         }
 
         // The exception itself is null, but the reported data is not.
-        else rtbExceptionDetails.Text = "An exception occurred, but the received exception is null.\n";
+        else {
+            rtbExceptionDetails.Text = "An exception occurred, but the received exception is null.\n";
+        }
 
         // Add the OS info to the end of the main exception display.
         rtbExceptionDetails.AppendText("\n" + $$"""
@@ -312,7 +319,7 @@ internal partial class frmException : Form {
                 """);
 
         // Display the extra info, as a ToString value.
-        if (ReportedException is not null && ReportedException.ExtraInfo is not null) {
+        if (ReportedException?.ExtraInfo is not null) {
             string ExtraInfo = ReportedException.ExtraInfo.ToString();
             rtbExtraData.Text = ExtraInfo.Length > 0 ? ExtraInfo : "Extra info was provided, but it doesn't contain data.";
         }

@@ -1,9 +1,8 @@
-﻿namespace youtube_dl_gui;
-
+﻿#nullable enable
+namespace youtube_dl_gui;
 using System.Windows.Forms;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
-
 public partial class MessageHandler : Form {
     public bool AcceptMessages { get; private set;} = false;
     public bool AwaitingExit { get; private set; } = false;
@@ -68,20 +67,26 @@ public partial class MessageHandler : Form {
 
             // WM_SHOWFORM is a custom message.
             case CopyData.WM_SHOWFORM when AcceptMessages: {
-                if (Program.MainForm is not null)
+                if (Program.MainForm is not null) {
                     Program.MainForm.Activate();
-                else if (Program.RunningActions.Count > 0)
+                }
+                else if (Program.RunningActions.Count > 0) {
                     Program.RunningActions[0].Show();
+                }
                 m.Result = IntPtr.Zero;
             } break;
 
             // WM_UPDATEDATAREQUEST is a custom message.
             // Only allowed when the updater is launched from youtube-dl-gui.
             case CopyData.WM_UPDATEDATAREQUEST: {
+                if (Updater.LastChecked is null) {
+                    Log.MessageBox("LastChecked is null.");
+                    return;
+                }
                 UpdateData Data = new() {
                     FileName = AppDomain.CurrentDomain.FriendlyName,
                     NewVersion = Updater.LastChecked.Version,
-                    UpdateHash = Updater.LastChecked.ExecutableHash
+                    UpdateHash = Updater.LastChecked.ExecutableHash ?? new string('0', 64)
                 };
                 CopyDataStruct DataStruct = new();
                 nint CopyDataBuffer = 0;

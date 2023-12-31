@@ -805,7 +805,7 @@
             this.tabDebug.Location = new System.Drawing.Point(4, 22);
             this.tabDebug.Name = "tabDebug";
             this.tabDebug.Padding = new System.Windows.Forms.Padding(3);
-            this.tabDebug.Size = new System.Drawing.Size(238, 318);
+            this.tabDebug.Size = new System.Drawing.Size(238, 339);
             this.tabDebug.TabIndex = 3;
             this.tabDebug.Text = "Debug";
             this.tabDebug.UseVisualStyleBackColor = true;

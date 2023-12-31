@@ -1,6 +1,6 @@
-﻿namespace youtube_dl_gui;
-
-public enum GitID : int {
+﻿#nullable enable
+namespace youtube_dl_gui;
+public enum GitID : byte {
     YtDlp = 0,
     YtDlpNightly = 1,
     YoutubeDl = 2,

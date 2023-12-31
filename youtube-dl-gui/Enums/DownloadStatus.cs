@@ -1,4 +1,5 @@
-﻿namespace youtube_dl_gui;
+﻿#nullable enable
+namespace youtube_dl_gui;
 public enum DownloadStatus : int {
     None = 0,
     Preparing = 1,

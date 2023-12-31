@@ -1,7 +1,6 @@
-﻿namespace youtube_dl_gui;
-
+﻿#nullable enable
+namespace youtube_dl_gui;
 internal static class General {
-
     private const string ConfigName = "General";
 
     static General() {
@@ -212,5 +211,4 @@ internal static class General {
         }
     }
     private static bool fAutoUpdateYoutubeDl;
-
 }

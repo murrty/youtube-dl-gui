@@ -6,9 +6,9 @@ using System.Windows.Forms;
 internal partial class frmDownloader : LocalizedProcessingForm {
     public DownloadInfo CurrentDownload { get; }
 
-    private Thread? DownloadThread;              // The thread of the process for youtube-dl.
-    private Process? DownloadProcess;            // The process of youtube-dl which we'll redirect.
-    private bool AbortBatch = false;   // Determines if the rest of the batch downloads should be cancelled.
+    private Thread? DownloadThread;     // The thread of the process for youtube-dl.
+    private Process? DownloadProcess;   // The process of youtube-dl which we'll redirect.
+    private bool AbortBatch;            // Determines if the rest of the batch downloads should be cancelled.
 
     public frmDownloader(DownloadInfo Info) {
         InitializeComponent();
@@ -16,6 +16,48 @@ internal partial class frmDownloader : LocalizedProcessingForm {
         CurrentDownload = Info;
     }
 
+    public void RetryOrAbort() {
+        switch (CurrentDownload.Status) {
+            case DownloadStatus.YtdlError:
+            case DownloadStatus.ProgramError:
+            case DownloadStatus.Aborted:
+                btnDownloaderRetryAbortBatch.Visible = false;
+                btnDownloaderRetryAbortBatch.Enabled = false;
+                this.Text = Language.frmDownloader + " ";
+                tmrTitleActivity.Start();
+                BeginDownload();
+                break;
+            default:
+                AbortBatch = true;
+                switch (CurrentDownload.Status) {
+                    case DownloadStatus.Finished:
+                    case DownloadStatus.Aborted:
+                    case DownloadStatus.YtdlError:
+                    case DownloadStatus.ProgramError:
+                        rtbVerbose.AppendLine("The user requested to abort subsequent batch downloads");
+                        btnDownloaderRetryAbortBatch.Enabled = false;
+                        btnDownloaderRetryAbortBatch.Visible = false;
+                        break;
+                    default:
+                        if (DownloadThread?.IsAlive == true) {
+                            if (DownloadProcess?.HasExited == false) {
+                                if (DownloadProcess.StartInfo.RedirectStandardOutput) {
+                                    DownloadProcess.CancelOutputRead();
+                                }
+                                if (DownloadProcess.StartInfo.RedirectStandardError) {
+                                    DownloadProcess.CancelErrorRead();
+                                }
+                            }
+                            DownloadThread.Abort();
+                        }
+                        rtbVerbose.AppendLine("Additionally, the batch download has been cancelled.");
+                        CurrentDownload.Status = DownloadStatus.Aborted;
+                        this.Close();
+                        break;
+                }
+                break;
+        }
+    }
     public override void LoadLanguage() {
         this.Text = Language.frmDownloader + " ";
         btnDownloaderRetryAbortBatch.Text = Language.btnDownloaderAbortBatch;
@@ -80,48 +122,7 @@ internal partial class frmDownloader : LocalizedProcessingForm {
             } break;
         }
     }
-    public void RetryOrAbort() {
-        switch (CurrentDownload.Status) {
-            case DownloadStatus.YtdlError:
-            case DownloadStatus.ProgramError:
-            case DownloadStatus.Aborted:
-                btnDownloaderRetryAbortBatch.Visible = false;
-                btnDownloaderRetryAbortBatch.Enabled = false;
-                this.Text = Language.frmDownloader + " ";
-                tmrTitleActivity.Start();
-                BeginDownload();
-                break;
-            default:
-                AbortBatch = true;
-                switch (CurrentDownload.Status) {
-                    case DownloadStatus.Finished:
-                    case DownloadStatus.Aborted:
-                    case DownloadStatus.YtdlError:
-                    case DownloadStatus.ProgramError:
-                        rtbVerbose.AppendLine("The user requested to abort subsequent batch downloads");
-                        btnDownloaderRetryAbortBatch.Enabled = false;
-                        btnDownloaderRetryAbortBatch.Visible = false;
-                        break;
-                    default:
-                        if (DownloadThread?.IsAlive == true) {
-                            if (DownloadProcess?.HasExited == false) {
-                                if (DownloadProcess.StartInfo.RedirectStandardOutput) {
-                                    DownloadProcess.CancelOutputRead();
-                                }
-                                if (DownloadProcess.StartInfo.RedirectStandardError) {
-                                    DownloadProcess.CancelErrorRead();
-                                }
-                            }
-                            DownloadThread.Abort();
-                        }
-                        rtbVerbose.AppendLine("Additionally, the batch download has been cancelled.");
-                        CurrentDownload.Status = DownloadStatus.Aborted;
-                        this.Close();
-                        break;
-                }
-                break;
-        }
-    }
+
     private void BeginDownload() {
         Log.Write($"Beginning download for {CurrentDownload.DownloadURL}.");
         if (CurrentDownload.DownloadURL.IsNullEmptyWhitespace()) {
@@ -472,6 +473,7 @@ internal partial class frmDownloader : LocalizedProcessingForm {
     }
     private void frmExtendedMassDownloader_Shown(object sender, EventArgs e) {
         pbStatus.Focus();
+        BeginDownload();
     }
     private void frmExtendedMassDownloader_FormClosing(object sender, FormClosingEventArgs e) {
         DialogResult Finish = DialogResult.None;

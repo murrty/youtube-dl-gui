@@ -1,4 +1,5 @@
-﻿namespace youtube_dl_gui;
+﻿#nullable enable
+namespace youtube_dl_gui;
 
 /// <summary>
 /// An exception that occurs when converting arguments being generated only have the output extract files instead of convert.

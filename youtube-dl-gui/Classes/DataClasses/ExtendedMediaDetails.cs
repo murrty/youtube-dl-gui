@@ -70,11 +70,11 @@ internal sealed class ExtendedMediaDetails(string URL) : MediaDetails(URL) {
     /// <summary>
     /// Gets the list of Video formats for the current media.
     /// </summary>
-    public List<YoutubeDlSubdata.Format> VideoFormats { get; } = new();
+    public List<YoutubeDlSubdata.Format> VideoFormats { get; } = [];
     /// <summary>
     /// Gets the list of Video list view items for the current media.
     /// </summary>
-    public List<ListViewItem> VideoItems { get; } = new();
+    public List<ListViewItem> VideoItems { get; } = [];
     /// <summary>
     /// Gets or sets the last selected video format listviewitem of this instance.
     /// LastSelectedVideoFormat.Tag is the <see cref="YoutubeDlFormat"/> object that will be downloaded.
@@ -84,11 +84,11 @@ internal sealed class ExtendedMediaDetails(string URL) : MediaDetails(URL) {
     /// <summary>
     /// Gets the list of Audio formats for the current media.
     /// </summary>
-    public List<YoutubeDlSubdata.Format> AudioFormats { get; } = new();
+    public List<YoutubeDlSubdata.Format> AudioFormats { get; } = [];
     /// <summary>
     /// Gets the list of Audio list view items for the current media.
     /// </summary>
-    public List<ListViewItem> AudioItems { get; } = new();
+    public List<ListViewItem> AudioItems { get; } = [];
     /// <summary>
     /// Gets or sets the selected audio format listviewitem of this instance.
     /// </summary>
@@ -97,11 +97,11 @@ internal sealed class ExtendedMediaDetails(string URL) : MediaDetails(URL) {
     /// <summary>
     /// Gets the list of Unkown formats for the current media.
     /// </summary>
-    public List<YoutubeDlSubdata.Format> UnknownFormats { get; } = new();
+    public List<YoutubeDlSubdata.Format> UnknownFormats { get; } = [];
     /// <summary>
     /// Gets the list of Unknown list view items for the current media.
     /// </summary>
-    public List<ListViewItem> UnknownItems { get; } = new();
+    public List<ListViewItem> UnknownItems { get; } = [];
     /// <summary>
     /// Gets or sets the last selected unknown format listviewitem of this instance.
     /// </summary>
@@ -827,5 +827,7 @@ internal sealed class ExtendedMediaDetails(string URL) : MediaDetails(URL) {
             ArgumentsCensored = string.Empty;
             Thumbnail = null;
         }
+
+        GC.SuppressFinalize(this);
     }
 }

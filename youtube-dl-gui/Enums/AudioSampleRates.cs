@@ -1,4 +1,5 @@
-﻿namespace youtube_dl_gui;
+﻿#nullable enable
+namespace youtube_dl_gui;
 internal enum AudioSampleRates : int {
     none = -1,
     hz48000 = 0,

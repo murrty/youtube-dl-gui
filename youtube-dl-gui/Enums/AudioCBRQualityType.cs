@@ -1,4 +1,5 @@
-﻿namespace youtube_dl_gui;
+﻿#nullable enable
+namespace youtube_dl_gui;
 public enum AudioCBRQualityType : int {
     none = -1,
     best = 0,

@@ -1,7 +1,6 @@
-﻿namespace youtube_dl_gui;
-
+﻿#nullable enable
+namespace youtube_dl_gui;
 internal static class Errors {
-
     private const string ConfigName = "Errors";
 
     static Errors() {
@@ -43,5 +42,4 @@ internal static class Errors {
         }
     }
     private static bool fsuppressErrors;
-
 }

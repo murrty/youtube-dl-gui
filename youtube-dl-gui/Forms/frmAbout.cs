@@ -34,9 +34,8 @@ public partial class frmAbout : LocalizedForm {
             switch (await Updater.CheckForUpdate(chkForceCheckUpdate.Checked)) {
                 case null: return;
                 case false: {
-                    Log.MessageBox(Program.CurrentVersion.IsBeta ?
-                        Language.dlgUpdateNoBetaUpdateAvailable.Format(Program.CurrentVersion, Updater.LastChecked.Version) :
-                        Language.dlgUpdateNoUpdateAvailable.Format(Program.CurrentVersion, Updater.LastChecked.Version));
+                    Log.MessageBox((Program.CurrentVersion.IsBeta ? Language.dlgUpdateNoBetaUpdateAvailable : Language.dlgUpdateNoUpdateAvailable)
+                        .Format(Program.CurrentVersion, Updater.LastChecked!.Version));
                 } break;
                 case true: {
                     Updater.ShowUpdateForm(false);

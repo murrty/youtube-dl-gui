@@ -1,4 +1,5 @@
-﻿namespace youtube_dl_gui;
+﻿#nullable enable
+namespace youtube_dl_gui;
 using System.Diagnostics;
 using System.IO;
 using System.Management;
@@ -56,32 +57,32 @@ internal static class Program {
     /// <summary>
     /// The list of running downloads or conversions.
     /// </summary>
-    internal static QueueList<Form> RunningActions { get; } = new();
+    internal static QueueList<Form> RunningActions { get; } = [];
     /// <summary>
     /// The image list used for batch actions.
     /// </summary>
-    internal static ImageList BatchStatusImages { get; private set; }
+    internal static ImageList BatchStatusImages { get; private set; } = null!;
     /// <summary>
     /// The image list used for the extended downloader.
     /// </summary>
-    internal static ImageList ExtendedDownloaderSelectedImages { get; private set; }
+    internal static ImageList ExtendedDownloaderSelectedImages { get; private set; } = null!;
 
     /// <summary>
     /// The mutex used for enforcing the applications' single instance.
     /// </summary>
-    private static Mutex Instance { get; set; }
+    private static Mutex Instance { get; set; } = null!;
     /// <summary>
     /// The main form used for the application.
     /// </summary>
-    public static frmMain MainForm { get; private set; }
+    public static frmMain? MainForm { get; private set; }
     /// <summary>
     /// The argument handler for sent arguments.
     /// </summary>
-    private static MessageHandler QueueHandler { get; set; }
+    private static MessageHandler QueueHandler { get; set; } = null!;
     /// <summary>
     /// Represents the HttpClient used through the applications' life.
     /// </summary>
-    internal static ManagedHttpClient HttpClient { get; private set; }
+    internal static ManagedHttpClient HttpClient { get; private set; } = null!;
     internal static bool UpdaterEnabled { get; private set; } = true;
 
     [STAThread]
@@ -147,12 +148,19 @@ internal static class Program {
         Application.EnableVisualStyles();
         Application.SetCompatibleTextRenderingDefault(false);
 
+        Log.Write("Initializing application");
+
         IsAdmin = new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator);
 
         if (Environment.CurrentDirectory != ProgramPath) {
             Log.Write("The current directory is wrong.");
             Environment.CurrentDirectory = ProgramPath;
         }
+
+        Thread.CurrentThread.Name = "Main application thread";
+        ManagedHttpClient.UpdateDownloadClient(UserAgent);
+        ManagedHttpClient.UpdateSyncContext(SynchronizationContext.Current);
+        HttpClient = new();
 
         if (Initialization.firstTime) {
             Log.Write("Initiating first time setup.");
@@ -234,10 +242,6 @@ internal static class Program {
         }
 
         // Etc.
-        Thread.CurrentThread.Name = "Main application thread";
-        ManagedHttpClient.UpdateDownloadClient(UserAgent);
-        ManagedHttpClient.UpdateSyncContext(SynchronizationContext.Current);
-        HttpClient = new();
         (MainForm = new frmMain()).ShowDialog();
         MainForm = null;
 
@@ -282,47 +286,50 @@ internal static class Program {
         }
     }
 
-    internal static bool CheckArgs(List<(ArgumentType Type, string Data)> args = null) {
+    internal static bool CheckArgs(List<(ArgumentType Type, string? Data)>? args = null) {
         args ??= Arguments.ParsedArguments;
         if (args.Count > 0) {
             int PassedCount = 0;
             for (int i = 0; i < args.Count; i++) {
-                if (!args[i].Data.IsNullEmptyWhitespace()) {
-                    PassedCount++;
-                    if (Downloads.ExtendedDownloaderPreferExtendedForm) {
-                        new frmExtendedDownloader(args[i].Data, false).Show();
-                        continue;
-                    }
+                (ArgumentType Type, string? Data) Arg = args[i];
+                if (Arg.Data.IsNullEmptyWhitespace()) {
+                    continue;
+                }
 
-                    // TODO: Implement the rest of the argument types
-                    switch (args[i].Type) {
-                        case ArgumentType.DownloadVideo: {
-                            DownloadInfo NewVideo = new(args[i].Data) {
-                                Type = DownloadType.Video,
-                                VideoQuality = (VideoQualityType)Saved.videoQuality,
-                            };
-                            new frmDownloader(NewVideo).Show();
-                        } break;
-                        case ArgumentType.DownloadAudio: {
-                            DownloadInfo NewAudio = new(args[i].Data) {
-                                Type = DownloadType.Audio,
-                            };
-                            if (Downloads.AudioDownloadAsVBR)
-                                NewAudio.AudioVBRQuality = (AudioVBRQualityType)Saved.audioQuality;
-                            else
-                                NewAudio.AudioCBRQuality = (AudioCBRQualityType)Saved.audioQuality;
-                            new frmDownloader(NewAudio).Show();
-                        } break;
-                        case ArgumentType.DownloadCustom: {
-                            DownloadInfo NewCustom = new(args[i].Data) {
-                                Type = DownloadType.Custom,
-                            };
-                            new frmDownloader(NewCustom).Show();
-                        } break;
-                        default: {
-                            PassedCount--;
-                        } break;
-                    }
+                PassedCount++;
+                if (Downloads.ExtendedDownloaderPreferExtendedForm) {
+                    new frmExtendedDownloader(Arg.Data, false).Show();
+                    continue;
+                }
+
+                // TODO: Implement the rest of the argument types
+                switch (Arg.Type) {
+                    case ArgumentType.DownloadVideo: {
+                        DownloadInfo NewVideo = new(Arg.Data) {
+                            Type = DownloadType.Video,
+                            VideoQuality = (VideoQualityType)Saved.videoQuality,
+                        };
+                        new frmDownloader(NewVideo).Show();
+                    } break;
+                    case ArgumentType.DownloadAudio: {
+                        DownloadInfo NewAudio = new(Arg.Data) {
+                            Type = DownloadType.Audio,
+                        };
+                        if (Downloads.AudioDownloadAsVBR)
+                            NewAudio.AudioVBRQuality = (AudioVBRQualityType)Saved.audioQuality;
+                        else
+                            NewAudio.AudioCBRQuality = (AudioCBRQualityType)Saved.audioQuality;
+                        new frmDownloader(NewAudio).Show();
+                    } break;
+                    case ArgumentType.DownloadCustom: {
+                        DownloadInfo NewCustom = new(Arg.Data) {
+                            Type = DownloadType.Custom,
+                        };
+                        new frmDownloader(NewCustom).Show();
+                    } break;
+                    default: {
+                        PassedCount--;
+                    } break;
                 }
             }
             return PassedCount > 0;
@@ -341,7 +348,7 @@ internal static class Program {
             case ArgumentType.DownloadAuthenticateVideo:
             case ArgumentType.DownloadVideoNoSound:
             case ArgumentType.DownloadAuthenticateVideoNoSound: {
-                AuthenticationDetails Auth = null;
+                AuthenticationDetails? Auth = null;
                 if (Type == ArgumentType.DownloadAuthenticateVideo) {
                     Auth = AuthenticationDetails.GetAuthentication();
                     if (Auth is null) {
@@ -374,7 +381,7 @@ internal static class Program {
 
             case ArgumentType.DownloadAudio:
             case ArgumentType.DownloadAuthenticateAudio: {
-                AuthenticationDetails Auth = null;
+                AuthenticationDetails? Auth = null;
                 if (Type == ArgumentType.DownloadAuthenticateAudio) {
                     Auth = AuthenticationDetails.GetAuthentication();
                     if (Auth is null) {
@@ -412,7 +419,7 @@ internal static class Program {
 
             case ArgumentType.DownloadCustom:
             case ArgumentType.DownloadAuthenticateCustom: {
-                AuthenticationDetails Auth = null;
+                AuthenticationDetails? Auth = null;
                 if (Type == ArgumentType.DownloadAuthenticateCustom) {
                     Auth = AuthenticationDetails.GetAuthentication();
                     if (Auth is null) {
@@ -445,13 +452,17 @@ internal static class Program {
             } break;
         }
     }
-    internal static void ProcessCopyData(string URL, ArgumentType Type, string CustomArguments) {
-        Log.Write($"ProcessCopyData called: {Type} > {URL ?? "null"}");
+    internal static void ProcessCopyData(string? URL, ArgumentType Type, string CustomArguments) {
+        if (URL.IsNullEmptyWhitespace()) {
+            return;
+        }
+
+        Log.Write($"ProcessCopyData called: {Type} > {URL}");
 
         switch (Type) {
             case ArgumentType.DownloadVideo:
             case ArgumentType.DownloadAuthenticateVideo: {
-                AuthenticationDetails Auth = null;
+                AuthenticationDetails? Auth = null;
                 if (Type == ArgumentType.DownloadAuthenticateVideo) {
                     Auth = AuthenticationDetails.GetAuthentication();
                     if (Auth is null) {
@@ -484,7 +495,7 @@ internal static class Program {
 
             case ArgumentType.DownloadAudio:
             case ArgumentType.DownloadAuthenticateAudio: {
-                AuthenticationDetails Auth = null;
+                AuthenticationDetails? Auth = null;
                 if (Type == ArgumentType.DownloadAuthenticateAudio) {
                     Auth = AuthenticationDetails.GetAuthentication();
                     if (Auth is null) {
@@ -522,7 +533,7 @@ internal static class Program {
 
             case ArgumentType.DownloadCustom:
             case ArgumentType.DownloadAuthenticateCustom: {
-                AuthenticationDetails Auth = null;
+                AuthenticationDetails? Auth = null;
                 if (Type == ArgumentType.DownloadAuthenticateCustom) {
                     Auth = AuthenticationDetails.GetAuthentication();
                     if (Auth is null) {
@@ -598,15 +609,15 @@ internal static class Program {
     internal static void SetTls() {
         try { //try TLS 1.3
             System.Net.ServicePointManager.SecurityProtocol = (System.Net.SecurityProtocolType)12288
-                                                            | (System.Net.SecurityProtocolType)3072
-                                                            | (System.Net.SecurityProtocolType)768
+                                                            | System.Net.SecurityProtocolType.Tls12
+                                                            | System.Net.SecurityProtocolType.Tls11
                                                             |  System.Net.SecurityProtocolType.Tls;
             Log.Write("TLS 1.3 will be used.");
         }
         catch (NotSupportedException) {
             try { //try TLS 1.2
-                System.Net.ServicePointManager.SecurityProtocol = (System.Net.SecurityProtocolType)3072
-                                                                | (System.Net.SecurityProtocolType)768
+                System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12
+                                                                | System.Net.SecurityProtocolType.Tls11
                                                                 |  System.Net.SecurityProtocolType.Tls;
                 Log.Write("TLS 1.2 will be used.");
             }
@@ -614,7 +625,7 @@ internal static class Program {
                 UpdaterEnabled = false;
 
                 try { //try TLS 1.1
-                    System.Net.ServicePointManager.SecurityProtocol = (System.Net.SecurityProtocolType)768
+                    System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls11
                                                                     |  System.Net.SecurityProtocolType.Tls;
                     Log.Write("TLS 1.1 will be used, Github updating may be affected.");
                 }

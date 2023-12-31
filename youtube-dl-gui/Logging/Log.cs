@@ -1,6 +1,8 @@
-﻿#define ALLOWUNHANDLEDCATCHING
+﻿#nullable enable
+#define ALLOWUNHANDLEDCATCHING
 namespace murrty.logging;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Management;
 using System.Threading;
 using System.Windows.Forms;
@@ -10,39 +12,40 @@ using WinMsg = System.Windows.Forms.MessageBox;
 /// This class will control the Errors that get reported in try statements.
 /// </summary>
 internal static class Log {
-
     #region Properties & Fields
     /// <summary>
     /// The log form that is used globally to log data.
     /// </summary>
-    private static volatile frmLog LogForm = null;
+    private static volatile frmLog? LogForm;
 
     /// <summary>
     /// Gets the computer versioning information, such as the running operating system, language, etc.
     /// </summary>
     public static string ComputerVersionInformation {
-        get; private set;
+        get;
     } = $"{nameof(ComputerVersionInformation)} not initialized.";
 
     /// <summary>
     /// Gets whether the log is enabled.
     /// </summary>
-    public static bool LogEnabled { get; private set; } = false;
+    public static bool LogEnabled { get; private set; }
 
     /// <summary>
     /// Gets or sets whether the log will write to file.
     /// </summary>
-    public static bool AllowWritingToFile { get; set; } = false;
+    public static bool AllowWritingToFile { get; set; }
 
     /// <summary>
     /// Gets whether logging is enabled and the log form is created and not disposed.
     /// </summary>
-    public static bool LogFormUsable => LogEnabled && LogForm is not null && !LogForm.IsDisposed;
+    [MemberNotNullWhen(true, nameof(LogForm))]
+    public static bool LogFormUsable => LogEnabled && (LogForm?.IsDisposed == false);
 
     /// <summary>
-    /// Gets whether whether logging is enabled, the log form is not null, or the log form is not disposed.
+    /// Gets whether logging is enabled, the log form is not null, or the log form is not disposed.
     /// </summary>
-    public static bool LogFormEnabled => LogEnabled || LogForm is not null || !LogForm.IsDisposed;
+    [MemberNotNullWhen(true, nameof(LogForm))]
+    public static bool LogFormEnabled => LogEnabled || (LogForm?.IsDisposed == false);
     #endregion
 
     #region Log stuff
@@ -51,14 +54,14 @@ internal static class Log {
     /// </summary>
     static Log() {
         // Catch any exceptions that are unhandled, so we can report it.
-#if RELEASE && ALLOWUNHANDLEDCATCHING
+#if RELEASE || ALLOWUNHANDLEDCATCHING
         try {
             Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
 #endif
 
             EnableLogging();
 
-#if RELEASE && ALLOWUNHANDLEDCATCHING
+#if RELEASE || ALLOWUNHANDLEDCATCHING
             Write("Creating unhandled exception event.");
             AppDomain.CurrentDomain.UnhandledException += (sender, exception) => {
                 Exception ExceptionRef = exception.ExceptionObject is Exception ex ?
@@ -94,7 +97,8 @@ internal static class Log {
         // Build up a string containing relevant information about the computer.
         Write("Creating ComputerVersionInformation for exceptions.");
         ManagementObjectSearcher MgtSearcher = new("SELECT * FROM Win32_OperatingSystem");
-        ManagementObject MgtInfo = MgtSearcher?.Get().Cast<ManagementObject>().FirstOrDefault();
+        ManagementObject? MgtInfo = MgtSearcher?.Get().Cast<ManagementObject>().FirstOrDefault();
+
         ComputerVersionInformation = $$"""
             Current Version: {{Program.CurrentVersion}}
             Current Culture: {{Thread.CurrentThread.CurrentCulture.EnglishName}}
@@ -104,7 +108,6 @@ internal static class Log {
             Service Pack Major: {{MgtInfo.Properties["ServicePackMajorVersion"].Value ?? "couldn't query"}}
             Service Pack Minor: {{MgtInfo.Properties["ServicePackMinorVersion"].Value ?? "couldn't query"}}
             """);
-
     }
 
     /// <summary>
@@ -119,6 +122,9 @@ internal static class Log {
             LogForm = new();
             LogEnabled = true;
             Write("Logging has been enabled.");
+            if (Program.DebugMode) {
+                LogForm.Show();
+            }
         }
     }
 
@@ -128,15 +134,13 @@ internal static class Log {
     //[DebuggerStepThrough]
     public static void DisableLogging() {
         if (LogFormEnabled) {
-            if (LogForm is not null) {
-                if (!LogForm.IsDisposed && (LogForm.WindowState == FormWindowState.Minimized || LogForm.WindowState == FormWindowState.Maximized)) {
-                    LogForm.Opacity = 0;
-                    LogForm.WindowState = FormWindowState.Normal;
+            if (LogForm?.IsDisposed == false && (LogForm.WindowState == FormWindowState.Minimized || LogForm.WindowState == FormWindowState.Maximized)) {
+                LogForm.Opacity = 0;
+                LogForm.WindowState = FormWindowState.Normal;
 
-                    Saved.LogLocation = LogForm.Location;
-                    Saved.LogSize = LogForm.Size;
-                    LogForm.Dispose();
-                }
+                Saved.LogLocation = LogForm.Location;
+                Saved.LogSize = LogForm.Size;
+                LogForm.Dispose();
             }
 
             LogForm = null;
@@ -149,8 +153,9 @@ internal static class Log {
     /// </summary>
     //[DebuggerStepThrough]
     internal static void ShowLog() {
-        if (LogFormUsable)
+        if (LogFormUsable) {
             LogForm.ShowLog();
+        }
     }
 
     /// <summary>
@@ -158,19 +163,21 @@ internal static class Log {
     /// </summary>
     //[DebuggerStepThrough]
     internal static void HideLog() {
-        if (LogFormUsable)
+        if (LogFormUsable) {
             LogForm.HideLog();
+        }
     }
 
     /// <summary>
     /// Writes a message to the log.
     /// </summary>
     /// <param name="message">The message to be sent to the log.</param>
-    [DebuggerStepThrough]
+    //[DebuggerStepThrough]
     public static void Write(string message) {
         Debug.Print(message);
-        if (LogFormUsable)
+        if (LogFormUsable) {
             LogForm.Append(message);
+        }
     }
 
     /// <summary>
@@ -180,8 +187,9 @@ internal static class Log {
     [DebuggerStepThrough]
     public static void WriteNoDate(string message) {
         Debug.Print(message);
-        if (LogFormUsable)
+        if (LogFormUsable) {
             LogForm.AppendNoDate(message);
+        }
     }
 
     /// <summary>
@@ -225,7 +233,7 @@ internal static class Log {
     /// <param name="ReceivedException">The receieved exception that will be reported.</param>
     /// <param name="ExtraInfo">Optional extra information regarding the error.</param>
     /// <returns>The <see cref="DialogResult"/> of the displayed exception form.</returns>
-    public static DialogResult ReportException(Exception ReceivedException, object ExtraInfo) {
+    public static DialogResult ReportException(Exception ReceivedException, object? ExtraInfo) {
         // Gets the time this gets called for reporting the exception time.
         DateTime ExceptionTime = DateTime.Now;
 
@@ -274,7 +282,7 @@ internal static class Log {
     /// <param name="ReceivedException">The receieved exception that will be reported.</param>
     /// <param name="ExtraInfo">Optional extra information regarding the error.</param>
     /// <returns>The <see cref="DialogResult"/> of the displayed exception form.</returns>
-    public static DialogResult ReportRetriableException(Exception ReceivedException, object ExtraInfo) {
+    public static DialogResult ReportRetriableException(Exception ReceivedException, object? ExtraInfo) {
         // Gets the time this gets called for reporting the exception time.
         DateTime ExceptionTime = DateTime.Now;
 
@@ -325,7 +333,7 @@ internal static class Log {
     /// <param name="CanRetry">Whether the problematic issue can be retried.</param>
     /// <param name="ExtraInfo">Optional extra information regarding the error.</param>
     /// <returns>The <see cref="DialogResult"/> of the displayed exception form.</returns>
-    public static DialogResult ReportLanguageException(Exception ReceivedException, bool CanRetry, object ExtraInfo) {
+    public static DialogResult ReportLanguageException(Exception ReceivedException, bool CanRetry, object? ExtraInfo) {
         // Gets the time this gets called for reporting the exception time.
         DateTime ExceptionTime = DateTime.Now;
 
@@ -377,7 +385,6 @@ internal static class Log {
     /// Adds an exception to the log form.
     /// </summary>
     /// <param name="ReceivedException">The <see cref="Exception"/> receieved.</param>
-    /// <param name="ExceptionTime">The time of the exception.</param>
     private static void AddExceptionToLog(ExceptionInfo ReceivedException) {
         if (LogEnabled)
             LogForm?.AddException(ReceivedException);
@@ -453,8 +460,8 @@ internal static class Log {
     /// </summary>
     /// <param name="Message">The message that will be displayed in the dialog.</param>
     /// <param name="Buttons">The buttons that will appear within the dialog.</param>
-    /// <param name="DefaultButton">The default button that will be focused when the dialog appears.</param>
     /// <param name="Icon">The icon that will appear before the message in the dialog.</param>
+    /// <param name="DefaultButton">The default button that will be focused when the dialog appears.</param>
     /// <returns>The dialog result of the message box.</returns>
     public static DialogResult MessageBox(
         string Message,
@@ -462,5 +469,4 @@ internal static class Log {
         MessageBoxIcon Icon,
         MessageBoxDefaultButton DefaultButton) => WinMsg.Show(Form.ActiveForm, Message, Language.ApplicationName, Buttons, Icon, DefaultButton);
     #endregion
-
 }

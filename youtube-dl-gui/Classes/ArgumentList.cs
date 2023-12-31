@@ -3,7 +3,7 @@ namespace youtube_dl_gui;
 using System;
 using System.Collections;
 internal class ArgumentList : IList {
-    private readonly List<string> _args = new();
+    private readonly List<string> _args = [];
 
     object? IList.this[int index] { get { return this[index]; } set { if (value is not string str) throw new ArgumentException("value is not string"); this[index] = str; } }
 

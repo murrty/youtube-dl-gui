@@ -1,7 +1,6 @@
-﻿namespace youtube_dl_gui;
-
+﻿#nullable enable
+namespace youtube_dl_gui;
 internal static class Saved {
-
     private const string ConfigName = "Saved";
 
     static Saved() {
@@ -428,5 +427,4 @@ internal static class Saved {
         }
     }
     private static string fExtendedBatchDownloaderQueuedColumns;
-
 }

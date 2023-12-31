@@ -48,72 +48,72 @@ internal sealed class ExtendedConversionDetails(string InputFile) : MediaDetails
     /// <summary>
     /// Gets a list of known video <see cref="FfprobeSubdata.Stream"/> objects.
     /// </summary>
-    public List<FfprobeSubdata.Stream> VideoStreams { get; } = new();
+    public List<FfprobeSubdata.Stream> VideoStreams { get; } = [];
     /// <summary>
     /// Gets a list of list view items for known video streams.
     /// </summary>
-    public List<ListViewItem> VideoItems { get; } = new();
+    public List<ListViewItem> VideoItems { get; } = [];
 
     /// <summary>
     /// Gets a list of known audio <see cref="FfprobeSubdata.Stream"/> objects.
     /// </summary>
-    public List<FfprobeSubdata.Stream> AudioStreams { get; } = new();
+    public List<FfprobeSubdata.Stream> AudioStreams { get; } = [];
     /// <summary>
     /// Gets a list of list view items for known audio streams.
     /// </summary>
-    public List<ListViewItem> AudioItems { get; } = new();
+    public List<ListViewItem> AudioItems { get; } = [];
 
     /// <summary>
     /// Gets a list of known subtitle <see cref="FfprobeSubdata.Stream"/> objects.
     /// </summary>
-    public List<FfprobeSubdata.Stream> Subtitles { get; } = new();
+    public List<FfprobeSubdata.Stream> Subtitles { get; } = [];
     /// <summary>
     /// Gets a list of list view items for known subtitles.
     /// </summary>
-    public List<ListViewItem> SubtitleItems { get; } = new();
+    public List<ListViewItem> SubtitleItems { get; } = [];
 
     /// <summary>
     /// Gets a list of known attachment <see cref="FfprobeSubdata.Stream"/> objects.
     /// </summary>
-    public List<FfprobeSubdata.Stream> Attachments { get; } = new();
+    public List<FfprobeSubdata.Stream> Attachments { get; } = [];
     /// <summary>
     /// Gets a list of list view items for known attachments.
     /// </summary>
-    public List<ListViewItem> AttachmentItems { get; } = new();
+    public List<ListViewItem> AttachmentItems { get; } = [];
 
     /// <summary>
     /// Gets a list of known data file <see cref="FfprobeSubdata.Stream"/> objects.
     /// </summary>
-    public List<FfprobeSubdata.Stream> DataFiles { get; } = new();
+    public List<FfprobeSubdata.Stream> DataFiles { get; } = [];
     /// <summary>
     /// Gets a list of list view items for known data files.
     /// </summary>
-    public List<ListViewItem> DataFileItems { get; } = new();
+    public List<ListViewItem> DataFileItems { get; } = [];
 
     /// <summary>
     /// Gets a list of enabled video streams for this conversion instance.
     /// </summary>
-    public List<int> EnabledVideoStreams { get; } = new();
+    public List<int> EnabledVideoStreams { get; } = [];
     /// <summary>
     /// Gets a list of enabled audio streams for this conversion instance.
     /// </summary>
-    public List<int> EnabledAudioStreams { get; } = new();
+    public List<int> EnabledAudioStreams { get; } = [];
     /// <summary>
     /// Gets a list of enabled subtitles for this conversion instance.
     /// </summary>
-    public List<int> EnabledSubtitles { get; } = new();
+    public List<int> EnabledSubtitles { get; } = [];
     /// <summary>
     /// Gets a list of enabled attachments for this conversion instance.
     /// </summary>
-    public List<int> EnabledAttachments { get; } = new();
+    public List<int> EnabledAttachments { get; } = [];
     /// <summary>
     /// Gets a list of enabled data files for this conversion instance.
     /// </summary>
-    public List<int> EnabledDataFiles { get; } = new();
+    public List<int> EnabledDataFiles { get; } = [];
     /// <summary>
     /// Gets a list of all enabled streams for this conversion instance.
     /// </summary>
-    public List<int> TotalEnabledStreams { get; } = new();
+    public List<int> TotalEnabledStreams { get; } = [];
 
     /// <summary>
     /// Removes any non-critical metadata information from the output.
@@ -542,11 +542,11 @@ internal sealed class ExtendedConversionDetails(string InputFile) : MediaDetails
             OutputFilePath[OutputFilePath.LastIndexOf('.')..], StringComparison.InvariantCultureIgnoreCase);
 
         ArgumentList Args = new($"-i \"{InputFilePath}\"");
-        List<int> DisabledVideoStreams = new();
-        List<int> DisabledAudioStreams = new();
-        List<int> DisabledSubtitles = new();
-        List<int> DisabledAttachments = new();
-        List<int> DisabledData = new();
+        List<int> DisabledVideoStreams = [];
+        List<int> DisabledAudioStreams = [];
+        List<int> DisabledSubtitles = [];
+        List<int> DisabledAttachments = [];
+        List<int> DisabledData = [];
 
         #region Options
         if (StartTime.HasValue) {
@@ -679,7 +679,7 @@ internal sealed class ExtendedConversionDetails(string InputFile) : MediaDetails
             return null;
         }
 
-        List<string> Arguments = new();
+        List<string> Arguments = [];
 
         string OutputDir = this.OutputFilePath[..this.OutputFilePath.LastIndexOf('.')];
 
@@ -689,6 +689,6 @@ internal sealed class ExtendedConversionDetails(string InputFile) : MediaDetails
             throw new ArgumentException("No arguments available to run.");
         }
 
-        return Arguments.ToArray();
+        return [.. Arguments];
     }
 }

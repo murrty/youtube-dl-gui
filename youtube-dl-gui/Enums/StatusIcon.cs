@@ -1,4 +1,5 @@
-﻿namespace youtube_dl_gui;
+﻿#nullable enable
+namespace youtube_dl_gui;
 
 /// <summary>
 /// Enumeration of indexes of icons based on item status.

@@ -1,4 +1,5 @@
-﻿namespace youtube_dl_gui; 
+﻿#nullable enable
+namespace youtube_dl_gui;
 
 internal class DownloadException : Exception {
     public string URL { get; init; }

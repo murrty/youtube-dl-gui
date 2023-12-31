@@ -43,7 +43,7 @@ internal sealed class YoutubeDlData {
             }
         }
 
-        ArgumentList Arguments = new();
+        ArgumentList Arguments = [];
 
         if (!GenerateCommand.IsNullEmptyWhitespace()) {
             Arguments.Add(GenerateCommand);

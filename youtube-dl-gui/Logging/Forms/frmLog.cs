@@ -1,8 +1,7 @@
-﻿namespace murrty.logging;
-
+﻿#nullable enable
+namespace murrty.logging;
 using System.Windows.Forms;
 using youtube_dl_gui;
-
 internal partial class frmLog : Form, ILocalizedForm {
     public bool IsShown {
         get; private set;
@@ -77,10 +76,11 @@ internal partial class frmLog : Form, ILocalizedForm {
                 txt.Dispose();
 
             int Index = tcExceptions.SelectedIndex;
-            if (tcExceptions.TabCount > 1)
+            if (tcExceptions.TabCount > 1) {
                 tcExceptions.SelectTab(
                     tcExceptions.TabCount > 0 ? Index + 1 < tcExceptions.TabCount ?
                     Index + 1 : Index - 1 : 0);
+            }
 
             tcExceptions.TabPages[Index].Dispose();
             btnRemoveException.Enabled = tcExceptions.TabCount > 0;
@@ -125,12 +125,14 @@ internal partial class frmLog : Form, ILocalizedForm {
     /// Appends text to the log.
     /// </summary>
     /// <param name="message">The message to append.</param>
-    [System.Diagnostics.DebuggerStepThrough]
+    //[System.Diagnostics.DebuggerStepThrough]
     public void Append(string message) {
-        if (rtbLog.InvokeRequired)
+        if (rtbLog.InvokeRequired) {
             rtbLog.Invoke(() => rtbLog.AppendText($"[{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff}] {message}", true));
-        else
+        }
+        else {
             rtbLog.AppendText($"[{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff}] {message}", true);
+        }
     }
 
     /// <summary>
@@ -148,8 +150,7 @@ internal partial class frmLog : Form, ILocalizedForm {
     /// <summary>
     /// Adds a new exception to the log.
     /// </summary>
-    /// <param name="type">The exception type</param>
-    /// <param name="exception">The inner exception details.</param>
+    /// <param name="Exception">The inner exception details.</param>
     [System.Diagnostics.DebuggerStepThrough]
     public void AddException(ExceptionInfo Exception) {
         TabPage ExceptionPage = new($"{Exception.Exception.GetType().Name} @ {Exception.ExceptionTime:yyyy/MM/dd HH:mm:ss.fff}");
@@ -181,5 +182,4 @@ internal partial class frmLog : Form, ILocalizedForm {
     private void btnTestLine_Click(object sender, EventArgs e) {
         rtbLog.AppendLine("Hello!");
     }
-
 }

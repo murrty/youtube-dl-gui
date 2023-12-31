@@ -1,28 +1,27 @@
-﻿namespace murrty.updater;
-
+﻿#nullable enable
+namespace murrty.updater;
 using System.Runtime.Serialization;
 using System.Text.RegularExpressions;
 using youtube_dl_gui;
-
 [DataContract]
 public sealed class GithubData {
     /// <summary>
     /// The string header of the update.
     /// </summary>
     [DataMember(Name = "name")]
-    public string VersionHeader { get; init; }
+    public string? VersionHeader { get; init; }
 
     /// <summary>
     /// The full description of the update.
     /// </summary>
     [DataMember(Name = "body")]
-    public string VersionDescription { get; init; }
+    public string? VersionDescription { get; init; }
 
     /// <summary>
     /// The tag of the update, which is usually the version.
     /// </summary>
     [DataMember(Name = "tag_name")]
-    public string VersionTag { get; init; }
+    public string? VersionTag { get; init; }
 
     /// <summary>
     /// Whether the version posted on Github is a pre-release.
@@ -34,7 +33,7 @@ public sealed class GithubData {
     /// The files associated with the update.
     /// </summary>
     [DataMember(Name = "assets")]
-    public GithubAsset[] Files { get; init; }
+    public GithubAsset[]? Files { get; init; }
 
     /// <summary>
     /// Gets whether this is a newer version of the program.
@@ -46,7 +45,7 @@ public sealed class GithubData {
     /// Gets the string hash of the version (if available).
     /// </summary>
     [IgnoreDataMember]
-    public string ExecutableHash { get; internal set; }
+    public string? ExecutableHash { get; internal set; }
 
     /// <summary>
     /// Gets the <see cref="updater.Version"/> struct representation of the version.
@@ -66,18 +65,18 @@ public sealed class GithubData {
     /// <summary>
     /// Tries to parse the executable hash from the version description.
     /// </summary>
-    /// <param name="body">The</param>
     /// <returns></returns>
-    private string FindHash() {
-        if (!VersionDescription.IsNullEmptyWhitespace()) {
-            MatchCollection Matches = Regex.Matches(VersionDescription, "(?<=exe sha([- ])256: )(`)?[0-9a-fA-F]{64}(`)?(?=)");
-            if (Matches.Count > 0) {
-                return Matches[0].Value;
-            }
-            Matches = Regex.Matches(VersionDescription, "(?<=exe sha256: )(`)?[0-9a-fA-F]{64}(`)?(?=)");
-            if (Matches.Count > 0) {
-                return Matches[0].Value;
-            }
+    private string? FindHash() {
+        if (VersionDescription.IsNullEmptyWhitespace()) {
+            return null;
+        }
+        MatchCollection Matches = Regex.Matches(VersionDescription, "(?<=exe sha([- ])256: )(`)?[0-9a-fA-F]{64}(`)?(?=)");
+        if (Matches.Count > 0) {
+            return Matches[0].Value;
+        }
+        Matches = Regex.Matches(VersionDescription, "(?<=exe sha256: )(`)?[0-9a-fA-F]{64}(`)?(?=)");
+        if (Matches.Count > 0) {
+            return Matches[0].Value;
         }
         return null;
     }
@@ -85,14 +84,15 @@ public sealed class GithubData {
     [OnDeserialized]
     void Deserialized(StreamingContext ctx) {
         // Skip any that cannot be parsed by the version string.
-        if (!Version.TryParse(VersionTag, out Version vers))
+        if (!Version.TryParse(VersionTag, out Version vers)) {
             return;
+        }
 
         Version = vers;
         IsNewerVersion = Version > Program.CurrentVersion;
-        ExecutableHash = FindHash();
+        ExecutableHash = FindHash() ?? string.Empty;
         ExecutableSize = 0;
-        if (Files.Length > 0) {
+        if (Files?.Length > 0) {
             for (int i = 0; i < Files.Length; i++) {
                 if (Files[i].Content == "application/x-msdownload") {
                     ExecutableSize = Files[i].Length;
@@ -102,8 +102,9 @@ public sealed class GithubData {
     }
 
     public static GithubData GetNewestRelease(GithubData[] Releases) {
-        if (Releases.Length == 0)
+        if (Releases.Length == 0) {
             throw new NullReferenceException("The found releases were empty.");
+        }
         GithubData CurrentCheck = Releases[0];
         Version NewestVersion = Version.Empty;
         for (int i = 0; i < Releases.Length; i++) {
@@ -115,5 +116,4 @@ public sealed class GithubData {
         }
         return CurrentCheck;
     }
-
 }

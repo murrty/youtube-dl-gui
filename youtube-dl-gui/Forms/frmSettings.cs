@@ -7,14 +7,14 @@ public partial class frmSettings : LocalizedForm {
     // TODO: ytdl type will save every time it changes. Implement a safeguard to prevent oversaving to ini.
 
     #region vars
-    private bool LoadingForm = false;
-    private readonly bool ProtocolAvailable = false;
+    private bool LoadingForm;
+    private readonly bool ProtocolAvailable;
 
-    readonly List<string> extensionsName = new();
-    readonly List<string> extensionsShort = new();
+    readonly List<string> extensionsName = [];
+    readonly List<string> extensionsShort = [];
 
-    private bool RefreshYtdl = false;
-    private bool RefreshFFmpeg = false;
+    private bool RefreshYtdl;
+    private bool RefreshFFmpeg;
 
     private bool useYtdlUpdater_Last;
     private int YtdlType_Last;
@@ -25,8 +25,10 @@ public partial class frmSettings : LocalizedForm {
         InitializeComponent();
 
         cbSettingsDownloadsUpdatingYtdlType.Items.Add($"{GithubLinks.ProviderRepos[0].User}/{GithubLinks.ProviderRepos[0].Repo} (default)");
-        for (int i = 1; i < GithubLinks.ProviderRepos.Length; i++)
-            cbSettingsDownloadsUpdatingYtdlType.Items.Add($"{GithubLinks.ProviderRepos[i].User}/{GithubLinks.ProviderRepos[i].Repo}");
+        for (int i = 1; i < GithubLinks.ProviderRepos.Length; i++) {
+            var Repo = GithubLinks.ProviderRepos[i];
+            cbSettingsDownloadsUpdatingYtdlType.Items.Add($"{Repo.User}/{Repo.Repo}");
+        }
 
         ProtocolAvailable = SystemRegistry.CheckRegistry();
 
@@ -493,22 +495,18 @@ public partial class frmSettings : LocalizedForm {
             General.UseStaticYtdl = chkSettingsGeneralUseStaticYoutubeDl.Checked;
             RefreshYtdl = true;
         }
-        if (chkSettingsGeneralUseStaticYoutubeDl.Checked && !string.IsNullOrEmpty(txtSettingsGeneralYoutubeDlPath.Text)) {
+        if (chkSettingsGeneralUseStaticYoutubeDl.Checked && !txtSettingsGeneralYoutubeDlPath.Text.IsNullEmptyWhitespace() && General.ytdlPath != txtSettingsGeneralYoutubeDlPath.Text) {
             General.ytdlPath = txtSettingsGeneralYoutubeDlPath.Text;
-            if (General.ytdlPath != txtSettingsGeneralYoutubeDlPath.Text) {
-                RefreshYtdl = true;
-            }
+            RefreshYtdl = true;
         }
 
         if (General.UseStaticFFmpeg != chkSettingsGeneralUseStaticFFmpeg.Checked) {
             General.UseStaticFFmpeg = chkSettingsGeneralUseStaticFFmpeg.Checked;
             RefreshFFmpeg = true;
         }
-        if (chkSettingsGeneralUseStaticFFmpeg.Checked && !string.IsNullOrEmpty(txtSettingsGeneralFFmpegPath.Text)) {
+        if (chkSettingsGeneralUseStaticFFmpeg.Checked && !txtSettingsGeneralFFmpegPath.Text.IsNullEmptyWhitespace() && General.ffmpegPath != txtSettingsGeneralFFmpegPath.Text) {
             General.ffmpegPath = txtSettingsGeneralFFmpegPath.Text;
-            if (General.ffmpegPath != txtSettingsGeneralFFmpegPath.Text) {
-                RefreshFFmpeg = true;
-            }
+            RefreshFFmpeg = true;
         }
 
         General.CheckForUpdatesOnLaunch = chkSettingsGeneralCheckForUpdatesOnLaunch.Checked;
@@ -670,7 +668,7 @@ public partial class frmSettings : LocalizedForm {
         }
         else {
             if (!await Updater.CheckForYoutubeDlUpdate(true)) {
-                Log.MessageBox(Language.dlgUpateYoutubeDlNoUpdateRequired.Format(Verification.YoutubeDlVersion ?? "Unknown", Updater.LatestYoutubeDl.VersionTag), MessageBoxButtons.OK);
+                Log.MessageBox(Language.dlgUpateYoutubeDlNoUpdateRequired.Format(Verification.YoutubeDlVersion ?? "Unknown", Updater.LatestYoutubeDl?.VersionTag ?? "unknown"), MessageBoxButtons.OK);
                 btnSettingsRedownloadYoutubeDl.Enabled = true;
                 return;
             }
@@ -805,6 +803,9 @@ public partial class frmSettings : LocalizedForm {
         chkSettingsDownloadsWebsiteSubdomains.Enabled = chkSettingsDownloadsSeparateIntoWebsiteUrl.Checked;
     }
     private void cbSettingsDownloadsUpdatingYtdlType_SelectedIndexChanged(object sender, EventArgs e) {
+        if (LoadingForm) {
+            return;
+        }
         Downloads.YtdlType = cbSettingsDownloadsUpdatingYtdlType.SelectedIndex;
         Verification.RefreshYoutubeDlLocation();
         if (!Verification.YoutubeDlAvailable)

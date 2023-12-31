@@ -4,9 +4,9 @@ using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Windows.Forms;
 public partial class frmBatchConverter : LocalizedProcessingForm {
-    private readonly List<string> InputFiles = new();
-    private readonly List<string> OutputFiles = new();
-    private readonly List<string?> Arguments = new();
+    private readonly List<string> InputFiles = [];
+    private readonly List<string> OutputFiles = [];
+    private readonly List<string?> Arguments = [];
 
     [MemberNotNullWhen(true, nameof(ConversionThread), nameof(Converter))]
     private bool InProgress { get; set; }
@@ -57,12 +57,12 @@ public partial class frmBatchConverter : LocalizedProcessingForm {
         ofd.Title = Language.dlgConvertSelectFileToConvert;
         ofd.AutoUpgradeEnabled = true;
         ofd.Multiselect = false;
-        ofd.Filter = Formats.JoinFormats(new string[] {
+        ofd.Filter = Formats.JoinFormats([
             Formats.AllFiles,
             Formats.VideoFormats,
             Formats.AudioFormats,
             !Formats.CustomFormats.IsNullEmptyWhitespace() ? Formats.CustomFormats : ""
-        });
+        ]);
 
         if (ofd.ShowDialog() == DialogResult.OK) {
             txtBatchConverterInputFile.Text = ofd.FileName;
@@ -78,12 +78,12 @@ public partial class frmBatchConverter : LocalizedProcessingForm {
         using SaveFileDialog sfd = new();
         sfd.AutoUpgradeEnabled = true;
         sfd.Title = Language.dlgSaveOutputFileAs;
-        sfd.Filter = Formats.JoinFormats(new[] {
+        sfd.Filter = Formats.JoinFormats([
             Formats.AllFiles,
             Formats.VideoFormats,
             Formats.AudioFormats,
             !Formats.CustomFormats.IsNullEmptyWhitespace() ? Formats.CustomFormats : ""
-        });
+        ]);
 
         if (!string.IsNullOrWhiteSpace(txtBatchConverterInputFile.Text)) {
             sfd.FileName = System.IO.Path.GetFileNameWithoutExtension(txtBatchConverterOutputFile.Text);

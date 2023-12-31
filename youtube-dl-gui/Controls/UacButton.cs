@@ -1,9 +1,9 @@
-﻿using System.ComponentModel;
+﻿#nullable enable
+using System.ComponentModel;
 using System.Windows.Forms;
-namespace murrty.controls; 
+namespace murrty.controls;
 internal class UacButton : Button {
-    // Quick button replacement for the UAC icon.
-    // Not a replacement to the ExtendedButton.
+    // Quick button replacement for the UAC icon. Not a replacement to the ExtendedButton.
     [DefaultValue(true)]
     public bool ShowUacShield {
         get => bShowUacShield;
@@ -21,7 +21,8 @@ internal class UacButton : Button {
     }
     protected override void OnHandleCreated(EventArgs e) {
         base.OnHandleCreated(e);
-        if (ShowUacShield)
+        if (ShowUacShield) {
             natives.NativeMethods.SendMessage(this.Handle, BCM_SETSHIELD, 0, 2);
+        }
     }
 }

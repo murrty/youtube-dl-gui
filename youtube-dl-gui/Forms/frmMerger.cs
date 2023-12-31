@@ -1,11 +1,9 @@
 ﻿#nullable enable
 namespace youtube_dl_gui;
-
 using System.IO;
 using System.Windows.Forms;
-
 public partial class frmMerger : LocalizedForm {
-    private List<FfprobeData> LoadedMediaFiles { get; } = new();
+    private List<FfprobeData> LoadedMediaFiles { get; } = [];
 
     public frmMerger() {
         InitializeComponent();
@@ -43,7 +41,7 @@ public partial class frmMerger : LocalizedForm {
         tvSelectedStreams.Nodes[3].Text = Language.frmMergerAttatchmentSources;
     }
     private string? GenerateList() {
-        List<string> Files = new();
+        List<string> Files = [];
         StringBuilder InputArgument = new(string.Empty);
         StringBuilder MapArgument = new(string.Empty);
 

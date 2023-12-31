@@ -79,19 +79,19 @@ internal static class Formats {
     /// <summary>
     /// String array of known yt-dlp supported video formats.
     /// </summary>
-    public static string[] ExtendedVideoFormats { get; } = {
+    public static string[] ExtendedVideoFormats { get; } = [
         "avi",
         "flv",
         "mkv",
         "mov",
         "mp4",
         "webm"
-    };
+    ];
 
     /// <summary>
     /// String array of known yt-dlp supported audio formats.
     /// </summary>
-    public static string[] ExtendedAudioFormats { get; } = {
+    public static string[] ExtendedAudioFormats { get; } = [
         "aac",
         "aiff",
         "alac",
@@ -102,10 +102,10 @@ internal static class Formats {
         "opus",
         "vorbis",
         "wav"
-    };
+    ];
 
     #region Video Arrays
-    public static string[] VideoQualityArray { get; } = {
+    public static string[] VideoQualityArray { get; } = [
         "best",
         "4320p60", "4320p", // 1
         "2160p60", "2160p", // 3
@@ -117,9 +117,9 @@ internal static class Formats {
         "240p",
         "144p",
         "worst"
-    };
+    ];
 
-    public static string[] VideoFormatsNamesArray { get; } = {
+    public static string[] VideoFormatsNamesArray { get; } = [
         "best",
         "avi",
         "flv",
@@ -127,11 +127,11 @@ internal static class Formats {
         "mp4",
         "ogg",
         "webm"
-    };
+    ];
     #endregion
 
     #region Audio Arrays
-    public static string[] AudioQualityNamesArray { get; } = {
+    public static string[] AudioQualityNamesArray { get; } = [
         "best",
         "320k",
         "256k",
@@ -144,8 +144,8 @@ internal static class Formats {
         "32k",
         "16k",
         "worst"
-    };
-    public static string[] AudioFormatsArray { get; } = {
+    ];
+    public static string[] AudioFormatsArray { get; } = [
         "best",
         "aac",
         "flac",
@@ -154,11 +154,11 @@ internal static class Formats {
         "opus",
         "vorbis",
         "wav"
-    };
+    ];
 
-    public static string[] VbrQualities { get; } = new string[] {
+    public static string[] VbrQualities { get; } = [
         "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"
-    };
+    ];
     #endregion
 
     // Could this be replaced with video formats? Because they could contain video, but don't necessarily need to.

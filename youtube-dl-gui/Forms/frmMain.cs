@@ -1112,12 +1112,12 @@ public partial class frmMain : LocalizedForm {
         ofd.Title = Language.dlgConvertSelectFileToConvert;
         ofd.AutoUpgradeEnabled = true;
         ofd.Multiselect = false;
-        string AllFormats = Formats.JoinFormats(new[] {
+        string AllFormats = Formats.JoinFormats([
             Formats.AllFiles,
             Formats.VideoFormats,
             Formats.AudioFormats,
             !Formats.CustomFormats.IsNullEmptyWhitespace() ? Formats.CustomFormats : ""
-        });
+        ]);
 
         ofd.Filter = AllFormats;
 
@@ -1133,19 +1133,19 @@ public partial class frmMain : LocalizedForm {
             sfd.Title = Language.dlgSaveOutputFileAs;
             sfd.FileName = fileWithoutExt;
             if (rbConvertVideo.Checked) {
-                sfd.Filter = Formats.JoinFormats(new[] {
+                sfd.Filter = Formats.JoinFormats([
                             Formats.VideoFormats,
                             !Formats.CustomFormats.IsNullEmptyWhitespace() ? Formats.CustomFormats : "",
                             Formats.AllFiles
-                        });
+                        ]);
                 sfd.FilterIndex = Saved.convertSaveVideoIndex;
             }
             else if (rbConvertAudio.Checked) {
-                sfd.Filter = Formats.JoinFormats(new[] {
+                sfd.Filter = Formats.JoinFormats([
                             Formats.AudioFormats,
                             !Formats.CustomFormats.IsNullEmptyWhitespace() ? Formats.CustomFormats : "",
                             Formats.AllFiles
-                        });
+                        ]);
                 sfd.FilterIndex = Saved.convertSaveAudioIndex;
             }
             else {
@@ -1173,26 +1173,26 @@ public partial class frmMain : LocalizedForm {
         sfd.Title = Language.dlgSaveOutputFileAs;
         sfd.FileName = System.IO.Path.GetFileNameWithoutExtension(txtConvertInput.Text);
         if (rbConvertVideo.Checked) {
-            sfd.Filter = Formats.JoinFormats(new[] {
+            sfd.Filter = Formats.JoinFormats([
                     Formats.VideoFormats,
                     !Formats.CustomFormats.IsNullEmptyWhitespace() ? Formats.CustomFormats : ""
-                });
+                ]);
             sfd.FilterIndex = Saved.convertSaveVideoIndex;
         }
         else if (rbConvertAudio.Checked) {
-            sfd.Filter = Formats.JoinFormats(new[] {
+            sfd.Filter = Formats.JoinFormats([
                     Formats.AudioFormats,
                     !Formats.CustomFormats.IsNullEmptyWhitespace() ? Formats.CustomFormats : ""
-                });
+                ]);
             sfd.FilterIndex = Saved.convertSaveAudioIndex;
         }
         else {
-            sfd.Filter = Formats.JoinFormats(new[] {
+            sfd.Filter = Formats.JoinFormats([
                     Formats.AllFiles,
                     Formats.VideoFormats,
                     Formats.AudioFormats,
                     !Formats.CustomFormats.IsNullEmptyWhitespace() ? Formats.CustomFormats : ""
-                });
+                ]);
             sfd.FilterIndex = Saved.convertSaveUnknownIndex;
         }
 
@@ -1290,8 +1290,8 @@ public partial class frmMain : LocalizedForm {
         if (!Clipboard.ContainsText())
             return;
 
-        YoutubeDlData? testData = chkDebugPlaylistDownload.Checked ?
-            YoutubeDlData.GeneratePlaylist(Clipboard.GetText(), out _) : YoutubeDlData.GenerateData(Clipboard.GetText(), out _);
+        //YoutubeDlData? testData = chkDebugPlaylistDownload.Checked ?
+        //    YoutubeDlData.GeneratePlaylist(Clipboard.GetText(), out _) : YoutubeDlData.GenerateData(Clipboard.GetText(), out _);
 
         //frmDownloader Downloader = new();
         //Downloader.Show();
@@ -1316,7 +1316,7 @@ public partial class frmMain : LocalizedForm {
         //}
     }
     private void btnYtdlVersion_Click(object sender, EventArgs e) {
-        Log.MessageBox(Verification.YoutubeDlVersion);
+        Log.MessageBox(Verification.YoutubeDlVersion ?? "No yt-dl version.");
     }
     private void btnDebugCheckVerification_Click(object sender, EventArgs e) {
         Log.MessageBox($$"""
@@ -1331,14 +1331,14 @@ public partial class frmMain : LocalizedForm {
         nint valPointer = 0;
         nint cdsPointer = 0;
         try {
-            string Argument = "Hello, world!";
+            const string Argument = "Hello, world!";
             byte[] bytes = Encoding.Unicode.GetBytes(Argument);
             valPointer = Marshal.AllocHGlobal(bytes.Length);
             Marshal.Copy(bytes, 0, valPointer, bytes.Length);
 
             CopyDataStruct copyData = new() {
                 dwData = (int)DownloadType.Video,
-                cbData = Encoding.Unicode.GetByteCount(Argument),
+                cbData = bytes.Length * sizeof(byte),
                 lpData = valPointer
             };
 

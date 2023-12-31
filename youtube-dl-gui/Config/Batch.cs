@@ -1,7 +1,6 @@
-﻿namespace youtube_dl_gui;
-
+﻿#nullable enable
+namespace youtube_dl_gui;
 internal static class Batch {
-
     private const string ConfigName = "Batch";
 
     static Batch() {
@@ -140,5 +139,4 @@ internal static class Batch {
         }
     }
     private static bool fClipboardScannerVerifyLinks;
-
 }

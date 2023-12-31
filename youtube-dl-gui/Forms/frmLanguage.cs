@@ -61,7 +61,7 @@ public partial class frmLanguage : Form {
     }
     private void btnLanguageSave_Click(object sender, EventArgs e) {
         Initialization.LanguageFile = cbLanguages.SelectedIndex > 0 ?
-            cbLanguages.GetItemText(cbLanguages.SelectedItem) : null;
+            cbLanguages.GetItemText(cbLanguages.SelectedItem) : null!; // null deletes key, uses internal english
         Language.LoadLanguage($"{Environment.CurrentDirectory}\\lang\\{Initialization.LanguageFile}.ini");
         this.DialogResult = DialogResult.OK;
     }

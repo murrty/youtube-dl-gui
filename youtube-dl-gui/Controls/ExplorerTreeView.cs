@@ -1,7 +1,6 @@
-﻿namespace youtube_dl_gui;
-
+﻿#nullable enable
+namespace youtube_dl_gui;
 using System.Windows.Forms;
-
 internal class ExplorerTreeView : TreeView {
     /// <inheritdoc/>
     protected override CreateParams CreateParams {
