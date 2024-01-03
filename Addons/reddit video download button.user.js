@@ -3,11 +3,12 @@
 // @author      murrty
 // @match       http*://*.reddit.com/r/*
 // @grant       none
-// @version     1.0
+// @version     1.1
 // @homepage    https://github.com/murrty/youtube-dl-gui
 // @updateURL   https://github.com/murrty/youtube-dl-gui/raw/master/Addons/reddit%20video%20download%20button.user.js
 // @downloadURL https://github.com/murrty/youtube-dl-gui/raw/master/Addons/reddit%20video%20download%20button.user.js
 // @description Adds a "download video" button to the post.
+// @run-at      document-end
 // ==/UserScript==
 
 // This only works on old.reddit.com.
@@ -48,3 +49,12 @@ if (VideoPlayers.length > 0) {
         TagLines[0].append(CustomDownloadItem);
     }
 }
+//else {
+//    var VideoExpandObjects = document.getElementsByClassName("expando-button collapsed video") + document.getElementsByClassName("expando-button video expanded");
+//    if (VideoExpandObjects.length > 0) {
+//        console.log(VideoExpandObjects.length + " objects found");
+//    }
+//    else {
+//        console.log("no video objects found");
+//    }
+//}
