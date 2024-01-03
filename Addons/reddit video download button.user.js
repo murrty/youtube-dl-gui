@@ -7,7 +7,7 @@
 // @homepage    https://github.com/murrty/youtube-dl-gui
 // @updateURL   https://github.com/murrty/youtube-dl-gui/raw/master/Addons/reddit%20video%20download%20button.user.js
 // @downloadURL https://github.com/murrty/youtube-dl-gui/raw/master/Addons/reddit%20video%20download%20button.user.js
-// @description Adds a "download video" button to the post.
+// @description Adds a "download video" button to the post. Old reddit only.
 // @run-at      document-end
 // ==/UserScript==
 
